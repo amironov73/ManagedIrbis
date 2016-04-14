@@ -13,22 +13,22 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ManagedClient")]
-[assembly: AssemblyDescription("IRBIS64 client runtime")]
+[assembly: AssemblyTitle("AM.Core")]
+[assembly: AssemblyDescription("ArsMagna core services")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ManagedClient")]
-[assembly: AssemblyCopyright("Copyright © Alexey Mironov 2011-2016")]
+[assembly: AssemblyProduct("AM.Core")]
+[assembly: AssemblyCopyright("Copyright © Alexey Mironov, 2006-2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
 // COM, set the ComVisible attribute to true on that type.
-[assembly: ComVisible(true)]
+[assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7d0f7e61-2c17-4903-b53d-0f534c5718e1")]
+[assembly: Guid("f9562edd-2489-486e-8992-c0bdfc26fa61")]
 
 // Version information for an assembly consists of the following four values:
 //

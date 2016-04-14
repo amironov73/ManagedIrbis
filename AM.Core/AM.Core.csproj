@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{727C0B37-1E31-49BB-927A-A93DAC558C52}</ProjectGuid>
+    <ProjectGuid>{1126394A-4392-4341-8DDD-69B5C3E884D2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ManagedClient</RootNamespace>
-    <AssemblyName>ManagedClient</AssemblyName>
+    <RootNamespace>AM.Core</RootNamespace>
+    <AssemblyName>AM.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -20,7 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\ManagedClient.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,7 +28,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\ManagedClient.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>
@@ -43,15 +41,6 @@
   <Choose>
     <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
       <ItemGroup>
-        <Reference Include="Antlr4.Runtime">
-          <HintPath>Libs\net35\Antlr4.Runtime.net35.dll</HintPath>
-        </Reference>
-        <Reference Include="BLToolkit">
-          <HintPath>Libs\net35\BLToolkit.3.dll</HintPath>
-        </Reference>
-        <Reference Include="MoonSharp.Interpreter">
-          <HintPath>Libs\net35\MoonSharp.Interpreter.dll</HintPath>
-        </Reference>
         <Reference Include="Newtonsoft.Json">
           <HintPath>Libs\net35\Newtonsoft.Json.dll</HintPath>
         </Reference>
@@ -63,15 +52,6 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="Antlr4.Runtime">
-          <HintPath>Libs\net40\Antlr4.Runtime.net40.dll</HintPath>
-        </Reference>
-        <Reference Include="BLToolkit">
-          <HintPath>Libs\net40\BLToolkit.4.dll</HintPath>
-        </Reference>
-        <Reference Include="MoonSharp.Interpreter">
-          <HintPath>Libs\net40\MoonSharp.Interpreter.dll</HintPath>
-        </Reference>
         <Reference Include="Newtonsoft.Json">
           <HintPath>Libs\net40\Newtonsoft.Json.dll</HintPath>
         </Reference>
@@ -80,15 +60,6 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.5' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="Antlr4.Runtime">
-          <HintPath>Libs\net45\Antlr4.Runtime.net45.dll</HintPath>
-        </Reference>
-        <Reference Include="BLToolkit">
-          <HintPath>Libs\net40\BLToolkit.4.dll</HintPath>
-        </Reference>
-        <Reference Include="MoonSharp.Interpreter">
-          <HintPath>Libs\net45\MoonSharp.Interpreter.dll</HintPath>
-        </Reference>
         <Reference Include="Newtonsoft.Json">
           <HintPath>Libs\net45\Newtonsoft.Json.dll</HintPath>
         </Reference>
@@ -110,16 +81,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="AM\" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="BlueBook.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ArsMagna.private.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AM.Core\AM.Core.csproj">
-      <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
-      <Name>AM.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
