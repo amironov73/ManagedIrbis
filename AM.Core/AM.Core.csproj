@@ -42,10 +42,10 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
       <ItemGroup>
         <Reference Include="Newtonsoft.Json">
-          <HintPath>Libs\net35\Newtonsoft.Json.dll</HintPath>
+          <HintPath>..\Libs\net35\Newtonsoft.Json.dll</HintPath>
         </Reference>
         <Reference Include="System.Threading">
-          <HintPath>Libs\net35\System.Threading.dll</HintPath>
+          <HintPath>..\Libs\net35\System.Threading.dll</HintPath>
         </Reference>
       </ItemGroup>
     </When>
@@ -53,7 +53,7 @@
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
         <Reference Include="Newtonsoft.Json">
-          <HintPath>Libs\net40\Newtonsoft.Json.dll</HintPath>
+          <HintPath>..\Libs\net40\Newtonsoft.Json.dll</HintPath>
         </Reference>
       </ItemGroup>
     </When>
@@ -61,14 +61,14 @@
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
         <Reference Include="Newtonsoft.Json">
-          <HintPath>Libs\net45\Newtonsoft.Json.dll</HintPath>
+          <HintPath>..\Libs\net45\Newtonsoft.Json.dll</HintPath>
         </Reference>
       </ItemGroup>
     </When>
   </Choose>
   <ItemGroup>
     <Reference Include="JetBrains.Annotations">
-      <HintPath>Libs\JetBrains.Annotations.dll</HintPath>
+      <HintPath>..\Libs\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
