@@ -49,6 +49,12 @@
         <Reference Include="BLToolkit">
            <HintPath>Libs\net35\BLToolkit.3.dll</HintPath>
         </Reference>
+        <Reference Include="MoonSharp.Interpreter">
+           <HintPath>Libs\net35\MoonSharp.Interpreter.dll</HintPath>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+           <HintPath>Libs\net35\Newtonsoft.Json.dll</HintPath>
+        </Reference>
       </ItemGroup>
     </When>
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
@@ -60,6 +66,12 @@
         <Reference Include="BLToolkit">
            <HintPath>Libs\net40\BLToolkit.4.dll</HintPath>
         </Reference>
+        <Reference Include="MoonSharp.Interpreter">
+           <HintPath>Libs\net40\MoonSharp.Interpreter.dll</HintPath>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+           <HintPath>Libs\net40\Newtonsoft.Json.dll</HintPath>
+        </Reference>
       </ItemGroup>
     </When>
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.5' ">
@@ -70,6 +82,12 @@
         </Reference>
         <Reference Include="BLToolkit">
            <HintPath>Libs\net40\BLToolkit.4.dll</HintPath>
+        </Reference>
+        <Reference Include="MoonSharp.Interpreter">
+           <HintPath>Libs\net45\MoonSharp.Interpreter.dll</HintPath>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+           <HintPath>Libs\net45\Newtonsoft.Json.dll</HintPath>
         </Reference>
       </ItemGroup>
     </When>
