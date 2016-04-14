@@ -43,6 +43,9 @@
   <Choose>
     <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
       <ItemGroup>
+        <Reference Include="Antlr4.Runtime">
+           <HintPath>Libs\net35\Antlr4.Runtime.net35.dll</HintPath>
+        </Reference>
         <Reference Include="BLToolkit">
            <HintPath>Libs\net35\BLToolkit.3.dll</HintPath>
         </Reference>
@@ -51,6 +54,9 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Antlr4.Runtime">
+           <HintPath>Libs\net40\Antlr4.Runtime.net40.dll</HintPath>
+        </Reference>
         <Reference Include="BLToolkit">
            <HintPath>Libs\net40\BLToolkit.4.dll</HintPath>
         </Reference>
@@ -59,6 +65,9 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.5' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Antlr4.Runtime">
+           <HintPath>Libs\net45\Antlr4.Runtime.net45.dll</HintPath>
+        </Reference>
         <Reference Include="BLToolkit">
            <HintPath>Libs\net40\BLToolkit.4.dll</HintPath>
         </Reference>
