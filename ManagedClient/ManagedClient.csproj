@@ -91,7 +91,7 @@
         </Reference>
       </ItemGroup>
     </When>
-    </Choose>
+  </Choose>
   <ItemGroup>
     <Reference Include="JetBrains.Annotations">
       <HintPath>Libs\JetBrains.Annotations.dll</HintPath>
