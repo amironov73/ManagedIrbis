@@ -78,11 +78,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AM\CharacterClass.cs" />
+    <Compile Include="AM\CharacterClassifier.cs" />
+    <Compile Include="AM\DateTimeUtility.cs" />
+    <Compile Include="AM\NumericUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AM\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="BlueBook.ico" />
   </ItemGroup>
