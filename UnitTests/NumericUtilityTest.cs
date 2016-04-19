@@ -9,7 +9,7 @@ namespace UnitTests
     public class NumericUtilityTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestIsPositiveInteger()
         {
             Assert.AreEqual(true, "1".IsPositiveInteger());
             Assert.AreEqual(false, "-1".IsPositiveInteger());

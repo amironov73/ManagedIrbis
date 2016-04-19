@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 
 #endregion
 
-namespace AM
+namespace AM.Text
 {
     /// <summary>
     /// Классы символов Unicode.

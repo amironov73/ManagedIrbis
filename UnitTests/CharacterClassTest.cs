@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using AM;
+using AM.Text;
 
 namespace UnitTests
 {
@@ -9,7 +9,7 @@ namespace UnitTests
     public class CharacterClassTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestLatinAndCyrillic()
         {
             Assert.AreEqual
                 (
