@@ -52,9 +52,6 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="CodeJam">
-          <HintPath>..\Libs\net40\CodeJam.dll</HintPath>
-        </Reference>
         <Reference Include="Newtonsoft.Json">
           <HintPath>..\Libs\net40\Newtonsoft.Json.dll</HintPath>
         </Reference>
@@ -63,9 +60,6 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.5' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="CodeJam">
-          <HintPath>..\Libs\net45\CodeJam.dll</HintPath>
-        </Reference>
         <Reference Include="Newtonsoft.Json">
           <HintPath>..\Libs\net45\Newtonsoft.Json.dll</HintPath>
         </Reference>
@@ -84,6 +78,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AM\Assertions\Code.cs" />
+    <Compile Include="AM\Assertions\CodeExceptions.cs" />
+    <Compile Include="AM\EventUtility.cs" />
+    <Compile Include="AM\IO\FileUtility.cs" />
     <Compile Include="AM\IO\StreamUtility.cs" />
     <Compile Include="AM\Reference.cs" />
     <Compile Include="AM\Text\CharacterClass.cs" />
