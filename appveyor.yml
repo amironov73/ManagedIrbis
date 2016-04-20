@@ -23,6 +23,13 @@ after_build:
   cmd: compile.cmd
 
 artifacts:
-
   - path: Binaries
     name: ManagedClient
+
+deploy:
+- provider: FTP
+  host: 77.222.42.228
+  protocol: ftp
+  username: alexeymnet_ftp
+  password:
+    secure: sLbeQTSV54foCg741X7Quw==  artifact: ManagedClient

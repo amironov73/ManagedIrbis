@@ -82,8 +82,10 @@
     <Compile Include="AM\Assertions\CodeExceptions.cs" />
     <Compile Include="AM\EventUtility.cs" />
     <Compile Include="AM\IO\FileUtility.cs" />
+    <Compile Include="AM\IO\PathUtility.cs" />
     <Compile Include="AM\IO\StreamUtility.cs" />
     <Compile Include="AM\Reference.cs" />
+    <Compile Include="AM\Runtime\RuntimeUtility.cs" />
     <Compile Include="AM\Text\CharacterClass.cs" />
     <Compile Include="AM\Text\CharacterClassifier.cs" />
     <Compile Include="AM\DateTimeUtility.cs" />
