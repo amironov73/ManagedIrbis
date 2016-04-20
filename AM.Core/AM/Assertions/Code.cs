@@ -156,28 +156,6 @@ namespace CodeJam
         }
 
         /// <summary>
-        /// Check whether given string is not null or empty.
-        /// </summary>
-        /// <param name="argument"></param>
-        /// <param name="argumentName"></param>
-        [AssertionMethod]
-        public static void NotNullOrEmpty
-            (
-                [NotNull] string argument,
-                [NotNull] string argumentName
-            )
-        {
-            if (string.IsNullOrEmpty(argument))
-            {
-                throw new ArgumentException
-                    (
-                        "String is null or empty",
-                        argumentName
-                    );
-            }
-        }
-
-        /// <summary>
         /// Check whether <paramref name="argument"/> is positive.
         /// </summary>
         /// <param name="argument">The argument.</param>
@@ -260,19 +238,6 @@ namespace CodeJam
         {
             if (string.IsNullOrEmpty(arg))
                 throw CodeExceptions.ArgumentNullOrEmpty(argName);
-        }
-
-        /// <summary>
-        /// Ensures that <paramref name="arg" /> is not null nor white space
-        /// </summary>
-        [DebuggerHidden]
-        [AssertionMethod]
-        public static void NotNullNorWhiteSpace(
-            [CanBeNull] string arg,
-            [NotNull, InvokerParameterName] string argName)
-        {
-            if (string.IsNullOrWhiteSpace(arg))
-                throw CodeExceptions.ArgumentNullOrWhiteSpace(argName);
         }
 
         /// <summary>

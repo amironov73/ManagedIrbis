@@ -1,0 +1,22 @@
+version: 1.6.0.{build}
+configuration: Debug
+
+environment:
+  packageVersion: 1.6.0
+
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.cs'
+  assembly_version: '1.6.0.${build}'
+  assembly_file_version: '1.6.0.${build}'
+
+nuget:
+  account_feed: false
+  project_feed: false
+
+build:
+  project: ManagedClient.sln
+  publish_nuget: false
+
+after_build:
+  cmd: compile.cmd
