@@ -26,6 +26,7 @@ namespace CodeJam
         /// <exception cref="T:System.ArgumentOutOfRangeException">
         /// Throws <see cref="T:System.ArgumentOutOfRangeException"/>.
         /// </exception>
+        [DebuggerHidden]
         [AssertionMethod]
         public static void Defined<T>
             (
@@ -45,6 +46,7 @@ namespace CodeJam
         /// </summary>
         /// <param name="path">The path.</param>
         /// <param name="argumentName">Name of the argument.</param>
+        [DebuggerHidden]
         [AssertionMethod]
         public static void FileExists
             (
@@ -76,6 +78,7 @@ namespace CodeJam
         /// <exception cref="T:System.ArgumentOutOfRangeException">
         /// Throws <see cref="T:System.ArgumentOutOfRangeException"/>.
         /// </exception>
+        [DebuggerHidden]
         [AssertionMethod]
         public static void InRange
             (
@@ -100,6 +103,7 @@ namespace CodeJam
         /// <exception cref="T:System.ArgumentOutOfRangeException">
         /// Throws <see cref="T:System.ArgumentOutOfRangeException"/>.
         /// </exception>
+        [DebuggerHidden]
         [AssertionMethod]
         public static void Nonnegative
             (
@@ -121,6 +125,7 @@ namespace CodeJam
         /// <exception cref="T:System.ArgumentOutOfRangeException">
         /// Throws <see cref="T:System.ArgumentOutOfRangeException"/>.
         /// </exception>
+        [DebuggerHidden]
         [AssertionMethod]
         public static void Nonnegative
             (
@@ -142,6 +147,7 @@ namespace CodeJam
         /// <exception cref="T:System.ArgumentOutOfRangeException">
         /// Throws <see cref="T:System.ArgumentOutOfRangeException"/>.
         /// </exception>
+        [DebuggerHidden]
         [AssertionMethod]
         public static void Nonnegative
             (
@@ -163,6 +169,7 @@ namespace CodeJam
         /// <exception cref="T:System.ArgumentOutOfRangeException">
         /// Throws <see cref="T:System.ArgumentOutOfRangeException"/>.
         /// </exception>
+        [DebuggerHidden]
         [AssertionMethod]
         public static void Positive
             (
@@ -184,6 +191,7 @@ namespace CodeJam
         /// <exception cref="T:System.ArgumentOutOfRangeException">
         /// Throws <see cref="T:System.ArgumentOutOfRangeException"/>.
         /// </exception>
+        [DebuggerHidden]
         [AssertionMethod]
         public static void Positive
             (
