@@ -7,8 +7,8 @@ environment:
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.cs'
-  assembly_version: '1.6.0.${build}'
-  assembly_file_version: '1.6.0.${build}'
+  assembly_version: '1.6.0.{build}'
+  assembly_file_version: '1.6.0.{build}'
 
 nuget:
   account_feed: false
