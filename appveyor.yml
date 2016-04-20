@@ -1,14 +1,14 @@
 version: 1.6.0.{build}
 configuration: Debug
-
+image: Previous Visual Studio 2013
 environment:
   packageVersion: 1.6.0
 
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.cs'
-  assembly_version: '1.6.0.{build}'
-  assembly_file_version: '1.6.0.{build}'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
 
 nuget:
   account_feed: false
@@ -17,6 +17,7 @@ nuget:
 build:
   project: ManagedClient.sln
   publish_nuget: false
+  parallel: true
   verbosity: minimal
 
 after_build:
