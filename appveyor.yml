@@ -17,6 +17,12 @@ nuget:
 build:
   project: ManagedClient.sln
   publish_nuget: false
+  verbosity: minimal
 
 after_build:
   cmd: compile.cmd
+
+artifacts:
+
+  - path: Binaries
+    name: ManagedClient
