@@ -1,5 +1,5 @@
 ﻿/* UICultureSaver.cs -- saves and restores current thread UI culture
- * Ars Magna project, https://arsmagna.ru
+ * Ars Magna project, http://arsmagna.ru
  */
 
 #region Using directives
@@ -12,6 +12,8 @@ using System.Threading;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
 
 #endregion
 
@@ -36,6 +38,7 @@ namespace AM.Globalization
     /// </code>
     /// </example>
     [PublicAPI]
+    [MoonSharpUserData]
     public sealed class UICultureSaver : IDisposable
     {
         #region Properties

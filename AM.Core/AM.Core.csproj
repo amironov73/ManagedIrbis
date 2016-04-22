@@ -44,6 +44,9 @@
         <Reference Include="Newtonsoft.Json">
           <HintPath>..\Libs\net35\Newtonsoft.Json.dll</HintPath>
         </Reference>
+        <Reference Include="MoonSharp.Interpreter">
+          <HintPath>..\Libs\net35\MoonSharp.Interpreter.dll</HintPath>
+        </Reference>
         <Reference Include="System.Threading">
           <HintPath>..\Libs\net35\System.Threading.dll</HintPath>
         </Reference>
@@ -52,6 +55,9 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
+        <Reference Include="MoonSharp.Interpreter">
+          <HintPath>..\Libs\net40\MoonSharp.Interpreter.dll</HintPath>
+        </Reference>
         <Reference Include="Newtonsoft.Json">
           <HintPath>..\Libs\net40\Newtonsoft.Json.dll</HintPath>
         </Reference>
@@ -60,6 +66,9 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.5' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
+        <Reference Include="MoonSharp.Interpreter">
+          <HintPath>..\Libs\net45\MoonSharp.Interpreter.dll</HintPath>
+        </Reference>
         <Reference Include="Newtonsoft.Json">
           <HintPath>..\Libs\net45\Newtonsoft.Json.dll</HintPath>
         </Reference>
@@ -79,10 +88,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AM\ArrayUtility.cs" />
     <Compile Include="AM\Assertions\Code.cs" />
     <Compile Include="AM\Assertions\CodeExceptions.cs" />
     <Compile Include="AM\Configuration\ConfigurationUtility.cs" />
     <Compile Include="AM\ConversionUtility.cs" />
+    <Compile Include="AM\Diagnostics\ProcessUtility.cs" />
     <Compile Include="AM\EnvironmentUtility.cs" />
     <Compile Include="AM\EventUtility.cs" />
     <Compile Include="AM\Globalization\BuiltinCultures.cs" />
@@ -99,6 +110,7 @@
     <Compile Include="AM\Reflection\PublicKeyTokens.cs" />
     <Compile Include="AM\Reflection\TaggedClassAttribute.cs" />
     <Compile Include="AM\Reflection\TaggedClassCollector.cs" />
+    <Compile Include="AM\Resources\ResourceUtility.cs" />
     <Compile Include="AM\Runtime\InteropUtility.cs" />
     <Compile Include="AM\Runtime\RuntimeUtility.cs" />
     <Compile Include="AM\StringUtility.cs" />
@@ -107,6 +119,7 @@
     <Compile Include="AM\DateTimeUtility.cs" />
     <Compile Include="AM\NumericUtility.cs" />
     <Compile Include="AM\Text\EncodingUtility.cs" />
+    <Compile Include="AM\Text\TextWithEncoding.cs" />
     <Compile Include="AM\TypeUtility.cs" />
     <Compile Include="AM\Xml\XmlNamespaces.cs" />
     <Compile Include="AM\Xml\XmlUtility.cs" />

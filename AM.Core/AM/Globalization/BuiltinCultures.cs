@@ -8,6 +8,8 @@ using System.Globalization;
 
 using JetBrains.Annotations;
 
+using MoonSharp.Interpreter;
+
 #endregion
 
 namespace AM.Globalization
@@ -16,6 +18,7 @@ namespace AM.Globalization
     /// 
     /// </summary>
     [PublicAPI]
+    [MoonSharpUserData]
     public static class BuiltinCultures
     {
         #region Properties

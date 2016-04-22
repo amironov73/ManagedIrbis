@@ -13,6 +13,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using MoonSharp.Interpreter;
+
 #endregion
 
 namespace AM.Globalization
@@ -36,6 +38,7 @@ namespace AM.Globalization
     /// </code>
     /// </example>
     [PublicAPI]
+    [MoonSharpUserData]
     public sealed class CultureSaver
         : IDisposable
     {

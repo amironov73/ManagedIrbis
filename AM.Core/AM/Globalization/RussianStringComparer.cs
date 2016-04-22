@@ -1,5 +1,5 @@
 ﻿/* RussianStringComparer.cs -- 
- * Ars Magna project, https://arsmagna.ru
+ * Ars Magna project, http://arsmagna.ru
  */
 
 #region Using directives
@@ -8,6 +8,10 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
 #endregion
 
 namespace AM.Globalization
@@ -15,7 +19,10 @@ namespace AM.Globalization
     /// <summary>
     /// 
     /// </summary>
-    public class RussianStringComparer : StringComparer
+    [PublicAPI]
+    [MoonSharpUserData]
+    public class RussianStringComparer
+        : StringComparer
     {
         #region Properties
 
@@ -105,16 +112,18 @@ namespace AM.Globalization
         /// and returns an indication of their relative sort order.
         ///</summary>
         ///<returns>
-        /// ValueMeaningLess than zero x is less than y.
-        /// -or- x is null. Zerox is equal to y. Greater than zerox is greater than y.
-        /// -or- y is null.
+        /// Value Meaning
+        /// Less than zero x is less than y. -or- x is null.
+        /// Zero x is equal to y. 
+        /// Greater than zero x is greater than y. -or- y is null.
         ///</returns>
         ///<param name="y">A string to compare to x.</param>
         ///<param name="x">A string to compare to y.</param>
         public override int Compare
             (
-            string x,
-            string y )
+                string x,
+                string y
+            )
         {
             string xCopy = _Replace ( x );
             string yCopy = _Replace ( y );
@@ -156,7 +165,10 @@ namespace AM.Globalization
         /// parameter.
         ///</returns>
         ///<param name="obj">A string.</param>
-        public override int GetHashCode ( string obj )
+        public override int GetHashCode 
+            (
+                string obj
+            )
         {
             string objCopy = _Replace ( obj );
             return _innerComparer.GetHashCode ( objCopy );

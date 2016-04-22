@@ -6,6 +6,8 @@
 
 using JetBrains.Annotations;
 
+using MoonSharp.Interpreter;
+
 #endregion
 
 namespace AM.Globalization
