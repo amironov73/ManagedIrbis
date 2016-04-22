@@ -26,6 +26,7 @@ after_build:
 artifacts:
   - path: Binaries
     name: ManagedClient
+  - path: Nuget\*.nupkg
 
 deploy:
 - provider: FTP
@@ -33,4 +34,4 @@ deploy:
   protocol: ftp
   username: alexeymnet_ftp
   password:
-    secure: sLbeQTSV54foCg741X7Quw==  artifact: ManagedClient
+    secure: sLbeQTSV54foCg741X7Quw==  artifact: ManagedClient,Nuget

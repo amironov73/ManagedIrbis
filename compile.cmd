@@ -58,3 +58,6 @@ SET PARAMS=/consoleloggerparameters:ErrorsOnly /m
 %MSBUILD% IrbisUI\IrbisUI.csproj             /p:Configuration=Release /p:TargetFrameworkVersion=v4.5   /p:OutputPath=%OUTPUT%\Release45  /p:DefineConstants="FW461;FW46;FW452;FW451;FW45"           %PARAMS%
 %MSBUILD% MoonIrbis\MoonIrbis.csproj         /p:Configuration=Debug   /p:TargetFrameworkVersion=v4.5   /p:OutputPath=%OUTPUT%\Debug45    /p:DefineConstants="FW461;FW46;FW452;FW451;FW45"           %PARAMS%
 %MSBUILD% MoonIrbis\MoonIrbis.csproj         /p:Configuration=Release /p:TargetFrameworkVersion=v4.5   /p:OutputPath=%OUTPUT%\Release45  /p:DefineConstants="FW461;FW46;FW452;FW451;FW45"           %PARAMS%
+
+cd Nuget
+pack.cmd
