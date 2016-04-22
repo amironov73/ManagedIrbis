@@ -5,7 +5,8 @@ SET BUILD=Debug
 
 del /q *.nupkg > nul 2> nul
 
-mkdir lib > nul 2> nul
+mkdir lib   > nul 2> nul
+mkdir tools > nul 2> nul
 
 cd lib
 
