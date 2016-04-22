@@ -21,7 +21,9 @@ build:
   verbosity: minimal
 
 after_build:
-  cmd: compile.cmd
+- cmd: compile.cmd
+- cmd: cd Nuget
+- cmd: pack.cmd
 
 artifacts:
   - path: Binaries
