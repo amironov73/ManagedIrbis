@@ -41,6 +41,9 @@
   <Choose>
     <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
       <ItemGroup>
+        <Reference Include="Antlr4.Runtime">
+          <HintPath>..\Libs\net35\Antlr4.Runtime.net35.dll</HintPath>
+        </Reference>
         <Reference Include="Newtonsoft.Json">
           <HintPath>..\Libs\net35\Newtonsoft.Json.dll</HintPath>
         </Reference>
@@ -55,6 +58,9 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Antlr4.Runtime">
+          <HintPath>..\Libs\net40\Antlr4.Runtime.net40.dll</HintPath>
+        </Reference>
         <Reference Include="MoonSharp.Interpreter">
           <HintPath>..\Libs\net40\MoonSharp.Interpreter.dll</HintPath>
         </Reference>
@@ -66,6 +72,9 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.5' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Antlr4.Runtime">
+          <HintPath>..\Libs\net45\Antlr4.Runtime.net45.dll</HintPath>
+        </Reference>
         <Reference Include="MoonSharp.Interpreter">
           <HintPath>..\Libs\net45\MoonSharp.Interpreter.dll</HintPath>
         </Reference>
@@ -89,8 +98,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AM\ArrayUtility.cs" />
-    <Compile Include="AM\Assertions\Code.cs" />
-    <Compile Include="AM\Assertions\CodeExceptions.cs" />
+    <Compile Include="AM\Text\NumberText.cs" />
+    <Compile Include="AM\Text\Output\AbstractOutput.cs" />
+    <Compile Include="AM\Text\Output\ConsoleOutput.cs" />
+    <Compile Include="AM\Text\Output\DummyOutput.cs" />
+    <Compile Include="AM\Text\Output\FileOutput.cs" />
+    <Compile Include="AM\Text\Output\NullOutput.cs" />
+    <Compile Include="AM\Text\Output\TeeOutput.cs" />
+    <Compile Include="AM\Text\Ranges\NumberRange.cs" />
+    <Compile Include="AM\Text\Ranges\NumberRangeCollection.cs" />
+    <Compile Include="CodeJam\Code.cs" />
+    <Compile Include="CodeJam\CodeExceptions.cs" />
     <Compile Include="AM\Configuration\ConfigurationUtility.cs" />
     <Compile Include="AM\ConversionUtility.cs" />
     <Compile Include="AM\Diagnostics\ProcessUtility.cs" />
@@ -125,7 +143,37 @@
     <Compile Include="AM\Xml\XmlUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <Choose>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
+      <ItemGroup>
+        <Compile Include="AM\Text\Ranges\35\NumberRangesBaseListener.cs" />
+        <Compile Include="AM\Text\Ranges\35\NumberRangesLexer.cs" />
+        <Compile Include="AM\Text\Ranges\35\NumberRangesListener.cs" />
+        <Compile Include="AM\Text\Ranges\35\NumberRangesParser.cs" />
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
+      <ItemGroup>
+        <Compile Include="AM\Text\Ranges\40\NumberRangesBaseListener.cs" />
+        <Compile Include="AM\Text\Ranges\40\NumberRangesLexer.cs" />
+        <Compile Include="AM\Text\Ranges\40\NumberRangesListener.cs" />
+        <Compile Include="AM\Text\Ranges\40\NumberRangesParser.cs" />
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v4.5' ">
+      <ItemGroup>
+        <Compile Include="AM\Text\Ranges\45\NumberRangesBaseListener.cs" />
+        <Compile Include="AM\Text\Ranges\45\NumberRangesLexer.cs" />
+        <Compile Include="AM\Text\Ranges\45\NumberRangesListener.cs" />
+        <Compile Include="AM\Text\Ranges\45\NumberRangesParser.cs" />
+      </ItemGroup>
+    </When>
+  </Choose>
+  <ItemGroup>
+    <Folder Include="AM\Assertions\" />
+    <Folder Include="AM\Text\Ranges\35\" />
+    <Folder Include="AM\Text\Ranges\40\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />
   </ItemGroup>

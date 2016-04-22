@@ -2,7 +2,7 @@
 
 SET MSBUILD=C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe
 SET OUTPUT=..\Binaries
-SET PARAMS=/consoleloggerparameters:ErrorsOnly
+SET PARAMS=/consoleloggerparameters:ErrorsOnly /m
 
 %MSBUILD% AM.Core\AM.Core.csproj             /t:Clean   /p:Configuration=Debug   /p:TargetFrameworkVersion=v3.5   /p:OutputPath=%OUTPUT%\Debug35    %PARAMS%
 %MSBUILD% AM.Core\AM.Core.csproj             /t:Clean   /p:Configuration=Release /p:TargetFrameworkVersion=v3.5   /p:OutputPath=%OUTPUT%\Release35  %PARAMS%
