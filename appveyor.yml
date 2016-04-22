@@ -23,12 +23,13 @@ build:
 after_build:
 - cmd: compile.cmd
 - cmd: cd Nuget
-- cmd: pack.cmd
+- cmd: packit.cmd
 
 artifacts:
   - path: Binaries
     name: ManagedClient
   - path: Nuget\*.nupkg
+    name: Nuget
 
 deploy:
 - provider: FTP
