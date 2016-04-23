@@ -5,14 +5,14 @@ SET BUILD=Debug
 
 del /q *.nupkg > nul 2> nul
 
-mkdir lib   > nul 2> nul
-mkdir tools > nul 2> nul
+if not exist lib mkdir lib   > nul 2> nul
+if not exist tools mkdir tools > nul 2> nul
 
 cd lib
 
-mkdir net35 > nul 2> nul
-mkdir net40 > nul 2> nul
-mkdir net45 > nul 2> nul
+if not exist net35 mkdir net35 > nul 2> nul
+if not exist net40 mkdir net40 > nul 2> nul
+if not exist net45 mkdir net45 > nul 2> nul
 
 del /s /q *.* > nul 2> nul
 cd ..

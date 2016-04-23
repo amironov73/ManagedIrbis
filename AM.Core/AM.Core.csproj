@@ -98,6 +98,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AM\ArrayUtility.cs" />
+    <Compile Include="AM\Collections\ListUtility.cs" />
+    <Compile Include="AM\Collections\NonNullCollection.cs" />
+    <Compile Include="AM\IO\DirectoryUtility.cs" />
+    <Compile Include="AM\IO\MultiStream.cs" />
+    <Compile Include="AM\IO\StreamPacker.cs" />
+    <Compile Include="AM\Reflection\AssemblyUtility.cs" />
+    <Compile Include="AM\Reflection\FieldAccessor.cs" />
+    <Compile Include="AM\Reflection\PropertyAccessor.cs" />
+    <Compile Include="AM\Reflection\PropertyOrField.cs" />
+    <Compile Include="AM\Reflection\ReflectionUtility.cs" />
+    <Compile Include="AM\Sequence.cs" />
     <Compile Include="AM\Text\NumberText.cs" />
     <Compile Include="AM\Text\Output\AbstractOutput.cs" />
     <Compile Include="AM\Text\Output\ConsoleOutput.cs" />
@@ -107,6 +118,7 @@
     <Compile Include="AM\Text\Output\TeeOutput.cs" />
     <Compile Include="AM\Text\Ranges\NumberRange.cs" />
     <Compile Include="AM\Text\Ranges\NumberRangeCollection.cs" />
+    <Compile Include="AM\Utility.cs" />
     <Compile Include="CodeJam\Code.cs" />
     <Compile Include="CodeJam\CodeExceptions.cs" />
     <Compile Include="AM\Configuration\ConfigurationUtility.cs" />
@@ -173,6 +185,7 @@
     <Folder Include="AM\Assertions\" />
     <Folder Include="AM\Text\Ranges\35\" />
     <Folder Include="AM\Text\Ranges\40\" />
+    <Folder Include="AM\Threading\Tasks\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />

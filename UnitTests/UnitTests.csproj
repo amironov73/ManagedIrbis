@@ -112,6 +112,7 @@
     <Compile Include="CharacterClassTest.cs" />
     <Compile Include="NumericUtilityTest.cs" />
     <Compile Include="ReferenceTest.cs" />
+    <Compile Include="StreamPackerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AM.Core\AM.Core.csproj">

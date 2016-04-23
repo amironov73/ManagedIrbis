@@ -34,56 +34,83 @@ namespace AM
                 this string text
             )
         {
-            return (text.SafeParseInt32(0) > 0);
+            return (text.SafeToInt32() > 0);
         }
 
         /// <summary>
-        /// Безопасный парсинг целого числа.
+        /// Безопасное преобразование строки в целое.
         /// </summary>
-        /// <param name="text">Строка, подлежащая парсингу.</param>
-        /// <param name="defaultValue">Значение по умолчанию.</param>
-        /// <returns>Разобранное целое число или значение по умолчанию.</returns>
-        public static int SafeParseInt32
+        public static int SafeToInt32
             (
-                this string text,
-                int defaultValue
+                [CanBeNull] this string text,
+                int defaultValue,
+                int minValue,
+                int maxValue
             )
         {
-            int result = defaultValue;
-
-            try
+            if (string.IsNullOrEmpty(text))
             {
-                result = int.Parse(text);
-            }
-            // ReSharper disable EmptyGeneralCatchClause
-            catch
-            // ReSharper restore EmptyGeneralCatchClause
-            {
-                // Do nothing
+                return defaultValue;
             }
 
-            //if (!Int32.TryParse(text, out result))
-            //{
-            //    result = defaultValue;
-            //}
+            int result;
+            if (!int.TryParse(text, out result))
+            {
+                result = defaultValue;
+            }
+
+            if ((result < minValue)
+                || (result > maxValue))
+            {
+                result = defaultValue;
+            }
+
             return result;
         }
 
         /// <summary>
-        /// Безопасный парсинг целого числа.
+        /// Безопасное преобразование строки в целое.
         /// </summary>
-        /// <param name="text">Строка, подлежащая парсингу.</param>
-        /// <returns>Разобранное целое число или значение по умолчанию.</returns>
-        public static int SafeParseInt32
+        public static int SafeToInt32
             (
-                this string text
+                [CanBeNull] this string text,
+                int defaultValue
             )
         {
-            return SafeParseInt32
-                (
-                    text,
-                    0
-                 );
+            if (string.IsNullOrEmpty(text))
+            {
+                return defaultValue;
+            }
+
+            int result;
+            if (!int.TryParse(text, out result))
+            {
+                result = defaultValue;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Безопасное преобразование строки в целое.
+        /// </summary>
+        public static int SafeToInt32
+            (
+                [CanBeNull] this string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return 0;
+            }
+
+            int result;
+            if (!int.TryParse(text, out result))
+            {
+                result = 0;
+            }
+
+            return result;
         }
 
         /// <summary>
