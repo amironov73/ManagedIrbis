@@ -107,7 +107,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Direct\IfpRecord.cs" />
+    <Compile Include="Direct\NodeItem.cs" />
+    <Compile Include="Direct\NodeLeader.cs" />
+    <Compile Include="Direct\NodeRecord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TermLink.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />
