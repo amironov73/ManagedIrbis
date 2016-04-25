@@ -6,7 +6,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+
+using CodeJam;
+
+using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
@@ -19,8 +24,10 @@ namespace ManagedClient
     /// Отличается тем, что принципиально не принимает
     /// значения <c>null</c>.
     /// </summary>
+    [PublicAPI]
     [Serializable]
     [MoonSharpUserData]
+    [DebuggerDisplay("Count={Count}")]
     public sealed class SubFieldCollection
         : Collection<SubField>
     {
@@ -31,9 +38,11 @@ namespace ManagedClient
         /// </summary>
         public void AddRange
             (
-                IEnumerable<SubField> subFields
+                [NotNull] IEnumerable<SubField> subFields
             )
         {
+            Code.NotNull(subFields, "subFields");
+
             foreach (SubField subField in subFields)
             {
                 Add(subField);
@@ -43,11 +52,14 @@ namespace ManagedClient
         /// <summary>
         /// Поиск с помощью предиката.
         /// </summary>
+        [CanBeNull]
         public SubField Find
             (
-                Predicate<SubField> predicate
+                [NotNull] Predicate<SubField> predicate
             )
         {
+            Code.NotNull(predicate, "predicate");
+
             return this
                 .FirstOrDefault
                 (
@@ -58,11 +70,14 @@ namespace ManagedClient
         /// <summary>
         /// Отбор с помощью предиката.
         /// </summary>
+        [NotNull]
         public SubField[] FindAll
             (
-                Predicate<SubField> predicate
+                [NotNull] Predicate<SubField> predicate
             )
         {
+            Code.NotNull(predicate, "predicate");
+
             return this
                 .Where(subField => predicate(subField))
                 .ToArray();
@@ -72,30 +87,32 @@ namespace ManagedClient
 
         #region Collection<T> members
 
+        /// <summary>
+        /// Вставка элемента в коллекцию в заданной позиции.
+        /// </summary>
         protected override void InsertItem
             (
                 int index,
-                SubField item
+                [NotNull] SubField item
             )
         {
-            if (ReferenceEquals(item, null))
-            {
-                throw new ArgumentNullException("item");
-            }
+            Code.NotNull(item, "item");
 
             base.InsertItem(index, item);
         }
 
+        /// <summary>
+        /// Присвоение элемента в данной позиции коллекции.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="item"></param>
         protected override void SetItem
             (
                 int index,
-                SubField item
+                [NotNull] SubField item
             )
         {
-            if (ReferenceEquals(item, null))
-            {
-                throw new ArgumentNullException("item");
-            }
+            Code.NotNull(item, "item");
 
             base.SetItem(index, item);
         }

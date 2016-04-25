@@ -5,9 +5,14 @@
 #region Using directives
 
 using System;
+using System.Diagnostics;
 using System.Globalization;
 
+using CodeJam;
+
 using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
 
 #endregion
 
@@ -18,6 +23,8 @@ namespace ManagedClient
     /// </summary>
     [PublicAPI]
     [Serializable]
+    [MoonSharpUserData]
+    [DebuggerDisplay("{Text}")]
     public sealed class IrbisDate
     {
         #region Constants
@@ -58,10 +65,7 @@ namespace ManagedClient
                 [NotNull] string text
             )
         {
-            if (string.IsNullOrEmpty(text))
-            {
-                throw new ArgumentNullException("text");
-            }
+            Code.NotNullNorEmpty(text, "text");
 
             Text = text;
             Date = ConvertStringToDate(text);
@@ -155,10 +159,7 @@ namespace ManagedClient
                 [NotNull] IrbisDate date 
             )
         {
-            if (ReferenceEquals(date, null))
-            {
-                throw new ArgumentNullException("date");
-            }
+            Code.NotNull(date, "date");
 
             return date.Text;
         }
@@ -171,10 +172,7 @@ namespace ManagedClient
                 [NotNull] IrbisDate date
             )
         {
-            if (ReferenceEquals(date, null))
-            {
-                throw new ArgumentNullException("date");
-            }
+            Code.NotNull(date, "date");
 
             return date.Date;
         }

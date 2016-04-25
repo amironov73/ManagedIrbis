@@ -111,13 +111,17 @@
     <Compile Include="Direct\NodeItem.cs" />
     <Compile Include="Direct\NodeLeader.cs" />
     <Compile Include="Direct\NodeRecord.cs" />
+    <Compile Include="IrbisClientInfo.cs" />
     <Compile Include="IrbisDate.cs" />
     <Compile Include="IrbisException.cs" />
     <Compile Include="IrbisPath.cs" />
     <Compile Include="IrbisRecord.cs" />
     <Compile Include="IrbisReturnCode.cs" />
+    <Compile Include="IrbisVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecordField.cs" />
+    <Compile Include="RecordReference.cs" />
+    <Compile Include="RecordStatus.cs" />
     <Compile Include="SubField.cs" />
     <Compile Include="SubFieldCollection.cs" />
     <Compile Include="TermLink.cs" />

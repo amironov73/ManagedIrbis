@@ -5,7 +5,7 @@
 #region Using directives
 
 using System;
-
+using System.Diagnostics;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -21,6 +21,7 @@ namespace ManagedClient
     [PublicAPI]
     [Serializable]
     //[MoonSharpUserData]
+    [DebuggerDisplay("Code={Code}, Message={Message}")]
     public class IrbisException
         : ApplicationException
     {

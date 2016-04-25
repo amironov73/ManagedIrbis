@@ -1,4 +1,5 @@
 ﻿/* IfpRecord.cs -- inverted file record
+ * Ars Magna project, http://arsmagna.ru
  */
 
 #region Using directives
@@ -41,16 +42,37 @@ namespace ManagedClient.Direct
 
         #region Properties
 
+        /// <summary>
+        /// Младшее слово смещения на следующую запись(если нет - 0).
+        /// </summary>
         public int LowOffset { get; set; }
 
+        /// <summary>
+        /// Старшее слово смещения на следующую запись(если нет - 0).
+        /// </summary>
+        /// <remarks>Признак последнего блока – LOW=HIGH= -1.</remarks>
         public int HighOffset { get; set; }
 
+        /// <summary>
+        /// Ообщее число ссылок для данного термина
+        /// (только в первой записи);
+        /// число ссылок в данном блоке(в следующих записях).
+        /// </summary>
         public int TotalLinkCount { get; set; }
 
+        /// <summary>
+        /// Число ссылок в данном блоке.
+        /// </summary>
         public int BlockLinkCount { get; set; }
 
+        /// <summary>
+        /// Вместимость записи в ссылках.
+        /// </summary>
         public int Capacity { get; set; }
 
+        /// <summary>
+        /// Собственно ссылки.
+        /// </summary>
         public List<TermLink> Links { get { return _links; } }
 
         #endregion

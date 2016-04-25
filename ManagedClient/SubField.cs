@@ -5,6 +5,7 @@
 #region Using directives
 
 using System;
+using System.Diagnostics;
 using System.Xml.Serialization;
 
 
@@ -25,6 +26,7 @@ namespace ManagedClient
     [Serializable]
     [XmlRoot("subfield")]
     [MoonSharpUserData]
+    [DebuggerDisplay("Code={Code}, Value={Value}")]
     public sealed class SubField
     {
         #region Constants

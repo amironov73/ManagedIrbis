@@ -1,14 +1,12 @@
-﻿/* NodeLeader.cs
+﻿/* NodeLeader.cs -- leader in N01/L01
  */
 
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
+using System.Xml.Serialization;
 
 using AM.IO;
 
@@ -40,35 +38,54 @@ namespace ManagedClient
         /// Номер записи (начиная с 1; в N01 номер первой записи
         /// равен номеру корневой записи дерева
         /// </summary>
+        [XmlAttribute("number")]
+        [JsonProperty("number")]
         public int Number { get; set; }
 
         /// <summary>
         /// Номер предыдущей записи (-1, если нет)
         /// </summary>
+        [XmlAttribute("previous")]
+        [JsonProperty("previous")]
         public int Previous { get; set; }
 
         /// <summary>
         /// Номер следующей записи (-1, если нет)
         /// </summary>
+        [XmlAttribute("next")]
+        [JsonProperty("previous")]
         public int Next { get; set; }
 
         /// <summary>
         /// Число ключей в записи
         /// </summary>
+        [XmlAttribute("term-count")]
+        [JsonProperty("term-count")]
         public int TermCount { get; set; }
 
         /// <summary>
         /// Смещение на свободную позицию в записи
         /// (от начала записи)
         /// </summary>
+        [XmlAttribute("free-offset")]
+        [JsonProperty("free-offset")]
         public int FreeOffset { get; set; }
 
         #endregion
 
         #region Public methods
 
-        public static NodeLeader Read(Stream stream)
+        /// <summary>
+        /// Считывание из потока.
+        /// </summary>
+        [NotNull]
+        public static NodeLeader Read
+            (
+                [NotNull] Stream stream
+            )
         {
+            Code.NotNull(stream, "stream");
+
             NodeLeader result = new NodeLeader
                 {
                     Number = stream.ReadInt32Network(),
@@ -85,6 +102,12 @@ namespace ManagedClient
 
         #region Object members
 
+        /// <summary>
+        /// Returns a <see cref="System.String" />
+        /// that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" />
+        /// that represents this instance.</returns>
         public override string ToString()
         {
             return string.Format

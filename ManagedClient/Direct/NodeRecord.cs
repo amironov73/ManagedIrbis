@@ -1,4 +1,5 @@
-﻿/* NodeRecord.cs
+﻿/* NodeRecord.cs -- L01/N01
+ * Ars Magna project, http://arsmagna.ru
  */
 
 #region Using directives
@@ -22,7 +23,7 @@ using Newtonsoft.Json;
 namespace ManagedClient
 {
     /// <summary>
-    /// Запись в файла L01 и N01.
+    /// Запись в файлах L01 и N01.
     /// </summary>
     [PublicAPI]
     [Serializable]
