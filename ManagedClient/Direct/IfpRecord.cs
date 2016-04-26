@@ -27,7 +27,9 @@ namespace ManagedClient.Direct
     /// <summary>
     /// Inverted file record
     /// </summary>
+    [PublicAPI]
     [Serializable]
+    [MoonSharpUserData]
     public sealed class IfpRecord
     {
         #region Constants
@@ -89,12 +91,18 @@ namespace ManagedClient.Direct
 
         #region Public methods
 
+        /// <summary>
+        /// Считываем из потока.
+        /// </summary>
+        [NotNull]
         public static IfpRecord Read
             (
-                Stream stream,
+                [NotNull] Stream stream,
                 long offset
             )
         {
+            Code.NotNull(stream, "stream");
+
             //new ObjectDumper()
             //    .DumpStream(stream, offset, 100);
 
@@ -122,6 +130,12 @@ namespace ManagedClient.Direct
 
         #region Object members
 
+        /// <summary>
+        /// Returns a <see cref="System.String" />
+        /// that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" />
+        /// that represents this instance.</returns>
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();

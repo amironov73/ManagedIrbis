@@ -73,7 +73,10 @@ namespace ManagedClient
         /// <summary>
         /// Конструктор
         /// </summary>
-        public NodeRecord(bool isLeaf)
+        public NodeRecord
+            (
+                bool isLeaf
+            )
             : this()
         {
             IsLeaf = isLeaf;
@@ -85,12 +88,16 @@ namespace ManagedClient
 
         private readonly List<NodeItem> _items;
 
-        internal Stream _stream;
-
         #endregion
 
         #region Object members
 
+        /// <summary>
+        /// Returns a <see cref="System.String" />
+        /// that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" />
+        /// that represents this instance.</returns>
         public override string ToString()
         {
             StringBuilder items = new StringBuilder();

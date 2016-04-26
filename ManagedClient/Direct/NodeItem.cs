@@ -55,6 +55,9 @@ namespace ManagedClient
         /// </summary>
         public int HighOffset { get; set; }
 
+        /// <summary>
+        /// Полное смещение
+        /// </summary>
         public long FullOffset
         {
             get { return unchecked ((((long) HighOffset) << 32) + LowOffset); }
@@ -77,6 +80,12 @@ namespace ManagedClient
 
         #region Object members
 
+        /// <summary>
+        /// Returns a <see cref="System.String" />
+        /// that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" />
+        /// that represents this instance.</returns>
         public override string ToString()
         {
             return string.Format
