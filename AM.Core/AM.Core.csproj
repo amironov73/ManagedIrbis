@@ -153,6 +153,8 @@
     <Compile Include="AM\TypeUtility.cs" />
     <Compile Include="AM\Xml\XmlNamespaces.cs" />
     <Compile Include="AM\Xml\XmlUtility.cs" />
+    <Compile Include="Compatibility\DummyClass.cs" />
+    <Compile Include="Compatibility\StringBuilderCompability.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Choose>

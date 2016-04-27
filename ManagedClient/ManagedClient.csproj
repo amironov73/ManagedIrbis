@@ -129,6 +129,9 @@
     <Compile Include="RecordStatus.cs" />
     <Compile Include="SubField.cs" />
     <Compile Include="SubFieldCollection.cs" />
+    <Compile Include="Systematization\BbkException.cs" />
+    <Compile Include="Systematization\BbkIndex.cs" />
+    <Compile Include="Systematization\UdkException.cs" />
     <Compile Include="TermLink.cs" />
   </ItemGroup>
   <ItemGroup>

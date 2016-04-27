@@ -1,4 +1,5 @@
-﻿/* FieldAttribute.cs
+﻿/* FieldAttribute.cs -- отображение поля на свойство.
+ * Ars Magna project, http://arsmagna.ru
  */
 
 #region Using directives
@@ -9,6 +10,9 @@ using System;
 
 namespace ManagedClient.Mapping
 {
+    /// <summary>
+    /// Задаёт отображение поля на свойство.
+    /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Field|AttributeTargets.Property,
         AllowMultiple = false, Inherited = true)]
@@ -17,14 +21,23 @@ namespace ManagedClient.Mapping
     {
         #region Properties
 
+        /// <summary>
+        /// Тег.
+        /// </summary>
         public string Tag { get; set; }
 
-        public int Occurence { get; set; }
+        /// <summary>
+        /// Повторение.
+        /// </summary>
+        public int Occurrence { get; set; }
 
         #endregion
 
         #region Construction
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
         public FieldAttribute 
             (
                 string tag 
@@ -33,14 +46,17 @@ namespace ManagedClient.Mapping
             Tag = tag;
         }
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
         public FieldAttribute 
             ( 
                 string tag, 
-                int occurence 
+                int occurrence 
             )
         {
             Tag = tag;
-            Occurence = occurence;
+            Occurrence = occurrence;
         }
 
         #endregion
