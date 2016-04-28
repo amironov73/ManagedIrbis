@@ -115,6 +115,7 @@
     <Compile Include="StreamPackerTest.cs" />
     <Compile Include="IrbisDateTest.cs" />
     <Compile Include="BbkTest.cs" />
+    <Compile Include="BbkRangeTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AM.Core\AM.Core.csproj">
