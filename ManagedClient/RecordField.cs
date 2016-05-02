@@ -6,11 +6,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+
 using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -30,19 +33,25 @@ namespace ManagedClient
     [Serializable]
     [XmlRoot("field")]
     [MoonSharpUserData]
+    [DebuggerDisplay("Tag={Tag} Value={Value}")]
     public sealed class RecordField
     {
         #region Constants
+
+        /// <summary>
+        /// Нет тега, т. е. тег ещё не присвоен.
+        /// </summary>
+        public const string NoTag = null;
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Флаг: выбрасывать исключение, если свойству Text
+        /// Флаг: выбрасывать исключение, если свойству Value
         /// присваивается значение, содержащее разделитель.
         /// </summary>
-        public static bool BreakOnTextContainDelimiters;
+        public static bool BreakOnValueContainDelimiters;
 
         /// <summary>
         /// Метка поля.
@@ -71,40 +80,13 @@ namespace ManagedClient
         /// Имеющиеся в SubFields значения при этом пропадают
         /// и замещаются на вновь присваиваемые!
         /// </remarks>
-        [XmlAttribute("text")]
-        [JsonProperty("text")]
-        public string Text
+        [CanBeNull]
+        [XmlAttribute("value")]
+        [JsonProperty("value")]
+        public string Value
         {
-            get
-            {
-                return _text;
-            }
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    _text = value;
-                }
-                else
-                {
-                    if (value.IndexOf(SubField.Delimiter) >= 0)
-                    {
-                        if (BreakOnTextContainDelimiters)
-                        {
-                            throw new ArgumentException
-                                (
-                                    "Contains delimiter",
-                                    "value"
-                                );
-                        }
-                        //SetSubFields(value);
-                    }
-                    else
-                    {
-                        _text = value;
-                    }
-                }
-            }
+            get { return _value; }
+            set { SetValue(value); }
         }
 
         /// <summary>
@@ -144,44 +126,41 @@ namespace ManagedClient
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecordField" /> class.
+        /// Конструктор по умолчанию.
         /// </summary>
         public RecordField()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecordField" /> class.
+        /// Конструктор с присвоением тега поля.
         /// </summary>
-        /// <param name="tag">The tag.</param>
         public RecordField
             (
-                string tag
+                [CanBeNull] string tag
             )
         {
             Tag = tag;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecordField" /> class.
+        /// Конструктор с присвоением тега и значения поля.
         /// </summary>
-        /// <param name="tag">The tag.</param>
-        /// <param name="text">The text.</param>
         public RecordField
             (
-                string tag,
-                string text
+                [CanBeNull] string tag,
+                [CanBeNull] string value
             )
         {
             Tag = tag;
-            Text = text;
+            Value = value;
         }
 
         #endregion
 
         #region Private members
 
-        private string _text;
+        private string _value;
 
         private readonly SubFieldCollection _subFields
             = new SubFieldCollection();
@@ -253,9 +232,9 @@ namespace ManagedClient
                     );
             }
 
-            if (!string.IsNullOrEmpty(field.Text))
+            if (!string.IsNullOrEmpty(field.Value))
             {
-                builder.Append(field.Text);
+                builder.Append(field.Value);
             }
 
             foreach (SubField subField in field.SubFields)
@@ -273,16 +252,53 @@ namespace ManagedClient
 
         #region Public methods
 
+        /// <summary>
+        /// Установка нового значения.
+        /// </summary>
+        [NotNull]
+        public RecordField SetValue
+            (
+                [CanBeNull] string value
+            )
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                _value = value;
+            }
+            else
+            {
+                if (value.IndexOf(SubField.Delimiter) >= 0)
+                {
+                    if (BreakOnValueContainDelimiters)
+                    {
+                        throw new ArgumentException
+                            (
+                                "Contains delimiter",
+                                "value"
+                            );
+                    }
+                    //SetSubFields(value);
+                }
+                else
+                {
+                    _value = value;
+                }
+            }
+
+            return this;
+        }
 
         #endregion
 
         #region Object members
 
         /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// Returns a <see cref="System.String" />
+        /// that represents this instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
+        /// A <see cref="System.String" />
+        /// that represents this instance.
         /// </returns>
         public override string ToString()
         {

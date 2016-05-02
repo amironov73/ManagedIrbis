@@ -8,7 +8,6 @@ using System;
 using System.Diagnostics;
 using System.Xml.Serialization;
 
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -65,9 +64,13 @@ namespace ManagedClient
         /// </remarks>
         [XmlAttribute("code")]
         [JsonProperty("code")]
+        [CanBeNull]
         public string CodeString
         {
-            get { return Code.ToString(); }
+            get
+            {
+                return Code.ToString();
+            }
             set
             {
                 if (!string.IsNullOrEmpty(value))
@@ -118,16 +121,15 @@ namespace ManagedClient
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SubField" /> class.
+        /// Конструктор по умолчанию.
         /// </summary>
         public SubField()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SubField" /> class.
+        /// Конструктор с присвоением кода подполя.
         /// </summary>
-        /// <param name="code">The code.</param>
         public SubField
             (
                 char code
@@ -137,14 +139,12 @@ namespace ManagedClient
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SubField" /> class.
+        /// Конструктор с присвоением кода и значения подполя.
         /// </summary>
-        /// <param name="code">The code.</param>
-        /// <param name="value">The text.</param>
         public SubField
             (
                 char code,
-                string value
+                [CanBeNull] string value
             )
         {
             Code = code;
@@ -229,6 +229,24 @@ namespace ManagedClient
         #endregion
 
         #region Object members
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>A hash code for this instance,
+        /// suitable for use in hashing algorithms
+        /// and data structures like a hash table.
+        /// </returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int valueHash = _value != null
+                    ? _value.GetHashCode()
+                    : 0;
+                return (valueHash*397) ^ Code.GetHashCode();
+            }
+        }
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.

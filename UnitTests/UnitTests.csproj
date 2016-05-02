@@ -108,7 +108,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AM\StringUtiltityTest.cs" />
     <Compile Include="ManagedClient\SubFieldCollectionTest.cs" />
+    <Compile Include="ManagedClient\RecordFieldTest.cs" />
+    <Compile Include="ManagedClient\IrbisRecordTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CharacterClassTest.cs" />
     <Compile Include="NumericUtilityTest.cs" />
@@ -118,6 +121,7 @@
     <Compile Include="BbkTest.cs" />
     <Compile Include="BbkRangeTest.cs" />
     <Compile Include="ManagedClient\SubFieldTest.cs" />
+    <Compile Include="AM\SequenceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AM.Core\AM.Core.csproj">

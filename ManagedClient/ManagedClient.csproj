@@ -120,6 +120,7 @@
     <Compile Include="IrbisRecord.cs" />
     <Compile Include="IrbisReturnCode.cs" />
     <Compile Include="IrbisVersion.cs" />
+    <Compile Include="ManagedClient64.cs" />
     <Compile Include="Mapping\FieldAttribute.cs" />
     <Compile Include="Mapping\SubFieldAttribute.cs" />
     <Compile Include="Mapping\SubFieldMapper.cs" />

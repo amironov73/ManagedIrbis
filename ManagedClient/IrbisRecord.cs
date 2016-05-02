@@ -29,7 +29,7 @@ namespace ManagedClient
     [PublicAPI]
     [Serializable]
     [MoonSharpUserData]
-    [DebuggerDisplay("[{Database}] MFN={MFN} ({Version})")]
+    [DebuggerDisplay("[{Database}] MFN={Mfn} ({Version})")]
     public sealed class IrbisRecord
     {
         #region Properties

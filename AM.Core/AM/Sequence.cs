@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using CodeJam;
 
@@ -29,6 +30,39 @@ namespace AM
         #endregion
 
         #region public methods
+
+        /// <summary>
+        /// Отбирает из последовательности только
+        /// ненулевые элементы.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sequence"></param>
+        /// <returns></returns>
+        [NotNull]
+        [ItemNotNull]
+        public static IEnumerable<T> NonNullItems<T>
+            (
+                [NotNull] this IEnumerable<T> sequence
+            )
+            where T : class
+        {
+            Code.NotNull(sequence, "sequence");
+
+            return sequence.Where(value => value != null);
+        }
+
+        /// <summary>
+        /// Отбирает из последовательности только непустые строки.
+        /// </summary>
+        /// <param name="sequence"></param>
+        /// <returns></returns>
+        public static IEnumerable<string> NonEmptyLines
+            (
+                this IEnumerable<string> sequence
+            )
+        {
+            return sequence.Where(line => !string.IsNullOrEmpty(line));
+        }
 
         /// <summary>
         /// Repeats the specified value.
