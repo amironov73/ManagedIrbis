@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedClient;
 
-namespace UnitTests
+namespace UnitTests.ManagedClient
 {
     [TestClass]
     public class IrbisDateTest

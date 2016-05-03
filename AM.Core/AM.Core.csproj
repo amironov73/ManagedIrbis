@@ -113,6 +113,11 @@
     <Compile Include="AM\Reflection\PropertyAccessor.cs" />
     <Compile Include="AM\Reflection\PropertyOrField.cs" />
     <Compile Include="AM\Reflection\ReflectionUtility.cs" />
+    <Compile Include="AM\Text\Hyphenation\EnglishHyphenator.cs" />
+    <Compile Include="AM\Text\Hyphenation\Hyphenator.cs" />
+    <Compile Include="AM\Text\Hyphenation\RussianHyphenator.cs" />
+    <Compile Include="AM\Text\Tokenizer\StringTokenizer.cs" />
+    <Compile Include="AM\Text\Tokenizer\Token.cs" />
     <Compile Include="AM\Sequence.cs" />
     <Compile Include="AM\Text\NumberText.cs" />
     <Compile Include="AM\Text\Output\AbstractOutput.cs" />
@@ -123,6 +128,7 @@
     <Compile Include="AM\Text\Output\TeeOutput.cs" />
     <Compile Include="AM\Text\Ranges\NumberRange.cs" />
     <Compile Include="AM\Text\Ranges\NumberRangeCollection.cs" />
+    <Compile Include="AM\Text\Tokenizer\TokenKind.cs" />
     <Compile Include="AM\Utility.cs" />
     <Compile Include="CodeJam\Code.cs" />
     <Compile Include="CodeJam\CodeExceptions.cs" />

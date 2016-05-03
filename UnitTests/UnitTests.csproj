@@ -110,6 +110,7 @@
   <ItemGroup>
     <Compile Include="AM\StringUtiltityTest.cs" />
     <Compile Include="AM\NumberTextTest.cs" />
+    <Compile Include="AM\Text\StringTokenizerTest.cs" />
     <Compile Include="ManagedClient\SubFieldCollectionTest.cs" />
     <Compile Include="ManagedClient\RecordFieldTest.cs" />
     <Compile Include="ManagedClient\IrbisRecordTest.cs" />
@@ -118,7 +119,7 @@
     <Compile Include="NumericUtilityTest.cs" />
     <Compile Include="ReferenceTest.cs" />
     <Compile Include="StreamPackerTest.cs" />
-    <Compile Include="IrbisDateTest.cs" />
+    <Compile Include="ManagedClient\IrbisDateTest.cs" />
     <Compile Include="BbkTest.cs" />
     <Compile Include="BbkRangeTest.cs" />
     <Compile Include="ManagedClient\SubFieldTest.cs" />
