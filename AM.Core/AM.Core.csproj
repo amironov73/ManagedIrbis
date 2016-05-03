@@ -100,7 +100,12 @@
     <Compile Include="AM\ArrayUtility.cs" />
     <Compile Include="AM\Collections\ListUtility.cs" />
     <Compile Include="AM\Collections\NonNullCollection.cs" />
+    <Compile Include="AM\ConsoleUtility.cs" />
+    <Compile Include="AM\DelegateUtility.cs" />
+    <Compile Include="AM\Diagnostics\ConsoleProcessRunner.cs" />
     <Compile Include="AM\IO\DirectoryUtility.cs" />
+    <Compile Include="AM\IO\IConsoleOutputReceiver.cs" />
+    <Compile Include="AM\IO\IniFile.cs" />
     <Compile Include="AM\IO\MultiStream.cs" />
     <Compile Include="AM\IO\StreamPacker.cs" />
     <Compile Include="AM\Reflection\AssemblyUtility.cs" />
