@@ -109,6 +109,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AM\StringUtiltityTest.cs" />
+    <Compile Include="AM\NumberTextTest.cs" />
     <Compile Include="ManagedClient\SubFieldCollectionTest.cs" />
     <Compile Include="ManagedClient\RecordFieldTest.cs" />
     <Compile Include="ManagedClient\IrbisRecordTest.cs" />
