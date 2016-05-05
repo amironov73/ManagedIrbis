@@ -12,9 +12,9 @@ namespace UnitTests.AM
         [TestMethod]
         public void TestStringUtility()
         {
-            Assert.AreEqual("a", "a".MakeVisibleString());
-            Assert.AreEqual("(null)", StringUtility.MakeVisibleString(null));
-            Assert.AreEqual("(empty)", String.Empty.MakeVisibleString());
+            Assert.AreEqual("a", "a".ToVisibleString());
+            Assert.AreEqual("(null)", StringUtility.ToVisibleString(null));
+            Assert.AreEqual("(empty)", String.Empty.ToVisibleString());
         }
     }
 }

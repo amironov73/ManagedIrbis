@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Text.Tokenizer;
@@ -12,21 +11,10 @@ namespace UnitTests.AM.Text
         [TestMethod]
         public void TestStringTokenizer()
         {
-            StringTokenizer tokenizer = new StringTokenizer("Hello from ArsMagna")
-            {
-                IgnoreWhiteSpace = true
-            };
-            List<Token> tokens = new List<Token>();
-            while (true)
-            {
-                Token token = tokenizer.Next();
-                tokens.Add(token);
-                if (token.Kind == TokenKind.EOF)
-                {
-                    break;
-                }
-            }
-            Assert.AreEqual(4,tokens.Count);
+            StringTokenizer tokenizer = new StringTokenizer("Hello 2 from 3.14E-2 ArsMagna 11. Hello .3");
+            Token[] tokens = tokenizer.GetAllTokens();
+            Assert.AreEqual(9, tokens.Length);
+
         }
     }
 }

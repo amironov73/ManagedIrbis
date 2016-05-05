@@ -1,18 +1,12 @@
-﻿/* StringTokenizer2.cs -- tokenizes text
+﻿/* TokenizerSettings.cs -- settings for StringTokenizer
  * Ars Magna project, http://arsmagna.ru 
  */
 
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -57,6 +51,34 @@ namespace AM.Text.Tokenizer
         /// </summary>
         public char[] SymbolChars { get; set; }
 
+        /// <summary>
+        /// Unescape strings.
+        /// </summary>
+        [DefaultValue(false)]
+        public bool UnescapeStrings { get; set; }
+
+        /// <summary>
+        /// Trim delimiter
+        /// </summary>
+        [DefaultValue(true)]
+        public bool TrimDelimiter { get; set; }
+
+        /// <summary>
+        /// Array of the combined symbols.
+        /// </summary>
+        public string[] CombinedSymbols { get; set; }
+
+        /// <summary>
+        /// Trim quotes.
+        /// </summary>
+        public bool TrimQuotes { get; set; }
+
+        /// <summary>
+        /// Accept floating point number.
+        /// </summary>
+        [DefaultValue(true)]
+        public bool AcceptFloatingPoint { get; set; }
+
         #endregion
 
         #region Construction
@@ -68,11 +90,18 @@ namespace AM.Text.Tokenizer
         {
             IgnoreNewLine = true;
             IgnoreWhitespace = true;
+            TrimDelimiter = true;
+            AcceptFloatingPoint = true;
             SymbolChars = new []
             {
                 '=', '+', '-', '/', ',', '.', '*', '~', '!', '@',
                 '#', '$', '%', '^', '&', '(', ')', '{', '}', '[',
                 ']', ':', ';', '<', '>', '?', '|', '\\'
+            };
+            CombinedSymbols = new[]
+            {
+                "+=", "-=", "*=", "/=", "%=", "<=", ">=", "<<",
+                ">>", "==", "!=", "++", "--"
             };
         }
 

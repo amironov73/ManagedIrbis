@@ -5,17 +5,14 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CodeJam;
+using System.Xml.Serialization;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -26,6 +23,7 @@ namespace AM.Text.Tokenizer
     /// </summary>
     [PublicAPI]
     [Serializable]
+    [XmlRoot("token")]
     [MoonSharpUserData]
     [DebuggerDisplay("Kind={Kind} Value='{Value}'")]
     public class Token
@@ -35,6 +33,8 @@ namespace AM.Text.Tokenizer
         /// <summary>
         /// Тип токена.
         /// </summary>
+        [XmlAttribute("kind")]
+        [JsonProperty("kind")]
         public TokenKind Kind
         {
             get { return _kind; }
@@ -43,6 +43,8 @@ namespace AM.Text.Tokenizer
         /// <summary>
         /// Номер колонки.
         /// </summary>
+        [XmlAttribute("column")]
+        [JsonProperty("column")]
         public int Column
         {
             get { return _column; }
@@ -51,6 +53,8 @@ namespace AM.Text.Tokenizer
         /// <summary>
         /// Номер строки.
         /// </summary>
+        [XmlAttribute("line")]
+        [JsonProperty("line")]
         public int Line
         {
             get { return _line; }
@@ -60,6 +64,8 @@ namespace AM.Text.Tokenizer
         /// Значение.
         /// </summary>
         [CanBeNull]
+        [XmlText]
+        [JsonProperty("value")]
         public string Value
         {
             get { return _value; }
@@ -125,7 +131,7 @@ namespace AM.Text.Tokenizer
                     Kind, 
                     Column, 
                     Line, 
-                    Value
+                    Value.ToVisibleString()
                 );
         }
 

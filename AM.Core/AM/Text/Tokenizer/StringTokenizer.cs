@@ -1,331 +1,434 @@
-﻿using System;
+﻿/* StringTokenizer2.cs -- tokenizes text
+ * Ars Magna project, http://arsmagna.ru 
+ */
+
+#region Using directives
+
+using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
+#endregion
 
 namespace AM.Text.Tokenizer
 {
     /// <summary>
-    /// StringTokenizer tokenized string (or stream) into tokens.
+    /// Tokenizes text.
     /// </summary>
-    public class StringTokenizer
+    [PublicAPI]
+    [MoonSharpUserData]
+    public sealed class StringTokenizer
+        : IEnumerable<Token>
     {
-        const char EOF = (char)0;
-
-        int line;
-        int column;
-        int pos;	// position within data
-
-        string data;
-
-        bool ignoreWhiteSpace;
-        char[] symbolChars;
-
-        int saveLine;
-        int saveCol;
-        int savePos;
-
-        public StringTokenizer(TextReader reader)
-        {
-            if (reader == null)
-                throw new ArgumentNullException("reader");
-
-            data = reader.ReadToEnd();
-
-            Reset();
-        }
-
-        public StringTokenizer(string data)
-        {
-            if (data == null)
-                throw new ArgumentNullException("data");
-
-            this.data = data;
-
-            Reset();
-        }
+        #region Constants
 
         /// <summary>
-        /// gets or sets which characters are part of TokenKind.Symbol
+        /// Признак конца текста.
         /// </summary>
-        public char[] SymbolChars
-        {
-            get { return this.symbolChars; }
-            set { this.symbolChars = value; }
-        }
+        private const char EOF = '\0';
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
-        /// if set to true, white space characters will be ignored,
-        /// but EOL and whitespace inside of string will still be tokenized
+        /// Tokenizer settings.
         /// </summary>
-        public bool IgnoreWhiteSpace
+        [NotNull]
+        public TokenizerSettings Settings
         {
-            get { return this.ignoreWhiteSpace; }
-            set { this.ignoreWhiteSpace = value; }
-        }
-
-        private void Reset()
-        {
-            this.ignoreWhiteSpace = false;
-            this.symbolChars = new char[] { '=', '+', '-', '/', ',', '.', '*', '~', '!', '@', '#', '$', '%', '^', '&', '(', ')', '{', '}', '[', ']', ':', ';', '<', '>', '?', '|', '\\' };
-
-            line = 1;
-            column = 1;
-            pos = 0;
-        }
-
-        protected char LA(int count)
-        {
-            if (pos + count >= data.Length)
-                return EOF;
-            else
-                return data[pos + count];
-        }
-
-        protected char Consume()
-        {
-            char ret = data[pos];
-            pos++;
-            column++;
-
-            return ret;
-        }
-
-        protected Token CreateToken(TokenKind kind, string value)
-        {
-            return new Token(kind, value, line, column);
-        }
-
-        protected Token CreateToken(TokenKind kind)
-        {
-            string tokenData = data.Substring(savePos, pos - savePos);
-            return new Token(kind, tokenData, saveLine, saveCol);
-        }
-
-        public Token Next()
-        {
-        ReadToken:
-
-            char ch = LA(0);
-            switch (ch)
+            get { return _settings; }
+            set
             {
-                case EOF:
-                    return CreateToken(TokenKind.EOF, string.Empty);
+                Code.NotNull(value, "value");
 
-                case ' ':
-                case '\t':
-                    {
-                        if (this.ignoreWhiteSpace)
-                        {
-                            Consume();
-                            goto ReadToken;
-                        }
-                        else
-                            return ReadWhitespace();
-                    }
-                case '0':
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                case '9':
-                    return ReadNumber();
-
-                case '\r':
-                    {
-                        StartRead();
-                        Consume();
-                        if (LA(0) == '\n')
-                            Consume();	// on DOS/Windows we have \r\n for new line
-
-                        line++;
-                        column = 1;
-
-                        return CreateToken(TokenKind.EOL);
-                    }
-                case '\n':
-                    {
-                        StartRead();
-                        Consume();
-                        line++;
-                        column = 1;
-
-                        return CreateToken(TokenKind.EOL);
-                    }
-
-                case '"':
-                    {
-                        return ReadString();
-                    }
-
-                default:
-                    {
-                        if (Char.IsLetter(ch) || ch == '_')
-                            return ReadWord();
-                        else if (IsSymbol(ch))
-                        {
-                            StartRead();
-                            Consume();
-                            return CreateToken(TokenKind.Symbol);
-                        }
-                        else
-                        {
-                            StartRead();
-                            Consume();
-                            return CreateToken(TokenKind.Unknown);
-                        }
-                    }
-
+                _settings = value;
             }
         }
 
-        /// <summary>
-        /// save read point positions so that CreateToken can use those
-        /// </summary>
-        private void StartRead()
+        #endregion
+
+        #region Construction
+
+        public StringTokenizer
+            (
+                [NotNull] string text
+            )
         {
-            saveLine = line;
-            saveCol = column;
-            savePos = pos;
+            Code.NotNull(text, "text");
+
+            _text = text;
+            _length = _text.Length;
+            _position = 0;
+            _line = 1;
+            _column = 1;
+            Settings = new TokenizerSettings();
         }
 
-        /// <summary>
-        /// reads all whitespace characters (does not include newline)
-        /// </summary>
-        /// <returns></returns>
-        protected Token ReadWhitespace()
+        #endregion
+
+        #region Private members
+
+        private int _length, _position;
+
+        private int _line, _column;
+
+        private string _text;
+
+        private TokenizerSettings _settings;
+
+        private Token _CreateToken
+            (
+                TokenKind kind,
+                string value
+            )
         {
-            StartRead();
-
-            Consume(); // consume the looked-ahead whitespace char
-
-            while (true)
-            {
-                char ch = LA(0);
-                if (ch == '\t' || ch == ' ')
-                    Consume();
-                else
-                    break;
-            }
-
-            return CreateToken(TokenKind.Whitespace);
-
+            return new Token
+                (
+                    kind,
+                    value,
+                    _line,
+                    _column
+                );
         }
 
-        /// <summary>
-        /// reads number. Number is: DIGIT+ ("." DIGIT*)?
-        /// </summary>
-        /// <returns></returns>
-        protected Token ReadNumber()
+        private Token _CreateToken
+            (
+                TokenKind kind
+            )
         {
-            StartRead();
+            return new Token
+                (
+                    kind,
+                    string.Empty,
+                    _line,
+                    _column
+                );
+        }
 
-            bool hadDot = false;
+        private bool _IsWhitespace
+            (
+                char c
+            )
+        {
+            return char.IsWhiteSpace(c)
+                && !((c == '\r') || (c == '\n'));
+        }
 
-            Consume(); // read first digit
+        private bool _IsWord
+            (
+                char c
+            )
+        {
+            return char.IsLetterOrDigit(c)
+                   || (c == '_');
+        }
 
+        private bool _IsSymbol
+            (
+                char c
+            )
+        {
+            return (Array.IndexOf(Settings.SymbolChars, c) >= 0);
+        }
+
+        private Token _SetTokenValue
+            (
+                Token token,
+                int begin
+            )
+        {
+            token._value = _text.Substring(begin, _position - begin);
+            return token;
+        }
+
+        private Token _ReadWhitespace()
+        {
+            Token result = _CreateToken(TokenKind.Whitespace);
+            int begin = _position;
+            ReadChar();
             while (true)
             {
-                char ch = LA(0);
-                if (Char.IsDigit(ch))
-                    Consume();
-                else if (ch == '.' && !hadDot)
+                char c = PeekChar();
+                if (!_IsWhitespace(c))
                 {
-                    hadDot = true;
-                    Consume();
+                    break;
                 }
-                else
-                    break;
+                ReadChar();
             }
 
-            return CreateToken(TokenKind.Number);
+            return _SetTokenValue(result, begin);
         }
 
-        /// <summary>
-        /// reads word. Word contains any alpha character or _
-        /// </summary>
-        protected Token ReadWord()
+        private Token _ReadNumber()
         {
-            StartRead();
-
-            Consume(); // consume first character of the word
-
+            Token result = _CreateToken(TokenKind.Number);
+            int begin = _position;
+            ReadChar();
+            bool dotFound = _text[begin] == '.';
+            char c;
             while (true)
             {
-                char ch = LA(0);
-                if (Char.IsLetter(ch) || ch == '_')
-                    Consume();
-                else
+                c = PeekChar();
+                if (c == '.' && !dotFound)
+                {
+                    dotFound = true;
+                    ReadChar();
+                    continue;
+                }
+                if ((c == 'E') || (c == 'e'))
+                {
+                    ReadChar();
+                    c = PeekChar();
+                    if (c == '-')
+                    {
+                        ReadChar();
+                        c = PeekChar();
+                    }
                     break;
+                }
+                if (!char.IsDigit(c))
+                {
+                    goto DONE;
+                }
+                ReadChar();
+            }
+            if (!char.IsDigit(c))
+            {
+                throw new TokenizerException("Floating point format error");
+            }
+            while (char.IsDigit(c))
+            {
+                ReadChar();
+                c = PeekChar();
             }
 
-            return CreateToken(TokenKind.Word);
+            DONE:
+            return _SetTokenValue(result, begin);
         }
 
-        /// <summary>
-        /// reads all characters until next " is found.
-        /// If "" (2 quotes) are found, then they are consumed as
-        /// part of the string
-        /// </summary>
-        /// <returns></returns>
-        protected Token ReadString()
+        private Token _ReadString()
         {
-            StartRead();
-
-            Consume(); // read "
-
+            Token result = _CreateToken(TokenKind.QuotedString);
+            int begin = _position;
+            char stop = ReadChar();
             while (true)
             {
-                char ch = LA(0);
-                if (ch == EOF)
-                    break;
-                else if (ch == '\r')	// handle CR in strings
+                char c = PeekChar();
+                if (c == '\\')
                 {
-                    Consume();
-                    if (LA(0) == '\n')	// for DOS & windows
-                        Consume();
-
-                    line++;
-                    column = 1;
+                    ReadChar();
+                    c = ReadChar(); // handle \t, \n etc
+                    if (c == 'x') // handle \x123
+                    {
+                        ReadChar();
+                        while (char.IsDigit(c))
+                        {
+                            c = ReadChar();
+                        }
+                    }
                 }
-                else if (ch == '\n')	// new line in quoted string
+                else if (c == stop)
                 {
-                    Consume();
-
-                    line++;
-                    column = 1;
-                }
-                else if (ch == '"')
-                {
-                    Consume();
-                    if (LA(0) != '"')
-                        break;	// done reading, and this quotes does not have escape character
+                    ReadChar();
+                    c = PeekChar();
+                    if (c == stop)
+                    {
+                        // Удвоение ограничителя означает его экранирование
+                        ReadChar();
+                    }
                     else
-                        Consume(); // consume second ", because first was just an escape
+                    {
+                        break;
+                    }
                 }
-                else
-                    Consume();
+                ReadChar();
             }
 
-            return CreateToken(TokenKind.QuotedString);
+            return _SetTokenValue(result, begin);
+        }
+
+        private Token _ReadWord()
+        {
+            Token result = _CreateToken(TokenKind.Word);
+            int begin = _position;
+            ReadChar();
+            while (true)
+            {
+                char c = PeekChar();
+                if (!_IsWord(c))
+                {
+                    break;
+                }
+                ReadChar();
+            }
+
+            return _SetTokenValue(result, begin);
+        }
+
+        private Token _ReadSymbol()
+        {
+            Token result = _CreateToken(TokenKind.Symbol);
+            int begin = _position;
+            ReadChar();
+
+            return _SetTokenValue(result, begin);
+        }
+
+        private Token _ReadUnknown()
+        {
+            Token result = _CreateToken(TokenKind.Unknown);
+            int begin = _position;
+            ReadChar();
+
+            return _SetTokenValue(result, begin);
+        }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Get all tokens.
+        /// </summary>
+        public Token[] GetAllTokens()
+        {
+            List<Token> result = new List<Token>();
+
+            while (true)
+            {
+                Token token = NextToken();
+                if (token.IsEOF)
+                {
+                    if (!Settings.IgnoreEOF)
+                    {
+                        result.Add(token);
+                    }
+                    break;
+                }
+                result.Add(token);
+            }
+
+            return result.ToArray();
         }
 
         /// <summary>
-        /// checks whether c is a symbol character.
+        /// Заглядывание на один символ вперед.
         /// </summary>
-        protected bool IsSymbol(char c)
+        /// <returns>EOF, если достигнут конец текста.</returns>
+        public char PeekChar()
         {
-            for (int i = 0; i < symbolChars.Length; i++)
-                if (symbolChars[i] == c)
-                    return true;
-
-            return false;
+            if (_position >= _length)
+            {
+                return EOF;
+            }
+            return _text[_position];
         }
+
+        /// <summary>
+        /// Чтение одного символа с продвижением вперед.
+        /// </summary>
+        /// <returns>EOF, если достигнут конец текста.</returns>
+        public char ReadChar()
+        {
+            if (_position >= _length)
+            {
+                return EOF;
+            }
+            char result = _text[_position];
+            _position++;
+            _column++;
+            return result;
+        }
+
+        [NotNull]
+        public Token NextToken()
+        {
+        BEGIN: char c = PeekChar();
+            Token result;
+
+            if (c == EOF)
+            {
+                return _CreateToken(TokenKind.EOF);
+            }
+            if (c == '\r')
+            {
+                ReadChar();
+                goto BEGIN;
+            }
+            if (c == '\n')
+            {
+                ReadChar();
+                result = _CreateToken(TokenKind.EOL);
+                _line++;
+                _column = 1;
+                if (!Settings.IgnoreNewLine)
+                {
+                    return result;
+                }
+                goto BEGIN;
+            }
+            if (char.IsWhiteSpace(c))
+            {
+                result = _ReadWhitespace();
+                if (!Settings.IgnoreWhitespace)
+                {
+                    return result;
+                }
+                goto BEGIN;
+            }
+            if (char.IsDigit(c)||(c=='.'))
+            {
+                return _ReadNumber();
+            }
+            if ((c == '"') || (c == '\''))
+            {
+                return _ReadString();
+            }
+            if (_IsWord(c))
+            {
+                return _ReadWord();
+            }
+            if (_IsSymbol(c))
+            {
+                return _ReadSymbol();
+            }
+
+            return _ReadUnknown();
+        }
+
+        #endregion
+
+        #region IEnumerable<Token> members
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public IEnumerator<Token> GetEnumerator()
+        {
+            while (true)
+            {
+                Token result = NextToken();
+                yield return result;
+                if (result.IsEOF)
+                {
+                    yield break;
+                }
+            }
+        }
+
+        #endregion
+
+        #region Object members
+
+        #endregion
     }
 }
