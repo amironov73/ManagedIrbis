@@ -111,6 +111,7 @@
     <Compile Include="AM\StringUtiltityTest.cs" />
     <Compile Include="AM\NumberTextTest.cs" />
     <Compile Include="AM\Text\StringTokenizerTest.cs" />
+    <Compile Include="AM\Text\StringTokenizer2Test.cs" />
     <Compile Include="ManagedClient\SubFieldCollectionTest.cs" />
     <Compile Include="ManagedClient\RecordFieldTest.cs" />
     <Compile Include="ManagedClient\IrbisRecordTest.cs" />

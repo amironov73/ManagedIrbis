@@ -117,6 +117,7 @@
     <Compile Include="AM\Text\Hyphenation\Hyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\RussianHyphenator.cs" />
     <Compile Include="AM\Text\Tokenizer\StringTokenizer.cs" />
+    <Compile Include="AM\Text\Tokenizer\StringTokenizer2.cs" />
     <Compile Include="AM\Text\Tokenizer\Token.cs" />
     <Compile Include="AM\Sequence.cs" />
     <Compile Include="AM\Text\NumberText.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="AM\Text\Output\TeeOutput.cs" />
     <Compile Include="AM\Text\Ranges\NumberRange.cs" />
     <Compile Include="AM\Text\Ranges\NumberRangeCollection.cs" />
+    <Compile Include="AM\Text\Tokenizer\TokenizerSettings.cs" />
     <Compile Include="AM\Text\Tokenizer\TokenKind.cs" />
     <Compile Include="AM\Utility.cs" />
     <Compile Include="CodeJam\Code.cs" />

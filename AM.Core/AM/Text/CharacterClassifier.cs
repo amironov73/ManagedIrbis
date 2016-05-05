@@ -1,4 +1,5 @@
-﻿/* CharacterClassifier.cs
+﻿/* CharacterClassifier.cs -- классификатор символов Unicode
+ * Ars Magna project, http://arsmagna.ru 
  */
 
 #region Using directives

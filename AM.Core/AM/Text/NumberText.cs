@@ -1,4 +1,5 @@
 ﻿/* NumberText.cs -- строка, содержащая числа
+ * Ars Magna project, http://arsmagna.ru 
  */
 
 #region Using directives

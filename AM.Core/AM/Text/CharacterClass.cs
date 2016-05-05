@@ -1,4 +1,5 @@
 ﻿/* CharacterClass.cs -- класс символов Unicode.
+ * Ars Magna project, http://arsmagna.ru 
  */
 
 #region Using directives

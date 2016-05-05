@@ -214,7 +214,7 @@ namespace AM.Text.Tokenizer
                     break;
             }
 
-            return CreateToken(TokenKind.WhiteSpace);
+            return CreateToken(TokenKind.Whitespace);
 
         }
 
