@@ -113,6 +113,7 @@
     <Compile Include="AM\Reflection\PropertyAccessor.cs" />
     <Compile Include="AM\Reflection\PropertyOrField.cs" />
     <Compile Include="AM\Reflection\ReflectionUtility.cs" />
+    <Compile Include="AM\Runtime\SerializationUtility.cs" />
     <Compile Include="AM\Text\Hyphenation\EnglishHyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\Hyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\RussianHyphenator.cs" />
