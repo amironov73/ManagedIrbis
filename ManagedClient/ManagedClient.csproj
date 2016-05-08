@@ -111,14 +111,17 @@
     <Compile Include="Direct\NodeItem.cs" />
     <Compile Include="Direct\NodeLeader.cs" />
     <Compile Include="Direct\NodeRecord.cs" />
+    <Compile Include="IrbisAlphabetTable.cs" />
     <Compile Include="IrbisClientInfo.cs" />
     <Compile Include="IrbisDatabaseInfo.cs" />
     <Compile Include="IrbisDate.cs" />
     <Compile Include="IrbisException.cs" />
+    <Compile Include="IrbisInputMode.cs" />
     <Compile Include="IrbisPath.cs" />
     <Compile Include="IrbisProcessInfo.cs" />
     <Compile Include="IrbisRecord.cs" />
     <Compile Include="IrbisReturnCode.cs" />
+    <Compile Include="IrbisUpperCaseTable.cs" />
     <Compile Include="IrbisVersion.cs" />
     <Compile Include="ManagedClient64.cs" />
     <Compile Include="Mapping\FieldAttribute.cs" />
