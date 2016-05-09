@@ -1,12 +1,13 @@
-﻿/* IrbisUpperCaseTable.cs
+﻿/* IrbisUpperCaseTable.cs -- table for uppercase character conversion
+ * Ars Magna project, http://arsmagna.ru
  */
 
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+
+using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -17,10 +18,11 @@ using MoonSharp.Interpreter;
 namespace ManagedClient
 {
     /// <summary>
-    /// 
+    /// Table for uppercase character conversion.
     /// </summary>
     [PublicAPI]
     [Serializable]
+    [MoonSharpUserData]
     public sealed class IrbisUpperCaseTable
     {
         #region Properties
@@ -28,6 +30,9 @@ namespace ManagedClient
 
         #region Constructor
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public IrbisUpperCaseTable
             (
                 Encoding encoding, 
@@ -40,18 +45,28 @@ namespace ManagedClient
             _secondTable = secondTable;
         }
 
+        /// <summary>
+        /// Constructror.
+        /// </summary>
         public IrbisUpperCaseTable
             (
-                ManagedClient64 client,
-                string fileName
+                [NotNull] ManagedClient64 client,
+                [NotNull] string fileName
             )
         {
-            
+            Code.NotNull(client, "client");
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            // TODO
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="client">The client.</param>
         public IrbisUpperCaseTable
             (
-                ManagedClient64 client
+                [NotNull] ManagedClient64 client
             )
             : this ( client, "ISISUC.TAB" )
         {
@@ -72,6 +87,9 @@ namespace ManagedClient
 
         #region Public methods
 
+        /// <summary>
+        /// Converts specified character to uppercase.
+        /// </summary>
         public char ToUpper
             (
                 char c
@@ -80,12 +98,18 @@ namespace ManagedClient
             return c;
         }
 
+        /// <summary>
+        /// Converts spefified string to uppercase
+        /// </summary>
+        [NotNull]
         public string ToUpper
             (
-                string s
+                [NotNull] string text
             )
         {
-            return s;
+            Code.NotNull(text, "text");
+
+            return text;
         }
 
         #endregion

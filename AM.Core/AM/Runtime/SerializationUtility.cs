@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AM.Runtime
 {
-    static class SerializationUtility
+    public static class SerializationUtility
     {
         #region Private members
         #endregion

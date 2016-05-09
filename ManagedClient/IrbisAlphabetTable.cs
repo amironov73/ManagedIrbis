@@ -5,9 +5,9 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+
+using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -31,25 +31,37 @@ namespace ManagedClient
 
         #region Constructor
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public IrbisAlphabetTable
             (
-                Encoding encoding, 
-                byte[] table
+                [NotNull] Encoding encoding, 
+                [NotNull] byte[] table
             )
         {
             _encoding = encoding;
             _table = table;
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public IrbisAlphabetTable
             (
-                ManagedClient64 client,
-                string fileName
+                [NotNull] ManagedClient64 client,
+                [NotNull] string fileName
             )
         {
-            
+            Code.NotNull(client, "client");
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            // TODO
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public IrbisAlphabetTable
             (
                 ManagedClient64 client
@@ -71,6 +83,9 @@ namespace ManagedClient
 
         #region Public methods
 
+        /// <summary>
+        /// Determines whether the specified c is alpha.
+        /// </summary>
         public bool IsAlpha
             (
                 char c
