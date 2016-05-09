@@ -107,7 +107,9 @@
     <Compile Include="AM\IO\IConsoleOutputReceiver.cs" />
     <Compile Include="AM\IO\IniFile.cs" />
     <Compile Include="AM\IO\MultiStream.cs" />
+    <Compile Include="AM\IO\NotifyStream.cs" />
     <Compile Include="AM\IO\StreamPacker.cs" />
+    <Compile Include="AM\IO\VersionStream.cs" />
     <Compile Include="AM\Reflection\AssemblyUtility.cs" />
     <Compile Include="AM\Reflection\FieldAccessor.cs" />
     <Compile Include="AM\Reflection\PropertyAccessor.cs" />
