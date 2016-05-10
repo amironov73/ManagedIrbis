@@ -115,6 +115,7 @@
     <Compile Include="AM\Reflection\PropertyAccessor.cs" />
     <Compile Include="AM\Reflection\PropertyOrField.cs" />
     <Compile Include="AM\Reflection\ReflectionUtility.cs" />
+    <Compile Include="AM\Resources\LocalizationManager.cs" />
     <Compile Include="AM\Runtime\NumberUnion.cs" />
     <Compile Include="AM\Runtime\SerializationUtility.cs" />
     <Compile Include="AM\Text\Hyphenation\EnglishHyphenator.cs" />
