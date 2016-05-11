@@ -108,7 +108,7 @@ namespace CodeJam
         public static void Nonnegative
             (
                 int argument,
-                string argumentName
+                [NotNull, InvokerParameterName] string argumentName
             )
         {
             if (argument < 0)
@@ -129,8 +129,8 @@ namespace CodeJam
         [AssertionMethod]
         public static void Nonnegative
             (
-                long argument, 
-                string argumentName
+                long argument,
+                [NotNull, InvokerParameterName] string argumentName
             )
         {
             if (argument < 0)
@@ -151,8 +151,8 @@ namespace CodeJam
         [AssertionMethod]
         public static void Nonnegative
             (
-                double argument, 
-                [NotNull] string argumentName
+                double argument,
+                [NotNull, InvokerParameterName] string argumentName
             )
         {
             if (argument < 0.0)
@@ -174,7 +174,7 @@ namespace CodeJam
         public static void Positive
             (
                 int argument,
-                [NotNull] string argumentName
+                [NotNull, InvokerParameterName] string argumentName
             )
         {
             if (argument <= 0)
