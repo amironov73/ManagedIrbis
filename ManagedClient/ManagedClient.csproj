@@ -131,6 +131,7 @@
     <Compile Include="RecordField.cs" />
     <Compile Include="RecordReference.cs" />
     <Compile Include="RecordStatus.cs" />
+    <Compile Include="Scripting\IrbisScript.cs" />
     <Compile Include="SubField.cs" />
     <Compile Include="SubFieldCollection.cs" />
     <Compile Include="Systematization\BbkException.cs" />

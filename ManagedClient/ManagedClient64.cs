@@ -47,6 +47,22 @@ namespace ManagedClient
 
         #region Public methods
 
+        /// <summary>
+        /// Подключение к серверу.
+        /// </summary>
+        public void Connect()
+        {
+            // TODO
+        }
+
+        /// <summary>
+        /// Отключение от сервера.
+        /// </summary>
+        public void Disconnect()
+        {
+            // TODO
+        }
+
         #endregion
 
         #region IDisposable members
