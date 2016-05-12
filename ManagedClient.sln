@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Core", "AM.Core\AM.Core.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoonIrbis", "MoonIrbis\MoonIrbis.csproj", "{6CCBB4F4-FA97-4153-BB0B-BD84772DC8B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Rfid", "AM.Rfid\AM.Rfid.csproj", "{51481C63-5D59-4AE1-927A-C94276B63C72}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{6CCBB4F4-FA97-4153-BB0B-BD84772DC8B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CCBB4F4-FA97-4153-BB0B-BD84772DC8B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CCBB4F4-FA97-4153-BB0B-BD84772DC8B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51481C63-5D59-4AE1-927A-C94276B63C72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51481C63-5D59-4AE1-927A-C94276B63C72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51481C63-5D59-4AE1-927A-C94276B63C72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51481C63-5D59-4AE1-927A-C94276B63C72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
