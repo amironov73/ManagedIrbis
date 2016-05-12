@@ -31,7 +31,7 @@ namespace CodeJam
         public static void Defined<T>
             (
                 T value,
-                [NotNull] string argumentName
+                [NotNull, InvokerParameterName] string argumentName
             )
             where T : struct
         {
@@ -51,7 +51,7 @@ namespace CodeJam
         public static void FileExists
             (
                 [NotNull] string path,
-                [NotNull] string argumentName
+                [NotNull, InvokerParameterName] string argumentName
             )
         {
             NotNull(path, argumentName);
@@ -85,7 +85,7 @@ namespace CodeJam
                 double argument,
                 double from,
                 double to,
-                string argumentName
+                [NotNull, InvokerParameterName] string argumentName
             )
         {
             if ((argument < from)

@@ -9,7 +9,7 @@ namespace UnitTests.AM.Text
     public class StreamParserTest
     {
         [TestMethod]
-        public void TestStreamParser()
+        public void TestStreamParserInt()
         {
             const string text = "  \t1234 ogo";
             StreamParser parser = StreamParser.FromString(text);
@@ -30,11 +30,99 @@ namespace UnitTests.AM.Text
 
         [TestMethod]
         [ExpectedException(typeof(FormatException))]
-        public void TestStreamParserFail()
+        public void TestStreamParserIntFail()
         {
             const string text = "  ogo";
             StreamParser parser = StreamParser.FromString(text);
             int? number = parser.ReadInt32();
+            Assert.IsFalse(number.HasValue);
+        }
+
+        private void _TestDouble
+            (
+                string text,
+                double expected
+            )
+        {
+            StreamParser parser = StreamParser.FromString(text);
+            double? number = parser.ReadDouble();
+            Assert.IsTrue(number.HasValue);
+            Assert.AreEqual(expected, number.Value);
+        }
+
+        private void _TestFloat
+            (
+                string text,
+                float expected
+            )
+        {
+            StreamParser parser = StreamParser.FromString(text);
+            float? number = parser.ReadSingle();
+            Assert.IsTrue(number.HasValue);
+            Assert.AreEqual(expected, number.Value);
+        }
+
+        private void _TestDecimal
+            (
+                string text,
+                decimal expected
+            )
+        {
+            StreamParser parser = StreamParser.FromString(text);
+            decimal? number = parser.ReadDecimal();
+            Assert.IsTrue(number.HasValue);
+            Assert.AreEqual(expected, number.Value);
+        }
+
+        [TestMethod]
+        public void TestStreamParserDouble()
+        {
+            _TestDouble("1", 1.0);
+            _TestDouble("1.", 1.0);
+            _TestDouble("1.0", 1.0);
+            _TestDouble("+1", 1.0);
+            _TestDouble("-1", -1.0);
+            _TestDouble("1e2",100.0);
+            _TestDouble("1e-2",0.01);
+        }
+
+        [TestMethod]
+        public void TestStreamParserFloat()
+        {
+            _TestFloat("1", 1.0F);
+            _TestFloat("1.", 1.0F);
+            _TestFloat("1.0", 1.0F);
+            _TestFloat("+1", 1.0F);
+            _TestFloat("-1", -1.0F);
+            _TestFloat("1e2", 100.0F);
+            _TestFloat("1e-2", 0.01F);
+        }
+
+        [TestMethod]
+        public void TestStreamParserDecimal()
+        {
+            _TestDecimal("1", 1.0m);
+            _TestDecimal("1.", 1.0m);
+            _TestDecimal("1.0", 1.0m);
+            _TestDecimal("+1", 1.0m);
+            _TestDecimal("-1", -1.0m);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void TestStreamParserDoubleFail()
+        {
+            const string text = "  ogo";
+            StreamParser parser = StreamParser.FromString(text);
+            double? number = parser.ReadDouble();
+            Assert.IsFalse(number.HasValue);
+        }
+
+        [TestMethod]
+        public void TestStreamParserFloatEof()
+        {
+            StreamParser parser = StreamParser.FromString(string.Empty);
+            double? number = parser.ReadDouble();
             Assert.IsFalse(number.HasValue);
         }
     }

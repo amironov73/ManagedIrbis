@@ -7,10 +7,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Resources;
 using System.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -46,7 +48,7 @@ namespace AM.Text
         /// </summary>
         public bool EndOfStream
         {
-            get { return Reader.Peek() == EOF; }
+            get { return PeekChar() == EOF; }
         }
 
         /// <summary>
@@ -72,15 +74,101 @@ namespace AM.Text
             _reader = reader;
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public StreamParser
+            (
+                [NotNull] TextReader reader,
+                bool ownReader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            _reader = reader;
+            _ownReader = ownReader;
+        }
+
         #endregion
 
         #region Private members
 
         private TextReader _reader;
 
+        private bool _ownReader;
+
+        private StringBuilder _ReadNumber()
+        {
+            StringBuilder result = new StringBuilder();
+            char c = PeekChar();
+            if ((c == '-') || (c == '+'))
+            {
+                result.Append(ReadChar());
+            }
+            while (IsDigit())
+            {
+                result.Append(ReadChar());
+            }
+            c = PeekChar();
+            if (c == '.')
+            {
+                result.Append(ReadChar());
+                while (IsDigit())
+                {
+                    result.Append(ReadChar());
+                }
+                c = PeekChar();
+            }
+            if ((c == 'e') || (c == 'E'))
+            {
+                result.Append(ReadChar());
+                c = PeekChar();
+                if ((c == '-') || (c == '+'))
+                {
+                    result.Append(ReadChar());
+                }
+                while (IsDigit())
+                {
+                    result.Append(ReadChar());
+                }
+                c = PeekChar();
+            }
+            if ((c == 'F') || (c == 'f') || (c == 'D') || (c == 'd')
+                || (c == 'M') || (c == 'm'))
+            {
+                result.Append(ReadChar());
+            }
+            return result;
+        }
+
         #endregion
 
         #region Public methods
+
+        [NotNull]
+        public static StreamParser FromFile
+            (
+                [NotNull] string fileName,
+                [NotNull] Encoding encoding
+            )
+        {
+            Code.NotNull(fileName, "fileName");
+            Code.FileExists(fileName, "fileName");
+            Code.NotNull(encoding, "encoding");
+
+            StreamReader reader = new StreamReader
+                (
+                    fileName,
+                    encoding
+                );
+            StreamParser result = new StreamParser
+                (
+                    reader,
+                    true
+                );
+
+            return result;
+        }
 
         [NotNull]
         public static StreamParser FromString
@@ -91,7 +179,11 @@ namespace AM.Text
             Code.NotNull(text, "text");
 
             StringReader reader = new StringReader(text);
-            StreamParser result = new StreamParser(reader);
+            StreamParser result = new StreamParser
+                (
+                    reader,
+                    true
+                );
 
             return result;
         }
@@ -186,7 +278,6 @@ namespace AM.Text
             return char.IsWhiteSpace(c);
         }
 
-
         /// <summary>
         /// Peek one character from stream.
         /// </summary>
@@ -205,9 +296,72 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Read fixed point number from stream.
+        /// </summary>
+        public decimal? ReadDecimal
+            (
+                [NotNull] IFormatProvider provider
+            )
+        {
+            Code.NotNull(provider, "provider");
+
+            if (!SkipWhitespace())
+            {
+                return null;
+            }
+
+            StringBuilder result = _ReadNumber();
+
+            return decimal.Parse
+                (
+                    result.ToString(),
+                    provider
+                );
+        }
+
+        /// <summary>
+        /// Read fixed point number from stream.
+        /// </summary>
+        public decimal? ReadDecimal()
+        {
+            return ReadDecimal(CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Read floating point number from stream.
+        /// </summary>
+        public double? ReadDouble
+            (
+                [NotNull] IFormatProvider provider
+            )
+        {
+            Code.NotNull(provider, "provider");
+
+            if (!SkipWhitespace())
+            {
+                return null;
+            }
+
+            StringBuilder result = _ReadNumber();
+
+            return double.Parse
+                (
+                    result.ToString(),
+                    provider
+                );
+        }
+
+        /// <summary>
+        /// Read floating point number from stream.
+        /// </summary>
+        public double? ReadDouble()
+        {
+            return ReadDouble(CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
         /// Read 16-bit signed integer from stream.
         /// </summary>
-        /// <returns></returns>
         [CanBeNull]
         public short? ReadInt16()
         {
@@ -233,7 +387,6 @@ namespace AM.Text
         /// <summary>
         /// Read 32-bit signed integer from stream.
         /// </summary>
-        /// <returns></returns>
         [CanBeNull]
         public int? ReadInt32 ()
         {
@@ -258,7 +411,6 @@ namespace AM.Text
         /// <summary>
         /// Read 64-bit signed integer from stream.
         /// </summary>
-        /// <returns></returns>
         [CanBeNull]
         public long? ReadInt64()
         {
@@ -281,10 +433,42 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Read floating point number from stream.
+        /// </summary>
+        public float? ReadSingle
+            (
+                [NotNull] IFormatProvider provider
+            )
+        {
+            Code.NotNull(provider, "provider");
+
+            if (!SkipWhitespace())
+            {
+                return null;
+            }
+
+            StringBuilder result = _ReadNumber();
+
+            return float.Parse
+                (
+                    result.ToString(),
+                    provider
+                );
+        }
+
+        /// <summary>
+        /// Read floating point number from stream.
+        /// </summary>
+        public float? ReadSingle()
+        {
+            return ReadSingle(CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
         /// Read 16-bit unsigned integer from stream.
         /// </summary>
-        /// <returns></returns>
         [CanBeNull]
+        [CLSCompliant(false)]
         public ushort? ReadUInt16()
         {
             if (!SkipWhitespace())
@@ -304,8 +488,8 @@ namespace AM.Text
         /// <summary>
         /// Read 16-bit unsigned integer from stream.
         /// </summary>
-        /// <returns></returns>
         [CanBeNull]
+        [CLSCompliant(false)]
         public uint? ReadUInt32()
         {
             if (!SkipWhitespace())
@@ -325,8 +509,8 @@ namespace AM.Text
         /// <summary>
         /// Read 64-bit unsigned integer from stream.
         /// </summary>
-        /// <returns></returns>
         [CanBeNull]
+        [CLSCompliant(false)]
         public ulong? ReadUInt64()
         {
             if (!SkipWhitespace())
@@ -420,7 +604,10 @@ namespace AM.Text
         /// </summary>
         public void Dispose()
         {
-            // TODO
+            if (_ownReader)
+            {
+                _reader.Dispose();
+            }
         }
 
         #endregion
