@@ -1,0 +1,13 @@
+﻿IsControl:  U+0000 - U+001F, U+007F, U+0080 - U+009F.
+
+IsDigit: '0' - '9'.
+
+IsNumber: '0' - '9'.
+
+IsPunctuation: U+0021, U+0022, U+0023, U+0025 - U+002A,
+  U+002C - U+002F, U+003A, U+003B, U+003F, U+0040,
+  U+005B - U+005D, U+005F, U+007B, U+007D, U+00A1,
+  U+00AB, U+00AD, U+00B7, U+00BB, U+00BF.
+
+IsWhitespace: SPACE, TAB, LINE FEED, LINE TAB, FORM FEED,
+  CARRIAGE RETURN, NEXT LINE.

@@ -121,6 +121,7 @@
     <Compile Include="AM\Text\Hyphenation\EnglishHyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\Hyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\RussianHyphenator.cs" />
+    <Compile Include="AM\Text\StreamParser.cs" />
     <Compile Include="AM\Text\TextNavigator.cs" />
     <Compile Include="AM\Text\Tokenizer\StringTokenizer.cs" />
     <Compile Include="AM\Text\Tokenizer\Token.cs" />
@@ -209,6 +210,7 @@
     <Folder Include="AM\Threading\Tasks\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AM\Text\Characters.txt" />
     <Content Include="BlueBook.ico" />
   </ItemGroup>
   <ItemGroup>
