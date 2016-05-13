@@ -29,7 +29,80 @@ namespace AM
 
         #endregion
 
-        #region public methods
+        #region Public methods
+
+        /// <summary>
+        /// First or given item of sequence.
+        /// </summary>
+        [CanBeNull]
+        public static T FirstOr<T>
+            (
+                [NotNull] this IEnumerable<T> list,
+                [CanBeNull] T defaultValue
+            )
+        {
+            Code.NotNull(list, "list");
+
+            foreach (T item in list)
+            {
+                return item;
+            }
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// Sequence of one element.
+        /// </summary>
+        [NotNull]
+        public static IEnumerable<T> FromItem<T>
+            (
+                T item
+            )
+        {
+            yield return item;
+        }
+
+        /// <summary>
+        /// Sequence of two items.
+        /// </summary>
+        public static IEnumerable<T> FromItems<T>
+            (
+                T item1,
+                T item2
+            )
+        {
+            yield return item1;
+            yield return item2;
+        }
+
+        /// <summary>
+        /// Sequence of three items.
+        /// </summary>
+        public static IEnumerable<T> FromItems<T>
+            (
+                T item1,
+                T item2,
+                T item3
+            )
+        {
+            yield return item1;
+            yield return item2;
+            yield return item3;
+        }
+
+        /// <summary>
+        /// Make sequence of given items.
+        /// </summary>
+        public static IEnumerable<T> FromItems<T>
+            (
+                params T[] items
+            )
+        {
+            foreach (T item in items)
+            {
+                yield return item;
+            }
+        }
 
         /// <summary>
         /// Отбирает из последовательности только
@@ -174,6 +247,54 @@ namespace AM
                 {
                     break;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Добавляем некоторое действие к каждому
+        /// элементу последовательности.
+        /// </summary>
+
+        [NotNull]
+        public static IEnumerable<T> Tee<T>
+            (
+                [NotNull] this IEnumerable<T> list,
+                [NotNull] Action<T> action
+            )
+        {
+            Code.NotNull(list, "list");
+            Code.NotNull(action, "action");
+
+            foreach (T item in list)
+            {
+                action(item);
+
+                yield return item;
+            }
+        }
+
+        /// <summary>
+        /// Добавляем некоторое действие к каждому
+        /// элементу последовательности.
+        /// </summary>
+
+        [NotNull]
+        public static IEnumerable<T> Tee<T>
+            (
+                [NotNull] this IEnumerable<T> list,
+                [NotNull] Action<int, T> action
+            )
+        {
+            Code.NotNull(list, "list");
+            Code.NotNull(action, "action");
+
+            int index = 0;
+            foreach (T item in list)
+            {
+                action(index, item);
+                index++;
+
+                yield return item;
             }
         }
 
