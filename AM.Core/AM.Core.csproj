@@ -138,6 +138,7 @@
     <Compile Include="AM\Text\Tokenizer\TokenizerException.cs" />
     <Compile Include="AM\Text\Tokenizer\TokenizerSettings.cs" />
     <Compile Include="AM\Text\Tokenizer\TokenKind.cs" />
+    <Compile Include="AM\Text\Transliterator.cs" />
     <Compile Include="AM\Utility.cs" />
     <Compile Include="CodeJam\Code.cs" />
     <Compile Include="CodeJam\CodeExceptions.cs" />
