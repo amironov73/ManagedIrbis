@@ -101,6 +101,41 @@ namespace AM
             return GetItem(list, index, default(T));
         }
 
+        /// <summary>
+        /// Determines whether given object
+        /// is default value.
+        /// </summary>
+        public static bool NotDefault<T>
+            (
+                this T obj
+            )
+        {
+            return !EqualityComparer<T>.Default.Equals
+                (
+                    obj,
+                    default(T)
+                );
+        }
+
+        /// <summary>
+        /// Returns given value instead of
+        /// default(T) if happens.
+        /// </summary>
+        public static T NotDefault<T>
+            (
+                this T obj,
+                T value
+            )
+        {
+            return EqualityComparer<T>.Default.Equals
+                (
+                    obj,
+                    default(T)
+                )
+                ? value
+                : obj;
+        }
+
         #endregion
     }
 }
