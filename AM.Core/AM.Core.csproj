@@ -103,6 +103,8 @@
     <Compile Include="AM\ConsoleUtility.cs" />
     <Compile Include="AM\DelegateUtility.cs" />
     <Compile Include="AM\Diagnostics\ConsoleProcessRunner.cs" />
+    <Compile Include="AM\IO\BinaryReaderUtility.cs" />
+    <Compile Include="AM\IO\BinaryWriterUtility.cs" />
     <Compile Include="AM\IO\DirectoryUtility.cs" />
     <Compile Include="AM\IO\IConsoleOutputReceiver.cs" />
     <Compile Include="AM\IO\IniFile.cs" />

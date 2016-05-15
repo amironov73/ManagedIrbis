@@ -108,6 +108,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AM\IO\BinaryWriterTest.cs" />
     <Compile Include="AM\StringUtiltityTest.cs" />
     <Compile Include="AM\NumberTextTest.cs" />
     <Compile Include="AM\Text\StringTokenizerTest.cs" />
