@@ -139,6 +139,8 @@
     <Compile Include="AM\Text\Tokenizer\TokenizerSettings.cs" />
     <Compile Include="AM\Text\Tokenizer\TokenKind.cs" />
     <Compile Include="AM\Text\Transliterator.cs" />
+    <Compile Include="AM\Threading\Tasks\TaskFactoryUtility.cs" />
+    <Compile Include="AM\Threading\Tasks\TasksUtility.cs" />
     <Compile Include="AM\Utility.cs" />
     <Compile Include="CodeJam\Code.cs" />
     <Compile Include="CodeJam\CodeExceptions.cs" />
@@ -208,7 +210,6 @@
     <Folder Include="AM\Assertions\" />
     <Folder Include="AM\Text\Ranges\35\" />
     <Folder Include="AM\Text\Ranges\40\" />
-    <Folder Include="AM\Threading\Tasks\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AM\Text\Characters.txt" />
