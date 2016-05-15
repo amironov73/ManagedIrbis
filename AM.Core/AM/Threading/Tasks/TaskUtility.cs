@@ -1,4 +1,4 @@
-﻿/* TasksUtility.cs -- 
+﻿/* TaskUtility.cs -- 
  * Ars Magna project, http://arsmagna.ru
  */
 
@@ -21,12 +21,14 @@ using MoonSharp.Interpreter;
 
 namespace AM.Threading.Tasks
 {
+#if FW45
+
     /// <summary>
     /// Extensions for <see cref="Task"/> class.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public static class TasksUtility
+    public static class TaskUtility
     {
         #region Public methods
 
@@ -85,4 +87,6 @@ namespace AM.Threading.Tasks
 
         #endregion
     }
+
+#endif
 }

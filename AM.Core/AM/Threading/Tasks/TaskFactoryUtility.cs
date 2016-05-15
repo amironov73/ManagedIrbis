@@ -21,6 +21,8 @@ using MoonSharp.Interpreter;
 
 namespace AM.Threading.Tasks
 {
+#if FW45
+
     /// <summary>
     /// Extensions for <see cref="TaskFactory"/> class.
     /// </summary>
@@ -76,4 +78,6 @@ namespace AM.Threading.Tasks
 
         #endregion
     }
+
+#endif
 }
