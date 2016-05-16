@@ -112,8 +112,130 @@ namespace AM.IO
         }
 
         /// <summary>
+        /// Read nullable byte.
+        /// </summary>
+        [CanBeNull]
+        public static byte? ReadNullableByte
+            (
+                [NotNull] this BinaryReader reader
+            )
+        {
+            Code.NotNull(() => reader);
+
+            bool flag = reader.ReadBoolean();
+            return flag
+                ? (byte?)reader.ReadByte()
+                : null;
+        }
+
+        /// <summary>
+        /// Read nullable double precision number.
+        /// </summary>
+        [CanBeNull]
+        public static double? ReadNullableDouble
+            (
+                [NotNull] this BinaryReader reader
+            )
+        {
+            Code.NotNull(() => reader);
+
+            bool flag = reader.ReadBoolean();
+            return flag
+                ? (double?)reader.ReadDouble()
+                : null;
+        }
+
+        /// <summary>
+        /// Read nullable decimal.
+        /// </summary>
+        [CanBeNull]
+        public static decimal? ReadNullableDecimal
+            (
+                [NotNull] this BinaryReader reader
+            )
+        {
+            Code.NotNull(() => reader);
+
+            bool flag = reader.ReadBoolean();
+            return flag
+                ? (decimal?)reader.ReadDecimal()
+                : null;
+        }
+
+        /// <summary>
+        /// Read nullable 16-bit integer.
+        /// </summary>
+        [CanBeNull]
+        public static short? ReadNullableInt16
+            (
+                [NotNull] this BinaryReader reader
+            )
+        {
+            Code.NotNull(() => reader);
+
+            bool flag = reader.ReadBoolean();
+            return flag
+                ? (short?)reader.ReadInt16()
+                : null;
+        }
+
+        /// <summary>
+        /// Read nullable 32-bit integer.
+        /// </summary>
+        [CanBeNull]
+        public static int? ReadNullableInt32
+            (
+                [NotNull] this BinaryReader reader
+            )
+        {
+            Code.NotNull(() => reader);
+
+            bool flag = reader.ReadBoolean();
+            return flag
+                ? (int?)reader.ReadInt32()
+                : null;
+        }
+
+        /// <summary>
+        /// Read nullable 64-bit integer.
+        /// </summary>
+        [CanBeNull]
+        public static long? ReadNullableInt64
+            (
+                [NotNull] this BinaryReader reader
+            )
+        {
+            Code.NotNull(() => reader);
+
+            bool flag = reader.ReadBoolean();
+            return flag
+                ? (long?)reader.ReadInt64()
+                : null;
+        }
+
+        /// <summary>
+        /// Read nullable string.
+        /// </summary>
+        [CanBeNull]
+        public static string ReadNullableString
+            (
+                [NotNull] this BinaryReader reader
+            )
+        {
+            Code.NotNull(() => reader);
+
+            bool flag = reader.ReadBoolean();
+            return flag
+                ? reader.ReadString()
+                : null;
+        }
+
+        /// <summary>
         /// Read 32-bit integer in packed format.
         /// </summary>
+        /// <remarks>Borrowed from
+        /// http://referencesource.microsoft.com/
+        /// </remarks>
         public static int ReadPackedInt32
             (
                 [NotNull] this BinaryReader reader
@@ -129,6 +251,29 @@ namespace AM.IO
                     throw new FormatException();
                 }
 
+                b = reader.ReadByte();
+                count |= (b & 0x7F) << shift;
+                shift += 7;
+            } while ((b & 0x80) != 0);
+            return count;
+        }
+
+        /// <summary>
+        /// Read 64-bit integer in packed format.
+        /// </summary>
+        /// <remarks>Inspired by
+        /// http://referencesource.microsoft.com/
+        /// </remarks>
+        public static long ReadPackedInt64
+            (
+                [NotNull] this BinaryReader reader
+            )
+        {
+            long count = 0;
+            int shift = 0;
+            byte b;
+            do
+            {
                 b = reader.ReadByte();
                 count |= (b & 0x7F) << shift;
                 shift += 7;

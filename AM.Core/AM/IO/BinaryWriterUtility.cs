@@ -4,6 +4,7 @@
 
 #region Using directives
 
+using System;
 using System.IO;
 
 using CodeJam;
@@ -25,14 +26,184 @@ namespace AM.IO
     {
         #region Private members
 
-        //private static Encoding _GetUtf8()
-        //{
-        //    return new UTF8Encoding(false,true);
-        //}
-
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Write nullable 8-bit integer.
+        /// </summary>
+        [NotNull]
+        public static BinaryWriter Write
+            (
+                [NotNull] this BinaryWriter writer,
+                [CanBeNull] byte? value
+            )
+        {
+            Code.NotNull(() => writer);
+
+            if (value != null)
+            {
+                writer.Write(true);
+                writer.Write(value.Value);
+            }
+            else
+            {
+                writer.Write(false);
+            }
+
+            return writer;
+        }
+
+        /// <summary>
+        /// Write nullable 16-bit integer.
+        /// </summary>
+        [NotNull]
+        public static BinaryWriter Write
+            (
+                [NotNull] this BinaryWriter writer,
+                [CanBeNull] short? value
+            )
+        {
+            Code.NotNull(() => writer);
+
+            if (value != null)
+            {
+                writer.Write(true);
+                writer.Write(value.Value);
+            }
+            else
+            {
+                writer.Write(false);
+            }
+
+            return writer;
+        }
+
+        /// <summary>
+        /// Write nullable 32-bit integer.
+        /// </summary>
+        [NotNull]
+        public static BinaryWriter Write
+            (
+                [NotNull] this BinaryWriter writer,
+                [CanBeNull] int? value
+            )
+        {
+            Code.NotNull(() => writer);
+
+            if (value != null)
+            {
+                writer.Write(true);
+                writer.Write(value.Value);
+            }
+            else
+            {
+                writer.Write(false);
+            }
+
+            return writer;
+        }
+
+        /// <summary>
+        /// Write nullable 64-bit integer.
+        /// </summary>
+        [NotNull]
+        public static BinaryWriter Write
+            (
+                [NotNull] this BinaryWriter writer,
+                [CanBeNull] long? value
+            )
+        {
+            Code.NotNull(() => writer);
+
+            if (value != null)
+            {
+                writer.Write(true);
+                writer.Write(value.Value);
+            }
+            else
+            {
+                writer.Write(false);
+            }
+
+            return writer;
+        }
+
+        /// <summary>
+        /// Write nullable decimal number.
+        /// </summary>
+        [NotNull]
+        public static BinaryWriter Write
+            (
+                [NotNull] this BinaryWriter writer,
+                [CanBeNull] decimal? value
+            )
+        {
+            Code.NotNull(() => writer);
+
+            if (value != null)
+            {
+                writer.Write(true);
+                writer.Write(value.Value);
+            }
+            else
+            {
+                writer.Write(false);
+            }
+
+            return writer;
+        }
+
+        /// <summary>
+        /// Write nullable DateTime.
+        /// </summary>
+        [NotNull]
+        public static BinaryWriter Write
+            (
+                [NotNull] this BinaryWriter writer,
+                [CanBeNull] DateTime? value
+            )
+        {
+            Code.NotNull(() => writer);
+
+            if (value != null)
+            {
+                writer.Write(true);
+                writer.Write(value.Value);
+            }
+            else
+            {
+                writer.Write(false);
+            }
+
+            return writer;
+        }
+
+        /// <summary>
+        /// Write nullable double precision number.
+        /// </summary>
+        [NotNull]
+        public static BinaryWriter Write
+            (
+                [NotNull] this BinaryWriter writer,
+                [CanBeNull] double? value
+            )
+        {
+            Code.NotNull(() => writer);
+
+            if (value != null)
+            {
+                writer.Write(true);
+                writer.Write(value.Value);
+            }
+            else
+            {
+                writer.Write(false);
+            }
+
+            return writer;
+        }
 
         /// <summary>
         /// Write array of bytes.
@@ -142,8 +313,36 @@ namespace AM.IO
         }
 
         /// <summary>
+        /// Write nullable string.
+        /// </summary>
+        [NotNull]
+        public static BinaryWriter WriteNullable
+            (
+                [NotNull] this BinaryWriter writer,
+                [CanBeNull] string value
+            )
+        {
+            Code.NotNull(() => writer);
+
+            if (value != null)
+            {
+                writer.Write(true);
+                writer.Write(value);
+            }
+            else
+            {
+                writer.Write(false);
+            }
+
+            return writer;
+        }
+
+        /// <summary>
         /// Write 32-bit integer in packed format.
         /// </summary>
+        /// <remarks>Borrowed from
+        /// http://referencesource.microsoft.com/
+        /// </remarks>
         public static BinaryWriter WritePackedInt32
             (
                 [NotNull] this BinaryWriter writer,
@@ -154,6 +353,29 @@ namespace AM.IO
             while (v >= 0x80)
             {
                 writer.Write((byte) (v | 0x80));
+                v >>= 7;
+            }
+            writer.Write((byte)v);
+
+            return writer;
+        }
+
+        /// <summary>
+        /// Write 64-bit integer in packed format.
+        /// </summary>
+        /// <remarks>Inspired by
+        /// http://referencesource.microsoft.com/
+        /// </remarks>
+        public static BinaryWriter WritePackedInt64
+            (
+                [NotNull] this BinaryWriter writer,
+                long value
+            )
+        {
+            ulong v = (ulong)value;
+            while (v >= 0x80)
+            {
+                writer.Write((byte)(v | 0x80));
                 v >>= 7;
             }
             writer.Write((byte)v);
