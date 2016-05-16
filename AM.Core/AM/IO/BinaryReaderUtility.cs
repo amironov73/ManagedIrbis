@@ -271,7 +271,7 @@ namespace AM.IO
         {
             long count = 0;
             int shift = 0;
-            byte b;
+            long b;
             do
             {
                 b = reader.ReadByte();
