@@ -113,6 +113,7 @@
     <Compile Include="AM\NumberTextTest.cs" />
     <Compile Include="AM\Text\StringTokenizerTest.cs" />
     <Compile Include="AM\Text\StreamParserTest.cs" />
+    <Compile Include="AM\TimeSpanUtilityTest.cs" />
     <Compile Include="CodeJam\CodeTest.cs" />
     <Compile Include="ManagedClient\Scripting\IrbisScriptTest.cs" />
     <Compile Include="ManagedClient\SubFieldCollectionTest.cs" />

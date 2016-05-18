@@ -144,6 +144,7 @@
     <Compile Include="AM\Threading\Tasks\AsyncLocal.cs" />
     <Compile Include="AM\Threading\Tasks\TaskFactoryUtility.cs" />
     <Compile Include="AM\Threading\Tasks\TaskUtility.cs" />
+    <Compile Include="AM\TimeSpanUtility.cs" />
     <Compile Include="AM\Utility.cs" />
     <Compile Include="CodeJam\Code.cs" />
     <Compile Include="CodeJam\CodeExceptions.cs" />
