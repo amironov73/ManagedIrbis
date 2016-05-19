@@ -40,6 +40,7 @@ namespace ManagedClient
         /// <value>
         /// The database.
         /// </value>
+        [CanBeNull]
         public string Database { get; set; }
 
         /// <summary>
@@ -62,6 +63,51 @@ namespace ManagedClient
         /// </summary>
         public long PreviousOffset { get; set; }
 
+        /// <summary>
+        /// Поля записи.
+        /// </summary>
+        public RecordFieldCollection Fields
+        {
+            get { return _fields; }
+        }
+
+        /// <summary>
+        /// Признак удалённой записи.
+        /// </summary>
+        public bool Deleted
+        {
+            get { return ((Status & RecordStatus.LogicallyDeleted) != 0); }
+            set
+            {
+                if (value)
+                {
+                    Status |= RecordStatus.LogicallyDeleted;
+                }
+                else
+                {
+                    Status &= ~RecordStatus.LogicallyDeleted;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Библиографическое описание.
+        /// </summary>
+        [CanBeNull]
+        public string Description { get; set; }
+
+        /// <summary>
+        /// Используется при сортировке записей.
+        /// </summary>
+        [CanBeNull]
+        public string SortKey { get; set; }
+
+        /// <summary>
+        /// Произвольные пользовательские данные.
+        /// </summary>
+        [CanBeNull]
+        public object UserData { get; set; }
+
         #endregion
 
         #region Construction
@@ -69,6 +115,9 @@ namespace ManagedClient
         #endregion
 
         #region Private members
+
+        private readonly RecordFieldCollection _fields
+            = new RecordFieldCollection();
 
         #endregion
 

@@ -129,6 +129,7 @@
     <Compile Include="Mapping\SubFieldMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecordField.cs" />
+    <Compile Include="RecordFieldCollection.cs" />
     <Compile Include="RecordReference.cs" />
     <Compile Include="RecordStatus.cs" />
     <Compile Include="Scripting\IrbisScript.cs" />

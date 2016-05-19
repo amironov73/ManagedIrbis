@@ -83,6 +83,7 @@ namespace ManagedClient
         /// <summary>
         /// Значение подполя.
         /// </summary>
+        [CanBeNull]
         [XmlAttribute("value")]
         [JsonProperty("value")]
         public string Value
@@ -97,6 +98,7 @@ namespace ManagedClient
         /// <summary>
         /// Произвольные пользовательские данные.
         /// </summary>
+        [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
         public object UserData
@@ -175,6 +177,7 @@ namespace ManagedClient
                 Code = Code,
                 Value = Value
             };
+
             return result;
         }
 
@@ -231,28 +234,12 @@ namespace ManagedClient
         #region Object members
 
         /// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>A hash code for this instance,
-        /// suitable for use in hashing algorithms
-        /// and data structures like a hash table.
-        /// </returns>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int valueHash = _value != null
-                    ? _value.GetHashCode()
-                    : 0;
-                return (valueHash*397) ^ Code.GetHashCode();
-            }
-        }
-
-        /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// Returns a <see cref="System.String" />
+        /// that represents this instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
+        /// A <see cref="System.String" />
+        /// that represents this instance.
         /// </returns>
         public override string ToString()
         {

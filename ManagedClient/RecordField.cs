@@ -56,6 +56,7 @@ namespace ManagedClient
         /// <summary>
         /// Метка поля.
         /// </summary>
+        [CanBeNull]
         [XmlAttribute("tag")]
         [JsonProperty("tag")]
         public string Tag { get; set; }
@@ -92,6 +93,7 @@ namespace ManagedClient
         /// <summary>
         /// Список подполей.
         /// </summary>
+        [NotNull]
         [XmlElement("subfield")]
         [JsonProperty("subfields")]
         public SubFieldCollection SubFields
@@ -102,6 +104,7 @@ namespace ManagedClient
         /// <summary>
         /// Произвольные пользовательские данные.
         /// </summary>
+        [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
         public object UserData
@@ -116,6 +119,7 @@ namespace ManagedClient
         /// перед передачей в скрипты.
         /// Всё остальное время неактуально.
         /// </summary>
+        [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
         [NonSerialized]
@@ -168,7 +172,7 @@ namespace ManagedClient
         [NonSerialized]
         private object _userData;
 
-        private static void AddSubField
+        private static void _AddSubField
             (
                 RecordField field,
                 char code,
