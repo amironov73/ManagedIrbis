@@ -100,8 +100,15 @@ namespace IrbisUI
 
         #region AbstractOutput members
 
+        /// <summary>
+        /// Флаг: был ли вывод с помощью WriteError.
+        /// </summary>
         public override bool HaveError { get; set; }
 
+        /// <summary>
+        /// Очищает вывод, например, окно.
+        /// Надо переопределить в потомке.
+        /// </summary>
         public override AbstractOutput Clear()
         {
             HaveError = false;
@@ -115,6 +122,10 @@ namespace IrbisUI
             return this;
         }
 
+        /// <summary>
+        /// Конфигурирование объекта.
+        /// Надо переопределить в потомке.
+        /// </summary>
         public override AbstractOutput Configure
             (
                 string configuration
@@ -124,6 +135,10 @@ namespace IrbisUI
             return this;
         }
 
+        /// <summary>
+        /// Метод, который нужно переопределить
+        /// в потомке.
+        /// </summary>
         public override AbstractOutput Write
             (
                 string text
@@ -133,7 +148,14 @@ namespace IrbisUI
             return this;
         }
 
-        public override AbstractOutput WriteError(string text)
+        /// <summary>
+        /// Выводит ошибку. Например, красным цветом.
+        /// Надо переопределить в потомке.
+        /// </summary>
+        public override AbstractOutput WriteError
+            (
+                string text
+            )
         {
             HaveError = true;
             AppendText(text);

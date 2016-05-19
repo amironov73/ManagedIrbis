@@ -10,6 +10,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 
+using JetBrains.Annotations;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -76,10 +78,15 @@ namespace ManagedClient
 
         #region Collection<T> members
 
+        /// <summary>
+        /// Inserts an element into the
+        /// <see cref="T:System.Collections.ObjectModel.Collection`1" />
+        /// at the specified index.
+        /// </summary>
         protected override void InsertItem
             (
                 int index,
-                RecordField item
+                [NotNull] RecordField item
             )
         {
             if (ReferenceEquals(item, null))
@@ -90,10 +97,13 @@ namespace ManagedClient
             base.InsertItem(index, item);
         }
 
+        /// <summary>
+        /// Replaces the element at the specified index.
+        /// </summary>
         protected override void SetItem
             (
                 int index,
-                RecordField item
+                [NotNull] RecordField item
             )
         {
             if (ReferenceEquals(item, null))
