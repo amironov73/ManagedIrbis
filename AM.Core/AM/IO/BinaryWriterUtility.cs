@@ -7,6 +7,8 @@
 using System;
 using System.IO;
 
+using AM.Runtime;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -307,6 +309,30 @@ namespace AM.IO
             for (int i = 0; i < array.Length; i++)
             {
                 writer.Write(array[i]);
+            }
+
+            return writer;
+        }
+
+        /// <summary>
+        /// Write the array.
+        /// </summary>
+        [NotNull]
+        public static BinaryWriter WriteArray<T>
+            (
+                [NotNull] this BinaryWriter writer,
+                [NotNull][ItemNotNull] T[] array
+            )
+            where T: IHandmadeSerializable, new ()
+        {
+            Code.NotNull(() => writer);
+            Code.NotNull(() => array);
+
+            writer.WritePackedInt32(array.Length);
+            for (int i = 0; i < array.Length; i++)
+            {
+                T item = array[i];
+                item.SaveToStream(writer);
             }
 
             return writer;

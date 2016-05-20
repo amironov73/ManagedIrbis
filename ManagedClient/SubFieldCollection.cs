@@ -8,7 +8,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+
+using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -30,7 +34,8 @@ namespace ManagedClient
     [MoonSharpUserData]
     [DebuggerDisplay("Count={Count}")]
     public sealed class SubFieldCollection
-        : Collection<SubField>
+        : Collection<SubField>,
+        IHandmadeSerializable
     {
         #region Public methods
 
@@ -116,6 +121,38 @@ namespace ManagedClient
             Code.NotNull(item, "item");
 
             base.SetItem(index, item);
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Просим объект восстановить свое состояние из потока.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(() => reader);
+
+            ClearItems();
+            SubField[] array = reader.ReadArray<SubField>();
+            AddRange(array);
+        }
+
+        /// <summary>
+        /// Просим объект сохранить себя в потоке.
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(() => writer);
+
+            writer.WriteArray(this.ToArray());
         }
 
         #endregion

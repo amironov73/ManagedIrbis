@@ -118,6 +118,7 @@
     <Compile Include="AM\Reflection\PropertyOrField.cs" />
     <Compile Include="AM\Reflection\ReflectionUtility.cs" />
     <Compile Include="AM\Resources\LocalizationManager.cs" />
+    <Compile Include="AM\Runtime\IHandmadeSerializable.cs" />
     <Compile Include="AM\Runtime\NumberUnion.cs" />
     <Compile Include="AM\Runtime\SerializationUtility.cs" />
     <Compile Include="AM\Text\Hyphenation\EnglishHyphenator.cs" />
@@ -211,12 +212,12 @@
     </When>
   </Choose>
   <ItemGroup>
-    <Folder Include="AM\Assertions\" />
     <Folder Include="AM\Text\Ranges\35\" />
     <Folder Include="AM\Text\Ranges\40\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AM\Text\Characters.txt" />
+    <None Include="AM\Assertions\empty.txt" />
     <Content Include="BlueBook.ico" />
   </ItemGroup>
   <ItemGroup>

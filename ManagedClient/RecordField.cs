@@ -5,14 +5,14 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using AM;
+using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -35,6 +35,7 @@ namespace ManagedClient
     [MoonSharpUserData]
     [DebuggerDisplay("Tag={Tag} Value={Value}")]
     public sealed class RecordField
+        : IHandmadeSerializable
     {
         #region Constants
 
@@ -60,6 +61,24 @@ namespace ManagedClient
         [XmlAttribute("tag")]
         [JsonProperty("tag")]
         public string Tag { get; set; }
+
+        /// <summary>
+        /// Первый индикатор.
+        /// </summary>
+        [NotNull]
+        public FieldIndicator Indicator1
+        {
+            get { return _indicator1; }
+        }
+
+        /// <summary>
+        /// Второй индикатор.
+        /// </summary>
+        [NotNull]
+        public FieldIndicator Indicator2
+        {
+            get { return _indicator2; }
+        }
 
         /// <summary>
         /// Повторение поля.
@@ -163,6 +182,10 @@ namespace ManagedClient
         #endregion
 
         #region Private members
+
+        private readonly FieldIndicator
+            _indicator1 = new FieldIndicator(),
+            _indicator2 = new FieldIndicator();
 
         private string _value;
 
@@ -290,6 +313,44 @@ namespace ManagedClient
             }
 
             return this;
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Просим объект восстановить свое состояние из потока.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(() => reader);
+
+            Tag = reader.ReadNullableString();
+            Indicator1.RestoreFromStream(reader);
+            Indicator2.RestoreFromStream(reader);
+            Value = reader.ReadNullableString();
+            SubFields.RestoreFromStream(reader);
+        }
+
+        /// <summary>
+        /// Просим объект сохранить себя в потоке.
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(() => writer);
+
+            writer.WriteNullable(Tag);
+            Indicator1.SaveToStream(writer);
+            Indicator2.SaveToStream(writer);
+            writer.WriteNullable(Value);
+            SubFields.SaveToStream(writer);
         }
 
         #endregion

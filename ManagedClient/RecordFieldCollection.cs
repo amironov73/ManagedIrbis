@@ -7,9 +7,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-
+using AM.IO;
+using AM.Runtime;
+using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -27,7 +30,8 @@ namespace ManagedClient
     [MoonSharpUserData]
     [ClassInterface(ClassInterfaceType.None)]
     public sealed class RecordFieldCollection
-        : Collection<RecordField>
+        : Collection<RecordField>,
+        IHandmadeSerializable
     {
         #region Public methods
 
@@ -112,6 +116,38 @@ namespace ManagedClient
             }
 
             base.SetItem(index, item);
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Просим объект восстановить свое состояние из потока.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(() => reader);
+
+            ClearItems();
+            RecordField[] array = reader.ReadArray<RecordField>();
+            AddRange(array);
+        }
+
+        /// <summary>
+        /// Просим объект сохранить себя в потоке.
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(() => writer);
+
+            writer.WriteArray(this.ToArray());
         }
 
         #endregion

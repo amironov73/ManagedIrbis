@@ -1,13 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/* SerializationUtility.cs -- сериализация
+ * Ars Magna project, http://arsmagna.ru
+ */
+
+#region Using directives
+
+using System;
 using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO.Compression;
+
+using AM.IO;
+
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
+#endregion
 
 namespace AM.Runtime
 {
+    /// <summary>
+    /// Хелперы, связанные с сериализацией и десериализацией.
+    /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public static class SerializationUtility
     {
         #region Private members
@@ -16,80 +33,277 @@ namespace AM.Runtime
         #region Public methods
 
         /// <summary>
-        /// Deserialize object from byte array.
+        /// Считывание массива из потока.
         /// </summary>
-        /// <typeparam name="T">Type of object.</typeparam>
-        /// <param name="bytes">Array of bytes.</param>
-        /// <returns>Deserialized object.</returns>
-        [CLSCompliant(false)]
-        public static T BinDeserialize<T>(byte[] bytes)
+        [CanBeNull]
+        [ItemNotNull]
+        public static T[] RestoreArray<T>
+            (
+                [NotNull] this BinaryReader reader
+            )
+            where T: IHandmadeSerializable, new()
         {
-            MemoryStream stream = new MemoryStream(bytes, false);
-            return BinDeserialize<T>(stream);
+            bool isNull = !reader.ReadBoolean();
+            if (isNull)
+            {
+                return null;
+            }
+
+            int count = reader.ReadPackedInt32();
+            T[] result = new T[count];
+            for (int i = 0; i < count; i++)
+            {
+                T item = new T();
+                item.RestoreFromStream(reader);
+                result[i] = item;
+            }
+
+            return result;
         }
 
         /// <summary>
-        /// Deserialize object from disk file.
+        /// Считывание массива из файла.
         /// </summary>
-        /// <typeparam name="T">Type of object.</typeparam>
-        /// <param name="fileName">File name.</param>
-        /// <returns>Deseriazlized object.</returns>
-        [CLSCompliant(false)]
-        public static T BinDeserialize<T>(string fileName)
+        [CanBeNull]
+        [ItemNotNull]
+        public static T[] RestoreFromFile<T>
+            (
+                [NotNull] string fileName
+            )
+            where T: IHandmadeSerializable, new()
         {
             using (Stream stream = File.OpenRead(fileName))
+            using (BinaryReader reader = new BinaryReader(stream))
             {
-                return BinDeserialize<T>(stream);
+                return reader.RestoreArray<T>();
             }
         }
 
         /// <summary>
-        /// Deserialize object from stream.
+        /// Считывание массива из файла.
         /// </summary>
-        /// <typeparam name="T">Type of object.</typeparam>
-        /// <param name="stream">Stream.</param>
-        /// <returns>Deserialized object.</returns>
-        [CLSCompliant(false)]
-        public static T BinDeserialize<T>(Stream stream)
+        [CanBeNull]
+        [ItemNotNull]
+        public static T[] RestoreFromZipFile<T>
+            (
+                [NotNull] string fileName
+            )
+            where T: IHandmadeSerializable, new ()
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            return (T)formatter.Deserialize(stream);
+            using (Stream stream = File.OpenRead(fileName))
+            using (DeflateStream deflate = new DeflateStream
+                (
+                    stream,
+                    CompressionMode.Decompress
+                ))
+            using (BinaryReader reader = new BinaryReader(deflate))
+            {
+                return reader.RestoreArray<T>();
+            }
         }
 
         /// <summary>
-        /// Serialize object to stream.
+        /// Считывание массива из памяти.
         /// </summary>
-        /// <param name="stream">Stream.</param>
-        /// <param name="obj">Object.</param>
-        public static void BinSerialize(Stream stream, object obj)
+        public static T[] RestoreFromMemory<T>
+            (
+                [NotNull] this byte[] array
+            )
+            where T: IHandmadeSerializable, new ()
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(stream, obj);
+            using (Stream stream = new MemoryStream(array))
+            using (BinaryReader reader = new BinaryReader(stream))
+            {
+                return reader.RestoreArray<T>();
+            }
         }
 
         /// <summary>
-        /// Serialize object to disk file.
+        /// Считывание массива из памяти.
         /// </summary>
-        /// <param name="fileName">File name.</param>
-        /// <param name="obj">Object.</param>
-        public static void BinSerialize(string fileName, object obj)
+        public static T[] RestoreFromZipMemory<T>
+            (
+                [NotNull] this byte[] array,
+                [NotNull] Func<BinaryReader, T> func
+            )
+            where T: IHandmadeSerializable, new ()
         {
+            using (Stream stream = new MemoryStream(array))
+            using (DeflateStream deflate = new DeflateStream
+                (
+                    stream,
+                    CompressionMode.Decompress
+                ))
+            using (BinaryReader reader = new BinaryReader(deflate))
+            {
+                return reader.RestoreArray<T>();
+            }
+        }
+
+        /// <summary>
+        /// Считывание из потока обнуляемого объекта.
+        /// </summary>
+        [CanBeNull]
+        public static T RestoreNullable<T>
+            (
+                [NotNull] this BinaryReader reader
+            )
+            where T : class, IHandmadeSerializable, new()
+        {
+            Code.NotNull(() => reader);
+
+            bool isNull = !reader.ReadBoolean();
+            if (isNull)
+            {
+                return null;
+            }
+
+            T result = new T();
+            result.RestoreFromStream(reader);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Сохранение в поток массива элементов.
+        /// </summary>
+        public static void SaveToStream<T>
+            (
+                [CanBeNull][ItemNotNull] this T[] array,
+                [NotNull] BinaryWriter writer
+            )
+            where T : IHandmadeSerializable
+        {
+            Code.NotNull(() => writer);
+
+            if (ReferenceEquals(array, null))
+            {
+                writer.Write(false);
+            }
+            else
+            {
+                writer.Write(true);
+                writer.WritePackedInt32(array.Length);
+                foreach (T item in array)
+                {
+                    item.SaveToStream(writer);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Сохранение в файл массива объектов,
+        /// умеющих сериализоваться вручную.
+        /// </summary>
+        public static void SaveToFile<T>
+            (
+                [NotNull] [ItemNotNull] this T[] array,
+                [NotNull] string fileName
+            )
+            where T : IHandmadeSerializable
+        {
+            Code.NotNull(() => array);
+            Code.NotNullNorEmpty(() => fileName);
+
             using (Stream stream = File.Create(fileName))
+            using (BinaryWriter writer = new BinaryWriter(stream))
             {
-                BinSerialize(stream, obj);
+                array.SaveToStream(writer);
             }
         }
 
         /// <summary>
-        /// Serialize object to byte array.
+        /// Сохранение массива объектов.
         /// </summary>
-        /// <param name="obj">Object.</param>
-        /// <returns>Array of bytes.</returns>
-        public static byte[] BinSerialize(object obj)
+        public static byte[] SaveToMemory<T>
+            (
+                [NotNull][ItemNotNull] this T[] array
+            )
+            where T : IHandmadeSerializable
         {
-            MemoryStream stream = new MemoryStream();
-            BinSerialize(stream, obj);
-            return stream.ToArray();
+            Code.NotNull(() => array);
+
+            using (MemoryStream stream = new MemoryStream())
+            using (BinaryWriter writer = new BinaryWriter(stream))
+            {
+                array.SaveToStream(writer);
+                return stream.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Сохранение в файл массива объектов
+        /// с одновременной упаковкой.
+        /// </summary>
+        public static void SaveToZipFile<T>
+            (
+                [NotNull] [ItemNotNull] this T[] array,
+                [NotNull] string fileName
+            )
+            where T : IHandmadeSerializable
+        {
+            Code.NotNull(() => array);
+            Code.NotNullNorEmpty(() => fileName);
+
+            using (Stream stream = File.Create(fileName))
+            using (DeflateStream deflate = new DeflateStream
+                (
+                    stream,
+                    CompressionMode.Compress
+                ))
+            using (BinaryWriter writer = new BinaryWriter(deflate))
+            {
+                array.SaveToStream(writer);
+            }
+        }
+
+        /// <summary>
+        /// Сохранение массива объектов.
+        /// </summary>
+        public static byte[] SaveToZipMemory<T>
+            (
+                [NotNull][ItemNotNull] this T[] array
+            )
+            where T : IHandmadeSerializable
+        {
+            Code.NotNull(() => array);
+
+            using (MemoryStream stream = new MemoryStream())
+            using (DeflateStream deflate = new DeflateStream
+                (
+                    stream,
+                    CompressionMode.Compress
+                ))
+            using (BinaryWriter writer = new BinaryWriter(deflate))
+            {
+                array.SaveToStream(writer);
+                return stream.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Сохранение в поток обнуляемого объекта.
+        /// </summary>
+        public static BinaryWriter WriteNullable<T>
+            (
+                [NotNull] this BinaryWriter writer,
+                [CanBeNull] T obj
+            )
+            where T : class, IHandmadeSerializable
+        {
+            Code.NotNull(() => writer);
+
+            if (ReferenceEquals(obj, null))
+            {
+                writer.Write(false);
+            }
+            else
+            {
+                writer.Write(true);
+                obj.SaveToStream(writer);
+            }
+
+            return writer;
         }
 
         #endregion

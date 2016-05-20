@@ -6,7 +6,11 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Xml.Serialization;
+
+using AM.IO;
+using AM.Runtime;
 
 using JetBrains.Annotations;
 
@@ -27,6 +31,7 @@ namespace ManagedClient
     [MoonSharpUserData]
     [DebuggerDisplay("Code={Code}, Value={Value}")]
     public sealed class SubField
+        : IHandmadeSerializable
     {
         #region Constants
 
@@ -227,6 +232,38 @@ namespace ManagedClient
                 }
             }
             _value = value;
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Просим объект восстановить свое состояние из потока.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            CodeJam.Code.NotNull(() => reader);
+
+            CodeString = reader.ReadNullableString();
+            Value = reader.ReadNullableString();
+        }
+
+        /// <summary>
+        /// Просим объект сохранить себя в потоке.
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            CodeJam.Code.NotNull(() => writer);
+
+            writer.WriteNullable(CodeString);
+            writer.WriteNullable(Value);
         }
 
         #endregion

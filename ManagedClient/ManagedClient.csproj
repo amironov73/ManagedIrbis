@@ -111,6 +111,7 @@
     <Compile Include="Direct\NodeItem.cs" />
     <Compile Include="Direct\NodeLeader.cs" />
     <Compile Include="Direct\NodeRecord.cs" />
+    <Compile Include="FieldIndicator.cs" />
     <Compile Include="IrbisAlphabetTable.cs" />
     <Compile Include="IrbisClientInfo.cs" />
     <Compile Include="IrbisDatabaseInfo.cs" />
@@ -120,10 +121,12 @@
     <Compile Include="IrbisPath.cs" />
     <Compile Include="IrbisProcessInfo.cs" />
     <Compile Include="IrbisRecord.cs" />
+    <Compile Include="IrbisRecordUtility.cs" />
     <Compile Include="IrbisReturnCode.cs" />
     <Compile Include="IrbisUpperCaseTable.cs" />
     <Compile Include="IrbisVersion.cs" />
     <Compile Include="ManagedClient64.cs" />
+    <Compile Include="ManagedClientUtility.cs" />
     <Compile Include="Mapping\FieldAttribute.cs" />
     <Compile Include="Mapping\SubFieldAttribute.cs" />
     <Compile Include="Mapping\SubFieldMapper.cs" />

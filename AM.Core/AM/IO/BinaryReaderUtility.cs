@@ -7,6 +7,8 @@
 using System;
 using System.IO;
 
+using AM.Runtime;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -29,6 +31,29 @@ namespace AM.IO
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Read array from stream
+        /// </summary>
+        public static T[] ReadArray<T>
+            (
+                [NotNull] this BinaryReader reader
+            )
+            where T: IHandmadeSerializable, new()
+        {
+            Code.NotNull(() => reader);
+
+            int count = reader.ReadPackedInt32();
+            T[] result = new T[count];
+            for (int i = 0; i < count; i++)
+            {
+                T item = new T();
+                item.RestoreFromStream(reader);
+                result[i] = item;
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Read array of bytes.

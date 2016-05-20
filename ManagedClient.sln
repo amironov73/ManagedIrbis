@@ -15,6 +15,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoonIrbis", "MoonIrbis\Moon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Rfid", "AM.Rfid\AM.Rfid.csproj", "{51481C63-5D59-4AE1-927A-C94276B63C72}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{034D2184-D20E-4AF5-A8E1-88E447936881}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestData", "TestData", "{7AB1D380-3D8D-4FCF-8B17-DCEA98B4B2B7}"
+	ProjectSection(SolutionItems) = preProject
+		TestData\IniFile1.ini = TestData\IniFile1.ini
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +55,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7AB1D380-3D8D-4FCF-8B17-DCEA98B4B2B7} = {034D2184-D20E-4AF5-A8E1-88E447936881}
 	EndGlobalSection
 EndGlobal

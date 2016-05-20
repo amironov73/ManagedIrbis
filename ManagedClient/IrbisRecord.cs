@@ -7,9 +7,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -31,6 +35,7 @@ namespace ManagedClient
     [MoonSharpUserData]
     [DebuggerDisplay("[{Database}] MFN={Mfn} ({Version})")]
     public sealed class IrbisRecord
+        : IHandmadeSerializable
     {
         #region Properties
 
@@ -122,6 +127,48 @@ namespace ManagedClient
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Просим объект восстановить свое состояние из потока.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(() => reader);
+
+            Database = reader.ReadNullableString();
+            Mfn = reader.ReadPackedInt32();
+            Status = (RecordStatus) reader.ReadByte();
+            Version = reader.ReadPackedInt32();
+            Fields.RestoreFromStream(reader);
+            Description = reader.ReadNullableString();
+            SortKey = reader.ReadNullableString();
+        }
+
+        /// <summary>
+        /// Просим объект сохранить себя в потоке.
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(() => writer);
+
+            writer.WriteNullable(Database);
+            writer.WritePackedInt32(Mfn);
+            writer.Write((byte) Status);
+            writer.WritePackedInt32(Version);
+            Fields.SaveToStream(writer);
+            writer.WriteNullable(Description);
+            writer.WriteNullable(SortKey);
+        }
 
         #endregion
 
