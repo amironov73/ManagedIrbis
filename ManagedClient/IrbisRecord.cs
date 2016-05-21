@@ -128,6 +128,47 @@ namespace ManagedClient
 
         #region Public methods
 
+        /// <summary>
+        /// Compares two records.
+        /// </summary>
+        public static int Compare
+            (
+                [NotNull] IrbisRecord record1,
+                [NotNull] IrbisRecord record2
+            )
+        {
+            Code.NotNull(() => record1);
+            Code.NotNull(() => record2);
+
+            int result = (int) record1.Status - (int) record2.Status;
+            if (result != 0)
+            {
+                return result;
+            }
+            result = record1.Fields.Count - record2.Fields.Count;
+            if (result != 0)
+            {
+                return result;
+            }
+            for (int i = 0; i < record1.Fields.Count; i++)
+            {
+                RecordField field1 = record1.Fields[i];
+                RecordField field2 = record2.Fields[i];
+
+                result = RecordField.Compare
+                    (
+                        field1,
+                        field2
+                    );
+                if (result != 0)
+                {
+                    return result;
+                }
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region IHandmadeSerializable members

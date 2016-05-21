@@ -187,7 +187,7 @@ namespace ManagedClient
         }
 
         /// <summary>
-        /// Compares the specified sub field1.
+        /// Compares the specified subfields.
         /// </summary>
         public static int Compare
             (
@@ -209,6 +209,7 @@ namespace ManagedClient
                     subField1.Value,
                     subField2.Value
                 );
+
             return result;
         }
 

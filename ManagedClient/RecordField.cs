@@ -179,6 +179,19 @@ namespace ManagedClient
             Value = value;
         }
 
+        /// <summary>
+        /// Конструктор с подполями.
+        /// </summary>
+        public RecordField
+            (
+                [CanBeNull] string tag,
+                [ItemNotNull] params SubField[] subFields
+            )
+        {
+            Tag = tag;
+            SubFields.AddRange(subFields);
+        }
+
         #endregion
 
         #region Private members
@@ -278,6 +291,65 @@ namespace ManagedClient
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Compares the specified fields.
+        /// </summary>
+        public static int Compare
+            (
+                [NotNull] RecordField field1,
+                [NotNull] RecordField field2
+            )
+        {
+            Code.NotNull(field1, "field1");
+            Code.NotNull(field2, "field2");
+
+            int result = string.CompareOrdinal
+                (
+                    field1.Tag,
+                    field2.Tag
+                );
+            if (result != 0)
+            {
+                return result;
+            }
+
+            result = string.CompareOrdinal
+                (
+                    field1.Value,
+                    field2.Value
+                );
+            if (result != 0)
+            {
+                return result;
+            }
+
+            result = field1.SubFields.Count
+                - field2.SubFields.Count;
+            if (result != 0)
+            {
+                return result;
+            }
+
+            for (int i = 0; i < field1.SubFields.Count; i++)
+            {
+                SubField subField1 = field1.SubFields[i];
+                SubField subField2 = field2.SubFields[i];
+
+                result = SubField.Compare
+                    (
+                        subField1,
+                        subField2
+                    );
+                if (result != 0)
+                {
+                    return result;
+                }
+            }
+
+            return result;
+        }
+
 
         /// <summary>
         /// Установка нового значения.

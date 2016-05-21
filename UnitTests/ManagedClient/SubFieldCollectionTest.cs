@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using AM.Runtime;
+
 using ManagedClient;
 
 namespace UnitTests
@@ -9,7 +11,7 @@ namespace UnitTests
     public class SubFieldCollectionTest
     {
         [TestMethod]
-        public void TestSubFieldCollection()
+        public void TestSubFieldCollectionConstruction()
         {
             SubFieldCollection collection =
                 new SubFieldCollection
@@ -19,6 +21,51 @@ namespace UnitTests
                     new SubField('b', "Value")
                 };
             Assert.AreEqual(3, collection.Count);
+        }
+
+        private void _TestSerialization
+            (
+                params SubField[] subFields
+            )
+        {
+            SubFieldCollection collection1 = new SubFieldCollection();
+            collection1.AddRange(subFields);
+
+            //collection1.SaveToFile("collection1.bin");
+            //collection1.SaveToZipFile("collection1.biz");
+
+            byte[] bytes = collection1.SaveToMemory();
+
+            SubFieldCollection collection2 = bytes
+                    .RestoreObjectFromMemory <SubFieldCollection>();
+
+            Assert.AreEqual(collection1.Count, collection2.Count);
+
+            for (int i = 0; i < collection1.Count; i++)
+            {
+                Assert.AreEqual
+                    (
+                        0,
+                        SubField.Compare
+                        (
+                            collection1[i],
+                            collection2[i]
+                        )
+                    );
+            }
+        }
+
+        [TestMethod]
+        public void TestSubFieldCollectionSerialization()
+        {
+            _TestSerialization();
+
+            _TestSerialization
+                (
+                    new SubField(),
+                    new SubField('a'),
+                    new SubField('b', "Hello")
+                );
         }
 
         [TestMethod]
@@ -32,6 +79,7 @@ namespace UnitTests
                     null,
                     new SubField('a')
                 };
+            Assert.AreEqual(2, collection.Count);
         }
     }
 }

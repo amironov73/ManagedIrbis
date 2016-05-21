@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using AM.Runtime;
+
 using ManagedClient;
 
 namespace UnitTests
@@ -9,12 +11,12 @@ namespace UnitTests
     public class SubFieldTest
     {
         [TestMethod]
-        public void TestSubField()
+        public void TestSubFieldConstructor()
         {
             SubField subField = new SubField();
             Assert.AreEqual(SubField.NoCode, subField.Code);
             Assert.AreEqual(SubField.NoCodeString, subField.CodeString);
-            Assert.AreEqual(null,subField.Value);
+            Assert.AreEqual(null, subField.Value);
             Assert.AreEqual("^\0", subField.ToString());
 
             subField = new SubField('A', "The value");
@@ -28,12 +30,45 @@ namespace UnitTests
             Assert.AreEqual(subField.CodeString, clone.CodeString);
             Assert.AreEqual(subField.Value, clone.Value);
             Assert.AreEqual("^AThe value", clone.ToString());
-            Assert.AreEqual(0,SubField.Compare(subField,clone));
+            Assert.AreEqual(0, SubField.Compare(subField, clone));
 
             subField.SetValue("New value");
             Assert.AreEqual("New value", subField.Value);
             subField.SetValue(null);
             Assert.AreEqual(null, subField.Value);
+        }
+
+        private void _TestSerialization
+            (
+                params SubField[] subFields
+            )
+        {
+            SubField[] array1 = subFields;
+            byte[] bytes = array1.SaveToMemory();
+
+            SubField[] array2 = bytes
+                    .RestoreArrayFromMemory<SubField>();
+
+            Assert.AreEqual(array1.Length, array2.Length);
+            for (int i = 0; i < array1.Length; i++)
+            {
+                Assert.AreEqual
+                    (
+                        0,
+                        SubField.Compare(array1[i], array2[i])
+                    );
+            }
+        }
+
+        [TestMethod]
+        public void TestSubFieldSerialization()
+        {
+            _TestSerialization(new SubField[0]);
+            _TestSerialization(new SubField());
+            _TestSerialization(new SubField(), new SubField());
+            _TestSerialization(new SubField('a'), new SubField('b'));
+            _TestSerialization(new SubField('a', "Hello"),
+                new SubField('b', "World"));
         }
 
         [TestMethod]

@@ -4,7 +4,6 @@
 
 #region Using directives
 
-using System;
 using System.IO;
 using System.IO.Compression;
 
@@ -41,7 +40,7 @@ namespace AM.Runtime
             (
                 [NotNull] this BinaryReader reader
             )
-            where T: IHandmadeSerializable, new()
+            where T : IHandmadeSerializable, new()
         {
             bool isNull = !reader.ReadBoolean();
             if (isNull)
@@ -66,11 +65,11 @@ namespace AM.Runtime
         /// </summary>
         [CanBeNull]
         [ItemNotNull]
-        public static T[] RestoreFromFile<T>
+        public static T[] RestoreArrayFromFile<T>
             (
                 [NotNull] string fileName
             )
-            where T: IHandmadeSerializable, new()
+            where T : IHandmadeSerializable, new()
         {
             using (Stream stream = File.OpenRead(fileName))
             using (BinaryReader reader = new BinaryReader(stream))
@@ -84,11 +83,11 @@ namespace AM.Runtime
         /// </summary>
         [CanBeNull]
         [ItemNotNull]
-        public static T[] RestoreFromZipFile<T>
+        public static T[] RestoreArrayFromZipFile<T>
             (
                 [NotNull] string fileName
             )
-            where T: IHandmadeSerializable, new ()
+            where T : IHandmadeSerializable, new()
         {
             using (Stream stream = File.OpenRead(fileName))
             using (DeflateStream deflate = new DeflateStream
@@ -105,29 +104,32 @@ namespace AM.Runtime
         /// <summary>
         /// Считывание массива из памяти.
         /// </summary>
-        public static T[] RestoreFromMemory<T>
+        public static T[] RestoreArrayFromMemory<T>
             (
                 [NotNull] this byte[] array
             )
-            where T: IHandmadeSerializable, new ()
+            where T : IHandmadeSerializable, new()
         {
+            Code.NotNull(() => array);
+
             using (Stream stream = new MemoryStream(array))
             using (BinaryReader reader = new BinaryReader(stream))
             {
-                return reader.RestoreArray<T>();
+                return reader.ReadArray<T>();
             }
         }
 
         /// <summary>
         /// Считывание массива из памяти.
         /// </summary>
-        public static T[] RestoreFromZipMemory<T>
+        public static T[] RestoreArrayFromZipMemory<T>
             (
-                [NotNull] this byte[] array,
-                [NotNull] Func<BinaryReader, T> func
+                [NotNull] this byte[] array
             )
-            where T: IHandmadeSerializable, new ()
+            where T : IHandmadeSerializable, new()
         {
+            Code.NotNull(() => array);
+
             using (Stream stream = new MemoryStream(array))
             using (DeflateStream deflate = new DeflateStream
                 (
@@ -136,7 +138,7 @@ namespace AM.Runtime
                 ))
             using (BinaryReader reader = new BinaryReader(deflate))
             {
-                return reader.RestoreArray<T>();
+                return reader.ReadArray<T>();
             }
         }
 
@@ -162,6 +164,69 @@ namespace AM.Runtime
             result.RestoreFromStream(reader);
 
             return result;
+        }
+
+        /// <summary>
+        /// Считывание объекта из файла.
+        /// </summary>
+        [NotNull]
+        public static T RestoreObjectFromFile<T>
+            (
+                [NotNull] string fileName
+            )
+            where T : IHandmadeSerializable, new()
+        {
+            using (Stream stream = File.OpenRead(fileName))
+            using (BinaryReader reader = new BinaryReader(stream))
+            {
+                T result = new T();
+                result.RestoreFromStream(reader);
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Считывание объекта из файла.
+        /// </summary>
+        [NotNull]
+        public static T RestoreObjectFromZipFile<T>
+            (
+                [NotNull] string fileName
+            )
+            where T : IHandmadeSerializable, new()
+        {
+            using (Stream stream = File.OpenRead(fileName))
+            using (DeflateStream deflate = new DeflateStream
+                (
+                    stream,
+                    CompressionMode.Decompress
+                ))
+            using (BinaryReader reader = new BinaryReader(deflate))
+            {
+                T result = new T();
+                result.RestoreFromStream(reader);
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Считывание объекта из памяти.
+        /// </summary>
+        public static T RestoreObjectFromMemory<T>
+            (
+                [NotNull] this byte[] array
+            )
+            where T : class, IHandmadeSerializable, new()
+        {
+            Code.NotNull(() => array);
+
+            using (Stream stream = new MemoryStream(array))
+            using (BinaryReader reader = new BinaryReader(stream))
+            {
+                return reader.RestoreNullable<T>();
+            }
         }
 
         /// <summary>
@@ -192,6 +257,53 @@ namespace AM.Runtime
         }
 
         /// <summary>
+        /// Сохранение в файл объекта,
+        /// умеющего сериализоваться вручную.
+        /// </summary>
+        public static void SaveToFile<T>
+            (
+                [NotNull] this T obj,
+                [NotNull] string fileName
+            )
+            where T : class, IHandmadeSerializable, new()
+        {
+            Code.NotNull(() => obj);
+            Code.NotNullNorEmpty(() => fileName);
+
+            using (Stream stream = File.Create(fileName))
+            using (BinaryWriter writer = new BinaryWriter(stream))
+            {
+                obj.SaveToStream(writer);
+            }
+        }
+
+        /// <summary>
+        /// Сохранение в файл объекта,
+        /// умеющего сериализоваться вручную.
+        /// </summary>
+        public static void SaveToZipFile<T>
+            (
+                [NotNull] this T obj,
+                [NotNull] string fileName
+            )
+            where T : class, IHandmadeSerializable, new()
+        {
+            Code.NotNull(() => obj);
+            Code.NotNullNorEmpty(() => fileName);
+
+            using (Stream stream = File.Create(fileName))
+            using (DeflateStream deflate = new DeflateStream
+                (
+                    stream,
+                    CompressionMode.Compress
+                ))
+            using (BinaryWriter writer = new BinaryWriter(deflate))
+            {
+                obj.SaveToStream(writer);
+            }
+        }
+
+        /// <summary>
         /// Сохранение в файл массива объектов,
         /// умеющих сериализоваться вручную.
         /// </summary>
@@ -213,20 +325,40 @@ namespace AM.Runtime
         }
 
         /// <summary>
+        /// Сохранение объекта.
+        /// </summary>
+        public static byte[] SaveToMemory<T>
+            (
+                [NotNull] this T obj
+            )
+            where T : class, IHandmadeSerializable, new()
+        {
+            Code.NotNull(() => obj);
+
+            using (MemoryStream stream = new MemoryStream())
+            using (BinaryWriter writer = new BinaryWriter(stream))
+            {
+                writer.WriteNullable(obj);
+                return stream.ToArray();
+            }
+        }
+
+
+        /// <summary>
         /// Сохранение массива объектов.
         /// </summary>
         public static byte[] SaveToMemory<T>
             (
                 [NotNull][ItemNotNull] this T[] array
             )
-            where T : IHandmadeSerializable
+            where T : IHandmadeSerializable, new ()
         {
             Code.NotNull(() => array);
 
             using (MemoryStream stream = new MemoryStream())
             using (BinaryWriter writer = new BinaryWriter(stream))
             {
-                array.SaveToStream(writer);
+                writer.WriteArray(array);
                 return stream.ToArray();
             }
         }
@@ -240,7 +372,7 @@ namespace AM.Runtime
                 [NotNull] [ItemNotNull] this T[] array,
                 [NotNull] string fileName
             )
-            where T : IHandmadeSerializable
+            where T : IHandmadeSerializable, new()
         {
             Code.NotNull(() => array);
             Code.NotNullNorEmpty(() => fileName);
@@ -253,7 +385,7 @@ namespace AM.Runtime
                 ))
             using (BinaryWriter writer = new BinaryWriter(deflate))
             {
-                array.SaveToStream(writer);
+                writer.WriteArray(array);
             }
         }
 
@@ -264,7 +396,7 @@ namespace AM.Runtime
             (
                 [NotNull][ItemNotNull] this T[] array
             )
-            where T : IHandmadeSerializable
+            where T : IHandmadeSerializable, new()
         {
             Code.NotNull(() => array);
 
@@ -276,7 +408,10 @@ namespace AM.Runtime
                 ))
             using (BinaryWriter writer = new BinaryWriter(deflate))
             {
-                array.SaveToStream(writer);
+                writer.WriteArray(array);
+                writer.Flush();
+                deflate.Flush();
+                stream.Flush();
                 return stream.ToArray();
             }
         }
@@ -289,7 +424,7 @@ namespace AM.Runtime
                 [NotNull] this BinaryWriter writer,
                 [CanBeNull] T obj
             )
-            where T : class, IHandmadeSerializable
+            where T : class, IHandmadeSerializable, new()
         {
             Code.NotNull(() => writer);
 
