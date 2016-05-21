@@ -350,7 +350,6 @@ namespace ManagedClient
             return result;
         }
 
-
         /// <summary>
         /// Установка нового значения.
         /// </summary>

@@ -14,14 +14,14 @@ namespace UnitTests.CodeJam
         }
 
         [TestMethod]
-        public void TestNotNull1()
+        public void TestCodeNotNull()
         {
             _TestNotNull(new object());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestNotNull2()
+        public void TestCodeNotNullFail()
         {
             _TestNotNull(null);
         }
