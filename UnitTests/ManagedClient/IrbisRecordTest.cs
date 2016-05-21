@@ -18,7 +18,7 @@ namespace UnitTests.ManagedClient
             Assert.IsNotNull(record);
             Assert.IsNotNull(record.Fields);
             Assert.IsNull(record.Database);
-            Assert.IsNotNull(record.Description);
+            Assert.IsNull(record.Description);
             Assert.AreEqual(0, record.Version);
         }
 
