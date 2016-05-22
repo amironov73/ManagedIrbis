@@ -128,7 +128,7 @@ namespace AM.Text.Ranges
             {
                 throw new ApplicationException("Stop is null");
             }
-            return ((Start.CompareTo(number) >= 0)
+            return ((Start.CompareTo(number) <= 0)
                     && (number.CompareTo(Stop)) <= 0);
         }
 
