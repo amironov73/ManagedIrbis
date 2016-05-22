@@ -5,9 +5,14 @@
 #region Using directives
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Xml.Serialization;
 
+using AM.IO;
+using AM.Runtime;
+using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -27,6 +32,7 @@ namespace ManagedClient
     [MoonSharpUserData]
     [DebuggerDisplay("MFN={Mfn}, Index={Index}")]
     public sealed class RecordReference
+        : IHandmadeSerializable
     {
         #region Properties
 
@@ -60,6 +66,107 @@ namespace ManagedClient
         [XmlAttribute("index")]
         [JsonProperty("index")]
         public string Index { get; set; }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Загрузка ссылок из упакованного файла.
+        /// </summary>
+        public static RecordReference[] LoadFromZipFile
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNull(() => fileName);
+
+            RecordReference[] result = SerializationUtility
+                .RestoreArrayFromZipFile<RecordReference>
+                (
+                    fileName
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Загрузка записи, соответствующей ссылке,
+        /// с сервера.
+        /// </summary>
+        [CanBeNull]
+        public IrbisRecord ReadRecord
+            (
+                [NotNull] ManagedClient64 client
+            )
+        {
+            Code.NotNull(() => client);
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Загрузка записей, соответствующих ссылкам.
+        /// </summary>
+        public static List<IrbisRecord> ReadRecords
+            (
+                [NotNull] ManagedClient64 client,
+                [NotNull] IEnumerable<RecordReference> references
+            )
+        {
+            Code.NotNull(() => client);
+            Code.NotNull(() => references);
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Сохранение ссылок в упакованном файле.
+        /// </summary>
+        public static void SaveToZipFile
+            (
+                [NotNull][ItemNotNull] RecordReference[] references,
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNull(() => references);
+            Code.NotNull(() => fileName);
+
+            references.SaveToZipFile(fileName);
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Просим объект восстановить свое состояние из потока.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            HostName = reader.ReadNullableString();
+            Database = reader.ReadNullableString();
+            Mfn = reader.ReadPackedInt32();
+            Index = reader.ReadNullableString();
+        }
+
+        /// <summary>
+        /// Просим объект сохранить себя в потоке.
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            writer
+                .WriteNullable(HostName)
+                .WriteNullable(Database)
+                .WritePackedInt32(Mfn)
+                .WriteNullable(Index);
+        }
 
         #endregion
 

@@ -7,7 +7,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Xml.Serialization;
+
+using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -29,6 +33,7 @@ namespace ManagedClient
     [MoonSharpUserData]
     [DebuggerDisplay("[{Number}] {Name} ({Workstation})")]
     public sealed class IrbisProcessInfo
+        : IHandmadeSerializable
     {
         #region Properties
 
@@ -147,6 +152,50 @@ namespace ManagedClient
             }
 
             return result.ToArray();
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable
+
+        /// <summary>
+        /// Просим объект восстановить свое состояние из потока.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Number = reader.ReadNullableString();
+            IPAddress = reader.ReadNullableString();
+            Name = reader.ReadNullableString();
+            ClientID = reader.ReadNullableString();
+            Workstation = reader.ReadNullableString();
+            Started = reader.ReadNullableString();
+            LastCommand = reader.ReadNullableString();
+            CommandNumber = reader.ReadNullableString();
+            ProcessID = reader.ReadNullableString();
+            State = reader.ReadNullableString();
+        }
+
+        /// <summary>
+        /// Просим объект сохранить себя в потоке.
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            writer.WriteNullable(Number)
+                .WriteNullable(IPAddress)
+                .WriteNullable(Name)
+                .WriteNullable(ClientID)
+                .WriteNullable(Workstation)
+                .WriteNullable(Started)
+                .WriteNullable(LastCommand)
+                .WriteNullable(CommandNumber)
+                .WriteNullable(ProcessID)
+                .WriteNullable(State);
         }
 
         #endregion

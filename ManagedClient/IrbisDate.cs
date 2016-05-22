@@ -7,7 +7,8 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
-
+using System.IO;
+using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -26,6 +27,7 @@ namespace ManagedClient
     [MoonSharpUserData]
     [DebuggerDisplay("{Text}")]
     public sealed class IrbisDate
+        : IHandmadeSerializable
     {
         #region Constants
 
@@ -56,6 +58,18 @@ namespace ManagedClient
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <remarks>
+        /// Инициализирует сегодняшней датой.
+        /// </remarks>
+        public IrbisDate()
+        {
+            Date = DateTime.Today;
+            Text = ConvertDateToString(Date);
+        }
 
         /// <summary>
         /// Конструктор
@@ -175,6 +189,33 @@ namespace ManagedClient
             Code.NotNull(date, "date");
 
             return date.Date;
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Просим объект восстановить свое состояние из потока.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Text = reader.ReadString();
+            Date = ConvertStringToDate(Text);
+        }
+
+        /// <summary>
+        /// Просим объект сохранить себя в потоке.
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            writer.Write(Text);
         }
 
         #endregion

@@ -6,9 +6,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+
+using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -30,6 +34,7 @@ namespace ManagedClient
     [MoonSharpUserData]
     [DebuggerDisplay("{Name} {Description}")]
     public sealed class IrbisDatabaseInfo
+        : IHandmadeSerializable
     {
         #region Constants
 
@@ -204,6 +209,51 @@ namespace ManagedClient
             }
 
             return result.ToArray();
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable membrs
+
+        /// <summary>
+        /// Просим объект восстановить свое состояние из потока.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Name = reader.ReadNullableString();
+            Description = reader.ReadNullableString();
+            MaxMfn = reader.ReadPackedInt32();
+            LogicallyDeletedRecords 
+                = reader.ReadNullableInt32Array();
+            PhysicallyDeletedRecords
+                = reader.ReadNullableInt32Array();
+            NonActualizedRecords
+                = reader.ReadNullableInt32Array();
+            LockedRecords
+                = reader.ReadNullableInt32Array();
+            DatabaseLocked = reader.ReadBoolean();
+        }
+
+        /// <summary>
+        /// Просим объект сохранить себя в потоке.
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            writer
+                .WriteNullable(Name)
+                .WriteNullable(Description)
+                .WritePackedInt32(MaxMfn)
+                .WriteNullableArray(LogicallyDeletedRecords)
+                .WriteNullableArray(PhysicallyDeletedRecords)
+                .WriteNullableArray(NonActualizedRecords)
+                .WriteNullableArray(LockedRecords)
+                .Write(DatabaseLocked);
         }
 
         #endregion

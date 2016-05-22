@@ -108,6 +108,13 @@ namespace ManagedClient
         public string SortKey { get; set; }
 
         /// <summary>
+        /// Индекс документа.
+        /// Используется для идентификации записей.
+        /// </summary>
+        [CanBeNull]
+        public string Index { get; set; }
+
+        /// <summary>
         /// Произвольные пользовательские данные.
         /// </summary>
         [CanBeNull]
@@ -190,6 +197,7 @@ namespace ManagedClient
             Fields.RestoreFromStream(reader);
             Description = reader.ReadNullableString();
             SortKey = reader.ReadNullableString();
+            Index = reader.ReadNullableString();
         }
 
         /// <summary>
@@ -209,6 +217,7 @@ namespace ManagedClient
             Fields.SaveToStream(writer);
             writer.WriteNullable(Description);
             writer.WriteNullable(SortKey);
+            writer.WriteNullable(Index);
         }
 
         #endregion

@@ -364,6 +364,35 @@ namespace AM.IO
         }
 
         /// <summary>
+        /// Write array of 32-bit integers.
+        /// </summary>
+        [NotNull]
+        public static BinaryWriter WriteNullableArray
+            (
+                [NotNull] this BinaryWriter writer,
+                [CanBeNull] int[] array
+            )
+        {
+            Code.NotNull(() => writer);
+
+            if (ReferenceEquals(array, null))
+            {
+                writer.Write(false);
+            }
+            else
+            {
+                writer.Write(true);
+                writer.WritePackedInt32(array.Length);
+                for (int i = 0; i < array.Length; i++)
+                {
+                    writer.Write(array[i]);
+                }
+            }
+
+            return writer;
+        }
+
+        /// <summary>
         /// Write 32-bit integer in packed format.
         /// </summary>
         /// <remarks>Borrowed from

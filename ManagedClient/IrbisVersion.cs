@@ -7,8 +7,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Xml.Serialization;
+
 using AM;
+using AM.IO;
+using AM.Runtime;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -29,6 +34,7 @@ namespace ManagedClient
     [MoonSharpUserData]
     [DebuggerDisplay("Version={Version}")]
     public sealed class IrbisVersion
+        : IHandmadeSerializable
     {
         #region Properties
 
@@ -87,6 +93,40 @@ namespace ManagedClient
                };
 
             return result;
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+
+        /// <summary>
+        /// Просим объект восстановить свое состояние из потока.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Organization = reader.ReadNullableString();
+            Version = reader.ReadNullableString();
+            MaxClients = reader.ReadPackedInt32();
+            ConnectedClients = reader.ReadPackedInt32();
+        }
+
+        /// <summary>
+        /// Просим объект сохранить себя в потоке.
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            writer
+                .WriteNullable(Organization)
+                .WriteNullable(Version)
+                .WritePackedInt32(MaxClients)
+                .WritePackedInt32(ConnectedClients);
         }
 
         #endregion

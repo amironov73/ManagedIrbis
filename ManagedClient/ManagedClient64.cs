@@ -7,9 +7,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -31,7 +35,8 @@ namespace ManagedClient
     [Serializable]
     [MoonSharpUserData]
     public sealed class ManagedClient64
-        : IDisposable
+        : IDisposable,
+        IHandmadeSerializable
     {
         #region Constants
 
@@ -75,6 +80,32 @@ namespace ManagedClient
         public void Dispose()
         {
             
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Просим объект восстановить свое состояние из потока.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            // TODO implment
+        }
+
+        /// <summary>
+        /// Просим объект сохранить себя в потоке.
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            // TODO implement
         }
 
         #endregion

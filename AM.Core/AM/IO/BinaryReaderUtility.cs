@@ -222,6 +222,34 @@ namespace AM.IO
         }
 
         /// <summary>
+        /// Read array of 32-bit integers.
+        /// </summary>
+        [CanBeNull]
+        public static int[] ReadNullableInt32Array
+            (
+                [NotNull] this BinaryReader reader
+            )
+        {
+            Code.NotNull(() => reader);
+
+            bool isNull = !reader.ReadBoolean();
+            if (isNull)
+            {
+                return null;
+            }
+
+            int length = reader.ReadPackedInt32();
+            int[] result = new int[length];
+            for (int i = 0; i < length; i++)
+            {
+                result[i] = reader.ReadInt32();
+            }
+
+            return result;
+        }
+
+
+        /// <summary>
         /// Read nullable 64-bit integer.
         /// </summary>
         [CanBeNull]
