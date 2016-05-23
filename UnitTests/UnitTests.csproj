@@ -121,6 +121,7 @@
     <Compile Include="AM\Text\Ranges\NumberRangeTest.cs" />
     <Compile Include="AM\Text\TextWithEncodingTest.cs" />
     <Compile Include="AM\TimeSpanUtilityTest.cs" />
+    <Compile Include="AM\CharUtilityTest.cs" />
     <Compile Include="CodeJam\CodeTest.cs" />
     <Compile Include="ManagedClient\Scripting\IrbisScriptTest.cs" />
     <Compile Include="ManagedClient\SubFieldCollectionTest.cs" />

@@ -125,6 +125,7 @@
     <Compile Include="IrbisReturnCode.cs" />
     <Compile Include="IrbisUpperCaseTable.cs" />
     <Compile Include="IrbisVersion.cs" />
+    <Compile Include="IrbisWorkstation.cs" />
     <Compile Include="ManagedClient64.cs" />
     <Compile Include="ManagedClientUtility.cs" />
     <Compile Include="Mapping\FieldAttribute.cs" />

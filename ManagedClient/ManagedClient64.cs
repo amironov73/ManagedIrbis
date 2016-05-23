@@ -6,10 +6,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using AM.IO;
@@ -40,13 +44,278 @@ namespace ManagedClient
     {
         #region Constants
 
+        /// <summary>
+        /// Разделитель строк в пакете запроса к серверу.
+        /// </summary>
+        public const char QueryLineDelimiter = (char)0x0A;
+
+        /// <summary>
+        /// Разделитель строк в пакете ответа сервера.
+        /// </summary>
+        public const string ResponseLineDelimiter = "";
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const int MaxPostings = 32758;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string DefaultHost = "127.0.0.1";
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string DefaultDatabase = "IBIS";
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const IrbisWorkstation DefaultWorkstation
+            = IrbisWorkstation.Cataloger;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const int DefaultPort = 6666;
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public const string DefaultUsername = "1";
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public const string DefaultPassword = "1";
+
+        /// <summary>
+        /// Количество попыток повторения команды по умолчанию.
+        /// </summary>
+        public const int DefaultRetryCount = 5;
+
+        /// <summary>
+        /// Таймаут получения ответа от сервера по умолчанию.
+        /// </summary>
+        public const int DefaultTimeout = 30000;
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// Вызывается, когда меняется состояние Busy;
+        /// </summary>
+        public event EventHandler BusyChanged;
+
+        /// <summary>
+        /// Вызывается перед уничтожением объекта.
+        /// </summary>
+        public event EventHandler Disposing;
+
         #endregion
 
         #region Properties
 
+        public static Version Version = Assembly
+            .GetExecutingAssembly()
+            .GetName()
+            .Version;
+
+        //[Browsable(false)]
+        public bool Busy { get; private set; }
+
+        /// <summary>
+        /// Адрес сервера.
+        /// </summary>
+        /// <value>Адрес сервера в цифровом виде.</value>
+        [DefaultValue(DefaultHost)]
+        public string Host { get; set; }
+
+        /// <summary>
+        /// Порт сервера.
+        /// </summary>
+        /// <value>Порт сервера (по умолчанию 6666).</value>
+        [DefaultValue(DefaultPort)]
+        public int Port { get; set; }
+
+        /// <summary>
+        /// Имя пользователя.
+        /// </summary>
+        /// <value>Имя пользователя.</value>
+        //[DefaultValue(DefaultUsername)]
+        public string Username { get; set; }
+
+        /// <summary>
+        /// Пароль пользователя.
+        /// </summary>
+        /// <value>Пароль пользователя.</value>
+        //[DefaultValue(DefaultPassword)]
+        public string Password { get; set; }
+
+        /// <summary>
+        /// Имя базы данных.
+        /// </summary>
+        /// <value>Служебное имя базы данных (например, "IBIS").</value>
+        [DefaultValue(DefaultDatabase)]
+        public string Database
+        {
+            get { return _database; }
+            set { _database = value; }
+        }
+
+        /// <summary>
+        /// Тип АРМ.
+        /// </summary>
+        /// <value>По умолчанию <see cref="IrbisWorkstation.Cataloger"/>.
+        /// </value>
+        [DefaultValue(DefaultWorkstation)]
+        public IrbisWorkstation Workstation { get; set; }
+
+        /// <summary>
+        /// Конфигурация клиента.
+        /// </summary>
+        /// <value>Высылается сервером при подключении.</value>
+        public string Configuration
+        {
+            get { return _configuration; }
+        }
+
+        /// <summary>
+        /// Статус подключения к серверу.
+        /// </summary>
+        /// <value>Устанавливается в true при успешном выполнении
+        /// <see cref="Connect"/>, сбрасывается при выполнении
+        /// <see cref="Disconnect"/> или <see cref="Dispose"/>.</value>
+        public bool Connected
+        {
+            get { return _connected; }
+        }
+
+        /// <summary>
+        /// Для ожидания окончания запроса.
+        /// </summary>
+        public WaitHandle WaitHandle
+        {
+            get { return _waitHandle; }
+        }
+
+        /// <summary>
+        /// Поток для вывода отладочной информации.
+        /// </summary>
+        /// <remarks><para><c>null</c> означает, что вывод отладочной 
+        /// информации не нужен.</para>
+        /// <para>Обратите внимание, что <see cref="DebugWriter"/>
+        /// не сериализуется, т. к. большинство потоков не умеют
+        /// сериализоваться. Так что при восстановлении клиента
+        /// вам придётся восстанавливать <see cref="DebugWriter"/>
+        /// самостоятельно.</para>
+        /// </remarks>
+        [DefaultValue(null)]
+        public TextWriter DebugWriter
+        {
+            get { return _debugWriter; }
+            set { _debugWriter = value; }
+        }
+
+        /// <summary>
+        /// Разрешение делать шестнадцатиричный дамп полученных от сервера пакетов.
+        /// </summary>
+        [DefaultValue(false)]
+        public bool AllowHexadecimalDump { get; set; }
+
+        /// <summary>
+        /// Количество повторений команды при неудаче.
+        /// </summary>
+        [DefaultValue(DefaultRetryCount)]
+        public int RetryCount { get; set; }
+
+        /// <summary>
+        /// Таймаут получения ответа от сервера в миллисекундах
+        /// (для продвинутых функций).
+        /// </summary>
+        [DefaultValue(DefaultTimeout)]
+        public int Timeout { get; set; }
+
+        /// <summary>
+        /// Признак: команда прервана.
+        /// </summary>
+        [DefaultValue(false)]
+        public bool Interrupted { get; set; }
+
+        #endregion
+
+        #region Construction
+
+        /// <summary>
+        /// Конструктор по умолчанию
+        /// </summary>
+        /// <remarks>
+        /// Обратите внимание, деструктор не нужен!
+        /// Он помешает сохранению состояния клиента
+        /// при сериализации и последующему восстановлению,
+        /// т. к. попытается закрыть уже установленное
+        /// соединение. Восстановленная копия клиента
+        /// ломанётся в закрытое соедиение, и выйдет облом.
+        /// </remarks>
+        public ManagedClient64()
+        {
+            _waitHandle = new ManualResetEvent(true);
+
+#if !PocketPC
+            // По умолчанию создаем простой синхронный сокет.
+            //_socket = new IrbisSocket();
+#endif
+
+            Host = DefaultHost;
+            Port = DefaultPort;
+            Database = DefaultDatabase;
+            //Username = DefaultUsername;
+            //Password = DefaultPassword;
+            Username = null;
+            Password = null;
+            Workstation = DefaultWorkstation;
+            RetryCount = DefaultRetryCount;
+        }
+
         #endregion
 
         #region Private members
+
+        private string _configuration;
+        private bool _connected;
+
+        [NonSerialized]
+        private ManualResetEvent _waitHandle;
+
+        [NonSerialized]
+        private TextWriter _debugWriter;
+
+        [NonSerialized]
+        private TcpClient _client;
+
+        private int _userID;
+        private int _queryID;
+
+#if !PocketPC
+        //[NonSerialized]
+        //private IrbisIniFile _settings;
+
+        //private IrbisSearchEngine SearchEngine;
+#endif
+
+        private string _database;
+
+        private readonly Encoding _utf8 = new UTF8Encoding(false, false);
+        private readonly Encoding _cp1251 = Encoding.GetEncoding(1251);
+
+#if !PocketPC
+        //private IrbisSocket _socket;
+#endif
+
+        private readonly Stack<string> _databaseStack
+            = new Stack<string>();
 
         #endregion
 
