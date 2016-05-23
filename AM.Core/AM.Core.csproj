@@ -101,6 +101,7 @@
     <Compile Include="AM\CharUtility.cs" />
     <Compile Include="AM\Collections\ListUtility.cs" />
     <Compile Include="AM\Collections\NonNullCollection.cs" />
+    <Compile Include="AM\ConnectionStringParser.cs" />
     <Compile Include="AM\ConsoleUtility.cs" />
     <Compile Include="AM\DelegateUtility.cs" />
     <Compile Include="AM\Diagnostics\ConsoleProcessRunner.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="AM\IO\NotifyStream.cs" />
     <Compile Include="AM\IO\StreamPacker.cs" />
     <Compile Include="AM\IO\VersionStream.cs" />
+    <Compile Include="AM\NonNullValue.cs" />
     <Compile Include="AM\Reflection\AssemblyUtility.cs" />
     <Compile Include="AM\Reflection\FieldAccessor.cs" />
     <Compile Include="AM\Reflection\PropertyAccessor.cs" />

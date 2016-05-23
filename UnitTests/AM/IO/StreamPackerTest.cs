@@ -3,7 +3,7 @@ using System.IO;
 using AM.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests
+namespace UnitTests.AM.IO
 {
     [TestClass]
     public class StreamPackerTest

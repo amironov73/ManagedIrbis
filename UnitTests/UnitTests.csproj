@@ -110,6 +110,9 @@
   <ItemGroup>
     <Compile Include="AM\Collections\NonNullCollectionTest.cs" />
     <Compile Include="AM\IO\BinaryWriterTest.cs" />
+    <Compile Include="AM\IO\NotifyStreamTest.cs" />
+    <Compile Include="AM\IO\MultiStreamTest.cs" />
+    <Compile Include="AM\IO\VersionStreamTest.cs" />
     <Compile Include="AM\StringUtiltityTest.cs" />
     <Compile Include="AM\NumberTextTest.cs" />
     <Compile Include="AM\Text\Hyphenation\RussianHyphenatorTest.cs" />
@@ -122,6 +125,9 @@
     <Compile Include="AM\Text\TextWithEncodingTest.cs" />
     <Compile Include="AM\TimeSpanUtilityTest.cs" />
     <Compile Include="AM\CharUtilityTest.cs" />
+    <Compile Include="AM\NonNullValueTest.cs" />
+    <Compile Include="AM\ConnectionStringParserTest.cs" />
+    <Compile Include="AM\ReferenceTest.cs" />
     <Compile Include="CodeJam\CodeTest.cs" />
     <Compile Include="ManagedClient\Scripting\IrbisScriptTest.cs" />
     <Compile Include="ManagedClient\SubFieldCollectionTest.cs" />
@@ -137,12 +143,13 @@
     <Compile Include="CharacterClassTest.cs" />
     <Compile Include="NumericUtilityTest.cs" />
     <Compile Include="ReferenceTest.cs" />
-    <Compile Include="StreamPackerTest.cs" />
+    <Compile Include="AM\IO\StreamPackerTest.cs" />
     <Compile Include="ManagedClient\IrbisDateTest.cs" />
     <Compile Include="BbkTest.cs" />
     <Compile Include="BbkRangeTest.cs" />
     <Compile Include="ManagedClient\SubFieldTest.cs" />
     <Compile Include="AM\SequenceTest.cs" />
+    <Compile Include="System\IO\Compression\DeflateStreamTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AM.Core\AM.Core.csproj">
