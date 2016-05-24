@@ -93,6 +93,9 @@
     <Reference Include="JetBrains.Annotations">
       <HintPath>..\Libs\JetBrains.Annotations.dll</HintPath>
     </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\Libs\net45\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
