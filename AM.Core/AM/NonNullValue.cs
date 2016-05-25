@@ -4,6 +4,7 @@
 
 #region Using directives
 
+using System;
 using System.Diagnostics;
 
 using CodeJam;
@@ -22,7 +23,7 @@ namespace AM
     [PublicAPI]
     [MoonSharpUserData]
     [DebuggerDisplay("{Value}")]
-    public sealed class NonNullValue<T>
+    public struct NonNullValue<T>
         where T: class
     {
         #region Properties
@@ -33,7 +34,7 @@ namespace AM
         [NotNull]
         public T Value
         {
-            get { return _value; }
+            get { return GetValue(); }
             set { SetValue(value); }
         }
 
@@ -49,7 +50,8 @@ namespace AM
                 [NotNull] T value
             )
         {
-            SetValue(value);
+            Code.NotNull(value, "value");
+            _value = value;
         }
 
         #endregion
@@ -61,6 +63,20 @@ namespace AM
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Получение значения
+        /// </summary>
+        [NotNull]
+        public T GetValue()
+        {
+            if (ReferenceEquals(_value, null))
+            {
+                throw new ArgumentNullException();
+            }
+
+            return _value;
+        }
 
         /// <summary>
         /// Присвоение значения.
@@ -78,7 +94,6 @@ namespace AM
         /// <summary>
         /// Преобразование.
         /// </summary>
-        [NotNull]
         public static implicit operator NonNullValue<T>
             (
                 [NotNull] T value

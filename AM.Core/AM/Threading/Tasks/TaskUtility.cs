@@ -33,6 +33,31 @@ namespace AM.Threading.Tasks
         #region Public methods
 
         /// <summary>
+        /// Borrowed from Stephen Toub book.
+        /// </summary>
+        public static async Task<T> RetryOnFault<T>
+            (
+                Func<Task<T>> function,
+                int maxTries
+            )
+        {
+            for (int i = 0; i < maxTries; i++)
+            {
+                try
+                {
+                    return await function().ConfigureAwait(false);
+                }
+                catch
+                {
+                    if (i == maxTries - 1) throw;
+                }
+            }
+
+            return default(T);
+        }
+
+
+        /// <summary>
         /// Waits for the task to complete, unwrapping any exceptions.
         /// </summary>
         /// <param name="task">The task. May not be <c>null</c>.</param>

@@ -117,9 +117,12 @@
     <Compile Include="IrbisDatabaseInfo.cs" />
     <Compile Include="IrbisDate.cs" />
     <Compile Include="IrbisException.cs" />
+    <Compile Include="IrbisFormat.cs" />
     <Compile Include="IrbisInputMode.cs" />
+    <Compile Include="IrbisOpt.cs" />
     <Compile Include="IrbisPath.cs" />
     <Compile Include="IrbisProcessInfo.cs" />
+    <Compile Include="IrbisQuery.cs" />
     <Compile Include="IrbisRecord.cs" />
     <Compile Include="IrbisRecordUtility.cs" />
     <Compile Include="IrbisReturnCode.cs" />

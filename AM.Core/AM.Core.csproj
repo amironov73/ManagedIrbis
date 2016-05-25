@@ -81,6 +81,9 @@
         <Reference Include="Newtonsoft.Json">
           <HintPath>..\Libs\net45\Newtonsoft.Json.dll</HintPath>
         </Reference>
+        <Reference Include="System.Threading.Tasks.Dataflow">
+          <HintPath>..\Libs\net45\System.Threading.Tasks.Dataflow.dll</HintPath>
+        </Reference>
       </ItemGroup>
     </When>
   </Choose>
@@ -105,6 +108,7 @@
     <Compile Include="AM\ConsoleUtility.cs" />
     <Compile Include="AM\DelegateUtility.cs" />
     <Compile Include="AM\Diagnostics\ConsoleProcessRunner.cs" />
+    <Compile Include="AM\FuncUtility.cs" />
     <Compile Include="AM\IO\BinaryReaderUtility.cs" />
     <Compile Include="AM\IO\BinaryWriterUtility.cs" />
     <Compile Include="AM\IO\DirectoryUtility.cs" />

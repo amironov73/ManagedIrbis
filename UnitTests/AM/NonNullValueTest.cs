@@ -29,13 +29,26 @@ namespace UnitTests.AM
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestNonNullValueAssignment()
+        public void TestNonNullValueAssignment1()
         {
             NonNullValue<string> value = new NonNullValue<string>("a");
-            Assert.IsNotNull(value);
             string text = null;
             value = text;
-            Assert.IsNotNull(value);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TestNonNullValueAssignment2()
+        {
+            NonNullValue<string> value = null;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TestNonNullValueDefault()
+        {
+            NonNullValue<string> value = new NonNullValue<string>();
+            Assert.IsNotNull(value.Value);
         }
     }
 }
