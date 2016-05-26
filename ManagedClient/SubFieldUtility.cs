@@ -33,6 +33,60 @@ namespace ManagedClient
         #region Public methods
 
         /// <summary>
+        /// Первое вхождение подполя с указанным кодом.
+        /// </summary>
+        [CanBeNull]
+        public static SubField GetFirstSubField
+            (
+                [NotNull] this IEnumerable<SubField> subFields,
+                char code
+            )
+        {
+            Code.NotNull(subFields, "subFields");
+
+            return subFields
+                .FirstOrDefault(sub => sub.Code.SameChar(code));
+        }
+
+        /// <summary>
+        /// Первое вхождение подполя с одним из указанных кодов.
+        /// </summary>
+        [CanBeNull]
+        public static SubField GetFirstSubField
+            (
+                [NotNull] this IEnumerable<SubField> subFields,
+                params char[] codes
+            )
+        {
+            Code.NotNull(subFields, "subFields");
+
+            return subFields
+                .FirstOrDefault(sub => sub.Code.OneOf(codes));
+        }
+
+        /// <summary>
+        /// Первое вхождение подполя с указанными кодом
+        /// и значением (с учётом регистра символов).
+        /// </summary>
+        [CanBeNull]
+        public static SubField GetFirstSubField
+            (
+                [NotNull] this IEnumerable<SubField> subFields,
+                char code,
+                [CanBeNull] string value
+            )
+        {
+            Code.NotNull(subFields, "subFields");
+
+            return subFields
+                .FirstOrDefault
+                (
+                    sub => sub.Code.SameChar(code)
+                           && sub.Value.SameStringSensitive(value)
+                );
+        }
+
+        /// <summary>
         /// Фильтрация подполей.
         /// </summary>
         [NotNull]
@@ -186,27 +240,6 @@ namespace ManagedClient
                 .Select(subField => subField.Value)
                 .NonEmptyLines()
                 .ToArray();
-        }
-
-        /// <summary>
-        /// Получение значения подполя.
-        /// </summary>
-        [CanBeNull]
-        public static string GetSubFieldText
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag,
-                char code
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            return fields
-                .NonNullItems()
-                .GetField(tag)
-                .GetSubField(code)
-                .FirstOrDefault()
-                .GetSubFieldValue();
         }
 
         /// <summary>

@@ -127,12 +127,14 @@ namespace ManagedClient
                 .NonNullItems()
                 .Where
                 (
+                // ReSharper disable AssignNullToNotNullAttribute
                     field => !string.IsNullOrEmpty(field.Tag)
                         && Regex.IsMatch
                         (
                             field.Tag,
                             tagRegex
                         )
+                // ReSharper restore AssignNullToNotNullAttribute
                 )
                 .ToArray();
         }
@@ -869,10 +871,24 @@ namespace ManagedClient
         {
             Code.NotNull(fields, "fields");
 
-            return fields
-                .NonNullItems()
-                .GetField(tag)
-                .GetSubField(code);
+            List<SubField> result = new List<SubField>();
+
+            foreach (RecordField field in fields)
+            {
+                if (field.Tag.SameString(tag))
+                {
+                    foreach (SubField subField in field.SubFields)
+                    {
+                        if (subField.Code.SameChar(code))
+                        {
+                            subField.Field = field;
+                            result.Add(subField);
+                        }
+                    }
+                }
+            }
+
+            return result.ToArray();
         }
 
         /// <summary>
@@ -1169,6 +1185,185 @@ namespace ManagedClient
                 .Where(fieldPredicate)
                 .Where(field => field.SubFields.Any(subPredicate))
                 .ToArray();
+        }
+
+        /// <summary>
+        /// Первое вхождение поля с указанным тегом.
+        /// </summary>
+        [CanBeNull]
+        public static RecordField GetFirstField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] string tag
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            return fields
+                .FirstOrDefault(field => field.Tag.SameString(tag));
+        }
+
+        /// <summary>
+        /// Первое вхождение поля с любым из перечисленных тегов.
+        /// </summary>
+        [CanBeNull]
+        public static RecordField GetFirstField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                params string[] tags
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            return fields
+                .FirstOrDefault(field => field.Tag.OneOf(tags));
+        }
+
+        /// <summary>
+        /// Первое вхождение подполя, соответствующего указанным
+        /// критериям.
+        /// </summary>
+        [CanBeNull]
+        public static SubField GetFirstSubField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] string tag,
+                char code
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            foreach (RecordField field in fields)
+            {
+                if (field.Tag.SameString(tag))
+                {
+                    foreach (SubField subField in field.SubFields)
+                    {
+                        if (subField.Code.SameChar(code))
+                        {
+                            subField.Field = field;
+                            return subField;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Значение первого поля с указанным тегом или <c>null</c>.
+        /// </summary>
+        [CanBeNull]
+        public static string GetFirstFieldValue
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] string tag
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            foreach (RecordField field in fields)
+            {
+                if (field.Tag.SameString(tag))
+                {
+                    return field.Value;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Непустые значения полей с указанным тегом.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static string[] GetFieldValue
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] string tag
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            List<string> result = new List<string>();
+
+            foreach (RecordField field in fields)
+            {
+                if (field.Tag.SameString(tag)
+                    && !string.IsNullOrEmpty(field.Value))
+                {
+                    result.Add(field.Value);
+                }
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Значение первого подполя с указанными тегом и кодом
+        /// или <c>null</c>.
+        /// </summary>
+        [CanBeNull]
+        public static string GetFirstSubFieldValue
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] string tag,
+                char code
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            foreach (RecordField field in fields)
+            {
+                if (field.Tag.SameString(tag))
+                {
+                    foreach (SubField subField in field.SubFields)
+                    {
+                        if (subField.Code.SameChar(code))
+                        {
+                            return subField.Value;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Непустые значения подполей с указанными тегом и кодом.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static string[] GetSubFieldValue
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] string tag,
+                char code
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            List<string> result = new List<string>();
+
+            foreach (RecordField field in fields)
+            {
+                if (field.Tag.SameString(tag))
+                {
+                    foreach (SubField subField in field.SubFields)
+                    {
+                        if (subField.Code.SameChar(code)
+                            && !string.IsNullOrEmpty(subField.Value))
+                        {
+                            result.Add(subField.Value);
+                        }
+                    }
+                }
+            }
+
+            return result.ToArray();
         }
 
         #endregion

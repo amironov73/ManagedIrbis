@@ -124,6 +124,33 @@ namespace ManagedClient
 
         #region Construction
 
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        public IrbisRecord()
+        {
+        }
+
+        /// <summary>
+        /// Конструктор для клонирования.
+        /// </summary>
+        private IrbisRecord
+            (
+                [NotNull] IrbisRecord other
+            )
+        {
+            Database = other.Database;
+            Mfn = other.Mfn;
+            Status = other.Status;
+            Version = other.Version;
+            PreviousOffset = other.PreviousOffset;
+            _fields = other.Fields.Clone();
+            Description = other.Description;
+            SortKey = other.SortKey;
+            Index = other.Index;
+            UserData = other.UserData;
+        }
+
         #endregion
 
         #region Private members
@@ -134,6 +161,17 @@ namespace ManagedClient
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Создание "глубокой" копии записи.
+        /// </summary>
+        [NotNull]
+        public IrbisRecord Clone()
+        {
+            IrbisRecord result = new IrbisRecord(this);
+            
+            return result;
+        }
 
         /// <summary>
         /// Compares two records.
@@ -174,6 +212,69 @@ namespace ManagedClient
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Получить текст поля до разделителей подполей
+        /// первого повторения поля с указанной меткой.
+        /// </summary>
+        /// <param name="tag">Метка поля.</param>
+        /// <returns>Значение поля или <c>null</c>.</returns>
+        [CanBeNull]
+        public string FM
+            (
+                [NotNull] string tag
+            )
+        {
+            Code.NotNull(tag, "tag");
+
+            return Fields.GetFirstFieldValue(tag);
+        }
+
+        /// <summary>
+        /// Текст всех полей с указанным тегом.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public string[] FMA
+            (
+                [NotNull] string tag
+            )
+        {
+            Code.NotNull(tag, "tag");
+
+            return Fields.GetFieldValue(tag);
+        }
+
+        /// <summary>
+        /// Текст первого подполя с указанным тегом и кодом.
+        /// </summary>
+        [CanBeNull]
+        public string FM
+            (
+                [NotNull] string tag,
+                char code
+            )
+        {
+            Code.NotNull(tag, "tag");
+
+            return Fields.GetFirstSubFieldValue(tag, code);
+        }
+
+        /// <summary>
+        /// Текст всех подполей с указанным тегом и кодом.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public string[] FMA
+            (
+                [NotNull] string tag,
+                char code
+            )
+        {
+            Code.NotNull(tag, "tag");
+
+            return Fields.GetSubFieldValue(tag, code);
         }
 
         #endregion

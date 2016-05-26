@@ -42,7 +42,8 @@ namespace ManagedClient
         /// <summary>
         /// Добавление в коллекцию нескольких подполей сразу
         /// </summary>
-        public void AddRange
+        [NotNull]
+        public SubFieldCollection AddRange
             (
                 [NotNull] IEnumerable<SubField> subFields
             )
@@ -53,6 +54,25 @@ namespace ManagedClient
             {
                 Add(subField);
             }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Создание "глубокой" копии коллекции.
+        /// </summary>
+        /// <returns></returns>
+        public SubFieldCollection Clone()
+        {
+            SubFieldCollection result = new SubFieldCollection();
+
+            foreach (SubField subField in this)
+            {
+                SubField clone = subField.Clone();
+                result.Add(clone);
+            }
+
+            return result;
         }
 
         /// <summary>

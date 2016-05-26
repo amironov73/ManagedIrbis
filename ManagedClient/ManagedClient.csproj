@@ -100,6 +100,7 @@
       <HintPath>..\Libs\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -112,6 +113,10 @@
     <Compile Include="Direct\NodeLeader.cs" />
     <Compile Include="Direct\NodeRecord.cs" />
     <Compile Include="FieldIndicator.cs" />
+    <Compile Include="Fields\CodesInfo.cs" />
+    <Compile Include="Fields\ExemplarInfo.cs" />
+    <Compile Include="Fields\ExemplarManager.cs" />
+    <Compile Include="Fields\RevisionInfo.cs" />
     <Compile Include="IrbisAlphabetTable.cs" />
     <Compile Include="IrbisClientInfo.cs" />
     <Compile Include="IrbisDatabaseInfo.cs" />
@@ -140,11 +145,25 @@
     <Compile Include="Morphology\MorphologyEntry.cs" />
     <Compile Include="Morphology\MorphologyProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Readers\ChairInfo.cs" />
+    <Compile Include="Readers\DebtorInfo.cs" />
+    <Compile Include="Readers\DebtorManager.cs" />
+    <Compile Include="Readers\IriProfile.cs" />
+    <Compile Include="Readers\ReaderAddress.cs" />
+    <Compile Include="Readers\ReaderInfo.cs" />
+    <Compile Include="Readers\ReaderManager.cs" />
+    <Compile Include="Readers\ReaderRegistration.cs" />
+    <Compile Include="Readers\ReaderUtility.cs" />
+    <Compile Include="Readers\VisitInfo.cs" />
     <Compile Include="RecordField.cs" />
     <Compile Include="RecordFieldCollection.cs" />
     <Compile Include="RecordFieldUtility.cs" />
     <Compile Include="RecordReference.cs" />
     <Compile Include="RecordStatus.cs" />
+    <Compile Include="Requests\BookRequest.cs" />
+    <Compile Include="Requests\RequestManager.cs" />
+    <Compile Include="Requests\RequestPrefixes.cs" />
+    <Compile Include="Requests\RequestRefusals.cs" />
     <Compile Include="Scripting\IrbisScript.cs" />
     <Compile Include="SubField.cs" />
     <Compile Include="SubFieldCollection.cs" />

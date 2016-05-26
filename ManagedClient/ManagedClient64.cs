@@ -279,6 +279,19 @@ namespace ManagedClient
             RetryCount = DefaultRetryCount;
         }
 
+        /// <summary>
+        /// Конструктор с подключением.
+        /// </summary>
+        public ManagedClient64
+            (
+                [NotNull] string connectionString
+            )
+            : this()
+        {
+            ParseConnectionString(connectionString);
+            Connect();
+        }
+
         #endregion
 
         #region Private members
@@ -326,7 +339,7 @@ namespace ManagedClient
         /// </summary>
         public void Connect()
         {
-            // TODO
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -334,7 +347,136 @@ namespace ManagedClient
         /// </summary>
         public void Disconnect()
         {
-            // TODO
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Форматирование записи.
+        /// </summary>
+        [CanBeNull]
+        public string FormatRecord
+            (
+                [NotNull] string format,
+                int mfn
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
+        /// Парсинг строки подключения.
+        /// </summary>
+        public void ParseConnectionString
+            (
+                [NotNull] string connectionString
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Временное переключение на другую базу данных.
+        /// </summary>
+        [CanBeNull]
+        public string PushDatabase
+            (
+                [NotNull] string newDatabase
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Чтение записи.
+        /// </summary>
+        public IrbisRecord ReadRecord
+            (
+                int mfn
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Возврат к предыдущей базе данных.
+        /// </summary>
+        /// <returns></returns>
+        [CanBeNull]
+        public string PopDatabase ()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
+        /// Чтение текстового файла с сервера.
+        /// </summary>
+        [CanBeNull]
+        public string ReadTextFile
+            (
+                IrbisPath path, 
+                [NotNull] string fileName
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Поиск записей
+        /// </summary>
+        [NotNull]
+        [StringFormatMethod("format")]
+        public int[] Search
+            (
+                string format,
+                params object[] args
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Загрузка записей по результатам поиска.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        [StringFormatMethod("format")]
+        public IrbisRecord[] SearchRead
+            (
+                [NotNull] string format,
+                params object[] args
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
+        /// Загрузка одной записи по результатам поиска.
+        /// </summary>
+        [CanBeNull]
+        [StringFormatMethod("format")]
+        public IrbisRecord SearchReadOneRecord
+            (
+                [NotNull] string format,
+                params object[] args
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Сохранение записи.
+        /// </summary>
+        public void WriteRecord
+            (
+                [NotNull] IrbisRecord record,
+                bool needLock,
+                bool invertedFileUpdate
+            )
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -363,7 +505,7 @@ namespace ManagedClient
                 BinaryReader reader
             )
         {
-            // TODO implment
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -374,7 +516,7 @@ namespace ManagedClient
                 BinaryWriter writer
             )
         {
-            // TODO implement
+            throw new NotImplementedException();
         }
 
         #endregion

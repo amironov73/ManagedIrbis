@@ -51,6 +51,23 @@ namespace ManagedClient
         }
 
         /// <summary>
+        /// Создание клона коллекции.
+        /// </summary>
+        [NotNull]
+        public RecordFieldCollection Clone()
+        {
+            RecordFieldCollection result = new RecordFieldCollection();
+
+            foreach (RecordField field in this)
+            {
+                RecordField clone = field.Clone();
+                result.Add(clone);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Find first occurrence of the field with given predicate.
         /// </summary>
         public RecordField Find

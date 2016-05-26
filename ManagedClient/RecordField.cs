@@ -7,6 +7,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -156,6 +157,21 @@ namespace ManagedClient
         }
 
         /// <summary>
+        /// Конструктор для клонирования.
+        /// </summary>
+        private RecordField
+            (
+                [NotNull] RecordField other
+            )
+        {
+            _indicator1 = other.Indicator1.Clone();
+            _indicator2 = other.Indicator2.Clone();
+            _value = other.Value;
+            _subFields = other.SubFields.Clone();
+            _userData = other.UserData;
+        }
+
+        /// <summary>
         /// Конструктор с присвоением тега поля.
         /// </summary>
         public RecordField
@@ -293,6 +309,55 @@ namespace ManagedClient
         #region Public methods
 
         /// <summary>
+        /// Добавление подполя.
+        /// </summary>
+        [NotNull]
+        public RecordField AddSubField
+            (
+                char code,
+                [CanBeNull] object value
+            )
+        {
+            string text = value.NullableToString();
+
+            SubFields.Add(new SubField(code, text));
+            
+            return this;
+        }
+
+        /// <summary>
+        /// Добавление подполя, при условии,
+        /// что у него не пустое значение.
+        /// </summary>
+        [NotNull]
+        public RecordField AddNonEmptySubField
+            (
+                char code,
+                [CanBeNull] object value
+            )
+        {
+            string text = value.NullableToString();
+
+            if (!string.IsNullOrEmpty(text))
+            {
+                AddSubField(code, text);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Создание "глубокой" копии поля.
+        /// </summary>
+        [NotNull]
+        public RecordField Clone()
+        {
+            RecordField result = new RecordField(this);
+
+            return result;
+        }
+
+        /// <summary>
         /// Compares the specified fields.
         /// </summary>
         public static int Compare
@@ -349,6 +414,237 @@ namespace ManagedClient
 
             return result;
         }
+
+        /// <summary>
+        /// Перечень подполей с указанным кодом.
+        /// </summary>
+        /// <param name="code">Искомый код подполя.</param>
+        /// <remarks>Сравнение кодов происходит без учета
+        /// регистра символов.</remarks>
+        /// <returns>Найденные подполя.</returns>
+        [NotNull]
+        [ItemNotNull]
+        public SubField[] GetSubField
+            (
+                char code
+            )
+        {
+            SubField[] result = SubFields
+                .Where(_ => _.Code.SameChar(code))
+                .ToArray();
+            
+            return result;
+        }
+
+        /// <summary>
+        /// Указанное повторение подполя с данным кодом.
+        /// </summary>
+        /// <param name="code">Искомый код подполя.</param>
+        /// <param name="occurrence">Номер повторения.
+        /// Нумерация начинается с нуля.
+        /// Отрицательные индексы отсчитываются с конца массива.</param>
+        /// <returns>Найденное подполе или <c>null</c>.</returns>
+        [CanBeNull]
+        public SubField GetSubField
+            (
+                char code,
+                int occurrence
+            )
+        {
+            SubField[] found = GetSubField(code);
+            SubField result = found.GetOccurrence(occurrence);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the first subfield.
+        /// </summary>
+        /// <param name="code">The code.</param>
+        /// <returns>SubField.</returns>
+        [CanBeNull]
+        public SubField GetFirstSubField
+            (
+                char code
+            )
+        {
+            return SubFields.FirstOrDefault
+                (
+                    subField => subField.Code.SameChar(code)
+                );
+        }
+
+        /// <summary>
+        /// Получение текста указанного подполя.
+        /// </summary>
+        /// <param name="code">Искомый код подполя.</param>
+        /// <param name="occurrence">Номер повторения.
+        /// Нумерация начинается с нуля.
+        /// Отрицательные индексы отсчитываются с конца массива.</param>
+        /// <returns>Текст найденного подполя или <c>null</c>.</returns>
+        public string GetSubFieldValue
+            (
+                char code,
+                int occurrence
+            )
+        {
+            SubField result = GetSubField(code, occurrence);
+            return (result == null)
+                       ? null
+                       : result.Value;
+        }
+
+        /// <summary>
+        /// Получает значение первого появления подполя
+        /// с указанным кодом.
+        /// </summary>
+        public string GetFirstSubFieldValue
+            (
+                char code
+            )
+        {
+            SubField result = GetFirstSubField(code);
+            return (result == null)
+                ? null
+                : result.Value;
+        }
+
+        /// <summary>
+        /// Нет ни одного вхождения подполя с указанным кодом?
+        /// </summary>
+        public bool HaveNotSubField
+            (
+                char code
+            )
+        {
+            return SubFields.FirstOrDefault
+                (
+                    sub => sub.Code.SameChar(code)
+                )
+                == null;
+        }
+
+        /// <summary>
+        /// Нет ни одного вхождения подполя с одним из
+        /// перечисленных кодов?
+        /// </summary>
+        public bool HaveNotSubField
+            (
+                params char[] codes
+            )
+        {
+            return SubFields.FirstOrDefault
+                (
+                    sub => sub.Code.OneOf(codes)
+                )
+                == null;
+        }
+
+        /// <summary>
+        /// Есть ли хоть одно вхождение подполя с указанным кодом?
+        /// </summary>
+        public bool HaveSubField
+            (
+                char code
+            )
+        {
+            return SubFields.FirstOrDefault
+                (
+                    sub => sub.Code.SameChar(code)
+                )
+                != null;
+        }
+
+        /// <summary>
+        /// Есть ли хоть одно вхождение подполя с одним из
+        /// перечисленных кодов?
+        /// </summary>
+        public bool HaveSubField
+            (
+                params char[] codes
+            )
+        {
+            return SubFields.FirstOrDefault
+                (
+                    sub => sub.Code.OneOf(codes)
+                )
+                != null;
+        }
+
+        /// <summary>
+        /// Устанавливает значение подполя.
+        /// Если подполя с указанным кодом нет,
+        /// оно создаётся.
+        /// </summary>
+        /// <remarks>Устанавливает значение только первого
+        /// подполя с указанным кодом (если в поле их несколько)!
+        /// </remarks>
+        [NotNull]
+        public RecordField SetSubField
+            (
+                char code,
+                [CanBeNull] object value
+            )
+        {
+            string text = value.NullableToString();
+
+            SubField subField = SubFields.GetFirstSubField(code);
+            
+            if (subField == null)
+            {
+                subField = new SubField(code, text);
+                SubFields.Add(subField);
+            }
+            subField.Value = text;
+            
+            return this;
+        }
+
+        /// <summary>
+        /// Удаляет все повторения подполей
+        /// с указанным кодом.
+        /// </summary>
+        [NotNull]
+        public RecordField RemoveSubField
+            (
+                char code
+            )
+        {
+            SubField[] found = SubFields.GetSubField(code);
+
+            foreach (SubField subField in found)
+            {
+                SubFields.Remove(subField);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Заменяет значение подполя.
+        /// </summary>
+        [NotNull]
+        public RecordField ReplaceSubField
+            (
+                char code,
+                [CanBeNull] string oldValue,
+                [CanBeNull] object newValue
+            )
+        {
+            SubField found = SubFields.GetFirstSubField
+                (
+                    code,
+                    oldValue
+                );
+            if (found != null)
+            {
+                string text = newValue.NullableToString();
+                found.Value = text;
+            }
+
+            return this;
+        }
+
 
         /// <summary>
         /// Установка нового значения.

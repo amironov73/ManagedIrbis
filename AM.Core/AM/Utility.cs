@@ -136,6 +136,39 @@ namespace AM
                 : obj;
         }
 
+        /// <summary>
+        /// Преобразование любого значения в строку.
+        /// </summary>
+        /// <returns>Для <c>null</c> возвращается <c>null</c>.
+        /// </returns>
+        [CanBeNull]
+        public static string NullableToString<T>
+            (
+                [CanBeNull] this T value
+            )
+            where T: class
+        {
+            return ReferenceEquals(value, null)
+                ? null
+                : value.ToString();
+        }
+
+        /// <summary>
+        /// Преобразование любого значения в строку.
+        /// </summary>
+        /// <returns>Для <c>null</c> возвращается "(null)".
+        /// </returns>
+        [NotNull]
+        public static string NullableToVisibleString<T>
+            (
+                [CanBeNull] this T value
+            )
+            where T : class
+        {
+            string text = value.NullableToString();
+            return text.ToVisibleString();
+        }
+
         #endregion
     }
 }

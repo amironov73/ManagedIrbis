@@ -93,6 +93,17 @@ namespace ManagedClient
         #region Public methods
 
         /// <summary>
+        /// Создание клона индикатора.
+        /// </summary>
+        [NotNull]
+        public FieldIndicator Clone()
+        {
+            FieldIndicator result = new FieldIndicator(Value);
+
+            return result;
+        }
+
+        /// <summary>
         /// Установка значения.
         /// </summary>
         [NotNull]
