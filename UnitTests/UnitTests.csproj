@@ -116,6 +116,9 @@
     <Compile Include="AM\IO\NotifyStreamTest.cs" />
     <Compile Include="AM\IO\MultiStreamTest.cs" />
     <Compile Include="AM\IO\VersionStreamTest.cs" />
+    <Compile Include="AM\Reflection\CanaryClass.cs" />
+    <Compile Include="AM\Reflection\PropertyAccessorTest.cs" />
+    <Compile Include="AM\Reflection\FieldAccessorTest.cs" />
     <Compile Include="AM\StringUtiltityTest.cs" />
     <Compile Include="AM\NumberTextTest.cs" />
     <Compile Include="AM\Text\Hyphenation\RussianHyphenatorTest.cs" />
