@@ -505,7 +505,13 @@ namespace ManagedClient
                 BinaryReader reader
             )
         {
-            throw new NotImplementedException();
+            Host = reader.ReadNullableString();
+            Port = reader.ReadPackedInt32();
+            Username = reader.ReadNullableString();
+            Password = reader.ReadNullableString();
+            Database = reader.ReadNullableString();
+            Workstation = (IrbisWorkstation) reader.ReadPackedInt32();
+            _configuration = reader.ReadNullableString();
         }
 
         /// <summary>
@@ -516,7 +522,14 @@ namespace ManagedClient
                 BinaryWriter writer
             )
         {
-            throw new NotImplementedException();
+            writer
+                .WriteNullable(Host)
+                .WritePackedInt32(Port)
+                .WriteNullable(Username)
+                .WriteNullable(Password)
+                .WriteNullable(Database)
+                .WritePackedInt32((int) Workstation)
+                .WriteNullable(Configuration);
         }
 
         #endregion

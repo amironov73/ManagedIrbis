@@ -1,7 +1,9 @@
 ﻿using System;
+using ManagedClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedClient.Scripting;
+
 using MoonSharp.Interpreter;
 
 namespace UnitTests.ManagedClient.Scripting
@@ -12,7 +14,9 @@ namespace UnitTests.ManagedClient.Scripting
         [TestMethod]
         public void TestIrbisScript1()
         {
-            using (IrbisScript script = new IrbisScript())
+            ManagedClient64 client = new ManagedClient64();
+
+            using (IrbisScript script = new IrbisScript(client))
             {
                 DynValue result = script.DoString(@"
 function fact(n)
