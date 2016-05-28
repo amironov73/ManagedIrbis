@@ -118,6 +118,8 @@
     <Compile Include="AM\IO\NotifyStream.cs" />
     <Compile Include="AM\IO\StreamPacker.cs" />
     <Compile Include="AM\IO\VersionStream.cs" />
+    <Compile Include="AM\Net\AsyncSocket.cs" />
+    <Compile Include="AM\Net\AsyncSocketResult.cs" />
     <Compile Include="AM\NonNullValue.cs" />
     <Compile Include="AM\Reflection\AssemblyUtility.cs" />
     <Compile Include="AM\Reflection\FieldAccessor.cs" />
