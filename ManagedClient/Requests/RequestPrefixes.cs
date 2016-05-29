@@ -1,6 +1,6 @@
 ﻿/* RequestPrefixes.cs
-  * Ars Magna project, http://arsmagna.ru
-*/
+ * Ars Magna project, http://arsmagna.ru
+ */
 
 namespace ManagedClient.Requests
 {

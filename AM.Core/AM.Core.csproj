@@ -108,6 +108,7 @@
     <Compile Include="AM\ConsoleUtility.cs" />
     <Compile Include="AM\DelegateUtility.cs" />
     <Compile Include="AM\Diagnostics\ConsoleProcessRunner.cs" />
+    <Compile Include="AM\DisposableUtility.cs" />
     <Compile Include="AM\FuncUtility.cs" />
     <Compile Include="AM\IO\BinaryReaderUtility.cs" />
     <Compile Include="AM\IO\BinaryWriterUtility.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="AM\Net\AsyncSocket.cs" />
     <Compile Include="AM\Net\AsyncSocketResult.cs" />
     <Compile Include="AM\NonNullValue.cs" />
+    <Compile Include="AM\Operator.cs" />
     <Compile Include="AM\Reflection\AssemblyUtility.cs" />
     <Compile Include="AM\Reflection\FieldAccessor.cs" />
     <Compile Include="AM\Reflection\PropertyAccessor.cs" />
@@ -152,6 +154,7 @@
     <Compile Include="AM\Text\Tokenizer\TokenKind.cs" />
     <Compile Include="AM\Text\Transliterator.cs" />
     <Compile Include="AM\Threading\Tasks\AsyncLocal.cs" />
+    <Compile Include="AM\Threading\Tasks\TaskEx.cs" />
     <Compile Include="AM\Threading\Tasks\TaskFactoryUtility.cs" />
     <Compile Include="AM\Threading\Tasks\TaskUtility.cs" />
     <Compile Include="AM\TimeSpanUtility.cs" />
