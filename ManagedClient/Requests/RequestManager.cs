@@ -245,7 +245,7 @@ namespace ManagedClient.Requests
 
         public void WriteRequest(BookRequest request)
         {
-            IrbisRecord record = request.Record;
+            IrbisRecord record = request.RequestRecord;
             if (record != null)
             {
                 Client.WriteRecord(record, false, true);

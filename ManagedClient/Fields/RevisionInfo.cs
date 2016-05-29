@@ -1,16 +1,21 @@
 ﻿/* RevisionInfo.cs -- данные о редактировании записи
+ * Ars Magna project, http://arsmagna.ru
  */
 
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+
 using AM.IO;
+using AM.Runtime;
+
 using BLToolkit.Mapping;
+
+using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -27,10 +32,12 @@ namespace ManagedClient.Fields
     /// <summary>
     /// Данные о редактировании записи (поле 907).
     /// </summary>
+    [PublicAPI]
     [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("Stage={Stage} Date={Date} Name={Name}")]
     public sealed class RevisionInfo
+        : IHandmadeSerializable
     {
         #region Constants
 
@@ -105,9 +112,10 @@ namespace ManagedClient.Fields
         /// <summary>
         /// Разбор поля.
         /// </summary>
+        [JetBrains.Annotations.NotNull]
         public static RevisionInfo Parse
             (
-                RecordField field
+                [JetBrains.Annotations.NotNull] RecordField field
             )
         {
             RevisionInfo result = new RevisionInfo
@@ -123,20 +131,17 @@ namespace ManagedClient.Fields
         /// <summary>
         /// Разбор записи.
         /// </summary>
+        [JetBrains.Annotations.NotNull]
+        [ItemNotNull]
         public static RevisionInfo[] Parse
             (
-                IrbisRecord record,
+                [JetBrains.Annotations.NotNull] IrbisRecord record,
                 string tag
             )
         {
-            if (ReferenceEquals(record, null))
-            {
-                throw new ArgumentNullException("record");
-            }
-            if (string.IsNullOrEmpty(tag))
-            {
-                throw new ArgumentNullException("tag");
-            }
+            Code.NotNull(() => record);
+            Code.NotNullNorEmpty(() => tag);
+
 
             return record.Fields
                 .GetField(tag)
@@ -147,9 +152,11 @@ namespace ManagedClient.Fields
         /// <summary>
         /// Разбор записи.
         /// </summary>
+        [JetBrains.Annotations.NotNull]
+        [ItemNotNull]
         public static RevisionInfo[] Parse
             (
-                IrbisRecord record
+                [JetBrains.Annotations.NotNull] IrbisRecord record
             )
         {
             return Parse
@@ -162,143 +169,46 @@ namespace ManagedClient.Fields
         /// <summary>
         /// Превращение обратно в поле.
         /// </summary>
+        [JetBrains.Annotations.NotNull]
         public RecordField ToField()
         {
             RecordField result = new RecordField("907")
                 .AddNonEmptySubField('a', Date)
                 .AddNonEmptySubField('b', Name)
                 .AddNonEmptySubField('c', Stage);
+            
             return result;
         }
 
+        #endregion
+
+        #region IHandmadeSerializable members
+
         /// <summary>
-        /// Save to stream
+        /// Просим объект восстановить свое состояние из потока.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Stage = reader.ReadNullableString();
+            Date = reader.ReadNullableString();
+            Name = reader.ReadNullableString();
+        }
+
+        /// <summary>
+        /// Просим объект сохранить себя в потоке.
         /// </summary>
         public void SaveToStream
             (
-                [JetBrains.Annotations.NotNull] BinaryWriter writer
+                BinaryWriter writer
             )
         {
             writer
                 .WriteNullable(Stage)
                 .WriteNullable(Date)
                 .WriteNullable(Name);
-        }
-
-        /// <summary>
-        /// Read from stream.
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
-        [JetBrains.Annotations.NotNull]
-        public static RevisionInfo ReadFromStream
-            (
-                [JetBrains.Annotations.NotNull] BinaryReader reader
-            )
-        {
-            RevisionInfo result = new RevisionInfo
-            {
-                Stage = reader.ReadNullableString(),
-                Date = reader.ReadNullableString(),
-                Name = reader.ReadNullableString()
-            };
-
-            return result;
-        }
-
-        /// <summary>
-        /// Save bunch to the stream.
-        /// </summary>
-        public static void SaveToStream
-            (
-                [JetBrains.Annotations.NotNull] IEnumerable<RevisionInfo> items,
-                [JetBrains.Annotations.NotNull] Stream stream
-            )
-        {
-            BinaryWriter writer = new BinaryWriter(stream);
-            foreach (RevisionInfo item in items)
-            {
-                item.SaveToStream(writer);
-            }
-        }
-
-        /// <summary>
-        /// Save bunch to the file.
-        /// </summary>
-        public static void SaveToFile
-            (
-                [JetBrains.Annotations.NotNull] IEnumerable<RevisionInfo> items,
-                [JetBrains.Annotations.NotNull] string fileName
-            )
-        {
-            using (Stream stream = File.Create(fileName))
-            {
-                SaveToStream(items, stream);
-            }
-        }
-
-
-        /// <summary>
-        /// Save bunch to memory.
-        /// </summary>
-        public static byte[] SaveToMemory
-            (
-                [JetBrains.Annotations.NotNull] IEnumerable<RevisionInfo> items
-            )
-        {
-            using (MemoryStream stream = new MemoryStream())
-            {
-                SaveToStream(items, stream);
-                return stream.ToArray();
-            }
-        }
-
-        /// <summary>
-        /// Read bunch from the stream.
-        /// </summary>
-        public static List<RevisionInfo> ReadFromStream
-            (
-                [JetBrains.Annotations.NotNull] Stream stream
-            )
-        {
-            BinaryReader reader = new BinaryReader(stream);
-            List<RevisionInfo> result = new List<RevisionInfo>();
-
-            while (reader.PeekChar() >= 0)
-            {
-                RevisionInfo item = ReadFromStream(reader);
-                result.Add(item);
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Read bunch from the stream.
-        /// </summary>
-        public static List<RevisionInfo> ReadFromMemory
-            (
-                [JetBrains.Annotations.NotNull] byte[] bytes
-            )
-        {
-            using (Stream stream = new MemoryStream(bytes))
-            {
-                return ReadFromStream(stream);
-            }
-        }
-
-        /// <summary>
-        /// Read bunch from the file.
-        /// </summary>
-        public static List<RevisionInfo> ReadFromFile
-            (
-                [JetBrains.Annotations.NotNull] string fileName
-            )
-        {
-            using (Stream stream = File.OpenRead(fileName))
-            {
-                return ReadFromStream(stream);
-            }
         }
 
         #endregion

@@ -136,7 +136,16 @@
     <Compile Include="AM\ReferenceTest.cs" />
     <Compile Include="CodeJam\CodeTest.cs" />
     <Compile Include="Common\CommonUnitTest.cs" />
+    <Compile Include="ManagedClient\Fields\RevisionInfoTest.cs" />
+    <Compile Include="ManagedClient\Fields\ExemplarInfoTest.cs" />
     <Compile Include="ManagedClient\IrbisFormatTest.cs" />
+    <Compile Include="ManagedClient\Readers\ChairInfoTest.cs" />
+    <Compile Include="ManagedClient\Readers\DebtorInfoTest.cs" />
+    <Compile Include="ManagedClient\Readers\IriProfileTest.cs" />
+    <Compile Include="ManagedClient\Readers\ReaderAddressTest.cs" />
+    <Compile Include="ManagedClient\Readers\ReaderInfoTest.cs" />
+    <Compile Include="ManagedClient\Readers\VisitInfoTest.cs" />
+    <Compile Include="ManagedClient\Requests\BookRequestTest.cs" />
     <Compile Include="ManagedClient\Scripting\IrbisScriptTest.cs" />
     <Compile Include="ManagedClient\SubFieldCollectionTest.cs" />
     <Compile Include="ManagedClient\RecordFieldTest.cs" />
@@ -172,6 +181,9 @@
       <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
       <Name>ManagedClient</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ManagedClient\Magazines\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -134,6 +134,9 @@
     <Compile Include="IrbisUpperCaseTable.cs" />
     <Compile Include="IrbisVersion.cs" />
     <Compile Include="IrbisWorkstation.cs" />
+    <Compile Include="Magazines\MagazineArticleInfo.cs" />
+    <Compile Include="Magazines\MagazineCumulation.cs" />
+    <Compile Include="Magazines\MagazineIssueInfo.cs" />
     <Compile Include="ManagedClient64.cs" />
     <Compile Include="ManagedClientUtility.cs" />
     <Compile Include="Mapping\FieldAttribute.cs" />
@@ -155,6 +158,7 @@
     <Compile Include="Readers\ReaderRegistration.cs" />
     <Compile Include="Readers\ReaderUtility.cs" />
     <Compile Include="Readers\VisitInfo.cs" />
+    <Compile Include="Readers\VisitInfoUtility.cs" />
     <Compile Include="RecordField.cs" />
     <Compile Include="RecordFieldCollection.cs" />
     <Compile Include="RecordFieldUtility.cs" />
