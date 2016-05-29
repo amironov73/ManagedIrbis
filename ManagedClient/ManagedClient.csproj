@@ -148,6 +148,9 @@
     <Compile Include="Morphology\MorphologyEntry.cs" />
     <Compile Include="Morphology\MorphologyProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Quality\DefectList.cs" />
+    <Compile Include="Quality\FieldDefect.cs" />
+    <Compile Include="Quality\RecordReport.cs" />
     <Compile Include="Readers\ChairInfo.cs" />
     <Compile Include="Readers\DebtorInfo.cs" />
     <Compile Include="Readers\DebtorManager.cs" />

@@ -139,6 +139,8 @@
     <Compile Include="ManagedClient\Fields\RevisionInfoTest.cs" />
     <Compile Include="ManagedClient\Fields\ExemplarInfoTest.cs" />
     <Compile Include="ManagedClient\IrbisFormatTest.cs" />
+    <Compile Include="ManagedClient\Quality\FieldDefectTest.cs" />
+    <Compile Include="ManagedClient\Quality\RecordReportTest.cs" />
     <Compile Include="ManagedClient\Readers\ChairInfoTest.cs" />
     <Compile Include="ManagedClient\Readers\DebtorInfoTest.cs" />
     <Compile Include="ManagedClient\Readers\IriProfileTest.cs" />
