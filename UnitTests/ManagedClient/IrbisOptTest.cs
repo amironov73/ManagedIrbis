@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Text;
+using AM.Runtime;
 
 using ManagedClient;
 
@@ -47,6 +49,25 @@ namespace UnitTests.ManagedClient
             _TestCompare("+++++", "PAZK", true);
         }
 
+        private void _TestSerialization
+            (
+                IrbisOpt first
+            )
+        {
+            byte[] bytes = first.SaveToMemory();
+
+            IrbisOpt second = bytes.RestoreObjectFromMemory<IrbisOpt>();
+
+            Assert.AreEqual(first.WorksheetLength, second.WorksheetLength);
+            Assert.AreEqual(first.WorksheetTag, second.WorksheetTag);
+            Assert.AreEqual(first.Items.Count, second.Items.Count);
+            for (int i = 0; i < first.Items.Count; i++)
+            {
+                Assert.AreEqual(first.Items[i].Key, second.Items[i].Key);
+                Assert.AreEqual(first.Items[i].Value, second.Items[i].Value);
+            }
+        }
+
         [TestMethod]
         public void TestIrbisOptLoadFromOptFile()
         {
@@ -66,6 +87,14 @@ namespace UnitTests.ManagedClient
             Assert.AreEqual("PAZK42", optimized);
 
             opt.Validate(true);
+
+            _TestSerialization(opt);
+
+            StringWriter writer = new StringWriter();
+            opt.WriteOptFile(writer);
+            string actual = writer.ToString();
+            string expected = File.ReadAllText(filePath, Encoding.Default);
+            Assert.AreEqual(actual, expected);
         }
     }
 }

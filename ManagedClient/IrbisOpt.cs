@@ -372,6 +372,20 @@ namespace ManagedClient
         }
 
         /// <summary>
+        /// Получаем рабочий лист для указанной записи.
+        /// </summary>
+        /// <param name="record"></param>
+        /// <returns></returns>
+        [CanBeNull]
+        public string GetWorksheet
+            (
+                [NotNull] IrbisRecord record
+            )
+        {
+            return record.FM(WorksheetTag);
+        }
+
+        /// <summary>
         /// Загружаем из OPT-файла.
         /// </summary>
         public static IrbisOpt LoadFromOptFile
@@ -441,6 +455,50 @@ namespace ManagedClient
         }
 
         /// <summary>
+        /// Создание OPT-файла по описанию.
+        /// </summary>
+        public void WriteOptFile
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(() => fileName);
+
+            using (StreamWriter writer 
+                = new StreamWriter(fileName, false, Encoding.Default))
+            {
+                WriteOptFile(writer);
+            }
+        }
+
+        /// <summary>
+        /// Создание OPT-файла по описанию.
+        /// </summary>
+        public void WriteOptFile
+            (
+                [NotNull] TextWriter writer
+            )
+        {
+            Code.NotNull(() => writer);
+
+            writer.WriteLine(WorksheetTag);
+            writer.WriteLine(WorksheetLength);
+            foreach (Item item in Items)
+            {
+                writer.WriteLine
+                    (
+                        string.Format
+                        (
+                            "{0} {1}",
+                            item.Key.PadRight(WorksheetLength),
+                            item.Value
+                        )
+                    );
+            }
+            writer.WriteLine("*****");
+        }
+
+        /// <summary>
         /// Установка длины названия рабочего листа.
         /// </summary>
         public void SetWorksheetLength
@@ -467,6 +525,63 @@ namespace ManagedClient
             Code.NotNullNorEmpty(() => tag);
 
             WorksheetTag = tag;
+        }
+
+        /// <summary>
+        /// Проверка на валидность. OPT должен содержать
+        /// одну строку с плюсами. Она должна быть последней.
+        /// OPT не должен быть пустым. Длина ключей в элементах
+        /// не должна превышать <see cref="WorksheetLength"/>.
+        /// Не должно быть одинаковых ключей.
+        /// </summary>
+        public bool Validate
+            (
+                bool throwException
+            )
+        {
+            bool result = Items.Count != 0;
+
+            if (result)
+            {
+                int count = 0;
+                foreach (Item item in Items)
+                {
+                    if (item.Key.ConsistOf(Wildcard))
+                    {
+                        count++;
+                    }
+                }
+
+                result = count == 1;
+            }
+
+            if (result)
+            {
+                result = Items.Last().Key.ConsistOf(Wildcard);
+            }
+
+            if (result)
+            {
+                result = Items.All
+                    (
+                        item => item.Key.Length <= WorksheetLength
+                    );
+            }
+
+            if (result)
+            {
+                result = Items
+                    .GroupBy(item => item.Key.ToUpper())
+                    .Count(grp => grp.Count() > 1)
+                    == 0;
+            }
+
+            if (!result && throwException)
+            {
+                throw new ApplicationException("OPT not valid");
+            }
+
+            return result;
         }
 
         #endregion
@@ -498,35 +613,6 @@ namespace ManagedClient
             writer.WritePackedInt32(WorksheetLength);
             writer.Write(WorksheetTag);
         }
-
-        /// <summary>
-        /// Проверка на валидность. OPT должен содержать
-        /// одну строку с плюсами.
-        /// </summary>
-        public bool Validate
-            (
-                bool throwException
-            )
-        {
-            int count = 0;
-            foreach (Item item in Items)
-            {
-                if (item.Key.ConsistOf(Wildcard))
-                {
-                    count++;
-                }
-            }
-
-            bool result = count == 1;
-            
-            if (!result && throwException)
-            {
-                throw new ApplicationException("OPT not valid");
-            }
-
-            return result;
-        }
-
 
         #endregion
 
