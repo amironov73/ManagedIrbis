@@ -6,7 +6,7 @@
 
 using System;
 using System.IO;
-
+using AM.Collections;
 using AM.Runtime;
 
 using CodeJam;
@@ -31,6 +31,21 @@ namespace AM.IO
         #endregion
 
         #region Public methods
+
+        public static NonNullCollection<T> ReadNonNullCollection<T>
+            (
+                [NotNull] this BinaryReader reader
+            )
+            where T: class, IHandmadeSerializable, new ()
+        {
+            Code.NotNull(() => reader);
+
+            T[] array = reader.ReadArray<T>();
+            NonNullCollection<T> result = new NonNullCollection<T>();
+            result.AddRange(array);
+
+            return result;
+        }
 
         /// <summary>
         /// Read array from stream

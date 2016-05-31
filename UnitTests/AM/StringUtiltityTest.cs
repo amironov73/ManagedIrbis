@@ -10,7 +10,7 @@ namespace UnitTests.AM
     public class StringUtilityTest
     {
         [TestMethod]
-        public void TestStringUtility()
+        public void TestStringUtilityToVisibleString()
         {
             Assert.AreEqual("a", "a".ToVisibleString());
             Assert.AreEqual("(null)", StringUtility.ToVisibleString(null));
@@ -18,7 +18,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void TestIsValidIdentifier()
+        public void TestStringUtilityIsValidIdentifier()
         {
             Assert.IsFalse(string.Empty.IsValidIdentifier());
             Assert.IsTrue("a".IsValidIdentifier());
@@ -28,7 +28,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void TestSplitString()
+        public void TestStringUtilitySplitString()
         {
             Func<char, bool> func = c => c == '!';
             string[] result = "!!aaa!bbb!!c".SplitString(func).ToArray();
@@ -55,11 +55,20 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void TestUnquote()
+        public void TestStringUtilityUnquote()
         {
             Assert.AreEqual("", "()".Unquote('(', ')'));
             Assert.AreEqual("()1", "()1".Unquote('(', ')'));
             Assert.AreEqual("text", "\"text\"".Unquote('"'));
+        }
+
+        [TestMethod]
+        public void TestStringUtilityConsistOf()
+        {
+            Assert.AreEqual(true, "aaa".ConsistOf('a'));
+            Assert.AreEqual(false, "aba".ConsistOf('a'));
+            Assert.AreEqual(true, "abc".ConsistOf('a', 'b', 'c'));
+            Assert.AreEqual(false, "abcd".ConsistOf('a', 'b', 'c'));
         }
     }
 }

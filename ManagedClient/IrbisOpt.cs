@@ -6,10 +6,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM;
+using AM.Collections;
+using AM.IO;
 using AM.Runtime;
 
 using CodeJam;
@@ -17,6 +22,8 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -87,35 +94,439 @@ namespace ManagedClient
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class IrbisOpt
+        : IHandmadeSerializable
     {
+        #region Constants
+
+        /// <summary>
+        /// Подстановочный символ.
+        /// </summary>
+        public const char Wildcard = '+';
+
+        #endregion
+
         #region Nested classes
+
+        /// <summary>
+        /// Элемент словаря.
+        /// </summary>
+        [DebuggerDisplay("{Key} {Value}")]
+        public sealed class Item
+            : IHandmadeSerializable
+        {
+            #region Properties
+
+            /// <summary>
+            /// Ключ.
+            /// </summary>
+            [NotNull]
+            public string Key { get; set; }
+
+            /// <summary>
+            /// Значение.
+            /// </summary>
+            [NotNull]
+            public string Value { get; set; }
+
+            #endregion
+
+            #region Private members
+
+            #endregion
+
+            #region Public methods
+
+            /// <summary>
+            /// Сравнение строки с ключом.
+            /// </summary>
+            public bool Compare
+                (
+                    [CanBeNull] string text
+                )
+            {
+                return CompareString(Key, text);
+            }
+
+            /// <summary>
+            /// Разбор строки.
+            /// </summary>
+            [CanBeNull]
+            public static Item Parse
+                (
+                    [NotNull] string line
+                )
+            {
+                if (string.IsNullOrEmpty(line))
+                {
+                    return null;
+                }
+                line = line.Trim();
+                if (string.IsNullOrEmpty(line))
+                {
+                    return null;
+                }
+                char[] separator = {' '};
+                string[] parts = line.Split
+                    (
+                        separator,
+                        StringSplitOptions.RemoveEmptyEntries
+                    );
+                if (parts.Length != 2)
+                {
+                    return null;
+                }
+
+                Item result = new Item
+                {
+                    Key = parts[0],
+                    Value = parts[1]
+                };
+
+                return result;
+            }
+
+            #endregion
+
+            #region IHandmadeSerializable
+
+            /// <summary>
+            /// Просим объект восстановить свое состояние из потока.
+            /// </summary>
+            public void RestoreFromStream
+                (
+                    BinaryReader reader
+                )
+            {
+                Key = reader.ReadString();
+                Value = reader.ReadString();
+            }
+
+            /// <summary>
+            /// Просим объект сохранить себя в потоке.
+            /// </summary>
+            public void SaveToStream
+                (
+                    BinaryWriter writer
+                )
+            {
+                writer.Write(Key);
+                writer.Write(Value);
+            }
+
+            #endregion
+
+            #region Object members
+
+            /// <summary>
+            /// Returns a <see cref="System.String" />
+            /// that represents this instance.
+            /// </summary>
+            /// <returns>A <see cref="System.String" />
+            /// that represents this instance.</returns>
+            public override string ToString()
+            {
+                return string.Format
+                    (
+                        "{0} {1}",
+                        Key,
+                        Value
+                    );
+            }
+
+            #endregion
+        }
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Length of worksheet i
+        /// Элементы списка.
         /// </summary>
-        public int WorksheetLength { get; set; }
+        public NonNullCollection<Item> Items
+        {
+            get { return _items; }
+        }
+
+        /// <summary>
+        /// Length of worksheet.
+        /// </summary>
+        public int WorksheetLength { get; private set; }
 
         /// <summary>
         /// Tag that identifies worksheet.
         /// Common used: 920
         /// </summary>
-        public string WorksheetTag { get; set; }
+        public string WorksheetTag { get; private set; }
 
         #endregion
 
         #region Construction
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        public IrbisOpt()
+        {
+            _items = new NonNullCollection<Item>();
+        }
+
         #endregion
 
         #region Private members
 
+        private NonNullCollection<Item> _items;
+
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Сравнение символов с учётом подстановочного
+        /// знака '+'.
+        /// </summary>
+        public static bool CompareChar
+            (
+                char left,
+                char right
+            )
+        {
+            if (left == Wildcard)
+            {
+                return true;
+            }
+            return char.ToUpperInvariant(left)
+                   == char.ToUpperInvariant(right);
+        }
+
+        /// <summary>
+        /// Сравнение строк с учётом подстановочного знака '+'.
+        /// </summary>
+        public static bool CompareString
+            (
+                [NotNull] string left,
+                [CanBeNull] string right
+            )
+        {
+            Code.NotNull(left, "left");
+
+            if (string.IsNullOrEmpty(right))
+            {
+                if (left.ConsistOf(Wildcard))
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            CharEnumerator leftEnumerator = left.GetEnumerator();
+            CharEnumerator rightEnumerator = right.GetEnumerator();
+
+            try
+            {
+                while (true)
+                {
+                    char leftChar;
+                    bool leftNext = leftEnumerator.MoveNext();
+                    bool rightNext = rightEnumerator.MoveNext();
+
+                    if (leftNext && !rightNext)
+                    {
+                        leftChar = leftEnumerator.Current;
+                        if (leftChar == Wildcard)
+                        {
+                            while (leftEnumerator.MoveNext())
+                            {
+                                leftChar = leftEnumerator.Current;
+                                if (leftChar != Wildcard)
+                                {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        }
+                    }
+
+                    if (leftNext != rightNext)
+                    {
+                        return false;
+                    }
+                    if (!leftNext)
+                    {
+                        return true;
+                    }
+
+                    leftChar = leftEnumerator.Current;
+                    char rightChar = rightEnumerator.Current;
+                    if (!CompareChar(leftChar, rightChar))
+                    {
+                        return false;
+                    }
+                }
+            }
+            finally
+            {
+                leftEnumerator.Dispose();
+                rightEnumerator.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Загружаем из OPT-файла.
+        /// </summary>
+        public static IrbisOpt LoadFromOptFile
+            (
+                [NotNull] string filePath
+            )
+        {
+            Code.NotNullNorEmpty(() => filePath);
+
+            using (StreamReader reader 
+                = new StreamReader(filePath, Encoding.Default))
+            {
+                return ParseText(reader);
+            }
+        }
+
+        /// <summary>
+        /// Разбор текста.
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        public static IrbisOpt ParseText
+            (
+                [NotNull] TextReader reader
+            )
+        {
+            Code.NotNull(() => reader);
+
+            IrbisOpt result = new IrbisOpt();
+
+            result.SetWorksheetTag(reader.RequireLine().Trim());
+            result.SetWorksheetLength(int.Parse(reader.RequireLine().Trim()));
+
+            while (true)
+            {
+                string line = reader.RequireLine().Trim();
+                if (line.StartsWith("*"))
+                {
+                    break;
+                }
+
+                Item item = Item.Parse(line);
+                result.Items.Add(item);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Выбор рабочего листа.
+        /// </summary>
+        [NotNull]
+        public string SelectWorksheet
+            (
+                [CanBeNull] string tagValue
+            )
+        {
+            foreach (Item item in Items)
+            {
+                if (item.Compare(tagValue))
+                {
+                    return item.Value;
+                }
+            }
+
+            throw new ApplicationException("Can't select worksheet");
+        }
+
+        /// <summary>
+        /// Установка длины названия рабочего листа.
+        /// </summary>
+        public void SetWorksheetLength
+            (
+                int length
+            )
+        {
+            if (length <= 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
+            WorksheetLength = length;
+        }
+
+        /// <summary>
+        /// Установка поля для рабочего листа.
+        /// </summary>
+        public void SetWorksheetTag
+            (
+                [NotNull] string tag
+            )
+        {
+            Code.NotNullNorEmpty(() => tag);
+
+            WorksheetTag = tag;
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable
+
+        /// <summary>
+        /// Просим объект восстановить свое состояние из потока.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            _items = reader.ReadNonNullCollection<Item>();
+            WorksheetLength = reader.ReadPackedInt32();
+            WorksheetTag = reader.ReadString();
+        }
+
+        /// <summary>
+        /// Просим объект сохранить себя в потоке.
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            writer.Write(Items);
+            writer.WritePackedInt32(WorksheetLength);
+            writer.Write(WorksheetTag);
+        }
+
+        /// <summary>
+        /// Проверка на валидность. OPT должен содержать
+        /// одну строку с плюсами.
+        /// </summary>
+        public bool Validate
+            (
+                bool throwException
+            )
+        {
+            int count = 0;
+            foreach (Item item in Items)
+            {
+                if (item.Key.ConsistOf(Wildcard))
+                {
+                    count++;
+                }
+            }
+
+            bool result = count == 1;
+            
+            if (!result && throwException)
+            {
+                throw new ApplicationException("OPT not valid");
+            }
+
+            return result;
+        }
+
 
         #endregion
 

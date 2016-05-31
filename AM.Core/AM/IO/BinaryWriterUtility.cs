@@ -6,7 +6,7 @@
 
 using System;
 using System.IO;
-
+using AM.Collections;
 using AM.Runtime;
 
 using CodeJam;
@@ -31,6 +31,20 @@ namespace AM.IO
         #endregion
 
         #region Public methods
+
+        public static BinaryWriter Write<T>
+            (
+                [NotNull] this BinaryWriter writer,
+                [NotNull] NonNullCollection<T> collection
+            )
+            where T: class, IHandmadeSerializable, new()
+        {
+            Code.NotNull(()=> writer);
+
+            writer.WriteArray(collection.ToArray());
+
+            return writer;
+        }
 
         /// <summary>
         /// Write nullable 8-bit integer.
