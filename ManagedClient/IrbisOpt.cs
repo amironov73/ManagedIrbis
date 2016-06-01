@@ -1,4 +1,4 @@
-﻿/* IrbisOpt.cs -- .opt files handling
+﻿/* IrbisOpt.cs -- .OPT files handling
  * Ars Magna project, http://arsmagna.ru
  */
 
@@ -92,6 +92,7 @@ namespace ManagedClient
     /// OPT files handling
     /// </summary>
     [PublicAPI]
+    [Serializable]
     [MoonSharpUserData]
     public sealed class IrbisOpt
         : IHandmadeSerializable
@@ -465,7 +466,7 @@ namespace ManagedClient
             Code.NotNullNorEmpty(() => fileName);
 
             using (StreamWriter writer 
-                = new StreamWriter(fileName, false, Encoding.Default))
+                = new StreamWriter(fileName, false, IrbisEncoding.Ansi))
             {
                 WriteOptFile(writer);
             }
@@ -487,12 +488,9 @@ namespace ManagedClient
             {
                 writer.WriteLine
                     (
-                        string.Format
-                        (
-                            "{0} {1}",
-                            item.Key.PadRight(WorksheetLength),
-                            item.Value
-                        )
+                        "{0} {1}", 
+                        item.Key.PadRight(WorksheetLength), 
+                        item.Value
                     );
             }
             writer.WriteLine("*****");

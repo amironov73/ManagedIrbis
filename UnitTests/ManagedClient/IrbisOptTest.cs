@@ -92,8 +92,9 @@ namespace UnitTests.ManagedClient
 
             StringWriter writer = new StringWriter();
             opt.WriteOptFile(writer);
-            string actual = writer.ToString();
-            string expected = File.ReadAllText(filePath, Encoding.Default);
+            string actual = writer.ToString().Replace("\r\n", "\n");
+            string expected = File.ReadAllText(filePath, Encoding.Default)
+                .Replace("\r\n", "\n");
             Assert.AreEqual(actual, expected);
         }
     }

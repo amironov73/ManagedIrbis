@@ -121,10 +121,12 @@
     <Compile Include="IrbisClientInfo.cs" />
     <Compile Include="IrbisDatabaseInfo.cs" />
     <Compile Include="IrbisDate.cs" />
+    <Compile Include="IrbisEncoding.cs" />
     <Compile Include="IrbisException.cs" />
     <Compile Include="IrbisFormat.cs" />
     <Compile Include="IrbisInputMode.cs" />
     <Compile Include="IrbisOpt.cs" />
+    <Compile Include="IrbisParFile.cs" />
     <Compile Include="IrbisPath.cs" />
     <Compile Include="IrbisProcessInfo.cs" />
     <Compile Include="IrbisQuery.cs" />

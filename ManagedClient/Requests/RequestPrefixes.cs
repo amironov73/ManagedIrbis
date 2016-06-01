@@ -1,9 +1,12 @@
-﻿/* RequestPrefixes.cs
+﻿/* RequestPrefixes.cs -- префиксы запросов к базе RDR
  * Ars Magna project, http://arsmagna.ru
  */
 
 namespace ManagedClient.Requests
 {
+    /// <summary>
+    /// Префиксы стандартных запросов к базе данных RDR.
+    /// </summary>
     public class RequestPrefixes
     {
         #region Constants
