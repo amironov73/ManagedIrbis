@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -103,6 +104,63 @@ namespace AM.Text
         #region Public methods
 
         /// <summary>
+        /// Навигатор по текстовому файлу.
+        /// </summary>
+        [NotNull]
+        public static TextNavigator FromFile
+            (
+                [NotNull] string fileName,
+                [NotNull] Encoding encoding
+            )
+        {
+            Code.NotNullNorEmpty(() => fileName);
+
+            string text = File.ReadAllText(fileName, encoding);
+            TextNavigator result = new TextNavigator(text);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Навигатор по текстовому файлу.
+        /// </summary>
+        [NotNull]
+        public static TextNavigator FromFile
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(() => fileName);
+
+            string text = File.ReadAllText(fileName);
+            TextNavigator result = new TextNavigator(text);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Выдать остаток текста.
+        /// </summary>
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// </returns>
+        [CanBeNull]
+        public string GetRemainingText()
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            string result = _text.Substring
+                (
+                    _position,
+                    _length - _position
+                );
+
+            return result;
+        }
+
+        /// <summary>
         /// Управляющий символ?
         /// </summary>
         public bool IsControl()
@@ -193,6 +251,23 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Заглядывание вперёд на 1 позицию.
+        /// </summary>
+        /// <remarks>Это на 1 позицию дальше,
+        /// чем <see cref="PeekChar"/>
+        /// </remarks>
+        public char LookAhead()
+        {
+            int newPosition = _position + 1;
+            if (newPosition >= _length)
+            {
+                return EOF;
+            }
+
+            return _text[newPosition];
+        }
+
+        /// <summary>
         /// Заглядывание вперёд.
         /// </summary>
         public char LookAhead
@@ -243,6 +318,19 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Подглядывание текущего символа.
+        /// </summary>
+        public char PeekChar()
+        {
+            if (_position >= _length)
+            {
+                return EOF;
+            }
+
+            return _text[_position];
+        }
+
+        /// <summary>
         /// Считывание символа.
         /// </summary>
         public char ReadChar()
@@ -268,16 +356,332 @@ namespace AM.Text
         }
 
         /// <summary>
-        /// Подглядывание текущего символа.
+        /// Считывание начиная с открывающего символа
+        /// до закрывающего (включая их).
         /// </summary>
-        public char PeekChar()
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// Пустая строка, если нет открывающего
+        /// или закрывающего символа.
+        /// </returns>
+        [CanBeNull]
+        public string ReadFrom
+            (
+                char openChar,
+                char closeChar
+            )
         {
-            if (_position >= _length)
+            if (IsEOF)
             {
-                return EOF;
+                return null;
             }
 
-            return _text[_position];
+            int savePosition = _position;
+
+            char c = PeekChar();
+            if (c != openChar)
+            {
+                return string.Empty;
+            }
+            ReadChar();
+
+            while (true)
+            {
+                c = ReadChar();
+                if (c == EOF)
+                {
+                    return string.Empty;
+                }
+                if (c == closeChar)
+                {
+                    break;
+                }
+            }
+
+            string result = _text.Substring
+                (
+                    savePosition,
+                    _position - savePosition
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Считывание начиная с открывающего символа
+        /// до закрывающего (включая их).
+        /// </summary>
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// Пустая строка, если нет открывающего
+        /// или закрывающего символа.
+        /// </returns>
+        [CanBeNull]
+        public string ReadFrom
+            (
+                char[] openChars,
+                char[] closeChars
+            )
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            int savePosition = _position;
+
+            char c = PeekChar();
+            if (Array.IndexOf(openChars, c) < 0)
+            {
+                return string.Empty;
+            }
+            ReadChar();
+
+            while (true)
+            {
+                c = ReadChar();
+                if (c == EOF)
+                {
+                    return string.Empty;
+                }
+                if (Array.IndexOf(closeChars, c) >= 0)
+                {
+                    break;
+                }
+            }
+
+            string result = _text.Substring
+                (
+                    savePosition,
+                    _position - savePosition
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Считывание вплоть до указанного символа
+        /// (включая его).
+        /// </summary>
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// </returns>
+        [CanBeNull]
+        public string ReadTo
+            (
+                char stopChar
+            )
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            int savePosition = _position;
+
+            while (true)
+            {
+                char c = ReadChar();
+                if ((c == EOF) || (c == stopChar))
+                {
+                    break;
+                }
+            }
+
+            string result = _text.Substring
+                (
+                    savePosition,
+                    _position - savePosition
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Считывание вплоть до указанного символа
+        /// (включая один из них).
+        /// </summary>
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// </returns>
+        [CanBeNull]
+        public string ReadTo
+            (
+                params char[] stopChars
+            )
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            int savePosition = _position;
+
+            while (true)
+            {
+                char c = ReadChar();
+                if ((c == EOF) 
+                    || (Array.IndexOf(stopChars, c) >= 0))
+                {
+                    break;
+                }
+            }
+
+            string result = _text.Substring
+                (
+                    savePosition,
+                    _position - savePosition
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Считывание вплоть до указанного символа
+        /// (не включая его).
+        /// </summary>
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// </returns>
+        [CanBeNull]
+        public string ReadUntil
+            (
+                char stopChar
+            )
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            int savePosition = _position;
+
+            while (true)
+            {
+                char c = PeekChar();
+                if ((c == EOF) || (c == stopChar))
+                {
+                    break;
+                }
+                ReadChar();
+            }
+
+            string result = _text.Substring
+                (
+                    savePosition,
+                    _position - savePosition
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Считывание вплоть до указанных символов
+        /// (не включая их).
+        /// </summary>
+        /// <remarks><c>null</c>, если достигнут конец текста.
+        /// </remarks>
+        [CanBeNull]
+        public string ReadUntil
+            (
+                params char[] stopChars
+            )
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            int savePosition = _position;
+
+            while (true)
+            {
+                char c = PeekChar();
+                if ((c == EOF)
+                    || Array.IndexOf(stopChars, c) >= 0)
+                {
+                    break;
+                }
+                ReadChar();
+            }
+
+            string result = _text.Substring
+                (
+                    savePosition,
+                    _position - savePosition
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Считывание, пока встречается указанный символ.
+        /// </summary>
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// </returns>
+        [CanBeNull]
+        public string ReadWhile
+            (
+                char goodChar
+            )
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            int savePosition = _position;
+
+            while (true)
+            {
+                char c = PeekChar();
+                if ((c == EOF) || (c != goodChar))
+                {
+                    break;
+                }
+                ReadChar();
+            }
+
+            string result = _text.Substring
+                (
+                    savePosition,
+                    _position - savePosition
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Считывание, пока встречается указанные символы.
+        /// </summary>
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// </returns>
+        [CanBeNull]
+        public string ReadWhile
+            (
+                params char[] goodChars
+            )
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            int savePosition = _position;
+
+            while (true)
+            {
+                char c = PeekChar();
+                if ((c == EOF)
+                    || (Array.IndexOf(goodChars, c) < 0))
+                {
+                    break;
+                }
+                ReadChar();
+            }
+
+            string result = _text.Substring
+                (
+                    savePosition,
+                    _position - savePosition
+                );
+
+            return result;
         }
 
         /// <summary>
@@ -325,6 +729,58 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Пропустить указанный символ.
+        /// </summary>
+        public bool SkipWhile
+            (
+                char skipChar
+            )
+        {
+            while (true)
+            {
+                if (IsEOF)
+                {
+                    return false;
+                }
+                char c = PeekChar();
+                if (c == skipChar)
+                {
+                    ReadChar();
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Пропустить указанные символы.
+        /// </summary>
+        public bool SkipWhile
+            (
+                params char[] skipChars
+            )
+        {
+            while (true)
+            {
+                if (IsEOF)
+                {
+                    return false;
+                }
+                char c = PeekChar();
+                if (Array.IndexOf(skipChars, c) >= 0)
+                {
+                    ReadChar();
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
+        /// <summary>
         /// Пропускаем пробельные символы.
         /// </summary>
         public bool SkipWhitespace()
@@ -336,6 +792,28 @@ namespace AM.Text
                     return false;
                 }
                 if (IsWhiteSpace())
+                {
+                    ReadChar();
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Пропускаем пробельные символы и пунктуацию.
+        /// </summary>
+        public bool SkipWhitespaceAndPunctuation()
+        {
+            while (true)
+            {
+                if (IsEOF)
+                {
+                    return false;
+                }
+                if (IsWhiteSpace() || IsPunctuation())
                 {
                     ReadChar();
                 }

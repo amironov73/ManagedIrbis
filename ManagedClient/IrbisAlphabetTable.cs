@@ -235,7 +235,7 @@ namespace ManagedClient
                     if (accumulator.Length != 0)
                     {
                         result.Add(accumulator.ToString());
-                        accumulator.Clear();
+                        accumulator.Length = 0;
                     }
                 }
             }

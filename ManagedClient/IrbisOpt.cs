@@ -367,8 +367,10 @@ namespace ManagedClient
             }
             finally
             {
+#if FW40
                 leftEnumerator.Dispose();
                 rightEnumerator.Dispose();
+#endif
             }
         }
 

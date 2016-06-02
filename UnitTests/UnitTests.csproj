@@ -129,6 +129,7 @@
     <Compile Include="AM\Text\TransliteratorTest.cs" />
     <Compile Include="AM\Text\Ranges\NumberRangeTest.cs" />
     <Compile Include="AM\Text\TextWithEncodingTest.cs" />
+    <Compile Include="AM\Text\TextNavigatorTest.cs" />
     <Compile Include="AM\TimeSpanUtilityTest.cs" />
     <Compile Include="AM\CharUtilityTest.cs" />
     <Compile Include="AM\NonNullValueTest.cs" />
