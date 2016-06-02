@@ -64,7 +64,7 @@ namespace AM.Net
             _socket = socket;
         }
 
-#if FW40
+#if FW45
 
         /// <summary>
         /// Конструктор.
