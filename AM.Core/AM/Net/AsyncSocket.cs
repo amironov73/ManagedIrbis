@@ -46,7 +46,15 @@ namespace AM.Net
         /// Конструктор.
         /// </summary>
         public AsyncSocket ()
-            : this (SocketType.Stream, ProtocolType.IPv4)
+            : this 
+                (
+                    new Socket
+                        (
+                            AddressFamily.InterNetwork,
+                            SocketType.Stream,
+                            ProtocolType.Tcp
+                        )
+                )
         {
             
         }
@@ -64,23 +72,6 @@ namespace AM.Net
             _socket = socket;
         }
 
-#if FW45
-
-        /// <summary>
-        /// Конструктор.
-        /// </summary>
-        public AsyncSocket
-            (
-                SocketType socketType,
-                ProtocolType protocolType
-            )
-            : this (new Socket(socketType, protocolType))
-        {
-            
-        }
-
-#endif
-
         /// <summary>
         /// Конструктор.
         /// </summary>
@@ -90,7 +81,15 @@ namespace AM.Net
                 SocketType socketType,
                 ProtocolType protocolType
             )
-            : this (new Socket(addressFamily, socketType, protocolType))
+            : this 
+                (
+                    new Socket
+                        (
+                            addressFamily,
+                            socketType,
+                            protocolType
+                        )
+                )
         {
             
         }
@@ -135,7 +134,8 @@ namespace AM.Net
                 );
 
             AsyncSocketResult result = new AsyncSocketResult
-                (() => taskCompletionSource.Task.Wait()
+                (
+                    () => taskCompletionSource.Task.Wait()
                 );
             return result;
         }

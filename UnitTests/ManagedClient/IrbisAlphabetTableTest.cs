@@ -53,5 +53,15 @@ namespace UnitTests.ManagedClient
             Assert.AreEqual("зайчик", words[9]);
             Assert.AreEqual("погулять", words[10]);
         }
+
+        [TestMethod]
+        public void TestIrbisAlphabetTableToSourceCode()
+        {
+            IrbisAlphabetTable table = _GetTable();
+            StringWriter writer = new StringWriter();
+            table.ToSourceCode(writer);
+            string sourceCode = writer.ToString();
+            Assert.IsNotNull(sourceCode);
+        }
     }
 }

@@ -112,12 +112,15 @@
     <Compile Include="Direct\NodeItem.cs" />
     <Compile Include="Direct\NodeLeader.cs" />
     <Compile Include="Direct\NodeRecord.cs" />
+    <Compile Include="EmbeddedField.cs" />
     <Compile Include="FieldIndicator.cs" />
+    <Compile Include="FieldReference.cs" />
     <Compile Include="Fields\CodesInfo.cs" />
     <Compile Include="Fields\ExemplarInfo.cs" />
     <Compile Include="Fields\ExemplarManager.cs" />
     <Compile Include="Fields\RevisionInfo.cs" />
     <Compile Include="FieldTag.cs" />
+    <Compile Include="FieldText.cs" />
     <Compile Include="IrbisAlphabetTable.cs" />
     <Compile Include="IrbisClientInfo.cs" />
     <Compile Include="IrbisDatabaseInfo.cs" />
@@ -178,6 +181,7 @@
     <Compile Include="SubField.cs" />
     <Compile Include="SubFieldCode.cs" />
     <Compile Include="SubFieldCollection.cs" />
+    <Compile Include="SubFieldText.cs" />
     <Compile Include="SubFieldUtility.cs" />
     <Compile Include="Systematization\BbkException.cs" />
     <Compile Include="Systematization\BbkIndex.cs" />

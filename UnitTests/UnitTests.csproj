@@ -162,6 +162,7 @@
     <Compile Include="ManagedClient\IrbisOptTest.cs" />
     <Compile Include="ManagedClient\IrbisAlphabetTableTest.cs" />
     <Compile Include="ManagedClient\IrbisParFileTest.cs" />
+    <Compile Include="ManagedClient\FieldReferenceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CharacterClassTest.cs" />
     <Compile Include="NumericUtilityTest.cs" />

@@ -682,6 +682,30 @@ namespace ManagedClient
             return this;
         }
 
+        /// <summary>
+        /// Получаем текстовое представление поля.
+        /// </summary>
+        [NotNull]
+        public string ToText()
+        {
+            StringBuilder result = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(Value))
+            {
+                result.Append(Value);
+            }
+            foreach (SubField subField in SubFields)
+            {
+                string subText = subField.ToString();
+                if (!string.IsNullOrEmpty(subText))
+                {
+                    result.Append(subText);
+                }
+            }
+
+            return result.ToString();
+        }
+
         #endregion
 
         #region IHandmadeSerializable members

@@ -120,6 +120,30 @@ namespace ManagedClient
 
         private char[] _characters;
 
+        private void _CharToSourceCode
+            (
+                TextWriter writer,
+                char c
+            )
+        {
+            if (c < ' ')
+            {
+                writer.Write
+                    (
+                        @"'\x{0:X2}'",
+                        (int)c
+                    );
+            }
+            else
+            {
+                writer.Write
+                    (
+                        "'{0}'",
+                        c
+                    );
+            }
+        }
+
         #endregion
 
         #region Public methods
@@ -222,6 +246,39 @@ namespace ManagedClient
             }
 
             return result.ToArray();
+        }
+
+        /// <summary>
+        /// Формируем исходный код с определением таблицы.
+        /// </summary>
+        public void ToSourceCode
+            (
+                [NotNull] TextWriter writer
+            )
+        {
+            int count = 0;
+
+            writer.WriteLine("new char[] {");
+            foreach (char c in Characters)
+            {
+                if (count == 0)
+                {
+                    writer.Write("   ");
+                }
+
+                writer.Write(" ");
+                _CharToSourceCode(writer, c);
+                writer.Write(",");
+
+                count++;
+                if (count > 10)
+                {
+                    count = 0;
+                    writer.WriteLine();
+                }
+            }
+            writer.WriteLine();
+            writer.WriteLine("};");
         }
 
         /// <summary>
