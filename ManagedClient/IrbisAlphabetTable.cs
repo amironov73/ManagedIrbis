@@ -50,7 +50,7 @@ namespace ManagedClient
         #region Constants
 
         /// <summary>
-        /// Имя файла по умолчанию.
+        /// Имя файла таблицы по умолчанию.
         /// </summary>
         public const string FileName = "ISISACW.TAB";
 

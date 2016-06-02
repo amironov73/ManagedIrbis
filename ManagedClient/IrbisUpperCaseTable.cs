@@ -25,6 +25,15 @@ namespace ManagedClient
     [MoonSharpUserData]
     public sealed class IrbisUpperCaseTable
     {
+        #region Constants
+
+        /// <summary>
+        /// Имя файла таблицы по умолчанию.
+        /// </summary>
+        public const string FileName = "ISISUCW.TAB";
+
+        #endregion
+
         #region Properties
         #endregion
 
@@ -46,7 +55,7 @@ namespace ManagedClient
         }
 
         /// <summary>
-        /// Constructror.
+        /// Конструктор.
         /// </summary>
         public IrbisUpperCaseTable
             (
@@ -57,20 +66,20 @@ namespace ManagedClient
             Code.NotNull(client, "client");
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            // TODO
+            throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Constructor.
+        /// Конструктор.
         /// </summary>
         /// <param name="client">The client.</param>
         public IrbisUpperCaseTable
             (
                 [NotNull] ManagedClient64 client
             )
-            : this ( client, "ISISUC.TAB" )
+            : this ( client, FileName )
         {
-            
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -117,6 +117,7 @@
     <Compile Include="Fields\ExemplarInfo.cs" />
     <Compile Include="Fields\ExemplarManager.cs" />
     <Compile Include="Fields\RevisionInfo.cs" />
+    <Compile Include="FieldTag.cs" />
     <Compile Include="IrbisAlphabetTable.cs" />
     <Compile Include="IrbisClientInfo.cs" />
     <Compile Include="IrbisDatabaseInfo.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Requests\RequestRefusals.cs" />
     <Compile Include="Scripting\IrbisScript.cs" />
     <Compile Include="SubField.cs" />
+    <Compile Include="SubFieldCode.cs" />
     <Compile Include="SubFieldCollection.cs" />
     <Compile Include="SubFieldUtility.cs" />
     <Compile Include="Systematization\BbkException.cs" />

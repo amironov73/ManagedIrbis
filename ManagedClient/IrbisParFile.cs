@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml.Serialization;
 
 using AM;
 using AM.IO;
@@ -81,6 +82,8 @@ namespace ManagedClient
     /// PAR files handling
     /// </summary>
     [PublicAPI]
+    [Serializable]
+    [XmlRoot("par")]
     [MoonSharpUserData]
     public sealed class IrbisParFile
         : IHandmadeSerializable
@@ -95,60 +98,79 @@ namespace ManagedClient
         /// Путь к файлу XRF
         /// </summary>
         [CanBeNull]
+        [JsonProperty("xrf")]
         public string XrfPath { get; set; }
 
         /// <summary>
         /// Путь к файлу MST
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("mst")]
+        [JsonProperty("mst")]
         public string MstPath { get; set; }
 
         /// <summary>
         /// Путь к файлу CNT
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("cnt")]
+        [JsonProperty("cnt")]
         public string CntPath { get; set; }
 
         /// <summary>
         /// Путь к файлу N01
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("n01")]
+        [JsonProperty("n01")]
         public string N01Path { get; set; }
 
         /// <summary>
         /// Путь к файлу N02
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("n02")]
+        [JsonProperty("n02")]
         public string N02Path { get; set; }
 
         /// <summary>
         /// Путь к файлу L01
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("l01")]
+        [JsonProperty("l01")]
         public string L01Path { get; set; }
 
         /// <summary>
         /// Путь к файлу L02
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("l02")]
+        [JsonProperty("l02")]
         public string L02Path { get; set; }
 
         /// <summary>
         /// Путь к файлу IFP
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("ifp")]
+        [JsonProperty("ifp")]
         public string IfpPath { get; set; }
 
         /// <summary>
         /// Путь к файлу ANY
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("any")]
+        [JsonProperty("any")]
         public string AnyPath { get; set; }
 
         /// <summary>
         /// Путь к файлам PFT
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("pft")]
+        [JsonProperty("pft")]
         public string PftPath { get; set; }
 
         /// <summary>
@@ -156,6 +178,8 @@ namespace ManagedClient
         /// </summary>
         /// <remarks>Параметр появился в версии 2012</remarks>
         [CanBeNull]
+        [XmlAttribute("ext")]
+        [JsonProperty("ext")]
         public string ExtPath { get; set; }
 
         #endregion
