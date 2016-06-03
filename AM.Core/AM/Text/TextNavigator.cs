@@ -5,11 +5,8 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using CodeJam;
 
@@ -458,6 +455,40 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Чтение беззнакового целого.
+        /// </summary>
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// Пустую строку, если не число.</returns>
+        [CanBeNull]
+        public string ReadInteger ()
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            if (!IsDigit())
+            {
+                return string.Empty;
+            }
+
+            int savePosition = _position;
+
+            while (IsDigit())
+            {
+                ReadChar();
+            }
+
+            string result = _text.Substring
+                (
+                    savePosition,
+                    _position - savePosition
+                );
+
+            return result;
+        }
+
+        /// <summary>
         /// Считывание вплоть до указанного символа
         /// (включая его).
         /// </summary>
@@ -685,6 +716,45 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Пропускает один символ, если он совпадает с указанным.
+        /// </summary>
+        /// <returns><c>true</c>, если символ был съеден успешно
+        /// </returns>
+        public bool SkipChar
+            (
+                char c
+            )
+        {
+            if (PeekChar() == c)
+            {
+                ReadChar();
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Пропускает один символ, если он совпадает с любым
+        /// из указанных.
+        /// </summary>
+        /// <returns><c>true</c>, если символ был съеден успешно
+        /// </returns>
+        public bool SkipChar
+            (
+                params char[] allowed
+            )
+        {
+            if (Array.IndexOf(allowed, PeekChar()) >= 0)
+            {
+                ReadChar();
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Пропускаем управляющие символы.
         /// </summary>
         public bool SkipControl()
@@ -718,6 +788,34 @@ namespace AM.Text
                     return false;
                 }
                 if (IsPunctuation())
+                {
+                    ReadChar();
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Пропускаем произвольное количество символов
+        /// из указанного диапазона.
+        /// </summary>
+        public bool SkipRange
+            (
+                char fromChar,
+                char toChar
+            )
+        {
+            while (true)
+            {
+                if (IsEOF)
+                {
+                    return false;
+                }
+                char c = PeekChar();
+                if ((c >= fromChar) && (c <= toChar))
                 {
                     ReadChar();
                 }

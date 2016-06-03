@@ -7,14 +7,15 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.IO;
 using AM.Runtime;
+using AM.Text;
 
 using CodeJam;
 
@@ -26,6 +27,33 @@ using MoonSharp.Interpreter;
 
 namespace ManagedClient
 {
+    // Формат ссылки
+    // "1" |2|+ v3/4^5[6-7]*8.9 +|10| "11"
+    // где
+    // 1 - условный префикс-литерал
+    // 2 - повторяющийся префикс-литерал
+    // v - один из символов: d, n, v
+    // 3 - тег поля
+    // 4 - тег встроенного поля
+    // 5 - код подполя
+    // 6 - начальный номер повторения
+    // 7 - конечный номер повторения
+    // 8 - смещение
+    // 9 - длина
+    // 10 - повторяющийся суффикс-литерал
+    // 11 - условный суффикс-литерал
+
+    // Примеры ссылок на поля
+    // v200
+    // v200^a
+    // ". - "v200
+    // v300+| - |
+    // v701[1-2]
+    // v701[2]
+    // v701^a*2.2
+    // "Отсутствует"n700
+
+
     /// <summary>
     /// 
     /// </summary>
@@ -190,22 +218,23 @@ namespace ManagedClient
 
         #region Private members
 
-        private static string _SafeSubString 
+        [CanBeNull]
+        private static string _SafeSubString
             (
-                string text,
+                [CanBeNull] string text,
                 int offset,
                 int length
             )
         {
-            if (string.IsNullOrEmpty (text))
+            if (string.IsNullOrEmpty(text))
             {
                 return text;
             }
 
-            if ( (offset + length) > text.Length )
+            if ((offset + length) > text.Length)
             {
                 length = text.Length - offset;
-                if (length < - 0)
+                if (length < -0)
                 {
                     return string.Empty;
                 }
@@ -214,8 +243,149 @@ namespace ManagedClient
             return text.Substring
                 (
                     offset,
-                    length 
+                    length
                 );
+        }
+
+        [CanBeNull]
+        private static string _Null
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return null;
+            }
+
+            return text;
+        }
+
+        [CanBeNull]
+        private static string _Eat
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return null;
+            }
+
+            return text.Substring
+                (
+                    1,
+                    text.Length - 2
+                );
+        }
+
+        private static bool _NonEmpty
+            (
+                [CanBeNull] IEnumerable<string> lines
+            )
+        {
+            if (ReferenceEquals(lines, null))
+            {
+                return false;
+            }
+
+            foreach (string line in lines)
+            {
+                if (!string.IsNullOrEmpty(line))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void _DecorateV
+            (
+                [NotNull] List<string> result,
+                [CanBeNull] IEnumerable<string> lines
+            )
+        {
+            if (ReferenceEquals(lines, null))
+            {
+                return;
+            }
+
+            string[] array = lines.ToArray();
+            int last = array.Length - 1;
+
+            for (int index = 0; index < array.Length; index++)
+            {
+                string output = array[index];
+
+                if ((index != 0) || !PlusPrefix)
+                {
+                    output = RepeatablePrefix + output;
+                }
+
+                if ((index != last) || !PlusSuffix)
+                {
+                    output = output + RepeatableSuffix;
+                }
+
+                result.Add(output);
+            }
+
+            if (result.Count != 0)
+            {
+                if (!string.IsNullOrEmpty(ConditionalPrefix))
+                {
+                    result[0] = ConditionalPrefix + result[0];
+                }
+                if (!string.IsNullOrEmpty(ConditionalSuffix))
+                {
+                    last = result.Count - 1;
+                    result[last] = result[last] + ConditionalSuffix;
+                }
+            }
+        }
+
+        private void _DecorateDN
+            (
+                [NotNull] List<string> result,
+                bool flag
+            )
+        {
+            if (flag)
+            {
+                string output = string.Empty;
+                if (!string.IsNullOrEmpty(ConditionalPrefix))
+                {
+                    output = ConditionalPrefix;
+                }
+                if (!string.IsNullOrEmpty(ConditionalSuffix))
+                {
+                    output = ConditionalSuffix;
+                }
+
+                if (!string.IsNullOrEmpty(output))
+                {
+                    result.Add(output);
+                }
+            }
+        }
+
+        private void _DecorateN
+            (
+                [NotNull] List<string> result,
+                [CanBeNull] IEnumerable<string> lines
+            )
+        {
+            _DecorateDN(result, !_NonEmpty(lines));
+        }
+
+        private void _DecorateD
+            (
+                [NotNull] List<string> result,
+                [CanBeNull] IEnumerable<string> lines
+            )
+        {
+            _DecorateDN(result, _NonEmpty(lines));
         }
 
         #endregion
@@ -238,13 +408,19 @@ namespace ManagedClient
 
             source = source.NonEmptyLines().ToArray();
 
-            foreach (string s in source)
+            switch (Command)
             {
-                string output = s;
-
-                // TODO
-
-                result.Add(output);
+                case Verb.D:
+                    _DecorateD(result, source);
+                    break;
+                case Verb.N:
+                    _DecorateN(result, source);
+                    break;
+                case Verb.V:
+                    _DecorateV(result, source);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             return result
@@ -315,7 +491,7 @@ namespace ManagedClient
             string[] result = LimitIndex(source);
             result = LimitLength(result);
             result = Decorate(result);
-            
+
             return result;
         }
 
@@ -352,7 +528,7 @@ namespace ManagedClient
 
             string[] source = GetFieldValue(fields);
             string[] result = Format(source);
-            
+
             return result;
         }
 
@@ -369,7 +545,7 @@ namespace ManagedClient
 
             string[] source = GetFieldValue(fields);
             string result = FormatSingle(source);
-            
+
             return result;
         }
 
@@ -489,6 +665,180 @@ namespace ManagedClient
 
             return result
                 .ToArray();
+        }
+
+        /// <summary>
+        /// Парсинг из строкового представления.
+        /// </summary>
+        [NotNull]
+        public static FieldReference Parse
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNullNorEmpty(() => text);
+
+            TextNavigator navigator = new TextNavigator(text);
+
+            FieldReference result = new FieldReference();
+
+            navigator.SkipWhitespace();
+            result.ConditionalPrefix = _Eat(navigator.ReadFrom('"', '"'));
+
+            navigator.SkipWhitespace();
+            result.RepeatablePrefix = _Eat(navigator.ReadFrom('|', '|'));
+
+            navigator.SkipWhitespace();
+            result.PlusPrefix = navigator.SkipChar('+');
+
+            navigator.SkipWhitespace();
+            char c = navigator.ReadChar();
+            Verb verb;
+            switch (c)
+            {
+                case 'v':
+                case 'V':
+                    verb = Verb.V;
+                    break;
+
+                case 'd':
+                case 'D':
+                    verb = Verb.D;
+                    break;
+
+                case 'n':
+                case 'N':
+                    verb = Verb.N;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            result.Command = verb;
+
+            result.FieldTag = navigator.ReadInteger();
+            if (string.IsNullOrEmpty(result.FieldTag))
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            if (navigator.SkipChar('/'))
+            {
+                result.EmbeddedTag = _Null(navigator.ReadInteger());
+            }
+            if (navigator.SkipChar('^'))
+            {
+                result.SubField = navigator.ReadChar();
+                if (result.SubField == NoCode)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            if (navigator.PeekChar() == '[')
+            {
+                navigator.ReadChar();
+                navigator.SkipWhitespace();
+
+                string index;
+
+                if (navigator.PeekChar() == '-')
+                {
+                    navigator.ReadChar();
+                    navigator.SkipWhitespace();
+                    index = navigator.ReadInteger();
+                    if (string.IsNullOrEmpty(index))
+                    {
+                        throw new ArgumentOutOfRangeException();
+                    }
+                    int indexTo = int.Parse
+                        (
+                            index,
+                            CultureInfo.InvariantCulture
+                        );
+                    result.IndexTo = indexTo;
+                }
+                else
+                {
+                    index = navigator.ReadInteger();
+                    if (string.IsNullOrEmpty(index))
+                    {
+                        throw new ArgumentOutOfRangeException();
+                    }
+                    int indexFrom = int.Parse
+                        (
+                            index,
+                            CultureInfo.InvariantCulture
+                        );
+                    result.IndexFrom = indexFrom;
+                    result.IndexTo = indexFrom;
+                }
+
+                navigator.SkipWhitespace();
+                if (navigator.SkipChar('-'))
+                {
+                    navigator.SkipWhitespace();
+                    index = navigator.ReadInteger();
+                    if (string.IsNullOrEmpty(index))
+                    {
+                        result.IndexTo = 0;
+                    }
+                    else
+                    {
+                        int indexTo = int.Parse
+                            (
+                                index,
+                                CultureInfo.InvariantCulture
+                            );
+                        result.IndexTo = indexTo;
+                    }
+                }
+
+                navigator.SkipWhitespace();
+                if (navigator.ReadChar() != ']')
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            if ((result.IndexFrom > result.IndexTo)
+                && (result.IndexTo != 0))
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            navigator.SkipWhitespace();
+            if (navigator.SkipChar('*'))
+            {
+                navigator.SkipWhitespace();
+                string offset = navigator.ReadInteger();
+                result.Offset = int.Parse
+                    (
+                        offset,
+                        CultureInfo.InvariantCulture
+                    );
+            }
+            navigator.SkipWhitespace();
+            if (navigator.SkipChar('.'))
+            {
+                navigator.SkipWhitespace();
+                string length = navigator.ReadInteger();
+                result.Length = int.Parse
+                    (
+                        length,
+                        CultureInfo.InvariantCulture
+                    );
+            }
+
+            navigator.SkipWhitespace();
+            result.PlusSuffix = navigator.SkipChar('+');
+
+            navigator.SkipWhitespace();
+            result.RepeatableSuffix = _Eat(navigator.ReadFrom('|', '|'));
+
+            navigator.SkipWhitespace();
+            result.ConditionalSuffix = _Eat(navigator.ReadFrom('"', '"'));
+
+            return result;
         }
 
         /// <summary>

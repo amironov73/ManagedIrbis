@@ -83,5 +83,17 @@ namespace UnitTests.AM.Text
             string actual = navigator.GetRemainingText();
             Assert.AreEqual("abc", actual);
         }
+
+        [TestMethod]
+        public void TestTextNavigatorReadInteger()
+        {
+            const string text1 = "314abc";
+            TextNavigator navigator = new TextNavigator(text1);
+            string actual = navigator.ReadInteger();
+            Assert.AreEqual("314", actual);
+
+            actual = navigator.ReadInteger();
+            Assert.AreEqual(string.Empty, actual);
+        }
     }
 }
