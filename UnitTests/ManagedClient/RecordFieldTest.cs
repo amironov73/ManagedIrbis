@@ -64,5 +64,48 @@ namespace UnitTests
                         )
                 );
         }
+
+        private RecordField _GetField()
+        {
+            RecordField result = new RecordField("200", "Значение");
+
+            result.AddSubField('a', "Заглавие");
+            result.AddSubField('e', "подзаголовочные");
+            result.AddSubField('f', "об ответственности");
+
+            return result;
+        }
+
+        [TestMethod]
+        public void TestRecordFieldToString()
+        {
+            RecordField field = _GetField();
+
+            string actual = field.ToString();
+            int result = string.CompareOrdinal
+                (
+                    "200#Значение^aЗаглавие^eподзаголовочные^fоб ответственности",
+                    actual
+                );
+
+            Assert.AreEqual
+                (
+                    0,
+                    result
+                );
+        }
+
+        [TestMethod]
+        public void TestRecordFieldToText()
+        {
+            RecordField field = _GetField();
+
+            string actual = field.ToText();
+            Assert.AreEqual
+                (
+                    "Значение^aЗаглавие^eподзаголовочные^fоб ответственности",
+                    actual
+                );
+        }
     }
 }

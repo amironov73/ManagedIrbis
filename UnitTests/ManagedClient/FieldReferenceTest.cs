@@ -254,7 +254,7 @@ namespace UnitTests.ManagedClient
         public void TestFieldReferenceFormatSingle2()
         {
             _TestParse("v200^a", "Заглавие");
-            //_TestParse("v300[1]", "Первое примечание");
+            _TestParse("v300[1]", "Первое примечание");
         }
 
     }

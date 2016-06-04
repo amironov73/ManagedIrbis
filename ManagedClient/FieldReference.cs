@@ -455,7 +455,7 @@ namespace ManagedClient
             {
                 if (SubField == NoCode)
                 {
-                    result.Add(field.ToString());
+                    result.Add(field.ToText());
                 }
                 else if (SubField == '*')
                 {
