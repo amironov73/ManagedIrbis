@@ -101,7 +101,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AM\ArrayUtility.cs" />
+    <Compile Include="AM\AutoDisposeAttribute.cs" />
     <Compile Include="AM\CharUtility.cs" />
+    <Compile Include="AM\Collections\CloneableCollection.cs" />
+    <Compile Include="AM\Collections\IIndexable.cs" />
     <Compile Include="AM\Collections\ListUtility.cs" />
     <Compile Include="AM\Collections\NonNullCollection.cs" />
     <Compile Include="AM\ConnectionStringParser.cs" />
