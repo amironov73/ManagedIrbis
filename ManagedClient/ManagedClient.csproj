@@ -149,6 +149,15 @@
     <Compile Include="Mapping\SubFieldAttribute.cs" />
     <Compile Include="Mapping\SubFieldInfo.cs" />
     <Compile Include="Mapping\SubFieldMapper.cs" />
+    <Compile Include="Marc\MarcBibliographicalIndex.cs" />
+    <Compile Include="Marc\MarcBibliographicalLevel.cs" />
+    <Compile Include="Marc\MarcCatalogingRules.cs" />
+    <Compile Include="Marc\MarcRecordStatus.cs" />
+    <Compile Include="Marc\MarcRecordType.cs" />
+    <Compile Include="Marc\MarcRelatedRecord.cs" />
+    <Compile Include="Metadata\AbstractMetadataFormat.cs" />
+    <Compile Include="Metadata\MarcMetadataFormat.cs" />
+    <Compile Include="Metadata\RusMarcMetadataFormat.cs" />
     <Compile Include="Morphology\IrbisMorphologyProvider.cs" />
     <Compile Include="Morphology\MorphologyEngine.cs" />
     <Compile Include="Morphology\MorphologyEntry.cs" />
