@@ -39,7 +39,10 @@ namespace AM.Globalization
     /// </example>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class UICultureSaver : IDisposable
+    [DebuggerDisplay("{PreviousCulture}")]
+    // ReSharper disable once InconsistentNaming
+    public sealed class UICultureSaver
+        : IDisposable
     {
         #region Properties
 
@@ -49,6 +52,7 @@ namespace AM.Globalization
         /// Gets the previous UI culture.
         /// </summary>
         /// <value>The previous culture.</value>
+        [NotNull]
         public CultureInfo PreviousCulture
         {
             [DebuggerStepThrough]
@@ -65,7 +69,7 @@ namespace AM.Globalization
         /// <summary>
         /// Saves current thread UI culture for a while.
         /// </summary>
-        public UICultureSaver ( )
+        public UICultureSaver()
         {
             _previousCulture = Thread.CurrentThread.CurrentUICulture;
         }
@@ -74,30 +78,25 @@ namespace AM.Globalization
         /// Sets new current thread UI culture to the given 
         /// <see cref="T:System.Globalization.CultureInfo"/>.
         /// </summary>
-        /// <param name="newCulture">The new culture.</param>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="newCulture"/> is <c>null</c>.
-        /// </exception>
-        public UICultureSaver ( CultureInfo newCulture )
-            : this ()
+        public UICultureSaver
+            (
+                [NotNull] CultureInfo newCulture
+            )
+            : this()
         {
-            Code.NotNull
-                (
-                    newCulture,
-                    "newCulture"
-                 );
+            Code.NotNull(newCulture, "newCulture");
+
             Thread.CurrentThread.CurrentUICulture = newCulture;
         }
 
         /// <summary>
         /// Sets current thread UI culture to based on the given name.
         /// </summary>
-        /// <param name="cultureName">Name of the culture.</param>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="cultureName"/> is <c>null</c>.
-        /// </exception>
-        public UICultureSaver ( string cultureName )
-            : this ( new CultureInfo ( cultureName ) )
+        public UICultureSaver
+            (
+                [NotNull] string cultureName
+            )
+            : this(new CultureInfo(cultureName))
         {
         }
 
@@ -105,8 +104,8 @@ namespace AM.Globalization
         /// Sets current thread UI culture to based on the given identifier.
         /// </summary>
         /// <param name="cultureIdentifier">The culture identifier.</param>
-        public UICultureSaver ( int cultureIdentifier )
-            : this ( new CultureInfo ( cultureIdentifier ) )
+        public UICultureSaver(int cultureIdentifier)
+            : this(new CultureInfo(cultureIdentifier))
         {
         }
 
@@ -117,7 +116,7 @@ namespace AM.Globalization
         /// <summary>
         /// Restores old current thread culture.
         /// </summary>
-        public void Dispose ( )
+        public void Dispose()
         {
             Thread.CurrentThread.CurrentUICulture = _previousCulture;
         }

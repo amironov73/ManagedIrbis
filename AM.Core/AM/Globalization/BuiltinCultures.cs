@@ -26,19 +26,19 @@ namespace AM.Globalization
         /// <summary>
         /// Gets the american english.
         /// </summary>
-        /// <value>The american english.</value>
+        [NotNull]
         public static CultureInfo AmericanEnglish
         {
             get
             {
-                return new CultureInfo(CultureCode.Russian);
+                return new CultureInfo(CultureCode.AmericanEnglish);
             }
         }
 
         /// <summary>
         /// Gets the russian culture.
         /// </summary>
-        /// <value>The russian.</value>
+        [NotNull]
         public static CultureInfo Russian
         {
             get

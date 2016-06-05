@@ -16,6 +16,7 @@ namespace AM.Globalization
     /// 
     /// </summary>
     [PublicAPI]
+    [MoonSharpUserData]
     public static class CultureCode
     {
         /// <summary>

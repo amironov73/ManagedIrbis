@@ -123,6 +123,7 @@
     <Compile Include="AM\IO\StreamPacker.cs" />
     <Compile Include="AM\IO\TextReaderUtility.cs" />
     <Compile Include="AM\IO\VersionStream.cs" />
+    <Compile Include="AM\Mathematics\MathUtility.cs" />
     <Compile Include="AM\Net\AsyncSocket.cs" />
     <Compile Include="AM\Net\AsyncSocketResult.cs" />
     <Compile Include="AM\NonNullValue.cs" />

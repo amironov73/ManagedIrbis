@@ -68,8 +68,9 @@ namespace AM.Globalization
         /// [ignore case].</param>
         public RussianStringComparer
             (
-            bool considerYo,
-            bool ignoreCase )
+                bool considerYo,
+                bool ignoreCase
+            )
         {
             _considerYo = considerYo;
             _ignoreCase = ignoreCase;
@@ -77,8 +78,9 @@ namespace AM.Globalization
             CultureInfo russianCulture = BuiltinCultures.Russian;
             _innerComparer = Create
                 (
-                 russianCulture,
-                 ignoreCase );
+                    russianCulture,
+                    ignoreCase
+                 );
         }
 
         #endregion
@@ -87,21 +89,23 @@ namespace AM.Globalization
 
         private StringComparer _innerComparer;
 
-        private string _Replace ( string str )
+        private string _Replace
+            (
+                string str
+            )
         {
-            if ( ConsiderYo )
+            if (ReferenceEquals(str, null))
             {
-                return ( str == null )
-                           ? str
-                           : str.Replace
-                                 (
-                                  'ё',
-                                  'е' )
-                                .Replace
-                                 (
-                                  'Ё',
-                                  'Е' );
+                return null;
             }
+
+            if (ConsiderYo)
+            {
+                str = str
+                    .Replace ( 'ё', 'е' )
+                    .Replace ( 'Ё', 'Е' );
+            }
+            
             return str;
         }
 
@@ -125,12 +129,14 @@ namespace AM.Globalization
                 string y
             )
         {
-            string xCopy = _Replace ( x );
-            string yCopy = _Replace ( y );
+            string xCopy = _Replace(x);
+            string yCopy = _Replace(y);
+            
             return _innerComparer.Compare
                 (
-                 xCopy,
-                 yCopy );
+                    xCopy,
+                    yCopy
+                 );
         }
 
         ///<summary>
@@ -145,15 +151,18 @@ namespace AM.Globalization
         ///<param name="x">A string to compare to y.</param>
         public override bool Equals
             (
-            string x,
-            string y )
+                string x,
+                string y
+            )
         {
-            string xCopy = _Replace ( x );
-            string yCopy = _Replace ( y );
+            string xCopy = _Replace(x);
+            string yCopy = _Replace(y);
+            
             return _innerComparer.Equals
                 (
-                 xCopy,
-                 yCopy );
+                    xCopy,
+                    yCopy
+                 );
         }
 
         ///<summary>
@@ -165,13 +174,14 @@ namespace AM.Globalization
         /// parameter.
         ///</returns>
         ///<param name="obj">A string.</param>
-        public override int GetHashCode 
+        public override int GetHashCode
             (
                 string obj
             )
         {
-            string objCopy = _Replace ( obj );
-            return _innerComparer.GetHashCode ( objCopy );
+            string objCopy = _Replace(obj);
+            
+            return _innerComparer.GetHashCode(objCopy);
         }
     }
 }

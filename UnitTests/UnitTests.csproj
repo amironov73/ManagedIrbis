@@ -112,6 +112,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AM\Collections\NonNullCollectionTest.cs" />
+    <Compile Include="AM\Globalization\BuiltinCulturesTest.cs" />
+    <Compile Include="AM\Globalization\RussianStringComparerTest.cs" />
     <Compile Include="AM\IO\BinaryWriterTest.cs" />
     <Compile Include="AM\IO\NotifyStreamTest.cs" />
     <Compile Include="AM\IO\MultiStreamTest.cs" />
@@ -135,6 +137,7 @@
     <Compile Include="AM\NonNullValueTest.cs" />
     <Compile Include="AM\ConnectionStringParserTest.cs" />
     <Compile Include="AM\ReferenceTest.cs" />
+    <Compile Include="AM\ConversionUtilityTest.cs" />
     <Compile Include="CodeJam\CodeTest.cs" />
     <Compile Include="Common\CommonUnitTest.cs" />
     <Compile Include="ManagedClient\Fields\RevisionInfoTest.cs" />

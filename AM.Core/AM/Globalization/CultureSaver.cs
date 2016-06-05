@@ -32,13 +32,14 @@ namespace AM.Globalization
     /// 
     /// using ( new CultureSaver ( "ru-RU" ) )
     /// {
-    ///		// do something
+    ///     // do something
     /// }
     /// // here old culture is restored.
     /// </code>
     /// </example>
     [PublicAPI]
     [MoonSharpUserData]
+    [DebuggerDisplay("{PreviousCulture")]
     public sealed class CultureSaver
         : IDisposable
     {
@@ -50,6 +51,7 @@ namespace AM.Globalization
         /// Gets the previous culture.
         /// </summary>
         /// <value>The previous culture.</value>
+        [NotNull]
         public CultureInfo PreviousCulture
         {
             [DebuggerStepThrough]
@@ -66,7 +68,7 @@ namespace AM.Globalization
         /// <summary>
         /// Saves current thread culture for a while.
         /// </summary>
-        public CultureSaver ( )
+        public CultureSaver()
         {
             _previousCulture = Thread.CurrentThread.CurrentCulture;
         }
@@ -75,18 +77,14 @@ namespace AM.Globalization
         /// Sets new current thread culture to the given 
         /// <see cref="T:System.Globalization.CultureInfo"/>.
         /// </summary>
-        /// <param name="newCulture">The new culture.</param>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="newCulture"/> is <c>null</c>.
-        /// </exception>
-        public CultureSaver ( CultureInfo newCulture )
-            : this ()
+        public CultureSaver
+            (
+                [NotNull] CultureInfo newCulture
+            )
+            : this()
         {
-            Code.NotNull
-                (
-                    newCulture,
-                    "newCulture"
-                 );
+            Code.NotNull(newCulture, "newCulture");
+
             Thread.CurrentThread.CurrentCulture = newCulture;
         }
 
@@ -97,8 +95,11 @@ namespace AM.Globalization
         /// <exception cref="T:System.ArgumentNullException">
         /// <paramref name="cultureName"/> is <c>null</c>.
         /// </exception>
-        public CultureSaver ( string cultureName )
-            : this ( new CultureInfo ( cultureName ) )
+        public CultureSaver
+            (
+                [NotNull] string cultureName
+            )
+            : this(new CultureInfo(cultureName))
         {
         }
 
@@ -106,8 +107,11 @@ namespace AM.Globalization
         /// Sets current thread culture to based on the given identifier.
         /// </summary>
         /// <param name="cultureIdentifier">The culture identifier.</param>
-        public CultureSaver ( int cultureIdentifier )
-            : this ( new CultureInfo ( cultureIdentifier ) )
+        public CultureSaver
+            (
+                int cultureIdentifier
+            )
+            : this(new CultureInfo(cultureIdentifier))
         {
         }
 
@@ -118,7 +122,7 @@ namespace AM.Globalization
         /// <summary>
         /// Restores old current thread UI culture.
         /// </summary>
-        public void Dispose ( )
+        public void Dispose()
         {
             Thread.CurrentThread.CurrentCulture = _previousCulture;
         }
