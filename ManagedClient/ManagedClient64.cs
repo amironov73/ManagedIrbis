@@ -118,12 +118,17 @@ namespace ManagedClient
 
         #region Properties
 
-        public static Version Version = Assembly
+        /// <summary>
+        /// Версия клиента.
+        /// </summary>
+        public static Version ClientVersion = Assembly
             .GetExecutingAssembly()
             .GetName()
             .Version;
 
-        //[Browsable(false)]
+        /// <summary>
+        /// Признак занятости клиента.
+        /// </summary>
         public bool Busy { get; private set; }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿/* DefectList.cs --
+﻿/* DefectList.cs -- список дефектов для поля записи
  * Ars Magna project, http://arsmagna.ru
  */
 
@@ -26,7 +26,7 @@ using MoonSharp.Interpreter;
 namespace ManagedClient.Quality
 {
     /// <summary>
-    /// Список дефектов.
+    /// Список дефектов для записи.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -35,25 +35,6 @@ namespace ManagedClient.Quality
         IHandmadeSerializable
     {
         #region Public methods
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [NotNull]
-        public DefectList AddRange
-            (
-                [NotNull] IEnumerable<FieldDefect> defects
-            )
-        {
-            Code.NotNull(() => defects);
-
-            foreach (FieldDefect defect in defects)
-            {
-                Add(defect);
-            }
-
-            return this;
-        }
 
         #endregion
 

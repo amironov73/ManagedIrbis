@@ -257,5 +257,10 @@ namespace UnitTests.ManagedClient
             _TestParse("v300[1]", "Первое примечание");
         }
 
+        [TestMethod]
+        public void TestFieldReferenceFormatSingle3()
+        {
+            _TestParse("v300#1", "Первое примечание");
+        }
     }
 }

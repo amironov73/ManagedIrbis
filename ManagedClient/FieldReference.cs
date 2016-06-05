@@ -799,6 +799,19 @@ namespace ManagedClient
                     throw new ArgumentOutOfRangeException();
                 }
             }
+            else if (navigator.PeekChar() == '#')
+            {
+                navigator.ReadChar();
+
+                string index = navigator.ReadInteger();
+                if (string.IsNullOrEmpty(index))
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+                int indexFrom = int.Parse(index);
+                result.IndexFrom = indexFrom;
+                result.IndexTo = indexFrom;
+            }
 
             if ((result.IndexFrom > result.IndexTo)
                 && (result.IndexTo != 0))

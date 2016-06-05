@@ -26,6 +26,7 @@ namespace ManagedClient.Mapping
     /// 
     /// </summary>
     [PublicAPI]
+    [MoonSharpUserData]
     public sealed class SubFieldMapper
     {
         #region Properties
@@ -38,6 +39,9 @@ namespace ManagedClient.Mapping
 
         #region Private members
 
+        /// <summary>
+        /// Преобразование в булево значение.
+        /// </summary>
         public static bool ToBoolean
             (
                 [NotNull] SubField subField
@@ -46,6 +50,9 @@ namespace ManagedClient.Mapping
             return string.IsNullOrEmpty(subField.Value);
         }
 
+        /// <summary>
+        /// Преобразование в символ.
+        /// </summary>
         public static char ToChar
             (
                 [NotNull] SubField subField
@@ -57,6 +64,9 @@ namespace ManagedClient.Mapping
                 : text[0];
         }
 
+        /// <summary>
+        /// Преобразование в дату.
+        /// </summary>
         public static DateTime ToDateTime
             (
                 [NotNull] SubField subField
@@ -65,6 +75,9 @@ namespace ManagedClient.Mapping
             return IrbisDate.ConvertStringToDate(subField.Value);
         }
 
+        /// <summary>
+        /// Преобразование в число с фиксированной точкой.
+        /// </summary>
         public static decimal ToDecimal
             (
                 [NotNull] SubField subField
@@ -75,6 +88,10 @@ namespace ManagedClient.Mapping
             return result;
         }
 
+        /// <summary>
+        /// Преобразование в число с плавающей точкой
+        /// двойной точностью.
+        /// </summary>
         public static double ToDouble
             (
                 [NotNull] SubField subField
@@ -85,6 +102,36 @@ namespace ManagedClient.Mapping
             return result;
         }
 
+        /// <summary>
+        /// Преобразование в число с плавающей точкой
+        /// одинарной точности.
+        /// </summary>
+        public static float ToSingle
+            (
+                [NotNull] SubField subField
+            )
+        {
+            float result;
+            float.TryParse(subField.Value, out result);
+            return result;
+        }
+
+        /// <summary>
+        /// Преобразование в 16-битное целое со знаком.
+        /// </summary>
+        public static short ToInt16
+            (
+                [NotNull] SubField subField
+            )
+        {
+            short result;
+            short.TryParse(subField.Value, out result);
+            return result;
+        }
+
+        /// <summary>
+        /// Преобразование в 32-битное целое со знаком.
+        /// </summary>
         public static int ToInt32
             (
                 [NotNull] SubField subField
@@ -95,6 +142,9 @@ namespace ManagedClient.Mapping
             return result;
         }
 
+        /// <summary>
+        /// Преобразование в 64-битное целое со знаком.
+        /// </summary>
         public static long ToInt64
             (
                 [NotNull] SubField subField
@@ -105,6 +155,9 @@ namespace ManagedClient.Mapping
             return result;
         }
 
+        /// <summary>
+        /// Преобразование в строку (тривиальное).
+        /// </summary>
         [CanBeNull]
         public static string ToString
             (
