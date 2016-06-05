@@ -1,2 +1,2 @@
 language: csharp
-solution: ManagedClient.sln
+solution: ManagedClient.travis.sln
