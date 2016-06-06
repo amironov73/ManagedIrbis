@@ -117,6 +117,7 @@
     <Compile Include="AM\IO\BinaryWriterTest.cs" />
     <Compile Include="AM\IO\NotifyStreamTest.cs" />
     <Compile Include="AM\IO\MultiStreamTest.cs" />
+    <Compile Include="AM\IO\IniFileTest.cs" />
     <Compile Include="AM\IO\VersionStreamTest.cs" />
     <Compile Include="AM\Reflection\CanaryClass.cs" />
     <Compile Include="AM\Reflection\PropertyAccessorTest.cs" />
@@ -168,6 +169,8 @@
     <Compile Include="ManagedClient\IrbisAlphabetTableTest.cs" />
     <Compile Include="ManagedClient\IrbisParFileTest.cs" />
     <Compile Include="ManagedClient\FieldReferenceTest.cs" />
+    <Compile Include="ManagedClient\Worksheet\WssFileTest.cs" />
+    <Compile Include="ManagedClient\Worksheet\WorksheetItemTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CharacterClassTest.cs" />
     <Compile Include="NumericUtilityTest.cs" />

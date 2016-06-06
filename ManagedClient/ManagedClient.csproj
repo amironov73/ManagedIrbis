@@ -125,10 +125,11 @@
     <Compile Include="IrbisClientInfo.cs" />
     <Compile Include="IrbisDatabaseInfo.cs" />
     <Compile Include="IrbisDate.cs" />
+    <Compile Include="IrbisEditMask.cs" />
     <Compile Include="IrbisEncoding.cs" />
     <Compile Include="IrbisException.cs" />
     <Compile Include="IrbisFormat.cs" />
-    <Compile Include="IrbisInputMode.cs" />
+    <Compile Include="Worksheet\InputMode.cs" />
     <Compile Include="IrbisOpt.cs" />
     <Compile Include="IrbisParFile.cs" />
     <Compile Include="IrbisPath.cs" />
@@ -197,6 +198,8 @@
     <Compile Include="Systematization\BbkRange.cs" />
     <Compile Include="Systematization\UdkException.cs" />
     <Compile Include="TermLink.cs" />
+    <Compile Include="Worksheet\WorksheetItem.cs" />
+    <Compile Include="Worksheet\WssFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />

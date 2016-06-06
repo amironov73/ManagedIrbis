@@ -1,13 +1,13 @@
-﻿/* IrbisInputMode.cs -- input mode constants
+﻿/* InputMode.cs -- input mode constants
  * Ars Magna project, http://arsmagna.ru
  */
 
-namespace ManagedClient
+namespace ManagedClient.Worksheet
 {
     /// <summary>
     /// Режимы ввода
     /// </summary>
-    public enum IrbisInputMode
+    public enum InputMode
     {
         /// <summary>
         /// Ввод без дополнительной обработки.

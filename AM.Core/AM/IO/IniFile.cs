@@ -12,6 +12,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 
+using AM.Runtime;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -20,7 +22,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace IniReader
+namespace AM.IO
 {
     /// <summary>
     /// Simple INI-file reader/writer.
@@ -29,24 +31,27 @@ namespace IniReader
     [MoonSharpUserData]
     [System.ComponentModel.DesignerCategory("Code")]
     // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
+    [DebuggerDisplay("{FileName}")]
     public class IniFile
-        : Component
+        : Component,
+        IHandmadeSerializable
     {
         #region Nested classes
 
         /// <summary>
         /// INI-file section.
         /// </summary>
+        [DebuggerDisplay("{Name}")]
         public sealed class Section
-            : IEnumerable
+            : IEnumerable,
+            IHandmadeSerializable
         {
             #region Properties
-
-            private IniFile _owner;
 
             ///<summary>
             /// INI file owning this section.
             ///</summary>
+            [NotNull]
             public IniFile Owner
             {
                 [DebuggerStepThrough]
@@ -55,8 +60,6 @@ namespace IniReader
                     return _owner;
                 }
             }
-
-            private string _name;
 
             ///<summary>
             /// Section name.
@@ -68,17 +71,10 @@ namespace IniReader
                 {
                     return _name;
                 }
+                [DebuggerStepThrough]
                 set
                 {
-                    _owner._sections.Remove(_name);
-                    _name = value.Trim();
-                    if ((_name != null)
-                         && (_name == string.Empty))
-                    {
-                        throw new ArgumentException();
-                    }
-                    _owner._sections.Add(value, this);
-                    _owner._modified = true;
+                    SetName(value);
                 }
             }
 
@@ -134,7 +130,11 @@ namespace IniReader
             /// </summary>
             /// <param name="owner"></param>
             /// <param name="name"></param>
-            internal Section(IniFile owner, string name)
+            internal Section
+                (
+                    [NotNull] IniFile owner,
+                    [NotNull] string name
+                )
             {
                 _owner = owner;
                 _name = name;
@@ -144,6 +144,10 @@ namespace IniReader
             #endregion
 
             #region Private members
+
+            private string _name;
+
+            private readonly IniFile _owner;
 
             internal Dictionary<string, string> _dictionary;
 
@@ -204,6 +208,30 @@ namespace IniReader
                 Owner._modified = true;
             }
 
+            public void SetName
+                (
+                    [NotNull] string name
+                )
+            {
+                Code.NotNullNorEmpty(name, "name");
+
+                if (!string.IsNullOrEmpty(_name))
+                {
+                    Owner.Sections.Remove(_name);
+                }
+                
+                name = name.Trim();
+                if (string.IsNullOrEmpty(name))
+                {
+                    throw new ArgumentException();
+                }
+
+                _name = name;
+
+                Owner.Sections.Add(name, this);
+                Owner._modified = true;
+            }
+
             /// <summary>
             /// 
             /// </summary>
@@ -232,31 +260,44 @@ namespace IniReader
             }
 
             #endregion
+
+            #region IHandmadeSerializable members
+
+            /// <summary>
+            /// Просим объект восстановить свое состояние из потока.
+            /// </summary>
+            public void RestoreFromStream
+                (
+                    BinaryReader reader
+                )
+            {
+                
+            }
+
+            /// <summary>
+            /// Просим объект сохранить себя в потоке.
+            /// </summary>
+            public void SaveToStream
+                (
+                    BinaryWriter writer
+                )
+            {
+                writer.Write(Name);
+            }
+
+            #endregion
         }
 
         #endregion
 
         #region Properties
 
-        private string _fileName;
-
         ///<summary>
-        /// 
+        /// Name of the file.
         ///</summary>
+        [CanBeNull]
         [DefaultValue(null)]
-        public string FileName
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return _fileName;
-            }
-            [DebuggerStepThrough]
-            set
-            {
-                _fileName = value;
-            }
-        }
+        public string FileName { get; set; }
 
         private Encoding _encoding;
 
@@ -285,9 +326,8 @@ namespace IniReader
         /// 
         ///</summary>
         [Browsable(false)]
-        [
-            DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden
-                )]
+        [DesignerSerializationVisibility
+            (DesignerSerializationVisibility.Hidden)]
         public Dictionary<string, Section> Sections
         {
             [DebuggerStepThrough]
@@ -353,7 +393,7 @@ namespace IniReader
             Code.NotNullNorEmpty(fileName, "fileName");
 
             _writable = writable;
-            _fileName = fileName;
+            FileName = fileName;
             Reread();
         }
 
@@ -449,11 +489,11 @@ namespace IniReader
         /// <summary>
         /// Reread from file.
         /// </summary>
-        public virtual void Reread()
+        public void Reread()
         {
             Section section = _CreateSections();
             Encoding encoding = Encoding ?? Encoding.Default;
-            using (StreamReader reader = new StreamReader(_fileName, encoding))
+            using (StreamReader reader = new StreamReader(FileName, encoding))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
@@ -594,6 +634,32 @@ namespace IniReader
             {
                 Save();
             }
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable
+
+        /// <summary>
+        /// Просим объект восстановить свое состояние из потока.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            
+        }
+
+        /// <summary>
+        /// Просим объект сохранить себя в потоке.
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            
         }
 
         #endregion
