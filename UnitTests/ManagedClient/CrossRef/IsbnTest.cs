@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using ManagedClient;
+using ManagedClient.Identifiers;
 
 namespace UnitTests.ManagedClient
 {

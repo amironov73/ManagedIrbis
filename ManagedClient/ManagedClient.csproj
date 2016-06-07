@@ -108,10 +108,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BibTex\BibTex.cs" />
+    <Compile Include="Identifiers\CrossRefApi.cs" />
+    <Compile Include="Identifiers\Ismn.cs" />
+    <Compile Include="Identifiers\Isni.cs" />
+    <Compile Include="Identifiers\JournalSeekApi.cs" />
+    <Compile Include="Identifiers\Orcid.cs" />
+    <Compile Include="Identifiers\WikipediaApi.cs" />
+    <Compile Include="Identifiers\WorldCatApi.cs" />
     <Compile Include="Direct\IfpRecord.cs" />
     <Compile Include="Direct\NodeItem.cs" />
     <Compile Include="Direct\NodeLeader.cs" />
     <Compile Include="Direct\NodeRecord.cs" />
+    <Compile Include="Identifiers\Doi.cs" />
     <Compile Include="EmbeddedField.cs" />
     <Compile Include="FieldIndicator.cs" />
     <Compile Include="FieldReference.cs" />
@@ -129,8 +138,8 @@
     <Compile Include="IrbisEncoding.cs" />
     <Compile Include="IrbisException.cs" />
     <Compile Include="IrbisFormat.cs" />
-    <Compile Include="Isbn.cs" />
-    <Compile Include="Issn.cs" />
+    <Compile Include="Identifiers\Isbn.cs" />
+    <Compile Include="Identifiers\Issn.cs" />
     <Compile Include="Worksheet\InputMode.cs" />
     <Compile Include="IrbisOpt.cs" />
     <Compile Include="IrbisParFile.cs" />

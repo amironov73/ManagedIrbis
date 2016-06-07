@@ -1,4 +1,4 @@
-﻿/* Issn.cs -- ISSN
+﻿/* CrossRefApi.cs --
  * Ars Magna project, http://arsmagna.ru
  */
 
@@ -6,13 +6,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-using AM;
+using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -24,26 +27,14 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedClient.Identifiers
 {
     /// <summary>
-    /// Всё, связанное с ISSN.
+    /// API for CrossRef.org
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-
-    public static class Issn
+    public sealed class CrossRefApi
     {
-        #region Constants
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
     }
 }
