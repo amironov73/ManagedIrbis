@@ -169,6 +169,7 @@
     <Compile Include="ManagedClient\IrbisAlphabetTableTest.cs" />
     <Compile Include="ManagedClient\IrbisParFileTest.cs" />
     <Compile Include="ManagedClient\FieldReferenceTest.cs" />
+    <Compile Include="ManagedClient\IsbnTest.cs" />
     <Compile Include="ManagedClient\Worksheet\WssFileTest.cs" />
     <Compile Include="ManagedClient\Worksheet\WorksheetItemTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

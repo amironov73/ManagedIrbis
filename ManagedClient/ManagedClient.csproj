@@ -129,6 +129,8 @@
     <Compile Include="IrbisEncoding.cs" />
     <Compile Include="IrbisException.cs" />
     <Compile Include="IrbisFormat.cs" />
+    <Compile Include="Isbn.cs" />
+    <Compile Include="Issn.cs" />
     <Compile Include="Worksheet\InputMode.cs" />
     <Compile Include="IrbisOpt.cs" />
     <Compile Include="IrbisParFile.cs" />
