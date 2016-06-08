@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedClient.Identifiers;
 
-namespace UnitTests.ManagedClient
+namespace UnitTests.ManagedClient.Identifiers
 {
     [TestClass]
     public class IsbnTest

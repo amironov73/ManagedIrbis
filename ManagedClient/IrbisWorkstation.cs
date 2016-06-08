@@ -43,7 +43,11 @@ namespace ManagedClient
         /// <summary>
         /// Книгообеспеченность
         /// </summary>
-        Provision = (byte)'K'
+        Provision = (byte)'K',
 
+        /// <summary>
+        /// Не задан
+        /// </summary>
+        None = 0
     }
 }

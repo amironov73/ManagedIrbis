@@ -132,6 +132,7 @@
     <Compile Include="FieldText.cs" />
     <Compile Include="IrbisAlphabetTable.cs" />
     <Compile Include="IrbisClientInfo.cs" />
+    <Compile Include="Network\IrbisClientQuery.cs" />
     <Compile Include="IrbisDatabaseInfo.cs" />
     <Compile Include="IrbisDate.cs" />
     <Compile Include="IrbisEditMask.cs" />
@@ -140,6 +141,8 @@
     <Compile Include="IrbisFormat.cs" />
     <Compile Include="Identifiers\Isbn.cs" />
     <Compile Include="Identifiers\Issn.cs" />
+    <Compile Include="Network\IrbisNetworkUtility.cs" />
+    <Compile Include="Network\IrbisServerResponse.cs" />
     <Compile Include="Worksheet\InputMode.cs" />
     <Compile Include="IrbisOpt.cs" />
     <Compile Include="IrbisParFile.cs" />
