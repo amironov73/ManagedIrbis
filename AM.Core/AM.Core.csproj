@@ -158,6 +158,8 @@
     <Compile Include="AM\Text\Tokenizer\TokenizerSettings.cs" />
     <Compile Include="AM\Text\Tokenizer\TokenKind.cs" />
     <Compile Include="AM\Text\Transliterator.cs" />
+    <Compile Include="AM\Threading\BusyState.cs" />
+    <Compile Include="AM\Threading\StateHolder.cs" />
     <Compile Include="AM\Threading\Tasks\AsyncLocal.cs" />
     <Compile Include="AM\Threading\Tasks\TaskEx.cs" />
     <Compile Include="AM\Threading\Tasks\TaskFactoryUtility.cs" />
