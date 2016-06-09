@@ -141,6 +141,7 @@
     <Compile Include="AM\ConnectionStringParserTest.cs" />
     <Compile Include="AM\ReferenceTest.cs" />
     <Compile Include="AM\ConversionUtilityTest.cs" />
+    <Compile Include="AM\UniversalComparerTest.cs" />
     <Compile Include="CodeJam\CodeTest.cs" />
     <Compile Include="Common\CommonUnitTest.cs" />
     <Compile Include="ManagedClient\Fields\RevisionInfoTest.cs" />
