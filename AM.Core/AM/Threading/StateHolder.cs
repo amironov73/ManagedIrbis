@@ -7,12 +7,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using JetBrains.Annotations;
+using AM.IO;
+using AM.Runtime;
 
 using JetBrains.Annotations;
 
@@ -29,6 +31,7 @@ namespace AM.Threading
     [MoonSharpUserData]
     [DebuggerDisplay("{Value}")]
     public sealed class StateHolder<T>
+        : IHandmadeSerializable
         where T: IEquatable<T>
     {
         #region Events
@@ -65,6 +68,7 @@ namespace AM.Threading
         /// </summary>
         public StateHolder()
         {
+            _lock = new object();
             AllowNull = true;
             _waitHandle = new AutoResetEvent(false);
         }
@@ -82,6 +86,8 @@ namespace AM.Threading
 
         #region Private members
 
+        private object _lock;
+
         private T _value;
 
         private readonly AutoResetEvent _waitHandle;
@@ -98,34 +104,40 @@ namespace AM.Threading
                 [CanBeNull] T newValue
             )
         {
-            if (!AllowNull && ReferenceEquals(newValue, null))
+            lock (_lock)
             {
-                throw new ArgumentNullException();
-            }
 
-            bool changed = false;
-
-            if (ReferenceEquals(_value, null))
-            {
-                if (!ReferenceEquals(newValue, null))
+                if (!AllowNull &&
+                    ReferenceEquals(newValue, null))
                 {
-                    changed = true;
+                    throw new ArgumentNullException();
                 }
-            }
-            else
-            {
-                if (!_value.Equals(newValue))
+
+                bool changed = false;
+
+                if (ReferenceEquals(_value, null))
                 {
-                    changed = true;
+                    if (!ReferenceEquals(newValue, null))
+                    {
+                        changed = true;
+                    }
                 }
-            }
+                else
+                {
+                    if (!_value.Equals(newValue))
+                    {
+                        changed = true;
+                    }
+                }
 
-            _value = newValue;
+                _value = newValue;
 
-            if (changed)
-            {
-                _waitHandle.Set();
-                ValueChanged.Raise(this);
+                if (changed)
+                {
+                    _waitHandle.Set();
+                    ValueChanged.Raise(this);
+                }
+
             }
         }
 
@@ -147,7 +159,63 @@ namespace AM.Threading
 
         #endregion
 
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Просим объект восстановить свое состояние из потока.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            bool flag = reader.ReadBoolean();
+
+            if (flag)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// Просим объект сохранить себя в потоке.
+        /// </summary>
+        /// <param name="writer">The writer.</param>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            if (ReferenceEquals(_value, null))
+            {
+                writer.Write(false);
+            }
+            else
+            {
+                writer.Write(true);
+
+                IHandmadeSerializable intf = _value as IHandmadeSerializable;
+
+                intf.SaveToStream(writer);
+
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion
+
         #region Object members
+
+        /// <summary>
+        /// Returns a <see cref="System.String" />
+        /// that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" />
+        /// that represents this instance.</returns>
+        public override string ToString()
+        {
+            return string.Format("Value: {0}", Value);
+        }
 
         #endregion
     }

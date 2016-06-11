@@ -53,17 +53,20 @@ namespace ManagedClient.Scripting
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
+        // ReSharper disable NotNullMemberIsNotInitialized
         public IrbisScript()
         {
             Client = new ManagedClient64();
             _Initialize();
             _ownClient = true;
         }
+        // ReSharper restore NotNullMemberIsNotInitialized
 
         /// <summary>
         /// Конструктор с заранее созданным клиентом.
         /// </summary>
         /// <param name="client"></param>
+        // ReSharper disable NotNullMemberIsNotInitialized
         public IrbisScript
             (
                 [NotNull] ManagedClient64 client
@@ -75,6 +78,7 @@ namespace ManagedClient.Scripting
             _Initialize();
             _ownClient = false;
         }
+        // ReSharper restore NotNullMemberIsNotInitialized
 
         #endregion
 
@@ -82,6 +86,27 @@ namespace ManagedClient.Scripting
 
         private readonly bool _ownClient;
         private static bool _typesRegistered;
+
+        private string _V
+            (
+                string format
+            )
+        {
+            if (string.IsNullOrEmpty(format))
+            {
+                return string.Empty;
+            }
+
+            if (ReferenceEquals(Record, null))
+            {
+                return string.Empty;
+            }
+
+            FieldReference reference = FieldReference.Parse(format);
+            string result = reference.FormatSingle(Record);
+
+            return result;
+        }
 
         /// <summary>
         /// Внутренняя инициализация.
@@ -92,6 +117,7 @@ namespace ManagedClient.Scripting
             Engine = new Script(CoreModules.Preset_Complete);
 
             SetGlobal("Client", Client);
+            Engine.Globals["v"] = (Func<string,string>)_V;
 
             foreach (Type type in UserData.GetRegisteredTypes())
             {

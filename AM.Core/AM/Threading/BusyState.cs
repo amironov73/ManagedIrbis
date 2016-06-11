@@ -6,7 +6,11 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
+
+using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -25,6 +29,7 @@ namespace AM.Threading
     [MoonSharpUserData]
     [DebuggerDisplay("Busy = {Busy}")]
     public sealed class BusyState
+        : IHandmadeSerializable
     {
         #region Events
 
@@ -50,7 +55,10 @@ namespace AM.Threading
         /// <summary>
         /// Хэндл для ожидания.
         /// </summary>
-        public WaitHandle WaitHandle { get { return _waitHandle; } }
+        public WaitHandle WaitHandle
+        {
+            get { return _waitHandle; }
+        }
 
         #endregion
 
@@ -61,6 +69,7 @@ namespace AM.Threading
         /// </summary>
         public BusyState()
         {
+            _lock = new object();
             _waitHandle = new ManualResetEvent(true);
         }
 
@@ -80,6 +89,8 @@ namespace AM.Threading
 
         #region Private members
 
+        private readonly object _lock;
+
         private bool _currentState;
 
         private ManualResetEvent _waitHandle;
@@ -96,26 +107,29 @@ namespace AM.Threading
                 bool newState
             )
         {
-            if (newState != _currentState)
+            lock (_lock)
             {
-                if (newState)
+                if (newState != _currentState)
                 {
-                    _waitHandle.Reset();
-                }
-                else
-                {
-                    _waitHandle.Set();
-                }
+                    if (newState)
+                    {
+                        _waitHandle.Reset();
+                    }
+                    else
+                    {
+                        _waitHandle.Set();
+                    }
 
-                _currentState = newState;
+                    _currentState = newState;
 
-                if (UseAsync)
-                {
-                    StateChanged.RaiseAsync(this);
-                }
-                else
-                {
-                    StateChanged.Raise(this);
+                    if (UseAsync)
+                    {
+                        StateChanged.RaiseAsync(this);
+                    }
+                    else
+                    {
+                        StateChanged.Raise(this);
+                    }
                 }
             }
         }
@@ -165,6 +179,34 @@ namespace AM.Threading
             )
         {
             return new BusyState(value);
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Просим объект восстановить свое состояние из потока.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            _currentState = reader.ReadBoolean();
+            UseAsync = reader.ReadBoolean();
+        }
+
+        /// <summary>
+        /// Просим объект сохранить себя в потоке.
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            writer.Write(_currentState);
+            writer.Write(UseAsync);
         }
 
         #endregion
