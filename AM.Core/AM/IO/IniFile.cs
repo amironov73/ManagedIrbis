@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+
 using System.Text;
 
 using AM.Runtime;
@@ -24,13 +25,14 @@ using MoonSharp.Interpreter;
 
 namespace AM.IO
 {
+    // ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+
     /// <summary>
     /// Simple INI-file reader/writer.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     [System.ComponentModel.DesignerCategory("Code")]
-    // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
     [DebuggerDisplay("{FileName}")]
     public class IniFile
         : Component,
@@ -39,8 +41,117 @@ namespace AM.IO
         #region Nested classes
 
         /// <summary>
+        /// Элемент (строка) INI-файла).
+        /// </summary>
+        [PublicAPI]
+        [Serializable]
+        [MoonSharpUserData]
+        [DebuggerDisplay("{Name}={Value} [{Modified}]")]
+        public sealed class TheItem
+            : IHandmadeSerializable
+        {
+            #region Properties
+
+            /// <summary>
+            /// Имя.
+            /// </summary>
+            [NotNull]
+            public string Name { get; set; }
+
+            /// <summary>
+            /// Значение.
+            /// </summary>
+            [CanBeNull]
+            public string Value { get; set; }
+
+            /// <summary>
+            /// Признак модификации.
+            /// </summary>
+            public bool Modified { get; set; }
+
+            #endregion
+
+            #region Construction
+
+            /// <summary>
+            /// Конструктор.
+            /// </summary>
+            public TheItem()
+            {
+            }
+
+            /// <summary>
+            /// Конструктор.
+            /// </summary>
+            public TheItem
+                (
+                    [NotNull] string name,
+                    [CanBeNull] string value
+                )
+            {
+                Name = name;
+                Value = value;
+            }
+
+            #endregion
+
+            #region IHandmadeSerializable members
+
+            /// <summary>
+            /// Просим объект восстановить свое состояние из потока.
+            /// </summary>
+            public void RestoreFromStream
+                (
+                    BinaryReader reader
+                )
+            {
+                Name = reader.ReadString();
+                Value = reader.ReadNullableString();
+                Modified = reader.ReadBoolean();
+            }
+
+            /// <summary>
+            /// Просим объект сохранить себя в потоке.
+            /// </summary>
+            public void SaveToStream
+                (
+                    BinaryWriter writer
+                )
+            {
+                writer.Write(Name);
+                writer.WriteNullable(Value);
+                writer.Write(Modified);
+            }
+
+            #endregion
+
+            #region Object members
+
+            /// <summary>
+            /// Returns a <see cref="System.String" />
+            /// that represents this instance.
+            /// </summary>
+            /// <returns>A <see cref="System.String" />
+            /// that represents this instance.</returns>
+            public override string ToString()
+            {
+                return string.Format
+                    (
+                        "{0}={1} [{2}]",
+                        Name, 
+                        Value, 
+                        Modified
+                    );
+            }
+
+            #endregion
+
+        }
+
+        /// <summary>
         /// INI-file section.
         /// </summary>
+        [PublicAPI]
         [DebuggerDisplay("{Name}")]
         public sealed class Section
             : IEnumerable,
@@ -81,32 +192,39 @@ namespace AM.IO
             /// <summary>
             /// Access to the keys.
             /// </summary>
-            /// <param name="key"></param>
-            /// <returns></returns>
-            public string this[string key]
+            [CanBeNull]
+            public string this
+                [
+                    [NotNull] string key
+                ]
             {
                 [DebuggerStepThrough]
                 get
                 {
-                    return _dictionary[key];
+                    TheItem item;
+                    Dictionary.TryGetValue(key, out item);
+
+                    return (item == null)
+                        ? null
+                        : item.Value;
                 }
                 set
                 {
                     _CheckKey(key);
-                    _dictionary[key] = value;
+                    Dictionary[key] = new TheItem(key, value);
                     _owner._modified = true;
                 }
             }
 
             /// <summary>
-            /// 
+            /// Количество элементов.
             /// </summary>
             public int Count
             {
                 [DebuggerStepThrough]
                 get
                 {
-                    return _dictionary.Count;
+                    return Dictionary.Count;
                 }
             }
 
@@ -117,7 +235,7 @@ namespace AM.IO
             {
                 get
                 {
-                    return _dictionary.Keys;
+                    return Dictionary.Keys;
                 }
             }
 
@@ -126,10 +244,23 @@ namespace AM.IO
             #region Construction
 
             /// <summary>
-            /// Constructor.
+            /// Конструктор.
             /// </summary>
-            /// <param name="owner"></param>
-            /// <param name="name"></param>
+            internal Section
+                (
+                    [NotNull] IniFile owner
+                )
+            {
+                _owner = owner;
+                Dictionary = new Dictionary<string, TheItem>
+                    (
+                        Owner.GetComparer()
+                    );
+            }
+
+            /// <summary>
+            /// Конструктор.
+            /// </summary>
             internal Section
                 (
                     [NotNull] IniFile owner,
@@ -138,7 +269,10 @@ namespace AM.IO
             {
                 _owner = owner;
                 _name = name;
-                _dictionary = new Dictionary<string, string>(Owner.GetComparer());
+                Dictionary = new Dictionary<string, TheItem>
+                    (
+                        Owner.GetComparer()
+                    );
             }
 
             #endregion
@@ -149,14 +283,15 @@ namespace AM.IO
 
             private readonly IniFile _owner;
 
-            internal Dictionary<string, string> _dictionary;
+            internal Dictionary<string, TheItem> Dictionary;
 
-            private static void _CheckKey(string key)
+            private static void _CheckKey
+                (
+                    string key
+                )
             {
-                if (string.IsNullOrEmpty(key))
-                {
-                    throw new ArgumentNullException();
-                }
+                Code.NotNullNorEmpty(key, "key");
+
                 if (key.Contains("="))
                 {
                     throw new ArgumentException();
@@ -168,43 +303,53 @@ namespace AM.IO
             #region Public methods
 
             /// <summary>
-            /// 
+            /// Добавляем элемент в секцию.
             /// </summary>
-            /// <param name="name"></param>
-            /// <param name="value"></param>
-            public void Add(string name, string value)
+            public void Add
+                (
+                    [NotNull] string name,
+                    [CanBeNull] string value
+                )
             {
                 _CheckKey(name);
-                _dictionary.Add(name, value);
+
+                Dictionary.Add(name, new TheItem(name, value));
                 Owner._modified = true;
             }
 
             /// <summary>
-            /// 
+            /// Очищаем секцию.
             /// </summary>
             public void Clear()
             {
-                _dictionary.Clear();
+                Dictionary.Clear();
                 Owner._modified = true;
             }
 
             /// <summary>
-            /// 
+            /// Есть ли элемент с указанным именем?
             /// </summary>
-            /// <param name="key"></param>
-            /// <returns></returns>
-            public bool ContainsKey(string key)
+            public bool ContainsKey
+                (
+                    [NotNull] string key
+                )
             {
-                return _dictionary.ContainsKey(key);
+                Code.NotNull(key, "key");
+
+                return Dictionary.ContainsKey(key);
             }
 
             /// <summary>
-            /// 
+            /// Удаляем элемент с указанным именем.
             /// </summary>
-            /// <param name="name"></param>
-            public void Remove(string name)
+            public void Remove
+                (
+                    [NotNull] string name
+                )
             {
-                _dictionary.Remove(name);
+                Code.NotNull(name, "name");
+
+                Dictionary.Remove(name);
                 Owner._modified = true;
             }
 
@@ -233,14 +378,25 @@ namespace AM.IO
             }
 
             /// <summary>
-            /// 
+            /// Пытаемся получить значение.
             /// </summary>
-            /// <param name="name"></param>
-            /// <param name="value"></param>
-            /// <returns></returns>
-            public bool TryGetValue(string name, out string value)
+            public bool TryGetValue
+                (
+                    [NotNull] string name,
+                    out string value
+                )
             {
-                return _dictionary.TryGetValue(name, out value);
+                TheItem item;
+                bool result = Dictionary.TryGetValue
+                    (
+                        name,
+                        out item
+                    );
+                value = result
+                    ? item.Value
+                    : null;
+
+                return result;
             }
 
             #endregion
@@ -248,15 +404,17 @@ namespace AM.IO
             #region IEnumerable members
 
             /// <summary>
-            /// Returns an enumerator that iterates through a collection.
+            /// Returns an enumerator that iterates
+            /// through a collection.
             /// </summary>
             /// <returns>
             /// An <see cref="T:System.Collections.IEnumerator"></see> 
-            /// object that can be used to iterate through the collection.
+            /// object that can be used to iterate
+            /// through the collection.
             /// </returns>
             public IEnumerator GetEnumerator()
             {
-                return _dictionary.GetEnumerator();
+                return Dictionary.GetEnumerator();
             }
 
             #endregion
@@ -271,7 +429,14 @@ namespace AM.IO
                     BinaryReader reader
                 )
             {
-                
+                Name = reader.ReadString();
+                int count = reader.ReadPackedInt32();
+                for (int i = 0; i < count; i++)
+                {
+                    TheItem item = new TheItem();
+                    item.RestoreFromStream(reader);
+                    Dictionary.Add(item.Name, item);
+                }
             }
 
             /// <summary>
@@ -283,6 +448,11 @@ namespace AM.IO
                 )
             {
                 writer.Write(Name);
+                writer.WritePackedInt32(Count);
+                foreach (KeyValuePair<string, TheItem> item in Dictionary)
+                {
+                    item.Value.SaveToStream(writer);
+                }
             }
 
             #endregion
@@ -299,26 +469,13 @@ namespace AM.IO
         [DefaultValue(null)]
         public string FileName { get; set; }
 
-        private Encoding _encoding;
-
         ///<summary>
         /// 
         ///</summary>
         [Browsable(false)]
+        [CanBeNull]
         [DefaultValue(null)]
-        public Encoding Encoding
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return _encoding;
-            }
-            [DebuggerStepThrough]
-            set
-            {
-                _encoding = value;
-            }
-        }
+        public Encoding Encoding { get; set; }
 
         private Dictionary<string, Section> _sections;
 
@@ -353,25 +510,11 @@ namespace AM.IO
             }
         }
 
-        private bool _writable;
-
         ///<summary>
         /// 
         ///</summary>
         [DefaultValue(false)]
-        public bool Writable
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return _writable;
-            }
-            [DebuggerStepThrough]
-            set
-            {
-                _writable = value;
-            }
-        }
+        public bool Writable { get; set; }
 
         #endregion
 
@@ -392,7 +535,7 @@ namespace AM.IO
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            _writable = writable;
+            Writable = writable;
             FileName = fileName;
             Reread();
         }
@@ -464,17 +607,27 @@ namespace AM.IO
             return StringComparer.InvariantCultureIgnoreCase;
         }
 
-        private void _SaveSection(StreamWriter writer, Section section)
+        private void _SaveSection
+            (
+                TextWriter writer,
+                Section section
+            )
         {
             if (!string.IsNullOrEmpty(section.Name))
             {
                 writer.WriteLine("[{0}]", section.Name);
             }
-            Dictionary<string, string>.Enumerator line =
-                section._dictionary.GetEnumerator();
+
+            Dictionary<string, TheItem>.Enumerator line =
+                section.Dictionary.GetEnumerator();
             while (line.MoveNext())
             {
-                writer.WriteLine("{0}={1}", line.Current.Key, line.Current.Value);
+                writer.WriteLine
+                    (
+                        "{0}={1}",
+                        line.Current.Key,
+                        line.Current.Value.Value
+                    );
             }
             if (section.Count != 0)
             {
@@ -487,10 +640,57 @@ namespace AM.IO
         #region Public methods
 
         /// <summary>
+        /// Доступ к секции.
+        /// </summary>
+        public Section this[string name]
+        {
+            get
+            {
+                Section result;
+
+                Sections.TryGetValue(name, out result);
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Доступ к элементам.
+        /// </summary>
+        public string this[string sectionName, string keyName]
+        {
+            get
+            {
+                Section section = this[sectionName];
+                if (section == null)
+                {
+                    return null;
+                }
+
+                return section[keyName];
+            }
+            set
+            {
+                Section section = this[sectionName];
+                if (section == null)
+                {
+                    section = CreateSection(sectionName);
+                }
+
+                section[keyName] = value;
+            }
+        }
+
+        /// <summary>
         /// Reread from file.
         /// </summary>
         public void Reread()
         {
+            if (string.IsNullOrEmpty(FileName))
+            {
+                throw new ApplicationException();
+            }
+
             Section section = _CreateSections();
             Encoding encoding = Encoding ?? Encoding.Default;
             using (StreamReader reader = new StreamReader(FileName, encoding))
@@ -559,24 +759,32 @@ namespace AM.IO
         }
 
         /// <summary>
-        /// 
+        /// Создаем новую секцию.
         /// </summary>
 
-        public Section CreateSection(string name)
+        public Section CreateSection
+            (
+                [NotNull] string name
+            )
         {
+            Code.NotNull(name, "name");
+
             Section result = new Section(this, name);
             Sections.Add(name, result);
+            
             return result;
         }
 
         /// <summary>
-        /// 
+        /// Записываем в поток.
         /// </summary>
         public virtual void Save
             (
-                StreamWriter writer
+                [NotNull] TextWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             Section root;
             if (Sections.TryGetValue(string.Empty, out root))
             {
@@ -593,10 +801,12 @@ namespace AM.IO
         }
 
         /// <summary>
-        /// 
+        /// Записываем в файл.
         /// </summary>
-        /// <param name="fileName"></param>
-        public void Save(string fileName)
+        public void Save
+            (
+                [NotNull] string fileName
+            )
         {
             Encoding encoding = Encoding ?? Encoding.Default;
             using (StreamWriter writer 
@@ -611,6 +821,11 @@ namespace AM.IO
         /// </summary>
         public void Save()
         {
+            if (string.IsNullOrEmpty(FileName))
+            {
+                throw new ApplicationException();
+            }
+
             Save(FileName);
         }
 
@@ -648,7 +863,12 @@ namespace AM.IO
                 BinaryReader reader
             )
         {
-            
+            int count = reader.ReadPackedInt32();
+            for (int i = 0; i < count; i++)
+            {
+                Section section = new Section(this);
+                section.RestoreFromStream(reader);
+            }
         }
 
         /// <summary>
@@ -659,7 +879,11 @@ namespace AM.IO
                 BinaryWriter writer
             )
         {
-            
+            writer.WritePackedInt32(Sections.Count);
+            foreach (KeyValuePair<string, Section> pair in Sections)
+            {
+                pair.Value.SaveToStream(writer);
+            }
         }
 
         #endregion

@@ -51,7 +51,28 @@ return v('v200^a')
 
                 Assert.AreEqual("Заглавие", result.String);
             }
+        }
 
+        [TestMethod]
+        public void TestIrbisScript3()
+        {
+            ManagedClient64 client = new ManagedClient64();
+
+            IrbisRecord record = new IrbisRecord();
+            RecordField field = new RecordField("200");
+            field.AddSubField('a', "Заглавие");
+            record.Fields.Add(field);
+
+            using (IrbisScript script = new IrbisScript(client))
+            {
+                script.SetRecord(record);
+
+                DynValue result = script.DoString(@"
+return v('v201^a')
+");
+
+                Assert.AreEqual(string.Empty, result.String);
+            }
         }
     }
 }
