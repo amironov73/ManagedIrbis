@@ -103,6 +103,8 @@ namespace AM.IO
             Code.NotNull(reader, "reader");
             Code.NotNull(collection, "collection");
 
+            collection.Clear();
+
             int count = reader.ReadPackedInt32();
             for (int i = 0; i < count; i++)
             {

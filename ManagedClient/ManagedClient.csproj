@@ -109,6 +109,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BibTex\BibTex.cs" />
+    <Compile Include="Fst\FstFile.cs" />
+    <Compile Include="Fst\FstIndexMethod.cs" />
+    <Compile Include="Fst\FstLine.cs" />
     <Compile Include="Identifiers\CrossRefApi.cs" />
     <Compile Include="Identifiers\Ismn.cs" />
     <Compile Include="Identifiers\Isni.cs" />
