@@ -5,6 +5,7 @@
 #region Using directives
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using AM.Collections;
 using AM.Runtime;
@@ -346,6 +347,54 @@ namespace AM.IO
             for (int i = 0; i < array.Length; i++)
             {
                 T item = array[i];
+                item.SaveToStream(writer);
+            }
+
+            return writer;
+        }
+
+        /// <summary>
+        /// Writes the collection to the stream.
+        /// </summary>
+        [NotNull]
+        public static BinaryWriter WriteCollection<T>
+            (
+                [NotNull] this BinaryWriter writer,
+                [NotNull][ItemNotNull] NonNullCollection<T> collection
+            )
+            where T: class, IHandmadeSerializable, new()
+        {
+            Code.NotNull(writer, "writer");
+            Code.NotNull(collection, "collection");
+
+            writer.WritePackedInt32(collection.Count);
+            for (int i = 0; i < collection.Count; i++)
+            {
+                T item = collection[i];
+                item.SaveToStream(writer);
+            }
+
+            return writer;
+        }
+
+        /// <summary>
+        /// Write the list to the stream.
+        /// </summary>
+        [NotNull]
+        public static BinaryWriter WriteList<T>
+            (
+                [NotNull] this BinaryWriter writer,
+                [NotNull][ItemNotNull] List<T> list
+            )
+            where T: IHandmadeSerializable, new ()
+        {
+            Code.NotNull(writer, "writer");
+            Code.NotNull(list, "list");
+
+            writer.WritePackedInt32(list.Count);
+            for (int i = 0; i < list.Count; i++)
+            {
+                T item = list[i];
                 item.SaveToStream(writer);
             }
 

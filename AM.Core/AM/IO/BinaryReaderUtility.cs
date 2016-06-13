@@ -5,6 +5,7 @@
 #region Using directives
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using AM.Collections;
 using AM.Runtime;
@@ -89,6 +90,32 @@ namespace AM.IO
         }
 
         /// <summary>
+        /// Reads collection of items from the stream.
+        /// </summary>
+        [NotNull]
+        public static BinaryReader ReadCollection<T>
+            (
+                [NotNull] this BinaryReader reader,
+                [NotNull] NonNullCollection<T> collection
+            )
+            where T : class, IHandmadeSerializable, new()
+        {
+            Code.NotNull(reader, "reader");
+            Code.NotNull(collection, "collection");
+
+            int count = reader.ReadPackedInt32();
+            for (int i = 0; i < count; i++)
+            {
+                T item = new T();
+                item.RestoreFromStream(reader);
+                collection.Add(item);
+            }
+
+            return reader;
+        }
+
+
+        /// <summary>
         /// Read array of 16-bit integers.
         /// </summary>
         [NotNull]
@@ -149,6 +176,56 @@ namespace AM.IO
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Reads list of items from the stream.
+        /// </summary>
+        [NotNull]
+        public static List<T> ReadList<T>
+            (
+                [NotNull] this BinaryReader reader
+            )
+            where T: IHandmadeSerializable, new()
+        {
+            Code.NotNull(reader, "reader");
+
+            int count = reader.ReadPackedInt32();
+            List<T> result = new List<T>(count);
+
+            for (int i = 0; i < count; i++)
+            {
+                T item = new T();
+                item.RestoreFromStream(reader);
+                result.Add(item);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Reads list of items from the stream.
+        /// </summary>
+        [NotNull]
+        public static BinaryReader ReadList<T>
+            (
+                [NotNull] this BinaryReader reader,
+                [NotNull] List<T> list 
+            )
+            where T : IHandmadeSerializable, new()
+        {
+            Code.NotNull(reader, "reader");
+            Code.NotNull(list, "list");
+
+            int count = reader.ReadPackedInt32();
+            for (int i = 0; i < count; i++)
+            {
+                T item = new T();
+                item.RestoreFromStream(reader);
+                list.Add(item);
+            }
+
+            return reader;
         }
 
         /// <summary>

@@ -132,6 +132,8 @@
     <Compile Include="FieldText.cs" />
     <Compile Include="IrbisAlphabetTable.cs" />
     <Compile Include="IrbisClientInfo.cs" />
+    <Compile Include="Menus\IrbisMenuFile.cs" />
+    <Compile Include="Menus\IrbisMenuUtility.cs" />
     <Compile Include="Network\IrbisClientQuery.cs" />
     <Compile Include="IrbisDatabaseInfo.cs" />
     <Compile Include="IrbisDate.cs" />

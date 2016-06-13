@@ -1,8 +1,10 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.IO;
+using AM.Runtime;
 
 namespace UnitTests.AM.IO
 {
@@ -78,5 +80,57 @@ namespace UnitTests.AM.IO
             }
 
         }
+
+        private class Dummy
+            : IHandmadeSerializable
+        {
+            public int Value { get; set; }
+
+            public void RestoreFromStream
+                (
+                    BinaryReader reader
+                )
+            {
+                Value = reader.ReadInt32();
+            }
+
+            public void SaveToStream
+                (
+                    BinaryWriter writer
+                )
+            {
+                writer.Write(Value);
+            }
+        }
+
+        [TestMethod]
+        public void TestBinaryWriterWriteList()
+        {
+            List<Dummy> list1 = new List<Dummy>();
+            for (int i = 0; i < 10; i++)
+            {
+                Dummy item = new Dummy{Value = i};
+                list1.Add(item);
+            }
+
+            MemoryStream stream = new MemoryStream();
+            BinaryWriter writer = new BinaryWriter(stream);
+            writer.WriteList(list1);
+
+            byte[] bytes = stream.ToArray();
+            stream = new MemoryStream(bytes);
+            BinaryReader reader = new BinaryReader(stream);
+
+            List<Dummy> list2 = reader.ReadList<Dummy>();
+
+            Assert.AreEqual(list1.Count, list2.Count);
+            for (int i = 0; i < list1.Count; i++)
+            {
+                Dummy item1 = list1[i];
+                Dummy item2 = list2[i];
+                Assert.AreEqual(item1.Value, item2.Value);
+            }
+        }
+
     }
 }
