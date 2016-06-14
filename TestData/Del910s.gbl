@@ -1,0 +1,16 @@
+0
+DEL
+910^S
+F
+(if p(v910) then if v910^a:'6' then '0' else if p(v910^s) then '1' else '0' fi fi fi/)
+XXXXXXXXXXXXXXXXXXX
+DEL
+910^0
+F
+(if p(v910) then if v910^a:'6' then '0' else if p(v910^0) then '1' else '0' fi fi fi/)
+
+DEL
+910^!
+F
+(if p(v910) then if v910^a:'6' then '0' else if p(v910^!) then '1' else '0' fi fi fi/)
+
