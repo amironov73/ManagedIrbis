@@ -71,10 +71,37 @@ namespace ManagedClient
             }
 
             /// <summary>
+            /// Delimiter.
+            /// </summary>
+            public static string Delimiter
+            {
+                get { return _delimiter; }
+                set { SetDelimiter(value); }
+            }
+
+            /// <summary>
+            /// Prefix.
+            /// </summary>
+            public string Prefix { get { return _prefix; }}
+
+            /// <summary>
+            /// Suffix.
+            /// </summary>
+            public string Suffix { get { return _suffix; } }
+
+            /// <summary>
             /// Value.
             /// </summary>
             [CanBeNull]
-            public string Value { get; set; }
+
+            public string Value
+            {
+                get { return _value; }
+                set
+                {
+                    SetValue(value);
+                }
+            }
 
             #endregion
 
@@ -97,7 +124,7 @@ namespace ManagedClient
                 )
                 : this()
             {
-                Value = value;
+                SetValue(value);
             }
 
             #endregion
@@ -105,6 +132,10 @@ namespace ManagedClient
             #region Private members
 
             private readonly NonNullCollection<Item> _children;
+
+            private static string _delimiter = " - ";
+
+            private string _prefix, _suffix, _value;
 
             internal int _level;
 
@@ -121,10 +152,79 @@ namespace ManagedClient
                     [CanBeNull] string value
                 )
             {
-                Item child = new Item(value);
-                Children.Add(child);
+                Item result = new Item(value);
+                Children.Add(result);
 
-                return this;
+                return result;
+            }
+
+            /// <summary>
+            /// Set the delimiter.
+            /// </summary>
+            public static void SetDelimiter
+                (
+                    [CanBeNull] string value
+                )
+            {
+                _delimiter = value;
+            }
+
+            /// <summary>
+            /// Set the value.
+            /// </summary>
+            public void SetValue
+                (
+                    [CanBeNull] string value
+                )
+            {
+                Code.NotNullNorEmpty(value, "value");
+
+                _value = value;
+                _prefix = null;
+                _suffix = null;
+
+                if (!string.IsNullOrEmpty(Delimiter)
+                    && !string.IsNullOrEmpty(value))
+                {
+                    string[] parts = value.Split
+                        (
+                            new [] {Delimiter},
+                            2,
+                            StringSplitOptions.None
+                        );
+                    _prefix = parts[0];
+                    if (parts.Length != 1)
+                    {
+                        _suffix = parts[1];
+                    }
+                }
+            }
+
+            /// <summary>
+            /// Verify the item.
+            /// </summary>
+            public bool Verify
+                (
+                    bool throwException
+                )
+            {
+                bool result = !string.IsNullOrEmpty(Value);
+
+                if (result &&
+                    (Children.Count != 0))
+                {
+                    result = Children.All
+                        (
+                            child => child.Verify(throwException)
+                        );
+                }
+
+                if (!result && throwException)
+                {
+                    throw new FormatException();
+                }
+
+                return result;
             }
 
             #endregion
@@ -388,7 +488,8 @@ DONE:
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
-            using (StreamReader reader = new StreamReader(fileName, encoding))
+            using (StreamReader reader
+                = new StreamReader(fileName, encoding))
             {
                 IrbisTreeFile result = ParseStream(reader);
                 result.FileName = Path.GetFileName(fileName);
@@ -430,6 +531,28 @@ DONE:
             {
                 Save(writer);
             }
+        }
+
+        /// <summary>
+        /// Verify the tree.
+        /// </summary>
+        public bool Verify
+            (
+                bool throwException
+            )
+        {
+            bool result = (Roots.Count != 0)
+                && Roots.All
+                    (
+                        root => root.Verify(throwException)
+                    );
+
+            if (!result && throwException)
+            {
+                throw new FormatException();
+            }
+
+            return result;
         }
 
         #endregion
