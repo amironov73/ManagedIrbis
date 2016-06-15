@@ -7,7 +7,7 @@ namespace ManagedClient.Requests
     /// <summary>
     /// Префиксы стандартных запросов к базе данных RDR.
     /// </summary>
-    public class RequestPrefixes
+    public static class RequestPrefixes
     {
         #region Constants
 
