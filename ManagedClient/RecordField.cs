@@ -5,6 +5,7 @@
 #region Using directives
 
 using System;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -61,7 +62,11 @@ namespace ManagedClient
         [CanBeNull]
         [XmlAttribute("tag")]
         [JsonProperty("tag")]
-        public string Tag { get; set; }
+        public string Tag
+        {
+            get { return _tag; }
+            set { SetTag(value); }
+        }
 
         /// <summary>
         /// Первый индикатор.
@@ -80,6 +85,11 @@ namespace ManagedClient
         {
             get { return _indicator2; }
         }
+
+        /// <summary>
+        /// Whether the field is read-only?
+        /// </summary>
+        public bool ReadOnly { get { return _readOnly; } }
 
         /// <summary>
         /// Повторение поля.
@@ -154,6 +164,10 @@ namespace ManagedClient
         /// </summary>
         public RecordField()
         {
+            _subFields = new SubFieldCollection
+            {
+                _field = this
+            };
         }
 
         /// <summary>
@@ -163,6 +177,7 @@ namespace ManagedClient
             (
                 [NotNull] RecordField other
             )
+            : this ()
         {
             _indicator1 = other.Indicator1.Clone();
             _indicator2 = other.Indicator2.Clone();
@@ -178,6 +193,7 @@ namespace ManagedClient
             (
                 [CanBeNull] string tag
             )
+            : this ()
         {
             Tag = tag;
         }
@@ -190,9 +206,28 @@ namespace ManagedClient
                 [CanBeNull] string tag,
                 [CanBeNull] string value
             )
+            : this ()
         {
             Tag = tag;
             Value = value;
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public RecordField
+            (
+                [CanBeNull] string tag,
+                [CanBeNull] string value,
+                bool readOnly,
+                [CanBeNull] IrbisRecord record
+            )
+            : this ()
+        {
+            Tag = tag;
+            Value = value;
+            _readOnly = readOnly;
+            Record = record;
         }
 
         /// <summary>
@@ -203,6 +238,7 @@ namespace ManagedClient
                 [CanBeNull] string tag,
                 [ItemNotNull] params SubField[] subFields
             )
+            : this ()
         {
             Tag = tag;
             SubFields.AddRange(subFields);
@@ -216,10 +252,16 @@ namespace ManagedClient
             _indicator1 = new FieldIndicator(),
             _indicator2 = new FieldIndicator();
 
+        private string _tag;
+
         private string _value;
 
-        private readonly SubFieldCollection _subFields
-            = new SubFieldCollection();
+        private readonly SubFieldCollection _subFields;
+
+        // ReSharper disable InconsistentNaming
+        [NonSerialized]
+        internal bool _readOnly;
+        // ReSharper restore InconsistentNaming
 
         [NonSerialized]
         private object _userData;
@@ -321,7 +363,7 @@ namespace ManagedClient
             string text = value.NullableToString();
 
             SubFields.Add(new SubField(code, text));
-            
+
             return this;
         }
 
@@ -344,6 +386,23 @@ namespace ManagedClient
             }
 
             return this;
+        }
+
+        /// <summary>
+        /// Creates read-only clone of the field.
+        /// </summary>
+        [NotNull]
+        public RecordField AsReadOnly()
+        {
+            RecordField result = Clone();
+            result._readOnly = true;
+            result.SubFields._readOnly = true;
+            foreach (SubField subField in result.SubFields)
+            {
+                subField._readOnly = true;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -432,7 +491,7 @@ namespace ManagedClient
             SubField[] result = SubFields
                 .Where(_ => _.Code.SameChar(code))
                 .ToArray();
-            
+
             return result;
         }
 
@@ -589,14 +648,14 @@ namespace ManagedClient
             string text = value.NullableToString();
 
             SubField subField = SubFields.GetFirstSubField(code);
-            
+
             if (subField == null)
             {
                 subField = new SubField(code, text);
                 SubFields.Add(subField);
             }
             subField.Value = text;
-            
+
             return this;
         }
 
@@ -645,9 +704,27 @@ namespace ManagedClient
             return this;
         }
 
+        /// <summary>
+        /// Sets the tag for the field.
+        /// </summary>
+        [NotNull]
+        public RecordField SetTag
+            (
+                [CanBeNull] string tag
+            )
+        {
+            if (_readOnly)
+            {
+                throw new ReadOnlyException();
+            }
+
+            _tag = tag;
+
+            return this;
+        }
 
         /// <summary>
-        /// Установка нового значения.
+        /// Sets the value for the field.
         /// </summary>
         [NotNull]
         public RecordField SetValue
@@ -655,6 +732,11 @@ namespace ManagedClient
                 [CanBeNull] string value
             )
         {
+            if (_readOnly)
+            {
+                throw new ReadOnlyException();
+            }
+
             if (string.IsNullOrEmpty(value))
             {
                 _value = value;

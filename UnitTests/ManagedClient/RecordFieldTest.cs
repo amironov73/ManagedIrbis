@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;
@@ -11,12 +12,27 @@ namespace UnitTests
     public class RecordFieldTest
     {
         [TestMethod]
-        public void TestRecordFieldConstruction()
+        public void TestRecordFieldConstruction1()
         {
             RecordField field = new RecordField();
             Assert.AreEqual(RecordField.NoTag, field.Tag);
             Assert.AreEqual(null, field.Value);
             Assert.AreEqual(0,field.SubFields.Count);
+        }
+
+        [TestMethod]
+        public void TestRecordFieldConstruction2()
+        {
+            RecordField field = new RecordField();
+            Assert.AreEqual(field, field.SubFields.Field);
+        }
+
+        [TestMethod]
+        public void TestRecordFieldAddSubField()
+        {
+            RecordField field = new RecordField();
+            field.AddSubField('a', "Value");
+            Assert.AreEqual(field, field.SubFields[0].Field);
         }
 
         private void _TestSerialization
@@ -106,6 +122,14 @@ namespace UnitTests
                     "Значение^aЗаглавие^eподзаголовочные^fоб ответственности",
                     actual
                 );
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ReadOnlyException))]
+        public void TestRecordFieldReadOnly()
+        {
+            RecordField field = _GetField().AsReadOnly();
+            field.Value = "New value";
         }
     }
 }

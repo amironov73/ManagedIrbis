@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;
@@ -72,14 +73,36 @@ namespace UnitTests
         }
 
         [TestMethod]
+        public void TestSubFieldSetValue1()
+        {
+            SubField subField = new SubField('a')
+            {
+                Value = "Right Value"
+            };
+            Assert.AreEqual("Right Value", subField.Value);
+        }
+
+
+
+        [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void TestSubFieldException()
+        public void TestSubFieldSetValue2()
         {
             SubField subField = new SubField('a')
             {
                 Value = "Wrong^Value"
             };
             Assert.AreEqual("Wrong", subField.Value);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ReadOnlyException))]
+        public void TestSubFieldReadOnly()
+        {
+            SubField subField = new SubField('a', "Value", true, null);
+            Assert.AreEqual("Value", subField.Value);
+            subField.Value = "New value";
+            Assert.AreEqual("Value", subField.Value);
         }
     }
 }

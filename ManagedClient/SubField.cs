@@ -5,6 +5,7 @@
 #region Using directives
 
 using System;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
@@ -59,7 +60,11 @@ namespace ManagedClient
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
-        public char Code { get; set; }
+        public char Code
+        {
+            get { return _code; }
+            set { SetCode(value); }
+        }
 
         /// <summary>
         /// Код подполя.
@@ -113,6 +118,13 @@ namespace ManagedClient
         }
 
         /// <summary>
+        /// Is read only?
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        public bool ReadOnly { get { return _readOnly; } }
+
+        /// <summary>
         /// Ссылка на поле, владеющее
         /// данным подполем. Настраивается
         /// перед передачей в скрипты.
@@ -132,6 +144,7 @@ namespace ManagedClient
         /// </summary>
         public SubField()
         {
+            _readOnly = false;
         }
 
         /// <summary>
@@ -142,6 +155,7 @@ namespace ManagedClient
                 char code
             )
         {
+            _readOnly = false;
             Code = code;
         }
 
@@ -154,15 +168,40 @@ namespace ManagedClient
                 [CanBeNull] string value
             )
         {
+            _readOnly = false;
             Code = code;
             Value = value;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public SubField
+            (
+                char code,
+                [CanBeNull] string value,
+                bool readOnly,
+                [CanBeNull] RecordField field
+            )
+        {
+            Code = code;
+            Value = value;
+            _readOnly = readOnly;
+            Field = field;
         }
 
         #endregion
 
         #region Private members
 
+        private char _code;
+
         private string _value;
+
+        [NonSerialized]
+        // ReSharper disable InconsistentNaming
+        internal bool _readOnly;
+        // ReSharper restore InconsistentNaming
 
         [NonSerialized]
         private object _userData;
@@ -170,6 +209,18 @@ namespace ManagedClient
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Creates read-only clone of the field.
+        /// </summary>
+        [NotNull]
+        public SubField AsReadOnly()
+        {
+            SubField result = Clone();
+            result._readOnly = true;
+
+            return result;
+        }
 
         /// <summary>
         /// Clones this instance.
@@ -214,13 +265,34 @@ namespace ManagedClient
         }
 
         /// <summary>
-        /// Sets the field value.
+        /// Sets the subfield code.
+        /// </summary>
+        public void SetCode
+            (
+                char code
+            )
+        {
+            if (_readOnly)
+            {
+                throw new ReadOnlyException();
+            }
+
+            _code = code;
+        }
+
+        /// <summary>
+        /// Sets the subfield value.
         /// </summary>
         public void SetValue
             (
                 [CanBeNull] string value
             )
         {
+            if (_readOnly)
+            {
+                throw new ReadOnlyException();
+            }
+
             if (!string.IsNullOrEmpty(value))
             {
                 if (value.IndexOf(Delimiter) >= 0)

@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -37,6 +38,30 @@ namespace ManagedClient
         : Collection<SubField>,
         IHandmadeSerializable
     {
+        #region Properties
+
+        [CanBeNull]
+        public RecordField Field { get { return _field; } }
+
+        /// <summary>
+        /// Whether the collection is read-only?
+        /// </summary>
+        public bool ReadOnly { get { return _readOnly; } }
+
+        #endregion
+
+        #region Private members
+
+        // ReSharper disable InconsistentNaming
+        [NonSerialized]
+        internal bool _readOnly;
+
+        [NonSerialized]
+        internal RecordField _field;
+        // ReSharper restore InconsistentNaming
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -49,6 +74,10 @@ namespace ManagedClient
             )
         {
             Code.NotNull(subFields, "subFields");
+            if (ReadOnly)
+            {
+                throw new ReadOnlyException();
+            }
 
             foreach (SubField subField in subFields)
             {
@@ -123,6 +152,12 @@ namespace ManagedClient
             )
         {
             Code.NotNull(item, "item");
+            if (ReadOnly)
+            {
+                throw new ReadOnlyException();
+            }
+
+            item.Field = Field;
 
             base.InsertItem(index, item);
         }
@@ -139,8 +174,37 @@ namespace ManagedClient
             )
         {
             Code.NotNull(item, "item");
+            if (ReadOnly)
+            {
+                throw new ReadOnlyException();
+            }
 
             base.SetItem(index, item);
+
+            item.Field = Field;
+        }
+
+        protected override void ClearItems()
+        {
+            if (ReadOnly)
+            {
+                throw new ReadOnlyException();
+            }
+
+            base.ClearItems();
+        }
+
+        protected override void RemoveItem
+            (
+                int index
+            )
+        {
+            if (ReadOnly)
+            {
+                throw new ReadOnlyException();
+            }
+
+            base.RemoveItem(index);
         }
 
         #endregion

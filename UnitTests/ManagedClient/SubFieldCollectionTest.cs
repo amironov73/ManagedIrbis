@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;
@@ -70,7 +71,7 @@ namespace UnitTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestSubFieldCollectionException()
+        public void TestSubFieldCollectionNotNull()
         {
             SubFieldCollection collection =
                 new SubFieldCollection
@@ -80,6 +81,14 @@ namespace UnitTests
                     new SubField('a')
                 };
             Assert.AreEqual(2, collection.Count);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ReadOnlyException))]
+        public void TestSubFieldCollectionReadOnly()
+        {
+            RecordField field = new RecordField().AsReadOnly();
+            field.SubFields.Add(new SubField());
         }
     }
 }
