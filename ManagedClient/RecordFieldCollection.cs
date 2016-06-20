@@ -11,9 +11,13 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+
+using AM;
 using AM.IO;
 using AM.Runtime;
+
 using CodeJam;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -32,17 +36,16 @@ namespace ManagedClient
     [ClassInterface(ClassInterfaceType.None)]
     public sealed class RecordFieldCollection
         : Collection<RecordField>,
-        IHandmadeSerializable
+        IHandmadeSerializable,
+        IReadOnly<RecordFieldCollection>
     {
         #region Properties
 
+        /// <summary>
+        /// Record.
+        /// </summary>
         [CanBeNull]
         public IrbisRecord Record { get { return _record; } }
-
-        /// <summary>
-        /// Whether the collection is read-only?
-        /// </summary>
-        public bool ReadOnly { get { return _readOnly; } }
 
         #endregion
 
@@ -54,12 +57,8 @@ namespace ManagedClient
 
         // ReSharper disable InconsistentNaming
         [NonSerialized]
-        internal bool _readOnly;
-
-        [NonSerialized]
         internal IrbisRecord _record;
         // ReSharper restore InconsistentNaming
-
 
         #endregion
 
@@ -74,27 +73,13 @@ namespace ManagedClient
                 [NotNull] IEnumerable<RecordField> fields
             )
         {
+            ThrowIfReadOnly();
             Code.NotNull(fields, "fields");
-            if (ReadOnly)
-            {
-                throw new ReadOnlyException();
-            }
-
+            
             foreach (RecordField field in fields)
             {
                 Add(field);
             }
-        }
-
-        /// <summary>
-        /// Create read-only clone of the collection.
-        /// </summary>
-        public RecordFieldCollection AsReadOnly()
-        {
-            RecordFieldCollection result = Clone();
-            result._readOnly = true;
-
-            return result;
         }
 
         /// <summary>
@@ -160,6 +145,22 @@ namespace ManagedClient
         #region Collection<T> members
 
         /// <summary>
+        /// Removes all elements from the
+        /// <see cref="T:System.Collections.ObjectModel.Collection`1" />.
+        /// </summary>
+        protected override void ClearItems()
+        {
+            ThrowIfReadOnly();
+
+            foreach (RecordField field in this)
+            {
+                field.Record = null;
+            }
+
+            base.ClearItems();
+        }
+
+        /// <summary>
         /// Inserts an element into the
         /// <see cref="T:System.Collections.ObjectModel.Collection`1" />
         /// at the specified index.
@@ -170,62 +171,58 @@ namespace ManagedClient
                 [NotNull] RecordField item
             )
         {
-            if (ReadOnly)
-            {
-                throw new ReadOnlyException();
-            }
+            ThrowIfReadOnly();
+            Code.NotNull(item, "item");
 
-            if (ReferenceEquals(item, null))
-            {
-                throw new ArgumentNullException("item");
-            }
+            item.Record = Record;
 
             base.InsertItem(index, item);
         }
 
         /// <summary>
+        /// Removes the element at the specified index of the
+        /// <see cref="T:System.Collections.ObjectModel.Collection`1" />.
+        /// </summary>
+        /// <param name="index">The zero-based index
+        /// of the element to remove.</param>
+        protected override void RemoveItem
+            (
+                int index
+            )
+        {
+            ThrowIfReadOnly();
+
+            if ((index >= 0) && (index < Count))
+            {
+                RecordField field = this[index];
+                if (field != null)
+                {
+                    field.Record = null;
+                }
+            }
+
+            base.RemoveItem(index);
+        }
+
+        /// <summary>
         /// Replaces the element at the specified index.
         /// </summary>
+        /// <param name="index">The zero-based index of the element
+        /// to replace.</param>
+        /// <param name="item">The new value for the element
+        /// at the specified index. The value can't be null.</param>
         protected override void SetItem
             (
                 int index,
                 [NotNull] RecordField item
             )
         {
-            if (ReadOnly)
-            {
-                throw new ReadOnlyException();
-            }
+            ThrowIfReadOnly();
+            Code.NotNull(item, "item");
 
-            if (ReferenceEquals(item, null))
-            {
-                throw new ArgumentNullException("item");
-            }
+            item.Record = Record;
 
             base.SetItem(index, item);
-        }
-
-        protected override void ClearItems()
-        {
-            if (ReadOnly)
-            {
-                throw new ReadOnlyException();
-            }
-
-            base.ClearItems();
-        }
-
-        protected override void RemoveItem
-            (
-                int index
-            )
-        {
-            if (ReadOnly)
-            {
-                throw new ReadOnlyException();
-            }
-
-            base.RemoveItem(index);
         }
 
         #endregion
@@ -233,14 +230,15 @@ namespace ManagedClient
         #region IHandmadeSerializable members
 
         /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
+        /// Restore the object state from the given stream.
         /// </summary>
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
-            Code.NotNull(() => reader);
+            ThrowIfReadOnly();
+            Code.NotNull(reader, "reader");
 
             ClearItems();
             RecordField[] array = reader.ReadArray<RecordField>();
@@ -248,16 +246,62 @@ namespace ManagedClient
         }
 
         /// <summary>
-        /// Просим объект сохранить себя в потоке.
+        /// Save the object state to the given stream.
         /// </summary>
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
-            Code.NotNull(() => writer);
+            Code.NotNull(writer, "writer");
 
             writer.WriteArray(this.ToArray());
+        }
+
+        #endregion
+
+        #region IReadOnly<T> members
+
+        [NonSerialized]
+        internal bool _readOnly;
+
+        /// <summary>
+        /// Whether the collection is read-only?
+        /// </summary>
+        public bool ReadOnly { get { return _readOnly; } }
+
+        /// <summary>
+        /// Create read-only clone of the collection.
+        /// </summary>
+        public RecordFieldCollection AsReadOnly()
+        {
+            RecordFieldCollection result = Clone();
+            result.SetReadOnly();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Marks the object as read-only.
+        /// </summary>
+        public void SetReadOnly()
+        {
+            _readOnly = true;
+            foreach (RecordField field in this)
+            {
+                field.SetReadOnly();
+            }
+        }
+
+        /// <summary>
+        /// Throws if read only.
+        /// </summary>
+        public void ThrowIfReadOnly()
+        {
+            if (ReadOnly)
+            {
+                throw new ReadOnlyException();
+            }
         }
 
         #endregion

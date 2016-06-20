@@ -9,7 +9,7 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
-
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -32,7 +32,8 @@ namespace ManagedClient
     [MoonSharpUserData]
     [DebuggerDisplay("Code={Code}, Value={Value}")]
     public sealed class SubField
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IReadOnly<SubField>
     {
         #region Constants
 
@@ -118,13 +119,6 @@ namespace ManagedClient
         }
 
         /// <summary>
-        /// Is read only?
-        /// </summary>
-        [XmlIgnore]
-        [JsonIgnore]
-        public bool ReadOnly { get { return _readOnly; } }
-
-        /// <summary>
         /// Ссылка на поле, владеющее
         /// данным подполем. Настраивается
         /// перед передачей в скрипты.
@@ -186,8 +180,11 @@ namespace ManagedClient
         {
             Code = code;
             Value = value;
-            _readOnly = readOnly;
             Field = field;
+            if (readOnly)
+            {
+                SetReadOnly();
+            }
         }
 
         #endregion
@@ -199,28 +196,11 @@ namespace ManagedClient
         private string _value;
 
         [NonSerialized]
-        // ReSharper disable InconsistentNaming
-        internal bool _readOnly;
-        // ReSharper restore InconsistentNaming
-
-        [NonSerialized]
         private object _userData;
 
         #endregion
 
         #region Public methods
-
-        /// <summary>
-        /// Creates read-only clone of the field.
-        /// </summary>
-        [NotNull]
-        public SubField AsReadOnly()
-        {
-            SubField result = Clone();
-            result._readOnly = true;
-
-            return result;
-        }
 
         /// <summary>
         /// Clones this instance.
@@ -272,10 +252,7 @@ namespace ManagedClient
                 char code
             )
         {
-            if (_readOnly)
-            {
-                throw new ReadOnlyException();
-            }
+            ThrowIfReadOnly();
 
             _code = code;
         }
@@ -288,10 +265,7 @@ namespace ManagedClient
                 [CanBeNull] string value
             )
         {
-            if (_readOnly)
-            {
-                throw new ReadOnlyException();
-            }
+            ThrowIfReadOnly();
 
             if (!string.IsNullOrEmpty(value))
             {
@@ -319,6 +293,7 @@ namespace ManagedClient
                 BinaryReader reader
             )
         {
+            ThrowIfReadOnly();
             CodeJam.Code.NotNull(() => reader);
 
             CodeString = reader.ReadNullableString();
@@ -338,6 +313,55 @@ namespace ManagedClient
             writer.WriteNullable(CodeString);
             writer.WriteNullable(Value);
         }
+
+        #endregion
+
+        #region IReadOnly<T> members
+
+        // ReSharper disable InconsistentNaming
+        [NonSerialized]
+        internal bool _readOnly;
+        // ReSharper restore InconsistentNaming
+
+        /// <summary>
+        /// Whether the object is read-only?
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        public bool ReadOnly { get { return _readOnly; } }
+
+        /// <summary>
+        /// Creates read-only clone of the field.
+        /// </summary>
+        public SubField AsReadOnly()
+        {
+            SubField result = Clone();
+            result.SetReadOnly();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Mark the subField as read-only.
+        /// </summary>
+        public void SetReadOnly()
+        {
+            _readOnly = true;
+        }
+
+        /// <summary>
+        /// Throws if read only.
+        /// </summary>
+        /// <exception cref="System.Data.ReadOnlyException">
+        /// If the object is marked as read-only.</exception>
+        public void ThrowIfReadOnly()
+        {
+            if (ReadOnly)
+            {
+                throw new ReadOnlyException();
+            }
+        }
+
 
         #endregion
 

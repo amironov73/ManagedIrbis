@@ -37,7 +37,8 @@ namespace ManagedClient
     [MoonSharpUserData]
     [DebuggerDisplay("Tag={Tag} Value={Value}")]
     public sealed class RecordField
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IReadOnly<RecordField>
     {
         #region Constants
 
@@ -85,11 +86,6 @@ namespace ManagedClient
         {
             get { return _indicator2; }
         }
-
-        /// <summary>
-        /// Whether the field is read-only?
-        /// </summary>
-        public bool ReadOnly { get { return _readOnly; } }
 
         /// <summary>
         /// Повторение поля.
@@ -168,6 +164,14 @@ namespace ManagedClient
             {
                 _field = this
             };
+            _indicator1 = new FieldIndicator
+            {
+                _field = this
+            };
+            _indicator2 = new FieldIndicator
+            {
+                _field = this
+            };
         }
 
         /// <summary>
@@ -226,8 +230,11 @@ namespace ManagedClient
         {
             Tag = tag;
             Value = value;
-            _readOnly = readOnly;
             Record = record;
+            if (readOnly)
+            {
+                SetReadOnly();
+            }
         }
 
         /// <summary>
@@ -248,20 +255,13 @@ namespace ManagedClient
 
         #region Private members
 
-        private readonly FieldIndicator
-            _indicator1 = new FieldIndicator(),
-            _indicator2 = new FieldIndicator();
+        private readonly FieldIndicator _indicator1, _indicator2;
 
         private string _tag;
 
         private string _value;
 
         private readonly SubFieldCollection _subFields;
-
-        // ReSharper disable InconsistentNaming
-        [NonSerialized]
-        internal bool _readOnly;
-        // ReSharper restore InconsistentNaming
 
         [NonSerialized]
         private object _userData;
@@ -360,6 +360,8 @@ namespace ManagedClient
                 [CanBeNull] object value
             )
         {
+            ThrowIfReadOnly();
+
             string text = value.NullableToString();
 
             SubFields.Add(new SubField(code, text));
@@ -378,6 +380,8 @@ namespace ManagedClient
                 [CanBeNull] object value
             )
         {
+            ThrowIfReadOnly();
+
             string text = value.NullableToString();
 
             if (!string.IsNullOrEmpty(text))
@@ -386,23 +390,6 @@ namespace ManagedClient
             }
 
             return this;
-        }
-
-        /// <summary>
-        /// Creates read-only clone of the field.
-        /// </summary>
-        [NotNull]
-        public RecordField AsReadOnly()
-        {
-            RecordField result = Clone();
-            result._readOnly = true;
-            result.SubFields._readOnly = true;
-            foreach (SubField subField in result.SubFields)
-            {
-                subField._readOnly = true;
-            }
-
-            return result;
         }
 
         /// <summary>
@@ -645,6 +632,8 @@ namespace ManagedClient
                 [CanBeNull] object value
             )
         {
+            ThrowIfReadOnly();
+
             string text = value.NullableToString();
 
             SubField subField = SubFields.GetFirstSubField(code);
@@ -669,6 +658,8 @@ namespace ManagedClient
                 char code
             )
         {
+            ThrowIfReadOnly();
+
             SubField[] found = SubFields.GetSubField(code);
 
             foreach (SubField subField in found)
@@ -690,6 +681,8 @@ namespace ManagedClient
                 [CanBeNull] object newValue
             )
         {
+            ThrowIfReadOnly();
+
             SubField found = SubFields.GetFirstSubField
                 (
                     code,
@@ -713,10 +706,7 @@ namespace ManagedClient
                 [CanBeNull] string tag
             )
         {
-            if (_readOnly)
-            {
-                throw new ReadOnlyException();
-            }
+            ThrowIfReadOnly();
 
             _tag = tag;
 
@@ -732,10 +722,7 @@ namespace ManagedClient
                 [CanBeNull] string value
             )
         {
-            if (_readOnly)
-            {
-                throw new ReadOnlyException();
-            }
+            ThrowIfReadOnly();
 
             if (string.IsNullOrEmpty(value))
             {
@@ -765,7 +752,7 @@ namespace ManagedClient
         }
 
         /// <summary>
-        /// Получаем текстовое представление поля.
+        /// Builds text representation of the field.
         /// </summary>
         [NotNull]
         public string ToText()
@@ -793,14 +780,15 @@ namespace ManagedClient
         #region IHandmadeSerializable members
 
         /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
+        /// Restore the object state from the given stream.
         /// </summary>
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
-            Code.NotNull(() => reader);
+            ThrowIfReadOnly();
+            Code.NotNull(reader, "reader");
 
             Tag = reader.ReadNullableString();
             Indicator1.RestoreFromStream(reader);
@@ -810,20 +798,70 @@ namespace ManagedClient
         }
 
         /// <summary>
-        /// Просим объект сохранить себя в потоке.
+        /// Save the object state to the given stream.
         /// </summary>
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
-            Code.NotNull(() => writer);
+            Code.NotNull(writer, "writer");
 
             writer.WriteNullable(Tag);
             Indicator1.SaveToStream(writer);
             Indicator2.SaveToStream(writer);
             writer.WriteNullable(Value);
             SubFields.SaveToStream(writer);
+        }
+
+        #endregion
+
+        #region IReadOnly<T> members
+
+        [NonSerialized]
+        internal bool _readOnly;
+
+        /// <summary>
+        /// Whether the field is read-only?
+        /// </summary>
+        public bool ReadOnly { get { return _readOnly; } }
+
+        /// <summary>
+        /// Creates read-only clone of the field.
+        /// </summary>
+        public RecordField AsReadOnly()
+        {
+            RecordField result = Clone();
+            result._readOnly = true;
+            result.SubFields._readOnly = true;
+            foreach (SubField subField in result.SubFields)
+            {
+                subField._readOnly = true;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Marks the record as read-only.
+        /// </summary>
+        public void SetReadOnly()
+        {
+            _readOnly = true;
+            Indicator1.SetReadOnly();
+            Indicator2.SetReadOnly();
+            SubFields.SetReadOnly();
+        }
+
+        /// <summary>
+        /// Throws if read only.
+        /// </summary>
+        public void ThrowIfReadOnly()
+        {
+            if (ReadOnly)
+            {
+                throw new ReadOnlyException();
+            }
         }
 
         #endregion

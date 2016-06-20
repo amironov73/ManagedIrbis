@@ -6,7 +6,7 @@ using AM.Runtime;
 
 using ManagedClient;
 
-namespace UnitTests
+namespace UnitTests.ManagedClient
 {
     [TestClass]
     public class RecordFieldTest
@@ -126,10 +126,30 @@ namespace UnitTests
 
         [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
-        public void TestRecordFieldReadOnly()
+        public void TestRecordFieldReadOnly1()
         {
             RecordField field = _GetField().AsReadOnly();
+            Assert.IsTrue(field.ReadOnly);
             field.Value = "New value";
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ReadOnlyException))]
+        public void TestRecordFieldReadOnly2()
+        {
+            RecordField field = _GetField().AsReadOnly();
+            Assert.IsTrue(field.ReadOnly);
+            field.AddSubField('a', "Value");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ReadOnlyException))]
+        public void TestRecordFieldReadOnly3()
+        {
+            RecordField field = _GetField().AsReadOnly();
+            Assert.IsTrue(field.ReadOnly);
+            SubField subField = field.SubFields[0];
+            subField.Value = "New value";
         }
     }
 }

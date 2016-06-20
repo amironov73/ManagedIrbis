@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -36,17 +37,16 @@ namespace ManagedClient
     [DebuggerDisplay("Count={Count}")]
     public sealed class SubFieldCollection
         : Collection<SubField>,
-        IHandmadeSerializable
+        IHandmadeSerializable,
+        IReadOnly<SubFieldCollection>
     {
         #region Properties
 
+        /// <summary>
+        /// Field.
+        /// </summary>
         [CanBeNull]
         public RecordField Field { get { return _field; } }
-
-        /// <summary>
-        /// Whether the collection is read-only?
-        /// </summary>
-        public bool ReadOnly { get { return _readOnly; } }
 
         #endregion
 
@@ -57,9 +57,6 @@ namespace ManagedClient
         #region Private members
 
         // ReSharper disable InconsistentNaming
-        [NonSerialized]
-        internal bool _readOnly;
-
         [NonSerialized]
         internal RecordField _field;
         // ReSharper restore InconsistentNaming
@@ -78,10 +75,7 @@ namespace ManagedClient
             )
         {
             Code.NotNull(subFields, "subFields");
-            if (ReadOnly)
-            {
-                throw new ReadOnlyException();
-            }
+            ThrowIfReadOnly();
 
             foreach (SubField subField in subFields)
             {
@@ -89,19 +83,6 @@ namespace ManagedClient
             }
 
             return this;
-        }
-
-        /// <summary>
-        /// Create read-only clone of the collection.
-        /// </summary>
-        /// <returns></returns>
-        [NotNull]
-        public SubFieldCollection AsReadOnly()
-        {
-            SubFieldCollection result = Clone();
-            result._readOnly = true;
-
-            return result;
         }
 
         /// <summary>
@@ -164,19 +145,38 @@ namespace ManagedClient
         #region Collection<T> members
 
         /// <summary>
-        /// Вставка элемента в коллекцию в заданной позиции.
+        /// Removes all elements from the
+        /// <see cref="T:System.Collections.ObjectModel.Collection`1" />.
         /// </summary>
+        protected override void ClearItems()
+        {
+            ThrowIfReadOnly();
+
+            foreach (SubField subField in this)
+            {
+                subField.Field = null;
+            }
+
+            base.ClearItems();
+        }
+
+        /// <summary>
+        /// Inserts an element into the
+        /// <see cref="T:System.Collections.ObjectModel.Collection`1" />
+        /// at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index at which
+        /// <paramref name="item" /> should be inserted.</param>
+        /// <param name="item">The object to insert. The value can't
+        /// be <c>null</c>.</param>
         protected override void InsertItem
             (
                 int index,
                 [NotNull] SubField item
             )
         {
+            ThrowIfReadOnly();
             Code.NotNull(item, "item");
-            if (ReadOnly)
-            {
-                throw new ReadOnlyException();
-            }
 
             item.Field = Field;
 
@@ -184,48 +184,50 @@ namespace ManagedClient
         }
 
         /// <summary>
-        /// Присвоение элемента в данной позиции коллекции.
+        /// Removes the element at the specified index of the
+        /// <see cref="T:System.Collections.ObjectModel.Collection`1" />.
         /// </summary>
-        /// <param name="index"></param>
-        /// <param name="item"></param>
+        /// <param name="index">The zero-based index of the element
+        /// to remove.</param>
+        protected override void RemoveItem
+            (
+                int index
+            )
+        {
+            ThrowIfReadOnly();
+
+            if ((index >= 0) && (index < Count))
+            {
+                SubField subField = this[index];
+                if (subField != null)
+                {
+                    subField.Field = null;
+                }
+            }
+
+            base.RemoveItem(index);
+        }
+
+        /// <summary>
+        /// Replaces the element at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the
+        /// element to replace.</param>
+        /// <param name="item">The new value for the element
+        /// at the specified index. The value can't be <c>null</c>.
+        /// </param>
         protected override void SetItem
             (
                 int index,
                 [NotNull] SubField item
             )
         {
+            ThrowIfReadOnly();
             Code.NotNull(item, "item");
-            if (ReadOnly)
-            {
-                throw new ReadOnlyException();
-            }
-
-            base.SetItem(index, item);
 
             item.Field = Field;
-        }
 
-        protected override void ClearItems()
-        {
-            if (ReadOnly)
-            {
-                throw new ReadOnlyException();
-            }
-
-            base.ClearItems();
-        }
-
-        protected override void RemoveItem
-            (
-                int index
-            )
-        {
-            if (ReadOnly)
-            {
-                throw new ReadOnlyException();
-            }
-
-            base.RemoveItem(index);
+            base.SetItem(index, item);
         }
 
         #endregion
@@ -233,14 +235,15 @@ namespace ManagedClient
         #region IHandmadeSerializable members
 
         /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
+        /// Restore the object state from the given stream.
         /// </summary>
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
-            Code.NotNull(() => reader);
+            ThrowIfReadOnly();
+            Code.NotNull(reader, "reader");
 
             ClearItems();
             SubField[] array = reader.ReadArray<SubField>();
@@ -248,16 +251,66 @@ namespace ManagedClient
         }
 
         /// <summary>
-        /// Просим объект сохранить себя в потоке.
+        /// Save the object state to the given stream.
         /// </summary>
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
-            Code.NotNull(() => writer);
+            Code.NotNull(writer, "writer");
 
             writer.WriteArray(this.ToArray());
+        }
+
+        #endregion
+
+        #region IReadOnly<T> members
+
+        // ReSharper disable InconsistentNaming
+        [NonSerialized]
+        internal bool _readOnly;
+
+        /// <summary>
+        /// Whether the collection is read-only?
+        /// </summary>
+        public bool ReadOnly { get { return _readOnly; } }
+
+        // ReSharper restore InconsistentNaming
+
+        /// <summary>
+        /// Create read-only clone of the collection.
+        /// </summary>
+        public SubFieldCollection AsReadOnly()
+        {
+            SubFieldCollection result = Clone();
+            result.SetReadOnly();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Throws if read only.
+        /// </summary>
+        /// <exception cref="System.Data.ReadOnlyException"></exception>
+        public void ThrowIfReadOnly()
+        {
+            if (ReadOnly)
+            {
+                throw new ReadOnlyException();
+            }
+        }
+
+        /// <summary>
+        /// Mark the collection as read-only.
+        /// </summary>
+        public void SetReadOnly()
+        {
+            _readOnly = true;
+            foreach (SubField subField in this)
+            {
+                subField.SetReadOnly();
+            }
         }
 
         #endregion

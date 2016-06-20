@@ -6,12 +6,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -35,7 +36,8 @@ namespace ManagedClient
     [MoonSharpUserData]
     [DebuggerDisplay("[{Database}] MFN={Mfn} ({Version})")]
     public sealed class IrbisRecord
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IReadOnly<IrbisRecord>
     {
         #region Properties
 
@@ -46,22 +48,38 @@ namespace ManagedClient
         /// The database.
         /// </value>
         [CanBeNull]
-        public string Database { get; set; }
+        public string Database
+        {
+            get { return _database; }
+            set { SetDatabase(value); }
+        }
 
         /// <summary>
         /// MFN записи
         /// </summary>
-        public int Mfn { get; set; }
+        public int Mfn
+        {
+            get { return _mfn; }
+            set { SetMfn(value); }
+        }
 
         /// <summary>
         /// Статус записи: удалена, блокирована и т.д.
         /// </summary>
-        public RecordStatus Status { get; set; }
+        public RecordStatus Status
+        {
+            get { return _status; }
+            set { SetStatus(value); }
+        }
 
         /// <summary>
         /// Версия записи. Нумеруется с нуля.
         /// </summary>
-        public int Version { get; set; }
+        public int Version
+        {
+            get { return _version; }
+            set { SetVersion(value); }
+        }
 
         /// <summary>
         /// Смещение предыдущей версии записи.
@@ -120,11 +138,6 @@ namespace ManagedClient
         [CanBeNull]
         public object UserData { get; set; }
 
-        /// <summary>
-        /// Whether the record read-only?
-        /// </summary>
-        public bool ReadOnly { get { return _readOnly; } }
-
         #endregion
 
         #region Construction
@@ -154,6 +167,7 @@ namespace ManagedClient
             Version = other.Version;
             PreviousOffset = other.PreviousOffset;
             _fields = other.Fields.Clone();
+            _fields._record = this;
             Description = other.Description;
             SortKey = other.SortKey;
             Index = other.Index;
@@ -166,34 +180,15 @@ namespace ManagedClient
 
         private readonly RecordFieldCollection _fields;
 
-        [NonSerialized]
-        internal bool _readOnly;
+        private string _database;
+
+        private int _mfn, _version;
+
+        private RecordStatus _status;
 
         #endregion
 
         #region Public methods
-
-        /// <summary>
-        /// Creates read-only clone of the record.
-        /// </summary>
-        [NotNull]
-        public IrbisRecord AsReadOnly()
-        {
-            IrbisRecord result = Clone();
-            result._readOnly = true;
-            result.Fields._readOnly = true;
-            foreach (RecordField field in Fields)
-            {
-                field._readOnly = true;
-                field.SubFields._readOnly = true;
-                foreach (SubField subField in field.SubFields)
-                {
-                    subField._readOnly = true;
-                }
-            }
-
-            return result;
-        }
 
         /// <summary>
         /// Создание "глубокой" копии записи.
@@ -345,6 +340,56 @@ namespace ManagedClient
             return result;
         }
 
+        [NotNull]
+        public IrbisRecord SetDatabase
+            (
+                [CanBeNull] string newDatabase
+            )
+        {
+            ThrowIfReadOnly();
+
+            return this;
+        }
+
+        [NotNull]
+        public IrbisRecord SetMfn
+            (
+                int newMfn
+            )
+        {
+            ThrowIfReadOnly();
+
+            _mfn = newMfn;
+
+            return this;
+        }
+
+        [NotNull]
+        public IrbisRecord SetStatus
+            (
+                RecordStatus newStatus
+            )
+        {
+            ThrowIfReadOnly();
+
+            _status = newStatus;
+
+            return this;
+        }
+
+        [NotNull]
+        public IrbisRecord SetVersion
+            (
+                int newVersion
+            )
+        {
+            ThrowIfReadOnly();
+
+            _version = newVersion;
+
+            return this;
+        }
+
         #endregion
 
         #region IHandmadeSerializable members
@@ -357,7 +402,7 @@ namespace ManagedClient
                 BinaryReader reader
             )
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             Database = reader.ReadNullableString();
             Mfn = reader.ReadPackedInt32();
@@ -377,7 +422,7 @@ namespace ManagedClient
                 BinaryWriter writer
             )
         {
-            Code.NotNull(() => writer);
+            Code.NotNull(writer, "writer");
 
             writer.WriteNullable(Database);
             writer.WritePackedInt32(Mfn);
@@ -387,6 +432,50 @@ namespace ManagedClient
             writer.WriteNullable(Description);
             writer.WriteNullable(SortKey);
             writer.WriteNullable(Index);
+        }
+
+        #endregion
+
+        #region IReadOnly<T> members
+
+        [NonSerialized]
+        internal bool _readOnly;
+
+        /// <summary>
+        /// Whether the record read-only?
+        /// </summary>
+        public bool ReadOnly { get { return _readOnly; } }
+
+        /// <summary>
+        /// Creates read-only clone of the record.
+        /// </summary>
+        [NotNull]
+        public IrbisRecord AsReadOnly()
+        {
+            IrbisRecord result = Clone();
+            result.SetReadOnly();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Marks the record as read-only.
+        /// </summary>
+        public void SetReadOnly()
+        {
+            _readOnly = true;
+            Fields.SetReadOnly();
+        }
+
+        /// <summary>
+        /// Throws if read only.
+        /// </summary>
+        public void ThrowIfReadOnly()
+        {
+            if (ReadOnly)
+            {
+                throw new ReadOnlyException();
+            }
         }
 
         #endregion

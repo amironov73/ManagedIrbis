@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using AM.Runtime;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -83,6 +84,26 @@ namespace UnitTests.ManagedClient
 
             indicator = new FieldIndicator("234");
             _TestSerialization(indicator);
+        }
+
+        [TestMethod]
+        public void TestFieldIndicatorField()
+        {
+            RecordField field = new RecordField();
+            Assert.AreEqual(field, field.Indicator1.Field);
+            Assert.AreEqual(field, field.Indicator2.Field);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ReadOnlyException))]
+        public void TestFieldIndicatorReadOnly()
+        {
+            FieldIndicator indicator
+                = new FieldIndicator("V", true);
+            Assert.IsTrue(indicator.ReadOnly);
+            Assert.AreEqual("V", indicator.Value);
+            indicator.Value = "New value";
+            Assert.AreEqual("V", indicator.Value);
         }
     }
 }

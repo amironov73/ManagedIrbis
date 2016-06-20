@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;
@@ -20,6 +21,10 @@ namespace UnitTests.ManagedClient
             Assert.IsNull(record.Database);
             Assert.IsNull(record.Description);
             Assert.AreEqual(0, record.Version);
+
+            record.Fields.Add(new RecordField());
+
+            Assert.AreEqual(record, record.Fields[0].Record);
         }
 
         private void _TestSerialization
@@ -126,6 +131,15 @@ namespace UnitTests.ManagedClient
             string[] actual = record.FRA("\"Автор: \"v700^a");
             Assert.AreEqual(1, actual.Length);
             Assert.AreEqual("Автор: Иванов", actual[0]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ReadOnlyException))]
+        public void TestIrbisRecordReadOnly()
+        {
+            IrbisRecord record = _GetRecord().AsReadOnly();
+
+            record.Fields.Add(new RecordField());
         }
     }
 }
