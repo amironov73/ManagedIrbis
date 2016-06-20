@@ -18,8 +18,6 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedClient.ReadOnly;
-
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -42,7 +40,7 @@ namespace ManagedClient.Transform
         /// Source record.
         /// </summary>
         [NotNull]
-        public ReadOnlyIrbisRecord Source { get { return _source; } }
+        public IrbisRecord Source { get { return _source; } }
 
         /// <summary>
         /// Target record.
@@ -58,7 +56,7 @@ namespace ManagedClient.Transform
         /// </summary>
         public RecordTransformContext
             (
-                [NotNull] ReadOnlyIrbisRecord source
+                [NotNull] IrbisRecord source
             )
         {
             Code.NotNull(source, "source");
@@ -71,7 +69,7 @@ namespace ManagedClient.Transform
 
         #region Private member
 
-        private ReadOnlyIrbisRecord _source;
+        private IrbisRecord _source;
 
         private IrbisRecord _target;
 

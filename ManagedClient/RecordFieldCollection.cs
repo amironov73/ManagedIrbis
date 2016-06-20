@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -33,6 +34,35 @@ namespace ManagedClient
         : Collection<RecordField>,
         IHandmadeSerializable
     {
+        #region Properties
+
+        [CanBeNull]
+        public IrbisRecord Record { get { return _record; } }
+
+        /// <summary>
+        /// Whether the collection is read-only?
+        /// </summary>
+        public bool ReadOnly { get { return _readOnly; } }
+
+        #endregion
+
+        #region Construction
+
+        #endregion
+
+        #region Private members
+
+        // ReSharper disable InconsistentNaming
+        [NonSerialized]
+        internal bool _readOnly;
+
+        [NonSerialized]
+        internal IrbisRecord _record;
+        // ReSharper restore InconsistentNaming
+
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -41,13 +71,30 @@ namespace ManagedClient
         /// <param name="fields"></param>
         public void AddRange
             (
-                IEnumerable<RecordField> fields
+                [NotNull] IEnumerable<RecordField> fields
             )
         {
+            Code.NotNull(fields, "fields");
+            if (ReadOnly)
+            {
+                throw new ReadOnlyException();
+            }
+
             foreach (RecordField field in fields)
             {
                 Add(field);
             }
+        }
+
+        /// <summary>
+        /// Create read-only clone of the collection.
+        /// </summary>
+        public RecordFieldCollection AsReadOnly()
+        {
+            RecordFieldCollection result = Clone();
+            result._readOnly = true;
+
+            return result;
         }
 
         /// <summary>
@@ -56,11 +103,15 @@ namespace ManagedClient
         [NotNull]
         public RecordFieldCollection Clone()
         {
-            RecordFieldCollection result = new RecordFieldCollection();
+            RecordFieldCollection result = new RecordFieldCollection
+            {
+                _record = Record
+            };
 
             foreach (RecordField field in this)
             {
                 RecordField clone = field.Clone();
+                clone.Record = Record;
                 result.Add(clone);
             }
 
@@ -70,28 +121,37 @@ namespace ManagedClient
         /// <summary>
         /// Find first occurrence of the field with given predicate.
         /// </summary>
+        [CanBeNull]
         public RecordField Find
             (
-                Predicate<RecordField> predicate
+                [NotNull] Predicate<RecordField> predicate
             )
         {
-            return this
-                .FirstOrDefault(field => predicate(field));
+            Code.NotNull(predicate, "predicate");
+
+            return this.FirstOrDefault
+                (
+                    field => predicate(field)
+                );
         }
 
         /// <summary>
         /// Find all occurrences of the field
         /// with given predicate.
         /// </summary>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
+        [NotNull]
+        [ItemNotNull]
         public RecordField[] FindAll
             (
-                Predicate<RecordField> predicate
+                [NotNull] Predicate<RecordField> predicate
             )
         {
-            return this
-                .Where(field => predicate(field))
+            Code.NotNull(predicate, "predicate");
+
+            return this.Where
+                (
+                    field => predicate(field)
+                )
                 .ToArray();
         }
 
@@ -110,6 +170,11 @@ namespace ManagedClient
                 [NotNull] RecordField item
             )
         {
+            if (ReadOnly)
+            {
+                throw new ReadOnlyException();
+            }
+
             if (ReferenceEquals(item, null))
             {
                 throw new ArgumentNullException("item");
@@ -127,12 +192,40 @@ namespace ManagedClient
                 [NotNull] RecordField item
             )
         {
+            if (ReadOnly)
+            {
+                throw new ReadOnlyException();
+            }
+
             if (ReferenceEquals(item, null))
             {
                 throw new ArgumentNullException("item");
             }
 
             base.SetItem(index, item);
+        }
+
+        protected override void ClearItems()
+        {
+            if (ReadOnly)
+            {
+                throw new ReadOnlyException();
+            }
+
+            base.ClearItems();
+        }
+
+        protected override void RemoveItem
+            (
+                int index
+            )
+        {
+            if (ReadOnly)
+            {
+                throw new ReadOnlyException();
+            }
+
+            base.RemoveItem(index);
         }
 
         #endregion

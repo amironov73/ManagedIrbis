@@ -120,6 +120,11 @@ namespace ManagedClient
         [CanBeNull]
         public object UserData { get; set; }
 
+        /// <summary>
+        /// Whether the record read-only?
+        /// </summary>
+        public bool ReadOnly { get { return _readOnly; } }
+
         #endregion
 
         #region Construction
@@ -129,6 +134,10 @@ namespace ManagedClient
         /// </summary>
         public IrbisRecord()
         {
+            _fields = new RecordFieldCollection
+            {
+                _record = this
+            };
         }
 
         /// <summary>
@@ -155,12 +164,36 @@ namespace ManagedClient
 
         #region Private members
 
-        private readonly RecordFieldCollection _fields
-            = new RecordFieldCollection();
+        private readonly RecordFieldCollection _fields;
+
+        [NonSerialized]
+        internal bool _readOnly;
 
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Creates read-only clone of the record.
+        /// </summary>
+        [NotNull]
+        public IrbisRecord AsReadOnly()
+        {
+            IrbisRecord result = Clone();
+            result._readOnly = true;
+            result.Fields._readOnly = true;
+            foreach (RecordField field in Fields)
+            {
+                field._readOnly = true;
+                field.SubFields._readOnly = true;
+                foreach (SubField subField in field.SubFields)
+                {
+                    subField._readOnly = true;
+                }
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Создание "глубокой" копии записи.

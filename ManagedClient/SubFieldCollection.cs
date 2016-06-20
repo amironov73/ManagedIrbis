@@ -50,6 +50,10 @@ namespace ManagedClient
 
         #endregion
 
+        #region Construction
+
+        #endregion
+
         #region Private members
 
         // ReSharper disable InconsistentNaming
@@ -88,16 +92,33 @@ namespace ManagedClient
         }
 
         /// <summary>
-        /// Создание "глубокой" копии коллекции.
+        /// Create read-only clone of the collection.
         /// </summary>
         /// <returns></returns>
+        [NotNull]
+        public SubFieldCollection AsReadOnly()
+        {
+            SubFieldCollection result = Clone();
+            result._readOnly = true;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Создание "глубокой" копии коллекции.
+        /// </summary>
+        [NotNull]
         public SubFieldCollection Clone()
         {
-            SubFieldCollection result = new SubFieldCollection();
+            SubFieldCollection result = new SubFieldCollection
+            {
+                _field = Field
+            };
 
             foreach (SubField subField in this)
             {
                 SubField clone = subField.Clone();
+                clone.Field = Field;
                 result.Add(clone);
             }
 

@@ -156,9 +156,6 @@
     <Compile Include="Identifiers\Issn.cs" />
     <Compile Include="Network\IrbisNetworkUtility.cs" />
     <Compile Include="Network\IrbisServerResponse.cs" />
-    <Compile Include="ReadOnly\ReadOnlyIrbisRecord.cs" />
-    <Compile Include="ReadOnly\ReadOnlyRecordField.cs" />
-    <Compile Include="ReadOnly\ReadOnlySubField.cs" />
     <Compile Include="Transform\RecordTransformContext.cs" />
     <Compile Include="Worksheet\InputMode.cs" />
     <Compile Include="IrbisOpt.cs" />
