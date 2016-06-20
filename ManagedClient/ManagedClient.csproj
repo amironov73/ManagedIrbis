@@ -145,6 +145,7 @@
     <Compile Include="IrbisTreeFile.cs" />
     <Compile Include="Menus\IrbisMenuFile.cs" />
     <Compile Include="Menus\IrbisMenuUtility.cs" />
+    <Compile Include="Network\CommandCode.cs" />
     <Compile Include="Network\IrbisClientQuery.cs" />
     <Compile Include="IrbisDatabaseInfo.cs" />
     <Compile Include="IrbisDate.cs" />
@@ -165,7 +166,7 @@
     <Compile Include="IrbisQuery.cs" />
     <Compile Include="IrbisRecord.cs" />
     <Compile Include="IrbisRecordUtility.cs" />
-    <Compile Include="IrbisReturnCode.cs" />
+    <Compile Include="Network\IrbisReturnCode.cs" />
     <Compile Include="IrbisUpperCaseTable.cs" />
     <Compile Include="IrbisVersion.cs" />
     <Compile Include="IrbisWorkstation.cs" />

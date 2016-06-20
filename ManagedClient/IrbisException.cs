@@ -10,6 +10,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedClient.Network;
+
 #endregion
 
 namespace ManagedClient

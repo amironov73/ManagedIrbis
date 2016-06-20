@@ -160,10 +160,9 @@ namespace ManagedClient
         /// </summary>
         public RecordField()
         {
-            _subFields = new SubFieldCollection
-            {
-                _field = this
-            };
+            _subFields = new SubFieldCollection()
+                ._SetField(this);
+
             _indicator1 = new FieldIndicator
             {
                 _field = this

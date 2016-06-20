@@ -32,7 +32,8 @@ namespace ManagedClient.Network
     [PublicAPI]
     [Serializable]
     [MoonSharpUserData]
-    [DebuggerDisplay("{CommandCode} {Workstation} {ClientID} {CommandNumber}")]
+    [DebuggerDisplay("{CommandCode} {Workstation}"
+        + " {ClientID} {CommandNumber}")]
     public sealed class IrbisClientQuery
     {
         #region Constants

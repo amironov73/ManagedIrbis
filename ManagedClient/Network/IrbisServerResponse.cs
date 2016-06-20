@@ -32,7 +32,37 @@ namespace ManagedClient.Network
     [MoonSharpUserData]
     public sealed class IrbisServerResponse
     {
+        #region Constants
+
+        /// <summary>
+        /// Разделитель.
+        /// </summary>
+        public const string Delimiter = "\x0D\x0A";
+
+        #endregion
+
         #region Properties
+
+        /// <summary>
+        /// Команда клиента.
+        /// </summary>
+        [CanBeNull]
+        public string CommandCode { get; set; }
+
+        /// <summary>
+        /// Идентификатор клиента.
+        /// </summary>
+        public int ClientID { get; set; }
+
+        /// <summary>
+        /// Порядковый номер команды.
+        /// </summary>
+        public int CommandNumber { get; set; }
+
+        /// <summary>
+        /// Размер ответа сервера в байтах.
+        /// </summary>
+        public int AnswerSize { get; set; }
 
         #endregion
 
@@ -45,6 +75,28 @@ namespace ManagedClient.Network
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Проверка, правильно ли заполнены поля ответа.
+        /// </summary>
+        public bool Verify
+            (
+                bool throwException
+            )
+        {
+            bool result = !string.IsNullOrEmpty(CommandCode)
+                && (ClientID != 0)
+                && (CommandNumber != 0)
+                ;
+
+            if (throwException && !result)
+            {
+                throw new ApplicationException();
+            }
+
+            return result;
+        }
+
 
         #endregion
 

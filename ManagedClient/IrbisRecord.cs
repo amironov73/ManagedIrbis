@@ -147,10 +147,8 @@ namespace ManagedClient
         /// </summary>
         public IrbisRecord()
         {
-            _fields = new RecordFieldCollection
-            {
-                _record = this
-            };
+            _fields = new RecordFieldCollection()
+                ._SetRecord(this);
         }
 
         /// <summary>
@@ -167,7 +165,7 @@ namespace ManagedClient
             Version = other.Version;
             PreviousOffset = other.PreviousOffset;
             _fields = other.Fields.Clone();
-            _fields._record = this;
+            _fields._SetRecord(this);
             Description = other.Description;
             SortKey = other.SortKey;
             Index = other.Index;

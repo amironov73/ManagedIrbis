@@ -8,7 +8,7 @@ using JetBrains.Annotations;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedClient.Network
 {
     /// <summary>
     /// Коды возвратов из Irbis64.

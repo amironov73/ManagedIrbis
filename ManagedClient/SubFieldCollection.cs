@@ -58,7 +58,23 @@ namespace ManagedClient
 
         // ReSharper disable InconsistentNaming
         [NonSerialized]
-        internal RecordField _field;
+        private RecordField _field;
+
+        internal SubFieldCollection _SetField
+            (
+                RecordField newField
+            )
+        {
+            _field = newField;
+
+            foreach (SubField subField in this)
+            {
+                subField.Field = newField;
+            }
+
+            return this;
+        }
+
         // ReSharper restore InconsistentNaming
 
         #endregion

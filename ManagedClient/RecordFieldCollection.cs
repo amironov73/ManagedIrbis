@@ -57,7 +57,23 @@ namespace ManagedClient
 
         // ReSharper disable InconsistentNaming
         [NonSerialized]
-        internal IrbisRecord _record;
+        private IrbisRecord _record;
+
+        internal RecordFieldCollection _SetRecord
+            (
+                IrbisRecord newRecord
+            )
+        {
+            _record = newRecord;
+
+            foreach (RecordField field in this)
+            {
+                field.Record = newRecord;
+            }
+
+            return this;
+        }
+
         // ReSharper restore InconsistentNaming
 
         #endregion
