@@ -32,6 +32,11 @@ namespace ManagedClient
         [NotNull]
         public static Encoding Ansi { get { return _ansi; } }
 
+        /// <summary>
+        /// Кодировка UTF8.
+        /// </summary>
+        public static Encoding Utf8 { get { return Encoding.UTF8; } }
+
         #endregion
 
         #region Private members

@@ -80,7 +80,7 @@ namespace AM.Threading
             (
                 bool initialState
             )
-            : this ()
+            : this()
         {
             _currentState = initialState;
         }
@@ -131,6 +131,52 @@ namespace AM.Threading
                         StateChanged.Raise(this);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Ожидаем, пока не освободится, и захватываем.
+        /// </summary>
+        public void WaitAndGrab()
+        {
+            lock (_lock)
+            {
+                while (true)
+                {
+                    if (!Busy)
+                    {
+                        SetState(true);
+                        return;
+                    }
+
+                    WaitHandle.WaitOne();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Ожидаем, пока не освободится, затем захватываем.
+        /// </summary>
+        public bool WaitAndGrab
+            (
+                TimeSpan timeout
+            )
+        {
+            lock (_lock)
+            {
+                if (!Busy)
+                {
+                    SetState(true);
+                    return true;
+                }
+
+                bool result = WaitHandle.WaitOne(timeout);
+                if (result)
+                {
+                    SetState(true);
+                }
+
+                return result;
             }
         }
 

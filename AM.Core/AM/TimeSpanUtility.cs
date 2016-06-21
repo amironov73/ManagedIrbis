@@ -73,6 +73,30 @@ namespace AM
 
         #region Public methods
 
+        public static bool IsZero
+            (
+            this TimeSpan timeSpan
+            )
+        {
+            return TimeSpan.Compare(timeSpan, TimeSpan.Zero) == 0;
+        }
+
+        public static bool IsZeroOrLess
+            (
+            this TimeSpan timeSpan
+            )
+        {
+            return TimeSpan.Compare(timeSpan, TimeSpan.Zero) <= 0;
+        }
+
+        public static bool LessThenZero
+            (
+            this TimeSpan timeSpan
+            )
+        {
+            return TimeSpan.Compare(timeSpan, TimeSpan.Zero) < 0;
+        }
+
         /// <summary>
         /// Converts time span to string
         /// automatically selecting format
