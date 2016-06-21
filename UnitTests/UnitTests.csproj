@@ -138,6 +138,7 @@
     <Compile Include="AM\Threading\StateHolderTest.cs" />
     <Compile Include="AM\Threading\BusyStateTest.cs" />
     <Compile Include="AM\Threading\BusyGuardTest.cs" />
+    <Compile Include="AM\Threading\StateGuardTest.cs" />
     <Compile Include="AM\TimeSpanUtilityTest.cs" />
     <Compile Include="AM\CharUtilityTest.cs" />
     <Compile Include="AM\NonNullValueTest.cs" />

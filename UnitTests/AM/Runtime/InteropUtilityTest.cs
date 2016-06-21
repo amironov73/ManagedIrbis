@@ -35,20 +35,5 @@ namespace UnitTests.AM.Runtime
             Assert.AreEqual(2,dummy.SecondField);
             Assert.AreEqual(3,dummy.ThirdField);
         }
-
-        [Ignore]
-        [TestMethod]
-        public void TestInteropUtilityByteArrayToStructure2()
-        {
-            byte[] bytes = { 1, 0, 0, 0, 2, 0, 3, 0, 0, 0 };
-            DummyStruct dummy = InteropUtility
-                    .ByteArrayToStructure2<DummyStruct>
-                    (
-                        bytes
-                    );
-            Assert.AreEqual(1, dummy.FirstField);
-            Assert.AreEqual(2, dummy.SecondField);
-            Assert.AreEqual(3, dummy.ThirdField);
-        }
     }
 }
