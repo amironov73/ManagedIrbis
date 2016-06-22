@@ -157,6 +157,9 @@
     <Compile Include="Identifiers\Issn.cs" />
     <Compile Include="Network\IrbisNetworkUtility.cs" />
     <Compile Include="Network\IrbisServerResponse.cs" />
+    <Compile Include="Search\DictionaryType.cs" />
+    <Compile Include="Search\SearchLogicType.cs" />
+    <Compile Include="Search\SearchScenario.cs" />
     <Compile Include="Transform\RecordTransformContext.cs" />
     <Compile Include="Worksheet\InputMode.cs" />
     <Compile Include="IrbisOpt.cs" />
@@ -229,6 +232,37 @@
     <Compile Include="TermLink.cs" />
     <Compile Include="Worksheet\WorksheetItem.cs" />
     <Compile Include="Worksheet\WssFile.cs" />
+  </ItemGroup>
+  <Choose>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
+      <ItemGroup>
+        <Compile Include="Search\35\IrbisSearchQueryBaseListener.cs" />
+        <Compile Include="Search\35\IrbisSearchQueryLexer.cs" />
+        <Compile Include="Search\35\IrbisSearchQueryListener.cs" />
+        <Compile Include="Search\35\IrbisSearchQueryParser.cs" />
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
+      <ItemGroup>
+        <Compile Include="Search\40\IrbisSearchQueryBaseListener.cs" />
+        <Compile Include="Search\40\IrbisSearchQueryLexer.cs" />
+        <Compile Include="Search\40\IrbisSearchQueryListener.cs" />
+        <Compile Include="Search\40\IrbisSearchQueryParser.cs" />
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v4.5' ">
+      <ItemGroup>
+        <Compile Include="Search\45\IrbisSearchQueryBaseListener.cs" />
+        <Compile Include="Search\45\IrbisSearchQueryLexer.cs" />
+        <Compile Include="Search\45\IrbisSearchQueryListener.cs" />
+        <Compile Include="Search\45\IrbisSearchQueryParser.cs" />
+      </ItemGroup>
+    </When>
+  </Choose>
+  <ItemGroup>
+    <Folder Include="Search\35\" />
+    <Folder Include="Search\40\" />
+    <Folder Include="Search\45\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />

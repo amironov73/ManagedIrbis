@@ -257,3 +257,6 @@ Nuget/*.nupkg
 
 #SHFB output
 Help/
+
+# SuperCharger
+.scgdat
