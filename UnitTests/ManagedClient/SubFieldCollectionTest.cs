@@ -108,21 +108,22 @@ namespace UnitTests
         {
             SubFieldCollection collection = _GetCollection();
 
-            string actual = collection.ToJson();
-            const string expected = @"[
-  {
-    ""code"": ""a"",
-    ""value"": ""Subfield A""
-  },
-  {
-    ""code"": ""b"",
-    ""value"": ""Subfield B""
-  },
-  {
-    ""code"": ""c"",
-    ""value"": ""Subfield C""
-  }
-]";
+            string actual = collection.ToJson()
+                .Replace("\r","").Replace("\n","");
+            const string expected = @"["
++@"  {"
++@"    ""code"": ""a"","
++@"    ""value"": ""Subfield A"""
++@"  },"
++@"  {"
++@"    ""code"": ""b"","
++@"    ""value"": ""Subfield B"""
++@"  },"
++@"  {"
++@"    ""code"": ""c"","
++@"    ""value"": ""Subfield C"""
++@"  }"
++@"]";
 
             Assert.AreEqual(expected, actual);
         }
@@ -130,20 +131,20 @@ namespace UnitTests
         [TestMethod]
         public void TestSubFieldCollectionFromJson()
         {
-            const string text = @"[
-  {
-    ""code"": ""a"",
-    ""value"": ""Subfield A""
-  },
-  {
-    ""code"": ""b"",
-    ""value"": ""Subfield B""
-  },
-  {
-    ""code"": ""c"",
-    ""value"": ""Subfield C""
-  }
-]";
+            const string text = @"["
++@"  {"
++@"    ""code"": ""a"","
++@"    ""value"": ""Subfield A"""
++@"  },"
++@"  {"
++@"    ""code"": ""b"","
++@"    ""value"": ""Subfield B"""
++@"  },"
++@"  {"
++@"    ""code"": ""c"","
++@"    ""value"": ""Subfield C"""
++@"  }"
++@"]";
             SubFieldCollection collection
                 = SubFieldCollection.FromJson(text);
 

@@ -154,7 +154,7 @@ namespace UnitTests.ManagedClient
         }
 
         [TestMethod]
-        public void TestRecordFieldToJOject()
+        public void TestRecordFieldToJObject()
         {
             RecordField field = _GetField();
 
@@ -169,31 +169,32 @@ namespace UnitTests.ManagedClient
         {
             RecordField field = _GetField();
 
-            string actual = field.ToJson();
-            const string expected = @"{
-  ""tag"": ""200"",
-  ""indicator1"": {
-    ""value"": "" ""
-  },
-  ""indicator2"": {
-    ""value"": "" ""
-  },
-  ""value"": ""Значение"",
-  ""subfields"": [
-    {
-      ""code"": ""a"",
-      ""value"": ""Заглавие""
-    },
-    {
-      ""code"": ""e"",
-      ""value"": ""подзаголовочные""
-    },
-    {
-      ""code"": ""f"",
-      ""value"": ""об ответственности""
-    }
-  ]
-}";
+            string actual = field.ToJson()
+                .Replace("\r","").Replace("\n","");
+            const string expected = @"{"
++@"  ""tag"": ""200"","
++@"  ""indicator1"": {"
++@"    ""value"": "" """
++@"  },"
++@"  ""indicator2"": {"
++@"    ""value"": "" """
++@"  },"
++@"  ""value"": ""Значение"","
++@"  ""subfields"": ["
++@"    {"
++@"      ""code"": ""a"","
++@"      ""value"": ""Заглавие"""
++@"    },"
++@"    {"
++@"      ""code"": ""e"","
++@"      ""value"": ""подзаголовочные"""
++@"    },"
++@"    {"
++@"      ""code"": ""f"","
++@"      ""value"": ""об ответственности"""
++@"    }"
++@"  ]"
++@"}";
 
             Assert.AreEqual(expected, actual);
         }
@@ -201,8 +202,8 @@ namespace UnitTests.ManagedClient
         [TestMethod]
         public void TestRecordFieldFromJObject()
         {
-            JObject jObject = JObject.Parse(@"{""tag"": ""200"",
-""subfields"": []}");
+            JObject jObject = JObject.Parse(@"{""tag"": ""200"","
++@"""subfields"": []}");
 
             RecordField field = RecordFieldUtility.FromJObject(jObject);
 
@@ -212,30 +213,30 @@ namespace UnitTests.ManagedClient
         [TestMethod]
         public void TestRecordFieldFromJson()
         {
-            const string text = @"{
-  ""tag"": ""200"",
-  ""indicator1"": {
-    ""value"": "" ""
-  },
-  ""indicator2"": {
-    ""value"": "" ""
-  },
-  ""value"": ""Значение"",
-  ""subfields"": [
-    {
-      ""code"": ""a"",
-      ""value"": ""Заглавие""
-    },
-    {
-      ""code"": ""e"",
-      ""value"": ""подзаголовочные""
-    },
-    {
-      ""code"": ""f"",
-      ""value"": ""об ответственности""
-    }
-  ]
-}";
+            const string text = @"{"
++ @"  ""tag"": ""200"","
++ @"  ""indicator1"": {"
++ @"    ""value"": "" """
++ @"  },"
++ @"  ""indicator2"": {"
++ @"    ""value"": "" """
++ @"  },"
++ @"  ""value"": ""Значение"","
++ @"  ""subfields"": ["
++ @"    {"
++ @"      ""code"": ""a"","
++ @"      ""value"": ""Заглавие"""
++ @"    },"
++ @"    {"
++ @"      ""code"": ""e"","
++ @"      ""value"": ""подзаголовочные"""
++ @"    },"
++ @"    {"
++ @"      ""code"": ""f"","
++ @"      ""value"": ""об ответственности"""
++ @"    }"
++ @"  ]"
++ @"}";
             RecordField field = RecordFieldUtility.FromJson(text);
 
             Assert.AreEqual("200", field.Tag);
@@ -247,13 +248,14 @@ namespace UnitTests.ManagedClient
         {
             RecordField field = _GetField();
 
-            string actual = field.ToXml();
-            const string expected = @"<?xml version=""1.0"" encoding=""utf-16""?>
-<field xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" tag=""200"" value=""Значение"">
-  <subfield code=""a"" value=""Заглавие"" />
-  <subfield code=""e"" value=""подзаголовочные"" />
-  <subfield code=""f"" value=""об ответственности"" />
-</field>";
+            string actual = field.ToXml()
+                .Replace("\r", "").Replace("\n","");
+            const string expected = @"<?xml version=""1.0"" encoding=""utf-16""?>"
++@"<field xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" tag=""200"" value=""Значение"">"
++@"  <subfield code=""a"" value=""Заглавие"" />"
++@"  <subfield code=""e"" value=""подзаголовочные"" />"
++@"  <subfield code=""f"" value=""об ответственности"" />"
++@"</field>";
 
             Assert.AreEqual(expected, actual);
         }
@@ -261,12 +263,12 @@ namespace UnitTests.ManagedClient
         [TestMethod]
         public void TestRecordFieldFromXml()
         {
-            const string text = @"<?xml version=""1.0"" encoding=""utf-16""?>
-<field xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" tag=""200"" value=""Значение"">
-  <subfield code=""a"" value=""Заглавие"" />
-  <subfield code=""e"" value=""подзаголовочные"" />
-  <subfield code=""f"" value=""об ответственности"" />
-</field>";
+            const string text = @"<?xml version=""1.0"" encoding=""utf-16""?>"
++@"<field xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" tag=""200"" value=""Значение"">"
++@"  <subfield code=""a"" value=""Заглавие"" />"
++@"  <subfield code=""e"" value=""подзаголовочные"" />"
++@"  <subfield code=""f"" value=""об ответственности"" />"
++@"</field>";
             RecordField field = RecordFieldUtility.FromXml(text);
 
             Assert.AreEqual("200", field.Tag);
