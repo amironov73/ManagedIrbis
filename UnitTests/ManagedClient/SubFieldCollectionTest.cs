@@ -90,5 +90,116 @@ namespace UnitTests
             RecordField field = new RecordField().AsReadOnly();
             field.SubFields.Add(new SubField());
         }
+
+        private SubFieldCollection _GetCollection()
+        {
+            SubFieldCollection result = new SubFieldCollection
+            {
+                new SubField('a', "Subfield A"),
+                new SubField('b', "Subfield B"),
+                new SubField('c', "Subfield C")
+            };
+
+            return result;
+        }
+
+        [TestMethod]
+        public void TestSubFieldCollectionToJson()
+        {
+            SubFieldCollection collection = _GetCollection();
+
+            string actual = collection.ToJson();
+            const string expected = @"[
+  {
+    ""code"": ""a"",
+    ""value"": ""Subfield A""
+  },
+  {
+    ""code"": ""b"",
+    ""value"": ""Subfield B""
+  },
+  {
+    ""code"": ""c"",
+    ""value"": ""Subfield C""
+  }
+]";
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestSubFieldCollectionFromJson()
+        {
+            const string text = @"[
+  {
+    ""code"": ""a"",
+    ""value"": ""Subfield A""
+  },
+  {
+    ""code"": ""b"",
+    ""value"": ""Subfield B""
+  },
+  {
+    ""code"": ""c"",
+    ""value"": ""Subfield C""
+  }
+]";
+            SubFieldCollection collection
+                = SubFieldCollection.FromJson(text);
+
+            Assert.AreEqual(3, collection.Count);
+            Assert.AreEqual('a', collection[0].Code);
+            Assert.AreEqual("Subfield A", collection[0].Value);
+            Assert.AreEqual('b', collection[1].Code);
+            Assert.AreEqual("Subfield B", collection[1].Value);
+            Assert.AreEqual('c', collection[2].Code);
+            Assert.AreEqual("Subfield C", collection[2].Value);
+        }
+
+        [TestMethod]
+        public void TestSubFieldCollectionAssign()
+        {
+            SubFieldCollection source = _GetCollection();
+            SubFieldCollection target = new SubFieldCollection();
+            target.Assign(source);
+
+            Assert.AreEqual(source.Field, target.Field);
+            Assert.AreEqual(source.Count, target.Count);
+            for (int i = 0; i < source.Count; i++)
+            {
+                Assert.AreEqual
+                    (
+                        0,
+                        SubField.Compare
+                        (
+                            source[i],
+                            target[i]
+                        )
+                    );
+            }
+        }
+
+        [TestMethod]
+        public void TestSubFieldCollectionAssignClone()
+        {
+            SubFieldCollection source = _GetCollection();
+            SubFieldCollection target = new SubFieldCollection();
+            target.AssignClone(source);
+
+            Assert.AreEqual(source.Field, target.Field);
+            Assert.AreEqual(source.Count, target.Count);
+            for (int i = 0; i < source.Count; i++)
+            {
+                Assert.AreEqual
+                    (
+                        0,
+                        SubField.Compare
+                        (
+                            source[i],
+                            target[i]
+                        )
+                    );
+            }
+        }
     }
 }

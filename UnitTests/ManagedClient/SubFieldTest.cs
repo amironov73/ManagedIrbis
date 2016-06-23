@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AM.Runtime;
 
 using ManagedClient;
+using Newtonsoft.Json.Linq;
 
 namespace UnitTests
 {
@@ -102,6 +103,80 @@ namespace UnitTests
             SubField subField = new SubField('a', "Value", true, null);
             Assert.AreEqual("Value", subField.Value);
             subField.Value = "New value";
+            Assert.AreEqual("Value", subField.Value);
+        }
+
+        [TestMethod]
+        public void TestSubFieldToJObject()
+        {
+            SubField subField = new SubField('a', "Value");
+
+            JObject jObject = subField.ToJObject();
+            Assert.AreEqual("a", jObject["code"].ToString());
+            Assert.AreEqual("Value", jObject["value"].ToString());
+        }
+
+        [TestMethod]
+        public void TestSubFieldToJson()
+        {
+            SubField subField = new SubField('a', "Value");
+
+            string actual = subField.ToJson();
+            const string expected = @"{
+  ""code"": ""a"",
+  ""value"": ""Value""
+}";
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestSubFieldFromJObject()
+        {
+            JObject jObject = new JObject
+                (
+                    new JProperty("code", "a"),
+                    new JProperty("value", "Value")
+                );
+
+            SubField subField = SubFieldUtility.FromJObject(jObject);
+            Assert.AreEqual('a', subField.Code);
+            Assert.AreEqual("Value", subField.Value);
+        }
+
+        [TestMethod]
+        public void TestSubFieldFromJson()
+        {
+            const string text = @"{
+  ""code"": ""a"",
+  ""value"": ""Value""
+}";
+
+            SubField subField = SubFieldUtility.FromJson(text);
+
+            Assert.AreEqual('a', subField.Code);
+            Assert.AreEqual("Value", subField.Value);
+        }
+
+        [TestMethod]
+        public void TestSubFieldToXml()
+        {
+            SubField subField = new SubField('a', "Value");
+            string actual = subField.ToXml();
+            const string expected = @"<?xml version=""1.0"" encoding=""utf-16""?>
+<subfield xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" code=""a"" value=""Value"" />";
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestSubFieldFromXml()
+        {
+            const string text = @"<?xml version=""1.0"" encoding=""utf-16""?>
+<subfield xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" code=""a"" value=""Value"" />";
+
+            SubField subField = SubFieldUtility.FromXml(text);
+
+            Assert.AreEqual('a', subField.Code);
             Assert.AreEqual("Value", subField.Value);
         }
     }

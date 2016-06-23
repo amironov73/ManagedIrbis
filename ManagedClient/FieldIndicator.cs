@@ -8,6 +8,7 @@ using System;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
+using System.Xml.Serialization;
 
 using AM;
 using AM.Runtime;
@@ -17,6 +18,8 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -28,6 +31,7 @@ namespace ManagedClient
     [PublicAPI]
     [Serializable]
     [MoonSharpUserData]
+    [XmlRoot("indicator")]
     [DebuggerDisplay("Value = '{Value}'")]
     public sealed class FieldIndicator
         : IHandmadeSerializable,
@@ -53,11 +57,14 @@ namespace ManagedClient
         /// Field.
         /// </summary>
         [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
         public RecordField Field { get { return _field; } }
 
         /// <summary>
         /// Whether value is set?
         /// </summary>
+        [JsonIgnore]
         public bool HasValue
         {
             get
@@ -70,6 +77,8 @@ namespace ManagedClient
         /// <summary>
         /// Value of the indicator.
         /// </summary>
+        [XmlText]
+        [JsonProperty("value")]
         public string Value
         {
             get { return _value; }
@@ -217,6 +226,7 @@ namespace ManagedClient
         /// <summary>
         /// Whether the indicator is read-only?
         /// </summary>
+        [JsonIgnore]
         public bool ReadOnly { get { return _readOnly; } }
 
         /// <summary>

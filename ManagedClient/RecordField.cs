@@ -73,6 +73,8 @@ namespace ManagedClient
         /// Первый индикатор.
         /// </summary>
         [NotNull]
+        [XmlElement("indicator1")]
+        [JsonProperty("indicator1")]
         public FieldIndicator Indicator1
         {
             get { return _indicator1; }
@@ -82,6 +84,8 @@ namespace ManagedClient
         /// Второй индикатор.
         /// </summary>
         [NotNull]
+        [XmlElement("indicator2")]
+        [JsonProperty("indicator2")]
         public FieldIndicator Indicator2
         {
             get { return _indicator2; }
@@ -823,6 +827,7 @@ namespace ManagedClient
         /// <summary>
         /// Whether the field is read-only?
         /// </summary>
+        [JsonIgnore]
         public bool ReadOnly { get { return _readOnly; } }
 
         /// <summary>

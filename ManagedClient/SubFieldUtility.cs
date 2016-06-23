@@ -6,14 +6,22 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Xml;
+using System.Xml.Serialization;
 
 using AM;
+
 using CodeJam;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 #endregion
 
@@ -315,6 +323,120 @@ namespace ManagedClient
                 .NonNullItems()
                 .GetSubField(codes)
                 .ToArray();
+        }
+
+        /// <summary>
+        /// Convert the subfield to <see cref="JObject"/>.
+        /// </summary>
+        [NotNull]
+        public static JObject ToJObject
+            (
+                [NotNull] this SubField subField
+            )
+        {
+            Code.NotNull(subField, "subField");
+
+            JObject result = JObject.FromObject(subField);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Convert the subfield to JSON.
+        /// </summary>
+        [NotNull]
+        public static string ToJson
+            (
+                [NotNull] this SubField subField
+            )
+        {
+            Code.NotNull(subField, "subField");
+
+            string result = JObject.FromObject(subField).ToString();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Restore subfield from <see cref="JObject"/>.
+        /// </summary>
+        [NotNull]
+        public static SubField FromJObject
+            (
+                [NotNull] JObject jObject
+            )
+        {
+            Code.NotNull(jObject, "jObject");
+
+            SubField result = new SubField
+                (
+                    jObject["code"].ToString()[0],
+                    jObject["value"].ToString()
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Restore subfield from JSON.
+        /// </summary>
+        public static SubField FromJson
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+            SubField result = JsonConvert.DeserializeObject<SubField>(text);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Convert the subfield to XML.
+        /// </summary>
+        [NotNull]
+        public static string ToXml
+            (
+                [NotNull] this SubField subField
+            )
+        {
+            Code.NotNull(subField, "subField");
+
+            XmlWriterSettings settings = new XmlWriterSettings
+            {
+                OmitXmlDeclaration = true,
+                NewLineOnAttributes = true,
+                Indent = true,
+                CloseOutput = true
+            };
+            StringWriter writer = new StringWriter();
+            XmlWriter xml = XmlWriter.Create(writer, settings);
+            XmlSerializer serializer = new XmlSerializer
+                (
+                    typeof(SubField)
+                );
+            serializer.Serialize(writer, subField);
+            
+            return writer.ToString();
+        }
+
+        /// <summary>
+        /// Restore the subfield from XML.
+        /// </summary>
+        [NotNull]
+        public static SubField FromXml
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+            XmlSerializer serializer = new XmlSerializer(typeof(SubField));
+            StringReader reader = new StringReader(text);
+            SubField result = (SubField) serializer.Deserialize(reader);
+            
+            return result;
         }
 
         #endregion

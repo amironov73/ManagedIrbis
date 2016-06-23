@@ -11,6 +11,7 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Xml.Serialization;
 
 using AM;
 using AM.IO;
@@ -21,6 +22,9 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 #endregion
 
@@ -34,6 +38,7 @@ namespace ManagedClient
     [PublicAPI]
     [Serializable]
     [MoonSharpUserData]
+    [XmlRoot("subfields")]
     [DebuggerDisplay("Count={Count}")]
     public sealed class SubFieldCollection
         : Collection<SubField>,
@@ -46,6 +51,8 @@ namespace ManagedClient
         /// Field.
         /// </summary>
         [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
         public RecordField Field { get { return _field; } }
 
         #endregion
@@ -327,6 +334,78 @@ namespace ManagedClient
             {
                 subField.SetReadOnly();
             }
+        }
+
+        /// <summary>
+        /// Convert the collection to JSON.
+        /// </summary>
+        [NotNull]
+        public string ToJson()
+        {
+            string result = JArray.FromObject(this).ToString();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Restore the collection from JSON.
+        /// </summary>
+        [NotNull]
+        public static SubFieldCollection FromJson
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+            SubFieldCollection result
+                = JsonConvert.DeserializeObject<SubFieldCollection>
+                (
+                    text
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Assign.
+        /// </summary>
+        [NotNull]
+        public SubFieldCollection Assign
+            (
+                [NotNull] SubFieldCollection other
+            )
+        {
+            ThrowIfReadOnly();
+            Code.NotNull(other, "other");
+
+            Clear();
+            _field = other.Field;
+            AddRange(other);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Assign clone.
+        /// </summary>
+        [NotNull]
+        public SubFieldCollection AssignClone
+            (
+                [NotNull] SubFieldCollection other
+            )
+        {
+            ThrowIfReadOnly();
+            Code.NotNull(other, "other");
+
+            Clear();
+            _field = other.Field;
+            foreach (SubField subField in other)
+            {
+                Add(subField.Clone());
+            }
+
+            return this;
         }
 
         #endregion
