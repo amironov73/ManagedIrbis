@@ -17,6 +17,12 @@
 // Missing XML comment for publicly visible type or member '...'
 #pragma warning disable 1591
 
+// Ambiguous reference in cref attribute
+#pragma warning disable 0419
+
+// XML comment has cref attribute that could not be resolved
+#pragma warning disable 1574
+
 namespace ManagedClient.Search {
 
 using Antlr4.Runtime.Misc;

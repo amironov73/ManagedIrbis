@@ -259,4 +259,4 @@ Nuget/*.nupkg
 Help/
 
 # SuperCharger
-.scgdat
+*.scgdat
