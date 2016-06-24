@@ -103,11 +103,14 @@
     <Compile Include="AM\ArrayUtility.cs" />
     <Compile Include="AM\AutoDisposeAttribute.cs" />
     <Compile Include="AM\CharUtility.cs" />
+    <Compile Include="AM\Collections\BitArrayUtility.cs" />
     <Compile Include="AM\Collections\CharSet.cs" />
     <Compile Include="AM\Collections\CloneableCollection.cs" />
     <Compile Include="AM\Collections\IIndexable.cs" />
     <Compile Include="AM\Collections\ListUtility.cs" />
     <Compile Include="AM\Collections\NonNullCollection.cs" />
+    <Compile Include="AM\ComponentModel\NotifyProperty.cs" />
+    <Compile Include="AM\ComponentModel\PropertyChangedUtility.cs" />
     <Compile Include="AM\ConnectionStringParser.cs" />
     <Compile Include="AM\ConsoleUtility.cs" />
     <Compile Include="AM\DelegateUtility.cs" />

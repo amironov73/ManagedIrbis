@@ -140,5 +140,43 @@ namespace UnitTests.AM.Collections
             Assert.IsTrue(array.Contains('b'));
             Assert.IsTrue(array.Contains('c'));
         }
+
+        [TestMethod]
+        public void TestCharSetEquality()
+        {
+            CharSet first = new CharSet("abc");
+            CharSet second = new CharSet("def");
+            CharSet third = new CharSet("abc");
+
+            Assert.IsFalse(first.Equals(second));
+            Assert.IsTrue(first.Equals(third));
+            Assert.IsFalse(second.Equals(third));
+        }
+
+        private void _TestSerialization
+            (
+                CharSet first
+            )
+        {
+            byte[] bytes = first.SaveToMemory();
+
+            CharSet second = bytes
+                .RestoreObjectFromMemory<CharSet>();
+
+            Assert.IsTrue
+                (
+                    first.Equals(second)
+                );
+        }
+
+        [TestMethod]
+        public void TestCharSetSerialization()
+        {
+            CharSet charSet = new CharSet();
+            _TestSerialization(charSet);
+
+            charSet.AddRange('a', 'z');
+            _TestSerialization(charSet);
+        }
     }
 }

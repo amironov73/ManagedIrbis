@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using AM.IO;
 using AM.Runtime;
 
 using CodeJam;
@@ -34,7 +35,8 @@ namespace AM.Collections
     [DebuggerDisplay("{ToString()}")]
     public sealed class CharSet
         : IHandmadeSerializable,
-        IEnumerable<char>
+        IEnumerable<char>,
+        IEquatable<CharSet>
     {
         #region Constants
 
@@ -814,6 +816,9 @@ namespace AM.Collections
         {
             Code.NotNull(reader, "reader");
 
+            Clear();
+            string text = reader.ReadString();
+            Add(text);
         }
 
         /// <summary>
@@ -826,8 +831,8 @@ namespace AM.Collections
         {
             Code.NotNull(writer, "writer");
 
-            char[] array = ToArray();
-            writer.Write(array);
+            string text = ToString();
+            writer.Write(text);
         }
 
         #endregion
@@ -854,6 +859,33 @@ namespace AM.Collections
         public IEnumerator<char> GetEnumerator()
         {
             return new CharSetEnumerator(this);
+        }
+
+        #endregion
+
+        #region IEquatable<CharSet> members
+
+        /// <summary>
+        /// Indicates whether the current object is equal
+        /// to another object of the same type.
+        /// </summary>
+        /// <param name="other">An object to compare with this object.
+        /// </param>
+        /// <returns>true if the current object is equal
+        /// to the <paramref name="other" /> parameter;
+        /// otherwise, false.</returns>
+        public bool Equals
+            (
+                [NotNull] CharSet other
+            )
+        {
+            Code.NotNull(other, "other");
+
+            return BitArrayUtility.AreEqual
+                (
+                    _data,
+                    other._data
+                );
         }
 
         #endregion
@@ -897,13 +929,18 @@ namespace AM.Collections
             {
                 return false;
             }
+
             CharSet charset = obj as CharSet;
             if (charset == null)
             {
                 return false;
             }
 
-            return _data.Equals(charset._data);
+            return BitArrayUtility.AreEqual
+                (
+                    _data,
+                    charset._data
+                );
         }
 
         #endregion

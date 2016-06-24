@@ -114,6 +114,7 @@
   <ItemGroup>
     <Compile Include="AM\Collections\NonNullCollectionTest.cs" />
     <Compile Include="AM\Collections\CharSetTest.cs" />
+    <Compile Include="AM\Collections\BitArrayUtilityTest.cs" />
     <Compile Include="AM\Globalization\BuiltinCulturesTest.cs" />
     <Compile Include="AM\Globalization\RussianStringComparerTest.cs" />
     <Compile Include="AM\IO\BinaryWriterTest.cs" />
@@ -182,6 +183,7 @@
     <Compile Include="ManagedClient\Identifiers\IsbnTest.cs" />
     <Compile Include="ManagedClient\IrbisTreeFileTest.cs" />
     <Compile Include="ManagedClient\RecordFieldCollectionTest.cs" />
+    <Compile Include="ManagedClient\SubFieldCodeTest.cs" />
     <Compile Include="ManagedClient\Worksheet\WssFileTest.cs" />
     <Compile Include="ManagedClient\Worksheet\WorksheetItemTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

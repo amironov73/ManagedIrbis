@@ -1,14 +1,12 @@
-﻿/* SubFieldCode.cs -- код подполя
+﻿/* SubFieldCode.cs -- subfield code
  * Ars Magna project, http://arsmagna.ru
  */
 
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using AM.Collections;
 
 using CodeJam;
 
@@ -21,7 +19,7 @@ using MoonSharp.Interpreter;
 namespace ManagedClient
 {
     /// <summary>
-    /// Код подполя
+    /// Subfield code.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -29,12 +27,22 @@ namespace ManagedClient
     {
         #region Constants
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public const char DefaultFirstCode = '!';
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const char DefaultLastCode = '~';
+
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Бросать исключения при нормализации?
+        /// Throw exception on normalization error.
         /// </summary>
         public static bool ThrowOnNormalize { get; set; }
 
@@ -47,7 +55,7 @@ namespace ManagedClient
         /// List of valid codes.
         /// </summary>
         [NotNull]
-        public static List<char> ValidCodes
+        public static CharSet ValidCodes
         {
             get { return _validCodes; }
         }
@@ -58,21 +66,33 @@ namespace ManagedClient
 
         static SubFieldCode()
         {
-            _validCodes = new List<char>();
+            _validCodes = new CharSet();
+            _validCodes.AddRange(DefaultFirstCode, DefaultLastCode);
         }
 
         #endregion
 
         #region Private members
 
-        private static readonly List<char> _validCodes;
+        private static readonly CharSet _validCodes;
 
         #endregion
 
         #region Public methods
 
         /// <summary>
-        /// Нормализация.
+        /// Whether the code valid.
+        /// </summary>
+        public static bool IsValidCode
+            (
+                char code
+            )
+        {
+            return ValidCodes.Contains(code);
+        }
+
+        /// <summary>
+        /// Code normalization.
         /// </summary>
         public static char Normalize
             (
@@ -88,10 +108,18 @@ namespace ManagedClient
         public static bool Verify
             (
                 char code,
-                bool throwException
+                bool throwOnError
             )
         {
-            throw new NotImplementedException();
+            bool result = IsValidCode(code);
+
+            if (!result
+                && throwOnError)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            return result;
         }
 
         /// <summary>
