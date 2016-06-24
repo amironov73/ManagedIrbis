@@ -139,6 +139,7 @@
     <Compile Include="Fields\RevisionInfo.cs" />
     <Compile Include="FieldTag.cs" />
     <Compile Include="FieldText.cs" />
+    <Compile Include="IlfFile.cs" />
     <Compile Include="IrbisAlphabetTable.cs" />
     <Compile Include="IrbisClientInfo.cs" />
     <Compile Include="IrbisStopWords.cs" />
@@ -262,7 +263,6 @@
   <ItemGroup>
     <Folder Include="Search\35\" />
     <Folder Include="Search\40\" />
-    <Folder Include="Search\45\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />
