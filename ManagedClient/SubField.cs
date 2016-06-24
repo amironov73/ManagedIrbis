@@ -9,6 +9,7 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
+
 using AM;
 using AM.IO;
 using AM.Runtime;
@@ -33,6 +34,7 @@ namespace ManagedClient
     [DebuggerDisplay("Code={Code}, Value={Value}")]
     public sealed class SubField
         : IHandmadeSerializable,
+        IVerifiable,
         IReadOnly<SubField>
     {
         #region Constants
@@ -362,6 +364,20 @@ namespace ManagedClient
             }
         }
 
+        #endregion
+
+        #region IVerifiable members
+
+        /// <summary>
+        /// Verify object state.
+        /// </summary>
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            return true;
+        }
 
         #endregion
 

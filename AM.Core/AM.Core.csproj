@@ -103,6 +103,7 @@
     <Compile Include="AM\ArrayUtility.cs" />
     <Compile Include="AM\AutoDisposeAttribute.cs" />
     <Compile Include="AM\CharUtility.cs" />
+    <Compile Include="AM\Collections\CharSet.cs" />
     <Compile Include="AM\Collections\CloneableCollection.cs" />
     <Compile Include="AM\Collections\IIndexable.cs" />
     <Compile Include="AM\Collections\ListUtility.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="AM\IO\TextReaderUtility.cs" />
     <Compile Include="AM\IO\VersionStream.cs" />
     <Compile Include="AM\IReadOnly.cs" />
+    <Compile Include="AM\IVerifiable.cs" />
     <Compile Include="AM\Mathematics\MathUtility.cs" />
     <Compile Include="AM\Net\AsyncSocket.cs" />
     <Compile Include="AM\Net\AsyncSocketResult.cs" />

@@ -39,13 +39,33 @@ namespace ManagedClient
         public static bool ThrowOnNormalize { get; set; }
 
         /// <summary>
-        /// Бросать исключения при валидации?
+        /// Throw exception on verification error.
         /// </summary>
-        public static bool ThrowOnValidate { get; set; }
+        public static bool ThrowOnVerification { get; set; }
+
+        /// <summary>
+        /// List of valid codes.
+        /// </summary>
+        [NotNull]
+        public static List<char> ValidCodes
+        {
+            get { return _validCodes; }
+        }
+
+        #endregion
+
+        #region Construction
+
+        static SubFieldCode()
+        {
+            _validCodes = new List<char>();
+        }
 
         #endregion
 
         #region Private members
+
+        private static readonly List<char> _validCodes;
 
         #endregion
 
@@ -59,13 +79,13 @@ namespace ManagedClient
                 char code
             )
         {
-            throw new NotImplementedException();
+            return Char.ToLowerInvariant(code);
         }
 
         /// <summary>
-        /// Валидация с бросанием исключений.
+        /// Verify subfield code.
         /// </summary>
-        public static bool Validate
+        public static bool Verify
             (
                 char code,
                 bool throwException
@@ -75,17 +95,17 @@ namespace ManagedClient
         }
 
         /// <summary>
-        /// Валидация.
+        /// Verify subfield code.
         /// </summary>
-        public static bool Validate
+        public static bool Verify
             (
                 char code
             )
         {
-            return Validate
+            return Verify
                 (
                     code,
-                    ThrowOnValidate
+                    ThrowOnVerification
                 );
         }
 
