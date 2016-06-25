@@ -21,6 +21,7 @@ using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Formatting = Newtonsoft.Json.Formatting;
 
 #endregion
 
@@ -1398,7 +1399,8 @@ namespace ManagedClient
         {
             Code.NotNull(field, "field");
 
-            string result = JObject.FromObject(field).ToString();
+            string result = JObject.FromObject(field)
+                .ToString(Formatting.None);
 
             return result;
         }

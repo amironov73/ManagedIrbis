@@ -170,31 +170,9 @@ namespace UnitTests.ManagedClient
             RecordField field = _GetField();
 
             string actual = field.ToJson()
-                .Replace("\r","").Replace("\n","");
-            const string expected = @"{"
-+@"  ""tag"": ""200"","
-+@"  ""indicator1"": {"
-+@"    ""value"": "" """
-+@"  },"
-+@"  ""indicator2"": {"
-+@"    ""value"": "" """
-+@"  },"
-+@"  ""value"": ""Значение"","
-+@"  ""subfields"": ["
-+@"    {"
-+@"      ""code"": ""a"","
-+@"      ""value"": ""Заглавие"""
-+@"    },"
-+@"    {"
-+@"      ""code"": ""e"","
-+@"      ""value"": ""подзаголовочные"""
-+@"    },"
-+@"    {"
-+@"      ""code"": ""f"","
-+@"      ""value"": ""об ответственности"""
-+@"    }"
-+@"  ]"
-+@"}";
+                .Replace("\r","").Replace("\n","")
+                .Replace("\"", "'");
+            const string expected = "{'tag':'200','value':'Значение','subfields':[{'code':'a','value':'Заглавие'},{'code':'e','value':'подзаголовочные'},{'code':'f','value':'об ответственности'}]}";
 
             Assert.AreEqual(expected, actual);
         }
@@ -213,30 +191,10 @@ namespace UnitTests.ManagedClient
         [TestMethod]
         public void TestRecordFieldFromJson()
         {
-            const string text = @"{"
-+ @"  ""tag"": ""200"","
-+ @"  ""indicator1"": {"
-+ @"    ""value"": "" """
-+ @"  },"
-+ @"  ""indicator2"": {"
-+ @"    ""value"": "" """
-+ @"  },"
-+ @"  ""value"": ""Значение"","
-+ @"  ""subfields"": ["
-+ @"    {"
-+ @"      ""code"": ""a"","
-+ @"      ""value"": ""Заглавие"""
-+ @"    },"
-+ @"    {"
-+ @"      ""code"": ""e"","
-+ @"      ""value"": ""подзаголовочные"""
-+ @"    },"
-+ @"    {"
-+ @"      ""code"": ""f"","
-+ @"      ""value"": ""об ответственности"""
-+ @"    }"
-+ @"  ]"
-+ @"}";
+            string text = "{'tag':'200', 'indicator1':'1', 'value':'Значение','subfields':[{'code':'a','value':'Заглавие'},{'code':'e','value':'подзаголовочные'},{'code':'f','value':'об ответственности'}]}"
+                .Replace("'", "\"");
+
+
             RecordField field = RecordFieldUtility.FromJson(text);
 
             Assert.AreEqual("200", field.Tag);

@@ -71,10 +71,6 @@ namespace ManagedClient
 
                 JToken token = new JValue(indicator.Value);
                 token.WriteTo(writer);
-
-                //JObject obj = new JObject();
-                //obj.AddFirst(new JProperty("v", indicator.Value));
-                //obj.WriteTo(writer);
             }
 
             public override object ReadJson
@@ -85,7 +81,11 @@ namespace ManagedClient
                     JsonSerializer serializer
                 )
             {
-                throw new NotImplementedException();
+                JToken token = JToken.Load(reader);
+                FieldIndicator indicator = (FieldIndicator) existingValue;
+                indicator.Value = token.ToString();
+
+                return indicator;
             }
 
             public override bool CanConvert
