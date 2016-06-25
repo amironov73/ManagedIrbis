@@ -20,6 +20,7 @@ using JetBrains.Annotations;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 #endregion
 
@@ -33,6 +34,7 @@ namespace ManagedClient
     [MoonSharpUserData]
     [XmlRoot("indicator")]
     [DebuggerDisplay("Value = '{Value}'")]
+    [JsonConverter(typeof(FieldIndicator.FieldIndicatorConverter))]
     public sealed class FieldIndicator
         : IHandmadeSerializable,
         IReadOnly<FieldIndicator>
@@ -48,6 +50,54 @@ namespace ManagedClient
         /// For visual only.
         /// </summary>
         public const string EmptyValue = "#";
+
+        #endregion
+
+        #region Nested classes
+
+        public class FieldIndicatorConverter
+            : JsonConverter
+        {
+            #region JsonConverter members
+
+            public override void WriteJson
+                (
+                    JsonWriter writer,
+                    object value,
+                    JsonSerializer serializer
+                )
+            {
+                FieldIndicator indicator = (FieldIndicator) value;
+
+                JToken token = new JValue(indicator.Value);
+                token.WriteTo(writer);
+
+                //JObject obj = new JObject();
+                //obj.AddFirst(new JProperty("v", indicator.Value));
+                //obj.WriteTo(writer);
+            }
+
+            public override object ReadJson
+                (
+                    JsonReader reader,
+                    Type objectType,
+                    object existingValue,
+                    JsonSerializer serializer
+                )
+            {
+                throw new NotImplementedException();
+            }
+
+            public override bool CanConvert
+                (
+                    Type objectType
+                )
+            {
+                return objectType == typeof(FieldIndicator);
+            }
+
+            #endregion
+        }
 
         #endregion
 

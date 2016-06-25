@@ -48,6 +48,7 @@ namespace ManagedClient
         /// The database.
         /// </value>
         [CanBeNull]
+        [JsonProperty("database")]
         public string Database
         {
             get { return _database; }
@@ -57,6 +58,7 @@ namespace ManagedClient
         /// <summary>
         /// MFN записи
         /// </summary>
+        [JsonProperty("mfn")]
         public int Mfn
         {
             get { return _mfn; }
@@ -66,6 +68,7 @@ namespace ManagedClient
         /// <summary>
         /// Статус записи: удалена, блокирована и т.д.
         /// </summary>
+        [JsonProperty("status")]
         public RecordStatus Status
         {
             get { return _status; }
@@ -75,6 +78,7 @@ namespace ManagedClient
         /// <summary>
         /// Версия записи. Нумеруется с нуля.
         /// </summary>
+        [JsonProperty("version")]
         public int Version
         {
             get { return _version; }
@@ -84,11 +88,13 @@ namespace ManagedClient
         /// <summary>
         /// Смещение предыдущей версии записи.
         /// </summary>
+        [JsonIgnore]
         public long PreviousOffset { get; set; }
 
         /// <summary>
         /// Поля записи.
         /// </summary>
+        [JsonProperty("fields")]
         public RecordFieldCollection Fields
         {
             get { return _fields; }
@@ -97,6 +103,7 @@ namespace ManagedClient
         /// <summary>
         /// Признак удалённой записи.
         /// </summary>
+        [JsonIgnore]
         public bool Deleted
         {
             get { return ((Status & RecordStatus.LogicallyDeleted) != 0); }
@@ -117,12 +124,14 @@ namespace ManagedClient
         /// Библиографическое описание.
         /// </summary>
         [CanBeNull]
+        [JsonIgnore]
         public string Description { get; set; }
 
         /// <summary>
         /// Используется при сортировке записей.
         /// </summary>
         [CanBeNull]
+        [JsonIgnore]
         public string SortKey { get; set; }
 
         /// <summary>
@@ -130,12 +139,14 @@ namespace ManagedClient
         /// Используется для идентификации записей.
         /// </summary>
         [CanBeNull]
+        [JsonIgnore]
         public string Index { get; set; }
 
         /// <summary>
         /// Произвольные пользовательские данные.
         /// </summary>
         [CanBeNull]
+        [JsonIgnore]
         public object UserData { get; set; }
 
         #endregion
@@ -388,6 +399,38 @@ namespace ManagedClient
             return this;
         }
 
+        /// <summary>
+        /// For Newtonsoft.Json.
+        /// </summary>
+        public bool ShouldSerializeDatabase()
+        {
+            return !string.IsNullOrEmpty(Database);
+        }
+
+        /// <summary>
+        /// For Newtonsoft.Json.
+        /// </summary>
+        public bool ShouldSerializeMfn()
+        {
+            return Mfn != 0;
+        }
+
+        /// <summary>
+        /// For Newtonsoft.Json.
+        /// </summary>
+        public bool ShouldSerializeStatus()
+        {
+            return Status != 0;
+        }
+
+        /// <summary>
+        /// For Newtonsoft.Json.
+        /// </summary>
+        public bool ShouldSerializeVersion()
+        {
+            return Version != 0;
+        }
+
         #endregion
 
         #region IHandmadeSerializable members
@@ -442,6 +485,7 @@ namespace ManagedClient
         /// <summary>
         /// Whether the record read-only?
         /// </summary>
+        [JsonIgnore]
         public bool ReadOnly { get { return _readOnly; } }
 
         /// <summary>

@@ -5,6 +5,7 @@
 #region Using directives
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,19 @@ namespace AM
     public static class FuncUtility
     {
         #region Public methods
+
+        /// <summary>
+        /// Memoizes the specified function.
+        /// </summary>
+        public static Func<TArg, TRes> Memoize<TArg, TRes>
+            (
+                [NotNull] this Func<TArg, TRes> func
+            )
+        {
+            var dictionary = new ConcurrentDictionary<TArg, TRes>();
+
+            return arg => dictionary.GetOrAdd(arg, func);
+        }
 
         /// <summary>
         /// Borrowed from Stephen Toub book.
@@ -60,7 +74,6 @@ namespace AM
 
             return default(T);
         }
-
 
         #endregion
     }

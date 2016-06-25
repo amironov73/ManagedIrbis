@@ -13,11 +13,14 @@ using System.Threading.Tasks;
 using AM.IO;
 using AM.Runtime;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 #endregion
 
@@ -43,6 +46,23 @@ namespace ManagedClient
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Convert the <see cref="IrbisRecord"/> to JSON.
+        /// </summary>
+        [NotNull]
+        public static string ToJson
+            (
+                [NotNull] this IrbisRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            string result = JObject.FromObject(record)
+                .ToString(Formatting.None);
+
+            return result;
+        }
 
         #endregion
     }

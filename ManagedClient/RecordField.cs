@@ -652,6 +652,38 @@ namespace ManagedClient
         }
 
         /// <summary>
+        /// For Newtonsoft.Json.
+        /// </summary>
+        public bool ShouldSerializeIndicator1()
+        {
+            return Indicator1.HasValue;
+        }
+
+        /// <summary>
+        /// For Newtonsoft.Json.
+        /// </summary>
+        public bool ShouldSerializeIndicator2()
+        {
+            return Indicator2.HasValue;
+        }
+
+        /// <summary>
+        /// For Newtonsoft.Json.
+        /// </summary>
+        public bool ShouldSerializeSubFields()
+        {
+            return SubFields.Count > 0;
+        }
+
+        /// <summary>
+        /// For Newtonsoft.Json.
+        /// </summary>
+        public bool ShouldSerializeValue()
+        {
+            return !string.IsNullOrEmpty(Value);
+        }
+
+        /// <summary>
         /// Удаляет все повторения подполей
         /// с указанным кодом.
         /// </summary>
