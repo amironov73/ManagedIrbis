@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 using AM;
 using AM.Collections;
@@ -33,7 +34,9 @@ namespace ManagedClient.Menus
     /// </summary>
     [PublicAPI]
     [Serializable]
+    [XmlRoot("menu")]
     [MoonSharpUserData]
+    [JsonConverter(typeof(MenuConverter))]
     public sealed class IrbisMenuFile
         : IHandmadeSerializable
     {
@@ -75,6 +78,7 @@ namespace ManagedClient.Menus
         /// </summary>
         [PublicAPI]
         [Serializable]
+        [XmlRoot("entry")]
         [MoonSharpUserData]
         [DebuggerDisplay("{Code} = {Comment}")]
         public sealed class Entry
@@ -86,6 +90,8 @@ namespace ManagedClient.Menus
             /// First line -- the code.
             /// </summary>
             [NotNull]
+            [XmlAttribute("code")]
+            [JsonProperty("code")]
             // ReSharper disable NotNullMemberIsNotInitialized
             public string Code { get; set; }
             // ReSharper restore NotNullMemberIsNotInitialized
@@ -94,6 +100,8 @@ namespace ManagedClient.Menus
             /// Second line -- the comment.
             /// </summary>
             [CanBeNull]
+            [XmlAttribute("comment")]
+            [JsonProperty("comment")]
             public string Comment { get; set; }
 
             #endregion
@@ -129,6 +137,18 @@ namespace ManagedClient.Menus
 
             #endregion
 
+            #region Public methods
+
+            /// <summary>
+            /// Should JSON serialize the comment?
+            /// </summary>
+            public bool ShouldSerializeComment()
+            {
+                return !string.IsNullOrEmpty(Comment);
+            }
+
+            #endregion
+
             #region Object members
 
             /// <summary>
@@ -149,6 +169,55 @@ namespace ManagedClient.Menus
 
             #endregion
         }
+        
+        /// <summary>
+        /// Converts the <see cref="IrbisMenuFile"/> to JSON.
+        /// </summary>
+        public sealed class MenuConverter
+            : JsonConverter
+        {
+            #region JsonConverter members
+
+            public override void WriteJson
+                (
+                    JsonWriter writer,
+                    object value,
+                    JsonSerializer serializer
+                )
+            {
+                IrbisMenuFile menu = (IrbisMenuFile) value;
+                serializer.Serialize(writer, menu.Entries);
+            }
+
+            public override object ReadJson
+                (
+                    JsonReader reader,
+                    Type objectType,
+                    object existingValue,
+                    JsonSerializer serializer
+                )
+            {
+                IrbisMenuFile menu = (IrbisMenuFile) existingValue;
+                NonNullCollection<Entry> entries = serializer
+                    .Deserialize<NonNullCollection<Entry>>
+                        (
+                            reader
+                        );
+                menu._entries.AddRange(entries);
+
+                return menu;
+            }
+
+            public override bool CanConvert
+                (
+                    Type objectType
+                )
+            {
+                return objectType == typeof(IrbisMenuFile);
+            }
+
+            #endregion
+        }
 
         #endregion
 
@@ -158,12 +227,15 @@ namespace ManagedClient.Menus
         /// Name of menu file -- for identification
         /// purposes only.
         /// </summary>
+        [JsonIgnore]
         public string FileName { get; set; }
 
         /// <summary>
         /// Gets the entries.
         /// </summary>
         [NotNull]
+        [XmlElement("entry")]
+        [JsonProperty("entries")]
         public NonNullCollection<Entry> Entries
         {
             get
@@ -182,6 +254,17 @@ namespace ManagedClient.Menus
         public IrbisMenuFile()
         {
             _entries = new NonNullCollection<Entry>();
+        }
+
+        /// <summary>
+        /// Internal constructor.
+        /// </summary>
+        internal IrbisMenuFile
+            (
+                NonNullCollection<Entry> entries
+            )
+        {
+            _entries = entries;
         }
 
         #endregion

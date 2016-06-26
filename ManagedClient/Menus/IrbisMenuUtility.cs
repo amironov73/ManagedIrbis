@@ -6,17 +6,21 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Xml.Serialization;
 using AM;
-
+using AM.Collections;
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 #endregion
 
@@ -57,6 +61,27 @@ namespace ManagedClient.Menus
             }
 
             return menu;
+        }
+
+        /// <summary>
+        /// Collects the comments for code.
+        /// </summary>
+        [NotNull]
+        public static string[] CollectStrings
+            (
+            [NotNull] this IrbisMenuFile menu,
+            [NotNull] string code
+            )
+        {
+            return menu.Entries
+                .Where
+                (
+                    entry => entry.Code.SameString(code)
+                             || IrbisMenuFile.TrimCode(entry.Code)
+                                 .SameString(code)
+                )
+                .Select(entry => entry.Comment)
+                .ToArray();
         }
 
         /// <summary>
@@ -102,27 +127,106 @@ namespace ManagedClient.Menus
         }
 
         /// <summary>
-        /// Collects the comments for code.
+        /// Converts the menu to JSON.
         /// </summary>
         [NotNull]
-        public static string[] CollectStrings
+        public static string ToJson
             (
-                [NotNull] this IrbisMenuFile menu,
-                [NotNull] string code
+                [NotNull] this IrbisMenuFile menu
             )
         {
-            return menu.Entries
-                .Where
-                    (
-                        entry => entry.Code.SameString(code)
-                        || IrbisMenuFile.TrimCode(entry.Code)
-                            .SameString(code)
-                    )
-                .Select(entry => entry.Comment)
-                .ToArray();
+            Code.NotNull(menu, "menu");
+
+            string result = JArray.FromObject(menu.Entries)
+                .ToString(Formatting.None);
+
+            return result;
         }
 
+        /// <summary>
+        /// Restores the menu from JSON.
+        /// </summary>
+        [NotNull]
+        public static IrbisMenuFile FromJson
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
 
+            NonNullCollection<IrbisMenuFile.Entry> entries 
+                = JsonConvert
+                .DeserializeObject<NonNullCollection<IrbisMenuFile.Entry>>
+                    (
+                        text
+                    );
+            IrbisMenuFile result = new IrbisMenuFile(entries);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Saves the menu to local JSON file.
+        /// </summary>
+        public static void SaveLocalJsonFile
+            (
+                [NotNull] this IrbisMenuFile menu,
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNull(menu, "menu");
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            string contents = JArray.FromObject(menu.Entries)
+                .ToString(Formatting.Indented);
+
+            File.WriteAllText
+                (
+                    fileName, 
+                    contents, 
+                    IrbisEncoding.Utf8
+                );
+        }
+
+        /// <summary>
+        /// Parses the local json file.
+        /// </summary>
+        [NotNull]
+        public static IrbisMenuFile ParseLocalJsonFile
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            string text = File.ReadAllText
+                (
+                    fileName,
+                    IrbisEncoding.Utf8
+                );
+            IrbisMenuFile result = FromJson(text);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Converts the menu to XML.
+        /// </summary>
+        [NotNull]
+        public static string ToXml
+            (
+                [NotNull] this IrbisMenuFile menu
+            )
+        {
+            Code.NotNull(menu, "menu");
+
+            XmlSerializer serializer
+                = new XmlSerializer(typeof(IrbisMenuFile));
+            StringWriter writer = new StringWriter();
+            serializer.Serialize(writer, menu);
+
+            return writer.ToString();
+        }
 
         #endregion
     }

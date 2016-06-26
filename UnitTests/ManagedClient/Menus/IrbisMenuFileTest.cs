@@ -12,16 +12,12 @@ namespace UnitTests.ManagedClient.Menus
     public class IrbisMenuFileTest
         : Common.CommonUnitTest
     {
-        private void _TestSerialization
+        private void _CompareMenu
             (
-                IrbisMenuFile first
+                IrbisMenuFile first,
+                IrbisMenuFile second
             )
         {
-            byte[] bytes = first.SaveToMemory();
-
-            IrbisMenuFile second = bytes
-                .RestoreObjectFromMemory<IrbisMenuFile>();
-
             Assert.AreEqual(first.FileName, second.FileName);
 
             IrbisMenuFile.Entry[] firstEntries
@@ -40,15 +36,35 @@ namespace UnitTests.ManagedClient.Menus
             }
         }
 
-        [TestMethod]
-        public void TestIrbisMenuFileConstruction()
+        private void _TestSerialization
+            (
+                IrbisMenuFile first
+            )
         {
-            IrbisMenuFile menu = new IrbisMenuFile();
+            byte[] bytes = first.SaveToMemory();
 
-            menu
+            IrbisMenuFile second = bytes
+                .RestoreObjectFromMemory<IrbisMenuFile>();
+
+            _CompareMenu(first, second);
+        }
+
+        private IrbisMenuFile _GetMenu()
+        {
+            IrbisMenuFile result = new IrbisMenuFile();
+
+            result
                 .Add("a", "Comment for a")
                 .Add("b", "Comment for b")
                 .Add("c", "Comment for c");
+
+            return result;
+        }
+
+        [TestMethod]
+        public void TestIrbisMenuFileConstruction()
+        {
+            IrbisMenuFile menu = _GetMenu();
 
             Assert.AreEqual(3, menu.Entries.Count);
             string actual = menu.GetString("c");
@@ -81,6 +97,60 @@ namespace UnitTests.ManagedClient.Menus
             IrbisMenuFile menu = new IrbisMenuFile();
 
             _TestSerialization(menu);
+        }
+
+        [TestMethod]
+        public void TestIrbisMenuFileToJson()
+        {
+            IrbisMenuFile menu = _GetMenu();
+
+            string actual = menu.ToJson()
+                .Replace("\r", "").Replace("\n", "")
+                .Replace("\"", "'");
+            string expected = "[{'code':'a','comment':'Comment for a'},{'code':'b','comment':'Comment for b'},{'code':'c','comment':'Comment for c'}]";
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestIrbisMenuFileFromJson()
+        {
+            string text = "[{'code':'a','comment':'Comment for a'},{'code':'b','comment':'Comment for b'},{'code':'c','comment':'Comment for c'}]"
+                .Replace("'", "\"");
+
+            IrbisMenuFile second = IrbisMenuUtility.FromJson(text);
+            IrbisMenuFile first = _GetMenu();
+
+            _CompareMenu(first,second);
+        }
+
+        [TestMethod]
+        public void TestIrbisMenuFileParseLocalJsonFile()
+        {
+            string fileName = Path.Combine
+                (
+                    TestDataPath,
+                    "test-menu.json"
+                );
+
+            IrbisMenuFile first = _GetMenu();
+            IrbisMenuFile second = IrbisMenuUtility
+                .ParseLocalJsonFile(fileName);
+
+            _CompareMenu(first, second);
+        }
+
+        [TestMethod]
+        public void TestIrbisMenuToXml()
+        {
+            IrbisMenuFile menu = _GetMenu();
+
+            string actual = menu.ToXml()
+                .Replace("\r", "").Replace("\n", "")
+                .Replace("\"", "'");
+            string expected = "<?xml version='1.0' encoding='utf-16'?><menu xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>  <entry code='a' comment='Comment for a' />  <entry code='b' comment='Comment for b' />  <entry code='c' comment='Comment for c' /></menu>";
+
+            Assert.AreEqual(expected, actual);
         }
     }
 }
