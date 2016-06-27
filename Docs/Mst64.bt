@@ -1,0 +1,132 @@
+// Управляющая запись
+typedef struct ControlRecord
+{
+    BigEndian ();
+    DWORD   CtlMfn;     // резерв
+    DWORD   NextMfn;    // следующий присваеваемый MFN
+    DWORD   NextLow;    // младшая часть смещения свободного места
+    DWORD   NextHigh;   // старшая часть смещения свободного места
+    DWORD   MftType;    // резерв
+    DWORD   RecCnt;     // резерв
+    DWORD   MfcXX1;     // резерв
+    DWORD   MfcXX2;     // резерв
+    DWORD   MfcXX3;     // индикатор блокировки базы данных (0 – нет, >0 – да)
+} CONTROL;
+
+// Флаги статуса записи
+typedef enum RecordFlags
+{
+    LOG_DEL     = 1,    // логически удалена
+    NOT_ACT     = 8,    // не актуализирована
+    LAST_REC    = 32    // последняя версия записи
+} FLAGS;
+
+// Заголовок записи
+typedef struct RecordLeader
+{
+    BigEndian ();
+    DWORD   Mfn;         // MFN
+    DWORD   Length;      // Длина записи
+    DWORD   BackRefLow;  // Младшая часть ссылки назад
+    DWORD   BackRefHigh; // Старшая часть ссылки назад
+    DWORD   Base;        // Базовый адрес полей переменной дины
+    DWORD   Nvf;         // Число полей переменной длины
+    FLAGS   Status;      // Статус записи
+    DWORD   Version;     // Номер версии записи
+
+    if ((Mfn == 0) || (Length == 0))
+    {
+        return 0;
+    }
+} LEADER<read=readLeader>;
+
+string readLeader ( LEADER &leader )
+{
+    string s;
+    SPrintf 
+        ( 
+            s, 
+            "MFN=%d, nvf=%d, status=%d", 
+            leader.Mfn, 
+            leader.Nvf,
+            leader.Status 
+        );
+    return s;
+}
+
+// Элемент справочника
+typedef struct DictionaryItem
+{
+    BigEndian ();
+    DWORD   Tag;
+    DWORD   Pos;
+    DWORD   Len;
+} DICTIONARY<read=readDictionary>;
+
+string readDictionary ( DICTIONARY &dict )
+{
+    string s;
+    SPrintf 
+    ( 
+        s, 
+        "TAG=%d, len=%d",
+        dict.Tag,
+        dict.Len
+    );
+    return s;
+}
+
+// Поле переменной длины
+typedef struct FieldValue (int n)
+{
+    char    Value[n];
+} FIELD<read=readField>;
+
+string readField ( FIELD &field )
+{
+    return field.Value;
+}
+
+local int i;
+
+// Запись
+typedef struct TheRecord
+{
+    // Начало записи в файле
+    local int64 begin = FTell ();
+
+    // Заголовок записи
+    LEADER  Leader<bgcolor=0xFFD0D0>;
+
+    // Справочник
+    DICTIONARY Dictionary[Leader.Nvf]<bgcolor=0xD0FFD0>;
+
+    // Поля переменной длины
+    for ( i = 0; i < Leader.Nvf; i++ )
+    {
+        FSeek ( begin + Leader.Base + Dictionary[i].Pos );
+        FIELD Field ( Dictionary[i].Len );
+    }
+
+    FSeek ( begin + Leader.Length );
+} RECORD<read=readRecord>;
+
+string readRecord ( RECORD &record )
+{
+    string s;
+    SPrintf ( s, "MFN=%d", record.Leader.Mfn );
+    return s;
+}
+
+// Управляющая запись
+CONTROL Control;
+
+// Пропускаем байты-заполнители
+FSeek (0x24);
+
+while (!FEof())
+{
+    // Записи следуют друг за другом
+    // без байтов-заполнителей
+    RECORD Record;
+}

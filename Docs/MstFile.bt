@@ -1,0 +1,62 @@
+#define MAXREC 100
+
+struct Control
+{
+    DWORD   Mfn;    // Всегда 0
+    DWORD   NextMfn;
+    DWORD   NextBlock;
+    WORD    NextOffset;
+    WORD    MftType; // Всегда 0
+};
+
+struct Leader
+{
+    DWORD   Mfn;
+    short   Length;
+    local short RealLength = Abs(Length);
+    DWORD   BackRef;
+    WORD    BackOfs;
+    WORD    Base;
+    WORD    Nvf;
+    WORD    Status;
+};
+
+struct Dict
+{
+    WORD    Tag;
+    WORD    Pos;
+    WORD    Len;
+};
+
+struct Field ( int len )
+{
+    char    Value[len];
+};
+
+Control control;
+
+FSeek (0x40);
+
+local int i, count = 0;
+local int64 begin, save;
+local string val;
+
+while (!FEof() && (count < MAXREC))
+{
+    begin = FTell ();
+
+    Leader leader <bgcolor=0xFFD0D0>;
+    count++;
+
+    for ( i = 0; i < leader.Nvf; i++ )
+    {
+        Dict dict;
+        save = FTell ();
+        FSeek ( begin + leader.Base + dict.Pos );
+        Field field ( dict.Len );
+
+        FSeek (save);
+    }
+
+    FSeek ( begin + leader.RealLength );
+}

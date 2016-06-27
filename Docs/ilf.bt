@@ -1,0 +1,45 @@
+// =====================================
+// ILF - Irbis Library File
+// =====================================
+
+struct Section
+{
+    DWORD Position<format=hex,bgcolor=0xFF00FF>;
+    OLETIME Date<bgcolor=0x80FFE0>;
+    WORD  Deleted<bgcolor=0x80FF80>;
+    char Name[24]<bgcolor=0xFFFF00>;
+
+    local int64 curPos<hidden=true>;
+    curPos = FTell ();
+
+    FSeek(Position);
+
+    DWORD Number<bgcolor=0xFFA0A0>;
+    DWORD DataLen<bgcolor=0xFF00FF>;
+    WORD  Flags<bgcolor=0x8080FF>;
+    char  Data[DataLen]<bgcolor=0x00FFFF>;
+
+    FSeek (curPos);
+};
+
+char MagicString[16]<bgcolor=0xA0FFA0>;
+
+DWORD Unknown1;
+
+DWORD SlotCount<bgcolor=0xA0FFA0>;
+
+DWORD SectionCount<bgcolor=0xA0A0FF>;
+
+DWORD WriteCount;
+DWORD DeleteCount;
+
+local int i<hidden=true>;
+
+for ( i = 0; i < SectionCount; i++ )
+{
+    Section section;
+}
+
+
+
+

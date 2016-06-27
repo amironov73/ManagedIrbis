@@ -1,0 +1,23 @@
+// Флаги записи
+typedef enum
+{
+    BIT_LOG_DEL     = 1, // логически удаленная запись
+    BIT_PHYS_DEL    = 2, // физически удаленная запись
+    BIT_ABSENT      = 4, // несуществующая запись
+    BIT_NOTACT_REC  = 8, // неактуализированная запись
+    BIT_LOCK_REC    = 64 // заблокированная запись
+} XRFFLAGS;
+
+// Указатель на запись
+typedef struct
+{
+    BigEndian();
+    DWORD       LowPart;  // Младшее двойное слово смещения
+    DWORD       HighPart; // Старшее двойное слово смещения
+    XRFFLAGS    Flags;    // Флаги
+} XRF64 <size=12>;
+
+while (!FEof())
+{
+    XRF64 xrf;
+}

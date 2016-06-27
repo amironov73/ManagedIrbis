@@ -1,0 +1,50 @@
+#define NODESIZE 2048
+
+typedef struct NodeHeader
+{
+    BigEndian ();
+    int     Number;
+    int     Prev;
+    int     Next;
+    WORD    Terms;
+    WORD    FreeOffset;
+} HEAD<size=16>;
+
+typedef struct NodeDictionary
+{
+    WORD    Length;
+    short     Offset;
+    int     Low;
+    int     High;
+} DICT;
+
+typedef struct NodeEntry ( int size )
+{
+    char    Value[size];
+} ENTRY<optimize=false, read=readEntry>;
+
+string readEntry ( ENTRY &entry )
+{
+    return entry.Value;
+}
+
+local int i<hidden=true>;
+
+typedef struct NodeRecord
+{
+    local int64 begin<hidden=true> = FTell ();
+    HEAD    Head;
+    DICT    Dict[Head.Terms]
+        <bgcolor=0xD0FFD0,optimize=false>;
+    for ( i = 0; i < Head.Terms; i++ )
+    {
+        FSeek ( begin + Dict[i].Offset );
+        ENTRY Entry ( Dict[i].Length );
+    }
+    FSeek ( begin + NODESIZE );
+} NODE<size=NODESIZE,optimize=false>;
+
+while (!FEof ())
+{
+    NODE node;
+}
