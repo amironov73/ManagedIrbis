@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-
+using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Runtime;
@@ -56,7 +56,8 @@ namespace ManagedClient.Gbl
     [XmlRoot("gbl-parameter")]
     [DebuggerDisplay("[{Name}] {Value}")]
     public sealed class GblParameter
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
@@ -132,6 +133,30 @@ namespace ManagedClient.Gbl
         {
             writer.WriteNullable(Name);
             writer.WriteNullable(Value);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+
+        /// <summary>
+        /// Verify object state.
+        /// </summary>
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            bool result = !string.IsNullOrEmpty(Name)
+                          && !string.IsNullOrEmpty(Value);
+
+            if (!result && throwOnError)
+            {
+                throw new VerificationException();
+            }
+
+            return result;
         }
 
         #endregion

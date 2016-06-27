@@ -115,6 +115,7 @@
     <Compile Include="AM\Collections\NonNullCollectionTest.cs" />
     <Compile Include="AM\Collections\CharSetTest.cs" />
     <Compile Include="AM\Collections\BitArrayUtilityTest.cs" />
+    <Compile Include="AM\Gbl\GblFileTest.cs" />
     <Compile Include="AM\Globalization\BuiltinCulturesTest.cs" />
     <Compile Include="AM\Globalization\RussianStringComparerTest.cs" />
     <Compile Include="AM\IO\BinaryWriterTest.cs" />

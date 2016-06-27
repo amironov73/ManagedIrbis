@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <item>
+    <command>ADD</command>
+    <parameter1>300</parameter1>
+    <format1>Add field 300</format1>
+  </item>
+  <item>
+    <command>DEL</command>
+    <parameter1>300</parameter1>
+    <parameter2>*</parameter2>
+  </item>
+  <item>
+    <command>NOP</command>
+  </item>
+</gbl>

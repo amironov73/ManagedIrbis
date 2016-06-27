@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-
+using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Runtime;
@@ -34,9 +34,11 @@ namespace ManagedClient.Gbl
     /// </summary>
     [PublicAPI]
     [Serializable]
+    [XmlRoot("gbl")]
     [MoonSharpUserData]
     public sealed class GblFile
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
@@ -44,12 +46,16 @@ namespace ManagedClient.Gbl
         /// File name.
         /// </summary>
         [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
         public string FileName { get; set; }
 
         /// <summary>
         /// Items.
         /// </summary>
         [NotNull]
+        [XmlElement("item")]
+        [JsonProperty("items")]
         public NonNullCollection<GblItem> Items
         {
             get { return _items; }
@@ -59,6 +65,8 @@ namespace ManagedClient.Gbl
         /// Parameters.
         /// </summary>
         [NotNull]
+        [XmlElement("parameter")]
+        [JsonProperty("parameters")]
         public NonNullCollection<GblParameter> Parameters
         {
             get { return _parameters; }
@@ -88,6 +96,27 @@ namespace ManagedClient.Gbl
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Parse local file.
+        /// </summary>
+        [NotNull]
+        public static GblFile ParseLocalFile
+            (
+                [NotNull] string fileName,
+                [NotNull] Encoding encoding
+            )
+        {
+            Code.NotNull(fileName, "fileName");
+            Code.NotNull(encoding, "encoding");
+
+            using (StreamReader reader = new StreamReader(fileName, encoding))
+            {
+                GblFile result = ParseStream(reader);
+
+                return result;
+            }
+        }
 
         /// <summary>
         /// Parse specified stream.
@@ -121,6 +150,14 @@ namespace ManagedClient.Gbl
             return result;
         }
 
+        /// <summary>
+        /// Should JSON serialize <see cref="Parameters"/>.
+        /// </summary>
+        public bool ShouldSerializeParameters()
+        {
+            return Parameters.Count != 0;
+        }
+
         #endregion
 
         #region IHandmadeSerializable members
@@ -150,6 +187,45 @@ namespace ManagedClient.Gbl
             writer.WriteNullable(FileName);
             writer.WriteCollection(Parameters);
             writer.WriteCollection(Items);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <summary>
+        /// Verify object state.
+        /// </summary>
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            bool result = Items.Count != 0;
+
+            if (result)
+            {
+                result = Items.All
+                    (
+                        item => item.Verify(throwOnError)
+                    );
+            }
+
+            if (result
+                && (Parameters.Count != 0))
+            {
+                result = Parameters.All
+                    (
+                        parameter => parameter.Verify(throwOnError)
+                    );
+            }
+
+            if (!result && throwOnError)
+            {
+                throw new VerificationException();
+            }
+
+            return result;
         }
 
         #endregion

@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-
+using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Runtime;
@@ -98,7 +98,8 @@ namespace ManagedClient.Gbl
     [XmlRoot("gbl-item")]
     [DebuggerDisplay("{Command} {Parameter1} {Parameter2}")]
     public sealed class GblItem
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Constants
 
@@ -192,6 +193,38 @@ namespace ManagedClient.Gbl
             return result;
         }
 
+        /// <summary>
+        /// Should JSON serialize <see cref="Format1"/>?
+        /// </summary>
+        public bool ShouldSerializeFormat1()
+        {
+            return !string.IsNullOrEmpty(Format1);
+        }
+
+        /// <summary>
+        /// Should JSON serialize <see cref="Format2"/>?
+        /// </summary>
+        public bool ShouldSerializeFormat2()
+        {
+            return !string.IsNullOrEmpty(Format2);
+        }
+
+        /// <summary>
+        /// Should JSON serialize <see cref="Parameter1"/>?
+        /// </summary>
+        public bool ShouldSerializeParameter1()
+        {
+            return !string.IsNullOrEmpty(Parameter1);
+        }
+
+        /// <summary>
+        /// Should JSON serialize <see cref="Parameter2"/>?
+        /// </summary>
+        public bool ShouldSerializeParameter2()
+        {
+            return !string.IsNullOrEmpty(Parameter2);
+        }
+
         #endregion
 
         #region IHandmadeSerializable members
@@ -228,8 +261,36 @@ namespace ManagedClient.Gbl
 
         #endregion
 
+        #region IVerifiable
+
+        /// <summary>
+        /// Verify object state.
+        /// </summary>
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            bool result = !string.IsNullOrEmpty(Command);
+
+            if (!result && throwOnError)
+            {
+                throw new VerificationException();
+            }
+
+            return result;
+        }
+
+        #endregion
+
         #region Object members
 
+        /// <summary>
+        /// Returns a <see cref="System.String" />
+        /// that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" />
+        /// that represents this instance.</returns>
         public override string ToString()
         {
             return string.Format

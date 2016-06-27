@@ -1,0 +1,7 @@
+{
+  "items":[
+    { "command": "ADD", "parameter1": "300", "format1": "Add field 300" },
+    { "command": "DEL", "parameter1": "300", "parameter2": "*" },
+    { "command": "NOP" }
+  ]
+}
