@@ -107,8 +107,12 @@
     <Compile Include="AM\Collections\CharSet.cs" />
     <Compile Include="AM\Collections\CloneableCollection.cs" />
     <Compile Include="AM\Collections\IIndexable.cs" />
+    <Compile Include="AM\Collections\IndexableConverter.cs" />
     <Compile Include="AM\Collections\ListUtility.cs" />
     <Compile Include="AM\Collections\NonNullCollection.cs" />
+    <Compile Include="AM\Collections\Pair.cs" />
+    <Compile Include="AM\Collections\Quartet.cs" />
+    <Compile Include="AM\Collections\Triplet.cs" />
     <Compile Include="AM\ComponentModel\NotifyProperty.cs" />
     <Compile Include="AM\ComponentModel\PropertyChangedUtility.cs" />
     <Compile Include="AM\ConnectionStringParser.cs" />
