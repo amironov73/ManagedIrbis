@@ -1,4 +1,4 @@
-﻿/* TextWithEncoding.cs -- текст с заданной кодировкой
+﻿/* TextWithEncoding.cs -- text with given encoding
  * Ars Magna project, http://arsmagna.ru 
  */
 
@@ -19,7 +19,7 @@ using MoonSharp.Interpreter;
 namespace AM.Text
 {
     /// <summary>
-    /// Текст с заданной кодировкой.
+    /// Text with given encoding.
     /// </summary>
     [PublicAPI]
     [Serializable]
@@ -31,14 +31,15 @@ namespace AM.Text
         #region Properties
 
         /// <summary>
-        /// Собственно текст.
+        /// Text itself.
         /// </summary>
         [CanBeNull]
         public string Text { get; set; }
 
         /// <summary>
-        /// Кодировка.
+        /// Encoding.
         /// </summary>
+        /// <remarks><c>null</c> treated as default encoding.</remarks>
         [CanBeNull]
         public Encoding Encoding { get; set; }
 
@@ -47,15 +48,14 @@ namespace AM.Text
         #region Construction
 
         /// <summary>
-        /// Конструктор по умолчанию.
-        /// Не заданы ни текст, ни кодировка.
+        /// Default constructor.
         /// </summary>
         public TextWithEncoding()
         {
         }
 
         /// <summary>
-        /// Текст с кодировкой UTF8.
+        /// Constructor. UTF-8 encoded text.
         /// </summary>
         public TextWithEncoding
             (
@@ -67,10 +67,8 @@ namespace AM.Text
         }
 
         /// <summary>
-        /// Текст с кодировкой ANSI либо UTF8.
+        /// Constructor. UTF-8 or ANSI encoded text.
         /// </summary>
-        /// <param name="text"></param>
-        /// <param name="ansi"></param>
         public TextWithEncoding
             (
                 [CanBeNull] string text,
@@ -84,10 +82,8 @@ namespace AM.Text
         }
 
         /// <summary>
-        /// Текст с явно заданной кодировкой.
+        /// Constructor. Explicitly specified encoding.
         /// </summary>
-        /// <param name="text"></param>
-        /// <param name="encoding"></param>
         public TextWithEncoding
             (
                 [CanBeNull] string text,
@@ -109,9 +105,8 @@ namespace AM.Text
         #region Public methods
 
         /// <summary>
-        /// Конверсия в байтовое представление.
+        /// Convert text to byte representation.
         /// </summary>
-        /// <returns></returns>
         [NotNull]
         public byte[] ToBytes()
         {
@@ -127,11 +122,8 @@ namespace AM.Text
         }
 
         /// <summary>
-        /// Неявное преобразование текста
-        /// в текст с кодировкой.
+        /// Implicit conversion.
         /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
         [NotNull]
         public static implicit operator TextWithEncoding
             (
@@ -181,7 +173,7 @@ namespace AM.Text
         }
 
         /// <summary>
-        /// Оператор сравнения двух текстов.
+        /// Compare two texts.
         /// </summary>
         public static bool operator ==
             (
@@ -193,6 +185,7 @@ namespace AM.Text
             {
                 return ReferenceEquals(right, null);
             }
+
             if (ReferenceEquals(right, null))
             {
                 return false;
@@ -202,7 +195,7 @@ namespace AM.Text
         }
 
         /// <summary>
-        /// Оператор сравнения двух текстов.
+        /// Compare two texts.
         /// </summary>
         public static bool operator !=
             (
@@ -214,6 +207,7 @@ namespace AM.Text
             {
                 return !ReferenceEquals(right, null);
             }
+
             if (ReferenceEquals(right, null))
             {
                 return true;

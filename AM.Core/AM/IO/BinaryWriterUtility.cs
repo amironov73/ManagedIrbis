@@ -173,6 +173,22 @@ namespace AM.IO
         }
 
         /// <summary>
+        /// Write <see cref="DateTime"/>.
+        /// </summary>
+        [NotNull]
+        public static BinaryWriter Write
+            (
+                [NotNull] this BinaryWriter writer,
+                DateTime value
+            )
+        {
+            long ticks = value.ToBinary();
+            writer.Write(ticks);
+
+            return writer;
+        }
+
+        /// <summary>
         /// Write nullable DateTime.
         /// </summary>
         [NotNull]

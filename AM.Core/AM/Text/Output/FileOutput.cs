@@ -1,4 +1,5 @@
 ﻿/* FileOutput.cs -- файловый вывод
+ * Ars Magna project, http://arsmagna.ru
  */
 
 #region

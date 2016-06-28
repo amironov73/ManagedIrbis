@@ -9,11 +9,24 @@ namespace UnitTests.AM.Text
     public class TextWithEncodingTest
     {
         [TestMethod]
-        public void TestTextWithEncoding()
+        public void TestTextWithEncodingConstruction()
         {
             TextWithEncoding text = new TextWithEncoding("Hello", true);
             byte[] bytes = text.ToBytes();
             Assert.AreEqual(5, bytes.Length);
+        }
+
+        [TestMethod]
+        public void TestTextWithEncodingComparison()
+        {
+            TextWithEncoding first = new TextWithEncoding("Hello", true);
+            TextWithEncoding second = new TextWithEncoding("Hello", false);
+
+            Assert.AreEqual
+                (
+                    true,
+                    first == second
+                );
         }
     }
 }

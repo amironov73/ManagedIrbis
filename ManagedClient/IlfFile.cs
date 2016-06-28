@@ -5,11 +5,10 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
@@ -77,27 +76,125 @@ namespace ManagedClient
         /// </summary>
         [Serializable]
         [MoonSharpUserData]
+        [DebuggerDisplay("[{Number}] {Name}")]
         public sealed class Entry
+            : IHandmadeSerializable,
+            IVerifiable
         {
             #region Properties
 
+            /// <summary>
+            /// Смещение данных от начала файла.
+            /// </summary>
             public int Position { get; set; }
 
+            /// <summary>
+            /// Дата создания.
+            /// </summary>
             public DateTime Date { get; set; }
 
+            /// <summary>
+            /// Удалено?
+            /// </summary>
             public bool Deleted { get; set; }
 
+            /// <summary>
+            /// Имя.
+            /// </summary>
+            [CanBeNull]
             public string Name { get; set; }
 
+            /// <summary>
+            /// Порядковый номер.
+            /// </summary>
             public int Number { get; set; }
 
+            /// <summary>
+            /// Флаги.
+            /// </summary>
             public short Flags { get; set; }
 
+            /// <summary>
+            /// Количество данных (вместе с описанием).
+            /// </summary>
             public int DataLength { get; set; }
 
+            /// <summary>
+            /// Описание в произвольной форме.
+            /// </summary>
+            [CanBeNull]
             public string Description { get; set; }
 
+            /// <summary>
+            /// Собственно данные.
+            /// </summary>
+            [CanBeNull]
             public string Data { get; set; }
+
+            #endregion
+
+            #region IHandmadeSerializable members
+
+            /// <summary>
+            /// Restore object state from the specified stream.
+            /// </summary>
+            public void RestoreFromStream
+                (
+                    BinaryReader reader
+                )
+            {
+                Position = reader.ReadPackedInt32();
+                Date = reader.ReadDateTime();
+                Deleted = reader.ReadBoolean();
+                Name = reader.ReadNullableString();
+                Number = reader.ReadPackedInt32();
+                Flags = reader.ReadInt16();
+                DataLength = reader.ReadPackedInt32();
+                Description = reader.ReadNullableString();
+                Data = reader.ReadNullableString();
+            }
+
+            /// <summary>
+            /// Save object state to the specified stream.
+            /// </summary>
+            public void SaveToStream
+                (
+                    BinaryWriter writer
+                )
+            {
+                writer.WritePackedInt32(Position);
+                writer.Write(Date);
+                writer.Write(Deleted);
+                writer.WriteNullable(Name);
+                writer.WritePackedInt32(Number);
+                writer.Write(Flags);
+                writer.WritePackedInt32(DataLength);
+                writer.WriteNullable(Description);
+                writer.WriteNullable(Data);
+            }
+
+            #endregion
+
+            #region IVerifiable members
+
+            /// <summary>
+            /// Verify object state.
+            /// </summary>
+            public bool Verify
+                (
+                    bool throwOnError
+                )
+            {
+                bool result = !string.IsNullOrEmpty(Name)
+                              && !string.IsNullOrEmpty(Data);
+
+                if (!result && throwOnError)
+                {
+                    throw new VerificationException();
+                }
+
+                return result;
+            }
 
             #endregion
         }
@@ -158,7 +255,7 @@ namespace ManagedClient
 
         private readonly NonNullCollection<Entry> _entries;
 
-            #endregion
+        #endregion
 
         #region Public methods
 
@@ -200,8 +297,7 @@ namespace ManagedClient
             using (BinaryReader reader
                 = new BinaryReader(stream, encoding))
             {
-                byte[] magicBytes = reader.ReadBytes(16);
-                string magicString = encoding.GetString(magicBytes);
+                string magicString = reader.ReadString(MagicString.Length);
                 if (magicString != MagicString)
                 {
                     throw new FormatException();
@@ -221,9 +317,7 @@ namespace ManagedClient
                         Date = DateTime.FromOADate(reader.ReadDouble()),
                         Deleted = reader.ReadInt16() != 0
                     };
-                    byte[] bytes = new byte[24];
-                    stream.Read(bytes, 0, 24);
-                    string name = encoding.GetString(bytes);
+                    string name = reader.ReadString(24);
                     entry.Name = name.TrimEnd('\0');
 
                     result.Entries.Add(entry);
@@ -237,11 +331,23 @@ namespace ManagedClient
                     entry.Number = reader.ReadInt32();
                     entry.DataLength = reader.ReadInt32();
                     entry.Flags = reader.ReadInt16();
-                    byte[] bytes = reader.ReadBytes(entry.DataLength);
-                    string text = encoding.GetString(bytes);
-                    string[] parts = text.Split(separators, 2, StringSplitOptions.None);
+                    char[] chars = reader.ReadChars(entry.DataLength);
+                    string text = new string(chars);
+                    string[] parts = text.Split
+                        (
+                            separators,
+                            2,
+                            StringSplitOptions.None
+                        );
                     entry.Description = parts[0];
-                    entry.Data = parts[1];
+                    if (parts.Length > 1)
+                    {
+                        entry.Data = parts[1];
+                    }
+                    else
+                    {
+                        entry.Data = string.Empty;
+                    }
                 }
             }
 
@@ -260,7 +366,7 @@ namespace ManagedClient
                 BinaryReader reader
             )
         {
-            throw new NotImplementedException();
+            reader.ReadCollection(Entries);
         }
 
         /// <summary>
@@ -271,16 +377,37 @@ namespace ManagedClient
                 BinaryWriter writer
             )
         {
-            throw new NotImplementedException();
+            writer.WriteCollection(Entries);
         }
 
         #endregion
 
         #region IVerifiable members
 
-        public bool Verify(bool throwOnError)
+        /// <summary>
+        /// Verify the object state.
+        /// </summary>
+        public bool Verify
+            (
+                bool throwOnError
+            )
         {
-            throw new NotImplementedException();
+            bool result = true;
+
+            if (Entries.Count != 0)
+            {
+                result = Entries.All
+                    (
+                        entry => entry.Verify(throwOnError)
+                    );
+            }
+
+            if (!result && throwOnError)
+            {
+                throw new VerificationException();
+            }
+
+            return result;
         }
 
         #endregion

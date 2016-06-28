@@ -33,13 +33,17 @@ namespace AM.IO
 
         #region Public methods
 
+        /// <summary>
+        /// Read <see cref="NonNullCollection{T}"/>
+        /// </summary>
+        [NotNull]
         public static NonNullCollection<T> ReadNonNullCollection<T>
             (
                 [NotNull] this BinaryReader reader
             )
             where T: class, IHandmadeSerializable, new ()
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             T[] array = reader.ReadArray<T>();
             NonNullCollection<T> result = new NonNullCollection<T>();
@@ -116,6 +120,20 @@ namespace AM.IO
             return reader;
         }
 
+        /// <summary>
+        /// Read <see cref="DateTime"/> from the stream.
+        /// </summary>
+        public static DateTime ReadDateTime
+            (
+                [NotNull] this BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            DateTime result = DateTime.FromBinary(reader.ReadInt64());
+
+            return result;
+        }
 
         /// <summary>
         /// Read array of 16-bit integers.
@@ -126,7 +144,7 @@ namespace AM.IO
                 [NotNull] this BinaryReader reader
             )
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             int length = reader.ReadPackedInt32();
             short[] result = new short[length];
@@ -426,6 +444,25 @@ namespace AM.IO
                 shift += 7;
             } while ((b & 0x80) != 0);
             return count;
+        }
+
+        /// <summary>
+        /// Read string with given length.
+        /// </summary>
+        [NotNull]
+        public static string ReadString
+            (
+                [NotNull] this BinaryReader reader,
+                int count
+            )
+        {
+            Code.NotNull(reader, "reader");
+            Code.Positive(count, "count");
+
+            char[] characters = reader.ReadChars(count);
+            string result = new string(characters);
+
+            return result;
         }
 
         /// <summary>

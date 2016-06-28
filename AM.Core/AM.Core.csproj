@@ -131,6 +131,7 @@
     <Compile Include="AM\IO\BinaryReaderUtility.cs" />
     <Compile Include="AM\IO\BinaryWriterUtility.cs" />
     <Compile Include="AM\IO\DirectoryUtility.cs" />
+    <Compile Include="AM\IO\DumpUtility.cs" />
     <Compile Include="AM\IO\IConsoleOutputReceiver.cs" />
     <Compile Include="AM\IO\IniFile.cs" />
     <Compile Include="AM\IO\MultiStream.cs" />
@@ -157,6 +158,8 @@
     <Compile Include="AM\Text\Hyphenation\EnglishHyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\Hyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\RussianHyphenator.cs" />
+    <Compile Include="AM\Text\Output\OutputWriter.cs" />
+    <Compile Include="AM\Text\Output\TextOutput.cs" />
     <Compile Include="AM\Text\StreamParser.cs" />
     <Compile Include="AM\Text\TextNavigator.cs" />
     <Compile Include="AM\Text\Tokenizer\StringTokenizer.cs" />

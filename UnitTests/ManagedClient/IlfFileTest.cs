@@ -39,6 +39,11 @@ namespace UnitTests.ManagedClient
             Assert.IsNotNull(library.GetFile("PR"));
             Assert.IsNotNull(library.GetFile("pr"));
             Assert.IsNull(library.GetFile("ZR"));
+
+            Assert.IsTrue
+                (
+                    library.Verify(false)
+                );
         }
     }
 }

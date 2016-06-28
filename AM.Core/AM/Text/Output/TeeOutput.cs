@@ -1,4 +1,5 @@
 ﻿/* TeeOutput.cs -- расщепление (повтор) потока вывода
+ * Ars Magna project, http://arsmagna.ru
  */
 
 #region Using directives
