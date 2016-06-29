@@ -167,6 +167,7 @@
     <Compile Include="ManagedClient\Fst\FstFileTest.cs" />
     <Compile Include="ManagedClient\IrbisFormatTest.cs" />
     <Compile Include="ManagedClient\Mapping\SubFieldMapperTest.cs" />
+    <Compile Include="ManagedClient\Marc\Schema\MarcSchemaTest.cs" />
     <Compile Include="ManagedClient\Menus\IrbisMenuFileTest.cs" />
     <Compile Include="ManagedClient\Quality\FieldDefectTest.cs" />
     <Compile Include="ManagedClient\Quality\RecordReportTest.cs" />

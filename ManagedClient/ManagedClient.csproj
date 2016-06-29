@@ -144,6 +144,14 @@
     <Compile Include="IrbisClientInfo.cs" />
     <Compile Include="IrbisStopWords.cs" />
     <Compile Include="IrbisTreeFile.cs" />
+    <Compile Include="Marc\Schema\Example.cs" />
+    <Compile Include="Marc\Schema\FieldSchema.cs" />
+    <Compile Include="Marc\Schema\IndicatorSchema.cs" />
+    <Compile Include="Marc\Schema\MarcSchema.cs" />
+    <Compile Include="Marc\Schema\Option.cs" />
+    <Compile Include="Marc\Schema\RelatedField.cs" />
+    <Compile Include="Marc\Schema\SchemaUtility.cs" />
+    <Compile Include="Marc\Schema\SubFieldSchema.cs" />
     <Compile Include="Menus\IrbisMenuFile.cs" />
     <Compile Include="Menus\IrbisMenuUtility.cs" />
     <Compile Include="Network\CommandCode.cs" />
