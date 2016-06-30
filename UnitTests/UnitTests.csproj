@@ -165,6 +165,7 @@
     <Compile Include="ManagedClient\Fields\RevisionInfoTest.cs" />
     <Compile Include="ManagedClient\Fields\ExemplarInfoTest.cs" />
     <Compile Include="ManagedClient\Fst\FstFileTest.cs" />
+    <Compile Include="ManagedClient\ImportExport\IsoReaderTest.cs" />
     <Compile Include="ManagedClient\IrbisFormatTest.cs" />
     <Compile Include="ManagedClient\Mapping\SubFieldMapperTest.cs" />
     <Compile Include="ManagedClient\Marc\Schema\MarcSchemaTest.cs" />

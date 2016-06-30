@@ -140,6 +140,8 @@
     <Compile Include="FieldTag.cs" />
     <Compile Include="FieldText.cs" />
     <Compile Include="IlfFile.cs" />
+    <Compile Include="ImportExport\Iso2709.cs" />
+    <Compile Include="ImportExport\IsoReader.cs" />
     <Compile Include="IrbisAlphabetTable.cs" />
     <Compile Include="IrbisClientInfo.cs" />
     <Compile Include="IrbisStopWords.cs" />
@@ -240,6 +242,7 @@
     <Compile Include="Systematization\UdkException.cs" />
     <Compile Include="TermLink.cs" />
     <Compile Include="Worksheet\WorksheetItem.cs" />
+    <Compile Include="Worksheet\WsFile.cs" />
     <Compile Include="Worksheet\WssFile.cs" />
   </ItemGroup>
   <Choose>
