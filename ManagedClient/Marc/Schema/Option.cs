@@ -6,7 +6,12 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Xml.Linq;
+using System.Xml.Serialization;
+
+using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -14,18 +19,22 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
+using Newtonsoft.Json;
+
 #endregion
 
 namespace ManagedClient.Marc.Schema
 {
     /// <summary>
-    /// Example.
+    /// Option.
     /// </summary>
     [PublicAPI]
     [Serializable]
     [MoonSharpUserData]
+    [XmlRoot("option")]
     [DebuggerDisplay("[{Value}] {Name}")]
     public sealed class Option
+        : IHandmadeSerializable
     {
         #region Properties
 
@@ -33,12 +42,16 @@ namespace ManagedClient.Marc.Schema
         /// Name.
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Value.
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("value")]
+        [JsonProperty("value")]
         public string Value { get; set; }
 
         #endregion
@@ -63,6 +76,35 @@ namespace ManagedClient.Marc.Schema
             };
 
             return result;
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Restore object state from the given stream
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Name = reader.ReadNullableString();
+            Value = reader.ReadNullableString();
+        }
+
+        /// <summary>
+        /// Save object stat to the given stream
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            writer
+                .WriteNullable(Name)
+                .WriteNullable(Value);
         }
 
         #endregion

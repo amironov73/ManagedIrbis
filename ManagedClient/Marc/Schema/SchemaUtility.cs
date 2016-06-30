@@ -9,13 +9,18 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+
 using AM;
-using BLToolkit.Reflection;
+
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Formatting = Newtonsoft.Json.Formatting;
 
 #endregion
 
@@ -233,6 +238,31 @@ namespace ManagedClient.Marc.Schema
             string value = attribute.Value;
 
             return value.SameString("y");
+        }
+
+        /// <summary>
+        /// Convert schema to JSON.
+        /// </summary>
+        [NotNull]
+        public static string ToJson
+            (
+                [NotNull] this MarcSchema schema
+            )
+        {
+            Code.NotNull(schema, "schema");
+
+            //JsonSerializerSettings settings = new JsonSerializerSettings();
+            //string result = JsonConvert.SerializeObject
+            //    (
+            //        schema,
+            //        typeof (MarcSchema),
+            //        Formatting.Indented,
+            //        settings
+            //    );
+
+            string result = JObject.FromObject(schema).ToString();
+
+            return result;
         }
 
         #endregion

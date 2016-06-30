@@ -6,13 +6,20 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Xml.Linq;
+using System.Xml.Serialization;
+
+using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -24,20 +31,26 @@ namespace ManagedClient.Marc.Schema
     [PublicAPI]
     [Serializable]
     [MoonSharpUserData]
+    [XmlRoot("example")]
     [DebuggerDisplay("{Text}")]
     public sealed class Example
+        : IHandmadeSerializable
     {
         #region Properties
 
         /// <summary>
         /// Number.
         /// </summary>
+        [XmlAttribute("number")]
+        [JsonProperty("number")]
         public int Number { get; set; }
 
         /// <summary>
         /// Text.
         /// </summary>
         [CanBeNull]
+        [XmlText]
+        [JsonProperty("text")]
         public string Text { get; set; }
 
         #endregion
@@ -64,6 +77,39 @@ namespace ManagedClient.Marc.Schema
             return result;
         }
 
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Restore object state from the given stream
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Number = reader.ReadPackedInt32();
+            Text = reader.ReadNullableString();
+        }
+
+        /// <summary>
+        /// Save object stat to the given stream
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            writer
+                .WritePackedInt32(Number)
+                .WriteNullable(Text);
+        }
+
+        #endregion
+
+        #region Object members
+        
         #endregion
     }
 }

@@ -5,15 +5,22 @@
 #region Using directives
 
 using System;
+using System.Diagnostics;
+using System.IO;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 using AM.Collections;
+using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -25,7 +32,10 @@ namespace ManagedClient.Marc.Schema
     [PublicAPI]
     [Serializable]
     [MoonSharpUserData]
+    [XmlRoot("schema")]
+    [DebuggerDisplay("Fields = {Fields.Count}")]
     public sealed class MarcSchema
+        : IHandmadeSerializable
     {
         #region Properties
 
@@ -33,6 +43,9 @@ namespace ManagedClient.Marc.Schema
         /// Fields.
         /// </summary>
         [NotNull]
+        [ItemNotNull]
+        [JsonProperty("fields")]
+        [XmlElement("field")]
         public NonNullCollection<FieldSchema> Fields
         {
             get { return _fields; }
@@ -101,6 +114,33 @@ namespace ManagedClient.Marc.Schema
         }
 
         #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Restore object state from the given stream
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            reader.ReadCollection(Fields);
+        }
+
+        /// <summary>
+        /// Save object stat to the given stream
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            writer.WriteCollection(Fields);
+        }
+
+        #endregion
+
 
         #region Object members
 

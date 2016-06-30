@@ -5,16 +5,21 @@
 #region Using directives
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Text;
+
 using System.Xml.Linq;
-using AM.Collections;
-using CodeJam;
+using System.Xml.Serialization;
+
+using AM.IO;
+using AM.Runtime;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -26,49 +31,89 @@ namespace ManagedClient.Marc.Schema
     [PublicAPI]
     [Serializable]
     [MoonSharpUserData]
+    [XmlRoot("subfield")]
     [DebuggerDisplay("[{Code}] {Name}")]
     public sealed class SubFieldSchema
+        : IHandmadeSerializable
     {
         #region Properties
 
         /// <summary>
         /// Code.
         /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
         public char Code { get; set; }
+
+        /// <summary>
+        /// For serialization.
+        /// </summary>
+        [CanBeNull]
+        [Browsable(false)]
+        [XmlAttribute("code")]
+        [JsonProperty("code")]
+        public string CodeString
+        {
+            get { return Code.ToString(); }
+            set
+            {
+                Code = string.IsNullOrEmpty(value)
+                    ? '\0'
+                    : value[0];
+            }
+        }
 
         /// <summary>
         /// Description.
         /// </summary>
+        [CanBeNull]
+        [XmlElement("description")]
+        [JsonProperty("description")]
         public string Description { get; set; }
 
         /// <summary>
         /// Display.
         /// </summary>
+        [XmlAttribute("display")]
+        [JsonProperty("display")]
         public bool Display { get; set; }
 
         /// <summary>
         /// Mandatory?
         /// </summary>
+        [XmlAttribute("mandatory")]
+        [JsonProperty("mandatory")]
         public bool Mandatory { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [CanBeNull]
+        [XmlElement("mandatory-text")]
+        [JsonProperty("mandatory-text")]
         public string MandatoryText { get; set; }
 
         /// <summary>
         /// Name.
         /// </summary>
+        [CanBeNull]
+        [XmlAttribute("name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Repeatable?
         /// </summary>
+        [XmlAttribute("repeatable")]
+        [JsonProperty("repeatable")]
         public bool Repeatable { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [CanBeNull]
+        [XmlElement("repeatable-text")]
+        [JsonProperty("repeatable-text")]
         public string RepeatableText { get; set; }
 
         #endregion
@@ -111,6 +156,47 @@ namespace ManagedClient.Marc.Schema
         }
 
         #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Restore object state from the given stream
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code = reader.ReadChar();
+            Description = reader.ReadNullableString();
+            Display = reader.ReadBoolean();
+            Mandatory = reader.ReadBoolean();
+            MandatoryText = reader.ReadNullableString();
+            Name = reader.ReadNullableString();
+            Repeatable = reader.ReadBoolean();
+            RepeatableText = reader.ReadNullableString();
+        }
+
+        /// <summary>
+        /// Save object stat to the given stream
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            writer.Write(Code);
+            writer.WriteNullable(Description);
+            writer.Write(Display);
+            writer.Write(Mandatory);
+            writer.WriteNullable(MandatoryText);
+            writer.WriteNullable(Name);
+            writer.Write(Repeatable);
+            writer.WriteNullable(RepeatableText);
+        }
+
+        #endregion
+
 
         #region Object members
 

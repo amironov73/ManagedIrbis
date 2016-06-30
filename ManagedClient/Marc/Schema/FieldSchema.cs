@@ -7,9 +7,14 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Text;
 using System.Xml.Linq;
+using System.Xml.Serialization;
+
+
 using AM.Collections;
+using AM.IO;
+using AM.Runtime;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -26,8 +31,10 @@ namespace ManagedClient.Marc.Schema
     [PublicAPI]
     [Serializable]
     [MoonSharpUserData]
+    [XmlRoot("field")]
     [DebuggerDisplay("[{Tag}] {Name}")]
     public sealed class FieldSchema
+        : IHandmadeSerializable
     {
         #region Properties
 
@@ -45,6 +52,7 @@ namespace ManagedClient.Marc.Schema
         /// Examples.
         /// </summary>
         [NotNull]
+        [ItemNotNull]
         public NonNullCollection<Example> Examples
         {
             get { return _examples; }
@@ -86,6 +94,8 @@ namespace ManagedClient.Marc.Schema
         /// <summary>
         /// Related fields
         /// </summary>
+        [NotNull]
+        [ItemNotNull]
         public NonNullCollection<RelatedField> RelatedFields
         {
             get { return _relatedFields; }
@@ -105,6 +115,7 @@ namespace ManagedClient.Marc.Schema
         /// Subfields.
         /// </summary>
         [NotNull]
+        [ItemNotNull]
         public NonNullCollection<SubFieldSchema> SubFields
         {
             get { return _subFields; }
@@ -210,6 +221,57 @@ namespace ManagedClient.Marc.Schema
         }
 
         #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Restore object state from the given stream
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Description = reader.ReadNullableString();
+            Display = reader.ReadBoolean();
+            reader.ReadCollection(Examples);
+            Indicator1.RestoreFromStream(reader);
+            Indicator2.RestoreFromStream(reader);
+            Mandatory = reader.ReadBoolean();
+            MandatoryText = reader.ReadNullableString();
+            Name = reader.ReadNullableString();
+            reader.ReadCollection(RelatedFields);
+            Repeatable = reader.ReadBoolean();
+            RepeatableText = reader.ReadNullableString();
+            reader.ReadCollection(SubFields);
+            Tag = reader.ReadNullableString();
+        }
+
+        /// <summary>
+        /// Save object stat to the given stream
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            writer.WriteNullable(Description);
+            writer.Write(Display);
+            writer.WriteCollection(Examples);
+            Indicator1.SaveToStream(writer);
+            Indicator2.SaveToStream(writer);
+            writer.Write(Mandatory);
+            writer.WriteNullable(MandatoryText);
+            writer.WriteNullable(Name);
+            writer.WriteCollection(RelatedFields);
+            writer.Write(Repeatable);
+            writer.WriteNullable(RepeatableText);
+            writer.WriteCollection(SubFields);
+            writer.WriteNullable(Tag);
+        }
+
+        #endregion
+
 
         #region Object members
 

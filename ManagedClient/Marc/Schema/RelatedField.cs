@@ -6,13 +6,20 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Xml.Linq;
+using System.Xml.Serialization;
+
+using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -24,8 +31,10 @@ namespace ManagedClient.Marc.Schema
     [PublicAPI]
     [Serializable]
     [MoonSharpUserData]
+    [XmlRoot("related")]
     [DebuggerDisplay("[{Tag}] {Name}")]
     public sealed class RelatedField
+        : IHandmadeSerializable
     {
         #region Properties
 
@@ -33,24 +42,32 @@ namespace ManagedClient.Marc.Schema
         /// Description.
         /// </summary>
         [CanBeNull]
+        [XmlElement("description")]
+        [JsonProperty("description")]
         public string Description { get; set; }
 
         /// <summary>
         /// Field.
         /// </summary>
         [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
         public FieldSchema Field { get; set; }
 
         /// <summary>
         /// Name.
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Tag.
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("tag")]
+        [JsonProperty("tag")]
         public string Tag { get; set; }
 
         #endregion
@@ -78,6 +95,41 @@ namespace ManagedClient.Marc.Schema
             return result;
         }
 
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Restore object state from the given stream
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Description = reader.ReadNullableString();
+            Name = reader.ReadNullableString();
+            Tag = reader.ReadNullableString();
+        }
+
+        /// <summary>
+        /// Save object stat to the given stream
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            writer
+                .WriteNullable(Description)
+                .WriteNullable(Name)
+                .WriteNullable(Tag);
+        }
+
+        #endregion
+
+        #region Object members
+        
         #endregion
     }
 }

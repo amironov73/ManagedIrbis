@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using AM.Runtime;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedClient.Marc.Schema;
@@ -10,6 +11,19 @@ namespace UnitTests.ManagedClient.Marc.Schema
     public class MarcSchemaTest
         : Common.CommonUnitTest
     {
+        private void _TestSerialization
+            (
+                MarcSchema first
+            )
+        {
+            byte[] bytes = first.SaveToMemory();
+
+            MarcSchema second = bytes
+                .RestoreObjectFromMemory<MarcSchema>();
+
+            Assert.AreEqual(first.Fields.Count, second.Fields.Count);
+        }
+
         [TestMethod]
         public void TestMarcSchemaParseLocalXml()
         {
@@ -21,6 +35,11 @@ namespace UnitTests.ManagedClient.Marc.Schema
 
             MarcSchema schema = MarcSchema.ParseLocalXml(fileName);
             Assert.IsNotNull(schema);
+
+            string actual = schema.ToJson();
+            Assert.IsNotNull(actual);
+
+            _TestSerialization(schema);
         }
     }
 }
