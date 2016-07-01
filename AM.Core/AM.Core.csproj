@@ -158,6 +158,7 @@
     <Compile Include="AM\Text\Hyphenation\EnglishHyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\Hyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\RussianHyphenator.cs" />
+    <Compile Include="AM\Text\NewLine.cs" />
     <Compile Include="AM\Text\Output\OutputWriter.cs" />
     <Compile Include="AM\Text\Output\StreamOutput.cs" />
     <Compile Include="AM\Text\Output\TextOutput.cs" />

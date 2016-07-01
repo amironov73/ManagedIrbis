@@ -140,6 +140,10 @@
     <Compile Include="FieldTag.cs" />
     <Compile Include="FieldText.cs" />
     <Compile Include="IlfFile.cs" />
+    <Compile Include="ImportExport\IrbisJson.cs" />
+    <Compile Include="ImportExport\IsisText.cs" />
+    <Compile Include="ImportExport\PlainText.cs" />
+    <Compile Include="ImportExport\ProtocolText.cs" />
     <Compile Include="ImportExport\Iso2709.cs" />
     <Compile Include="ImportExport\IsoReader.cs" />
     <Compile Include="IrbisAlphabetTable.cs" />
