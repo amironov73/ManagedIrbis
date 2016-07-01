@@ -158,10 +158,12 @@
     <Compile Include="AM\Text\Hyphenation\EnglishHyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\Hyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\RussianHyphenator.cs" />
+    <Compile Include="AM\Text\InvariantFormat.cs" />
     <Compile Include="AM\Text\NewLine.cs" />
     <Compile Include="AM\Text\Output\OutputWriter.cs" />
     <Compile Include="AM\Text\Output\StreamOutput.cs" />
     <Compile Include="AM\Text\Output\TextOutput.cs" />
+    <Compile Include="AM\Text\RussianFormat.cs" />
     <Compile Include="AM\Text\StreamParser.cs" />
     <Compile Include="AM\Text\TextNavigator.cs" />
     <Compile Include="AM\Text\Tokenizer\StringTokenizer.cs" />
