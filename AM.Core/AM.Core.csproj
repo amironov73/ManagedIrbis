@@ -126,6 +126,7 @@
     <Compile Include="AM\ConsoleUtility.cs" />
     <Compile Include="AM\DelegateUtility.cs" />
     <Compile Include="AM\Diagnostics\ConsoleProcessRunner.cs" />
+    <Compile Include="AM\DisposableObject.cs" />
     <Compile Include="AM\DisposableUtility.cs" />
     <Compile Include="AM\FuncUtility.cs" />
     <Compile Include="AM\IO\BinaryReaderUtility.cs" />
@@ -140,8 +141,11 @@
     <Compile Include="AM\IO\TextReaderUtility.cs" />
     <Compile Include="AM\IO\VersionStream.cs" />
     <Compile Include="AM\IReadOnly.cs" />
+    <Compile Include="AM\ISynchronize.cs" />
     <Compile Include="AM\IVerifiable.cs" />
     <Compile Include="AM\Mathematics\MathUtility.cs" />
+    <Compile Include="AM\MessageEventArgs.cs" />
+    <Compile Include="AM\MessageEventHandler.cs" />
     <Compile Include="AM\Net\AsyncSocket.cs" />
     <Compile Include="AM\Net\AsyncSocketResult.cs" />
     <Compile Include="AM\NonNullValue.cs" />
