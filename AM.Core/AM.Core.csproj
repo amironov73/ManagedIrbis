@@ -145,6 +145,7 @@
     <Compile Include="AM\Net\AsyncSocket.cs" />
     <Compile Include="AM\Net\AsyncSocketResult.cs" />
     <Compile Include="AM\NonNullValue.cs" />
+    <Compile Include="AM\ObjectDumper.cs" />
     <Compile Include="AM\Operator.cs" />
     <Compile Include="AM\Reflection\AssemblyUtility.cs" />
     <Compile Include="AM\Reflection\FieldAccessor.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="AM\Resources\LocalizationManager.cs" />
     <Compile Include="AM\Runtime\IHandmadeSerializable.cs" />
     <Compile Include="AM\Runtime\NumberUnion.cs" />
+    <Compile Include="AM\Runtime\PinnedStructure.cs" />
     <Compile Include="AM\Runtime\SerializationUtility.cs" />
     <Compile Include="AM\Text\Hyphenation\EnglishHyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\Hyphenator.cs" />
