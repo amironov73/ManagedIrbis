@@ -175,7 +175,8 @@
     <Compile Include="Network\IrbisServerResponse.cs" />
     <Compile Include="Pooling\IrbisConnectionPool.cs" />
     <Compile Include="Pooling\IrbisPoolGuard.cs" />
-    <Compile Include="Pooling\PoolUtilities.cs" />
+    <Compile Include="Pooling\PoolUtility.cs" />
+    <Compile Include="Quality\RuleUtility.cs" />
     <Compile Include="Search\DictionaryType.cs" />
     <Compile Include="Search\SearchLogicType.cs" />
     <Compile Include="Search\SearchScenario.cs" />

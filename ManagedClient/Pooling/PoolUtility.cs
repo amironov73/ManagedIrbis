@@ -1,4 +1,4 @@
-﻿/* PoolUtilities.cs --
+﻿/* PoolUtility.cs --
  */
 
 #region Using directives
@@ -16,7 +16,7 @@ namespace ManagedClient.Pooling
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public static class PoolUtilities
+    public static class PoolUtility
     {
         #region Private members
 
