@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
 using AM.IO;
 using AM.Runtime;
@@ -349,6 +350,9 @@ namespace ManagedClient
             return result;
         }
 
+        /// <summary>
+        /// Assign database name to the record.
+        /// </summary>
         [NotNull]
         public IrbisRecord SetDatabase
             (
@@ -360,6 +364,9 @@ namespace ManagedClient
             return this;
         }
 
+        /// <summary>
+        /// Assign MFN to the record.
+        /// </summary>
         [NotNull]
         public IrbisRecord SetMfn
             (
@@ -367,12 +374,16 @@ namespace ManagedClient
             )
         {
             ThrowIfReadOnly();
+            Code.Nonnegative(newMfn, "newMfn");
 
             _mfn = newMfn;
 
             return this;
         }
 
+        /// <summary>
+        /// Change status of the record.
+        /// </summary>
         [NotNull]
         public IrbisRecord SetStatus
             (
@@ -386,6 +397,9 @@ namespace ManagedClient
             return this;
         }
 
+        /// <summary>
+        /// Assign version number to the record.
+        /// </summary>
         [NotNull]
         public IrbisRecord SetVersion
             (
@@ -393,6 +407,7 @@ namespace ManagedClient
             )
         {
             ThrowIfReadOnly();
+            Code.Nonnegative(newVersion, "newVersion");
 
             _version = newVersion;
 
@@ -491,7 +506,6 @@ namespace ManagedClient
         /// <summary>
         /// Creates read-only clone of the record.
         /// </summary>
-        [NotNull]
         public IrbisRecord AsReadOnly()
         {
             IrbisRecord result = Clone();

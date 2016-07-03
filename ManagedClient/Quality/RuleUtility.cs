@@ -158,10 +158,14 @@ namespace ManagedClient.Quality
 
         #region Public methods
 
+        /// <summary>
+        /// Get field by specification.
+        /// </summary>
+        [NotNull]
         public static RecordField[] GetFieldBySpec
             (
-                this IEnumerable<RecordField> fields,
-                string allSpec
+                [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] string allSpec
             )
         {
             if (string.IsNullOrEmpty(allSpec))
@@ -240,9 +244,13 @@ namespace ManagedClient.Quality
             return -1;
         }
 
+        /// <summary>
+        /// Renumber fields.
+        /// </summary>
+        [NotNull]
         public static IrbisRecord RenumberFields
             (
-                IrbisRecord record
+                [NotNull] IrbisRecord record
             )
         {
             RenumberFields
@@ -250,13 +258,17 @@ namespace ManagedClient.Quality
                     record,
                     record.Fields
                 );
+
             return record;
         }
 
+        /// <summary>
+        /// Renumber fields.
+        /// </summary>
         public static void RenumberFields
             (
-                IrbisRecord record,
-                IEnumerable<RecordField> fields
+                [NotNull] IrbisRecord record,
+                [NotNull] IEnumerable<RecordField> fields
             )
         {
             List<string> seen = new List<string>();

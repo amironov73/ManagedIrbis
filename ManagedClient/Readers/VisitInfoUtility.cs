@@ -18,6 +18,9 @@ using MoonSharp.Interpreter;
 
 namespace ManagedClient.Readers
 {
+    /// <summary>
+    /// Utility routines for <see cref="VisitInfo"/>.
+    /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public static class VisitInfoUtility

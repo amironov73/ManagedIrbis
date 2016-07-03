@@ -6,16 +6,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml.Serialization;
 
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
 
 using CodeJam;
 
@@ -23,14 +18,33 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
-using Newtonsoft.Json;
-
 #endregion
 
 namespace ManagedClient
 {
+    //
+    // STW file example:
+    //
+    // A
+    // ABOUT
+    // AFTER
+    // AGAINST
+    // ALL
+    // ALS
+    // AN
+    // AND
+    // AS
+    // AT
+    // AUF
+    // AUS
+    // AUX
+    // B
+    // BIJ
+    // BY
+    //
+
     /// <summary>
-    /// STW file handling
+    /// STW file handling.
     /// </summary>
     [PublicAPI]
     [Serializable]
@@ -63,7 +77,7 @@ namespace ManagedClient
         /// <param name="fileName">The name.</param>
         public IrbisStopWords
             (
-                string fileName
+                [CanBeNull] string fileName
             )
         {
             FileName = fileName;
@@ -102,12 +116,18 @@ namespace ManagedClient
             return _dictionary.ContainsKey(word);
         }
 
+        /// <summary>
+        /// Parse array of plain text lines.
+        /// </summary>
+        [NotNull]
         public static IrbisStopWords ParseLines
             (
-                string name,
-                string[] lines
+                [CanBeNull] string name,
+                [NotNull][ItemNotNull] string[] lines
             )
         {
+            Code.NotNull(lines, "lines");
+
             IrbisStopWords result = new IrbisStopWords(name);
 
             foreach (string line in lines)
@@ -122,12 +142,18 @@ namespace ManagedClient
             return result;
         }
 
+        /// <summary>
+        /// Parse plain text.
+        /// </summary>
+        [NotNull]
         public static IrbisStopWords ParseText
             (
-                string name,
-                string text
+                [CanBeNull] string name,
+                [NotNull] string text
             )
         {
+            Code.NotNull(text, "text");
+
             string[] lines = text.SplitLines();
 
             return ParseLines
@@ -138,19 +164,23 @@ namespace ManagedClient
         }
 
         /// <summary>
-        /// Parse the file.
+        /// Parse the text file.
         /// </summary>
+        [NotNull]
         public static IrbisStopWords ParseFile
             (
-                string fileName
+                [NotNull] string fileName
             )
         {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
             string name = Path.GetFileNameWithoutExtension(fileName);
             string[] lines = File.ReadAllLines
                 (
                     fileName,
                     Encoding.Default
                 );
+
             return ParseLines
                 (
                     name,
@@ -158,6 +188,12 @@ namespace ManagedClient
                 );
         }
 
+        /// <summary>
+        /// Convert <see cref="IrbisStopWords"/> to array
+        /// of text lines.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
         public string[] ToLines()
         {
             return _dictionary
@@ -166,6 +202,10 @@ namespace ManagedClient
                 .ToArray();
         }
 
+        /// <summary>
+        /// Convert <see cref="IrbisStopWords"/> to plain text.
+        /// </summary>
+        [NotNull]
         public string ToText()
         {
             return string.Join

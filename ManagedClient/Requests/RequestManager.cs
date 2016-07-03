@@ -5,10 +5,15 @@
 #region Using directives
 
 using System;
-using System.Globalization;
 using System.IO;
 using System.Linq;
+
 using AM;
+using CodeJam;
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
 #if PocketPC
 using CM=OpenNETCF.Configuration.ConfigurationSettings;
 #else
@@ -24,6 +29,8 @@ namespace ManagedClient.Requests
     /// <summary>
     /// Управление читательскими заказами.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class RequestManager
         : IDisposable
     {
@@ -32,8 +39,13 @@ namespace ManagedClient.Requests
         /// <summary>
         /// ИРБИС-клиент
         /// </summary>
+        [NotNull]
         public ManagedClient64 Client { get; private set; }
 
+        /// <summary>
+        /// Host name.
+        /// </summary>
+        [NotNull]
         public string Host
         {
             get
@@ -46,6 +58,9 @@ namespace ManagedClient.Requests
             }
         }
 
+        /// <summary>
+        /// Port number.
+        /// </summary>
         public int Port
         {
             get
@@ -58,6 +73,10 @@ namespace ManagedClient.Requests
             }
         }
 
+        /// <summary>
+        /// Request database name.
+        /// </summary>
+        [NotNull]
         public string RequestDatabase
         {
             get
@@ -70,6 +89,10 @@ namespace ManagedClient.Requests
             }
         }
 
+        /// <summary>
+        /// Catalog database name.
+        /// </summary>
+        [NotNull]
         public string CatalogDatabase
         {
             get
@@ -82,6 +105,10 @@ namespace ManagedClient.Requests
             }
         }
 
+        /// <summary>
+        /// Reader database name.
+        /// </summary>
+        [NotNull]
         public string ReaderDatabase
         {
             get
@@ -94,6 +121,10 @@ namespace ManagedClient.Requests
             }
         }
 
+        /// <summary>
+        /// User login.
+        /// </summary>
+        [NotNull]
         public string Login
         {
             get
@@ -106,6 +137,10 @@ namespace ManagedClient.Requests
             }
         }
 
+        /// <summary>
+        /// User password.
+        /// </summary>
+        [NotNull]
         public string Password
         {
             get
@@ -118,6 +153,10 @@ namespace ManagedClient.Requests
             }
         }
 
+        /// <summary>
+        /// Filter specification.
+        /// </summary>
+        [NotNull]
         public string FilterSpecification
         {
             get
@@ -130,6 +169,9 @@ namespace ManagedClient.Requests
             }
         }
 
+        /// <summary>
+        /// Allow debug.
+        /// </summary>
         public bool AllowDebug
         {
             get
@@ -142,6 +184,10 @@ namespace ManagedClient.Requests
             }
         }
 
+        /// <summary>
+        /// Places.
+        /// </summary>
+        [NotNull]
         public string[] Places { get; set; }
 
         #endregion
@@ -178,6 +224,7 @@ namespace ManagedClient.Requests
                 result.AllowHexadecimalDump = true;
             }
             result.Connect();
+
             return result;
         }
 
@@ -185,6 +232,9 @@ namespace ManagedClient.Requests
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public RequestManager()
         {
             Client = _CreateClient();
@@ -198,7 +248,7 @@ namespace ManagedClient.Requests
         /// <summary>
         /// Получение списка новых заказов.
         /// </summary>
-        /// <returns></returns>
+        [NotNull]
         public BookRequest[] GetRequests()
         {
             int[] found = Client.Search("I=0");
@@ -211,30 +261,49 @@ namespace ManagedClient.Requests
                 .ToArray();
         }
 
-        public void GetAdditionalInfo(BookRequest request)
+        /// <summary>
+        /// Get additional info.
+        /// </summary>
+        public void GetAdditionalInfo
+            (
+                [NotNull] BookRequest request
+            )
         {
-            IrbisRecord record = ReadCatalog(request.BookCode);
-            request.BookRecord = record;
-            request.FreeNumbers = ExtractInventoryNumbers(record);
-            //request.Reader = ReadReader(request.ReaderID);
-            request.MyNumbers = FilterMyNumbers(request.FreeNumbers);
+            Code.NotNull(request, "request");
+
+            if (!ReferenceEquals(request.BookCode, null))
+            {
+                IrbisRecord record = ReadCatalog(request.BookCode);
+                request.BookRecord = record;
+                request.FreeNumbers = ExtractInventoryNumbers(record);
+                //request.Reader = ReadReader(request.ReaderID);
+                request.MyNumbers = FilterMyNumbers(request.FreeNumbers);
+            }
         }
 
-        public IrbisRecord ReadCatalog(string bookCode)
+        /// <summary>
+        /// Read info from catalog.
+        /// </summary>
+        [CanBeNull]
+        public IrbisRecord ReadCatalog
+            (
+                [NotNull] string bookCode
+            )
         {
             try
             {
                 Client.PushDatabase(CatalogDatabase);
-                int[] found = Client.Search(string.Format
-                                                (
-                                                    "\"I={0}\"",
-                                                    bookCode
-                                                ));
+                int[] found = Client.Search
+                    (
+                        "\"I={0}\"",
+                        bookCode
+                    );
                 if (found.Length == 0)
                 {
                     return null;
                 }
                 IrbisRecord result = Client.ReadRecord(found[0]);
+
                 return result;
             }
             finally
@@ -243,7 +312,13 @@ namespace ManagedClient.Requests
             }
         }
 
-        public void WriteRequest(BookRequest request)
+        /// <summary>
+        /// Write request.
+        /// </summary>
+        public void WriteRequest
+            (
+                [NotNull] BookRequest request
+            )
         {
             IrbisRecord record = request.RequestRecord;
             if (record != null)
@@ -252,7 +327,13 @@ namespace ManagedClient.Requests
             }
         }
 
-        public bool IsOurPlace(RecordField field)
+        /// <summary>
+        /// Determine, whether is our place?
+        /// </summary>
+        public bool IsOurPlace
+            (
+                [NotNull] RecordField field
+            )
         {
             if (Places.Contains("*"))
             {
@@ -265,9 +346,14 @@ namespace ManagedClient.Requests
                 StringComparison.OrdinalIgnoreCase) == 0);
         }
 
+        /// <summary>
+        /// Extract inventory numbers.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
         public string[] ExtractInventoryNumbers
             (
-                IrbisRecord record
+                [CanBeNull] IrbisRecord record
             )
         {
             if (record == null)
@@ -295,24 +381,29 @@ namespace ManagedClient.Requests
         /// <summary>
         /// Загрузка сведений о читателе.
         /// </summary>
-        /// <param name="readerID"></param>
-        /// <returns></returns>
-        public ReaderInfo ReadReader(string readerID)
+        [CanBeNull]
+        public ReaderInfo ReadReader
+            (
+                [NotNull] string readerID
+            )
         {
+            Code.NotNullNorEmpty(readerID, "readerID");
+
             try
             {
                 Client.PushDatabase(ReaderDatabase);
-                int[] found = Client.Search(string.Format
-                                                (
-                                                    "I={0}",
-                                                    readerID
-                                                ));
+                int[] found = Client.Search
+                    (
+                        "I={0}",
+                        readerID
+                    );
                 if (found.Length == 0)
                 {
                     return null;
                 }
                 IrbisRecord record = Client.ReadRecord(found[0]);
                 ReaderInfo result = ReaderInfo.Parse(record);
+
                 return result;
             }
             finally
@@ -321,9 +412,13 @@ namespace ManagedClient.Requests
             }
         }
 
+        /// <summary>
+        /// Filter my numbers.
+        /// </summary>
+        [NotNull]
         public string[] FilterMyNumbers
             (
-                string[] numbers
+                [NotNull] string[] numbers
             )
         {
             throw new NotImplementedException();
@@ -337,8 +432,13 @@ namespace ManagedClient.Requests
 
         #region IDisposable members
 
+        /// <summary>
+        /// Performs application-defined tasks associated
+        /// with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
+            // ReSharper disable ConditionIsAlwaysTrueOrFalse
             if (Client != null)
             {
                 if (Client.DebugWriter != null)
@@ -348,8 +448,8 @@ namespace ManagedClient.Requests
                 }
 
                 Client.Dispose();
-                Client = null;
             }
+            // ReSharper restore ConditionIsAlwaysTrueOrFalse
         }
 
         #endregion

@@ -1,11 +1,39 @@
-﻿using System;
+﻿/* IsisText.cs --
+ * Ars Magna project, http://arsmagna.ru
+ */
+
+#region Using directives
+
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM;
+using AM.Collections;
+using AM.IO;
+using AM.Runtime;
+
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
+
+#endregion
+
 namespace ManagedClient.ImportExport
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public static class IsisText
     {
         /// <summary>
@@ -14,9 +42,11 @@ namespace ManagedClient.ImportExport
         /// </summary>
         public static string RecordToIsisText
             (
-                this IrbisRecord record
+                [NotNull] this IrbisRecord record
             )
         {
+            Code.NotNull(record, "record");
+
             StringBuilder result = new StringBuilder();
 
             foreach (RecordField field in record.Fields)
