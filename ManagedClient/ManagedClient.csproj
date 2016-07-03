@@ -150,6 +150,7 @@
     <Compile Include="IrbisClientInfo.cs" />
     <Compile Include="IrbisStopWords.cs" />
     <Compile Include="IrbisTreeFile.cs" />
+    <Compile Include="IrbisUtility.cs" />
     <Compile Include="Marc\Schema\Example.cs" />
     <Compile Include="Marc\Schema\FieldSchema.cs" />
     <Compile Include="Marc\Schema\IndicatorSchema.cs" />
@@ -172,6 +173,9 @@
     <Compile Include="Identifiers\Issn.cs" />
     <Compile Include="Network\IrbisNetworkUtility.cs" />
     <Compile Include="Network\IrbisServerResponse.cs" />
+    <Compile Include="Pooling\IrbisConnectionPool.cs" />
+    <Compile Include="Pooling\IrbisPoolGuard.cs" />
+    <Compile Include="Pooling\PoolUtilities.cs" />
     <Compile Include="Search\DictionaryType.cs" />
     <Compile Include="Search\SearchLogicType.cs" />
     <Compile Include="Search\SearchScenario.cs" />
