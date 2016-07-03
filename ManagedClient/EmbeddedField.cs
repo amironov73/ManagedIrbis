@@ -51,9 +51,77 @@ namespace ManagedClient
                 [NotNull] this RecordField field
             )
         {
-            Code.NotNull(() => field);
+            Code.NotNull(field, "field");
 
-            throw new NotImplementedException();
+            return GetEmbeddedFields
+                (
+                    field.SubFields,
+                    DefaultCode
+                );
+        }
+
+        /// <summary>
+        /// Get embedded fields.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static RecordField[] GetEmbeddedFields
+            (
+                [NotNull] IEnumerable<SubField> subfields,
+                char sign
+            )
+        {
+            Code.NotNull(subfields, "subfields");
+
+            List<RecordField> result = new List<RecordField>();
+
+            RecordField found = null;
+
+            foreach (SubField subField in subfields)
+            {
+                if (subField.Code == sign)
+                {
+                    if (found != null)
+                    {
+                        result.Add(found);
+                    }
+                    string value = subField.Value;
+                    if (string.IsNullOrEmpty(value))
+                    {
+                        throw new FormatException();
+                    }
+                    string tag = value.Substring
+                        (
+                            0,
+                            3
+                        );
+                    found = new RecordField(tag);
+                    if (tag.StartsWith("00")
+                        && (value.Length > 3)
+                       )
+                    {
+                        found.Value = value.Substring(3);
+                    }
+                }
+                else
+                {
+                    if (found != null)
+                    {
+                        found.AddSubField
+                            (
+                                subField.Code,
+                                subField.Value
+                            );
+                    }
+                }
+            }
+
+            if (found != null)
+            {
+                result.Add(found);
+            }
+
+            return result.ToArray();
         }
 
         /// <summary>
@@ -67,10 +135,17 @@ namespace ManagedClient
                 [NotNull] string tag
             )
         {
-            Code.NotNull(() => field);
-            Code.NotNullNorEmpty(() => tag);
+            Code.NotNull(field, "field");
+            Code.NotNullNorEmpty(tag, "tag");
 
-            throw new NotImplementedException();
+            RecordField[] result = GetEmbeddedFields
+                (
+                    field.SubFields,
+                    DefaultCode
+                )
+                .GetField(tag);
+
+            return result;
         }
 
         #endregion
