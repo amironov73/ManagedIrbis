@@ -33,7 +33,7 @@ namespace ManagedClient.Fields
         /// Client.
         /// </summary>
         [NotNull]
-        public ManagedClient64 Client
+        public IrbisConnection Client
         {
             get { return _client; }
         }
@@ -87,7 +87,7 @@ namespace ManagedClient.Fields
         /// </summary>
         public ExemplarManager
             (
-                [NotNull] ManagedClient64 client
+                [NotNull] IrbisConnection client
             )
             : this (client, null)
         {
@@ -99,7 +99,7 @@ namespace ManagedClient.Fields
         /// </summary>
         public ExemplarManager
             (
-                [NotNull] ManagedClient64 client,
+                [NotNull] IrbisConnection client,
                 [CanBeNull] AbstractOutput output
             )
         {
@@ -115,7 +115,7 @@ namespace ManagedClient.Fields
 
         #region Private members
 
-        private readonly ManagedClient64 _client;
+        private readonly IrbisConnection _client;
 
         private readonly List<ExemplarInfo> _list;
 

@@ -14,7 +14,7 @@ namespace UnitTests.ManagedClient.Scripting
         [TestMethod]
         public void TestIrbisScript1()
         {
-            ManagedClient64 client = new ManagedClient64();
+            IrbisConnection client = new IrbisConnection();
 
             using (IrbisScript script = new IrbisScript(client))
             {
@@ -34,7 +34,7 @@ return fact (5)");
         [TestMethod]
         public void TestIrbisScript2()
         {
-            ManagedClient64 client = new ManagedClient64();
+            IrbisConnection client = new IrbisConnection();
 
             IrbisRecord record = new IrbisRecord();
             RecordField field = new RecordField("200");
@@ -56,7 +56,7 @@ return v('v200^a')
         [TestMethod]
         public void TestIrbisScript3()
         {
-            ManagedClient64 client = new ManagedClient64();
+            IrbisConnection client = new IrbisConnection();
 
             IrbisRecord record = new IrbisRecord();
             RecordField field = new RecordField("200");

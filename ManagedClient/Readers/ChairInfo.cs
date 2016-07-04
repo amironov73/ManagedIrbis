@@ -158,7 +158,7 @@ namespace ManagedClient.Readers
         [ItemNotNull]
         public static ChairInfo[] Read
             (
-                [NotNull] ManagedClient64 client,
+                [NotNull] IrbisConnection client,
                 [NotNull] string fileName
             )
         {
@@ -196,7 +196,7 @@ namespace ManagedClient.Readers
         [ItemNotNull]
         public static ChairInfo[] Read
             (
-                [NotNull] ManagedClient64 client
+                [NotNull] IrbisConnection client
             )
         {
             return Read

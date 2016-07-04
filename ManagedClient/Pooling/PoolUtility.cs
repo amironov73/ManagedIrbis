@@ -34,7 +34,7 @@ namespace ManagedClient.Pooling
                 int mfn
             )
         {
-            ManagedClient64 client = pool.AcquireConnection();
+            IrbisConnection client = pool.AcquireConnection();
             IrbisRecord result = client.ReadRecord(mfn);
             pool.ReleaseConnection(client);
             return result;
@@ -51,7 +51,7 @@ namespace ManagedClient.Pooling
                 params object[] args
             )
         {
-            ManagedClient64 client = pool.AcquireConnection();
+            IrbisConnection client = pool.AcquireConnection();
             int[] result = client.Search(format, args);
             pool.ReleaseConnection(client);
             return result;
@@ -66,7 +66,7 @@ namespace ManagedClient.Pooling
                 [NotNull] IrbisRecord record
             )
         {
-            ManagedClient64 client = pool.AcquireConnection();
+            IrbisConnection client = pool.AcquireConnection();
             client.WriteRecord(record, false, true);
             pool.ReleaseConnection(client);
         }

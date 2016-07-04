@@ -40,7 +40,7 @@ namespace ManagedClient.Requests
         /// ИРБИС-клиент
         /// </summary>
         [NotNull]
-        public ManagedClient64 Client { get; private set; }
+        public IrbisConnection Client { get; private set; }
 
         /// <summary>
         /// Host name.
@@ -53,7 +53,7 @@ namespace ManagedClient.Requests
                 return _GetSetting
                     (
                         "host",
-                        ManagedClient64.DefaultHost
+                        IrbisConnection.DefaultHost
                     );
             }
         }
@@ -68,7 +68,7 @@ namespace ManagedClient.Requests
                 return int.Parse(_GetSetting
                     (
                         "port",
-                        ManagedClient64.DefaultPort.ToInvariantString()
+                        IrbisConnection.DefaultPort.ToInvariantString()
                     ));
             }
         }
@@ -208,9 +208,9 @@ namespace ManagedClient.Requests
             return result;
         }
 
-        private ManagedClient64 _CreateClient()
+        private IrbisConnection _CreateClient()
         {
-            ManagedClient64 result = new ManagedClient64
+            IrbisConnection result = new IrbisConnection
                                          {
                                              Host = Host,
                                              Port = Port,
@@ -220,8 +220,8 @@ namespace ManagedClient.Requests
                                          };
             if (AllowDebug)
             {
-                result.DebugWriter = File.AppendText("Watcher.log");
-                result.AllowHexadecimalDump = true;
+                //result.DebugWriter = File.AppendText("Watcher.log");
+                //result.AllowHexadecimalDump = true;
             }
             result.Connect();
 
@@ -441,11 +441,11 @@ namespace ManagedClient.Requests
             // ReSharper disable ConditionIsAlwaysTrueOrFalse
             if (Client != null)
             {
-                if (Client.DebugWriter != null)
-                {
-                    Client.DebugWriter.Dispose();
-                    Client.DebugWriter = null;
-                }
+                //if (Client.DebugWriter != null)
+                //{
+                //    Client.DebugWriter.Dispose();
+                //    Client.DebugWriter = null;
+                //}
 
                 Client.Dispose();
             }

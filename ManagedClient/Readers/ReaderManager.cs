@@ -34,7 +34,7 @@ namespace ManagedClient.Readers
         /// Клиент, общающийся с сервером.
         /// </summary>
         [NotNull]
-        public ManagedClient64 Client
+        public IrbisConnection Client
         {
             get { return _client; }
         }
@@ -50,7 +50,7 @@ namespace ManagedClient.Readers
         /// <exception cref="System.ArgumentNullException">client</exception>
         public ReaderManager
             (
-                [NotNull] ManagedClient64 client
+                [NotNull] IrbisConnection client
             )
         {
             if (ReferenceEquals(client, null))
@@ -65,7 +65,7 @@ namespace ManagedClient.Readers
 
         #region Private members
 
-        private readonly ManagedClient64 _client;
+        private readonly IrbisConnection _client;
 
         #endregion
 

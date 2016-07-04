@@ -97,7 +97,7 @@ namespace ManagedClient
         [CanBeNull]
         public IrbisRecord ReadRecord
             (
-                [NotNull] ManagedClient64 client
+                [NotNull] IrbisConnection client
             )
         {
             Code.NotNull(() => client);
@@ -110,7 +110,7 @@ namespace ManagedClient
         /// </summary>
         public static List<IrbisRecord> ReadRecords
             (
-                [NotNull] ManagedClient64 client,
+                [NotNull] IrbisConnection client,
                 [NotNull] IEnumerable<RecordReference> references
             )
         {

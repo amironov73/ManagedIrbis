@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,6 +65,11 @@ namespace ManagedClient.Network
         /// </summary>
         public int AnswerSize { get; set; }
 
+        /// <summary>
+        /// Код возврата.
+        /// </summary>
+        public int ReturnCode { get; set; }
+
         #endregion
 
         #region Construction
@@ -72,9 +78,173 @@ namespace ManagedClient.Network
 
         #region Private members
 
+        private Stream _stream;
+
+        private bool _returnCodeRetrieved;
+
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Get ANSI string.
+        /// </summary>
+        [CanBeNull]
+        public string GetAnsiString()
+        {
+            MemoryStream memory = new MemoryStream();
+
+            while (true)
+            {
+                int code = _stream.ReadByte();
+                if (code < 0)
+                {
+                    return null;
+                }
+                if (code == 0x0D)
+                {
+                    code = _stream.ReadByte();
+                    if (code == 0x0A)
+                    {
+                        break;
+                    }
+                    memory.WriteByte(0x0D);
+                }
+                memory.WriteByte((byte)code);
+            }
+
+            string result = IrbisEncoding.Ansi.GetString
+                (
+                    memory.ToArray()
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get Utf string.
+        /// </summary>
+        [CanBeNull]
+        public string GetUtfString()
+        {
+            MemoryStream memory = new MemoryStream();
+
+            while (true)
+            {
+                int code = _stream.ReadByte();
+                if (code < 0)
+                {
+                    return null;
+                }
+                if (code == 0x0D)
+                {
+                    code = _stream.ReadByte();
+                    if (code == 0x0A)
+                    {
+                        break;
+                    }
+                    memory.WriteByte(0x0D);
+                }
+                memory.WriteByte((byte)code);
+            }
+
+            string result = IrbisEncoding.Utf8.GetString
+                (
+                    memory.ToArray()
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get 32-bit integer value.
+        /// </summary>
+        public int GetInt32
+            (
+                int defaultValue
+            )
+        {
+            string line = GetAnsiString();
+            int result;
+            if (!int.TryParse(line, out result))
+            {
+                result = defaultValue;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get return code.
+        /// </summary>
+        public int GetReturnCode()
+        {
+            if (!_returnCodeRetrieved)
+            {
+                ReturnCode = RequireInt32();
+                _returnCodeRetrieved = true;
+            }
+
+            return ReturnCode;
+        }
+
+        /// <summary>
+        /// Parse the buffer.
+        /// </summary>
+        public static IrbisServerResponse Parse
+            (
+                byte[] buffer
+            )
+        {
+            IrbisServerResponse result = new IrbisServerResponse
+            {
+                _stream = new MemoryStream(buffer)
+            };
+            result.CommandCode = result.RequireAnsiString();
+            result.ClientID = result.RequireInt32();
+            result.CommandNumber = result.RequireInt32();
+            result.AnswerSize = result.RequireInt32();
+
+            // 6 пустых строк
+            result.RequireAnsiString();
+            result.RequireAnsiString();
+            result.RequireAnsiString();
+            result.RequireAnsiString();
+            result.RequireAnsiString();
+            result.RequireAnsiString();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Require ANSI string.
+        /// </summary>
+        [NotNull]
+        public string RequireAnsiString()
+        {
+            string result = GetAnsiString();
+            if (ReferenceEquals(result, null))
+            {
+                throw new IrbisNetworkException();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Require 32-bit integer.
+        /// </summary>
+        public int RequireInt32()
+        {
+            string line = GetAnsiString();
+            int result;
+            if (!int.TryParse(line, out result))
+            {
+                throw new IrbisNetworkException();
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Проверка, правильно ли заполнены поля ответа.
@@ -96,7 +266,6 @@ namespace ManagedClient.Network
 
             return result;
         }
-
 
         #endregion
 

@@ -28,7 +28,7 @@ namespace ManagedClient.Pooling
         /// Отслеживаемое подключение.
         /// </summary>
         [NotNull]
-        public ManagedClient64 Connection { get; private set; }
+        public IrbisConnection Connection { get; private set; }
 
         /// <summary>
         /// Отслеживаемый пул подключений.
@@ -64,7 +64,7 @@ namespace ManagedClient.Pooling
         /// <summary>
         /// Неявное преобразование.
         /// </summary>
-        public static implicit operator ManagedClient64
+        public static implicit operator IrbisConnection
             (
                 [NotNull] IrbisPoolGuard guard
             )

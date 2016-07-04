@@ -77,7 +77,7 @@ namespace ManagedClient
         /// <exception cref="ApplicationException">
         /// Если строка подключения в app.settings не найдена.
         /// </exception>
-        public static ManagedClient64 GetClientFromConfig()
+        public static IrbisConnection GetClientFromConfig()
         {
             string connectionString = GetStandardConnectionString();
             if (string.IsNullOrEmpty(connectionString))
@@ -88,7 +88,7 @@ namespace ManagedClient
                     );
             }
 
-            ManagedClient64 result = new ManagedClient64(connectionString);
+            IrbisConnection result = new IrbisConnection(connectionString);
 
             return result;
         }

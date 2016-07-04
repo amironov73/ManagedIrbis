@@ -190,7 +190,7 @@
     <Compile Include="ManagedClient\IrbisDatabaseInfoTest.cs" />
     <Compile Include="ManagedClient\IrbisProcessInfoTest.cs" />
     <Compile Include="ManagedClient\IrbisVersionTest.cs" />
-    <Compile Include="ManagedClient\ManagedClient64Test.cs" />
+    <Compile Include="ManagedClient\IrbisConnectionTest.cs" />
     <Compile Include="ManagedClient\RecordReferenceTest.cs" />
     <Compile Include="ManagedClient\IrbisQueryTest.cs" />
     <Compile Include="ManagedClient\IrbisOptTest.cs" />

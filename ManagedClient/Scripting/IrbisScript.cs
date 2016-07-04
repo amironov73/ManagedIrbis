@@ -32,7 +32,7 @@ namespace ManagedClient.Scripting
         /// Клиент для доступа к серверу
         /// </summary>
         [NotNull]
-        public ManagedClient64 Client { get; private set; }
+        public IrbisConnection Client { get; private set; }
 
         /// <summary>
         /// Скриптовый движок.
@@ -56,7 +56,7 @@ namespace ManagedClient.Scripting
         // ReSharper disable NotNullMemberIsNotInitialized
         public IrbisScript()
         {
-            Client = new ManagedClient64();
+            Client = new IrbisConnection();
             _Initialize();
             _ownClient = true;
         }
@@ -69,7 +69,7 @@ namespace ManagedClient.Scripting
         // ReSharper disable NotNullMemberIsNotInitialized
         public IrbisScript
             (
-                [NotNull] ManagedClient64 client
+                [NotNull] IrbisConnection client
             )
         {
             Code.NotNull(client, "client");

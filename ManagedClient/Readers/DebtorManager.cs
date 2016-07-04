@@ -31,7 +31,7 @@ namespace ManagedClient.Readers
         /// <summary>
         /// Клиент.
         /// </summary>
-        public ManagedClient64 Client { get; private set; }
+        public IrbisConnection Client { get; private set; }
 
         /// <summary>
         /// Кафедра обслуживания.
@@ -57,7 +57,7 @@ namespace ManagedClient.Readers
         /// </summary>
         public DebtorManager
             (
-                [NotNull] ManagedClient64 client
+                [NotNull] IrbisConnection client
             )
         {
             if (ReferenceEquals(client, null))

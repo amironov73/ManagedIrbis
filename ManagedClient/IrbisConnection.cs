@@ -1,4 +1,4 @@
-﻿/* ManagedClient64.cs -- client for IRBIS-server
+﻿/* IrbisConnection.cs -- client for IRBIS-server
  * Ars Magna project, http://arsmagna.ru
  */
 
@@ -13,16 +13,18 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
 using AM.IO;
 using AM.Runtime;
-
+using AM.Threading;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedClient.Network;
+using ManagedClient.Network.Commands;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -38,7 +40,7 @@ namespace ManagedClient
     [PublicAPI]
     [Serializable]
     [MoonSharpUserData]
-    public sealed class ManagedClient64
+    public sealed class IrbisConnection
         : IDisposable,
         IHandmadeSerializable
     {
@@ -105,11 +107,6 @@ namespace ManagedClient
         #region Events
 
         /// <summary>
-        /// Вызывается, когда меняется состояние Busy;
-        /// </summary>
-        public event EventHandler BusyChanged;
-
-        /// <summary>
         /// Вызывается перед уничтожением объекта.
         /// </summary>
         public event EventHandler Disposing;
@@ -129,7 +126,8 @@ namespace ManagedClient
         /// <summary>
         /// Признак занятости клиента.
         /// </summary>
-        public bool Busy { get; private set; }
+        [NotNull]
+        public BusyState Busy { get; private set; }
 
         /// <summary>
         /// Адрес сервера.
@@ -179,13 +177,23 @@ namespace ManagedClient
         public IrbisWorkstation Workstation { get; set; }
 
         /// <summary>
-        /// Конфигурация клиента.
+        /// Идентификатор клиента.
         /// </summary>
-        /// <value>Высылается сервером при подключении.</value>
-        public string Configuration
-        {
-            get { return _configuration; }
-        }
+        public int ClientID { get { return _clientID; } }
+
+        /// <summary>
+        /// Номер команды.
+        /// </summary>
+        public int QueryID { get { return _queryID; } }
+
+        ///// <summary>
+        ///// Конфигурация клиента.
+        ///// </summary>
+        ///// <value>Высылается сервером при подключении.</value>
+        //public string Configuration
+        //{
+        //    get { return _configuration; }
+        //}
 
         /// <summary>
         /// Статус подключения к серверу.
@@ -198,37 +206,37 @@ namespace ManagedClient
             get { return _connected; }
         }
 
-        /// <summary>
-        /// Для ожидания окончания запроса.
-        /// </summary>
-        public WaitHandle WaitHandle
-        {
-            get { return _waitHandle; }
-        }
+        ///// <summary>
+        ///// Для ожидания окончания запроса.
+        ///// </summary>
+        //public WaitHandle WaitHandle
+        //{
+        //    get { return _waitHandle; }
+        //}
 
-        /// <summary>
-        /// Поток для вывода отладочной информации.
-        /// </summary>
-        /// <remarks><para><c>null</c> означает, что вывод отладочной 
-        /// информации не нужен.</para>
-        /// <para>Обратите внимание, что <see cref="DebugWriter"/>
-        /// не сериализуется, т. к. большинство потоков не умеют
-        /// сериализоваться. Так что при восстановлении клиента
-        /// вам придётся восстанавливать <see cref="DebugWriter"/>
-        /// самостоятельно.</para>
-        /// </remarks>
-        [DefaultValue(null)]
-        public TextWriter DebugWriter
-        {
-            get { return _debugWriter; }
-            set { _debugWriter = value; }
-        }
+        ///// <summary>
+        ///// Поток для вывода отладочной информации.
+        ///// </summary>
+        ///// <remarks><para><c>null</c> означает, что вывод отладочной 
+        ///// информации не нужен.</para>
+        ///// <para>Обратите внимание, что <see cref="DebugWriter"/>
+        ///// не сериализуется, т. к. большинство потоков не умеют
+        ///// сериализоваться. Так что при восстановлении клиента
+        ///// вам придётся восстанавливать <see cref="DebugWriter"/>
+        ///// самостоятельно.</para>
+        ///// </remarks>
+        //[DefaultValue(null)]
+        //public TextWriter DebugWriter
+        //{
+        //    get { return _debugWriter; }
+        //    set { _debugWriter = value; }
+        //}
 
-        /// <summary>
-        /// Разрешение делать шестнадцатиричный дамп полученных от сервера пакетов.
-        /// </summary>
-        [DefaultValue(false)]
-        public bool AllowHexadecimalDump { get; set; }
+        ///// <summary>
+        ///// Разрешение делать шестнадцатиричный дамп полученных от сервера пакетов.
+        ///// </summary>
+        //[DefaultValue(false)]
+        //public bool AllowHexadecimalDump { get; set; }
 
         /// <summary>
         /// Количество повторений команды при неудаче.
@@ -249,6 +257,12 @@ namespace ManagedClient
         [DefaultValue(false)]
         public bool Interrupted { get; set; }
 
+        /// <summary>
+        /// Socket.
+        /// </summary>
+        [NotNull]
+        public IrbisClientSocket Socket { get; private set; }
+
         #endregion
 
         #region Construction
@@ -264,14 +278,11 @@ namespace ManagedClient
         /// соединение. Восстановленная копия клиента
         /// ломанётся в закрытое соедиение, и выйдет облом.
         /// </remarks>
-        public ManagedClient64()
+        public IrbisConnection()
         {
-            _waitHandle = new ManualResetEvent(true);
+            //_waitHandle = new ManualResetEvent(true);
 
-#if !PocketPC
-            // По умолчанию создаем простой синхронный сокет.
-            //_socket = new IrbisSocket();
-#endif
+            Busy = new BusyState();
 
             Host = DefaultHost;
             Port = DefaultPort;
@@ -282,12 +293,14 @@ namespace ManagedClient
             Password = null;
             Workstation = DefaultWorkstation;
             RetryCount = DefaultRetryCount;
+
+            Socket = new SimpleClientSocket(this);
         }
 
         /// <summary>
         /// Конструктор с подключением.
         /// </summary>
-        public ManagedClient64
+        public IrbisConnection
             (
                 [NotNull] string connectionString
             )
@@ -301,11 +314,11 @@ namespace ManagedClient
 
         #region Private members
 
-        private string _configuration;
+        //private string _configuration;
         private bool _connected;
 
-        [NonSerialized]
-        private ManualResetEvent _waitHandle;
+        //[NonSerialized]
+        //private ManualResetEvent _waitHandle;
 
         [NonSerialized]
         private TextWriter _debugWriter;
@@ -313,7 +326,7 @@ namespace ManagedClient
         [NonSerialized]
         private TcpClient _client;
 
-        private int _userID;
+        private int _clientID;
         private int _queryID;
 
 #if !PocketPC
@@ -325,8 +338,10 @@ namespace ManagedClient
 
         private string _database;
 
-        private readonly Encoding _utf8 = new UTF8Encoding(false, false);
-        private readonly Encoding _cp1251 = Encoding.GetEncoding(1251);
+        //private readonly Encoding _utf8 = new UTF8Encoding(false, false);
+        //private readonly Encoding _cp1251 = Encoding.GetEncoding(1251);
+
+        private static Random _random = new Random();
 
 #if !PocketPC
         //private IrbisSocket _socket;
@@ -334,6 +349,21 @@ namespace ManagedClient
 
         private readonly Stack<string> _databaseStack
             = new Stack<string>();
+
+        internal void GenerateClientID()
+        {
+            _clientID = _random.Next(1000000, 9999999);
+        }
+
+        internal int IncrementCommandNumber()
+        {
+            return ++_queryID;
+        }
+
+        internal void ResetCommandNumber()
+        {
+            _queryID = 0;
+        }
 
         #endregion
 
@@ -344,7 +374,14 @@ namespace ManagedClient
         /// </summary>
         public void Connect()
         {
-            throw new NotImplementedException();
+            if (!_connected)
+            {
+                ConnectCommand command = new ConnectCommand(this);
+                IrbisClientQuery query = command.CreateQuery();
+                IrbisServerResponse result = command.Execute(query);
+                command.CheckResponse(result);
+                _connected = true;
+            }
         }
 
         /// <summary>
@@ -352,7 +389,74 @@ namespace ManagedClient
         /// </summary>
         public void Disconnect()
         {
-            throw new NotImplementedException();
+            if (_connected)
+            {
+                DisconnectCommand command = new DisconnectCommand(this);
+                IrbisClientQuery query = command.CreateQuery();
+                IrbisServerResponse result = command.Execute(query);
+                command.CheckResponse(result);
+                _connected = false;
+            }
+        }
+
+        /// <summary>
+        /// Execute any command.
+        /// </summary>
+        [NotNull]
+        public IrbisServerResponse ExecuteCommand
+            (
+                [NotNull] AbstractCommand command
+            )
+        {
+            Code.NotNull(command, "command");
+
+            if (!Connected)
+            {
+                throw new IrbisException("Not connected");
+            }
+
+            using (new BusyGuard(Busy))
+            {
+                IrbisClientQuery query = command.CreateQuery();
+
+                IrbisServerResponse result = command.Execute(query);
+                command.CheckResponse(result);
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Execute any command.
+        /// </summary>
+        [NotNull]
+        public IrbisServerResponse ExecuteCommand
+            (
+                [NotNull] AbstractCommand command,
+                params object[] arguments
+            )
+        {
+            Code.NotNull(command, "command");
+
+            if (!Connected)
+            {
+                throw new IrbisException("Not connected");
+            }
+
+            using (new BusyGuard(Busy))
+            {
+                IrbisClientQuery query = command.CreateQuery();
+
+                foreach (object argument in arguments)
+                {
+                    query.Add(argument);
+                }
+
+                IrbisServerResponse result = command.Execute(query);
+                command.CheckResponse(result);
+
+                return result;
+            }
         }
 
         /// <summary>
@@ -368,6 +472,13 @@ namespace ManagedClient
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// No operation.
+        /// </summary>
+        public void NoOp()
+        {
+            ExecuteCommand(new NopCommand(this));
+        }
 
         /// <summary>
         /// Парсинг строки подключения.
@@ -377,7 +488,77 @@ namespace ManagedClient
                 [NotNull] string connectionString
             )
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new ArgumentNullException("connectionString");
+            }
+            connectionString = Regex.Replace
+                (
+                    connectionString,
+                    @"\s+",
+                    string.Empty
+                );
+            if (string.IsNullOrEmpty(connectionString)
+                 || !connectionString.Contains("="))
+            {
+                throw new ArgumentException("connectionString");
+            }
+
+            Regex regex = new Regex
+                (
+                    "(?<name>[^=;]+?)=(?<value>[^;]+)",
+                    RegexOptions.IgnoreCase
+                    | RegexOptions.IgnorePatternWhitespace
+                );
+            MatchCollection matches = regex.Matches(connectionString);
+            foreach (Match match in matches)
+            {
+                string name =
+                    match.Groups["name"].Value.ToLower();
+                string value = match.Groups["value"].Value;
+                switch (name)
+                {
+                    case "host":
+                    case "server":
+                    case "address":
+                        Host = value;
+                        break;
+                    case "port":
+                        Port = int.Parse(value);
+                        break;
+                    case "user":
+                    case "username":
+                    case "name":
+                    case "login":
+                        Username = value;
+                        break;
+                    case "pwd":
+                    case "password":
+                        Password = value;
+                        break;
+                    case "db":
+                    case "catalog":
+                    case "database":
+                        Database = value;
+                        break;
+                    case "arm":
+                    case "workstation":
+                        Workstation = (IrbisWorkstation)(byte)(value[0]);
+                        break;
+                    //case "data":
+                    //    UserData = value;
+                    //    break;
+                    //case "debug":
+                    //    StartDebug(value);
+                    //    break;
+                    //case "etr":
+                    //case "stage":
+                    //    StageOfWork = value;
+                    //    break;
+                    default:
+                        throw new ArgumentException("connectionString");
+                }
+            }
         }
 
         /// <summary>
@@ -456,7 +637,6 @@ namespace ManagedClient
             throw new NotImplementedException();
         }
 
-
         /// <summary>
         /// Загрузка одной записи по результатам поиска.
         /// </summary>
@@ -495,7 +675,7 @@ namespace ManagedClient
         /// </summary>
         public void Dispose()
         {
-            
+            Disconnect();
         }
 
         #endregion
@@ -516,7 +696,6 @@ namespace ManagedClient
             Password = reader.ReadNullableString();
             Database = reader.ReadNullableString();
             Workstation = (IrbisWorkstation) reader.ReadPackedInt32();
-            _configuration = reader.ReadNullableString();
         }
 
         /// <summary>
@@ -533,8 +712,7 @@ namespace ManagedClient
                 .WriteNullable(Username)
                 .WriteNullable(Password)
                 .WriteNullable(Database)
-                .WritePackedInt32((int) Workstation)
-                .WriteNullable(Configuration);
+                .WritePackedInt32((int) Workstation);
         }
 
         #endregion

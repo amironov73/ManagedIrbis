@@ -36,7 +36,7 @@ namespace ManagedClient.Readers
         [ItemNotNull]
         public static List<ReaderInfo> LoadReaders
             (
-                [NotNull] ManagedClient64 client,
+                [NotNull] IrbisConnection client,
                 [NotNull] List<ReaderInfo> readers,
                 [NotNull] string dbName
             )
@@ -136,7 +136,7 @@ namespace ManagedClient.Readers
         [ItemNotNull]
         public static List<ReaderInfo> LoadReaders
             (
-                [NotNull] ManagedClient64 client,
+                [NotNull] IrbisConnection client,
                 [NotNull][ItemNotNull] string[] databases
             )
         {

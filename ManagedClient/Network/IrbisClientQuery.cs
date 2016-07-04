@@ -210,6 +210,7 @@ namespace ManagedClient.Network
             foreach (object argument in Arguments)
             {
                 result.EncodeAny(argument);
+                result.EncodeDelimiter();
             }
 
             byte[] preResult =  result.ToArray();
@@ -217,7 +218,8 @@ namespace ManagedClient.Network
             int length = preResult.Length;
             result
                 .EncodeInt32(length)
-                .EncodeDelimiter();
+                .EncodeDelimiter()
+                .Write(preResult, 0, preResult.Length);
 
             return result.ToArray();
         }

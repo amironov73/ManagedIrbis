@@ -59,7 +59,7 @@ namespace ManagedClient
         /// </summary>
         public IrbisUpperCaseTable
             (
-                [NotNull] ManagedClient64 client,
+                [NotNull] IrbisConnection client,
                 [NotNull] string fileName
             )
         {
@@ -75,7 +75,7 @@ namespace ManagedClient
         /// <param name="client">The client.</param>
         public IrbisUpperCaseTable
             (
-                [NotNull] ManagedClient64 client
+                [NotNull] IrbisConnection client
             )
             : this ( client, FileName )
         {

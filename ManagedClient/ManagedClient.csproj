@@ -161,6 +161,11 @@
     <Compile Include="Marc\Schema\SubFieldSchema.cs" />
     <Compile Include="Menus\IrbisMenuFile.cs" />
     <Compile Include="Menus\IrbisMenuUtility.cs" />
+    <Compile Include="Network\Commands\AbstractCommand.cs" />
+    <Compile Include="Network\Commands\ConnectCommand.cs" />
+    <Compile Include="Network\Commands\DisconnectCommand.cs" />
+    <Compile Include="Network\Commands\NopCommand.cs" />
+    <Compile Include="Network\IrbisClientSocket.cs" />
     <Compile Include="Network\CommandCode.cs" />
     <Compile Include="Network\IrbisClientQuery.cs" />
     <Compile Include="IrbisDatabaseInfo.cs" />
@@ -171,8 +176,10 @@
     <Compile Include="IrbisFormat.cs" />
     <Compile Include="Identifiers\Isbn.cs" />
     <Compile Include="Identifiers\Issn.cs" />
+    <Compile Include="Network\IrbisNetworkException.cs" />
     <Compile Include="Network\IrbisNetworkUtility.cs" />
     <Compile Include="Network\IrbisServerResponse.cs" />
+    <Compile Include="Network\SimpleClientSocket.cs" />
     <Compile Include="Pooling\IrbisConnectionPool.cs" />
     <Compile Include="Pooling\IrbisPoolGuard.cs" />
     <Compile Include="Pooling\PoolUtility.cs" />
@@ -196,7 +203,7 @@
     <Compile Include="Magazines\MagazineArticleInfo.cs" />
     <Compile Include="Magazines\MagazineCumulation.cs" />
     <Compile Include="Magazines\MagazineIssueInfo.cs" />
-    <Compile Include="ManagedClient64.cs" />
+    <Compile Include="IrbisConnection.cs" />
     <Compile Include="ManagedClientUtility.cs" />
     <Compile Include="Mapping\FieldAttribute.cs" />
     <Compile Include="Mapping\SubFieldAttribute.cs" />

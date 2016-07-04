@@ -124,25 +124,25 @@ namespace ManagedClient.Pooling
 
         private static int _defaultCapacity = 5;
 
-        private readonly List<ManagedClient64> _activeConnections
-            = new List<ManagedClient64>();
+        private readonly List<IrbisConnection> _activeConnections
+            = new List<IrbisConnection>();
 
-        private readonly List<ManagedClient64> _idleConnections
-            = new List<ManagedClient64>();
+        private readonly List<IrbisConnection> _idleConnections
+            = new List<IrbisConnection>();
 
         private readonly AutoResetEvent _event = new AutoResetEvent(false);
 
         private readonly object _syncRoot = new object();
 
         [CanBeNull]
-        private ManagedClient64 _GetNewClient()
+        private IrbisConnection _GetNewClient()
         {
             if (_activeConnections.Count >= Capacity)
             {
                 return null;
             }
 
-            ManagedClient64 result = new ManagedClient64();
+            IrbisConnection result = new IrbisConnection();
             result.ParseConnectionString(ConnectionString);
             result.Connect();
 
@@ -150,19 +150,19 @@ namespace ManagedClient.Pooling
         }
 
         [CanBeNull]
-        private ManagedClient64 _GetIdleClient()
+        private IrbisConnection _GetIdleClient()
         {
             if (_idleConnections.Count == 0)
             {
                 return null;
             }
-            ManagedClient64 result = _idleConnections[0];
+            IrbisConnection result = _idleConnections[0];
             _idleConnections.RemoveAt(0);
             return result;
         }
 
         [NotNull]
-        private ManagedClient64 _WaitForClient()
+        private IrbisConnection _WaitForClient()
         {
             while (true)
             {
@@ -172,7 +172,7 @@ namespace ManagedClient.Pooling
                 }
                 lock (_syncRoot)
                 {
-                    ManagedClient64 result = _GetIdleClient();
+                    IrbisConnection result = _GetIdleClient();
                     if (!ReferenceEquals(result, null))
                     {
                         return result;
@@ -191,9 +191,9 @@ namespace ManagedClient.Pooling
         /// <remarks>Может подвесить поток на неопределённое время.
         /// </remarks>
         [NotNull]
-        public ManagedClient64 AcquireConnection()
+        public IrbisConnection AcquireConnection()
         {
-            ManagedClient64 result;
+            IrbisConnection result;
 
             lock (_syncRoot)
             {
@@ -212,7 +212,7 @@ namespace ManagedClient.Pooling
         /// <param name="action"></param>
         public void Execute
             (
-                [NotNull] Action<ManagedClient64> action
+                [NotNull] Action<IrbisConnection> action
             )
         {
             if (ReferenceEquals(action, null))
@@ -231,7 +231,7 @@ namespace ManagedClient.Pooling
         /// </summary>
         public void Execute<T>
             (
-                [NotNull] Action<ManagedClient64, T> action,
+                [NotNull] Action<IrbisConnection, T> action,
                 T userData
             )
         {
@@ -255,7 +255,7 @@ namespace ManagedClient.Pooling
         /// </summary>
         public TResult Execute<TResult, T1>
             (
-                [NotNull] Func<ManagedClient64,T1,TResult> function,
+                [NotNull] Func<IrbisConnection,T1,TResult> function,
                 T1 userData
             )
         {
@@ -280,7 +280,7 @@ namespace ManagedClient.Pooling
         /// </summary>
         public void ReleaseConnection
             (
-                [NotNull] ManagedClient64 client
+                [NotNull] IrbisConnection client
             )
         {
             if (ReferenceEquals(client, null))
@@ -359,7 +359,7 @@ namespace ManagedClient.Pooling
                     throw new ApplicationException("Have active connections");
                 }
 
-                foreach (ManagedClient64 client in _idleConnections)
+                foreach (IrbisConnection client in _idleConnections)
                 {
                     client.Disconnect();
                 }

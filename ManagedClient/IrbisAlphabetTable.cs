@@ -89,7 +89,7 @@ namespace ManagedClient
         /// </summary>
         public IrbisAlphabetTable
             (
-                [NotNull] ManagedClient64 client,
+                [NotNull] IrbisConnection client,
                 [NotNull] string fileName
             )
         {
@@ -104,7 +104,7 @@ namespace ManagedClient
         /// </summary>
         public IrbisAlphabetTable
             (
-                ManagedClient64 client
+                IrbisConnection client
             )
             : this ( client, FileName )
         {
