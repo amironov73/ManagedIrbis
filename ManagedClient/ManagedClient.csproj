@@ -165,6 +165,7 @@
     <Compile Include="Network\Commands\ConnectCommand.cs" />
     <Compile Include="Network\Commands\DisconnectCommand.cs" />
     <Compile Include="Network\Commands\NopCommand.cs" />
+    <Compile Include="Network\Commands\ReadFileCommand.cs" />
     <Compile Include="Network\Commands\ReadRecordCommand.cs" />
     <Compile Include="Network\Commands\VersionCommand.cs" />
     <Compile Include="Network\IrbisClientSocket.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="IrbisFormat.cs" />
     <Compile Include="Identifiers\Isbn.cs" />
     <Compile Include="Identifiers\Issn.cs" />
+    <Compile Include="Network\IrbisFileName.cs" />
     <Compile Include="Network\IrbisNetworkException.cs" />
     <Compile Include="Network\IrbisNetworkUtility.cs" />
     <Compile Include="Network\IrbisServerResponse.cs" />
