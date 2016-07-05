@@ -20,7 +20,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedClient.Network;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -113,6 +113,22 @@ namespace ManagedClient.ImportExport
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Parse server response for single record.
+        /// </summary>
+        [NotNull]
+        public static IrbisRecord ParseResponseForSingleRecord
+            (
+                [NotNull] IrbisServerResponse response
+            )
+        {
+            Code.NotNull(response, "response");
+
+            IrbisRecord result = new IrbisRecord();
+
+            return result;
+        }
 
         #endregion
     }

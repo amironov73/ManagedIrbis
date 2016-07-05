@@ -23,6 +23,7 @@ using AM.Threading;
 using CodeJam;
 
 using JetBrains.Annotations;
+using ManagedClient.ImportExport;
 using ManagedClient.Network;
 using ManagedClient.Network.Commands;
 using MoonSharp.Interpreter;
@@ -473,6 +474,22 @@ namespace ManagedClient
         }
 
         /// <summary>
+        /// Get server version.
+        /// </summary>
+        [NotNull]
+        public IrbisVersion GetServerVersion()
+        {
+            IrbisServerResponse response
+                = ExecuteCommand(new VersionCommand(this));
+
+            
+            IrbisVersion result
+                = IrbisVersion.ParseServerResponse(response);
+
+            return result;
+        }
+
+        /// <summary>
         /// No operation.
         /// </summary>
         public void NoOp()
@@ -581,7 +598,13 @@ namespace ManagedClient
                 int mfn
             )
         {
-            throw new NotImplementedException();
+            ReadRecordCommand command = new ReadRecordCommand(this)
+            {
+                Mfn = mfn
+            };
+            IrbisServerResponse response = ExecuteCommand(command);
+
+            return ProtocolText.ParseResponseForSingleRecord(response);
         }
 
         /// <summary>

@@ -46,10 +46,42 @@ namespace UnitTests.ManagedClient
         {
             using (IrbisConnection client = new IrbisConnection())
             {
-                client.ParseConnectionString("host=127.0.0.1;user=miron;password=miron;");
+                client.ParseConnectionString("host=127.0.0.1;port=5555;user=1;password=1;");
                 client.Connect();
 
                 client.NoOp();
+
+                //Thread.Sleep(10 * 1024);
+            }
+        }
+
+        [TestMethod]
+        [Ignore]
+        public void TestIrbisConnectionGetServerVersion()
+        {
+            using (IrbisConnection client = new IrbisConnection())
+            {
+                client.ParseConnectionString("host=127.0.0.1;user=1;password=1;");
+                client.Connect();
+
+                IrbisVersion version = client.GetServerVersion();
+                Assert.IsNotNull(version);
+
+                //Thread.Sleep(10 * 1024);
+            }
+        }
+
+        [TestMethod]
+        [Ignore]
+        public void TestIrbisConnectionReadRecord()
+        {
+            using (IrbisConnection client = new IrbisConnection())
+            {
+                client.ParseConnectionString("host=127.0.0.1;port=5555;user=1;password=1;");
+                client.Connect();
+
+                IrbisRecord record = client.ReadRecord(1);
+                Assert.IsNotNull(record);
 
                 //Thread.Sleep(10 * 1024);
             }

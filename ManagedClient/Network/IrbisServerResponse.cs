@@ -51,6 +51,12 @@ namespace ManagedClient.Network
         public string CommandCode { get; set; }
 
         /// <summary>
+        /// Connection used.
+        /// </summary>
+        [NotNull]
+        public IrbisConnection Connection { get; private set; }
+
+        /// <summary>
         /// Идентификатор клиента.
         /// </summary>
         public int ClientID { get; set; }
@@ -74,6 +80,19 @@ namespace ManagedClient.Network
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public IrbisServerResponse
+            (
+                [NotNull] IrbisConnection connection
+            )
+        {
+            Code.NotNull(connection, "connection");
+
+            Connection = connection;
+        }
+
         #endregion
 
         #region Private members
@@ -85,6 +104,40 @@ namespace ManagedClient.Network
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [NotNull]
+        public List<string> RemainingAnsiStrings()
+        {
+            List<string> result = new List<string>();
+
+            string line;
+            while ((line = GetAnsiString()) != null)
+            {
+                result.Add(line);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [NotNull]
+        public List<string> RemainingUtfStrings()
+        {
+            List<string> result = new List<string>();
+
+            string line;
+            while ((line = GetUtfString()) != null)
+            {
+                result.Add(line);
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Get ANSI string.
@@ -193,10 +246,11 @@ namespace ManagedClient.Network
         /// </summary>
         public static IrbisServerResponse Parse
             (
+                IrbisConnection connection,
                 byte[] buffer
             )
         {
-            IrbisServerResponse result = new IrbisServerResponse
+            IrbisServerResponse result = new IrbisServerResponse (connection)
             {
                 _stream = new MemoryStream(buffer)
             };

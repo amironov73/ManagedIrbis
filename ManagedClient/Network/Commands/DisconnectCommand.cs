@@ -51,9 +51,20 @@ namespace ManagedClient.Network.Commands
 
         #region AbstractCommand members
 
-        public override int[] GoodReturnCodes
+        //public override int[] GoodReturnCodes
+        //{
+        //    get { return new [] {-3335}; }
+        //}
+
+        /// <summary>
+        /// Check response.
+        /// </summary>
+        public override void CheckResponse
+            (
+                IrbisServerResponse response
+            )
         {
-            get { return new [] {-3335}; }
+            // Nothing to do
         }
 
         /// <summary>
@@ -65,9 +76,7 @@ namespace ManagedClient.Network.Commands
             )
         {
             query.CommandCode = CommandCode.UnregisterClient;
-            query.Arguments.Add(Connection.ClientID);
-            //query.Arguments.Add(Connection.Username);
-            //query.Arguments.Add(Connection.Password);
+            query.Arguments.Add(Connection.Username);
 
             IrbisServerResponse result = base.Execute(query);
 

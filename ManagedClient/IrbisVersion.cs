@@ -17,7 +17,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedClient.Network;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -74,22 +74,45 @@ namespace ManagedClient
         #region Public methods
 
         /// <summary>
-        /// Разбор ответа сервера.
+        /// Parse server response.
         /// </summary>
         [NotNull]
-        public static IrbisVersion ParseServerAnswer
+        public static IrbisVersion ParseServerResponse
+            (
+                [NotNull] IrbisServerResponse response
+            )
+        {
+            Code.NotNull(response, "response");
+
+            List<string> lines = response.RemainingAnsiStrings();
+            IrbisVersion result = ParseServerResponse(lines);
+            return result;
+        }
+
+        /// <summary>
+        /// Parse server response.
+        /// </summary>
+        [NotNull]
+        public static IrbisVersion ParseServerResponse
             (
                 [NotNull] List<string> lines
             )
         {
             Code.NotNull(lines, "lines");
 
-            IrbisVersion result = new IrbisVersion
+            IrbisVersion result = (lines.Count == 4)
+                ? new IrbisVersion
                {
-                   Organization = lines.GetItem(1),
-                   Version = lines.GetItem(2),
-                   ConnectedClients = lines.GetItem(3).SafeToInt32(),
-                   MaxClients = lines.GetItem(4).SafeToInt32()
+                   Organization = lines.GetItem(0),
+                   Version = lines.GetItem(1),
+                   ConnectedClients = lines.GetItem(2).SafeToInt32(),
+                   MaxClients = lines.GetItem(3).SafeToInt32()
+               }
+               : new IrbisVersion
+               {
+                   Version = lines.GetItem(0),
+                   ConnectedClients = lines.GetItem(1).SafeToInt32(),
+                   MaxClients = lines.GetItem(2).SafeToInt32()
                };
 
             return result;
