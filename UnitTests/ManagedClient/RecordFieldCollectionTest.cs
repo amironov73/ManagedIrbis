@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Data;
-using AM.Runtime;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using AM;
+using AM.Runtime;
 
 using ManagedClient;
 
