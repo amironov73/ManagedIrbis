@@ -10,7 +10,7 @@ namespace UnitTests.CodeJam
     {
         private void _TestNotNull(object parameter)
         {
-            Code.NotNull(()=>parameter);
+            Code.NotNull(parameter, "parameter");
         }
 
         [TestMethod]

@@ -152,6 +152,7 @@
     <Compile Include="AM\NonNullValue.cs" />
     <Compile Include="AM\ObjectDumper.cs" />
     <Compile Include="AM\Operator.cs" />
+    <Compile Include="AM\ReadOnlyException.cs" />
     <Compile Include="AM\Reflection\AssemblyUtility.cs" />
     <Compile Include="AM\Reflection\FieldAccessor.cs" />
     <Compile Include="AM\Reflection\PropertyAccessor.cs" />

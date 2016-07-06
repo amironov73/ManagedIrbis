@@ -5,7 +5,6 @@
 #region Using directives
 
 using System;
-using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
@@ -296,7 +295,7 @@ namespace ManagedClient
             )
         {
             ThrowIfReadOnly();
-            CodeJam.Code.NotNull(() => reader);
+            CodeJam.Code.NotNull(reader, "reader");
 
             CodeString = reader.ReadNullableString();
             Value = reader.ReadNullableString();
@@ -310,7 +309,7 @@ namespace ManagedClient
                 BinaryWriter writer
             )
         {
-            CodeJam.Code.NotNull(() => writer);
+            CodeJam.Code.NotNull(writer, "writer");
 
             writer.WriteNullable(CodeString);
             writer.WriteNullable(Value);

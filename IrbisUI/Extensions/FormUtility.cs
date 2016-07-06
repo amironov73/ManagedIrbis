@@ -152,7 +152,7 @@ namespace IrbisUI.Extensions
                 [NotNull] this Form form
             )
         {
-            Code.NotNull(() => form);
+            Code.NotNull(form, "form");
 
             Assembly assembly = Assembly.GetEntryAssembly();
             Version vi = assembly.GetName().Version;

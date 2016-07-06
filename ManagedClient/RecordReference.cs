@@ -79,7 +79,7 @@ namespace ManagedClient
                 [NotNull] string fileName
             )
         {
-            Code.NotNull(() => fileName);
+            Code.NotNull(fileName, "fileName");
 
             RecordReference[] result = SerializationUtility
                 .RestoreArrayFromZipFile<RecordReference>
@@ -100,7 +100,7 @@ namespace ManagedClient
                 [NotNull] IrbisConnection client
             )
         {
-            Code.NotNull(() => client);
+            Code.NotNull(client, "client");
 
             throw new NotImplementedException();
         }
@@ -114,8 +114,8 @@ namespace ManagedClient
                 [NotNull] IEnumerable<RecordReference> references
             )
         {
-            Code.NotNull(() => client);
-            Code.NotNull(() => references);
+            Code.NotNull(client, "client");
+            Code.NotNull(references, "references");
 
             throw new NotImplementedException();
         }
@@ -129,8 +129,8 @@ namespace ManagedClient
                 [NotNull] string fileName
             )
         {
-            Code.NotNull(() => references);
-            Code.NotNull(() => fileName);
+            Code.NotNull(references, "references");
+            Code.NotNull(fileName, "fileName");
 
             references.SaveToZipFile(fileName);
         }

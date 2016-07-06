@@ -188,7 +188,7 @@ namespace ManagedClient.Requests
                 [NotNull] IrbisRecord record
             )
         {
-            Code.NotNull(() => record);
+            Code.NotNull(record, "record");
 
             BookRequest result = new BookRequest
                 {

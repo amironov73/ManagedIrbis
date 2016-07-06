@@ -77,7 +77,7 @@ namespace AM.Text
         {
             Text = text;
             Encoding = ansi
-                ? Encoding.Default
+                ? Encoding.GetEncoding(0)
                 : Encoding.UTF8;
         }
 
@@ -116,7 +116,7 @@ namespace AM.Text
             }
 
             Encoding encoding = Encoding 
-                ?? Encoding.Default;
+                ?? Encoding.GetEncoding(0);
             
             return encoding.GetBytes(Text);
         }

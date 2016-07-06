@@ -396,10 +396,10 @@ namespace ManagedClient
                 [NotNull] string filePath
             )
         {
-            Code.NotNullNorEmpty(() => filePath);
+            Code.NotNullNorEmpty(filePath, "filePath");
 
             using (StreamReader reader 
-                = new StreamReader(filePath, Encoding.Default))
+                = new StreamReader(filePath, Encoding.GetEncoding(0)))
             {
                 return ParseText(reader);
             }
@@ -415,7 +415,7 @@ namespace ManagedClient
                 [NotNull] TextReader reader
             )
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             IrbisOpt result = new IrbisOpt();
 
@@ -465,7 +465,7 @@ namespace ManagedClient
                 [NotNull] string fileName
             )
         {
-            Code.NotNullNorEmpty(() => fileName);
+            Code.NotNullNorEmpty(fileName, "fileName");
 
             using (StreamWriter writer 
                 = new StreamWriter(fileName, false, IrbisEncoding.Ansi))
@@ -482,7 +482,7 @@ namespace ManagedClient
                 [NotNull] TextWriter writer
             )
         {
-            Code.NotNull(() => writer);
+            Code.NotNull(writer, "writer");
 
             writer.WriteLine(WorksheetTag);
             writer.WriteLine(WorksheetLength);
@@ -522,7 +522,7 @@ namespace ManagedClient
                 [NotNull] string tag
             )
         {
-            Code.NotNullNorEmpty(() => tag);
+            Code.NotNullNorEmpty(tag, "tag");
 
             WorksheetTag = tag;
         }

@@ -139,8 +139,8 @@ namespace ManagedClient.Fields
                 string tag
             )
         {
-            Code.NotNull(() => record);
-            Code.NotNullNorEmpty(() => tag);
+            Code.NotNull(record, "record");
+            Code.NotNullNorEmpty(tag, "tag");
 
 
             return record.Fields

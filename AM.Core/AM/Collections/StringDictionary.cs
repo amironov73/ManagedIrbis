@@ -97,7 +97,14 @@ namespace AM.Collections
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
-            using (TextReader reader = new StreamReader(fileName, encoding))
+            using (TextReader reader = new StreamReader
+                (
+                    File.OpenRead
+                    (
+                        fileName
+                    ),
+                    encoding
+                ))
             {
                 return Load(reader);
             }

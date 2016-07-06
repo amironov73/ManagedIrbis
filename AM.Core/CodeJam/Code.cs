@@ -224,153 +224,153 @@ namespace CodeJam
 
         #region Expressions
 
-        // Borrowed from:
-        // https://github.com/Real-Serious-Games/RSG.Toolkit/
+        //// Borrowed from:
+        //// https://github.com/Real-Serious-Games/RSG.Toolkit/
 
-        [DebuggerHidden]
-        [AssertionMethod]
-        [Conditional("DEBUG")]
-        public static void Invariant<T>
-            (
-                [NotNull] Expression<Func<T>> parameter,
-                Func<bool> condition
-            )
-        {
-            MemberExpression memberExpression = parameter.Body
-                as MemberExpression;
-            if (memberExpression == null)
-            {
-                throw new ArsMagnaException();
-            }
+        //[DebuggerHidden]
+        //[AssertionMethod]
+        //[Conditional("DEBUG")]
+        //public static void Invariant<T>
+        //    (
+        //        [NotNull] Expression<Func<T>> parameter,
+        //        Func<bool> condition
+        //    )
+        //{
+        //    MemberExpression memberExpression = parameter.Body
+        //        as MemberExpression;
+        //    if (memberExpression == null)
+        //    {
+        //        throw new ArsMagnaException();
+        //    }
 
-            if (!condition())
-            {
-                string parameterName = memberExpression.Member.Name;
-                StackTrace stackTrace = new StackTrace(true);
-                StackFrame[] stackFrames = stackTrace.GetFrames();
-                if ((stackFrames != null) && (stackFrames.Length > 1))
-                {
-                    throw new ArgumentException
-                        (
-                            parameterName,
-                            memberExpression.Type.Name
-                            + " parameter failed invariant condition, Function: "
-                            + stackFrames[1].GetMethod().Name
-                        );
-                }
-                throw new ArgumentException
-                    (
-                        parameterName,
-                        memberExpression.Type.Name
-                        + " parameter failed invariant condition"
-                    );
-            }
-        }
+        //    if (!condition())
+        //    {
+        //        string parameterName = memberExpression.Member.Name;
+        //        StackTrace stackTrace = new StackTrace(true);
+        //        StackFrame[] stackFrames = stackTrace.GetFrames();
+        //        if ((stackFrames != null) && (stackFrames.Length > 1))
+        //        {
+        //            throw new ArgumentException
+        //                (
+        //                    parameterName,
+        //                    memberExpression.Type.Name
+        //                    + " parameter failed invariant condition, Function: "
+        //                    + stackFrames[1].GetMethod().Name
+        //                );
+        //        }
+        //        throw new ArgumentException
+        //            (
+        //                parameterName,
+        //                memberExpression.Type.Name
+        //                + " parameter failed invariant condition"
+        //            );
+        //    }
+        //}
 
-        [DebuggerHidden]
-        [AssertionMethod]
-        [Conditional("DEBUG")]
-        public static void NotNull<T>
-            (
-                [NotNull] Expression<Func<T>> parameter
-            )
-            where T : class
-        {
-            MemberExpression memberExpression = parameter.Body
-                as MemberExpression;
-            if (memberExpression == null)
-            {
-                throw new ArsMagnaException();
-            }
+        //[DebuggerHidden]
+        //[AssertionMethod]
+        //[Conditional("DEBUG")]
+        //public static void NotNull<T>
+        //    (
+        //        [NotNull] Expression<Func<T>> parameter
+        //    )
+        //    where T : class
+        //{
+        //    MemberExpression memberExpression = parameter.Body
+        //        as MemberExpression;
+        //    if (memberExpression == null)
+        //    {
+        //        throw new ArsMagnaException();
+        //    }
 
-            T value = parameter.Compile().Invoke();
-            if (value == null)
-            {
-                string parameterName = memberExpression.Member.Name;
-                StackTrace stackTrace = new StackTrace(true);
-                StackFrame[] stackFrames = stackTrace.GetFrames();
-                string message = ((stackFrames != null)
-                    && (stackFrames.Length > 1))
-                    ? "Parameter type: "
-                      + memberExpression.Type.Name
-                      + ", Function: "
-                      + stackFrames[1].GetMethod().Name
-                    : "Parameter type: "
-                      + memberExpression.Type.Name;
-                throw new ArgumentNullException
-                    (
-                        parameterName,
-                        message
-                    );
-            }
-        }
+        //    T value = parameter.Compile().Invoke();
+        //    if (value == null)
+        //    {
+        //        string parameterName = memberExpression.Member.Name;
+        //        StackTrace stackTrace = new StackTrace(true);
+        //        StackFrame[] stackFrames = stackTrace.GetFrames();
+        //        string message = ((stackFrames != null)
+        //            && (stackFrames.Length > 1))
+        //            ? "Parameter type: "
+        //              + memberExpression.Type.Name
+        //              + ", Function: "
+        //              + stackFrames[1].GetMethod().Name
+        //            : "Parameter type: "
+        //              + memberExpression.Type.Name;
+        //        throw new ArgumentNullException
+        //            (
+        //                parameterName,
+        //                message
+        //            );
+        //    }
+        //}
 
-        [DebuggerHidden]
-        [AssertionMethod]
-        [Conditional("DEBUG")]
-        public static void NotNullNorEmpty
-            (
-                [NotNull] Expression<Func<Object>> parameter
-            )
-        {
-            MemberExpression memberExpression = parameter.Body
-                as MemberExpression;
-            if (memberExpression == null)
-            {
-                throw new ArsMagnaException();
-            }
+        //[DebuggerHidden]
+        //[AssertionMethod]
+        //[Conditional("DEBUG")]
+        //public static void NotNullNorEmpty
+        //    (
+        //        [NotNull] Expression<Func<Object>> parameter
+        //    )
+        //{
+        //    MemberExpression memberExpression = parameter.Body
+        //        as MemberExpression;
+        //    if (memberExpression == null)
+        //    {
+        //        throw new ArsMagnaException();
+        //    }
 
-            if (memberExpression.Type != typeof(String))
-            {
-                throw new ArsMagnaException();
-            }
+        //    if (memberExpression.Type != typeof(String))
+        //    {
+        //        throw new ArsMagnaException();
+        //    }
 
-            string value = parameter.Compile().Invoke() as string;
-            if (value == null)
-            {
-                var parameterName = memberExpression.Member.Name;
-                var stackTrace = new StackTrace(true);
-                var stackFrames = stackTrace.GetFrames();
-                if ((stackFrames != null) && (stackFrames.Length > 1))
-                {
-                    throw new ArgumentNullException
-                        (
-                            parameterName,
-                            "Parameter type: "
-                            + memberExpression.Type.Name
-                            + ", Function: "
-                            + stackFrames[1].GetMethod().Name
-                        );
-                }
-                throw new ArgumentNullException
-                    (
-                        parameterName,
-                        "Parameter type: "
-                        + memberExpression.Type.Name
-                    );
-            }
+        //    string value = parameter.Compile().Invoke() as string;
+        //    if (value == null)
+        //    {
+        //        var parameterName = memberExpression.Member.Name;
+        //        var stackTrace = new StackTrace(true);
+        //        var stackFrames = stackTrace.GetFrames();
+        //        if ((stackFrames != null) && (stackFrames.Length > 1))
+        //        {
+        //            throw new ArgumentNullException
+        //                (
+        //                    parameterName,
+        //                    "Parameter type: "
+        //                    + memberExpression.Type.Name
+        //                    + ", Function: "
+        //                    + stackFrames[1].GetMethod().Name
+        //                );
+        //        }
+        //        throw new ArgumentNullException
+        //            (
+        //                parameterName,
+        //                "Parameter type: "
+        //                + memberExpression.Type.Name
+        //            );
+        //    }
 
-            if (value == string.Empty)
-            {
-                string parameterName = memberExpression.Member.Name;
-                StackTrace stackTrace = new StackTrace(true);
-                StackFrame[] stackFrames = stackTrace.GetFrames();
-                if ((stackFrames != null) && (stackFrames.Length > 1))
-                {
-                    throw new ArgumentException
-                        (
-                            "Empty string parameter. Function: "
-                            + stackFrames[1].GetMethod().Name,
-                            parameterName
-                        );
-                }
-                throw new ArgumentException
-                    (
-                        "Empty string parameter",
-                        parameterName
-                    );
-            }
-        }
+        //    if (value == string.Empty)
+        //    {
+        //        string parameterName = memberExpression.Member.Name;
+        //        StackTrace stackTrace = new StackTrace(true);
+        //        StackFrame[] stackFrames = stackTrace.GetFrames();
+        //        if ((stackFrames != null) && (stackFrames.Length > 1))
+        //        {
+        //            throw new ArgumentException
+        //                (
+        //                    "Empty string parameter. Function: "
+        //                    + stackFrames[1].GetMethod().Name,
+        //                    parameterName
+        //                );
+        //        }
+        //        throw new ArgumentException
+        //            (
+        //                "Empty string parameter",
+        //                parameterName
+        //            );
+        //    }
+        //}
 
         #endregion
 

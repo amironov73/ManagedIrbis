@@ -36,7 +36,7 @@ namespace AM.IO
     // ReSharper restore RedundantNameQualifier
     [DebuggerDisplay("{FileName}")]
     public class IniFile
-        : Component,
+        : IDisposable,
         IHandmadeSerializable
     {
         #region Nested classes
@@ -655,20 +655,6 @@ namespace AM.IO
             _CreateSections();
         }
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="container"></param>
-        public IniFile
-            (
-                [NotNull] IContainer container
-            )
-        {
-            Code.NotNull(container, "container");
-
-            container.Add(this);
-        }
-
         #endregion
 
         #region Private members
@@ -824,8 +810,12 @@ namespace AM.IO
             }
 
             Section section = _CreateSections();
-            Encoding encoding = Encoding ?? Encoding.Default;
-            using (StreamReader reader = new StreamReader(FileName, encoding))
+            Encoding encoding = Encoding ?? Encoding.GetEncoding(0);
+            using (StreamReader reader = new StreamReader
+                (
+                    File.OpenRead(FileName),
+                    encoding
+                ))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
@@ -940,7 +930,7 @@ namespace AM.IO
                 [NotNull] string fileName
             )
         {
-            Encoding encoding = Encoding ?? Encoding.Default;
+            Encoding encoding = Encoding ?? Encoding.GetEncoding(0);
             using (StreamWriter writer
                 = new StreamWriter(fileName, false, encoding))
             {
@@ -968,12 +958,8 @@ namespace AM.IO
         /// <summary>
         /// 
         /// </summary>
-        protected override void Dispose
-            (
-                bool disposing
-            )
+        public void Dispose ()
         {
-            base.Dispose(disposing);
             if (Writable
                  && Modified
                  && !string.IsNullOrEmpty(FileName)

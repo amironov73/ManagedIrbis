@@ -61,7 +61,7 @@ namespace AM.IO
             )
             where T: IHandmadeSerializable, new()
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             int count = reader.ReadPackedInt32();
             T[] result = new T[count];
@@ -84,7 +84,7 @@ namespace AM.IO
                 [NotNull] this BinaryReader reader
             )
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             int length = reader.ReadPackedInt32();
             byte[] result = new byte[length];
@@ -165,7 +165,7 @@ namespace AM.IO
                 [NotNull] this BinaryReader reader
             )
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             int length = reader.ReadPackedInt32();
             int[] result = new int[length];
@@ -186,7 +186,7 @@ namespace AM.IO
                 [NotNull] this BinaryReader reader
             )
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             int length = reader.ReadPackedInt32();
             long[] result = new long[length];
@@ -257,7 +257,7 @@ namespace AM.IO
                 [NotNull] this BinaryReader reader
             )
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             bool flag = reader.ReadBoolean();
             return flag
@@ -274,7 +274,7 @@ namespace AM.IO
                 [NotNull] this BinaryReader reader
             )
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             bool flag = reader.ReadBoolean();
             return flag
@@ -291,7 +291,7 @@ namespace AM.IO
                 [NotNull] this BinaryReader reader
             )
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             bool flag = reader.ReadBoolean();
             return flag
@@ -308,7 +308,7 @@ namespace AM.IO
                 [NotNull] this BinaryReader reader
             )
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             bool flag = reader.ReadBoolean();
             return flag
@@ -325,7 +325,7 @@ namespace AM.IO
                 [NotNull] this BinaryReader reader
             )
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             bool flag = reader.ReadBoolean();
             return flag
@@ -342,7 +342,7 @@ namespace AM.IO
                 [NotNull] this BinaryReader reader
             )
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             bool isNull = !reader.ReadBoolean();
             if (isNull)
@@ -370,7 +370,7 @@ namespace AM.IO
                 [NotNull] this BinaryReader reader
             )
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             bool flag = reader.ReadBoolean();
             return flag
@@ -387,7 +387,7 @@ namespace AM.IO
                 [NotNull] this BinaryReader reader
             )
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             bool flag = reader.ReadBoolean();
             return flag
@@ -474,7 +474,7 @@ namespace AM.IO
                 [NotNull] this BinaryReader reader
             )
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             int length = reader.ReadPackedInt32();
             string[] result = new string[length];

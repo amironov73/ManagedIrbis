@@ -167,7 +167,7 @@ namespace ManagedClient.Magazines
                 [NotNull] IrbisRecord record
             )
         {
-            Code.NotNull(() => record);
+            Code.NotNull(record, "record");
 
             MagazineIssueInfo result = new MagazineIssueInfo
             {
@@ -202,8 +202,8 @@ namespace ManagedClient.Magazines
                 [NotNull] MagazineIssueInfo second
             )
         {
-            Code.NotNull(() => first);
-            Code.NotNull(() => second);
+            Code.NotNull(first, "first");
+            Code.NotNull(second, "second");
 
             return NumberText.Compare
                 (

@@ -59,7 +59,7 @@ namespace ManagedClient
                 [NotNull] string tag
             )
         {
-            Code.NotNullNorEmpty(() => tag);
+            Code.NotNullNorEmpty(tag, "tag");
 
             throw new NotImplementedException();
         }
@@ -73,7 +73,7 @@ namespace ManagedClient
                 bool throwException
             )
         {
-            Code.NotNullNorEmpty(() => tag);
+            Code.NotNullNorEmpty(tag, "tag");
 
             throw new NotImplementedException();
         }

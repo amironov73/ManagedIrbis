@@ -36,7 +36,7 @@ namespace AM.IO
                 [NotNull] this TextReader reader
             )
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             string result = reader.ReadLine();
             if (ReferenceEquals(result, null))

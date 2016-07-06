@@ -132,7 +132,8 @@ namespace AM
                 this char value
             )
         {
-            return value.ToString(CultureInfo.InvariantCulture);
+            //return value.ToString(CultureInfo.InvariantCulture);
+            return value.ToString();
         }
 
         /// <summary>

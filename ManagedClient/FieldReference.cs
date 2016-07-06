@@ -194,7 +194,7 @@ namespace ManagedClient
                 [NotNull] string fieldTag
             )
         {
-            Code.NotNull(() => fieldTag);
+            Code.NotNull(fieldTag, "fieldTag");
 
             FieldTag = fieldTag;
         }
@@ -208,7 +208,7 @@ namespace ManagedClient
                 char subField
             )
         {
-            Code.NotNull(() => fieldTag);
+            Code.NotNull(fieldTag, fieldTag);
 
             FieldTag = fieldTag;
             SubField = subField;
@@ -559,7 +559,7 @@ namespace ManagedClient
                 [NotNull] IrbisRecord record
             )
         {
-            Code.NotNull(() => record);
+            Code.NotNull(record, "record");
 
             return Format(record.Fields);
         }
@@ -574,7 +574,7 @@ namespace ManagedClient
                 [NotNull] IrbisRecord record
             )
         {
-            Code.NotNull(() => record);
+            Code.NotNull(record, "record");
 
             return string.Join
                 (
@@ -676,7 +676,7 @@ namespace ManagedClient
                 [NotNull] string text
             )
         {
-            Code.NotNullNorEmpty(() => text);
+            Code.NotNullNorEmpty(text, "text");
 
             TextNavigator navigator = new TextNavigator(text);
 

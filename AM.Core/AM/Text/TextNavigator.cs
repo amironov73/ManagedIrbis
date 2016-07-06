@@ -110,7 +110,7 @@ namespace AM.Text
                 [NotNull] Encoding encoding
             )
         {
-            Code.NotNullNorEmpty(() => fileName);
+            Code.NotNullNorEmpty(fileName, "fileName");
 
             string text = File.ReadAllText(fileName, encoding);
             TextNavigator result = new TextNavigator(text);
@@ -127,7 +127,7 @@ namespace AM.Text
                 [NotNull] string fileName
             )
         {
-            Code.NotNullNorEmpty(() => fileName);
+            Code.NotNullNorEmpty(fileName, "fileName");
 
             string text = File.ReadAllText(fileName);
             TextNavigator result = new TextNavigator(text);

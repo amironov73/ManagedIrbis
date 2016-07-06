@@ -203,7 +203,7 @@ namespace ManagedClient
                 [NotNull] TextReader reader
             )
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             string line;
             char[] separator = { '=' };
@@ -259,7 +259,7 @@ namespace ManagedClient
                 [NotNull] string fileName
             )
         {
-            Code.NotNullNorEmpty(() => fileName);
+            Code.NotNullNorEmpty(fileName, "fileName");
 
             using (StreamReader reader
                 = new StreamReader(fileName, IrbisEncoding.Ansi))
@@ -277,7 +277,7 @@ namespace ManagedClient
                 [NotNull] TextReader reader
             )
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             Dictionary<string, string> dictionary = ReadDictionary(reader);
 
@@ -335,7 +335,7 @@ namespace ManagedClient
                 [NotNull] string fileName
             )
         {
-            Code.NotNullNorEmpty(()=>fileName);
+            Code.NotNullNorEmpty(fileName, "fileName");
 
             using (StreamWriter writer 
                 = new StreamWriter(fileName, false, IrbisEncoding.Ansi))
@@ -352,7 +352,7 @@ namespace ManagedClient
                 [NotNull] TextWriter writer
             )
         {
-            Code.NotNull(() => writer);
+            Code.NotNull(writer, "writer");
 
             writer.WriteLine("1={0}", XrfPath);
             writer.WriteLine("2={0}", MstPath);

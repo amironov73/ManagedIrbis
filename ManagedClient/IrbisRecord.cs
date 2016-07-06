@@ -5,13 +5,8 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.IO;
@@ -220,8 +215,8 @@ namespace ManagedClient
                 [NotNull] IrbisRecord record2
             )
         {
-            Code.NotNull(() => record1);
-            Code.NotNull(() => record2);
+            Code.NotNull(record1, "record1");
+            Code.NotNull(record2, "record2");
 
             int result = (int) record1.Status - (int) record2.Status;
             if (result != 0)

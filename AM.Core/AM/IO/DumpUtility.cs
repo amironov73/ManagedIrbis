@@ -99,7 +99,7 @@ namespace AM.IO
             StreamWriter writer = new StreamWriter
                 (
                     stream,
-                    Encoding.Default
+                    Encoding.GetEncoding(0)
                 );
             Dump(writer, data);
         }

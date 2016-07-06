@@ -55,7 +55,7 @@ namespace ManagedClient
                 [NotNull] Encoding encoding
             )
         {
-            Code.NotNull(() => encoding);
+            Code.NotNull(encoding, "encoding");
 
             if (!encoding.IsSingleByte)
             {

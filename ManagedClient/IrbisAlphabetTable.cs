@@ -76,8 +76,8 @@ namespace ManagedClient
                 [NotNull] byte[] table
             )
         {
-            Code.NotNull(() => encoding);
-            Code.NotNull(() => table);
+            Code.NotNull(encoding, "encoding");
+            Code.NotNull(table, "table");
 
             _encoding = encoding;
             _table = table;
@@ -169,7 +169,7 @@ namespace ManagedClient
                 [NotNull] string fileName
             )
         {
-            Code.NotNullNorEmpty(() => fileName);
+            Code.NotNullNorEmpty(fileName, "fileName");
 
             using (StreamReader reader 
                 = new StreamReader(fileName, IrbisEncoding.Ansi))
@@ -289,7 +289,7 @@ namespace ManagedClient
                 [NotNull] string fileName
             )
         {
-            Code.NotNullNorEmpty(() => fileName);
+            Code.NotNullNorEmpty(fileName, "fileName");
 
             using (StreamWriter writer
                 = new StreamWriter(fileName, false, IrbisEncoding.Ansi))
@@ -306,7 +306,7 @@ namespace ManagedClient
                 [NotNull] TextWriter writer
             )
         {
-            Code.NotNull(() => writer);
+            Code.NotNull(writer, "writer");
 
             int count = 0;
 

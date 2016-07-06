@@ -158,7 +158,10 @@ namespace AM.Text
 
             StreamReader reader = new StreamReader
                 (
-                    fileName,
+                    File.OpenRead
+                    (
+                        fileName
+                    ),
                     encoding
                 );
             StreamParser result = new StreamParser

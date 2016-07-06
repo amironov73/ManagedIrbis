@@ -143,37 +143,37 @@ namespace AM.Xml
             }
         }
 
-        /// <summary>
-        /// Get serializer for tagged classes. Scan all assemblies.
-        /// </summary>
-        /// <param name="tagName">Tag.</param>
-        /// <param name="mainType">Main type.</param>
-        /// <returns>Serializer.</returns>
-        public static XmlSerializer GetSerializer
-            (
-                string tagName,
-                Type mainType
-            )
-        {
-            Code.NotNullNorEmpty(tagName, "tagName");
-            Code.NotNull(mainType, "mainType");
+        ///// <summary>
+        ///// Get serializer for tagged classes. Scan all assemblies.
+        ///// </summary>
+        ///// <param name="tagName">Tag.</param>
+        ///// <param name="mainType">Main type.</param>
+        ///// <returns>Serializer.</returns>
+        //public static XmlSerializer GetSerializer
+        //    (
+        //        string tagName,
+        //        Type mainType
+        //    )
+        //{
+        //    Code.NotNullNorEmpty(tagName, "tagName");
+        //    Code.NotNull(mainType, "mainType");
 
-            _CreateSerializers();
-            lock (_serializers)
-            {
-                if (_serializers.ContainsKey(tagName))
-                {
-                    return _serializers[tagName];
-                }
+        //    _CreateSerializers();
+        //    lock (_serializers)
+        //    {
+        //        if (_serializers.ContainsKey(tagName))
+        //        {
+        //            return _serializers[tagName];
+        //        }
 
-                Type[] xtraTypes = TaggedClassesCollector.Collect(tagName);
+        //        Type[] xtraTypes = TaggedClassesCollector.Collect(tagName);
 
-                XmlSerializer ser = new XmlSerializer(mainType, xtraTypes);
-                _serializers.Add(tagName, ser);
+        //        XmlSerializer ser = new XmlSerializer(mainType, xtraTypes);
+        //        _serializers.Add(tagName, ser);
 
-                return ser;
-            }
-        }
+        //        return ser;
+        //    }
+        //}
 
         /// <summary>
         /// Serialize object to file.

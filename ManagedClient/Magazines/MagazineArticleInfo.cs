@@ -69,7 +69,7 @@ namespace ManagedClient.Magazines
                 [NotNull] RecordField field
             )
         {
-            Code.NotNull(() => field);
+            Code.NotNull(field, "field");
 
             MagazineArticleInfo result = new MagazineArticleInfo();
             return result;

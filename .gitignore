@@ -260,3 +260,6 @@ Help/
 
 # SuperCharger
 *.scgdat
+
+# Portability analysis tool
+PortabilityAnalysis*.html

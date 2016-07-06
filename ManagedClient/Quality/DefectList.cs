@@ -48,7 +48,7 @@ namespace ManagedClient.Quality
                 BinaryReader reader
             )
         {
-            Code.NotNull(() => reader);
+            Code.NotNull(reader, "reader");
 
             ClearItems();
             FieldDefect[] array = reader.ReadArray<FieldDefect>();
@@ -63,7 +63,7 @@ namespace ManagedClient.Quality
                 BinaryWriter writer
             )
         {
-            Code.NotNull(() => writer);
+            Code.NotNull(writer, "writer");
 
             writer.WriteArray(ToArray());
         }

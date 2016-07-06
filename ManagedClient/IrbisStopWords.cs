@@ -178,7 +178,7 @@ namespace ManagedClient
             string[] lines = File.ReadAllLines
                 (
                     fileName,
-                    Encoding.Default
+                    Encoding.GetEncoding(0)
                 );
 
             return ParseLines

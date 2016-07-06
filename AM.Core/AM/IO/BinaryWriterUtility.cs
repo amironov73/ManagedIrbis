@@ -40,7 +40,7 @@ namespace AM.IO
             )
             where T: class, IHandmadeSerializable, new()
         {
-            Code.NotNull(()=> writer);
+            Code.NotNull(writer, "writer");
 
             writer.WriteArray(collection.ToArray());
 
@@ -57,7 +57,7 @@ namespace AM.IO
                 [CanBeNull] byte? value
             )
         {
-            Code.NotNull(() => writer);
+            Code.NotNull(writer, "writer");
 
             if (value != null)
             {
@@ -82,7 +82,7 @@ namespace AM.IO
                 [CanBeNull] short? value
             )
         {
-            Code.NotNull(() => writer);
+            Code.NotNull(writer, "writer");
 
             if (value != null)
             {
@@ -107,7 +107,7 @@ namespace AM.IO
                 [CanBeNull] int? value
             )
         {
-            Code.NotNull(() => writer);
+            Code.NotNull(writer, "writer");
 
             if (value != null)
             {
@@ -132,7 +132,7 @@ namespace AM.IO
                 [CanBeNull] long? value
             )
         {
-            Code.NotNull(() => writer);
+            Code.NotNull(writer, "writer");
 
             if (value != null)
             {
@@ -157,7 +157,7 @@ namespace AM.IO
                 [CanBeNull] decimal? value
             )
         {
-            Code.NotNull(() => writer);
+            Code.NotNull(writer, "writer");
 
             if (value != null)
             {
@@ -198,7 +198,7 @@ namespace AM.IO
                 [CanBeNull] DateTime? value
             )
         {
-            Code.NotNull(() => writer);
+            Code.NotNull(writer, "writer");
 
             if (value != null)
             {
@@ -223,7 +223,7 @@ namespace AM.IO
                 [CanBeNull] double? value
             )
         {
-            Code.NotNull(() => writer);
+            Code.NotNull(writer, "writer");
 
             if (value != null)
             {
@@ -248,8 +248,8 @@ namespace AM.IO
                 [NotNull] byte[] array
             )
         {
-            Code.NotNull(() => writer);
-            Code.NotNull(() => array);
+            Code.NotNull(writer, "writer");
+            Code.NotNull(array, "array");
 
             writer.WritePackedInt32(array.Length);
             writer.Write(array);
@@ -267,8 +267,8 @@ namespace AM.IO
                 [NotNull] short[] array
             )
         {
-            Code.NotNull(() => writer);
-            Code.NotNull(() => array);
+            Code.NotNull(writer, "writer");
+            Code.NotNull(array, "array");
 
             writer.WritePackedInt32(array.Length);
             for (int i = 0; i < array.Length; i++)
@@ -289,8 +289,8 @@ namespace AM.IO
                 [NotNull] int[] array
             )
         {
-            Code.NotNull(() => writer);
-            Code.NotNull(() => array);
+            Code.NotNull(writer, "writer");
+            Code.NotNull(array, "writer");
 
             writer.WritePackedInt32(array.Length);
             for (int i = 0; i < array.Length; i++)
@@ -311,8 +311,8 @@ namespace AM.IO
                 [NotNull] long[] array
             )
         {
-            Code.NotNull(() => writer);
-            Code.NotNull(() => array);
+            Code.NotNull(writer, "writer");
+            Code.NotNull(array, "array");
 
             writer.WritePackedInt32(array.Length);
             for (int i = 0; i < array.Length; i++)
@@ -333,8 +333,8 @@ namespace AM.IO
                 [NotNull] string[] array
             )
         {
-            Code.NotNull(() => writer);
-            Code.NotNull(() => array);
+            Code.NotNull(writer, "writer");
+            Code.NotNull(array, "array");
 
             writer.WritePackedInt32(array.Length);
             for (int i = 0; i < array.Length; i++)
@@ -356,8 +356,8 @@ namespace AM.IO
             )
             where T: IHandmadeSerializable, new ()
         {
-            Code.NotNull(() => writer);
-            Code.NotNull(() => array);
+            Code.NotNull(writer, "writer");
+            Code.NotNull(array, "array");
 
             writer.WritePackedInt32(array.Length);
             for (int i = 0; i < array.Length; i++)
@@ -427,7 +427,7 @@ namespace AM.IO
                 [CanBeNull] string value
             )
         {
-            Code.NotNull(() => writer);
+            Code.NotNull(writer, "writer");
 
             if (value != null)
             {
@@ -452,7 +452,7 @@ namespace AM.IO
                 [CanBeNull] int[] array
             )
         {
-            Code.NotNull(() => writer);
+            Code.NotNull(writer, "writer");
 
             if (ReferenceEquals(array, null))
             {

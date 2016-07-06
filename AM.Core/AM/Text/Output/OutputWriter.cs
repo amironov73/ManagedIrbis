@@ -71,7 +71,7 @@ namespace AM.Text.Output
         /// </summary>
         public override Encoding Encoding
         {
-            get { return Encoding.Default; }
+            get { return Encoding.GetEncoding(0); }
         }
 
         /// <summary>
