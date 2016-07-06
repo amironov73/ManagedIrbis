@@ -5,7 +5,8 @@
 #region Using directives
 
 using System;
-using System.Runtime.Serialization;
+
+using AM;
 
 using JetBrains.Annotations;
 
@@ -19,7 +20,7 @@ namespace ManagedClient.Systematization
     [PublicAPI]
     [Serializable]
     public sealed class BbkException
-        : ApplicationException
+        : ArsMagnaException
     {
         #region Construction
 
@@ -52,18 +53,6 @@ namespace ManagedClient.Systematization
                 [CanBeNull] Exception innerException
             )
             : base(message, innerException)
-        {
-        }
-
-        /// <summary>
-        /// Конструктор.
-        /// </summary>
-        private BbkException
-            (
-                [NotNull] SerializationInfo info, 
-                StreamingContext context
-            )
-            : base(info, context)
         {
         }
     }

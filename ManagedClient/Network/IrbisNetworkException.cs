@@ -5,7 +5,7 @@
 #region Using directives
 
 using System;
-
+using AM;
 using JetBrains.Annotations;
 
 #endregion
@@ -17,7 +17,7 @@ namespace ManagedClient.Network
     /// </summary>
     [PublicAPI]
     public sealed class IrbisNetworkException
-        : ApplicationException
+        : ArsMagnaException
     {
         #region Construction
 

@@ -123,7 +123,7 @@ namespace AM.Diagnostics
             if ((RunningProcess != null)
                  && !RunningProcess.HasExited)
             {
-                throw new ApplicationException();
+                throw new ArsMagnaException();
             }
             ProcessStartInfo startInfo = new ProcessStartInfo
                 {

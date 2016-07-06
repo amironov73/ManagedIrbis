@@ -41,7 +41,10 @@ namespace AM.IO
             string result = reader.ReadLine();
             if (ReferenceEquals(result, null))
             {
-                throw new ApplicationException("Unexpected end of stream");
+                throw new ArsMagnaException
+                    (
+                        "Unexpected end of stream"
+                    );
             }
 
             return result;

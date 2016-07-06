@@ -17,7 +17,7 @@ namespace AM.Text.Tokenizer
     /// </summary>
     [PublicAPI]
     public sealed class TokenizerException
-        : ApplicationException
+        : ArsMagnaException
     {
         #region Construction
 

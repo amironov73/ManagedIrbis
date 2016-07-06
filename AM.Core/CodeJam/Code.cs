@@ -8,6 +8,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq.Expressions;
+using AM;
 using JetBrains.Annotations;
 
 #endregion
@@ -239,7 +240,7 @@ namespace CodeJam
                 as MemberExpression;
             if (memberExpression == null)
             {
-                throw new ApplicationException();
+                throw new ArsMagnaException();
             }
 
             if (!condition())
@@ -279,7 +280,7 @@ namespace CodeJam
                 as MemberExpression;
             if (memberExpression == null)
             {
-                throw new ApplicationException();
+                throw new ArsMagnaException();
             }
 
             T value = parameter.Compile().Invoke();
@@ -316,12 +317,12 @@ namespace CodeJam
                 as MemberExpression;
             if (memberExpression == null)
             {
-                throw new ApplicationException();
+                throw new ArsMagnaException();
             }
 
             if (memberExpression.Type != typeof(String))
             {
-                throw new ApplicationException();
+                throw new ArsMagnaException();
             }
 
             string value = parameter.Compile().Invoke() as string;

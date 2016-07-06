@@ -5,7 +5,6 @@
 #region Using directives
 
 using System;
-using System.Runtime.Serialization;
 
 using JetBrains.Annotations;
 
@@ -19,7 +18,7 @@ namespace ManagedClient.Systematization
     [PublicAPI]
     [Serializable]
     public sealed class UdkException
-        : ApplicationException
+        : IrbisException
     {
         #region Construciton
 
@@ -52,18 +51,6 @@ namespace ManagedClient.Systematization
                 [CanBeNull] Exception innerException
             )
             : base(message, innerException)
-        {
-        }
-
-        /// <summary>
-        /// Конструктор.
-        /// </summary>
-        private UdkException
-            (
-                [NotNull] SerializationInfo info,
-                StreamingContext context
-            )
-            : base(info, context)
         {
         }
     }

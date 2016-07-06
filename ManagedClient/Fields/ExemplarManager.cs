@@ -245,7 +245,7 @@ namespace ManagedClient.Fields
 
             if (string.IsNullOrEmpty(result))
             {
-                throw new ApplicationException();
+                throw new IrbisException();
             }
 
             return result;
@@ -291,7 +291,7 @@ namespace ManagedClient.Fields
         {
             if (exemplar.Mfn <= 0)
             {
-                throw new ApplicationException("MFN <= 0");
+                throw new IrbisException("MFN <= 0");
             }
 
             exemplar.Description = GetDescription
@@ -424,7 +424,7 @@ namespace ManagedClient.Fields
 
             if (ReferenceEquals(loaded, null))
             {
-                throw new ApplicationException();
+                throw new IrbisException();
             }
 
             foreach (ExemplarInfo exemplar in loaded)

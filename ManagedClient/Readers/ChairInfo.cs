@@ -179,7 +179,7 @@ namespace ManagedClient.Readers
 
             if (string.IsNullOrEmpty(chairText))
             {
-                throw new ApplicationException();
+                throw new IrbisException();
             }
 
             ChairInfo[] result = Parse(chairText);

@@ -168,7 +168,7 @@ namespace ManagedClient.Pooling
             {
                 if (!_event.WaitOne())
                 {
-                    throw new ApplicationException("WaitOne failed");
+                    throw new IrbisException("WaitOne failed");
                 }
                 lock (_syncRoot)
                 {
@@ -292,7 +292,7 @@ namespace ManagedClient.Pooling
             {
                 if (!_activeConnections.Contains(client))
                 {
-                    throw new ApplicationException("Foreign connection");
+                    throw new IrbisException("Foreign connection");
                 }
                 _activeConnections.Remove(client);
                 if (client.Connected)
@@ -327,7 +327,7 @@ namespace ManagedClient.Pooling
             {
                 if (!_event.WaitOne())
                 {
-                    throw new ApplicationException("WaitOne failed");
+                    throw new IrbisException("WaitOne failed");
                 }
 
                 lock (_syncRoot)
@@ -348,7 +348,7 @@ namespace ManagedClient.Pooling
         /// Performs application-defined tasks associated
         /// with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        /// <exception cref="System.ApplicationException">
+        /// <exception cref="IrbisException">
         /// Have active connections</exception>
         public void Dispose()
         {
@@ -356,7 +356,7 @@ namespace ManagedClient.Pooling
             {
                 if (_activeConnections.Count != 0)
                 {
-                    throw new ApplicationException("Have active connections");
+                    throw new IrbisException("Have active connections");
                 }
 
                 foreach (IrbisConnection client in _idleConnections)

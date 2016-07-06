@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-
 using System.Text;
 
 using AM.Runtime;
@@ -821,7 +820,7 @@ namespace AM.IO
         {
             if (string.IsNullOrEmpty(FileName))
             {
-                throw new ApplicationException();
+                throw new ArsMagnaException();
             }
 
             Section section = _CreateSections();
@@ -956,7 +955,7 @@ namespace AM.IO
         {
             if (string.IsNullOrEmpty(FileName))
             {
-                throw new ApplicationException();
+                throw new ArsMagnaException();
             }
 
             Save(FileName);

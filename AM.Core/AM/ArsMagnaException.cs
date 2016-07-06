@@ -1,4 +1,4 @@
-﻿/* VerificationException.cs -- exception for IVerifiable interface.
+﻿/* FileUtility.cs -- file manipulation routines
  * Ars Magna project, http://arsmagna.ru
  */
 
@@ -13,27 +13,26 @@ using JetBrains.Annotations;
 namespace AM
 {
     /// <summary>
-    /// Exception for <see cref="IVerifiable"/> interface.
+    /// 
     /// </summary>
     [PublicAPI]
     [Serializable]
-
-    public sealed class VerificationException
-        : ArsMagnaException
+    public class ArsMagnaException
+        : Exception
     {
         #region Construction
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public VerificationException()
+        public ArsMagnaException()
         {
         }
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public VerificationException
+        public ArsMagnaException
             (
                 string message
             )
@@ -44,7 +43,7 @@ namespace AM
         /// <summary>
         /// Constructor.
         /// </summary>
-        public VerificationException
+        public ArsMagnaException
             (
                 string message,
                 Exception innerException

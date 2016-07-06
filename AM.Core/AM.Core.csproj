@@ -101,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AM\ArrayUtility.cs" />
+    <Compile Include="AM\ArsMagnaException.cs" />
     <Compile Include="AM\AutoDisposeAttribute.cs" />
     <Compile Include="AM\CharUtility.cs" />
     <Compile Include="AM\Collections\BidirectionalDictionary.cs" />

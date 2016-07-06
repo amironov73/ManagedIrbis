@@ -675,17 +675,17 @@ namespace AM.Text
                 Chunk chunk = node.Value;
                 if (!chunk.HavePrefix && !chunk.HaveValue)
                 {
-                    throw new ApplicationException();
+                    throw new ArsMagnaException();
                 }
                 if (node.Next != null)
                 {
                     if (!chunk.HaveValue)
                     {
-                        throw new ApplicationException();
+                        throw new ArsMagnaException();
                     }
                     if (!node.Next.Value.HavePrefix)
                     {
-                        throw new AppDomainUnloadedException();
+                        throw new ArsMagnaException();
                     }
                 }
             }

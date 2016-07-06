@@ -122,11 +122,11 @@ namespace AM.Text.Ranges
             }
             if (ReferenceEquals(Start, null))
             {
-                throw new ApplicationException("Start is null");
+                throw new ArsMagnaException("Start is null");
             }
             if (ReferenceEquals(Stop, null))
             {
-                throw new ApplicationException("Stop is null");
+                throw new ArsMagnaException("Stop is null");
             }
             return ((Start.CompareTo(number) <= 0)
                     && (number.CompareTo(Stop)) <= 0);
@@ -269,11 +269,11 @@ namespace AM.Text.Ranges
         {
             if (ReferenceEquals(Start, null))
             {
-                throw new ApplicationException("Start is null");
+                throw new ArsMagnaException("Start is null");
             }
             if (ReferenceEquals(Stop, null))
             {
-                throw new ApplicationException("Stop is null");
+                throw new ArsMagnaException("Stop is null");
             }
             for (
                     NumberText current = Start;

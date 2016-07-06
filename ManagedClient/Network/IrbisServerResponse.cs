@@ -315,7 +315,7 @@ namespace ManagedClient.Network
 
             if (throwException && !result)
             {
-                throw new ApplicationException();
+                throw new IrbisException();
             }
 
             return result;

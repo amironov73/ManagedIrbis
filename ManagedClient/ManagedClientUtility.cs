@@ -74,7 +74,7 @@ namespace ManagedClient
         /// <summary>
         /// Получаем уже подключенного клиента.
         /// </summary>
-        /// <exception cref="ApplicationException">
+        /// <exception cref="IrbisException">
         /// Если строка подключения в app.settings не найдена.
         /// </exception>
         public static IrbisConnection GetClientFromConfig()
@@ -82,7 +82,7 @@ namespace ManagedClient
             string connectionString = GetStandardConnectionString();
             if (string.IsNullOrEmpty(connectionString))
             {
-                throw new ApplicationException
+                throw new IrbisException
                     (
                         "Connection string not specified!"
                     );

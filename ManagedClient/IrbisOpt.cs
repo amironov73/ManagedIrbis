@@ -454,7 +454,7 @@ namespace ManagedClient
                 }
             }
 
-            throw new ApplicationException("Can't select worksheet");
+            throw new IrbisException("Can't select worksheet");
         }
 
         /// <summary>
@@ -578,7 +578,7 @@ namespace ManagedClient
 
             if (!result && throwException)
             {
-                throw new ApplicationException("OPT not valid");
+                throw new IrbisException("OPT not valid");
             }
 
             return result;

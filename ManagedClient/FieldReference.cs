@@ -440,7 +440,7 @@ namespace ManagedClient
             Code.NotNull(fields, "fields");
             if (string.IsNullOrEmpty(FieldTag))
             {
-                throw new ApplicationException();
+                throw new IrbisException();
             }
 
             RecordField[] selected = fields.GetField(FieldTag);
@@ -863,7 +863,7 @@ namespace ManagedClient
         {
             if (string.IsNullOrEmpty(FieldTag))
             {
-                throw new ApplicationException();
+                throw new IrbisException();
             }
 
             StringBuilder result = new StringBuilder();

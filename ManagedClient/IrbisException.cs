@@ -6,6 +6,9 @@
 
 using System;
 using System.Diagnostics;
+
+using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -25,9 +28,10 @@ namespace ManagedClient
     //[MoonSharpUserData]
     [DebuggerDisplay("Code={Code}, Message={Message}")]
     public class IrbisException
-        : ApplicationException
+        : ArsMagnaException
     {
         #region Properties
+
 
         /// <summary>
         /// Код возврата (код ошибки)
