@@ -70,7 +70,7 @@ namespace UnitTests.ManagedClient
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ApplicationException))]
+        [ExpectedException(typeof(IrbisException))]
         public void TestFieldReferenceToSourceCodeException()
         {
             FieldReference reference = new FieldReference();
