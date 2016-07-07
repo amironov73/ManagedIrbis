@@ -95,10 +95,17 @@ namespace ManagedClient.Network
             // Not supported in .NET Core
             result.Connect(_address, Connection.Port);
 
-#else
+#endif
+
+#if FW45
 
             Task task = result.ConnectAsync(_address, Connection.Port);
             task.Wait();
+
+#else
+
+            // FW40 doesn't contain ConnectAsync
+            result.Connect(_address, Connection.Port);
 
 #endif
 
