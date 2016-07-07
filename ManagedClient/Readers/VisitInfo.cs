@@ -25,7 +25,6 @@ namespace ManagedClient.Readers
     /// <summary>
     /// Информация о посещении/выдаче.
     /// </summary>
-    [Serializable]
     [XmlRoot("visit")]
     [MoonSharpUserData]
     public sealed class VisitInfo

@@ -69,18 +69,18 @@ namespace ManagedClient.Fields
 
         #region Construction
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public ExemplarManager()
-            : this
-            (
-                ManagedClientUtility.GetClientFromConfig(),
-                null
-            )
-        {
+        ///// <summary>
+        ///// Constructor.
+        ///// </summary>
+        //public ExemplarManager()
+        //    : this
+        //    (
+        //        ManagedClientUtility.GetClientFromConfig(),
+        //        null
+        //    )
+        //{
             
-        }
+        //}
 
         /// <summary>
         /// Constructor.

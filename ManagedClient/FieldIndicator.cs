@@ -29,7 +29,6 @@ namespace ManagedClient
     /// Индикатор поля.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [XmlRoot("indicator")]
     [DebuggerDisplay("Value = '{Value}'")]
@@ -211,7 +210,7 @@ namespace ManagedClient
 
         private string _value;
 
-        [NonSerialized]
+        //[NonSerialized]
         internal RecordField _field;
 
         #endregion
@@ -301,7 +300,7 @@ namespace ManagedClient
 
         #region IReadOnly<T> members
 
-        [NonSerialized]
+        //[NonSerialized]
         internal bool _readOnly;
 
         /// <summary>

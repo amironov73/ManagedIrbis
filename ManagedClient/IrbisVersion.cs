@@ -30,7 +30,6 @@ namespace ManagedClient
     /// Информация о версии ИРБИС-сервера.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("Version={Version}")]
     public sealed class IrbisVersion

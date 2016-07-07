@@ -31,7 +31,6 @@ namespace ManagedClient.Fst
     /// FST file line.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("{Tag} {Method} {Format}")]
     public sealed class FstLine

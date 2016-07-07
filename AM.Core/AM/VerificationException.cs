@@ -16,8 +16,6 @@ namespace AM
     /// Exception for <see cref="IVerifiable"/> interface.
     /// </summary>
     [PublicAPI]
-    [Serializable]
-
     public sealed class VerificationException
         : ArsMagnaException
     {

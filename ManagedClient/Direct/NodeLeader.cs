@@ -26,7 +26,6 @@ namespace ManagedClient
     /// Лидер записи в N01, L01
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("Number={Number}, Previous={Previous}, Next={Next}, "
         + "TermCount={TermCount}, FreeOffset={FreeOffset}")]

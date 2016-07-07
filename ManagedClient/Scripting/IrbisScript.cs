@@ -222,8 +222,10 @@ namespace ManagedClient.Scripting
         {
             if (!_typesRegistered)
             {
-                UserData.RegisterAssembly(typeof(StringUtility).Assembly);
-                UserData.RegisterAssembly(typeof(IrbisScript).Assembly);
+                // Not supported in .NET Core
+                //UserData.RegisterAssembly(typeof(StringUtility).Assembly);
+                //UserData.RegisterAssembly(typeof(IrbisScript).Assembly);
+
                 UserData.RegisterType<Version>();
                 _typesRegistered = true;
             }

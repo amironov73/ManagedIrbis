@@ -30,7 +30,6 @@ namespace ManagedClient
     /// Информация о базе данных ИРБИС
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("{Name} {Description}")]
     public sealed class IrbisDatabaseInfo

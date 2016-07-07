@@ -22,7 +22,6 @@ namespace AM.Text
     /// Text with given encoding.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("Text={Text} Encoding={Encoding}")]
     public sealed class TextWithEncoding

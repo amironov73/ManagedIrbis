@@ -47,7 +47,6 @@ namespace ManagedClient.Search
     /// Search scenario
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public sealed class SearchScenario
         : IHandmadeSerializable

@@ -27,7 +27,6 @@ namespace ManagedClient
     /// Ссылка на запись (например, для сохранения в "кармане").
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [XmlRoot("record")]
     [MoonSharpUserData]
     [DebuggerDisplay("MFN={Mfn}, Index={Index}")]

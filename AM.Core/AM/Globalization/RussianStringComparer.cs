@@ -76,18 +76,31 @@ namespace AM.Globalization
             _ignoreCase = ignoreCase;
 
             CultureInfo russianCulture = BuiltinCultures.Russian;
-            _innerComparer = Create
-                (
-                    russianCulture,
-                    ignoreCase
-                 );
+
+            //_innerComparer = Create
+            //    (
+            //        russianCulture,
+            //        ignoreCase
+            //     );
+
+            CompareOptions options = ignoreCase
+                ? CompareOptions.IgnoreCase
+                : CompareOptions.None;
+
+            _innerComparer = (left, right)
+                => russianCulture.CompareInfo.Compare
+                    (
+                        left,
+                        right,
+                        options
+                    );
         }
 
         #endregion
 
         #region Private members
 
-        private StringComparer _innerComparer;
+        private Func<string, string, int> _innerComparer;
 
         private string _Replace
             (
@@ -132,7 +145,7 @@ namespace AM.Globalization
             string xCopy = _Replace(x);
             string yCopy = _Replace(y);
             
-            return _innerComparer.Compare
+            return _innerComparer
                 (
                     xCopy,
                     yCopy
@@ -158,11 +171,11 @@ namespace AM.Globalization
             string xCopy = _Replace(x);
             string yCopy = _Replace(y);
             
-            return _innerComparer.Equals
+            return _innerComparer
                 (
                     xCopy,
                     yCopy
-                 );
+                 ) == 0;
         }
 
         ///<summary>
@@ -181,7 +194,9 @@ namespace AM.Globalization
         {
             string objCopy = _Replace(obj);
             
-            return _innerComparer.GetHashCode(objCopy);
+            return ReferenceEquals(objCopy, null)
+                ? 0
+                : objCopy.GetHashCode();
         }
     }
 }

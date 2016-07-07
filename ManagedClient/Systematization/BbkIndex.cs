@@ -31,7 +31,6 @@ namespace ManagedClient.Systematization
     /// разложенный по элементам.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [XmlRoot("bbk")]
     [MoonSharpUserData]
     [DebuggerDisplay("{MainIndex}")]

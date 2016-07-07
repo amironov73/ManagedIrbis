@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if NOTDEF
+
+using System;
 using ManagedClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -76,3 +78,5 @@ return v('v201^a')
         }
     }
 }
+
+#endif

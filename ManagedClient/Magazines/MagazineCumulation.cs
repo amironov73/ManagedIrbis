@@ -28,7 +28,6 @@ namespace ManagedClient.Magazines
     /// Данные о кумуляции номеров. Поле 909.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [XmlRoot("cumulation")]
     [MoonSharpUserData]
     public sealed class MagazineCumulation

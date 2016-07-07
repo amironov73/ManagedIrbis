@@ -5,6 +5,8 @@ using AM.Reflection;
 
 namespace UnitTests.AM.Reflection
 {
+#if NOTDEF
+
     [TestClass]
     public class PropertyAccessorTest
     {
@@ -88,4 +90,6 @@ namespace UnitTests.AM.Reflection
             Assert.IsTrue(stringSet);
         }
     }
+
+#endif
 }

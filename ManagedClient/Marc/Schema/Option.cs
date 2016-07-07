@@ -29,7 +29,6 @@ namespace ManagedClient.Marc.Schema
     /// Option.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [XmlRoot("option")]
     [DebuggerDisplay("[{Value}] {Name}")]

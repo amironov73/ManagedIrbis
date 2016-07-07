@@ -25,7 +25,6 @@ namespace AM.Collections
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("Count = {Count}")]
     public class DisposableCollection<T>

@@ -24,7 +24,6 @@ namespace ManagedClient.Magazines
     /// Информация о статье из журнала/сборника.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [XmlRoot("article")]
     [MoonSharpUserData]
     public sealed class MagazineArticleInfo

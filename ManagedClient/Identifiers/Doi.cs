@@ -106,7 +106,6 @@ namespace ManagedClient.Identifiers
     /// DOI
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("{Prefix} {Suffix}")]
     public sealed class Doi

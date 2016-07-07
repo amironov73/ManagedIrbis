@@ -23,6 +23,7 @@ using MoonSharp.Interpreter;
 
 namespace AM.Net
 {
+#if NOTDEF
 
     [PublicAPI]
     [MoonSharpUserData]
@@ -72,4 +73,6 @@ namespace AM.Net
 
         #endregion
     }
+
+#endif
 }

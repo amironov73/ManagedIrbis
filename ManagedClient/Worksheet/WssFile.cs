@@ -33,7 +33,6 @@ namespace ManagedClient.Worksheet
     /// Вложенный рабочий лист.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("{Name}")]
     [XmlRoot("wss-file")]
@@ -116,7 +115,11 @@ namespace ManagedClient.Worksheet
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
-            using (StreamReader reader = new StreamReader(fileName, encoding))
+            using (StreamReader reader = new StreamReader
+                (
+                    File.OpenRead(fileName),
+                    encoding
+                ))
             {
                 WssFile result = ParseStream(reader);
 

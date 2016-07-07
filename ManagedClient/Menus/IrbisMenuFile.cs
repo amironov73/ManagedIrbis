@@ -33,7 +33,6 @@ namespace ManagedClient.Menus
     /// MNU file handling.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [XmlRoot("menu")]
     [MoonSharpUserData]
     [JsonConverter(typeof(MenuConverter))]
@@ -77,7 +76,6 @@ namespace ManagedClient.Menus
         /// Menu entry. Represents two lines.
         /// </summary>
         [PublicAPI]
-        [Serializable]
         [XmlRoot("entry")]
         [MoonSharpUserData]
         [DebuggerDisplay("{Code} = {Comment}")]
@@ -566,11 +564,15 @@ namespace ManagedClient.Menus
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
-            using (StreamReader reader
-                = new StreamReader(fileName, encoding))
+            using (StreamReader reader = new StreamReader
+                    (
+                        File.OpenRead(fileName),
+                        encoding
+                    ))
             {
                 IrbisMenuFile result = ParseStream(reader);
                 result.FileName = Path.GetFileName(fileName);
+
                 return result;
             }
         }

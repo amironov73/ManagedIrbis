@@ -23,7 +23,6 @@ namespace ManagedClient
     /// (не обязательно о текущем).
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public sealed class IrbisClientInfo
     {

@@ -27,7 +27,6 @@ namespace ManagedClient
     /// MARC record subfield.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [XmlRoot("subfield")]
     [MoonSharpUserData]
     [DebuggerDisplay("Code={Code}, Value={Value}")]
@@ -127,7 +126,7 @@ namespace ManagedClient
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
-        [NonSerialized]
+        //[NonSerialized]
         public RecordField Field;
 
         #endregion
@@ -196,7 +195,7 @@ namespace ManagedClient
 
         private string _value;
 
-        [NonSerialized]
+        //[NonSerialized]
         private object _userData;
 
         #endregion
@@ -320,7 +319,7 @@ namespace ManagedClient
         #region IReadOnly<T> members
 
         // ReSharper disable InconsistentNaming
-        [NonSerialized]
+        //[NonSerialized]
         internal bool _readOnly;
         // ReSharper restore InconsistentNaming
 

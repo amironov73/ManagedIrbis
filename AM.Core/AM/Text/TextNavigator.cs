@@ -81,7 +81,10 @@ namespace AM.Text
         {
             Code.NotNull(text, "text");
 
-            _text = text.Normalize();
+            // Not supported in .NET Core
+            //_text = text.Normalize();
+            _text = text;
+
             _position = 0;
             _length = _text.Length;
             _line = 1;

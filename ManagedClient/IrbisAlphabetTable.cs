@@ -43,7 +43,6 @@ namespace ManagedClient
     /// ISISAC.TAB
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public sealed class IrbisAlphabetTable
     {
@@ -172,7 +171,11 @@ namespace ManagedClient
             Code.NotNullNorEmpty(fileName, "fileName");
 
             using (StreamReader reader 
-                = new StreamReader(fileName, IrbisEncoding.Ansi))
+                = new StreamReader
+                    (
+                        File.OpenRead(fileName),
+                        IrbisEncoding.Ansi
+                    ))
             {
                 return ParseText(reader);
             }
@@ -291,8 +294,11 @@ namespace ManagedClient
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            using (StreamWriter writer
-                = new StreamWriter(fileName, false, IrbisEncoding.Ansi))
+            using (StreamWriter writer = new StreamWriter
+                    (
+                        File.Create(fileName),
+                        IrbisEncoding.Ansi
+                    ))
             {
                 WriteTable(writer);
             }

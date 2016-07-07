@@ -16,7 +16,6 @@ namespace ManagedClient.Systematization
     /// Исключение, возникающее при работе с УДК.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     public sealed class UdkException
         : IrbisException
     {

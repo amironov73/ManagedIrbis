@@ -12,7 +12,6 @@ namespace ManagedClient.Morphology
 {
 #if NOTDEF
 
-    [Serializable]
     public sealed class MorphologyEntry
     {
         #region Properties

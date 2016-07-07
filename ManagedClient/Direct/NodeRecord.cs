@@ -26,7 +26,6 @@ namespace ManagedClient
     /// Запись в файлах L01 и N01.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("Leader={Leader}")]
     public sealed class NodeRecord

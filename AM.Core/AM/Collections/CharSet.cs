@@ -30,7 +30,6 @@ namespace AM.Collections
     /// Character set.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("{ToString()}")]
     public sealed class CharSet
@@ -274,7 +273,7 @@ namespace AM.Collections
                 [NotNull] BitArray data
             )
         {
-            _data = (BitArray) data.Clone();
+            _data = new BitArray(data);
         }
 
         /// <summary>
@@ -287,7 +286,7 @@ namespace AM.Collections
         {
             Code.NotNull(other, "other");
 
-            _data = (BitArray) other._data.Clone();
+            _data = new BitArray(other._data);
         }
 
         /// <summary>

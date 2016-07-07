@@ -35,7 +35,6 @@ namespace AM.Collections
     /// </code>
     /// </example>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public sealed class XRange
         : IEnumerable<T>

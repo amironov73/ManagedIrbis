@@ -22,6 +22,8 @@ using MoonSharp.Interpreter;
 
 namespace AM.Net
 {
+#if NOTDEF
+
     /// <summary>
     /// Thin <see cref="Task"/>-oriented wrapper over
     /// <see cref="Socket"/> class.
@@ -148,4 +150,6 @@ namespace AM.Net
         #endregion
 
     }
+
+#endif
 }

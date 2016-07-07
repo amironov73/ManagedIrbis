@@ -26,7 +26,6 @@ namespace ManagedClient.Readers
     /// Адрес читателя: поле 13 в базе RDR.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [XmlRoot("address")]
     public sealed class ReaderAddress
@@ -118,7 +117,7 @@ namespace ManagedClient.Readers
 
         #region Private members
 
-        [NonSerialized]
+        //[NonSerialized]
         private object _userData;
 
         #endregion

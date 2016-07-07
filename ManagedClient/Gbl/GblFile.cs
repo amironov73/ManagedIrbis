@@ -33,7 +33,6 @@ namespace ManagedClient.Gbl
     /// GBL file
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [XmlRoot("gbl")]
     [MoonSharpUserData]
     public sealed class GblFile
@@ -110,7 +109,11 @@ namespace ManagedClient.Gbl
             Code.NotNull(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
-            using (StreamReader reader = new StreamReader(fileName, encoding))
+            using (StreamReader reader = new StreamReader
+                (
+                    File.OpenRead(fileName),
+                    encoding
+                ))
             {
                 GblFile result = ParseStream(reader);
 

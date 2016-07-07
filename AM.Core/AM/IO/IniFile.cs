@@ -47,7 +47,6 @@ namespace AM.IO
         /// Элемент (строка) INI-файла).
         /// </summary>
         [PublicAPI]
-        [Serializable]
         [MoonSharpUserData]
         [DebuggerDisplay("{Name}={Value} [{Modified}]")]
         public sealed class IniItem
@@ -671,7 +670,8 @@ namespace AM.IO
         /// <returns></returns>
         protected virtual IEqualityComparer<string> GetComparer()
         {
-            return StringComparer.InvariantCultureIgnoreCase;
+            //return StringComparer.InvariantCultureIgnoreCase;
+            return StringComparer.OrdinalIgnoreCase;
         }
 
         private void _SaveSection
@@ -747,7 +747,7 @@ namespace AM.IO
                 section[keyName] = value;
             }
         }
-        
+
         /// <summary>
         /// Gets the specified item.
         /// </summary>
@@ -771,7 +771,7 @@ namespace AM.IO
 
             return result;
         }
-        
+
         /// <summary>
         /// Sets the specified item.
         /// </summary>
@@ -931,8 +931,14 @@ namespace AM.IO
             )
         {
             Encoding encoding = Encoding ?? Encoding.GetEncoding(0);
+            //using (StreamWriter writer
+            //    = new StreamWriter(fileName, false, encoding))
             using (StreamWriter writer
-                = new StreamWriter(fileName, false, encoding))
+                = new StreamWriter
+                    (
+                        File.Create(fileName),
+                        encoding
+                    ))
             {
                 Save(writer);
             }
@@ -958,7 +964,7 @@ namespace AM.IO
         /// <summary>
         /// 
         /// </summary>
-        public void Dispose ()
+        public void Dispose()
         {
             if (Writable
                  && Modified

@@ -26,7 +26,6 @@ namespace ManagedClient.Readers
     /// Информация о кафедре обслуживания.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [XmlRoot("chair")]
     [DebuggerDisplay("Code={Code} Title={Title}")]
     public sealed class ChairInfo

@@ -30,7 +30,7 @@ namespace ManagedClient
     /// Отличается тем, что принципиально
     /// не принимает значения <c>null</c>.
     /// </summary>
-    [Serializable]
+    [PublicAPI]
     [MoonSharpUserData]
     [ClassInterface(ClassInterfaceType.None)]
     public sealed class RecordFieldCollection
@@ -55,7 +55,7 @@ namespace ManagedClient
         #region Private members
 
         // ReSharper disable InconsistentNaming
-        [NonSerialized]
+        //[NonSerialized]
         private IrbisRecord _record;
 
         internal RecordFieldCollection _SetRecord
@@ -277,7 +277,7 @@ namespace ManagedClient
 
         #region IReadOnly<T> members
 
-        [NonSerialized]
+        //[NonSerialized]
         internal bool _readOnly;
 
         /// <summary>

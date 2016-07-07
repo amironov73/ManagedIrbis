@@ -33,14 +33,13 @@ namespace AM.Collections
     /// <seealso cref="Pair{T1,T2}"/>
     /// <seealso cref="Triplet{T1,T2,T3}"/>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("{First};{Second};{Third};{Fourth}")]
-    [TypeConverter(typeof(IndexableConverter))]
+    //[TypeConverter(typeof(IndexableConverter))]
     public class Quartet<T1, T2, T3, T4>
         : IList,
           IIndexable<object>,
-          ICloneable,
+          //ICloneable,
           IReadOnly<Quartet<T1,T2,T3,T4>>
     {
         #region Properties

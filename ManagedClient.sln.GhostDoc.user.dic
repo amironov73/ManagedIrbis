@@ -12,6 +12,7 @@ Hyphenator
 Json
 Magna
 Memoize
+Millis
 Newtonsoft
 Readonly
 referencesource
@@ -22,6 +23,7 @@ Topo
 Toub
 transcode
 Transliterator
+typeof
 typeparamref
 Unescape
 Username

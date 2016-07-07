@@ -24,7 +24,6 @@ namespace ManagedClient
     /// ManagedClient
     /// </summary>
     [PublicAPI]
-    [Serializable]
     //[MoonSharpUserData]
     [DebuggerDisplay("Code={Code}, Message={Message}")]
     public class IrbisException

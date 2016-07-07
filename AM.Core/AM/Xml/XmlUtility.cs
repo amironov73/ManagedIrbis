@@ -243,7 +243,9 @@ namespace AM.Xml
                 [NotNull] this XmlReader reader
             )
         {
-            string result = reader.ReadString();
+            //string result = reader.ReadString();
+            string result = reader.ReadElementContentAsString();
+
             if (result != null)
             {
                 result = result.Trim();

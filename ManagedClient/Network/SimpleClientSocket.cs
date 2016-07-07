@@ -63,15 +63,16 @@ namespace ManagedClient.Network
 
             if (_address == null)
             {
-                try
-                {
+                //try
+                //{
                     _address = IPAddress.Parse(Connection.Host);
-                }
-                catch
-                {
-                    IPHostEntry ipHostEntry = Dns.GetHostEntry(Connection.Host);
-                    _address = ipHostEntry.AddressList[0];
-                }
+                //}
+                //catch
+                //{
+                //    // Not supported in .NET Core
+                //    IPHostEntry ipHostEntry = Dns.GetHostEntry(Connection.Host);
+                //    _address = ipHostEntry.AddressList[0];
+                //}
             }
 
             if (_address == null)
@@ -89,7 +90,17 @@ namespace ManagedClient.Network
 
             // TODO some setup
 
+#if FW35
+
+            // Not supported in .NET Core
             result.Connect(_address, Connection.Port);
+
+#else
+
+            Task task = result.ConnectAsync(_address, Connection.Port);
+            task.Wait();
+
+#endif
 
             return result;
         }

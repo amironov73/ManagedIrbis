@@ -93,10 +93,18 @@ namespace AM.Text.Output
             }
             Close();
             _fileName = fileName;
+            
+            //_writer = new StreamWriter
+            //    (
+            //        fileName,
+            //        append
+            //    );
+            FileMode fileMode = append
+                ? FileMode.Append
+                : FileMode.Create;
             _writer = new StreamWriter
                 (
-                    fileName,
-                    append
+                    File.Open(fileName, fileMode)
                 );
         }
 
@@ -125,20 +133,24 @@ namespace AM.Text.Output
                 Encoding encoding
             )
         {
-            if (string.IsNullOrEmpty(fileName))
-            {
-                throw new ArgumentNullException("fileName");
-            }
-            if (ReferenceEquals(encoding, null))
-            {
-                throw new ArgumentNullException("encoding");
-            }
+            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNull(encoding, "encoding");
+
             Close();
             _fileName = fileName;
+
+            //_writer = new StreamWriter
+            //    (
+            //        fileName,
+            //        append,
+            //        encoding
+            //    );
+            FileMode fileMode = append
+                ? FileMode.Append
+                : FileMode.Create;
             _writer = new StreamWriter
                 (
-                    fileName,
-                    append,
+                    File.Open(fileName, fileMode),
                     encoding
                 );
         }

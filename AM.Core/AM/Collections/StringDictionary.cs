@@ -27,7 +27,6 @@ namespace AM.Collections
     /// with saving-restoring facility.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("Count = {Count}")]
     public sealed class StringDictionary
@@ -150,8 +149,10 @@ namespace AM.Collections
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
+            //using (TextWriter writer
+            //    = new StreamWriter(fileName, false, encoding))
             using (TextWriter writer
-                = new StreamWriter(fileName, false, encoding))
+                = new StreamWriter(File.Create(fileName), encoding))
             {
                 Save(writer);
             }

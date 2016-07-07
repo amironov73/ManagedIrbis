@@ -20,7 +20,6 @@ namespace AM.Text.Tokenizer
     /// Settings for <see cref="StringTokenizer"/>
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("IgnoreNewLine={IgnoreNewLine} "
         + "IgnoreWhitespace={IgnoreWhitespace}")]

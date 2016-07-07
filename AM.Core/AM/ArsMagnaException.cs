@@ -16,7 +16,6 @@ namespace AM
     /// 
     /// </summary>
     [PublicAPI]
-    [Serializable]
     public class ArsMagnaException
         : Exception
     {

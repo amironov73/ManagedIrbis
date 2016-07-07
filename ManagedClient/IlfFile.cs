@@ -54,7 +54,6 @@ namespace ManagedClient
     /// 
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public sealed class IlfFile
         : IHandmadeSerializable,
@@ -74,7 +73,6 @@ namespace ManagedClient
         /// <summary>
         /// Entry.
         /// </summary>
-        [Serializable]
         [MoonSharpUserData]
         [DebuggerDisplay("[{Number}] {Name}")]
         public sealed class Entry
@@ -255,6 +253,57 @@ namespace ManagedClient
 
         private readonly NonNullCollection<Entry> _entries;
 
+        #region Borrowed from reference source
+
+        // see http://referencesource.microsoft.com/#mscorlib/system/datetime.cs,3509f50c41a3c37b
+
+        private const int DaysPerYear = 365;
+        private const int DaysPer4Years = DaysPerYear * 4 + 1;
+        private const int DaysPer100Years = DaysPer4Years * 25 - 1;
+        private const int DaysPer400Years = DaysPer100Years * 4 + 1;
+        private const int DaysTo1899 = DaysPer400Years * 4
+            + DaysPer100Years * 3 - 367;
+
+        private const long TicksPerMillisecond = 10000;
+        private const long TicksPerSecond = TicksPerMillisecond * 1000;
+        private const long TicksPerMinute = TicksPerSecond * 60;
+        private const long TicksPerHour = TicksPerMinute * 60;
+        private const long TicksPerDay = TicksPerHour * 24;
+
+        private const int MillisPerSecond = 1000;
+        private const int MillisPerMinute = MillisPerSecond * 60;
+        private const int MillisPerHour = MillisPerMinute * 60; 
+        private const int MillisPerDay = MillisPerHour * 24;
+
+        private const long DoubleDateOffset = DaysTo1899 * TicksPerDay;
+
+        private static long DoubleDateToTicks(double value)
+        {
+
+            long millis = (long)(value * MillisPerDay
+                + (value >= 0 ? 0.5 : -0.5));
+
+            if (millis < 0)
+            {
+                millis -= (millis % MillisPerDay) * 2;
+            }
+
+            millis += DoubleDateOffset / TicksPerMillisecond;
+
+            return millis * TicksPerMillisecond;
+        }
+
+        private static DateTime FromOADate(double d)
+        {
+            return new DateTime
+                (
+                    DoubleDateToTicks(d),
+                    DateTimeKind.Unspecified
+                );
+        }
+
+        #endregion
+
         #endregion
 
         #region Public methods
@@ -314,7 +363,7 @@ namespace ManagedClient
                     Entry entry = new Entry
                     {
                         Position = reader.ReadInt32(),
-                        Date = DateTime.FromOADate(reader.ReadDouble()),
+                        Date = FromOADate(reader.ReadDouble()),
                         Deleted = reader.ReadInt16() != 0
                     };
                     string name = reader.ReadString(24);

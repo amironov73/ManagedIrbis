@@ -32,7 +32,6 @@ namespace ManagedClient
     /// TRE files handling
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public sealed class IrbisTreeFile
         : IHandmadeSerializable
@@ -52,7 +51,6 @@ namespace ManagedClient
         /// Tree item
         /// </summary>
         [PublicAPI]
-        [Serializable]
         [MoonSharpUserData]
         [DebuggerDisplay("{Value}")]
         public sealed class Item
@@ -489,7 +487,11 @@ DONE:
             Code.NotNull(encoding, "encoding");
 
             using (StreamReader reader
-                = new StreamReader(fileName, encoding))
+                = new StreamReader
+                    (
+                        File.OpenRead(fileName),
+                        encoding
+                    ))
             {
                 IrbisTreeFile result = ParseStream(reader);
                 result.FileName = Path.GetFileName(fileName);
@@ -526,8 +528,11 @@ DONE:
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
-            using (StreamWriter writer
-                = new StreamWriter(fileName, false, encoding))
+            using (StreamWriter writer = new StreamWriter
+                    (
+                        File.Create(fileName),
+                        encoding
+                    ))
             {
                 Save(writer);
             }

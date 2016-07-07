@@ -28,7 +28,6 @@ namespace ManagedClient
     /// формат которого описывает следующая структура
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("Length={Length}, KeyOffset={KeyOffset}, Text={Text}")]
     public sealed class NodeItem

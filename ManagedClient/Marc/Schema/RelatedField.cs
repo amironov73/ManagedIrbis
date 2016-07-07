@@ -29,7 +29,6 @@ namespace ManagedClient.Marc.Schema
     /// Related field.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [XmlRoot("related")]
     [DebuggerDisplay("[{Tag}] {Name}")]

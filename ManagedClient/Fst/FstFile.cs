@@ -32,7 +32,6 @@ namespace ManagedClient.Fst
     /// FST file handling
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("FileName = {FileName}")]
     public sealed class FstFile
@@ -112,7 +111,11 @@ namespace ManagedClient.Fst
                 [NotNull] Encoding encoding
             )
         {
-            using (TextReader reader = new StreamReader(fileName, encoding))
+            using (TextReader reader = new StreamReader
+                (
+                    File.OpenRead(fileName),
+                    encoding
+                ))
             {
                 FstFile result = ParseStream(reader);
                 result.FileName = Path.GetFileName(fileName);

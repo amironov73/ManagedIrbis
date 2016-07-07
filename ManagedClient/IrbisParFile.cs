@@ -82,7 +82,6 @@ namespace ManagedClient
     /// PAR files handling
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [XmlRoot("par")]
     [MoonSharpUserData]
     public sealed class IrbisParFile
@@ -261,8 +260,11 @@ namespace ManagedClient
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            using (StreamReader reader
-                = new StreamReader(fileName, IrbisEncoding.Ansi))
+            using (StreamReader reader = new StreamReader
+                    (
+                        File.OpenRead(fileName),
+                        IrbisEncoding.Ansi
+                    ))
             {
                 return ParseText(reader);
             }
@@ -338,7 +340,11 @@ namespace ManagedClient
             Code.NotNullNorEmpty(fileName, "fileName");
 
             using (StreamWriter writer 
-                = new StreamWriter(fileName, false, IrbisEncoding.Ansi))
+                = new StreamWriter
+                    (
+                        File.Create(fileName),
+                        IrbisEncoding.Ansi
+                    ))
             {
                 WriteText(writer);
             }

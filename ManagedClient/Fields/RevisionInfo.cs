@@ -33,7 +33,6 @@ namespace ManagedClient.Fields
     /// Данные о редактировании записи (поле 907).
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("Stage={Stage} Date={Date} Name={Name}")]
     public sealed class RevisionInfo
@@ -102,7 +101,7 @@ namespace ManagedClient.Fields
 
         #region Private members
 
-        [NonSerialized]
+        //[NonSerialized]
         private object _userData;
 
         #endregion

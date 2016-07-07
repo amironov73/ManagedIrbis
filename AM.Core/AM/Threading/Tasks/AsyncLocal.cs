@@ -2,6 +2,8 @@
  * Ars Magna project, http://arsmagna.ru
  */
 
+#if NOTDEF
+
 #region Using directives
 
 using System;
@@ -114,3 +116,5 @@ namespace AM.Threading.Tasks
         #endregion
     }
 }
+
+#endif

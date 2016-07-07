@@ -15,7 +15,6 @@ namespace ManagedClient.Fields
     /// <summary>
     /// Коды (поле 900).
     /// </summary>
-    [Serializable]
     public sealed class CodesInfo
     {
         #region Properties

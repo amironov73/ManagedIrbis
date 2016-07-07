@@ -151,12 +151,12 @@ namespace AM.Diagnostics
                     //, SynchronizingObject = Receiver // Use this to event handler calls 
                     // that are issued as a result of an Exited event on the process
                 };
-           ISynchronizeInvoke synchronizingObject =
-                    Receiver as ISynchronizeInvoke;
-           if (synchronizingObject != null)
-           {
-                _runningProcess.SynchronizingObject = synchronizingObject;
-           }
+           //ISynchronizeInvoke synchronizingObject =
+           //         Receiver as ISynchronizeInvoke;
+           //if (synchronizingObject != null)
+           //{
+           //     _runningProcess.SynchronizingObject = synchronizingObject;
+           //}
             _runningProcess.OutputDataReceived += _OutputDataReceived;
             _runningProcess.ErrorDataReceived += _OutputDataReceived;
             _runningProcess.Exited += _ProcessExited;

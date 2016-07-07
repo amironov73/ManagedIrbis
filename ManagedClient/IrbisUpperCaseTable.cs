@@ -21,7 +21,6 @@ namespace ManagedClient
     /// Table for uppercase character conversion.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public sealed class IrbisUpperCaseTable
     {

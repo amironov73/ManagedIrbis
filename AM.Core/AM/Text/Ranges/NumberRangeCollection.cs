@@ -26,7 +26,6 @@ namespace AM.Text.Ranges
     /// Набор диапазонов чисел.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public sealed class NumberRangeCollection
         : IEnumerable<NumberText>

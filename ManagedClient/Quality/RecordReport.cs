@@ -28,7 +28,6 @@ namespace ManagedClient.Quality
     /// Отчёт о проверке записи.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public sealed class RecordReport
         : IHandmadeSerializable

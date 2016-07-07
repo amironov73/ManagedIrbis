@@ -209,8 +209,11 @@ namespace ManagedClient.Identifiers
                 return false;
             }
 
-            isbn = isbn.ToUpper(Invariant);
-            hyphen = char.ToUpper(hyphen, Invariant);
+            // Not supported in .NET Core
+            //isbn = isbn.ToUpper(Invariant);
+            isbn = isbn.ToUpper();
+            //hyphen = char.ToUpper(hyphen, Invariant);
+            hyphen = char.ToUpper(hyphen);
             for (i = j = 0; i < isbn.Length; i++)
             {
                 char chr = isbn[i];

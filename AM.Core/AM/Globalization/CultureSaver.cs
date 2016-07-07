@@ -19,6 +19,8 @@ using MoonSharp.Interpreter;
 
 namespace AM.Globalization
 {
+#if NOTDEF
+
     /// <summary>
     /// Saves and restores current thread culture.
     /// </summary>
@@ -129,4 +131,6 @@ namespace AM.Globalization
 
         #endregion
     }
+
+#endif
 }

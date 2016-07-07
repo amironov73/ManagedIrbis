@@ -30,7 +30,6 @@ namespace ManagedClient.Transform
     /// Context of <see cref="IrbisRecord"/> transformation.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public sealed class RecordTransformContext
     {

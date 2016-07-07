@@ -30,7 +30,6 @@ namespace ManagedClient.Requests
     /// Информация о читательском заказе.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("Date={RequestDate} Description={BookDescription}")]
     public sealed class BookRequest

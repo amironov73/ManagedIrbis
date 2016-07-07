@@ -33,7 +33,6 @@ namespace ManagedClient.Worksheet
     /// Рабочий лист.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("{Name}")]
     [XmlRoot("ws-file")]

@@ -5,6 +5,7 @@
 #region Using directives
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -92,7 +93,6 @@ namespace ManagedClient
     /// OPT files handling
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public sealed class IrbisOpt
         : IHandmadeSerializable
@@ -320,11 +320,13 @@ namespace ManagedClient
                 return false;
             }
 
-            CharEnumerator leftEnumerator = left.GetEnumerator();
-            CharEnumerator rightEnumerator = right.GetEnumerator();
+            //CharEnumerator leftEnumerator = left.GetEnumerator();
+            //CharEnumerator rightEnumerator = right.GetEnumerator();
+            IEnumerator leftEnumerator = left.ToCharArray().GetEnumerator();
+            IEnumerator rightEnumerator = right.ToCharArray().GetEnumerator();
 
-            try
-            {
+//            try
+//            {
                 while (true)
                 {
                     char leftChar;
@@ -333,12 +335,12 @@ namespace ManagedClient
 
                     if (leftNext && !rightNext)
                     {
-                        leftChar = leftEnumerator.Current;
+                        leftChar = (char) leftEnumerator.Current;
                         if (leftChar == Wildcard)
                         {
                             while (leftEnumerator.MoveNext())
                             {
-                                leftChar = leftEnumerator.Current;
+                                leftChar = (char) leftEnumerator.Current;
                                 if (leftChar != Wildcard)
                                 {
                                     return false;
@@ -357,21 +359,20 @@ namespace ManagedClient
                         return true;
                     }
 
-                    leftChar = leftEnumerator.Current;
-                    char rightChar = rightEnumerator.Current;
+                    leftChar = (char) leftEnumerator.Current;
+                    char rightChar = (char) rightEnumerator.Current;
                     if (!CompareChar(leftChar, rightChar))
                     {
                         return false;
                     }
                 }
-            }
-            finally
-            {
-#if FW40
-                leftEnumerator.Dispose();
-                rightEnumerator.Dispose();
-#endif
-            }
+//            }
+            //finally
+            //{
+            //    // Not supported in .NET Core
+            //    leftEnumerator.Dispose();
+            //    rightEnumerator.Dispose();
+            //}
         }
 
         /// <summary>
@@ -399,7 +400,11 @@ namespace ManagedClient
             Code.NotNullNorEmpty(filePath, "filePath");
 
             using (StreamReader reader 
-                = new StreamReader(filePath, Encoding.GetEncoding(0)))
+                = new StreamReader
+                    (
+                        File.OpenRead(filePath),
+                        Encoding.GetEncoding(0)
+                    ))
             {
                 return ParseText(reader);
             }
@@ -468,7 +473,11 @@ namespace ManagedClient
             Code.NotNullNorEmpty(fileName, "fileName");
 
             using (StreamWriter writer 
-                = new StreamWriter(fileName, false, IrbisEncoding.Ansi))
+                = new StreamWriter
+                    (
+                        File.Create(fileName),
+                        IrbisEncoding.Ansi
+                    ))
             {
                 WriteOptFile(writer);
             }

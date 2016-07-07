@@ -32,7 +32,6 @@ namespace ManagedClient.Magazines
     /// Сведения о номере журнала
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [XmlRoot("issue")]
     [MoonSharpUserData]
     [DebuggerDisplay("{Year} {Number} {Supplement}")]
@@ -151,7 +150,7 @@ namespace ManagedClient.Magazines
 
         #region Private members
 
-        [NonSerialized]
+        //[NonSerialized]
         private object _userData;
 
         #endregion

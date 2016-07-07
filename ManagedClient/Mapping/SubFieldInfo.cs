@@ -17,7 +17,6 @@ namespace ManagedClient.Mapping
     /// <summary>
     /// Информация о маппинге.
     /// </summary>
-    [Serializable]
     public sealed class SubFieldInfo
     {
         #region Properties

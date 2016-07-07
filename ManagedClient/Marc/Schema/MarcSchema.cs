@@ -30,7 +30,6 @@ namespace ManagedClient.Marc.Schema
     /// 
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [XmlRoot("schema")]
     [DebuggerDisplay("Fields = {Fields.Count}")]

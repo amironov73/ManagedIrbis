@@ -25,7 +25,6 @@ namespace AM.Collections
     /// Simple dictionary to count values.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public sealed class DictionaryCounter<TKey>
         : Dictionary<TKey, double>

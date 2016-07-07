@@ -28,7 +28,6 @@ namespace ManagedClient.Quality
     /// Дефект в поле/подполе.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [XmlRoot("defect")]
     [MoonSharpUserData]
     [DebuggerDisplay("Field={Field} Value={Value} Message={Message}")]

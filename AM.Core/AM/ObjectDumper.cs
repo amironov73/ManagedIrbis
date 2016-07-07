@@ -17,6 +17,8 @@ using MoonSharp.Interpreter;
 
 namespace AM
 {
+#if NOTDEF
+
     /// <summary>
     /// Object dumper for debug purposes.
     /// </summary>
@@ -284,4 +286,6 @@ namespace AM
 
         #endregion
     }
+
+#endif
 }

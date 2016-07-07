@@ -51,9 +51,11 @@ namespace AM.Collections
 
             int length = left.Length;
             bool[] leftA = new bool[length];
-            left.CopyTo(leftA, 0);
+            ICollection leftCollection = left;
+            leftCollection.CopyTo(leftA, 0);
             bool[] rightA = new bool[length];
-            right.CopyTo(rightA,0);
+            ICollection rightCollection = right;
+            rightCollection.CopyTo(rightA,0);
 
             for (int i = 0; i < length; i++)
             {

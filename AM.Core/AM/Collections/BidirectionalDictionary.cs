@@ -23,12 +23,11 @@ namespace AM.Collections
     /// Bidirectional key-to-value mapping.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("Count={Count}")]
     public class BidirectionalDictionary<TKey, TValue>
-        : IDictionary<TKey, TValue>,
-          ICloneable
+        : IDictionary<TKey, TValue>
+          //ICloneable
     {
         #region Construction
 

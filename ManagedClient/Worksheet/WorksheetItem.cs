@@ -113,7 +113,6 @@ namespace ManagedClient.Worksheet
     /// Одна строчка в рабочем листе.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [XmlRoot("line")]
     [MoonSharpUserData]
     [DebuggerDisplay("{Tag} {Title} [{Repeatable}][{InputMode}]")]

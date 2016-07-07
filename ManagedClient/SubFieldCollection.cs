@@ -35,7 +35,6 @@ namespace ManagedClient
     /// значения <c>null</c>.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [XmlRoot("subfields")]
     [DebuggerDisplay("Count={Count}")]
@@ -63,7 +62,8 @@ namespace ManagedClient
         #region Private members
 
         // ReSharper disable InconsistentNaming
-        [NonSerialized]
+
+        //[NonSerialized]
         private RecordField _field;
 
         internal SubFieldCollection _SetField
@@ -290,7 +290,8 @@ namespace ManagedClient
         #region IReadOnly<T> members
 
         // ReSharper disable InconsistentNaming
-        [NonSerialized]
+
+        //[NonSerialized]
         internal bool _readOnly;
 
         /// <summary>

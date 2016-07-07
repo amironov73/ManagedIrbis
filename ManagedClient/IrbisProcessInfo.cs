@@ -29,7 +29,6 @@ namespace ManagedClient
     /// Информация о запущенном на сервере процессе.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("[{Number}] {Name} ({Workstation})")]
     public sealed class IrbisProcessInfo

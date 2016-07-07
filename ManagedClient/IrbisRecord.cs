@@ -28,7 +28,6 @@ namespace ManagedClient
     /// MARC-record
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("[{Database}] MFN={Mfn} ({Version})")]
     public sealed class IrbisRecord
@@ -489,7 +488,7 @@ namespace ManagedClient
 
         #region IReadOnly<T> members
 
-        [NonSerialized]
+        //[NonSerialized]
         internal bool _readOnly;
 
         /// <summary>

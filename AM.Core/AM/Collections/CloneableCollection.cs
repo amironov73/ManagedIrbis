@@ -20,12 +20,11 @@ namespace AM.Collections
     /// 
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("Count={Count}")]
     public class CloneableCollection<T>
-        : Collection<T>,
-        ICloneable
+        : Collection<T>
+        //ICloneable
     {
         #region ICloneable members
 

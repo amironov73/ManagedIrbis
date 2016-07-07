@@ -93,7 +93,6 @@ namespace ManagedClient.Gbl
     /// GBL file item.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [XmlRoot("gbl-item")]
     [DebuggerDisplay("{Command} {Parameter1} {Parameter2}")]

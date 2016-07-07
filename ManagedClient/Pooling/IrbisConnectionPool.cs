@@ -70,11 +70,11 @@ namespace ManagedClient.Pooling
         /// </summary>
         public IrbisConnectionPool()
         {
-            if (string.IsNullOrEmpty(DefaultConnectionString))
-            {
-                DefaultConnectionString
-                    = ManagedClientUtility.GetStandardConnectionString();
-            }
+            //if (string.IsNullOrEmpty(DefaultConnectionString))
+            //{
+            //    DefaultConnectionString
+            //        = ManagedClientUtility.GetStandardConnectionString();
+            //}
             ConnectionString = DefaultConnectionString;
         }
 

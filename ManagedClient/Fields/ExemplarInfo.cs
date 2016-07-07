@@ -30,7 +30,6 @@ namespace ManagedClient.Fields
     /// Информация об экземпляре (поле 910).
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [TableName("exemplars")]
     [XmlRoot("exemplar")]
     [MoonSharpUserData]
@@ -369,7 +368,7 @@ namespace ManagedClient.Fields
 
         #region Private members
 
-        [NonSerialized]
+        //[NonSerialized]
         private object _userData;
 
         #endregion

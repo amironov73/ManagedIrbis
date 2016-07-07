@@ -27,7 +27,6 @@ namespace ManagedClient
     /// Ссылка на терм.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [XmlRoot("term-link")]
     [MoonSharpUserData]
     public sealed class TermLink

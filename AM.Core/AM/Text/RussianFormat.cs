@@ -28,7 +28,8 @@ namespace AM.Text
 
         static RussianFormat()
         {
-            _formatProvider = CultureInfo.GetCultureInfo("ru-RU");
+            //_formatProvider = CultureInfo.GetCultureInfo("ru-RU");
+            _formatProvider = new CultureInfo("ru-RU");
         }
 
         #endregion

@@ -66,7 +66,6 @@ namespace ManagedClient
     /// Маска ввода в ИРБИС (Delphi)
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public sealed class IrbisEditMask
         : IHandmadeSerializable

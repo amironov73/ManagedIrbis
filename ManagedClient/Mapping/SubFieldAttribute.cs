@@ -13,7 +13,6 @@ namespace ManagedClient.Mapping
     /// <summary>
     /// Задаёт отображение подполя на свойство.
     /// </summary>
-    [Serializable]
     [AttributeUsage(AttributeTargets.Field|AttributeTargets.Property,
         AllowMultiple = false, Inherited = true)]
     public sealed class SubFieldAttribute

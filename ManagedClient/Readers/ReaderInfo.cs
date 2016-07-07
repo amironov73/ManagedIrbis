@@ -26,7 +26,6 @@ namespace ManagedClient.Readers
     /// Информация о читателе.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [XmlRoot("reader")]
     public sealed class ReaderInfo
         : IHandmadeSerializable
@@ -445,7 +444,7 @@ namespace ManagedClient.Readers
 
         #region Private members
 
-        [NonSerialized]
+        //[NonSerialized]
         private object _userData;
 
         #endregion

@@ -47,7 +47,6 @@ namespace ManagedClient
     /// STW file handling.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public sealed class IrbisStopWords
     {

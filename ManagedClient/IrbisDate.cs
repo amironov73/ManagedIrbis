@@ -25,7 +25,6 @@ namespace ManagedClient
     /// Строка с ИРБИС-датой yyyyMMdd.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("{Text}")]
     public sealed class IrbisDate

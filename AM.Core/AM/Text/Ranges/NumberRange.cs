@@ -21,7 +21,6 @@ namespace AM.Text.Ranges
     /// Диапазон чисел, содержащих нечисловые фрагменты.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public sealed class NumberRange
         : IEnumerable<NumberText>

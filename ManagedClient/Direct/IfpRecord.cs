@@ -28,7 +28,6 @@ namespace ManagedClient.Direct
     /// Inverted file record
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public sealed class IfpRecord
     {

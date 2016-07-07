@@ -25,7 +25,6 @@ namespace AM.Collections
     /// Дважды-связанный список
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public class DoublyLinkedList<T>
         : IList<T>
@@ -36,7 +35,6 @@ namespace AM.Collections
         /// Элемент дважды-связанного списка.
         /// </summary>
         /// <typeparam name="T2"></typeparam>
-        [Serializable]
         public class Node<T2>
         {
             #region Public properties

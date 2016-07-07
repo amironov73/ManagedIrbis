@@ -29,7 +29,6 @@ namespace ManagedClient.Marc.Schema
     /// Example.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [XmlRoot("example")]
     [DebuggerDisplay("{Text}")]

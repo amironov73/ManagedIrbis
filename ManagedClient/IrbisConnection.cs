@@ -39,7 +39,6 @@ namespace ManagedClient
     /// Client for IRBIS-server.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public sealed class IrbisConnection
         : IDisposable,
@@ -116,13 +115,14 @@ namespace ManagedClient
 
         #region Properties
 
-        /// <summary>
-        /// Версия клиента.
-        /// </summary>
-        public static Version ClientVersion = Assembly
-            .GetExecutingAssembly()
-            .GetName()
-            .Version;
+        // Not supported in .NET Core
+        ///// <summary>
+        ///// Версия клиента.
+        ///// </summary>
+        //public static Version ClientVersion = Assembly
+        //    .GetExecutingAssembly()
+        //    .GetName()
+        //    .Version;
 
         /// <summary>
         /// Признак занятости клиента.
@@ -321,10 +321,10 @@ namespace ManagedClient
         //[NonSerialized]
         //private ManualResetEvent _waitHandle;
 
-        [NonSerialized]
+        //[NonSerialized]
         private TextWriter _debugWriter;
 
-        [NonSerialized]
+        //[NonSerialized]
         private TcpClient _client;
 
         private int _clientID;

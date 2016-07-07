@@ -31,7 +31,6 @@ namespace ManagedClient
     /// MARC record subfield.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [XmlRoot("field")]
     [MoonSharpUserData]
     [DebuggerDisplay("Tag={Tag} Value={Value}")]
@@ -98,7 +97,7 @@ namespace ManagedClient
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
-        [NonSerialized]
+        //[NonSerialized]
         public int Repeat;
 
         /// <summary>
@@ -151,7 +150,7 @@ namespace ManagedClient
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        [NonSerialized]
+        //[NonSerialized]
         public IrbisRecord Record;
 
         #endregion
@@ -265,7 +264,7 @@ namespace ManagedClient
 
         private readonly SubFieldCollection _subFields;
 
-        [NonSerialized]
+        //[NonSerialized]
         private object _userData;
 
         private static void _AddSubField
@@ -852,7 +851,7 @@ namespace ManagedClient
 
         #region IReadOnly<T> members
 
-        [NonSerialized]
+        //[NonSerialized]
         internal bool _readOnly;
 
         /// <summary>

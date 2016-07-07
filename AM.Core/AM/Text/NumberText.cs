@@ -25,7 +25,6 @@ namespace AM.Text
     /// Строка, содержащая числа, разделенные нечисловыми фрагментами.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public sealed class NumberText
         : IComparable<NumberText>,
@@ -37,7 +36,6 @@ namespace AM.Text
         /// <summary>
         /// Фрагмент: нечисловой префикс плюс число.
         /// </summary>
-        [Serializable]
         class Chunk
         {
             #region Properties

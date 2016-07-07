@@ -24,7 +24,6 @@ namespace ManagedClient.Readers
     /// Профиль ИРИ
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [XmlRoot("iri-profile")]
     public sealed class IriProfile
         : IHandmadeSerializable

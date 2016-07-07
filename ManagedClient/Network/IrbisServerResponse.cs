@@ -29,7 +29,6 @@ namespace ManagedClient.Network
     /// Пакет с ответом сервера.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     public sealed class IrbisServerResponse
     {

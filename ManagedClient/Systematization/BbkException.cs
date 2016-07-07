@@ -18,7 +18,6 @@ namespace ManagedClient.Systematization
     /// Исключение, возникающее при работе с ББК.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     public sealed class BbkException
         : ArsMagnaException
     {

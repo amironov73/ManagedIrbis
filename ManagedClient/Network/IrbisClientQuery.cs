@@ -30,7 +30,6 @@ namespace ManagedClient.Network
     /// Клиентский пакет с запросом к серверу.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("{CommandCode} {Workstation}"
         + " {ClientID} {CommandNumber}")]

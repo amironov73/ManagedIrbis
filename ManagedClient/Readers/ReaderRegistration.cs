@@ -27,7 +27,6 @@ namespace ManagedClient.Readers
     /// <summary>
     /// Информация о регистрации/перерегистрации читателя.
     /// </summary>
-    [Serializable]
     [MoonSharpUserData]
     [XmlRoot("registration")]
     public sealed class ReaderRegistration

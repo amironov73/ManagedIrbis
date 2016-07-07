@@ -22,7 +22,6 @@ namespace AM.Text.Tokenizer
     /// Текстовый токен.
     /// </summary>
     [PublicAPI]
-    [Serializable]
     [XmlRoot("token")]
     [MoonSharpUserData]
     [DebuggerDisplay("Kind={Kind} Value='{Value}'")]
