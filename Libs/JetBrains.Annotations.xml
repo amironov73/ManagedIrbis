@@ -42,6 +42,12 @@
             or of the Lazy.Value property can be null.
             </summary>
         </member>
+        <member name="T:JetBrains.Annotations.ImplicitNotNullAttribute">
+            <summary>
+            Implicitly apply [NotNull]/[ItemNotNull] annotation to all the of type members and parameters
+            in particular scope where this annotation is used (type declaration or whole assembly).
+            </summary>
+        </member>
         <member name="T:JetBrains.Annotations.StringFormatMethodAttribute">
             <summary>
             Indicates that the marked method builds string by format pattern and (optional) arguments.
