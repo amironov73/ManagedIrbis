@@ -1,4 +1,4 @@
-﻿/* AbstractCommand.cs -- 
+﻿/* AbstractCommand.cs -- abstract command of IRBIS protocol
  * Ars Magna project, http://arsmagna.ru
  */
 
@@ -27,11 +27,12 @@ using Newtonsoft.Json;
 namespace ManagedClient.Network.Commands
 {
     /// <summary>
-    /// 
+    /// Abstract command of IRBIS protocol.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public abstract class AbstractCommand
+        : IVerifiable
     {
         #region Properties
 
@@ -47,6 +48,7 @@ namespace ManagedClient.Network.Commands
         /// <summary>
         /// Good return codes.
         /// </summary>
+        // ReSharper disable VirtualMemberNeverOverriden.Global
         public virtual int[] GoodReturnCodes
         {
             get
@@ -54,6 +56,7 @@ namespace ManagedClient.Network.Commands
                 return new int[0];
             }
         }
+        // ReSharper restore VirtualMemberNeverOverriden.Global
 
         #endregion
 
@@ -90,6 +93,8 @@ namespace ManagedClient.Network.Commands
                 [NotNull] IrbisServerResponse response
             )
         {
+            Code.NotNull(response, "response");
+
             int returnCode = response.GetReturnCode();
             if (returnCode < 0)
             {
@@ -140,6 +145,21 @@ namespace ManagedClient.Network.Commands
                 );
 
             return result;
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <summary>
+        /// Verify object state.
+        /// </summary>
+        public virtual bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            return true;
         }
 
         #endregion

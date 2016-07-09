@@ -37,9 +37,9 @@ namespace ManagedClient.Network.Commands
         #region Properties
 
         /// <summary>
-        /// Allow any server response.
+        /// Accept any server response.
         /// </summary>
-        public bool AllowAnyResponse { get; set; }
+        public bool AcceptAnyResponse { get; set; }
 
         /// <summary>
         /// Arguments.
@@ -90,17 +90,23 @@ namespace ManagedClient.Network.Commands
 
         #region AbstractCommand members
 
+        /// <summary>
+        /// Check the server response.
+        /// </summary>
         public override void CheckResponse
             (
                 IrbisServerResponse response
             )
         {
-            if (!AllowAnyResponse)
+            if (!AcceptAnyResponse)
             {
                 base.CheckResponse(response);
             }
         }
 
+        /// <summary>
+        /// Create client query.
+        /// </summary>
         public override IrbisClientQuery CreateQuery()
         {
             IrbisClientQuery result = base.CreateQuery();

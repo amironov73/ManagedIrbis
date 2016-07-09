@@ -16,7 +16,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-
+using AM;
 using AM.IO;
 using AM.Runtime;
 using AM.Threading;
@@ -327,15 +327,10 @@ namespace ManagedClient
         //[NonSerialized]
         private TcpClient _client;
 
+        // ReSharper disable InconsistentNaming
         private int _clientID;
         private int _queryID;
-
-#if !PocketPC
-        //[NonSerialized]
-        //private IrbisIniFile _settings;
-
-        //private IrbisSearchEngine SearchEngine;
-#endif
+        // ReSharper restore InconsistentNaming
 
         private string _database;
 
@@ -351,10 +346,12 @@ namespace ManagedClient
         private readonly Stack<string> _databaseStack
             = new Stack<string>();
 
+        // ReSharper disable InconsistentNaming
         internal void GenerateClientID()
         {
             _clientID = _random.Next(1000000, 9999999);
         }
+        // ReSharper restore InconsistentNaming
 
         internal int IncrementCommandNumber()
         {
@@ -364,6 +361,29 @@ namespace ManagedClient
         internal void ResetCommandNumber()
         {
             _queryID = 0;
+        }
+
+        internal void Disconnect()
+        {
+            Disposing.Raise
+                (
+                    this
+                );
+
+            if (_connected)
+            {
+                UniversalCommand command = new UniversalCommand
+                    (
+                        this,
+                        CommandCode.UnregisterClient
+                    )
+                {
+                    AcceptAnyResponse = true
+                };
+
+                ExecuteCommand(command);
+                _connected = false;
+            }
         }
 
         #endregion
@@ -386,21 +406,6 @@ namespace ManagedClient
         }
 
         /// <summary>
-        /// Отключение от сервера.
-        /// </summary>
-        public void Disconnect()
-        {
-            if (_connected)
-            {
-                DisconnectCommand command = new DisconnectCommand(this);
-                IrbisClientQuery query = command.CreateQuery();
-                IrbisServerResponse result = command.Execute(query);
-                command.CheckResponse(result);
-                _connected = false;
-            }
-        }
-
-        /// <summary>
         /// Execute any command.
         /// </summary>
         [NotNull]
@@ -416,11 +421,15 @@ namespace ManagedClient
                 throw new IrbisException("Not connected");
             }
 
+            command.Verify(true);
+
             using (new BusyGuard(Busy))
             {
                 IrbisClientQuery query = command.CreateQuery();
+                query.Verify(true);
 
                 IrbisServerResponse result = command.Execute(query);
+                result.Verify(true);
                 command.CheckResponse(result);
 
                 return result;
@@ -444,6 +453,8 @@ namespace ManagedClient
                 throw new IrbisException("Not connected");
             }
 
+            command.Verify(true);
+
             using (new BusyGuard(Busy))
             {
                 IrbisClientQuery query = command.CreateQuery();
@@ -453,7 +464,10 @@ namespace ManagedClient
                     query.Add(argument);
                 }
 
+                query.Verify(true);
+
                 IrbisServerResponse result = command.Execute(query);
+                result.Verify(true);
                 command.CheckResponse(result);
 
                 return result;
@@ -471,6 +485,41 @@ namespace ManagedClient
             )
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Get next mfn for current database.
+        /// </summary>
+        /// <returns></returns>
+        public int GetMaxMfn()
+        {
+            return GetMaxMfn(Database);
+        }
+
+        /// <summary>
+        /// Get next mfn for given database.
+        /// </summary>
+        public int GetMaxMfn
+            (
+                [CanBeNull] string database
+            )
+        {
+            if (ReferenceEquals(database, null))
+            {
+                database = Database;
+            }
+
+            UniversalCommand command = new UniversalCommand
+                (   
+                    this,
+                    CommandCode.GetMaxMfn,
+                    database
+                );
+
+            IrbisServerResponse response = ExecuteCommand(command);
+            int result = response.ReturnCode;
+
+            return result;
         }
 
         /// <summary>
@@ -494,7 +543,13 @@ namespace ManagedClient
         /// </summary>
         public void NoOp()
         {
-            ExecuteCommand(new NopCommand(this));
+            UniversalCommand command = new UniversalCommand
+                (
+                    this,
+                    CommandCode.Nop
+                );
+
+            ExecuteCommand(command);
         }
 
         /// <summary>

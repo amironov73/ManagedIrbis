@@ -31,6 +31,7 @@ namespace ManagedClient.Network
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class IrbisServerResponse
+        : IVerifiable
     {
         #region Constants
 
@@ -298,6 +299,10 @@ namespace ManagedClient.Network
 
             return result;
         }
+
+        #endregion
+
+        #region IVerifiable members
 
         /// <summary>
         /// Проверка, правильно ли заполнены поля ответа.

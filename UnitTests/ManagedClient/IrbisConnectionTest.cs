@@ -11,6 +11,9 @@ namespace UnitTests.ManagedClient
     [TestClass]
     public class IrbisConnectionTest
     {
+        const string ConnectionString 
+            = "host=127.0.0.1;port=5555;user=1;password=1;";
+
         [TestMethod]
         public void TestIrbisConnectionConstructor()
         {
@@ -46,7 +49,7 @@ namespace UnitTests.ManagedClient
         {
             using (IrbisConnection client = new IrbisConnection())
             {
-                client.ParseConnectionString("host=127.0.0.1;port=5555;user=1;password=1;");
+                client.ParseConnectionString(ConnectionString);
                 client.Connect();
 
                 client.NoOp();
@@ -61,7 +64,7 @@ namespace UnitTests.ManagedClient
         {
             using (IrbisConnection client = new IrbisConnection())
             {
-                client.ParseConnectionString("host=127.0.0.1;user=1;password=1;");
+                client.ParseConnectionString(ConnectionString);
                 client.Connect();
 
                 IrbisVersion version = client.GetServerVersion();
@@ -77,7 +80,7 @@ namespace UnitTests.ManagedClient
         {
             using (IrbisConnection client = new IrbisConnection())
             {
-                client.ParseConnectionString("host=127.0.0.1;port=5555;user=1;password=1;");
+                client.ParseConnectionString(ConnectionString);
                 client.Connect();
 
                 IrbisRecord record = client.ReadRecord(1);
@@ -86,5 +89,22 @@ namespace UnitTests.ManagedClient
                 //Thread.Sleep(10 * 1024);
             }
         }
+
+        [TestMethod]
+        [Ignore]
+        public void TestIrbisConnectionGetMaxMfn()
+        {
+            using (IrbisConnection client = new IrbisConnection())
+            {
+                client.ParseConnectionString(ConnectionString);
+                client.Connect();
+
+                int maxMfn = client.GetMaxMfn();
+                Assert.IsTrue(maxMfn > 0);
+
+                //Thread.Sleep(10 * 1024);
+            }
+        }
+
     }
 }

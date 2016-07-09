@@ -34,6 +34,7 @@ namespace ManagedClient.Network
     [DebuggerDisplay("{CommandCode} {Workstation}"
         + " {ClientID} {CommandNumber}")]
     public sealed class IrbisClientQuery
+        : IVerifiable
     {
         #region Constants
 
@@ -222,6 +223,10 @@ namespace ManagedClient.Network
 
             return result.ToArray();
         }
+
+        #endregion
+
+        #region IVerifiable members
 
         /// <summary>
         /// Проверка, правильно ли заполнены поля запроса.
