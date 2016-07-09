@@ -484,7 +484,16 @@ namespace ManagedClient
                 int mfn
             )
         {
-            throw new NotImplementedException();
+            FormatCommand command = new FormatCommand(this)
+            {
+                FormatSpecification = format
+            };
+            command.MfnList.Add(mfn);
+            IrbisServerResponse response = ExecuteCommand(command);
+            
+            string result = response.GetUtfString();
+
+            return result;
         }
 
         /// <summary>

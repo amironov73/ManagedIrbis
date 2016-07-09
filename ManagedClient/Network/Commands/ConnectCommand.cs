@@ -65,9 +65,9 @@ namespace ManagedClient.Network.Commands
             query.Arguments.Add(Connection.Username);
             query.Arguments.Add(Connection.Password);
 
-            StringWriter writer = new StringWriter();
-            query.Dump(writer);
-            string dump = writer.ToString();
+            //StringWriter writer = new StringWriter();
+            //query.Dump(writer);
+            //string dump = writer.ToString();
 
             IrbisServerResponse result = base.Execute(query);
 

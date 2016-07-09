@@ -106,5 +106,24 @@ namespace UnitTests.ManagedClient
             }
         }
 
+        [TestMethod]
+        [Ignore]
+        public void TestIrbisConnectionFormatRecord()
+        {
+            using (IrbisConnection client = new IrbisConnection())
+            {
+                client.ParseConnectionString(ConnectionString);
+                client.Connect();
+
+                string actual = client.FormatRecord
+                    (
+                        "@brief",
+                        1
+                    );
+                Assert.IsNotNull(actual);
+
+                //Thread.Sleep(10 * 1024);
+            }
+        }
     }
 }
