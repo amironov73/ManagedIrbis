@@ -476,6 +476,31 @@ namespace ManagedClient
         }
 
         /// <summary>
+        /// Execute command.
+        /// </summary>
+        [NotNull]
+        public IrbisServerResponse ExecuteCommand
+            (
+                [NotNull] string commandCode,
+                params object[] arguments
+            )
+        {
+            Code.NotNullNorEmpty(commandCode, "commandCode");
+
+            UniversalCommand command = new UniversalCommand
+                (
+                    this,
+                    commandCode
+                );
+
+            return ExecuteCommand
+                (
+                    command,
+                    arguments
+                );
+        }
+
+        /// <summary>
         /// Форматирование записи.
         /// </summary>
         [CanBeNull]
@@ -539,9 +564,7 @@ namespace ManagedClient
         public IrbisVersion GetServerVersion()
         {
             IrbisServerResponse response
-                = ExecuteCommand(new VersionCommand(this));
-
-            
+                = ExecuteCommand(CommandCode.ServerInfo);
             IrbisVersion result
                 = IrbisVersion.ParseServerResponse(response);
 
@@ -553,13 +576,7 @@ namespace ManagedClient
         /// </summary>
         public void NoOp()
         {
-            UniversalCommand command = new UniversalCommand
-                (
-                    this,
-                    CommandCode.Nop
-                );
-
-            ExecuteCommand(command);
+            ExecuteCommand(CommandCode.Nop);
         }
 
         /// <summary>
@@ -682,7 +699,6 @@ namespace ManagedClient
             throw new NotImplementedException();
         }
 
-
         /// <summary>
         /// Чтение текстового файла с сервера.
         /// </summary>
@@ -694,6 +710,14 @@ namespace ManagedClient
             )
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Restart server.
+        /// </summary>
+        public void RestartServer()
+        {
+            ExecuteCommand(CommandCode.RestartServer);
         }
 
         /// <summary>

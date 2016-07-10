@@ -169,7 +169,6 @@
     <Compile Include="Network\Commands\ReadRecordCommand.cs" />
     <Compile Include="Network\Commands\SearchCommand.cs" />
     <Compile Include="Network\Commands\UniversalCommand.cs" />
-    <Compile Include="Network\Commands\VersionCommand.cs" />
     <Compile Include="Network\IrbisClientSocket.cs" />
     <Compile Include="Network\CommandCode.cs" />
     <Compile Include="Network\IrbisClientQuery.cs" />
