@@ -26,6 +26,7 @@ using JetBrains.Annotations;
 using ManagedClient.ImportExport;
 using ManagedClient.Network;
 using ManagedClient.Network.Commands;
+using ManagedClient.Search;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -693,6 +694,27 @@ namespace ManagedClient
             )
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Поиск записей.
+        /// </summary>
+        [NotNull]
+        public int[] Search
+            (
+                [NotNull] string expression
+            )
+        {
+            Code.NotNull(expression, "expression");
+
+            SearchCommand command = new SearchCommand(this)
+            {
+                SearchQuery = expression
+            };
+            IrbisServerResponse response = ExecuteCommand(command);
+            int[] result = FoundItem.ParseMfnOnly(response);
+
+            return result;
         }
 
         /// <summary>

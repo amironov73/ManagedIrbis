@@ -149,6 +149,7 @@
     <Compile Include="IrbisAlphabetTable.cs" />
     <Compile Include="IrbisClientInfo.cs" />
     <Compile Include="IrbisStopWords.cs" />
+    <Compile Include="IrbisText.cs" />
     <Compile Include="IrbisTreeFile.cs" />
     <Compile Include="IrbisUtility.cs" />
     <Compile Include="Marc\Schema\Example.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Network\Commands\FormatCommand.cs" />
     <Compile Include="Network\Commands\ReadFileCommand.cs" />
     <Compile Include="Network\Commands\ReadRecordCommand.cs" />
+    <Compile Include="Network\Commands\SearchCommand.cs" />
     <Compile Include="Network\Commands\UniversalCommand.cs" />
     <Compile Include="Network\Commands\VersionCommand.cs" />
     <Compile Include="Network\IrbisClientSocket.cs" />
@@ -189,6 +191,7 @@
     <Compile Include="Pooling\PoolUtility.cs" />
     <Compile Include="Quality\RuleUtility.cs" />
     <Compile Include="Search\DictionaryType.cs" />
+    <Compile Include="Search\FoundItem.cs" />
     <Compile Include="Search\SearchLogicType.cs" />
     <Compile Include="Search\SearchScenario.cs" />
     <Compile Include="Transform\RecordTransformContext.cs" />
@@ -197,7 +200,7 @@
     <Compile Include="IrbisParFile.cs" />
     <Compile Include="IrbisPath.cs" />
     <Compile Include="IrbisProcessInfo.cs" />
-    <Compile Include="IrbisQuery.cs" />
+    <Compile Include="IrbisSearchQuery.cs" />
     <Compile Include="IrbisRecord.cs" />
     <Compile Include="IrbisRecordUtility.cs" />
     <Compile Include="Network\IrbisReturnCode.cs" />

@@ -125,5 +125,21 @@ namespace UnitTests.ManagedClient
                 //Thread.Sleep(10 * 1024);
             }
         }
+
+        [TestMethod]
+        [Ignore]
+        public void TestIrbisConnectionSearch()
+        {
+            using (IrbisConnection client = new IrbisConnection())
+            {
+                client.ParseConnectionString(ConnectionString);
+                client.Connect();
+
+                int[] found = client.Search("T=А$");
+                Assert.IsNotNull(found);
+
+                //Thread.Sleep(10 * 1024);
+            }
+        }
     }
 }

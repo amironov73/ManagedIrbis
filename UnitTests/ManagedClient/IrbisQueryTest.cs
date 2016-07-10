@@ -14,7 +14,7 @@ namespace UnitTests.ManagedClient
                 string expected
             )
         {
-            string actual = IrbisQuery.PrepareQuery(text);
+            string actual = IrbisSearchQuery.PrepareQuery(text);
             Assert.AreEqual(expected, actual);
         }
 

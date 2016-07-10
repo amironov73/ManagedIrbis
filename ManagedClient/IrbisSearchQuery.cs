@@ -1,4 +1,4 @@
-﻿/* IrbisQuery.cs --
+﻿/* IrbisSearchQuery.cs -- IRBIS search query
  * Ars Magna project, http://arsmagna.ru 
  */
 
@@ -16,11 +16,11 @@ using MoonSharp.Interpreter;
 namespace ManagedClient
 {
     /// <summary>
-    /// 
+    /// IRBIS search query.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class IrbisQuery
+    public sealed class IrbisSearchQuery
     {
         #region Properties
 
