@@ -72,6 +72,17 @@ namespace ManagedClient.Network.Commands
         #region AbstractCommand members
 
         /// <summary>
+        /// Create client query.
+        /// </summary>
+        public override IrbisClientQuery CreateQuery()
+        {
+            IrbisClientQuery result = base.CreateQuery();
+            result.CommandCode = CommandCode.ReadRecord;
+
+            return result;
+        }
+
+        /// <summary>
         /// Execute the command.
         /// </summary>
         public override IrbisServerResponse Execute
@@ -79,8 +90,6 @@ namespace ManagedClient.Network.Commands
                 IrbisClientQuery query
             )
         {
-            query.CommandCode = CommandCode.ReadRecord;
-
             string database = Database ?? Connection.Database;
 
             if (string.IsNullOrEmpty(database))

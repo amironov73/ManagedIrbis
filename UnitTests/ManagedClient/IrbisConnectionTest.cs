@@ -12,7 +12,7 @@ namespace UnitTests.ManagedClient
     public class IrbisConnectionTest
     {
         const string ConnectionString 
-            = "host=127.0.0.1;port=5555;user=1;password=1;";
+            = "host=127.0.0.1;port=6666;user=1;password=1;";
 
         [TestMethod]
         public void TestIrbisConnectionConstructor()

@@ -76,6 +76,12 @@ namespace ManagedClient.Network
         /// </summary>
         public int ReturnCode { get; set; }
 
+        /// <summary>
+        /// Packet.
+        /// </summary>
+        [CanBeNull]
+        public byte[] Packet { get { return _packet; } }
+
         #endregion
 
         #region Construction
@@ -98,6 +104,8 @@ namespace ManagedClient.Network
         #region Private members
 
         private Stream _stream;
+
+        private byte[] _packet;
 
         private bool _returnCodeRetrieved;
 
@@ -242,17 +250,21 @@ namespace ManagedClient.Network
         }
 
         /// <summary>
-        /// Parse the buffer.
+        /// Parse the network packet.
         /// </summary>
         public static IrbisServerResponse Parse
             (
-                IrbisConnection connection,
-                byte[] buffer
+                [NotNull] IrbisConnection connection,
+                [NotNull] byte[] packet
             )
         {
+            Code.NotNull(connection, "connection");
+            Code.NotNull(packet, "packet");
+
             IrbisServerResponse result = new IrbisServerResponse (connection)
             {
-                _stream = new MemoryStream(buffer)
+                _packet = packet,
+                _stream = new MemoryStream(packet)
             };
             result.CommandCode = result.RequireAnsiString();
             result.ClientID = result.RequireInt32();

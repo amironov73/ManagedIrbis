@@ -196,8 +196,10 @@ namespace ManagedClient.Network
                 .EncodeString(CommandCode)      .EncodeDelimiter()
                 .EncodeInt32(ClientID)          .EncodeDelimiter()
                 .EncodeInt32(CommandNumber)     .EncodeDelimiter()
-                .EncodeString(UserPassword)     .EncodeDelimiter()
-                .EncodeString(UserLogin)        .EncodeDelimiter()
+                //.EncodeString(UserPassword)     
+                    .EncodeDelimiter()
+                //.EncodeString(UserLogin)        
+                    .EncodeDelimiter()
 
                 // Три пустые перевода строки
                 .EncodeDelimiter()
@@ -240,8 +242,8 @@ namespace ManagedClient.Network
                 && (Workstation != IrbisWorkstation.None)
                 && (ClientID != 0)
                 && (CommandNumber != 0)
-                && !string.IsNullOrEmpty(UserLogin)
-                && !string.IsNullOrEmpty(UserPassword)
+                //&& !string.IsNullOrEmpty(UserLogin)
+                //&& !string.IsNullOrEmpty(UserPassword)
                 ;
 
             if (throwException && !result)

@@ -137,8 +137,8 @@ namespace ManagedClient.Network.Commands
 
             byte[] request = query.EncodePacket();
             byte[] answer = Connection.Socket.ExecuteRequest(request);
-            IrbisServerResponse result
-                = IrbisServerResponse.Parse
+
+            IrbisServerResponse result = IrbisServerResponse.Parse
                 (
                     Connection,
                     answer

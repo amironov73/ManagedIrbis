@@ -1,4 +1,4 @@
-﻿/* ConnectCommand.cs -- 
+﻿/* ConnectCommand.cs -- connect to the IRBIS64 server
  * Ars Magna project, http://arsmagna.ru
  */
 
@@ -27,13 +27,22 @@ using Newtonsoft.Json;
 namespace ManagedClient.Network.Commands
 {
     /// <summary>
-    /// 
+    /// Connect to the IRBIS64 server.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class ConnectCommand
         : AbstractCommand
     {
+        #region Constants
+
+        /// <summary>
+        /// Response specification.
+        /// </summary>
+        public const string ResponseSpecification = "AIIIAAAAAAT";
+
+        #endregion
+
         #region Construction
 
         /// <summary>
@@ -61,15 +70,20 @@ namespace ManagedClient.Network.Commands
                 IrbisClientQuery query
             )
         {
+            Code.NotNull(query, "query");
+
             query.CommandCode = CommandCode.RegisterClient;
             query.Arguments.Add(Connection.Username);
             query.Arguments.Add(Connection.Password);
 
-            //StringWriter writer = new StringWriter();
-            //query.Dump(writer);
-            //string dump = writer.ToString();
-
             IrbisServerResponse result = base.Execute(query);
+
+            //string[] decoded = PacketInterpreter.Interpret
+            //    (
+            //        result.Packet,
+            //        ResponseSpecification
+            //    );
+            //IrbisNetworkDebugger.Log(decoded);
 
             return result;
         }
