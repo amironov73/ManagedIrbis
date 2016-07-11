@@ -376,7 +376,8 @@ namespace ManagedClient
                 UniversalCommand command = new UniversalCommand
                     (
                         this,
-                        CommandCode.UnregisterClient
+                        CommandCode.UnregisterClient,
+                        Username
                     )
                 {
                     AcceptAnyResponse = true

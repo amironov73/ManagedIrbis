@@ -144,6 +144,13 @@ namespace ManagedClient.Network.Commands
                     answer
                 );
 
+            //string[] decoded = PacketInterpreter.Interpret
+            //    (
+            //        result.Packet,
+            //        "AIIIAAAAAAT"
+            //    );
+            //IrbisNetworkDebugger.Log(decoded);
+
             return result;
         }
 

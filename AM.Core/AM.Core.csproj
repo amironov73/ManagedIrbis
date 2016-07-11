@@ -228,6 +228,7 @@
     <Compile Include="Compatibility\MoonSharpUserData.cs" />
     <Compile Include="Compatibility\StringBuilderCompability.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AM\RetryManager.cs" />
   </ItemGroup>
   <Choose>
     <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
