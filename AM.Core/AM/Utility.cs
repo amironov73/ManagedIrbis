@@ -6,9 +6,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
 
 using CodeJam;
 
@@ -163,10 +160,28 @@ namespace AM
             (
                 [CanBeNull] this T value
             )
-            where T : class
+            where T: class
         {
             string text = value.NullableToString();
             return text.ToVisibleString();
+        }
+
+        /// <summary>
+        /// Throw <see cref="ArgumentNullException"/>
+        /// if given value is <c>null</c>.
+        /// </summary>
+        public static T ThrowIfNull<T>
+            (
+                [CanBeNull] this T value
+            )
+            where T : class
+        {
+            if (ReferenceEquals(value, null))
+            {
+                throw new ArgumentException("value");
+            }
+
+            return value;
         }
 
         #endregion

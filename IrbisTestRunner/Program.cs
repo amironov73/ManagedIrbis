@@ -1,0 +1,63 @@
+﻿/* Program.cs -- application entry point
+ * Ars Magna project, http://arsmagna.ru 
+ */
+
+#region Using directives
+
+using System;
+using System.Collections.Generic;
+
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using Newtonsoft.Json;
+
+#endregion
+
+namespace IrbisTestRunner
+{
+    /// <summary>
+    /// Application entry point.
+    /// </summary>
+    [PublicAPI]
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            if (args.Length != 1)
+            {
+                Console.WriteLine("USAGE: IrbisTestRunner <config.json>");
+                return;
+            }
+
+            TestRunnerEngine engine = null;
+            try
+            {
+                engine = new TestRunnerEngine();
+                string configFileName = args[0];
+                engine.LoadConfig(configFileName);
+                engine.Verify(true);
+
+                engine.StartServer();
+
+                engine.PingTheServer();
+
+                engine.DiscoverTests();
+
+                engine.CompileTests();
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+            }
+            finally
+            {
+                if (engine != null)
+                {
+                    engine.StopServer();
+                }
+            }
+        }
+    }
+}

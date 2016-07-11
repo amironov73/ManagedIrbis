@@ -32,6 +32,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Collections", "Collections"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ManagedClient", "ManagedClient", "{55821755-FED1-4B1C-951E-1610A11C82AA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisTestRunner", "IrbisTestRunner\IrbisTestRunner.csproj", "{462F6E9F-AEA9-4867-BA16-B29A07619856}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +68,10 @@ Global
 		{240191C0-8F75-4362-916A-6BC1ECF09382}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{240191C0-8F75-4362-916A-6BC1ECF09382}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{240191C0-8F75-4362-916A-6BC1ECF09382}.Release|Any CPU.Build.0 = Release|Any CPU
+		{462F6E9F-AEA9-4867-BA16-B29A07619856}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{462F6E9F-AEA9-4867-BA16-B29A07619856}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{462F6E9F-AEA9-4867-BA16-B29A07619856}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{462F6E9F-AEA9-4867-BA16-B29A07619856}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
