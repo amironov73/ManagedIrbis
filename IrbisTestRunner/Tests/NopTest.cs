@@ -26,7 +26,8 @@ using Newtonsoft.Json;
 namespace IrbisTestRunner.Tests
 {
     [TestClass]
-    class ConnectionTest
+    class NopTest
+        : AbstractTest
     {
         #region Properties
 
@@ -43,9 +44,10 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestConnection()
+        public void TestNop()
         {
-            
+            Connection.NoOp();
+            Console.Write("NOP send");
         }
 
         #endregion

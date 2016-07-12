@@ -31,21 +31,25 @@ namespace IrbisTestRunner
                 return;
             }
 
-            TestRunnerEngine engine = null;
+            TestRunner engine = null;
             try
             {
-                engine = new TestRunnerEngine();
+                engine = new TestRunner();
                 string configFileName = args[0];
                 engine.LoadConfig(configFileName);
                 engine.Verify(true);
 
                 engine.StartServer();
 
+                engine.HideServerWindow();
+
                 engine.PingTheServer();
 
                 engine.DiscoverTests();
 
                 engine.CompileTests();
+
+                engine.RunTests();
             }
             catch (Exception ex)
             {

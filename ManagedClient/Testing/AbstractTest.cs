@@ -1,4 +1,4 @@
-﻿/* TestCenter.cs --
+﻿/* AbstractTest.cs --
  * Ars Magna project, http://arsmagna.ru 
  */
 
@@ -16,8 +16,6 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedClient;
-
 using Newtonsoft.Json;
 
 #endregion
@@ -25,18 +23,28 @@ using Newtonsoft.Json;
 namespace ManagedClient.Testing
 {
     /// <summary>
-    /// TestCenter.
+    /// Abstract test.
     /// </summary>
     [PublicAPI]
-    public static class TestCenter
+    public abstract class AbstractTest
     {
         #region Properties
 
         /// <summary>
-        /// Connection for tests.
+        /// Connection.
         /// </summary>
         [CanBeNull]
-        public static IrbisConnection Connection { get; set; }
+        public IrbisConnection Connection { get; set; }
+
+        /// <summary>
+        /// Path to test data.
+        /// </summary>
+        [CanBeNull]
+        public string DataPath { get; set; }
+
+        #endregion
+
+        #region Public methods
 
         #endregion
     }

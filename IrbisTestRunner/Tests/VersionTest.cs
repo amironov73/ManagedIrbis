@@ -27,6 +27,7 @@ namespace IrbisTestRunner.Tests
 {
     [TestClass]
     class VersionTest
+        : AbstractTest
     {
         #region Properties
 
@@ -45,7 +46,8 @@ namespace IrbisTestRunner.Tests
         [TestMethod]
         public void TestVersion()
         {
-            
+            IrbisVersion version = Connection.GetServerVersion();
+            Console.Write(version);
         }
 
         #endregion

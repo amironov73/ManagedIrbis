@@ -195,9 +195,10 @@
     <Compile Include="Search\FoundItem.cs" />
     <Compile Include="Search\SearchLogicType.cs" />
     <Compile Include="Search\SearchScenario.cs" />
-    <Compile Include="Testing\TestCenter.cs" />
+    <Compile Include="Testing\AbstractTest.cs" />
     <Compile Include="Testing\TestClassAttribute.cs" />
     <Compile Include="Testing\TestMethodAttribute.cs" />
+    <Compile Include="Testing\TestRunner.cs" />
     <Compile Include="Transform\RecordTransformContext.cs" />
     <Compile Include="Worksheet\InputMode.cs" />
     <Compile Include="IrbisOpt.cs" />

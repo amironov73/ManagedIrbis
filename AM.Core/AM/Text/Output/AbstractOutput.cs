@@ -119,9 +119,7 @@ namespace AM.Text.Output
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="format"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
+        [StringFormatMethod("format")]
         public AbstractOutput Write
             (
                 string format,
@@ -141,9 +139,7 @@ namespace AM.Text.Output
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="format"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
+        [StringFormatMethod("format")]
         public AbstractOutput WriteError
             (
                 string format,
@@ -180,9 +176,7 @@ namespace AM.Text.Output
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="format"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
+        [StringFormatMethod("format")]
         public AbstractOutput WriteLine
             (
                 string format,
@@ -203,9 +197,7 @@ namespace AM.Text.Output
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="format"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
+        [StringFormatMethod("format")]
         public AbstractOutput WriteErrorLine
             (
                 string format,
