@@ -196,10 +196,8 @@ namespace ManagedClient.Network
                 .EncodeString(CommandCode)      .EncodeDelimiter()
                 .EncodeInt32(ClientID)          .EncodeDelimiter()
                 .EncodeInt32(CommandNumber)     .EncodeDelimiter()
-                //.EncodeString(UserPassword)     
-                    .EncodeDelimiter()
-                //.EncodeString(UserLogin)        
-                    .EncodeDelimiter()
+                .EncodeString(UserPassword)     .EncodeDelimiter()
+                .EncodeString(UserLogin)        .EncodeDelimiter()
 
                 // Три пустые перевода строки
                 .EncodeDelimiter()
