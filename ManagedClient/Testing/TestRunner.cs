@@ -2,6 +2,8 @@
  * Ars Magna project, http://arsmagna.ru 
  */
 
+#if FW45
+
 #region Using directives
 
 using System;
@@ -628,3 +630,5 @@ namespace IrbisTestRunner
         #endregion
     }
 }
+
+#endif
