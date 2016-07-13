@@ -710,7 +710,41 @@ namespace ManagedClient
                 [NotNull] string fileName
             )
         {
-            throw new NotImplementedException();
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            ReadFileCommand command = new ReadFileCommand(this);
+            IrbisFileSpecification fileSpec = new IrbisFileSpecification
+                (
+                    path,
+                    Database,
+                    fileName
+                );
+            command.Files.Add(fileSpec);
+
+            IrbisServerResponse response = ExecuteCommand(command);
+            string[] result = command.GetFileText(response);
+
+            return result[0];
+        }
+
+        /// <summary>
+        /// Чтение текстовых файлов с сервера.
+        /// </summary>
+        [NotNull]
+        public string[] ReadTextFiles
+            (
+                [NotNull] IrbisFileSpecification[] files
+            )
+        {
+            Code.NotNull(files, "files");
+
+            ReadFileCommand command = new ReadFileCommand(this);
+            command.Files.AddRange(files);
+
+            IrbisServerResponse response = ExecuteCommand(command);
+            string[] result = command.GetFileText(response);
+
+            return result;
         }
 
         /// <summary>

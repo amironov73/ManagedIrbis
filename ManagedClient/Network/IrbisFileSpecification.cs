@@ -32,7 +32,7 @@ namespace ManagedClient.Network
     [PublicAPI]
     [MoonSharpUserData]
     [DebuggerDisplay("Path={Path} Database={Database} FileName={FileName}")]
-    public sealed class IrbisFileName
+    public sealed class IrbisFileSpecification
         : IHandmadeSerializable,
         IVerifiable
     {
@@ -58,7 +58,42 @@ namespace ManagedClient.Network
         #endregion
 
         #region Public methods
-        
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public IrbisFileSpecification()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public IrbisFileSpecification
+            (
+                IrbisPath path,
+                string fileName
+            )
+        {
+            Path = path;
+            FileName = fileName;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public IrbisFileSpecification
+            (
+                IrbisPath path,
+                string database,
+                string fileName
+            )
+        {
+            Path = path;
+            Database = database;
+            FileName = fileName;
+        }
+
         #endregion
 
         #region IHandmadeSerializable members
@@ -103,6 +138,25 @@ namespace ManagedClient.Network
         #endregion
 
         #region Object members
+
+        /// <summary>
+        /// Returns a <see cref="System.String" />
+        /// that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" />
+        /// that represents this instance.</returns>
+        public override string ToString()
+        {
+            string result = string.Format
+                (
+                    "{0}.{1}.{2}",
+                    (int)Path,
+                    Database,
+                    FileName
+                );
+
+            return result;
+        }
 
         #endregion
     }

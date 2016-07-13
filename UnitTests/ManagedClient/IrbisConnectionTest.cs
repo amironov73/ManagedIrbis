@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using ManagedClient.Network;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;
@@ -137,6 +138,60 @@ namespace UnitTests.ManagedClient
 
                 int[] found = client.Search("T=А$");
                 Assert.IsNotNull(found);
+
+                //Thread.Sleep(10 * 1024);
+            }
+        }
+
+        [TestMethod]
+        [Ignore]
+        public void TestIrbisConnectionReadFile()
+        {
+            using (IrbisConnection client = new IrbisConnection())
+            {
+                client.ParseConnectionString(ConnectionString);
+                client.Connect();
+
+                string text = client.ReadTextFile
+                    (
+                        IrbisPath.MasterFile,
+                        "brief.pft"
+                    );
+                Assert.IsNotNull(text);
+
+                //Thread.Sleep(10 * 1024);
+            }
+        }
+
+        [TestMethod]
+        [Ignore]
+        public void TestIrbisConnectionReadFiles()
+        {
+            using (IrbisConnection client = new IrbisConnection())
+            {
+                client.ParseConnectionString(ConnectionString);
+                client.Connect();
+
+                string[] texts = client.ReadTextFiles
+                    (
+                        new []
+                        {
+                            new IrbisFileSpecification
+                                (
+                                    IrbisPath.MasterFile,
+                                    "IBIS",
+                                    "brief.pft"
+                                ), 
+                            new IrbisFileSpecification
+                                (
+                                    IrbisPath.MasterFile,
+                                    "IBIS",
+                                    "briefin.pft"
+                                ), 
+                        }
+                    );
+                Assert.IsNotNull(texts);
+                Assert.AreEqual(2, texts.Length);
 
                 //Thread.Sleep(10 * 1024);
             }
