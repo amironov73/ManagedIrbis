@@ -4,23 +4,13 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -108,7 +98,10 @@ namespace ManagedClient.Network.Commands
                 IrbisServerResponse response
             )
         {
+            Code.NotNull(response, "response");
+
             // Don't check: there's no return code
+            response._returnCodeRetrieved = true;
         }
 
         /// <summary>
@@ -130,6 +123,8 @@ namespace ManagedClient.Network.Commands
                 IrbisClientQuery query
             )
         {
+            Code.NotNull(query, "query");
+
             foreach (IrbisFileSpecification fileName in Files)
             {
                 string item = fileName.ToString();

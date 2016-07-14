@@ -107,7 +107,7 @@ namespace ManagedClient.Network
 
         private byte[] _packet;
 
-        private bool _returnCodeRetrieved;
+        internal bool _returnCodeRetrieved;
 
         #endregion
 

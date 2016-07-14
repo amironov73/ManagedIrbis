@@ -393,6 +393,27 @@ namespace ManagedClient
         #region Public methods
 
         /// <summary>
+        /// Актуализация записи с указанным MFN.
+        /// </summary>
+        /// <remarks>Если MFN=0, то актуализируются
+        /// все неактуализированные записи БД.
+        /// </remarks>
+        public void ActualizeRecord
+            (
+                int mfn
+            )
+        {
+            Code.Nonnegative(mfn, "mfn");
+
+            ExecuteCommand
+                (
+                    CommandCode.ActualizeRecord,
+                    Database,
+                    mfn
+                );
+        }
+
+        /// <summary>
         /// Подключение к серверу.
         /// </summary>
         public void Connect()
@@ -817,6 +838,30 @@ namespace ManagedClient
             )
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Разблокирование записей.
+        /// </summary>
+        public void UnlockRecords
+            (
+                params int[] mfnList
+            )
+        {
+            if (mfnList.Length == 0)
+            {
+                return;
+            }
+
+            List<object> arguments
+                = new List<object>(mfnList.Length + 1) {Database};
+            arguments.AddRange(mfnList.Cast<object>());
+
+            ExecuteCommand
+                (
+                    CommandCode.UnlockRecords,
+                    arguments
+                );
         }
 
         /// <summary>
