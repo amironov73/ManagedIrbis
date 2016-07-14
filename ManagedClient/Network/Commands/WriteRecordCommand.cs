@@ -1,14 +1,26 @@
-﻿/* ReadRecordCommand.cs -- 
+﻿/* WriteRecordCommand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  */
 
 #region Using directives
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 using AM;
+
+using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -19,22 +31,15 @@ namespace ManagedClient.Network.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class ReadRecordCommand
+    public sealed class WriteRecordCommand
         : AbstractCommand
     {
         #region Properties
 
         /// <summary>
-        /// Database name.
+        /// Need actualize?
         /// </summary>
-        [CanBeNull]
-        public string Database { get; set; }
-
-        /// <summary>
-        /// Format.
-        /// </summary>
-        [CanBeNull]
-        public string Format { get; set; }
+        public bool Actualize { get; set; }
 
         /// <summary>
         /// Need lock?
@@ -42,9 +47,15 @@ namespace ManagedClient.Network.Commands
         public bool Lock { get; set; }
 
         /// <summary>
-        /// MFN.
+        /// New max MFN.
         /// </summary>
-        public int Mfn { get; set; }
+        public int MaxMfn { get; set; }
+
+        /// <summary>
+        /// Record to write.
+        /// </summary>
+        [CanBeNull]
+        public IrbisRecord Record { get; set; }
 
         #endregion
 
@@ -53,13 +64,21 @@ namespace ManagedClient.Network.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ReadRecordCommand
+        public WriteRecordCommand
             (
                 [NotNull] IrbisConnection connection
             )
             : base(connection)
         {
         }
+
+        #endregion
+
+        #region Private members
+
+        #endregion
+
+        #region Public methods
 
         #endregion
 
@@ -71,7 +90,7 @@ namespace ManagedClient.Network.Commands
         public override IrbisClientQuery CreateQuery()
         {
             IrbisClientQuery result = base.CreateQuery();
-            result.CommandCode = CommandCode.ReadRecord;
+            result.CommandCode = CommandCode.UpdateRecord;
 
             return result;
         }
@@ -84,33 +103,32 @@ namespace ManagedClient.Network.Commands
                 IrbisClientQuery query
             )
         {
-            string database = Database ?? Connection.Database;
+            Code.NotNull(query, "query");
 
+            if (ReferenceEquals(Record, null))
+            {
+                throw new IrbisNetworkException("record is null");
+            }
+
+            string database = Record.Database ?? Connection.Database;
             if (string.IsNullOrEmpty(database))
             {
-                throw new IrbisNetworkException("database not specified");
+                throw new IrbisNetworkException("database not set");
             }
 
-            query.Arguments.Add(database);
-            query.Arguments.Add(Mfn);
-            query.Arguments.Add(Lock);
-            if (!string.IsNullOrEmpty(Format))
-            {
-                query.Arguments.Add(Format);
-            }
+            query
+                .Add(database)
+                .Add(Lock)
+                .Add(Actualize)
+                .Add(Record);
 
             IrbisServerResponse result = base.Execute(query);
 
-            return result;
-        }
+            MaxMfn = result.GetReturnCode();
 
-        /// <summary>
-        /// Good return codes.
-        /// </summary>
-        public override int[] GoodReturnCodes
-        {
-            // Запись может быть логически удалена.
-            get { return new[] { -603 }; }
+            Record.Database = database;
+
+            return result;
         }
 
         #endregion
@@ -125,8 +143,7 @@ namespace ManagedClient.Network.Commands
                 bool throwOnError
             )
         {
-            bool result = !string.IsNullOrEmpty(Database)
-                && (Mfn > 0);
+            bool result = !ReferenceEquals(Record, null);
 
             if (result)
             {

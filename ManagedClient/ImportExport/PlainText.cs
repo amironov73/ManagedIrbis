@@ -25,22 +25,22 @@ namespace ManagedClient.ImportExport
             foreach (RecordField field in record.Fields)
             {
                 result.AppendFormat("{0}#", field.Tag);
-                bool begin = true;
+                //bool begin = true;
                 if (!string.IsNullOrEmpty(field.Value))
                 {
                     result.Append(field.Value);
-                    begin = false;
+                    //begin = false;
                 }
                 foreach (SubField subField in field.SubFields)
                 {
-                    if (!begin)
-                    {
-                        result.Append(" ");
-                    }
+                    //if (!begin)
+                    //{
+                    //    result.Append(" ");
+                    //}
                     result.Append('^');
                     result.Append(subField.Code);
                     result.Append(subField.Value);
-                    begin = false;
+                    //begin = false;
                 }
                 result.AppendLine();
             }

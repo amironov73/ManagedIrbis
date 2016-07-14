@@ -1,10 +1,9 @@
-﻿/* IrbisRecord.cs -- MARC-record
+﻿/* IrbisRecord.cs -- MARC record
  * Ars Magna project, http://arsmagna.ru
  */
 
 #region Using directives
 
-using System;
 using System.Diagnostics;
 using System.IO;
 
@@ -16,6 +15,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedClient.ImportExport;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -25,7 +26,7 @@ using Newtonsoft.Json;
 namespace ManagedClient
 {
     /// <summary>
-    /// MARC-record
+    /// MARC record
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -549,6 +550,17 @@ namespace ManagedClient
         #endregion
 
         #region Object members
+
+        /// <summary>
+        /// Returns a <see cref="System.String" />
+        /// that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" />
+        /// that represents this instance.</returns>
+        public override string ToString()
+        {
+            return ProtocolText.EncodeRecord(this);
+        }
 
         #endregion
     }

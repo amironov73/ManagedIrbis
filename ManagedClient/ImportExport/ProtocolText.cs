@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
+using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Runtime;
@@ -21,7 +22,9 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedClient.Network;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -51,6 +54,16 @@ namespace ManagedClient.ImportExport
         #endregion
 
         #region Private members
+        private static void _AppendIrbisLine
+            (
+                StringBuilder builder,
+                string format,
+                params object[] args
+            )
+        {
+            builder.AppendFormat(format, args);
+            builder.Append(IrbisText.IrbisDelimiter);
+        }
 
         private static string _ReadTo
             (
@@ -116,6 +129,109 @@ namespace ManagedClient.ImportExport
         #region Public methods
 
         /// <summary>
+        /// Encode subfield.
+        /// </summary>
+        public static void EncodeSubField
+            (
+                [NotNull] StringBuilder builder,
+                [NotNull] SubField subField
+            )
+        {
+            builder.AppendFormat
+                (
+                    "{0}{1}{2}",
+                    SubField.Delimiter,
+                    subField.Code,
+                    subField.Value
+                );
+        }
+
+        /// <summary>
+        /// Encode field.
+        /// </summary>
+        public static void EncodeField
+            (
+                [NotNull] StringBuilder builder,
+                [NotNull] RecordField field
+            )
+        {
+            int fieldNumber = field.Tag.SafeToInt32();
+            if (fieldNumber != 0)
+            {
+                builder.AppendFormat
+                    (
+                        "{0}#",
+                        fieldNumber
+                    );
+            }
+            else
+            {
+                builder.AppendFormat
+                    (
+                        "{0}#",
+                        field.Tag
+                    );
+            }
+
+            if (!string.IsNullOrEmpty(field.Value))
+            {
+                builder.Append(field.Value);
+            }
+
+            foreach (SubField subField in field.SubFields)
+            {
+                EncodeSubField
+                    (
+                        builder,
+                        subField
+                    );
+            }
+
+            builder.Append(IrbisText.IrbisDelimiter);
+        }
+
+
+        /// <summary>
+        /// Кодирование записи в клиентское представление.
+        /// </summary>
+        /// <param name="record">Запись для кодирования.</param>
+        /// <returns>
+        /// Закодированная запись.
+        /// </returns>
+        public static string EncodeRecord
+            (
+                IrbisRecord record
+            )
+        {
+            StringBuilder result = new StringBuilder();
+
+            _AppendIrbisLine
+                (
+                    result,
+                    "{0}#{1}",
+                    record.Mfn,
+                    (int)record.Status
+                );
+            _AppendIrbisLine
+                (
+                    result,
+                    "0#{0}",
+                    record.Version
+                );
+
+            foreach (RecordField field in record.Fields)
+            {
+                EncodeField
+                    (
+                        result,
+                        field
+                    );
+            }
+
+            return result.ToString();
+        }
+
+        /// <summary>
         /// Parse MFN, status and version of the record
         /// </summary>
         [NotNull]
@@ -150,10 +266,10 @@ namespace ManagedClient.ImportExport
         }
 
         /// <summary>
-        /// Parse server response for single record.
+        /// Parse server response for ReadRecordCommand.
         /// </summary>
         [NotNull]
-        public static IrbisRecord ParseResponseForSingleRecord
+        public static IrbisRecord ParseResponseForReadRecord
             (
                 [NotNull] IrbisServerResponse response,
                 [NotNull] IrbisRecord record
@@ -196,6 +312,59 @@ namespace ManagedClient.ImportExport
             }
 
             return record;
+        }
+
+        /// <summary>
+        /// Parse server response for WriteRecordCommand.
+        /// </summary>
+        [NotNull]
+        public static IrbisRecord ParseResponseForWriteRecord
+            (
+                [NotNull] IrbisServerResponse response,
+                [NotNull] IrbisRecord record
+            )
+        {
+            Code.NotNull(response, "response");
+            Code.NotNull(record, "record");
+
+            record.Fields.Clear();
+
+            string first = response.RequireUtfString();
+            string second = response.RequireUtfString();
+            string[] split = second.Split('\x1E');
+
+            ParseMfnStatusVersion
+                (
+                    first,
+                    split[0],
+                    record
+                );
+
+            for (int i = 1; i < split.Length; i++)
+            {
+                string line = split[i];
+                RecordField field = _ParseLine(line);
+                record.Fields.Add(field);
+            }
+
+            return record;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [CanBeNull]
+        public static string ToProtocolText
+            (
+                [CanBeNull] this IrbisRecord record
+            )
+        {
+            if (ReferenceEquals(record, null))
+            {
+                return null;
+            }
+
+            return EncodeRecord(record);
         }
 
         #endregion

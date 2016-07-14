@@ -24,6 +24,36 @@ namespace UnitTests.ManagedClient
             }
         }
 
+        private IrbisRecord _GetRecord()
+        {
+            IrbisRecord result = new IrbisRecord();
+
+            RecordField field = new RecordField("700");
+            field.AddSubField('a', "Иванов");
+            field.AddSubField('b', "И. И.");
+            result.Fields.Add(field);
+
+            field = new RecordField("701");
+            field.AddSubField('a', "Петров");
+            field.AddSubField('b', "П. П.");
+            result.Fields.Add(field);
+
+            field = new RecordField("200");
+            field.AddSubField('a', "Заглавие");
+            field.AddSubField('e', "подзаголовочное");
+            field.AddSubField('f', "И. И. Иванов, П. П. Петров");
+            result.Fields.Add(field);
+
+            field = new RecordField("300", "Первое примечание");
+            result.Fields.Add(field);
+            field = new RecordField("300", "Второе примечание");
+            result.Fields.Add(field);
+            field = new RecordField("300", "Третье примечание");
+            result.Fields.Add(field);
+
+            return result;
+        }
+
         private void _TestSerialization
             (
                 IrbisConnection first
@@ -218,5 +248,23 @@ namespace UnitTests.ManagedClient
                 //Thread.Sleep(10 * 1024);
             }
         }
+
+        [TestMethod]
+        [Ignore]
+        public void TestIrbisConnectionWriteRecord()
+        {
+            using (IrbisConnection client = new IrbisConnection())
+            {
+                client.ParseConnectionString(ConnectionString);
+                client.Connect();
+
+                IrbisRecord record = _GetRecord();
+                client.WriteRecord(record);
+                Assert.IsNotNull(record.Database);
+
+                //Thread.Sleep(10 * 1024);
+            }
+        }
+
     }
 }

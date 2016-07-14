@@ -1,23 +1,20 @@
-﻿/* IrbisNetworkUtilty.cs -- 
+﻿/* IrbisNetworkUtility.cs -- 
  * Ars Magna project, http://arsmagna.ru
  */
 
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-
-using AM;
 using AM.Text;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedClient.ImportExport;
 
 using MoonSharp.Interpreter;
 
@@ -33,7 +30,107 @@ namespace ManagedClient.Network
     [MoonSharpUserData]
     public static class IrbisNetworkUtility
     {
+        #region Private members
+
+        private static void _DumpBytes
+            (
+                byte[] bytes,
+                int offset,
+                TextWriter writer
+            )
+        {
+            int length = Math.Min(16, bytes.Length - offset);
+            char[] chars = new char[16];
+
+            for (int i = 0; i < chars.Length; i++)
+            {
+                chars[i] = ' ';
+            }
+
+            writer.Write("{0:X8} ", offset);
+
+            for (int i = 0; i < length; i++)
+            {
+                writer.Write(" {0:X2}", bytes[offset+i]);
+                if (i == 7)
+                {
+                    writer.Write(" ");
+                }
+            }
+            for (int i = length; i < 16; i++)
+            {
+                writer.Write("   ");
+                if (i == 7)
+                {
+                    writer.Write(" ");
+                }
+            }
+
+            writer.Write("  ");
+
+            for (int i = 0; i < length; i++)
+            {
+                byte b = bytes[offset + i];
+                if (b > 32)
+                {
+                    Encoding.ASCII.GetChars
+                        (
+                            bytes,
+                            offset + i,
+                            1,
+                            chars,
+                            i
+                        );
+                }
+            }
+            writer.Write(chars);
+
+            writer.WriteLine();
+        }
+
+        #endregion
+
         #region Public methods
+
+        /// <summary>
+        /// Dump bytes.
+        /// </summary>
+        public static void DumpBytes
+            (
+                [NotNull] byte[] bytes,
+                [NotNull] TextWriter writer
+            )
+        {
+            Code.NotNull(bytes, "bytes");
+            Code.NotNull(writer, "writer");
+
+            for (int offset = 0; offset < bytes.Length; offset+= 16)
+            {
+                _DumpBytes(bytes, offset, writer);
+            }
+
+            writer.WriteLine();
+        }
+
+        /// <summary>
+        /// Dump bytes.
+        /// </summary>
+        [NotNull]
+        public static string DumpBytes
+            (
+                [NotNull] byte[] bytes
+            )
+        {
+            Code.NotNull(bytes, "bytes");
+
+            StringWriter writer = new StringWriter();
+            DumpBytes
+                (
+                    bytes,
+                    writer
+                );
+            return writer.ToString();
+        }
 
         /// <summary>
         /// Записываем любой объект (диспетчеризация).
@@ -206,9 +303,14 @@ namespace ManagedClient.Network
                 [CanBeNull] IrbisRecord record
             )
         {
-            throw new NotImplementedException();
+            Code.NotNull(stream, "stream");
+            Code.NotNull(record, "record");
 
-            //return stream;
+            string text = ProtocolText.EncodeRecord(record);
+            byte[] bytes = IrbisEncoding.Utf8.GetBytes(text);
+            stream.Write(bytes, 0, bytes.Length);
+
+            return stream;
         }
 
         /// <summary>

@@ -16,7 +16,7 @@ using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedClient.ImportExport;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -233,6 +233,32 @@ namespace ManagedClient.Network
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Get <see cref="IrbisRecord"/>.
+        /// </summary>
+        [CanBeNull]
+        public IrbisRecord GetRecord
+            (
+                [NotNull] IrbisRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            string line = GetUtfString();
+            if (string.IsNullOrEmpty(line))
+            {
+                return null;
+            }
+
+            ProtocolText.ParseResponseForReadRecord
+                (
+                    this,
+                    record
+                );
+
+            return record;
         }
 
         /// <summary>

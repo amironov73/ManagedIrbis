@@ -19,6 +19,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedClient.ImportExport;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -290,61 +292,6 @@ namespace ManagedClient
                 }
             }
             value.Length = 0;
-        }
-
-        private static void _EncodeSubField
-            (
-                StringBuilder builder,
-                SubField subField
-            )
-        {
-            builder.AppendFormat
-                (
-                    "{0}{1}{2}",
-                    SubField.Delimiter,
-                    subField.Code,
-                    subField.Value
-                );
-        }
-
-        internal static void _EncodeField
-            (
-                StringBuilder builder,
-                RecordField field
-            )
-        {
-            int fieldNumber = field.Tag.SafeToInt32();
-            if (fieldNumber != 0)
-            {
-                builder.AppendFormat
-                    (
-                        "{0}#",
-                        fieldNumber
-                    );
-            }
-            else
-            {
-                builder.AppendFormat
-                    (
-                        "{0}#",
-                        field.Tag
-                    );
-            }
-
-            if (!string.IsNullOrEmpty(field.Value))
-            {
-                builder.Append(field.Value);
-            }
-
-            foreach (SubField subField in field.SubFields)
-            {
-                _EncodeSubField
-                    (
-                        builder,
-                        subField
-                    );
-            }
-            builder.Append("\x001F\x001E");
         }
 
         #endregion
@@ -913,7 +860,7 @@ namespace ManagedClient
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
-            _EncodeField(result, this);
+            ProtocolText.EncodeField(result, this);
             return result.ToString();
         }
 

@@ -770,6 +770,10 @@ namespace ManagedClient
             return result;
         }
 
+        // ========================================================
+
+        #region ReadRecord
+
         /// <summary>
         /// Чтение, блокирование и расформатирование записи.
         /// </summary>
@@ -797,7 +801,7 @@ namespace ManagedClient
                 Database = Database
             };
 
-            IrbisRecord result = ProtocolText.ParseResponseForSingleRecord
+            IrbisRecord result = ProtocolText.ParseResponseForReadRecord
                 (
                     response,
                     record
@@ -818,6 +822,10 @@ namespace ManagedClient
         {
             return ReadRecord(mfn, false, null);
         }
+
+        #endregion
+
+        // ========================================================
 
         /// <summary>
         /// Возврат к предыдущей базе данных.
@@ -1001,18 +1009,61 @@ namespace ManagedClient
                 );
         }
 
+        // ========================================================
+
+        #region WriteRecord
+
         /// <summary>
         /// Сохранение записи.
         /// </summary>
-        public void WriteRecord
+        public IrbisRecord WriteRecord
             (
                 [NotNull] IrbisRecord record,
-                bool needLock,
-                bool invertedFileUpdate
+                bool lockFlag,
+                bool actualize
             )
         {
-            throw new NotImplementedException();
+            Code.NotNull(record, "record");
+
+            WriteRecordCommand command = new WriteRecordCommand(this)
+            {
+                Record = record,
+                Actualize = actualize,
+                Lock = lockFlag
+            };
+
+            IrbisServerResponse response = ExecuteCommand(command);
+
+            ProtocolText.ParseResponseForWriteRecord
+                (
+                    response,
+                    record
+                );
+
+            return record;
         }
+
+        /// <summary>
+        /// Сохранение записи.
+        /// </summary>
+        public IrbisRecord WriteRecord
+            (
+                [NotNull] IrbisRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            return WriteRecord
+                (
+                    record,
+                    false,
+                    true
+                );
+        }
+
+        #endregion
+
+        // ========================================================
 
         #endregion
 
