@@ -164,6 +164,7 @@
     <Compile Include="Menus\IrbisMenuUtility.cs" />
     <Compile Include="Network\Commands\AbstractCommand.cs" />
     <Compile Include="Network\Commands\ConnectCommand.cs" />
+    <Compile Include="Network\Commands\CreateDatabaseCommand.cs" />
     <Compile Include="Network\Commands\FormatCommand.cs" />
     <Compile Include="Network\Commands\ReadFileCommand.cs" />
     <Compile Include="Network\Commands\ReadRecordCommand.cs" />

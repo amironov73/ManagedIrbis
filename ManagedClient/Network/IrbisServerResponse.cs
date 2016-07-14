@@ -298,6 +298,21 @@ namespace ManagedClient.Network
         }
 
         /// <summary>
+        /// Require UTF8 string.
+        /// </summary>
+        [NotNull]
+        public string RequireUtfString()
+        {
+            string result = GetUtfString();
+            if (ReferenceEquals(result, null))
+            {
+                throw new IrbisNetworkException();
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Require 32-bit integer.
         /// </summary>
         public int RequireInt32()

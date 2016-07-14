@@ -32,7 +32,8 @@ namespace ManagedClient
     [DebuggerDisplay("[{Database}] MFN={Mfn} ({Version})")]
     public sealed class IrbisRecord
         : IHandmadeSerializable,
-        IReadOnly<IrbisRecord>
+        IReadOnly<IrbisRecord>,
+        IVerifiable
     {
         #region Properties
 
@@ -355,6 +356,8 @@ namespace ManagedClient
         {
             ThrowIfReadOnly();
 
+            _database = newDatabase;
+
             return this;
         }
 
@@ -526,6 +529,21 @@ namespace ManagedClient
             {
                 throw new ReadOnlyException();
             }
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <summary>
+        /// Verify object state.
+        /// </summary>
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            return true;
         }
 
         #endregion

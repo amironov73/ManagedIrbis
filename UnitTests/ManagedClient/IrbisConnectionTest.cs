@@ -93,6 +93,28 @@ namespace UnitTests.ManagedClient
 
         [TestMethod]
         [Ignore]
+        public void TestIrbisConnectionReadAndFormatRecord()
+        {
+            using (IrbisConnection client = new IrbisConnection())
+            {
+                client.ParseConnectionString(ConnectionString);
+                client.Connect();
+
+                IrbisRecord record = client.ReadRecord
+                    (
+                        1,
+                        false,
+                        "@brief"
+                    );
+                Assert.IsNotNull(record);
+                Assert.IsNotNull(record.Description);
+
+                //Thread.Sleep(10 * 1024);
+            }
+        }
+
+        [TestMethod]
+        [Ignore]
         public void TestIrbisConnectionGetMaxMfn()
         {
             using (IrbisConnection client = new IrbisConnection())

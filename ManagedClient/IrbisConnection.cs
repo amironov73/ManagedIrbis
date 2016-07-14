@@ -390,7 +390,23 @@ namespace ManagedClient
 
         #endregion
 
+        // =========================================================
+
         #region Public methods
+
+        /// <summary>
+        /// Актуализация всех неактуализированных записей
+        /// в указанной базе данных.
+        /// </summary>
+        public void ActualizeDatabase
+            (
+                [NotNull] string database
+            )
+        {
+            Code.NotNullNorEmpty(database, "database");
+
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Актуализация записи с указанным MFN.
@@ -427,6 +443,54 @@ namespace ManagedClient
                 _connected = true;
             }
         }
+
+        /// <summary>
+        /// Создание базы данных.
+        /// </summary>
+        public void CreateDatabase
+            (
+                [NotNull] string databaseName,
+                bool readerAccess,
+                [CanBeNull] string template
+            )
+        {
+            Code.NotNullNorEmpty(databaseName, "databaseName");
+
+            CreateDatabaseCommand command
+                = new CreateDatabaseCommand(this)
+                {
+                    Database = databaseName,
+                    ReaderAccess = readerAccess,
+                    Template = template
+                };
+            ExecuteCommand(command);
+        }
+
+        /// <summary>
+        /// Удаление указанной базы данных.
+        /// </summary>
+        /// <param name="databaseName"><c>null</c> означает
+        /// текущую базу данных</param>
+        public void DeleteDatabase
+            (
+                [CanBeNull] string databaseName
+            )
+        {
+            if (string.IsNullOrEmpty(databaseName))
+            {
+                databaseName = Database;
+            }
+
+            ExecuteCommand
+                (
+                    CommandCode.DeleteDatabase,
+                    databaseName
+                );
+        }
+
+        // =========================================================
+
+        #region ExecuteCommand
 
         /// <summary>
         /// Execute any command.
@@ -522,6 +586,10 @@ namespace ManagedClient
                 );
         }
 
+        #endregion
+
+        // =========================================================
+
         /// <summary>
         /// Форматирование записи.
         /// </summary>
@@ -532,6 +600,8 @@ namespace ManagedClient
                 int mfn
             )
         {
+            Code.Positive(mfn, "mfn");
+
             FormatCommand command = new FormatCommand(this)
             {
                 FormatSpecification = format
@@ -547,7 +617,6 @@ namespace ManagedClient
         /// <summary>
         /// Get next mfn for current database.
         /// </summary>
-        /// <returns></returns>
         public int GetMaxMfn()
         {
             return GetMaxMfn(Database);
@@ -567,7 +636,7 @@ namespace ManagedClient
             }
 
             UniversalCommand command = new UniversalCommand
-                (   
+                (
                     this,
                     CommandCode.GetMaxMfn,
                     database
@@ -685,40 +754,86 @@ namespace ManagedClient
         /// <summary>
         /// Временное переключение на другую базу данных.
         /// </summary>
+        /// <returns>Предыдущая база данных.</returns>
         [CanBeNull]
         public string PushDatabase
             (
                 [NotNull] string newDatabase
             )
         {
-            throw new NotImplementedException();
+            Code.NotNullNorEmpty(newDatabase, "newDatabase");
+
+            string result = Database;
+            _databaseStack.Push(Database);
+            Database = newDatabase;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Чтение, блокирование и расформатирование записи.
+        /// </summary>
+        [NotNull]
+        public IrbisRecord ReadRecord
+            (
+                int mfn,
+                bool lockFlag,
+                [CanBeNull] string format
+            )
+        {
+            Code.Positive(mfn, "mfn");
+
+            ReadRecordCommand command = new ReadRecordCommand(this)
+            {
+                Mfn = mfn,
+                Database = Database,
+                Lock = lockFlag,
+                Format = format
+            };
+            IrbisServerResponse response = ExecuteCommand(command);
+
+            IrbisRecord record = new IrbisRecord
+            {
+                Database = Database
+            };
+
+            IrbisRecord result = ProtocolText.ParseResponseForSingleRecord
+                (
+                    response,
+                    record
+                );
+            result.Verify(true);
+
+            return result;
         }
 
         /// <summary>
         /// Чтение записи.
         /// </summary>
+        [NotNull]
         public IrbisRecord ReadRecord
             (
                 int mfn
             )
         {
-            ReadRecordCommand command = new ReadRecordCommand(this)
-            {
-                Mfn = mfn
-            };
-            IrbisServerResponse response = ExecuteCommand(command);
-
-            return ProtocolText.ParseResponseForSingleRecord(response);
+            return ReadRecord(mfn, false, null);
         }
 
         /// <summary>
         /// Возврат к предыдущей базе данных.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Текущая база данных.</returns>
         [CanBeNull]
         public string PopDatabase ()
         {
-            throw new NotImplementedException();
+            string result = Database;
+
+            if (_databaseStack.Count != 0)
+            {
+                Database = _databaseStack.Pop();
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -838,6 +953,28 @@ namespace ManagedClient
             )
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Опустошение базы данных.
+        /// </summary>
+        /// <param name="databaseName"><c>null</c> означает
+        /// текущую базу данных.</param>
+        public void TruncateDatabase
+            (
+                [CanBeNull] string databaseName
+            )
+        {
+            if (string.IsNullOrEmpty(databaseName))
+            {
+                databaseName = Database;
+            }
+
+            ExecuteCommand
+                (
+                    CommandCode.EmptyDatabase,
+                    databaseName
+                );
         }
 
         /// <summary>

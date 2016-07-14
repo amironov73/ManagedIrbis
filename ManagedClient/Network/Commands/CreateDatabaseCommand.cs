@@ -1,26 +1,14 @@
-﻿/* ReadRecordCommand.cs -- 
+﻿/* CreateDatabaseCommand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  */
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using AM;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -31,32 +19,27 @@ namespace ManagedClient.Network.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class ReadRecordCommand
+    public sealed class CreateDatabaseCommand
         : AbstractCommand
     {
         #region Properties
 
         /// <summary>
-        /// Database name.
+        /// Name for new database.
         /// </summary>
         [CanBeNull]
         public string Database { get; set; }
 
         /// <summary>
-        /// Format.
+        /// Will the database be visible to reader?
+        /// </summary>
+        public bool ReaderAccess { get; set; }
+
+        /// <summary>
+        /// Template database name.
         /// </summary>
         [CanBeNull]
-        public string Format { get; set; }
-
-        /// <summary>
-        /// Need lock?
-        /// </summary>
-        public bool Lock { get; set; }
-
-        /// <summary>
-        /// MFN.
-        /// </summary>
-        public int Mfn { get; set; }
+        public string Template { get; set; }
 
         #endregion
 
@@ -65,13 +48,21 @@ namespace ManagedClient.Network.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ReadRecordCommand
+        public CreateDatabaseCommand
             (
                 [NotNull] IrbisConnection connection
             )
             : base(connection)
         {
         }
+
+        #endregion
+
+        #region Private members
+
+        #endregion
+
+        #region Public methods
 
         #endregion
 
@@ -83,7 +74,7 @@ namespace ManagedClient.Network.Commands
         public override IrbisClientQuery CreateQuery()
         {
             IrbisClientQuery result = base.CreateQuery();
-            result.CommandCode = CommandCode.ReadRecord;
+            result.CommandCode = CommandCode.CreateDatabase;
 
             return result;
         }
@@ -96,33 +87,13 @@ namespace ManagedClient.Network.Commands
                 IrbisClientQuery query
             )
         {
-            string database = Database ?? Connection.Database;
-
-            if (string.IsNullOrEmpty(database))
-            {
-                throw new IrbisNetworkException("database not specified");
-            }
-
-            query.Arguments.Add(database);
-            query.Arguments.Add(Mfn);
-            query.Arguments.Add(Lock);
-            if (!string.IsNullOrEmpty(Format))
-            {
-                query.Arguments.Add(Format);
-            }
+            query
+                .Add(Database)
+                .Add(ReaderAccess);
 
             IrbisServerResponse result = base.Execute(query);
 
             return result;
-        }
-
-        /// <summary>
-        /// Good return codes.
-        /// </summary>
-        public override int[] GoodReturnCodes
-        {
-            // Запись может быть логически удалена.
-            get { return new[] { -603 }; }
         }
 
         #endregion
@@ -137,8 +108,7 @@ namespace ManagedClient.Network.Commands
                 bool throwOnError
             )
         {
-            bool result = !string.IsNullOrEmpty(Database)
-                && (Mfn > 0);
+            bool result = !string.IsNullOrEmpty(Database);
 
             if (result)
             {
