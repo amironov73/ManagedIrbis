@@ -113,9 +113,15 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\FormatTest.cs" />
+    <Compile Include="Tests\MaxMfnTest.cs" />
     <Compile Include="Tests\NopTest.cs" />
+    <Compile Include="Tests\ReadFileTest.cs" />
+    <Compile Include="Tests\ReadRecordTest.cs" />
+    <Compile Include="Tests\SearchTest.cs" />
     <Compile Include="Tests\TestTemplate.cs" />
     <Compile Include="Tests\VersionTest.cs" />
+    <Compile Include="Tests\WriteRecordTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

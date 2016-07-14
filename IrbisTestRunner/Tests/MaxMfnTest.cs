@@ -1,36 +1,23 @@
-﻿/* TestTemplate.cs -- IRBIS64 test template
+﻿/* MaxMfnTest.cs --
  * Ars Magna project, http://arsmagna.ru 
  */
 
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using AM;
-
-using CodeJam;
-
-using JetBrains.Annotations;
-
-using ManagedClient;
 using ManagedClient.Testing;
-
-using Newtonsoft.Json;
 
 #endregion
 
 namespace IrbisTestRunner.Tests
 {
     [TestClass]
-    class TestTemplate
+    class MaxMfnTest
         : AbstractTest
     {
         #region Properties
-        
+
         #endregion
 
         #region Construction
@@ -42,6 +29,14 @@ namespace IrbisTestRunner.Tests
         #endregion
 
         #region Public methods
+
+        [TestMethod]
+        public void TestMaxMfn()
+        {
+            int maxMfn = Connection.GetMaxMfn();
+            Console.Write(maxMfn);
+        }
+
 
         #endregion
     }

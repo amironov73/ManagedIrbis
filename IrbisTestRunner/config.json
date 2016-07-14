@@ -21,7 +21,13 @@
         ],
     "tests":
         [
+            "FormatTest.cs",
+            "MaxMfnTest.cs",
             "NopTest.cs",
-            "VersionTest.cs"
+             "ReadFileTest.cs",
+            "SearchTest.cs",
+            "ReadRecordTest.cs",
+            "VersionTest.cs",
+            "WriteRecordTest.cs"
         ]
 }

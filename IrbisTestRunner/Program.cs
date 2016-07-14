@@ -39,6 +39,16 @@ namespace IrbisTestRunner
                 engine.LoadConfig(configFileName);
                 engine.Verify(true);
 
+                if (engine.FindLocalServer())
+                {
+                    engine.WriteLine
+                        (
+                            ConsoleColor.Red,
+                            "Server already running"
+                        );
+                    return;
+                }
+
                 engine.StartServer();
 
                 engine.HideServerWindow();

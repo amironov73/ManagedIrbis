@@ -44,11 +44,23 @@ namespace UnitTests.ManagedClient
             field.AddSubField('f', "И. И. Иванов, П. П. Петров");
             result.Fields.Add(field);
 
+            field = new RecordField("210");
+            field.AddSubField('a', "Иркутск");
+            field.AddSubField('d', "2016");
+            result.Fields.Add(field);
+
+            field = new RecordField("215");
+            field.AddSubField('a', "123");
+            result.Fields.Add(field);
+
             field = new RecordField("300", "Первое примечание");
             result.Fields.Add(field);
             field = new RecordField("300", "Второе примечание");
             result.Fields.Add(field);
             field = new RecordField("300", "Третье примечание");
+            result.Fields.Add(field);
+
+            field = new RecordField("920", "PAZK");
             result.Fields.Add(field);
 
             return result;
@@ -161,7 +173,7 @@ namespace UnitTests.ManagedClient
 
         [TestMethod]
         [Ignore]
-        public void TestIrbisConnectionFormatRecord()
+        public void TestIrbisConnectionFormatRecord1()
         {
             using (IrbisConnection client = new IrbisConnection())
             {
@@ -174,6 +186,48 @@ namespace UnitTests.ManagedClient
                         1
                     );
                 Assert.IsNotNull(actual);
+
+                //Thread.Sleep(10 * 1024);
+            }
+        }
+
+        [TestMethod]
+        [Ignore]
+        public void TestIrbisConnectionFormatRecord2()
+        {
+            using (IrbisConnection client = new IrbisConnection())
+            {
+                client.ParseConnectionString(ConnectionString);
+                client.Connect();
+
+                IrbisRecord record = _GetRecord();
+                string actual = client.FormatRecord
+                    (
+                        "@brief",
+                        record
+                    );
+                Assert.IsNotNull(actual);
+
+                //Thread.Sleep(10 * 1024);
+            }
+        }
+
+        [TestMethod]
+        [Ignore]
+        public void TestIrbisConnectionFormatRecord3()
+        {
+            using (IrbisConnection client = new IrbisConnection())
+            {
+                client.ParseConnectionString(ConnectionString);
+                client.Connect();
+
+                string[] actual = client.FormatRecords
+                    (
+                        "@brief",
+                        new[] { 1,2,3 }
+                    );
+                Assert.IsNotNull(actual);
+                Assert.AreEqual(3, actual.Length);
 
                 //Thread.Sleep(10 * 1024);
             }

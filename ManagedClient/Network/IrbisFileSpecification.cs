@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.IO;
 using AM.Runtime;
 using CodeJam;
 
@@ -106,7 +107,9 @@ namespace ManagedClient.Network
                 BinaryReader reader
             )
         {
-            throw new NotImplementedException();
+            Path = (IrbisPath) reader.ReadPackedInt32();
+            Database = reader.ReadNullableString();
+            FileName = reader.ReadNullableString();
         }
 
         /// <summary>
@@ -117,7 +120,10 @@ namespace ManagedClient.Network
                 BinaryWriter writer
             )
         {
-            throw new NotImplementedException();
+            writer
+                .WritePackedInt32((int) Path)
+                .WriteNullable(Database)
+                .WriteNullable(FileName);
         }
 
         #endregion

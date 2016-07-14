@@ -7,32 +7,27 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.Sockets;
-using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
+
 using AM;
 using AM.IO;
 using AM.Runtime;
 using AM.Threading;
+
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedClient.ImportExport;
 using ManagedClient.Network;
 using ManagedClient.Network.Commands;
 using ManagedClient.Search;
+
 using MoonSharp.Interpreter;
 
-using Newtonsoft.Json;
-
 #endregion
-
 
 namespace ManagedClient
 {
@@ -323,10 +318,8 @@ namespace ManagedClient
         //private ManualResetEvent _waitHandle;
 
         //[NonSerialized]
-        private TextWriter _debugWriter;
+        //private TextWriter _debugWriter;
 
-        //[NonSerialized]
-        private TcpClient _client;
 
         // ReSharper disable InconsistentNaming
         private int _clientID;
@@ -405,7 +398,7 @@ namespace ManagedClient
         {
             Code.NotNullNorEmpty(database, "database");
 
-            throw new NotImplementedException();
+            ActualizeRecord(0);
         }
 
         /// <summary>
@@ -590,6 +583,8 @@ namespace ManagedClient
 
         // =========================================================
 
+        #region FormatRecord
+
         /// <summary>
         /// Форматирование записи.
         /// </summary>
@@ -601,6 +596,7 @@ namespace ManagedClient
             )
         {
             Code.Positive(mfn, "mfn");
+            Code.NotNull(format, "format");
 
             FormatCommand command = new FormatCommand(this)
             {
@@ -608,11 +604,79 @@ namespace ManagedClient
             };
             command.MfnList.Add(mfn);
             IrbisServerResponse response = ExecuteCommand(command);
-            
+
             string result = response.GetUtfString();
+            result = IrbisText.IrbisToWindows(result);
 
             return result;
         }
+
+        /// <summary>
+        /// Форматирование записи.
+        /// </summary>
+        [CanBeNull]
+        public string FormatRecord
+            (
+                [NotNull] string format,
+                [NotNull] IrbisRecord record
+            )
+        {
+            Code.NotNull(format, "format");
+            Code.NotNull(record, "record");
+
+            FormatCommand command = new FormatCommand(this)
+            {
+                FormatSpecification = format,
+                VirtualRecord = record
+            };
+            IrbisServerResponse response = ExecuteCommand(command);
+
+            string result = response.GetUtfString();
+            result = IrbisText.IrbisToWindows(result);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Форматирование записей.
+        /// </summary>
+        [NotNull]
+        public string[] FormatRecords
+            (
+                [NotNull] string format,
+                [NotNull] IEnumerable<int> mfnList
+            )
+        {
+            Code.NotNull(mfnList, "mfnList");
+            Code.NotNull(format, "format");
+
+            FormatCommand command = new FormatCommand(this)
+            {
+                FormatSpecification = format
+            };
+            command.MfnList.AddRange(mfnList);
+
+            if (command.MfnList.Count == 0)
+            {
+                return new string[0];
+            }
+
+            IrbisServerResponse response = ExecuteCommand(command);
+
+            if (command.MfnList.Count == 1)
+            {
+                return new[]
+                {
+                    IrbisText.IrbisToWindows(response.GetUtfString())
+                };
+            }
+
+            return FormatCommand.GetFormatResult(response);
+        }
+
+        #endregion
+
+        // =========================================================
 
         /// <summary>
         /// Get next mfn for current database.
@@ -832,7 +896,7 @@ namespace ManagedClient
         /// </summary>
         /// <returns>Текущая база данных.</returns>
         [CanBeNull]
-        public string PopDatabase ()
+        public string PopDatabase()
         {
             string result = Database;
 
@@ -850,7 +914,7 @@ namespace ManagedClient
         [CanBeNull]
         public string ReadTextFile
             (
-                IrbisPath path, 
+                IrbisPath path,
                 [NotNull] string fileName
             )
         {
@@ -999,7 +1063,7 @@ namespace ManagedClient
             }
 
             List<object> arguments
-                = new List<object>(mfnList.Length + 1) {Database};
+                = new List<object>(mfnList.Length + 1) { Database };
             arguments.AddRange(mfnList.Cast<object>());
 
             ExecuteCommand
@@ -1096,7 +1160,7 @@ namespace ManagedClient
             Username = reader.ReadNullableString();
             Password = reader.ReadNullableString();
             Database = reader.ReadNullableString();
-            Workstation = (IrbisWorkstation) reader.ReadPackedInt32();
+            Workstation = (IrbisWorkstation)reader.ReadPackedInt32();
         }
 
         /// <summary>
@@ -1113,7 +1177,7 @@ namespace ManagedClient
                 .WriteNullable(Username)
                 .WriteNullable(Password)
                 .WriteNullable(Database)
-                .WritePackedInt32((int) Workstation);
+                .WritePackedInt32((int)Workstation);
         }
 
         #endregion

@@ -107,6 +107,48 @@ namespace ManagedClient.Network.Commands
 
         #endregion
 
+        #region Public methods
+
+        /// <summary>
+        /// Get format result from server response.
+        /// </summary>
+        [NotNull]
+        public static string[] GetFormatResult
+            (
+                [NotNull] IrbisServerResponse response
+            )
+        {
+            Code.NotNull(response, "response");
+
+            List<string> result = new List<string>();
+
+            while (true)
+            {
+                string line = response.GetUtfString();
+                if (ReferenceEquals(line, null))
+                {
+                    break;
+                }
+                int index = line.IndexOf('#');
+                if (index > 0)
+                {
+                    string mfnPart = line.Substring(0, index);
+                    int mfn = mfnPart.SafeToInt32();
+                    if (mfn > 0)
+                    {
+                        line = line.Substring(index + 1);
+                    }
+                }
+
+                line = IrbisText.IrbisToWindows(line);
+                result.Add(line);
+            }
+
+            return result.ToArray();
+        }
+
+        #endregion
+
         #region AbstractCommand members
 
         /// <summary>

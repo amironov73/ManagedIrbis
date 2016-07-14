@@ -11,12 +11,10 @@ using System.Collections.Generic;
 using System.CodeDom.Compiler;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 using AM;
 
@@ -26,8 +24,9 @@ using JetBrains.Annotations;
 
 using ManagedClient;
 using ManagedClient.Testing;
+
 using Microsoft.CSharp;
-using Newtonsoft.Json;
+
 using Newtonsoft.Json.Linq;
 
 #endregion
@@ -149,7 +148,7 @@ namespace IrbisTestRunner
         private readonly List<string> _testList;
         private readonly List<string> _references;
 
-        public Type[] _GetTestClasses
+        private Type[] _GetTestClasses
             (
                 Assembly assembly
             )
@@ -236,10 +235,15 @@ namespace IrbisTestRunner
             }
 
             CSharpCodeProvider provider = new CSharpCodeProvider();
+            
             CompilerParameters parameters = new CompilerParameters
                 (
                     References.ToArray()
-                );
+                )
+            {
+                CompilerOptions = "/d:DEBUG",
+                IncludeDebugInformation = true
+            };
             CompilerResults results = provider.CompileAssemblyFromFile
                 (
                     parameters,
@@ -262,9 +266,12 @@ namespace IrbisTestRunner
             Console.WriteLine("Tests compiled");
         }
 
+        /// <summary>
+        /// Discover tests.
+        /// </summary>
         public void DiscoverTests()
         {
-            Console.WriteLine("Discovering tests");
+            WriteLine(ConsoleColor.Yellow, "Discovering tests");
 
             int count = 0;
             foreach (string item in TestList)
@@ -275,20 +282,33 @@ namespace IrbisTestRunner
                         item
                     );
 
-                Console.Write("{0}: ", item);
+                Console.Write("\t{0}: ", item);
                 if (File.Exists(fullPath))
                 {
-                    Console.WriteLine("ok");
+                    WriteLine(ConsoleColor.Green, "OK");
                     count++;
                 }
                 else
                 {
-                    Console.WriteLine("not found!");
+                    WriteLine(ConsoleColor.Red, "not found!");
                     throw new FileNotFoundException(fullPath);
                 }
             }
 
-            Console.WriteLine("Source files found: {0}", count);
+            WriteLine(ConsoleColor.Yellow, "Source files found: {0}", count);
+        }
+
+        /// <summary>
+        /// Find running local server process.
+        /// </summary>
+        public bool FindLocalServer()
+        {
+            Process[] processes = Process.GetProcessesByName
+                (
+                    "irbis_server"
+                );
+
+            return processes.Length != 0;
         }
 
         /// <summary>
@@ -394,7 +414,7 @@ namespace IrbisTestRunner
         {
             Type[] testClasses = _GetTestClasses(CompiledAssembly);
 
-            WriteLine(ConsoleColor.Yellow, "Test execution started");
+            WriteLine(ConsoleColor.White, "Test execution started");
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             using (Connection = new IrbisConnection())
@@ -409,7 +429,7 @@ namespace IrbisTestRunner
             }
             stopwatch.Stop();
 
-            WriteLine(ConsoleColor.Yellow, "Test execution finished");
+            WriteLine(ConsoleColor.White, "Test execution finished");
             WriteLine(ConsoleColor.Gray, "Time elapsed: {0}", stopwatch.Elapsed);
         }
 
@@ -526,7 +546,7 @@ namespace IrbisTestRunner
         {
             if (ServerProcess == null)
             {
-                WriteLine(ConsoleColor.Yellow, "Server not running");
+                WriteLine(ConsoleColor.Yellow, "Server not started");
                 return;
             }
 

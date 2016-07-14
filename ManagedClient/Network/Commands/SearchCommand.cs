@@ -161,6 +161,11 @@ namespace ManagedClient.Network.Commands
             Code.NotNull(clientQuery, "clientQuery");
 
             string database = Database ?? Connection.Database;
+            if (string.IsNullOrEmpty(database))
+            {
+                throw new IrbisNetworkException("database not set");
+            }
+
             clientQuery.Add(database);
 
             string preparedQuery = IrbisSearchQuery.PrepareQuery
@@ -177,6 +182,7 @@ namespace ManagedClient.Network.Commands
                 );
 
             clientQuery.Add(NumberOfRecords);
+            clientQuery.Add(FirstRecord);
 
             string preparedFormat = IrbisFormat.PrepareFormat
                 (
