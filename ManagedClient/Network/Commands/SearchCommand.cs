@@ -215,19 +215,13 @@ namespace ManagedClient.Network.Commands
                 bool throwOnError
             )
         {
-            bool result = !string.IsNullOrEmpty(SearchQuery);
+            Verifier<SearchCommand> verifier
+                = new Verifier<SearchCommand>(this, throwOnError);
+            verifier
+                .NotNullNorEmpty(SearchQuery, "SearchQuery")
+                .Assert(base.Verify(throwOnError));
 
-            if (result)
-            {
-                result = base.Verify(throwOnError);
-            }
-
-            if (!result && throwOnError)
-            {
-                throw new VerificationException();
-            }
-
-            return result;
+            return verifier.Result;
         }
 
         #endregion

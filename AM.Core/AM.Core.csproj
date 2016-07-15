@@ -190,6 +190,7 @@
     <Compile Include="AM\UniversalComparer.cs" />
     <Compile Include="AM\Utility.cs" />
     <Compile Include="AM\VerificationException.cs" />
+    <Compile Include="AM\Verifier.cs" />
     <Compile Include="CodeJam\Code.cs" />
     <Compile Include="CodeJam\CodeExceptions.cs" />
     <Compile Include="AM\Configuration\ConfigurationUtility.cs" />

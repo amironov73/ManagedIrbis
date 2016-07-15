@@ -108,19 +108,12 @@ namespace ManagedClient.Network.Commands
                 bool throwOnError
             )
         {
-            bool result = !string.IsNullOrEmpty(Database);
+            Verifier<CreateDatabaseCommand> verifier
+                = new Verifier<CreateDatabaseCommand>(this, throwOnError);
+            verifier
+                .NotNullNorEmpty(Database, "Database");
 
-            if (result)
-            {
-                result = base.Verify(throwOnError);
-            }
-
-            if (!result && throwOnError)
-            {
-                throw new VerificationException();
-            }
-
-            return result;
+            return verifier.Result;
         }
 
         #endregion

@@ -89,5 +89,27 @@ namespace ManagedClient.Network.Commands
         }
 
         #endregion
+
+        #region IVerifiable members
+
+        /// <summary>
+        /// Verify object state.
+        /// </summary>
+        public override bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<ConnectCommand> verifier
+                = new Verifier<ConnectCommand>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(Connection.Username, "username")
+                .NotNullNorEmpty(Connection.Password, "password");
+
+            return verifier.Result;
+        }
+
+        #endregion
     }
 }
