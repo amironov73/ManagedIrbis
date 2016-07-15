@@ -727,6 +727,34 @@ namespace ManagedClient
         }
 
         /// <summary>
+        /// Get list of the databases.
+        /// </summary>
+        [NotNull]
+        public IrbisDatabaseInfo[] ListDatabases
+            (
+                [NotNull] string listFile
+            )
+        {
+            Code.NotNull(listFile, "listFile");
+
+            string menuFile = ReadTextFile(IrbisPath.Data, listFile);
+            string[] lines = menuFile.SplitLines();
+            IrbisDatabaseInfo[] result
+                = IrbisDatabaseInfo.ParseMenu(lines);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get list of the databases.
+        /// </summary>
+        [NotNull]
+        public IrbisDatabaseInfo[] ListDatabases()
+        {
+            return ListDatabases("dbnam1.mnu");
+        }
+
+        /// <summary>
         /// No operation.
         /// </summary>
         public void NoOp()

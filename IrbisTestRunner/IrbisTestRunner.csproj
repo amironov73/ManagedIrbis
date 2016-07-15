@@ -114,6 +114,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\FormatTest.cs" />
+    <Compile Include="Tests\ListDatabasesTest.cs" />
     <Compile Include="Tests\MaxMfnTest.cs" />
     <Compile Include="Tests\NopTest.cs" />
     <Compile Include="Tests\ReadFileTest.cs" />

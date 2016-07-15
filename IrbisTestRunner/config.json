@@ -22,9 +22,10 @@
     "tests":
         [
             "FormatTest.cs",
+            "ListDatabasesTest.cs",
             "MaxMfnTest.cs",
             "NopTest.cs",
-             "ReadFileTest.cs",
+            "ReadFileTest.cs",
             "SearchTest.cs",
             "ReadRecordTest.cs",
             "VersionTest.cs",
