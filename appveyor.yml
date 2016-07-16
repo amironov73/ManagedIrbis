@@ -1,6 +1,6 @@
 version: 1.6.0.{build}
 configuration: Debug
-image: Previous Visual Studio 2013
+image: Visual Studio 2013
 environment:
   packageVersion: 1.6.0
 
