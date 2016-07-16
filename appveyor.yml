@@ -15,7 +15,7 @@ nuget:
   project_feed: false
 
 build:
-  project: ManagedClient.sln
+  project: ManagedIrbis.sln
   publish_nuget: false
   parallel: true
   verbosity: minimal
@@ -27,7 +27,7 @@ after_build:
 
 artifacts:
   - path: Binaries
-    name: ManagedClient
+    name: ManagedIrbis
   - path: Nuget\*.nupkg
     name: Nuget
 
@@ -37,4 +37,4 @@ deploy:
   protocol: ftp
   username: alexeymnet_ftp
   password:
-    secure: sLbeQTSV54foCg741X7Quw==  artifact: ManagedClient,Nuget
+    secure: sLbeQTSV54foCg741X7Quw==  artifact: ManagedIrbis,Nuget

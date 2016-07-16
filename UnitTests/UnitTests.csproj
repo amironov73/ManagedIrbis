@@ -226,9 +226,9 @@
       <Project>{aeebb65d-1023-4ac2-a280-4639e085cdb5}</Project>
       <Name>IrbisUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ManagedClient\ManagedClient.csproj">
+    <ProjectReference Include="..\ManagedIrbis\ManagedIrbis.csproj">
       <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
-      <Name>ManagedClient</Name>
+      <Name>ManagedIrbis</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

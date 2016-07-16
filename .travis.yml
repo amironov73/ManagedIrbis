@@ -1,2 +1,2 @@
 language: csharp
-solution: ManagedClient.travis.sln
+solution: ManagedIrbis.travis.sln

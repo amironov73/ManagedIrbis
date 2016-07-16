@@ -134,9 +134,9 @@
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
       <Name>AM.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ManagedClient\ManagedClient.csproj">
+    <ProjectReference Include="..\ManagedIrbis\ManagedIrbis.csproj">
       <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
-      <Name>ManagedClient</Name>
+      <Name>ManagedIrbis</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

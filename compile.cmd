@@ -4,7 +4,7 @@ SET MSBUILD=C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe
 SET OUTPUT=..\Binaries
 SET PARAMS=/consoleloggerparameters:ErrorsOnly /m
 
-FOR %%P IN (AM.Core,ManagedClient,AM.Rfid,IrbisUI,MoonIrbis) DO (
+FOR %%P IN (AM.Core,ManagedIrbis,AM.Rfid,IrbisUI,MoonIrbis) DO (
   FOR %%B IN (Debug,Release) DO (
     CALL :BUILD %%P %%B 35 v3.5 "FW35"
     CALL :BUILD %%P %%B 40 v4.0 "FW40"
