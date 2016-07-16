@@ -18,16 +18,14 @@ using BLToolkit.Mapping;
 using CodeJam;
 
 using JetBrains.Annotations;
-
-using ManagedClient.Mapping;
-
+using ManagedIrbis.Mapping;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Fields
+namespace ManagedIrbis.Fields
 {
     /// <summary>
     /// Данные о редактировании записи (поле 907).

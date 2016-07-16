@@ -18,7 +18,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Readers
+namespace ManagedIrbis.Readers
 {
     /// <summary>
     /// Профиль ИРИ

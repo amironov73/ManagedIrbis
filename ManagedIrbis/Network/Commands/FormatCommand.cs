@@ -25,7 +25,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Network.Commands
+namespace ManagedIrbis.Network.Commands
 {
     //
     // db_name – имя базы данных

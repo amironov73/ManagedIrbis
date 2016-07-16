@@ -24,7 +24,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Identifiers
+namespace ManagedIrbis.Identifiers
 {
     //
     // Международный стандартный книжный номер

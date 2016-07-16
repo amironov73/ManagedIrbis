@@ -2,7 +2,7 @@
  * Ars Magna project, http://arsmagna.ru
  */
 
-namespace ManagedClient.Search
+namespace ManagedIrbis.Search
 {
     /// <summary>
     /// Тип словаря для соответствующего поиска

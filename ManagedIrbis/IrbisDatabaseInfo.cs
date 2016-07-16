@@ -24,7 +24,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     /// <summary>
     /// Информация о базе данных ИРБИС

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManagedClient.Identifiers
+namespace ManagedIrbis.Identifiers
 {
     //
     // Международный идентификатор стандартных наименований

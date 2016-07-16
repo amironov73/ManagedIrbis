@@ -23,7 +23,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     /// <summary>
     /// Информация о запущенном на сервере процессе.

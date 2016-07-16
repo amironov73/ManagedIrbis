@@ -2,7 +2,7 @@
  * Ars Magna project, http://arsmagna.ru
  */
 
-namespace ManagedClient.Worksheet
+namespace ManagedIrbis.Worksheet
 {
     /// <summary>
     /// Режимы ввода

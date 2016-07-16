@@ -19,7 +19,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     /// <summary>
     /// Строка с ИРБИС-датой yyyyMMdd.

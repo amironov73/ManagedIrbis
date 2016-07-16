@@ -19,17 +19,15 @@ using AM.Threading;
 using CodeJam;
 
 using JetBrains.Annotations;
-
-using ManagedClient.ImportExport;
-using ManagedClient.Network;
-using ManagedClient.Network.Commands;
-using ManagedClient.Search;
-
+using ManagedIrbis.ImportExport;
+using ManagedIrbis.Network;
+using ManagedIrbis.Network.Commands;
+using ManagedIrbis.Search;
 using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     /// <summary>
     /// Client for IRBIS-server.

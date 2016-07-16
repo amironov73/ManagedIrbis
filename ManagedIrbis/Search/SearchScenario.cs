@@ -20,7 +20,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient.Search
+namespace ManagedIrbis.Search
 {
     //
     // Для описания одного вида поиска по словарю служат следующие параметры

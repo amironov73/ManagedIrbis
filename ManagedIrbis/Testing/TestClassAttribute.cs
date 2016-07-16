@@ -16,13 +16,13 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedClient;
+using ManagedIrbis;
 
 using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Testing
+namespace ManagedIrbis.Testing
 {
     /// <summary>
     /// Attribute to mark test classes.

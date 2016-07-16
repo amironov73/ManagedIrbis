@@ -26,7 +26,7 @@ using Newtonsoft.Json.Linq;
 
 #endregion
 
-namespace ManagedClient.Gbl
+namespace ManagedIrbis.Gbl
 {
     /// <summary>
     /// Utility routines for GBL file handling.

@@ -16,9 +16,9 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedClient;
-using ManagedClient.ImportExport;
-using ManagedClient.Testing;
+using ManagedIrbis;
+using ManagedIrbis.ImportExport;
+using ManagedIrbis.Testing;
 
 using Newtonsoft.Json;
 

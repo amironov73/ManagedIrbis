@@ -2,7 +2,7 @@
  * Ars Magna project, http://arsmagna.ru
  */
 
-namespace ManagedClient.Gbl
+namespace ManagedIrbis.Gbl
 {
     /// <summary>
     /// Command codes for GBL files.

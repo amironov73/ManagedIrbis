@@ -27,7 +27,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Identifiers
+namespace ManagedIrbis.Identifiers
 {
     /// <summary>
     /// API for CrossRef.org

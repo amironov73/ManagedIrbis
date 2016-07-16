@@ -23,7 +23,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient.Quality
+namespace ManagedIrbis.Quality
 {
     /// <summary>
     /// Список дефектов для записи.

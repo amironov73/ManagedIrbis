@@ -22,7 +22,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Requests
+namespace ManagedIrbis.Requests
 {
     using Readers;
 

@@ -2,7 +2,7 @@
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using ManagedClient;
+using ManagedIrbis;
 
 namespace UnitTests.ManagedClient
 {

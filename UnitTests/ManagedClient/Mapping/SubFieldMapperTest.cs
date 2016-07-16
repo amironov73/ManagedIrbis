@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using ManagedClient.Mapping;
+using ManagedIrbis.Mapping;
 
 namespace UnitTests.ManagedClient.Mapping
 {

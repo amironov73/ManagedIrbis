@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;
 
-using ManagedClient.Requests;
+using ManagedIrbis.Requests;
 
 namespace UnitTests.ManagedClient.Requests
 {

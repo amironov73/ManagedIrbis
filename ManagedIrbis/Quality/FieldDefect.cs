@@ -22,7 +22,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Quality
+namespace ManagedIrbis.Quality
 {
     /// <summary>
     /// Дефект в поле/подполе.

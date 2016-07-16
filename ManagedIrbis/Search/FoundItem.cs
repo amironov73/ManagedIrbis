@@ -12,14 +12,12 @@ using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
-
-using ManagedClient.Network;
-
+using ManagedIrbis.Network;
 using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient.Search
+namespace ManagedIrbis.Search
 {
     /// <summary>
     /// Found item.

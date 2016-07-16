@@ -23,7 +23,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient.Marc.Schema
+namespace ManagedIrbis.Marc.Schema
 {
     /// <summary>
     /// 

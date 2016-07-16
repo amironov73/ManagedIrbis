@@ -2,7 +2,7 @@
  * Ars Magna project, http://arsmagna.ru
  */
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     /// <summary>
     /// Коды АРМов ИРБИС.

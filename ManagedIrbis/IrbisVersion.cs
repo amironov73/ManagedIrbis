@@ -17,14 +17,14 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-using ManagedClient.Network;
+using ManagedIrbis.Network;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     /// <summary>
     /// Информация о версии ИРБИС-сервера.

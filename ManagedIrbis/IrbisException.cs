@@ -12,12 +12,11 @@ using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
-
-using ManagedClient.Network;
+using ManagedIrbis.Network;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     /// <summary>
     /// Исключения, специфичные для библиотеки

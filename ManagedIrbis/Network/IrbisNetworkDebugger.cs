@@ -21,7 +21,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Network
+namespace ManagedIrbis.Network
 {
     /// <summary>
     /// Debugger for network protocol.

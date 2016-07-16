@@ -20,7 +20,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     /// <summary>
     /// Лидер записи в N01, L01

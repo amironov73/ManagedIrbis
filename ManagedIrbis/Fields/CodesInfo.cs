@@ -5,12 +5,11 @@
 #region Using directives
 
 using System;
-
-using ManagedClient.Mapping;
+using ManagedIrbis.Mapping;
 
 #endregion
 
-namespace ManagedClient.Fields
+namespace ManagedIrbis.Fields
 {
     /// <summary>
     /// Коды (поле 900).

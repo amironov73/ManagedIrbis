@@ -10,7 +10,7 @@ using System.Linq;
 
 using AM;
 
-using ManagedClient.Testing;
+using ManagedIrbis.Testing;
 
 #endregion
 

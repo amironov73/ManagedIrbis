@@ -14,7 +14,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient.Network.Commands
+namespace ManagedIrbis.Network.Commands
 {
     /// <summary>
     /// 

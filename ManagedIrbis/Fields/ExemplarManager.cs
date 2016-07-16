@@ -16,11 +16,11 @@ using AM.Text.Output;
 using JetBrains.Annotations;
 
 using AM.IO;
-using ManagedClient.Readers;
+using ManagedIrbis.Readers;
 
 #endregion
 
-namespace ManagedClient.Fields
+namespace ManagedIrbis.Fields
 {
     /// <summary>
     /// Exemplar manager

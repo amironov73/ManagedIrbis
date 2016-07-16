@@ -17,12 +17,11 @@ using JetBrains.Annotations;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
-
-using ManagedClient.Mapping;
+using ManagedIrbis.Mapping;
 
 #endregion
 
-namespace ManagedClient.Readers
+namespace ManagedIrbis.Readers
 {
     /// <summary>
     /// Информация о регистрации/перерегистрации читателя.

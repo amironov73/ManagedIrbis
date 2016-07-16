@@ -15,7 +15,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     /// <summary>
     /// Работа с кодировками в ИРБИС.

@@ -14,7 +14,7 @@ using JetBrains.Annotations;
 
 #endregion
 
-namespace ManagedClient.Metadata
+namespace ManagedIrbis.Metadata
 {
     /// <summary>
     /// Основанный на MARC формат метаданных.

@@ -26,7 +26,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Fst
+namespace ManagedIrbis.Fst
 {
     /// <summary>
     /// FST file handling

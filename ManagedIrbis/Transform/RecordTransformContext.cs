@@ -24,7 +24,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Transform
+namespace ManagedIrbis.Transform
 {
     /// <summary>
     /// Context of <see cref="IrbisRecord"/> transformation.

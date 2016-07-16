@@ -13,14 +13,12 @@ using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
-
-using ManagedClient.ImportExport;
-
+using ManagedIrbis.ImportExport;
 using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient.Network
+namespace ManagedIrbis.Network
 {
     /// <summary>
     /// Вспомогательные методы для формирования сетевых

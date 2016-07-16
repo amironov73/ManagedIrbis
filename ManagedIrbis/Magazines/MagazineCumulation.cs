@@ -22,7 +22,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Magazines
+namespace ManagedIrbis.Magazines
 {
     /// <summary>
     /// Данные о кумуляции номеров. Поле 909.

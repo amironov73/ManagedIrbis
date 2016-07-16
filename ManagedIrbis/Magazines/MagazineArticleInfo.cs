@@ -18,7 +18,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient.Magazines
+namespace ManagedIrbis.Magazines
 {
     /// <summary>
     /// Информация о статье из журнала/сборника.

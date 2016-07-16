@@ -24,7 +24,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Gbl
+namespace ManagedIrbis.Gbl
 {
     /// <summary>
     /// Shortcuts for popular GBL commands.

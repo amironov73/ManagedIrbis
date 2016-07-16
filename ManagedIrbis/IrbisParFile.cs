@@ -24,7 +24,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     // Каждой базе данных ИРБИС соответствует один .par-файл.
     // Этот файл содержит набор путей к файлам базы данных ИРБИС.

@@ -18,16 +18,14 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-
-using ManagedClient.ImportExport;
-
+using ManagedIrbis.ImportExport;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     /// <summary>
     /// MARC record subfield.

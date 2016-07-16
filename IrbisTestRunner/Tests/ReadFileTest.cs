@@ -6,9 +6,9 @@
 
 using System;
 
-using ManagedClient;
-using ManagedClient.Network;
-using ManagedClient.Testing;
+using ManagedIrbis;
+using ManagedIrbis.Network;
+using ManagedIrbis.Testing;
 
 #endregion
 

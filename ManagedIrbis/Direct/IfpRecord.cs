@@ -22,7 +22,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Direct
+namespace ManagedIrbis.Direct
 {
     /// <summary>
     /// Inverted file record

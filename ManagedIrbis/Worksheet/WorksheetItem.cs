@@ -26,7 +26,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Worksheet
+namespace ManagedIrbis.Worksheet
 {
     //
     // РЛ полей содержит таблицу  с элементами для ввода/корректировки,

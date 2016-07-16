@@ -27,7 +27,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Worksheet
+namespace ManagedIrbis.Worksheet
 {
     /// <summary>
     /// Рабочий лист.

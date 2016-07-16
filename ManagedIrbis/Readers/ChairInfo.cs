@@ -20,7 +20,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Readers
+namespace ManagedIrbis.Readers
 {
     /// <summary>
     /// Информация о кафедре обслуживания.

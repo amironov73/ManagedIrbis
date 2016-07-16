@@ -3,7 +3,7 @@ using System.IO;
 using AM.Runtime;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using ManagedClient.Marc.Schema;
+using ManagedIrbis.Marc.Schema;
 
 namespace UnitTests.ManagedClient.Marc.Schema
 {

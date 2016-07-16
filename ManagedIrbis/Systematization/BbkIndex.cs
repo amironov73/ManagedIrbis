@@ -24,7 +24,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Systematization
+namespace ManagedIrbis.Systematization
 {
     /// <summary>
     /// Классификационный индекс ББК,

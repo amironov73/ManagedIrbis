@@ -16,14 +16,14 @@ using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
-using ManagedClient.ImportExport;
+using ManagedIrbis.ImportExport;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Network
+namespace ManagedIrbis.Network
 {
     /// <summary>
     /// Пакет с ответом сервера.

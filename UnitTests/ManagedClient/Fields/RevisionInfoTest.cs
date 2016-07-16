@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;
 
-using ManagedClient.Fields;
+using ManagedIrbis.Fields;
 
 namespace UnitTests.ManagedClient.Fields
 {

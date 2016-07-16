@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManagedClient.Identifiers
+namespace ManagedIrbis.Identifiers
 {
     //
     // WorldCat — крупнейшая в мире библиографическая база данных,

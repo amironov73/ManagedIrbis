@@ -16,7 +16,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient.Scripting
+namespace ManagedIrbis.Scripting
 {
     /// <summary>
     /// Интерпретатор Lua-скриптов с учётом ИРБИС-специфики.

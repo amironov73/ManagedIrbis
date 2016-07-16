@@ -10,7 +10,7 @@ using JetBrains.Annotations;
 
 #endregion
 
-namespace ManagedClient.Readers
+namespace ManagedIrbis.Readers
 {
     /// <summary>
     /// Основные операции с читателями.

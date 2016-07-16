@@ -10,7 +10,7 @@ using JetBrains.Annotations;
 
 #endregion
 
-namespace ManagedClient.Systematization
+namespace ManagedIrbis.Systematization
 {
     /// <summary>
     /// Исключение, возникающее при работе с УДК.

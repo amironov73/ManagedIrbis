@@ -18,7 +18,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     // Таблица алфавитных символов используется системой ИРБИС
     // при разбиении текста на слова и представляет собой список

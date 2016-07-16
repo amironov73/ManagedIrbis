@@ -3,7 +3,7 @@
 using AM;
 using AM.Runtime;
 
-using ManagedClient;
+using ManagedIrbis;
 
 namespace UnitTests.ManagedClient
 {

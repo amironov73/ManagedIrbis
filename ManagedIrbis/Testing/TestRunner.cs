@@ -22,8 +22,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedClient;
-using ManagedClient.Testing;
+using ManagedIrbis;
+using ManagedIrbis.Testing;
 
 using Microsoft.CSharp;
 

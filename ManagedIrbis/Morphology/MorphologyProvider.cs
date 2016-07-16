@@ -9,7 +9,7 @@ using System.Linq;
 
 #endregion
 
-namespace ManagedClient.Morphology
+namespace ManagedIrbis.Morphology
 {
 #if NOTDEF
 

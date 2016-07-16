@@ -12,7 +12,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient.Morphology
+namespace ManagedIrbis.Morphology
 {
 #if NOTDEF
 

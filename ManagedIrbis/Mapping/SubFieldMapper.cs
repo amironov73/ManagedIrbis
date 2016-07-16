@@ -20,7 +20,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Mapping
+namespace ManagedIrbis.Mapping
 {
     /// <summary>
     /// 

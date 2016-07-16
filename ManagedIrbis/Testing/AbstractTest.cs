@@ -20,7 +20,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Testing
+namespace ManagedIrbis.Testing
 {
     /// <summary>
     /// Abstract test.

@@ -17,7 +17,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient.Network
+namespace ManagedIrbis.Network
 {
     /// <summary>
     /// Клиентский пакет с запросом к серверу.

@@ -8,7 +8,7 @@ using System;
 
 #endregion
 
-namespace ManagedClient.Mapping
+namespace ManagedIrbis.Mapping
 {
     /// <summary>
     /// Задаёт отображение подполя на свойство.

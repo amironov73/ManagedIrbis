@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;
 
-using ManagedClient.Quality;
+using ManagedIrbis.Quality;
 
 namespace UnitTests.ManagedClient.Quality
 {

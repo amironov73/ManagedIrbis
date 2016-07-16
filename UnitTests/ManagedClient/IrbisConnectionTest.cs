@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
-using ManagedClient.Network;
+using ManagedIrbis.Network;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;
 
-using ManagedClient;
+using ManagedIrbis;
 
 namespace UnitTests.ManagedClient
 {

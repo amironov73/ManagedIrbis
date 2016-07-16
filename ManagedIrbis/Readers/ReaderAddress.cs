@@ -20,7 +20,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Readers
+namespace ManagedIrbis.Readers
 {
     /// <summary>
     /// Адрес читателя: поле 13 в базе RDR.

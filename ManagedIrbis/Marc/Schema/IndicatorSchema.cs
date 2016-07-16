@@ -24,7 +24,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Marc.Schema
+namespace ManagedIrbis.Marc.Schema
 {
     /// <summary>
     /// 

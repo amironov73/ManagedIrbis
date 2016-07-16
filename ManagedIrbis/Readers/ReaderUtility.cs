@@ -12,7 +12,7 @@ using JetBrains.Annotations;
 
 #endregion
 
-namespace ManagedClient.Readers
+namespace ManagedIrbis.Readers
 {
     /// <summary>
     /// Методы для работы с БД читателей.

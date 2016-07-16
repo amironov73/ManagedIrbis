@@ -14,16 +14,14 @@ using AM.IO;
 using AM.Runtime;
 
 using JetBrains.Annotations;
-
-using ManagedClient.Fields;
-
+using ManagedIrbis.Fields;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Readers
+namespace ManagedIrbis.Readers
 {
     /// <summary>
     /// Информация о задолжнике

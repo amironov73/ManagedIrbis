@@ -2,7 +2,7 @@
  * Ars Magna project, http://arsmagna.ru
  */
 
-namespace ManagedClient.Requests
+namespace ManagedIrbis.Requests
 {
     /// <summary>
     /// Префиксы стандартных запросов к базе данных RDR.

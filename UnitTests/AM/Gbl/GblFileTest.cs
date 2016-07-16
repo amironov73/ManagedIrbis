@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using AM.Runtime;
-using ManagedClient;
+using ManagedIrbis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using ManagedClient.Gbl;
+using ManagedIrbis.Gbl;
 
 namespace UnitTests.AM.Gbl
 {

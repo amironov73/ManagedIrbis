@@ -22,7 +22,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     //
     // ! Наличие символа «!» означает, что в EditText недостающие

@@ -10,7 +10,7 @@ using JetBrains.Annotations;
 
 #endregion
 
-namespace ManagedClient.Network
+namespace ManagedIrbis.Network
 {
     /// <summary>
     /// 

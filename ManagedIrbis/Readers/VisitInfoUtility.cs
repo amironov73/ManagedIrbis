@@ -16,7 +16,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient.Readers
+namespace ManagedIrbis.Readers
 {
     /// <summary>
     /// Utility routines for <see cref="VisitInfo"/>.

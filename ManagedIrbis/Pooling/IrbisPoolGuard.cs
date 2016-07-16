@@ -12,7 +12,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient.Pooling
+namespace ManagedIrbis.Pooling
 {
     /// <summary>
     /// Следит за своевременным возвращением соединения в пул.

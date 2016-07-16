@@ -23,7 +23,7 @@
 // XML comment has cref attribute that could not be resolved
 #pragma warning disable 1574
 
-namespace ManagedClient.Search {
+namespace ManagedIrbis.Search {
 
 using Antlr4.Runtime.Misc;
 using IErrorNode = Antlr4.Runtime.Tree.IErrorNode;

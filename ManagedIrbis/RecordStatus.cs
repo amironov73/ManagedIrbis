@@ -7,7 +7,7 @@ using System;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     /// <summary>
     /// MARC record status

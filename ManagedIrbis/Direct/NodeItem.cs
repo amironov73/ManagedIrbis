@@ -19,7 +19,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     /// <summary>
     /// Справочник в N01/L01 является таблицей, определяющей

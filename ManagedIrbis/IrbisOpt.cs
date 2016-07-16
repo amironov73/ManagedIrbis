@@ -28,7 +28,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     // Оптимизированный формат – это механизм автоматического
     // переключения форматов показа документов в зависимости

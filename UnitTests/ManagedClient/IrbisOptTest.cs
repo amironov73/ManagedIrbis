@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using AM.Runtime;
 
-using ManagedClient;
+using ManagedIrbis;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;
 
-using ManagedClient.Menus;
+using ManagedIrbis.Menus;
 
 namespace UnitTests.ManagedClient.Menus
 {

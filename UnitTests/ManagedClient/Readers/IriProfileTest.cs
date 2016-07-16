@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;
 
-using ManagedClient.Readers;
+using ManagedIrbis.Readers;
 
 namespace UnitTests.ManagedClient.Readers
 {

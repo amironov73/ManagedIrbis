@@ -21,7 +21,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     /// <summary>
     /// Ссылка на запись (например, для сохранения в "кармане").

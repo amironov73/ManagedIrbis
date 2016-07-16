@@ -27,7 +27,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Menus
+namespace ManagedIrbis.Menus
 {
     /// <summary>
     /// MNU file handling.

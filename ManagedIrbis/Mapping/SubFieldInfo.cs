@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 #endregion
 
-namespace ManagedClient.Mapping
+namespace ManagedIrbis.Mapping
 {
     /// <summary>
     /// Информация о маппинге.

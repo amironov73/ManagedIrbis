@@ -25,7 +25,7 @@ using Formatting = Newtonsoft.Json.Formatting;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     /// <summary>
     /// 

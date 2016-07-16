@@ -2,7 +2,7 @@
  * Ars Magna project, http://arsmagna.ru
  */
 
-namespace ManagedClient.Fst
+namespace ManagedIrbis.Fst
 {
     //
     // Метод индексирования определяет специфическую

@@ -17,16 +17,14 @@ using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
-
-using ManagedClient.Fields;
-
+using ManagedIrbis.Fields;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Magazines
+namespace ManagedIrbis.Magazines
 {
     /// <summary>
     /// Сведения о номере журнала

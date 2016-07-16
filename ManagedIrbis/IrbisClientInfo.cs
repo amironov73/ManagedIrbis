@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     /// <summary>
     /// Информация о клиенте, подключенном к серверу ИРБИС

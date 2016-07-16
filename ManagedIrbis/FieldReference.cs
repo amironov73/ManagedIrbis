@@ -25,7 +25,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     // Формат ссылки
     // "1" |2|+ v3/4^5[6-7]*8.9 +|10| "11"

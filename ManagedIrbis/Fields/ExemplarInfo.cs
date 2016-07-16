@@ -19,12 +19,11 @@ using JetBrains.Annotations;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
-
-using ManagedClient.Mapping;
+using ManagedIrbis.Mapping;
 
 #endregion
 
-namespace ManagedClient.Fields
+namespace ManagedIrbis.Fields
 {
     /// <summary>
     /// Информация об экземпляре (поле 910).

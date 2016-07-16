@@ -14,7 +14,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient.Quality
+namespace ManagedIrbis.Quality
 {
     /// <summary>
     /// Утилиты для правил.

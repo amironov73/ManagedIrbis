@@ -14,7 +14,7 @@ using JetBrains.Annotations;
 
 #endregion
 
-namespace ManagedClient.Systematization
+namespace ManagedIrbis.Systematization
 {
     /// <summary>
     /// Интервал индексов ББК вроде такого:

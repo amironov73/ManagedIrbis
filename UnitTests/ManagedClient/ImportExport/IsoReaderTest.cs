@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using ManagedClient;
+using ManagedIrbis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using ManagedClient.ImportExport;
+using ManagedIrbis.ImportExport;
 
 namespace UnitTests.ManagedClient.ImportExport
 {

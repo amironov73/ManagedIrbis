@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
-using ManagedClient;
+using ManagedIrbis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;
 
-using ManagedClient.Fst;
+using ManagedIrbis.Fst;
 
 namespace UnitTests.ManagedClient.Fst
 {

@@ -27,7 +27,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.ImportExport
+namespace ManagedIrbis.ImportExport
 {
     /// <summary>
     /// 

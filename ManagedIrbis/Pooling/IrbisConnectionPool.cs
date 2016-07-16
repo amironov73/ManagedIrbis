@@ -14,7 +14,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient.Pooling
+namespace ManagedIrbis.Pooling
 {
     /// <summary>
     /// Пул соединений с сервером.

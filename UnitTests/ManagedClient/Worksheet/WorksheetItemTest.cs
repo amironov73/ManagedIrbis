@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;
 
-using ManagedClient.Worksheet;
+using ManagedIrbis.Worksheet;
 
 namespace UnitTests.ManagedClient.Worksheet
 {

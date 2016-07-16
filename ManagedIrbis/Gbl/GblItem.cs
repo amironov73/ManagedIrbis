@@ -27,7 +27,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedClient.Gbl
+namespace ManagedIrbis.Gbl
 {
     //
     // Файл задания на пакетную корректировку

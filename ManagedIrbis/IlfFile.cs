@@ -23,7 +23,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedClient
+namespace ManagedIrbis
 {
     //
     // ILF - Архив текстовых файлов Irbis Library Files
