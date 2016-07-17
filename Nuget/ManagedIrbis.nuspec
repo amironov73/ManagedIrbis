@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>ManagedClient</id>
+    <version>1.6.0.200</version>
+    <title>Managed framework for Irbis64</title>
+    <authors>Mironov Alexey</authors>
+    <owners></owners>
+    <description>
+      Fully managed framework for popular russian library automation system IRBIS64.
+    </description>
+    <releaseNotes>
+      Now supports NET 3.5/4.0/4.5
+    </releaseNotes>
+    <summary>
+      Fully managed client for popular russian library automation system IRBIS64.
+    </summary>
+    <language>en-US</language>
+    <projectUrl>https://arsmagna.ru</projectUrl>
+    <iconUrl>https://nuget.org/Content/Images/packageDefaultIcon-50x50.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+    <copyright>Copyright Alexey Mironov 2013-2016</copyright>
+    <dependencies>
+    </dependencies>
+    <references></references>
+    <tags></tags>
+  </metadata>
+  <files>
+    <file src="lib\" target="lib" />
+    <file src="tools\" target="tools" />
+    <file src="content\" target="content" />
+  </files>
+</package>

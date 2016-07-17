@@ -25,6 +25,6 @@ cd lib
 del /s /q MoonIrbis.* > nul
 cd ..
 
-PatchNugetVersion.exe %BIN%\%BUILD%40\AM.Core.dll ManagedClient.nuspec
+PatchNugetVersion.exe %BIN%\%BUILD%40\AM.Core.dll ManagedIrbis.nuspec
 
 nuget.exe pack

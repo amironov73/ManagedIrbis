@@ -13,11 +13,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ManagedClient")]
-[assembly: AssemblyDescription("IRBIS64 client runtime")]
+[assembly: AssemblyTitle("ManagedIrbis")]
+[assembly: AssemblyDescription("IRBIS64 managed runtime")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ManagedClient")]
+[assembly: AssemblyProduct("ManagedIrbis")]
 [assembly: AssemblyCopyright("Copyright © Alexey Mironov 2011-2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -40,7 +40,7 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.5.20.92")]
-[assembly: AssemblyFileVersion("1.5.20.92")]
+[assembly: AssemblyVersion("1.6.0.200")]
+[assembly: AssemblyFileVersion("1.6.0.200")]
 
 [assembly: CLSCompliant(true)]
