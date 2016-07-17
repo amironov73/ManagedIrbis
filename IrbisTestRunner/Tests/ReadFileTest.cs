@@ -5,7 +5,7 @@
 #region Using directives
 
 using System;
-
+using AM;
 using ManagedIrbis;
 using ManagedIrbis.Network;
 using ManagedIrbis.Testing;
@@ -68,8 +68,8 @@ namespace IrbisTestRunner.Tests
                         }
                 );
 
-            texts[0] = IrbisFormat.PrepareFormat(texts[0].Substring(0, 50)).Trim();
-            texts[1] = IrbisFormat.PrepareFormat(texts[1].Substring(0, 50)).Trim();
+            texts[0] = IrbisFormat.PrepareFormat(texts[0].SafeSubstring(0, 50)).Trim();
+            texts[1] = IrbisFormat.PrepareFormat(texts[1].SafeSubstring(0, 50)).Trim();
             Console.Write(string.Join(Environment.NewLine, texts));
         }
 

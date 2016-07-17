@@ -28,6 +28,7 @@
             "ReadFileTest.cs",
             "SearchTest.cs",
             "ReadRecordTest.cs",
+            "ReadTermsTest.cs",
             "VersionTest.cs",
             "WriteRecordTest.cs"
         ]

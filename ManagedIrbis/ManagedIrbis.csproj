@@ -168,6 +168,7 @@
     <Compile Include="Network\Commands\FormatCommand.cs" />
     <Compile Include="Network\Commands\ReadFileCommand.cs" />
     <Compile Include="Network\Commands\ReadRecordCommand.cs" />
+    <Compile Include="Network\Commands\ReadTermsCommand.cs" />
     <Compile Include="Network\Commands\SearchCommand.cs" />
     <Compile Include="Network\Commands\UniversalCommand.cs" />
     <Compile Include="Network\Commands\WriteRecordCommand.cs" />
@@ -197,6 +198,7 @@
     <Compile Include="Search\FoundItem.cs" />
     <Compile Include="Search\SearchLogicType.cs" />
     <Compile Include="Search\SearchScenario.cs" />
+    <Compile Include="Search\TermInfo.cs" />
     <Compile Include="Testing\AbstractTest.cs" />
     <Compile Include="Testing\TestClassAttribute.cs" />
     <Compile Include="Testing\TestMethodAttribute.cs" />
@@ -270,7 +272,7 @@
     <Compile Include="Systematization\BbkIndex.cs" />
     <Compile Include="Systematization\BbkRange.cs" />
     <Compile Include="Systematization\UdkException.cs" />
-    <Compile Include="TermLink.cs" />
+    <Compile Include="Search\TermLink.cs" />
     <Compile Include="Worksheet\WorksheetItem.cs" />
     <Compile Include="Worksheet\WsFile.cs" />
     <Compile Include="Worksheet\WssFile.cs" />

@@ -119,6 +119,7 @@
     <Compile Include="Tests\NopTest.cs" />
     <Compile Include="Tests\ReadFileTest.cs" />
     <Compile Include="Tests\ReadRecordTest.cs" />
+    <Compile Include="Tests\ReadTermsTest.cs" />
     <Compile Include="Tests\SearchTest.cs" />
     <Compile Include="Tests\TestTemplate.cs" />
     <Compile Include="Tests\VersionTest.cs" />

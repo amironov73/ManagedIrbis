@@ -842,6 +842,23 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Возврат к предыдущей базе данных.
+        /// </summary>
+        /// <returns>Текущая база данных.</returns>
+        [CanBeNull]
+        public string PopDatabase()
+        {
+            string result = Database;
+
+            if (_databaseStack.Count != 0)
+            {
+                Database = _databaseStack.Pop();
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Временное переключение на другую базу данных.
         /// </summary>
         /// <returns>Предыдущая база данных.</returns>
@@ -918,20 +935,29 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <summary>
-        /// Возврат к предыдущей базе данных.
+        /// Read search terms from index.
         /// </summary>
-        /// <returns>Текущая база данных.</returns>
-        [CanBeNull]
-        public string PopDatabase()
+        [NotNull]
+        public TermInfo[] ReadTerms
+            (
+                [NotNull] string startTerm,
+                int numberOfTerms,
+                bool reverseOrder
+            )
         {
-            string result = Database;
+            Code.NotNull(startTerm, "startTerm");
 
-            if (_databaseStack.Count != 0)
+            ReadTermsCommand command
+                = new ReadTermsCommand (this)
             {
-                Database = _databaseStack.Pop();
-            }
+                Database = Database,
+                StartTerm = startTerm,
+                NumberOfTerms = numberOfTerms,
+                ReverseOrder = reverseOrder
+            };
+            ExecuteCommand(command);
 
-            return result;
+            return command.Terms.ToArray();
         }
 
         /// <summary>

@@ -21,7 +21,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedIrbis
+namespace ManagedIrbis.Search
 {
     /// <summary>
     /// Ссылка на терм.

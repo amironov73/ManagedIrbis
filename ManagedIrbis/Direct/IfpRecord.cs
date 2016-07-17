@@ -16,6 +16,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Search;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
