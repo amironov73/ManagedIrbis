@@ -216,7 +216,7 @@ namespace ManagedIrbis.Scripting
 
         /// <summary>
         /// Регистрация типов, помеченных в данной сборке атрибутом
-        /// <see cref="MoonSharpUserDataAttribute"/>
+        /// <see cref="T:MoonSharp.Interpreter.MoonSharpUserDataAttribute"/>
         /// </summary>
         public static void RegisterIrbisTypes()
         {
