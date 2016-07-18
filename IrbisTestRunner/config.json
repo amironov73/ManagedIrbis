@@ -27,6 +27,7 @@
             "NopTest.cs",
             "ReadFileTest.cs",
             "SearchTest.cs",
+            "ReadPostingsTest.cs",
             "ReadRecordTest.cs",
             "ReadTermsTest.cs",
             "VersionTest.cs",

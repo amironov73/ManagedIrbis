@@ -19,10 +19,12 @@ using AM.Threading;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.ImportExport;
 using ManagedIrbis.Network;
 using ManagedIrbis.Network.Commands;
 using ManagedIrbis.Search;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -876,6 +878,37 @@ namespace ManagedIrbis
 
             return result;
         }
+
+        /// <summary>
+        /// Read term postings.
+        /// </summary>
+        [NotNull]
+        public TermPosting[] ReadPostings
+            (
+                [CanBeNull] string databaseName,
+                [NotNull] string term,
+                int numberOfPostings,
+                int firstPosting
+            )
+        {
+            Code.NotNullNorEmpty(term, "term");
+
+            ReadPostingsCommand command = new ReadPostingsCommand
+                (
+                    this
+                )
+            {
+                Database = databaseName,
+                Term = term,
+                NumberOfPostings = numberOfPostings,
+                FirstPosting = firstPosting
+            };
+
+            ExecuteCommand(command);
+
+            return command.Postings.ToArray();
+        }
+
 
         // ========================================================
 
