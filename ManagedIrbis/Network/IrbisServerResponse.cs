@@ -183,7 +183,34 @@ namespace ManagedIrbis.Network
         }
 
         /// <summary>
-        /// Get Utf string.
+        /// Get array of ANSI strings.
+        /// </summary>
+        /// <returns><c>null</c>if there is not enough lines in
+        /// the server response.</returns>
+        [CanBeNull]
+        public string[] GetAnsiStrings
+            (
+                int count
+            )
+        {
+            Code.Positive(count, "count");
+
+            List<string> result = new List<string>(count);
+            for (int i = 0; i < count; i++)
+            {
+                string line = GetAnsiString();
+                if (ReferenceEquals(line, null))
+                {
+                    return null;
+                }
+                result.Add(line);
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Get UTF-8 string.
         /// </summary>
         [CanBeNull]
         public string GetUtfString()
@@ -215,6 +242,33 @@ namespace ManagedIrbis.Network
                 );
 
             return result;
+        }
+
+        /// <summary>
+        /// Get array of UTF-8 strings.
+        /// </summary>
+        /// <returns><c>null</c>if there is not enough lines in
+        /// the server response.</returns>
+        [CanBeNull]
+        public string[] GetUtfStrings
+            (
+                int count
+            )
+        {
+            Code.Positive(count, "count");
+
+            List<string> result = new List<string>(count);
+            for (int i = 0; i < count; i++)
+            {
+                string line = GetUtfString();
+                if (ReferenceEquals(line, null))
+                {
+                    return null;
+                }
+                result.Add(line);
+            }
+
+            return result.ToArray();
         }
 
         /// <summary>

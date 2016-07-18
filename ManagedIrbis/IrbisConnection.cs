@@ -755,6 +755,21 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// List server processes.
+        /// </summary>
+        [NotNull]
+        public IrbisProcessInfo[] ListProcesses()
+        {
+            IrbisServerResponse response = ExecuteCommand
+                (
+                    CommandCode.GetProcessList
+                );
+            IrbisProcessInfo[] result = IrbisProcessInfo.Parse(response);
+
+            return result;
+        }
+
+        /// <summary>
         /// No operation.
         /// </summary>
         public void NoOp()

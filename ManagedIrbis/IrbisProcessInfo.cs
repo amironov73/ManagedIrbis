@@ -4,7 +4,6 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -16,6 +15,8 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Network;
 
 using MoonSharp.Interpreter;
 
@@ -123,31 +124,36 @@ namespace ManagedIrbis
         /// <summary>
         /// Разбор ответа сервера.
         /// </summary>
-        public static IrbisProcessInfo[] ParseServerResponse
+        public static IrbisProcessInfo[] Parse
             (
-                [NotNull] string[] text
+                [NotNull] IrbisServerResponse response
             )
         {
-            Code.NotNull(text, "text");
+            Code.NotNull(response, "response");
 
             List<IrbisProcessInfo> result = new List<IrbisProcessInfo>();
-
-            for (int index = 3; index < (text.Length - 10); index += 10)
+            while (true)
             {
+                string[] lines = response.GetAnsiStrings(10);
+                if (ReferenceEquals(lines, null))
+                {
+                    break;
+                }
                 IrbisProcessInfo info = new IrbisProcessInfo
-                    {
-                        Number = text[index],
-                        IPAddress = text[index + 1],
-                        Name = text[index + 2],
-                        ClientID = text[index + 3],
-                        Workstation = text[index + 4],
-                        Started = text[index + 5],
-                        LastCommand = text[index + 6],
-                        CommandNumber = text[index + 7],
-                        ProcessID = text[index + 8],
-                        State = text[index + 9]
-                    };
+                {
+                    ProcessID = lines[0],
+                    State = lines[1],
+                    Number = lines[2],
+                    IPAddress = lines[3],
+                    Name = lines[4],
+                    ClientID = lines[5],
+                    Workstation = lines[6],
+                    Started  = lines[7],
+                    LastCommand = lines[8],
+                    CommandNumber = lines[9]
+                };
                 result.Add(info);
+
             }
 
             return result.ToArray();
