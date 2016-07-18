@@ -459,7 +459,7 @@ namespace ManagedIrbis.Readers
         [JetBrains.Annotations.NotNull]
         public static ReaderInfo Parse
             (
-                [JetBrains.Annotations.NotNull] IrbisRecord record
+                [JetBrains.Annotations.NotNull] MarcRecord record
             )
         {
             if (ReferenceEquals(record, null))
@@ -535,7 +535,7 @@ namespace ManagedIrbis.Readers
         /// </summary>
         /// <returns></returns>
         [JetBrains.Annotations.NotNull]
-        public IrbisRecord ToRecord()
+        public MarcRecord ToRecord()
         {
             throw new NotImplementedException();
         }

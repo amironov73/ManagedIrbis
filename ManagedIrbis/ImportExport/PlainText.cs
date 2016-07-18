@@ -17,7 +17,7 @@ namespace ManagedIrbis.ImportExport
         /// <returns></returns>
         public static string ToPlainText
             (
-                this IrbisRecord record
+                this MarcRecord record
             )
         {
             StringBuilder result = new StringBuilder();

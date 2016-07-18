@@ -19,7 +19,7 @@ namespace ManagedIrbis.ImportExport
         /// </summary>
         public static string RecordToIrbisJson
             (
-                this IrbisRecord record
+                this MarcRecord record
             )
         {
             JObject result = new JObject();

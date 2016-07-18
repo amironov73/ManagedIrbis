@@ -198,7 +198,7 @@ namespace ManagedIrbis.ImportExport
         /// </returns>
         public static string EncodeRecord
             (
-                IrbisRecord record
+                MarcRecord record
             )
         {
             StringBuilder result = new StringBuilder();
@@ -233,11 +233,11 @@ namespace ManagedIrbis.ImportExport
         /// Parse MFN, status and version of the record
         /// </summary>
         [NotNull]
-        public static IrbisRecord ParseMfnStatusVersion
+        public static MarcRecord ParseMfnStatusVersion
             (
                 [NotNull] string line1,
                 [NotNull] string line2,
-                [NotNull] IrbisRecord record
+                [NotNull] MarcRecord record
             )
         {
             Code.NotNullNorEmpty(line1, "line1");
@@ -267,10 +267,10 @@ namespace ManagedIrbis.ImportExport
         /// Parse server response for ReadRecordCommand.
         /// </summary>
         [NotNull]
-        public static IrbisRecord ParseResponseForReadRecord
+        public static MarcRecord ParseResponseForReadRecord
             (
                 [NotNull] IrbisServerResponse response,
-                [NotNull] IrbisRecord record
+                [NotNull] MarcRecord record
             )
         {
             Code.NotNull(response, "response");
@@ -316,10 +316,10 @@ namespace ManagedIrbis.ImportExport
         /// Parse server response for WriteRecordCommand.
         /// </summary>
         [NotNull]
-        public static IrbisRecord ParseResponseForWriteRecord
+        public static MarcRecord ParseResponseForWriteRecord
             (
                 [NotNull] IrbisServerResponse response,
-                [NotNull] IrbisRecord record
+                [NotNull] MarcRecord record
             )
         {
             Code.NotNull(response, "response");
@@ -354,7 +354,7 @@ namespace ManagedIrbis.ImportExport
         [CanBeNull]
         public static string ToProtocolText
             (
-                [CanBeNull] this IrbisRecord record
+                [CanBeNull] this MarcRecord record
             )
         {
             if (ReferenceEquals(record, null))

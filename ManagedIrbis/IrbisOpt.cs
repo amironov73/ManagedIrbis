@@ -383,7 +383,7 @@ namespace ManagedIrbis
         [CanBeNull]
         public string GetWorksheet
             (
-                [NotNull] IrbisRecord record
+                [NotNull] MarcRecord record
             )
         {
             return record.FM(WorksheetTag);

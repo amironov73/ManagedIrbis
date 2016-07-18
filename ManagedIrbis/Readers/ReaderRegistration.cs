@@ -147,7 +147,7 @@ namespace ManagedIrbis.Readers
         [ItemNotNull]
         public static ReaderRegistration[] Parse
             (
-                [NotNull] IrbisRecord record,
+                [NotNull] MarcRecord record,
                 [NotNull] string tag
             )
         {

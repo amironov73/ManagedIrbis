@@ -138,7 +138,7 @@ namespace ManagedIrbis.Readers
         [NotNull]
         public static IriProfile[] ParseRecord
             (
-                [NotNull] IrbisRecord record
+                [NotNull] MarcRecord record
             )
         {
             if (ReferenceEquals(record, null))

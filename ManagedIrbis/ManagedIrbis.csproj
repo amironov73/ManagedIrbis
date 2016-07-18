@@ -210,8 +210,8 @@
     <Compile Include="IrbisPath.cs" />
     <Compile Include="IrbisProcessInfo.cs" />
     <Compile Include="IrbisSearchQuery.cs" />
-    <Compile Include="IrbisRecord.cs" />
-    <Compile Include="IrbisRecordUtility.cs" />
+    <Compile Include="MarcRecord.cs" />
+    <Compile Include="MarcRecordUtility.cs" />
     <Compile Include="Network\IrbisReturnCode.cs" />
     <Compile Include="IrbisUpperCaseTable.cs" />
     <Compile Include="IrbisVersion.cs" />

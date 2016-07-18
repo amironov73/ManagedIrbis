@@ -115,7 +115,7 @@ namespace ManagedIrbis.Readers
                 throw new ArgumentNullException("ticket");
             }
 
-            IrbisRecord record = Client.SearchReadOneRecord
+            MarcRecord record = Client.SearchReadOneRecord
                 (
                     "{0}{1}",
                     ReaderIdentifier,

@@ -77,9 +77,9 @@ namespace UnitTests.ManagedIrbis
             reference.ToSourceCode();
         }
 
-        private IrbisRecord _GetRecord()
+        private MarcRecord _GetRecord()
         {
-            IrbisRecord result = new IrbisRecord();
+            MarcRecord result = new MarcRecord();
 
             RecordField field = new RecordField("700");
             field.AddSubField('a', "Иванов");
@@ -110,7 +110,7 @@ namespace UnitTests.ManagedIrbis
         [TestMethod]
         public void TestFieldReferenceFormatSingle1()
         {
-            IrbisRecord record = _GetRecord();
+            MarcRecord record = _GetRecord();
             FieldReference reference = new FieldReference("200", 'a');
 
             string actual = reference.FormatSingle(record);
@@ -245,7 +245,7 @@ namespace UnitTests.ManagedIrbis
             )
         {
             FieldReference reference = FieldReference.Parse(format);
-            IrbisRecord record = _GetRecord();
+            MarcRecord record = _GetRecord();
             string actual = reference.FormatSingle(record);
             Assert.AreEqual(expected, actual);
         }

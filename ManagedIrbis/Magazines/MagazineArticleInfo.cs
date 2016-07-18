@@ -48,7 +48,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         public static MagazineArticleInfo Parse
             (
-                IrbisRecord record
+                MarcRecord record
             )
         {
             if (ReferenceEquals(record, null))

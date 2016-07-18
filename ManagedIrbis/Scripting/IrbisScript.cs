@@ -44,7 +44,7 @@ namespace ManagedIrbis.Scripting
         /// Текущая запись
         /// </summary>
         [CanBeNull]
-        public IrbisRecord Record { get; private set; }
+        public MarcRecord Record { get; private set; }
 
         #endregion
 
@@ -265,7 +265,7 @@ namespace ManagedIrbis.Scripting
         [NotNull]
         public IrbisScript SetRecord
             (
-                [CanBeNull] IrbisRecord record
+                [CanBeNull] MarcRecord record
             )
         {
             Record = record;

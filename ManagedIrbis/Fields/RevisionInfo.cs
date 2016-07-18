@@ -132,7 +132,7 @@ namespace ManagedIrbis.Fields
         [ItemNotNull]
         public static RevisionInfo[] Parse
             (
-                [JetBrains.Annotations.NotNull] IrbisRecord record,
+                [JetBrains.Annotations.NotNull] MarcRecord record,
                 string tag
             )
         {
@@ -153,7 +153,7 @@ namespace ManagedIrbis.Fields
         [ItemNotNull]
         public static RevisionInfo[] Parse
             (
-                [JetBrains.Annotations.NotNull] IrbisRecord record
+                [JetBrains.Annotations.NotNull] MarcRecord record
             )
         {
             return Parse

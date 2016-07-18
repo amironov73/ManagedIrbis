@@ -236,12 +236,12 @@ namespace ManagedIrbis.Network
         }
 
         /// <summary>
-        /// Get <see cref="IrbisRecord"/>.
+        /// Get <see cref="MarcRecord"/>.
         /// </summary>
         [CanBeNull]
-        public IrbisRecord GetRecord
+        public MarcRecord GetRecord
             (
-                [NotNull] IrbisRecord record
+                [NotNull] MarcRecord record
             )
         {
             Code.NotNull(record, "record");

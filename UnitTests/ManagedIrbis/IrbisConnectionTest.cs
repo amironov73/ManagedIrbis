@@ -24,9 +24,9 @@ namespace UnitTests.ManagedIrbis
             }
         }
 
-        private IrbisRecord _GetRecord()
+        private MarcRecord _GetRecord()
         {
-            IrbisRecord result = new IrbisRecord();
+            MarcRecord result = new MarcRecord();
 
             RecordField field = new RecordField("700");
             field.AddSubField('a', "Иванов");
@@ -126,7 +126,7 @@ namespace UnitTests.ManagedIrbis
                 client.ParseConnectionString(ConnectionString);
                 client.Connect();
 
-                IrbisRecord record = client.ReadRecord(1);
+                MarcRecord record = client.ReadRecord(1);
                 Assert.IsNotNull(record);
 
                 //Thread.Sleep(10 * 1024);
@@ -142,7 +142,7 @@ namespace UnitTests.ManagedIrbis
                 client.ParseConnectionString(ConnectionString);
                 client.Connect();
 
-                IrbisRecord record = client.ReadRecord
+                MarcRecord record = client.ReadRecord
                     (
                         1,
                         false,
@@ -200,7 +200,7 @@ namespace UnitTests.ManagedIrbis
                 client.ParseConnectionString(ConnectionString);
                 client.Connect();
 
-                IrbisRecord record = _GetRecord();
+                MarcRecord record = _GetRecord();
                 string actual = client.FormatRecord
                     (
                         "@brief",
@@ -312,7 +312,7 @@ namespace UnitTests.ManagedIrbis
                 client.ParseConnectionString(ConnectionString);
                 client.Connect();
 
-                IrbisRecord record = _GetRecord();
+                MarcRecord record = _GetRecord();
                 client.WriteRecord(record);
                 Assert.IsNotNull(record.Database);
 

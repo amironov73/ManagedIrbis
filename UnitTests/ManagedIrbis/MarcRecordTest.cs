@@ -8,12 +8,12 @@ using ManagedIrbis;
 namespace UnitTests.ManagedIrbis
 {
     [TestClass]
-    public class IrbisRecordTest
+    public class MarcRecordTest
     {
         [TestMethod]
-        public void TestIrbisRecordConstruction()
+        public void TestMarcRecordConstruction()
         {
-            IrbisRecord record = new IrbisRecord();
+            MarcRecord record = new MarcRecord();
 
             Assert.IsNotNull(record);
             Assert.IsNotNull(record.Fields);
@@ -28,18 +28,18 @@ namespace UnitTests.ManagedIrbis
 
         private void _TestSerialization
             (
-                IrbisRecord record1
+                MarcRecord record1
             )
         {
             byte[] bytes = record1.SaveToMemory();
 
-            IrbisRecord record2 = bytes
-                .RestoreObjectFromMemory<IrbisRecord>();
+            MarcRecord record2 = bytes
+                .RestoreObjectFromMemory<MarcRecord>();
             Assert.IsNotNull(record2);
             Assert.AreEqual
                 (
                     0,
-                    IrbisRecord.Compare
+                    MarcRecord.Compare
                     (
                         record1,
                         record2
@@ -48,9 +48,9 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestIrbisRecordSerialization()
+        public void TestMarcRecordSerialization()
         {
-            IrbisRecord record = new IrbisRecord();
+            MarcRecord record = new MarcRecord();
             _TestSerialization(record);
             record.Fields.Add(new RecordField("200"));
             _TestSerialization(record);
@@ -58,9 +58,9 @@ namespace UnitTests.ManagedIrbis
             _TestSerialization(record);
         }
 
-        private IrbisRecord _GetRecord()
+        private MarcRecord _GetRecord()
         {
-            IrbisRecord result = new IrbisRecord();
+            MarcRecord result = new MarcRecord();
 
             RecordField field = new RecordField("700");
             field.AddSubField('a', "Иванов");
@@ -89,18 +89,18 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestIrbisRecordFM()
+        public void TestMarcRecordFM()
         {
-            IrbisRecord record = _GetRecord();
+            MarcRecord record = _GetRecord();
 
             Assert.AreEqual("Иванов", record.FM("700", 'a'));
             Assert.AreEqual("Первое примечание", record.FM("300"));
         }
 
         [TestMethod]
-        public void TestIrbisRecordFMA()
+        public void TestMarcRecordFMA()
         {
-            IrbisRecord record = _GetRecord();
+            MarcRecord record = _GetRecord();
 
             string[] actual = record.FMA("700", 'a');
             Assert.AreEqual(1, actual.Length);
@@ -114,18 +114,18 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestIrbisRecordFR()
+        public void TestMarcRecordFR()
         {
-            IrbisRecord record = _GetRecord();
+            MarcRecord record = _GetRecord();
 
             string actual = record.FR("\"Автор: \"v700^a");
             Assert.AreEqual("Автор: Иванов", actual);
         }
 
         [TestMethod]
-        public void TestIrbisRecordFRA()
+        public void TestMarcRecordFRA()
         {
-            IrbisRecord record = _GetRecord();
+            MarcRecord record = _GetRecord();
 
             string[] actual = record.FRA("\"Автор: \"v700^a");
             Assert.AreEqual(1, actual.Length);
@@ -136,15 +136,15 @@ namespace UnitTests.ManagedIrbis
         [ExpectedException(typeof(ReadOnlyException))]
         public void TestIrbisRecordReadOnly()
         {
-            IrbisRecord record = _GetRecord().AsReadOnly();
+            MarcRecord record = _GetRecord().AsReadOnly();
 
             record.Fields.Add(new RecordField());
         }
 
         [TestMethod]
-        public void TestIrbisRecordToJson()
+        public void TestMarcRecordToJson()
         {
-            IrbisRecord record = _GetRecord();
+            MarcRecord record = _GetRecord();
 
             string actual = record.ToJson()
                 .Replace("\r", "").Replace("\n", "")

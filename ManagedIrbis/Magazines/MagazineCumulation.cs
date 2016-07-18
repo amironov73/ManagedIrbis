@@ -124,7 +124,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         public static MagazineCumulation[] Parse
             (
-                IrbisRecord record,
+                MarcRecord record,
                 string tag
             )
         {
@@ -148,7 +148,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         public static MagazineCumulation[] Parse
             (
-                IrbisRecord record
+                MarcRecord record
             )
         {
             return Parse

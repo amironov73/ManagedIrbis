@@ -248,9 +248,9 @@ namespace ManagedIrbis.Quality
         /// Renumber fields.
         /// </summary>
         [NotNull]
-        public static IrbisRecord RenumberFields
+        public static MarcRecord RenumberFields
             (
-                [NotNull] IrbisRecord record
+                [NotNull] MarcRecord record
             )
         {
             RenumberFields
@@ -267,7 +267,7 @@ namespace ManagedIrbis.Quality
         /// </summary>
         public static void RenumberFields
             (
-                [NotNull] IrbisRecord record,
+                [NotNull] MarcRecord record,
                 [NotNull] IEnumerable<RecordField> fields
             )
         {

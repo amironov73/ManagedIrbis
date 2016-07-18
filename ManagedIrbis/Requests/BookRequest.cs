@@ -125,7 +125,7 @@ namespace ManagedIrbis.Requests
         /// </summary>
         [CanBeNull]
         [JsonIgnore]
-        public IrbisRecord BookRecord { get; set; }
+        public MarcRecord BookRecord { get; set; }
 
         /// <summary>
         /// Сведения о читателе.
@@ -155,7 +155,7 @@ namespace ManagedIrbis.Requests
         /// </summary>
         [CanBeNull]
         [JsonIgnore]
-        public IrbisRecord RequestRecord { get; set; }
+        public MarcRecord RequestRecord { get; set; }
 
         #endregion
 
@@ -163,7 +163,7 @@ namespace ManagedIrbis.Requests
 
         private static void _AddField
             (
-                IrbisRecord record,
+                MarcRecord record,
                 string tag,
                 string text
             )
@@ -184,7 +184,7 @@ namespace ManagedIrbis.Requests
         [NotNull]
         public static BookRequest Parse
             (
-                [NotNull] IrbisRecord record
+                [NotNull] MarcRecord record
             )
         {
             Code.NotNull(record, "record");
@@ -211,9 +211,9 @@ namespace ManagedIrbis.Requests
         /// Кодируем запись.
         /// </summary>
         [NotNull]
-        public IrbisRecord Encode()
+        public MarcRecord Encode()
         {
-            IrbisRecord result = new IrbisRecord
+            MarcRecord result = new MarcRecord
                 {
                     Mfn = Mfn
                 };

@@ -1,4 +1,4 @@
-﻿/* IrbisRecord.cs -- MARC record
+﻿/* MarcRecord.cs -- MARC record
  * Ars Magna project, http://arsmagna.ru
  */
 
@@ -24,14 +24,14 @@ using Newtonsoft.Json;
 namespace ManagedIrbis
 {
     /// <summary>
-    /// MARC record
+    /// MARC record.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     [DebuggerDisplay("[{Database}] MFN={Mfn} ({Version})")]
-    public sealed class IrbisRecord
+    public sealed class MarcRecord
         : IHandmadeSerializable,
-        IReadOnly<IrbisRecord>,
+        IReadOnly<MarcRecord>,
         IVerifiable
     {
         #region Properties
@@ -151,7 +151,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Конструктор
         /// </summary>
-        public IrbisRecord()
+        public MarcRecord()
         {
             _fields = new RecordFieldCollection()
                 ._SetRecord(this);
@@ -160,9 +160,9 @@ namespace ManagedIrbis
         /// <summary>
         /// Конструктор для клонирования.
         /// </summary>
-        private IrbisRecord
+        private MarcRecord
             (
-                [NotNull] IrbisRecord other
+                [NotNull] MarcRecord other
             )
         {
             Database = other.Database;
@@ -198,9 +198,9 @@ namespace ManagedIrbis
         /// Создание "глубокой" копии записи.
         /// </summary>
         [NotNull]
-        public IrbisRecord Clone()
+        public MarcRecord Clone()
         {
-            IrbisRecord result = new IrbisRecord(this);
+            MarcRecord result = new MarcRecord(this);
             
             return result;
         }
@@ -210,8 +210,8 @@ namespace ManagedIrbis
         /// </summary>
         public static int Compare
             (
-                [NotNull] IrbisRecord record1,
-                [NotNull] IrbisRecord record2
+                [NotNull] MarcRecord record1,
+                [NotNull] MarcRecord record2
             )
         {
             Code.NotNull(record1, "record1");
@@ -348,7 +348,7 @@ namespace ManagedIrbis
         /// Assign database name to the record.
         /// </summary>
         [NotNull]
-        public IrbisRecord SetDatabase
+        public MarcRecord SetDatabase
             (
                 [CanBeNull] string newDatabase
             )
@@ -364,7 +364,7 @@ namespace ManagedIrbis
         /// Assign MFN to the record.
         /// </summary>
         [NotNull]
-        public IrbisRecord SetMfn
+        public MarcRecord SetMfn
             (
                 int newMfn
             )
@@ -381,7 +381,7 @@ namespace ManagedIrbis
         /// Change status of the record.
         /// </summary>
         [NotNull]
-        public IrbisRecord SetStatus
+        public MarcRecord SetStatus
             (
                 RecordStatus newStatus
             )
@@ -397,7 +397,7 @@ namespace ManagedIrbis
         /// Assign version number to the record.
         /// </summary>
         [NotNull]
-        public IrbisRecord SetVersion
+        public MarcRecord SetVersion
             (
                 int newVersion
             )
@@ -502,9 +502,9 @@ namespace ManagedIrbis
         /// <summary>
         /// Creates read-only clone of the record.
         /// </summary>
-        public IrbisRecord AsReadOnly()
+        public MarcRecord AsReadOnly()
         {
-            IrbisRecord result = Clone();
+            MarcRecord result = Clone();
             result.SetReadOnly();
 
             return result;

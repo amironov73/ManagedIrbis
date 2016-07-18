@@ -151,7 +151,7 @@ namespace ManagedIrbis
         [XmlIgnore]
         [JsonIgnore]
         //[NonSerialized]
-        public IrbisRecord Record;
+        public MarcRecord Record;
 
         #endregion
 
@@ -225,7 +225,7 @@ namespace ManagedIrbis
                 [CanBeNull] string tag,
                 [CanBeNull] string value,
                 bool readOnly,
-                [CanBeNull] IrbisRecord record
+                [CanBeNull] MarcRecord record
             )
             : this ()
         {

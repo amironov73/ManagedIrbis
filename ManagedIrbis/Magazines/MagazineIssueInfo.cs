@@ -161,7 +161,7 @@ namespace ManagedIrbis.Magazines
         [NotNull]
         public static MagazineIssueInfo Parse
             (
-                [NotNull] IrbisRecord record
+                [NotNull] MarcRecord record
             )
         {
             Code.NotNull(record, "record");

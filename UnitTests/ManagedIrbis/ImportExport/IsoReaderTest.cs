@@ -21,7 +21,7 @@ namespace UnitTests.ManagedIrbis.ImportExport
                     "TEST1.ISO"
                 );
 
-            IrbisRecord[] records;
+            MarcRecord[] records;
             using (IsoReader reader
                 = new IsoReader(fileName, IrbisEncoding.Ansi))
             {

@@ -434,7 +434,7 @@ namespace ManagedIrbis.Fields
         [JetBrains.Annotations.NotNull]
         public static ExemplarInfo[] Parse
             (
-                [JetBrains.Annotations.NotNull] IrbisRecord record,
+                [JetBrains.Annotations.NotNull] MarcRecord record,
                 [JetBrains.Annotations.NotNull] string tagNumber
             )
         {
@@ -468,7 +468,7 @@ namespace ManagedIrbis.Fields
         [JetBrains.Annotations.NotNull]
         public static ExemplarInfo[] Parse
             (
-                [JetBrains.Annotations.NotNull] IrbisRecord record
+                [JetBrains.Annotations.NotNull] MarcRecord record
             )
         {
             return Parse

@@ -36,7 +36,7 @@ namespace ManagedIrbis.ImportExport
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class IsoReader
-        : IEnumerable<IrbisRecord>,
+        : IEnumerable<MarcRecord>,
         IDisposable
     {
         #region Properties
@@ -119,11 +119,11 @@ namespace ManagedIrbis.ImportExport
         /// </summary>
         /// <returns>A <see cref="T:System.Collections.Generic.IEnumerator`1" />
         /// that can be used to iterate through the collection.</returns>
-        public IEnumerator<IrbisRecord> GetEnumerator()
+        public IEnumerator<MarcRecord> GetEnumerator()
         {
             while (true)
             {
-                IrbisRecord record = Iso2709.ReadRecord
+                MarcRecord record = Iso2709.ReadRecord
                     (
                         _stream,
                         _encoding

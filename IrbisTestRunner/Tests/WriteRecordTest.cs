@@ -28,9 +28,9 @@ namespace IrbisTestRunner.Tests
 
         #region Private members
 
-        private IrbisRecord _GetRecord()
+        private MarcRecord _GetRecord()
         {
-            IrbisRecord result = new IrbisRecord();
+            MarcRecord result = new MarcRecord();
 
             RecordField field = new RecordField("700");
             field.AddSubField('a', "Иванов");
@@ -77,7 +77,7 @@ namespace IrbisTestRunner.Tests
         [TestMethod]
         public void TestWriteRecord()
         {
-            IrbisRecord record = _GetRecord();
+            MarcRecord record = _GetRecord();
             record = Connection.WriteRecord(record);
             Console.Write
                 (

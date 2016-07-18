@@ -157,7 +157,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         public static ReaderAddress Parse
             (
-                [NotNull]IrbisRecord record,
+                [NotNull]MarcRecord record,
                 [NotNull]string tag
             )
         {
@@ -185,7 +185,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         public static ReaderAddress Parse
             (
-                [NotNull]IrbisRecord record
+                [NotNull]MarcRecord record
             )
         {
             return Parse

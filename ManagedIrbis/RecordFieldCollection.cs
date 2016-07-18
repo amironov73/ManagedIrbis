@@ -44,7 +44,7 @@ namespace ManagedIrbis
         /// Record.
         /// </summary>
         [CanBeNull]
-        public IrbisRecord Record { get { return _record; } }
+        public MarcRecord Record { get { return _record; } }
 
         #endregion
 
@@ -56,11 +56,11 @@ namespace ManagedIrbis
 
         // ReSharper disable InconsistentNaming
         //[NonSerialized]
-        private IrbisRecord _record;
+        private MarcRecord _record;
 
         internal RecordFieldCollection _SetRecord
             (
-                IrbisRecord newRecord
+                MarcRecord newRecord
             )
         {
             _record = newRecord;

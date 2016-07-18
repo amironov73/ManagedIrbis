@@ -556,7 +556,7 @@ namespace ManagedIrbis
         [ItemNotNull]
         public string[] Format
             (
-                [NotNull] IrbisRecord record
+                [NotNull] MarcRecord record
             )
         {
             Code.NotNull(record, "record");
@@ -571,7 +571,7 @@ namespace ManagedIrbis
         [NotNull]
         public string FormatSingle
             (
-                [NotNull] IrbisRecord record
+                [NotNull] MarcRecord record
             )
         {
             Code.NotNull(record, "record");

@@ -163,9 +163,9 @@ namespace ManagedIrbis.Network
             {
                 return stream.EncodeInt32((int) anyObject);
             }
-            else if (anyObject is IrbisRecord)
+            else if (anyObject is MarcRecord)
             {
-                return stream.EncodeRecord((IrbisRecord) anyObject);
+                return stream.EncodeRecord((MarcRecord) anyObject);
             }
             else if (anyObject is string)
             {
@@ -298,7 +298,7 @@ namespace ManagedIrbis.Network
         public static Stream EncodeRecord
             (
                 [NotNull] this Stream stream,
-                [CanBeNull] IrbisRecord record
+                [CanBeNull] MarcRecord record
             )
         {
             Code.NotNull(stream, "stream");

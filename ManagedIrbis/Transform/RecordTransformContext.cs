@@ -27,7 +27,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Transform
 {
     /// <summary>
-    /// Context of <see cref="IrbisRecord"/> transformation.
+    /// Context of <see cref="MarcRecord"/> transformation.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -39,12 +39,12 @@ namespace ManagedIrbis.Transform
         /// Source record.
         /// </summary>
         [NotNull]
-        public IrbisRecord Source { get { return _source; } }
+        public MarcRecord Source { get { return _source; } }
 
         /// <summary>
         /// Target record.
         /// </summary>
-        public IrbisRecord Target { get { return _target; } }
+        public MarcRecord Target { get { return _target; } }
 
         #endregion
 
@@ -55,22 +55,22 @@ namespace ManagedIrbis.Transform
         /// </summary>
         public RecordTransformContext
             (
-                [NotNull] IrbisRecord source
+                [NotNull] MarcRecord source
             )
         {
             Code.NotNull(source, "source");
 
             _source = source;
-            _target = new IrbisRecord();
+            _target = new MarcRecord();
         }
 
         #endregion
 
         #region Private member
 
-        private IrbisRecord _source;
+        private MarcRecord _source;
 
-        private IrbisRecord _target;
+        private MarcRecord _target;
 
         #endregion
 

@@ -1,4 +1,4 @@
-﻿/* IrbisRecordUtility.cs --
+﻿/* MarcRecordUtility.cs -- extensions for MarcRecord
  * Ars Magna project, http://arsmagna.ru
  */
 
@@ -27,11 +27,11 @@ using Newtonsoft.Json.Linq;
 namespace ManagedIrbis
 {
     /// <summary>
-    /// 
+    /// Extension methods for <see cref="MarcRecord"/>.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public static class IrbisRecordUtility
+    public static class MarcRecordUtility
     {
         #region Constants
 
@@ -48,12 +48,12 @@ namespace ManagedIrbis
         #region Public methods
 
         /// <summary>
-        /// Convert the <see cref="IrbisRecord"/> to JSON.
+        /// Convert the <see cref="MarcRecord"/> to JSON.
         /// </summary>
         [NotNull]
         public static string ToJson
             (
-                [NotNull] this IrbisRecord record
+                [NotNull] this MarcRecord record
             )
         {
             Code.NotNull(record, "record");

@@ -45,7 +45,7 @@ namespace ManagedIrbis.Network.Commands
         /// Record to write.
         /// </summary>
         [CanBeNull]
-        public IrbisRecord Record { get; set; }
+        public MarcRecord Record { get; set; }
 
         #endregion
 

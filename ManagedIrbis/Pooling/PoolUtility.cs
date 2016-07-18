@@ -28,14 +28,14 @@ namespace ManagedIrbis.Pooling
         /// Чтение записи с помощью пула.
         /// </summary>
         [NotNull]
-        public static IrbisRecord ReadRecord
+        public static MarcRecord ReadRecord
             (
                 [NotNull] this IrbisConnectionPool pool,
                 int mfn
             )
         {
             IrbisConnection client = pool.AcquireConnection();
-            IrbisRecord result = client.ReadRecord(mfn);
+            MarcRecord result = client.ReadRecord(mfn);
             pool.ReleaseConnection(client);
             return result;
         }
@@ -63,7 +63,7 @@ namespace ManagedIrbis.Pooling
         public static void WriteRecord
             (
                 [NotNull] this IrbisConnectionPool pool,
-                [NotNull] IrbisRecord record
+                [NotNull] MarcRecord record
             )
         {
             IrbisConnection client = pool.AcquireConnection();

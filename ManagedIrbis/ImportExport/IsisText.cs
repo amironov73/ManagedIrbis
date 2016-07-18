@@ -42,7 +42,7 @@ namespace ManagedIrbis.ImportExport
         /// </summary>
         public static string RecordToIsisText
             (
-                [NotNull] this IrbisRecord record
+                [NotNull] this MarcRecord record
             )
         {
             Code.NotNull(record, "record");

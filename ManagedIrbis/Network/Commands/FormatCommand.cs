@@ -87,7 +87,7 @@ namespace ManagedIrbis.Network.Commands
         /// Virtual record to format.
         /// </summary>
         [CanBeNull]
-        public IrbisRecord VirtualRecord { get; set; }
+        public MarcRecord VirtualRecord { get; set; }
 
         #endregion
 

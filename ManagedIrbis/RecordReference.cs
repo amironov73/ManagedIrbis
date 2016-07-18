@@ -94,7 +94,7 @@ namespace ManagedIrbis
         /// с сервера.
         /// </summary>
         [CanBeNull]
-        public IrbisRecord ReadRecord
+        public MarcRecord ReadRecord
             (
                 [NotNull] IrbisConnection client
             )
@@ -107,7 +107,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Загрузка записей, соответствующих ссылкам.
         /// </summary>
-        public static List<IrbisRecord> ReadRecords
+        public static List<MarcRecord> ReadRecords
             (
                 [NotNull] IrbisConnection client,
                 [NotNull] IEnumerable<RecordReference> references

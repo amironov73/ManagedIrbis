@@ -186,7 +186,7 @@
     <Compile Include="ManagedIrbis\Scripting\IrbisScriptTest.cs" />
     <Compile Include="ManagedIrbis\SubFieldCollectionTest.cs" />
     <Compile Include="ManagedIrbis\RecordFieldTest.cs" />
-    <Compile Include="ManagedIrbis\IrbisRecordTest.cs" />
+    <Compile Include="ManagedIrbis\MarcRecordTest.cs" />
     <Compile Include="ManagedIrbis\FieldIndicatorTest.cs" />
     <Compile Include="ManagedIrbis\IrbisDatabaseInfoTest.cs" />
     <Compile Include="ManagedIrbis\IrbisProcessInfoTest.cs" />

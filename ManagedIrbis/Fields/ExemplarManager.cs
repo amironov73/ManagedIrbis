@@ -125,7 +125,7 @@ namespace ManagedIrbis.Fields
 
         private static string _GetYear
             (
-                IrbisRecord record
+                MarcRecord record
             )
         {
             string result = record.FM("210", 'd');
@@ -153,7 +153,7 @@ namespace ManagedIrbis.Fields
 
         private static string _GetPrice
             (
-                IrbisRecord record,
+                MarcRecord record,
                 ExemplarInfo exemplar
             )
         {
@@ -229,7 +229,7 @@ namespace ManagedIrbis.Fields
         [NotNull]
         public string GetDescription
             (
-                [NotNull] IrbisRecord record
+                [NotNull] MarcRecord record
             )
         {
             string result = record.Description;
@@ -257,7 +257,7 @@ namespace ManagedIrbis.Fields
         [NotNull]
         public string GetDescription
             (
-                [CanBeNull] IrbisRecord record,
+                [CanBeNull] MarcRecord record,
                 [NotNull] ExemplarInfo exemplar
             )
         {
@@ -286,7 +286,7 @@ namespace ManagedIrbis.Fields
         public ExemplarInfo Extend
             (
                 [NotNull] ExemplarInfo exemplar,
-                [CanBeNull] IrbisRecord record
+                [CanBeNull] MarcRecord record
             )
         {
             if (exemplar.Mfn <= 0)
@@ -336,7 +336,7 @@ namespace ManagedIrbis.Fields
         [NotNull]
         public ExemplarInfo[] FromRecord
             (
-                [NotNull] IrbisRecord record
+                [NotNull] MarcRecord record
             )
         {
             ExemplarInfo[] result = ExemplarInfo.Parse(record);
@@ -355,7 +355,7 @@ namespace ManagedIrbis.Fields
         /// </summary>
         public bool IsNewspaper
             (
-                IrbisRecord record
+                MarcRecord record
             )
         {
             string worklist = record.FM("920");
@@ -379,7 +379,7 @@ namespace ManagedIrbis.Fields
                 return result;
             }
 
-            IrbisRecord main = Client.SearchReadOneRecord
+            MarcRecord main = Client.SearchReadOneRecord
                 (
                     "\"I={0}\"",
                     index
@@ -450,7 +450,7 @@ namespace ManagedIrbis.Fields
                 [NotNull] string number
             )
         {
-            IrbisRecord[] records = Client.SearchRead
+            MarcRecord[] records = Client.SearchRead
                 (
                     "\"{0}{1}\"",
                     Prefix,

@@ -87,7 +87,7 @@ namespace ManagedIrbis.ImportExport
         /// Разбор 2709.
         /// </summary>
         [CanBeNull]
-        public static IrbisRecord ReadRecord
+        public static MarcRecord ReadRecord
             (
                 [NotNull] Stream stream,
                 [NotNull] Encoding encoding
@@ -96,7 +96,7 @@ namespace ManagedIrbis.ImportExport
             Code.NotNull(stream, "stream");
             Code.NotNull(encoding, "encoding");
 
-            IrbisRecord result = new IrbisRecord();
+            MarcRecord result = new MarcRecord();
 
             byte[] marker = new byte[5];
 

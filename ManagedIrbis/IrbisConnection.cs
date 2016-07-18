@@ -616,7 +616,7 @@ namespace ManagedIrbis
         public string FormatRecord
             (
                 [NotNull] string format,
-                [NotNull] IrbisRecord record
+                [NotNull] MarcRecord record
             )
         {
             Code.NotNull(format, "format");
@@ -885,7 +885,7 @@ namespace ManagedIrbis
         /// Чтение, блокирование и расформатирование записи.
         /// </summary>
         [NotNull]
-        public IrbisRecord ReadRecord
+        public MarcRecord ReadRecord
             (
                 int mfn,
                 bool lockFlag,
@@ -903,12 +903,12 @@ namespace ManagedIrbis
             };
             IrbisServerResponse response = ExecuteCommand(command);
 
-            IrbisRecord record = new IrbisRecord
+            MarcRecord record = new MarcRecord
             {
                 Database = Database
             };
 
-            IrbisRecord result = ProtocolText.ParseResponseForReadRecord
+            MarcRecord result = ProtocolText.ParseResponseForReadRecord
                 (
                     response,
                     record
@@ -922,7 +922,7 @@ namespace ManagedIrbis
         /// Чтение записи.
         /// </summary>
         [NotNull]
-        public IrbisRecord ReadRecord
+        public MarcRecord ReadRecord
             (
                 int mfn
             )
@@ -1008,12 +1008,48 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Reload dictionary index for specified database.
+        /// </summary>
+        public void ReloadDictionary
+            (
+                [NotNull] string databaseName
+            )
+        {
+            Code.NotNullNorEmpty(databaseName, "databaseName");
+
+            ExecuteCommand
+                (
+                    CommandCode.ReloadDictionary,
+                    databaseName
+                );
+        }
+
+        /// <summary>
+        /// Reload master file for specified database.
+        /// </summary>
+        public void ReloadMasterFile
+            (
+                [NotNull] string databaseName
+            )
+        {
+            Code.NotNullNorEmpty(databaseName, "databaseName");
+
+            ExecuteCommand
+                (
+                    CommandCode.ReloadMasterFile,
+                    databaseName
+                );
+        }
+
+        /// <summary>
         /// Restart server.
         /// </summary>
         public void RestartServer()
         {
             ExecuteCommand(CommandCode.RestartServer);
         }
+
+        // =========================================================
 
         /// <summary>
         /// Поиск записей.
@@ -1056,7 +1092,7 @@ namespace ManagedIrbis
         [NotNull]
         [ItemNotNull]
         [StringFormatMethod("format")]
-        public IrbisRecord[] SearchRead
+        public MarcRecord[] SearchRead
             (
                 [NotNull] string format,
                 params object[] args
@@ -1070,7 +1106,7 @@ namespace ManagedIrbis
         /// </summary>
         [CanBeNull]
         [StringFormatMethod("format")]
-        public IrbisRecord SearchReadOneRecord
+        public MarcRecord SearchReadOneRecord
             (
                 [NotNull] string format,
                 params object[] args
@@ -1078,6 +1114,8 @@ namespace ManagedIrbis
         {
             throw new NotImplementedException();
         }
+
+        // =========================================================
 
         /// <summary>
         /// Опустошение базы данных.
@@ -1097,6 +1135,23 @@ namespace ManagedIrbis
             ExecuteCommand
                 (
                     CommandCode.EmptyDatabase,
+                    databaseName
+                );
+        }
+
+        /// <summary>
+        /// Unlock specified database.
+        /// </summary>
+        public void UnlockDatabase
+            (
+                [NotNull] string databaseName
+            )
+        {
+            Code.NotNullNorEmpty(databaseName, "databaseName");
+
+            ExecuteCommand
+                (
+                    CommandCode.UnlockDatabase,
                     databaseName
                 );
         }
@@ -1132,9 +1187,9 @@ namespace ManagedIrbis
         /// <summary>
         /// Сохранение записи.
         /// </summary>
-        public IrbisRecord WriteRecord
+        public MarcRecord WriteRecord
             (
-                [NotNull] IrbisRecord record,
+                [NotNull] MarcRecord record,
                 bool lockFlag,
                 bool actualize
             )
@@ -1162,9 +1217,9 @@ namespace ManagedIrbis
         /// <summary>
         /// Сохранение записи.
         /// </summary>
-        public IrbisRecord WriteRecord
+        public MarcRecord WriteRecord
             (
-                [NotNull] IrbisRecord record
+                [NotNull] MarcRecord record
             )
         {
             Code.NotNull(record, "record");
