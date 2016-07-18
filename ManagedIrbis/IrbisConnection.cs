@@ -770,6 +770,21 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// List users.
+        /// </summary>
+        [NotNull]
+        public IrbisUserInfo[] ListUsers()
+        {
+            IrbisServerResponse response = ExecuteCommand
+                (
+                    CommandCode.GetUserList
+                );
+            IrbisUserInfo[] result = IrbisUserInfo.Parse(response);
+
+            return result;
+        }
+
+        /// <summary>
         /// No operation.
         /// </summary>
         public void NoOp()

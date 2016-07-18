@@ -113,6 +113,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\ListUsersTest.cs" />
     <None Include="Tests\ListProcessesTest.cs" />
     <None Include="Tests\ReadPostingsTest.cs" />
     <None Include="Tests\FormatTest.cs" />

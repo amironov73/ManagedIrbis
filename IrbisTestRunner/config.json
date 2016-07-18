@@ -24,6 +24,7 @@
             "FormatTest.cs",
             "ListDatabasesTest.cs",
             "ListProcessesTest.cs",
+            "ListUsersTest.cs",
             "MaxMfnTest.cs",
             "NopTest.cs",
             "ReadFileTest.cs",

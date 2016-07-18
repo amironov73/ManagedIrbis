@@ -7,7 +7,7 @@
     <ProjectGuid>{727C0B37-1E31-49BB-927A-A93DAC558C52}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ManagedClient</RootNamespace>
+    <RootNamespace>ManagedIrbis</RootNamespace>
     <AssemblyName>ManagedClient</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -151,6 +151,7 @@
     <Compile Include="IrbisStopWords.cs" />
     <Compile Include="IrbisText.cs" />
     <Compile Include="IrbisTreeFile.cs" />
+    <Compile Include="IrbisUserInfo.cs" />
     <Compile Include="IrbisUtility.cs" />
     <Compile Include="Marc\Schema\Example.cs" />
     <Compile Include="Marc\Schema\FieldSchema.cs" />
