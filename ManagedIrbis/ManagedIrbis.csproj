@@ -110,8 +110,8 @@
   <ItemGroup>
     <Compile Include="BibTex\BibTex.cs" />
     <Compile Include="Caching\IrbisCache.cs" />
-    <Compile Include="Caching\IrbisRecordCache.cs" />
-    <Compile Include="Caching\IrbisTextCache.cs" />
+    <Compile Include="Caching\RecordCache.cs" />
+    <Compile Include="Caching\TextCache.cs" />
     <Compile Include="Fst\FstFile.cs" />
     <Compile Include="Fst\FstIndexMethod.cs" />
     <Compile Include="Fst\FstLine.cs" />
@@ -188,7 +188,7 @@
     <Compile Include="IrbisFormat.cs" />
     <Compile Include="Identifiers\Isbn.cs" />
     <Compile Include="Identifiers\Issn.cs" />
-    <Compile Include="Network\IrbisFileSpecification.cs" />
+    <Compile Include="Network\FileSpecification.cs" />
     <Compile Include="Network\IrbisNetworkDebugger.cs" />
     <Compile Include="Network\IrbisNetworkException.cs" />
     <Compile Include="Network\IrbisNetworkUtility.cs" />

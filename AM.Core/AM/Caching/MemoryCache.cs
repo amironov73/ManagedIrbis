@@ -23,11 +23,24 @@ namespace AM.Caching
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class MemoryCache<TKey, TValue>
-        where TValue: class
+    public class MemoryCache<TKey, TValue> : AbstractCache<TKey, TValue> where TValue: class
     {
+        #region Constants
+
+        /// <summary>
+        /// Default lifetime, seconds.
+        /// </summary>
+        public const int DefaultLifetime = 30*60;
+
+        #endregion
+
         #region Properties
-        
+
+        /// <summary>
+        /// Lifetime, seconds.
+        /// </summary>
+        public int Lifetime { get; set; }
+
         #endregion
 
         #region Construction
@@ -37,6 +50,7 @@ namespace AM.Caching
         /// </summary>
         public MemoryCache()
         {
+            Lifetime = DefaultLifetime;
             _dictionary
                 = new ConcurrentDictionary<TKey, CacheItem<TKey, TValue>>();
         }
@@ -53,20 +67,22 @@ namespace AM.Caching
         #region Public methods
 
         /// <summary>
-        /// Add item with key.
+        /// Add or update item with given key.
         /// </summary>
-        public MemoryCache<TKey, TValue> Add
+        public override MemoryCache<TKey, TValue> Add
             (
                 TKey key,
-                [NotNull] TValue value
+                TValue value
             )
         {
             Code.NotNull(value, "value");
 
+            Cleanup();
+
             CacheItem<TKey, TValue> item = new CacheItem<TKey, TValue>
                 (
-                    key,
-                    value
+                key,
+                value
                 );
             _dictionary[key] = item;
 
@@ -74,9 +90,20 @@ namespace AM.Caching
         }
 
         /// <summary>
+        /// Cleanup.
+        /// </summary>
+        public void Cleanup()
+        {
+            RemoveDeadItems();
+
+            DateTime before = DateTime.Now.AddSeconds(-Lifetime);
+            RemoveUnusedItems(before);
+        }
+
+        /// <summary>
         /// Clear.
         /// </summary>
-        public void Clear()
+        public override void Clear()
         {
             _dictionary.Clear();
         }
@@ -84,11 +111,13 @@ namespace AM.Caching
         /// <summary>
         /// Contains given key?
         /// </summary>
-        public bool ContainsKey
+        public override bool ContainsKey
             (
                 TKey key
             )
         {
+            Cleanup();
+
             CacheItem<TKey, TValue> item;
             if (!_dictionary.TryGetValue(key, out item))
             {
@@ -101,11 +130,13 @@ namespace AM.Caching
         /// <summary>
         /// Get item for given key.
         /// </summary>
-        public TValue Get
+        public override TValue Get
             (
                 TKey key
             )
         {
+            Cleanup();
+
             CacheItem<TKey, TValue> item;
             if (!_dictionary.TryGetValue(key, out item))
             {
@@ -124,7 +155,7 @@ namespace AM.Caching
         /// <summary>
         /// Remove item for specified key.
         /// </summary>
-        public void Remove
+        public override void Remove
             (
                 TKey key
             )
@@ -179,7 +210,6 @@ namespace AM.Caching
                 _dictionary.TryRemove(dead.Key, out item);
             }
         }
-
 
         /// <summary>
         /// Remove unused items.

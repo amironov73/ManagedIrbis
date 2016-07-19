@@ -221,7 +221,7 @@ namespace IrbisTestRunner
         /// </summary>
         public void CompileTests()
         {
-            Console.WriteLine("Compiling");
+            Write(ConsoleColor.Yellow, "Compiling tests ");
 
             List<string> sources = new List<string>();
             foreach (string item in TestList)
@@ -263,7 +263,7 @@ namespace IrbisTestRunner
 
             CompiledAssembly = results.CompiledAssembly;
 
-            Console.WriteLine("Tests compiled");
+            WriteLine(ConsoleColor.Green, "OK");
         }
 
         /// <summary>
@@ -396,7 +396,7 @@ namespace IrbisTestRunner
         /// </summary>
         public void PingTheServer()
         {
-            Console.Write("Pinging the server... ");
+            Write(ConsoleColor.Magenta, "Pinging the server... ");
 
             using (IrbisConnection connection = new IrbisConnection())
             {
@@ -404,7 +404,7 @@ namespace IrbisTestRunner
                 connection.Connect();
             }
 
-            Console.WriteLine("done");
+            WriteLine(ConsoleColor.Green, "OK");
         }
 
         /// <summary>
@@ -498,13 +498,13 @@ namespace IrbisTestRunner
 
             ServerProcess = Process.Start(startInfo);
 
-            WriteLine(ConsoleColor.Yellow, "IRBIS_SERVER.EXE started");
+            Write(ConsoleColor.Yellow, "Starting IRBIS_SERVER.EXE ");
 
-            Write(ConsoleColor.Gray, "Giving some time for server initialization... ");
+            Write(ConsoleColor.Gray, "initialization... ");
 
             Thread.Sleep(3000);
 
-            WriteLine(ConsoleColor.Gray, "Server initialized");
+            WriteLine(ConsoleColor.Green, "OK");
         }
 
         /// <summary>
@@ -556,7 +556,7 @@ namespace IrbisTestRunner
 
             Thread.Sleep(3000);
 
-            WriteLine(ConsoleColor.Green, "IRBIS_SERVER.EXE stopped");
+            WriteLine(ConsoleColor.Green, "OK");
         }
 
         /// <summary>

@@ -30,7 +30,7 @@ namespace ManagedIrbis.Network.Commands
         /// File list.
         /// </summary>
         [NotNull]
-        public List<IrbisFileSpecification> Files
+        public List<FileSpecification> Files
         {
             get { return _files; }
         }
@@ -49,14 +49,14 @@ namespace ManagedIrbis.Network.Commands
             )
             : base(connection)
         {
-            _files = new List<IrbisFileSpecification>();
+            _files = new List<FileSpecification>();
         }
 
         #endregion
 
         #region Private members
 
-        private readonly List<IrbisFileSpecification> _files;
+        private readonly List<FileSpecification> _files;
 
         #endregion
 
@@ -125,7 +125,7 @@ namespace ManagedIrbis.Network.Commands
         {
             Code.NotNull(query, "query");
 
-            foreach (IrbisFileSpecification fileName in Files)
+            foreach (FileSpecification fileName in Files)
             {
                 string item = fileName.ToString();
                 query.Arguments.Add(item);

@@ -1029,25 +1029,41 @@ namespace ManagedIrbis
         [CanBeNull]
         public string ReadTextFile
             (
+                [NotNull] FileSpecification fileSpecification
+            )
+        {
+            Code.NotNull(fileSpecification, "fileSpecification");
+
+            ReadFileCommand command = new ReadFileCommand(this);
+            command.Files.Add(fileSpecification);
+
+            IrbisServerResponse response = ExecuteCommand(command);
+            string[] result = command.GetFileText(response);
+
+            return result[0];
+        }
+
+
+        /// <summary>
+        /// Чтение текстового файла с сервера.
+        /// </summary>
+        [CanBeNull]
+        public string ReadTextFile
+            (
                 IrbisPath path,
                 [NotNull] string fileName
             )
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            ReadFileCommand command = new ReadFileCommand(this);
-            IrbisFileSpecification fileSpec = new IrbisFileSpecification
+            FileSpecification fileSpecification = new FileSpecification
                 (
                     path,
                     Database,
                     fileName
                 );
-            command.Files.Add(fileSpec);
 
-            IrbisServerResponse response = ExecuteCommand(command);
-            string[] result = command.GetFileText(response);
-
-            return result[0];
+            return ReadTextFile(fileSpecification);
         }
 
         /// <summary>
@@ -1056,7 +1072,7 @@ namespace ManagedIrbis
         [NotNull]
         public string[] ReadTextFiles
             (
-                [NotNull] IrbisFileSpecification[] files
+                [NotNull] FileSpecification[] files
             )
         {
             Code.NotNull(files, "files");

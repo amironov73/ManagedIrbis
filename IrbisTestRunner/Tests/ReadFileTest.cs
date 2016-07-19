@@ -53,13 +53,13 @@ namespace IrbisTestRunner.Tests
                 (
                     new[]
                         {
-                            new IrbisFileSpecification
+                            new FileSpecification
                                 (
                                     IrbisPath.MasterFile,
                                     "IBIS",
                                     "brief.pft"
                                 ), 
-                            new IrbisFileSpecification
+                            new FileSpecification
                                 (
                                     IrbisPath.MasterFile,
                                     "IBIS",

@@ -32,6 +32,8 @@
             "ReadPostingsTest.cs",
             "ReadRecordTest.cs",
             "ReadTermsTest.cs",
+            "RecordCacheTest.cs",
+            "TextCacheTest.cs",
             "VersionTest.cs",
             "WriteRecordTest.cs"
         ]

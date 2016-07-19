@@ -1,4 +1,4 @@
-﻿/* IrbisRecordCache.cs -- 
+﻿/* RecordCache.cs -- cache of records
  * Ars Magna project, http://arsmagna.ru
  */
 
@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Caching;
 using AM.IO;
 using AM.Runtime;
 
@@ -27,11 +28,12 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Caching
 {
     /// <summary>
-    /// 
+    /// Cache of <see cref="MarcRecord"/>.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class IrbisRecordCache
+    public sealed class RecordCache
+        : MemoryCache<int,MarcRecord>
     {
         #region Properties
 
@@ -41,6 +43,11 @@ namespace ManagedIrbis.Caching
         [NotNull]
         public IrbisConnection Connection { get { return _connection; } }
 
+        /// <summary>
+        /// Request count.
+        /// </summary>
+        public int RequestCount { get; set; }
+
         #endregion
 
         #region Construction
@@ -48,14 +55,15 @@ namespace ManagedIrbis.Caching
         /// <summary>
         /// Constructor.
         /// </summary>
-        public IrbisRecordCache
+        public RecordCache
             (
-            [NotNull] IrbisConnection connection
+                [NotNull] IrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");
 
             _connection = connection;
+            Requester = _RecordRequester;
         }
 
         #endregion
@@ -64,7 +72,15 @@ namespace ManagedIrbis.Caching
 
         private readonly IrbisConnection _connection;
 
-        //private readonly Dictionary<int> 
+        private MarcRecord _RecordRequester
+            (
+                int mfn
+            )
+        {
+            RequestCount++;
+
+            return Connection.ReadRecord(mfn);
+        }
 
         #endregion
 
@@ -75,6 +91,5 @@ namespace ManagedIrbis.Caching
         #region Object members
 
         #endregion
-
     }
 }
