@@ -68,7 +68,7 @@ namespace ManagedIrbis.Network.Commands
         [NotNull]
         public string[] GetFileText
             (
-                [NotNull] IrbisServerResponse response
+                [NotNull] ServerResponse response
             )
         {
             Code.NotNull(response, "response");
@@ -78,7 +78,7 @@ namespace ManagedIrbis.Network.Commands
 
             for (int i = 0; i < count; i++)
             {
-                string text = response.GetUtfString();
+                string text = response.GetAnsiString();
                 text = IrbisText.IrbisToWindows(text);
                 result[i] = text;
             }
@@ -95,7 +95,7 @@ namespace ManagedIrbis.Network.Commands
         /// </summary>
         public override void CheckResponse
             (
-                IrbisServerResponse response
+                ServerResponse response
             )
         {
             Code.NotNull(response, "response");
@@ -118,7 +118,7 @@ namespace ManagedIrbis.Network.Commands
         /// <summary>
         /// Execute the command.
         /// </summary>
-        public override IrbisServerResponse Execute
+        public override ServerResponse Execute
             (
                 IrbisClientQuery query
             )
@@ -131,7 +131,7 @@ namespace ManagedIrbis.Network.Commands
                 query.Arguments.Add(item);
             }
 
-            IrbisServerResponse result = base.Execute(query);
+            ServerResponse result = base.Execute(query);
 
             return result;
         }

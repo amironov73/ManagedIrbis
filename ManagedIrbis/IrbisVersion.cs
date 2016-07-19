@@ -78,7 +78,7 @@ namespace ManagedIrbis
         [NotNull]
         public static IrbisVersion ParseServerResponse
             (
-                [NotNull] IrbisServerResponse response
+                [NotNull] ServerResponse response
             )
         {
             Code.NotNull(response, "response");

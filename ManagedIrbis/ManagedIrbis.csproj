@@ -110,6 +110,7 @@
   <ItemGroup>
     <Compile Include="BibTex\BibTex.cs" />
     <Compile Include="Caching\IrbisCache.cs" />
+    <Compile Include="Caching\MenuCache.cs" />
     <Compile Include="Caching\RecordCache.cs" />
     <Compile Include="Caching\TextCache.cs" />
     <Compile Include="Fst\FstFile.cs" />
@@ -164,7 +165,7 @@
     <Compile Include="Marc\Schema\RelatedField.cs" />
     <Compile Include="Marc\Schema\SchemaUtility.cs" />
     <Compile Include="Marc\Schema\SubFieldSchema.cs" />
-    <Compile Include="Menus\IrbisMenuFile.cs" />
+    <Compile Include="Menus\MenuFile.cs" />
     <Compile Include="Menus\IrbisMenuUtility.cs" />
     <Compile Include="Network\Commands\AbstractCommand.cs" />
     <Compile Include="Network\Commands\ConnectCommand.cs" />
@@ -192,7 +193,7 @@
     <Compile Include="Network\IrbisNetworkDebugger.cs" />
     <Compile Include="Network\IrbisNetworkException.cs" />
     <Compile Include="Network\IrbisNetworkUtility.cs" />
-    <Compile Include="Network\IrbisServerResponse.cs" />
+    <Compile Include="Network\ServerResponse.cs" />
     <Compile Include="Network\PacketInterpreter.cs" />
     <Compile Include="Network\SimpleClientSocket.cs" />
     <Compile Include="Pooling\IrbisConnectionPool.cs" />
@@ -226,7 +227,7 @@
     <Compile Include="Magazines\MagazineCumulation.cs" />
     <Compile Include="Magazines\MagazineIssueInfo.cs" />
     <Compile Include="IrbisConnection.cs" />
-    <Compile Include="ManagedClientUtility.cs" />
+    <Compile Include="IrbisConnectionUtility.cs" />
     <Compile Include="Mapping\FieldAttribute.cs" />
     <Compile Include="Mapping\SubFieldAttribute.cs" />
     <Compile Include="Mapping\SubFieldInfo.cs" />

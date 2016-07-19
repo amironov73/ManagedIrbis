@@ -138,7 +138,7 @@ namespace ManagedIrbis.Search
         [NotNull]
         public static int[] ParseMfnOnly
             (
-                [NotNull] IrbisServerResponse response
+                [NotNull] ServerResponse response
             )
         {
             Code.NotNull(response, "response");
@@ -156,7 +156,7 @@ namespace ManagedIrbis.Search
         [ItemCanBeNull]
         public static string[] ParseTextOnly
             (
-                [NotNull] IrbisServerResponse response
+                [NotNull] ServerResponse response
             )
         {
             Code.NotNull(response, "response");
@@ -174,7 +174,7 @@ namespace ManagedIrbis.Search
         [ItemNotNull]
         public static FoundItem[] ParseServerResponse
             (
-                [NotNull] IrbisServerResponse response
+                [NotNull] ServerResponse response
             )
         {
             Code.NotNull(response, "response");

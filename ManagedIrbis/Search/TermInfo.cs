@@ -76,7 +76,7 @@ namespace ManagedIrbis.Search
         [ItemNotNull]
         public static TermInfo[] Parse
             (
-                [NotNull] IrbisServerResponse response
+                [NotNull] ServerResponse response
             )
         {
             Code.NotNull(response, "response");

@@ -129,14 +129,14 @@ namespace ManagedIrbis.Network.Commands
         /// <summary>
         /// Execute the command.
         /// </summary>
-        public override IrbisServerResponse Execute
+        public override ServerResponse Execute
             (
                 IrbisClientQuery query
             )
         {
             Code.NotNull(query, "query");
 
-            IrbisServerResponse result = base.Execute(query);
+            ServerResponse result = base.Execute(query);
             CheckResponse(result);
 
             TermInfo[] terms = TermInfo.Parse(result);

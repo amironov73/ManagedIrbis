@@ -1,4 +1,4 @@
-﻿/* IrbisMenuFile.cs -- MNU file handling.
+﻿/* MenuFile.cs -- MNU file handling.
  * Ars Magna project, http://arsmagna.ru
  */
 
@@ -20,7 +20,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Network;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -36,7 +36,7 @@ namespace ManagedIrbis.Menus
     [XmlRoot("menu")]
     [MoonSharpUserData]
     [JsonConverter(typeof(MenuConverter))]
-    public sealed class IrbisMenuFile
+    public sealed class MenuFile
         : IHandmadeSerializable
     {
         #region Constants
@@ -169,7 +169,7 @@ namespace ManagedIrbis.Menus
         }
         
         /// <summary>
-        /// Converts the <see cref="IrbisMenuFile"/> to JSON.
+        /// Converts the <see cref="MenuFile"/> to JSON.
         /// </summary>
         public sealed class MenuConverter
             : JsonConverter
@@ -192,7 +192,7 @@ namespace ManagedIrbis.Menus
                     JsonSerializer serializer
                 )
             {
-                IrbisMenuFile menu = (IrbisMenuFile) value;
+                MenuFile menu = (MenuFile) value;
                 serializer.Serialize(writer, menu.Entries);
             }
 
@@ -216,7 +216,7 @@ namespace ManagedIrbis.Menus
                     JsonSerializer serializer
                 )
             {
-                IrbisMenuFile menu = (IrbisMenuFile) existingValue;
+                MenuFile menu = (MenuFile) existingValue;
                 NonNullCollection<Entry> entries = serializer
                     .Deserialize<NonNullCollection<Entry>>
                         (
@@ -240,7 +240,7 @@ namespace ManagedIrbis.Menus
                     Type objectType
                 )
             {
-                return objectType == typeof(IrbisMenuFile);
+                return objectType == typeof(MenuFile);
             }
 
             #endregion
@@ -278,7 +278,7 @@ namespace ManagedIrbis.Menus
         /// <summary>
         /// Constructor.
         /// </summary>
-        public IrbisMenuFile()
+        public MenuFile()
         {
             _entries = new NonNullCollection<Entry>();
         }
@@ -286,7 +286,7 @@ namespace ManagedIrbis.Menus
         /// <summary>
         /// Internal constructor.
         /// </summary>
-        internal IrbisMenuFile
+        internal MenuFile
             (
                 NonNullCollection<Entry> entries
             )
@@ -308,7 +308,7 @@ namespace ManagedIrbis.Menus
         /// Adds the specified code and comment.
         /// </summary>
         [NotNull]
-        public IrbisMenuFile Add
+        public MenuFile Add
             (
                 [NotNull] string code,
                 [CanBeNull] string comment
@@ -325,7 +325,6 @@ namespace ManagedIrbis.Menus
 
             return this;
         }
-
 
         /// <summary>
         /// Trims the code.
@@ -517,21 +516,22 @@ namespace ManagedIrbis.Menus
         /// Parses the specified stream.
         /// </summary>
         [NotNull]
-        public static IrbisMenuFile ParseStream
+        public static MenuFile ParseStream
             (
                 [NotNull] TextReader reader
             )
         {
             Code.NotNull(reader, "reader");
 
-            IrbisMenuFile result = new IrbisMenuFile();
+            MenuFile result = new MenuFile();
 
             while (true)
             {
-                string code = reader.RequireLine();
+                string code = reader.ReadLine();
                 if (string.IsNullOrEmpty(code))
                 {
-                    throw new FormatException();
+                    // throw new FormatException();
+                    break;
                 }
                 if (code.StartsWith(StopMarker))
                 {
@@ -555,7 +555,7 @@ namespace ManagedIrbis.Menus
         /// Parses the local file.
         /// </summary>
         [NotNull]
-        public static IrbisMenuFile ParseLocalFile
+        public static MenuFile ParseLocalFile
             (
                 [NotNull] string fileName,
                 [NotNull] Encoding encoding
@@ -570,7 +570,7 @@ namespace ManagedIrbis.Menus
                         encoding
                     ))
             {
-                IrbisMenuFile result = ParseStream(reader);
+                MenuFile result = ParseStream(reader);
                 result.FileName = Path.GetFileName(fileName);
 
                 return result;
@@ -581,7 +581,7 @@ namespace ManagedIrbis.Menus
         /// Parses the local file.
         /// </summary>
         [NotNull]
-        public static IrbisMenuFile ParseLocalFile
+        public static MenuFile ParseLocalFile
             (
                 [NotNull] string fileName
             )
@@ -591,6 +591,59 @@ namespace ManagedIrbis.Menus
                     fileName,
                     IrbisEncoding.Ansi
                 );
+        }
+
+        /// <summary>
+        /// Parse server response.
+        /// </summary>
+        [NotNull]
+        public static MenuFile ParseServerResponse
+            (
+                [NotNull] ServerResponse response
+            )
+        {
+            Code.NotNull(response, "response");
+
+            TextReader reader = response.GetReader(IrbisEncoding.Ansi);
+            MenuFile result = ParseStream(reader);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Parse server response.
+        /// </summary>
+        [NotNull]
+        public static MenuFile ParseServerResponse
+            (
+                [NotNull] string response
+            )
+        {
+            Code.NotNullNorEmpty(response, "response");
+
+            TextReader reader = new StringReader(response);
+            MenuFile result = ParseStream(reader);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Read <see cref="MenuFile"/> from server.
+        /// </summary>
+        [NotNull]
+        public static MenuFile ReadFromServer
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] FileSpecification fileSpecification
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNull(fileSpecification, "fileSpecification");
+
+            string response = connection.ReadTextFile(fileSpecification);
+            MenuFile result = ParseServerResponse(response);
+
+            return result;
         }
 
         /// <summary>

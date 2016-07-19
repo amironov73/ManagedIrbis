@@ -90,7 +90,7 @@ namespace ManagedIrbis.Network.Commands
         /// </summary>
         public virtual void CheckResponse
             (
-                [NotNull] IrbisServerResponse response
+                [NotNull] ServerResponse response
             )
         {
             Code.NotNull(response, "response");
@@ -128,7 +128,7 @@ namespace ManagedIrbis.Network.Commands
         /// Execute the command.
         /// </summary>
         [NotNull]
-        public virtual IrbisServerResponse Execute
+        public virtual ServerResponse Execute
             (
                 [NotNull] IrbisClientQuery query
             )
@@ -138,7 +138,7 @@ namespace ManagedIrbis.Network.Commands
             byte[] request = query.EncodePacket();
             byte[] answer = Connection.Socket.ExecuteRequest(request);
 
-            IrbisServerResponse result = IrbisServerResponse.Parse
+            ServerResponse result = ServerResponse.Parse
                 (
                     Connection,
                     answer

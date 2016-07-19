@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>ManagedClient</id>
+    <id>ManagedIrbis</id>
     <version>1.6.0.200</version>
     <title>Managed framework for Irbis64</title>
     <authors>Mironov Alexey</authors>

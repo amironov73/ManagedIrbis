@@ -102,7 +102,7 @@ namespace ManagedIrbis.Search
         [NotNull]
         public static TermPosting[] Parse
             (
-                [NotNull] IrbisServerResponse response
+                [NotNull] ServerResponse response
             )
         {
             Code.NotNull(response, "response");

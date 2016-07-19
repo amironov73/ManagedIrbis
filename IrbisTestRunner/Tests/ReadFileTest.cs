@@ -38,7 +38,7 @@ namespace IrbisTestRunner.Tests
             string text = Connection.ReadTextFile
                 (
                     IrbisPath.MasterFile,
-                    "brief.pft"
+                    "II.MNU"
                 );
             Console.Write
                 (

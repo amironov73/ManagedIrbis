@@ -269,7 +269,7 @@ namespace ManagedIrbis.ImportExport
         [NotNull]
         public static MarcRecord ParseResponseForReadRecord
             (
-                [NotNull] IrbisServerResponse response,
+                [NotNull] ServerResponse response,
                 [NotNull] MarcRecord record
             )
         {
@@ -318,7 +318,7 @@ namespace ManagedIrbis.ImportExport
         [NotNull]
         public static MarcRecord ParseResponseForWriteRecord
             (
-                [NotNull] IrbisServerResponse response,
+                [NotNull] ServerResponse response,
                 [NotNull] MarcRecord record
             )
         {

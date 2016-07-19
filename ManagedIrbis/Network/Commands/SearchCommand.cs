@@ -153,7 +153,7 @@ namespace ManagedIrbis.Network.Commands
         /// <summary>
         /// Execute the command.
         /// </summary>
-        public override IrbisServerResponse Execute
+        public override ServerResponse Execute
             (
                 IrbisClientQuery clientQuery
             )
@@ -198,7 +198,7 @@ namespace ManagedIrbis.Network.Commands
                         )
                 );
 
-            IrbisServerResponse result = base.Execute(clientQuery);
+            ServerResponse result = base.Execute(clientQuery);
 
             return result;
         }

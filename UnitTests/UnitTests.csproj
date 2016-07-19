@@ -164,6 +164,7 @@
     <Compile Include="AM\ConversionUtilityTest.cs" />
     <Compile Include="AM\FuncUtilityTest.cs" />
     <Compile Include="AM\RetryManagerTest.cs" />
+    <Compile Include="AM\ArrayUtilityTest.cs" />
     <Compile Include="AM\UniversalComparerTest.cs" />
     <Compile Include="CodeJam\CodeTest.cs" />
     <Compile Include="Common\CommonUnitTest.cs" />

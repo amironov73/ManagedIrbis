@@ -65,7 +65,7 @@ namespace ManagedIrbis.Network.Commands
         /// <summary>
         /// Execute the command.
         /// </summary>
-        public override IrbisServerResponse Execute
+        public override ServerResponse Execute
             (
                 IrbisClientQuery query
             )
@@ -76,7 +76,7 @@ namespace ManagedIrbis.Network.Commands
             query.Arguments.Add(Connection.Username);
             query.Arguments.Add(Connection.Password);
 
-            IrbisServerResponse result = base.Execute(query);
+            ServerResponse result = base.Execute(query);
 
             //string[] decoded = PacketInterpreter.Interpret
             //    (

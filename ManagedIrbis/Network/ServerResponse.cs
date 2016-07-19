@@ -1,4 +1,4 @@
-﻿/* IrbisServerResponse.cs -- пакет с ответом сервера.
+﻿/* ServerResponse.cs -- пакет с ответом сервера.
  * Ars Magna project, http://arsmagna.ru
  */
 
@@ -16,7 +16,9 @@ using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.ImportExport;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -30,7 +32,7 @@ namespace ManagedIrbis.Network
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class IrbisServerResponse
+    public sealed class ServerResponse
         : IVerifiable
     {
         #region Constants
@@ -89,7 +91,7 @@ namespace ManagedIrbis.Network
         /// <summary>
         /// Constructor.
         /// </summary>
-        public IrbisServerResponse
+        public ServerResponse
             (
                 [NotNull] IrbisConnection connection
             )
@@ -112,40 +114,6 @@ namespace ManagedIrbis.Network
         #endregion
 
         #region Public methods
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [NotNull]
-        public List<string> RemainingAnsiStrings()
-        {
-            List<string> result = new List<string>();
-
-            string line;
-            while ((line = GetAnsiString()) != null)
-            {
-                result.Add(line);
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [NotNull]
-        public List<string> RemainingUtfStrings()
-        {
-            List<string> result = new List<string>();
-
-            string line;
-            while ((line = GetUtfString()) != null)
-            {
-                result.Add(line);
-            }
-
-            return result;
-        }
 
         /// <summary>
         /// Get ANSI string.
@@ -207,6 +175,203 @@ namespace ManagedIrbis.Network
             }
 
             return result.ToArray();
+        }
+
+        /// <summary>
+        /// Get 32-bit integer value.
+        /// </summary>
+        public int GetInt32
+            (
+            int defaultValue
+            )
+        {
+            string line = GetAnsiString();
+            int result;
+            if (!int.TryParse(line, out result))
+            {
+                result = defaultValue;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get <see cref="TextReader"/>.
+        /// </summary>
+        [NotNull]
+        public TextReader GetReader
+            (
+                [NotNull] Encoding encoding
+            )
+        {
+            Code.NotNull(encoding, "encoding");
+
+            StreamReader result = new StreamReader
+                (
+                    _stream,
+                    encoding,
+                    false,
+                    1024,
+                    true
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get <see cref="TextReader"/>.
+        /// </summary>
+        [NotNull]
+        public TextReader GetReaderCopy
+            (
+                [NotNull] Encoding encoding
+            )
+        {
+            Code.NotNull(encoding, "encoding");
+
+            Stream stream = GetStreamCopy();
+
+            StreamReader result = new StreamReader
+                (
+                    stream,
+                    encoding
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get <see cref="MarcRecord"/>.
+        /// </summary>
+        [CanBeNull]
+        public MarcRecord GetRecord
+            (
+            [NotNull] MarcRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            string line = GetUtfString();
+            if (string.IsNullOrEmpty(line))
+            {
+                return null;
+            }
+
+            ProtocolText.ParseResponseForReadRecord
+                (
+                    this,
+                    record
+                );
+
+            return record;
+        }
+
+        /// <summary>
+        /// Get return code.
+        /// </summary>
+        public int GetReturnCode()
+        {
+            if (!_returnCodeRetrieved)
+            {
+                ReturnCode = RequireInt32();
+                _returnCodeRetrieved = true;
+            }
+
+            return ReturnCode;
+        }
+
+        /// <summary>
+        /// Get span of the packet.
+        /// </summary>
+        [NotNull]
+        public byte[] GetSpan
+            (
+                int offset,
+                int length
+            )
+        {
+            Code.Nonnegative(offset, "offset");
+            Code.Nonnegative(length, "length");
+
+            if (ReferenceEquals(Packet, null))
+            {
+                throw new IrbisException("packet is null");
+            }
+
+            byte[] result = Packet.GetSpan(offset, length);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get span of the packet.
+        /// </summary>
+        [NotNull]
+        public byte[] GetSpan ()
+        {
+            if (ReferenceEquals(Packet, null))
+            {
+                throw new IrbisException("packet is null");
+            }
+
+            byte[] result = Packet.GetSpan((int) _stream.Position);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get stream with current state.
+        /// </summary>
+        /// <returns></returns>
+        [NotNull]
+        public Stream GetStream ()
+        {
+            if (ReferenceEquals(Packet, null))
+            {
+                throw new IrbisException("packet is null");
+            }
+
+            return _stream;
+        }
+
+        /// <summary>
+        /// Get stream with current state.
+        /// </summary>
+        [NotNull]
+        public Stream GetStreamCopy()
+        {
+            byte[] buffer = GetSpan();
+            Stream result = new MemoryStream(buffer);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get stream from the specified point.
+        /// </summary>
+        [NotNull]
+        public Stream GetStream
+            (
+                int offset,
+                int length
+            )
+        {
+            Code.Nonnegative(offset, "offset");
+            Code.Nonnegative(length, "length");
+
+            if (ReferenceEquals(Packet, null))
+            {
+                throw new IrbisException("packet is null");
+            }
+
+            MemoryStream result = new MemoryStream
+                (
+                    Packet,
+                    offset,
+                    length
+                );
+
+            return result;
         }
 
         /// <summary>
@@ -272,67 +437,9 @@ namespace ManagedIrbis.Network
         }
 
         /// <summary>
-        /// Get 32-bit integer value.
-        /// </summary>
-        public int GetInt32
-            (
-                int defaultValue
-            )
-        {
-            string line = GetAnsiString();
-            int result;
-            if (!int.TryParse(line, out result))
-            {
-                result = defaultValue;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Get <see cref="MarcRecord"/>.
-        /// </summary>
-        [CanBeNull]
-        public MarcRecord GetRecord
-            (
-                [NotNull] MarcRecord record
-            )
-        {
-            Code.NotNull(record, "record");
-
-            string line = GetUtfString();
-            if (string.IsNullOrEmpty(line))
-            {
-                return null;
-            }
-
-            ProtocolText.ParseResponseForReadRecord
-                (
-                    this,
-                    record
-                );
-
-            return record;
-        }
-
-        /// <summary>
-        /// Get return code.
-        /// </summary>
-        public int GetReturnCode()
-        {
-            if (!_returnCodeRetrieved)
-            {
-                ReturnCode = RequireInt32();
-                _returnCodeRetrieved = true;
-            }
-
-            return ReturnCode;
-        }
-
-        /// <summary>
         /// Parse the network packet.
         /// </summary>
-        public static IrbisServerResponse Parse
+        public static ServerResponse Parse
             (
                 [NotNull] IrbisConnection connection,
                 [NotNull] byte[] packet
@@ -341,7 +448,7 @@ namespace ManagedIrbis.Network
             Code.NotNull(connection, "connection");
             Code.NotNull(packet, "packet");
 
-            IrbisServerResponse result = new IrbisServerResponse (connection)
+            ServerResponse result = new ServerResponse (connection)
             {
                 _packet = packet,
                 _stream = new MemoryStream(packet)
@@ -358,6 +465,40 @@ namespace ManagedIrbis.Network
             result.RequireAnsiString();
             result.RequireAnsiString();
             result.RequireAnsiString();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [NotNull]
+        public List<string> RemainingAnsiStrings()
+        {
+            List<string> result = new List<string>();
+
+            string line;
+            while ((line = GetAnsiString()) != null)
+            {
+                result.Add(line);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [NotNull]
+        public List<string> RemainingUtfStrings()
+        {
+            List<string> result = new List<string>();
+
+            string line;
+            while ((line = GetUtfString()) != null)
+            {
+                result.Add(line);
+            }
 
             return result;
         }

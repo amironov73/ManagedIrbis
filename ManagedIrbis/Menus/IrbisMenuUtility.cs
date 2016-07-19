@@ -38,9 +38,9 @@ namespace ManagedIrbis.Menus
         /// <summary>
         /// Adds the typed value with specified code.
         /// </summary>
-        public static IrbisMenuFile Add<T>
+        public static MenuFile Add<T>
             (
-                [NotNull] this IrbisMenuFile menu,
+                [NotNull] this MenuFile menu,
                 [NotNull] string code,
                 [CanBeNull] T value
             )
@@ -69,7 +69,7 @@ namespace ManagedIrbis.Menus
         [NotNull]
         public static string[] CollectStrings
             (
-            [NotNull] this IrbisMenuFile menu,
+            [NotNull] this MenuFile menu,
             [NotNull] string code
             )
         {
@@ -77,7 +77,7 @@ namespace ManagedIrbis.Menus
                 .Where
                 (
                     entry => entry.Code.SameString(code)
-                             || IrbisMenuFile.TrimCode(entry.Code)
+                             || MenuFile.TrimCode(entry.Code)
                                  .SameString(code)
                 )
                 .Select(entry => entry.Comment)
@@ -90,7 +90,7 @@ namespace ManagedIrbis.Menus
         [CanBeNull]
         public static T GetValue<T>
             (
-                [NotNull] this IrbisMenuFile menu,
+                [NotNull] this MenuFile menu,
                 [NotNull] string code,
                 [CanBeNull] T defaultValue
             )
@@ -98,7 +98,7 @@ namespace ManagedIrbis.Menus
             Code.NotNull(menu, "menu");
             Code.NotNull(code, "code");
 
-            IrbisMenuFile.Entry found = menu.FindEntry(code);
+            MenuFile.Entry found = menu.FindEntry(code);
 
             return found == null
                 ? defaultValue
@@ -111,7 +111,7 @@ namespace ManagedIrbis.Menus
         [CanBeNull]
         public static T GetValueSensitive<T>
             (
-                [NotNull] this IrbisMenuFile menu,
+                [NotNull] this MenuFile menu,
                 [NotNull] string code,
                 T defaultValue
             )
@@ -119,7 +119,7 @@ namespace ManagedIrbis.Menus
             Code.NotNull(menu, "menu");
             Code.NotNull(code, "code");
 
-            IrbisMenuFile.Entry found = menu.FindEntrySensitive(code);
+            MenuFile.Entry found = menu.FindEntrySensitive(code);
 
             return found == null
                 ? defaultValue
@@ -132,7 +132,7 @@ namespace ManagedIrbis.Menus
         [NotNull]
         public static string ToJson
             (
-                [NotNull] this IrbisMenuFile menu
+                [NotNull] this MenuFile menu
             )
         {
             Code.NotNull(menu, "menu");
@@ -147,20 +147,20 @@ namespace ManagedIrbis.Menus
         /// Restores the menu from JSON.
         /// </summary>
         [NotNull]
-        public static IrbisMenuFile FromJson
+        public static MenuFile FromJson
             (
                 [NotNull] string text
             )
         {
             Code.NotNullNorEmpty(text, "text");
 
-            NonNullCollection<IrbisMenuFile.Entry> entries 
+            NonNullCollection<MenuFile.Entry> entries 
                 = JsonConvert
-                .DeserializeObject<NonNullCollection<IrbisMenuFile.Entry>>
+                .DeserializeObject<NonNullCollection<MenuFile.Entry>>
                     (
                         text
                     );
-            IrbisMenuFile result = new IrbisMenuFile(entries);
+            MenuFile result = new MenuFile(entries);
 
             return result;
         }
@@ -170,7 +170,7 @@ namespace ManagedIrbis.Menus
         /// </summary>
         public static void SaveLocalJsonFile
             (
-                [NotNull] this IrbisMenuFile menu,
+                [NotNull] this MenuFile menu,
                 [NotNull] string fileName
             )
         {
@@ -192,7 +192,7 @@ namespace ManagedIrbis.Menus
         /// Parses the local json file.
         /// </summary>
         [NotNull]
-        public static IrbisMenuFile ParseLocalJsonFile
+        public static MenuFile ParseLocalJsonFile
             (
                 [NotNull] string fileName
             )
@@ -204,7 +204,7 @@ namespace ManagedIrbis.Menus
                     fileName,
                     IrbisEncoding.Utf8
                 );
-            IrbisMenuFile result = FromJson(text);
+            MenuFile result = FromJson(text);
 
             return result;
         }
@@ -215,13 +215,13 @@ namespace ManagedIrbis.Menus
         [NotNull]
         public static string ToXml
             (
-                [NotNull] this IrbisMenuFile menu
+                [NotNull] this MenuFile menu
             )
         {
             Code.NotNull(menu, "menu");
 
             XmlSerializer serializer
-                = new XmlSerializer(typeof(IrbisMenuFile));
+                = new XmlSerializer(typeof(MenuFile));
             StringWriter writer = new StringWriter();
             serializer.Serialize(writer, menu);
 

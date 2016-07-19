@@ -26,6 +26,7 @@
             "ListProcessesTest.cs",
             "ListUsersTest.cs",
             "MaxMfnTest.cs",
+            "MenuCacheTest.cs",
             "NopTest.cs",
             "ReadFileTest.cs",
             "SearchTest.cs",

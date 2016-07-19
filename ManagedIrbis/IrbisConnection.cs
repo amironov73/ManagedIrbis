@@ -431,7 +431,7 @@ namespace ManagedIrbis
             {
                 ConnectCommand command = new ConnectCommand(this);
                 IrbisClientQuery query = command.CreateQuery();
-                IrbisServerResponse result = command.Execute(query);
+                ServerResponse result = command.Execute(query);
                 command.CheckResponse(result);
                 _connected = true;
             }
@@ -489,7 +489,7 @@ namespace ManagedIrbis
         /// Execute any command.
         /// </summary>
         [NotNull]
-        public IrbisServerResponse ExecuteCommand
+        public ServerResponse ExecuteCommand
             (
                 [NotNull] AbstractCommand command
             )
@@ -508,7 +508,7 @@ namespace ManagedIrbis
                 IrbisClientQuery query = command.CreateQuery();
                 query.Verify(true);
 
-                IrbisServerResponse result = command.Execute(query);
+                ServerResponse result = command.Execute(query);
                 result.Verify(true);
                 command.CheckResponse(result);
 
@@ -520,7 +520,7 @@ namespace ManagedIrbis
         /// Execute any command.
         /// </summary>
         [NotNull]
-        public IrbisServerResponse ExecuteCommand
+        public ServerResponse ExecuteCommand
             (
                 [NotNull] AbstractCommand command,
                 params object[] arguments
@@ -546,7 +546,7 @@ namespace ManagedIrbis
 
                 query.Verify(true);
 
-                IrbisServerResponse result = command.Execute(query);
+                ServerResponse result = command.Execute(query);
                 result.Verify(true);
                 command.CheckResponse(result);
 
@@ -558,7 +558,7 @@ namespace ManagedIrbis
         /// Execute command.
         /// </summary>
         [NotNull]
-        public IrbisServerResponse ExecuteCommand
+        public ServerResponse ExecuteCommand
             (
                 [NotNull] string commandCode,
                 params object[] arguments
@@ -603,7 +603,7 @@ namespace ManagedIrbis
                 FormatSpecification = format
             };
             command.MfnList.Add(mfn);
-            IrbisServerResponse response = ExecuteCommand(command);
+            ServerResponse response = ExecuteCommand(command);
 
             string result = response.GetUtfString();
             result = IrbisText.IrbisToWindows(result);
@@ -629,7 +629,7 @@ namespace ManagedIrbis
                 FormatSpecification = format,
                 VirtualRecord = record
             };
-            IrbisServerResponse response = ExecuteCommand(command);
+            ServerResponse response = ExecuteCommand(command);
 
             string result = response.GetUtfString();
             result = IrbisText.IrbisToWindows(result);
@@ -661,7 +661,7 @@ namespace ManagedIrbis
                 return new string[0];
             }
 
-            IrbisServerResponse response = ExecuteCommand(command);
+            ServerResponse response = ExecuteCommand(command);
 
             if (command.MfnList.Count == 1)
             {
@@ -706,7 +706,7 @@ namespace ManagedIrbis
                     database
                 );
 
-            IrbisServerResponse response = ExecuteCommand(command);
+            ServerResponse response = ExecuteCommand(command);
             int result = response.ReturnCode;
 
             return result;
@@ -718,7 +718,7 @@ namespace ManagedIrbis
         [NotNull]
         public IrbisVersion GetServerVersion()
         {
-            IrbisServerResponse response
+            ServerResponse response
                 = ExecuteCommand(CommandCode.ServerInfo);
             IrbisVersion result
                 = IrbisVersion.ParseServerResponse(response);
@@ -760,7 +760,7 @@ namespace ManagedIrbis
         [NotNull]
         public IrbisProcessInfo[] ListProcesses()
         {
-            IrbisServerResponse response = ExecuteCommand
+            ServerResponse response = ExecuteCommand
                 (
                     CommandCode.GetProcessList
                 );
@@ -775,7 +775,7 @@ namespace ManagedIrbis
         [NotNull]
         public IrbisUserInfo[] ListUsers()
         {
-            IrbisServerResponse response = ExecuteCommand
+            ServerResponse response = ExecuteCommand
                 (
                     CommandCode.GetUserList
                 );
@@ -964,7 +964,7 @@ namespace ManagedIrbis
                 Lock = lockFlag,
                 Format = format
             };
-            IrbisServerResponse response = ExecuteCommand(command);
+            ServerResponse response = ExecuteCommand(command);
 
             MarcRecord record = new MarcRecord
             {
@@ -1037,7 +1037,7 @@ namespace ManagedIrbis
             ReadFileCommand command = new ReadFileCommand(this);
             command.Files.Add(fileSpecification);
 
-            IrbisServerResponse response = ExecuteCommand(command);
+            ServerResponse response = ExecuteCommand(command);
             string[] result = command.GetFileText(response);
 
             return result[0];
@@ -1080,7 +1080,7 @@ namespace ManagedIrbis
             ReadFileCommand command = new ReadFileCommand(this);
             command.Files.AddRange(files);
 
-            IrbisServerResponse response = ExecuteCommand(command);
+            ServerResponse response = ExecuteCommand(command);
             string[] result = command.GetFileText(response);
 
             return result;
@@ -1145,7 +1145,7 @@ namespace ManagedIrbis
             {
                 SearchQuery = expression
             };
-            IrbisServerResponse response = ExecuteCommand(command);
+            ServerResponse response = ExecuteCommand(command);
             int[] result = FoundItem.ParseMfnOnly(response);
 
             return result;
@@ -1282,7 +1282,7 @@ namespace ManagedIrbis
                 Lock = lockFlag
             };
 
-            IrbisServerResponse response = ExecuteCommand(command);
+            ServerResponse response = ExecuteCommand(command);
 
             ProtocolText.ParseResponseForWriteRecord
                 (

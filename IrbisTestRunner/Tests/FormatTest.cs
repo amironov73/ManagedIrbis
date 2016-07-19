@@ -74,6 +74,17 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
+        public void TestFormatVerbatim()
+        {
+            string actual = Connection.FormatRecord
+                (
+                    "'Привет, мир!'",
+                    1
+                );
+            Console.Write(actual);
+        }
+
+        [TestMethod]
         public void TestFormatOneRecord()
         {
             string actual = Connection.FormatRecord

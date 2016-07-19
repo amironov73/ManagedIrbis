@@ -1,4 +1,4 @@
-﻿/* ManagedClientUtility.cs --
+﻿/* IrbisConnectionUtility.cs --
  * Ars Magna project, http://arsmagna.ru
  */
 
@@ -12,9 +12,10 @@ using System.Threading.Tasks;
 //using AM.Configuration;
 using AM.IO;
 using AM.Runtime;
-
+using CodeJam;
 using JetBrains.Annotations;
-
+using ManagedIrbis.Menus;
+using ManagedIrbis.Network;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -28,7 +29,7 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public static class ManagedClientUtility
+    public static class IrbisConnectionUtility
     {
         #region Constants
 
@@ -43,6 +44,31 @@ namespace ManagedIrbis
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Read menu from server.
+        /// </summary>
+        [NotNull]
+        public static MenuFile ReadMenu
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            FileSpecification fileSpecification = new FileSpecification
+                (
+                    IrbisPath.MasterFile,
+                    connection.Database,
+                    fileName
+                );
+            string text = connection.ReadTextFile(fileSpecification);
+            MenuFile result = MenuFile.ParseServerResponse(text);
+
+            return result;
+        }
 
         ///// <summary>
         ///// Стандартные наименования для ключа строки подключения

@@ -126,7 +126,7 @@ namespace ManagedIrbis
         /// </summary>
         public static IrbisProcessInfo[] Parse
             (
-                [NotNull] IrbisServerResponse response
+                [NotNull] ServerResponse response
             )
         {
             Code.NotNull(response, "response");

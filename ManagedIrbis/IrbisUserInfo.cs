@@ -144,7 +144,7 @@ namespace ManagedIrbis
         [NotNull]
         public static IrbisUserInfo[] Parse
             (
-                [NotNull] IrbisServerResponse response
+                [NotNull] ServerResponse response
             )
         {
             Code.NotNull(response, "response");

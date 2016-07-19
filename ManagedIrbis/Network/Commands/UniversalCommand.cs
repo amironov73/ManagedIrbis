@@ -95,7 +95,7 @@ namespace ManagedIrbis.Network.Commands
         /// </summary>
         public override void CheckResponse
             (
-                IrbisServerResponse response
+                ServerResponse response
             )
         {
             if (!AcceptAnyResponse)

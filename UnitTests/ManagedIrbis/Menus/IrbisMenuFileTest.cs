@@ -14,22 +14,22 @@ namespace UnitTests.ManagedIrbis.Menus
     {
         private void _CompareMenu
             (
-                IrbisMenuFile first,
-                IrbisMenuFile second
+                MenuFile first,
+                MenuFile second
             )
         {
             Assert.AreEqual(first.FileName, second.FileName);
 
-            IrbisMenuFile.Entry[] firstEntries
-                = first.SortEntries(IrbisMenuFile.Sort.None);
-            IrbisMenuFile.Entry[] secondEntries
-                = second.SortEntries(IrbisMenuFile.Sort.None);
+            MenuFile.Entry[] firstEntries
+                = first.SortEntries(MenuFile.Sort.None);
+            MenuFile.Entry[] secondEntries
+                = second.SortEntries(MenuFile.Sort.None);
 
             Assert.AreEqual(firstEntries.Length, secondEntries.Length);
             for (int i = 0; i < firstEntries.Length; i++)
             {
-                IrbisMenuFile.Entry entry1 = firstEntries[i];
-                IrbisMenuFile.Entry entry2 = secondEntries[i];
+                MenuFile.Entry entry1 = firstEntries[i];
+                MenuFile.Entry entry2 = secondEntries[i];
 
                 Assert.AreEqual(entry1.Code, entry2.Code);
                 Assert.AreEqual(entry1.Comment, entry2.Comment);
@@ -38,20 +38,20 @@ namespace UnitTests.ManagedIrbis.Menus
 
         private void _TestSerialization
             (
-                IrbisMenuFile first
+                MenuFile first
             )
         {
             byte[] bytes = first.SaveToMemory();
 
-            IrbisMenuFile second = bytes
-                .RestoreObjectFromMemory<IrbisMenuFile>();
+            MenuFile second = bytes
+                .RestoreObjectFromMemory<MenuFile>();
 
             _CompareMenu(first, second);
         }
 
-        private IrbisMenuFile _GetMenu()
+        private MenuFile _GetMenu()
         {
-            IrbisMenuFile result = new IrbisMenuFile();
+            MenuFile result = new MenuFile();
 
             result
                 .Add("a", "Comment for a")
@@ -64,7 +64,7 @@ namespace UnitTests.ManagedIrbis.Menus
         [TestMethod]
         public void TestIrbisMenuFileConstruction()
         {
-            IrbisMenuFile menu = _GetMenu();
+            MenuFile menu = _GetMenu();
 
             Assert.AreEqual(3, menu.Entries.Count);
             string actual = menu.GetString("c");
@@ -82,7 +82,7 @@ namespace UnitTests.ManagedIrbis.Menus
                     "ORG.MNU"
                 );
 
-            IrbisMenuFile menu = IrbisMenuFile
+            MenuFile menu = MenuFile
                 .ParseLocalFile(fileName);
 
             Assert.AreEqual(9, menu.Entries.Count);
@@ -94,7 +94,7 @@ namespace UnitTests.ManagedIrbis.Menus
         [TestMethod]
         public void TestIrbisMenuFileSerialization()
         {
-            IrbisMenuFile menu = new IrbisMenuFile();
+            MenuFile menu = new MenuFile();
 
             _TestSerialization(menu);
         }
@@ -102,7 +102,7 @@ namespace UnitTests.ManagedIrbis.Menus
         [TestMethod]
         public void TestIrbisMenuFileToJson()
         {
-            IrbisMenuFile menu = _GetMenu();
+            MenuFile menu = _GetMenu();
 
             string actual = menu.ToJson()
                 .Replace("\r", "").Replace("\n", "")
@@ -118,8 +118,8 @@ namespace UnitTests.ManagedIrbis.Menus
             string text = "[{'code':'a','comment':'Comment for a'},{'code':'b','comment':'Comment for b'},{'code':'c','comment':'Comment for c'}]"
                 .Replace("'", "\"");
 
-            IrbisMenuFile second = IrbisMenuUtility.FromJson(text);
-            IrbisMenuFile first = _GetMenu();
+            MenuFile second = IrbisMenuUtility.FromJson(text);
+            MenuFile first = _GetMenu();
 
             _CompareMenu(first,second);
         }
@@ -133,8 +133,8 @@ namespace UnitTests.ManagedIrbis.Menus
                     "test-menu.json"
                 );
 
-            IrbisMenuFile first = _GetMenu();
-            IrbisMenuFile second = IrbisMenuUtility
+            MenuFile first = _GetMenu();
+            MenuFile second = IrbisMenuUtility
                 .ParseLocalJsonFile(fileName);
 
             _CompareMenu(first, second);
@@ -143,7 +143,7 @@ namespace UnitTests.ManagedIrbis.Menus
         [TestMethod]
         public void TestIrbisMenuToXml()
         {
-            IrbisMenuFile menu = _GetMenu();
+            MenuFile menu = _GetMenu();
 
             string actual = menu.ToXml()
                 .Replace("\r", "").Replace("\n", "")
