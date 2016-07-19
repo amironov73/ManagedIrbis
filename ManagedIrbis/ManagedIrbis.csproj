@@ -109,6 +109,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BibTex\BibTex.cs" />
+    <Compile Include="Caching\IrbisCache.cs" />
+    <Compile Include="Caching\IrbisRecordCache.cs" />
+    <Compile Include="Caching\IrbisTextCache.cs" />
     <Compile Include="Fst\FstFile.cs" />
     <Compile Include="Fst\FstIndexMethod.cs" />
     <Compile Include="Fst\FstLine.cs" />
