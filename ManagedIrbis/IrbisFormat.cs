@@ -21,6 +21,15 @@ namespace ManagedIrbis
     [MoonSharpUserData]
     public sealed class IrbisFormat
     {
+        #region Constants
+
+        /// <summary>
+        /// Format ALL.
+        /// </summary>
+        public const string All = "&uf('+0')";
+
+        #endregion
+
         #region Properties
 
         /// <summary>

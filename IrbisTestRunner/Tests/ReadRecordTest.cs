@@ -71,6 +71,24 @@ namespace IrbisTestRunner.Tests
             Console.Write(record.Description);
         }
 
+        [TestMethod]
+        public void TestReadMultipleRecords()
+        {
+            MarcRecord[] records = Connection.ReadRecords
+                (
+                    null,
+                    new[] { 1, 2, 3 }
+                );
+            Console.Write
+                (
+                    string.Join
+                    (
+                        " | ",
+                        records.Select(r=>r.ToPlainText()
+                            .SafeSubstring(0,50).Trim())
+                    )
+                );
+        }
 
         #endregion
     }

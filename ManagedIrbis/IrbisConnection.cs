@@ -1038,6 +1038,41 @@ namespace ManagedIrbis
             return ReadRecord(mfn, false, null);
         }
 
+        /// <summary>
+        /// Read multiple records.
+        /// </summary>
+        [NotNull]
+        public MarcRecord[] ReadRecords
+            (
+                [CanBeNull] string database,
+                [NotNull] IEnumerable<int> mfnList
+            )
+        {
+            Code.NotNull(mfnList, "mfnList");
+
+            if (string.IsNullOrEmpty(database))
+            {
+                database = Database;
+            }
+
+            FormatCommand command = new FormatCommand(this)
+            {
+                Database = database,
+                FormatSpecification = IrbisFormat.All
+            };
+            command.MfnList.AddRange(mfnList);
+
+            ServerResponse response = ExecuteCommand(command);
+
+            MarcRecord[] result = MarcRecordUtility.ParseAllFormat
+                (
+                    database,
+                    response
+                );
+
+            return result;
+        }
+
         #endregion
 
         // ========================================================

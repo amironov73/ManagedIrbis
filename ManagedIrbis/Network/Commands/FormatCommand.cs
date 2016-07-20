@@ -4,13 +4,7 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Text;
@@ -20,8 +14,6 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -159,6 +151,37 @@ namespace ManagedIrbis.Network.Commands
             IrbisClientQuery result = base.CreateQuery();
             result.CommandCode = CommandCode.FormatRecord;
 
+            string database = Database ?? Connection.Database;
+            result.Add(database);
+
+            string preparedFormat = IrbisFormat.PrepareFormat
+                (
+                    FormatSpecification
+                );
+
+            result.Add
+                (
+                    new TextWithEncoding
+                        (
+                            preparedFormat,
+                            IrbisEncoding.Ansi
+                        )
+                );
+
+            if (MfnList.Count == 0)
+            {
+                result.Add(-2);
+                result.Add(VirtualRecord);
+            }
+            else
+            {
+                result.Add(MfnList.Count);
+                foreach (int mfn in MfnList)
+                {
+                    result.Add(mfn);
+                }
+            }
+
             return result;
         }
 
@@ -171,37 +194,6 @@ namespace ManagedIrbis.Network.Commands
             )
         {
             Code.NotNull(query, "query");
-
-            string database = Database ?? Connection.Database;
-            query.Add(database);
-
-            string preparedFormat = IrbisFormat.PrepareFormat
-                (
-                    FormatSpecification
-                );
-
-            query.Add
-                (
-                    new TextWithEncoding
-                        (
-                            preparedFormat,
-                            IrbisEncoding.Ansi
-                        )
-                );
-
-            if (MfnList.Count == 0)
-            {
-                query.Add(-2);
-                query.Add(VirtualRecord);
-            }
-            else
-            {
-                query.Add(MfnList.Count);
-                foreach (int mfn in MfnList)
-                {
-                    query.Add(mfn);
-                }
-            }
 
             ServerResponse result = base.Execute(query);
 
@@ -220,26 +212,16 @@ namespace ManagedIrbis.Network.Commands
                 bool throwOnError
             )
         {
-            bool result =
-                !string.IsNullOrEmpty(FormatSpecification);
+            Verifier<FormatCommand> verifier
+                = new Verifier<FormatCommand>(this, throwOnError);
 
-            if (result)
-            {
-                result = !ReferenceEquals(VirtualRecord, null)
-                    || (MfnList.Count > 0);
-            }
+            verifier
+                .NotNullNorEmpty(FormatSpecification, "FormatSpecification")
+                .Assert(!ReferenceEquals(VirtualRecord, null)
+                        || (MfnList.Count > 0))
+                .Assert(base.Verify(throwOnError));
 
-            if (result)
-            {
-                result = base.Verify(throwOnError);
-            }
-
-            if (!result && throwOnError)
-            {
-                throw new VerificationException();
-            }
-
-            return result;
+            return verifier.Result;
         }
 
         #endregion

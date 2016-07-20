@@ -182,7 +182,7 @@ namespace ManagedIrbis.Network
         /// </summary>
         public int GetInt32
             (
-            int defaultValue
+                int defaultValue
             )
         {
             string line = GetAnsiString();
@@ -206,6 +206,8 @@ namespace ManagedIrbis.Network
         {
             Code.NotNull(encoding, "encoding");
 
+#if FW45
+
             StreamReader result = new StreamReader
                 (
                     _stream,
@@ -214,6 +216,18 @@ namespace ManagedIrbis.Network
                     1024,
                     true
                 );
+
+#else
+            // TODO make stream non-closeable
+
+            StreamReader result = new StreamReader
+                (
+                    _stream,
+                    encoding,
+                    false
+                );
+
+#endif
 
             return result;
         }

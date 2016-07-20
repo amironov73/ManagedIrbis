@@ -22,7 +22,9 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Network;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -296,7 +298,10 @@ namespace ManagedIrbis.ImportExport
                     break;
                 }
                 RecordField field = _ParseLine(line);
-                record.Fields.Add(field);
+                if (!string.IsNullOrEmpty(field.Tag))
+                {
+                    record.Fields.Add(field);
+                }
             }
             if (line == "#")
             {
@@ -342,7 +347,51 @@ namespace ManagedIrbis.ImportExport
             {
                 string line = split[i];
                 RecordField field = _ParseLine(line);
-                record.Fields.Add(field);
+                if (!string.IsNullOrEmpty(field.Tag))
+                {
+                    record.Fields.Add(field);
+                }
+            }
+
+            return record;
+        }
+
+        /// <summary>
+        /// Parse server response for ALL-formatted record.
+        /// </summary>
+        [CanBeNull]
+        public static MarcRecord ParseResponseForAllFormat
+            (
+                [NotNull] ServerResponse response,
+                [NotNull] MarcRecord record
+            )
+        {
+            Code.NotNull(response, "response");
+            Code.NotNull(record, "record");
+
+            record.Fields.Clear();
+
+            string line = response.GetUtfString();
+            if (string.IsNullOrEmpty(line))
+            {
+                return null;
+            }
+
+            string[] split = line.Split('\x1F');
+            ParseMfnStatusVersion
+                (
+                    split[1],
+                    split[2],
+                    record
+                );
+            for (int i = 3; i < split.Length; i++)
+            {
+                line = split[i];
+                RecordField field = _ParseLine(line);
+                if (!string.IsNullOrEmpty(field.Tag))
+                {
+                    record.Fields.Add(field);
+                }
             }
 
             return record;

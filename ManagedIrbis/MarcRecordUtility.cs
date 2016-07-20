@@ -16,7 +16,8 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.ImportExport;
+using ManagedIrbis.Network;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -46,6 +47,41 @@ namespace ManagedIrbis
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Parse ALL-formatted records in server response.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord[] ParseAllFormat
+            (
+                [NotNull] string database,
+                [NotNull] ServerResponse response
+            )
+        {
+            Code.NotNull(response, "response");
+
+            List<MarcRecord> result = new List<MarcRecord>();
+
+            while (true)
+            {
+                MarcRecord record = new MarcRecord
+                {
+                    Database = database
+                };
+                record = ProtocolText.ParseResponseForAllFormat
+                    (
+                        response,
+                        record
+                    );
+                if (ReferenceEquals(record, null))
+                {
+                    break;
+                }
+                result.Add(record);
+            }
+
+            return result.ToArray();
+        }
 
         /// <summary>
         /// Convert the <see cref="MarcRecord"/> to JSON.

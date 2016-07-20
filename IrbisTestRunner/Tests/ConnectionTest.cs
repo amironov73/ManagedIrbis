@@ -57,7 +57,7 @@ namespace IrbisTestRunner.Tests
             {
                 secondConnection.Connect();
             }
-            catch (IrbisException ex)
+            catch (IrbisException)
             {
                 allOk = true;
             }
