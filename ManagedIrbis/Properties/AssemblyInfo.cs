@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ManagedIrbis")]
-[assembly: AssemblyDescription("IRBIS64 managed runtime")]
+[assembly: AssemblyDescription("Managed runtime for IRBIS system")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ManagedIrbis")]
@@ -40,7 +40,7 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.6.0.200")]
-[assembly: AssemblyFileVersion("1.6.0.200")]
+[assembly: AssemblyVersion("1.6.0.210")]
+[assembly: AssemblyFileVersion("1.6.0.210")]
 
 [assembly: CLSCompliant(true)]

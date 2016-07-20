@@ -185,9 +185,8 @@
     <Compile Include="AM\Threading\BusyState.cs" />
     <Compile Include="AM\Threading\StateGuard.cs" />
     <Compile Include="AM\Threading\StateHolder.cs" />
-    <Compile Include="AM\Threading\Tasks\AsyncLocal.cs" />
-    <Compile Include="AM\Threading\Tasks\TaskEx.cs" />
     <Compile Include="AM\Threading\Tasks\TaskFactoryUtility.cs" />
+    <Compile Include="AM\Threading\Tasks\TaskProcessor.cs" />
     <Compile Include="AM\Threading\Tasks\TaskUtility.cs" />
     <Compile Include="AM\TimeSpanUtility.cs" />
     <Compile Include="AM\UniversalComparer.cs" />

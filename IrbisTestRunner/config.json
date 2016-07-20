@@ -8,7 +8,7 @@
             "AM.Core.dll",
             "Antlr4.Runtime.net45.dll",
             "JetBrains.Annotations.dll",
-            "ManagedClient.dll",
+            "ManagedIrbis.dll",
             "Microsoft.CSharp.dll",
             "MoonSharp.Interpreter.dll",
             "Newtonsoft.Json.dll",
@@ -21,6 +21,7 @@
         ],
     "tests":
         [
+            "ConnectionTest.cs",
             "FormatTest.cs",
             "ListDatabasesTest.cs",
             "ListProcessesTest.cs",

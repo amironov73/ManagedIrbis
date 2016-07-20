@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ManagedIrbis</RootNamespace>
-    <AssemblyName>ManagedClient</AssemblyName>
+    <AssemblyName>ManagedIrbis</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -20,7 +20,7 @@
     <DefineConstants>TRACE;DEBUG;FW40;FW45</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\ManagedClient.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\ManagedIrbis.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,7 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\ManagedClient.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\ManagedIrbis.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>

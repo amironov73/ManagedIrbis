@@ -422,6 +422,51 @@ namespace ManagedIrbis
                 );
         }
 
+        // =========================================================
+
+        /// <summary>
+        /// Clone the connection.
+        /// </summary>
+        [NotNull]
+        public IrbisConnection Clone()
+        {
+            IrbisConnection result = Clone(Connected);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Clone the connection.
+        /// </summary>
+        [NotNull]
+        public IrbisConnection Clone
+            (
+                bool connect
+            )
+        {
+            IrbisConnection result = new IrbisConnection
+            {
+                Host = Host,
+                Port = Port,
+                Username = Username,
+                Password = Password,
+                Database = Database,
+                Workstation = Workstation,
+                RetryCount = RetryCount,
+                Timeout = Timeout,
+                // Socket = Socket.Clone ()
+            };
+
+            if (connect)
+            {
+                result.Connect();
+            }
+
+            return result;
+        }
+
+        // ========================================================
+
         /// <summary>
         /// Подключение к серверу.
         /// </summary>
