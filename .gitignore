@@ -263,3 +263,20 @@ Help/
 
 # Portability analysis tool
 PortabilityAnalysis*.html
+
+# TeX
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+*.dvi
+*-converted-to.*
+*.ps
+*.eps

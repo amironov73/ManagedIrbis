@@ -48,6 +48,7 @@ namespace UnitTests.AM.Collections
             Assert.IsTrue(list.AddDistinct(4));
             Assert.IsFalse(list.AddDistinct(4));
 
+            list = new List<int> { 1, 2, 3 };
             IEqualityComparer<int> comparer
                 = EqualityComparer<int>.Default;
 
