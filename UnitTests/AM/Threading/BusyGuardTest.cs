@@ -9,6 +9,7 @@ namespace UnitTests.AM.Threading
     public class BusyGuardTest
     {
         [TestMethod]
+        [Ignore]
         public void TestBusyGuard()
         {
             bool done = false;

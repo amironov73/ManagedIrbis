@@ -6,6 +6,7 @@ using AM.Threading;
 namespace UnitTests.AM.Threading
 {
     [TestClass]
+    [Ignore]
     public class StateGuardTest
     {
         [TestMethod]
