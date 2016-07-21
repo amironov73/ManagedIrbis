@@ -1,0 +1,66 @@
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8 Unicode
+
+\documentclass[a4paper,twoside,12pt]{book}
+%\usepackage[utf8]{inputenc}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage[russian]{babel}
+\usepackage{hyperref}
+%\hypersetup{pdftex,colorlinks=true,allcolors=blue}
+\usepackage{hypcap}
+
+% Times New Roman
+\setromanfont[
+BoldFont=timesbd.ttf,
+ItalicFont=timesi.ttf,
+BoldItalicFont=timesbi.ttf,
+]{times.ttf}
+% Arial
+\setsansfont[
+BoldFont=arialbd.ttf,
+ItalicFont=ariali.ttf,
+BoldItalicFont=arialbi.ttf
+]{arial.ttf}
+% Courier New
+\setmonofont[Scale=0.90,
+BoldFont=courbd.ttf,
+ItalicFont=couri.ttf,
+BoldItalicFont=courbi.ttf,
+Color={0019D4}
+]{cour.ttf}
+
+\begin{document}
+
+\author{Алексей Миронов}
+\title{Программирование\\
+для АБИС "ИРБИС64"\\
+в среде .NET Framework}
+\date{Июль 2016}
+
+\frontmatter
+\maketitle
+
+\clearpage
+\thispagestyle{empty}
+	Описаны возможности расширения АБИС "ИРБИС64",
+	серверный протокол и фреймворк ManagedIrbis,
+	позволяющий создавать приложения произвольной
+	сложности на основе "ИРБИС64".
+	
+	Для автоматизаторов библиотек и программистов,
+	создающих решения для "ИРБИС64".
+
+\tableofcontents
+
+\mainmatter
+\include{foreword}
+\include{chapter01}
+\include{chapter02}
+\include{chapter03}
+\include{appendix01}
+
+\backmatter
+% bibliography, glossary and index would go here.
+
+\end{document}

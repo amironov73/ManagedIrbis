@@ -280,3 +280,4 @@ PortabilityAnalysis*.html
 *-converted-to.*
 *.ps
 *.eps
+*.synctex.gz
