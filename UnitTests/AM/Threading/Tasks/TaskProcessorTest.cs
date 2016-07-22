@@ -10,6 +10,7 @@ using AM.Threading.Tasks;
 namespace UnitTests.AM.Threading.Tasks
 {
     [TestClass]
+    [Ignore]
     public class TaskProcessorTest
     {
         [TestMethod]
