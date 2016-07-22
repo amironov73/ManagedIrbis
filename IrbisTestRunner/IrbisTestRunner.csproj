@@ -113,6 +113,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Tests\BinaryResourceTest.cs" />
     <None Include="Tests\ConnectionTest.cs" />
     <None Include="Tests\MenuCacheTest.cs" />
     <None Include="Tests\TextCacheTest.cs" />

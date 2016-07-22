@@ -105,6 +105,7 @@ namespace ManagedIrbis
                             NumberStyles.HexNumber
                         );
                     stream.WriteByte(b);
+                    i += 2;
                 }
             }
 
