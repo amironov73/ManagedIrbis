@@ -546,12 +546,12 @@ namespace ManagedIrbis
                 throw new IrbisException("Not connected");
             }
 
-            command.Verify(true);
-
             using (new BusyGuard(Busy))
             {
                 IrbisClientQuery query = command.CreateQuery();
                 query.Verify(true);
+
+                command.Verify(true);
 
                 ServerResponse result = command.Execute(query);
                 result.Verify(true);
@@ -1337,6 +1337,31 @@ namespace ManagedIrbis
                     CommandCode.UnlockRecords,
                     arguments
                 );
+        }
+
+        /// <summary>
+        /// Update server INI-file for current client.
+        /// </summary>
+        public void UpdateIniFile
+            (
+                [NotNull] string[] text
+            )
+        {
+            Code.NotNull(text, "text");
+
+            if (text.Length == 0)
+            {
+                return;
+            }
+
+            UniversalTextCommand command = new UniversalTextCommand
+                (
+                    this,
+                    CommandCode.UpdateIniFile,
+                    text,
+                    IrbisEncoding.Ansi
+                );
+            ExecuteCommand(command);
         }
 
         // ========================================================

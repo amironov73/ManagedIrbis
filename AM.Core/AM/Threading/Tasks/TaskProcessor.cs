@@ -6,11 +6,11 @@
 
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
+using AM.Collections;
 
 using CodeJam;
 
@@ -45,10 +45,12 @@ namespace AM.Threading.Tasks
                 {
                     Action();
                 }
-                // ReSharper disable EmptyGeneralCatchClause
-                catch
-                // ReSharper restore EmptyGeneralCatchClause
+                catch (Exception ex)
                 {
+                    lock (Processor._exceptions)
+                    {
+                        Processor._exceptions.Add(ex);
+                    }
                 }
 
                 lock (Processor._running)
@@ -65,6 +67,24 @@ namespace AM.Threading.Tasks
 
         #region Properties
 
+        /// <summary>
+        /// Exceptions.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public NonNullCollection<Exception> Exceptions
+        {
+            get { return _exceptions; }
+        }
+
+        /// <summary>
+        /// Have errors?
+        /// </summary>
+        public bool HaveErrors
+        {
+            get { return _exceptions.Count != 0; }
+        }
+
         #endregion
 
         #region Construction
@@ -77,7 +97,8 @@ namespace AM.Threading.Tasks
             }
 
             _queue = new BlockingCollection<Action>();
-            _running = new List<ActionWrapper>();
+            _running = new NonNullCollection<ActionWrapper>();
+            _exceptions = new NonNullCollection<Exception>();
             _semaphore = new Semaphore(degree, degree);
 
             Task.Factory.StartNew(_MainWorker);
@@ -88,7 +109,8 @@ namespace AM.Threading.Tasks
         #region Private members
 
         private readonly BlockingCollection<Action> _queue;
-        private readonly List<ActionWrapper> _running;
+        private readonly NonNullCollection<ActionWrapper> _running;
+        private readonly NonNullCollection<Exception> _exceptions;
 
         private readonly Semaphore _semaphore;
 

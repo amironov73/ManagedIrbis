@@ -200,7 +200,7 @@ namespace AM
         {
             return Assert
                 (
-                    ReferenceEquals(value, null)
+                    !ReferenceEquals(value, null)
                 );
         }
 
@@ -215,7 +215,7 @@ namespace AM
         {
             return Assert
                 (
-                    ReferenceEquals(value, null),
+                    !ReferenceEquals(value, null),
                     name
                 );
         }

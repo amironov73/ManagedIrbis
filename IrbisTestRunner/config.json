@@ -21,7 +21,7 @@
         ],
     "tests":
         [
-            "BinaryResourceTest.cs",
+            //"BinaryResourceTest.cs",
             //"ConnectionTest.cs",
             //"FormatTest.cs",
             //"ListDatabasesTest.cs",
@@ -37,6 +37,7 @@
             //"ReadTermsTest.cs",
             //"RecordCacheTest.cs",
             //"TextCacheTest.cs",
+            "UpdateIniFileTest.cs",
             //"VersionTest.cs",
             //"WriteRecordTest.cs"
         ]

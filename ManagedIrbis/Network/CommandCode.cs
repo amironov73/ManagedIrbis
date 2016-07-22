@@ -66,7 +66,7 @@ namespace ManagedIrbis.Network
         /// <summary>
         /// Запись параметров в ini-файл, расположенный на сервере.
         /// </summary>
-        public const string SaveIniFile = "8";
+        public const string UpdateIniFile = "8";
 
         /// <summary>
         /// IRBIS_IMPORT_ISO.
