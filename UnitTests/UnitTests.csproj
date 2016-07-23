@@ -132,6 +132,7 @@
     <Compile Include="AM\IO\MultiStreamTest.cs" />
     <Compile Include="AM\IO\IniFileTest.cs" />
     <Compile Include="AM\IO\DumpUtilityTest.cs" />
+    <Compile Include="AM\IO\PathUtilityTest.cs" />
     <Compile Include="AM\IO\VersionStreamTest.cs" />
     <Compile Include="AM\Reflection\CanaryClass.cs" />
     <Compile Include="AM\Reflection\PropertyAccessorTest.cs" />
