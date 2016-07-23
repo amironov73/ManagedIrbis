@@ -1,0 +1,23 @@
+\chapter{Описание классов}
+
+\section{Класс ManagedIrbis}
+
+ManagedIrbis – «рабочая лошадка». Этот класс осуществляет связь с сервером, всю необходимую «перепаковку» данных и прочее и прочее. Собственно, это и есть управляемый клиент ИРБИС64.
+
+Экземпляр клиента создаётся конструктором по умолчанию:
+\begin{lstlisting}
+var client = new ManagedIrbis ();
+\end{lstlisting}
+
+\subsection{Подключение к серверу}
+
+Параметры подключения к серверу определяются следующими свойствами:
+
+\begin{lstlisting}
+public string Host { get; set; }
+public int Port { get; set; }
+public string Username { get; set; }
+public string Password { get; set; }
+public string Database { get; set; }
+public IrbisWorkstation Workstation { get; set; }
+\end{lstlisting}
