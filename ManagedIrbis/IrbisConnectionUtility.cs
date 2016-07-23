@@ -119,6 +119,84 @@ namespace ManagedIrbis
         //    return result;
         //}
 
+        /// <summary>
+        /// Retrieve history for given record.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static MarcRecord[] RecordHistory
+            (
+                [NotNull] this IrbisConnection connection,
+                int mfn,
+                [CanBeNull] string format
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.Positive(mfn, "mfn");
+
+            List<MarcRecord> result = new List<MarcRecord>();
+            MarcRecord record = connection.ReadRecord
+                (
+                    mfn,
+                    false,
+                    format
+                );
+            result.Add(record);
+
+            for (int version = 2; version < int.MaxValue; version++)
+            {
+                record = connection.ReadRecord
+                    (
+                        mfn,
+                        version,
+                        format
+                    );
+                if (ReferenceEquals(record, null))
+                {
+                    break;
+                }
+                result.Add(record);
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Require minimal server version.
+        /// </summary>
+        public static bool RequireServerVersion
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string minimalVersion,
+                bool throwException
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(minimalVersion, "minimalVersion");
+
+            IrbisVersion actualVersion
+                = connection.GetServerVersion();
+            bool result = string.CompareOrdinal
+                (
+                    actualVersion.Version,
+                    "64." + minimalVersion
+                ) >= 0;
+
+            if (!result
+                 && throwException)
+            {
+                string message = string.Format
+                    (
+                        "Required server version {0}, found version {1}",
+                        minimalVersion,
+                        actualVersion.Version
+                    );
+                throw new IrbisException(message);
+            }
+
+            return result;
+        }
+
         #endregion
     }
 }

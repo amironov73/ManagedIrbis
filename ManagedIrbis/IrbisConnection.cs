@@ -546,12 +546,12 @@ namespace ManagedIrbis
                 throw new IrbisException("Not connected");
             }
 
+            command.Verify(true);
+
             using (new BusyGuard(Busy))
             {
                 IrbisClientQuery query = command.CreateQuery();
                 query.Verify(true);
-
-                command.Verify(true);
 
                 ServerResponse result = command.Execute(query);
                 result.Verify(true);
@@ -1010,6 +1010,49 @@ namespace ManagedIrbis
                 Format = format
             };
             ServerResponse response = ExecuteCommand(command);
+
+            MarcRecord record = new MarcRecord
+            {
+                Database = Database
+            };
+
+            MarcRecord result = ProtocolText.ParseResponseForReadRecord
+                (
+                    response,
+                    record
+                );
+            result.Verify(true);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Чтение указанной версии и расформатирование записи.
+        /// </summary>
+        /// <remarks><c>null</c>означает, что затребованной
+        /// версии записи нет.</remarks>
+        [CanBeNull]
+        public MarcRecord ReadRecord
+            (
+                int mfn,
+                int versionNumber,
+                [CanBeNull] string format
+            )
+        {
+            Code.Positive(mfn, "mfn");
+
+            ReadRecordCommand command = new ReadRecordCommand(this)
+            {
+                Mfn = mfn,
+                Database = Database,
+                VersionNumber = versionNumber,
+                Format = format
+            };
+            ServerResponse response = ExecuteCommand(command);
+            if (response.ReturnCode == -201)
+            {
+                return null;
+            }
 
             MarcRecord record = new MarcRecord
             {

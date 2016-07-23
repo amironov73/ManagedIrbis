@@ -46,6 +46,11 @@ namespace ManagedIrbis.Network.Commands
         /// </summary>
         public int Mfn { get; set; }
 
+        /// <summary>
+        /// Version.
+        /// </summary>
+        public int VersionNumber { get; set; }
+
         #endregion
 
         #region Construction
@@ -93,7 +98,14 @@ namespace ManagedIrbis.Network.Commands
 
             query.Arguments.Add(database);
             query.Arguments.Add(Mfn);
-            query.Arguments.Add(Lock);
+            if (VersionNumber != 0)
+            {
+                query.Arguments.Add(VersionNumber);
+            }
+            else
+            {
+                query.Arguments.Add(Lock);
+            }
             if (!string.IsNullOrEmpty(Format))
             {
                 query.Arguments.Add(Format);
@@ -110,7 +122,7 @@ namespace ManagedIrbis.Network.Commands
         public override int[] GoodReturnCodes
         {
             // Запись может быть логически удалена.
-            get { return new[] { -603 }; }
+            get { return new[] { -201, -603 }; }
         }
 
         #endregion
