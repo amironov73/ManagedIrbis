@@ -1,15 +1,10 @@
-﻿/* TextReaderUtility.cs -- 
+﻿/* TextReaderUtility.cs -- helpers for TextReader
  * Ars Magna project, http://arsmagna.ru
  */
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using CodeJam;
 
@@ -21,6 +16,9 @@ using MoonSharp.Interpreter;
 
 namespace AM.IO
 {
+    /// <summary>
+    /// Helpers for <see cref="TextReader"/>.
+    /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public static class TextReaderUtility
