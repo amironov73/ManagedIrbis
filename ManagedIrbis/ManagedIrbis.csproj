@@ -172,6 +172,7 @@
     <Compile Include="Network\Commands\ConnectCommand.cs" />
     <Compile Include="Network\Commands\CreateDatabaseCommand.cs" />
     <Compile Include="Network\Commands\FormatCommand.cs" />
+    <Compile Include="Network\Commands\ReadBinaryFileCommand.cs" />
     <Compile Include="Network\Commands\ReadFileCommand.cs" />
     <Compile Include="Network\Commands\ReadPostingsCommand.cs" />
     <Compile Include="Network\Commands\ReadRecordCommand.cs" />
@@ -209,6 +210,7 @@
     <Compile Include="Search\SearchScenario.cs" />
     <Compile Include="Search\TermInfo.cs" />
     <Compile Include="Search\TermPosting.cs" />
+    <Compile Include="StandardDatabases.cs" />
     <Compile Include="Testing\AbstractTest.cs" />
     <Compile Include="Testing\TestClassAttribute.cs" />
     <Compile Include="Testing\TestMethodAttribute.cs" />

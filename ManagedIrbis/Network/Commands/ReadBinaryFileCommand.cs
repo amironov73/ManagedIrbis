@@ -1,11 +1,12 @@
-﻿/* ReadFileCommand.cs -- read text file(s) from the server
+﻿/* ReadBinaryFileCommand.cs -- read binary file from the server
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: good
  */
 
 #region Using directives
 
 using AM;
-using AM.Collections;
 
 using CodeJam;
 
@@ -18,23 +19,35 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Network.Commands
 {
     /// <summary>
-    /// Read text file(s) from the server
+    /// Read binary file from the server.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class ReadFileCommand
+    public sealed class ReadBinaryFileCommand
         : AbstractCommand
     {
+        #region Constants
+
+        /// <summary>
+        /// Preamble for binary data.
+        /// </summary>
+        public const string Preamble = "IRBIS_BINARY_DATA";
+
+        #endregion
+
         #region Properties
 
         /// <summary>
-        /// File list.
+        /// File to read.
         /// </summary>
-        [NotNull]
-        public NonNullCollection<FileSpecification> Files
-        {
-            get { return _files; }
-        }
+        [CanBeNull]
+        public FileSpecification File { get; set; }
+
+        /// <summary>
+        /// File content.
+        /// </summary>
+        [CanBeNull]
+        public byte[] Content { get; set; }
 
         #endregion
 
@@ -43,49 +56,21 @@ namespace ManagedIrbis.Network.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="connection"></param>
-        public ReadFileCommand
+        public ReadBinaryFileCommand
             (
                 [NotNull] IrbisConnection connection
             )
             : base(connection)
         {
-            _files = new NonNullCollection<FileSpecification>();
         }
 
         #endregion
 
         #region Private members
 
-        private readonly NonNullCollection<FileSpecification> _files;
-
         #endregion
 
         #region Public methods
-
-        /// <summary>
-        /// Get file text.
-        /// </summary>
-        [NotNull]
-        public string[] GetFileText
-            (
-                [NotNull] ServerResponse response
-            )
-        {
-            Code.NotNull(response, "response");
-
-            int count = Files.Count;
-            string[] result = new string[count];
-
-            for (int i = 0; i < count; i++)
-            {
-                string text = response.GetAnsiString();
-                text = IrbisText.IrbisToWindows(text);
-                result[i] = text;
-            }
-
-            return result;
-        }
 
         #endregion
 
@@ -113,11 +98,12 @@ namespace ManagedIrbis.Network.Commands
             IrbisClientQuery result = base.CreateQuery();
             result.CommandCode = CommandCode.ReadDocument;
 
-            foreach (FileSpecification fileName in Files)
+            if (ReferenceEquals(File, null))
             {
-                string item = fileName.ToString();
-                result.Arguments.Add(item);
+                throw new IrbisException("File is null");
             }
+            File.BinaryFile = true;
+            result.Add(File.ToString());
 
             return result;
         }
@@ -130,9 +116,18 @@ namespace ManagedIrbis.Network.Commands
                 IrbisClientQuery query
             )
         {
-            Code.NotNull(query, "query");
-
             ServerResponse result = base.Execute(query);
+
+            byte[] span = result.GetSpan();
+            byte[] preambleBytes = span.GetSpan(0, 17);
+            string preambleText
+                = IrbisEncoding.Ansi.GetString(preambleBytes);
+            if (string.CompareOrdinal(Preamble, preambleText) != 0)
+            {
+                throw new IrbisNetworkException("No binary data received");
+            }
+            span = span.GetSpan(17);
+            Content = span;
 
             return result;
         }
@@ -145,16 +140,15 @@ namespace ManagedIrbis.Network.Commands
                 bool throwOnError
             )
         {
-            Verifier<ReadFileCommand> verifier
-                = new Verifier<ReadFileCommand>
+            Verifier<ReadBinaryFileCommand> verifier
+                = new Verifier<ReadBinaryFileCommand>
                     (
                         this,
                         throwOnError
                     );
 
             verifier
-                .Assert(Files.Count != 0, "Files.Count")
-                .Assert(base.Verify(throwOnError));
+                .NotNull(File, "File");
 
             return verifier.Result;
         }

@@ -955,6 +955,27 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Read binary file from server file system.
+        /// </summary>
+        [CanBeNull]
+        public byte[] ReadBinaryFile
+            (
+                [NotNull] FileSpecification file
+            )
+        {
+            Code.NotNull(file, "file");
+
+            ReadBinaryFileCommand command
+                = new ReadBinaryFileCommand(this)
+                {
+                    File = file
+                };
+            ExecuteCommand(command);
+
+            return command.Content;
+        }
+
+        /// <summary>
         /// Read term postings.
         /// </summary>
         [NotNull]

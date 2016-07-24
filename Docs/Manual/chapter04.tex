@@ -21,3 +21,52 @@ public string Password { get; set; }
 public string Database { get; set; }
 public IrbisWorkstation Workstation { get; set; }
 \end{lstlisting}
+
+\subsection{Работа с базой данных}
+
+Имя текущей базы данных (каталога), с которой работает клиент, хранится в поле Database: 
+public string Database { get; set; }
+Кроме того, имеются два полезных метода: 
+/// Временно устанавливает новое имя текущей базы данных.
+/// Запоминает, к какой базе был подключен
+/// клиент на момент смены.
+/// Возвращает имя предыдущей текущей базы данных.
+public string PushDatabase(string newDatabase);
+
+/// Восстанавливает подключение к предыдущей базе данных,
+/// сменённой методом PushDatabase().
+/// Возвращает имя базы данных, к которой был подключен 
+/// клиент на момент восстановления состояния.
+public string PopDatabase()
+Оба метода работают по принципу стека: предыдущие базы данных запоминаются в стеке и постепенно возвращаются по мере вызова метода PopDatabase(). Пример: 
+// Мы работали с базой IBIS, 
+// но решили временно подключиться к RDR
+client.PushDatabase ("RDR"); // IBIS запоминается в стеке
+IrbisRecord reader = client.SearchReadOneRecord ("I=1234");
+
+// Теперь временно подключаемся к RQST
+client.PushDatabase ("RQST"); // RDR также запоминается в стеке
+IrbisRecord request = new IrbisRecord ();
+...
+client.WriteRecord (request, false, true); // Запись пойдёт в RQST
+
+...
+// Возвращаемся к базе RDR
+client.PopDatabase ();
+client.WriteRecord (reader, false, true); // Запись пойдёт в RDR
+
+...
+// Возвращаемся к исходной базе IBIS
+client.PopDatabase ();
+Рекомендую временные переключения между базами оформлять в блоке try-finally: 
+client.PushDatabase ("CMPL");
+try
+{
+   // Какие-то манипуляции с базой
+}
+finally
+{
+  // Гарантированно возвращаемся в правильный контекст
+  // работы с базой данных
+  client.PopDatabase();
+}

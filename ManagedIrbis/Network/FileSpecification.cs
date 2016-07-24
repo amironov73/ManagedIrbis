@@ -1,5 +1,7 @@
 ﻿/* FileSpecification.cs -- 
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: good
  */
 
 #region Using directives
@@ -27,13 +29,19 @@ namespace ManagedIrbis.Network
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    [DebuggerDisplay("Path={Path} Database={Database} FileName={FileName}")]
+    [DebuggerDisplay("Path={Path} Database={Database} " +
+                     "FileName={FileName}")]
     public sealed class FileSpecification
         : IHandmadeSerializable,
         IVerifiable,
         IEquatable<FileSpecification>
     {
         #region Properties
+
+        /// <summary>
+        /// Is the file binary or text?
+        /// </summary>
+        public bool BinaryFile { get; set; }
 
         /// <summary>
         /// Path.
@@ -141,7 +149,8 @@ namespace ManagedIrbis.Network
                 BinaryReader reader
             )
         {
-            Path = (IrbisPath) reader.ReadPackedInt32();
+            BinaryFile = reader.ReadBoolean();
+            Path = (IrbisPath)reader.ReadPackedInt32();
             Database = reader.ReadNullableString();
             FileName = reader.ReadNullableString();
             Contents = reader.ReadNullableString();
@@ -155,8 +164,9 @@ namespace ManagedIrbis.Network
                 BinaryWriter writer
             )
         {
+            writer.Write(BinaryFile);
             writer
-                .WritePackedInt32((int) Path)
+                .WritePackedInt32((int)Path)
                 .WriteNullable(Database)
                 .WriteNullable(FileName)
                 .WriteNullable(Contents);
@@ -233,7 +243,7 @@ namespace ManagedIrbis.Network
             }
 
             return obj is FileSpecification
-                && Equals((FileSpecification) obj);
+                && Equals((FileSpecification)obj);
         }
 
         /// <summary>
@@ -246,10 +256,10 @@ namespace ManagedIrbis.Network
         {
             unchecked
             {
-                int hashCode = (int) Path;
-                hashCode = (hashCode*397)
+                int hashCode = (int)Path;
+                hashCode = (hashCode * 397)
                     ^ (Database != null ? Database.GetHashCode() : 0);
-                hashCode = (hashCode*397)
+                hashCode = (hashCode * 397)
                     ^ (FileName != null ? FileName.GetHashCode() : 0);
 
                 return hashCode;
@@ -265,18 +275,41 @@ namespace ManagedIrbis.Network
         public override string ToString()
         {
             string fileName = FileName;
-            if (!ReferenceEquals(Contents, null))
+            if (BinaryFile)
             {
-                fileName = "&" + fileName;
+                fileName = "@" + fileName;
+            }
+            else
+            {
+                if (!ReferenceEquals(Contents, null))
+                {
+                    fileName = "&" + fileName;
+                }
             }
 
-            string result = string.Format
-                (
-                    "{0}.{1}.{2}",
-                    (int)Path,
-                    Database,
-                    fileName
-                );
+            string result;
+
+            switch (Path)
+            {
+                case IrbisPath.System:
+                case IrbisPath.Data:
+                    result = string.Format
+                        (
+                            "{0}..{1}",
+                            (int)Path,
+                            fileName
+                        );
+                    break;
+                default:
+                    result = string.Format
+                        (
+                            "{0}.{1}.{2}",
+                            (int)Path,
+                            Database,
+                            fileName
+                        );
+                    break;
+            }
 
             if (!ReferenceEquals(Contents, null))
             {
