@@ -93,9 +93,9 @@ namespace ManagedIrbis.Network.Commands
         /// <summary>
         /// Create client query.
         /// </summary>
-        public override IrbisClientQuery CreateQuery()
+        public override ClientQuery CreateQuery()
         {
-            IrbisClientQuery result = base.CreateQuery();
+            ClientQuery result = base.CreateQuery();
             result.CommandCode = CommandCode.ReadDocument;
 
             if (ReferenceEquals(File, null))
@@ -113,9 +113,11 @@ namespace ManagedIrbis.Network.Commands
         /// </summary>
         public override ServerResponse Execute
             (
-                IrbisClientQuery query
+                ClientQuery query
             )
         {
+            Code.NotNull(query, "query");
+
             ServerResponse result = base.Execute(query);
 
             byte[] span = result.GetSpan();

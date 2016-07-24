@@ -110,9 +110,9 @@ namespace ManagedIrbis.Network.Commands
         /// <summary>
         /// Create client query.
         /// </summary>
-        public virtual IrbisClientQuery CreateQuery ()
+        public virtual ClientQuery CreateQuery ()
         {
-            IrbisClientQuery result = new IrbisClientQuery
+            ClientQuery result = new ClientQuery
             {
                 Workstation = Connection.Workstation,
                 ClientID = Connection.ClientID,
@@ -130,7 +130,7 @@ namespace ManagedIrbis.Network.Commands
         [NotNull]
         public virtual ServerResponse Execute
             (
-                [NotNull] IrbisClientQuery query
+                [NotNull] ClientQuery query
             )
         {
             Code.NotNull(query, "query");

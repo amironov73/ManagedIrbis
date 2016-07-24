@@ -67,7 +67,7 @@ namespace ManagedIrbis.Network.Commands
         /// </summary>
         public override ServerResponse Execute
             (
-                IrbisClientQuery query
+                ClientQuery query
             )
         {
             Code.NotNull(query, "query");

@@ -107,9 +107,9 @@ namespace ManagedIrbis.Network.Commands
         /// <summary>
         /// Create client query.
         /// </summary>
-        public override IrbisClientQuery CreateQuery()
+        public override ClientQuery CreateQuery()
         {
-            IrbisClientQuery result = base.CreateQuery();
+            ClientQuery result = base.CreateQuery();
 
             result.CommandCode = CommandCode;
             if (!ReferenceEquals(Arguments, null))

@@ -28,7 +28,7 @@
         //"MaxMfnTest.cs",
         //"MenuCacheTest.cs",
         //"NopTest.cs",
-        "ReadBinaryFileTest.cs"
+        //"ReadBinaryFileTest.cs",
         //"ReadFileTest.cs",
         //"SearchTest.cs",
         //"ReadPostingsTest.cs",
@@ -36,6 +36,7 @@
         //"ReadTermsTest.cs",
         //"RecordCacheTest.cs",
         //"RecordHistoryTest.cs",
+        "SequentialSearchTest.cs"
         //"TextCacheTest.cs",
         //"UpdateIniFileTest.cs",
         //"VersionTest.cs",

@@ -194,8 +194,8 @@ namespace ManagedIrbis.Network
             verifier
                 .NotNullNorEmpty(FileName, "FileName");
 
-            if (Path == IrbisPath.MasterFile
-                || Path == IrbisPath.InvertedFile)
+            if (Path != IrbisPath.System
+                && Path != IrbisPath.Data)
             {
                 verifier.NotNullNorEmpty(Database, "Database");
             }

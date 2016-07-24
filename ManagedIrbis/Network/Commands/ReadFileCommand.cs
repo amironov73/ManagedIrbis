@@ -108,9 +108,9 @@ namespace ManagedIrbis.Network.Commands
         /// <summary>
         /// Create client query.
         /// </summary>
-        public override IrbisClientQuery CreateQuery()
+        public override ClientQuery CreateQuery()
         {
-            IrbisClientQuery result = base.CreateQuery();
+            ClientQuery result = base.CreateQuery();
             result.CommandCode = CommandCode.ReadDocument;
 
             foreach (FileSpecification fileName in Files)
@@ -127,7 +127,7 @@ namespace ManagedIrbis.Network.Commands
         /// </summary>
         public override ServerResponse Execute
             (
-                IrbisClientQuery query
+                ClientQuery query
             )
         {
             Code.NotNull(query, "query");

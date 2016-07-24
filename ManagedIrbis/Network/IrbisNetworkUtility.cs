@@ -232,7 +232,7 @@ namespace ManagedIrbis.Network
                 [NotNull] this Stream stream
             )
         {
-            stream.WriteByte((byte)IrbisClientQuery.Delimiter);
+            stream.WriteByte((byte)ClientQuery.Delimiter);
 
             return stream;
         }

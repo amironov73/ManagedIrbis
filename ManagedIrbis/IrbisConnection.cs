@@ -1,5 +1,7 @@
 ﻿/* IrbisConnection.cs -- client for IRBIS-server
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status:moderate
  */
 
 #region Using directives
@@ -475,7 +477,7 @@ namespace ManagedIrbis
             if (!_connected)
             {
                 ConnectCommand command = new ConnectCommand(this);
-                IrbisClientQuery query = command.CreateQuery();
+                ClientQuery query = command.CreateQuery();
                 ServerResponse result = command.Execute(query);
                 command.CheckResponse(result);
                 _connected = true;
@@ -550,7 +552,7 @@ namespace ManagedIrbis
 
             using (new BusyGuard(Busy))
             {
-                IrbisClientQuery query = command.CreateQuery();
+                ClientQuery query = command.CreateQuery();
                 query.Verify(true);
 
                 ServerResponse result = command.Execute(query);
@@ -582,7 +584,7 @@ namespace ManagedIrbis
 
             using (new BusyGuard(Busy))
             {
-                IrbisClientQuery query = command.CreateQuery();
+                ClientQuery query = command.CreateQuery();
 
                 foreach (object argument in arguments)
                 {
@@ -1336,6 +1338,48 @@ namespace ManagedIrbis
             )
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Sequential search.
+        /// </summary>
+        [NotNull]
+        public int[] SequentialSearch
+            (
+                [CanBeNull] string database,
+                [NotNull] string expression,
+                int firstRecord,
+                int numberOfRecords,
+                int minMfn,
+                int maxMfn,
+                [NotNull] string sequential,
+                [CanBeNull] string format
+            )
+        {
+            Code.NotNull(expression, "expression");
+            Code.NotNull(sequential, "sequential");
+
+            if (string.IsNullOrEmpty(database))
+            {
+                database = Database;
+            }
+
+            SearchCommand command = new SearchCommand(this)
+            {
+                Database = database,
+                SearchQuery = expression,
+                FirstRecord = firstRecord,
+                NumberOfRecords = numberOfRecords,
+                MinMfn = minMfn,
+                MaxMfn = maxMfn,
+                SequentialSpecification = sequential,
+                FormatSpecification = format
+            };
+
+            ServerResponse response = ExecuteCommand(command);
+            int[] result = FoundItem.ParseMfnOnly(response);
+
+            return result;
         }
 
         // =========================================================

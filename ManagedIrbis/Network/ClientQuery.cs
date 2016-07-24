@@ -26,7 +26,7 @@ namespace ManagedIrbis.Network
     [MoonSharpUserData]
     [DebuggerDisplay("{CommandCode} {Workstation}"
         + " {ClientID} {CommandNumber}")]
-    public sealed class IrbisClientQuery
+    public sealed class ClientQuery
         : IVerifiable
     {
         #region Constants
@@ -87,7 +87,7 @@ namespace ManagedIrbis.Network
         /// <summary>
         /// Конструктор.
         /// </summary>
-        public IrbisClientQuery()
+        public ClientQuery()
         {
             _arguments = new List<object>();
         }
@@ -106,7 +106,7 @@ namespace ManagedIrbis.Network
         /// Добавление аргумента в список.
         /// </summary>
         [NotNull]
-        public IrbisClientQuery Add
+        public ClientQuery Add
             (
                 [CanBeNull] object argument
             )
@@ -119,7 +119,7 @@ namespace ManagedIrbis.Network
         /// <summary>
         /// Очистка списка аргументов.
         /// </summary>
-        public IrbisClientQuery Clear()
+        public ClientQuery Clear()
         {
             Arguments.Clear();
 

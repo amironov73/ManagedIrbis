@@ -142,10 +142,78 @@ namespace ManagedIrbis.Network.Commands
         /// <summary>
         /// Create client query.
         /// </summary>
-        public override IrbisClientQuery CreateQuery()
+        public override ClientQuery CreateQuery()
         {
-            IrbisClientQuery result = base.CreateQuery();
+            ClientQuery result = base.CreateQuery();
             result.CommandCode = CommandCode.Search;
+
+            string database = Database ?? Connection.Database;
+            if (string.IsNullOrEmpty(database))
+            {
+                throw new IrbisNetworkException("database not set");
+            }
+
+            result.Add(database);
+
+            string preparedQuery = IrbisSearchQuery.PrepareQuery
+                    (
+                        SearchQuery
+                    );
+            result.Add
+                (
+                    new TextWithEncoding
+                        (
+                            preparedQuery,
+                            IrbisEncoding.Utf8
+                        )
+                );
+
+            result.Add(NumberOfRecords);
+            result.Add(FirstRecord);
+
+            string preparedFormat = IrbisFormat.PrepareFormat
+                (
+                    FormatSpecification
+                );
+
+            result.Add
+                (
+                    new TextWithEncoding
+                        (
+                            preparedFormat,
+                            IrbisEncoding.Ansi
+                        )
+                );
+
+            if (!string.IsNullOrEmpty(SequentialSpecification))
+            {
+                result.Add(MinMfn);
+                result.Add(MaxMfn);
+
+                string preparedSequential = IrbisFormat.PrepareFormat
+                        (
+                            SequentialSpecification
+                        );
+                if (
+                    !string.IsNullOrEmpty(preparedSequential))
+                {
+                    if (!preparedSequential.StartsWith("!"))
+                    {
+                        preparedSequential = "!if "
+                            + preparedSequential
+                            + " then '1' else '0'";
+                    }
+
+                    result.Add
+                        (
+                            new TextWithEncoding
+                                (
+                                    preparedSequential,
+                                    IrbisEncoding.Utf8
+                                )
+                        );
+                }
+            }
 
             return result;
         }
@@ -155,48 +223,11 @@ namespace ManagedIrbis.Network.Commands
         /// </summary>
         public override ServerResponse Execute
             (
-                IrbisClientQuery clientQuery
+                ClientQuery clientQuery
             )
         {
             Code.NotNull(clientQuery, "clientQuery");
 
-            string database = Database ?? Connection.Database;
-            if (string.IsNullOrEmpty(database))
-            {
-                throw new IrbisNetworkException("database not set");
-            }
-
-            clientQuery.Add(database);
-
-            string preparedQuery = IrbisSearchQuery.PrepareQuery
-                    (
-                        SearchQuery
-                    );
-            clientQuery.Add
-                (
-                    new TextWithEncoding
-                        (
-                            preparedQuery,
-                            IrbisEncoding.Utf8
-                        )
-                );
-
-            clientQuery.Add(NumberOfRecords);
-            clientQuery.Add(FirstRecord);
-
-            string preparedFormat = IrbisFormat.PrepareFormat
-                (
-                    FormatSpecification
-                );
-
-            clientQuery.Add
-                (
-                    new TextWithEncoding
-                        (
-                            preparedFormat,
-                            IrbisEncoding.Ansi
-                        )
-                );
 
             ServerResponse result = base.Execute(clientQuery);
 
