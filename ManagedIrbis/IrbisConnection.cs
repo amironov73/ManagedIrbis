@@ -1463,6 +1463,37 @@ namespace ManagedIrbis
 
         // ========================================================
 
+        /// <summary>
+        /// Write text file to the server.
+        /// </summary>
+        public void WriteTextFile
+            (
+                [NotNull] FileSpecification file
+            )
+        {
+            Code.NotNull(file, "file");
+
+            WriteFileCommand command = new WriteFileCommand (this);
+            command.Files.Add(file);
+            ExecuteCommand(command);
+        }
+
+        /// <summary>
+        /// Write text files to the server.
+        /// </summary>
+        public void WriteTextFiles
+            (
+                params FileSpecification[] files
+            )
+        {
+            WriteFileCommand command = new WriteFileCommand(this);
+            foreach (FileSpecification file in files)
+            {
+                command.Files.Add(file);
+            }
+            ExecuteCommand(command);
+        }
+
         #endregion
 
         #region IDisposable members

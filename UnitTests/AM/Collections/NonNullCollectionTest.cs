@@ -9,7 +9,7 @@ namespace UnitTests.AM.Collections
     public class NonNullCollectionTest
     {
         [TestMethod]
-        public void TestNonNullCollectionContructor()
+        public void TestNonNullCollection_Constructor()
         {
             NonNullCollection<object> collection 
                 = new NonNullCollection<object>();
@@ -24,7 +24,7 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestNonNullCollectionException()
+        public void TestNonNullCollection_Exception()
         {
             NonNullCollection<object> collection
                 = new NonNullCollection<object>();

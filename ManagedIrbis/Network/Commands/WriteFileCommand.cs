@@ -1,4 +1,4 @@
-﻿/* ReadFileCommand.cs -- read text file(s) from the server
+﻿/* WriteFileCommand.cs -- write text file(s) to the server
  * Ars Magna project, http://arsmagna.ru
  */
 
@@ -6,6 +6,8 @@
 
 using AM;
 using AM.Collections;
+using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -17,11 +19,11 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Network.Commands
 {
     /// <summary>
-    /// Read text file(s) from the server
+    /// Write text file(s) to the server.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class ReadFileCommand
+    public sealed class WriteFileCommand
         : AbstractCommand
     {
         #region Properties
@@ -42,8 +44,7 @@ namespace ManagedIrbis.Network.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="connection"></param>
-        public ReadFileCommand
+        public WriteFileCommand
             (
                 [NotNull] IrbisConnection connection
             )
@@ -62,47 +63,9 @@ namespace ManagedIrbis.Network.Commands
 
         #region Public methods
 
-        /// <summary>
-        /// Get file text.
-        /// </summary>
-        [NotNull]
-        public string[] GetFileText
-            (
-                [NotNull] ServerResponse response
-            )
-        {
-            Code.NotNull(response, "response");
-
-            int count = Files.Count;
-            string[] result = new string[count];
-
-            for (int i = 0; i < count; i++)
-            {
-                string text = response.GetAnsiString();
-                text = IrbisText.IrbisToWindows(text);
-                result[i] = text;
-            }
-
-            return result;
-        }
-
         #endregion
 
         #region AbstractCommand members
-
-        /// <summary>
-        /// Check the server response.
-        /// </summary>
-        public override void CheckResponse
-            (
-                ServerResponse response
-            )
-        {
-            Code.NotNull(response, "response");
-
-            // Don't check: there's no return code
-            response._returnCodeRetrieved = true;
-        }
 
         /// <summary>
         /// Create client query.
@@ -114,8 +77,12 @@ namespace ManagedIrbis.Network.Commands
 
             foreach (FileSpecification fileName in Files)
             {
-                string item = fileName.ToString();
-                result.Arguments.Add(item);
+                TextWithEncoding text = new TextWithEncoding
+                    (
+                        fileName.ToString(),
+                        IrbisEncoding.Ansi
+                    );
+                result.Arguments.Add(text);
             }
 
             return result;
@@ -144,8 +111,8 @@ namespace ManagedIrbis.Network.Commands
                 bool throwOnError
             )
         {
-            Verifier<ReadFileCommand> verifier
-                = new Verifier<ReadFileCommand>
+            Verifier<WriteFileCommand> verifier
+                = new Verifier<WriteFileCommand>
                     (
                         this,
                         throwOnError
@@ -154,6 +121,15 @@ namespace ManagedIrbis.Network.Commands
             verifier
                 .Assert(Files.Count != 0, "Files.Count")
                 .Assert(base.Verify(throwOnError));
+
+            foreach (FileSpecification file in Files)
+            {
+                verifier.NotNull
+                    (
+                        file.Contents,
+                        "file.Contents"
+                    );
+            }
 
             return verifier.Result;
         }

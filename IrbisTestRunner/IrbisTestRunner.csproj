@@ -113,6 +113,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Tests\WriteFileTest.cs" />
     <None Include="Tests\RecordHistoryTest.cs" />
     <None Include="Tests\UpdateIniFileTest.cs" />
     <None Include="Tests\BinaryResourceTest.cs" />

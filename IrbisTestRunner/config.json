@@ -34,10 +34,11 @@
         //"ReadRecordTest.cs",
         //"ReadTermsTest.cs",
         //"RecordCacheTest.cs",
-        "RecordHistoryTest.cs"
+        //"RecordHistoryTest.cs",
         //"TextCacheTest.cs",
         //"UpdateIniFileTest.cs",
         //"VersionTest.cs",
+        "WriteFileTest.cs"
         //"WriteRecordTest.cs"
     ]
 }

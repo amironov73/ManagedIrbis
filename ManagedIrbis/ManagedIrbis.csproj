@@ -179,6 +179,7 @@
     <Compile Include="Network\Commands\SearchCommand.cs" />
     <Compile Include="Network\Commands\UniversalCommand.cs" />
     <Compile Include="Network\Commands\UniversalTextCommand.cs" />
+    <Compile Include="Network\Commands\WriteFileCommand.cs" />
     <Compile Include="Network\Commands\WriteRecordCommand.cs" />
     <Compile Include="Network\IrbisClientSocket.cs" />
     <Compile Include="Network\CommandCode.cs" />

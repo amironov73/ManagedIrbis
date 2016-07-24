@@ -52,6 +52,55 @@ namespace ManagedIrbis.Network
         [CanBeNull]
         public string FileName { get; set; }
 
+        /// <summary>
+        /// File contents (when we want write the file).
+        /// </summary>
+        [CanBeNull]
+        public string Contents { get; set; }
+
+        #endregion
+
+        #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public FileSpecification()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public FileSpecification
+            (
+                IrbisPath path,
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            Path = path;
+            FileName = fileName;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public FileSpecification
+            (
+                IrbisPath path,
+                [CanBeNull] string database,
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            Path = path;
+            Database = database;
+            FileName = fileName;
+        }
+
         #endregion
 
         #region Private members
@@ -80,41 +129,6 @@ namespace ManagedIrbis.Network
 
         #region Public methods
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public FileSpecification()
-        {
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public FileSpecification
-            (
-                IrbisPath path,
-                string fileName
-            )
-        {
-            Path = path;
-            FileName = fileName;
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public FileSpecification
-            (
-                IrbisPath path,
-                string database,
-                string fileName
-            )
-        {
-            Path = path;
-            Database = database;
-            FileName = fileName;
-        }
-
         #endregion
 
         #region IHandmadeSerializable members
@@ -130,6 +144,7 @@ namespace ManagedIrbis.Network
             Path = (IrbisPath) reader.ReadPackedInt32();
             Database = reader.ReadNullableString();
             FileName = reader.ReadNullableString();
+            Contents = reader.ReadNullableString();
         }
 
         /// <summary>
@@ -143,7 +158,8 @@ namespace ManagedIrbis.Network
             writer
                 .WritePackedInt32((int) Path)
                 .WriteNullable(Database)
-                .WriteNullable(FileName);
+                .WriteNullable(FileName)
+                .WriteNullable(Contents);
         }
 
         #endregion
@@ -158,7 +174,23 @@ namespace ManagedIrbis.Network
                 bool throwOnError
             )
         {
-            return true;
+            Verifier<FileSpecification> verifier
+                = new Verifier<FileSpecification>
+                    (
+                        this,
+                        throwOnError
+                    );
+
+            verifier
+                .NotNullNorEmpty(FileName, "FileName");
+
+            if (Path == IrbisPath.MasterFile
+                || Path == IrbisPath.InvertedFile)
+            {
+                verifier.NotNullNorEmpty(Database, "Database");
+            }
+
+            return verifier.Result;
         }
 
         #endregion
@@ -232,13 +264,26 @@ namespace ManagedIrbis.Network
         /// that represents this instance.</returns>
         public override string ToString()
         {
+            string fileName = FileName;
+            if (!ReferenceEquals(Contents, null))
+            {
+                fileName = "&" + fileName;
+            }
+
             string result = string.Format
                 (
                     "{0}.{1}.{2}",
                     (int)Path,
                     Database,
-                    FileName
+                    fileName
                 );
+
+            if (!ReferenceEquals(Contents, null))
+            {
+                result = result
+                    + "&"
+                    + IrbisText.WindowsToIrbis(Contents);
+            }
 
             return result;
         }
