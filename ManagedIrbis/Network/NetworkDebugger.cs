@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace ManagedIrbis.Network
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public static class IrbisNetworkDebugger
+    public static class NetworkDebugger
     {
         #region Properties
 
@@ -64,6 +65,29 @@ namespace ManagedIrbis.Network
             }
 
             Debugger.Break();
+        }
+
+        /// <summary>
+        /// Dump server response.
+        /// </summary>
+        public static void DumpResponse
+            (
+                [NotNull] ServerResponse response
+            )
+        {
+            Code.NotNull(response, "response");
+
+            byte[] bytes = response.GetSpan();
+            string filePath = Path.Combine
+                (
+                    Path.GetTempPath(),
+                    "response.packet"
+                );
+            File.WriteAllBytes
+                (
+                    filePath,
+                    bytes
+                );
         }
 
         /// <summary>

@@ -182,6 +182,7 @@
     <Compile Include="Network\Commands\UniversalTextCommand.cs" />
     <Compile Include="Network\Commands\WriteFileCommand.cs" />
     <Compile Include="Network\Commands\WriteRecordCommand.cs" />
+    <Compile Include="Network\Commands\WriteRecordsCommand.cs" />
     <Compile Include="Network\IrbisClientSocket.cs" />
     <Compile Include="Network\CommandCode.cs" />
     <Compile Include="Network\ClientQuery.cs" />
@@ -194,7 +195,7 @@
     <Compile Include="Identifiers\Isbn.cs" />
     <Compile Include="Identifiers\Issn.cs" />
     <Compile Include="Network\FileSpecification.cs" />
-    <Compile Include="Network\IrbisNetworkDebugger.cs" />
+    <Compile Include="Network\NetworkDebugger.cs" />
     <Compile Include="Network\IrbisNetworkException.cs" />
     <Compile Include="Network\IrbisNetworkUtility.cs" />
     <Compile Include="Network\ServerResponse.cs" />

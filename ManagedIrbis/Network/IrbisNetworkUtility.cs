@@ -144,7 +144,7 @@ namespace ManagedIrbis.Network
 
             if (ReferenceEquals(anyObject, null))
             {
-                
+                // Do nothing
             }
             else if (anyObject is bool)
             {
@@ -176,6 +176,13 @@ namespace ManagedIrbis.Network
                 return stream.EncodeTextWithEncoding
                     (
                         (TextWithEncoding) anyObject
+                    );
+            }
+            else if (anyObject is RecordReference)
+            {
+                return stream.EncodeRecordReference
+                    (
+                        (RecordReference) anyObject
                     );
             }
             else
@@ -298,13 +305,43 @@ namespace ManagedIrbis.Network
         public static Stream EncodeRecord
             (
                 [NotNull] this Stream stream,
-                [CanBeNull] MarcRecord record
+                [NotNull] MarcRecord record
             )
         {
             Code.NotNull(stream, "stream");
             Code.NotNull(record, "record");
 
             string text = ProtocolText.EncodeRecord(record);
+            byte[] bytes = IrbisEncoding.Utf8.GetBytes(text);
+            stream.Write(bytes, 0, bytes.Length);
+
+            return stream;
+        }
+
+        /// <summary>
+        /// <see cref="MarcRecord"/> with database prefix.
+        /// </summary>
+        public static Stream EncodeRecordReference
+            (
+                [NotNull] this Stream stream,
+                [NotNull] RecordReference reference
+            )
+        {
+            Code.NotNull(stream, "stream");
+            Code.NotNull(reference, "reference");
+
+            if (string.IsNullOrEmpty(reference.Database))
+            {
+                throw new IrbisException("database is null");
+            }
+            if (ReferenceEquals(reference.Record, null))
+            {
+                throw new IrbisException("record is null");
+            }
+
+            string text = reference.Database
+                + IrbisText.IrbisDelimiter
+                + ProtocolText.EncodeRecord(reference.Record);
             byte[] bytes = IrbisEncoding.Utf8.GetBytes(text);
             stream.Write(bytes, 0, bytes.Length);
 

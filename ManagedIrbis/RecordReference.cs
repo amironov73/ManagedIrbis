@@ -1,22 +1,26 @@
 ﻿/* RecordReference.cs -- ссылка на запись.
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: moderate
+ * 
+ * TODO use Host property
  */
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
 
+using AM;
 using AM.IO;
 using AM.Runtime;
 
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.ImportExport;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -33,12 +37,14 @@ namespace ManagedIrbis
     [MoonSharpUserData]
     [DebuggerDisplay("MFN={Mfn}, Index={Index}")]
     public sealed class RecordReference
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
         /// <summary>
-        /// Сервер ИРБИС64. Например, "127.0.0.1".
+        /// Host of IRBIS-server, e. g. "127.0.0.1".
+        /// <c>null</c> for default host.
         /// </summary>
         [CanBeNull]
         [XmlAttribute("host")]
@@ -46,7 +52,7 @@ namespace ManagedIrbis
         public string HostName { get; set; }
 
         /// <summary>
-        /// База данных. Например, "IBIS".
+        /// Database name, e. g. "IBIS".
         /// </summary>
         [CanBeNull]
         [XmlAttribute("db")]
@@ -54,26 +60,63 @@ namespace ManagedIrbis
         public string Database { get; set; }
 
         /// <summary>
-        /// MFN. Чаще всего = 0, т. к. используется Index.
+        /// MFN of the record.
+        /// <c>0</c> means "use <see cref="Index"/> field".
         /// </summary>
         [XmlAttribute("mfn")]
         [JsonProperty("mfn")]
         public int Mfn { get; set; }
 
         /// <summary>
-        /// Шифр записи в базе данных, например "81.432.1-42/P41-012833".
+        /// Index of the record, e. g. "81.432.1-42/P41-012833".
         /// </summary>
         [CanBeNull]
         [XmlAttribute("index")]
         [JsonProperty("index")]
         public string Index { get; set; }
 
+        /// <summary>
+        /// Record itself. Not written.
+        /// Can be <c>null</c>.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        public MarcRecord Record { get; set; }
+
+        #endregion
+
+        #region Construction
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public RecordReference()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public RecordReference
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            Database = record.Database;
+            Mfn = record.Mfn;
+            Index = record.Index ?? record.FM("903");
+            Record = record;
+        }
+
         #endregion
 
         #region Public methods
 
         /// <summary>
-        /// Загрузка ссылок из упакованного файла.
+        /// Load references from archive file.
         /// </summary>
         public static RecordReference[] LoadFromZipFile
             (
@@ -92,37 +135,78 @@ namespace ManagedIrbis
         }
 
         /// <summary>
-        /// Загрузка записи, соответствующей ссылке,
-        /// с сервера.
+        /// Load record according to the reference.
         /// </summary>
         [CanBeNull]
         public MarcRecord ReadRecord
             (
-                [NotNull] IrbisConnection client
+                [NotNull] IrbisConnection connection
             )
         {
-            Code.NotNull(client, "client");
+            Code.NotNull(connection, "connection");
 
-            throw new NotImplementedException();
+            Verify(true);
+
+            if (Mfn != 0)
+            {
+                // ReSharper disable AssignNullToNotNullAttribute
+                Record = connection.ReadRecord
+                    (
+                        Database,
+                        Mfn,
+                        false,
+                        null
+                    );
+                // ReSharper restore AssignNullToNotNullAttribute
+            }
+            else
+            {
+                Record = connection.SearchReadOneRecord
+                    (
+                        "\"I={0}\"",
+                        Index
+                    );
+            }
+
+            return Record;
         }
 
         /// <summary>
-        /// Загрузка записей, соответствующих ссылкам.
+        /// Load records according to the references.
         /// </summary>
+        [NotNull]
         public static List<MarcRecord> ReadRecords
             (
-                [NotNull] IrbisConnection client,
-                [NotNull] IEnumerable<RecordReference> references
+                [NotNull] IrbisConnection connection,
+                [NotNull] IEnumerable<RecordReference> references,
+                bool throwOnError
             )
         {
-            Code.NotNull(client, "client");
+            Code.NotNull(connection, "connection");
             Code.NotNull(references, "references");
 
-            throw new NotImplementedException();
+            List<MarcRecord> result = new List<MarcRecord>();
+            foreach (RecordReference reference in references)
+            {
+                MarcRecord record = reference.ReadRecord(connection);
+                if (ReferenceEquals(record, null))
+                {
+                    if (throwOnError)
+                    {
+                        throw new IrbisException("record not found");
+                    }
+                }
+                else
+                {
+                    result.Add(record);
+                }
+            }
+
+            return result;
         }
 
         /// <summary>
-        /// Сохранение ссылок в упакованном файле.
+        /// Save references to the archive file.
         /// </summary>
         public static void SaveToZipFile
             (
@@ -131,7 +215,7 @@ namespace ManagedIrbis
             )
         {
             Code.NotNull(references, "references");
-            Code.NotNull(fileName, "fileName");
+            Code.NotNullNorEmpty(fileName, "fileName");
 
             references.SaveToZipFile(fileName);
         }
@@ -141,13 +225,15 @@ namespace ManagedIrbis
         #region IHandmadeSerializable members
 
         /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
+        /// Restore object state from the stream.
         /// </summary>
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             HostName = reader.ReadNullableString();
             Database = reader.ReadNullableString();
             Mfn = reader.ReadPackedInt32();
@@ -155,18 +241,51 @@ namespace ManagedIrbis
         }
 
         /// <summary>
-        /// Просим объект сохранить себя в потоке.
+        /// Save object stat to the stream.
         /// </summary>
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             writer
                 .WriteNullable(HostName)
                 .WriteNullable(Database)
                 .WritePackedInt32(Mfn)
                 .WriteNullable(Index);
+        }
+
+        #endregion
+
+        #region IVerifiable<T> members
+
+        /// <summary>
+        /// Verify the object state.
+        /// </summary>
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<RecordReference> verifier
+                = new Verifier<RecordReference>
+                    (
+                        this,
+                        throwOnError
+                    );
+
+            verifier
+                .NotNullNorEmpty(Database, "Database")
+                .Assert
+                    (
+                        (Mfn != 0)
+                        || string.IsNullOrEmpty(Index),
+                        "Mfn or Index"
+                    );
+
+            return verifier.Result;
         }
 
         #endregion
@@ -181,12 +300,26 @@ namespace ManagedIrbis
         /// that represents this instance.</returns>
         public override string ToString()
         {
-            return string.Format
+            if (ReferenceEquals(Record, null))
+            {
+                return string.Format
+                    (
+                        "{0}#{1}#{2}",
+                        Database,
+                        Mfn,
+                        Index
+                    );
+            }
+
+            string result = string.Format
                 (
-                    "Mfn: {0}, Index: {1}",
-                    Mfn,
-                    Index
+                    "{0}{1}{2}",
+                    Database,
+                    IrbisText.IrbisDelimiter,
+                    Record.ToProtocolText()
                 );
+
+            return result;
         }
 
         #endregion

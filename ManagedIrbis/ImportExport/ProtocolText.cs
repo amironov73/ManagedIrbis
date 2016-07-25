@@ -357,6 +357,44 @@ namespace ManagedIrbis.ImportExport
         }
 
         /// <summary>
+        /// Parse server response for WriteRecordsCommand.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord ParseResponseForWriteRecords
+            (
+                [NotNull] ServerResponse response,
+                [NotNull] MarcRecord record
+            )
+        {
+            Code.NotNull(response, "response");
+            Code.NotNull(record, "record");
+
+            record.Fields.Clear();
+
+            string whole = response.RequireUtfString();
+            string[] split = whole.Split('\x1E');
+
+            ParseMfnStatusVersion
+                (
+                    split[0],
+                    split[1],
+                    record
+                );
+
+            for (int i = 2; i < split.Length; i++)
+            {
+                string line = split[i];
+                RecordField field = _ParseLine(line);
+                if (!string.IsNullOrEmpty(field.Tag))
+                {
+                    record.Fields.Add(field);
+                }
+            }
+
+            return record;
+        }
+
+        /// <summary>
         /// Parse server response for ALL-formatted record.
         /// </summary>
         [CanBeNull]

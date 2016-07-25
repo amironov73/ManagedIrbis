@@ -36,11 +36,12 @@
         //"ReadTermsTest.cs",
         //"RecordCacheTest.cs",
         //"RecordHistoryTest.cs",
-        "SequentialSearchTest.cs"
+        //"SequentialSearchTest.cs",
         //"TextCacheTest.cs",
         //"UpdateIniFileTest.cs",
         //"VersionTest.cs",
         //"WriteFileTest.cs",
+        "WriteRecordsTest.cs"
         //"WriteRecordTest.cs"
     ]
 }

@@ -1018,17 +1018,19 @@ namespace ManagedIrbis
         [NotNull]
         public MarcRecord ReadRecord
             (
+                [NotNull] string database,
                 int mfn,
                 bool lockFlag,
                 [CanBeNull] string format
             )
         {
+            Code.NotNullNorEmpty(database, "database");
             Code.Positive(mfn, "mfn");
 
             ReadRecordCommand command = new ReadRecordCommand(this)
             {
                 Mfn = mfn,
-                Database = Database,
+                Database = database,
                 Lock = lockFlag,
                 Format = format
             };
@@ -1057,17 +1059,19 @@ namespace ManagedIrbis
         [CanBeNull]
         public MarcRecord ReadRecord
             (
+                [NotNull] string database,
                 int mfn,
                 int versionNumber,
                 [CanBeNull] string format
             )
         {
+            Code.NotNullNorEmpty(database, "database");
             Code.Positive(mfn, "mfn");
 
             ReadRecordCommand command = new ReadRecordCommand(this)
             {
                 Mfn = mfn,
-                Database = Database,
+                Database = database,
                 VersionNumber = versionNumber,
                 Format = format
             };
@@ -1101,7 +1105,7 @@ namespace ManagedIrbis
                 int mfn
             )
         {
-            return ReadRecord(mfn, false, null);
+            return ReadRecord(Database, mfn, false, null);
         }
 
         /// <summary>
@@ -1298,49 +1302,6 @@ namespace ManagedIrbis
         }
 
         /// <summary>
-        /// Поиск записей
-        /// </summary>
-        [NotNull]
-        [StringFormatMethod("format")]
-        public int[] Search
-            (
-                string format,
-                params object[] args
-            )
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Загрузка записей по результатам поиска.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        [StringFormatMethod("format")]
-        public MarcRecord[] SearchRead
-            (
-                [NotNull] string format,
-                params object[] args
-            )
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Загрузка одной записи по результатам поиска.
-        /// </summary>
-        [CanBeNull]
-        [StringFormatMethod("format")]
-        public MarcRecord SearchReadOneRecord
-            (
-                [NotNull] string format,
-                params object[] args
-            )
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Sequential search.
         /// </summary>
         [NotNull]
@@ -1479,6 +1440,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Сохранение записи.
         /// </summary>
+        [NotNull]
         public MarcRecord WriteRecord
             (
                 [NotNull] MarcRecord record,
@@ -1495,20 +1457,22 @@ namespace ManagedIrbis
                 Lock = lockFlag
             };
 
-            ServerResponse response = ExecuteCommand(command);
+            ExecuteCommand(command);
 
-            ProtocolText.ParseResponseForWriteRecord
-                (
-                    response,
-                    record
-                );
+            MarcRecord result = command.Record;
 
-            return record;
+            if (ReferenceEquals(result, null))
+            {
+                throw new IrbisException("result record is null");
+            }
+
+            return result;
         }
 
         /// <summary>
         /// Сохранение записи.
         /// </summary>
+        [NotNull]
         public MarcRecord WriteRecord
             (
                 [NotNull] MarcRecord record
@@ -1523,6 +1487,39 @@ namespace ManagedIrbis
                     true
                 );
         }
+
+        /// <summary>
+        /// Сохранение записи.
+        /// </summary>
+        [NotNull]
+        public MarcRecord[] WriteRecords
+            (
+                [NotNull] MarcRecord[] records,
+                bool lockFlag,
+                bool actualize
+            )
+        {
+            Code.NotNull(records, "records");
+
+            WriteRecordsCommand command = new WriteRecordsCommand(this)
+            {
+                Actualize = actualize,
+                Lock = lockFlag
+            };
+            foreach (MarcRecord record in records)
+            {
+                RecordReference reference = new RecordReference(record)
+                {
+                    Database = Database
+                };
+                command.References.Add(reference);
+            }
+
+            ExecuteCommand(command);
+
+            return records;
+        }
+
 
         #endregion
 

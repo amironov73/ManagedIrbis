@@ -11,7 +11,7 @@ namespace UnitTests.ManagedIrbis
     public class RecordReferenceTest
     {
         [TestMethod]
-        public void TestRecordReferenceConstructor()
+        public void TestRecordReference_Constructor()
         {
             RecordReference reference = new RecordReference();
             Assert.AreEqual(null, reference.HostName);
@@ -37,7 +37,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestRecordReferenceSerialization()
+        public void TestRecordReference_Serialization()
         {
             RecordReference reference = new RecordReference();
             _TestSerialization(reference);

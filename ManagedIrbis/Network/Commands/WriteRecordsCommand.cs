@@ -1,12 +1,15 @@
 ﻿/* WriteRecordCommand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
- * Status: moderate
+ * Status: poor
+ * 
+ * TODO determine max MFN
  */
 
 #region Using directives
 
 using AM;
+using AM.Collections;
 
 using CodeJam;
 
@@ -23,7 +26,7 @@ namespace ManagedIrbis.Network.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class WriteRecordCommand
+    public sealed class WriteRecordsCommand
         : AbstractCommand
     {
         #region Properties
@@ -39,15 +42,13 @@ namespace ManagedIrbis.Network.Commands
         public bool Lock { get; set; }
 
         /// <summary>
-        /// New max MFN.
+        /// Records to write.
         /// </summary>
-        public int MaxMfn { get; set; }
-
-        /// <summary>
-        /// Record to write.
-        /// </summary>
-        [CanBeNull]
-        public MarcRecord Record { get; set; }
+        [NotNull]
+        public NonNullCollection<RecordReference> References
+        {
+            get { return _references; }
+        }
 
         #endregion
 
@@ -56,17 +57,20 @@ namespace ManagedIrbis.Network.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public WriteRecordCommand
+        public WriteRecordsCommand
             (
                 [NotNull] IrbisConnection connection
             )
             : base(connection)
         {
+            _references = new NonNullCollection<RecordReference>();
         }
 
         #endregion
 
         #region Private members
+
+        private readonly NonNullCollection<RecordReference> _references;
 
         #endregion
 
@@ -82,24 +86,37 @@ namespace ManagedIrbis.Network.Commands
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
-            result.CommandCode = CommandCode.UpdateRecord;
+            result.CommandCode = CommandCode.SaveRecordGroup;
 
-            if (ReferenceEquals(Record, null))
+            if (References.Count == 0)
             {
-                throw new IrbisNetworkException("record is null");
-            }
-
-            string database = Record.Database ?? Connection.Database;
-            if (string.IsNullOrEmpty(database))
-            {
-                throw new IrbisNetworkException("database not set");
+                throw new IrbisNetworkException("no records given");
             }
 
             result
-                .Add(database)
                 .Add(Lock)
-                .Add(Actualize)
-                .Add(Record);
+                .Add(Actualize);
+
+            foreach (RecordReference reference in References)
+            {
+                if (ReferenceEquals(reference.Record, null))
+                {
+                    throw new IrbisException("record is null");
+                }
+                if (ReferenceEquals(reference.Database, null))
+                {
+                    reference.Database = reference.Record.Database;
+                }
+                if (ReferenceEquals(reference.Database, null))
+                {
+                    throw new IrbisException("database not set");
+                }
+                if (string.IsNullOrEmpty(reference.Record.Database))
+                {
+                    reference.Record.Database = reference.Database;
+                }
+                result.Add(reference);
+            }
 
             return result;
         }
@@ -114,21 +131,26 @@ namespace ManagedIrbis.Network.Commands
         {
             Code.NotNull(query, "query");
 
-            // ReSharper disable PossibleNullReferenceException
-            string database = Record.Database ?? Connection.Database;
-            // ReSharper restore PossibleNullReferenceException
-
             ServerResponse result = base.Execute(query);
 
-            MaxMfn = result.GetReturnCode();
+            result.GetReturnCode();
 
-            Record.Database = database;
+            //NetworkDebugger.DumpResponse(result);
 
-            ProtocolText.ParseResponseForWriteRecord
-                            (
-                                result,
-                                Record
-                            );
+            // ReSharper disable AssignNullToNotNullAttribute
+            // ReSharper disable PossibleNullReferenceException
+            for (int i = 0; i < References.Count; i++)
+            {
+                ProtocolText.ParseResponseForWriteRecords
+                    (
+                        result,
+                        References[i].Record
+                    );
+
+                References[i].Mfn = References[i].Record.Mfn;
+            }
+            // ReSharper restore PossibleNullReferenceException
+            // ReSharper restore AssignNullToNotNullAttribute
 
             return result;
         }
@@ -145,16 +167,12 @@ namespace ManagedIrbis.Network.Commands
                 bool throwOnError
             )
         {
-            Verifier<WriteRecordCommand> verifier
-                = new Verifier<WriteRecordCommand>
+            Verifier<WriteRecordsCommand> verifier
+                = new Verifier<WriteRecordsCommand>
                     (
                         this,
                         throwOnError
                     );
-
-            verifier
-                .NotNull(Record)
-                .Assert(base.Verify(throwOnError));
 
             return verifier.Result;
         }

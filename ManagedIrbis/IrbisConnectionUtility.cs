@@ -127,16 +127,19 @@ namespace ManagedIrbis
         public static MarcRecord[] RecordHistory
             (
                 [NotNull] this IrbisConnection connection,
+                [NotNull] string database,
                 int mfn,
                 [CanBeNull] string format
             )
         {
             Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
             Code.Positive(mfn, "mfn");
 
             List<MarcRecord> result = new List<MarcRecord>();
             MarcRecord record = connection.ReadRecord
                 (
+                    database,
                     mfn,
                     false,
                     format
@@ -147,6 +150,7 @@ namespace ManagedIrbis
             {
                 record = connection.ReadRecord
                     (
+                        database,
                         mfn,
                         version,
                         format
@@ -196,6 +200,103 @@ namespace ManagedIrbis
 
             return result;
         }
+
+        /// <summary>
+        /// Search for records with formattable expression.
+        /// </summary>
+        [NotNull]
+        [StringFormatMethod("format")]
+        public static int[] Search
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string format,
+                params object[] args
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(format, "format");
+
+            string expression = string.Format
+                (
+                    format,
+                    args
+                );
+
+            return connection.Search(expression);
+        }
+
+        /// <summary>
+        /// Загрузка записей по результатам поиска.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        [StringFormatMethod("format")]
+        public static MarcRecord[] SearchRead
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string format,
+                params object[] args
+            )
+        {
+            // TODO: use both Search and Read
+
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(format, "format");
+
+            string expression = string.Format
+                (
+                    format,
+                    args
+                );
+            int[] found = connection.Search(expression);
+            if (found.Length == 0)
+            {
+                return new MarcRecord[0];
+            }
+            MarcRecord[] result = connection.ReadRecords
+                (
+                    connection.Database,
+                    found
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Загрузка одной записи по результатам поиска.
+        /// </summary>
+        [CanBeNull]
+        [StringFormatMethod("format")]
+        public static MarcRecord SearchReadOneRecord
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string format,
+                params object[] args
+            )
+        {
+            // TODO: use both Search and Read
+
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(format, "format");
+
+            string expression = string.Format
+                (
+                    format,
+                    args
+                );
+            int[] found = connection.Search(expression);
+            if (found.Length == 0)
+            {
+                return null;
+            }
+            MarcRecord result = connection.ReadRecord
+                (
+                    found[0]
+                );
+
+            return result;
+        }
+
 
         #endregion
     }

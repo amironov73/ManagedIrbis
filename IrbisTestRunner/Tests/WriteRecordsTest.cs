@@ -1,30 +1,48 @@
-﻿using System;
-using System.Threading;
-using ManagedIrbis.Network;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿/* WriteRecordsTest.cs --
+ * Ars Magna project, http://arsmagna.ru 
+ */
 
-using AM.Runtime;
+#region Using directives
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using AM;
+
+using CodeJam;
+
+using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Testing;
 
-namespace UnitTests.ManagedIrbis
+using Newtonsoft.Json;
+
+#endregion
+
+namespace IrbisTestRunner.Tests
 {
     [TestClass]
-    public class IrbisConnectionTest
+    class WriteRecordsTest
+        : AbstractTest
     {
-        const string ConnectionString 
-            = "host=127.0.0.1;port=6666;user=1;password=1;";
+        #region Properties
 
-        [TestMethod]
-        public void TestIrbisConnection_Constructor()
-        {
-            using (IrbisConnection client = new IrbisConnection())
-            {
-                Assert.IsNotNull(client);
-            }
-        }
+        #endregion
 
-        private MarcRecord _GetRecord()
+        #region Construction
+
+        #endregion
+
+        #region Private members
+
+        private MarcRecord _GetRecord
+            (
+                int titleNumber
+            )
         {
             MarcRecord result = new MarcRecord();
 
@@ -39,7 +57,7 @@ namespace UnitTests.ManagedIrbis
             result.Fields.Add(field);
 
             field = new RecordField("200");
-            field.AddSubField('a', "Заглавие");
+            field.AddSubField('a', "Заглавие " + titleNumber);
             field.AddSubField('e', "подзаголовочное");
             field.AddSubField('f', "И. И. Иванов, П. П. Петров");
             result.Fields.Add(field);
@@ -66,24 +84,33 @@ namespace UnitTests.ManagedIrbis
             return result;
         }
 
-        private void _TestSerialization
-            (
-                IrbisConnection first
-            )
-        {
-            byte[] bytes = first.SaveToMemory();
 
-            IrbisConnection second = bytes
-                .RestoreObjectFromMemory<IrbisConnection>();
+        #endregion
 
-            Assert.IsNotNull(second);
-        }
+        #region Public methods
 
         [TestMethod]
-        public void TestIrbisConnection_Serialization()
+        public void TestWriteRecords()
         {
-            IrbisConnection client = new IrbisConnection();
-            _TestSerialization(client);
+            MarcRecord record1 = _GetRecord(1),
+                record2 = _GetRecord(2),
+                record3 = _GetRecord(3);
+
+            MarcRecord[] records =
+            {
+                record1,
+                record2,
+                record3
+            };
+
+            Connection.WriteRecords
+                (
+                    records,
+                    false,
+                    true
+                );
         }
+
+        #endregion
     }
 }
