@@ -23,6 +23,7 @@
         //"ConnectionTest.cs",
         //"FormatTest.cs",
         //"ListDatabasesTest.cs",
+        "ListFilesTest.cs"
         //"ListProcessesTest.cs",
         //"ListUsersTest.cs",
         //"MaxMfnTest.cs",
@@ -41,7 +42,7 @@
         //"UpdateIniFileTest.cs",
         //"VersionTest.cs",
         //"WriteFileTest.cs",
-        "WriteRecordsTest.cs"
+        //"WriteRecordsTest.cs",
         //"WriteRecordTest.cs"
     ]
 }

@@ -45,21 +45,6 @@ namespace ManagedIrbis
         #region Constants
 
         /// <summary>
-        /// Разделитель строк в пакете запроса к серверу.
-        /// </summary>
-        public const char QueryLineDelimiter = (char)0x0A;
-
-        /// <summary>
-        /// Разделитель строк в пакете ответа сервера.
-        /// </summary>
-        public const string ResponseLineDelimiter = "";
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public const int MaxPostings = 32758;
-
-        /// <summary>
         /// 
         /// </summary>
         public const string DefaultHost = "127.0.0.1";
@@ -231,12 +216,6 @@ namespace ManagedIrbis
         //    set { _debugWriter = value; }
         //}
 
-        ///// <summary>
-        ///// Разрешение делать шестнадцатиричный дамп полученных от сервера пакетов.
-        ///// </summary>
-        //[DefaultValue(false)]
-        //public bool AllowHexadecimalDump { get; set; }
-
         /// <summary>
         /// Количество повторений команды при неудаче.
         /// </summary>
@@ -279,15 +258,11 @@ namespace ManagedIrbis
         /// </remarks>
         public IrbisConnection()
         {
-            //_waitHandle = new ManualResetEvent(true);
-
             Busy = new BusyState();
 
             Host = DefaultHost;
             Port = DefaultPort;
             Database = DefaultDatabase;
-            //Username = DefaultUsername;
-            //Password = DefaultPassword;
             Username = null;
             Password = null;
             Workstation = DefaultWorkstation;
@@ -316,22 +291,12 @@ namespace ManagedIrbis
         //private string _configuration;
         private bool _connected;
 
-        //[NonSerialized]
-        //private ManualResetEvent _waitHandle;
-
-        //[NonSerialized]
-        //private TextWriter _debugWriter;
-
-
         // ReSharper disable InconsistentNaming
         private int _clientID;
         private int _queryID;
         // ReSharper restore InconsistentNaming
 
         private string _database;
-
-        //private readonly Encoding _utf8 = new UTF8Encoding(false, false);
-        //private readonly Encoding _cp1251 = Encoding.GetEncoding(1251);
 
         private static Random _random = new Random();
 
@@ -400,26 +365,32 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(database, "database");
 
-            ActualizeRecord(0);
+            ActualizeRecord
+                (
+                    database,
+                    0
+                );
         }
 
         /// <summary>
-        /// Актуализация записи с указанным MFN.
+        /// Actualize given record (if not yet).
         /// </summary>
-        /// <remarks>Если MFN=0, то актуализируются
-        /// все неактуализированные записи БД.
+        /// <remarks>If MFN=0, then all non actualized
+        /// records in the database will be actualized.
         /// </remarks>
         public void ActualizeRecord
             (
+                [NotNull] string database,
                 int mfn
             )
         {
+            Code.NotNullNorEmpty(database, "database");
             Code.Nonnegative(mfn, "mfn");
 
             ExecuteCommand
                 (
                     CommandCode.ActualizeRecord,
-                    Database,
+                    database,
                     mfn
                 );
         }
@@ -470,7 +441,7 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <summary>
-        /// Подключение к серверу.
+        /// Establish connection (if not yet).
         /// </summary>
         public void Connect()
         {
@@ -485,7 +456,7 @@ namespace ManagedIrbis
         }
 
         /// <summary>
-        /// Создание базы данных.
+        /// Create the database.
         /// </summary>
         public void CreateDatabase
             (
@@ -507,19 +478,14 @@ namespace ManagedIrbis
         }
 
         /// <summary>
-        /// Удаление указанной базы данных.
+        /// Delete the database.
         /// </summary>
-        /// <param name="databaseName"><c>null</c> означает
-        /// текущую базу данных</param>
         public void DeleteDatabase
             (
-                [CanBeNull] string databaseName
+                [NotNull] string databaseName
             )
         {
-            if (string.IsNullOrEmpty(databaseName))
-            {
-                databaseName = Database;
-            }
+            Code.NotNullNorEmpty(databaseName, "databaseName");
 
             ExecuteCommand
                 (
@@ -799,6 +765,64 @@ namespace ManagedIrbis
         public IrbisDatabaseInfo[] ListDatabases()
         {
             return ListDatabases("dbnam1.mnu");
+        }
+
+        /// <summary>
+        /// List server files by the specification.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public string[] ListFiles
+            (
+                [NotNull] FileSpecification specification
+            )
+        {
+            Code.NotNull(specification, "specification");
+
+            specification.Verify(true);
+
+            ListFilesCommand command = new ListFilesCommand(this);
+            command.Specifications.Add(specification);
+
+            ExecuteCommand(command);
+
+            string[] result = command.Files;
+            if (ReferenceEquals(result, null))
+            {
+                throw new IrbisException("file list is null");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// List server files by the specification.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public string[] ListFiles
+            (
+                [NotNull] FileSpecification[] specifications
+            )
+        {
+            Code.NotNull(specifications, "specifications");
+
+            ListFilesCommand command = new ListFilesCommand(this);
+            foreach (FileSpecification specification in specifications)
+            {
+                specification.Verify(true);
+                command.Specifications.Add(specification);
+            }
+
+            ExecuteCommand(command);
+
+            string[] result = command.Files;
+            if (ReferenceEquals(result, null))
+            {
+                throw new IrbisException("file list is null");
+            }
+
+            return result;
         }
 
         /// <summary>

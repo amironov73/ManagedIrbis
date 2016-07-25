@@ -1,5 +1,7 @@
 ﻿/* IrbisNetworkUtility.cs -- 
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: moderate
  */
 
 #region Using directives
@@ -178,6 +180,13 @@ namespace ManagedIrbis.Network
                         (TextWithEncoding) anyObject
                     );
             }
+            else if (anyObject is FileSpecification)
+            {
+                return stream.EncodeFileSpecification
+                    (
+                        (FileSpecification) anyObject
+                    );
+            }
             else if (anyObject is RecordReference)
             {
                 return stream.EncodeRecordReference
@@ -240,6 +249,24 @@ namespace ManagedIrbis.Network
             )
         {
             stream.WriteByte((byte)ClientQuery.Delimiter);
+
+            return stream;
+        }
+
+        /// <summary>
+        /// Encode <see cref="FileSpecification"/>.
+        /// </summary>
+        [NotNull]
+        public static Stream EncodeFileSpecification
+            (
+                [NotNull] this Stream stream,
+                [NotNull] FileSpecification specification
+            )
+        {
+            Code.NotNull(stream, "stream");
+            Code.NotNull(specification, "specification");
+
+            stream.EncodeString(specification.ToString());
 
             return stream;
         }

@@ -288,6 +288,38 @@ namespace AM
             Throw(message);
         }
 
+        /// <summary>
+        /// Verify sub-object.
+        /// </summary>
+        public Verifier<T> VerifySubObject
+            (
+                [NotNull] IVerifiable verifiable
+            )
+        {
+            Code.NotNull(verifiable, "verifiable");
+
+            Assert(verifiable.Verify(ThrowOnError));
+
+            return this;
+        }
+
+        /// <summary>
+        /// Verify sub-object.
+        /// </summary>
+        public Verifier<T> VerifySubObject
+            (
+                [NotNull] IVerifiable verifiable,
+                [NotNull] string name
+            )
+        {
+            Code.NotNull(verifiable, "verifiable");
+            Code.NotNullNorEmpty(name, "name");
+
+            Assert(verifiable.Verify(ThrowOnError), name);
+
+            return this;
+        }
+
         #endregion
     }
 }

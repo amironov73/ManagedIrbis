@@ -153,6 +153,7 @@
     <Compile Include="ImportExport\IsoReader.cs" />
     <Compile Include="IrbisAlphabetTable.cs" />
     <Compile Include="IrbisClientInfo.cs" />
+    <Compile Include="IrbisConstants.cs" />
     <Compile Include="IrbisStopWords.cs" />
     <Compile Include="IrbisText.cs" />
     <Compile Include="IrbisTreeFile.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Network\Commands\ConnectCommand.cs" />
     <Compile Include="Network\Commands\CreateDatabaseCommand.cs" />
     <Compile Include="Network\Commands\FormatCommand.cs" />
+    <Compile Include="Network\Commands\ListFilesCommand.cs" />
     <Compile Include="Network\Commands\ReadBinaryFileCommand.cs" />
     <Compile Include="Network\Commands\ReadFileCommand.cs" />
     <Compile Include="Network\Commands\ReadPostingsCommand.cs" />
