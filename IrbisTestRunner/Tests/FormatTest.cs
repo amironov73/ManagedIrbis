@@ -81,7 +81,7 @@ namespace IrbisTestRunner.Tests
                     "'Привет, мир!'",
                     1
                 );
-            Console.Write(actual);
+            Write(actual);
         }
 
         [TestMethod]

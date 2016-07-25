@@ -60,7 +60,7 @@ namespace IrbisTestRunner.Tests
                     null // format
                 );
 
-            Console.Write("found: {0}", found.Length);
+            Write("found: {0}", found.Length);
         }
 
         #endregion

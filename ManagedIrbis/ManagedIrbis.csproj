@@ -217,6 +217,7 @@
     <Compile Include="Testing\AbstractTest.cs" />
     <Compile Include="Testing\TestClassAttribute.cs" />
     <Compile Include="Testing\TestMethodAttribute.cs" />
+    <Compile Include="Testing\TestContext.cs" />
     <Compile Include="Testing\TestRunner.cs" />
     <Compile Include="Transform\RecordTransformContext.cs" />
     <Compile Include="Worksheet\InputMode.cs" />

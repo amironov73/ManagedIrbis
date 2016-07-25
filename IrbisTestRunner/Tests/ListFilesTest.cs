@@ -61,7 +61,7 @@ namespace IrbisTestRunner.Tests
                     ", ",
                     files
                 );
-            Console.Write(text);
+            Write(text);
         }
 
         [TestMethod]
@@ -90,7 +90,7 @@ namespace IrbisTestRunner.Tests
                     ", ",
                     files
                 );
-            Console.Write(text);
+            Write(text);
         }
 
         #endregion

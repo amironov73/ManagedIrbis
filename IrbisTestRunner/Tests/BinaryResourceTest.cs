@@ -1,5 +1,7 @@
 ﻿/* BinaryResourceTest.cs --
- * Ars Magna project, http://arsmagna.ru 
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status:
  */
 
 #region Using directives
@@ -60,7 +62,7 @@ namespace IrbisTestRunner.Tests
                         array
                     );
 
-                Console.Write
+                Write
                     (
                         "{0} ",
                         filePath

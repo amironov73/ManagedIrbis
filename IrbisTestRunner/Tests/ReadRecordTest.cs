@@ -48,7 +48,7 @@ namespace IrbisTestRunner.Tests
         public void TestReadRecord()
         {
             MarcRecord record = Connection.ReadRecord(1);
-            Console.Write
+            Write
                 (
                     record.ToPlainText().Substring(0,50).Trim()
                 );
@@ -60,15 +60,17 @@ namespace IrbisTestRunner.Tests
 
             MarcRecord record = Connection.ReadRecord
                 (
+                    "IBIS",
                     1,
                     false,
                     "@brief"
                 );
-            Console.WriteLine
+            Write
                 (
                     record.ToPlainText().Substring(0, 50).Trim()
                 );
-            Console.Write(record.Description);
+            Write(" | ");
+            Write(record.Description);
         }
 
         [TestMethod]
@@ -79,7 +81,7 @@ namespace IrbisTestRunner.Tests
                     null,
                     new[] { 1, 2, 3 }
                 );
-            Console.Write
+            Write
                 (
                     string.Join
                     (

@@ -47,7 +47,7 @@ namespace IrbisTestRunner.Tests
         public void TestVersion()
         {
             IrbisVersion version = Connection.GetServerVersion();
-            Console.Write(version);
+            Write(version);
         }
 
         #endregion

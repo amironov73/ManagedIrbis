@@ -48,10 +48,11 @@ namespace IrbisTestRunner.Tests
         {
             MarcRecord[] versions = Connection.RecordHistory
                 (
+                    "IBIS",
                     1,
-                    "@brief"
+                    IrbisFormat.Brief
                 );
-            Console.Write("{0} versions", versions.Length);
+            Write("{0} versions", versions.Length);
         }
 
         #endregion

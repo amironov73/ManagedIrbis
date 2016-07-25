@@ -40,7 +40,7 @@ namespace IrbisTestRunner.Tests
                     IrbisPath.MasterFile,
                     "II.MNU"
                 );
-            Console.Write
+            Write
                 (
                     IrbisFormat.PrepareFormat(text.Substring(0, 50)).Trim()
                 );
@@ -70,7 +70,7 @@ namespace IrbisTestRunner.Tests
 
             texts[0] = IrbisFormat.PrepareFormat(texts[0].SafeSubstring(0, 50)).Trim();
             texts[1] = IrbisFormat.PrepareFormat(texts[1].SafeSubstring(0, 50)).Trim();
-            Console.Write(string.Join(Environment.NewLine, texts));
+            Write(string.Join(Environment.NewLine, texts));
         }
 
         #endregion

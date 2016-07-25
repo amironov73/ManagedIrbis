@@ -48,7 +48,7 @@ namespace IrbisTestRunner.Tests
         {
             IrbisUserInfo[] users = Connection.ListUsers();
 
-            Console.Write
+            Write
                 (
                     string.Join
                     (

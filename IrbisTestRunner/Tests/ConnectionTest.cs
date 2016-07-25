@@ -68,7 +68,7 @@ namespace IrbisTestRunner.Tests
                 // Nothing to do
             }
 
-            Console.Write
+            Write
                 (
                     allOk
                     ? "good"

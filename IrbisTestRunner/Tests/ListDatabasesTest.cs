@@ -54,7 +54,7 @@ namespace IrbisTestRunner.Tests
                     ", ",
                     databases.Select(d => d.Name)
                 );
-            Console.Write(text);
+            Write(text);
 
         }
 

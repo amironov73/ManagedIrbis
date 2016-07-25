@@ -79,7 +79,7 @@ namespace IrbisTestRunner.Tests
         {
             MarcRecord record = _GetRecord();
             record = Connection.WriteRecord(record);
-            Console.Write
+            Write
                 (
                     record.ToPlainText().Substring(0,50).Trim()
                 );

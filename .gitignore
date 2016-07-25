@@ -281,3 +281,6 @@ PortabilityAnalysis*.html
 *.ps
 *.eps
 *.synctex.gz
+
+# IrbisTestRunner
+IrbisTestRunner/Results/*.json

@@ -67,7 +67,7 @@ namespace IrbisTestRunner.Tests
             Debug.Assert(second != null);
             Debug.Assert(cache.RequestCount == 1);
 
-            Console.Write(second.Entries[0]);
+            Write(second.Entries[0]);
         }
 
         #endregion

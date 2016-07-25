@@ -59,7 +59,7 @@ namespace IrbisTestRunner.Tests
                     "; ",
                     TermInfo.TrimPrefix(terms, "K=")
                 );
-            Console.Write(text);
+            Write(text);
         }
 
         #endregion

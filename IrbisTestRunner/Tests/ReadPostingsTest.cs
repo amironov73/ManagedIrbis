@@ -67,7 +67,7 @@ namespace IrbisTestRunner.Tests
                     ", ",
                     postings.Select(p=>p.Mfn.ToString())
                 );
-            Console.Write(text);
+            Write(text);
         }
 
         #endregion

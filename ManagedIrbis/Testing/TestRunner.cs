@@ -2,6 +2,8 @@
  * Ars Magna project, http://arsmagna.ru 
  */
 
+using AM.Text.Output;
+using Newtonsoft.Json;
 #if FW45
 
 #region Using directives
@@ -96,6 +98,12 @@ namespace IrbisTestRunner
         [NotNull]
         public List<string> References { get { return _references; } }
 
+        /// <summary>
+        /// Where to store results.
+        /// </summary>
+        [CanBeNull]
+        public string ResultPath { get; set; }
+
         #endregion
 
         #region Construction
@@ -107,6 +115,7 @@ namespace IrbisTestRunner
         {
             _testList = new List<string>();
             _references = new List<string>();
+            _contextList = new List<TestContext>();
         }
 
         #endregion
@@ -147,6 +156,7 @@ namespace IrbisTestRunner
 
         private readonly List<string> _testList;
         private readonly List<string> _references;
+        private readonly List<TestContext> _contextList;
 
         private Type[] _GetTestClasses
             (
@@ -376,6 +386,10 @@ namespace IrbisTestRunner
                 .ThrowIfNull()
                 .ToString();
 
+            ResultPath = root["resultPath"]
+                .ThrowIfNull()
+                .ToString();
+
             JToken tests = root["tests"];
             foreach (JToken child in tests.Children())
             {
@@ -431,6 +445,34 @@ namespace IrbisTestRunner
 
             WriteLine(ConsoleColor.White, "Test execution finished");
             WriteLine(ConsoleColor.Gray, "Time elapsed: {0}", stopwatch.Elapsed);
+
+            string fileName = string.Format
+                (
+                    "run-{0:yyyy-MM-dd-hh-mm-ss}.json",
+                    DateTime.Now
+                );
+            string filePath = Path.Combine
+                (
+                    ResultPath,
+                    fileName
+                );
+            string resultText = JsonConvert.SerializeObject
+                (
+                    _contextList,
+                    Formatting.Indented
+                );
+            File.WriteAllText
+                (
+                    filePath,
+                    resultText,
+                    Encoding.UTF8
+                );
+            WriteLine
+                (
+                    ConsoleColor.Magenta,
+                    "Results written to {0}",
+                    filePath
+                );
         }
 
         /// <summary>
@@ -471,13 +513,35 @@ namespace IrbisTestRunner
         {
             Write(ConsoleColor.Cyan, "{0} ", method.Name);
 
+            TestContext context = new TestContext(new ConsoleOutput())
+            {
+                Name = method.Name,
+                StartTime = DateTime.Now
+            };
+            _contextList.Add(context);
+            testObject.Context = context;
+            testObject.Output = context.Output;
+
             Action action = (Action)method.CreateDelegate
                 (
                     typeof(Action),
                     testObject
                 );
 
-            action();
+            try
+            {
+                action();
+            }
+            catch (Exception ex)
+            {
+                context.Output.WriteError(ex.ToString());
+                throw;
+            }
+            finally
+            {
+                context.FinishTime = DateTime.Now;
+                context.Duration = context.FinishTime - context.StartTime;
+            }
 
             WriteLine(ConsoleColor.Green, " OK");
         }

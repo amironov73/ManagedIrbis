@@ -47,7 +47,7 @@ namespace IrbisTestRunner.Tests
         public void TestNop()
         {
             Connection.NoOp();
-            Console.Write("NOP send");
+            Write("NOP send");
         }
 
         #endregion

@@ -74,7 +74,7 @@ namespace IrbisTestRunner.Tests
                         bytes
                     );
 
-                Console.Write
+                Write
                     (
                         "{0} bytes read, see {1}",
                         bytes.Length,

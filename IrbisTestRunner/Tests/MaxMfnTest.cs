@@ -34,7 +34,7 @@ namespace IrbisTestRunner.Tests
         public void TestMaxMfn()
         {
             int maxMfn = Connection.GetMaxMfn();
-            Console.Write(maxMfn);
+            Write(maxMfn);
         }
 
 

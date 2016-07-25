@@ -38,7 +38,7 @@ namespace IrbisTestRunner.Tests
         public void TestSearch()
         {
             int[] found = Connection.Search("T=A$");
-            Console.Write
+            Write
                 (
                     string.Join
                     (

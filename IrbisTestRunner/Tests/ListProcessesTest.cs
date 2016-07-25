@@ -48,7 +48,7 @@ namespace IrbisTestRunner.Tests
         {
             IrbisProcessInfo[] processes = Connection.ListProcesses();
 
-            Console.Write
+            Write
                 (
                     string.Join
                     (
