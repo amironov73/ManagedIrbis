@@ -19,7 +19,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestIrbisFormatPrepareFormat()
+        public void TestIrbisFormat_PrepareFormat()
         {
             _TestFormat("", "");
             _TestFormat(" ", " ");

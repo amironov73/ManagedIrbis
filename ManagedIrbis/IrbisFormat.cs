@@ -1,11 +1,13 @@
-﻿/* IrbisFormat.cs --
+﻿/* IrbisFormat.cs -- common format related stuff
  * Ars Magna project, http://arsmagna.ru 
+ * -------------------------------------------------------
+ * Status: moderate
  */
 
 #region Using directives
 
 using System.Text.RegularExpressions;
-
+using AM;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -15,7 +17,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis
 {
     /// <summary>
-    /// 
+    /// Common format related stuff.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -27,6 +29,26 @@ namespace ManagedIrbis
         /// Format ALL.
         /// </summary>
         public const string All = "&uf('+0')";
+
+        /// <summary>
+        /// BRIEF format.
+        /// </summary>
+        public const string Brief = "@brief";
+
+        /// <summary>
+        /// IBIS format.
+        /// </summary>
+        public const string Ibis = "@ibiskw_h";
+
+        /// <summary>
+        /// Informational format.
+        /// </summary>
+        public const string Informational = "@info_w";
+
+        /// <summary>
+        /// Optimized format.
+        /// </summary>
+        public const string Optimized = "@";
 
         #endregion
 
@@ -43,12 +65,13 @@ namespace ManagedIrbis
         #region Public methods
 
         /// <summary>
-        /// Подготавливает строку запроса
+        /// Prepare dynamic format string.
         /// </summary>
         /// <param name="text"></param>
-        /// <remarks>Строка формата не должна
-        /// содержать комментариев и переводов
-        /// строки (настоящих и ирбисных)
+        /// <remarks>Dynamic format string
+        /// mustn't contains comments and
+        /// string delimiters (no matter
+        /// real or IRBIS).
         /// </remarks>
         /// <returns></returns>
         [CanBeNull]
@@ -75,6 +98,29 @@ namespace ManagedIrbis
                 .Replace('\x1E', ' ');
 
             return text;
+        }
+
+        /// <summary>
+        /// Verify format string.
+        /// </summary>
+        public bool VerifyFormat
+            (
+                [CanBeNull] string text,
+                bool throwOnError
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                if (throwOnError)
+                {
+                    throw new VerificationException("text is null");
+                }
+                return false;
+            }
+
+            // TODO more verification logic
+
+            return true;
         }
 
         #endregion
