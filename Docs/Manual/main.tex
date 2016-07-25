@@ -5,7 +5,17 @@
 %\usepackage[utf8]{inputenc}
 \usepackage{fontspec}
 \usepackage{graphicx}
-\usepackage[russian]{babel}
+%\usepackage[russian]{babel}
+
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Courier New}
+\newfontfamily\cyrillicfont[Script=Cyrillic]{Georgia}
+\newfontfamily\cyrillicfontsf[Script=Cyrillic]{Arial}
+\newfontfamily\cyrillicfonttt[Script=Cyrillic]{Consolas}
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+
 \usepackage{hyperref}
 %\hypersetup{pdftex,colorlinks=true,allcolors=blue}
 \usepackage{hypcap}
@@ -15,25 +25,25 @@
 
 \graphicspath{ {Pics/} }
 
-% Times New Roman
-\setromanfont[
-BoldFont=timesbd.ttf,
-ItalicFont=timesi.ttf,
-BoldItalicFont=timesbi.ttf,
-]{times.ttf}
-% Arial
-\setsansfont[
-BoldFont=arialbd.ttf,
-ItalicFont=ariali.ttf,
-BoldItalicFont=arialbi.ttf
-]{arial.ttf}
-% Courier New
-\setmonofont[Scale=0.90,
-BoldFont=courbd.ttf,
-ItalicFont=couri.ttf,
-BoldItalicFont=courbi.ttf,
-Color={0019D4}
-]{cour.ttf}
+%% Times New Roman
+%\setromanfont[
+%BoldFont=timesbd.ttf,
+%ItalicFont=timesi.ttf,
+%BoldItalicFont=timesbi.ttf,
+%]{times.ttf}
+%% Arial
+%\setsansfont[
+%BoldFont=arialbd.ttf,
+%ItalicFont=ariali.ttf,
+%BoldItalicFont=arialbi.ttf
+%]{arial.ttf}
+%% Courier New
+%\setmonofont[Scale=0.90,
+%BoldFont=courbd.ttf,
+%ItalicFont=couri.ttf,
+%BoldItalicFont=courbi.ttf,
+%Color={0019D4}
+%]{cour.ttf}
 
 \begin{document}
 
@@ -48,23 +58,23 @@ Color={0019D4}
 
 \lstset{ %
 	language=[Sharp]C,                 % выбор языка для подсветки (здесь это С#)
-	basicstyle=\small\ttfamily, % размер и начертание шрифта для подсветки кода
-	numbers=left,               % где поставить нумерацию строк (слева\справа)
-	numberstyle=\small,          % размер шрифта для номеров строк
-	stepnumber=1,                % размер шага между двумя номерами строк
-	numbersep=7pt,      % как далеко отстоят номера строк от подсвечиваемого кода
-	backgroundcolor=\color{white}, % цвет фона подсветки 
-	% используем \usepackage{color}
-	showspaces=false,        % показывать или нет пробелы специальными отступами
+	basicstyle=\ttfamily\small, % размер и начертание шрифта для подсветки кода
+	keywordstyle=\color{blue}\textbf,
+%	numbers=left,               % где поставить нумерацию строк (слева\справа)
+%	numberstyle=\small,          % размер шрифта для номеров строк
+%	stepnumber=1,                % размер шага между двумя номерами строк
+%	numbersep=7pt,      % как далеко отстоят номера строк от подсвечиваемого кода
+%	backgroundcolor=\color{white}, % цвет фона подсветки 
+%	% используем \usepackage{color}
+%	showspaces=false,        % показывать или нет пробелы специальными отступами
 	showstringspaces=false,    % показывать или нет пробелы в строках
 	showtabs=false,            % показывать или нет табуляцию в строках
-	frame=single,              % рисовать рамку вокруг кода
+%	frame=single,              % рисовать рамку вокруг кода
 	tabsize=2,                % размер табуляции по умолчанию равен 2 пробелам
-	captionpos=t,              % позиция заголовка вверху [t] или внизу [b] 
+%	captionpos=t,              % позиция заголовка вверху [t] или внизу [b] 
 	breaklines=true,           % автоматически переносить строки (да\нет)
-	breakatwhitespace=false,   % переносить строки только если есть пробел
-	escapeinside={\%*}{*)},     % если нужно добавить комментарии в коде
-	keywordstyle=\color{blue}, % стиль (цвет) зарезервированных слов
+%	breakatwhitespace=false,   % переносить строки только если есть пробел
+%	escapeinside={\%*}{*)},     % если нужно добавить комментарии в коде
 	stringstyle=\color{red}   % стиль (цвет) строковых литералов
 }
 

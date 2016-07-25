@@ -29,37 +29,34 @@ class Program
   {
     try
     {
-      using (ManagedIrbis client = new ManagedIrbis())
+      using (IrbisConnection connection = new IrbisConnection())
       {
-        // Подключаемся к серверу
-        client.ParseConnectionString("host=127.0.0.1;port=6666;"
-                                     + "user=1;password=1;");
-        client.Connect();
+        connection.ParseConnectionString
+          (
+            "host=127.0.0.1;port=6666;user=1;password=1;"
+          );
+        connection.Connect();
 
-        // Ищем все книги, у которых автор начинается на А (кириллица)
-        int[] foundRecords = client.Search("\"A={0}$\"", "А");
+        int[] foundRecords = connection.Search
+          (
+            "\"A={0}$\"",
+            "А"
+          );
 
-        // Чтобы не распечатывать все найденные записи,
-        // ограничимся первыми 10
         int recordsToShow = Math.Min(foundRecords.Length, 10);
 
         for (int i = 0; i < recordsToShow; i++)
         {
           int thisMfn = foundRecords[i];
 
-          // Считываем запись
-          MarcRecord record = client.ReadRecord(thisMfn);
+          MarcRecord record = connection.ReadRecord(thisMfn);
 
-          // Получаем основное заглавие
           string mainTitle = record
             .Fields
             .GetField("200")
             .GetSubField('a')
             .GetSubFieldText()
             .FirstOrDefault();
-
-          // Можно было просто написать: 
-          // string mainTitle = record.FM("200", 'a');
 
           Console.WriteLine
             (
@@ -68,14 +65,12 @@ class Program
               mainTitle
             );
 
-          // Расформатируем запись
           Console.WriteLine
             (
               "BRIEF: {0}",
               client.FormatRecord("@brief", record)
             );
 
-          // Создаем запись
           MarcRecord newRecord = new MarcRecord();
           newRecord.AddField
             (
@@ -92,8 +87,7 @@ class Program
               "Управляемый клиент"
             );
 
-          // Отсылаем вновь созданную запись на сервер
-          client.WriteRecord
+          connection.WriteRecord
             (
               newRecord, 
               false, 
@@ -102,8 +96,6 @@ class Program
 
           Console.WriteLine(new string('-', 60));
         }
-
-        // По выходу из using автоматически вызывается client.Disconnect ()
       }
     }
     catch (Exception ex)

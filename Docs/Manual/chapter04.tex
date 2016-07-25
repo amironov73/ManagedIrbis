@@ -6,7 +6,7 @@ ManagedIrbis – «рабочая лошадка». Этот класс осущ
 
 Экземпляр клиента создаётся конструктором по умолчанию:
 \begin{lstlisting}
-var client = new ManagedIrbis ();
+IrbisConnection client = new IrbisConnection ();
 \end{lstlisting}
 
 \subsection{Подключение к серверу}
@@ -20,6 +20,47 @@ public string Username { get; set; }
 public string Password { get; set; }
 public string Database { get; set; }
 public IrbisWorkstation Workstation { get; set; }
+\end{lstlisting}
+
+Обратите внимание, что адрес сервера задаётся строкой, так что может принимать как значения вроде "192.168.1.1", так и "irbis.yourlib.com". 
+Если какой-либо вышеперечисленных из параметров подключения не задан явно, используется значение по умолчанию. По умолчанию, клиент готов к работе с локально установленной демо-версией ИРБИС64. :) 
+За подключение и отключение отвечают два метода: 
+\begin{lstlisting}
+void Connect ();
+public void Disconnect ();
+\end{lstlisting}
+При возникновении ошибки при подключении метод Connect выбросит исключение. 
+
+После успешного установления соединения повторные вызовы Connect не выполняют никаких действий. Аналогично после успешного отключения повторные вызовы Disconnect не выполняют никаких действий. 
+
+Проверить, подключены ли мы в данный момент к серверу, можно с помощью свойства Connected:
+\begin{lstlisting}
+public bool Connected { get; }
+\end{lstlisting} 
+Вместо индивидуального задания каждого из параметров Host, Port, Username, Password и Database, можно использовать метод ParseConnectionString: 
+\begin{lstlisting}
+public void ParseConnectionString ( string connectionString );
+\end{lstlisting}
+Рекомендуется заключать всю работу с клиентом в контекстные скобки using языка C\# для корректного освобождения ресурсов при возникновении нештатных ситуаций. 
+
+Метод GetMaxMfn возвращает максимальный номер MFN в базе данных:
+\begin{lstlisting}
+public int GetMaxMfn ();
+\end{lstlisting}
+Метод IsDatabaseLocked, определяет, не установлена ли в данный момент монопольная блокировка на базу данных: 
+\begin{lstlisting}
+public bool IsDatabaseLocked ( string databaseName ); // Необходимо указать имя базы данных
+\end{lstlisting}
+Пример подключения к серверу: 
+\begin{lstlisting}
+using (var client = new IrbisConnection ())
+{
+	string connectionString = System.Configuration.AppSettings["connection-string"];
+	client.ParseConnectionString ( connectionString );
+	client.Connect ();
+
+	Console.WriteLine ( "Записей в базе: {0}", client.GetMaxMfn() - 1 );
+}
 \end{lstlisting}
 
 \subsection{Работа с базой данных}
@@ -75,6 +116,224 @@ finally
   // работы с базой данных
   client.PopDatabase();
 }
+\end{lstlisting}
+
+\subsection{Многопоточность и состояние занятости}
+
+Клиент написан в наивном однопоточном стиле, поэтому не поддерживает одновременное выполнение команд из разных потоков. Во время обращения к серверу устанавливается флаг
+\begin{lstlisting}
+public bool Busy { get; }
+\end{lstlisting}
+\subsection{Подтверждение подключения}
+
+Библиотека самостоятельно не посылает на сервер подтверждений того, что клиент всё ещё подключен. Этим должно заниматься приложение, например, по таймеру. 
+
+Подтверждение посылается серверу методом NoOp:
+\begin{lstlisting}
+public void NoOp ();
+\end{lstlisting}
+\subsection{Чтение/сохранение записей}
+
+Методы для чтения и сохранения записей (класс MarcRecord будет рассмотрен позже, пока воспринимайте его как «чёрный ящик»): 
+\begin{lstlisting}
+public IrbisRecord ReadRecord ( int mfn ); // Чтение одной записи по её MFN
+public IrbisRecord[] ReadRecords ( IEnumerable<int> mfns ); // Чтение массива записей с указанными MFN
+public void WriteRecord ( IrbisRecord record, bool needLock, bool ifUpdate ); // Сохранение одной записи
+				// needLock – оставить запись заблокированной
+				// ifUpdate – обновить инвертированный файл (поисковый индекс)
+public void WriteRecords ( IrbisRecord[] records, bool ifUpdate ); // Сохранение массива записей
+				// ifUpdate – обновить инвертированный файл (поисковый индекс)
+\end{lstlisting}
+Запись «помнит» свой MFN, поэтому заботиться о том, чтобы модифицированная запись встала на нужное место, не нужно. Вновь созданная запись имеет MFN=0, поэтому будет помещена в конец мастер-файла. После первого сохранения её MFN автоматически сменится на реально используемый.
+
+Кроме того, фреймворк автоматически отслеживает изменение версии записи, а также модификации, вносимые сервером при сохранении (отработка autoin.gbl).
+
+\subsection{Поиск записей}
+
+Метод для поиска записей: 
+\begin{lstlisting}
+public int[] Search ( string format, params object[] args ); // возвращает массив MFN записей, 
+// удовлетворяющих запросу
+\end{lstlisting}
+Если ни одной записи не найдено, возвращается массив из 0 элементов. 
+
+Пример вызова:
+\begin{lstlisting}
+string authorName = "Иванов"; // фамилия автора книги
+int[] mfns = client.Search ( "\"A={0}$\"", authorName ); // поиск по соответствующему префиксу
+// обратите внимание на знак доллара, означающий усечение справа
+// и на кавычки, обрамляющие запрос
+Поиск с одновременным чтением: 
+public IrbisRecord[] SearchRead ( string format, params object[] args ); // Возвращает записи,
+			// удовлетворяющие запросу. По факту совмещает методы Search и ReadRecord
+
+Если ни одной записи не найдено, возвращается массив из 0 элементов. 
+Пример вызова: 
+foreach ( var record in client.SearchRead ( "J=CHI" ) ) // ищем книги на китайском языке
+{
+	// Обрабатываем записи по одной
+	Console.WriteLine ( "Найдено: {0}", record );
+}
+\end{lstlisting}
+
+\subsection{Форматирование записей}
+ 
+Во всех нижеперечисленных методах строка format может принимать одно из трёх значений:
+\begin{itemize}
+	\item Собственно формат на языке ИРБИС, например "v200\^a, ' : ', v200\^e";
+	\item Ссылку на серверный pft-файл, начинающуюся с символа "@" (без расширения pft), например: "@brief";
+	\item Ссылку на оптимизированный формат (какой формат использовать, определит сам сервер, основываясь на механизме оптимизации форматов просмотра), состоящую из единственного символа "@".
+\end{itemize}
+
+Методы для форматирования записей: 
+\begin{lstlisting}
+public string FormatRecord
+	(
+		string format,
+		int mfn
+	);
+	
+public string FormatRecord
+	(
+		string format,
+		MarcRecord record
+	);
+	
+public string[] FormatRecords
+	(
+		string format,
+		int[] mfns
+	);
+	
+public string[] SearchFormat
+	(
+		string expression,
+		string format
+	);
+\end{lstlisting}
+Пример вызова:
+\begin{lstlisting}
+foreach ( var description in connection.SearchFormat ( "G=2000", "@brief" ) )
+{
+	Console.WriteLine ( description );
+}
+\end{lstlisting}
+\section{Классы MarcRecord, RecordField и SubField}
+
+Каждый экземпляр класса IrbisRecord соответствует одной записи в базе данных ИРБИС. Он содержит следующие элементы:
+\begin{lstlisting}
+public string Database { get; } // Имя базы данных, из которой считана запись. 
+			// Для вновь созданных записей содержит null
+public int Mfn { get; } // Номер записи в мастер-файле.
+			// Для вновь созданных записей равен 0
+public RecordStatus Status { get; } // Статус записи – логически удалена, 
+			// физически удалена и т. д.
+public int Version { get; } // Версия записи. 
+			// Устанавливается сервером автоматически
+public bool Deleted { get; set; } // Признак удалённой записи
+			// (чтобы не возиться лишний раз с полем Status)
+public List<RecordField> Fields { get; } // Список полей записи
+\end{lstlisting}
+Запись хранит поля в списке Fields. Каждое поле соответствует экземпляру класса RecordField, который содержит следующие элементы:
+\begin{lstlisting}
+public string Tag { get; set;} // Метка поля
+public string Text { get; set; } // Значение поля
+public string List<SubField> SubFields { get; } // Список подполей
+\end{lstlisting}
+Поле хранит подполя в списке SubFields. Каждое подполе соответствует экземпляру класса SubField, который содержит следующие элементы:
+\begin{lstlisting}
+public char Code { get; set; } // Код подполя
+public string Text { get; set; } // Значение подполя
+\end{lstlisting}
+\subsection{Манипуляции с записями}
+
+Получаем значение первого повторения поля (Field Match):
+\begin{lstlisting}
+string language = record.FM ( "101" ); // Язык основного текста документа
+\end{lstlisting}
+Если такого поля нет, возвращается null.
+
+Получаем массив всех повторений данного поля (Field Match All):
+\begin{lstlisting}
+string[] keywords = record.FMA ( "610" ); // Все ключевые слова
+\end{lstlisting}
+Если таких полей нет, возвращается массив из 0 элементов. 
+
+Получаем значение первого повторения подполя:
+\begin{lstlisting}
+string title = record.FM ( "200", 'a' ); // Основное заглавие
+\end{lstlisting}
+Если такого поля/подполя нет, возвращается null.
+
+Получаем массив всех повторений данного подполя:
+\begin{lstlisting}
+string[] subjects = record.FMA ( "606", 'a' ); // Все предметные заголовки
+\end{lstlisting}
+Если таких полей/подполей нет, возвращается массив из 0 элементов. 
+
+Выясняем, есть ли в записи хоть одно поле из перечисленных: 
+\begin{lstlisting}
+if (record.HaveField ( "606", "607" ))
+{
+	Console.WriteLine ( "Есть рубрики!");
+}
+\end{lstlisting}
+Проверяем отсутствие всех перечисленных полей:
+\begin{lstlisting}
+if (record.HaveNotField ( "700", "701", "702" ))
+{
+	Console.WriteLine ( "Нет точек доступа на авторов!" );
+}
+\end{lstlisting}
+Удаляем все повторения указанного поля (если поля нет, ничего не происходит):
+\begin{lstlisting}
+record.RemoveField ( "331" ); // Удалили аннотацию
+\end{lstlisting}
+Добавляем поле с текстом:
+\begin{lstlisting}
+record.AddField ( "300", "Авторы указаны на корешке" );
+\end{lstlisting}
+Добавляем поле с подполями:
+\begin{lstlisting}
+record.AddField ( "200", 'a', "Заглавие",
+	'e', "подзаголовочные сведения",
+	'f', "сведения об ответственности" );
+\end{lstlisting}
+Устанавливаем первое повторение поля с текстом (если поля с такой меткой нет, оно будет создано):
+\begin{lstlisting}
+record.SetField ( "102", "RU" ); // Код страны
+\end{lstlisting}
+Обратите внимание, что вызовы AddField, SetField и RemoveField могут «цепляться» друг за друга для повышения читабельности программы:
+\begin{lstlisting}
+record.RemoveField ( "331" )
+	.SetField ( "102", "RU" )
+	.AddField ( "300", "Авторы указаны на корешке" );
+\end{lstlisting}
+Конечно же, запись и все её поля/подполя могут быть созданы «с нуля» с помощью соответствующих конструкторов, после чего запись можно сохранить:
+\begin{lstlisting}
+var record = new IrbisRecord (); // Создали запись
+
+// Создаём поле 900 и подполя в нём
+var field900 = new RecordField ( "900" ); // Коды: тип, вид, характер документа
+var sub900b = new SubField ( 'b', "05" ); // Однотомное издание
+var sub900t = new SubField ( 't', "a" ); // Текстовый материал
+field900.SubFields.Add ( sub900b ); // Добавили подполя в поле
+field900.SubFields.Add ( sub900t );
+record.Fields.Add ( field900 ); // Добавили поле в запись
+
+var field102 = new RecordField ( "102" ); // Страна
+field102.Text = "RU"; // Россия
+record.Fields.Add ( field102 );
+
+var field101 = new RecordField ("101"); // Язык основного текста
+field101.Text = "rus"; // Русский язык
+record.Fields.Add ( field101 );
+
+. . .
+
+// Сохраняем запись, блокировка записи нам не нужна, 
+// зато нужно обновление поискового индекса
+client.WriteRecord ( record, false, true );
 \end{lstlisting}
 
 \subsection{Последовательный поиск}
