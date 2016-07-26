@@ -10,7 +10,7 @@ using System.Diagnostics;
 using System.IO;
 
 using AM;
-
+using AM.Text;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -116,6 +116,40 @@ namespace ManagedIrbis.Network
             return this;
         }
 
+        public ClientQuery AddAnsi
+            (
+                [CanBeNull] string text
+            )
+        {
+            Arguments.Add
+                (
+                    new TextWithEncoding
+                    (
+                        text,
+                        IrbisEncoding.Ansi
+                    )
+                );
+
+            return this;
+        }
+
+        public ClientQuery AddUtf8
+            (
+                [CanBeNull] string text
+            )
+        {
+            Arguments.Add
+                (
+                    new TextWithEncoding
+                    (
+                        text,
+                        IrbisEncoding.Utf8
+                    )
+                );
+
+            return this;
+        }
+
         /// <summary>
         /// Очистка списка аргументов.
         /// </summary>
@@ -200,10 +234,16 @@ namespace ManagedIrbis.Network
                 // Всего десять строк
                 ;
 
-            foreach (object argument in Arguments)
+            int countMinus1 = Arguments.Count - 1;
+            for (int i = 0; i < countMinus1; i++)
             {
-                result.EncodeAny(argument);
+                result.EncodeAny(Arguments[i]);
                 result.EncodeDelimiter();
+            }
+            for (int i = countMinus1; i < Arguments.Count; i++)
+            {
+                result.EncodeAny(Arguments[i]);
+                // DO NOT add delimiter!
             }
 
             byte[] preResult =  result.ToArray();

@@ -157,7 +157,9 @@
     <Compile Include="IrbisStopWords.cs" />
     <Compile Include="IrbisText.cs" />
     <Compile Include="IrbisTreeFile.cs" />
-    <Compile Include="IrbisUserInfo.cs" />
+    <Compile Include="Network\Commands\PrintTableCommand.cs" />
+    <Compile Include="TableDefinition.cs" />
+    <Compile Include="UserInfo.cs" />
     <Compile Include="IrbisUtility.cs" />
     <Compile Include="Marc\Schema\Example.cs" />
     <Compile Include="Marc\Schema\FieldSchema.cs" />

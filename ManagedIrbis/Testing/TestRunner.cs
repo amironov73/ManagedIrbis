@@ -551,13 +551,23 @@ namespace IrbisTestRunner
         /// </summary>
         public void StartServer()
         {
+            string workingDirectory = Path.GetDirectoryName
+                (
+                    IrbisServerPath
+                );
+            if (string.IsNullOrEmpty(workingDirectory))
+            {
+                throw new IrbisException("can't determine working directory");
+            }
+
             ProcessStartInfo startInfo = new ProcessStartInfo
                 (
                     IrbisServerPath
                 )
             {
                 UseShellExecute = false,
-                WindowStyle = ProcessWindowStyle.Minimized
+                WindowStyle = ProcessWindowStyle.Minimized,
+                WorkingDirectory = workingDirectory
             };
 
             ServerProcess = Process.Start(startInfo);

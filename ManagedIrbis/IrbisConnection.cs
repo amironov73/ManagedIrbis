@@ -878,13 +878,13 @@ namespace ManagedIrbis
         /// List users.
         /// </summary>
         [NotNull]
-        public IrbisUserInfo[] ListUsers()
+        public UserInfo[] ListUsers()
         {
             ServerResponse response = ExecuteCommand
                 (
                     CommandCode.GetUserList
                 );
-            IrbisUserInfo[] result = IrbisUserInfo.Parse(response);
+            UserInfo[] result = UserInfo.Parse(response);
 
             return result;
         }
@@ -993,6 +993,26 @@ namespace ManagedIrbis
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Print table.
+        /// </summary>
+        [NotNull]
+        public string PrintTable
+            (
+                [NotNull] TableDefinition tableDefinition
+            )
+        {
+            Code.NotNull(tableDefinition, "tableDefinition");
+
+            PrintTableCommand command = new PrintTableCommand (this)
+            {
+                Definition = tableDefinition
+            };
+            ExecuteCommand(command);
+
+            return command.Result;
         }
 
         /// <summary>

@@ -1,16 +1,14 @@
-﻿/* IrbisUserInfo.cs -- информация о зарегистрированном пользователе
- * Ars Magna project, http://arsmagna.ru 
+﻿/* UserInfo.cs -- информация о зарегистрированном пользователе
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using AM;
@@ -19,15 +17,15 @@ using AM.Runtime;
 
 using CodeJam;
 
-
 using JetBrains.Annotations;
+
 using ManagedIrbis.Network;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 
 #endregion
-
 
 namespace ManagedIrbis
 {
@@ -39,7 +37,7 @@ namespace ManagedIrbis
     [XmlRoot("user")]
     [MoonSharpUserData]
     [DebuggerDisplay("{Name}")]
-    public sealed class IrbisUserInfo
+    public sealed class UserInfo
         : IHandmadeSerializable,
         IVerifiable
     {
@@ -142,14 +140,14 @@ namespace ManagedIrbis
         /// Разбор ответа сервера.
         /// </summary>
         [NotNull]
-        public static IrbisUserInfo[] Parse
+        public static UserInfo[] Parse
             (
                 [NotNull] ServerResponse response
             )
         {
             Code.NotNull(response, "response");
 
-            List<IrbisUserInfo> result = new List<IrbisUserInfo>();
+            List<UserInfo> result = new List<UserInfo>();
 
             response.GetAnsiStrings(2);
 
@@ -161,7 +159,7 @@ namespace ManagedIrbis
                     break;
                 }
 
-                IrbisUserInfo user = new IrbisUserInfo
+                UserInfo user = new UserInfo
                 {
                     Number = lines[0],
                     Name = lines[1],
@@ -255,12 +253,14 @@ namespace ManagedIrbis
                 bool throwOnError
             )
         {
-            Verifier<IrbisUserInfo> verifier
-                = new Verifier<IrbisUserInfo>
+            Verifier<UserInfo> verifier = new Verifier<UserInfo>
                     (
                         this,
                         throwOnError
                     );
+
+            verifier
+                .NotNullNorEmpty(Name, "Name");
 
             return verifier.Result;
         }

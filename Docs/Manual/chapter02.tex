@@ -102,3 +102,35 @@
 	\includegraphics[width=0.7\textwidth]{dump4}
 	\caption{Ответ сервера (часть информации опущена)} \label{dump3}
 \end{figure}
+
+\section{Команды протокола ИРБИС64}
+
+\begin{table}[htbp]
+	\centering
+	\caption{Команды протокола}
+	\begin{tabular}{ | p{0.07\textwidth} | p{0.43\textwidth} | p{0.2\textwidth} |  p{0.2\textwidth} | }
+		\hline
+		\textbf{Код} & \textbf{Команда} & \textbf{Реализована} & \textbf{Примечания}
+		\\ \hline
+		\hline
+		\textbf{\#} & Получение признака монопольной блокировки базы данных & & ??? \\
+		\hline
+		\textbf{0} & Получение списка удаленных, неактуализированных, блокированных записей и статуса блокировки базы данных & + & \\
+		\hline
+		\textbf{1} & Получение версии сервера & + & Начиная с 2008.1 \\
+		\hline
+		\textbf{2} & Получение статистики по базе данных & & \\
+		\hline
+		\textbf{3} & IRBIS\_FORMAT\_ISO\_GROUP & & ??? \\
+		\hline
+		\textbf{4} & ??? & & \\
+		\hline
+		\textbf{5} & Глобальная корректировка & & \\
+		\hline
+		\textbf{6} & Сохранение группы записей & + & \\
+		\hline
+		7 & Печать & & \\
+		\hline
+	\end{tabular}
+\end{table}
+

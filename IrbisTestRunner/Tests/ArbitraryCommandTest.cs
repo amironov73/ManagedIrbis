@@ -56,7 +56,7 @@ namespace IrbisTestRunner.Tests
 
             string fileName = string.Format
                 (
-                    "code-{0}.packet",
+                    "code-{0}-dn.packet",
                     commandCode
                 );
             string filePath = Path.Combine
@@ -67,13 +67,28 @@ namespace IrbisTestRunner.Tests
             File.WriteAllBytes
                 (
                     filePath,
-                    response.Packet
+                    response.RawAnswer
+                );
+            fileName = string.Format
+                (
+                    "code-{0}-up.packet",
+                    commandCode
+                );
+            filePath = Path.Combine
+                (
+                    Path.GetTempPath(),
+                    fileName
                 );
             Write
                 (
                     "{0} response written to {1} | ",
                     commandCode,
                     filePath
+                );
+            File.WriteAllBytes
+                (
+                    filePath,
+                    response.RawRequest
                 );
             // ReSharper restore AssignNullToNotNullAttribute
         }
@@ -89,7 +104,7 @@ namespace IrbisTestRunner.Tests
             //_TestCommand("C", "IBIS", "3", "1", "0");
             //_TestCommand("E", "IBIS", "3");
             //_TestCommand("M", "IBIS", "IBIS", "IBIS");
-            _TestCommand("T", "NEW2", "New2", "0");
+            _TestCommand("T", "NEWDB", "New database", "0");
         }
 
         #endregion

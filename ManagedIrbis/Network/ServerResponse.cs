@@ -493,6 +493,18 @@ namespace ManagedIrbis.Network
         /// 
         /// </summary>
         [NotNull]
+        public string RemainingAnsiText()
+        {
+            TextReader reader = GetReader(IrbisEncoding.Ansi);
+            string result = reader.ReadToEnd();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [NotNull]
         public List<string> RemainingUtfStrings()
         {
             List<string> result = new List<string>();
@@ -502,6 +514,18 @@ namespace ManagedIrbis.Network
             {
                 result.Add(line);
             }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [NotNull]
+        public string RemainingUtfText()
+        {
+            TextReader reader = GetReader(IrbisEncoding.Utf8);
+            string result = reader.ReadToEnd();
 
             return result;
         }
