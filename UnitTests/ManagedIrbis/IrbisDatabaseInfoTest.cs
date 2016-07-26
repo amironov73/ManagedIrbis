@@ -13,7 +13,7 @@ namespace UnitTests.ManagedIrbis
         [TestMethod]
         public void TestIrbisDatabaseInfoConstructor()
         {
-            IrbisDatabaseInfo info = new IrbisDatabaseInfo();
+            DatabaseInfo info = new DatabaseInfo();
             Assert.AreEqual(null,info.Name);
             Assert.AreEqual(null,info.Description);
             Assert.AreEqual(0, info.MaxMfn);
@@ -21,13 +21,13 @@ namespace UnitTests.ManagedIrbis
 
         private void _TestSerialization
             (
-                IrbisDatabaseInfo first
+                DatabaseInfo first
             )
         {
             byte[] bytes = first.SaveToMemory();
 
-            IrbisDatabaseInfo second = bytes
-                .RestoreObjectFromMemory<IrbisDatabaseInfo>();
+            DatabaseInfo second = bytes
+                .RestoreObjectFromMemory<DatabaseInfo>();
 
             Assert.AreEqual(first.Name, second.Name);
             Assert.AreEqual(first.Description, second.Description);
@@ -37,7 +37,7 @@ namespace UnitTests.ManagedIrbis
         [TestMethod]
         public void TestIrbisDatabaseInfoSerialization()
         {
-            IrbisDatabaseInfo info = new IrbisDatabaseInfo();
+            DatabaseInfo info = new DatabaseInfo();
             _TestSerialization(info);
 
             info.Name = "IBIS";

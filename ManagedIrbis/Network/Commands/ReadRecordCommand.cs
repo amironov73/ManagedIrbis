@@ -121,8 +121,9 @@ namespace ManagedIrbis.Network.Commands
         /// </summary>
         public override int[] GoodReturnCodes
         {
-            // Запись может быть логически удалена.
-            get { return new[] { -201, -603 }; }
+            // Запись может быть логически удалена
+            // или заблокирована на ввод.
+            get { return new[] { -201, -602, -603 }; }
         }
 
         #endregion

@@ -188,7 +188,7 @@
     <Compile Include="Network\IrbisClientSocket.cs" />
     <Compile Include="Network\CommandCode.cs" />
     <Compile Include="Network\ClientQuery.cs" />
-    <Compile Include="IrbisDatabaseInfo.cs" />
+    <Compile Include="DatabaseInfo.cs" />
     <Compile Include="IrbisDate.cs" />
     <Compile Include="IrbisEditMask.cs" />
     <Compile Include="IrbisEncoding.cs" />

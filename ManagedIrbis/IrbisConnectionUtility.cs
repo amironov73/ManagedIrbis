@@ -9,13 +9,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using AM.Configuration;
+
 using AM.IO;
 using AM.Runtime;
+
 using CodeJam;
+
 using JetBrains.Annotations;
+
 using ManagedIrbis.Menus;
 using ManagedIrbis.Network;
+using ManagedIrbis.Network.Commands;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -44,6 +49,34 @@ namespace ManagedIrbis
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Execute arbitrary command.
+        /// </summary>
+        [NotNull]
+        public static ServerResponse ExecuteArbitraryCommand
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string commandCode,
+                params object[] arguments
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(commandCode, "commandCode");
+
+            UniversalCommand command = new UniversalCommand
+                (
+                    connection,
+                    commandCode,
+                    arguments
+                )
+            {
+                AcceptAnyResponse = true
+            };
+            ServerResponse result = connection.ExecuteCommand(command);
+
+            return result;
+        }
 
         /// <summary>
         /// Read menu from server.
@@ -297,6 +330,29 @@ namespace ManagedIrbis
             return result;
         }
 
+        /// <summary>
+        /// Unlock record through E command.
+        /// </summary>
+        public static bool UnlockRecordAlternative
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string databaseName,
+                int mfn
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(databaseName, "databaseName");
+
+            ServerResponse response = connection.ExecuteArbitraryCommand
+                (
+                    "E",
+                    databaseName,
+                    mfn
+                );
+            bool result = response.GetReturnCode() >= 0;
+
+            return result;
+        }
 
         #endregion
     }

@@ -692,6 +692,35 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <summary>
+        /// Получение информации о базе данных.
+        /// </summary>
+        /// <returns>Cписок логически удаленных, физически удаленных, 
+        /// неактуализированных и заблокированных записей.</returns>
+        [NotNull]
+        public DatabaseInfo GetDatabaseInfo
+            (
+                [NotNull] string databaseName
+            )
+        {
+            Code.NotNullNorEmpty(databaseName, "databaseName");
+
+            UniversalCommand command = new UniversalCommand
+                (
+                    this,
+                    CommandCode.RecordList,
+                    databaseName
+                );
+            ServerResponse response = ExecuteCommand(command);
+            DatabaseInfo result
+                = DatabaseInfo.ParseServerResponse(response);
+            result.Name = databaseName;
+
+            return result;
+        }
+
+        // =========================================================
+
+        /// <summary>
         /// Get next mfn for current database.
         /// </summary>
         public int GetMaxMfn()
@@ -725,6 +754,8 @@ namespace ManagedIrbis
             return result;
         }
 
+        // =========================================================
+
         /// <summary>
         /// Get server version.
         /// </summary>
@@ -743,7 +774,7 @@ namespace ManagedIrbis
         /// Get list of the databases.
         /// </summary>
         [NotNull]
-        public IrbisDatabaseInfo[] ListDatabases
+        public DatabaseInfo[] ListDatabases
             (
                 [NotNull] string listFile
             )
@@ -752,8 +783,8 @@ namespace ManagedIrbis
 
             string menuFile = ReadTextFile(IrbisPath.Data, listFile);
             string[] lines = menuFile.SplitLines();
-            IrbisDatabaseInfo[] result
-                = IrbisDatabaseInfo.ParseMenu(lines);
+            DatabaseInfo[] result
+                = DatabaseInfo.ParseMenu(lines);
 
             return result;
         }
@@ -762,7 +793,7 @@ namespace ManagedIrbis
         /// Get list of the databases.
         /// </summary>
         [NotNull]
-        public IrbisDatabaseInfo[] ListDatabases()
+        public DatabaseInfo[] ListDatabases()
         {
             return ListDatabases("dbnam1.mnu");
         }
@@ -1413,9 +1444,12 @@ namespace ManagedIrbis
         /// </summary>
         public void UnlockRecords
             (
+                [NotNull] string database,
                 params int[] mfnList
             )
         {
+            Code.NotNullNorEmpty(database, "database");
+
             if (mfnList.Length == 0)
             {
                 return;
@@ -1428,7 +1462,7 @@ namespace ManagedIrbis
             ExecuteCommand
                 (
                     CommandCode.UnlockRecords,
-                    arguments
+                    arguments.ToArray()
                 );
         }
 

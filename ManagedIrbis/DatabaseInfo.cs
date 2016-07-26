@@ -1,9 +1,11 @@
 ﻿/* IrbisDatabaseInfo.cs -- информация о базе данных ИРБИС
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -11,12 +13,15 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
+using AM;
 using AM.IO;
 using AM.Runtime;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Network;
 
 using MoonSharp.Interpreter;
 
@@ -32,7 +37,7 @@ namespace ManagedIrbis
     [PublicAPI]
     [MoonSharpUserData]
     [DebuggerDisplay("{Name} {Description}")]
-    public sealed class IrbisDatabaseInfo
+    public sealed class DatabaseInfo
         : IHandmadeSerializable
     {
         #region Constants
@@ -149,21 +154,28 @@ namespace ManagedIrbis
         /// Разбор ответа сервера.
         /// </summary>
         [NotNull]
-        public static IrbisDatabaseInfo ParseServerResponse
+        public static DatabaseInfo ParseServerResponse
             (
-                [NotNull] string[] text
+                [NotNull] ServerResponse response
             )
         {
-            Code.NotNull(text, "text");
+            Code.NotNull(response, "response");
 
-            IrbisDatabaseInfo result = new IrbisDatabaseInfo
+            DatabaseInfo result = new DatabaseInfo
                 {
-                    LogicallyDeletedRecords = _ParseLine(text[1]),
-                    PhysicallyDeletedRecords = _ParseLine(text[2]),
-                    NonActualizedRecords = _ParseLine(text[3]),
-                    LockedRecords = _ParseLine(text[4]),
-                    MaxMfn = int.Parse(text[5]),
-                    DatabaseLocked = (int.Parse(text[6]) != 0)
+                    LogicallyDeletedRecords
+                        = _ParseLine(response.GetAnsiString()),
+                    PhysicallyDeletedRecords
+                    = _ParseLine(response.GetAnsiString()),
+                    NonActualizedRecords
+                        = _ParseLine(response.GetAnsiString()),
+                    LockedRecords
+                        = _ParseLine(response.GetAnsiString()),
+                    MaxMfn = _ParseLine(response.GetAnsiString())
+                        .GetItem(0,0),
+                    DatabaseLocked
+                        = _ParseLine(response.GetAnsiString())
+                        .GetItem(0,0) != 0
                 };
 
             return result;
@@ -174,14 +186,14 @@ namespace ManagedIrbis
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public static IrbisDatabaseInfo[] ParseMenu
+        public static DatabaseInfo[] ParseMenu
             (
                 [NotNull] string[] text
             )
         {
             Code.NotNull(text, "text");
 
-            List<IrbisDatabaseInfo> result = new List<IrbisDatabaseInfo>();
+            List<DatabaseInfo> result = new List<DatabaseInfo>();
 
             for (int i = 0; i < text.Length; i += 2)
             {
@@ -198,7 +210,7 @@ namespace ManagedIrbis
                     readOnly = true;
                 }
                 string description = text[i + 1];
-                IrbisDatabaseInfo oneBase = new IrbisDatabaseInfo
+                DatabaseInfo oneBase = new DatabaseInfo
                     {
                         Name = name,
                         Description = description,
@@ -275,17 +287,29 @@ namespace ManagedIrbis
             result.AppendFormat("Description: {0}", Description);
             result.AppendLine();
 
-            //result.Append("Logically deleted records: ");
-            //result.AppendLine(Utilities.CompressRange(LogicallyDeletedRecords));
+            result.Append("Logically deleted records: ");
+            result.AppendLine(NumericUtility.CompressRange
+                (
+                    LogicallyDeletedRecords
+                ));
 
-            //result.Append("Physically deleted records: ");
-            //result.AppendLine(Utilities.CompressRange(PhysicallyDeletedRecords));
+            result.Append("Physically deleted records: ");
+            result.AppendLine(NumericUtility.CompressRange
+                (
+                    PhysicallyDeletedRecords
+                ));
 
-            //result.Append("Nonactualized records: ");
-            //result.AppendLine(Utilities.CompressRange(NonActualizedRecords));
+            result.Append("Non-actualized records: ");
+            result.AppendLine(NumericUtility.CompressRange
+                (
+                    NonActualizedRecords
+                ));
 
-            //result.Append("Locked records: ");
-            //result.AppendLine(Utilities.CompressRange(LockedRecords));
+            result.Append("Locked records: ");
+            result.AppendLine(NumericUtility.CompressRange
+                (
+                    LockedRecords
+                ));
 
             result.AppendFormat("Max MFN: {0}", MaxMfn);
             result.AppendLine();
