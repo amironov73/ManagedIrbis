@@ -461,16 +461,19 @@ namespace ManagedIrbis
         public void CreateDatabase
             (
                 [NotNull] string databaseName,
+                [NotNull] string description,
                 bool readerAccess,
                 [CanBeNull] string template
             )
         {
             Code.NotNullNorEmpty(databaseName, "databaseName");
+            Code.NotNullNorEmpty(description, "description");
 
             CreateDatabaseCommand command
                 = new CreateDatabaseCommand(this)
                 {
                     Database = databaseName,
+                    Description = description,
                     ReaderAccess = readerAccess,
                     Template = template
                 };

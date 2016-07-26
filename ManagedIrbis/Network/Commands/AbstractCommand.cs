@@ -138,10 +138,11 @@ namespace ManagedIrbis.Network.Commands
             byte[] request = query.EncodePacket();
             byte[] answer = Connection.Socket.ExecuteRequest(request);
 
-            ServerResponse result = ServerResponse.Parse
+            ServerResponse result = new ServerResponse
                 (
                     Connection,
-                    answer
+                    answer,
+                    request
                 );
 
             //string[] decoded = PacketInterpreter.Interpret

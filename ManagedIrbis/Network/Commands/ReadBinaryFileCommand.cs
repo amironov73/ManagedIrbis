@@ -120,16 +120,14 @@ namespace ManagedIrbis.Network.Commands
 
             ServerResponse result = base.Execute(query);
 
-            byte[] span = result.GetSpan();
-            byte[] preambleBytes = span.GetSpan(0, 17);
+            byte[] preambleBytes = result.GetAnswerCopy(0, 17);
             string preambleText
                 = IrbisEncoding.Ansi.GetString(preambleBytes);
             if (string.CompareOrdinal(Preamble, preambleText) != 0)
             {
                 throw new IrbisNetworkException("No binary data received");
             }
-            span = span.GetSpan(17);
-            Content = span;
+            Content = result.RawAnswer.GetSpan(17);
 
             return result;
         }

@@ -1,4 +1,4 @@
-﻿/* IrbisDatabaseInfo.cs -- информация о базе данных ИРБИС
+﻿/* DatabaseInfo.cs -- информация о базе данных ИРБИС
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor

@@ -77,7 +77,6 @@ namespace ManagedIrbis.Network
         {
             Code.NotNull(response, "response");
 
-            byte[] bytes = response.GetSpan();
             string filePath = Path.Combine
                 (
                     Path.GetTempPath(),
@@ -86,7 +85,7 @@ namespace ManagedIrbis.Network
             File.WriteAllBytes
                 (
                     filePath,
-                    bytes
+                    response.RawAnswer
                 );
         }
 

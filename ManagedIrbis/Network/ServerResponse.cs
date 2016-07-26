@@ -1,15 +1,15 @@
 ﻿/* ServerResponse.cs -- пакет с ответом сервера.
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
+ * TODO make stream non-closable
  */
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 
@@ -20,8 +20,6 @@ using JetBrains.Annotations;
 using ManagedIrbis.ImportExport;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -79,10 +77,16 @@ namespace ManagedIrbis.Network
         public int ReturnCode { get; set; }
 
         /// <summary>
-        /// Packet.
+        /// Raw server response.
         /// </summary>
-        [CanBeNull]
-        public byte[] Packet { get { return _packet; } }
+        [NotNull]
+        public byte[] RawAnswer { get; private set; }
+
+        /// <summary>
+        /// Raw client request.
+        /// </summary>
+        [NotNull]
+        public byte[] RawRequest { get; private set; }
 
         #endregion
 
@@ -93,12 +97,32 @@ namespace ManagedIrbis.Network
         /// </summary>
         public ServerResponse
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IrbisConnection connection,
+                [NotNull] byte[] rawAnswer,
+                [NotNull] byte[] rawRequest
             )
         {
             Code.NotNull(connection, "connection");
+            Code.NotNull(rawAnswer, "rawAnswer");
+            Code.NotNull(rawRequest, "rawRequest");
 
             Connection = connection;
+
+            RawAnswer = rawAnswer;
+            RawRequest = rawRequest;
+            _stream = new MemoryStream(rawAnswer);
+            CommandCode = RequireAnsiString();
+            ClientID = RequireInt32();
+            CommandNumber = RequireInt32();
+            AnswerSize = RequireInt32();
+
+            // 6 пустых строк
+            RequireAnsiString();
+            RequireAnsiString();
+            RequireAnsiString();
+            RequireAnsiString();
+            RequireAnsiString();
+            RequireAnsiString();
         }
 
         #endregion
@@ -106,8 +130,6 @@ namespace ManagedIrbis.Network
         #region Private members
 
         private Stream _stream;
-
-        private byte[] _packet;
 
         internal bool _returnCodeRetrieved;
 
@@ -295,10 +317,10 @@ namespace ManagedIrbis.Network
         }
 
         /// <summary>
-        /// Get span of the packet.
+        /// Get copy of the answer packet span.
         /// </summary>
         [NotNull]
-        public byte[] GetSpan
+        public byte[] GetAnswerCopy
             (
                 int offset,
                 int length
@@ -307,28 +329,28 @@ namespace ManagedIrbis.Network
             Code.Nonnegative(offset, "offset");
             Code.Nonnegative(length, "length");
 
-            if (ReferenceEquals(Packet, null))
+            if (ReferenceEquals(RawAnswer, null))
             {
                 throw new IrbisException("packet is null");
             }
 
-            byte[] result = Packet.GetSpan(offset, length);
+            byte[] result = RawAnswer.GetSpan(offset, length);
 
             return result;
         }
 
         /// <summary>
-        /// Get span of the packet.
+        /// Get copy of the answer packet.
         /// </summary>
         [NotNull]
-        public byte[] GetSpan ()
+        public byte[] GetAnswerCopy ()
         {
-            if (ReferenceEquals(Packet, null))
+            if (ReferenceEquals(RawAnswer, null))
             {
                 throw new IrbisException("packet is null");
             }
 
-            byte[] result = Packet.GetSpan((int) _stream.Position);
+            byte[] result = RawAnswer.GetSpan((int) _stream.Position);
 
             return result;
         }
@@ -340,7 +362,7 @@ namespace ManagedIrbis.Network
         [NotNull]
         public Stream GetStream ()
         {
-            if (ReferenceEquals(Packet, null))
+            if (ReferenceEquals(RawAnswer, null))
             {
                 throw new IrbisException("packet is null");
             }
@@ -354,7 +376,7 @@ namespace ManagedIrbis.Network
         [NotNull]
         public Stream GetStreamCopy()
         {
-            byte[] buffer = GetSpan();
+            byte[] buffer = GetAnswerCopy();
             Stream result = new MemoryStream(buffer);
 
             return result;
@@ -373,14 +395,14 @@ namespace ManagedIrbis.Network
             Code.Nonnegative(offset, "offset");
             Code.Nonnegative(length, "length");
 
-            if (ReferenceEquals(Packet, null))
+            if (ReferenceEquals(RawAnswer, null))
             {
                 throw new IrbisException("packet is null");
             }
 
             MemoryStream result = new MemoryStream
                 (
-                    Packet,
+                    RawAnswer,
                     offset,
                     length
                 );
@@ -448,39 +470,6 @@ namespace ManagedIrbis.Network
             }
 
             return result.ToArray();
-        }
-
-        /// <summary>
-        /// Parse the network packet.
-        /// </summary>
-        public static ServerResponse Parse
-            (
-                [NotNull] IrbisConnection connection,
-                [NotNull] byte[] packet
-            )
-        {
-            Code.NotNull(connection, "connection");
-            Code.NotNull(packet, "packet");
-
-            ServerResponse result = new ServerResponse (connection)
-            {
-                _packet = packet,
-                _stream = new MemoryStream(packet)
-            };
-            result.CommandCode = result.RequireAnsiString();
-            result.ClientID = result.RequireInt32();
-            result.CommandNumber = result.RequireInt32();
-            result.AnswerSize = result.RequireInt32();
-
-            // 6 пустых строк
-            result.RequireAnsiString();
-            result.RequireAnsiString();
-            result.RequireAnsiString();
-            result.RequireAnsiString();
-            result.RequireAnsiString();
-            result.RequireAnsiString();
-
-            return result;
         }
 
         /// <summary>
@@ -567,24 +556,23 @@ namespace ManagedIrbis.Network
         #region IVerifiable members
 
         /// <summary>
-        /// Проверка, правильно ли заполнены поля ответа.
+        /// Verify object state.
         /// </summary>
         public bool Verify
             (
                 bool throwException
             )
         {
-            bool result = !string.IsNullOrEmpty(CommandCode)
-                && (ClientID != 0)
-                && (CommandNumber != 0)
-                ;
+            Verifier<ServerResponse> verifier
+                = new Verifier<ServerResponse>(this, throwException);
 
-            if (throwException && !result)
-            {
-                throw new IrbisException();
-            }
+            verifier
+                .NotNull(RawAnswer, "RawAnswer")
+                .NotNull(RawRequest, "RawRequest")
+                .NotNullNorEmpty(CommandCode, "CommandCode")
+                .Assert(CommandNumber != 0, "CommandNumber");
 
-            return result;
+            return verifier.Result;
         }
 
         #endregion

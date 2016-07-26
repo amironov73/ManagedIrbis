@@ -1,10 +1,15 @@
-﻿/* CreateDatabaseCommand.cs -- 
+﻿/* CreateDatabaseCommand.cs -- create new database on the server
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
+ * TODO use Template property
  */
 
 #region Using directives
 
 using AM;
+
+using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -15,7 +20,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Network.Commands
 {
     /// <summary>
-    /// 
+    /// Create new database on the server.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -29,6 +34,12 @@ namespace ManagedIrbis.Network.Commands
         /// </summary>
         [CanBeNull]
         public string Database { get; set; }
+
+        /// <summary>
+        /// Description of the database.
+        /// </summary>
+        [CanBeNull]
+        public string Description { get; set; }
 
         /// <summary>
         /// Will the database be visible to reader?
@@ -76,6 +87,16 @@ namespace ManagedIrbis.Network.Commands
             ClientQuery result = base.CreateQuery();
             result.CommandCode = CommandCode.CreateDatabase;
 
+            // Layout is:
+            // NEWDB
+            // New database
+            // 0
+
+            result
+                .Add(Database)
+                .Add(Description)
+                .Add(ReaderAccess);
+
             return result;
         }
 
@@ -87,18 +108,18 @@ namespace ManagedIrbis.Network.Commands
                 ClientQuery query
             )
         {
-            query
-                .Add(Database)
-                .Add(ReaderAccess);
+            Code.NotNull(query, "query");
 
             ServerResponse result = base.Execute(query);
 
+            // Response is (ANSI):
+            // 0
+            // NewDB NEWDB,New database,0 - Создана новая БД NEWDB
+            // CloseDB - 
+            // Exit C:\IRBIS64_2015\workdir\1126_0.ibf
+
             return result;
         }
-
-        #endregion
-
-        #region IVerifiable members
 
         /// <summary>
         /// Verify object state.
@@ -111,7 +132,8 @@ namespace ManagedIrbis.Network.Commands
             Verifier<CreateDatabaseCommand> verifier
                 = new Verifier<CreateDatabaseCommand>(this, throwOnError);
             verifier
-                .NotNullNorEmpty(Database, "Database");
+                .NotNullNorEmpty(Database, "Database")
+                .NotNullNorEmpty(Description, "Description");
 
             return verifier.Result;
         }

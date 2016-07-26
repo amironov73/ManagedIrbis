@@ -87,7 +87,9 @@ namespace IrbisTestRunner.Tests
         {
             //_TestCommand("2", "IBIS");
             //_TestCommand("C", "IBIS", "3", "1", "0");
-            _TestCommand("E", "IBIS", "3");
+            //_TestCommand("E", "IBIS", "3");
+            //_TestCommand("M", "IBIS", "IBIS", "IBIS");
+            _TestCommand("T", "NEW2", "New2", "0");
         }
 
         #endregion
