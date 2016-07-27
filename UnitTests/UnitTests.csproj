@@ -180,6 +180,7 @@
     <Compile Include="ManagedIrbis\Mapping\SubFieldMapperTest.cs" />
     <Compile Include="ManagedIrbis\Marc\Schema\MarcSchemaTest.cs" />
     <Compile Include="ManagedIrbis\Menus\IrbisMenuFileTest.cs" />
+    <Compile Include="ManagedIrbis\Network\ClientQueryTest.cs" />
     <Compile Include="ManagedIrbis\Quality\FieldDefectTest.cs" />
     <Compile Include="ManagedIrbis\Quality\RecordReportTest.cs" />
     <Compile Include="ManagedIrbis\Readers\ChairInfoTest.cs" />

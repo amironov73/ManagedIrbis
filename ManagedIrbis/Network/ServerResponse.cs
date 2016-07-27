@@ -584,11 +584,11 @@ namespace ManagedIrbis.Network
         /// </summary>
         public bool Verify
             (
-                bool throwException
+                bool throwOnError
             )
         {
             Verifier<ServerResponse> verifier
-                = new Verifier<ServerResponse>(this, throwException);
+                = new Verifier<ServerResponse>(this, throwOnError);
 
             verifier
                 .NotNull(RawAnswer, "RawAnswer")

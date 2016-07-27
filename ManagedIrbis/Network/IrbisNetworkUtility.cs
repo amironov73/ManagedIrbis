@@ -240,7 +240,7 @@ namespace ManagedIrbis.Network
         }
 
         /// <summary>
-        /// Перевод строки.
+        /// Encode line delimiter.
         /// </summary>
         [NotNull]
         public static Stream EncodeDelimiter

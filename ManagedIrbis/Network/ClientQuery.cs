@@ -1,5 +1,7 @@
-﻿/* IrbisClientQuery.cs -- 
+﻿/* IrbisClientQuery.cs -- client packet with query to the server
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: moderate
  */
 
 #region Using directives
@@ -21,7 +23,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Network
 {
     /// <summary>
-    /// Клиентский пакет с запросом к серверу.
+    /// Client network packet with query to the server.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -33,7 +35,7 @@ namespace ManagedIrbis.Network
         #region Constants
 
         /// <summary>
-        /// Разделитель строк в заголовке пакета.
+        /// Line delimiter in packet header.
         /// </summary>
         public const char Delimiter = '\x0A';
 
@@ -42,7 +44,7 @@ namespace ManagedIrbis.Network
         #region Properties
 
         /// <summary>
-        /// Код команды.
+        /// Command code.
         /// </summary>
         [CanBeNull]
         public string CommandCode { get; set; }
@@ -53,30 +55,31 @@ namespace ManagedIrbis.Network
         public IrbisWorkstation Workstation { get; set; }
 
         /// <summary>
-        /// Идентификатор клиента.
+        /// Client identifier.
         /// </summary>
         public int ClientID { get; set; }
 
         /// <summary>
-        /// Порядковый номер команды.
+        /// Sequential command number.
         /// </summary>
         public int CommandNumber { get; set; }
 
         /// <summary>
-        /// Логин пользователя.
+        /// User login.
         /// </summary>
         [CanBeNull]
         public string UserLogin { get; set; }
 
         /// <summary>
-        /// Пароль.
+        /// User password.
         /// </summary>
         [CanBeNull]
         public string UserPassword { get; set; }
 
         /// <summary>
-        /// Аргументы команды.
+        /// Command arguments.
         /// </summary>
+        /// <remarks>List can be empty.</remarks>
         [NotNull]
         [ItemCanBeNull]
         public List<object> Arguments { get { return _arguments; } }
@@ -86,7 +89,7 @@ namespace ManagedIrbis.Network
         #region Construction
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public ClientQuery()
         {
@@ -97,6 +100,9 @@ namespace ManagedIrbis.Network
 
         #region Private members
 
+        /// <summary>
+        /// Command arguments.
+        /// </summary>
         private readonly List<object> _arguments;
 
         #endregion
@@ -104,7 +110,7 @@ namespace ManagedIrbis.Network
         #region Public methods
 
         /// <summary>
-        /// Добавление аргумента в список.
+        /// Add arbitrary argument.
         /// </summary>
         [NotNull]
         public ClientQuery Add
@@ -117,6 +123,9 @@ namespace ManagedIrbis.Network
             return this;
         }
 
+        /// <summary>
+        /// Add ANSI text line.
+        /// </summary>
         public ClientQuery AddAnsi
             (
                 [CanBeNull] string text
@@ -134,6 +143,9 @@ namespace ManagedIrbis.Network
             return this;
         }
 
+        /// <summary>
+        /// Add UTF8 text line.
+        /// </summary>
         public ClientQuery AddUtf8
             (
                 [CanBeNull] string text
@@ -152,7 +164,7 @@ namespace ManagedIrbis.Network
         }
 
         /// <summary>
-        /// Очистка списка аргументов.
+        /// Clear argument list.
         /// </summary>
         public ClientQuery Clear()
         {
@@ -162,7 +174,7 @@ namespace ManagedIrbis.Network
         }
 
         /// <summary>
-        /// Дамп запроса.
+        /// Dump the query.
         /// </summary>
         public void Dump
             (
@@ -211,28 +223,29 @@ namespace ManagedIrbis.Network
         }
 
         /// <summary>
-        /// Кодирование пакета.
+        /// Build the packet.
         /// </summary>
         [NotNull]
         public byte[] EncodePacket()
         {
             MemoryStream result = new MemoryStream();
 
+            // Query header: 7 lines
             result
-                .EncodeString(CommandCode).EncodeDelimiter()
-                .EncodeWorkstation(Workstation).EncodeDelimiter()
-                .EncodeString(CommandCode).EncodeDelimiter()
-                .EncodeInt32(ClientID).EncodeDelimiter()
-                .EncodeInt32(CommandNumber).EncodeDelimiter()
-                .EncodeString(UserPassword).EncodeDelimiter()
-                .EncodeString(UserLogin).EncodeDelimiter()
+                .EncodeString(CommandCode)      .EncodeDelimiter()
+                .EncodeWorkstation(Workstation) .EncodeDelimiter()
+                .EncodeString(CommandCode)      .EncodeDelimiter()
+                .EncodeInt32(ClientID)          .EncodeDelimiter()
+                .EncodeInt32(CommandNumber)     .EncodeDelimiter()
+                .EncodeString(UserPassword)     .EncodeDelimiter()
+                .EncodeString(UserLogin)        .EncodeDelimiter()
 
-                // Три пустые перевода строки
+                // Three empty lines
                 .EncodeDelimiter()
                 .EncodeDelimiter()
                 .EncodeDelimiter()
 
-                // Всего десять строк
+                // Total: 10 lines
                 ;
 
             if (Arguments.Count != 0)
@@ -246,7 +259,7 @@ namespace ManagedIrbis.Network
                 for (int i = countMinus1; i < Arguments.Count; i++)
                 {
                     result.EncodeAny(Arguments[i]);
-                    // DO NOT add delimiter!
+                    // DO NOT add delimiter to the last line!
                 }
             }
 
@@ -266,32 +279,67 @@ namespace ManagedIrbis.Network
         #region IVerifiable members
 
         /// <summary>
-        /// Проверка, правильно ли заполнены поля запроса.
+        /// Verify object state.
         /// </summary>
         public bool Verify
             (
-                bool throwException
+                bool throwOnError
             )
         {
-            bool result = !string.IsNullOrEmpty(CommandCode)
-                && (Workstation != IrbisWorkstation.None)
-                && (ClientID != 0)
-                && (CommandNumber != 0)
-                //&& !string.IsNullOrEmpty(UserLogin)
-                //&& !string.IsNullOrEmpty(UserPassword)
-                ;
+            Verifier<ClientQuery> verifier = new Verifier<ClientQuery>
+                (
+                    this,
+                    throwOnError
+                );
 
-            if (throwException && !result)
-            {
-                throw new IrbisException();
-            }
+            verifier
+                .NotNullNorEmpty(CommandCode, "CommandCode")
+                .Assert
+                (
+                    Workstation != IrbisWorkstation.None,
+                    "Workstation"
+                )
+                .Assert
+                (
+                    ClientID != 0,
+                    "ClientID"
+                )
+                .Assert
+                (
+                    CommandNumber != 0,
+                    "CommandNumber"
+                );
 
-            return result;
+            return verifier.Result;
         }
 
         #endregion
 
         #region Object members
+
+        /// <summary>
+        /// Returns a <see cref="System.String" />
+        /// that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" />
+        /// that represents this instance.</returns>
+        public override string ToString()
+        {
+            return string.Format
+                (
+                    "CommandCode: {0}, Workstation: {1}, "
+                    + "ClientID: {2}, CommandNumber: {3}, "
+                    + "UserLogin: {4}, UserPassword: {5}, "
+                    + "Arguments: {6}",
+                    CommandCode,
+                    Workstation,
+                    ClientID,
+                    CommandNumber,
+                    UserLogin,
+                    UserPassword,
+                    Arguments.Count
+                );
+        }
 
         #endregion
     }
