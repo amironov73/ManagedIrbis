@@ -1,5 +1,7 @@
-﻿/* AbstractIrbisSocket.cs -- 
+﻿/* AbstractClientSocket.cs -- 
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -31,7 +33,7 @@ namespace ManagedIrbis.Network
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public abstract class IrbisClientSocket
+    public abstract class AbstractClientSocket
     {
         #region Properties
 
@@ -51,7 +53,7 @@ namespace ManagedIrbis.Network
         /// <summary>
         /// Constructor.
         /// </summary>
-        protected IrbisClientSocket
+        protected AbstractClientSocket
             (
                 [NotNull] IrbisConnection connection
             )

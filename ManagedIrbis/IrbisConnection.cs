@@ -25,6 +25,7 @@ using JetBrains.Annotations;
 using ManagedIrbis.ImportExport;
 using ManagedIrbis.Network;
 using ManagedIrbis.Network.Commands;
+using ManagedIrbis.Network.Sockets;
 using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
@@ -239,7 +240,7 @@ namespace ManagedIrbis
         /// Socket.
         /// </summary>
         [NotNull]
-        public IrbisClientSocket Socket { get; private set; }
+        public AbstractClientSocket Socket { get; private set; }
 
         #endregion
 
@@ -372,6 +373,8 @@ namespace ManagedIrbis
                 );
         }
 
+        // =========================================================
+
         /// <summary>
         /// Actualize given record (if not yet).
         /// </summary>
@@ -455,9 +458,12 @@ namespace ManagedIrbis
             }
         }
 
+        // ========================================================
+
         /// <summary>
         /// Create the database.
         /// </summary>
+        /// <remarks>For Administrator only.</remarks>
         public void CreateDatabase
             (
                 [NotNull] string databaseName,
@@ -480,9 +486,38 @@ namespace ManagedIrbis
             ExecuteCommand(command);
         }
 
+        // =========================================================
+
+        /// <summary>
+        /// Create dictionary index for specified database.
+        /// </summary>
+        /// <remarks>For Administrator only.</remarks>
+        public void CreateDictionary
+            (
+                [NotNull] string databaseName
+            )
+        {
+            Code.NotNullNorEmpty(databaseName, "databaseName");
+
+            UniversalCommand command = new UniversalCommand
+                (
+                    this,
+                    CommandCode.CreateDictionary,
+                    databaseName
+                )
+            {
+                RelaxResponse = true
+            };
+
+            ExecuteCommand(command);
+        }
+
+        // ========================================================
+
         /// <summary>
         /// Delete the database.
         /// </summary>
+        /// <remarks>For Administrator only.</remarks>
         public void DeleteDatabase
             (
                 [NotNull] string databaseName
@@ -839,7 +874,10 @@ namespace ManagedIrbis
         [NotNull]
         public DatabaseInfo[] ListDatabases()
         {
-            return ListDatabases("dbnam1.mnu");
+            return ListDatabases
+                (
+                    IrbisConstants.AdministratorDatabaseList
+                );
         }
 
         // =========================================================
@@ -919,6 +957,8 @@ namespace ManagedIrbis
             return result;
         }
 
+        // =========================================================
+
         /// <summary>
         /// List users.
         /// </summary>
@@ -933,6 +973,8 @@ namespace ManagedIrbis
 
             return result;
         }
+
+        // =========================================================
 
         /// <summary>
         /// No operation.
@@ -1007,6 +1049,9 @@ namespace ManagedIrbis
                     case "workstation":
                         Workstation = (IrbisWorkstation)(byte)(value[0]);
                         break;
+                    case "debug":
+                        SetDebug(value);
+                        break;
                     //case "data":
                     //    UserData = value;
                     //    break;
@@ -1079,6 +1124,8 @@ namespace ManagedIrbis
             return result;
         }
 
+        // ========================================================
+
         /// <summary>
         /// Read binary file from server file system.
         /// </summary>
@@ -1099,6 +1146,8 @@ namespace ManagedIrbis
 
             return command.Content;
         }
+
+        // ========================================================
 
         /// <summary>
         /// Read term postings.
@@ -1296,6 +1345,8 @@ namespace ManagedIrbis
             return command.Terms.ToArray();
         }
 
+        // ========================================================
+
         /// <summary>
         /// Чтение текстового файла с сервера.
         /// </summary>
@@ -1359,9 +1410,12 @@ namespace ManagedIrbis
             return result;
         }
 
+        // =========================================================
+
         /// <summary>
         /// Reload dictionary index for specified database.
         /// </summary>
+        /// <remarks>For Administrator only.</remarks>
         public void ReloadDictionary
             (
                 [NotNull] string databaseName
@@ -1376,9 +1430,12 @@ namespace ManagedIrbis
                 );
         }
 
+        // =========================================================
+
         /// <summary>
         /// Reload master file for specified database.
         /// </summary>
+        /// <remarks>For Administrator only.</remarks>
         public void ReloadMasterFile
             (
                 [NotNull] string databaseName
@@ -1393,9 +1450,12 @@ namespace ManagedIrbis
                 );
         }
 
+        // =========================================================
+
         /// <summary>
         /// Restart server.
         /// </summary>
+        /// <remarks>For Administrator only.</remarks>
         public void RestartServer()
         {
             ExecuteCommand(CommandCode.RestartServer);
@@ -1423,6 +1483,8 @@ namespace ManagedIrbis
 
             return result;
         }
+
+        // =========================================================
 
         /// <summary>
         /// Sequential search.
@@ -1469,19 +1531,72 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <summary>
-        /// Опустошение базы данных.
+        /// Set debug socket, gather debug info to specified path.
         /// </summary>
-        /// <param name="databaseName"><c>null</c> означает
-        /// текущую базу данных.</param>
-        public void TruncateDatabase
+        public void SetDebug
             (
-                [CanBeNull] string databaseName
+                [NotNull] string debugPath
             )
         {
-            if (string.IsNullOrEmpty(databaseName))
-            {
-                databaseName = Database;
-            }
+            Code.NotNullNorEmpty(debugPath, "debugPath");
+
+            DebugClientSocket socket = new DebugClientSocket
+                (
+                    this,
+                    Socket,
+                    debugPath
+                );
+
+            DirectoryUtility.ClearDirectory(debugPath);
+
+            SetSocket(socket);
+        }
+
+        // =========================================================
+
+        /// <summary>
+        /// Set
+        /// <see cref="T:ManagedIrbis.Network.Sockets.AbstractClientSocket"/>.
+        /// </summary>
+        public void SetSocket
+            (
+                [NotNull] string typeName
+            )
+        {
+            Code.NotNullNorEmpty(typeName, "typeName");
+
+            Type type = Type.GetType(typeName, true);
+            AbstractClientSocket socket
+                = (AbstractClientSocket) Activator.CreateInstance(type);
+            SetSocket(socket);
+        }
+
+        /// <summary>
+        /// Set
+        /// <see cref="T:ManagedIrbis.Network.Sockets.AbstractClientSocket"/>.
+        /// </summary>
+        public void SetSocket
+            (
+                [NotNull] AbstractClientSocket socket
+            )
+        {
+            Code.NotNull(socket, "socket");
+
+            Socket = socket;
+        }
+
+        // =========================================================
+
+        /// <summary>
+        /// Опустошение базы данных.
+        /// </summary>
+        /// <remarks>For Administrator only.</remarks>
+        public void TruncateDatabase
+            (
+                [NotNull] string databaseName
+            )
+        {
+            Code.NotNullNorEmpty(databaseName, "databaseName");
 
             ExecuteCommand
                 (
@@ -1489,6 +1604,8 @@ namespace ManagedIrbis
                     databaseName
                 );
         }
+
+        // =========================================================
 
         /// <summary>
         /// Unlock specified database.
@@ -1507,8 +1624,10 @@ namespace ManagedIrbis
                 );
         }
 
+        // =========================================================
+
         /// <summary>
-        /// Разблокирование записей.
+        /// Unlock specified records.
         /// </summary>
         public void UnlockRecords
             (
@@ -1533,6 +1652,8 @@ namespace ManagedIrbis
                     arguments.ToArray()
                 );
         }
+
+        // =========================================================
 
         /// <summary>
         /// Update server INI-file for current client.

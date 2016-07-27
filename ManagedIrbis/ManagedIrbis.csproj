@@ -159,6 +159,7 @@
     <Compile Include="IrbisTreeFile.cs" />
     <Compile Include="Network\Commands\DatabaseStatCommand.cs" />
     <Compile Include="Network\Commands\PrintTableCommand.cs" />
+    <Compile Include="Network\Sockets\DebugClientSocket.cs" />
     <Compile Include="ServerStat.cs" />
     <Compile Include="StatDefinition.cs" />
     <Compile Include="TableDefinition.cs" />
@@ -190,7 +191,7 @@
     <Compile Include="Network\Commands\WriteFileCommand.cs" />
     <Compile Include="Network\Commands\WriteRecordCommand.cs" />
     <Compile Include="Network\Commands\WriteRecordsCommand.cs" />
-    <Compile Include="Network\IrbisClientSocket.cs" />
+    <Compile Include="Network\Sockets\AbstractClientSocket.cs" />
     <Compile Include="Network\CommandCode.cs" />
     <Compile Include="Network\ClientQuery.cs" />
     <Compile Include="DatabaseInfo.cs" />
@@ -207,7 +208,7 @@
     <Compile Include="Network\IrbisNetworkUtility.cs" />
     <Compile Include="Network\ServerResponse.cs" />
     <Compile Include="Network\PacketInterpreter.cs" />
-    <Compile Include="Network\SimpleClientSocket.cs" />
+    <Compile Include="Network\Sockets\SimpleClientSocket.cs" />
     <Compile Include="Pooling\IrbisConnectionPool.cs" />
     <Compile Include="Pooling\IrbisPoolGuard.cs" />
     <Compile Include="Pooling\PoolUtility.cs" />

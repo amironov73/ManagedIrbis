@@ -1,5 +1,7 @@
 ﻿/* AbstractCommand.cs -- abstract command of IRBIS protocol
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -57,6 +59,11 @@ namespace ManagedIrbis.Network.Commands
             }
         }
         // ReSharper restore VirtualMemberNeverOverriden.Global
+
+        /// <summary>
+        /// Relax (may be malformed) server response.
+        /// </summary>
+        public bool RelaxResponse { get; set; }
 
         #endregion
 
@@ -142,15 +149,9 @@ namespace ManagedIrbis.Network.Commands
                 (
                     Connection,
                     answer,
-                    request
+                    request,
+                    RelaxResponse
                 );
-
-            //string[] decoded = PacketInterpreter.Interpret
-            //    (
-            //        result.Packet,
-            //        "AIIIAAAAAAT"
-            //    );
-            //IrbisNetworkDebugger.Log(decoded);
 
             return result;
         }

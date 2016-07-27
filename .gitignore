@@ -284,3 +284,6 @@ PortabilityAnalysis*.html
 
 # IrbisTestRunner
 IrbisTestRunner/Results/*.json
+
+# Temporary files
+Temp

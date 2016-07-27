@@ -1,5 +1,7 @@
 ﻿/* SimpleClientSocket.cs -- 
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -32,8 +34,10 @@ namespace ManagedIrbis.Network
     /// <summary>
     /// 
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class SimpleClientSocket
-        : IrbisClientSocket
+        : AbstractClientSocket
     {
         #region Construction
 

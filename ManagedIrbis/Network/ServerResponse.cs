@@ -1,8 +1,8 @@
-﻿/* ServerResponse.cs -- пакет с ответом сервера.
+﻿/* ServerResponse.cs -- server response network packet
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
- * TODO make stream non-closable
+ * TODO make stream non-closeable
  */
 
 #region Using directives
@@ -26,7 +26,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Network
 {
     /// <summary>
-    /// Пакет с ответом сервера.
+    /// Server response network packet.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -88,6 +88,8 @@ namespace ManagedIrbis.Network
         [NotNull]
         public byte[] RawRequest { get; private set; }
 
+        public bool Relaxed { get; private set; }
+
         #endregion
 
         #region Construction
@@ -99,7 +101,8 @@ namespace ManagedIrbis.Network
             (
                 [NotNull] IrbisConnection connection,
                 [NotNull] byte[] rawAnswer,
-                [NotNull] byte[] rawRequest
+                [NotNull] byte[] rawRequest,
+                bool relax
             )
         {
             Code.NotNull(connection, "connection");
@@ -111,6 +114,13 @@ namespace ManagedIrbis.Network
             RawAnswer = rawAnswer;
             RawRequest = rawRequest;
             _stream = new MemoryStream(rawAnswer);
+            Relaxed = relax;
+
+            if (relax)
+            {
+                return;
+            }
+
             CommandCode = RequireAnsiString();
             ClientID = RequireInt32();
             CommandNumber = RequireInt32();
@@ -307,6 +317,11 @@ namespace ManagedIrbis.Network
         /// </summary>
         public int GetReturnCode()
         {
+            if (Relaxed)
+            {
+                return ReturnCode;
+            }
+
             if (!_returnCodeRetrieved)
             {
                 ReturnCode = RequireInt32();
@@ -587,6 +602,11 @@ namespace ManagedIrbis.Network
                 bool throwOnError
             )
         {
+            if (Relaxed)
+            {
+                return true;
+            }
+
             Verifier<ServerResponse> verifier
                 = new Verifier<ServerResponse>(this, throwOnError);
 
