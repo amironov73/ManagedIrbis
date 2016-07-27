@@ -505,12 +505,14 @@ namespace IrbisTestRunner
         /// <summary>
         /// Run tests in the class.
         /// </summary>
-        public void RunTests
+        public bool RunTests
             (
                 AbstractTest testObject,
                 MethodInfo method
             )
         {
+            bool result = true;
+
             Write(ConsoleColor.Cyan, "{0} ", method.Name);
 
             TestContext context = new TestContext(new ConsoleOutput())
@@ -535,7 +537,9 @@ namespace IrbisTestRunner
             catch (Exception ex)
             {
                 context.Output.WriteError(ex.ToString());
-                throw;
+                context.Output.WriteError(Environment.NewLine);
+                WriteLine(ConsoleColor.Red, "FAIL");
+                result = false;
             }
             finally
             {
@@ -543,7 +547,14 @@ namespace IrbisTestRunner
                 context.Duration = context.FinishTime - context.StartTime;
             }
 
-            WriteLine(ConsoleColor.Green, " OK");
+            if (result)
+            {
+                WriteLine(ConsoleColor.Green, " OK");
+            }
+
+            context.Failed = !result;
+
+            return result;
         }
 
         /// <summary>

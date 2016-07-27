@@ -1,5 +1,7 @@
-﻿/* IrbisClientInfo.cs -- информация о клиенте, подключенном к серверу ИРБИС
+﻿/* ClientInfo.cs -- информация о клиенте, подключенном к серверу ИРБИС
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -24,7 +26,7 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class IrbisClientInfo
+    public sealed class ClientInfo
     {
         #region Properties
 

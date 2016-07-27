@@ -152,13 +152,14 @@
     <Compile Include="ImportExport\Iso2709.cs" />
     <Compile Include="ImportExport\IsoReader.cs" />
     <Compile Include="IrbisAlphabetTable.cs" />
-    <Compile Include="IrbisClientInfo.cs" />
+    <Compile Include="ClientInfo.cs" />
     <Compile Include="IrbisConstants.cs" />
     <Compile Include="IrbisStopWords.cs" />
     <Compile Include="IrbisText.cs" />
     <Compile Include="IrbisTreeFile.cs" />
     <Compile Include="Network\Commands\DatabaseStatCommand.cs" />
     <Compile Include="Network\Commands\PrintTableCommand.cs" />
+    <Compile Include="ServerStat.cs" />
     <Compile Include="StatDefinition.cs" />
     <Compile Include="TableDefinition.cs" />
     <Compile Include="UserInfo.cs" />

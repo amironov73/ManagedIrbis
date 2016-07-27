@@ -11,6 +11,7 @@ using System.IO;
 
 using AM;
 using AM.Text;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -213,18 +214,18 @@ namespace ManagedIrbis.Network
         /// Кодирование пакета.
         /// </summary>
         [NotNull]
-        public byte[] EncodePacket ()
+        public byte[] EncodePacket()
         {
             MemoryStream result = new MemoryStream();
 
             result
-                .EncodeString(CommandCode)      .EncodeDelimiter()
-                .EncodeWorkstation(Workstation) .EncodeDelimiter()
-                .EncodeString(CommandCode)      .EncodeDelimiter()
-                .EncodeInt32(ClientID)          .EncodeDelimiter()
-                .EncodeInt32(CommandNumber)     .EncodeDelimiter()
-                .EncodeString(UserPassword)     .EncodeDelimiter()
-                .EncodeString(UserLogin)        .EncodeDelimiter()
+                .EncodeString(CommandCode).EncodeDelimiter()
+                .EncodeWorkstation(Workstation).EncodeDelimiter()
+                .EncodeString(CommandCode).EncodeDelimiter()
+                .EncodeInt32(ClientID).EncodeDelimiter()
+                .EncodeInt32(CommandNumber).EncodeDelimiter()
+                .EncodeString(UserPassword).EncodeDelimiter()
+                .EncodeString(UserLogin).EncodeDelimiter()
 
                 // Три пустые перевода строки
                 .EncodeDelimiter()
@@ -234,19 +235,22 @@ namespace ManagedIrbis.Network
                 // Всего десять строк
                 ;
 
-            int countMinus1 = Arguments.Count - 1;
-            for (int i = 0; i < countMinus1; i++)
+            if (Arguments.Count != 0)
             {
-                result.EncodeAny(Arguments[i]);
-                result.EncodeDelimiter();
-            }
-            for (int i = countMinus1; i < Arguments.Count; i++)
-            {
-                result.EncodeAny(Arguments[i]);
-                // DO NOT add delimiter!
+                int countMinus1 = Arguments.Count - 1;
+                for (int i = 0; i < countMinus1; i++)
+                {
+                    result.EncodeAny(Arguments[i]);
+                    result.EncodeDelimiter();
+                }
+                for (int i = countMinus1; i < Arguments.Count; i++)
+                {
+                    result.EncodeAny(Arguments[i]);
+                    // DO NOT add delimiter!
+                }
             }
 
-            byte[] preResult =  result.ToArray();
+            byte[] preResult = result.ToArray();
             result = new MemoryStream();
             int length = preResult.Length;
             result

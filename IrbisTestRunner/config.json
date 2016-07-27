@@ -25,7 +25,7 @@
         //"ConnectionTest.cs",
         //"CreateDatabaseTest.cs",
         //"DatabaseInfoTest.cs"
-        "DatabaseStatTest.cs"
+        //"DatabaseStatTest.cs",
         //"FormatTest.cs",
         //"ListDatabasesTest.cs",
         //"ListFilesTest.cs",
@@ -44,6 +44,7 @@
         //"RecordCacheTest.cs",
         //"RecordHistoryTest.cs",
         //"SequentialSearchTest.cs",
+        "ServerStatTest.cs"
         //"TextCacheTest.cs",
         //"UpdateIniFileTest.cs",
         //"VersionTest.cs",

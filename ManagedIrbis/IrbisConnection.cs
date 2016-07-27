@@ -782,6 +782,23 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <summary>
+        /// Get server stat.
+        /// </summary>
+        [NotNull]
+        public ServerStat GetServerStat()
+        {
+            ServerResponse response = ExecuteCommand
+                (
+                    CommandCode.GetServerStat
+                );
+            ServerStat result = ServerStat.Parse(response);
+
+            return result;
+        }
+
+        // =========================================================
+
+        /// <summary>
         /// Get server version.
         /// </summary>
         [NotNull]
@@ -794,6 +811,8 @@ namespace ManagedIrbis
 
             return result;
         }
+
+        // =========================================================
 
         /// <summary>
         /// Get list of the databases.
@@ -822,6 +841,8 @@ namespace ManagedIrbis
         {
             return ListDatabases("dbnam1.mnu");
         }
+
+        // =========================================================
 
         /// <summary>
         /// List server files by the specification.
@@ -880,6 +901,8 @@ namespace ManagedIrbis
 
             return result;
         }
+
+        // =========================================================
 
         /// <summary>
         /// List server processes.

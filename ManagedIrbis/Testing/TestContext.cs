@@ -43,6 +43,12 @@ namespace ManagedIrbis.Testing
         public TimeSpan Duration { get; set; }
 
         /// <summary>
+        /// Test failed?
+        /// </summary>
+        [JsonProperty]
+        public bool Failed { get; set; }
+
+        /// <summary>
         /// Finish time.
         /// </summary>
         [JsonProperty("finish")]
