@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -43,9 +44,24 @@ namespace ManagedIrbis
         #region Constants
 
         /// <summary>
+        /// Database list for administrator.
+        /// </summary>
+        public const string AdministratorDatabaseList = "dbnam1.mnu";
+
+        /// <summary>
+        /// Database list for cataloger.
+        /// </summary>
+        public const string CatalogerDatabaseList = "dbnam2.mnu";
+
+        /// <summary>
         /// Max postings in the packet.
         /// </summary>
         public const int MaxPostings = 32758;
+
+        /// <summary>
+        /// Database list for reader.
+        /// </summary>
+        public const string ReaderDatabaseList = "dbnam3.mnu";
 
         #endregion
     }

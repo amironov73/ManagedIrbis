@@ -25,6 +25,7 @@
         //"ConnectionTest.cs",
         //"CreateDatabaseTest.cs",
         //"DatabaseInfoTest.cs"
+        "DatabaseStatTest.cs"
         //"FormatTest.cs",
         //"ListDatabasesTest.cs",
         //"ListFilesTest.cs",
@@ -36,7 +37,7 @@
         //"ReadBinaryFileTest.cs",
         //"ReadFileTest.cs",
         //"SearchTest.cs",
-        "PrintTableTest.cs"
+        //"PrintTableTest.cs",
         //"ReadPostingsTest.cs",
         //"ReadRecordTest.cs",
         //"ReadTermsTest.cs",

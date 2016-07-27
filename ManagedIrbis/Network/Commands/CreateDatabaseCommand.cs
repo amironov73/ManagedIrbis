@@ -22,6 +22,7 @@ namespace ManagedIrbis.Network.Commands
     /// <summary>
     /// Create new database on the server.
     /// </summary>
+    /// <remarks>For Administrator only.</remarks>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class CreateDatabaseCommand

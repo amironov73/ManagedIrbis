@@ -157,7 +157,9 @@
     <Compile Include="IrbisStopWords.cs" />
     <Compile Include="IrbisText.cs" />
     <Compile Include="IrbisTreeFile.cs" />
+    <Compile Include="Network\Commands\DatabaseStatCommand.cs" />
     <Compile Include="Network\Commands\PrintTableCommand.cs" />
+    <Compile Include="StatDefinition.cs" />
     <Compile Include="TableDefinition.cs" />
     <Compile Include="UserInfo.cs" />
     <Compile Include="IrbisUtility.cs" />

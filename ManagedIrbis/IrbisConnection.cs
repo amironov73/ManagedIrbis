@@ -721,6 +721,28 @@ namespace ManagedIrbis
             return result;
         }
 
+        /// <summary>
+        /// Get stat for the database.
+        /// </summary>
+        [NotNull]
+        public string GetDatabaseStat
+            (
+                [NotNull] StatDefinition definition
+            )
+        {
+            Code.NotNull(definition, "definition");
+
+            DatabaseStatCommand command = new DatabaseStatCommand(this)
+            {
+                Definition = definition
+            };
+            ExecuteCommand(command);
+
+            string result = command.Result;
+
+            return result;
+        }
+
         // =========================================================
 
         /// <summary>
