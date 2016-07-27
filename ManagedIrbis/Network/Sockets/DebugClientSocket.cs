@@ -121,7 +121,10 @@ namespace ManagedIrbis.Network.Sockets
 
             byte[] result = _innerSocket.ExecuteRequest(request);
 
-            Task.Run(() => _DumpPackets(request, result));
+            Task.Factory.StartNew
+                (
+                    () => _DumpPackets(request, result)
+                );
 
             return result;
         }

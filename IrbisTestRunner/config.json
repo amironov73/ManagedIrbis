@@ -1,6 +1,6 @@
 ﻿{
     "irbisServer": "C:\\IRBIS64_2015\\irbis_server.exe",
-    "connectionString": "host=127.0.0.1;port=6666;user=1;password=1;arm=A;debug=C:\\Projects\\ManagedClient.45\\Temp",
+    "connectionString": "host=127.0.0.1;port=6666;user=1;password=1;arm=A;",
     "testPath": "C:\\Projects\\ManagedClient.45\\IrbisTestRunner\\Tests",
     "dataPath": "C:\\Projects\\ManagedClient.45\\TestData",
     "resultPath": "C:\\Projects\\ManagedClient.45\\IrbisTestRunner\\Results",
@@ -24,7 +24,7 @@
         //"BinaryResourceTest.cs",
         //"ConnectionTest.cs",
         //"CreateDatabaseTest.cs",
-        "CreateDictionaryTest.cs"
+        //"CreateDictionaryTest.cs",
         //"DatabaseInfoTest.cs"
         //"DatabaseStatTest.cs",
         //"FormatTest.cs",
@@ -48,7 +48,7 @@
         //"ServerStatTest.cs",
         //"TextCacheTest.cs",
         //"UpdateIniFileTest.cs",
-        //"VersionTest.cs",
+        "VersionTest.cs"
         //"WriteFileTest.cs",
         //"WriteRecordsTest.cs",
         //"WriteRecordTest.cs"

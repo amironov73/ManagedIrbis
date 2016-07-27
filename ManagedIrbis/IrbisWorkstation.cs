@@ -1,5 +1,7 @@
 ﻿/* IrbisWorkstation.cs -- коды АРМов ИРБИС
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 namespace ManagedIrbis

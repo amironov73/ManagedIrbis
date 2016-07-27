@@ -16,7 +16,7 @@ EXIT
 
 :BUILD
 ECHO BUILD %1 %2 %4
-%MSBUILD% %1\%1.csproj /p:Configuration=%2 /p:TargetFrameworkVersion=%4  /p:OutputPath=%OUTPUT%\%2%3 %PARAMS% /p:DefineConstants=%5
+%MSBUILD% %1\%1.csproj /p:Configuration=%2 /p:TargetFrameworkVersion=%4  /p:OutputPath=%OUTPUT%\%2%3 %PARAMS% /p:DefineConstants=%5 /t:Rebuild
 GOTO :END
 
 :END

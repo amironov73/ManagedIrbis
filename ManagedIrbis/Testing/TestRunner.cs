@@ -2,8 +2,6 @@
  * Ars Magna project, http://arsmagna.ru 
  */
 
-using AM.Text.Output;
-using Newtonsoft.Json;
 #if FW45
 
 #region Using directives
@@ -19,6 +17,7 @@ using System.Text;
 using System.Threading;
 
 using AM;
+using AM.Text.Output;
 
 using CodeJam;
 
@@ -29,6 +28,7 @@ using ManagedIrbis.Testing;
 
 using Microsoft.CSharp;
 
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 #endregion

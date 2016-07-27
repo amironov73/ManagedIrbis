@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7FC69DC5-96D0-460C-963B-81E5FE6057E4}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SharpIrbis.Console</RootNamespace>
+    <AssemblyName>SharpIrbis.Console</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>BlueBook.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>ArsMagna.private.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <Choose>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
+      <ItemGroup>
+        <Reference Include="Antlr4.Runtime">
+          <HintPath>..\..\Libs\net35\Antlr4.Runtime.net35.dll</HintPath>
+        </Reference>
+        <Reference Include="BLToolkit">
+          <HintPath>..\..\Libs\net35\BLToolkit.3.dll</HintPath>
+        </Reference>
+        <Reference Include="MoonSharp.Interpreter">
+          <HintPath>..\..\Libs\net35\MoonSharp.Interpreter.dll</HintPath>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+          <HintPath>..\..\Libs\net35\Newtonsoft.Json.dll</HintPath>
+        </Reference>
+        <Reference Include="System.Threading">
+          <HintPath>..\..\Libs\net35\System.Threading.dll</HintPath>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
+      <ItemGroup>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Antlr4.Runtime">
+          <HintPath>..\..\Libs\net40\Antlr4.Runtime.net40.dll</HintPath>
+        </Reference>
+        <Reference Include="BLToolkit">
+          <HintPath>..\..\Libs\net40\BLToolkit.4.dll</HintPath>
+        </Reference>
+        <Reference Include="MoonSharp.Interpreter">
+          <HintPath>..\..\Libs\net40\MoonSharp.Interpreter.dll</HintPath>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+          <HintPath>..\..\Libs\net40\Newtonsoft.Json.dll</HintPath>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v4.5' ">
+      <ItemGroup>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Antlr4.Runtime">
+          <HintPath>..\..\Libs\net45\Antlr4.Runtime.net45.dll</HintPath>
+        </Reference>
+        <Reference Include="BLToolkit">
+          <HintPath>..\..\Libs\net40\BLToolkit.4.dll</HintPath>
+        </Reference>
+        <Reference Include="MoonSharp.Interpreter">
+          <HintPath>..\..\Libs\net45\MoonSharp.Interpreter.dll</HintPath>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+          <HintPath>..\..\Libs\net45\Newtonsoft.Json.dll</HintPath>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <ItemGroup>
+    <Reference Include="JetBrains.Annotations">
+      <HintPath>..\..\Libs\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Scripts\HelloWorld.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="ArsMagna.private.snk" />
+    <Content Include="config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AM.Core\AM.Core.csproj">
+      <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
+      <Name>AM.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ManagedIrbis\ManagedIrbis.csproj">
+      <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
+      <Name>ManagedIrbis</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BlueBook.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,11 +1,14 @@
 ﻿/* RetryManager.cs -- retry execution of function
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
 
 using System;
 using System.Threading;
+
 using CodeJam;
 
 using JetBrains.Annotations;

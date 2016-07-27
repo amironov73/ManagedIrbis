@@ -1,0 +1,18 @@
+﻿{
+    "connectionString": "host=127.0.0.1;port=6666;user=1;password=1;arm=A;",
+    "references": [
+        "AM.Core.dll",
+        "Antlr4.Runtime.net45.dll",
+        "JetBrains.Annotations.dll",
+        "ManagedIrbis.dll",
+        "Microsoft.CSharp.dll",
+        "MoonSharp.Interpreter.dll",
+        "Newtonsoft.Json.dll",
+        "System.dll",
+        "System.Core.dll",
+        "System.Data.dll",
+        "System.Data.DataSetExtensions.dll",
+        "System.Xml.dll",
+        "System.Xml.Linq.dll"
+    ]
+}
