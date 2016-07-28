@@ -4,7 +4,7 @@
  * Status: poor
  */
 
-#if !NETCORE
+#if !NETCORE || FW35 || FW40 || FW45
 
 #region Using directives
 
