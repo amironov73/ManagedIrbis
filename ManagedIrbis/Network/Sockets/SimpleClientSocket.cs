@@ -101,7 +101,7 @@ namespace ManagedIrbis.Network
 
 #endif
 
-#if FW45
+#if NETCORE
 
             Task task = result.ConnectAsync(_address, Connection.Port);
             task.Wait();

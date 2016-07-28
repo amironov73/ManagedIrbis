@@ -1,6 +1,10 @@
 ﻿/* NotifyPropertyChangedUtility.cs -- 
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
+
+#if !NETCORE
 
 #region Using directives
 
@@ -93,3 +97,5 @@ namespace AM.ComponentModel
         #endregion
     }
 }
+
+#endif

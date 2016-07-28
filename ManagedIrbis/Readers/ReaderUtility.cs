@@ -1,4 +1,7 @@
 ﻿/* ReaderUtility.cs -- методы для работы с БД читателей.
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -271,7 +274,9 @@ namespace ManagedIrbis.Readers
             }
 
             return events
+#if !NETCORE
                 .AsParallel()
+#endif
                 .Where(v => v.Department.SameString(department))
                 .ToArray();
         }
@@ -292,7 +297,9 @@ namespace ManagedIrbis.Readers
             }
 
             return events
+#if !NETCORE
                 .AsParallel()
+#endif
                 .Where(v => v.IsVisit == visit)
                 .ToArray();
         }
@@ -314,7 +321,9 @@ namespace ManagedIrbis.Readers
 
             string dayString = IrbisDate.ConvertDateToString(day);
             VisitInfo[] result = events
+#if !NETCORE
                 .AsParallel()
+#endif
                 .Where(v => v.DateGivenString.SameString(dayString))
                 .ToArray();
             return result;
@@ -339,13 +348,15 @@ namespace ManagedIrbis.Readers
             string fromDayString = IrbisDate.ConvertDateToString(fromDay);
             string toDayString = IrbisDate.ConvertDateToString(toDay);
             VisitInfo[] result = events
+#if !NETCORE
                 .AsParallel()
+#endif
                 .Where(v => (v.DateGivenString.SafeCompare(fromDayString) >= 0)
                             && (v.DateGivenString.SafeCompare(toDayString) <= 0))
                 .ToArray();
             return result;
         }
 
-        #endregion
+#endregion
     }
 }

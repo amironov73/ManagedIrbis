@@ -8,6 +8,7 @@
 
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 using CodeJam;
 
@@ -83,7 +84,11 @@ namespace AM
         {
             if (DelayInterval > 0)
             {
+#if NETCORE
+                Task.Delay(DelayInterval).Wait();
+#else
                 Thread.Sleep(DelayInterval);
+#endif
             }
         }
 
@@ -107,9 +112,9 @@ namespace AM
             _Delay();
         }
 
-        #endregion
+#endregion
 
-        #region Public methods
+#region Public methods
 
         /// <summary>
         /// Try to execute specified function.
@@ -325,6 +330,6 @@ namespace AM
             throw new ArsMagnaException("RetryManager failed");
         }
 
-        #endregion
+#endregion
     }
 }

@@ -1,5 +1,7 @@
 ﻿/* RecordFieldUtility.cs --
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -1436,6 +1438,8 @@ namespace ManagedIrbis
             return result;
         }
 
+#if !NETCORE
+
         /// <summary>
         /// Converts the field to XML.
         /// </summary>
@@ -1482,6 +1486,8 @@ namespace ManagedIrbis
 
             return result;
         }
+
+#endif
 
         #endregion
     }

@@ -1,5 +1,7 @@
 ﻿/* GblUtility.cs -- utility routines for GBL handling
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -58,6 +60,8 @@ namespace ManagedIrbis.Gbl
             return result;
         }
 
+#if !NETCORE
+
         /// <summary>
         /// Restore <see cref="GblFile"/> from JSON.
         /// </summary>
@@ -77,6 +81,8 @@ namespace ManagedIrbis.Gbl
                 return result;
             }
         }
+
+#endif
 
         /// <summary>
         /// Parses the local JSON file.
@@ -99,6 +105,8 @@ namespace ManagedIrbis.Gbl
             return result;
         }
 
+#if !NETCORE
+
         /// <summary>
         /// Parses the local XML file.
         /// </summary>
@@ -119,6 +127,8 @@ namespace ManagedIrbis.Gbl
 
             return result;
         }
+
+#endif
 
         /// <summary>
         /// Saves <see cref="GblFile"/> to local JSON file.
@@ -161,6 +171,8 @@ namespace ManagedIrbis.Gbl
             return result;
         }
 
+#if !NETCORE
+
         /// <summary>
         /// Converts the <see cref="GblFile"/> to XML.
         /// </summary>
@@ -180,6 +192,7 @@ namespace ManagedIrbis.Gbl
             return writer.ToString();
         }
 
+#endif
 
         #endregion
     }

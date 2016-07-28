@@ -1,5 +1,7 @@
 ﻿/* TaskProcessor.cs -- 
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -171,11 +173,14 @@ namespace AM.Threading.Tasks
         /// </summary>
         public void WaitForCompletion()
         {
+#if NETCORE
+            SpinWait.SpinUntil(() => _queue.IsCompleted);
+#else
             while (!_queue.IsCompleted)
             {
                 Thread.SpinWait(100000);
             }
-
+#endif
             Task[] tasks;
 
             lock (_running)
@@ -188,6 +193,6 @@ namespace AM.Threading.Tasks
             Task.WaitAll(tasks);
         }
 
-        #endregion
+#endregion
     }
 }

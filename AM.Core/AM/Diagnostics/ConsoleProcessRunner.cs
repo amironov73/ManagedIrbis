@@ -2,6 +2,8 @@
  * ArsMagna project, http://arsmagna.ru
  */
 
+ #if !NETCORE
+
 #region Using directives
 
 using System;
@@ -181,3 +183,5 @@ namespace AM.Diagnostics
         #endregion
     }
 }
+
+#endif

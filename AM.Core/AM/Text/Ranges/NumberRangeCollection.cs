@@ -1,5 +1,10 @@
 ﻿/* NumberRangeCollection.cs -- набор диапазонов чисел.
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
+
+#if !NETCORE
 
 #region Using directives
 
@@ -328,3 +333,5 @@ namespace AM.Text.Ranges
         #endregion
     }
 }
+
+#endif

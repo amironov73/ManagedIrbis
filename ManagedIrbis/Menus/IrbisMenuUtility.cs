@@ -1,5 +1,7 @@
 ﻿/* IrbisMenuUtility.cs -- MNU file extended handling.
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -209,6 +211,8 @@ namespace ManagedIrbis.Menus
             return result;
         }
 
+#if !NETCORE
+
         /// <summary>
         /// Converts the menu to XML.
         /// </summary>
@@ -227,6 +231,8 @@ namespace ManagedIrbis.Menus
 
             return writer.ToString();
         }
+
+#endif
 
         #endregion
     }

@@ -1,5 +1,7 @@
 ﻿/* IrbisScript.cs -- Lua-interpreter for IRBIS
- * Ars Magna project, http://arsmagna.ru 
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -113,6 +115,8 @@ namespace ManagedIrbis.Scripting
         /// </summary>
         private void _Initialize()
         {
+#if !NETCORE
+
             RegisterIrbisTypes();
             Engine = new Script(CoreModules.Preset_Complete);
 
@@ -133,11 +137,12 @@ namespace ManagedIrbis.Scripting
             }
 
             SetRecord(null);
+#endif
         }
 
-        #endregion
+#endregion
 
-        #region Public methods
+#region Public methods
 
         /// <summary>
         /// Вызов Lua-функции и получение результата.
@@ -150,6 +155,10 @@ namespace ManagedIrbis.Scripting
             )
         {
             Code.NotNullNorEmpty(name, "name");
+
+#if NETCORE
+            return null;
+#else        
 
             DynValue function = Engine.Globals.Get(name);
             if (function.Type != DataType.Function)
@@ -164,6 +173,7 @@ namespace ManagedIrbis.Scripting
                 );
 
             return result;
+#endif
         }
 
         /// <summary>
@@ -178,12 +188,17 @@ namespace ManagedIrbis.Scripting
         {
             Code.NotNullNorEmpty(filename, "filename");
 
+#if NETCORE
+            return DynValue.Nil;
+#else
+
             DynValue result = Engine.DoFile
                 (
                     filename
                 );
 
             return result;
+#endif
         }
 
         /// <summary>
@@ -199,7 +214,12 @@ namespace ManagedIrbis.Scripting
             {
                 return DynValue.Nil;
             }
+
+#if NETCORE
+            return DynValue.Nil;
+#else
             return Engine.DoString(code);
+#endif
         }
 
         /// <summary>
@@ -211,7 +231,11 @@ namespace ManagedIrbis.Scripting
                 [NotNull] string name
             )
         {
+#if NETCORE
+            return DynValue.Nil;
+#else
             return Engine.Globals.Get(name);
+#endif
         }
 
         /// <summary>
@@ -226,7 +250,9 @@ namespace ManagedIrbis.Scripting
                 //UserData.RegisterAssembly(typeof(StringUtility).Assembly);
                 //UserData.RegisterAssembly(typeof(IrbisScript).Assembly);
 
+#if !NETCORE
                 UserData.RegisterType<Version>();
+#endif
                 _typesRegistered = true;
             }
         }
@@ -244,6 +270,7 @@ namespace ManagedIrbis.Scripting
         {
             Code.NotNullNorEmpty(name, "name");
 
+#if !NETCORE
             Engine.Globals.Set
                 (
                     name,
@@ -253,6 +280,7 @@ namespace ManagedIrbis.Scripting
                         value
                     )
                 );
+#endif
 
             return this;
         }
@@ -274,9 +302,9 @@ namespace ManagedIrbis.Scripting
             return this;
         }
 
-        #endregion
+#endregion
 
-        #region IDisposable members
+#region IDisposable members
         /// <summary>
         /// Performs application-defined tasks associated
         /// with freeing, releasing, or resetting
@@ -290,6 +318,6 @@ namespace ManagedIrbis.Scripting
             }
         }
 
-        #endregion
+#endregion
     }
 }

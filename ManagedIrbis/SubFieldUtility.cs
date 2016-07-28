@@ -1,5 +1,7 @@
 ﻿/* SubFieldUtility.cs --
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -392,6 +394,8 @@ namespace ManagedIrbis
             return result;
         }
 
+#if !NETCORE
+
         /// <summary>
         /// Convert the subfield to XML.
         /// </summary>
@@ -438,6 +442,8 @@ namespace ManagedIrbis
             
             return result;
         }
+
+#endif
 
         #endregion
     }

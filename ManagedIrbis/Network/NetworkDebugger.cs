@@ -1,5 +1,7 @@
-﻿/* IrbisNetworkDebugger.cs -- debugger for network protocol
+﻿/* NetworkDebugger.cs -- debugger for network protocol
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -97,12 +99,20 @@ namespace ManagedIrbis.Network
                 string text
             )
         {
+#if NETCORE
+
+            Debug.WriteLine(text);
+
+#else
+
             Debugger.Log
                 (
                     0,
                     "IRBIS",
                     text
                 );
+
+#endif
         }
 
         /// <summary>
@@ -119,6 +129,6 @@ namespace ManagedIrbis.Network
             }
         }
 
-        #endregion
+#endregion
     }
 }

@@ -44,6 +44,9 @@
         <Reference Include="Antlr4.Runtime">
           <HintPath>..\Libs\net35\Antlr4.Runtime.net35.dll</HintPath>
         </Reference>
+        <Reference Include="MoonSharp.Interpreter">
+          <HintPath>..\Libs\net35\MoonSharp.Interpreter.dll</HintPath>
+        </Reference>
         <Reference Include="Newtonsoft.Json">
           <HintPath>..\Libs\net35\Newtonsoft.Json.dll</HintPath>
         </Reference>
@@ -58,6 +61,9 @@
         <Reference Include="Antlr4.Runtime">
           <HintPath>..\Libs\net40\Antlr4.Runtime.net40.dll</HintPath>
         </Reference>
+        <Reference Include="MoonSharp.Interpreter">
+          <HintPath>..\Libs\net35\MoonSharp.Interpreter.dll</HintPath>
+        </Reference>
         <Reference Include="Newtonsoft.Json">
           <HintPath>..\Libs\net40\Newtonsoft.Json.dll</HintPath>
         </Reference>
@@ -68,6 +74,9 @@
         <Reference Include="Microsoft.CSharp" />
         <Reference Include="Antlr4.Runtime">
           <HintPath>..\Libs\net45\Antlr4.Runtime.net45.dll</HintPath>
+        </Reference>
+        <Reference Include="MoonSharp.Interpreter">
+          <HintPath>..\Libs\net45\MoonSharp.Interpreter.dll</HintPath>
         </Reference>
         <Reference Include="Newtonsoft.Json">
           <HintPath>..\Libs\net45\Newtonsoft.Json.dll</HintPath>
@@ -227,9 +236,13 @@
     <Compile Include="AM\TypeUtility.cs" />
     <Compile Include="AM\Xml\XmlNamespaces.cs" />
     <Compile Include="AM\Xml\XmlUtility.cs" />
+    <Compile Include="Compatibility\BLToolkit.cs" />
+    <Compile Include="Compatibility\ComponentModel.cs" />
+    <Compile Include="Compatibility\Data.cs" />
     <Compile Include="Compatibility\DummyClass.cs" />
-    <Compile Include="Compatibility\MoonSharpUserData.cs" />
+    <Compile Include="Compatibility\MoonSharp.cs" />
     <Compile Include="Compatibility\StringBuilderCompability.cs" />
+    <Compile Include="Compatibility\Xml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AM\RetryManager.cs" />
   </ItemGroup>

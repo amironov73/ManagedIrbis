@@ -1,4 +1,7 @@
 ﻿/* ExemplarInfo.cs -- информация об экземпляре (поле 910).
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

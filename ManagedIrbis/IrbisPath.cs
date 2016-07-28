@@ -1,5 +1,7 @@
-﻿/* IrbisPath.cs -- path codes for Irbis64
+﻿/* IrbisPath.cs -- path codes for IRBIS64
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 namespace ManagedIrbis

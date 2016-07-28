@@ -1,6 +1,10 @@
 ﻿/* StringBuilderCompatibility.cs -- compatibility with StringBuilder
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * State: poor
  */
+
+#if FW35
 
 #region Using directives
 
@@ -12,8 +16,6 @@ using JetBrains.Annotations;
 
 namespace Compatibility
 {
-
-#if FW35
 
     /// <summary>
     /// Compatibility with <see cref="StringBuilder"/>.
@@ -41,6 +43,6 @@ namespace Compatibility
         #endregion
     }
 
-#endif
-
 }
+
+#endif
