@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.IO;
-
+using AM.Threading;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -118,7 +118,15 @@ namespace ManagedIrbis.Network
 
         #endregion
 
-        #region IrbisClientSocket members
+        #region AbstractClientSocket members
+
+        /// <summary>
+        /// Abort the request.
+        /// </summary>
+        public override void AbortRequest()
+        {
+            // TODO do something?
+        }
 
         /// <summary>
         /// Send request to server and receive answer.
@@ -132,20 +140,23 @@ namespace ManagedIrbis.Network
 
             _ResolveHostAddress(Connection.Host);
 
-            using (TcpClient client = _GetTcpClient())
+            using (new BusyGuard(Busy))
             {
-                NetworkStream stream = client.GetStream();
+                using (TcpClient client = _GetTcpClient())
+                {
+                    NetworkStream stream = client.GetStream();
 
-                stream.Write
-                    (
-                        request,
-                        0,
-                        request.Length
-                    );
+                    stream.Write
+                        (
+                            request,
+                            0,
+                            request.Length
+                        );
 
-                byte[] result = stream.ReadToEnd();
+                    byte[] result = stream.ReadToEnd();
 
-                return result;
+                    return result;
+                }
             }
         }
 

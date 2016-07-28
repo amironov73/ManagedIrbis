@@ -20,6 +20,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Network.Resolving;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -50,7 +52,6 @@ namespace ManagedIrbis.Network.Commands
         /// <summary>
         /// Good return codes.
         /// </summary>
-        // ReSharper disable VirtualMemberNeverOverriden.Global
         public virtual int[] GoodReturnCodes
         {
             get
@@ -58,7 +59,12 @@ namespace ManagedIrbis.Network.Commands
                 return new int[0];
             }
         }
-        // ReSharper restore VirtualMemberNeverOverriden.Global
+
+        /// <summary>
+        /// Problem resolver (if specified)
+        /// </summary>
+        [CanBeNull]
+        public AbstractResolver ProblemResolver { get; set; }
 
         /// <summary>
         /// Relax (may be malformed) server response.

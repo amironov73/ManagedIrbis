@@ -62,11 +62,10 @@ namespace AM
         public RetryManager
             (
                 int retryCount,
-                [NotNull] Func<Exception, bool> resolver
+                [CanBeNull] Func<Exception, bool> resolver
             )
         {
             Code.Positive(retryCount, "retryCount");
-            Code.NotNull(resolver, "resolver");
 
             _retryCount = retryCount;
             _resolver = resolver;
@@ -84,7 +83,7 @@ namespace AM
         {
             if (DelayInterval > 0)
             {
-#if NETCORE
+#if NETCORE || FW45
                 Task.Delay(DelayInterval).Wait();
 #else
                 Thread.Sleep(DelayInterval);
@@ -92,9 +91,18 @@ namespace AM
             }
         }
 
-        private void _Resolve(Exception ex)
+        private void _Resolve
+            (
+                int count,
+                Exception ex
+            )
         {
-            if (_resolver == null)
+            if (count >= RetryCount)
+            {
+                throw ex;
+            }
+
+            if (ReferenceEquals(_resolver, null))
             {
                 return;
             }
@@ -114,7 +122,7 @@ namespace AM
 
 #endregion
 
-#region Public methods
+        #region Public methods
 
         /// <summary>
         /// Try to execute specified function.
@@ -135,7 +143,7 @@ namespace AM
                 }
                 catch (Exception ex)
                 {
-                    _Resolve(ex);
+                    _Resolve(i, ex);
                 }
             }
         }
@@ -160,7 +168,7 @@ namespace AM
                 }
                 catch (Exception ex)
                 {
-                    _Resolve(ex);
+                    _Resolve(i, ex);
                 }
             }
 
@@ -188,7 +196,7 @@ namespace AM
                 }
                 catch (Exception ex)
                 {
-                    _Resolve(ex);
+                    _Resolve(i, ex);
                 }
             }
 
@@ -217,7 +225,7 @@ namespace AM
                 }
                 catch (Exception ex)
                 {
-                    _Resolve(ex);
+                    _Resolve(i, ex);
                 }
             }
 
@@ -242,7 +250,7 @@ namespace AM
                 }
                 catch (Exception ex)
                 {
-                    _Resolve(ex);
+                    _Resolve(i, ex);
                 }
             }
 
@@ -268,7 +276,7 @@ namespace AM
                 }
                 catch (Exception ex)
                 {
-                    _Resolve(ex);
+                    _Resolve(i, ex);
                 }
             }
 
@@ -295,7 +303,7 @@ namespace AM
                 }
                 catch (Exception ex)
                 {
-                    _Resolve(ex);
+                    _Resolve(i, ex);
                 }
             }
 
@@ -323,13 +331,13 @@ namespace AM
                 }
                 catch (Exception ex)
                 {
-                    _Resolve(ex);
+                    _Resolve(i, ex);
                 }
             }
 
             throw new ArsMagnaException("RetryManager failed");
         }
 
-#endregion
+        #endregion
     }
 }

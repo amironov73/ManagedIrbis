@@ -20,7 +20,7 @@ using JetBrains.Annotations;
 using ManagedIrbis.Menus;
 using ManagedIrbis.Network;
 using ManagedIrbis.Network.Commands;
-
+using ManagedIrbis.Network.Sockets;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -103,21 +103,40 @@ namespace ManagedIrbis
             return result;
         }
 
-        ///// <summary>
-        ///// Стандартные наименования для ключа строки подключения
-        ///// к серверу ИРБИС64.
-        ///// </summary>
-        //public static string[] ListStandardConnectionStrings()
-        //{
-        //    return new[]
-        //    {
-        //        "irbis-connection",
-        //        "irbis-connection-string",
-        //        "irbis64-connection",
-        //        "irbis64",
-        //        "connection-string"
-        //    };
-        //}
+        /// <summary>
+        /// Remove logging from socket.
+        /// </summary>
+        public static void RemoveLogging
+            (
+                [NotNull] this IrbisConnection connection
+            )
+        {
+            Code.NotNull(connection, "connection");
+
+            LoggingClientSocket oldSocket = connection.Socket
+                as LoggingClientSocket;
+            if (!ReferenceEquals(oldSocket, null))
+            {
+                AbstractClientSocket newSocket = oldSocket.InnerSocket;
+                connection.SetSocket(newSocket);
+            }
+        }
+
+        /// <summary>
+        /// Стандартные наименования для ключа строки подключения
+        /// к серверу ИРБИС64.
+        /// </summary>
+        public static string[] ListStandardConnectionStrings()
+        {
+            return new[]
+            {
+                "irbis-connection",
+                "irbis-connection-string",
+                "irbis64-connection",
+                "irbis64",
+                "connection-string"
+            };
+        }
 
         ///// <summary>
         ///// Получаем строку подключения в app.settings.

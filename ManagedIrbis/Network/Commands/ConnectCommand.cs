@@ -43,6 +43,10 @@ namespace ManagedIrbis.Network.Commands
 
         #endregion
 
+        #region Properties
+
+        #endregion
+
         #region Construction
 
         /// <summary>

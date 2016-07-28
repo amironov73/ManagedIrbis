@@ -1,4 +1,4 @@
-﻿/* DebugClientSocket.cs -- 
+﻿/* LoggingClientSocket.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -6,6 +6,7 @@
 
 #region Using directives
 
+using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace ManagedIrbis.Network.Sockets
 {
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class DebugClientSocket
+    public sealed class LoggingClientSocket
         : AbstractClientSocket
     {
         #region Properties
@@ -41,7 +42,7 @@ namespace ManagedIrbis.Network.Sockets
 
         #region Construction
 
-        public DebugClientSocket
+        public LoggingClientSocket
             (
                 [NotNull] IrbisConnection connection,
                 [NotNull] AbstractClientSocket innerSocket,
@@ -72,6 +73,43 @@ namespace ManagedIrbis.Network.Sockets
         private readonly string _debugPath;
 
         private readonly AbstractClientSocket _innerSocket;
+
+        private void _DumpGeneralInfo
+            (
+                string suffix,
+                string text
+            )
+        {
+            int counter = Interlocked.Increment(ref _counter);
+
+            string path = Path.Combine
+                (
+                    _debugPath,
+                    string.Format
+                    (
+                        "{0:00000000}{1}.packet",
+                        counter,
+                        suffix
+                    )
+                );
+            File.WriteAllText
+                (
+                    path,
+                    text
+                );
+        }
+
+        private void _DumpException
+            (
+                Exception exception
+            )
+        {
+            _DumpGeneralInfo
+                (
+                    "ex",
+                    exception.ToString()
+                );
+        }
 
         private void _DumpPackets
             (
@@ -112,6 +150,17 @@ namespace ManagedIrbis.Network.Sockets
 
         #region AbstractClientSocket members
 
+        /// <summary>
+        /// Abort the request.
+        /// </summary>
+        public override void AbortRequest()
+        {
+            InnerSocket.AbortRequest();
+        }
+
+        /// <summary>
+        /// Send request to server and receive answer.
+        /// </summary>
         public override byte[] ExecuteRequest
             (
                 byte[] request
@@ -119,7 +168,19 @@ namespace ManagedIrbis.Network.Sockets
         {
             Code.NotNull(request, "request");
 
-            byte[] result = _innerSocket.ExecuteRequest(request);
+            byte[] result;
+            try
+            {
+                result = _innerSocket.ExecuteRequest(request);
+            }
+            catch (Exception exception)
+            {
+                Task.Factory.StartNew
+                    (
+                        () => _DumpException(exception)
+                    );
+                throw;
+            }
 
             Task.Factory.StartNew
                 (

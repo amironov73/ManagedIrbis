@@ -77,11 +77,6 @@ namespace ManagedIrbis
         //public const string DefaultPassword = "1";
 
         /// <summary>
-        /// Количество попыток повторения команды по умолчанию.
-        /// </summary>
-        public const int DefaultRetryCount = 5;
-
-        /// <summary>
         /// Таймаут получения ответа от сервера по умолчанию.
         /// </summary>
         public const int DefaultTimeout = 30000;
@@ -218,12 +213,6 @@ namespace ManagedIrbis
         //}
 
         /// <summary>
-        /// Количество повторений команды при неудаче.
-        /// </summary>
-        [DefaultValue(DefaultRetryCount)]
-        public int RetryCount { get; set; }
-
-        /// <summary>
         /// Таймаут получения ответа от сервера в миллисекундах
         /// (для продвинутых функций).
         /// </summary>
@@ -267,7 +256,6 @@ namespace ManagedIrbis
             Username = null;
             Password = null;
             Workstation = DefaultWorkstation;
-            RetryCount = DefaultRetryCount;
 
             Socket = new SimpleClientSocket(this);
         }
@@ -420,6 +408,8 @@ namespace ManagedIrbis
                 bool connect
             )
         {
+            // TODO clone socket?
+
             IrbisConnection result = new IrbisConnection
             {
                 Host = Host,
@@ -428,7 +418,6 @@ namespace ManagedIrbis
                 Password = Password,
                 Database = Database,
                 Workstation = Workstation,
-                RetryCount = RetryCount,
                 Timeout = Timeout,
                 // Socket = Socket.Clone ()
             };
@@ -1050,7 +1039,7 @@ namespace ManagedIrbis
                         Workstation = (IrbisWorkstation)(byte)(value[0]);
                         break;
                     case "debug":
-                        SetDebug(value);
+                        SetLogging(value);
                         break;
                     //case "data":
                     //    UserData = value;
@@ -1531,25 +1520,68 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <summary>
-        /// Set debug socket, gather debug info to specified path.
+        /// Set logging socket, gather debug info to specified path.
         /// </summary>
-        public void SetDebug
+        public void SetLogging
             (
-                [NotNull] string debugPath
+                [NotNull] string loggingPath
             )
         {
-            Code.NotNullNorEmpty(debugPath, "debugPath");
+            Code.NotNullNorEmpty(loggingPath, "loggingPath");
 
-            DebugClientSocket socket = new DebugClientSocket
+            AbstractClientSocket oldSocket = Socket;
+            if (oldSocket is LoggingClientSocket)
+            {
+                return;
+            }
+
+            LoggingClientSocket newSocket = new LoggingClientSocket
                 (
                     this,
                     Socket,
-                    debugPath
+                    loggingPath
                 );
 
-            DirectoryUtility.ClearDirectory(debugPath);
+            DirectoryUtility.ClearDirectory(loggingPath);
 
-            SetSocket(socket);
+            SetSocket(newSocket);
+        }
+
+        // =========================================================
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void SetRetry
+            (
+                int retryCount,
+                [CanBeNull] Func<Exception, bool> resolver
+            )
+        {
+            RetryClientSocket oldSocket = Socket
+                as RetryClientSocket;
+
+            if (retryCount <= 0)
+            {
+                if (!ReferenceEquals(oldSocket, null))
+                {
+                    SetSocket(oldSocket.InnerSocket);
+                }
+            }
+            else
+            {
+                RetryClientSocket newSocket = new RetryClientSocket
+                    (
+                        this,
+                        Socket,
+                        new RetryManager(retryCount, resolver)
+                    );
+
+                if (ReferenceEquals(oldSocket, null))
+                {
+                    SetSocket(newSocket);
+                }
+            }
         }
 
         // =========================================================

@@ -83,7 +83,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArsMagnaException))]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestRetryManagerAction5()
         {
             Action<int> action = argument =>
