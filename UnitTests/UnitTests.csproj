@@ -147,6 +147,7 @@
     <Compile Include="AM\Text\Hyphenation\HyphenatorTest.cs" />
     <Compile Include="AM\Text\Output\TextOutputTest.cs" />
     <Compile Include="AM\Text\Output\OutputWriterTest.cs" />
+    <Compile Include="AM\Text\Ranges\NumberRangeCollectionTest.cs" />
     <Compile Include="AM\Text\StringTokenizerTest.cs" />
     <Compile Include="AM\Text\StreamParserTest.cs" />
     <Compile Include="AM\Text\TransliteratorTest.cs" />

@@ -1199,6 +1199,7 @@ namespace ManagedIrbis
 
             MarcRecord record = new MarcRecord
             {
+                HostName = Host,
                 Database = Database
             };
 
@@ -1244,6 +1245,7 @@ namespace ManagedIrbis
 
             MarcRecord record = new MarcRecord
             {
+                HostName = Host,
                 Database = Database
             };
 

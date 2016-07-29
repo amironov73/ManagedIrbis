@@ -1,5 +1,7 @@
 ﻿/* TextWithEncoding.cs -- text with given encoding
  * Ars Magna project, http://arsmagna.ru 
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

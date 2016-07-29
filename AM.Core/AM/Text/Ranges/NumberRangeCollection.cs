@@ -4,8 +4,6 @@
  * Status: poor
  */
 
-#if FW35 || FW40 || FW45
-
 #region Using directives
 
 using System;
@@ -13,8 +11,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using Antlr4.Runtime;
 
 using CodeJam;
 
@@ -46,6 +42,8 @@ namespace AM.Text.Ranges
 
         #region Properties
 
+        public int Count { get { return _items.Count; } }
+
         /// <summary>
         /// Разделитель диапазонов.
         /// </summary>
@@ -58,24 +56,10 @@ namespace AM.Text.Ranges
         /// <summary>
         /// Конструктор по умолчанию.
         /// </summary>
-        public NumberRangeCollection ()
+        public NumberRangeCollection()
         {
             Delimiter = DefaultDelimiter;
             _items = new List<NumberRange>();
-        }
-
-        private NumberRangeCollection
-            (
-                NumberRangesParser.ProgramContext program
-            )
-            : this()
-        {
-            foreach (NumberRangesParser.ItemContext itemContext 
-                in program.item())
-            {
-                NumberRange range = new NumberRange(itemContext);
-                _items.Add(range);
-            }
         }
 
         #endregion
@@ -173,24 +157,57 @@ namespace AM.Text.Ranges
         /// <summary>
         /// Разбор текстового представления.
         /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
+        [NotNull]
         public static NumberRangeCollection Parse
             (
-                string text
+                [NotNull] string text
             )
         {
-            if (string.IsNullOrEmpty(text))
+            Code.NotNullNorEmpty(text, "text");
+
+            TextNavigator navigator = new TextNavigator(text);
+            navigator.SkipWhile(NumberRange.Delimiters);
+            if (navigator.IsEOF)
             {
-                throw new ArgumentNullException("text");
+                throw new FormatException();
             }
 
-            AntlrInputStream stream = new AntlrInputStream(text);
-            NumberRangesLexer lexer = new NumberRangesLexer(stream);
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            NumberRangesParser parser = new NumberRangesParser(tokens);
-            NumberRangesParser.ProgramContext tree = parser.program();
-            NumberRangeCollection result = new NumberRangeCollection(tree);
+            NumberRangeCollection result = new NumberRangeCollection();
+
+            while (true)
+            {
+                navigator.SkipWhile(NumberRange.Delimiters);
+                if (navigator.IsEOF)
+                {
+                    break;
+                }
+
+                string start = navigator
+                    .ReadUntil(NumberRange.DelimitersOrMinus);
+                NumberRange range;
+                if (string.IsNullOrEmpty(start))
+                {
+                    throw new FormatException();
+                }
+                if (navigator.PeekChar() == '-')
+                {
+                    navigator.ReadChar();
+                    string stop = navigator
+                        .ReadUntil(NumberRange.Delimiters);
+                    if (string.IsNullOrEmpty(stop))
+                    {
+                        throw new FormatException();
+                    }
+
+                    range = new NumberRange(start, stop);
+                }
+                else
+                {
+                    range = new NumberRange(start);
+                }
+                result.Add(range);
+            }
+
             return result;
         }
 
@@ -204,7 +221,7 @@ namespace AM.Text.Ranges
                 List<NumberText> numbers
             )
         {
-            NumberRangeCollection result 
+            NumberRangeCollection result
                 = new NumberRangeCollection();
 
             if (numbers.Count != 0)
@@ -333,5 +350,3 @@ namespace AM.Text.Ranges
         #endregion
     }
 }
-
-#endif

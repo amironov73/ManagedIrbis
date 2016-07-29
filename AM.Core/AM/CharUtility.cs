@@ -1,5 +1,7 @@
 ﻿/* CharacterUtility.cs -- helpers for System.Char
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

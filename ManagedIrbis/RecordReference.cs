@@ -105,6 +105,7 @@ namespace ManagedIrbis
         {
             Code.NotNull(record, "record");
 
+            HostName = record.HostName;
             Database = record.Database;
             Mfn = record.Mfn;
             Index = record.Index ?? record.FM("903");

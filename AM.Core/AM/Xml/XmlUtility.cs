@@ -1,5 +1,7 @@
 /* XmlUtility.cs -- useful routines for XML manipulations
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #if !NETCORE

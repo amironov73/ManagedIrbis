@@ -70,6 +70,7 @@ namespace ManagedIrbis
             {
                 MarcRecord record = new MarcRecord
                 {
+                    HostName = response.Connection.Host,
                     Database = database
                 };
                 record = ProtocolText.ParseResponseForAllFormat

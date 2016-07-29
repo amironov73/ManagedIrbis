@@ -4,8 +4,6 @@
  * Status: poor
  */
 
-#if FW35 || FW40 || FW45
-
 #region Using directives
 
 using System;
@@ -32,6 +30,19 @@ namespace AM.Text.Ranges
     {
         #region Properties
 
+        /// <summary>
+        /// Delimiters.
+        /// </summary>
+        public static char[] Delimiters
+        {
+            get { return _delimiters; }
+        }
+
+        public static char[] DelimitersOrMinus
+        {
+            get { return _delimitersOrMinus; }
+        }
+        
         /// <summary>
         /// Стартовое значение.
         /// </summary>
@@ -81,30 +92,15 @@ namespace AM.Text.Ranges
             Stop = stop;
         }
 
-        internal NumberRange
-            (
-                NumberRangesParser.ItemContext itemContext
-            )
-        {
-            NumberRangesParser.OneContext oneContext = itemContext.one();
-            if (!ReferenceEquals(oneContext, null))
-            {
-                string number = oneContext.NUMBER().GetText();
-                Start = number;
-                Stop = number;
-            }
-
-            NumberRangesParser.RangeContext rangeContext = itemContext.range();
-            if (!ReferenceEquals(rangeContext, null))
-            {
-                Start = rangeContext.start.Text;
-                Stop = rangeContext.stop.Text;
-            }
-        }
-
         #endregion
 
         #region Private members
+
+        private static readonly char[] _delimiters
+            = { ' ', '\t', '\r', '\n', ',', ';' };
+
+        private static readonly char[] _delimitersOrMinus
+            = { ' ', '\t', '\r', '\n', ',', ';', '-' };
 
         #endregion
 
@@ -113,8 +109,6 @@ namespace AM.Text.Ranges
         /// <summary>
         /// Проверка, содержит ли диапазон указанное значение.
         /// </summary>
-        /// <param name="number"></param>
-        /// <returns></returns>
         public bool Contains
             (
                 NumberText number
@@ -139,49 +133,48 @@ namespace AM.Text.Ranges
         /// <summary>
         /// Разбор текстового представления диапазона.
         /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
+        [NotNull]
         public static NumberRange Parse
             (
-                string text
+                [NotNull] string text
             )
         {
-            if (string.IsNullOrEmpty(text))
+            Code.NotNullNorEmpty(text, "text");
+
+            TextNavigator navigator = new TextNavigator(text);
+
+            navigator.SkipWhile(Delimiters);
+            if (navigator.IsEOF)
             {
-                throw new ArgumentNullException("text");
-            }
-            text = text.Trim();
-            if (string.IsNullOrEmpty(text))
-            {
-                throw new ArgumentNullException("text");
+                throw new FormatException();
             }
 
             NumberRange result;
-
-            if (text.Contains("-"))
+            string start = navigator.ReadUntil(DelimitersOrMinus);
+            if (string.IsNullOrEmpty(start))
             {
-                string[] parts = text.Split('-');
-                if (parts.Length != 2)
+                throw new FormatException();
+            }
+            if (navigator.PeekChar() == '-')
+            {
+                navigator.ReadChar();
+                string stop = navigator.ReadUntil(DelimitersOrMinus);
+                if (string.IsNullOrEmpty(stop))
                 {
-                    throw new FormatException("text");
+                    throw new FormatException();
                 }
-                parts[0] = parts[0].Trim();
-                parts[1] = parts[1].Trim();
-                if (string.IsNullOrEmpty(parts[0])
-                    || string.IsNullOrEmpty(parts[1]))
-                {
-                    throw new FormatException("text");
-                }
-                result = new NumberRange
-                    (
-                        parts[0],
-                        parts[1]
-                    );
+                result = new NumberRange(start, stop);
             }
             else
             {
-                result = new NumberRange(text);
+                result = new NumberRange(start);
             }
+            navigator.SkipWhile(Delimiters);
+            if (!navigator.IsEOF)
+            {
+                throw new FormatException();
+            }
+
             return result;
         }
 
@@ -326,5 +319,3 @@ namespace AM.Text.Ranges
         #endregion
     }
 }
-
-#endif

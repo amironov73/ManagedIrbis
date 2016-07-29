@@ -39,11 +39,14 @@ namespace ManagedIrbis
         #region Properties
 
         /// <summary>
-        /// Gets or sets the database.
+        /// Hostname of IRBIS-server.
         /// </summary>
-        /// <value>
-        /// The database.
-        /// </value>
+        [CanBeNull]
+        public string HostName { get; set; }
+
+        /// <summary>
+        /// Name of database that the records belongs to.
+        /// </summary>
         [CanBeNull]
         [JsonProperty("database")]
         public string Database

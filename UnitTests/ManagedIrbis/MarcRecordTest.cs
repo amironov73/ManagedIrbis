@@ -142,18 +142,18 @@ namespace UnitTests.ManagedIrbis
             record.Fields.Add(new RecordField());
         }
 
-        [TestMethod]
-        public void TestMarcRecord_ToJson()
-        {
-            MarcRecord record = _GetRecord();
+        //[TestMethod]
+        //public void TestMarcRecord_ToJson()
+        //{
+        //    MarcRecord record = _GetRecord();
 
-            string actual = record.ToJson()
-                .Replace("\r", "").Replace("\n", "")
-                .Replace("\"", "'");
-            const string expected = "{'fields':[{'tag':'700','subfields':[{'code':'a','value':'Иванов'},{'code':'b','value':'И. И.'}]},{'tag':'701','subfields':[{'code':'a','value':'Петров'},{'code':'b','value':'П. П.'}]},{'tag':'200','subfields':[{'code':'a','value':'Заглавие'},{'code':'e','value':'подзаголовочное'},{'code':'f','value':'И. И. Иванов, П. П. Петров'}]},{'tag':'300','value':'Первое примечание'},{'tag':'300','value':'Второе примечание'},{'tag':'300','value':'Третье примечание'}]}";
+        //    string actual = record.ToJson()
+        //        .Replace("\r", "").Replace("\n", "")
+        //        .Replace("\"", "'");
+        //    const string expected = "{'fields':[{'tag':'700','subfields':[{'code':'a','value':'Иванов'},{'code':'b','value':'И. И.'}]},{'tag':'701','subfields':[{'code':'a','value':'Петров'},{'code':'b','value':'П. П.'}]},{'tag':'200','subfields':[{'code':'a','value':'Заглавие'},{'code':'e','value':'подзаголовочное'},{'code':'f','value':'И. И. Иванов, П. П. Петров'}]},{'tag':'300','value':'Первое примечание'},{'tag':'300','value':'Второе примечание'},{'tag':'300','value':'Третье примечание'}]}";
 
-            Assert.AreEqual(expected, actual);
-        }
+        //    Assert.AreEqual(expected, actual);
+        //}
 
         [TestMethod]
         public void TestMarcRecord_Renumbering()

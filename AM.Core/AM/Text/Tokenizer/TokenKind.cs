@@ -1,5 +1,7 @@
 ﻿/* TokenKind.cs -- тип токена
  * Ars Magna project, http://arsmagna.ru 
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 namespace AM.Text.Tokenizer

@@ -1,5 +1,7 @@
 ﻿/* TokenizerSettings.cs -- settings for StringTokenizer
  * Ars Magna project, http://arsmagna.ru 
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

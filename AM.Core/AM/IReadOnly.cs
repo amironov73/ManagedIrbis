@@ -1,5 +1,7 @@
 ﻿/* IReadOnly -- common interface for object that can be read-only.
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

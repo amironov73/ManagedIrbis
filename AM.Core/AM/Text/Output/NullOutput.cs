@@ -1,5 +1,7 @@
 ﻿/* NullOutput.cs -- пустой объект вывода
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

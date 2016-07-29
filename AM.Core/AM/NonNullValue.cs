@@ -1,5 +1,7 @@
 ﻿/* NonNullValue.cs -- не должен принимать значение null
  * Ars Magna project, http://arsmagna.ru 
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

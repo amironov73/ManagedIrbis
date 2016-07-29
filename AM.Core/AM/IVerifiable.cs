@@ -1,5 +1,7 @@
 ﻿/* IVerifiable.cs -- interface for object state verification
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 namespace AM
