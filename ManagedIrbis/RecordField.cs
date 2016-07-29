@@ -1,5 +1,7 @@
 ﻿/* SubField.cs -- MARC record field.
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -36,7 +38,8 @@ namespace ManagedIrbis
     [DebuggerDisplay("Tag={Tag} Value={Value}")]
     public sealed class RecordField
         : IHandmadeSerializable,
-        IReadOnly<RecordField>
+        IReadOnly<RecordField>,
+        IVerifiable
     {
         #region Constants
 
@@ -97,7 +100,7 @@ namespace ManagedIrbis
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
-        //[NonSerialized]
+        [NonSerialized]
         public int Repeat;
 
         /// <summary>
@@ -264,7 +267,7 @@ namespace ManagedIrbis
 
         private readonly SubFieldCollection _subFields;
 
-        //[NonSerialized]
+        [NonSerialized]
         private object _userData;
 
         private static void _AddSubField
@@ -686,7 +689,11 @@ namespace ManagedIrbis
         {
             ThrowIfReadOnly();
 
-            _tag = tag;
+            _tag = FieldTag.Normalize(tag);
+            if (!ReferenceEquals(Record, null))
+            {
+                Record.Fields._RenumberFields();
+            }
 
             return this;
         }
@@ -841,6 +848,33 @@ namespace ManagedIrbis
             {
                 throw new ReadOnlyException();
             }
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<RecordField> verifier = new Verifier<RecordField>
+                (
+                    this,
+                    throwOnError
+                );
+
+            verifier
+                .Assert(FieldTag.Verify(Tag), "Tag")
+                .Assert(FieldValue.Verify(Value), "Value");
+
+            foreach (SubField subField in SubFields)
+            {
+                verifier.Assert(subField.Verify(throwOnError), "SubField");
+            }
+
+            return verifier.Result;
         }
 
         #endregion

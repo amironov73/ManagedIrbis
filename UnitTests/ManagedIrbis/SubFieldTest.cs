@@ -37,7 +37,7 @@ namespace UnitTests
             subField.SetValue("New value");
             Assert.AreEqual("New value", subField.Value);
             subField.SetValue(null);
-            Assert.AreEqual(null, subField.Value);
+            Assert.AreEqual("New value", subField.Value);
         }
 
         private void _TestSerialization
@@ -86,14 +86,23 @@ namespace UnitTests
 
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void TestSubFieldSetValue2()
+        [ExpectedException(typeof(VerificationException))]
+        public void TestSubField_SetValue_Exception()
         {
-            SubField subField = new SubField('a')
+            bool save = SubFieldValue.ThrowOnVerify;
+            SubFieldValue.ThrowOnVerify = true;
+            try
             {
-                Value = "Wrong^Value"
-            };
-            Assert.AreEqual("Wrong", subField.Value);
+                SubField subField = new SubField('a')
+                {
+                    Value = "Wrong^Value"
+                };
+                Assert.AreEqual("Wrong", subField.Value);
+            }
+            finally
+            {
+                SubFieldValue.ThrowOnVerify = save;
+            }
         }
 
         [TestMethod]

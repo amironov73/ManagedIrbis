@@ -544,7 +544,18 @@ namespace ManagedIrbis
                 bool throwOnError
             )
         {
-            return true;
+            Verifier<MarcRecord> verifier = new Verifier<MarcRecord>
+                (
+                    this,
+                    throwOnError
+                );
+
+            foreach (RecordField field in Fields)
+            {
+                verifier.Assert(field.Verify(throwOnError), "Field");
+            }
+
+            return verifier.Result;
         }
 
         #endregion

@@ -1,5 +1,7 @@
 ﻿/* StringDictionary.cs -- simple string-string dictionary
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

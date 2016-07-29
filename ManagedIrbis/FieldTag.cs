@@ -1,5 +1,7 @@
 ﻿/* FieldTag.cs -- тег поля
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -9,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -56,18 +58,25 @@ namespace ManagedIrbis
         /// </summary>
         public static string Normalize
             (
-                [NotNull] string tag
+                [CanBeNull] string tag
             )
         {
-            Code.NotNullNorEmpty(tag, "tag");
+            if (string.IsNullOrEmpty(tag))
+            {
+                return tag;
+            }
 
-            throw new NotImplementedException();
+            string result = tag
+                .ToUpper()
+                .TrimStart('0');
+
+            return result;
         }
 
         /// <summary>
         /// Валидация с бросанием исключений.
         /// </summary>
-        public static bool Validate
+        public static bool Verify
             (
                 [NotNull] string tag,
                 bool throwException
@@ -75,18 +84,18 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(tag, "tag");
 
-            throw new NotImplementedException();
+            return true;
         }
 
         /// <summary>
         /// Валидация.
         /// </summary>
-        public static bool Validate
+        public static bool Verify
             (
                 [NotNull] string tag
             )
         {
-            return Validate
+            return Verify
                 (
                     tag,
                     ThrowOnValidate

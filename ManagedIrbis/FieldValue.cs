@@ -25,13 +25,15 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public static class FieldText
+    public static class FieldValue
     {
         #region Constants
 
         #endregion
 
         #region Properties
+
+        public static bool ThrowOnVerify { get; set; }
 
         #endregion
 
@@ -40,7 +42,24 @@ namespace ManagedIrbis
         #endregion
 
         #region Public methods
-        
+
+        public static bool Verify
+            (
+                [CanBeNull] string text,
+                bool throwOnError
+            )
+        {
+            return true;
+        }
+
+        public static bool Verify
+            (
+                [CanBeNull] string text
+            )
+        {
+            return Verify(text, ThrowOnVerify);
+        }
+
         #endregion
     }
 }

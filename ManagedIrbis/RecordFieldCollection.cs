@@ -1,5 +1,7 @@
 ﻿/* RecordFieldCollection.cs -- коллекция полей записи
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -12,6 +14,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 
 using AM;
+using AM.Collections;
 using AM.IO;
 using AM.Runtime;
 
@@ -55,7 +58,27 @@ namespace ManagedIrbis
         #region Private members
 
         // ReSharper disable InconsistentNaming
-        //[NonSerialized]
+        internal void _RenumberFields()
+        {
+            DictionaryCounter<string> seen
+                = new DictionaryCounter<string>();
+
+            foreach (RecordField field in this)
+            {
+                string tag = field.Tag;
+                if (string.IsNullOrEmpty(tag))
+                {
+                    field.Repeat = 0;
+                }
+                else
+                {
+                    tag = FieldTag.Normalize(tag);
+                    field.Repeat = (int) seen.Increment(tag);
+                }
+            }
+        }
+
+        [NonSerialized]
         private MarcRecord _record;
 
         internal RecordFieldCollection _SetRecord
@@ -192,6 +215,8 @@ namespace ManagedIrbis
             item.Record = Record;
 
             base.InsertItem(index, item);
+
+            _RenumberFields();
         }
 
         /// <summary>
@@ -217,6 +242,8 @@ namespace ManagedIrbis
             }
 
             base.RemoveItem(index);
+
+            _RenumberFields();
         }
 
         /// <summary>
@@ -238,6 +265,8 @@ namespace ManagedIrbis
             item.Record = Record;
 
             base.SetItem(index, item);
+
+            _RenumberFields();
         }
 
         #endregion

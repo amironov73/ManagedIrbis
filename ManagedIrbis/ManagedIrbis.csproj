@@ -143,7 +143,7 @@
     <Compile Include="Fields\ExemplarManager.cs" />
     <Compile Include="Fields\RevisionInfo.cs" />
     <Compile Include="FieldTag.cs" />
-    <Compile Include="FieldText.cs" />
+    <Compile Include="FieldValue.cs" />
     <Compile Include="IlfFile.cs" />
     <Compile Include="ImportExport\IrbisJson.cs" />
     <Compile Include="ImportExport\IsisText.cs" />
@@ -293,7 +293,7 @@
     <Compile Include="SubField.cs" />
     <Compile Include="SubFieldCode.cs" />
     <Compile Include="SubFieldCollection.cs" />
-    <Compile Include="SubFieldText.cs" />
+    <Compile Include="SubFieldValue.cs" />
     <Compile Include="SubFieldUtility.cs" />
     <Compile Include="Systematization\BbkException.cs" />
     <Compile Include="Systematization\BbkIndex.cs" />

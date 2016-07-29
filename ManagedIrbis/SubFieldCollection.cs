@@ -1,5 +1,7 @@
 ﻿/* SubFieldCollection.cs -- коллекция подполей
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -63,7 +65,7 @@ namespace ManagedIrbis
 
         // ReSharper disable InconsistentNaming
 
-        //[NonSerialized]
+        [NonSerialized]
         private RecordField _field;
 
         internal SubFieldCollection _SetField

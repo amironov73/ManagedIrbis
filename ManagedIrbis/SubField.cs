@@ -1,5 +1,7 @@
 ﻿/* SubField.cs -- MARC record subfield.
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -32,8 +34,8 @@ namespace ManagedIrbis
     [DebuggerDisplay("Code={Code}, Value={Value}")]
     public sealed class SubField
         : IHandmadeSerializable,
-        IVerifiable,
-        IReadOnly<SubField>
+        IReadOnly<SubField>,
+        IVerifiable
     {
         #region Constants
 
@@ -254,7 +256,10 @@ namespace ManagedIrbis
         {
             ThrowIfReadOnly();
 
-            _code = code;
+            if (SubFieldCode.Verify(code))
+            {
+                _code = code;
+            }
         }
 
         /// <summary>
@@ -267,18 +272,10 @@ namespace ManagedIrbis
         {
             ThrowIfReadOnly();
 
-            if (!string.IsNullOrEmpty(value))
+            if (SubFieldValue.Verify(value))
             {
-                if (value.IndexOf(Delimiter) >= 0)
-                {
-                    throw new ArgumentException
-                        (
-                            "Value contains delimiter",
-                            "value"
-                        );
-                }
+                _value = value;
             }
-            _value = value;
         }
 
         #endregion
@@ -374,7 +371,17 @@ namespace ManagedIrbis
                 bool throwOnError
             )
         {
-            return true;
+            Verifier<SubField> verifier = new Verifier<SubField>
+                (
+                    this,
+                    throwOnError
+                );
+
+            verifier
+                .Assert(SubFieldCode.Verify(Code), "Code")
+                .Assert(SubFieldValue.Verify(Value), "Value");
+
+            return verifier.Result;
         }
 
         #endregion

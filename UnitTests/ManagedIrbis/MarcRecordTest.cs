@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM;
 using AM.Runtime;
@@ -11,7 +12,7 @@ namespace UnitTests.ManagedIrbis
     public class MarcRecordTest
     {
         [TestMethod]
-        public void TestMarcRecordConstruction()
+        public void TestMarcRecord_Construction()
         {
             MarcRecord record = new MarcRecord();
 
@@ -48,7 +49,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestMarcRecordSerialization()
+        public void TestMarcRecord_Serialization()
         {
             MarcRecord record = new MarcRecord();
             _TestSerialization(record);
@@ -89,7 +90,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestMarcRecordFM()
+        public void TestMarcRecord_FM()
         {
             MarcRecord record = _GetRecord();
 
@@ -98,7 +99,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestMarcRecordFMA()
+        public void TestMarcRecord_FMA()
         {
             MarcRecord record = _GetRecord();
 
@@ -114,7 +115,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestMarcRecordFR()
+        public void TestMarcRecord_FR()
         {
             MarcRecord record = _GetRecord();
 
@@ -123,7 +124,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestMarcRecordFRA()
+        public void TestMarcRecord_FRA()
         {
             MarcRecord record = _GetRecord();
 
@@ -134,7 +135,7 @@ namespace UnitTests.ManagedIrbis
 
         [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
-        public void TestIrbisRecordReadOnly()
+        public void TestIrbisRecord_ReadOnly()
         {
             MarcRecord record = _GetRecord().AsReadOnly();
 
@@ -142,7 +143,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestMarcRecordToJson()
+        public void TestMarcRecord_ToJson()
         {
             MarcRecord record = _GetRecord();
 
@@ -152,6 +153,41 @@ namespace UnitTests.ManagedIrbis
             const string expected = "{'fields':[{'tag':'700','subfields':[{'code':'a','value':'Иванов'},{'code':'b','value':'И. И.'}]},{'tag':'701','subfields':[{'code':'a','value':'Петров'},{'code':'b','value':'П. П.'}]},{'tag':'200','subfields':[{'code':'a','value':'Заглавие'},{'code':'e','value':'подзаголовочное'},{'code':'f','value':'И. И. Иванов, П. П. Петров'}]},{'tag':'300','value':'Первое примечание'},{'tag':'300','value':'Второе примечание'},{'tag':'300','value':'Третье примечание'}]}";
 
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestMarcRecord_Renumbering()
+        {
+            MarcRecord record = _GetRecord();
+
+            string[] tags = record.Fields
+                .Select(field => field.Tag.ToUpper())
+                .Distinct()
+                .ToArray();
+
+            foreach (string tag in tags)
+            {
+                RecordField[] fields = record.Fields.GetField(tag);
+                for (int i = 0; i < fields.Length; i++)
+                {
+                    RecordField field = fields[i];
+                    Assert.AreEqual(i + 1, field.Repeat);
+                    Assert.AreEqual(record, field.Record);
+
+                    foreach (SubField subField in field.SubFields)
+                    {
+                        Assert.AreEqual(field, subField.Field);
+                    }
+                }
+            }
+        }
+
+        [TestMethod]
+        public void TestMarcRecord_Verify()
+        {
+            MarcRecord record = _GetRecord();
+
+            Assert.IsTrue(record.Verify(false));
         }
     }
 }

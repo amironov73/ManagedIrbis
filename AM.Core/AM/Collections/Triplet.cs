@@ -1,5 +1,7 @@
 ﻿/* Triplet.cs -- holds three objects of given types.
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

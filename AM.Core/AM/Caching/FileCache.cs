@@ -31,7 +31,7 @@ namespace AM.Caching
     [MoonSharpUserData]
     public sealed class FileCache<TKey, TValue>
         : AbstractCache<TKey, TValue>,
-        IDisposable
+            IDisposable
         where TValue : class, IHandmadeSerializable, new()
     {
         #region Properties
@@ -42,19 +42,31 @@ namespace AM.Caching
             get { return _cachePath; }
         }
 
+        public bool UseCompression { get; private set; }
+
         #endregion
 
         #region Construction
 
         public FileCache()
-            : this (_UniquePath())
+            : this(false)
         {
             _ownPath = true;
         }
 
         public FileCache
             (
-                [NotNull] string cachePath
+            bool useCompression
+            )
+            : this(_UniquePath(), useCompression)
+        {
+            _ownPath = true;
+        }
+
+        public FileCache
+            (
+            [NotNull] string cachePath,
+            bool useCompression
             )
         {
             Code.NotNullNorEmpty(cachePath, "cachePath");
@@ -76,6 +88,24 @@ namespace AM.Caching
         private readonly ConcurrentDictionary<TKey, string> _dictionary;
 
         private readonly bool _ownPath;
+
+        private byte[] _Compress(TValue value)
+        {
+            byte[] result = UseCompression
+                ? value.SaveToZipMemory()
+                : value.SaveToMemory();
+
+            return result;
+        }
+
+        private TValue _Decomress(byte[] bytes)
+        {
+            TValue result = UseCompression
+                ? bytes.RestoreObjectFromZipMemory<TValue>()
+                : bytes.RestoreObjectFromMemory<TValue>();
+
+            return result;
+        }
 
         private static string _UniquePath()
         {
@@ -118,7 +148,7 @@ namespace AM.Caching
             string itemName = Guid.NewGuid().ToString("N");
             _dictionary[key] = itemName;
             string path = _GetPath(itemName);
-            byte[] bytes = value.SaveToMemory();
+            byte[] bytes = _Compress(value);
             File.WriteAllBytes(path, bytes);
 
             return this;
@@ -179,7 +209,7 @@ namespace AM.Caching
 
             string path = _GetPath(itemName);
             byte[] bytes = File.ReadAllBytes(path);
-            TValue result = bytes.RestoreObjectFromMemory<TValue>();
+            TValue result = _Decomress(bytes);
 
             return result;
         }
@@ -208,7 +238,7 @@ namespace AM.Caching
             Clear();
             if (_ownPath)
             {
-                Directory.Delete(CachePath,true);
+                Directory.Delete(CachePath, true);
             }
         }
 

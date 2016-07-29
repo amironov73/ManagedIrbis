@@ -1,5 +1,7 @@
 ﻿/* BidirectionalDictionary.cs -- bidirectional key-to-value mapping
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
