@@ -113,6 +113,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AM\Caching\MemoryCacheTest.cs" />
+    <Compile Include="AM\Caching\FileCacheTest.cs" />
     <Compile Include="AM\Collections\NonNullCollectionTest.cs" />
     <Compile Include="AM\Collections\CharSetTest.cs" />
     <Compile Include="AM\Collections\BitArrayUtilityTest.cs" />

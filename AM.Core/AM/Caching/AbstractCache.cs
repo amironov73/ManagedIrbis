@@ -1,5 +1,7 @@
 /* AbstractCache.cs --
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -37,7 +39,7 @@ namespace AM.Caching
         /// <summary>
         /// Add or update item with given key.
         /// </summary>
-        public abstract MemoryCache<TKey, TValue> Add
+        public abstract AbstractCache<TKey, TValue> Add
             (
                 TKey key,
                 [NotNull] TValue value

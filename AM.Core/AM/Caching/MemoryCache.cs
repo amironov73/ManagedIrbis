@@ -1,5 +1,7 @@
 ﻿/* MemoryCache.cs --
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -23,7 +25,9 @@ namespace AM.Caching
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class MemoryCache<TKey, TValue> : AbstractCache<TKey, TValue> where TValue: class
+    public class MemoryCache<TKey, TValue>
+        : AbstractCache<TKey, TValue>
+        where TValue: class
     {
         #region Constants
 
@@ -69,7 +73,7 @@ namespace AM.Caching
         /// <summary>
         /// Add or update item with given key.
         /// </summary>
-        public override MemoryCache<TKey, TValue> Add
+        public override AbstractCache<TKey, TValue> Add
             (
                 TKey key,
                 TValue value
@@ -81,8 +85,8 @@ namespace AM.Caching
 
             CacheItem<TKey, TValue> item = new CacheItem<TKey, TValue>
                 (
-                key,
-                value
+                    key,
+                    value
                 );
             _dictionary[key] = item;
 
