@@ -158,6 +158,7 @@
     <Compile Include="IrbisText.cs" />
     <Compile Include="IrbisTreeFile.cs" />
     <Compile Include="Network\Commands\DatabaseStatCommand.cs" />
+    <Compile Include="Network\Commands\DynamicCommand.cs" />
     <Compile Include="Network\Commands\PrintTableCommand.cs" />
     <Compile Include="Network\Resolving\AbstractResolver.cs" />
     <Compile Include="Network\Resolving\ConnectionResolver.cs" />
