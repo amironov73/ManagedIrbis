@@ -126,7 +126,7 @@ namespace ManagedIrbis.Systematization
 
             NumberText first = FirstIndex;
             NumberText last = LastIndex;
-            NumberText current = first.Copy();
+            NumberText current = first.Clone();
             while (current <= last)
             {
                 result.Add(current.ToString());

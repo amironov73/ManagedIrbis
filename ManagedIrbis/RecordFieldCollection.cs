@@ -60,8 +60,8 @@ namespace ManagedIrbis
         // ReSharper disable InconsistentNaming
         internal void _RenumberFields()
         {
-            DictionaryCounter<string> seen
-                = new DictionaryCounter<string>();
+            DictionaryCounterInt32<string> seen
+                = new DictionaryCounterInt32<string>();
 
             foreach (RecordField field in this)
             {
@@ -73,7 +73,7 @@ namespace ManagedIrbis
                 else
                 {
                     tag = FieldTag.Normalize(tag);
-                    field.Repeat = (int) seen.Increment(tag);
+                    field.Repeat = seen.Increment(tag);
                 }
             }
         }

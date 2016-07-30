@@ -10,7 +10,7 @@ namespace UnitTests.AM.Text.Ranges
     public class NumberRangeCollectionTest
     {
         [TestMethod]
-        public void TestNumberRangeCollection_Parse()
+        public void TestNumberRangeCollection_Parse1()
         {
             NumberRangeCollection collection
                 = NumberRangeCollection.Parse("10-15");
@@ -26,6 +26,26 @@ namespace UnitTests.AM.Text.Ranges
             Assert.AreEqual(2, collection.Count);
 
             collection = NumberRangeCollection.Parse("10   15-20,;30");
+            Assert.AreEqual(3, collection.Count);
+        }
+
+        [TestMethod]
+        public void TestNumberRangeCollection_Parse2()
+        {
+            NumberRangeCollection collection
+                = NumberRangeCollection.Parse("10 - 15");
+            Assert.AreEqual(1, collection.Count);
+
+            collection = NumberRangeCollection.Parse("10 ;15");
+            Assert.AreEqual(2, collection.Count);
+
+            collection = NumberRangeCollection.Parse("10;15 - 20;30");
+            Assert.AreEqual(3, collection.Count);
+
+            collection = NumberRangeCollection.Parse("10; ;15");
+            Assert.AreEqual(2, collection.Count);
+
+            collection = NumberRangeCollection.Parse("10   15 - 20,;30");
             Assert.AreEqual(3, collection.Count);
         }
 

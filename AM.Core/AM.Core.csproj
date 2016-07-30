@@ -109,7 +109,8 @@
     <Compile Include="AM\Collections\BitArrayUtility.cs" />
     <Compile Include="AM\Collections\CharSet.cs" />
     <Compile Include="AM\Collections\CloneableCollection.cs" />
-    <Compile Include="AM\Collections\DictionaryCounter.cs" />
+    <Compile Include="AM\Collections\DictionaryCounterDouble.cs" />
+    <Compile Include="AM\Collections\DictionaryCounterInt32.cs" />
     <Compile Include="AM\Collections\DictionaryUtility.cs" />
     <Compile Include="AM\Collections\DisposableCollection.cs" />
     <Compile Include="AM\Collections\DoublyLinkedList.cs" />

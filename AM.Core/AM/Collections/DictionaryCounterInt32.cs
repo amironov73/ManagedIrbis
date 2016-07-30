@@ -1,4 +1,4 @@
-﻿/* DictionaryCounter.cs -- simple dictionary to count values
+﻿/* DictionaryCounterInt32.cs -- simple dictionary to count values
  * Ars Magna project, http://arsmagna.ru
  */
 
@@ -26,8 +26,8 @@ namespace AM.Collections
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class DictionaryCounter<TKey>
-        : Dictionary<TKey, double>
+    public sealed class DictionaryCounterInt32<TKey>
+        : Dictionary<TKey, int>
     {
         #region Properties
 
@@ -35,14 +35,14 @@ namespace AM.Collections
         /// Gets the total.
         /// </summary>
         [JsonIgnore]
-        public double Total
+        public int Total
         {
             get
             {
                 lock (_SyncRoot)
                 {
-                    double result = 0.0;
-                    foreach (double value in Values)
+                    int result = 0;
+                    foreach (int value in Values)
                     {
                         result += value;
                     }
@@ -57,30 +57,43 @@ namespace AM.Collections
 
         /// <summary>
         /// Initializes a new instance of the 
-        /// <see cref="DictionaryCounter{TKey}"/> class.
+        /// <see cref="DictionaryCounterInt32{TKey}"/> class.
         /// </summary>
-        public DictionaryCounter()
+        public DictionaryCounterInt32()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="DictionaryCounterInt32{TKey}"/> class.
+        /// </summary>
+        /// <param name="comparer">The comparer.</param>
+        public DictionaryCounterInt32
+            (
+                [NotNull] IEqualityComparer<TKey> comparer
+            )
+            : base(comparer)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the 
-        /// <see cref="DictionaryCounter{TKey}"/> class.
+        /// <see cref="DictionaryCounterInt32{TKey}"/> class.
         /// </summary>
         /// <param name="capacity">The capacity.</param>
-        public DictionaryCounter(int capacity)
+        public DictionaryCounterInt32(int capacity)
             : base(capacity)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the 
-        /// <see cref="DictionaryCounter{TKey}"/> class.
+        /// <see cref="DictionaryCounterInt32{TKey}"/> class.
         /// </summary>
         /// <param name="dictionary">The dictionary.</param>
-        public DictionaryCounter
+        public DictionaryCounterInt32
             (
-                [NotNull] DictionaryCounter<TKey> dictionary
+                [NotNull] DictionaryCounterInt32<TKey> dictionary
             )
             : base(dictionary)
         {
@@ -109,15 +122,15 @@ namespace AM.Collections
         /// <param name="key">The key.</param>
         /// <param name="increment">The value.</param>
         /// <returns>New value for given key.</returns>
-        public double Augment
+        public int Augment
             (
                 [NotNull] TKey key,
-                double increment
+                int increment
             )
         {
             lock (_SyncRoot)
             {
-                double value;
+                int value;
                 TryGetValue(key, out value);
                 value += increment;
                 this[key] = value;
@@ -128,12 +141,12 @@ namespace AM.Collections
         /// <summary>
         /// Get accumulated value for the specified key.
         /// </summary>
-        public double GetValue
+        public int GetValue
             (
                 [NotNull] TKey key
             )
         {
-            double result;
+            int result;
 
             TryGetValue(key, out result);
 
@@ -143,7 +156,7 @@ namespace AM.Collections
         /// <summary>
         /// Increment the specified key.
         /// </summary>
-        public double Increment
+        public int Increment
             (
                 [NotNull] TKey key
             )
@@ -151,7 +164,7 @@ namespace AM.Collections
             return Augment
                 (
                     key,
-                    1.0
+                    1
                 );
         }
 

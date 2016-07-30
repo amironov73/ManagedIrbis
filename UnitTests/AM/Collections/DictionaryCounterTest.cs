@@ -11,8 +11,8 @@ namespace UnitTests.AM.Collections
         [TestMethod]
         public void TestDictionaryCounter1()
         {
-            DictionaryCounter<string> dictionary
-                = new DictionaryCounter<string>();
+            DictionaryCounterDouble<string> dictionary
+                = new DictionaryCounterDouble<string>();
 
             dictionary.Augment("first", 2.0);
             dictionary.Increment("second");
@@ -28,8 +28,8 @@ namespace UnitTests.AM.Collections
         [TestMethod]
         public void TestDictionaryCounter2()
         {
-            DictionaryCounter<string> dictionary
-                = new DictionaryCounter<string>();
+            DictionaryCounterDouble<string> dictionary
+                = new DictionaryCounterDouble<string>();
 
             dictionary.Augment("first", 2.0);
             dictionary.Increment("second");

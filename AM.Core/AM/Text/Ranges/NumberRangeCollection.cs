@@ -9,8 +9,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
+
+using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -28,8 +33,10 @@ namespace AM.Text.Ranges
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [DebuggerDisplay("Count={Count}")]
     public sealed class NumberRangeCollection
-        : IEnumerable<NumberText>
+        : IEnumerable<NumberText>,
+        IHandmadeSerializable
     {
         #region Constants
 
@@ -75,66 +82,57 @@ namespace AM.Text.Ranges
         /// <summary>
         /// Добавление диапазона в набор.
         /// </summary>
-        /// <param name="range"></param>
-        /// <returns></returns>
+        [NotNull]
         public NumberRangeCollection Add
             (
-                NumberRange range
+                [NotNull] NumberRange range
             )
         {
-            if (ReferenceEquals(range, null))
-            {
-                throw new ArgumentNullException("range");
-            }
+            Code.NotNull(range, "range");
+
             _items.Add(range);
+
             return this;
         }
 
         /// <summary>
         /// Добавление диапазона в набор.
         /// </summary>
-        /// <param name="start"></param>
-        /// <param name="stop"></param>
-        /// <returns></returns>
+        [NotNull]
         public NumberRangeCollection Add
             (
-                string start,
-                string stop
+                [NotNull] string start,
+                [NotNull] string stop
             )
         {
-            if (string.IsNullOrEmpty(start))
-            {
-                throw new ArgumentNullException("start");
-            }
-            if (string.IsNullOrEmpty(stop))
-            {
-                throw new ArgumentNullException("stop");
-            }
+            Code.NotNullNorEmpty(start, "start");
+            Code.NotNullNorEmpty(stop, "stop");
 
-            return Add
+            NumberRangeCollection result = Add
                 (
                     new NumberRange(start, stop)
                 );
+
+            return result;
         }
 
         /// <summary>
         /// Добавление диапазона в набор.
         /// </summary>
-        /// <param name="startAndStop"></param>
-        /// <returns></returns>
+        [NotNull]
         public NumberRangeCollection Add
             (
-                string startAndStop
+                [NotNull] string startAndStop
             )
         {
-            if (string.IsNullOrEmpty(startAndStop))
-            {
-                throw new ArgumentNullException("startAndStop");
-            }
-            return Add
+            Code.NotNullNorEmpty(startAndStop, "startAndStop");
+
+            NumberRangeCollection result = Add
                 (
                     new NumberRange(startAndStop)
                 );
+
+            return result;
         }
 
         /// <summary>
@@ -144,18 +142,21 @@ namespace AM.Text.Ranges
         /// <returns></returns>
         public bool Contains
             (
-                NumberText number
+                [NotNull] NumberText number
             )
         {
-            if (ReferenceEquals(number, null))
-            {
-                throw new ArgumentNullException("number");
-            }
-            return _items.Any(item => item.Contains(number));
+            Code.NotNull(number, "number");
+
+            bool result = _items.Any
+                (
+                    item => item.Contains(number)
+                );
+
+            return result;
         }
 
         /// <summary>
-        /// Разбор текстового представления.
+        /// Parse the text representation
         /// </summary>
         [NotNull]
         public static NumberRangeCollection Parse
@@ -189,9 +190,11 @@ namespace AM.Text.Ranges
                 {
                     throw new FormatException();
                 }
+                navigator.SkipWhitespace();
                 if (navigator.PeekChar() == '-')
                 {
                     navigator.ReadChar();
+                    navigator.SkipWhitespace();
                     string stop = navigator
                         .ReadUntil(NumberRange.Delimiters);
                     if (string.IsNullOrEmpty(stop))
@@ -214,13 +217,14 @@ namespace AM.Text.Ranges
         /// <summary>
         /// Кумуляция (сжатие).
         /// </summary>
-        /// <param name="numbers"></param>
-        /// <returns></returns>
+        [NotNull]
         public static NumberRangeCollection Cumulate
             (
-                List<NumberText> numbers
+                [NotNull] List<NumberText> numbers
             )
         {
+            Code.NotNull(numbers, "numbers");
+
             NumberRangeCollection result
                 = new NumberRangeCollection();
 
@@ -229,7 +233,7 @@ namespace AM.Text.Ranges
                 numbers.Sort();
 
                 NumberText previous = numbers[0];
-                NumberText last = previous.Copy();
+                NumberText last = previous.Clone();
                 for (int i = 1; i < numbers.Count; i++)
                 {
                     NumberText current = numbers[i];
@@ -244,7 +248,7 @@ namespace AM.Text.Ranges
                                         last
                                     )
                             );
-                        previous = current.Copy();
+                        previous = current.Clone();
                     }
                     last = current;
                 }
@@ -264,15 +268,13 @@ namespace AM.Text.Ranges
         /// <summary>
         /// Кумуляция (сжатие).
         /// </summary>
+        [NotNull]
         public static NumberRangeCollection Cumulate
             (
-                IEnumerable<string> texts
+                [NotNull] IEnumerable<string> texts
             )
         {
-            if (ReferenceEquals(texts, null))
-            {
-                throw new ArgumentNullException("texts");
-            }
+            Code.NotNull(texts, "texts");
 
             List<NumberText> numbers = texts
                 .Select(text => new NumberText(text))
@@ -325,12 +327,60 @@ namespace AM.Text.Ranges
 
         #endregion
 
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Restore object state from the specified stream.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            _items.Clear();
+            int count = reader.ReadPackedInt32();
+            for (int i = 0; i < count; i++)
+            {
+                NumberRange item = new NumberRange();
+                item.RestoreFromStream(reader);
+                _items.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// Save object state to the specified stream.
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer.WritePackedInt32(_items.Count);
+            for (int i = 0; i < _items.Count; i++)
+            {
+                _items[i].SaveToStream(writer);
+            }
+        }
+
+        #endregion
+
         #region Object members
 
+        /// <summary>
+        /// Returns a <see cref="System.String" />
+        /// that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" />
+        /// that represents this instance.</returns>
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
             bool first = true;
+            
             foreach (NumberRange item in _items)
             {
                 string text = item.ToString();
@@ -344,6 +394,7 @@ namespace AM.Text.Ranges
                     first = false;
                 }
             }
+
             return result.ToString();
         }
 

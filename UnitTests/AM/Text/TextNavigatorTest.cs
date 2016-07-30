@@ -9,7 +9,7 @@ namespace UnitTests.AM.Text
     public class TextNavigatorTest
     {
         [TestMethod]
-        public void TestTextNavigatorSkipWhitespace()
+        public void TestTextNavigator_SkipWhitespace()
         {
             const string text = " \tABC ";
             TextNavigator navigator = new TextNavigator(text);
@@ -19,7 +19,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TestTextNavigatorReadFrom()
+        public void TestTextNavigator_ReadFrom()
         {
             const string text1 = "'ABC'DEF";
             TextNavigator navigator = new TextNavigator(text1);
@@ -38,7 +38,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TestTextNavigatorReadTo()
+        public void TestTextNavigator_ReadTo()
         {
             const string text1 = "'ABC'DEF";
             TextNavigator navigator = new TextNavigator(text1);
@@ -54,7 +54,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TestTextNavigatorReadUntil()
+        public void TestTextNavigator_ReadUntil()
         {
             const string text = "'ABC'DEF";
             TextNavigator navigator = new TextNavigator(text);
@@ -64,7 +64,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TestTextNavigatorReadWhile()
+        public void TestTextNavigator_ReadWhile()
         {
             const string text1 = "314abc";
             TextNavigator navigator = new TextNavigator(text1);
@@ -74,7 +74,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TestTexNavigatorSkipWhile()
+        public void TestTexNavigator_SkipWhile()
         {
             const string text1 = "314abc";
             TextNavigator navigator = new TextNavigator(text1);
@@ -85,7 +85,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TestTextNavigatorReadInteger()
+        public void TestTextNavigator_ReadInteger()
         {
             const string text1 = "314abc";
             TextNavigator navigator = new TextNavigator(text1);

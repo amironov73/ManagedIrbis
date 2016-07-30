@@ -1,7 +1,8 @@
-﻿/* NumberText.cs -- строка, содержащая числа
+﻿/* NumberText.cs -- string containing numbers
  * Ars Magna project, http://arsmagna.ru 
  * -------------------------------------------------------
  * Status: poor
+ * TODO implement IVerifiable
  */
 
 #region Using directives
@@ -12,6 +13,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+
+using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -24,21 +28,25 @@ using MoonSharp.Interpreter;
 namespace AM.Text
 {
     /// <summary>
-    /// Строка, содержащая числа, разделенные нечисловыми фрагментами.
+    /// String containing numbers separated
+    /// by non-numeric fragments.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class NumberText
         : IComparable<NumberText>,
+        IHandmadeSerializable,
         IEquatable<NumberText>,
-        IEnumerable<string>
+        IEnumerable<string>,
+        IVerifiable
     {
         #region Inner classes
 
         /// <summary>
-        /// Фрагмент: нечисловой префикс плюс число.
+        /// Fragment: a prefix plus a number.
         /// </summary>
         class Chunk
+            : IHandmadeSerializable
         {
             #region Properties
 
@@ -47,12 +55,25 @@ namespace AM.Text
                 get { return !string.IsNullOrEmpty(Prefix); }
             }
 
+            /// <summary>
+            /// Prefix.
+            /// </summary>
+            [CanBeNull]
             public string Prefix { get; set; }
 
+            /// <summary>
+            /// Have value?
+            /// </summary>
             public bool HaveValue { get; set; }
 
+            /// <summary>
+            /// Numeric value itself.
+            /// </summary>
             public long Value { get; set; }
 
+            /// <summary>
+            /// Length (used when converting value to string).
+            /// </summary>
             public int Length { get; set; }
 
             #endregion
@@ -122,6 +143,43 @@ namespace AM.Text
 
             #endregion
 
+            #region IHandmadeSerializable
+
+            /// <summary>
+            /// Restore object state from the specified stream.
+            /// </summary>
+            public void RestoreFromStream
+                (
+                    BinaryReader reader
+                )
+            {
+                Code.NotNull(reader, "reader");
+
+                Prefix = reader.ReadNullableString();
+                Value = reader.ReadPackedInt64();
+                Length = reader.ReadPackedInt32();
+                HaveValue = reader.ReadBoolean();
+            }
+
+            /// <summary>
+            /// Save object state to the specified stream.
+            /// </summary>
+            public void SaveToStream
+                (
+                    BinaryWriter writer
+                )
+            {
+                Code.NotNull(writer, "writer");
+
+                writer
+                    .WriteNullable(Prefix)
+                    .WritePackedInt64(Value)
+                    .WritePackedInt32(Length)
+                    .Write(HaveValue);
+            }
+
+            #endregion
+
             #region Object members
 
             public override string ToString()
@@ -156,7 +214,7 @@ namespace AM.Text
 
         #region Properties
 
-        public static int DefaultIndex = 0;
+        public static int DefaultIndex;
 
         /// <summary>
         /// Пустое ли число?
@@ -224,8 +282,10 @@ namespace AM.Text
 
         #region Private members
 
+        [NotNull]
         private readonly LinkedList<Chunk> _chunks;
 
+        [CanBeNull]
         private Chunk this[int index]
         {
             get
@@ -250,6 +310,7 @@ namespace AM.Text
 
         #region Public methods
 
+        [NotNull]
         public NumberText AppendChunk
             (
                 string prefix,
@@ -265,9 +326,14 @@ namespace AM.Text
                 Length = length
             };
             _chunks.AddLast(chunk);
+
             return this;
         }
 
+        /// <summary>
+        /// Append chunk to the number tail.
+        /// </summary>
+        [NotNull]
         public NumberText AppendChunk
             (
                 string prefix
@@ -278,9 +344,14 @@ namespace AM.Text
                 Prefix = prefix
             };
             _chunks.AddLast(chunk);
+
             return this;
         }
 
+        /// <summary>
+        /// Append chunk to the number tail.
+        /// </summary>
+        [NotNull]
         public NumberText AppendChunk
             (
                 long value
@@ -292,16 +363,22 @@ namespace AM.Text
                 Value = value
             };
             _chunks.AddLast(chunk);
+
             return this;
         }
 
-        public NumberText Copy()
+        /// <summary>
+        /// Clone the number.
+        /// </summary>
+        [NotNull]
+        public NumberText Clone()
         {
             NumberText result = new NumberText();
             foreach (Chunk chunk in _chunks)
             {
                 result._chunks.AddLast(chunk.Copy());
             }
+
             return result;
         }
 
@@ -1099,7 +1176,7 @@ namespace AM.Text
                 int right
             )
         {
-            return left.Copy().Increment(right);
+            return left.Clone().Increment(right);
         }
 
         public static long operator -
@@ -1126,6 +1203,71 @@ namespace AM.Text
             {
                 yield return chunk.ToString();
             }
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Restore object state from the given stream.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            _chunks.Clear();
+
+            int count = reader.ReadPackedInt32();
+            for (int i = 0; i < count; i++)
+            {
+                Chunk chunk = new Chunk();
+                chunk.RestoreFromStream(reader);
+                _chunks.AddLast(chunk);
+            }
+        }
+
+        /// <summary>
+        /// Save object state to the given stream.
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            int count = _chunks.Count;
+            writer.WritePackedInt32(count);
+            foreach (Chunk chunk in _chunks)
+            {
+                chunk.SaveToStream(writer);
+            }
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <summary>
+        /// Verify the object state.
+        /// </summary>
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<NumberText> verifier
+                = new Verifier<NumberText>
+                (
+                    this,
+                    throwOnError
+                );
+
+            return verifier.Result;
         }
 
         #endregion
