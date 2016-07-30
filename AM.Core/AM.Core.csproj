@@ -146,6 +146,7 @@
     <Compile Include="AM\IReadOnly.cs" />
     <Compile Include="AM\ISynchronize.cs" />
     <Compile Include="AM\IVerifiable.cs" />
+    <Compile Include="AM\Json\JsonUtility.cs" />
     <Compile Include="AM\Mathematics\MathUtility.cs" />
     <Compile Include="AM\MessageEventArgs.cs" />
     <Compile Include="AM\MessageEventHandler.cs" />

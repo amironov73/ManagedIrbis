@@ -50,6 +50,26 @@ namespace UnitTests.AM.Text.Ranges
         }
 
         [TestMethod]
+        public void TestNumberRangeCollection_Parse3()
+        {
+            NumberRangeCollection collection
+                = NumberRangeCollection.Parse("10 15");
+            Assert.AreEqual(2, collection.Count);
+
+            collection = NumberRangeCollection.Parse("10 - 15 20");
+            Assert.AreEqual(2, collection.Count);
+
+            collection = NumberRangeCollection.Parse("10 15 - 20 30");
+            Assert.AreEqual(3, collection.Count);
+
+            collection = NumberRangeCollection.Parse("10 15 30");
+            Assert.AreEqual(3, collection.Count);
+
+            collection = NumberRangeCollection.Parse("10   15 - 20 30-40");
+            Assert.AreEqual(3, collection.Count);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(FormatException))]
         public void TestNumberRangeCollection_Parse_Exception1()
         {

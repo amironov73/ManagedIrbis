@@ -108,7 +108,7 @@ namespace ManagedIrbis.Network.Commands
         {
             Code.NotNull(response, "response");
 
-            int returnCode = response.GetReturnCode();
+            int returnCode = response.ReturnCode;
             if (returnCode < 0)
             {
                 int[] goodCodes = GoodReturnCodes;

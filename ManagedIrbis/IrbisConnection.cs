@@ -297,9 +297,11 @@ namespace ManagedIrbis
             = new Stack<string>();
 
         // ReSharper disable InconsistentNaming
-        internal void GenerateClientID()
+        internal int GenerateClientID()
         {
             _clientID = _random.Next(1000000, 9999999);
+
+            return _clientID;
         }
         // ReSharper restore InconsistentNaming
 
@@ -435,7 +437,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Establish connection (if not yet).
         /// </summary>
-        public void Connect()
+        public string Connect()
         {
             if (!_connected)
             {
@@ -445,6 +447,8 @@ namespace ManagedIrbis
                 command.CheckResponse(result);
                 _connected = true;
             }
+
+            return null;
         }
 
         // ========================================================

@@ -28,6 +28,22 @@ using Newtonsoft.Json;
 
 namespace ManagedIrbis.Network.Commands
 {
+    //
+    // EXTRACT FROM OFFICIAL DOCUMENTATION
+    //
+    // Если код возврата равен ZERO,
+    // то следующие строки - это ini-файл определенный
+    // на сервере для данного пользователя.
+    // 
+    // Если код возврата не равен ZERO - только одна строка.
+    // 
+    // Коды возврата:
+    // ZERO
+    // CLIENT_ALREADY_EXISTS  - пользователь
+    // уже зарегистрирован.
+    // WRONG_PASSWORD - неверный пароль.
+    //
+
     /// <summary>
     /// Connect to the IRBIS64 server.
     /// </summary>
@@ -46,6 +62,26 @@ namespace ManagedIrbis.Network.Commands
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Server configuration file content
+        /// (on successful connection).
+        /// </summary>
+        [CanBeNull]
+        public string Configuration { get; set; }
+
+        /// <summary>
+        /// User password. If not specified,
+        /// connection password used.
+        /// </summary>
+        [CanBeNull]
+        public string Password { get; set; }
+
+        /// <summary>
+        /// User name. If not specified,
+        /// connection name used.
+        /// </summary>
+        public string Username { get; set; }
 
         #endregion
 
@@ -69,6 +105,34 @@ namespace ManagedIrbis.Network.Commands
         #region AbstractCommand members
 
         /// <summary>
+        /// Create the query.
+        /// </summary>
+        public override ClientQuery CreateQuery()
+        {
+            ClientQuery result = base.CreateQuery();
+            result.CommandCode = CommandCode.RegisterClient;
+
+            string username = Username ?? Connection.Username;
+            if (string.IsNullOrEmpty(username))
+            {
+                throw new IrbisException("username not specified");
+            }
+            string password = Password ?? Connection.Password;
+            if (string.IsNullOrEmpty(password))
+            {
+                throw new IrbisException("password not specified");
+            }
+
+            result.UserLogin = username;
+            result.UserPassword = password;
+
+            result.Arguments.Add(username);
+            result.Arguments.Add(password);
+
+            return result;
+        }
+
+        /// <summary>
         /// Execute the command.
         /// </summary>
         public override ServerResponse Execute
@@ -78,18 +142,28 @@ namespace ManagedIrbis.Network.Commands
         {
             Code.NotNull(query, "query");
 
-            query.CommandCode = CommandCode.RegisterClient;
-            query.Arguments.Add(Connection.Username);
-            query.Arguments.Add(Connection.Password);
+            ServerResponse result;
+            
+            while (true)
+            {
+                result = base.Execute(query);
 
-            ServerResponse result = base.Execute(query);
+                // CLIENT_ALREADY_EXISTS
+                if (result.ReturnCode == -3337)
+                {
+                    query.ClientID = Connection
+                        .GenerateClientID();
+                }
+                else
+                {
+                    break;
+                }
+            }
 
-            //string[] decoded = PacketInterpreter.Interpret
-            //    (
-            //        result.Packet,
-            //        ResponseSpecification
-            //    );
-            //IrbisNetworkDebugger.Log(decoded);
+            if (result.ReturnCode == 0)
+            {
+                Configuration = result.RemainingAnsiText();
+            }
 
             return result;
         }
@@ -110,8 +184,8 @@ namespace ManagedIrbis.Network.Commands
                 = new Verifier<ConnectCommand>(this, throwOnError);
 
             verifier
-                .NotNullNorEmpty(Connection.Username, "username")
-                .NotNullNorEmpty(Connection.Password, "password");
+                .NotNullNorEmpty(Connection.Username, "Username")
+                .NotNullNorEmpty(Connection.Password, "Password");
 
             return verifier.Result;
         }

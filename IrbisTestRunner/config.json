@@ -22,7 +22,7 @@
     "tests": [
         //"ArbitraryCommandTest.cs",
         //"BinaryResourceTest.cs",
-        //"ConnectionTest.cs",
+        "ConnectionTest.cs",
         //"CreateDatabaseTest.cs",
         //"CreateDictionaryTest.cs",
         //"DatabaseInfoTest.cs"
