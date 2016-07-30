@@ -94,6 +94,23 @@
         </Reference>
       </ItemGroup>
     </When>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v4.6' ">
+      <ItemGroup>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Antlr4.Runtime">
+          <HintPath>..\Libs\net45\Antlr4.Runtime.net45.dll</HintPath>
+        </Reference>
+        <Reference Include="BLToolkit">
+          <HintPath>..\Libs\net40\BLToolkit.4.dll</HintPath>
+        </Reference>
+        <Reference Include="MoonSharp.Interpreter">
+          <HintPath>..\Libs\net45\MoonSharp.Interpreter.dll</HintPath>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+          <HintPath>..\Libs\net45\Newtonsoft.Json.dll</HintPath>
+        </Reference>
+      </ItemGroup>
+    </When>
   </Choose>
   <ItemGroup>
     <Reference Include="JetBrains.Annotations">
@@ -163,9 +180,11 @@
     <Compile Include="Network\Resolving\AbstractResolver.cs" />
     <Compile Include="Network\Resolving\ConnectionResolver.cs" />
     <Compile Include="Network\Resolving\UniversalResolver.cs" />
+    <Compile Include="Network\Sockets\FakeClientSocket.cs" />
     <Compile Include="Network\Sockets\LoggingClientSocket.cs" />
     <Compile Include="Network\Sockets\HttpClientSocket.cs" />
     <Compile Include="Network\Sockets\RetryClientSocket.cs" />
+    <Compile Include="Network\Sockets\SmartClientSocket.cs" />
     <Compile Include="ServerStat.cs" />
     <Compile Include="StatDefinition.cs" />
     <Compile Include="TableDefinition.cs" />
