@@ -1,5 +1,7 @@
 ﻿/* WssFile.cs -- вложенный рабочий лист
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

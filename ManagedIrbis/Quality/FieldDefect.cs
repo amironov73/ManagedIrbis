@@ -1,5 +1,7 @@
 ﻿/* FieldDefect.cs -- дефект в поле/подполе.
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

@@ -1,5 +1,7 @@
 ﻿/* DefectList.cs -- список дефектов для поля записи
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

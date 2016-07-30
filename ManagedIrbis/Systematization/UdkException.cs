@@ -1,5 +1,7 @@
 ﻿/* UdkException.cs -- исключение, возникающее при работе с УДК
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

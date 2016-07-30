@@ -1,5 +1,7 @@
 ﻿/* MorphologyEngine.cs -- работа с морфологией
  * Ars Magna project, http://arsmagna.ru 
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

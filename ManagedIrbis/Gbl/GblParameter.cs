@@ -1,5 +1,7 @@
 ﻿/* GblParameter.cs -- parameter for GBL file
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

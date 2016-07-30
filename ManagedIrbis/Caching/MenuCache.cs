@@ -1,5 +1,7 @@
 ﻿/* IrbisTextCache.cs -- 
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -18,6 +20,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Menus;
 using ManagedIrbis.Network;
 

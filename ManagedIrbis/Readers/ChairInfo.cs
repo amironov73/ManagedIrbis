@@ -1,5 +1,7 @@
 ﻿/* ChairInfo.cs -- кафедра обслуживания.
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

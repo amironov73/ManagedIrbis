@@ -1,5 +1,7 @@
 ﻿/* ConnectCommand.cs -- connect to the IRBIS64 server
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

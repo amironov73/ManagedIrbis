@@ -1,10 +1,13 @@
 ﻿/* CodesInfo.cs -- коды (поле 900)
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
 
 using System;
+
 using ManagedIrbis.Mapping;
 
 #endregion

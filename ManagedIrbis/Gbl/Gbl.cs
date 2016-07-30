@@ -1,5 +1,7 @@
 ﻿/* Gbl.cs -- shortcuts for popular GBL commands
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

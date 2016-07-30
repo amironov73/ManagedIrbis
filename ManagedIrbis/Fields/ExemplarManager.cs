@@ -1,4 +1,7 @@
 ﻿/* ExemplarManager.cs --
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -10,12 +13,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+
 using AM;
 using AM.Runtime;
 using AM.Text.Output;
+
 using JetBrains.Annotations;
 
 using AM.IO;
+
 using ManagedIrbis.Readers;
 
 #endregion

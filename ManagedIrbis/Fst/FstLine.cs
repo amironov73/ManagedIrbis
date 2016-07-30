@@ -1,5 +1,7 @@
 ﻿/* FstLine.cs -- FST file line
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

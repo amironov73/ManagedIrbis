@@ -1,5 +1,7 @@
 ﻿/* UniversalTextCommand.cs -- universal command with text lines
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

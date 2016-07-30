@@ -1,5 +1,7 @@
 ﻿/* RequestManager.cs -- управление читательскими заказами
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #if NOTDEF

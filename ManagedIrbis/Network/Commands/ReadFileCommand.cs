@@ -1,5 +1,7 @@
 ﻿/* ReadFileCommand.cs -- read text file(s) from the server
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

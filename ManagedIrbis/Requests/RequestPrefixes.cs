@@ -1,5 +1,7 @@
 ﻿/* RequestPrefixes.cs -- префиксы запросов к базе RDR
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 namespace ManagedIrbis.Requests

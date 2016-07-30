@@ -1,5 +1,7 @@
 ﻿/* ReaderInfo.cs -- информация о читателе.
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

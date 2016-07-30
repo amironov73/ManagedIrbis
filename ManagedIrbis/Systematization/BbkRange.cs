@@ -1,5 +1,7 @@
 ﻿/* BbkRange.cs -- интервал индексов ББК
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

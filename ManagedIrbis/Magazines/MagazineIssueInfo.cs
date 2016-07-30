@@ -1,5 +1,7 @@
 ﻿/* MagazineIssueInfo.cs -- сведения о номере журнала
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

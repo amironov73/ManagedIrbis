@@ -1,5 +1,7 @@
 ﻿/* RecordReport.cs -- отчёт о проверке записи.
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

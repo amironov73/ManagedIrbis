@@ -1,5 +1,7 @@
 ﻿/* FieldAttribute.cs -- отображение поля на свойство.
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

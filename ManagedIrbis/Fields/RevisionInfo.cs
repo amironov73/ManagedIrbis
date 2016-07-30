@@ -1,5 +1,7 @@
 ﻿/* RevisionInfo.cs -- данные о редактировании записи
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -18,7 +20,9 @@ using BLToolkit.Mapping;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Mapping;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;

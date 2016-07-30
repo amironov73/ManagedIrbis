@@ -1,5 +1,7 @@
 ﻿/* SchemaUtility.cs --
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -20,6 +22,7 @@ using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
 using Formatting = Newtonsoft.Json.Formatting;
 
 #endregion

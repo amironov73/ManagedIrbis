@@ -1,5 +1,7 @@
 ﻿/* InputMode.cs -- input mode constants
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 namespace ManagedIrbis.Worksheet

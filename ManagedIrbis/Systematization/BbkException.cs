@@ -1,5 +1,7 @@
 ﻿/* BbkException.cs -- исключение, возникающее при работе с ББК
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

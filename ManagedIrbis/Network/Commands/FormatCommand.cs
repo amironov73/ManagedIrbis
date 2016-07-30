@@ -1,5 +1,7 @@
 ﻿/* FormatCommand.cs -- format records on IRBIS-server
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

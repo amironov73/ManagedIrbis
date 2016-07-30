@@ -1,5 +1,7 @@
 ﻿/* IrbisReturnCode.cs -- return code of IRBIS64 server
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

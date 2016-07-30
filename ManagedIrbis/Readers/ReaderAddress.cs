@@ -1,4 +1,6 @@
 ﻿/* ReaderAddress.cs -- адрес читателя
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

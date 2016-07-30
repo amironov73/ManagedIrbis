@@ -1,4 +1,7 @@
 ﻿/* NodeLeader.cs -- leader in N01/L01
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

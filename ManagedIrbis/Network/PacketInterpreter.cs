@@ -1,5 +1,7 @@
 ﻿/* PacketInterpreter.cs --
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -10,7 +12,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;

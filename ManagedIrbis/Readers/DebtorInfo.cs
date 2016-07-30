@@ -1,5 +1,7 @@
 ﻿/* DebtorInfo.cs -- информация о задолжнике.
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

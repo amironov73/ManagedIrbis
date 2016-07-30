@@ -1,1 +1,1 @@
-Universal ManagedClient for .NET 3.5, 4.0 and 4.5
+Universal ManagedClient for .NET 3.5, 4.0, 4.5 and .NET Core

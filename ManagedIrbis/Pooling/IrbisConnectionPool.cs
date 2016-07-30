@@ -1,5 +1,7 @@
 ﻿/* IrbisConnectionPool.cs -- пул соединений с сервером.
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

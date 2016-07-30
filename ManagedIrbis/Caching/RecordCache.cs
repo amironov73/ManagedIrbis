@@ -1,5 +1,7 @@
 ﻿/* RecordCache.cs -- cache of records
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

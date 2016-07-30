@@ -1,5 +1,7 @@
 ﻿/* MenuFile.cs -- MNU file handling.
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -20,7 +22,9 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Network;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
