@@ -23,7 +23,6 @@ build:
 after_build:
 - cmd: compile.cmd
 - cmd: compile46.cmd
-- cmd: compilecore.cmd
 - cmd: cd Nuget
 - cmd: packit.cmd
 
