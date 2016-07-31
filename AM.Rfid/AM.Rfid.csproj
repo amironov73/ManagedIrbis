@@ -79,6 +79,62 @@
         </Reference>
       </ItemGroup>
     </When>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v4.5.1' ">
+      <ItemGroup>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Antlr4.Runtime">
+          <HintPath>..\Libs\net45\Antlr4.Runtime.net45.dll</HintPath>
+        </Reference>
+        <Reference Include="MoonSharp.Interpreter">
+          <HintPath>..\Libs\net45\MoonSharp.Interpreter.dll</HintPath>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+          <HintPath>..\Libs\net45\Newtonsoft.Json.dll</HintPath>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v4.5.2' ">
+      <ItemGroup>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Antlr4.Runtime">
+          <HintPath>..\Libs\net45\Antlr4.Runtime.net45.dll</HintPath>
+        </Reference>
+        <Reference Include="MoonSharp.Interpreter">
+          <HintPath>..\Libs\net45\MoonSharp.Interpreter.dll</HintPath>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+          <HintPath>..\Libs\net45\Newtonsoft.Json.dll</HintPath>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v4.6' ">
+      <ItemGroup>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Antlr4.Runtime">
+          <HintPath>..\Libs\net45\Antlr4.Runtime.net45.dll</HintPath>
+        </Reference>
+        <Reference Include="MoonSharp.Interpreter">
+          <HintPath>..\Libs\net45\MoonSharp.Interpreter.dll</HintPath>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+          <HintPath>..\Libs\net45\Newtonsoft.Json.dll</HintPath>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v4.6.1' ">
+      <ItemGroup>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Antlr4.Runtime">
+          <HintPath>..\Libs\net45\Antlr4.Runtime.net45.dll</HintPath>
+        </Reference>
+        <Reference Include="MoonSharp.Interpreter">
+          <HintPath>..\Libs\net45\MoonSharp.Interpreter.dll</HintPath>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+          <HintPath>..\Libs\net45\Newtonsoft.Json.dll</HintPath>
+        </Reference>
+      </ItemGroup>
+    </When>
   </Choose>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>
