@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 using AM;
+using AM.Collections;
 using AM.IO;
 using AM.Runtime;
 using AM.Threading;
@@ -446,6 +447,7 @@ namespace ManagedIrbis
                 ServerResponse result = command.Execute(query);
                 command.CheckResponse(result);
                 _connected = true;
+                return command.Configuration;
             }
 
             return null;
@@ -647,10 +649,14 @@ namespace ManagedIrbis
                 FormatSpecification = format
             };
             command.MfnList.Add(mfn);
-            ServerResponse response = ExecuteCommand(command);
+            ExecuteCommand(command);
 
-            string result = response.GetUtfString();
-            result = IrbisText.IrbisToWindows(result);
+            if (command.FormatResult.IsNullOrEmpty())
+            {
+                throw new IrbisNetworkException("result is empty");
+            }
+
+            string result = command.FormatResult[0];
 
             return result;
         }
@@ -673,10 +679,14 @@ namespace ManagedIrbis
                 FormatSpecification = format,
                 VirtualRecord = record
             };
-            ServerResponse response = ExecuteCommand(command);
+            ExecuteCommand(command);
 
-            string result = response.GetUtfString();
-            result = IrbisText.IrbisToWindows(result);
+            if (command.FormatResult.IsNullOrEmpty())
+            {
+                throw new IrbisNetworkException("result is empty");
+            }
+
+            string result = command.FormatResult[0];
 
             return result;
         }
@@ -705,17 +715,16 @@ namespace ManagedIrbis
                 return new string[0];
             }
 
-            ServerResponse response = ExecuteCommand(command);
+            ExecuteCommand(command);
 
-            if (command.MfnList.Count == 1)
+            if (command.FormatResult.IsNullOrEmpty())
             {
-                return new[]
-                {
-                    IrbisText.IrbisToWindows(response.GetUtfString())
-                };
+                throw new IrbisNetworkException("result is empty");
             }
 
-            return FormatCommand.GetFormatResult(response);
+            string[] result = command.FormatResult;
+
+            return result;
         }
 
         #endregion
@@ -1199,22 +1208,9 @@ namespace ManagedIrbis
                 Lock = lockFlag,
                 Format = format
             };
-            ServerResponse response = ExecuteCommand(command);
+            ExecuteCommand(command);
 
-            MarcRecord record = new MarcRecord
-            {
-                HostName = Host,
-                Database = Database
-            };
-
-            MarcRecord result = ProtocolText.ParseResponseForReadRecord
-                (
-                    response,
-                    record
-                );
-            result.Verify(true);
-
-            return result;
+            return command.ReadedRecord;
         }
 
         /// <summary>
@@ -1241,38 +1237,9 @@ namespace ManagedIrbis
                 VersionNumber = versionNumber,
                 Format = format
             };
-            ServerResponse response = ExecuteCommand(command);
-            if (response.ReturnCode == -201)
-            {
-                return null;
-            }
+            ExecuteCommand(command);
 
-            MarcRecord record = new MarcRecord
-            {
-                HostName = Host,
-                Database = Database
-            };
-
-            MarcRecord result = ProtocolText.ParseResponseForReadRecord
-                (
-                    response,
-                    record
-                );
-            result.Verify(true);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Чтение записи.
-        /// </summary>
-        [NotNull]
-        public MarcRecord ReadRecord
-            (
-                int mfn
-            )
-        {
-            return ReadRecord(Database, mfn, false, null);
+            return command.ReadedRecord;
         }
 
         /// <summary>
@@ -1723,7 +1690,7 @@ namespace ManagedIrbis
         #region WriteRecord
 
         /// <summary>
-        /// Сохранение записи.
+        /// Create or update existing record in the database.
         /// </summary>
         [NotNull]
         public MarcRecord WriteRecord
@@ -1754,27 +1721,10 @@ namespace ManagedIrbis
             return result;
         }
 
-        /// <summary>
-        /// Сохранение записи.
-        /// </summary>
-        [NotNull]
-        public MarcRecord WriteRecord
-            (
-                [NotNull] MarcRecord record
-            )
-        {
-            Code.NotNull(record, "record");
-
-            return WriteRecord
-                (
-                    record,
-                    false,
-                    true
-                );
-        }
+        // ========================================================
 
         /// <summary>
-        /// Сохранение записи.
+        /// Create or update many records.
         /// </summary>
         [NotNull]
         public MarcRecord[] WriteRecords
@@ -1786,6 +1736,11 @@ namespace ManagedIrbis
         {
             Code.NotNull(records, "records");
 
+            if (records.Length == 0)
+            {
+                return records;
+            }
+
             WriteRecordsCommand command = new WriteRecordsCommand(this)
             {
                 Actualize = actualize,
@@ -1795,6 +1750,7 @@ namespace ManagedIrbis
             {
                 RecordReference reference = new RecordReference(record)
                 {
+                    HostName = Host,
                     Database = Database
                 };
                 command.References.Add(reference);

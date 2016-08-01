@@ -118,6 +118,17 @@ namespace IrbisTestRunner.Tests
             Console.Write(string.Join(Environment.NewLine, actual));
         }
 
+        [TestMethod]
+        public void TestFormatOptimized()
+        {
+            string actual = Connection.FormatRecord
+                (
+                    "@",
+                    1
+                );
+            Console.Write(actual);
+        }
+
         #endregion
     }
 }

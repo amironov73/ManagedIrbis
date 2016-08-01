@@ -35,7 +35,7 @@ namespace ManagedIrbis
     [PublicAPI]
     [XmlRoot("field")]
     [MoonSharpUserData]
-    [DebuggerDisplay("Tag={Tag} Value={Value}")]
+    [DebuggerDisplay("{DebugText}")]
     public sealed class RecordField
         : IHandmadeSerializable,
         IReadOnly<RecordField>,
@@ -153,8 +153,29 @@ namespace ManagedIrbis
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        //[NonSerialized]
+        [NonSerialized]
         public MarcRecord Record;
+
+        /// <summary>
+        /// Field path
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        [NotNull]
+        public string Path
+        {
+            get
+            {
+                string result = string.Format
+                    (
+                        "{0}/{1}",
+                        Tag,
+                        Repeat
+                    );
+
+                return result;
+            }
+        }
 
         #endregion
 
@@ -258,6 +279,29 @@ namespace ManagedIrbis
         #endregion
 
         #region Private members
+
+        private string DebugText
+        {
+            get
+            {
+                StringBuilder result = new StringBuilder();
+                result.Append(Path);
+                result.Append('#');
+                result.Append(Value);
+
+                foreach (SubField subField in SubFields)
+                {
+                    result.AppendFormat
+                        (
+                            "|^{0}{1}",
+                            subField.Code,
+                            subField.Value
+                        );
+                }
+
+                return result.ToString();
+            }
+        }
 
         private readonly FieldIndicator _indicator1, _indicator2;
 
@@ -866,12 +910,24 @@ namespace ManagedIrbis
                 );
 
             verifier
-                .Assert(FieldTag.Verify(Tag), "Tag")
-                .Assert(FieldValue.Verify(Value), "Value");
+                .Assert
+                (
+                    FieldTag.Verify(Tag),
+                    "Field " + Path + ": Tag"
+                )
+                .Assert
+                (
+                    FieldValue.Verify(Value),
+                    "Field " + Path + ": Value"
+                );
 
             foreach (SubField subField in SubFields)
             {
-                verifier.Assert(subField.Verify(throwOnError), "SubField");
+                verifier.Assert
+                    (
+                        subField.Verify(throwOnError),
+                        "SubField " + subField.Path
+                    );
             }
 
             return verifier.Result;

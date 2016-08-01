@@ -59,9 +59,9 @@ namespace ManagedIrbis
                 bool throwOnError
             )
         {
-            bool result = !string.IsNullOrEmpty(value);
+            bool result = true;
 
-            if (result)
+            if (!string.IsNullOrEmpty(value))
             {
                 if (value.IndexOf(SubField.Delimiter) >= 0)
                 {

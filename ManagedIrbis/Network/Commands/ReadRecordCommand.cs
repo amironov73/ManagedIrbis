@@ -9,7 +9,7 @@
 using AM;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.ImportExport;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -53,6 +53,12 @@ namespace ManagedIrbis.Network.Commands
         /// </summary>
         public int VersionNumber { get; set; }
 
+        /// <summary>
+        /// Readed record.
+        /// </summary>
+        [CanBeNull]
+        public MarcRecord ReadedRecord { get; set; }
+
         #endregion
 
         #region Construction
@@ -80,6 +86,28 @@ namespace ManagedIrbis.Network.Commands
             ClientQuery result = base.CreateQuery();
             result.CommandCode = CommandCode.ReadRecord;
 
+            string database = Database ?? Connection.Database;
+
+            if (string.IsNullOrEmpty(database))
+            {
+                throw new IrbisNetworkException("database not specified");
+            }
+
+            result.Arguments.Add(database);
+            result.Arguments.Add(Mfn);
+            if (VersionNumber != 0)
+            {
+                result.Arguments.Add(VersionNumber);
+            }
+            else
+            {
+                result.Arguments.Add(Lock);
+            }
+            if (!string.IsNullOrEmpty(Format))
+            {
+                result.Arguments.Add(Format);
+            }
+
             return result;
         }
 
@@ -91,29 +119,24 @@ namespace ManagedIrbis.Network.Commands
                 ClientQuery query
             )
         {
-            string database = Database ?? Connection.Database;
-
-            if (string.IsNullOrEmpty(database))
-            {
-                throw new IrbisNetworkException("database not specified");
-            }
-
-            query.Arguments.Add(database);
-            query.Arguments.Add(Mfn);
-            if (VersionNumber != 0)
-            {
-                query.Arguments.Add(VersionNumber);
-            }
-            else
-            {
-                query.Arguments.Add(Lock);
-            }
-            if (!string.IsNullOrEmpty(Format))
-            {
-                query.Arguments.Add(Format);
-            }
-
             ServerResponse result = base.Execute(query);
+            if (result.GetReturnCode() != -201)
+            {
+
+                MarcRecord record = new MarcRecord
+                {
+                    HostName = Connection.Host,
+                    Database = Database
+                };
+
+                record = ProtocolText.ParseResponseForReadRecord
+                    (
+                        result,
+                        record
+                    );
+                record.Verify(true);
+                ReadedRecord = record;
+            }
 
             return result;
         }

@@ -128,8 +128,29 @@ namespace ManagedIrbis
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
-        //[NonSerialized]
+        [NonSerialized]
         public RecordField Field;
+
+        /// <summary>
+        /// Subfield path.
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        [NotNull]
+        public string Path
+        {
+            get
+            {
+                string result = "^" + Code;
+
+                if (!ReferenceEquals(Field, null))
+                {
+                    result = Field.Path + result;
+                }
+
+                return result;
+            }
+        }
 
         #endregion
 
@@ -378,8 +399,16 @@ namespace ManagedIrbis
                 );
 
             verifier
-                .Assert(SubFieldCode.Verify(Code), "Code")
-                .Assert(SubFieldValue.Verify(Value), "Value");
+                .Assert
+                (
+                    SubFieldCode.Verify(Code),
+                    "SubField " + Path + ": Code"
+                )
+                .Assert
+                (
+                    SubFieldValue.Verify(Value),
+                    "SubField " + Path + ": Value"
+                );
 
             return verifier.Result;
         }

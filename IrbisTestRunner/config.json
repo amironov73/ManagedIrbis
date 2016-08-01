@@ -27,7 +27,7 @@
         //"CreateDictionaryTest.cs",
         //"DatabaseInfoTest.cs"
         //"DatabaseStatTest.cs",
-        //"FormatTest.cs",
+        "FormatTest.cs",
         //"ListDatabasesTest.cs",
         //"ListFilesTest.cs",
         //"ListProcessesTest.cs",
@@ -40,7 +40,7 @@
         //"SearchTest.cs",
         //"PrintTableTest.cs",
         //"ReadPostingsTest.cs",
-        //"ReadRecordTest.cs",
+        "ReadRecordTest.cs",
         //"ReadTermsTest.cs",
         //"RecordCacheTest.cs",
         //"RecordHistoryTest.cs",

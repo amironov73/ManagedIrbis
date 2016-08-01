@@ -89,9 +89,9 @@ namespace ManagedIrbis.Network.Commands
             result.CommandCode = CommandCode.CreateDatabase;
 
             // Layout is:
-            // NEWDB
-            // New database
-            // 0
+            // NEWDB          // database name
+            // New database   // description
+            // 0              // reader access
 
             result
                 .Add(Database)

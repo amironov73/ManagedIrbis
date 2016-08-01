@@ -555,7 +555,11 @@ namespace ManagedIrbis
 
             foreach (RecordField field in Fields)
             {
-                verifier.Assert(field.Verify(throwOnError), "Field");
+                verifier.Assert
+                    (
+                        field.Verify(throwOnError),
+                        "Field " + field.Tag
+                    );
             }
 
             return verifier.Result;

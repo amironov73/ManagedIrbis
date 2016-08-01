@@ -1,7 +1,7 @@
 ﻿/* WriteFileCommand.cs -- write text file(s) to the server
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
- * Status: poor
+ * Status: moderate
  */
 
 #region Using directives

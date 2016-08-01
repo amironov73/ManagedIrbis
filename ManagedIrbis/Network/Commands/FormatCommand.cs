@@ -1,7 +1,7 @@
 ﻿/* FormatCommand.cs -- format records on IRBIS-server
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
- * Status: poor
+ * Status: moderate
  */
 
 #region Using directives
@@ -21,6 +21,8 @@ using MoonSharp.Interpreter;
 
 namespace ManagedIrbis.Network.Commands
 {
+    //
+    // EXTRACT FROM OFFICIAL DOCUMENTATION
     //
     // db_name – имя базы данных
     // MFN – номер записи в базе данных db_name
@@ -47,7 +49,6 @@ namespace ManagedIrbis.Network.Commands
     // для ссылки 1.200.1.1 формат вида v***  будет заменен
     // на v200).
     //
-
 
     /// <summary>
     /// Format records on IRBIS-server.
@@ -82,6 +83,12 @@ namespace ManagedIrbis.Network.Commands
         /// </summary>
         [CanBeNull]
         public MarcRecord VirtualRecord { get; set; }
+
+        /// <summary>
+        /// Result of the command.
+        /// </summary>
+        [CanBeNull]
+        public string[] FormatResult { get; set; }
 
         #endregion
 
@@ -170,6 +177,11 @@ namespace ManagedIrbis.Network.Commands
                         )
                 );
 
+            if (MfnList.Count >= IrbisConstants.MaxPostings)
+            {
+                throw new IrbisNetworkException("too many MFNs");
+            }
+
             if (MfnList.Count == 0)
             {
                 result.Add(-2);
@@ -198,13 +210,15 @@ namespace ManagedIrbis.Network.Commands
             Code.NotNull(query, "query");
 
             ServerResponse result = base.Execute(query);
+            if (!string.IsNullOrEmpty(FormatSpecification))
+            {
+                result.GetReturnCode();
+            }
+
+            FormatResult = GetFormatResult(result);
 
             return result;
         }
-
-        #endregion
-
-        #region IVerifiable members
 
         /// <summary>
         /// Verify object state.
@@ -218,7 +232,12 @@ namespace ManagedIrbis.Network.Commands
                 = new Verifier<FormatCommand>(this, throwOnError);
 
             verifier
-                .NotNullNorEmpty(FormatSpecification, "FormatSpecification")
+                //.NotNullNorEmpty(FormatSpecification, "FormatSpecification")
+                .Assert
+                (
+                    MfnList.Count < IrbisConstants.MaxPostings,
+                    "MfnList.Count"
+                )
                 .Assert(!ReferenceEquals(VirtualRecord, null)
                         || (MfnList.Count > 0))
                 .Assert(base.Verify(throwOnError));

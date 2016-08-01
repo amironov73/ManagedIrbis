@@ -10,6 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+#if !NETCORE
+using AM.Configuration;
+#endif
 using AM.IO;
 using AM.Runtime;
 
@@ -21,6 +24,7 @@ using ManagedIrbis.Menus;
 using ManagedIrbis.Network;
 using ManagedIrbis.Network.Commands;
 using ManagedIrbis.Network.Sockets;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -78,6 +82,8 @@ namespace ManagedIrbis
             return result;
         }
 
+        // ========================================================
+
         /// <summary>
         /// Read menu from server.
         /// </summary>
@@ -103,6 +109,9 @@ namespace ManagedIrbis
             return result;
         }
 
+        // ========================================================
+
+
         /// <summary>
         /// Remove logging from socket.
         /// </summary>
@@ -122,6 +131,8 @@ namespace ManagedIrbis
             }
         }
 
+        // ========================================================
+
         /// <summary>
         /// Стандартные наименования для ключа строки подключения
         /// к серверу ИРБИС64.
@@ -138,38 +149,42 @@ namespace ManagedIrbis
             };
         }
 
-        ///// <summary>
-        ///// Получаем строку подключения в app.settings.
-        ///// </summary>
-        //public static string GetStandardConnectionString()
-        //{
-        //    return ConfigurationUtility.FindSetting
-        //        (
-        //            ListStandardConnectionStrings()
-        //        );
-        //}
+        /// <summary>
+        /// Получаем строку подключения в app.settings.
+        /// </summary>
+        public static string GetStandardConnectionString()
+        {
+            return ConfigurationUtility.FindSetting
+                (
+                    ListStandardConnectionStrings()
+                );
+        }
 
-        ///// <summary>
-        ///// Получаем уже подключенного клиента.
-        ///// </summary>
-        ///// <exception cref="IrbisException">
-        ///// Если строка подключения в app.settings не найдена.
-        ///// </exception>
-        //public static IrbisConnection GetClientFromConfig()
-        //{
-        //    string connectionString = GetStandardConnectionString();
-        //    if (string.IsNullOrEmpty(connectionString))
-        //    {
-        //        throw new IrbisException
-        //            (
-        //                "Connection string not specified!"
-        //            );
-        //    }
+        // ========================================================
 
-        //    IrbisConnection result = new IrbisConnection(connectionString);
+        /// <summary>
+        /// Получаем уже подключенного клиента.
+        /// </summary>
+        /// <exception cref="IrbisException">
+        /// Если строка подключения в app.settings не найдена.
+        /// </exception>
+        public static IrbisConnection GetClientFromConfig()
+        {
+            string connectionString = GetStandardConnectionString();
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new IrbisException
+                    (
+                        "Connection string not specified!"
+                    );
+            }
 
-        //    return result;
-        //}
+            IrbisConnection result = new IrbisConnection(connectionString);
+
+            return result;
+        }
+
+        // ========================================================
 
         /// <summary>
         /// Retrieve history for given record.
@@ -217,6 +232,33 @@ namespace ManagedIrbis
             return result.ToArray();
         }
 
+        // ========================================================
+
+        /// <summary>
+        /// Чтение записи.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord ReadRecord
+            (
+                [NotNull] this IrbisConnection connection,
+                int mfn
+            )
+        {
+            Code.NotNull(connection, "connection");
+
+            MarcRecord result = connection.ReadRecord
+                (
+                    connection.Database,
+                    mfn,
+                    false,
+                    null
+                );
+
+            return result;
+        }
+
+        // ========================================================
+
         /// <summary>
         /// Require minimal server version.
         /// </summary>
@@ -253,6 +295,8 @@ namespace ManagedIrbis
             return result;
         }
 
+        // ========================================================
+
         /// <summary>
         /// Search for records with formattable expression.
         /// </summary>
@@ -276,6 +320,8 @@ namespace ManagedIrbis
 
             return connection.Search(expression);
         }
+
+        // ========================================================
 
         /// <summary>
         /// Загрузка записей по результатам поиска.
@@ -313,6 +359,8 @@ namespace ManagedIrbis
 
             return result;
         }
+
+        // ========================================================
 
         /// <summary>
         /// Загрузка одной записи по результатам поиска.
@@ -371,6 +419,29 @@ namespace ManagedIrbis
             bool result = response.GetReturnCode() >= 0;
 
             return result;
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Create or update existing record in the database.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord WriteRecord
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] MarcRecord record
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNull(record, "record");
+
+            return connection.WriteRecord
+                (
+                    record,
+                    false,
+                    true
+                );
         }
 
         #endregion

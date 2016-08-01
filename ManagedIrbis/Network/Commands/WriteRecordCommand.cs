@@ -1,7 +1,8 @@
-﻿/* WriteRecordCommand.cs -- 
+﻿/* WriteRecordCommand.cs -- create or update record
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: moderate
+ * TODO read raw record
  */
 
 #region Using directives
@@ -11,7 +12,9 @@ using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.ImportExport;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -19,7 +22,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Network.Commands
 {
     /// <summary>
-    /// 
+    /// Create of update existing record in the database.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -39,7 +42,7 @@ namespace ManagedIrbis.Network.Commands
         public bool Lock { get; set; }
 
         /// <summary>
-        /// New max MFN.
+        /// New max MFN (result of command execution).
         /// </summary>
         public int MaxMfn { get; set; }
 
@@ -123,6 +126,7 @@ namespace ManagedIrbis.Network.Commands
             MaxMfn = result.GetReturnCode();
 
             Record.Database = database;
+            Record.HostName = Connection.Host;
 
             ProtocolText.ParseResponseForWriteRecord
                             (
@@ -153,7 +157,7 @@ namespace ManagedIrbis.Network.Commands
                     );
 
             verifier
-                .NotNull(Record)
+                .NotNull(Record, "Record")
                 .Assert(base.Verify(throwOnError));
 
             return verifier.Result;

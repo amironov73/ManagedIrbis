@@ -1,7 +1,7 @@
-﻿/* WriteRecordCommand.cs -- 
+﻿/* WriteRecordCommand.cs -- create or update many records
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
- * Status: poor
+ * Status: moderate
  * 
  * TODO determine max MFN
  */
@@ -24,7 +24,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Network.Commands
 {
     /// <summary>
-    /// 
+    /// Create or update many records simultaneously.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -94,6 +94,10 @@ namespace ManagedIrbis.Network.Commands
             {
                 throw new IrbisNetworkException("no records given");
             }
+            if (References.Count >= IrbisConstants.MaxPostings)
+            {
+                throw new IrbisNetworkException("too many records");
+            }
 
             result
                 .Add(Lock)
@@ -137,8 +141,6 @@ namespace ManagedIrbis.Network.Commands
 
             result.GetReturnCode();
 
-            //NetworkDebugger.DumpResponse(result);
-
             // ReSharper disable AssignNullToNotNullAttribute
             // ReSharper disable PossibleNullReferenceException
             for (int i = 0; i < References.Count; i++)
@@ -175,6 +177,19 @@ namespace ManagedIrbis.Network.Commands
                         this,
                         throwOnError
                     );
+
+            verifier
+                .Assert
+                (
+                    References.Count < IrbisConstants.MaxPostings,
+                    "References.Count"
+                );
+
+            foreach (RecordReference reference in References)
+            {
+                reference.Verify(throwOnError);
+                verifier.NotNull(reference.Record, "record");
+            }
 
             return verifier.Result;
         }
