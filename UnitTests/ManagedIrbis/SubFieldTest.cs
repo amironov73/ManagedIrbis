@@ -13,7 +13,7 @@ namespace UnitTests
     public class SubFieldTest
     {
         [TestMethod]
-        public void TestSubFieldConstructor()
+        public void TestSubField_Constructor()
         {
             SubField subField = new SubField();
             Assert.AreEqual(SubField.NoCode, subField.Code);
@@ -37,7 +37,7 @@ namespace UnitTests
             subField.SetValue("New value");
             Assert.AreEqual("New value", subField.Value);
             subField.SetValue(null);
-            Assert.AreEqual("New value", subField.Value);
+            Assert.AreEqual(null, subField.Value);
         }
 
         private void _TestSerialization
@@ -63,7 +63,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubFieldSerialization()
+        public void TestSubField_Serialization()
         {
             _TestSerialization(new SubField[0]);
             _TestSerialization(new SubField());
@@ -74,7 +74,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubFieldSetValue1()
+        public void TestSubField_SetValue1()
         {
             SubField subField = new SubField('a')
             {
@@ -107,7 +107,7 @@ namespace UnitTests
 
         [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
-        public void TestSubFieldReadOnly()
+        public void TestSubField_ReadOnly()
         {
             SubField subField = new SubField('a', "Value", true, null);
             Assert.AreEqual("Value", subField.Value);
@@ -116,7 +116,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubFieldToJObject()
+        public void TestSubField_ToJObject()
         {
             SubField subField = new SubField('a', "Value");
 
@@ -126,7 +126,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubFieldToJson()
+        public void TestSubField_ToJson()
         {
             SubField subField = new SubField('a', "Value");
 
@@ -140,7 +140,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubFieldFromJObject()
+        public void TestSubField_FromJObject()
         {
             JObject jObject = new JObject
                 (
@@ -154,7 +154,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubFieldFromJson()
+        public void TestSubField_FromJson()
         {
             const string text = @"{"
 +@"  ""code"": ""a"","
@@ -168,7 +168,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubFieldToXml()
+        public void TestSubField_ToXml()
         {
             SubField subField = new SubField('a', "Value");
             string actual = subField.ToXml()
@@ -180,7 +180,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubFieldFromXml()
+        public void TestSubField_FromXml()
         {
             const string text = @"<?xml version=""1.0"" encoding=""utf-16""?>"
 +@"<subfield xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" code=""a"" value=""Value"" />";
