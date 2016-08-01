@@ -87,7 +87,7 @@ namespace ManagedIrbis.Network.Commands
             Code.NotNull(response, "response");
 
             // Don't check: there's no return code
-            response._returnCodeRetrieved = true;
+            response.RefuseAnReturnCode();
         }
 
         /// <summary>

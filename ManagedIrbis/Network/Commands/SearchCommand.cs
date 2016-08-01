@@ -21,6 +21,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Search;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -29,6 +31,8 @@ using Newtonsoft.Json;
 
 namespace ManagedIrbis.Network.Commands
 {
+    //
+    // EXTRACT FROM OFFICIAL DOCUMENTATION
     //
     // db_name – имя базы данных
     // search_exp – поисковое выражение на языке ISIS
@@ -61,7 +65,6 @@ namespace ManagedIrbis.Network.Commands
     // Далее идет список строк:
     // MFN# результат_форматирования
     //
-
 
     /// <summary>
     /// Search records on IRBIS-server.
@@ -117,6 +120,12 @@ namespace ManagedIrbis.Network.Commands
         [CanBeNull]
         public string SequentialSpecification { get; set; }
 
+        /// <summary>
+        /// Found records.
+        /// </summary>
+        [CanBeNull]
+        public List<FoundItem> Found { get; set; }
+
         #endregion
 
         #region Construction
@@ -135,7 +144,74 @@ namespace ManagedIrbis.Network.Commands
 
         #endregion
 
+        #region Private members
+
+        private bool _SubCommand;
+
+        private void _FetchRemaining
+            (
+                ServerResponse mainResponse,
+                int total
+            )
+        {
+            if (ReferenceEquals(Found, null))
+            {
+                return;
+            }
+
+            if (!_SubCommand && (total > IrbisConstants.MaxPostings))
+            {
+                int firstRecord = FirstRecord + Found.Count;
+
+                while (firstRecord < total)
+                {
+                    SearchCommand subCommand = Clone();
+                    subCommand.FirstRecord = firstRecord;
+                    subCommand.NumberOfRecords
+                        = total - firstRecord + 1;
+                    subCommand._SubCommand = true;
+
+                    ClientQuery clientQuery = subCommand.CreateQuery();
+                    ServerResponse subResponse = subCommand
+                        .Execute(clientQuery);
+                    subCommand.CheckResponse(subResponse);
+
+                    List<FoundItem> found = subCommand.Found
+                        .ThrowIfNull("Found");
+                    int count = found.Count;
+                    Found.AddRange(found);
+
+                    firstRecord += count;
+                }
+            }
+        }
+
+        #endregion
+
         #region Public methods
+
+        /// <summary>
+        /// Clone the command.
+        /// </summary>
+        public SearchCommand Clone()
+        {
+            SearchCommand result = new SearchCommand
+                (
+                    Connection
+                )
+            {
+                Database = Database,
+                FirstRecord = FirstRecord,
+                FormatSpecification = FormatSpecification,
+                MaxMfn = MaxMfn,
+                MinMfn = MinMfn,
+                NumberOfRecords = NumberOfRecords,
+                SearchQuery = SearchQuery,
+                SequentialSpecification = SequentialSpecification
+            };
+
+            return result;
+        }
 
         #endregion
 
@@ -161,14 +237,7 @@ namespace ManagedIrbis.Network.Commands
                     (
                         SearchQuery
                     );
-            result.Add
-                (
-                    new TextWithEncoding
-                        (
-                            preparedQuery,
-                            IrbisEncoding.Utf8
-                        )
-                );
+            result.AddUtf8(preparedQuery);
 
             result.Add(NumberOfRecords);
             result.Add(FirstRecord);
@@ -178,14 +247,7 @@ namespace ManagedIrbis.Network.Commands
                     FormatSpecification
                 );
 
-            result.Add
-                (
-                    new TextWithEncoding
-                        (
-                            preparedFormat,
-                            IrbisEncoding.Ansi
-                        )
-                );
+            result.AddAnsi(preparedFormat);
 
             if (!string.IsNullOrEmpty(SequentialSpecification))
             {
@@ -206,14 +268,7 @@ namespace ManagedIrbis.Network.Commands
                             + " then '1' else '0'";
                     }
 
-                    result.Add
-                        (
-                            new TextWithEncoding
-                                (
-                                    preparedSequential,
-                                    IrbisEncoding.Utf8
-                                )
-                        );
+                    result.AddUtf8(preparedSequential);
                 }
             }
 
@@ -230,8 +285,16 @@ namespace ManagedIrbis.Network.Commands
         {
             Code.NotNull(clientQuery, "clientQuery");
 
-
             ServerResponse result = base.Execute(clientQuery);
+            result.GetReturnCode();
+            if (result.ReturnCode == 0)
+            {
+                int total = result.RequireInt32();
+                Found = FoundItem.ParseServerResponse(result)
+                    .ThrowIfNull("Found");
+
+                _FetchRemaining(result, total);
+            }
 
             return result;
         }
@@ -250,9 +313,15 @@ namespace ManagedIrbis.Network.Commands
         {
             Verifier<SearchCommand> verifier
                 = new Verifier<SearchCommand>(this, throwOnError);
-            verifier
-                .NotNullNorEmpty(SearchQuery, "SearchQuery")
-                .Assert(base.Verify(throwOnError));
+
+            if (!string.IsNullOrEmpty(SequentialSpecification))
+            {
+                verifier
+                    .NotNullNorEmpty(SearchQuery, "SearchQuery");
+            }
+
+            verifier.
+                Assert(base.Verify(throwOnError));
 
             return verifier.Result;
         }

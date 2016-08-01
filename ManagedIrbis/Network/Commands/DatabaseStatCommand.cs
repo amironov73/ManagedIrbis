@@ -68,7 +68,7 @@ namespace ManagedIrbis.Network.Commands
             Code.NotNull(response, "response");
 
             // Ignore the result
-            response._returnCodeRetrieved = true;
+            response.RefuseAnReturnCode();
         }
 
         public override ClientQuery CreateQuery()

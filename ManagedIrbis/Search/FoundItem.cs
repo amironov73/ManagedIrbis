@@ -1,5 +1,7 @@
 ﻿/* FoundItem.cs --
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -12,7 +14,9 @@ using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Network;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -71,13 +75,13 @@ namespace ManagedIrbis.Search
         [NotNull]
         public static int[] ConvertToMfn
             (
-                [NotNull][ItemNotNull] FoundItem[] found
+                [NotNull][ItemNotNull] List<FoundItem> found
             )
         {
             Code.NotNull(found, "found");
 
-            int[] result = new int[found.Length];
-            for (int i = 0; i < found.Length; i++)
+            int[] result = new int[found.Count];
+            for (int i = 0; i < found.Count; i++)
             {
                 result[i] = found[i].Mfn;
             }
@@ -92,13 +96,13 @@ namespace ManagedIrbis.Search
         [ItemCanBeNull]
         public static string[] ConvertToText
             (
-                [NotNull][ItemNotNull] FoundItem[] found
+                [NotNull][ItemNotNull] List<FoundItem> found
             )
         {
             Code.NotNull(found, "found");
 
-            string[] result = new string[found.Length];
-            for (int i = 0; i < found.Length; i++)
+            string[] result = new string[found.Count];
+            for (int i = 0; i < found.Count; i++)
             {
                 result[i] = found[i].Text.EmptyNull();
             }
@@ -143,7 +147,7 @@ namespace ManagedIrbis.Search
         {
             Code.NotNull(response, "response");
 
-            FoundItem[] parsed = ParseServerResponse(response);
+            List<FoundItem> parsed = ParseServerResponse(response);
             int[] result = ConvertToMfn(parsed);
 
             return result;
@@ -161,7 +165,7 @@ namespace ManagedIrbis.Search
         {
             Code.NotNull(response, "response");
 
-            FoundItem[] parsed = ParseServerResponse(response);
+            List<FoundItem>parsed = ParseServerResponse(response);
             string[] result = ConvertToText(parsed);
 
             return result;
@@ -172,7 +176,7 @@ namespace ManagedIrbis.Search
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public static FoundItem[] ParseServerResponse
+        public static List<FoundItem> ParseServerResponse
             (
                 [NotNull] ServerResponse response
             )
@@ -187,7 +191,7 @@ namespace ManagedIrbis.Search
                 result.Add(item);
             }
 
-            return result.ToArray();
+            return result;
         }
 
         #endregion

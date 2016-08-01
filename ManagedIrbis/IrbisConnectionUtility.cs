@@ -260,6 +260,34 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <summary>
+        /// Read text file from the server.
+        /// </summary>
+        [CanBeNull]
+        public static string ReadTextFile
+            (
+                [NotNull] this IrbisConnection connection,
+                IrbisPath path,
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            FileSpecification fileSpecification = new FileSpecification
+                (
+                    path,
+                    connection.Database,
+                    fileName
+                );
+
+            string result = connection.ReadTextFile(fileSpecification);
+
+            return result;
+        }
+
+        // ========================================================
+
+        /// <summary>
         /// Require minimal server version.
         /// </summary>
         public static bool RequireServerVersion

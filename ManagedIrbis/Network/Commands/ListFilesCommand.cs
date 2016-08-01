@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -94,7 +95,7 @@ namespace ManagedIrbis.Network.Commands
             Code.NotNull(response, "response");
 
             // Don't check: there's no return code
-            response._returnCodeRetrieved = true;
+            response.RefuseAnReturnCode();
         }
 
         /// <summary>

@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -23,7 +24,6 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.ImportExport;
 using ManagedIrbis.Network;
 using ManagedIrbis.Network.Commands;
 using ManagedIrbis.Network.Sockets;
@@ -862,10 +862,13 @@ namespace ManagedIrbis
         {
             Code.NotNull(listFile, "listFile");
 
-            string menuFile = ReadTextFile(IrbisPath.Data, listFile);
+            string menuFile = this.ReadTextFile
+                (
+                    IrbisPath.Data,
+                    listFile
+                );
             string[] lines = menuFile.SplitLines();
-            DatabaseInfo[] result
-                = DatabaseInfo.ParseMenu(lines);
+            DatabaseInfo[] result = DatabaseInfo.ParseMenu(lines);
 
             return result;
         }
@@ -1210,7 +1213,8 @@ namespace ManagedIrbis
             };
             ExecuteCommand(command);
 
-            return command.ReadRecord;
+            return command.ReadRecord
+                .ThrowIfNull("no record retrieved");
         }
 
         /// <summary>
@@ -1266,12 +1270,19 @@ namespace ManagedIrbis
             };
             command.MfnList.AddRange(mfnList);
 
-            ServerResponse response = ExecuteCommand(command);
+            ExecuteCommand(command);
 
             MarcRecord[] result = MarcRecordUtility.ParseAllFormat
                 (
                     database,
-                    response
+                    this,
+                    command.FormatResult
+                        .ThrowIfNullOrEmpty("command.FormatResult")
+                );
+            Debug.Assert
+                (
+                    command.MfnList.Count == result.Length,
+                    "some records not retrieved"
                 );
 
             return result;
@@ -1310,7 +1321,7 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <summary>
-        /// Чтение текстового файла с сервера.
+        /// Read text file from the server.
         /// </summary>
         [CanBeNull]
         public string ReadTextFile
@@ -1323,33 +1334,11 @@ namespace ManagedIrbis
             ReadFileCommand command = new ReadFileCommand(this);
             command.Files.Add(fileSpecification);
 
-            ServerResponse response = ExecuteCommand(command);
-            string[] result = command.GetFileText(response);
+            ExecuteCommand(command);
+            string result = command.Result
+                .ThrowIfNullOrEmpty("command.Result")[0];
 
-            return result[0];
-        }
-
-
-        /// <summary>
-        /// Чтение текстового файла с сервера.
-        /// </summary>
-        [CanBeNull]
-        public string ReadTextFile
-            (
-                IrbisPath path,
-                [NotNull] string fileName
-            )
-        {
-            Code.NotNullNorEmpty(fileName, "fileName");
-
-            FileSpecification fileSpecification = new FileSpecification
-                (
-                    path,
-                    Database,
-                    fileName
-                );
-
-            return ReadTextFile(fileSpecification);
+            return result;
         }
 
         /// <summary>
@@ -1363,11 +1352,17 @@ namespace ManagedIrbis
         {
             Code.NotNull(files, "files");
 
+            if (files.Length == 0)
+            {
+                return new string[0];
+            }
+
             ReadFileCommand command = new ReadFileCommand(this);
             command.Files.AddRange(files);
 
-            ServerResponse response = ExecuteCommand(command);
-            string[] result = command.GetFileText(response);
+            ExecuteCommand(command);
+            string[] result = command.Result
+                .ThrowIfNullOrEmpty("command.Result");
 
             return result;
         }
@@ -1440,8 +1435,11 @@ namespace ManagedIrbis
             {
                 SearchQuery = expression
             };
-            ServerResponse response = ExecuteCommand(command);
-            int[] result = FoundItem.ParseMfnOnly(response);
+            ExecuteCommand(command);
+            int[] result = FoundItem.ConvertToMfn
+                (
+                    command.Found.ThrowIfNull("Found")
+                );
 
             return result;
         }
@@ -1484,8 +1482,11 @@ namespace ManagedIrbis
                 FormatSpecification = format
             };
 
-            ServerResponse response = ExecuteCommand(command);
-            int[] result = FoundItem.ParseMfnOnly(response);
+            ExecuteCommand(command);
+            int[] result = FoundItem.ConvertToMfn
+                (
+                    command.Found.ThrowIfNull("Found")
+                );
 
             return result;
         }

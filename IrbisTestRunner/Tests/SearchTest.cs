@@ -49,6 +49,33 @@ namespace IrbisTestRunner.Tests
                 );
         }
 
+        [TestMethod]
+        public void TestSearchMany()
+        {
+            string saveDatabase = Connection.Database;
+            try
+            {
+                // Connection.Database = "ISTU";
+                int[] found = Connection.Search("K=А$");
+                Write
+                    (
+                        "Found: " + found.Length + ": "
+                        + string.Join
+                            (
+                                ", ",
+                                found.Select
+                                (
+                                    mfn => mfn.ToInvariantString()
+                                )
+                            )
+                            .Substring(0, 50)
+                    );
+            }
+            finally
+            {
+                Connection.Database = saveDatabase;
+            }
+        }
 
         #endregion
     }

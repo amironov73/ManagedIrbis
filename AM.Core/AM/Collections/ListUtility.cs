@@ -78,9 +78,9 @@ namespace AM.Collections
         /// </summary>
         public static bool AddRangeDistinct<T>
             (
-            [NotNull] this IList<T> list,
-            [NotNull] IEnumerable<T> values,
-            [NotNull] IEqualityComparer<T> comparer
+                [NotNull] this IList<T> list,
+                [NotNull] IEnumerable<T> values,
+                [NotNull] IEqualityComparer<T> comparer
             )
         {
             Code.NotNull(list, "list");
@@ -128,8 +128,8 @@ namespace AM.Collections
         /// </summary>
         public static int IndexOf<T>
             (
-            [NotNull] this IEnumerable<T> collection,
-            [NotNull] Func<T, bool> predicate
+                [NotNull] this IEnumerable<T> collection,
+                [NotNull] Func<T, bool> predicate
             )
         {
             Code.NotNull(collection, "collection");
@@ -154,7 +154,7 @@ namespace AM.Collections
         /// </summary>
         public static bool IsNullOrEmpty<T>
             (
-            [CanBeNull] this IList<T> list
+                [CanBeNull] this IList<T> list
             )
         {
             if (!ReferenceEquals(list, null))
@@ -163,6 +163,88 @@ namespace AM.Collections
             }
 
             return true;
+        }
+
+        [NotNull]
+        public static IList<T> ThrowIfNullOrEmpty<T>
+            (
+                [CanBeNull] this IList<T> list
+            )
+        {
+            if (ReferenceEquals(list, null))
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (list.Count == 0)
+            {
+                throw new ArgumentException();
+            }
+
+            return list;
+        }
+
+        [NotNull]
+        public static IList<T> ThrowIfNullOrEmpty<T>
+            (
+                [CanBeNull] this IList<T> list,
+                [NotNull] string message
+            )
+        {
+            Code.NotNullNorEmpty(message, "message");
+
+            if (ReferenceEquals(list, null))
+            {
+                throw new ArgumentNullException(message);
+            }
+
+            if (list.Count == 0)
+            {
+                throw new ArgumentException(message);
+            }
+
+            return list;
+        }
+
+        [NotNull]
+        public static T[] ThrowIfNullOrEmpty<T>
+            (
+                [CanBeNull] this T[] array
+            )
+        {
+            if (ReferenceEquals(array, null))
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (array.Length == 0)
+            {
+                throw new ArgumentException();
+            }
+
+            return array;
+        }
+
+        [NotNull]
+        public static T[] ThrowIfNullOrEmpty<T>
+            (
+                [CanBeNull] this T[] array,
+                [NotNull] string message
+            )
+        {
+            Code.NotNullNorEmpty(message, "message");
+
+            if (ReferenceEquals(array, null))
+            {
+                throw new ArgumentNullException(message);
+            }
+
+            if (array.Length == 0)
+            {
+                throw new ArgumentException(message);
+            }
+
+            return array;
         }
 
         #endregion

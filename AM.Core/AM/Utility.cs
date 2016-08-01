@@ -172,6 +172,7 @@ namespace AM
         /// Throw <see cref="ArgumentNullException"/>
         /// if given value is <c>null</c>.
         /// </summary>
+        [NotNull]
         public static T ThrowIfNull<T>
             (
                 [CanBeNull] this T value
@@ -181,6 +182,28 @@ namespace AM
             if (ReferenceEquals(value, null))
             {
                 throw new ArgumentException("value");
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// Throw <see cref="ArgumentNullException"/>
+        /// if given value is <c>null</c>.
+        /// </summary>
+        [NotNull]
+        public static T ThrowIfNull<T>
+            (
+                [CanBeNull] this T value,
+                [NotNull] string message
+            )
+            where T : class
+        {
+            Code.NotNull(message, "message");
+
+            if (ReferenceEquals(value, null))
+            {
+                throw new ArgumentException(message);
             }
 
             return value;

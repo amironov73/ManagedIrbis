@@ -38,6 +38,12 @@ namespace ManagedIrbis.Network.Commands
             get { return _files; }
         }
 
+        /// <summary>
+        /// Retrieved text files.
+        /// </summary>
+        [CanBeNull]
+        public string[] Result { get; set; }
+
         #endregion
 
         #region Construction
@@ -104,7 +110,7 @@ namespace ManagedIrbis.Network.Commands
             Code.NotNull(response, "response");
 
             // Don't check: there's no return code
-            response._returnCodeRetrieved = true;
+            response.RefuseAnReturnCode();
         }
 
         /// <summary>
@@ -135,6 +141,7 @@ namespace ManagedIrbis.Network.Commands
             Code.NotNull(query, "query");
 
             ServerResponse result = base.Execute(query);
+            Result = GetFileText(result);
 
             return result;
         }

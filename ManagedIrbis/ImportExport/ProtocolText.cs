@@ -438,6 +438,45 @@ namespace ManagedIrbis.ImportExport
         }
 
         /// <summary>
+        /// Parse server response for ALL-formatted record.
+        /// </summary>
+        [CanBeNull]
+        public static MarcRecord ParseResponseForAllFormat
+            (
+                [NotNull] string line,
+                [NotNull] MarcRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            if (string.IsNullOrEmpty(line))
+            {
+                return null;
+            }
+
+            record.Fields.Clear();
+
+            string[] split = line.Split('\x1F');
+            ParseMfnStatusVersion
+                (
+                    split[1],
+                    split[2],
+                    record
+                );
+            for (int i = 3; i < split.Length; i++)
+            {
+                line = split[i];
+                RecordField field = _ParseLine(line);
+                if (!string.IsNullOrEmpty(field.Tag))
+                {
+                    record.Fields.Add(field);
+                }
+            }
+
+            return record;
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         [CanBeNull]

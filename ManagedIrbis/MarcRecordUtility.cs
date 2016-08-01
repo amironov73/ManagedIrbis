@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -62,6 +62,7 @@ namespace ManagedIrbis
                 [NotNull] ServerResponse response
             )
         {
+            Code.NotNullNorEmpty(database, "database");
             Code.NotNull(response, "response");
 
             List<MarcRecord> result = new List<MarcRecord>();
@@ -83,6 +84,41 @@ namespace ManagedIrbis
                     break;
                 }
                 result.Add(record);
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Parse ALL-formatted records in server response.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord[] ParseAllFormat
+            (
+                [NotNull] string database,
+                [NotNull] IrbisConnection connection,
+                [NotNull] string[] lines
+            )
+        {
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNull(connection, "connection");
+            Code.NotNull(lines, "lines");
+
+            List<MarcRecord> result = new List<MarcRecord>();
+
+            foreach (string line in lines)
+            {
+                MarcRecord record = new MarcRecord
+                {
+                    HostName = connection.Host,
+                    Database = database
+                };
+                record = ProtocolText.ParseResponseForAllFormat
+                    (
+                        line,
+                        record
+                    );
+                result.Add(record.ThrowIfNull("record"));
             }
 
             return result.ToArray();

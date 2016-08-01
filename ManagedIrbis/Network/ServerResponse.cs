@@ -74,7 +74,15 @@ namespace ManagedIrbis.Network
         /// <summary>
         /// Код возврата.
         /// </summary>
-        public int ReturnCode { get; set; }
+        public int ReturnCode
+        {
+            get { return GetReturnCode(); }
+            set
+            {
+                _returnCode = value;
+                _returnCodeRetrieved = true;
+            }
+        }
 
         /// <summary>
         /// Raw server response.
@@ -88,6 +96,9 @@ namespace ManagedIrbis.Network
         [NotNull]
         public byte[] RawRequest { get; private set; }
 
+        /// <summary>
+        /// Relax return code check.
+        /// </summary>
         public bool Relaxed { get; private set; }
 
         #endregion
@@ -140,6 +151,8 @@ namespace ManagedIrbis.Network
         #region Private members
 
         private Stream _stream;
+
+        private int _returnCode;
 
         internal bool _returnCodeRetrieved;
 
@@ -319,16 +332,16 @@ namespace ManagedIrbis.Network
         {
             if (Relaxed)
             {
-                return ReturnCode;
+                return _returnCode;
             }
 
             if (!_returnCodeRetrieved)
             {
-                ReturnCode = RequireInt32();
+                _returnCode = RequireInt32();
                 _returnCodeRetrieved = true;
             }
 
-            return ReturnCode;
+            return _returnCode;
         }
 
         /// <summary>
@@ -485,6 +498,15 @@ namespace ManagedIrbis.Network
             }
 
             return result.ToArray();
+        }
+
+        /// <summary>
+        /// Refuse an return code (for commands that
+        /// doesn't return any codes).
+        /// </summary>
+        public void RefuseAnReturnCode()
+        {
+            _returnCodeRetrieved = true;
         }
 
         /// <summary>
