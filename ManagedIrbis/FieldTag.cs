@@ -1,18 +1,14 @@
-﻿/* FieldTag.cs -- тег поля
+﻿/* FieldTag.cs -- field tag related routines
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
- * Status: poor
+ * Status: moderate
+ * TODO check tag length?
  */
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AM;
-using CodeJam;
+using AM.Collections;
 
 using JetBrains.Annotations;
 
@@ -23,7 +19,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis
 {
     /// <summary>
-    /// Тег поля.
+    /// Field tag related routines.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -36,25 +32,51 @@ namespace ManagedIrbis
         #region Properties
 
         /// <summary>
-        /// Бросать исключения при нормализации?
-        /// </summary>
-        public static bool ThrowOnNormalize { get; set; }
-
-        /// <summary>
         /// Бросать исключения при валидации?
         /// </summary>
         public static bool ThrowOnValidate { get; set; }
 
         #endregion
 
+        #region Construction
+
+        static FieldTag()
+        {
+            _goodCharacters = new CharSet().AddRange('0', '9');
+        }
+
+        #endregion
+
         #region Private members
+
+        private static readonly CharSet _goodCharacters;
 
         #endregion
 
         #region Public methods
 
         /// <summary>
-        /// Нормализация.
+        /// Whether given tag is valid?
+        /// </summary>
+        public static bool IsValidTag
+            (
+                [CanBeNull] string tag
+            )
+        {
+            if (string.IsNullOrEmpty(tag))
+            {
+                return false;
+            }
+
+            bool result = _goodCharacters.CheckText(tag)
+                && Normalize(tag) != "0"
+                && tag.Length < 6; // ???
+
+            return result;
+        }
+
+        /// <summary>
+        /// Normalization.
         /// </summary>
         public static string Normalize
             (
@@ -66,33 +88,41 @@ namespace ManagedIrbis
                 return tag;
             }
 
-            string result = tag
-                .ToUpper()
-                .TrimStart('0');
+            string result = tag;
+            while (result.Length > 1
+                && result.StartsWith("0"))
+            {
+                result = result.Substring(1);
+            }
 
             return result;
         }
 
         /// <summary>
-        /// Валидация с бросанием исключений.
+        /// Verify the tag value.
         /// </summary>
         public static bool Verify
             (
-                [NotNull] string tag,
-                bool throwException
+                [CanBeNull] string tag,
+                bool throwOnError
             )
         {
-            Code.NotNullNorEmpty(tag, "tag");
+            bool result = IsValidTag(tag);
 
-            return true;
+            if (!result && throwOnError)
+            {
+                throw new VerificationException("bad tag: " + tag);
+            }
+
+            return result;
         }
 
         /// <summary>
-        /// Валидация.
+        /// Verify the tag value.
         /// </summary>
         public static bool Verify
             (
-                [NotNull] string tag
+                [CanBeNull] string tag
             )
         {
             return Verify

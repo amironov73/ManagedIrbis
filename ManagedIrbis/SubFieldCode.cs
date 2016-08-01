@@ -1,5 +1,7 @@
-﻿/* SubFieldCode.cs -- subfield code
+﻿/* SubFieldCode.cs -- subfield code related routines
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: good
  */
 
 #region Using directives
@@ -7,8 +9,6 @@
 using System;
 
 using AM.Collections;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -19,7 +19,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis
 {
     /// <summary>
-    /// Subfield code.
+    /// Subfield code related routines.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -28,12 +28,12 @@ namespace ManagedIrbis
         #region Constants
 
         /// <summary>
-        /// 
+        /// Begin of valid codes range.
         /// </summary>
         public const char DefaultFirstCode = '!';
 
         /// <summary>
-        /// 
+        /// End of valid codes range (including!).
         /// </summary>
         public const char DefaultLastCode = '~';
 
@@ -42,17 +42,12 @@ namespace ManagedIrbis
         #region Properties
 
         /// <summary>
-        /// Throw exception on normalization error.
-        /// </summary>
-        public static bool ThrowOnNormalize { get; set; }
-
-        /// <summary>
         /// Throw exception on verification error.
         /// </summary>
         public static bool ThrowOnVerification { get; set; }
 
         /// <summary>
-        /// List of valid codes.
+        /// <see cref="CharSet"/> of valid codes.
         /// </summary>
         [NotNull]
         public static CharSet ValidCodes
@@ -64,6 +59,9 @@ namespace ManagedIrbis
 
         #region Construction
 
+        /// <summary>
+        /// Static constructor.
+        /// </summary>
         static SubFieldCode()
         {
             _validCodes = new CharSet();

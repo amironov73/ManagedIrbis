@@ -898,6 +898,9 @@ namespace ManagedIrbis
 
         #region IVerifiable members
 
+        /// <summary>
+        /// Verify the object state.
+        /// </summary>
         public bool Verify
             (
                 bool throwOnError

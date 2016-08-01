@@ -1,7 +1,8 @@
-﻿/* ReadRecordCommand.cs -- 
+﻿/* ReadRecordCommand.cs -- read one record from the server
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
+ * TODO implement raw reading?
  */
 
 #region Using directives
@@ -9,7 +10,9 @@
 using AM;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.ImportExport;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -17,7 +20,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Network.Commands
 {
     /// <summary>
-    /// 
+    /// Read one record from the server.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -57,7 +60,7 @@ namespace ManagedIrbis.Network.Commands
         /// Readed record.
         /// </summary>
         [CanBeNull]
-        public MarcRecord ReadedRecord { get; set; }
+        public MarcRecord ReadRecord { get; set; }
 
         #endregion
 
@@ -120,6 +123,8 @@ namespace ManagedIrbis.Network.Commands
             )
         {
             ServerResponse result = base.Execute(query);
+
+            // Check whether no records read
             if (result.GetReturnCode() != -201)
             {
 
@@ -135,7 +140,7 @@ namespace ManagedIrbis.Network.Commands
                         record
                     );
                 record.Verify(true);
-                ReadedRecord = record;
+                ReadRecord = record;
             }
 
             return result;
@@ -146,8 +151,8 @@ namespace ManagedIrbis.Network.Commands
         /// </summary>
         public override int[] GoodReturnCodes
         {
-            // Запись может быть логически удалена
-            // или заблокирована на ввод.
+            // Record can be logically deleted
+            // or blocked. It's normal.
             get { return new[] { -201, -602, -603 }; }
         }
 

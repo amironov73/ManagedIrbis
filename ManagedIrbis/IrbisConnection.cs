@@ -1210,7 +1210,7 @@ namespace ManagedIrbis
             };
             ExecuteCommand(command);
 
-            return command.ReadedRecord;
+            return command.ReadRecord;
         }
 
         /// <summary>
@@ -1239,7 +1239,7 @@ namespace ManagedIrbis
             };
             ExecuteCommand(command);
 
-            return command.ReadedRecord;
+            return command.ReadRecord;
         }
 
         /// <summary>

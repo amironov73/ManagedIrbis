@@ -1,18 +1,13 @@
-﻿/* SubFieldValue.cs --
+﻿/* SubFieldValue.cs -- subfield value related routines
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
- * Status: poor
+ * Status: moderate
+ * TODO trim value?
  */
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AM;
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -23,7 +18,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis
 {
     /// <summary>
-    /// 
+    /// Subfield value related routines.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -35,6 +30,9 @@ namespace ManagedIrbis
 
         #region Properties
 
+        /// <summary>
+        /// Throw exception on verification error.
+        /// </summary>
         public static bool ThrowOnVerify { get; set; }
 
         #endregion
@@ -45,18 +43,12 @@ namespace ManagedIrbis
 
         #region Public methods
 
-        public static bool Verify
+        /// <summary>
+        /// Whether the value valid.
+        /// </summary>
+        public static bool IsValidValue
             (
-            [CanBeNull] string value
-            )
-        {
-            return Verify(value, ThrowOnVerify);
-        }
-
-        public static bool Verify
-            (
-                [CanBeNull] string value,
-                bool throwOnError
+                [CanBeNull] string value
             )
         {
             bool result = true;
@@ -68,6 +60,52 @@ namespace ManagedIrbis
                     result = false;
                 }
             }
+
+            return result;
+        }
+
+        /// <summary>
+        /// SubField value normalization.
+        /// </summary>
+        [CanBeNull]
+        public static string Normalize
+            (
+                [CanBeNull] string value
+            )
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            //string result = value.Trim();
+            //return result;
+
+            return value;
+        }
+
+
+        /// <summary>
+        /// Verify subfield value.
+        /// </summary>
+        public static bool Verify
+            (
+                [CanBeNull] string value
+            )
+        {
+            return Verify(value, ThrowOnVerify);
+        }
+
+        /// <summary>
+        /// Verify subfield value.
+        /// </summary>
+        public static bool Verify
+            (
+                [CanBeNull] string value,
+                bool throwOnError
+            )
+        {
+            bool result = IsValidValue(value);
 
             if (!result && throwOnError)
             {

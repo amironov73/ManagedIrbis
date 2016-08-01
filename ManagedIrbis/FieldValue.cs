@@ -1,5 +1,8 @@
-﻿/* FieldText.cs --
+﻿/* FieldValue.cs -- field value related routines
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: moderate
+ * TODO trim value?
  */
 
 #region Using directives
@@ -9,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -21,7 +24,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis
 {
     /// <summary>
-    /// 
+    /// Field value related routines.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -33,6 +36,9 @@ namespace ManagedIrbis
 
         #region Properties
 
+        /// <summary>
+        /// Throw exception on verification error.
+        /// </summary>
         public static bool ThrowOnVerify { get; set; }
 
         #endregion
@@ -43,21 +49,75 @@ namespace ManagedIrbis
 
         #region Public methods
 
+        /// <summary>
+        /// Whether the value valid.
+        /// </summary>
+        public static bool IsValidValue
+            (
+                [CanBeNull] string value
+            )
+        {
+            bool result = true;
+
+            if (!string.IsNullOrEmpty(value))
+            {
+                if (value.IndexOf(SubField.Delimiter) >= 0)
+                {
+                    result = false;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Field value normalization.
+        /// </summary>
+        [CanBeNull]
+        public static string Normalize
+            (
+                [CanBeNull] string value
+            )
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            //string result = value.Trim();
+            //return result;
+
+            return value;
+        }
+
+        /// <summary>
+        /// Verify subfield value.
+        /// </summary>
         public static bool Verify
             (
-                [CanBeNull] string text,
+                [CanBeNull] string value
+            )
+        {
+            return Verify(value, ThrowOnVerify);
+        }
+
+        /// <summary>
+        /// Verify subfield code.
+        /// </summary>
+        public static bool Verify
+            (
+                [CanBeNull] string value,
                 bool throwOnError
             )
         {
-            return true;
-        }
+            bool result = IsValidValue(value);
 
-        public static bool Verify
-            (
-                [CanBeNull] string text
-            )
-        {
-            return Verify(text, ThrowOnVerify);
+            if (!result && throwOnError)
+            {
+                throw new VerificationException("Field.Value");
+            }
+
+            return result;
         }
 
         #endregion

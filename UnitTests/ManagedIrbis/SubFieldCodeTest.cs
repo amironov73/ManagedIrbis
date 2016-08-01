@@ -9,24 +9,35 @@ namespace UnitTests.ManagedIrbis
     public class SubFieldCodeTest
     {
         [TestMethod]
-        public void TestSubFieldCodeIsValidCode()
+        public void TestSubFieldCode_IsValidCode()
         {
+            Assert.IsTrue(SubFieldCode.IsValidCode('C'));
             Assert.IsTrue(SubFieldCode.IsValidCode('c'));
             Assert.IsFalse(SubFieldCode.IsValidCode('\0'));
+            Assert.IsFalse(SubFieldCode.IsValidCode('Я'));
         }
 
-        [TestMethod]
-        public void TestSubFieldCodeNormalize()
+        private void _TestNormalize
+            (
+                char source,
+                char expected
+            )
         {
-            Assert.AreEqual
-                (
-                    'c',
-                    SubFieldCode.Normalize('C')
-                );
+            char actual = SubFieldCode.Normalize(source);
+
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void TestSubFieldCodeVerify()
+        public void TestSubFieldCode_Normalize()
+        {
+            _TestNormalize('\0', '\0');
+            _TestNormalize('0', '0');
+            _TestNormalize('C', 'c');
+        }
+
+        [TestMethod]
+        public void TestSubFieldCode_Verify()
         {
             Assert.IsTrue(SubFieldCode.Verify('c'));
             Assert.IsFalse(SubFieldCode.Verify('\0'));
