@@ -1,4 +1,4 @@
-﻿/* GblCommand.cs -- command codes for GBL files
+﻿/* GblCode.cs -- command codes for GBL files
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -9,7 +9,7 @@ namespace ManagedIrbis.Gbl
     /// <summary>
     /// Command codes for GBL files.
     /// </summary>
-    public static class GblCommand
+    public static class GblCode
     {
         #region Constants
 

@@ -186,7 +186,7 @@
     <Compile Include="Fst\FstIndexMethod.cs" />
     <Compile Include="Fst\FstLine.cs" />
     <Compile Include="Gbl\Gbl.cs" />
-    <Compile Include="Gbl\GblCommand.cs" />
+    <Compile Include="Gbl\GblCode.cs" />
     <Compile Include="Gbl\GblFile.cs" />
     <Compile Include="Gbl\GblItem.cs" />
     <Compile Include="Gbl\GblParameter.cs" />
@@ -227,6 +227,7 @@
     <Compile Include="IrbisTreeFile.cs" />
     <Compile Include="Network\Commands\DatabaseStatCommand.cs" />
     <Compile Include="Network\Commands\DynamicCommand.cs" />
+    <Compile Include="Network\Commands\GblCommand.cs" />
     <Compile Include="Network\Commands\PrintTableCommand.cs" />
     <Compile Include="Network\Commands\SearchReadCommand.cs" />
     <Compile Include="Network\Resolving\AbstractResolver.cs" />

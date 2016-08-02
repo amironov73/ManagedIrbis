@@ -23,7 +23,7 @@ using AM.Threading;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Gbl;
 using ManagedIrbis.Network;
 using ManagedIrbis.Network.Commands;
 using ManagedIrbis.Network.Sockets;
@@ -847,6 +847,47 @@ namespace ManagedIrbis
                 = IrbisVersion.ParseServerResponse(response);
 
             return result;
+        }
+
+        // =========================================================
+
+        /// <summary>
+        /// Global correction.
+        /// </summary>
+        [NotNull]
+        public string GlobalCorrection
+            (
+                string searchExpression,
+                int firstRecord,
+                int numberOfRecords,
+                int minMfn,
+                int maxMfn,
+                int[] mfnList,
+                bool actualize,
+                bool formalControl,
+                bool autoin,
+                [NotNull] GblItem[] items
+            )
+        {
+            Code.NotNull(items, "items");
+
+            GblCommand command = new GblCommand(this)
+            {
+                SearchExpression = searchExpression,
+                AutoIn = autoin,
+                Actualize = actualize,
+                FormalControl = formalControl,
+                Database = Database,
+                FirstRecord = firstRecord,
+                NumberOfRecords = numberOfRecords,
+                Items = items,
+                MinMfn = minMfn,
+                MaxMfn = maxMfn
+            };
+            ExecuteCommand(command);
+
+            return command.Protocol
+                .ThrowIfNull("command.Protocol");
         }
 
         // =========================================================

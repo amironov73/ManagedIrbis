@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+
 using AM;
 using AM.Collections;
 using AM.IO;
@@ -31,6 +32,8 @@ using Newtonsoft.Json;
 
 namespace ManagedIrbis.Gbl
 {
+    //
+    // EXTRACT FROM OFFICIAL DOCUMENTATION
     //
     // Первая строка файла задания – это число, задающее
     // количество параметров, используемых в операторах корректировки.
@@ -63,7 +66,7 @@ namespace ManagedIrbis.Gbl
         #region Properties
 
         /// <summary>
-        /// Имя параметра.
+        /// Parameter name.
         /// </summary>
         [CanBeNull]
         [JsonProperty("name")]
@@ -71,7 +74,7 @@ namespace ManagedIrbis.Gbl
         public string Name { get; set; }
 
         /// <summary>
-        /// Значение параметра.
+        /// Parameter value.
         /// </summary>
         [CanBeNull]
         [JsonProperty("value")]
@@ -120,6 +123,8 @@ namespace ManagedIrbis.Gbl
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             Name = reader.ReadNullableString();
             Value = reader.ReadNullableString();
         }
@@ -132,6 +137,8 @@ namespace ManagedIrbis.Gbl
                 BinaryWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             writer.WriteNullable(Name);
             writer.WriteNullable(Value);
         }
@@ -149,15 +156,17 @@ namespace ManagedIrbis.Gbl
                 bool throwOnError
             )
         {
-            bool result = !string.IsNullOrEmpty(Name)
-                          && !string.IsNullOrEmpty(Value);
+            Verifier<GblParameter> verifier = new Verifier<GblParameter>
+                (
+                    this,
+                    throwOnError
+                );
 
-            if (!result && throwOnError)
-            {
-                throw new VerificationException();
-            }
+            verifier
+                .NotNullNorEmpty(Name, "Name")
+                .NotNullNorEmpty(Value, "Value");
 
-            return result;
+            return verifier.Result;
         }
 
         #endregion

@@ -22,7 +22,7 @@ namespace UnitTests.AM.Gbl
 
             GblItem item = new GblItem
             {
-                Command = GblCommand.Add,
+                Command = GblCode.Add,
                 Parameter1 = "300",
                 Format1 = "Add field 300"
             };
@@ -64,13 +64,13 @@ namespace UnitTests.AM.Gbl
 
             result.Items.Add(new GblItem
             {
-                Command = GblCommand.Add,
+                Command = GblCode.Add,
                 Parameter1 = "300",
                 Format1 = "Add field 300"
             });
             result.Items.Add(new GblItem
             {
-                Command = GblCommand.Delete,
+                Command = GblCode.Delete,
                 Parameter1 = "300",
                 Parameter2 = "*"
             });

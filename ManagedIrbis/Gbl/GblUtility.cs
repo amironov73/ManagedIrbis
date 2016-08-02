@@ -43,6 +43,27 @@ namespace ManagedIrbis.Gbl
 
         #region Public methods
 
+        [NotNull]
+        public static string EncodeGbl
+            (
+                [NotNull] GblItem[] items
+            )
+        {
+            Code.NotNull(items, "items");
+
+            StringBuilder result = new StringBuilder();
+            result.Append("!0");
+            result.Append(GblItem.Delimiter);
+
+            foreach (GblItem item in items)
+            {
+                result.Append(item.Encode());
+            }
+            result.Append(GblItem.Delimiter);
+
+            return result.ToString();
+        }
+
         /// <summary>
         /// Restore <see cref="GblFile"/> from JSON.
         /// </summary>

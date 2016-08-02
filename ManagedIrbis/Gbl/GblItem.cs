@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+
 using AM;
 using AM.Collections;
 using AM.IO;
@@ -31,6 +32,8 @@ using Newtonsoft.Json;
 
 namespace ManagedIrbis.Gbl
 {
+    //
+    // EXTRACT FROM OFFICIAL DOCUMENTATION
     //
     // Файл задания на пакетную корректировку
     // представляет собой текстовый файл с расширением GBL,
@@ -165,6 +168,25 @@ namespace ManagedIrbis.Gbl
 
         #region Public methods
 
+        [NotNull]
+        public string Encode()
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.Append(Command);
+            result.Append(Delimiter);
+            result.Append(Parameter1);
+            result.Append(Delimiter);
+            result.Append(Parameter2);
+            result.Append(Delimiter);
+            result.Append(Format1);
+            result.Append(Delimiter);
+            result.Append(Format2);
+            result.Append(Delimiter);
+
+            return result.ToString();
+        }
+
         /// <summary>
         /// Parse the stream.
         /// </summary>
@@ -238,6 +260,8 @@ namespace ManagedIrbis.Gbl
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             Command = reader.ReadNullableString();
             Parameter1 = reader.ReadNullableString();
             Parameter2 = reader.ReadNullableString();
@@ -253,6 +277,8 @@ namespace ManagedIrbis.Gbl
                 BinaryWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             writer.WriteNullable(Command);
             writer.WriteNullable(Parameter1);
             writer.WriteNullable(Parameter2);
@@ -272,14 +298,16 @@ namespace ManagedIrbis.Gbl
                 bool throwOnError
             )
         {
-            bool result = !string.IsNullOrEmpty(Command);
+            Verifier<GblItem> verifier = new Verifier<GblItem>
+                (
+                    this,
+                    throwOnError
+                );
 
-            if (!result && throwOnError)
-            {
-                throw new VerificationException();
-            }
+            verifier
+                .NotNullNorEmpty(Command, "Command");
 
-            return result;
+            return verifier.Result;
         }
 
         #endregion
