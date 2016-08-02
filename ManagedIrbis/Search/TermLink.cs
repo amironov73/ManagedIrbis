@@ -7,11 +7,12 @@
 
 #region Using directives
 
-using System;
+using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
 
 using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -26,12 +27,14 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Search
 {
     /// <summary>
-    /// Ссылка на терм.
+    /// Term link.
     /// </summary>
     [PublicAPI]
     [XmlRoot("term-link")]
     [MoonSharpUserData]
+    [DebuggerDisplay("[{Mfn}] {Tag}/{Occurrence} {Index}")]
     public sealed class TermLink
+        : IHandmadeSerializable
     {
         #region Properties
 
@@ -86,6 +89,43 @@ namespace ManagedIrbis.Search
                 Index = stream.ReadInt32Network()
             };
             return result;
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Restore object state from the specified stream.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            Mfn = reader.ReadPackedInt32();
+            Tag = reader.ReadPackedInt32();
+            Occurrence = reader.ReadPackedInt32();
+            Index = reader.ReadPackedInt32();
+        }
+
+        /// <summary>
+        /// Save object state to the specified stream.
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer
+                .WritePackedInt32(Mfn)
+                .WritePackedInt32(Tag)
+                .WritePackedInt32(Occurrence)
+                .WritePackedInt32(Index);
         }
 
         #endregion

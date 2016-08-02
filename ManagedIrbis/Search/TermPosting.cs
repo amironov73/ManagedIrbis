@@ -1,5 +1,7 @@
 ﻿/* TermPosting.cs -- term posting
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 
@@ -18,7 +20,9 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Network;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -69,20 +73,12 @@ namespace ManagedIrbis.Search
         public int Count { get; set; }
 
         /// <summary>
-        /// Текст постинга.
+        /// Результат форматирования.
         /// </summary>
         [XmlAttribute("text")]
         [JsonProperty("text")]
         [CanBeNull]
         public string Text { get; set; }
-
-        /// <summary>
-        /// Если было запрошено форматирование.
-        /// </summary>
-        [XmlAttribute("formatted")]
-        [JsonProperty("formatted")]
-        [CanBeNull]
-        public string Formatted { get; set; }
 
         #endregion
 
@@ -91,6 +87,8 @@ namespace ManagedIrbis.Search
         #endregion
 
         #region Private members
+
+        private static readonly char[] _separators = { '#' };
 
         #endregion
 
@@ -107,8 +105,10 @@ namespace ManagedIrbis.Search
         {
             Code.NotNull(response, "response");
 
+            // Example return:
+            // 169#1510#1#2#Пожаровзрывобезопасность : Науч.- техн. журн. - Журнал
+
             List<TermPosting> result = new List<TermPosting>();
-            Regex regex = new Regex(@"^(\d+)\#(\w+)\#(\d+)\#(\d+)\#(\d*)$");
 
             while (true)
             {
@@ -118,18 +118,21 @@ namespace ManagedIrbis.Search
                     break;
                 }
 
-                Match match = regex.Match(line);
-                if (match.Success)
+                string[] parts = line.Split(_separators, 5);
+                if (parts.Length < 4)
                 {
-                    TermPosting item = new TermPosting
-                    {
-                        Mfn = int.Parse(match.Groups[1].Value),
-                        Tag = int.Parse(match.Groups[2].Value),
-                        Occurrence = int.Parse(match.Groups[3].Value),
-                        Count = int.Parse(match.Groups[4].Value),
-                    };
-                    result.Add(item);
+                    break;
                 }
+
+                TermPosting item = new TermPosting
+                {
+                    Mfn = int.Parse(parts[0]),
+                    Tag = int.Parse(parts[1]),
+                    Occurrence = int.Parse(parts[2]),
+                    Count = int.Parse(parts[3]),
+                    Text = parts.GetItem(4)
+                };
+                result.Add(item);
             }
 
             return result.ToArray();
@@ -152,7 +155,6 @@ namespace ManagedIrbis.Search
             Occurrence = reader.ReadPackedInt32();
             Count = reader.ReadPackedInt32();
             Text = reader.ReadNullableString();
-            Formatted = reader.ReadNullableString();
         }
 
         /// <summary>
@@ -168,8 +170,7 @@ namespace ManagedIrbis.Search
                 .WritePackedInt32(Tag)
                 .WritePackedInt32(Occurrence)
                 .WritePackedInt32(Count)
-                .WriteNullable(Text)
-                .WriteNullable(Formatted);
+                .WriteNullable(Text);
         }
 
         #endregion
@@ -204,13 +205,12 @@ namespace ManagedIrbis.Search
         {
             return string.Format
                 (
-                    "[{0}] {1} {2} {3} \"{4}\" \"{5}\"",
+                    "MFN={0} Tag={1} Occurrence={2} Count={3} Text=\"{4}\"",
                     Mfn,
                     Tag,
                     Occurrence,
                     Count,
-                    Text,
-                    Formatted
+                    Text
                 );
         }
 

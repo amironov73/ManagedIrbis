@@ -28,7 +28,7 @@ using ManagedIrbis.Network;
 using ManagedIrbis.Network.Commands;
 using ManagedIrbis.Network.Sockets;
 using ManagedIrbis.Search;
-
+using Microsoft.SqlServer.Server;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -1163,7 +1163,8 @@ namespace ManagedIrbis
                 [CanBeNull] string databaseName,
                 [NotNull] string term,
                 int numberOfPostings,
-                int firstPosting
+                int firstPosting,
+                [CanBeNull] string format
             )
         {
             Code.NotNullNorEmpty(term, "term");
@@ -1176,12 +1177,50 @@ namespace ManagedIrbis
                 Database = databaseName,
                 Term = term,
                 NumberOfPostings = numberOfPostings,
-                FirstPosting = firstPosting
+                FirstPosting = firstPosting,
+                Format = format
             };
 
             ExecuteCommand(command);
 
-            return command.Postings.ToArray();
+            return command.Postings.ThrowIfNull("command.Postings");
+        }
+
+        /// <summary>
+        /// Read term postings.
+        /// </summary>
+        [NotNull]
+        public TermPosting[] ReadPostings
+            (
+                [CanBeNull] string databaseName,
+                [NotNull] string[] terms,
+                int numberOfPostings,
+                int firstPosting,
+                [CanBeNull] string format
+            )
+        {
+            Code.NotNull(terms, "terms");
+
+            if (terms.Length == 0)
+            {
+                return new TermPosting[0];
+            }
+
+            ReadPostingsCommand command = new ReadPostingsCommand
+                (
+                    this
+                )
+            {
+                Database = databaseName,
+                ListOfTerms = terms,
+                NumberOfPostings = numberOfPostings,
+                FirstPosting = firstPosting,
+                Format = format
+            };
+
+            ExecuteCommand(command);
+
+            return command.Postings.ThrowIfNull("command.Postings");
         }
 
 

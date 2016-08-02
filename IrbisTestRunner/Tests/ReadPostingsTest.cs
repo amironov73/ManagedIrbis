@@ -45,27 +45,82 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestReadPostings()
+        public void TestReadPostings1()
         {
             TermInfo[] terms = Connection.ReadTerms
                 (
                     "K=",
                     3,
-                    false
+                    false,
+                    null
                 );
             TermPosting[] postings = Connection.ReadPostings
                 (
                     null,
                     terms[0].Text,
                     0,
-                    1
+                    1,
+                    null
                 );
-
 
             string text = string.Join
                 (
-                    ", ",
-                    postings.Select(p=>p.Mfn.ToString())
+                    "| ",
+                    postings.Select(p => p.ToString())
+                );
+            Write(text);
+        }
+
+        [TestMethod]
+        public void TestReadPostings2()
+        {
+            TermInfo[] terms = Connection.ReadTerms
+                (
+                    "K=",
+                    3,
+                    false,
+                    null
+                );
+            TermPosting[] postings = Connection.ReadPostings
+                (
+                    null,
+                    terms[0].Text,
+                    0,
+                    1,
+                    "@brief"
+                );
+
+            string text = string.Join
+                (
+                    "| ",
+                    postings.Select(p=>p.ToString())
+                );
+            Write(text);
+        }
+
+        [TestMethod]
+        public void TestReadPostings3()
+        {
+            TermInfo[] terms = Connection.ReadTerms
+                (
+                    "K=",
+                    3,
+                    false,
+                    null
+                );
+            TermPosting[] postings = Connection.ReadPostings
+                (
+                    null,
+                    terms.Select(t=>t.Text).ToArray(),
+                    0,
+                    1,
+                    "@brief"
+                );
+
+            string text = string.Join
+                (
+                    "| ",
+                    postings.Select(p => p.ToString())
                 );
             Write(text);
         }

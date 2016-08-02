@@ -39,7 +39,7 @@
         //"ReadFileTest.cs",
         "SearchTest.cs",
         //"PrintTableTest.cs",
-        //"ReadPostingsTest.cs",
+        "ReadPostingsTest.cs",
         //"ReadRecordTest.cs",
         "ReadTermsTest.cs",
         //"RecordCacheTest.cs",

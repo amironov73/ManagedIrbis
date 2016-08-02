@@ -8,6 +8,7 @@ rem AnyCmd.exe "host=127.0.0.1;port=6666;user=1;password=1;db=IBIS;arm=A;" "M" "
 rem AnyCmd.exe "host=127.0.0.1;port=6666;user=1;password=1;db=IBIS;arm=A;" "+1"
 rem AnyCmd.exe "host=127.0.0.1;port=6666;user=1;password=1;db=IBIS;arm=A;" "V" "IBIS" "2" "1" "2"
 rem AnyCmd.exe "host=127.0.0.1;port=6666;user=1;password=1;db=IBIS;arm=A;" "Z" "IBIS"
-AnyCmd.exe "host=127.0.0.1;port=6666;user=1;password=1;db=IBIS;arm=A;" "H" "IBIS" "K=" "6" "@brief"
+rem AnyCmd.exe "host=127.0.0.1;port=6666;user=1;password=1;db=IBIS;arm=A;" "H" "IBIS" "K=" "6" "@brief"
+AnyCmd.exe "host=127.0.0.1;port=6666;user=1;password=1;db=IBIS;arm=A;" "I" "IBIS" "6" "1" "@brief" "K=&"
 
 cd ..\..
