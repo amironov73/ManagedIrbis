@@ -104,7 +104,7 @@ namespace ManagedIrbis.Search
             string[] result = new string[found.Count];
             for (int i = 0; i < found.Count; i++)
             {
-                result[i] = found[i].Text.EmptyNull();
+                result[i] = found[i].Text.EmptyToNull();
             }
 
             return result;
@@ -128,45 +128,10 @@ namespace ManagedIrbis.Search
             };
             if (parts.Length > 1)
             {
-                string text = result.Text.EmptyNull();
+                string text = parts[1].EmptyToNull();
                 text = IrbisText.IrbisToWindows(text);
                 result.Text = text;
             }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Parse server response for MFN only.
-        /// </summary>
-        [NotNull]
-        public static int[] ParseMfnOnly
-            (
-                [NotNull] ServerResponse response
-            )
-        {
-            Code.NotNull(response, "response");
-
-            List<FoundItem> parsed = ParseServerResponse(response);
-            int[] result = ConvertToMfn(parsed);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Parse server response for text only.
-        /// </summary>
-        [NotNull]
-        [ItemCanBeNull]
-        public static string[] ParseTextOnly
-            (
-                [NotNull] ServerResponse response
-            )
-        {
-            Code.NotNull(response, "response");
-
-            List<FoundItem>parsed = ParseServerResponse(response);
-            string[] result = ConvertToText(parsed);
 
             return result;
         }
@@ -178,12 +143,16 @@ namespace ManagedIrbis.Search
         [ItemNotNull]
         public static List<FoundItem> ParseServerResponse
             (
-                [NotNull] ServerResponse response
+                [NotNull] ServerResponse response,
+                int sizeHint
             )
         {
             Code.NotNull(response, "response");
 
-            List<FoundItem> result = new List<FoundItem>();
+            List<FoundItem> result = (sizeHint > 0)
+                ? new List<FoundItem>(sizeHint)
+                : new List<FoundItem>();
+
             string line;
             while ((line = response.GetUtfString()) != null)
             {
@@ -206,7 +175,7 @@ namespace ManagedIrbis.Search
         {
             return string.Format
                 (
-                    "{0} {1}",
+                    "[{0}] {1}",
                     Mfn,
                     Text
                 );

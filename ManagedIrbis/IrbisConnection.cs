@@ -1433,7 +1433,7 @@ namespace ManagedIrbis
 
             SearchCommand command = new SearchCommand(this)
             {
-                SearchQuery = expression
+                SearchExpression = expression
             };
             ExecuteCommand(command);
             int[] result = FoundItem.ConvertToMfn
@@ -1473,7 +1473,7 @@ namespace ManagedIrbis
             SearchCommand command = new SearchCommand(this)
             {
                 Database = database,
-                SearchQuery = expression,
+                SearchExpression = expression,
                 FirstRecord = firstRecord,
                 NumberOfRecords = numberOfRecords,
                 MinMfn = minMfn,

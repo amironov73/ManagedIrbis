@@ -1,7 +1,7 @@
 ﻿/* SearchCommand.cs -- search records on IRBIS-server
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
- * Status: poor
+ * Status: moderate
  */
 
 #region Using directives
@@ -71,7 +71,7 @@ namespace ManagedIrbis.Network.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class SearchCommand
+    public class SearchCommand
         : AbstractCommand
     {
         #region Properties
@@ -91,7 +91,7 @@ namespace ManagedIrbis.Network.Commands
         /// Format specification.
         /// </summary>
         [CanBeNull]
-        public string FormatSpecification { get; set; }
+        public virtual string FormatSpecification { get; set; }
 
         /// <summary>
         /// Maximal MFN.
@@ -112,7 +112,7 @@ namespace ManagedIrbis.Network.Commands
         /// Search query expression.
         /// </summary>
         [CanBeNull]
-        public string SearchQuery { get; set; }
+        public string SearchExpression { get; set; }
 
         /// <summary>
         /// Specification of sequential search.
@@ -125,6 +125,11 @@ namespace ManagedIrbis.Network.Commands
         /// </summary>
         [CanBeNull]
         public List<FoundItem> Found { get; set; }
+
+        /// <summary>
+        /// Count of found records.
+        /// </summary>
+        public int FoundCount { get; set; }
 
         #endregion
 
@@ -151,7 +156,7 @@ namespace ManagedIrbis.Network.Commands
         private void _FetchRemaining
             (
                 ServerResponse mainResponse,
-                int total
+                int expected
             )
         {
             if (ReferenceEquals(Found, null))
@@ -159,16 +164,20 @@ namespace ManagedIrbis.Network.Commands
                 return;
             }
 
-            if (!_SubCommand && (total > IrbisConstants.MaxPostings))
+            if (!_SubCommand && (expected > IrbisConstants.MaxPostings))
             {
                 int firstRecord = FirstRecord + Found.Count;
 
-                while (firstRecord < total)
+                while (firstRecord < expected)
                 {
                     SearchCommand subCommand = Clone();
                     subCommand.FirstRecord = firstRecord;
-                    subCommand.NumberOfRecords
-                        = total - firstRecord + 1;
+                    subCommand.NumberOfRecords =
+                        Math.Min
+                        (
+                            expected - firstRecord + 1,
+                            IrbisConstants.MaxPostings
+                        );
                     subCommand._SubCommand = true;
 
                     ClientQuery clientQuery = subCommand.CreateQuery();
@@ -180,6 +189,12 @@ namespace ManagedIrbis.Network.Commands
                         .ThrowIfNull("Found");
                     int count = found.Count;
                     Found.AddRange(found);
+
+                    Debug.Assert
+                        (
+                            count != 0,
+                            "Found.Count == 0 in SubCommand"
+                        );
 
                     firstRecord += count;
                 }
@@ -206,7 +221,7 @@ namespace ManagedIrbis.Network.Commands
                 MaxMfn = MaxMfn,
                 MinMfn = MinMfn,
                 NumberOfRecords = NumberOfRecords,
-                SearchQuery = SearchQuery,
+                SearchExpression = SearchExpression,
                 SequentialSpecification = SequentialSpecification
             };
 
@@ -235,7 +250,7 @@ namespace ManagedIrbis.Network.Commands
 
             string preparedQuery = IrbisSearchQuery.PrepareQuery
                     (
-                        SearchQuery
+                        SearchExpression
                     );
             result.AddUtf8(preparedQuery);
 
@@ -289,11 +304,23 @@ namespace ManagedIrbis.Network.Commands
             result.GetReturnCode();
             if (result.ReturnCode == 0)
             {
-                int total = result.RequireInt32();
-                Found = FoundItem.ParseServerResponse(result)
+                int expected = result.RequireInt32();
+                FoundCount = expected;
+                Found = FoundItem.ParseServerResponse(result, expected)
                     .ThrowIfNull("Found");
 
-                _FetchRemaining(result, total);
+                _FetchRemaining(result, expected);
+
+                if (!_SubCommand
+                    && (FirstRecord == 1)
+                    && (NumberOfRecords == 0))
+                {
+                    Debug.Assert 
+                        (
+                            Found.Count == expected,
+                            "Found.Count != expected in total"
+                        );
+                }
             }
 
             return result;
@@ -317,7 +344,7 @@ namespace ManagedIrbis.Network.Commands
             if (!string.IsNullOrEmpty(SequentialSpecification))
             {
                 verifier
-                    .NotNullNorEmpty(SearchQuery, "SearchQuery");
+                    .NotNullNorEmpty(SearchExpression, "SearchQuery");
             }
 
             verifier.

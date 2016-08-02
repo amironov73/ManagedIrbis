@@ -10,6 +10,8 @@ using System.Linq;
 
 using AM;
 
+using ManagedIrbis;
+using ManagedIrbis.Search;
 using ManagedIrbis.Testing;
 
 #endregion
@@ -35,7 +37,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestSearch()
+        public void TestSearch_Few()
         {
             int[] found = Connection.Search("T=A$");
             Write
@@ -50,12 +52,12 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestSearchMany()
+        public void TestSearch_Many()
         {
             string saveDatabase = Connection.Database;
             try
             {
-                // Connection.Database = "ISTU";
+                //Connection.Database = "ISTU";
                 int[] found = Connection.Search("K=А$");
                 Write
                     (
@@ -75,6 +77,54 @@ namespace IrbisTestRunner.Tests
             {
                 Connection.Database = saveDatabase;
             }
+        }
+
+        [TestMethod]
+        public void TestSearch_Format()
+        {
+            FoundItem[] found = Connection.SearchFormat
+                (
+                    "T=A$",
+                    IrbisFormat.Brief
+                );
+            Write
+                (
+                    "Found: " + found.Length + ": "
+                    + string.Join
+                        (
+                            "| ",
+                            found.Select
+                                (
+                                    item => item.ToString()
+                                        .SafeSubstring(0, 20)
+                                )
+                        )
+                        .SafeSubstring(0, 100)
+                );
+        }
+
+        [TestMethod]
+        public void TestSearch_Count()
+        {
+            int result = Connection.SearchCount("T=A$");
+
+            Write("Found: " + result);
+        }
+
+        [TestMethod]
+        public void TestSearch_Read()
+        {
+            MarcRecord[] records = Connection.SearchRead("T=A$");
+
+            Write(records.Length);
+        }
+
+        [TestMethod]
+        public void TestSearch_ReadOneRecord()
+        {
+            MarcRecord record = Connection.SearchReadOneRecord("T=A$");
+
+            Write(record.NullableToVisibleString().Substring(0,50));
         }
 
         #endregion

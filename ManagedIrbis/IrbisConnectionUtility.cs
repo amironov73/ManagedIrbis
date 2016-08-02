@@ -10,9 +10,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM;
+
 #if !NETCORE
 using AM.Configuration;
 #endif
+
 using AM.IO;
 using AM.Runtime;
 
@@ -24,6 +27,7 @@ using ManagedIrbis.Menus;
 using ManagedIrbis.Network;
 using ManagedIrbis.Network.Commands;
 using ManagedIrbis.Network.Sockets;
+using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
 
@@ -352,6 +356,64 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <summary>
+        /// Определение количества записей, которые будут
+        /// найдены по указанному выражению.
+        /// </summary>
+        public static int SearchCount
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string searchExpression
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(searchExpression, "searchExpression");
+
+            SearchCommand command = new SearchCommand(connection)
+            {
+                Database = connection.Database,
+                SearchExpression = searchExpression
+            };
+            connection.ExecuteCommand(command);
+            int result = command.FoundCount;
+
+            return result;
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Поиск с одновременным расформатированием.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static FoundItem[] SearchFormat
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string searchExpression,
+                [NotNull] string formatSpecification
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(searchExpression, "searchExpression");
+            Code.NotNullNorEmpty(formatSpecification, "formatSpecification");
+
+            SearchCommand command = new SearchCommand(connection)
+            {
+                Database = connection.Database,
+                SearchExpression = searchExpression,
+                FormatSpecification = formatSpecification
+            };
+            connection.ExecuteCommand(command);
+            FoundItem[] result = command.Found
+                .ThrowIfNull("command.Found")
+                .ToArray();
+
+            return result;
+        }
+
+        // ========================================================
+
+        /// <summary>
         /// Загрузка записей по результатам поиска.
         /// </summary>
         [NotNull]
@@ -364,8 +426,6 @@ namespace ManagedIrbis
                 params object[] args
             )
         {
-            // TODO: use both Search and Read
-
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(format, "format");
 
@@ -374,16 +434,15 @@ namespace ManagedIrbis
                     format,
                     args
                 );
-            int[] found = connection.Search(expression);
-            if (found.Length == 0)
+
+            SearchReadCommand command = new SearchReadCommand(connection)
             {
-                return new MarcRecord[0];
-            }
-            MarcRecord[] result = connection.ReadRecords
-                (
-                    connection.Database,
-                    found
-                );
+                Database = connection.Database,
+                SearchExpression = expression
+            };
+            connection.ExecuteCommand(command);
+            MarcRecord[] result = command.Records
+                .ThrowIfNull("command.Records");
 
             return result;
         }
@@ -402,8 +461,6 @@ namespace ManagedIrbis
                 params object[] args
             )
         {
-            // TODO: use both Search and Read
-
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(format, "format");
 
@@ -412,15 +469,16 @@ namespace ManagedIrbis
                     format,
                     args
                 );
-            int[] found = connection.Search(expression);
-            if (found.Length == 0)
+            SearchReadCommand command = new SearchReadCommand(connection)
             {
-                return null;
-            }
-            MarcRecord result = connection.ReadRecord
-                (
-                    found[0]
-                );
+                Database = connection.Database,
+                SearchExpression = expression,
+                NumberOfRecords = 1
+            };
+            connection.ExecuteCommand(command);
+            MarcRecord result = command.Records
+                .ThrowIfNull("command.Records")
+                .GetItem(0);
 
             return result;
         }
