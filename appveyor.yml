@@ -15,7 +15,7 @@ nuget:
   project_feed: false
 
 before_build:
-- cmd: nuget restore ManagedIrbis.sln
+- cmd: nuget restore ManagedIrbis.NetCore.sln
 
 build:
   project: ManagedIrbis.sln
