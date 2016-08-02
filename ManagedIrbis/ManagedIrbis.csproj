@@ -237,6 +237,7 @@
     <Compile Include="Network\Sockets\HttpClientSocket.cs" />
     <Compile Include="Network\Sockets\RetryClientSocket.cs" />
     <Compile Include="Network\Sockets\SmartClientSocket.cs" />
+    <Compile Include="Search\TermInfoEx.cs" />
     <Compile Include="ServerStat.cs" />
     <Compile Include="StatDefinition.cs" />
     <Compile Include="TableDefinition.cs" />

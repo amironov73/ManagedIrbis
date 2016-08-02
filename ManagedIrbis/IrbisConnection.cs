@@ -1300,7 +1300,8 @@ namespace ManagedIrbis
             (
                 [NotNull] string startTerm,
                 int numberOfTerms,
-                bool reverseOrder
+                bool reverseOrder,
+                [CanBeNull] string format
             )
         {
             Code.NotNull(startTerm, "startTerm");
@@ -1311,11 +1312,12 @@ namespace ManagedIrbis
                 Database = Database,
                 StartTerm = startTerm,
                 NumberOfTerms = numberOfTerms,
-                ReverseOrder = reverseOrder
+                ReverseOrder = reverseOrder,
+                Format = format
             };
             ExecuteCommand(command);
 
-            return command.Terms.ToArray();
+            return command.Terms.ThrowIfNull("command.Terms");
         }
 
         // ========================================================

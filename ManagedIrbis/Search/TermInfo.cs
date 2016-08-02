@@ -1,7 +1,8 @@
 ﻿/* TermInfo.cs -- term info
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
-
 
 #region Using directives
 
@@ -33,10 +34,10 @@ namespace ManagedIrbis.Search
     /// Search term info
     /// </summary>
     [PublicAPI]
-    [XmlRoot("term-link")]
+    [XmlRoot("term-info")]
     [MoonSharpUserData]
     [DebuggerDisplay("[{Count}] {Text}")]
-    public sealed class TermInfo
+    public class TermInfo
         : IHandmadeSerializable,
         IVerifiable
     {
@@ -152,7 +153,7 @@ namespace ManagedIrbis.Search
         /// <summary>
         /// Restore object state from the specified stream.
         /// </summary>
-        public void RestoreFromStream
+        public virtual void RestoreFromStream
             (
                 BinaryReader reader
             )
@@ -164,7 +165,7 @@ namespace ManagedIrbis.Search
         /// <summary>
         /// Save object state to the specified stream.
         /// </summary>
-        public void SaveToStream
+        public virtual void SaveToStream
             (
                 BinaryWriter writer
             )
@@ -181,7 +182,7 @@ namespace ManagedIrbis.Search
         /// <summary>
         /// Verify object state.
         /// </summary>
-        public bool Verify
+        public virtual bool Verify
             (
                 bool throwOnError
             )

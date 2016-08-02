@@ -23,6 +23,48 @@ using MoonSharp.Interpreter;
 
 namespace ManagedIrbis.Network.Commands
 {
+    //
+    // EXTRACT FROM OFFICIAL DOCUMENTATION
+    //
+    // db_name – имя базы данных
+    // ΤΕΡΜ – поисковый термин
+    // num_terms – число возвращаемых терминов.
+    // Если данный параметр 0, то возвращаются MAX_POSTINGS_IN_PACKET
+    // терминов.
+    // format – есть 5 вариантов определить формат:
+    // 1-й вариант – строка формата;
+    // 2-й вариант – имя файла формата расположенного
+    // на сервере по 10 пути для базы данных db_name,
+    // предваряемого символом @ (например @brief);
+    // 3-й вариант – символ @ - в этом случае производится
+    // ОПТИМИЗИРОВАННОЕ форматирование, имя формата определяется
+    // видом записи;
+    // 4-й вариант – символ * - в этом случае производится
+    // форматирование как ВЫБОР ПОЛЯ, соответствующего 1-й
+    // ссылке каждого термина (например для ссылки в виде
+    // 1.200.2.3 берется 2-е[осс] повторение 200-го[метка] поля).
+    // 5-й вариант – пустая строка. В этом случае возвращается
+    // только список терминов.
+    //
+    // При любом варианте перед форматированием сервер проделывает
+    // следующую операцию - в любом формате специальное сочетание
+    // символов вида *** (3 звездочки) заменяется на значение
+    // метки поля, взятого из 1-й ссылки для данного термина
+    // (например, для ссылки 1.200.1.1 формат вида v***  будет
+    // заменен на v200).
+    // 
+    // ВОЗВРАТ
+    // список строк в следующей последовательности:
+    // В 1-й строке – код возврата, который определяется тем,
+    // найден ли заданный термин TERM в словаре – если найден
+    // код возврата – ZERO, если нет – число меньше 0.
+    // Далее следуют строки в следующем формате
+    // Число ссылок #30
+    // Ссылка#30TERMi#30результат_форматирования
+    // ИЛИ
+    // ТЕРМИН СЛОВАРЯ (если задан пустой формат)
+    //
+
     /// <summary>
     /// Read terms
     /// </summary>
@@ -58,13 +100,16 @@ namespace ManagedIrbis.Network.Commands
         public string StartTerm { get; set; }
 
         /// <summary>
+        /// Format.
+        /// </summary>
+        [CanBeNull]
+        public string Format { get; set; }
+
+        /// <summary>
         /// Terms.
         /// </summary>
-        [NotNull]
-        public List<TermInfo> Terms
-        {
-            get { return _terms; }
-        }
+        [CanBeNull]
+        public TermInfo[] Terms { get; set; }
 
         #endregion
 
@@ -101,6 +146,9 @@ namespace ManagedIrbis.Network.Commands
         /// </summary>
         public override int[] GoodReturnCodes
         {
+            // TERM_NOT_EXISTS = -202;
+            // TERM_LAST_IN_LIST = -203;
+            // TERM_FIRST_IN_LIST = -204;
             get { return new[] { -202, -203, -204 }; }
         }
 
@@ -120,10 +168,17 @@ namespace ManagedIrbis.Network.Commands
             {
                 throw new IrbisException("database not specified");
             }
+
+            string preparedFormat = IrbisFormat.PrepareFormat
+                (
+                    Format
+                );
+
             result
                 .Add(database)
                 .Add(StartTerm)
-                .Add(NumberOfTerms);
+                .Add(NumberOfTerms)
+                .AddAnsi(preparedFormat);
 
             return result;
         }
@@ -141,8 +196,9 @@ namespace ManagedIrbis.Network.Commands
             ServerResponse result = base.Execute(query);
             CheckResponse(result);
 
-            TermInfo[] terms = TermInfo.Parse(result);
-            Terms.AddRange(terms);
+            Terms = string.IsNullOrEmpty(Format)
+                ? TermInfo.Parse(result)
+                : TermInfoEx.ParseEx(result);
 
             return result;
         }

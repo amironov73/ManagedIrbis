@@ -1,5 +1,7 @@
 ﻿/* TermLink.cs -- term link
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 

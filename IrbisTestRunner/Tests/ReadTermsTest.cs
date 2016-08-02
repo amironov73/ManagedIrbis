@@ -45,13 +45,14 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestReadTermsForward()
+        public void TestReadTerms_Forward()
         {
             TermInfo[] terms = Connection.ReadTerms
                 (
                     "K=",
                     3,
-                    false
+                    false,
+                    null
                 );
 
             string text = string.Join
@@ -61,6 +62,48 @@ namespace IrbisTestRunner.Tests
                 );
             Write(text);
         }
+
+        [TestMethod]
+        public void TestReadTerms_Backward()
+        {
+            TermInfo[] terms = Connection.ReadTerms
+                (
+                    "K=C",
+                    3,
+                    true,
+                    null
+                );
+
+            string text = string.Join
+                (
+                    "; ",
+                    TermInfo.TrimPrefix(terms, "K=")
+                );
+            Write(text);
+        }
+
+        [TestMethod]
+        public void TestReadTerms_Format()
+        {
+            TermInfoEx[] terms = (TermInfoEx[]) Connection.ReadTerms
+                (
+                    "K=",
+                    10,
+                    false,
+                    "@brief"
+                );
+
+            string text = string.Join
+                (
+                    "| ",
+                    terms.Select
+                    (
+                        item => item.Formatted.SafeSubstring(0,10)
+                    )
+                );
+            Write(text);
+        }
+
 
         #endregion
     }
