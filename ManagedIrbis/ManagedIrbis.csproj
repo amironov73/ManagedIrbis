@@ -188,6 +188,7 @@
     <Compile Include="Gbl\Gbl.cs" />
     <Compile Include="Gbl\GblBuilder.cs" />
     <Compile Include="Gbl\GblCode.cs" />
+    <Compile Include="Gbl\GblEventArgs.cs" />
     <Compile Include="Gbl\GblFile.cs" />
     <Compile Include="Gbl\GblResult.cs" />
     <Compile Include="Gbl\GblStatement.cs" />

@@ -45,7 +45,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestGbl()
+        public void TestGbl1()
         {
             string field3000 = string.Format
                 (
@@ -70,7 +70,7 @@ namespace IrbisTestRunner.Tests
                 .GlobalCorrection
                 (
                     "\"I=37/К88-602720\"",
-                    1,
+                    0,
                     0,
                     0,
                     0,
@@ -96,6 +96,60 @@ namespace IrbisTestRunner.Tests
                 .SafeSubstring(0, 70);
 
             Write (text);
+        }
+
+        [TestMethod]
+        public void TestGbl2()
+        {
+            string field3000 = string.Format
+                (
+                    "'{0}'",
+                    DateTime.Now
+                );
+
+            GblStatement[] statements =
+            {
+                new GblStatement
+                {
+                    Command = GblCode.Add,
+                    Format1 = field3000,
+                    Format2 = "XXXXXXXXXXX",
+                    Parameter1 = "3000",
+                    Parameter2 = "*"
+                }, 
+            };
+
+            GblResult result = Connection
+                .ThrowIfNull("Connection")
+                .GlobalCorrection
+                (
+                    null,
+                    0,
+                    0,
+                    0,
+                    0,
+                    new int[] { 1, 2, 3 },
+                    true,
+                    false,
+                    true,
+                    statements
+                );
+
+            string text = "Processed: "
+                + result.RecordsProcessed
+                + ", success: "
+                + result.RecordsSucceeded
+                + ", failed: "
+                + result.RecordsFailed
+                + ". "
+                + StringUtility.Join
+                (
+                    "| ",
+                    result.Protocol
+                )
+                .SafeSubstring(0, 70);
+
+            Write(text);
         }
 
         #endregion

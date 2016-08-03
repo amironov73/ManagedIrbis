@@ -90,6 +90,55 @@ namespace ManagedIrbis.Gbl
 
         #region Public methods
 
+        [NotNull]
+        public static GblResult GetEmptyResult()
+        {
+            GblResult result = new GblResult
+            {
+                TimeStarted = DateTime.Now,
+                TimeElapsed = new TimeSpan(0)
+            };
+
+            return result;
+        }
+
+        public void MergeResult
+            (
+                [NotNull] GblResult intermediateResult
+            )
+        {
+            Code.NotNull(intermediateResult, "intermediateResult");
+
+            if (intermediateResult.Canceled)
+            {
+                Canceled = intermediateResult.Canceled;
+            }
+            if (!ReferenceEquals(intermediateResult.Exception, null))
+            {
+                Exception = intermediateResult.Exception;
+            }
+            RecordsProcessed += intermediateResult.RecordsProcessed;
+            RecordsFailed += intermediateResult.RecordsFailed;
+            RecordsSucceeded += intermediateResult.RecordsSucceeded;
+
+            if (ReferenceEquals(Protocol, null))
+            {
+                Protocol = new ProtocolLine[0];
+            }
+
+            ProtocolLine[] otherLines = intermediateResult.Protocol;
+            if (ReferenceEquals(otherLines, null))
+            {
+                otherLines = new ProtocolLine[0];
+            }
+
+            Protocol = ArrayUtility.Merge
+                (
+                    Protocol,
+                    otherLines
+                );
+        }
+
         /// <summary>
         /// Parse server response.
         /// </summary>

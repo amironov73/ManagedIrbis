@@ -870,6 +870,7 @@ namespace ManagedIrbis
                 Database = Database,
                 FirstRecord = firstRecord,
                 NumberOfRecords = numberOfRecords,
+                MfnList = mfnList,
                 Statements = statements,
                 MinMfn = minMfn,
                 MaxMfn = maxMfn
@@ -1085,7 +1086,7 @@ namespace ManagedIrbis
                     case "workstation":
                         Workstation = (IrbisWorkstation)(byte)(value[0]);
                         break;
-                    case "debug":
+                    case "log":
                         SetLogging(value);
                         break;
                     //case "data":

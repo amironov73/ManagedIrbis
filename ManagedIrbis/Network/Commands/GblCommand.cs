@@ -175,7 +175,7 @@ namespace ManagedIrbis.Network.Commands
             )
             : base(connection)
         {
-            FirstRecord = 1;
+            Actualize = true;
             FormalControl = false;
             AutoIn = false;
         }
@@ -211,7 +211,7 @@ namespace ManagedIrbis.Network.Commands
 
             string items = GblUtility.EncodeStatements
                 (
-                    Statements.ThrowIfNull("Items")
+                    Statements.ThrowIfNull("Statements")
                 );
             result.AddUtf8(items);
 
