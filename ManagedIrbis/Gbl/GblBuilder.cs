@@ -427,7 +427,7 @@ namespace ManagedIrbis.Gbl
         {
             return AddStatement
                 (
-                    GblCore.Comment,
+                    GblCode.Comment,
                     Filler,
                     Filler,
                     Filler,
@@ -438,12 +438,12 @@ namespace ManagedIrbis.Gbl
         [NotNull]
         public GblBuilder Nop
             (
-                [NotNull] comment
+                [NotNull] string comment
             )
         {
             return AddStatement
                 (
-                    GblCore.Comment,
+                    GblCode.Comment,
                     VerifyValue(comment),
                     Filler,
                     Filler,
@@ -455,13 +455,13 @@ namespace ManagedIrbis.Gbl
         [NotNull]
         public GblBuilder Nop
             (
-                [NotNull] comment1,
-                [NotNull] comment2
+                [NotNull] string comment1,
+                [NotNull] string comment2
             )
         {
             return AddStatement
                 (
-                    GblCore.Comment,
+                    GblCode.Comment,
                     VerifyValue(comment1),
                     VerifyValue(comment2),
                     Filler,
