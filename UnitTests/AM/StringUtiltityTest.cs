@@ -10,7 +10,7 @@ namespace UnitTests.AM
     public class StringUtilityTest
     {
         [TestMethod]
-        public void TestStringUtilityToVisibleString()
+        public void TestStringUtility_ToVisibleString()
         {
             Assert.AreEqual("a", "a".ToVisibleString());
             Assert.AreEqual("(null)", StringUtility.ToVisibleString(null));
@@ -18,7 +18,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void TestStringUtilityIsValidIdentifier()
+        public void TestStringUtility_IsValidIdentifier()
         {
             Assert.IsFalse(string.Empty.IsValidIdentifier());
             Assert.IsTrue("a".IsValidIdentifier());
@@ -28,7 +28,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void TestStringUtilitySplitString()
+        public void TestStringUtility_SplitString()
         {
             Func<char, bool> func = c => c == '!';
             string[] result = "!!aaa!bbb!!c".SplitString(func).ToArray();
@@ -55,7 +55,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void TestStringUtilityUnquote()
+        public void TestStringUtility_Unquote()
         {
             Assert.AreEqual("", "()".Unquote('(', ')'));
             Assert.AreEqual("()1", "()1".Unquote('(', ')'));
@@ -63,12 +63,67 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void TestStringUtilityConsistOf()
+        public void TestStringUtility_ConsistOf()
         {
             Assert.AreEqual(true, "aaa".ConsistOf('a'));
             Assert.AreEqual(false, "aba".ConsistOf('a'));
             Assert.AreEqual(true, "abc".ConsistOf('a', 'b', 'c'));
             Assert.AreEqual(false, "abcd".ConsistOf('a', 'b', 'c'));
+        }
+
+        [TestMethod]
+        public void TestStringUtility_Wrap()
+        {
+            const string nullString = null;
+
+            Assert.AreEqual
+                (
+                    nullString,
+                    nullString.Wrap("(", ")")
+                );
+            Assert.AreEqual
+                (
+                    "()",
+                    string.Empty.Wrap("(", ")")
+                );
+            Assert.AreEqual
+                (
+                    string.Empty,
+                    string.Empty.Wrap(nullString, nullString)
+                );
+            Assert.AreEqual
+                (
+                    "[ArsMagna]",
+                    "ArsMagna".Wrap("[", "]")
+                );
+        }
+
+        private void _TestJoin
+            (
+                string expected,
+                string separator,
+                params object[] objects
+            )
+        {
+            string actual = StringUtility.Join
+                (
+                    separator,
+                    objects
+                );
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestStringUtility_Join()
+        {
+            const string comma = ", ";
+            _TestJoin(string.Empty, comma);
+            _TestJoin("1", comma, 1);
+            _TestJoin(string.Empty, comma, new object[]{null});
+            _TestJoin("1, ", comma, 1, null);
+            _TestJoin(", 1", comma, null, 1);
+            _TestJoin("1, 2, 3", comma, 1, 2, 3);
         }
     }
 }

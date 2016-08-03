@@ -172,6 +172,7 @@
     <Compile Include="AM\RetryManagerTest.cs" />
     <Compile Include="AM\ArrayUtilityTest.cs" />
     <Compile Include="AM\JsonUtilityTest.cs" />
+    <Compile Include="AM\DateTimeUtilityTest.cs" />
     <Compile Include="AM\UniversalComparerTest.cs" />
     <Compile Include="CodeJam\CodeTest.cs" />
     <Compile Include="Common\CommonUnitTest.cs" />
