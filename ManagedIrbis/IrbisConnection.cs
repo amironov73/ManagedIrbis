@@ -28,7 +28,7 @@ using ManagedIrbis.Network;
 using ManagedIrbis.Network.Commands;
 using ManagedIrbis.Network.Sockets;
 using ManagedIrbis.Search;
-using Microsoft.SqlServer.Server;
+
 using MoonSharp.Interpreter;
 
 #endregion

@@ -155,6 +155,10 @@ namespace ManagedIrbis
             };
         }
 
+        // ========================================================
+
+#if !NETCORE
+
         /// <summary>
         /// Получаем строку подключения в app.settings.
         /// </summary>
@@ -189,6 +193,8 @@ namespace ManagedIrbis
 
             return result;
         }
+
+#endif
 
         // ========================================================
 

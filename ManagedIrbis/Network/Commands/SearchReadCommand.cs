@@ -118,8 +118,10 @@ namespace ManagedIrbis.Network.Commands
             {
                 Records = Found
                     .ThrowIfNull("Found")
+#if !NETCORE
                     .AsParallel()
                     .AsOrdered()
+#endif
                     .Select
                     (
                         // ReSharper disable ConvertClosureToMethodGroup
