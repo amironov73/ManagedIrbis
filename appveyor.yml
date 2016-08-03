@@ -14,9 +14,6 @@ nuget:
   account_feed: false
   project_feed: false
 
-before_build:
-- cmd: nuget restore ManagedIrbis.NetCore.1.sln
-
 build:
   project: ManagedIrbis.sln
   publish_nuget: false
