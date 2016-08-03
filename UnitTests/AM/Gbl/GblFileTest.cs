@@ -15,10 +15,10 @@ namespace UnitTests.AM.Gbl
         [TestMethod]
         public void TestGblFileConstruction()
         {
-            GblFile gbl = new GblFile();
+            GblFile gblFile = new GblFile();
 
-            Assert.AreEqual(0, gbl.Items.Count);
-            Assert.AreEqual(0, gbl.Parameters.Count);
+            Assert.AreEqual(0, gblFile.Statements.Count);
+            Assert.AreEqual(0, gblFile.Parameters.Count);
 
             GblStatement statement = new GblStatement
             {
@@ -27,7 +27,7 @@ namespace UnitTests.AM.Gbl
                 Format1 = "Add field 300"
             };
 
-            gbl.Items.Add(statement);
+            gblFile.Statements.Add(statement);
         }
 
         private void _TestSerialization
@@ -40,14 +40,14 @@ namespace UnitTests.AM.Gbl
             GblFile second = bytes
                 .RestoreObjectFromMemory<GblFile>();
 
-            Assert.AreEqual(first.Items.Count, second.Items.Count);
-            for (int i = 0; i < first.Items.Count; i++)
+            Assert.AreEqual(first.Statements.Count, second.Statements.Count);
+            for (int i = 0; i < first.Statements.Count; i++)
             {
-                Assert.AreEqual(first.Items[i].Command, second.Items[i].Command);
-                Assert.AreEqual(first.Items[i].Parameter1, second.Items[i].Parameter1);
-                Assert.AreEqual(first.Items[i].Parameter2, second.Items[i].Parameter2);
-                Assert.AreEqual(first.Items[i].Format1, second.Items[i].Format1);
-                Assert.AreEqual(first.Items[i].Format2, second.Items[i].Format2);
+                Assert.AreEqual(first.Statements[i].Command, second.Statements[i].Command);
+                Assert.AreEqual(first.Statements[i].Parameter1, second.Statements[i].Parameter1);
+                Assert.AreEqual(first.Statements[i].Parameter2, second.Statements[i].Parameter2);
+                Assert.AreEqual(first.Statements[i].Format1, second.Statements[i].Format1);
+                Assert.AreEqual(first.Statements[i].Format2, second.Statements[i].Format2);
             }
 
             Assert.AreEqual(first.Parameters.Count, second.Parameters.Count);
@@ -62,19 +62,19 @@ namespace UnitTests.AM.Gbl
         {
             GblFile result = new GblFile();
 
-            result.Items.Add(new GblStatement
+            result.Statements.Add(new GblStatement
             {
                 Command = GblCode.Add,
                 Parameter1 = "300",
                 Format1 = "Add field 300"
             });
-            result.Items.Add(new GblStatement
+            result.Statements.Add(new GblStatement
             {
                 Command = GblCode.Delete,
                 Parameter1 = "300",
                 Parameter2 = "*"
             });
-            result.Items.Add(new GblStatement
+            result.Statements.Add(new GblStatement
             {
                 Command = "NOP"
             });
@@ -108,9 +108,9 @@ namespace UnitTests.AM.Gbl
                 );
 
             Assert.IsNotNull(gbl);
-            Assert.AreEqual(3, gbl.Items.Count);
+            Assert.AreEqual(3, gbl.Statements.Count);
             Assert.AreEqual(0, gbl.Parameters.Count);
-            Assert.AreEqual("DEL", gbl.Items[0].Command);
+            Assert.AreEqual("DEL", gbl.Statements[0].Command);
 
             _TestSerialization(gbl);
         }
@@ -136,8 +136,8 @@ namespace UnitTests.AM.Gbl
 
             GblFile gbl = GblUtility.FromJson(text);
 
-            Assert.AreEqual(3, gbl.Items.Count);
-            Assert.AreEqual("ADD", gbl.Items[0].Command);
+            Assert.AreEqual(3, gbl.Statements.Count);
+            Assert.AreEqual("ADD", gbl.Statements[0].Command);
         }
 
         [TestMethod]
@@ -162,7 +162,7 @@ namespace UnitTests.AM.Gbl
             GblFile gbl = GblUtility.FromXml(text);
 
             Assert.IsNotNull(gbl);
-            Assert.AreEqual(3, gbl.Items.Count);
+            Assert.AreEqual(3, gbl.Statements.Count);
             Assert.AreEqual(0, gbl.Parameters.Count);
         }
 
@@ -178,7 +178,7 @@ namespace UnitTests.AM.Gbl
             GblFile gbl = GblUtility.ParseLocalJsonFile(fileName);
 
             Assert.IsNotNull(gbl);
-            Assert.AreEqual(3, gbl.Items.Count);
+            Assert.AreEqual(3, gbl.Statements.Count);
             Assert.AreEqual(0, gbl.Parameters.Count);
         }
 
@@ -194,7 +194,7 @@ namespace UnitTests.AM.Gbl
             GblFile gbl = GblUtility.ParseLocalXmlFile(fileName);
 
             Assert.IsNotNull(gbl);
-            Assert.AreEqual(3, gbl.Items.Count);
+            Assert.AreEqual(3, gbl.Statements.Count);
             Assert.AreEqual(0, gbl.Parameters.Count);
         }
 

@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Collections;
 
 #if !NETCORE
 using AM.Configuration;
@@ -23,6 +24,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Gbl;
 using ManagedIrbis.Menus;
 using ManagedIrbis.Network;
 using ManagedIrbis.Network.Commands;
@@ -187,6 +189,61 @@ namespace ManagedIrbis
 
             return result;
         }
+
+        // ========================================================
+
+        [NotNull]
+        public static GblResult GlobalCorrection
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string fileName,
+                [NotNull] Encoding encoding,
+                [CanBeNull] string database,
+                [CanBeNull] string searchExpression,
+                int firstRecord,
+                int numberOfRecords,
+                int minMfn,
+                int maxMfn,
+                [CanBeNull] int[] mfnList,
+                bool actualize,
+                bool formalControl,
+                bool autoin
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNull(encoding, "encoding");
+
+            if (string.IsNullOrEmpty(database))
+            {
+                database = connection.Database;
+            }
+
+            GblFile file = GblFile.ParseLocalFile(fileName, encoding);
+
+            GblCommand command = new GblCommand(connection)
+            {
+                SearchExpression = searchExpression,
+                AutoIn = autoin,
+                Actualize = actualize,
+                FormalControl = formalControl,
+                Database = database,
+                FirstRecord = firstRecord,
+                NumberOfRecords = numberOfRecords,
+                MfnList = mfnList,
+                Statements = file.Statements
+                    .ThrowIfNullOrEmpty("Statements")
+                    .ToArray(),
+                MinMfn = minMfn,
+                MaxMfn = maxMfn
+            };
+            connection.ExecuteCommand(command);
+
+            return command.Result
+                .ThrowIfNull("command.Result");
+
+        }
+
 
         // ========================================================
 

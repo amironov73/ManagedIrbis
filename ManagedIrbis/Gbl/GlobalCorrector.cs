@@ -106,6 +106,20 @@ namespace ManagedIrbis.Gbl
         public GlobalCorrector
             (
                 [NotNull] IrbisConnection connection,
+                string database
+            )
+            : this
+            (
+                connection,
+                database.ThrowIfNull("database"),
+                100
+            )
+        {
+        }
+
+        public GlobalCorrector
+            (
+                [NotNull] IrbisConnection connection,
                 [NotNull] string database,
                 int chunkSize
             )
@@ -187,6 +201,7 @@ namespace ManagedIrbis.Gbl
                         = Connection.GlobalCorrection
                         (
                             null,
+                            Database.ThrowIfNull("Database"),
                             0,
                             0,
                             startMfn,
@@ -263,6 +278,7 @@ namespace ManagedIrbis.Gbl
                         = Connection.GlobalCorrection
                         (
                             null,
+                            Database.ThrowIfNull("Database"),
                             0,
                             0,
                             0,

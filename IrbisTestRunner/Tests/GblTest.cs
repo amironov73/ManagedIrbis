@@ -69,6 +69,7 @@ namespace IrbisTestRunner.Tests
                 .ThrowIfNull("Connection")
                 .GlobalCorrection
                 (
+                    "IBIS",
                     "\"I=37/К88-602720\"",
                     0,
                     0,
@@ -123,6 +124,7 @@ namespace IrbisTestRunner.Tests
                 .ThrowIfNull("Connection")
                 .GlobalCorrection
                 (
+                    "IBIS",
                     null,
                     0,
                     0,

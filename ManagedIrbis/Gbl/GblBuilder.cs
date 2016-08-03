@@ -26,10 +26,15 @@ namespace ManagedIrbis.Gbl
     /// глобальную корректировку.</para>
     /// <para>Пример построения и выполнения задания:</para>
     /// <code>
-    /// GblResult result = new GblBuilder(connection)
+    /// GblResult result = new GblBuilder()
     ///        .Add("3079", "'1'")
     ///        .Delete("3011")
-    ///        .Execute(new[] {30, 32, 34});
+    ///        .Execute
+    ///             (
+    ///                 connection,
+    ///                 "IBIS",
+    ///                 new[] {30, 32, 34}
+    ///             );
     /// Console.WriteLine
     ///     (
     ///         "Processed {0} records",
@@ -47,10 +52,6 @@ namespace ManagedIrbis.Gbl
     {
         #region Properties
 
-        public IrbisConnection Connection { get; set; }
-
-        public string Database { get; set; }
-
         #endregion
 
         #region Construction
@@ -58,26 +59,6 @@ namespace ManagedIrbis.Gbl
         public GblBuilder()
         {
             _statements = new List<GblStatement>();
-        }
-
-        public GblBuilder
-            (
-                IrbisConnection connection
-            )
-            : this()
-        {
-            Connection = connection;
-        }
-
-        public GblBuilder
-            (
-                IrbisConnection connection,
-                string database
-            )
-            : this()
-        {
-            Connection = connection;
-            Database = database;
         }
 
         #endregion
@@ -93,85 +74,40 @@ namespace ManagedIrbis.Gbl
 
         #region Public methods
 
-        public GblBuilder AddCommand
+        /// <summary>
+        /// Add an arbitrary statement.
+        /// </summary>
+        [NotNull]
+        public GblBuilder AddStatement
             (
-                string command,
-                string parameter1,
-                string parameter2,
-                string format1,
-                string format2
+                [NotNull] string code,
+                [CanBeNull] string parameter1,
+                [CanBeNull] string parameter2,
+                [CanBeNull] string format1,
+                [CanBeNull] string format2
             )
         {
             GblStatement item = new GblStatement
             {
-                Command = VerifyCommand(command),
+                Command = VerifyCode(code),
                 Parameter1 = parameter1,
                 Parameter2 = parameter2,
                 Format1 = format1,
                 Format2 = format2
             };
             _statements.Add(item);
+
             return this;
         }
 
-        public string VerifyCommand
-            (
-                string command
-            )
-        {
-            if (string.IsNullOrEmpty(command))
-            {
-                throw new ArgumentException();
-            }
-            return command;
-        }
-
-        public string VerifyField
-            (
-                string field
-            )
-        {
-            if (string.IsNullOrEmpty(field))
-            {
-                throw new ArgumentException();
-            }
-            // ReSharper disable ObjectCreationAsStatement
-            if (!ReferenceEquals(Connection, null))
-            {
-                // Чисто для проверки, что ссылка на поле задана верно
-                new FieldReference("v" + field);
-            }
-            // ReSharper restore ObjectCreationAsStatement
-            return field;
-        }
-
-        public string VerifyRepeat
-            (
-                string repeat
-            )
-        {
-            return repeat;
-        }
-
-        public string VerifyValue
-            (
-                string value
-            )
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                throw new ArgumentException();
-            }
-            return value;
-        }
-
+        [NotNull]
         public GblBuilder Add
             (
-                string field,
-                string value
+                [NotNull] string field,
+                [NotNull] string value
             )
         {
-            return AddCommand
+            return AddStatement
                 (
                     GblCode.Add,
                     VerifyField(field),
@@ -181,14 +117,15 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        [NotNull]
         public GblBuilder Add
             (
-                string field,
-                string repeat,
-                string value
+                [NotNull] string field,
+                [NotNull] string repeat,
+                [NotNull] string value
             )
         {
-            return AddCommand
+            return AddStatement
                 (
                     GblCode.Add,
                     VerifyField(field),
@@ -198,14 +135,15 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        [NotNull]
         public GblBuilder Change
             (
-                string field,
-                string fromValue,
-                string toValue
+                [NotNull] string field,
+                [NotNull] string fromValue,
+                [NotNull] string toValue
             )
         {
-            return AddCommand
+            return AddStatement
                 (
                     GblCode.Change,
                     VerifyField(field),
@@ -215,15 +153,16 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        [NotNull]
         public GblBuilder Change
             (
-                string field,
-                string repeat,
-                string fromValue,
-                string toValue
+                [NotNull] string field,
+                [NotNull] string repeat,
+                [NotNull] string fromValue,
+                [NotNull] string toValue
             )
         {
-            return AddCommand
+            return AddStatement
                 (
                     GblCode.Change,
                     VerifyField(field),
@@ -233,13 +172,14 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        [NotNull]
         public GblBuilder Delete
             (
-                string field,
-                string repeat
+                [NotNull] string field,
+                [NotNull] string repeat
             )
         {
-            return AddCommand
+            return AddStatement
                 (
                     GblCode.Delete,
                     VerifyField(field),
@@ -249,12 +189,13 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        [NotNull]
         public GblBuilder Delete
             (
-                string field
+                [NotNull] string field
             )
         {
-            return AddCommand
+            return AddStatement
                 (
                     GblCode.Delete,
                     VerifyField(field),
@@ -264,9 +205,185 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        [NotNull]
+        public GblBuilder DeleteRecord()
+        {
+            return AddStatement
+                (
+                    GblCode.DeleteRecord,
+                    Filler,
+                    Filler,
+                    Filler,
+                    Filler
+                );
+        }
+
+        [NotNull]
+        public GblResult Execute
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] string database
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+
+            return new GlobalCorrector
+                (
+                    connection,
+                    database
+                )
+                .ProcessWholeDatabase
+                (
+                    ToStatements()
+                );
+        }
+
+        [NotNull]
+        public GblResult Execute
+            (
+                [NotNull] IrbisConnection connection
+            )
+        {
+            Code.NotNull(connection, "connection");
+
+            return new GlobalCorrector
+                (
+                    connection,
+                    connection.Database
+                )
+                .ProcessWholeDatabase
+                (
+                    ToStatements()
+                );
+        }
+
+        [NotNull]
+        public GblResult Execute
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] string database,
+                [NotNull] string searchExpression
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNullNorEmpty(searchExpression, "searchExpression");
+
+            return new GlobalCorrector
+                (
+                    connection,
+                    database
+                )
+                .ProcessSearchResult
+                (
+                    searchExpression,
+                    ToStatements()
+                );
+        }
+
+        [NotNull]
+        public GblResult Execute
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] string database,
+                int fromMfn,
+                int toMfn
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            Code.Nonnegative(fromMfn, "fromMfn");
+            Code.Nonnegative(toMfn, "toMfn");
+
+            return new GlobalCorrector
+                (
+                    connection,
+                    database
+                )
+                .ProcessInterval
+                (
+                    fromMfn,
+                    toMfn,
+                    ToStatements()
+                );
+        }
+
+        [NotNull]
+        public GblResult Execute
+            (
+                [NotNull] IrbisConnection connection,
+                int fromMfn,
+                int toMfn
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.Nonnegative(fromMfn, "fromMfn");
+            Code.Nonnegative(toMfn, "toMfn");
+
+            return new GlobalCorrector
+                (
+                    connection,
+                    connection.Database
+                )
+                .ProcessInterval
+                (
+                    fromMfn,
+                    toMfn,
+                    ToStatements()
+                );
+        }
+
+        [NotNull]
+        public GblResult Execute
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] string database,
+                [NotNull] IEnumerable<int> recordset
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNull(recordset, "recordset");
+
+            return new GlobalCorrector
+                (
+                    connection,
+                    database
+                )
+                .ProcessRecordset
+                (
+                    recordset,
+                    ToStatements()
+                );
+        }
+
+        [NotNull]
+        public GblResult Execute
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] IEnumerable<int> recordset
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNull(recordset, "recordset");
+
+            return new GlobalCorrector
+                (
+                    connection,
+                    connection.Database
+                )
+                .ProcessRecordset
+                (
+                    recordset,
+                    ToStatements()
+                );
+        }
+
+        [NotNull]
         public GblBuilder Fi()
         {
-            return AddCommand
+            return AddStatement
                 (
                     GblCode.Fi,
                     Filler,
@@ -276,12 +393,13 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        [NotNull]
         public GblBuilder If
             (
-                string condition
+                [NotNull] string condition
             )
         {
-            return AddCommand
+            return AddStatement
                 (
                     GblCode.If,
                     VerifyValue(condition),
@@ -291,14 +409,75 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
-        public GblBuilder Replace
+        [NotNull]
+        public GblBuilder If
             (
-                string field,
-                string repeat,
-                string toValue
+                [NotNull] string condition,
+                params GblStatement[] statements
             )
         {
-            return AddCommand
+            If(condition);
+            _statements.AddRange(statements);
+
+            return Fi();
+        }
+
+        [NotNull]
+        public GblBuilder Nop ()
+        {
+            return AddStatement
+                (
+                    GblCore.Comment,
+                    Filler,
+                    Filler,
+                    Filler,
+                    Filler
+                );
+        }
+
+        [NotNull]
+        public GblBuilder Nop
+            (
+                [NotNull] comment
+            )
+        {
+            return AddStatement
+                (
+                    GblCore.Comment,
+                    VerifyValue(comment),
+                    Filler,
+                    Filler,
+                    Filler
+                );
+        }
+
+
+        [NotNull]
+        public GblBuilder Nop
+            (
+                [NotNull] comment1,
+                [NotNull] comment2
+            )
+        {
+            return AddStatement
+                (
+                    GblCore.Comment,
+                    VerifyValue(comment1),
+                    VerifyValue(comment2),
+                    Filler,
+                    Filler
+                );
+        }
+
+        [NotNull]
+        public GblBuilder Replace
+            (
+                [NotNull] string field,
+                [NotNull] string repeat,
+                [NotNull] string toValue
+            )
+        {
+            return AddStatement
                 (
                     GblCode.Replace,
                     VerifyField(field),
@@ -308,13 +487,14 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        [NotNull]
         public GblBuilder Replace
             (
-                string field,
-                string toValue
+                [NotNull] string field,
+                [NotNull] string toValue
             )
         {
-            return AddCommand
+            return AddStatement
                 (
                     GblCode.Replace,
                     VerifyField(field),
@@ -324,102 +504,102 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
-        public GblBuilder SetConnection
-            (
-                IrbisConnection connection
-            )
-        {
-            if (ReferenceEquals(connection, null))
-            {
-                throw new ArgumentException();
-            }
-            Connection= connection;
-            return this;
-        }
-
-        public GblBuilder SetDatabase
-            (
-                string database
-            )
-        {
-            if (string.IsNullOrEmpty(database))
-            {
-                throw new ArgumentException();
-            }
-            Database = database;
-            return this;
-        }
-
-        public GblStatement[] ToCommands()
+        [NotNull]
+        [ItemNotNull]
+        public GblStatement[] ToStatements()
         {
             return _statements.ToArray();
         }
 
-        //public GblResult Execute()
-        //{
-        //    return new GlobalCorrector
-        //        (
-        //            Client,
-        //            Database
-        //        )
-        //        .ProcessWholeDatabase
-        //        (
-        //            ToCommands()
-        //        );
-        //}
+        [NotNull]
+        public GblBuilder Undo
+            (
+                [NotNull] string version
+            )
+        {
+            return AddStatement
+                (
+                    GblCode.Undo,
+                    VerifyParameter(version),
+                    Filler,
+                    Filler,
+                    Filler
+                );
+        }
 
-        //public GblFinal Execute
-        //    (
-        //        string searchExpression
-        //    )
-        //{
-        //    return new GlobalCorrector
-        //        (
-        //            Client,
-        //            Database
-        //        )
-        //        .ProcessSearchResult
-        //        (
-        //            searchExpression,
-        //            ToCommands()
-        //        );
-        //}
+        [NotNull]
+        public string VerifyCode
+            (
+                [NotNull] string code
+            )
+        {
+            Code.NotNullNorEmpty(code, "code");
 
-        //public GblFinal Execute
-        //    (
-        //        int fromMfn,
-        //        int toMfn
-        //    )
-        //{
-        //    return new GlobalCorrector
-        //        (
-        //            Client,
-        //            Database
-        //        )
-        //        .ProcessInterval
-        //        (
-        //            fromMfn,
-        //            toMfn,
-        //            ToCommands()
-        //        );
-        //}
+            // TODO some verification?
 
-        //public GblFinal Execute
-        //    (
-        //        IEnumerable<int> recordset
-        //    )
-        //{
-        //    return new GlobalCorrector
-        //        (
-        //            Client,
-        //            Database
-        //        )
-        //        .ProcessRecordset
-        //        (
-        //            recordset,
-        //            ToCommands()
-        //        );
-        //}
+            return code;
+        }
+
+        [NotNull]
+        public string VerifyField
+            (
+                [NotNull] string field
+            )
+        {
+            Code.NotNullNorEmpty(field, "field");
+
+            // TODO some verification
+
+            return field;
+        }
+
+        [NotNull]
+        public string VerifyFormat
+            (
+                [NotNull] string format
+            )
+        {
+            Code.NotNullNorEmpty(format, "format");
+
+            // TODO some verification
+
+            return format;
+        }
+
+        [NotNull]
+        public string VerifyParameter
+            (
+                [NotNull] string parameter
+            )
+        {
+            Code.NotNullNorEmpty(parameter, "parameter");
+
+            // TODO some verification
+
+            return parameter;
+        }
+
+        [NotNull]
+        public string VerifyRepeat
+            (
+                [NotNull] string repeat
+            )
+        {
+            Code.NotNullNorEmpty(repeat, "repeat");
+
+            return repeat;
+        }
+
+        [NotNull]
+        public string VerifyValue
+            (
+                [NotNull] string value
+            )
+        {
+            Code.NotNullNorEmpty(value, "value");
+
+            return value;
+        }
 
         #endregion
     }

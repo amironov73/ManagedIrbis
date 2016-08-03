@@ -57,9 +57,9 @@ namespace ManagedIrbis.Gbl
         [NotNull]
         [XmlElement("item")]
         [JsonProperty("items")]
-        public NonNullCollection<GblStatement> Items
+        public NonNullCollection<GblStatement> Statements
         {
-            get { return _items; }
+            get { return _statements; }
         }
 
             /// <summary>
@@ -83,7 +83,7 @@ namespace ManagedIrbis.Gbl
         public GblFile()
         {
             _parameters = new NonNullCollection<GblParameter>();
-            _items = new NonNullCollection<GblStatement>();
+            _statements = new NonNullCollection<GblStatement>();
         }
 
         #endregion
@@ -92,7 +92,7 @@ namespace ManagedIrbis.Gbl
 
         private readonly NonNullCollection<GblParameter> _parameters;
 
-        private readonly NonNullCollection<GblStatement> _items;
+        private readonly NonNullCollection<GblStatement> _statements;
 
         #endregion
 
@@ -149,7 +149,7 @@ namespace ManagedIrbis.Gbl
                 {
                     break;
                 }
-                result.Items.Add(statement);
+                result.Statements.Add(statement);
             }
 
             return result;
@@ -178,7 +178,7 @@ namespace ManagedIrbis.Gbl
         {
             FileName = reader.ReadNullableString();
             reader.ReadCollection(Parameters);
-            reader.ReadCollection(Items);
+            reader.ReadCollection(Statements);
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace ManagedIrbis.Gbl
         {
             writer.WriteNullable(FileName);
             writer.WriteCollection(Parameters);
-            writer.WriteCollection(Items);
+            writer.WriteCollection(Statements);
         }
 
         #endregion
@@ -206,11 +206,11 @@ namespace ManagedIrbis.Gbl
                 bool throwOnError
             )
         {
-            bool result = Items.Count != 0;
+            bool result = Statements.Count != 0;
 
             if (result)
             {
-                result = Items.All
+                result = Statements.All
                     (
                         item => item.Verify(throwOnError)
                     );

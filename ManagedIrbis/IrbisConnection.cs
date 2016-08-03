@@ -847,12 +847,13 @@ namespace ManagedIrbis
         [NotNull]
         public GblResult GlobalCorrection
             (
-                string searchExpression,
+                [CanBeNull] string database,
+                [CanBeNull] string searchExpression,
                 int firstRecord,
                 int numberOfRecords,
                 int minMfn,
                 int maxMfn,
-                int[] mfnList,
+                [CanBeNull] int[] mfnList,
                 bool actualize,
                 bool formalControl,
                 bool autoin,
@@ -861,13 +862,18 @@ namespace ManagedIrbis
         {
             Code.NotNull(statements, "statements");
 
+            if (string.IsNullOrEmpty(database))
+            {
+                database = Database;
+            }
+
             GblCommand command = new GblCommand(this)
             {
                 SearchExpression = searchExpression,
                 AutoIn = autoin,
                 Actualize = actualize,
                 FormalControl = formalControl,
-                Database = Database,
+                Database = database,
                 FirstRecord = firstRecord,
                 NumberOfRecords = numberOfRecords,
                 MfnList = mfnList,

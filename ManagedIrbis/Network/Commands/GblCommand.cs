@@ -7,8 +7,6 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 using AM;
 
@@ -17,7 +15,6 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Gbl;
-using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
 
@@ -228,9 +225,17 @@ namespace ManagedIrbis.Network.Commands
 
             if (ReferenceEquals(MfnList, null))
             {
-                result.Add(0);
-                result.Add(MinMfn);
-                result.Add(MaxMfn);
+                // Seems doesn't work with 2015.1
+                //result.Add(0);
+                //result.Add(MinMfn);
+                //result.Add(MaxMfn);
+
+                int count = MaxMfn - MinMfn + 1;
+                result.Add(count);
+                for (int mfn = MinMfn; mfn < MaxMfn; mfn++)
+                {
+                    result.Add(mfn);
+                }
             }
             else
             {
