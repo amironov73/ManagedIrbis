@@ -65,8 +65,8 @@ namespace IrbisTestRunner.Tests
                 }, 
             };
 
-            ProtocolLine[] protocol = Connection
-                .ThrowIfNull()
+            GblResult result = Connection
+                .ThrowIfNull("Connection")
                 .GlobalCorrection
                 (
                     "\"I=37/К88-602720\"",
@@ -81,10 +81,17 @@ namespace IrbisTestRunner.Tests
                     statements
                 );
 
-            string text = StringUtility.Join
+            string text = "Processed: "
+                + result.RecordsProcessed
+                + ", success: "
+                + result.RecordsSucceeded
+                + ", failed: "
+                + result.RecordsFailed
+                + ". "
+                + StringUtility.Join
                 (
                     "| ",
-                    protocol
+                    result.Protocol
                 )
                 .SafeSubstring(0, 70);
 

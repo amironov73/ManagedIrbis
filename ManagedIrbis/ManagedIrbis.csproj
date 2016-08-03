@@ -186,11 +186,14 @@
     <Compile Include="Fst\FstIndexMethod.cs" />
     <Compile Include="Fst\FstLine.cs" />
     <Compile Include="Gbl\Gbl.cs" />
+    <Compile Include="Gbl\GblBuilder.cs" />
     <Compile Include="Gbl\GblCode.cs" />
     <Compile Include="Gbl\GblFile.cs" />
+    <Compile Include="Gbl\GblResult.cs" />
     <Compile Include="Gbl\GblStatement.cs" />
     <Compile Include="Gbl\GblParameter.cs" />
     <Compile Include="Gbl\GblUtility.cs" />
+    <Compile Include="Gbl\GlobalCorrector.cs" />
     <Compile Include="Gbl\ProtocolLine.cs" />
     <Compile Include="Identifiers\CrossRefApi.cs" />
     <Compile Include="Identifiers\Ismn.cs" />

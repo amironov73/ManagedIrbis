@@ -6,6 +6,7 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -156,10 +157,10 @@ namespace ManagedIrbis.Network.Commands
         public GblStatement[] Statements { get; set; }
 
         /// <summary>
-        /// Protocol.
+        /// Result.
         /// </summary>
         [CanBeNull]
-        public ProtocolLine[] Protocol { get; set; }
+        public GblResult Result { get; set; }
 
         #endregion
 
@@ -267,12 +268,18 @@ namespace ManagedIrbis.Network.Commands
         {
             Code.NotNull(query, "query");
 
-            ServerResponse result = base.Execute(query);
-            CheckResponse(result);
+            Result = new GblResult
+            {
+                TimeStarted = DateTime.Now
+            };
 
-            Protocol = ProtocolLine.Parse(result);
+            ServerResponse response = base.Execute(query);
+            CheckResponse(response);
 
-            return result;
+            Result.TimeElapsed = DateTime.Now - Result.TimeStarted;
+            Result.Parse(response);
+
+            return response;
         }
 
         /// <summary>

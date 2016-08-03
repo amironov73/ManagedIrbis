@@ -845,7 +845,7 @@ namespace ManagedIrbis
         /// Global correction.
         /// </summary>
         [NotNull]
-        public ProtocolLine[] GlobalCorrection
+        public GblResult GlobalCorrection
             (
                 string searchExpression,
                 int firstRecord,
@@ -876,8 +876,8 @@ namespace ManagedIrbis
             };
             ExecuteCommand(command);
 
-            return command.Protocol
-                .ThrowIfNull("command.Protocol");
+            return command.Result
+                .ThrowIfNull("command.Result");
         }
 
         // =========================================================
