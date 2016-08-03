@@ -651,12 +651,9 @@ namespace ManagedIrbis
             command.MfnList.Add(mfn);
             ExecuteCommand(command);
 
-            if (command.FormatResult.IsNullOrEmpty())
-            {
-                throw new IrbisNetworkException("result is empty");
-            }
-
-            string result = command.FormatResult[0];
+            string result = command.FormatResult
+                .ThrowIfNullOrEmpty("command.FormatResult")
+                [0];
 
             return result;
         }
@@ -681,12 +678,9 @@ namespace ManagedIrbis
             };
             ExecuteCommand(command);
 
-            if (command.FormatResult.IsNullOrEmpty())
-            {
-                throw new IrbisNetworkException("result is empty");
-            }
-
-            string result = command.FormatResult[0];
+            string result = command.FormatResult
+                .ThrowIfNullOrEmpty("command.FormatResult")
+                [0];
 
             return result;
         }
@@ -717,12 +711,8 @@ namespace ManagedIrbis
 
             ExecuteCommand(command);
 
-            if (command.FormatResult.IsNullOrEmpty())
-            {
-                throw new IrbisNetworkException("result is empty");
-            }
-
-            string[] result = command.FormatResult;
+            string[] result = command.FormatResult
+                .ThrowIfNull("command.FormatResult");
 
             return result;
         }
@@ -855,7 +845,7 @@ namespace ManagedIrbis
         /// Global correction.
         /// </summary>
         [NotNull]
-        public string GlobalCorrection
+        public ProtocolLine[] GlobalCorrection
             (
                 string searchExpression,
                 int firstRecord,
@@ -866,10 +856,10 @@ namespace ManagedIrbis
                 bool actualize,
                 bool formalControl,
                 bool autoin,
-                [NotNull] GblItem[] items
+                [NotNull] GblStatement[] statements
             )
         {
-            Code.NotNull(items, "items");
+            Code.NotNull(statements, "statements");
 
             GblCommand command = new GblCommand(this)
             {
@@ -880,7 +870,7 @@ namespace ManagedIrbis
                 Database = Database,
                 FirstRecord = firstRecord,
                 NumberOfRecords = numberOfRecords,
-                Items = items,
+                Statements = statements,
                 MinMfn = minMfn,
                 MaxMfn = maxMfn
             };

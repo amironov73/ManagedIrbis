@@ -53,9 +53,9 @@ namespace IrbisTestRunner.Tests
                     DateTime.Now
                 );
 
-            GblItem[] items =
+            GblStatement[] statements =
             {
-                new GblItem
+                new GblStatement
                 {
                     Command = GblCode.Add,
                     Format1 = field3000,
@@ -65,7 +65,7 @@ namespace IrbisTestRunner.Tests
                 }, 
             };
 
-            string protocol = Connection
+            ProtocolLine[] protocol = Connection
                 .ThrowIfNull()
                 .GlobalCorrection
                 (
@@ -78,9 +78,17 @@ namespace IrbisTestRunner.Tests
                     true,
                     false,
                     true,
-                    items
+                    statements
                 );
-            Write(protocol);
+
+            string text = StringUtility.Join
+                (
+                    "| ",
+                    protocol
+                )
+                .SafeSubstring(0, 70);
+
+            Write (text);
         }
 
         #endregion

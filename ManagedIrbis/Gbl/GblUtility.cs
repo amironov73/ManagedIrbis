@@ -44,22 +44,22 @@ namespace ManagedIrbis.Gbl
         #region Public methods
 
         [NotNull]
-        public static string EncodeGbl
+        public static string EncodeStatements
             (
-                [NotNull] GblItem[] items
+                [NotNull] GblStatement[] statements
             )
         {
-            Code.NotNull(items, "items");
+            Code.NotNull(statements, "statements");
 
             StringBuilder result = new StringBuilder();
             result.Append("!0");
-            result.Append(GblItem.Delimiter);
+            result.Append(GblStatement.Delimiter);
 
-            foreach (GblItem item in items)
+            foreach (GblStatement item in statements)
             {
-                result.Append(item.Encode());
+                result.Append(item.EncodeForProtocol());
             }
-            result.Append(GblItem.Delimiter);
+            result.Append(GblStatement.Delimiter);
 
             return result.ToString();
         }

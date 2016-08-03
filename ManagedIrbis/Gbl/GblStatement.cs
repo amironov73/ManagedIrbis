@@ -1,4 +1,4 @@
-﻿/* GblItem.cs -- GBL file item
+﻿/* GblStatement.cs -- GBL file item
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -99,9 +99,9 @@ namespace ManagedIrbis.Gbl
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    [XmlRoot("gbl-item")]
+    [XmlRoot("gbl-statement")]
     [DebuggerDisplay("{Command} {Parameter1} {Parameter2}")]
-    public sealed class GblItem
+    public sealed class GblStatement
         : IHandmadeSerializable,
         IVerifiable
     {
@@ -168,8 +168,12 @@ namespace ManagedIrbis.Gbl
 
         #region Public methods
 
+        /// <summary>
+        /// Encode for protocol.
+        /// </summary>
+        /// <returns></returns>
         [NotNull]
-        public string Encode()
+        public string EncodeForProtocol()
         {
             StringBuilder result = new StringBuilder();
 
@@ -191,7 +195,7 @@ namespace ManagedIrbis.Gbl
         /// Parse the stream.
         /// </summary>
         [CanBeNull]
-        public static GblItem ParseStream
+        public static GblStatement ParseStream
             (
                 [NotNull] TextReader reader
             )
@@ -204,7 +208,7 @@ namespace ManagedIrbis.Gbl
                 return null;
             }
 
-            GblItem result = new GblItem
+            GblStatement result = new GblStatement
             {
                 Command = command.Trim(),
                 Parameter1 = reader.RequireLine(),
@@ -298,7 +302,7 @@ namespace ManagedIrbis.Gbl
                 bool throwOnError
             )
         {
-            Verifier<GblItem> verifier = new Verifier<GblItem>
+            Verifier<GblStatement> verifier = new Verifier<GblStatement>
                 (
                     this,
                     throwOnError

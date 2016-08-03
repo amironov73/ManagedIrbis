@@ -153,13 +153,13 @@ namespace ManagedIrbis.Network.Commands
         /// Items.
         /// </summary>
         [CanBeNull]
-        public GblItem[] Items { get; set; }
+        public GblStatement[] Statements { get; set; }
 
         /// <summary>
         /// Protocol.
         /// </summary>
         [CanBeNull]
-        public string Protocol { get; set; }
+        public ProtocolLine[] Protocol { get; set; }
 
         #endregion
 
@@ -208,9 +208,9 @@ namespace ManagedIrbis.Network.Commands
 
             result.Add(Actualize);
 
-            string items = GblUtility.EncodeGbl
+            string items = GblUtility.EncodeStatements
                 (
-                    Items.ThrowIfNull("Items")
+                    Statements.ThrowIfNull("Items")
                 );
             result.AddUtf8(items);
 
@@ -270,8 +270,7 @@ namespace ManagedIrbis.Network.Commands
             ServerResponse result = base.Execute(query);
             CheckResponse(result);
 
-            // Palliative
-            Protocol = result.RemainingAnsiText();
+            Protocol = ProtocolLine.Parse(result);
 
             return result;
         }
@@ -290,13 +289,15 @@ namespace ManagedIrbis.Network.Commands
                     throwOnError
                 );
 
+            // ReSharper disable PossibleNullReferenceException
             verifier
-                .NotNull(Items, "Items")
-                .Assert(Items.Length > 0, "Items.Length > 0");
+                .NotNull(Statements, "Statements")
+                .Assert(Statements.Length > 0, "Statements.Length > 0");
+            // ReSharper restore PossibleNullReferenceException
 
-            foreach (GblItem item in Items)
+            foreach (GblStatement statement in Statements)
             {
-                verifier.VerifySubObject(item, "item");
+                verifier.VerifySubObject(statement, "statement");
             }
 
             return verifier.Result;

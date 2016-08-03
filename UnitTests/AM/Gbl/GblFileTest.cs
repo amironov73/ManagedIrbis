@@ -20,14 +20,14 @@ namespace UnitTests.AM.Gbl
             Assert.AreEqual(0, gbl.Items.Count);
             Assert.AreEqual(0, gbl.Parameters.Count);
 
-            GblItem item = new GblItem
+            GblStatement statement = new GblStatement
             {
                 Command = GblCode.Add,
                 Parameter1 = "300",
                 Format1 = "Add field 300"
             };
 
-            gbl.Items.Add(item);
+            gbl.Items.Add(statement);
         }
 
         private void _TestSerialization
@@ -62,19 +62,19 @@ namespace UnitTests.AM.Gbl
         {
             GblFile result = new GblFile();
 
-            result.Items.Add(new GblItem
+            result.Items.Add(new GblStatement
             {
                 Command = GblCode.Add,
                 Parameter1 = "300",
                 Format1 = "Add field 300"
             });
-            result.Items.Add(new GblItem
+            result.Items.Add(new GblStatement
             {
                 Command = GblCode.Delete,
                 Parameter1 = "300",
                 Parameter2 = "*"
             });
-            result.Items.Add(new GblItem
+            result.Items.Add(new GblStatement
             {
                 Command = "NOP"
             });

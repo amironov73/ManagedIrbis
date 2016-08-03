@@ -57,7 +57,7 @@ namespace ManagedIrbis.Gbl
         [NotNull]
         [XmlElement("item")]
         [JsonProperty("items")]
-        public NonNullCollection<GblItem> Items
+        public NonNullCollection<GblStatement> Items
         {
             get { return _items; }
         }
@@ -83,7 +83,7 @@ namespace ManagedIrbis.Gbl
         public GblFile()
         {
             _parameters = new NonNullCollection<GblParameter>();
-            _items = new NonNullCollection<GblItem>();
+            _items = new NonNullCollection<GblStatement>();
         }
 
         #endregion
@@ -92,7 +92,7 @@ namespace ManagedIrbis.Gbl
 
         private readonly NonNullCollection<GblParameter> _parameters;
 
-        private readonly NonNullCollection<GblItem> _items;
+        private readonly NonNullCollection<GblStatement> _items;
 
         #endregion
 
@@ -144,12 +144,12 @@ namespace ManagedIrbis.Gbl
 
             while (true)
             {
-                GblItem item = GblItem.ParseStream(reader);
-                if (item == null)
+                GblStatement statement = GblStatement.ParseStream(reader);
+                if (statement == null)
                 {
                     break;
                 }
-                result.Items.Add(item);
+                result.Items.Add(statement);
             }
 
             return result;
