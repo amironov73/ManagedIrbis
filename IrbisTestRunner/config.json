@@ -1,7 +1,7 @@
 ﻿{
     "irbisServer": "C:\\IRBIS64_2015\\irbis_server.exe",
-    "connectionString": "host=127.0.0.1;port=6666;user=1;password=1;arm=A;log=C:\\Temp11",
-    //"connectionString": "host=127.0.0.1;port=6666;user=1;password=1;arm=A;",
+    //"connectionString": "host=127.0.0.1;port=6666;user=1;password=1;arm=A;log=C:\\Temp11",
+    "connectionString": "host=127.0.0.1;port=6666;user=1;password=1;arm=A;",
     "testPath": "C:\\Projects\\ManagedClient.45\\IrbisTestRunner\\Tests",
     "dataPath": "C:\\Projects\\ManagedClient.45\\TestData",
     "resultPath": "C:\\Projects\\ManagedClient.45\\IrbisTestRunner\\Results",
@@ -29,7 +29,7 @@
         //"DatabaseInfoTest.cs"
         //"DatabaseStatTest.cs",
         //"FormatTest.cs",
-        "GblVirtualTest.cs",
+        //"GblVirtualTest.cs",
         //"GblBuilderTest.cs",
         //"GblTest.cs",
         //"GlobalCorrectorTest.cs",

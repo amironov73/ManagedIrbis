@@ -87,7 +87,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestGblVirtualRecord()
+        public void TestGblVirtualRecord1()
         {
             MarcRecord record = _GetRecord();
             IrbisConnection connection = Connection.ThrowIfNull();
@@ -99,6 +99,21 @@ namespace IrbisTestRunner.Tests
                     "IBIS",
                     record,
                     builder.ToStatements()
+                );
+            Write(result);
+        }
+
+        [TestMethod]
+        public void TestGblVirtualRecord2()
+        {
+            MarcRecord record = _GetRecord();
+            IrbisConnection connection = Connection.ThrowIfNull();
+
+            MarcRecord result = connection.CorrectVirtualRecord
+                (
+                    "IBIS",
+                    record,
+                    "@test"
                 );
             Write(result);
         }

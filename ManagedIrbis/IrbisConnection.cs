@@ -481,6 +481,32 @@ namespace ManagedIrbis
             return command.Result.ThrowIfNull("command.Result");
         }
 
+        /// <summary>
+        /// GBL for virtual record.
+        /// </summary>
+        [NotNull]
+        public MarcRecord CorrectVirtualRecord
+            (
+                [NotNull] string database,
+                [NotNull] MarcRecord record,
+                [NotNull] string filename
+            )
+        {
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNull(record, "record");
+            Code.NotNullNorEmpty(filename, "filename");
+
+            GblVirtualCommand command = new GblVirtualCommand(this)
+            {
+                Database = database,
+                Record = record,
+                FileName = filename
+            };
+            ExecuteCommand(command);
+
+            return command.Result.ThrowIfNull("command.Result");
+        }
+
         // ========================================================
 
         /// <summary>
@@ -906,6 +932,53 @@ namespace ManagedIrbis
                 NumberOfRecords = numberOfRecords,
                 MfnList = mfnList,
                 Statements = statements,
+                MinMfn = minMfn,
+                MaxMfn = maxMfn
+            };
+            ExecuteCommand(command);
+
+            return command.Result
+                .ThrowIfNull("command.Result");
+        }
+
+        /// <summary>
+        /// Global correction.
+        /// </summary>
+        /// <remarks>Filename = @filename without extension</remarks>
+        [NotNull]
+        public GblResult GlobalCorrection
+            (
+                [CanBeNull] string database,
+                [CanBeNull] string searchExpression,
+                int firstRecord,
+                int numberOfRecords,
+                int minMfn,
+                int maxMfn,
+                [CanBeNull] int[] mfnList,
+                bool actualize,
+                bool formalControl,
+                bool autoin,
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            if (string.IsNullOrEmpty(database))
+            {
+                database = Database;
+            }
+
+            GblCommand command = new GblCommand(this)
+            {
+                SearchExpression = searchExpression,
+                AutoIn = autoin,
+                Actualize = actualize,
+                FormalControl = formalControl,
+                Database = database,
+                FirstRecord = firstRecord,
+                NumberOfRecords = numberOfRecords,
+                MfnList = mfnList,
+                FileName = fileName,
                 MinMfn = minMfn,
                 MaxMfn = maxMfn
             };

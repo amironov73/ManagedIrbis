@@ -154,6 +154,43 @@ namespace IrbisTestRunner.Tests
             Write(text);
         }
 
+        [TestMethod]
+        public void TestGbl3()
+        {
+            GblResult result = Connection
+                .ThrowIfNull("Connection")
+                .GlobalCorrection
+                (
+                    "IBIS",
+                    null,
+                    0,
+                    0,
+                    0,
+                    0,
+                    new int[] { 1, 2, 3 },
+                    true,
+                    false,
+                    true,
+                    "@test"
+                );
+
+            string text = "Processed: "
+                + result.RecordsProcessed
+                + ", success: "
+                + result.RecordsSucceeded
+                + ", failed: "
+                + result.RecordsFailed
+                + ". "
+                + StringUtility.Join
+                (
+                    "| ",
+                    result.Protocol
+                )
+                .SafeSubstring(0, 70);
+
+            Write(text);
+        }
+
         #endregion
     }
 }

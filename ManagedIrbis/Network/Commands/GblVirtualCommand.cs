@@ -22,6 +22,40 @@ using MoonSharp.Interpreter;
 
 namespace ManagedIrbis.Network.Commands
 {
+    //
+    // For explicitly specified statements layout is
+    // (delimiter is \x1E\x1F):
+    //
+    // J         // code
+    // IBIS      // database
+    // 0         // not used
+    // !0 ADD 4000 * 'OGO!' // statements (separated)
+    // 0#0 0#0 700#^aИванов^bИ. И. 701#^aПетров^bП. П. // record (separated)
+    //
+
+    //
+    // For filename layout is (delimiter is \x1E\x1F):
+    //
+    // J         // code
+    // IBIS      // database
+    // 0         // not used
+    // @filename // without extension
+    // 0#0 0#0 700#^aИванов^bИ. И. 701#^aПетров^bП. П. // record (separated)
+    //
+
+    //
+    // Answer layout is (delimiter: \x1E)
+    // 
+    // 0
+    // 0#32 700#^aИванов^bИ. И. 701#^aПетров^bП. П.
+    //
+
+    //
+    // Error layout is:
+    // -8888
+    // FORMAT_ERROR=99-OGO!...@@@IND_ERROR=6@@@
+    //
+
     /// <summary>
     /// Global correction for virtual record.
     /// </summary>
@@ -111,11 +145,18 @@ namespace ManagedIrbis.Network.Commands
 
             result.Add(Actualize);
 
-            string statements = GblUtility.EncodeStatements
-                (
-                    Statements.ThrowIfNull("Statements")
-                );
-            result.AddUtf8(statements);
+            if (!string.IsNullOrEmpty(FileName))
+            {
+                result.AddAnsi(FileName);
+            }
+            else
+            {
+                string statements = GblUtility.EncodeStatements
+                    (
+                        Statements.ThrowIfNull("Statements")
+                    );
+                result.AddUtf8(statements);
+            }
 
             result.Add(Record.ThrowIfNull("Record"));
 

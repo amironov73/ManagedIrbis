@@ -206,11 +206,19 @@ namespace ManagedIrbis.Network.Commands
 
             result.Add(Actualize);
 
-            string statements = GblUtility.EncodeStatements
-                (
-                    Statements.ThrowIfNull("Statements")
-                );
-            result.AddUtf8(statements);
+            if (!string.IsNullOrEmpty(FileName))
+            {
+                // @filename without extension
+                result.AddAnsi(FileName);
+            }
+            else
+            {
+                string statements = GblUtility.EncodeStatements
+                    (
+                        Statements.ThrowIfNull("Statements")
+                    );
+                result.AddUtf8(statements);
+            }
 
             string preparedSearch = IrbisSearchQuery.PrepareQuery
                 (
@@ -301,15 +309,22 @@ namespace ManagedIrbis.Network.Commands
                     throwOnError
                 );
 
-            // ReSharper disable PossibleNullReferenceException
-            verifier
-                .NotNull(Statements, "Statements")
-                .Assert(Statements.Length > 0, "Statements.Length > 0");
-            // ReSharper restore PossibleNullReferenceException
-
-            foreach (GblStatement statement in Statements)
+            if (string.IsNullOrEmpty(FileName))
             {
-                verifier.VerifySubObject(statement, "statement");
+                // ReSharper disable PossibleNullReferenceException
+                verifier
+                    .NotNull(Statements, "Statements")
+                    .Assert
+                        (
+                            Statements.Length > 0,
+                            "Statements.Length > 0"
+                        );
+                // ReSharper restore PossibleNullReferenceException
+
+                foreach (GblStatement statement in Statements)
+                {
+                    verifier.VerifySubObject(statement, "statement");
+                }
             }
 
             return verifier.Result;
