@@ -456,6 +456,34 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <summary>
+        /// GBL for virtual record.
+        /// </summary>
+        [NotNull]
+        public MarcRecord CorrectVirtualRecord
+            (
+                [NotNull] string database,
+                [NotNull] MarcRecord record,
+                [NotNull] GblStatement[] statements
+            )
+        {
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNull(record, "record");
+            Code.NotNull(statements, "statements");
+
+            GblVirtualCommand command = new GblVirtualCommand(this)
+            {
+                Database = database,
+                Record = record,
+                Statements = statements
+            };
+            ExecuteCommand(command);
+
+            return command.Result.ThrowIfNull("command.Result");
+        }
+
+        // ========================================================
+
+        /// <summary>
         /// Create the database.
         /// </summary>
         /// <remarks>For Administrator only.</remarks>

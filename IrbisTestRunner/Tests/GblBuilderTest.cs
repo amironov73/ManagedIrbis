@@ -27,7 +27,7 @@ using Newtonsoft.Json;
 namespace IrbisTestRunner.Tests
 {
     [TestClass]
-    class TestTemplate
+    class GblBuilderTest
         : AbstractTest
     {
         #region Properties

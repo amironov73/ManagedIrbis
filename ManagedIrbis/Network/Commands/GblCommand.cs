@@ -148,7 +148,7 @@ namespace ManagedIrbis.Network.Commands
         public int[] MfnList { get; set; }
 
         /// <summary>
-        /// Items.
+        /// Statements.
         /// </summary>
         [CanBeNull]
         public GblStatement[] Statements { get; set; }
@@ -206,11 +206,11 @@ namespace ManagedIrbis.Network.Commands
 
             result.Add(Actualize);
 
-            string items = GblUtility.EncodeStatements
+            string statements = GblUtility.EncodeStatements
                 (
                     Statements.ThrowIfNull("Statements")
                 );
-            result.AddUtf8(items);
+            result.AddUtf8(statements);
 
             string preparedSearch = IrbisSearchQuery.PrepareQuery
                 (

@@ -476,6 +476,36 @@ namespace ManagedIrbis.ImportExport
             return record;
         }
 
+        [CanBeNull]
+        public static MarcRecord ParseResponseForGblFormat
+            (
+                [NotNull] string line,
+                [NotNull] MarcRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            if (string.IsNullOrEmpty(line))
+            {
+                return null;
+            }
+
+            record.Fields.Clear();
+
+            string[] split = line.Split('\x1E');
+            for (int i = 1; i < split.Length; i++)
+            {
+                line = split[i];
+                RecordField field = _ParseLine(line);
+                if (!string.IsNullOrEmpty(field.Tag))
+                {
+                    record.Fields.Add(field);
+                }
+            }
+
+            return record;
+        }
+
         /// <summary>
         /// 
         /// </summary>

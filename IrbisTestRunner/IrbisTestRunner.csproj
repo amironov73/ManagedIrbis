@@ -113,7 +113,8 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\GblBuilderTest.cs" />
+    <None Include="Tests\GblBuilderTest.cs" />
+    <None Include="Tests\GblVirtualTest.cs" />
     <None Include="Tests\GlobalCorrectorTest.cs" />
     <None Include="Tests\GblTest.cs" />
     <None Include="Tests\CreateDictionaryTest.cs" />

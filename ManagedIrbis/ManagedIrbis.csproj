@@ -233,6 +233,7 @@
     <Compile Include="Network\Commands\DatabaseStatCommand.cs" />
     <Compile Include="Network\Commands\DynamicCommand.cs" />
     <Compile Include="Network\Commands\GblCommand.cs" />
+    <Compile Include="Network\Commands\GblVirtualCommand.cs" />
     <Compile Include="Network\Commands\PrintTableCommand.cs" />
     <Compile Include="Network\Commands\SearchReadCommand.cs" />
     <Compile Include="Network\Resolving\AbstractResolver.cs" />
