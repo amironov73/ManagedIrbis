@@ -1,5 +1,7 @@
 ﻿/* IrbisDate.cs -- строка с ИРБИС-датой
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: moderate
  */
 
 #region Using directives

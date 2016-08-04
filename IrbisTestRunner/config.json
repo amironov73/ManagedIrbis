@@ -28,6 +28,7 @@
         //"CreateDictionaryTest.cs",
         //"DatabaseInfoTest.cs"
         //"DatabaseStatTest.cs",
+        "FlcTest.cs",
         //"FormatTest.cs",
         //"GblVirtualTest.cs",
         //"GblBuilderTest.cs",

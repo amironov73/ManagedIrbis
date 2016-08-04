@@ -182,6 +182,10 @@
     <Compile Include="Caching\RecordCache.cs" />
     <Compile Include="Caching\TextCache.cs" />
     <Compile Include="Fields\BinaryResource.cs" />
+    <Compile Include="Flc\FlcConstants.cs" />
+    <Compile Include="Flc\FlcProcessor.cs" />
+    <Compile Include="Flc\FlcResult.cs" />
+    <Compile Include="Flc\FlcStatus.cs" />
     <Compile Include="Fst\FstFile.cs" />
     <Compile Include="Fst\FstIndexMethod.cs" />
     <Compile Include="Fst\FstLine.cs" />
