@@ -1868,6 +1868,26 @@ namespace ManagedIrbis
 
         // ========================================================
 
+        /// <summary>
+        /// Update user list on the server.
+        /// </summary>
+        public void UpdateUserList
+            (
+                [NotNull] UserInfo[] userList
+            )
+        {
+            Code.NotNull(userList, "userList");
+
+            UpdateUserListCommand command
+                = new UpdateUserListCommand(this)
+                {
+                    UserList = userList
+                };
+            ExecuteCommand(command);
+        }
+
+        // ========================================================
+
         #region WriteRecord
 
         /// <summary>

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/* FlcConstants.cs --
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
+ */
 
 namespace ManagedIrbis.Flc
 {
@@ -10,9 +10,9 @@ namespace ManagedIrbis.Flc
     {
         #region Constants
 
-        public const string DbnFlc = "dbnflc.pft";
+        public const string DbnFlc = "@dbnflc";
 
-        public const string DelFlc = "delflc.pft";
+        public const string DelFlc = "@delflc";
 
         #endregion
     }

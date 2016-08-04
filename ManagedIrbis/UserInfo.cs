@@ -153,7 +153,7 @@ namespace ManagedIrbis
 
             while (true)
             {
-                string[] lines = response.GetAnsiStrings(9);
+                string[] lines = response.GetAnsiStringsPlus(9);
                 if (ReferenceEquals(lines, null))
                 {
                     break;

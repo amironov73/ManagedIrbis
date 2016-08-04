@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+
 using AM;
 using AM.Collections;
 using AM.IO;
@@ -91,6 +92,24 @@ namespace ManagedIrbis.Flc
 
         private readonly NonNullCollection<string> _messages;
 
+        private void _AddMessage
+            (
+                string message
+            )
+        {
+            if (string.IsNullOrEmpty(message))
+            {
+                return;
+            }
+            message = message.Trim();
+            if (string.IsNullOrEmpty(message))
+            {
+                return;
+            }
+
+            Messages.Add(message);
+        }
+
         private bool _ParseLine
             (
                 string line
@@ -106,7 +125,7 @@ namespace ManagedIrbis.Flc
 
             if (code != "0" && code != "1" && code != "2")
             {
-                Messages.Add(line);
+                _AddMessage(line);
                 return false;
             }
 
@@ -121,10 +140,7 @@ namespace ManagedIrbis.Flc
                     Status = FlcStatus.Warning;
                 }
             }
-            if (!string.IsNullOrEmpty(message))
-            {
-                Messages.Add(message);
-            }
+            _AddMessage(message);
 
             return true;
         }

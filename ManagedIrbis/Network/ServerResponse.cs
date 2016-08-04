@@ -223,6 +223,48 @@ namespace ManagedIrbis.Network
         }
 
         /// <summary>
+        /// Get array of ANSI strings.
+        /// </summary>
+        /// <returns><c>null</c>if there is no lines in
+        /// the server response, otherwise missing lines will
+        /// be added (as empty lines).</returns>
+        [CanBeNull]
+        public string[] GetAnsiStringsPlus
+            (
+                int count
+            )
+        {
+            Code.Positive(count, "count");
+
+            List<string> result = new List<string>(count);
+            int index = 0;
+            string line;
+            for (; index < 1; index++)
+            {
+                line = GetAnsiString();
+                if (ReferenceEquals(line, null))
+                {
+                    return null;
+                }
+                result.Add(line);
+            }
+            for (; index < count; index++)
+            {
+                line = GetAnsiString();
+                if (ReferenceEquals(line, null))
+                {
+                    result.Add(string.Empty);
+                }
+                else
+                {
+                    result.Add(line);
+                }
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
         /// Get 32-bit integer value.
         /// </summary>
         public int GetInt32

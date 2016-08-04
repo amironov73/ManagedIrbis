@@ -240,6 +240,7 @@
     <Compile Include="Network\Commands\GblVirtualCommand.cs" />
     <Compile Include="Network\Commands\PrintTableCommand.cs" />
     <Compile Include="Network\Commands\SearchReadCommand.cs" />
+    <Compile Include="Network\Commands\UpdateUserListCommand.cs" />
     <Compile Include="Network\Resolving\AbstractResolver.cs" />
     <Compile Include="Network\Resolving\ConnectionResolver.cs" />
     <Compile Include="Network\Resolving\UniversalResolver.cs" />
@@ -248,6 +249,7 @@
     <Compile Include="Network\Sockets\HttpClientSocket.cs" />
     <Compile Include="Network\Sockets\RetryClientSocket.cs" />
     <Compile Include="Network\Sockets\SmartClientSocket.cs" />
+    <Compile Include="Pft\FormatError.cs" />
     <Compile Include="Search\TermInfoEx.cs" />
     <Compile Include="ServerStat.cs" />
     <Compile Include="StatDefinition.cs" />
