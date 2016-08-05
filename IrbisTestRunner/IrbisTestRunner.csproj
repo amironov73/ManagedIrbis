@@ -113,7 +113,11 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\UpdateUserListTest.cs" />
+    <None Include="Tests\WriteRawRecordsTest.cs" />
+    <None Include="Tests\WriteRawRecordTest.cs" />
+    <None Include="Tests\ReadRawRecordsTest.cs" />
+    <None Include="Tests\ReadRawRecordTest.cs" />
+    <None Include="Tests\UpdateUserListTest.cs" />
     <None Include="Tests\FlcTest.cs" />
     <None Include="Tests\GblBuilderTest.cs" />
     <None Include="Tests\GblVirtualTest.cs" />

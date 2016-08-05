@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
+using AM.Text;
 
 #if !NETCORE
 using AM.Configuration;
@@ -110,13 +111,98 @@ namespace ManagedIrbis
                     fileName
                 );
             string text = connection.ReadTextFile(fileSpecification);
-            MenuFile result = MenuFile.ParseServerResponse(text);
+            MenuFile result = MenuFile.ParseServerResponse
+                (
+                    text.ThrowIfNull("text")
+                );
 
             return result;
         }
 
         // ========================================================
 
+        /// <summary>
+        /// Read server representation of record from server.
+        /// </summary>
+        [NotNull]
+        public static string[] ReadRawRecord
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string database,
+                int mfn
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+
+            UniversalCommand command = new UniversalCommand
+                (
+                    connection,
+                    CommandCode.ReadRecord,
+                    database,
+                    mfn
+                )
+            {
+                AcceptAnyResponse = true
+            };
+            ServerResponse response = connection.ExecuteCommand(command);
+            List<string> result = response.RemainingUtfStrings();
+
+            return result.ToArray();
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Read server representation of record from server.
+        /// </summary>
+        [NotNull]
+        public static string[] ReadRawRecords
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string database,
+                [NotNull] int[] mfnList
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNull(mfnList, "mfnList");
+
+            if (mfnList.Length == 0)
+            {
+                return new string[0];
+            }
+
+            List<object> arguments = new List<object>
+                (
+                    mfnList.Length + 3
+                )
+            {
+                database,
+                IrbisFormat.All,
+                mfnList.Length
+            };
+            foreach (int mfn in mfnList)
+            {
+                arguments.Add(mfn);
+            }
+
+            UniversalCommand command = new UniversalCommand
+                (
+                    connection,
+                    CommandCode.FormatRecord,
+                    arguments.ToArray()
+                )
+            {
+                AcceptAnyResponse = true
+            };
+            ServerResponse response = connection.ExecuteCommand(command);
+            List<string> result = response.RemainingUtfStrings();
+
+            return result.ToArray();
+        }
+
+        // ========================================================
 
         /// <summary>
         /// Remove logging from socket.
@@ -198,6 +284,9 @@ namespace ManagedIrbis
 
         // ========================================================
 
+        /// <summary>
+        /// Глобальная корректировка по серверному GBL-файлу.
+        /// </summary>
         [NotNull]
         public static GblResult GlobalCorrection
             (
@@ -546,6 +635,8 @@ namespace ManagedIrbis
             return result;
         }
 
+        // ========================================================
+
         /// <summary>
         /// Unlock record through E command.
         /// </summary>
@@ -568,6 +659,103 @@ namespace ManagedIrbis
             bool result = response.GetReturnCode() >= 0;
 
             return result;
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Write record in raw representation.
+        /// </summary>
+        [NotNull]
+        public static string WriteRawRecord
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string database,
+                [NotNull] string record,
+                bool lockFlag,
+                bool actualize
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNullNorEmpty(record, "record");
+
+            UniversalCommand command = new UniversalCommand
+                (
+                    connection,
+                    CommandCode.UpdateRecord,
+                    database,
+                    lockFlag,
+                    actualize,
+                    new TextWithEncoding
+                        (
+                            record,
+                            IrbisEncoding.Utf8
+                        )
+                );
+            ServerResponse response = connection.ExecuteCommand(command);
+            string result = response.RemainingUtfText();
+
+            return result;
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Write record in raw representation.
+        /// </summary>
+        [NotNull]
+        public static string[] WriteRawRecords
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string database,
+                [NotNull] string[] records,
+                bool lockFlag,
+                bool actualize
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNull(records, "records");
+
+            if (records.Length == 0)
+            {
+                return new string[0];
+            }
+
+            List<object> arguments = new List<object>
+                (
+                    records.Length + 2
+                )
+            {
+                lockFlag,
+                actualize
+            };
+            foreach (string record in records)
+            {
+                string reference = database
+                    + IrbisText.IrbisDelimiter
+                    + record;
+                arguments.Add
+                    (
+                        new TextWithEncoding
+                            (
+                                reference,
+                                IrbisEncoding.Utf8
+                            )
+                    );
+            }
+
+            UniversalCommand command = new UniversalCommand
+                (
+                    connection,
+                    CommandCode.SaveRecordGroup,
+                    arguments.ToArray()
+                );
+            ServerResponse response = connection.ExecuteCommand(command);
+            List<string> result = response.RemainingUtfStrings();
+
+            return result.ToArray();
         }
 
         // ========================================================

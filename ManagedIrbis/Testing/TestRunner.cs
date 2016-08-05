@@ -59,6 +59,11 @@ namespace IrbisTestRunner
         public string ConnectionString { get; set; }
 
         /// <summary>
+        /// Don't run or stop IRBIS64-server.
+        /// </summary>
+        public bool ForeignServer { get; set; }
+
+        /// <summary>
         /// Path to irbis_server.exe (including filename).
         /// </summary>
         [CanBeNull]
@@ -392,6 +397,13 @@ namespace IrbisTestRunner
                 .ThrowIfNull()
                 .ToString();
 
+            ForeignServer = bool.Parse
+                (
+                    root["foreignServer"]
+                        .ThrowIfNull()
+                        .ToString()
+                );
+
             JToken tests = root["tests"];
             foreach (JToken child in tests.Children())
             {
@@ -564,6 +576,12 @@ namespace IrbisTestRunner
         /// </summary>
         public void StartServer()
         {
+            if (ForeignServer)
+            {
+                WriteLine(ConsoleColor.Yellow, "Foreign server -- need not to start");
+                return;
+            }
+
             string workingDirectory = Path.GetDirectoryName
                 (
                     IrbisServerPath
@@ -634,6 +652,11 @@ namespace IrbisTestRunner
             if (ServerProcess == null)
             {
                 WriteLine(ConsoleColor.Yellow, "Server not started");
+                return;
+            }
+            if (ForeignServer)
+            {
+                WriteLine(ConsoleColor.Yellow, "Foreign server -- need not to stop");
                 return;
             }
 

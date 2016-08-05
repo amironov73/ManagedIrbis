@@ -39,7 +39,8 @@ namespace IrbisTestRunner
                 engine.LoadConfig(configFileName);
                 engine.Verify(true);
 
-                if (engine.FindLocalServer())
+                if (!engine.ForeignServer
+                    && engine.FindLocalServer())
                 {
                     engine.WriteLine
                         (

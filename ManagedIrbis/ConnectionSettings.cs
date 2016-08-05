@@ -17,6 +17,7 @@ using System.Text.RegularExpressions;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Parameters;
 using AM.Runtime;
 using AM.Threading;
 
@@ -120,17 +121,31 @@ namespace ManagedIrbis
         /// </summary>
         public ConnectionSettings()
         {
-            Host = ConnectionSettings.DefaultHost;
-            Port = ConnectionSettings.DefaultPort;
-            Database = ConnectionSettings.DefaultDatabase;
+            Host = DefaultHost;
+            Port = DefaultPort;
+            Database = DefaultDatabase;
             Username = null;
             Password = null;
-            Workstation = ConnectionSettings.DefaultWorkstation;
+            Workstation = DefaultWorkstation;
         }
 
         #endregion
 
         #region Private members
+
+        private static void _Add
+            (
+                List<Parameter> list,
+                string name,
+                string value
+            )
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                Parameter parameter = new Parameter(name, value);
+                list.Add(parameter);
+            }
+        }
 
         #endregion
 
@@ -146,6 +161,43 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Encode parameters to text representation.
+        /// </summary>
+        [NotNull]
+        public string Encode()
+        {
+            List<Parameter> parameters = new List<Parameter>();
+
+            _Add(parameters, "host", Host);
+            _Add
+                (
+                    parameters,
+                    "port",
+                    Port == 0
+                        ? null
+                        : Port.ToInvariantString()
+                );
+            _Add(parameters, "database", Database);
+            _Add(parameters, "username", Username);
+            _Add(parameters, "password", Password);
+            _Add
+                (
+                    parameters,
+                    "workstation",
+                    Workstation == 0 
+                        ? null
+                        : new string( (char)(byte)Workstation, 1)
+                );
+
+            string result = ParameterUtility.Encode
+                (
+                    parameters.ToArray()
+                );
+
+            return result;
+        }
+
+        /// <summary>
         /// Парсинг строки подключения.
         /// </summary>
         public void ParseConnectionString
@@ -153,34 +205,21 @@ namespace ManagedIrbis
                 [NotNull] string connectionString
             )
         {
-            if (string.IsNullOrEmpty(connectionString))
-            {
-                throw new ArgumentNullException("connectionString");
-            }
-            connectionString = Regex.Replace
-                (
-                    connectionString,
-                    @"\s+",
-                    string.Empty
-                );
-            if (string.IsNullOrEmpty(connectionString)
-                 || !connectionString.Contains("="))
-            {
-                throw new ArgumentException("connectionString");
-            }
+            Code.NotNull(connectionString, "connectionString");
 
-            Regex regex = new Regex
+            Parameter[] parameters = ParameterUtility.ParseString
                 (
-                    "(?<name>[^=;]+?)=(?<value>[^;]+)",
-                    RegexOptions.IgnoreCase
-                    | RegexOptions.IgnorePatternWhitespace
+                    connectionString
                 );
-            MatchCollection matches = regex.Matches(connectionString);
-            foreach (Match match in matches)
+
+            foreach (Parameter parameter in parameters)
             {
-                string name =
-                    match.Groups["name"].Value.ToLower();
-                string value = match.Groups["value"].Value;
+                string name = parameter.Name
+                    .ThrowIfNull("parameter.Name")
+                    .ToLower();
+                string value = parameter.Value
+                    .ThrowIfNull();
+
                 switch (name)
                 {
                     case "host":
@@ -188,38 +227,47 @@ namespace ManagedIrbis
                     case "address":
                         Host = value;
                         break;
+
                     case "port":
                         Port = int.Parse(value);
                         break;
+
                     case "user":
                     case "username":
                     case "name":
                     case "login":
                         Username = value;
                         break;
+
                     case "pwd":
                     case "password":
                         Password = value;
                         break;
+
                     case "db":
                     case "catalog":
                     case "database":
                         Database = value;
                         break;
+
                     case "arm":
                     case "workstation":
                         Workstation = (IrbisWorkstation)(byte)(value[0]);
                         break;
+
                     //case "data":
                     //    UserData = value;
                     //    break;
+
                     //case "debug":
                     //    StartDebug(value);
                     //    break;
+
                     //case "etr":
                     //case "stage":
                     //    StageOfWork = value;
                     //    break;
+
                     default:
                         throw new ArgumentException("connectionString");
                 }
