@@ -523,7 +523,8 @@ namespace ManagedIrbis
             SearchCommand command = new SearchCommand(connection)
             {
                 Database = connection.Database,
-                SearchExpression = searchExpression
+                SearchExpression = searchExpression,
+                FirstRecord = 0
             };
             connection.ExecuteCommand(command);
             int result = command.FoundCount;
@@ -561,6 +562,42 @@ namespace ManagedIrbis
                 .ToArray();
 
             return result;
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Raw search.
+        /// </summary>
+        [NotNull]
+        public static string[] SearchRaw
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string database,
+                [NotNull] string expression,
+                int firstRecord,
+                int numberOfRecords,
+                [CanBeNull] string format
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNullNorEmpty(expression, "expression");
+
+            UniversalCommand command = new UniversalCommand
+                (
+                    connection,
+                    CommandCode.Search,
+                    database,
+                    new TextWithEncoding (expression, IrbisEncoding.Utf8),
+                    numberOfRecords,
+                    firstRecord,
+                    new TextWithEncoding(format, IrbisEncoding.Ansi)
+                );
+            ServerResponse response = connection.ExecuteCommand(command);
+            List<string> result = response.RemainingUtfStrings();
+
+            return result.ToArray();
         }
 
         // ========================================================
@@ -633,6 +670,49 @@ namespace ManagedIrbis
                 .GetItem(0);
 
             return result;
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Raw sequential search.
+        /// </summary>
+        [NotNull]
+        public static string[] SequentialSearchRaw
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string database,
+                [NotNull] string expression,
+                int firstRecord,
+                int numberOfRecords,
+                int minMfn,
+                int maxMfn,
+                [NotNull] string sequential,
+                [CanBeNull] string format
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNullNorEmpty(expression, "expression");
+            Code.NotNullNorEmpty(sequential, "sequential");
+
+            UniversalCommand command = new UniversalCommand
+                (
+                    connection,
+                    CommandCode.Search,
+                    database,
+                    new TextWithEncoding (expression, IrbisEncoding.Utf8),
+                    numberOfRecords,
+                    firstRecord,
+                    new TextWithEncoding(format, IrbisEncoding.Ansi),
+                    minMfn,
+                    maxMfn,
+                    new TextWithEncoding(sequential, IrbisEncoding.Utf8)
+                );
+            ServerResponse response = connection.ExecuteCommand(command);
+            List<string> result = response.RemainingUtfStrings();
+
+            return result.ToArray();
         }
 
         // ========================================================
