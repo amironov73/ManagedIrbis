@@ -62,6 +62,65 @@ namespace ManagedIrbis
         #region Public methods
 
         /// <summary>
+        /// Delete given record (mark as deleted on the server).
+        /// </summary>
+        public static void DeleteRecord
+            (
+                [NotNull] this IrbisConnection connection,
+                int mfn
+            )
+        {
+            Code.NotNull(connection, "connection");
+
+            MarcRecord record = connection.ReadRecord(mfn);
+            if (!record.Deleted)
+            {
+                record.Deleted = true;
+                connection.WriteRecord(record);
+            }
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Delete some records (mark as deleted on the server).
+        /// </summary>
+        public static void DeleteRecords
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string database,
+                [NotNull] IEnumerable<int> mfnList
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNull(mfnList, "mfnList");
+
+            MarcRecord[] records = connection.ReadRecords
+                (
+                    database,
+                    mfnList
+                );
+
+            if (records.Length == 0)
+            {
+                return;
+            }
+
+            MarcRecord[] liveRecords = records
+                .Where(record => !record.Deleted)
+                .ToArray();
+
+            foreach (MarcRecord record in liveRecords)
+            {
+                record.Deleted = true;
+                connection.WriteRecord(record);
+            }
+        }
+
+        // ========================================================
+
+        /// <summary>
         /// Execute arbitrary command.
         /// </summary>
         [NotNull]
@@ -87,6 +146,176 @@ namespace ManagedIrbis
             ServerResponse result = connection.ExecuteCommand(command);
 
             return result;
+        }
+
+#if !NETCORE
+
+        // ========================================================
+
+        /// <summary>
+        /// Получаем строку подключения в app.settings.
+        /// </summary>
+        public static string GetStandardConnectionString()
+        {
+            return ConfigurationUtility.FindSetting
+                (
+                    ListStandardConnectionStrings()
+                );
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Получаем уже подключенного клиента.
+        /// </summary>
+        /// <exception cref="IrbisException">
+        /// Если строка подключения в app.settings не найдена.
+        /// </exception>
+        public static IrbisConnection GetClientFromConfig()
+        {
+            string connectionString = GetStandardConnectionString();
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new IrbisException
+                    (
+                    "Connection string not specified!"
+                    );
+            }
+
+            IrbisConnection result = new IrbisConnection(connectionString);
+
+            return result;
+        }
+
+#endif
+
+        // ========================================================
+
+        /// <summary>
+        /// Глобальная корректировка по серверному GBL-файлу.
+        /// </summary>
+        [NotNull]
+        public static GblResult GlobalCorrection
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string fileName,
+                [NotNull] Encoding encoding,
+                [CanBeNull] string database,
+                [CanBeNull] string searchExpression,
+                int firstRecord,
+                int numberOfRecords,
+                int minMfn,
+                int maxMfn,
+                [CanBeNull] int[] mfnList,
+                bool actualize,
+                bool formalControl,
+                bool autoin
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNull(encoding, "encoding");
+
+            if (string.IsNullOrEmpty(database))
+            {
+                database = connection.Database;
+            }
+
+            GblFile file = GblFile.ParseLocalFile(fileName, encoding);
+
+            GblCommand command = new GblCommand(connection)
+            {
+                SearchExpression = searchExpression,
+                AutoIn = autoin,
+                Actualize = actualize,
+                FormalControl = formalControl,
+                Database = database,
+                FirstRecord = firstRecord,
+                NumberOfRecords = numberOfRecords,
+                MfnList = mfnList,
+                Statements = file.Statements
+                    .ThrowIfNullOrEmpty("Statements")
+                    .ToArray(),
+                MinMfn = minMfn,
+                MaxMfn = maxMfn
+            };
+            connection.ExecuteCommand(command);
+
+            return command.Result
+                .ThrowIfNull("command.Result");
+
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Стандартные наименования для ключа строки подключения
+        /// к серверу ИРБИС64.
+        /// </summary>
+        public static string[] ListStandardConnectionStrings()
+        {
+            return new[]
+            {
+                "irbis-connection",
+                "irbis-connection-string",
+                "irbis64-connection",
+                "irbis64",
+                "connection-string"
+            };
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Lock the record on the server.
+        /// </summary>
+        public static void LockRecord
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string database,
+                int mfn
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+
+            ReadRawRecord
+                (
+                    connection,
+                    database,
+                    mfn,
+                    true,
+                    null
+                );
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Lock some records on the server.
+        /// </summary>
+        public static void LockRecords
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string database,
+                [NotNull] int[] mfnList
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNull(mfnList, "mfnList");
+
+            foreach (int mfn in mfnList)
+            {
+                ReadRawRecord
+                    (
+                        connection,
+                        database,
+                        mfn,
+                        true,
+                        null
+                    );
+            }
         }
 
         // ========================================================
@@ -141,6 +370,78 @@ namespace ManagedIrbis
                     CommandCode.ReadRecord,
                     database,
                     mfn
+                )
+            {
+                AcceptAnyResponse = true
+            };
+            ServerResponse response = connection.ExecuteCommand(command);
+            List<string> result = response.RemainingUtfStrings();
+
+            return result.ToArray();
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Read server representation of record from server.
+        /// </summary>
+        [NotNull]
+        public static string[] ReadRawRecord
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string database,
+                int mfn,
+                bool lockFlag,
+                [CanBeNull] string format
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+
+            UniversalCommand command = new UniversalCommand
+                (
+                    connection,
+                    CommandCode.ReadRecord,
+                    database,
+                    mfn,
+                    lockFlag,
+                    new TextWithEncoding(format, IrbisEncoding.Ansi)
+                )
+            {
+                AcceptAnyResponse = true
+            };
+            ServerResponse response = connection.ExecuteCommand(command);
+            List<string> result = response.RemainingUtfStrings();
+
+            return result.ToArray();
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Read server representation of record from server.
+        /// </summary>
+        [NotNull]
+        public static string[] ReadRawRecord
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string database,
+                int mfn,
+                int version,
+                [CanBeNull] string format
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+
+            UniversalCommand command = new UniversalCommand
+                (
+                    connection,
+                    CommandCode.ReadRecord,
+                    database,
+                    mfn,
+                    version,
+                    new TextWithEncoding(format, IrbisEncoding.Ansi)
                 )
             {
                 AcceptAnyResponse = true
@@ -222,123 +523,6 @@ namespace ManagedIrbis
                 connection.SetSocket(newSocket);
             }
         }
-
-        // ========================================================
-
-        /// <summary>
-        /// Стандартные наименования для ключа строки подключения
-        /// к серверу ИРБИС64.
-        /// </summary>
-        public static string[] ListStandardConnectionStrings()
-        {
-            return new[]
-            {
-                "irbis-connection",
-                "irbis-connection-string",
-                "irbis64-connection",
-                "irbis64",
-                "connection-string"
-            };
-        }
-
-        // ========================================================
-
-#if !NETCORE
-
-        /// <summary>
-        /// Получаем строку подключения в app.settings.
-        /// </summary>
-        public static string GetStandardConnectionString()
-        {
-            return ConfigurationUtility.FindSetting
-                (
-                    ListStandardConnectionStrings()
-                );
-        }
-
-        // ========================================================
-
-        /// <summary>
-        /// Получаем уже подключенного клиента.
-        /// </summary>
-        /// <exception cref="IrbisException">
-        /// Если строка подключения в app.settings не найдена.
-        /// </exception>
-        public static IrbisConnection GetClientFromConfig()
-        {
-            string connectionString = GetStandardConnectionString();
-            if (string.IsNullOrEmpty(connectionString))
-            {
-                throw new IrbisException
-                    (
-                        "Connection string not specified!"
-                    );
-            }
-
-            IrbisConnection result = new IrbisConnection(connectionString);
-
-            return result;
-        }
-
-#endif
-
-        // ========================================================
-
-        /// <summary>
-        /// Глобальная корректировка по серверному GBL-файлу.
-        /// </summary>
-        [NotNull]
-        public static GblResult GlobalCorrection
-            (
-                [NotNull] this IrbisConnection connection,
-                [NotNull] string fileName,
-                [NotNull] Encoding encoding,
-                [CanBeNull] string database,
-                [CanBeNull] string searchExpression,
-                int firstRecord,
-                int numberOfRecords,
-                int minMfn,
-                int maxMfn,
-                [CanBeNull] int[] mfnList,
-                bool actualize,
-                bool formalControl,
-                bool autoin
-            )
-        {
-            Code.NotNull(connection, "connection");
-            Code.NotNullNorEmpty(fileName, "fileName");
-            Code.NotNull(encoding, "encoding");
-
-            if (string.IsNullOrEmpty(database))
-            {
-                database = connection.Database;
-            }
-
-            GblFile file = GblFile.ParseLocalFile(fileName, encoding);
-
-            GblCommand command = new GblCommand(connection)
-            {
-                SearchExpression = searchExpression,
-                AutoIn = autoin,
-                Actualize = actualize,
-                FormalControl = formalControl,
-                Database = database,
-                FirstRecord = firstRecord,
-                NumberOfRecords = numberOfRecords,
-                MfnList = mfnList,
-                Statements = file.Statements
-                    .ThrowIfNullOrEmpty("Statements")
-                    .ToArray(),
-                MinMfn = minMfn,
-                MaxMfn = maxMfn
-            };
-            connection.ExecuteCommand(command);
-
-            return command.Result
-                .ThrowIfNull("command.Result");
-
-        }
-
 
         // ========================================================
 
@@ -713,6 +897,65 @@ namespace ManagedIrbis
             List<string> result = response.RemainingUtfStrings();
 
             return result.ToArray();
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Undelete given record (mark as live on the server).
+        /// </summary>
+        public static void UndeleteRecord
+            (
+                [NotNull] this IrbisConnection connection,
+                int mfn
+            )
+        {
+            Code.NotNull(connection, "connection");
+
+            MarcRecord record = connection.ReadRecord(mfn);
+            if (record.Deleted)
+            {
+                record.Deleted = false;
+                connection.WriteRecord(record);
+            }
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Undelete some records (mark as live on the server).
+        /// </summary>
+        public static void UndeleteRecords
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string database,
+                [NotNull] IEnumerable<int> mfnList
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNull(mfnList, "mfnList");
+
+            MarcRecord[] records = connection.ReadRecords
+                (
+                    database,
+                    mfnList
+                );
+
+            if (records.Length == 0)
+            {
+                return;
+            }
+
+            MarcRecord[] deletedRecords = records
+                .Where(record => record.Deleted)
+                .ToArray();
+
+            foreach (MarcRecord record in deletedRecords)
+            {
+                record.Deleted = false;
+                connection.WriteRecord(record);
+            }
         }
 
         // ========================================================

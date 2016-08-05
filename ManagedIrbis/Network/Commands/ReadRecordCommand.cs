@@ -153,7 +153,7 @@ namespace ManagedIrbis.Network.Commands
         {
             // Record can be logically deleted
             // or blocked. It's normal.
-            get { return new[] { -201, -602, -603 }; }
+            get { return new[] { -201, -600, -602, -603 }; }
         }
 
         #endregion

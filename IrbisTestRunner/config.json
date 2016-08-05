@@ -29,6 +29,7 @@
         //"CreateDictionaryTest.cs",
         //"DatabaseInfoTest.cs"
         //"DatabaseStatTest.cs",
+        "DeleteRecordTest.cs",
         //"FlcTest.cs",
         //"FormatTest.cs",
         //"GblVirtualTest.cs",
@@ -52,8 +53,8 @@
         //"ReadTermsTest.cs",
         //"RecordCacheTest.cs",
         //"RecordHistoryTest.cs",
-        "SearchRawTest.cs",
-        "SearchTest.cs",
+        //"SearchRawTest.cs",
+        //"SearchTest.cs",
         //"SequentialSearchTest.cs",
         //"ServerStatTest.cs",
         //"TextCacheTest.cs",
