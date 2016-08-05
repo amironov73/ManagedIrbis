@@ -181,6 +181,7 @@
     <Compile Include="Caching\MenuCache.cs" />
     <Compile Include="Caching\RecordCache.cs" />
     <Compile Include="Caching\TextCache.cs" />
+    <Compile Include="ConnectionSettings.cs" />
     <Compile Include="Fields\BinaryResource.cs" />
     <Compile Include="Flc\FlcConstants.cs" />
     <Compile Include="Flc\FlcProcessor.cs" />

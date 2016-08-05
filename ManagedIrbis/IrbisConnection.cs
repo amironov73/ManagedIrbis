@@ -1,7 +1,7 @@
 ﻿/* IrbisConnection.cs -- client for IRBIS-server
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
- * Status:moderate
+ * Status: poor
  */
 
 #region Using directives
@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 using AM;
@@ -23,6 +24,7 @@ using AM.Threading;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Gbl;
 using ManagedIrbis.Network;
 using ManagedIrbis.Network.Commands;
@@ -47,37 +49,6 @@ namespace ManagedIrbis
         #region Constants
 
         /// <summary>
-        /// 
-        /// </summary>
-        public const string DefaultHost = "127.0.0.1";
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string DefaultDatabase = "IBIS";
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public const IrbisWorkstation DefaultWorkstation
-            = IrbisWorkstation.Cataloger;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public const int DefaultPort = 6666;
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //public const string DefaultUsername = "1";
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //public const string DefaultPassword = "1";
-
-        /// <summary>
         /// Таймаут получения ответа от сервера по умолчанию.
         /// </summary>
         public const int DefaultTimeout = 30000;
@@ -95,14 +66,17 @@ namespace ManagedIrbis
 
         #region Properties
 
-        // Not supported in .NET Core
-        ///// <summary>
-        ///// Версия клиента.
-        ///// </summary>
-        //public static Version ClientVersion = Assembly
-        //    .GetExecutingAssembly()
-        //    .GetName()
-        //    .Version;
+#if !NETCORE
+
+        /// <summary>
+        /// Версия клиента.
+        /// </summary>
+        public static Version ClientVersion = Assembly
+            .GetExecutingAssembly()
+            .GetName()
+            .Version;
+
+#endif
 
         /// <summary>
         /// Признак занятости клиента.
@@ -114,14 +88,14 @@ namespace ManagedIrbis
         /// Адрес сервера.
         /// </summary>
         /// <value>Адрес сервера в цифровом виде.</value>
-        [DefaultValue(DefaultHost)]
+        [DefaultValue(ConnectionSettings.DefaultHost)]
         public string Host { get; set; }
 
         /// <summary>
         /// Порт сервера.
         /// </summary>
         /// <value>Порт сервера (по умолчанию 6666).</value>
-        [DefaultValue(DefaultPort)]
+        [DefaultValue(ConnectionSettings.DefaultPort)]
         public int Port { get; set; }
 
         /// <summary>
@@ -142,7 +116,7 @@ namespace ManagedIrbis
         /// Имя базы данных.
         /// </summary>
         /// <value>Служебное имя базы данных (например, "IBIS").</value>
-        [DefaultValue(DefaultDatabase)]
+        [DefaultValue(ConnectionSettings.DefaultDatabase)]
         public string Database
         {
             get { return _database; }
@@ -154,7 +128,7 @@ namespace ManagedIrbis
         /// </summary>
         /// <value>По умолчанию <see cref="IrbisWorkstation.Cataloger"/>.
         /// </value>
-        [DefaultValue(DefaultWorkstation)]
+        [DefaultValue(ConnectionSettings.DefaultWorkstation)]
         public IrbisWorkstation Workstation { get; set; }
 
         /// <summary>
@@ -251,12 +225,12 @@ namespace ManagedIrbis
         {
             Busy = new BusyState();
 
-            Host = DefaultHost;
-            Port = DefaultPort;
-            Database = DefaultDatabase;
+            Host = ConnectionSettings.DefaultHost;
+            Port = ConnectionSettings.DefaultPort;
+            Database = ConnectionSettings.DefaultDatabase;
             Username = null;
             Password = null;
-            Workstation = DefaultWorkstation;
+            Workstation = ConnectionSettings.DefaultWorkstation;
 
             Socket = new SimpleClientSocket(this);
         }

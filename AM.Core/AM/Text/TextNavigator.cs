@@ -106,6 +106,23 @@ namespace AM.Text
         #region Public methods
 
         /// <summary>
+        /// Clone the navigator.
+        /// </summary>
+        [NotNull]
+        public TextNavigator Clone()
+        {
+            TextNavigator result = new TextNavigator(_text)
+            {
+                _column = _column,
+                _length = _length,
+                _line = _line,
+                _position = _position
+            };
+
+            return result;
+        }
+
+        /// <summary>
         /// Навигатор по текстовому файлу.
         /// </summary>
         [NotNull]
@@ -333,6 +350,159 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Подглядывание строки вплоть до указанной длины.
+        /// </summary>
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// </returns>
+        [CanBeNull]
+        public string PeekString
+            (
+                int length
+            )
+        {
+            Code.Positive(length, "length");
+
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            int savePosition = _position, saveColumn = _column,
+                saveLine = _line;
+            StringBuilder result = new StringBuilder(length);
+
+            for (int i = 0; i < length; i++)
+            {
+                char c = ReadChar();
+                if (c == EOF)
+                {
+                    break;
+                }
+                result.Append(c);
+            }
+
+            _position = savePosition;
+            _column = saveColumn;
+            _line = saveLine;
+
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Подглядывание вплоть до указанного символа
+        /// (включая его).
+        /// </summary>
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// </returns>
+        [CanBeNull]
+        public string PeekTo
+            (
+                char stopChar
+            )
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            int savePosition = _position, saveColumn = _column,
+                saveLine = _line;
+
+            string result = ReadTo(stopChar);
+
+            _position = savePosition;
+            _column = saveColumn;
+            _line = saveLine;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Подглядывание вплоть до указанных символов
+        /// (включая их).
+        /// </summary>
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// </returns>
+        [CanBeNull]
+        public string PeekTo
+            (
+                char[] stopChars
+            )
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            int savePosition = _position, saveColumn = _column,
+                saveLine = _line;
+
+            string result = ReadTo(stopChars);
+
+            _position = savePosition;
+            _column = saveColumn;
+            _line = saveLine;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Подглядывание вплоть до указанного символа.
+        /// </summary>
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// </returns>
+        [CanBeNull]
+        public string PeekUntil
+            (
+                char stopChar
+            )
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            int savePosition = _position, saveColumn = _column,
+                saveLine = _line;
+
+            string result = ReadUntil(stopChar);
+
+            _position = savePosition;
+            _column = saveColumn;
+            _line = saveLine;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Подглядывание вплоть до указанных символов.
+        /// </summary>
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// </returns>
+        [CanBeNull]
+        public string PeekUntil
+            (
+                char[] stopChars
+            )
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            int savePosition = _position, saveColumn = _column,
+                saveLine = _line;
+
+            string result = ReadUntil(stopChars);
+
+            _position = savePosition;
+            _column = saveColumn;
+            _line = saveLine;
+
+            return result;
+        }
+
+        /// <summary>
         /// Считывание символа.
         /// </summary>
         public char ReadChar()
@@ -355,6 +525,55 @@ namespace AM.Text
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Считывание экранированной строки вплоть до разделителя
+        /// (не включая его).
+        /// </summary>
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// </returns>
+        [CanBeNull]
+        public string ReadEscapedUntil
+            (
+                char escapeChar,
+                char stopChar
+            )
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            StringBuilder result = new StringBuilder();
+            while (true)
+            {
+                char c = ReadChar();
+                if (c == EOF)
+                {
+                    break;
+                }
+
+                if (c == escapeChar)
+                {
+                    c = ReadChar();
+                    if (c == EOF)
+                    {
+                        throw new FormatException();
+                    }
+                    result.Append(c);
+                }
+                else if (c == stopChar)
+                {
+                    break;
+                }
+                else
+                {
+                    result.Append(c);
+                }
+            }
+
+            return result.ToString();
         }
 
         /// <summary>
@@ -491,6 +710,39 @@ namespace AM.Text
                 );
 
             return result;
+        }
+
+        /// <summary>
+        /// Чтение строки вплоть до указанной длины.
+        /// </summary>
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// </returns>
+        [CanBeNull]
+        public string ReadString
+            (
+                int length
+            )
+        {
+            Code.Positive(length, "length");
+
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            StringBuilder result = new StringBuilder(length);
+
+            for (int i = 0; i < length; i++)
+            {
+                char c = ReadChar();
+                if (c == EOF)
+                {
+                    break;
+                }
+                result.Append(c);
+            }
+
+            return result.ToString();
         }
 
         /// <summary>

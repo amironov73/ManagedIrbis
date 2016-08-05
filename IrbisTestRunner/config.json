@@ -54,7 +54,7 @@
         //"ServerStatTest.cs",
         //"TextCacheTest.cs",
         //"UpdateIniFileTest.cs",
-        "UpdateUserListTest.cs",
+        //"UpdateUserListTest.cs",
         "VersionTest.cs"
         //"WriteFileTest.cs",
         //"WriteRecordsTest.cs",
