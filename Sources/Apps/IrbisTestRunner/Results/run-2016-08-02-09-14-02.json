@@ -1,0 +1,90 @@
+﻿[
+  {
+    "duration": "00:00:00.0200000",
+    "Failed": false,
+    "finish": "2016-08-02T09:13:45.1245324+09:00",
+    "name": "TestSearch_Few",
+    "start": "2016-08-02T09:13:45.1045324+09:00",
+    "output": "19, 27, 136, 151, 203, 204, 1029, 1030, 1077, 1088"
+  },
+  {
+    "duration": "00:00:00.0100001",
+    "Failed": false,
+    "finish": "2016-08-02T09:13:45.6445332+09:00",
+    "name": "TestSearch_Many",
+    "start": "2016-08-02T09:13:45.6345331+09:00",
+    "output": "Found: 2015: 1, 2, 4, 7, 8, 9, 11, 13, 15, 19, 21, 23, 27, 36, "
+  },
+  {
+    "duration": "00:00:00.0100000",
+    "Failed": false,
+    "finish": "2016-08-02T09:13:46.1545339+09:00",
+    "name": "TestSearch_Format",
+    "start": "2016-08-02T09:13:46.1445339+09:00",
+    "output": "Found: 18: [19] Bryant R.M. Cyc| [27] СССР. Атлас лит| [136] Annales Uniwer| [151] Радугин, Алекс| [203] Популя"
+  },
+  {
+    "duration": "00:00:00",
+    "Failed": false,
+    "finish": "2016-08-02T09:13:46.6545346+09:00",
+    "name": "TestSearch_Count",
+    "start": "2016-08-02T09:13:46.6545346+09:00",
+    "output": "Found: 18"
+  },
+  {
+    "duration": "00:00:00.0500000",
+    "Failed": false,
+    "finish": "2016-08-02T09:13:47.2045353+09:00",
+    "name": "TestSearch_Read",
+    "start": "2016-08-02T09:13:47.1545353+09:00",
+    "output": "18"
+  },
+  {
+    "duration": "00:00:11.5020196",
+    "Failed": false,
+    "finish": "2016-08-02T09:13:59.2065556+09:00",
+    "name": "TestSearch_ReadOneRecord",
+    "start": "2016-08-02T09:13:47.704536+09:00",
+    "output": "19#0\u001f\u001e0#1\u001f\u001e215#^a5,6^1p.\u001f\u001e225#^aResearch report: mathematics research report^vN MRR 062-94-MRR 063-94^eCentre for mathematics and its applications (Canberra)\u001f\u001e10#^d200\u001f\u001e101#eng\u001f\u001e102#AU\u001f\u001e700#^aBryant^bR.M.\u001f\u001e210#^aCanberra^d1994\u001f\u001e606#^aЛи алгебры\u001f\u001e964#27.17.19\u001f\u001e920#PAZK\u001f\u001e675#512\u001f\u001e675#512.554.3\u001f\u001e908#B18\u001f\u001e903#512/B18-005844\u001f\u001e690#^l2.20\u001f\u001e320#Библиогр.:с.5,6\u001f\u001e900#^b04^c34^258\u001f\u001e907#^cПК^a20020530^bДСМ\u001f\u001e907#^c^a20060601^bДСМ\u001f\u001e907#^c^a20070109^b\u001f\u001e907#^a20071108^bОЛН^c\u001f\u001e907#^cКТ^a20130429^b1\u001f\u001e200#^aCyclic groups acting on Lie algebras\u001f\u001e907#^cКТ^a20141001^b1\u001f\u001e922#^cA conjecture about free Lie algebras^fShort M.W.^gM. W. Short\u001f\u001e910#^aU^b557^c19941216^dХР^h55443322^150\u001f\u001e905#^f2^21\u001f\u001e"
+  },
+  {
+    "duration": "00:00:00.0100000",
+    "Failed": false,
+    "finish": "2016-08-02T09:13:59.7165563+09:00",
+    "name": "TestReadRecord",
+    "start": "2016-08-02T09:13:59.7065563+09:00",
+    "output": "692#^b2008/2009^cO^x!NOZO^d42^e3^z14.00^g20081218"
+  },
+  {
+    "duration": "00:00:00",
+    "Failed": false,
+    "finish": "2016-08-02T09:14:00.216557+09:00",
+    "name": "TestReadAndFormatRecord",
+    "start": "2016-08-02T09:14:00.216557+09:00",
+    "output": "692#^b2008/2009^cO^x!NOZO^d42^e3^z14.00^g20081218 | Акулова З.М. Куда пойти учиться? [Текст] : Информ. - реклам. справ / З. М. Акулова, А. М. Бабич ; ред. А. С. Павловский [и др.], 1993. - 240 с."
+  },
+  {
+    "duration": "00:00:00.0100000",
+    "Failed": false,
+    "finish": "2016-08-02T09:14:00.7265577+09:00",
+    "name": "TestReadMultipleRecords",
+    "start": "2016-08-02T09:14:00.7165577+09:00",
+    "output": "692#^b2008/2009^cO^x!NOZO^d42^e3^z14.00^g20081218 | 692#^b2007/2008^cO^aФКТИ^d30^e4^f7.50^g20080107\r\n6 | 225#^aТруды^vВып.664^fМосковский энерг.ин-т\r\n215#^"
+  },
+  {
+    "duration": "00:00:00.0700001",
+    "Failed": false,
+    "finish": "2016-08-02T09:14:01.2965585+09:00",
+    "name": "TestSequentialSearch",
+    "start": "2016-08-02T09:14:01.2265584+09:00",
+    "output": "found: 1919"
+  },
+  {
+    "duration": "00:00:00",
+    "Failed": false,
+    "finish": "2016-08-02T09:14:01.7965592+09:00",
+    "name": "TestVersion",
+    "start": "2016-08-02T09:14:01.7965592+09:00",
+    "output": "Version: 64.2014, MaxClients: 100000, ConnectedClients: 1, Organization: Иркутский государственный технический университет"
+  }
+]

@@ -1,0 +1,18 @@
+﻿[
+  {
+    "duration": "00:00:49.3398221",
+    "Failed": false,
+    "finish": "2016-08-05T14:21:07.1504676+09:00",
+    "name": "TestReadRawRecord",
+    "start": "2016-08-05T14:20:17.8106455+09:00",
+    "output": "1#|0#44|692#^B2008/2009^CO^X!NOZO^D42^E3^Z14.00^G2"
+  },
+  {
+    "duration": "00:00:00.0160009",
+    "Failed": false,
+    "finish": "2016-08-05T14:21:07.6684972+09:00",
+    "name": "TestVersion",
+    "start": "2016-08-05T14:21:07.6524963+09:00",
+    "output": "Version: 64.2014, MaxClients: 100000, ConnectedClients: 1, Organization: Иркутский государственный технический университет"
+  }
+]

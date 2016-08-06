@@ -1,0 +1,74 @@
+﻿[
+  {
+    "duration": "00:00:00.2030116",
+    "Failed": false,
+    "finish": "2016-08-02T09:50:51.2023043+09:00",
+    "name": "TestSearch_Few",
+    "start": "2016-08-02T09:50:50.9992927+09:00",
+    "output": "19, 27, 136, 151, 203, 204, 1029, 1030, 1077, 1088"
+  },
+  {
+    "duration": "00:00:00.0120007",
+    "Failed": false,
+    "finish": "2016-08-02T09:50:51.7153336+09:00",
+    "name": "TestSearch_Many",
+    "start": "2016-08-02T09:50:51.7033329+09:00",
+    "output": "Found: 2015: 1, 2, 4, 7, 8, 9, 11, 13, 15, 19, 21, 23, 27, 36, "
+  },
+  {
+    "duration": "00:00:00.0590034",
+    "Failed": false,
+    "finish": "2016-08-02T09:50:52.2743656+09:00",
+    "name": "TestSearch_Format",
+    "start": "2016-08-02T09:50:52.2153622+09:00",
+    "output": "Found: 18: [19] Bryant R.M. Cyc| [27] СССР. Атлас лит| [136] Annales Uniwer| [151] Радугин, Алекс| [203] Популя"
+  },
+  {
+    "duration": "00:00:00.0050003",
+    "Failed": false,
+    "finish": "2016-08-02T09:50:52.7793945+09:00",
+    "name": "TestSearch_Count",
+    "start": "2016-08-02T09:50:52.7743942+09:00",
+    "output": "Found: 18"
+  },
+  {
+    "duration": "00:00:00.8900509",
+    "Failed": false,
+    "finish": "2016-08-02T09:50:54.169474+09:00",
+    "name": "TestSearch_Read",
+    "start": "2016-08-02T09:50:53.2794231+09:00",
+    "output": "18"
+  },
+  {
+    "duration": "00:00:00.0360020",
+    "Failed": false,
+    "finish": "2016-08-02T09:50:54.7055046+09:00",
+    "name": "TestSearch_ReadOneRecord",
+    "start": "2016-08-02T09:50:54.6695026+09:00",
+    "output": "19#0\u001f\u001e0#1\u001f\u001e215#^a5,6^1p.\u001f\u001e225#^aResearch report: m"
+  },
+  {
+    "duration": "00:00:00.0790045",
+    "Failed": false,
+    "finish": "2016-08-02T09:50:55.2855378+09:00",
+    "name": "TestReadTermsForward",
+    "start": "2016-08-02T09:50:55.2065333+09:00",
+    "output": "&; 11 КЛАСС; 19 В."
+  },
+  {
+    "duration": "00:00:00.5040288",
+    "Failed": false,
+    "finish": "2016-08-02T09:50:56.2895952+09:00",
+    "name": "TestSequentialSearch",
+    "start": "2016-08-02T09:50:55.7855664+09:00",
+    "output": "found: 1919"
+  },
+  {
+    "duration": "00:00:00.0060004",
+    "Failed": false,
+    "finish": "2016-08-02T09:50:56.7956242+09:00",
+    "name": "TestVersion",
+    "start": "2016-08-02T09:50:56.7896238+09:00",
+    "output": "Version: 64.2014, MaxClients: 100000, ConnectedClients: 1, Organization: Иркутский государственный технический университет"
+  }
+]

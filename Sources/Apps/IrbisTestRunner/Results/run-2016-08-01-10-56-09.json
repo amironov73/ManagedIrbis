@@ -1,0 +1,66 @@
+﻿[
+  {
+    "duration": "00:00:00.0050000",
+    "Failed": false,
+    "finish": "2016-08-01T10:56:05.7236709+09:00",
+    "name": "TestConnectionFailure",
+    "start": "2016-08-01T10:56:05.7186709+09:00",
+    "output": "bad"
+  },
+  {
+    "duration": "00:00:00.0050000",
+    "Failed": false,
+    "finish": "2016-08-01T10:56:06.230674+09:00",
+    "name": "TestFormatVerbatim",
+    "start": "2016-08-01T10:56:06.225674+09:00",
+    "output": "Привет, мир!"
+  },
+  {
+    "duration": "00:00:00.0050000",
+    "Failed": false,
+    "finish": "2016-08-01T10:56:06.7396752+09:00",
+    "name": "TestFormatOneRecord",
+    "start": "2016-08-01T10:56:06.7346752+09:00",
+    "output": ""
+  },
+  {
+    "duration": "00:00:00.0100000",
+    "Failed": false,
+    "finish": "2016-08-01T10:56:07.2536761+09:00",
+    "name": "TestFormatVirtualRecord",
+    "start": "2016-08-01T10:56:07.2436761+09:00",
+    "output": ""
+  },
+  {
+    "duration": "00:00:00.0050000",
+    "Failed": false,
+    "finish": "2016-08-01T10:56:07.7606772+09:00",
+    "name": "TestFormatThreeRecords",
+    "start": "2016-08-01T10:56:07.7556772+09:00",
+    "output": ""
+  },
+  {
+    "duration": "00:00:00.0700001",
+    "Failed": false,
+    "finish": "2016-08-01T10:56:08.3336804+09:00",
+    "name": "TestFormatOptimized",
+    "start": "2016-08-01T10:56:08.2636803+09:00",
+    "output": ""
+  },
+  {
+    "duration": "00:00:00.0470019",
+    "Failed": true,
+    "finish": "2016-08-01T10:56:08.8836854+09:00",
+    "name": "TestFormatEmpty",
+    "start": "2016-08-01T10:56:08.8366835+09:00",
+    "output": "ManagedIrbis.Network.IrbisNetworkException: Выдано исключение типа \"ManagedIrbis.Network.IrbisNetworkException\".\r\n   в ManagedIrbis.Network.ServerResponse.RequireInt32() в c:\\Projects\\ManagedClient.45\\ManagedIrbis\\Network\\ServerResponse.cs:строка 590\r\n   в ManagedIrbis.Network.ServerResponse.GetReturnCode() в c:\\Projects\\ManagedClient.45\\ManagedIrbis\\Network\\ServerResponse.cs:строка 327\r\n   в ManagedIrbis.Network.Commands.FormatCommand.Execute(ClientQuery query) в c:\\Projects\\ManagedClient.45\\ManagedIrbis\\Network\\Commands\\FormatCommand.cs:строка 213\r\n   в ManagedIrbis.IrbisConnection.ExecuteCommand(AbstractCommand command) в c:\\Projects\\ManagedClient.45\\ManagedIrbis\\IrbisConnection.cs:строка 557\r\n   в ManagedIrbis.IrbisConnection.FormatRecord(String format, Int32 mfn) в c:\\Projects\\ManagedClient.45\\ManagedIrbis\\IrbisConnection.cs:строка 652\r\n   в IrbisTestRunner.Tests.FormatTest.TestFormatEmpty()\r\n   в IrbisTestRunner.TestRunner.RunTests(AbstractTest testObject, MethodInfo method) в c:\\Projects\\ManagedClient.45\\ManagedIrbis\\Testing\\TestRunner.cs:строка 537\r\n"
+  },
+  {
+    "duration": "00:00:00.0060003",
+    "Failed": false,
+    "finish": "2016-08-01T10:56:09.3906887+09:00",
+    "name": "TestVersion",
+    "start": "2016-08-01T10:56:09.3846884+09:00",
+    "output": "Version: 0, MaxClients: 0, ConnectedClients: 0, Organization: "
+  }
+]

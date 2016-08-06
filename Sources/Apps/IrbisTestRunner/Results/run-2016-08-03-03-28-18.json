@@ -1,0 +1,34 @@
+﻿[
+  {
+    "duration": "00:00:00.0930014",
+    "Failed": false,
+    "finish": "2016-08-03T15:28:16.1959769+09:00",
+    "name": "TestGlobalCorrector_ProcessRecordset",
+    "start": "2016-08-03T15:28:16.1029755+09:00",
+    "output": "Processed: 2 of 10|Processed: 4 of 10|Processed: 6 of 10|Processed: 8 of 10|Processed: 10 of 10| done"
+  },
+  {
+    "duration": "00:00:00.1300002",
+    "Failed": false,
+    "finish": "2016-08-03T15:28:16.8359784+09:00",
+    "name": "TestGlobalCorrector_ProcessInterval",
+    "start": "2016-08-03T15:28:16.7059782+09:00",
+    "output": "Processed: 2 of 10|Processed: 4 of 10|Processed: 6 of 10|Processed: 8 of 10|Processed: 10 of 10| done"
+  },
+  {
+    "duration": "00:00:00.2400004",
+    "Failed": false,
+    "finish": "2016-08-03T15:28:17.5769795+09:00",
+    "name": "TestGlobalCorrector_ProcessSearchResult",
+    "start": "2016-08-03T15:28:17.3369791+09:00",
+    "output": "Processed: 2 of 18|Processed: 4 of 18|Processed: 6 of 18|Processed: 8 of 18|Processed: 10 of 18|Processed: 12 of 18|Processed: 14 of 18|Processed: 16 of 18|Processed: 18 of 18| done"
+  },
+  {
+    "duration": "00:00:00",
+    "Failed": false,
+    "finish": "2016-08-03T15:28:18.0769802+09:00",
+    "name": "TestVersion",
+    "start": "2016-08-03T15:28:18.0769802+09:00",
+    "output": "Version: 64.2014, MaxClients: 100000, ConnectedClients: 1, Organization: Иркутский государственный технический университет"
+  }
+]

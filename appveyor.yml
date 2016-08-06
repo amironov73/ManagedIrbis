@@ -1,8 +1,8 @@
-version: 1.6.1.{build}
+version: 1.6.2.{build}
 configuration: Debug
 image: Visual Studio 2015
 environment:
-  packageVersion: 1.6.1
+  packageVersion: 1.6.2
 
 assembly_info:
   patch: true
@@ -15,7 +15,7 @@ nuget:
   project_feed: false
 
 build:
-  project: ManagedIrbis.sln
+  project: Sources\ManagedIrbis.sln
   publish_nuget: false
   parallel: true
   verbosity: minimal

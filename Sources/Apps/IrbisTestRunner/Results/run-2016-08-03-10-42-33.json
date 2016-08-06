@@ -1,0 +1,18 @@
+﻿[
+  {
+    "duration": "00:00:00.6470013",
+    "Failed": false,
+    "finish": "2016-08-03T10:42:32.7106185+09:00",
+    "name": "TestGbl",
+    "start": "2016-08-03T10:42:32.0636172+09:00",
+    "output": "DBN=IBIS#MFN=1#AUTOIN=#UPDATE=0#STATUS=8#UPDUF=0#"
+  },
+  {
+    "duration": "00:00:00.0400001",
+    "Failed": false,
+    "finish": "2016-08-03T10:42:33.2566213+09:00",
+    "name": "TestVersion",
+    "start": "2016-08-03T10:42:33.2166212+09:00",
+    "output": "Version: 64.2014, MaxClients: 100000, ConnectedClients: 1, Organization: Иркутский государственный технический университет"
+  }
+]

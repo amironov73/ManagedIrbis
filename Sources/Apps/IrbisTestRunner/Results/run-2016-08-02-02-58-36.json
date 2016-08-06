@@ -1,0 +1,98 @@
+﻿[
+  {
+    "duration": "00:00:00.0200000",
+    "Failed": false,
+    "finish": "2016-08-02T14:58:30.7078728+09:00",
+    "name": "TestSearch_Few",
+    "start": "2016-08-02T14:58:30.6878728+09:00",
+    "output": "19, 27, 136, 151, 203, 204, 1029, 1030, 1077, 1088"
+  },
+  {
+    "duration": "00:00:00.0100000",
+    "Failed": false,
+    "finish": "2016-08-02T14:58:31.2198753+09:00",
+    "name": "TestSearch_Many",
+    "start": "2016-08-02T14:58:31.2098753+09:00",
+    "output": "Found: 2015: 1, 2, 4, 7, 8, 9, 11, 13, 15, 19, 21, 23, 27, 36, "
+  },
+  {
+    "duration": "00:00:00.0100000",
+    "Failed": false,
+    "finish": "2016-08-02T14:58:31.729876+09:00",
+    "name": "TestSearch_Format",
+    "start": "2016-08-02T14:58:31.719876+09:00",
+    "output": "Found: 18: [19] Bryant R.M. Cyc| [27] СССР. Атлас лит| [136] Annales Uniwer| [151] Радугин, Алекс| [203] Популя"
+  },
+  {
+    "duration": "00:00:00",
+    "Failed": false,
+    "finish": "2016-08-02T14:58:32.2328786+09:00",
+    "name": "TestSearch_Count",
+    "start": "2016-08-02T14:58:32.2328786+09:00",
+    "output": "Found: 18"
+  },
+  {
+    "duration": "00:00:00.0500000",
+    "Failed": false,
+    "finish": "2016-08-02T14:58:32.7828793+09:00",
+    "name": "TestSearch_Read",
+    "start": "2016-08-02T14:58:32.7328793+09:00",
+    "output": "18"
+  },
+  {
+    "duration": "00:00:00",
+    "Failed": false,
+    "finish": "2016-08-02T14:58:33.28288+09:00",
+    "name": "TestSearch_ReadOneRecord",
+    "start": "2016-08-02T14:58:33.28288+09:00",
+    "output": "19#0\u001f\u001e0#1\u001f\u001e215#^a5,6^1p.\u001f\u001e225#^aResearch report: m"
+  },
+  {
+    "duration": "00:00:00.0110006",
+    "Failed": false,
+    "finish": "2016-08-02T14:58:33.7948825+09:00",
+    "name": "TestReadPostings",
+    "start": "2016-08-02T14:58:33.7838819+09:00",
+    "output": "169"
+  },
+  {
+    "duration": "00:00:00",
+    "Failed": false,
+    "finish": "2016-08-02T14:58:34.2958833+09:00",
+    "name": "TestReadTerms_Forward",
+    "start": "2016-08-02T14:58:34.2958833+09:00",
+    "output": "&; 11 КЛАСС; 19 В."
+  },
+  {
+    "duration": "00:00:00.0030002",
+    "Failed": false,
+    "finish": "2016-08-02T14:58:34.7988853+09:00",
+    "name": "TestReadTerms_Backward",
+    "start": "2016-08-02T14:58:34.7958851+09:00",
+    "output": "BYZANTIUM; BUSINESSMEN; BURDEN"
+  },
+  {
+    "duration": "00:00:00.0100001",
+    "Failed": false,
+    "finish": "2016-08-02T14:58:35.3188866+09:00",
+    "name": "TestReadTerms_Format",
+    "start": "2016-08-02T14:58:35.3088865+09:00",
+    "output": "Пожаровзры| [Вопрос-от| Гарин, Иго| Франк В. Қ| О налогооб| Воронов, А| Кочои, Сам| Орешин, Ев| Информатик| Доманов, В"
+  },
+  {
+    "duration": "00:00:00.0700001",
+    "Failed": false,
+    "finish": "2016-08-02T14:58:35.8888874+09:00",
+    "name": "TestSequentialSearch",
+    "start": "2016-08-02T14:58:35.8188873+09:00",
+    "output": "found: 1919"
+  },
+  {
+    "duration": "00:00:00",
+    "Failed": false,
+    "finish": "2016-08-02T14:58:36.3988881+09:00",
+    "name": "TestVersion",
+    "start": "2016-08-02T14:58:36.3988881+09:00",
+    "output": "Version: 64.2014, MaxClients: 100000, ConnectedClients: 1, Organization: Иркутский государственный технический университет"
+  }
+]

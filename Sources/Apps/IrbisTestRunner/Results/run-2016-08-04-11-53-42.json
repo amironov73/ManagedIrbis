@@ -1,0 +1,50 @@
+﻿[
+  {
+    "duration": "00:00:00.0390011",
+    "Failed": false,
+    "finish": "2016-08-04T11:53:38.8387835+09:00",
+    "name": "TestGblVirtualRecord1",
+    "start": "2016-08-04T11:53:38.7997824+09:00",
+    "output": "0#0\u001f\u001e0#0\u001f\u001e700#^aИванов^bИ. И.\u001f\u001e701#^aПетров^bП. П.\u001f\u001e200#^aЗаглавие^eподзаголовочное^fИ. И. Иванов, П. П. Петров\u001f\u001e210#^aИркутск^d2016\u001f\u001e215#^a123\u001f\u001e300#Первое примечание\u001f\u001e300#Второе примечание\u001f\u001e300#Третье примечание\u001f\u001e920#PAZK\u001f\u001e4000#Field 4000\u001f\u001e"
+  },
+  {
+    "duration": "00:00:00.0110007",
+    "Failed": false,
+    "finish": "2016-08-04T11:53:39.3507933+09:00",
+    "name": "TestGblVirtualRecord2",
+    "start": "2016-08-04T11:53:39.3397926+09:00",
+    "output": "0#0\u001f\u001e0#0\u001f\u001e700#^aИванов^bИ. И.\u001f\u001e701#^aПетров^bП. П.\u001f\u001e200#^aЗаглавие^eподзаголовочное^fИ. И. Иванов, П. П. Петров\u001f\u001e210#^aИркутск^d2016\u001f\u001e215#^a123\u001f\u001e300#Первое примечание\u001f\u001e300#Второе примечание\u001f\u001e300#Третье примечание\u001f\u001e920#PAZK\u001f\u001e4444#Field 4444\u001f\u001e"
+  },
+  {
+    "duration": "00:00:00.0350014",
+    "Failed": false,
+    "finish": "2016-08-04T11:53:39.8868044+09:00",
+    "name": "TestGbl1",
+    "start": "2016-08-04T11:53:39.851803+09:00",
+    "output": "Processed: 0, success: 0, failed: 0. "
+  },
+  {
+    "duration": "00:00:00.3660059",
+    "Failed": false,
+    "finish": "2016-08-04T11:53:40.7528199+09:00",
+    "name": "TestGbl2",
+    "start": "2016-08-04T11:53:40.386814+09:00",
+    "output": "Processed: 3, success: 3, failed: 0. DBN=IBIS#MFN=1#AUTOIN=#UPDATE=0#STATUS=8#UPDUF=0#| DBN=IBIS#MFN=2#AUTO"
+  },
+  {
+    "duration": "00:00:00.1280023",
+    "Failed": false,
+    "finish": "2016-08-04T11:53:41.3808318+09:00",
+    "name": "TestGbl3",
+    "start": "2016-08-04T11:53:41.2528295+09:00",
+    "output": "Processed: 3, success: 3, failed: 0. DBN=IBIS#MFN=1#AUTOIN=#UPDATE=0#STATUS=8#UPDUF=0#| DBN=IBIS#MFN=2#AUTO"
+  },
+  {
+    "duration": "00:00:00.0050003",
+    "Failed": false,
+    "finish": "2016-08-04T11:53:41.8908415+09:00",
+    "name": "TestVersion",
+    "start": "2016-08-04T11:53:41.8858412+09:00",
+    "output": "Version: 64.2014, MaxClients: 100000, ConnectedClients: 1, Organization: Иркутский государственный технический университет"
+  }
+]

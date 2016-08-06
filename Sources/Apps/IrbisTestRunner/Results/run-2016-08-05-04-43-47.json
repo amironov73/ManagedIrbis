@@ -1,0 +1,26 @@
+﻿[
+  {
+    "duration": "00:00:00.0100000",
+    "Failed": false,
+    "finish": "2016-08-05T16:43:45.8146378+09:00",
+    "name": "TestSearchRaw1",
+    "start": "2016-08-05T16:43:45.8046378+09:00",
+    "output": "19| 20| 27| 97| 111| 136| 151| 197| 203| 204| 328| 1024| 1026| 1027| 1029| 1030|"
+  },
+  {
+    "duration": "00:00:00.1000001",
+    "Failed": false,
+    "finish": "2016-08-05T16:43:46.4146386+09:00",
+    "name": "TestSearchRaw2",
+    "start": "2016-08-05T16:43:46.3146385+09:00",
+    "output": "19#Cyclic groups acting on Lie algebras| 20#Regular skew group rings| 27#Докембр"
+  },
+  {
+    "duration": "00:00:00",
+    "Failed": false,
+    "finish": "2016-08-05T16:43:46.9156394+09:00",
+    "name": "TestVersion",
+    "start": "2016-08-05T16:43:46.9156394+09:00",
+    "output": "Version: 64.2014, MaxClients: 100000, ConnectedClients: 1, Organization: Иркутский государственный технический университет"
+  }
+]

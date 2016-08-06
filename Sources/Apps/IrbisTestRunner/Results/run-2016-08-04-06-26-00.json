@@ -1,0 +1,18 @@
+﻿[
+  {
+    "duration": "00:00:00.0420002",
+    "Failed": false,
+    "finish": "2016-08-04T18:25:59.3496767+09:00",
+    "name": "TestUpdateUserList",
+    "start": "2016-08-04T18:25:59.3076765+09:00",
+    "output": "1, miron, Миронов, rdr | was: 4, now: 5"
+  },
+  {
+    "duration": "00:00:00",
+    "Failed": false,
+    "finish": "2016-08-04T18:25:59.8516775+09:00",
+    "name": "TestVersion",
+    "start": "2016-08-04T18:25:59.8516775+09:00",
+    "output": "Version: 64.2014, MaxClients: 100000, ConnectedClients: 1, Organization: Иркутский государственный технический университет"
+  }
+]

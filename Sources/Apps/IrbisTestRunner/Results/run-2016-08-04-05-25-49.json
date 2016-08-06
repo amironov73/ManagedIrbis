@@ -1,0 +1,18 @@
+﻿[
+  {
+    "duration": "00:00:00.2140123",
+    "Failed": true,
+    "finish": "2016-08-04T17:25:48.2421207+09:00",
+    "name": "TestFlcProcessor",
+    "start": "2016-08-04T17:25:48.0281084+09:00",
+    "output": "ManagedIrbis.Network.IrbisNetworkException: Выдано исключение типа \"ManagedIrbis.Network.IrbisNetworkException\".\r\n   в ManagedIrbis.Network.ServerResponse.RequireInt32() в c:\\Projects\\ManagedClient.45\\ManagedIrbis\\Network\\ServerResponse.cs:строка 612\r\n   в ManagedIrbis.Network.ServerResponse.GetReturnCode() в c:\\Projects\\ManagedClient.45\\ManagedIrbis\\Network\\ServerResponse.cs:строка 340\r\n   в ManagedIrbis.Network.Commands.FormatCommand.Execute(ClientQuery query) в c:\\Projects\\ManagedClient.45\\ManagedIrbis\\Network\\Commands\\FormatCommand.cs:строка 215\r\n   в ManagedIrbis.IrbisConnection.ExecuteCommand(AbstractCommand command) в c:\\Projects\\ManagedClient.45\\ManagedIrbis\\IrbisConnection.cs:строка 611\r\n   в ManagedIrbis.IrbisConnection.FormatRecord(String format, MarcRecord record) в c:\\Projects\\ManagedClient.45\\ManagedIrbis\\IrbisConnection.cs:строка 733\r\n   в ManagedIrbis.Flc.FlcProcessor.CheckRecord(IrbisConnection connection, MarcRecord record, String format) в c:\\Projects\\ManagedClient.45\\ManagedIrbis\\Flc\\FlcProcessor.cs:строка 57\r\n   в IrbisTestRunner.Tests.FlcTest.TestFlcProcessor()\r\n   в IrbisTestRunner.TestRunner.RunTests(AbstractTest testObject, MethodInfo method) в c:\\Projects\\ManagedClient.45\\ManagedIrbis\\Testing\\TestRunner.cs:строка 537\r\n"
+  },
+  {
+    "duration": "00:00:00.0070004",
+    "Failed": false,
+    "finish": "2016-08-04T17:25:48.7501497+09:00",
+    "name": "TestVersion",
+    "start": "2016-08-04T17:25:48.7431493+09:00",
+    "output": "Version: 64.2014, MaxClients: 100000, ConnectedClients: 1, Organization: Иркутский государственный технический университет"
+  }
+]

@@ -27,10 +27,6 @@ copy %BIN%\%BUILD%45 lib\net451\ > nul
 copy %BIN%\%BUILD%45 lib\net46\  > nul
 copy %BIN%\%BUILD%45 lib\net461\ > nul
 
-cd lib
-del /s /q MoonIrbis.* > nul
-cd ..
-
 PatchNugetVersion.exe %BIN%\%BUILD%40\AM.Core.dll ManagedIrbis.nuspec
 
 nuget.exe pack

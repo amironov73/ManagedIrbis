@@ -1,0 +1,66 @@
+﻿[
+  {
+    "duration": "00:00:00.0050000",
+    "Failed": false,
+    "finish": "2016-08-01T10:55:01.4121902+09:00",
+    "name": "TestConnectionFailure",
+    "start": "2016-08-01T10:55:01.4071902+09:00",
+    "output": "bad"
+  },
+  {
+    "duration": "00:00:00.0050000",
+    "Failed": false,
+    "finish": "2016-08-01T10:55:01.9171937+09:00",
+    "name": "TestFormatVerbatim",
+    "start": "2016-08-01T10:55:01.9121937+09:00",
+    "output": "Привет, мир!"
+  },
+  {
+    "duration": "00:00:00.0050000",
+    "Failed": false,
+    "finish": "2016-08-01T10:55:02.4241967+09:00",
+    "name": "TestFormatOneRecord",
+    "start": "2016-08-01T10:55:02.4191967+09:00",
+    "output": ""
+  },
+  {
+    "duration": "00:00:00.0100000",
+    "Failed": false,
+    "finish": "2016-08-01T10:55:02.934198+09:00",
+    "name": "TestFormatVirtualRecord",
+    "start": "2016-08-01T10:55:02.924198+09:00",
+    "output": ""
+  },
+  {
+    "duration": "00:00:00.0050000",
+    "Failed": false,
+    "finish": "2016-08-01T10:55:03.4411988+09:00",
+    "name": "TestFormatThreeRecords",
+    "start": "2016-08-01T10:55:03.4361988+09:00",
+    "output": ""
+  },
+  {
+    "duration": "00:00:00.0700001",
+    "Failed": false,
+    "finish": "2016-08-01T10:55:04.0152026+09:00",
+    "name": "TestFormatOptimized",
+    "start": "2016-08-01T10:55:03.9452025+09:00",
+    "output": ""
+  },
+  {
+    "duration": "00:00:00.0250000",
+    "Failed": true,
+    "finish": "2016-08-01T10:55:04.5412034+09:00",
+    "name": "TestFormatEmpty",
+    "start": "2016-08-01T10:55:04.5162034+09:00",
+    "output": "System.ArgumentNullException: Значение не может быть неопределенным.\r\nИмя параметра: format\r\n   в CodeJam.Code.NotNull[T](T arg, String argName) в c:\\Projects\\ManagedClient.45\\AM.Core\\CodeJam\\Code.cs:строка 395\r\n   в ManagedIrbis.IrbisConnection.FormatRecord(String format, Int32 mfn) в c:\\Projects\\ManagedClient.45\\ManagedIrbis\\IrbisConnection.cs:строка 645\r\n   в IrbisTestRunner.Tests.FormatTest.TestFormatEmpty()\r\n   в IrbisTestRunner.TestRunner.RunTests(AbstractTest testObject, MethodInfo method) в c:\\Projects\\ManagedClient.45\\ManagedIrbis\\Testing\\TestRunner.cs:строка 537\r\n"
+  },
+  {
+    "duration": "00:00:00.0300000",
+    "Failed": false,
+    "finish": "2016-08-01T10:55:05.0712047+09:00",
+    "name": "TestVersion",
+    "start": "2016-08-01T10:55:05.0412047+09:00",
+    "output": "Version: 0, MaxClients: 0, ConnectedClients: 0, Organization: "
+  }
+]

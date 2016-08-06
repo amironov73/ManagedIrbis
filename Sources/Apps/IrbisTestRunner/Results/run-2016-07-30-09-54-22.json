@@ -1,0 +1,18 @@
+﻿[
+  {
+    "duration": "00:00:00.0040020",
+    "Failed": false,
+    "finish": "2016-07-30T21:54:21.0191458+08:00",
+    "name": "TestConnectionFailure",
+    "start": "2016-07-30T21:54:21.0151438+08:00",
+    "output": "bad"
+  },
+  {
+    "duration": "00:00:00.0049805",
+    "Failed": false,
+    "finish": "2016-07-30T21:54:21.5269469+08:00",
+    "name": "TestVersion",
+    "start": "2016-07-30T21:54:21.5219664+08:00",
+    "output": "Version: -3335, MaxClients: 0, ConnectedClients: 0, Organization: "
+  }
+]

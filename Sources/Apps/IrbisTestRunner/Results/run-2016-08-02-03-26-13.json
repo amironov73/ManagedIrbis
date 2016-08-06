@@ -1,0 +1,114 @@
+﻿[
+  {
+    "duration": "00:00:00.0200001",
+    "Failed": false,
+    "finish": "2016-08-02T15:26:06.726958+09:00",
+    "name": "TestSearch_Few",
+    "start": "2016-08-02T15:26:06.7069579+09:00",
+    "output": "19, 27, 136, 151, 203, 204, 1029, 1030, 1077, 1088"
+  },
+  {
+    "duration": "00:00:00.0100000",
+    "Failed": false,
+    "finish": "2016-08-02T15:26:07.2369587+09:00",
+    "name": "TestSearch_Many",
+    "start": "2016-08-02T15:26:07.2269587+09:00",
+    "output": "Found: 2015: 1, 2, 4, 7, 8, 9, 11, 13, 15, 19, 21, 23, 27, 36, "
+  },
+  {
+    "duration": "00:00:00.0100000",
+    "Failed": false,
+    "finish": "2016-08-02T15:26:07.7469594+09:00",
+    "name": "TestSearch_Format",
+    "start": "2016-08-02T15:26:07.7369594+09:00",
+    "output": "Found: 18: [19] Bryant R.M. Cyc| [27] СССР. Атлас лит| [136] Annales Uniwer| [151] Радугин, Алекс| [203] Популя"
+  },
+  {
+    "duration": "00:00:00",
+    "Failed": false,
+    "finish": "2016-08-02T15:26:08.2489602+09:00",
+    "name": "TestSearch_Count",
+    "start": "2016-08-02T15:26:08.2489602+09:00",
+    "output": "Found: 18"
+  },
+  {
+    "duration": "00:00:00.0400001",
+    "Failed": false,
+    "finish": "2016-08-02T15:26:08.788961+09:00",
+    "name": "TestSearch_Read",
+    "start": "2016-08-02T15:26:08.7489609+09:00",
+    "output": "18"
+  },
+  {
+    "duration": "00:00:00",
+    "Failed": false,
+    "finish": "2016-08-02T15:26:09.2909618+09:00",
+    "name": "TestSearch_ReadOneRecord",
+    "start": "2016-08-02T15:26:09.2909618+09:00",
+    "output": "19#0\u001f\u001e0#1\u001f\u001e215#^a5,6^1p.\u001f\u001e225#^aResearch report: m"
+  },
+  {
+    "duration": "00:00:00.0100000",
+    "Failed": false,
+    "finish": "2016-08-02T15:26:09.8009625+09:00",
+    "name": "TestReadPostings1",
+    "start": "2016-08-02T15:26:09.7909625+09:00",
+    "output": "MFN=169 Tag=1510 Occurrence=1 Count=2 Text=\"\""
+  },
+  {
+    "duration": "00:00:00.0400001",
+    "Failed": false,
+    "finish": "2016-08-02T15:26:10.3419633+09:00",
+    "name": "TestReadPostings2",
+    "start": "2016-08-02T15:26:10.3019632+09:00",
+    "output": "MFN=169 Tag=1510 Occurrence=1 Count=2 Text=\"Пожаровзрывобезопасность : Науч.- техн. журн. - Журнал\""
+  },
+  {
+    "duration": "00:00:00.0100000",
+    "Failed": false,
+    "finish": "2016-08-02T15:26:10.8639658+09:00",
+    "name": "TestReadPostings3",
+    "start": "2016-08-02T15:26:10.8539658+09:00",
+    "output": "MFN=169 Tag=1510 Occurrence=1 Count=2 Text=\"Пожаровзрывобезопасность : Науч.- техн. журн. - Журнал\"| MFN=533 Tag=66 Occurrence=1 Count=1 Text=\"[Вопрос-ответ] // Администратор образования. - 2015. - № 19.- С. 77-85\"| MFN=1532 Tag=66 Occurrence=1 Count=1 Text=\"[Вопрос-ответ] // Администратор образования. - 2015. - № 19.- С. 77-85\"| MFN=1833 Tag=66 Occurrence=1 Count=1 Text=\"[Вопрос-ответ] // Администратор образования. - 2015. - № 19.- С. 77-85\"| MFN=332 Tag=66 Occurrence=4 Count=2 Text=\"Гарин, Игорь Иванович. Проклятые поэты [Текст]  : монография / И.Гарин, 2003. - 847 с.\""
+  },
+  {
+    "duration": "00:00:00",
+    "Failed": false,
+    "finish": "2016-08-02T15:26:11.3639665+09:00",
+    "name": "TestReadTerms_Forward",
+    "start": "2016-08-02T15:26:11.3639665+09:00",
+    "output": "&; 11 КЛАСС; 19 В."
+  },
+  {
+    "duration": "00:00:00",
+    "Failed": false,
+    "finish": "2016-08-02T15:26:11.8639672+09:00",
+    "name": "TestReadTerms_Backward",
+    "start": "2016-08-02T15:26:11.8639672+09:00",
+    "output": "BYZANTIUM; BUSINESSMEN; BURDEN"
+  },
+  {
+    "duration": "00:00:00.0100000",
+    "Failed": false,
+    "finish": "2016-08-02T15:26:12.3739679+09:00",
+    "name": "TestReadTerms_Format",
+    "start": "2016-08-02T15:26:12.3639679+09:00",
+    "output": "Пожаровзры| [Вопрос-от| Гарин, Иго| Франк В. Қ| О налогооб| Воронов, А| Кочои, Сам| Орешин, Ев| Информатик| Доманов, В"
+  },
+  {
+    "duration": "00:00:00.0700001",
+    "Failed": false,
+    "finish": "2016-08-02T15:26:12.9529709+09:00",
+    "name": "TestSequentialSearch",
+    "start": "2016-08-02T15:26:12.8829708+09:00",
+    "output": "found: 1919"
+  },
+  {
+    "duration": "00:00:00",
+    "Failed": false,
+    "finish": "2016-08-02T15:26:13.4529716+09:00",
+    "name": "TestVersion",
+    "start": "2016-08-02T15:26:13.4529716+09:00",
+    "output": "Version: 64.2014, MaxClients: 100000, ConnectedClients: 1, Organization: Иркутский государственный технический университет"
+  }
+]

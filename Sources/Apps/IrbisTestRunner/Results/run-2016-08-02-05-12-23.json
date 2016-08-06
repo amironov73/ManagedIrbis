@@ -1,0 +1,18 @@
+﻿[
+  {
+    "duration": "00:02:24.4754732",
+    "Failed": false,
+    "finish": "2016-08-02T17:12:22.4407999+09:00",
+    "name": "TestGbl",
+    "start": "2016-08-02T17:09:57.9653267+09:00",
+    "output": ""
+  },
+  {
+    "duration": "00:00:00.0600001",
+    "Failed": false,
+    "finish": "2016-08-02T17:12:23.0108007+09:00",
+    "name": "TestVersion",
+    "start": "2016-08-02T17:12:22.9508006+09:00",
+    "output": "Version: 64.2014, MaxClients: 100000, ConnectedClients: 1, Organization: Иркутский государственный технический университет"
+  }
+]
