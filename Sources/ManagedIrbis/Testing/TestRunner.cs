@@ -35,7 +35,7 @@ using Newtonsoft.Json.Linq;
 
 #endregion
 
-namespace IrbisTestRunner
+namespace ManagedIrbis
 {
     /// <summary>
     /// Test runner.

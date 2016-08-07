@@ -300,6 +300,36 @@ namespace AM
             }
         }
 
+        [NotNull]
+        public static IEnumerable<T[]> Slice<T>
+            (
+                [NotNull] this IEnumerable<T> sequence,
+                int pieceSize
+            )
+        {
+            Code.NotNull(sequence, "sequence");
+            if (pieceSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException("pieceSize");
+            }
+
+            List<T> piece = new List<T>(pieceSize);
+            foreach (T item in sequence)
+            {
+                piece.Add(item);
+                if (piece.Count >= pieceSize)
+                {
+                    yield return piece.ToArray();
+                    piece = new List<T>(pieceSize);
+                }
+            }
+
+            if (piece.Count != 0)
+            {
+                yield return piece.ToArray();
+            }
+        }
+
         #endregion
     }
 }

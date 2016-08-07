@@ -1,5 +1,7 @@
 ﻿/* Program.cs -- application entry point
  * Ars Magna project, http://arsmagna.ru 
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -10,6 +12,8 @@ using System.Collections.Generic;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis;
 
 using Newtonsoft.Json;
 

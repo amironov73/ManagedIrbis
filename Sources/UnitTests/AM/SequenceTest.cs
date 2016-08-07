@@ -10,7 +10,7 @@ namespace UnitTests
     public class SequenceTest
     {
         [TestMethod]
-        public void TestSequenceFromItems()
+        public void TestSequence_FromItems()
         {
             int[] array = Sequence.FromItem(1).ToArray();
             Assert.AreEqual(1, array.Length);
@@ -36,7 +36,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSequenceRepeat()
+        public void TestSequence_Repeat()
         {
             int[] array = Sequence.Repeat(5, 3).ToArray();
             Assert.AreEqual(3,array.Length);
@@ -47,6 +47,15 @@ namespace UnitTests
                     3
                 ).ToArray();
             Assert.AreEqual(9, array.Length);
+        }
+
+        [TestMethod]
+        public void TestSequence_Slice()
+        {
+            int[] array = { 1, 2, 3 };
+            int[][] sliced = array.Slice(2).ToArray();
+
+            Assert.AreEqual(2, sliced.Length);
         }
     }
 }

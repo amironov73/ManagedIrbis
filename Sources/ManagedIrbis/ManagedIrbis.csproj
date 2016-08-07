@@ -176,6 +176,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Batch\BatchRecordReader.cs" />
     <Compile Include="Batch\BatchRecordWriter.cs" />
     <Compile Include="BibTex\BibTex.cs" />
     <Compile Include="Caching\IrbisCache.cs" />
