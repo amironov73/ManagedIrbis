@@ -74,7 +74,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestFormatVerbatim()
+        public void TestFormat_Verbatim()
         {
             string actual = Connection.FormatRecord
                 (
@@ -85,7 +85,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestFormatOneRecord()
+        public void TestFormat_OneRecord()
         {
             string actual = Connection.FormatRecord
                 (
@@ -96,7 +96,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestFormatVirtualRecord()
+        public void TestFormat_VirtualRecord()
         {
             MarcRecord record = _GetRecord();
             string actual = Connection.FormatRecord
@@ -108,10 +108,11 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestFormatThreeRecords()
+        public void TestFormat_ThreeRecords()
         {
             string[] actual = Connection.FormatRecords
                 (
+                    "IBIS",
                     "@brief",
                     new[] { 1, 2, 3 }
                 );
@@ -119,7 +120,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestFormatOptimized()
+        public void TestFormat_Optimized()
         {
             string actual = Connection.FormatRecord
                 (

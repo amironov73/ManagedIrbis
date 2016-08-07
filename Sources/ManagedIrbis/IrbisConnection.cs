@@ -720,14 +720,17 @@ namespace ManagedIrbis
         public string[] FormatRecords
             (
                 [NotNull] string format,
+                [NotNull] string database,
                 [NotNull] IEnumerable<int> mfnList
             )
         {
             Code.NotNull(mfnList, "mfnList");
+            Code.NotNullNorEmpty(database, "database");
             Code.NotNull(format, "format");
 
             FormatCommand command = new FormatCommand(this)
             {
+                Database = database,
                 FormatSpecification = format
             };
             command.MfnList.AddRange(mfnList);
