@@ -124,6 +124,7 @@
     <Compile Include="AM\Collections\StringDictionaryTest.cs" />
     <Compile Include="AM\Collections\DisposableCollectionTest.cs" />
     <Compile Include="AM\Collections\ListUtilityTest.cs" />
+    <Compile Include="AM\Collections\DictionaryListTest.cs" />
     <Compile Include="AM\Collections\XRangeTest.cs" />
     <Compile Include="AM\Gbl\GblFileTest.cs" />
     <Compile Include="AM\Globalization\BuiltinCulturesTest.cs" />
