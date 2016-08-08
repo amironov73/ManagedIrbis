@@ -20,8 +20,6 @@ namespace ManagedIrbis.Direct
     /// <summary>
     /// 
     /// </summary>
-    [Serializable]
-    [ComVisible(false)]
     [StructLayout(LayoutKind.Sequential)]
     [DebuggerDisplay("MFN={Mfn}, Length={Length}, NVF={Nvf}, Status={Status}")]
     public sealed class MstRecordLeader64
