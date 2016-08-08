@@ -48,6 +48,11 @@ namespace ManagedIrbis
         /// </summary>
         public const string NoTag = null;
 
+        /// <summary>
+        /// Разделитель подполей.
+        /// </summary>
+        public const char Delimiter = '^';
+
         #endregion
 
         #region Properties

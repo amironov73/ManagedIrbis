@@ -10,9 +10,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Serialization;
+
 using AM;
 
 using CodeJam;
@@ -1436,6 +1438,95 @@ namespace ManagedIrbis
             RecordField result = JsonConvert.DeserializeObject<RecordField>(text);
 
             return result;
+        }
+
+        /// <summary>
+        /// Парсинг текстового представления поля
+        /// </summary>
+        public static RecordField Parse
+            (
+                string tag,
+                string body
+            )
+        {
+            RecordField result = new RecordField(tag);
+
+            int first = body.IndexOf(RecordField.Delimiter);
+            if (first != 0)
+            {
+                if (first < 0)
+                {
+                    result.Value = body;
+                    body = string.Empty;
+                }
+                else
+                {
+                    result.Value = body.Substring
+                        (
+                            0,
+                            first
+                        );
+                    body = body.Substring(first);
+                }
+            }
+
+            var code = (char)0;
+            var value = new StringBuilder();
+            foreach (char c in body)
+            {
+                if (c == RecordField.Delimiter)
+                {
+                    result.AddSubField
+                        (
+                            code,
+                            value
+                        );
+                    code = (char)0;
+                }
+                else
+                {
+                    if (code == 0)
+                    {
+                        code = c;
+                    }
+                    else
+                    {
+                        value.Append(c);
+                    }
+                }
+            }
+
+            result.AddSubField
+                (
+                    code,
+                    value
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Парсинг строкового представления поля.
+        /// </summary>
+        /// <param name="line">The line.</param>
+        /// <returns></returns>
+        public static RecordField Parse
+            (
+                string line
+            )
+        {
+            if (string.IsNullOrEmpty(line))
+            {
+                return null;
+            }
+            string[] parts = line.SplitFirst('#');
+            string tag = parts[0];
+            string body = parts[1];
+            return Parse
+                (
+                    tag,
+                    body
+                );
         }
 
 #if !NETCORE
