@@ -45,7 +45,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestReadRecord()
+        public void TestReadRecord_SimpleRead()
         {
             MarcRecord record = Connection.ReadRecord(1);
             Write
@@ -55,7 +55,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestReadAndFormatRecord()
+        public void TestReadRecord_ReadAndFormat()
         {
 
             MarcRecord record = Connection.ReadRecord
@@ -74,11 +74,11 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestReadMultipleRecords()
+        public void TestReadRecord_MultipleRecords()
         {
             MarcRecord[] records = Connection.ReadRecords
                 (
-                    null,
+                    "IBIS",
                     new[] { 1, 2, 3 }
                 );
             Write

@@ -168,6 +168,7 @@
     <Compile Include="AM\Collections\DictionaryCounterDouble.cs" />
     <Compile Include="AM\Collections\DictionaryCounterInt32.cs" />
     <Compile Include="AM\Collections\DictionaryList.cs" />
+    <Compile Include="AM\Collections\DictionaryListUtility.cs" />
     <Compile Include="AM\Collections\DictionaryUtility.cs" />
     <Compile Include="AM\Collections\DisposableCollection.cs" />
     <Compile Include="AM\Collections\DoublyLinkedList.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="AM\Diagnostics\ConsoleProcessRunner.cs" />
     <Compile Include="AM\DisposableObject.cs" />
     <Compile Include="AM\DisposableUtility.cs" />
+    <Compile Include="AM\ExceptionEventArgs.cs" />
     <Compile Include="AM\FuncUtility.cs" />
     <Compile Include="AM\IO\BinaryReaderUtility.cs" />
     <Compile Include="AM\IO\BinaryWriterUtility.cs" />
@@ -221,6 +223,7 @@
     <Compile Include="AM\Reflection\PropertyOrField.cs" />
     <Compile Include="AM\Reflection\ReflectionUtility.cs" />
     <Compile Include="AM\Resources\LocalizationManager.cs" />
+    <Compile Include="AM\Runtime\DumbSerializer.cs" />
     <Compile Include="AM\Runtime\IHandmadeSerializable.cs" />
     <Compile Include="AM\Runtime\NumberUnion.cs" />
     <Compile Include="AM\Runtime\PinnedStructure.cs" />

@@ -116,33 +116,42 @@ namespace ManagedIrbis.Network.Commands
         [NotNull]
         public static string[] GetFormatResult
             (
-                [NotNull] ServerResponse response
+                [NotNull] ServerResponse response,
+                int itemCount
             )
         {
             Code.NotNull(response, "response");
 
             List<string> result = new List<string>();
 
-            while (true)
+            if (itemCount == 1)
             {
-                string line = response.GetUtfString();
-                if (ReferenceEquals(line, null))
-                {
-                    break;
-                }
-                int index = line.IndexOf('#');
-                if (index > 0)
-                {
-                    string mfnPart = line.Substring(0, index);
-                    int mfn = mfnPart.SafeToInt32();
-                    if (mfn > 0)
-                    {
-                        line = line.Substring(index + 1);
-                    }
-                }
-
-                line = IrbisText.IrbisToWindows(line);
+                string line = response.RemainingUtfText();
                 result.Add(line);
+            }
+            else
+            {
+                while (true)
+                {
+                    string line = response.GetUtfString();
+                    if (ReferenceEquals(line, null))
+                    {
+                        break;
+                    }
+                    int index = line.IndexOf('#');
+                    if (index > 0)
+                    {
+                        string mfnPart = line.Substring(0, index);
+                        int mfn = mfnPart.SafeToInt32();
+                        if (mfn > 0)
+                        {
+                            line = line.Substring(index + 1);
+                        }
+                    }
+
+                    line = IrbisText.IrbisToWindows(line);
+                    result.Add(line);
+                }
             }
 
             return result.ToArray();
@@ -215,7 +224,16 @@ namespace ManagedIrbis.Network.Commands
                 result.GetReturnCode();
             }
 
-            FormatResult = GetFormatResult(result);
+            int count = 1;
+            if (VirtualRecord == null)
+            {
+                count = MfnList.Count;
+            }
+            FormatResult = GetFormatResult
+                (
+                    result,
+                    count
+                );
 
             return result;
         }

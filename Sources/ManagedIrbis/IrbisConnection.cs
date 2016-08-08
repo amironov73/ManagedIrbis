@@ -719,8 +719,8 @@ namespace ManagedIrbis
         [NotNull]
         public string[] FormatRecords
             (
-                [NotNull] string format,
                 [NotNull] string database,
+                [NotNull] string format,
                 [NotNull] IEnumerable<int> mfnList
             )
         {
@@ -1424,6 +1424,26 @@ namespace ManagedIrbis
                 FormatSpecification = IrbisFormat.All
             };
             command.MfnList.AddRange(mfnList);
+
+            if (command.MfnList.Count == 0)
+            {
+                return new MarcRecord[0];
+            }
+
+            if (command.MfnList.Count == 1)
+            {
+                int mfn = command.MfnList[0];
+
+                MarcRecord record = ReadRecord
+                    (
+                        database,
+                        mfn,
+                        false,
+                        null
+                    );
+
+                return new[] {record};
+            }
 
             ExecuteCommand(command);
 

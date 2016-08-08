@@ -54,8 +54,11 @@ namespace UnitTests
         {
             int[] array = { 1, 2, 3 };
             int[][] sliced = array.Slice(2).ToArray();
-
             Assert.AreEqual(2, sliced.Length);
+
+            array = new int[0];
+            sliced = array.Slice(2).ToArray();
+            Assert.AreEqual(0, sliced.Length);
         }
     }
 }

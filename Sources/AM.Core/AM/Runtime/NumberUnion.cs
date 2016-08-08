@@ -1,5 +1,7 @@
 ﻿/* NumberUnion.cs -- 
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -120,6 +122,12 @@ namespace AM.Runtime
         public byte Byte15;
 
         #endregion
+
+        public NumberUnion(int value)
+            : this()
+        {
+            SignedInt32 = value;
+        }
 
         /// <summary>
         /// 

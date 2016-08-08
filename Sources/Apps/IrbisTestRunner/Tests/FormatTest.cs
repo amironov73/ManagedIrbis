@@ -85,14 +85,25 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestFormat_OneRecord()
+        public void TestFormat_OneRecord1()
         {
             string actual = Connection.FormatRecord
                 (
                     "@brief",
                     1
                 );
-            Console.Write(actual);
+            Write(actual);
+        }
+
+        [TestMethod]
+        public void TestFormat_OneRecord2()
+        {
+            string actual = Connection.FormatRecord
+                (
+                    "v200^a,/,v200^e",
+                    1
+                );
+            Write(actual);
         }
 
         [TestMethod]
@@ -104,7 +115,7 @@ namespace IrbisTestRunner.Tests
                     "@brief",
                     record
                 );
-            Console.Write(actual);
+            Write(actual);
         }
 
         [TestMethod]
@@ -116,7 +127,7 @@ namespace IrbisTestRunner.Tests
                     "@brief",
                     new[] { 1, 2, 3 }
                 );
-            Console.Write(string.Join(Environment.NewLine, actual));
+            Write(string.Join(Environment.NewLine, actual));
         }
 
         [TestMethod]
@@ -127,7 +138,7 @@ namespace IrbisTestRunner.Tests
                     "@",
                     1
                 );
-            Console.Write(actual);
+            Write(actual);
         }
 
         #endregion

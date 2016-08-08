@@ -1,5 +1,7 @@
 ﻿/* IHandmadeSerializable.cs -- объект умеет сохраняться в поток
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

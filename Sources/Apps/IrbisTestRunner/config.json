@@ -3,9 +3,9 @@
     "irbisServer": "C:\\IRBIS64_2015\\irbis_server.exe",
     "connectionString": "host=127.0.0.1;port=6666;user=1;password=1;arm=A;log=C:\\Temp11",
     //"connectionString": "host=127.0.0.1;port=6666;user=1;password=1;arm=A;",
-    "testPath": "C:\\Projects\\ManagedClient.45\\IrbisTestRunner\\Tests",
+    "testPath": "C:\\Projects\\ManagedClient.45\\Sources\\Apps\\IrbisTestRunner\\Tests",
     "dataPath": "C:\\Projects\\ManagedClient.45\\TestData",
-    "resultPath": "C:\\Projects\\ManagedClient.45\\IrbisTestRunner\\Results",
+    "resultPath": "C:\\Projects\\ManagedClient.45\\Sources\\Apps\\IrbisTestRunner\\Results",
     "references": [
         "AM.Core.dll",
         "Antlr4.Runtime.net45.dll",
@@ -23,13 +23,14 @@
     ],
     "tests": [
         //"ArbitraryCommandTest.cs",
+        "BatchRecordReaderTest.cs",
         //"BinaryResourceTest.cs",
         //"ConnectionTest.cs",
         //"CreateDatabaseTest.cs",
         //"CreateDictionaryTest.cs",
         //"DatabaseInfoTest.cs"
         //"DatabaseStatTest.cs",
-        "DeleteRecordTest.cs",
+        //"DeleteRecordTest.cs",
         //"FlcTest.cs",
         //"FormatTest.cs",
         //"GblVirtualTest.cs",

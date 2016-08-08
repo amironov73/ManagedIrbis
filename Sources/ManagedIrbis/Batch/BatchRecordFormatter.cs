@@ -42,6 +42,12 @@ namespace ManagedIrbis.Batch
         /// </summary>
         public event EventHandler BatchRead;
 
+        /// <summary>
+        /// Raised when exception occurs.
+        /// </summary>
+        [CanBeNull]
+        public event EventHandler<ExceptionEventArgs<Exception>> Exception;
+
         #endregion
 
         #region Properties
@@ -118,12 +124,83 @@ namespace ManagedIrbis.Batch
 
         #region Private members
 
-        //private readonly object _syncRoot;
         private readonly int[][] _packages;
+
+        private bool _HandleException
+            (
+                Exception exception
+            )
+        {
+            EventHandler<ExceptionEventArgs<Exception>> handler
+                = Exception;
+
+            if (handler == null)
+            {
+                return false;
+            }
+
+            ExceptionEventArgs<Exception> arguments
+                = new ExceptionEventArgs<Exception>(exception);
+            handler(this, arguments);
+
+            return arguments.Handled;
+        }
 
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Read interval of records
+        /// </summary>
+        [NotNull]
+        public static IEnumerable<string> Interval
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] string database,
+                [NotNull] string format,
+                int firstMfn,
+                int lastMfn,
+                int batchSize
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNullNorEmpty(format, "format");
+            Code.Positive(firstMfn, "firstMfn");
+            Code.Positive(lastMfn, "lastMfn");
+            if (batchSize < 1)
+            {
+                throw new ArgumentOutOfRangeException("batchSize");
+            }
+
+            int maxMfn = connection.GetMaxMfn(database) - 1;
+            if (maxMfn == 0)
+            {
+                return new string[0];
+            }
+
+            lastMfn = Math.Min(lastMfn, maxMfn);
+            if (firstMfn > lastMfn)
+            {
+                return new string[0];
+            }
+
+            BatchRecordFormatter result = new BatchRecordFormatter
+                (
+                    connection,
+                    database,
+                    format,
+                    batchSize,
+                    Enumerable.Range
+                    (
+                        firstMfn,
+                        lastMfn - firstMfn + 1
+                    )
+                );
+
+            return result;
+        }
 
         /// <summary>
         /// Считывает все записи сразу.
@@ -138,6 +215,84 @@ namespace ManagedIrbis.Batch
             {
                 result.Add(record);
             }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Search and format records.
+        /// </summary>
+        [NotNull]
+        public IEnumerable<string> Search
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] string database,
+                [NotNull] string format,
+                [NotNull] string searchExpression,
+                int batchSize
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNullNorEmpty(format, "format");
+            Code.NotNullNorEmpty(searchExpression, "searchExpression");
+            if (batchSize < 1)
+            {
+                throw new ArgumentOutOfRangeException("batchSize");
+            }
+
+            int[] found = connection.Search(searchExpression);
+            if (found.Length == 0)
+            {
+                return new string[0];
+            }
+
+            BatchRecordFormatter reader = new BatchRecordFormatter
+                (
+                    connection,
+                    database,
+                    format,
+                    batchSize,
+                    found
+                );
+
+            return reader;
+        }
+
+        /// <summary>
+        /// Format whole database
+        /// </summary>
+        [NotNull]
+        public static IEnumerable<string> WholeDatabase
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] string database,
+                [NotNull] string format,
+                int batchSize
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNullNorEmpty(format, "format");
+            if (batchSize < 1)
+            {
+                throw new ArgumentOutOfRangeException("batchSize");
+            }
+
+            int maxMfn = connection.GetMaxMfn(database) - 1;
+            if (maxMfn == 0)
+            {
+                return new string[0];
+            }
+
+            BatchRecordFormatter result = new BatchRecordFormatter
+                (
+                    connection,
+                    database,
+                    format,
+                    batchSize,
+                    Enumerable.Range(1, maxMfn)
+                );
 
             return result;
         }

@@ -10,8 +10,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 
@@ -20,8 +18,6 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -40,7 +36,14 @@ namespace ManagedIrbis.Batch
         /// <summary>
         /// Raised on batch reading.
         /// </summary>
+        [CanBeNull]
         public event EventHandler BatchRead;
+
+        /// <summary>
+        /// Raised when exception occurs.
+        /// </summary>
+        [CanBeNull]
+        public event EventHandler<ExceptionEventArgs<Exception>> Exception;
 
         #endregion
 
@@ -109,14 +112,82 @@ namespace ManagedIrbis.Batch
 
         #region Private members
 
-        //private readonly object _syncRoot;
         private readonly int[][] _packages;
+
+        private bool _HandleException
+            (
+                Exception exception
+            )
+        {
+            EventHandler<ExceptionEventArgs<Exception>> handler
+                = Exception;
+
+            if (handler == null)
+            {
+                return false;
+            }
+
+            ExceptionEventArgs<Exception> arguments
+                = new ExceptionEventArgs<Exception>(exception);
+            handler(this, arguments);
+
+            return arguments.Handled;
+        }
 
         #endregion
 
         #region Public methods
 
         /// <summary>
+        /// Read interval of records
+        /// </summary>
+        [NotNull]
+        public static IEnumerable<MarcRecord> Interval
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] string database,
+                int firstMfn,
+                int lastMfn,
+                int batchSize
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            Code.Positive(firstMfn, "firstMfn");
+            Code.Positive(lastMfn, "lastMfn");
+            if (batchSize < 1)
+            {
+                throw new ArgumentOutOfRangeException("batchSize");
+            }
+
+            int maxMfn = connection.GetMaxMfn(database) - 1;
+            if (maxMfn == 0)
+            {
+                return new MarcRecord[0];
+            }
+
+            lastMfn = Math.Min(lastMfn, maxMfn);
+            if (firstMfn > lastMfn)
+            {
+                return new MarcRecord[0];
+            }
+
+            BatchRecordReader result = new BatchRecordReader
+                (
+                    connection,
+                    database,
+                    batchSize,
+                    Enumerable.Range
+                    (
+                        firstMfn,
+                        lastMfn - firstMfn + 1
+                    )
+                );
+
+            return result;
+        }
+
+            /// <summary>
         /// Считывает все записи сразу.
         /// </summary>
         [NotNull]
@@ -133,20 +204,92 @@ namespace ManagedIrbis.Batch
             return result;
         }
 
+        /// <summary>
+        /// Search and read records.
+        /// </summary>
+        [NotNull]
+        public IEnumerable<MarcRecord> Search
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] string database,
+                [NotNull] string searchExpression,
+                int batchSize
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNullNorEmpty(searchExpression, "searchExpression");
+            if (batchSize < 1)
+            {
+                throw new ArgumentOutOfRangeException("batchSize");
+            }
+
+            int[] found = connection.Search(searchExpression);
+            if (found.Length == 0)
+            {
+                return new MarcRecord[0];
+            }
+
+            BatchRecordReader reader = new BatchRecordReader
+                (
+                    connection,
+                    database,
+                    batchSize,
+                    found
+                );
+
+            return reader;
+        }
+
+        /// <summary>
+        /// Read whole database
+        /// </summary>
+        [NotNull]
+        public static IEnumerable<MarcRecord> WholeDatabase
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] string database,
+                int batchSize
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            if (batchSize < 1)
+            {
+                throw new ArgumentOutOfRangeException("batchSize");
+            }
+
+            int maxMfn = connection.GetMaxMfn(database) - 1;
+            if (maxMfn == 0)
+            {
+                return new MarcRecord[0];
+            }
+
+            BatchRecordReader result = new BatchRecordReader
+                (
+                    connection,
+                    database,
+                    batchSize,
+                    Enumerable.Range(1, maxMfn)
+                );
+
+            return result;
+        }
+
         #endregion
 
         #region IEnumerable members
 
         /// <summary>
-        /// Get enumrator.
+        /// Get enumerator.
         /// </summary>
         public IEnumerator<MarcRecord> GetEnumerator()
         {
             foreach (int[] package in _packages)
             {
                 MarcRecord[] records = null;
-                //try
-                //{
+                try
+                {
                     records = Connection.ReadRecords
                         (
                             Database,
@@ -154,11 +297,14 @@ namespace ManagedIrbis.Batch
                         );
                     RecordsRead += records.Length;
                     BatchRead.Raise(this);
-                //}
-                //catch (Exception ex)
-                //{
-                //    _OnException(ex);
-                //}
+                }
+                catch (Exception exception)
+                {
+                    if (!_HandleException(exception))
+                    {
+                        throw;
+                    }
+                }
                 if (records != null)
                 {
                     foreach (MarcRecord record in records)
