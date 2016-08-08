@@ -185,10 +185,15 @@
     <Compile Include="Caching\RecordCache.cs" />
     <Compile Include="Caching\TextCache.cs" />
     <Compile Include="ConnectionSettings.cs" />
+    <Compile Include="Direct\DirectReader64.cs" />
+    <Compile Include="Direct\InvertedFile64.cs" />
     <Compile Include="Direct\MstControlRecord64.cs" />
     <Compile Include="Direct\MstDictionaryEntry64.cs" />
+    <Compile Include="Direct\MstFile64.cs" />
     <Compile Include="Direct\MstRecord64.cs" />
     <Compile Include="Direct\MstRecordLeader64.cs" />
+    <Compile Include="Direct\XrfFile64.cs" />
+    <Compile Include="Direct\XrfRecord64.cs" />
     <Compile Include="Fields\BinaryResource.cs" />
     <Compile Include="Flc\FlcConstants.cs" />
     <Compile Include="Flc\FlcProcessor.cs" />

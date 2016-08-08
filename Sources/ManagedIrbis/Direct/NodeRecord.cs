@@ -22,7 +22,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedIrbis
+namespace ManagedIrbis.Direct
 {
     /// <summary>
     /// Запись в файлах L01 и N01.
@@ -88,6 +88,8 @@ namespace ManagedIrbis
         #region Private members
 
         private readonly List<NodeItem> _items;
+
+        internal Stream _stream;
 
         #endregion
 
