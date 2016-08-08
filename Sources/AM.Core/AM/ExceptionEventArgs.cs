@@ -23,6 +23,7 @@ namespace AM
     [PublicAPI]
     [DebuggerDisplay("{Exception} {Handled}")]
     public sealed class ExceptionEventArgs<T>
+        : EventArgs
         where T: Exception
     {
         #region Properties
