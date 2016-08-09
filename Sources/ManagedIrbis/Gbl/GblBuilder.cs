@@ -423,6 +423,20 @@ namespace ManagedIrbis.Gbl
         }
 
         [NotNull]
+        public GblBuilder If
+            (
+                [NotNull] string condition,
+                [NotNull] GblBuilder builder
+            )
+        {
+            return If
+                (
+                    condition,
+                    builder.ToStatements()
+                );
+        }
+
+        [NotNull]
         public GblBuilder Nop ()
         {
             return AddStatement

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+
 using AM.Collections;
 using AM.IO;
 using AM.Runtime;
@@ -43,6 +44,9 @@ namespace ManagedIrbis.Gbl
 
         #region Public methods
 
+        /// <summary>
+        /// Encode statements for IRBIS64 protocol.
+        /// </summary>
         [NotNull]
         public static string EncodeStatements
             (

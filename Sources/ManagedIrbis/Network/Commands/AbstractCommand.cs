@@ -167,6 +167,17 @@ namespace ManagedIrbis.Network.Commands
             return result;
         }
 
+        /// <summary>
+        /// Parse client query.
+        /// </summary>
+        public virtual void ParseClientQuery
+            (
+                [NotNull] byte[] clientQuery
+            )
+        {
+            Code.NotNull(clientQuery, "clientQuery");
+        }
+
         #endregion
 
         #region IVerifiable members
