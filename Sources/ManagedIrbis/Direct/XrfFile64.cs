@@ -62,7 +62,7 @@ namespace ManagedIrbis.Direct
                 byte[] buffer = new byte[(int)_stream.Length];
                 Stream memory = new MemoryStream(buffer);
                 _stream.Read(buffer, 0, buffer.Length);
-                _stream.Close();
+                _stream.Dispose();
                 _stream = memory;
             }
         }
@@ -111,11 +111,11 @@ namespace ManagedIrbis.Direct
             int flags = _stream.ReadInt32Network();
 
             XrfRecord64 result = new XrfRecord64
-                                   {
-                                       Mfn = mfn,
-                                       Offset = ofs,
-                                       Status = (RecordStatus)flags
-                                   };
+                {
+                    Mfn = mfn,
+                    Offset = ofs,
+                    Status = (RecordStatus)flags
+                };
 
             return result;
         }

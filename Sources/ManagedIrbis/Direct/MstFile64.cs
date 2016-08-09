@@ -238,6 +238,8 @@ namespace ManagedIrbis.Direct
                 bool flag
             )
         {
+#if !NETCORE
+
             byte[] buffer = new byte[4];
 
             _stream.Position = MstControlRecord64.LockFlagPosition;
@@ -253,6 +255,8 @@ namespace ManagedIrbis.Direct
                 _stream.Unlock(0, MstControlRecord64.RecordSize);
             }
             _lockFlag = flag;
+
+#endif
         }
 
         /// <summary>
