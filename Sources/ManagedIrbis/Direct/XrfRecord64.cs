@@ -19,7 +19,6 @@ namespace ManagedIrbis.Direct
     /// <summary>
     /// Contains information about record offset and status.
     /// </summary>
-    [Serializable]
     [DebuggerDisplay("Offset={Offset}, Status={Status}")]
     public sealed class XrfRecord64
     {

@@ -83,6 +83,14 @@ namespace ManagedIrbis.Network.Commands
         /// </summary>
         public string Username { get; set; }
 
+        /// <summary>
+        /// Doesn't require connection.
+        /// </summary>
+        public override bool RequireConnection
+        {
+            get { return false; }
+        }
+
         #endregion
 
         #region Construction
@@ -141,6 +149,11 @@ namespace ManagedIrbis.Network.Commands
             )
         {
             Code.NotNull(query, "query");
+
+            if (Connection.Connected)
+            {
+                throw new IrbisException("Already connected");
+            }
 
             ServerResponse result;
             

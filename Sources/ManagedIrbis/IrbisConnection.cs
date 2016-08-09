@@ -25,6 +25,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Executive;
 using ManagedIrbis.Gbl;
 using ManagedIrbis.Network;
 using ManagedIrbis.Network.Commands;
@@ -88,47 +89,37 @@ namespace ManagedIrbis
         /// Адрес сервера.
         /// </summary>
         /// <value>Адрес сервера в цифровом виде.</value>
-        [DefaultValue(ConnectionSettings.DefaultHost)]
         public string Host { get; set; }
 
         /// <summary>
         /// Порт сервера.
         /// </summary>
         /// <value>Порт сервера (по умолчанию 6666).</value>
-        [DefaultValue(ConnectionSettings.DefaultPort)]
         public int Port { get; set; }
 
         /// <summary>
         /// Имя пользователя.
         /// </summary>
         /// <value>Имя пользователя.</value>
-        //[DefaultValue(DefaultUsername)]
         public string Username { get; set; }
 
         /// <summary>
         /// Пароль пользователя.
         /// </summary>
         /// <value>Пароль пользователя.</value>
-        //[DefaultValue(DefaultPassword)]
         public string Password { get; set; }
 
         /// <summary>
         /// Имя базы данных.
         /// </summary>
         /// <value>Служебное имя базы данных (например, "IBIS").</value>
-        [DefaultValue(ConnectionSettings.DefaultDatabase)]
-        public string Database
-        {
-            get { return _database; }
-            set { _database = value; }
-        }
+        public string Database { get; set; }
 
         /// <summary>
         /// Тип АРМ.
         /// </summary>
         /// <value>По умолчанию <see cref="IrbisWorkstation.Cataloger"/>.
         /// </value>
-        [DefaultValue(ConnectionSettings.DefaultWorkstation)]
         public IrbisWorkstation Workstation { get; set; }
 
         /// <summary>
@@ -140,6 +131,9 @@ namespace ManagedIrbis
         /// Номер команды.
         /// </summary>
         public int QueryID { get { return _queryID; } }
+
+        [NotNull]
+        public AbstractEngine Executive { get; private set; }
 
         ///// <summary>
         ///// Конфигурация клиента.
@@ -232,6 +226,7 @@ namespace ManagedIrbis
             Password = null;
             Workstation = ConnectionSettings.DefaultWorkstation;
 
+            Executive = new StandardEngine(this, null);
             Socket = new SimpleClientSocket(this);
         }
 
@@ -259,8 +254,6 @@ namespace ManagedIrbis
         private int _clientID;
         private int _queryID;
         // ReSharper restore InconsistentNaming
-
-        private string _database;
 
         private static Random _random = new Random();
 
@@ -570,62 +563,14 @@ namespace ManagedIrbis
         {
             Code.NotNull(command, "command");
 
-            if (!Connected)
-            {
-                throw new IrbisException("Not connected");
-            }
+            ExecutionContext context = new ExecutionContext
+                (
+                    this,
+                    command
+                );
+            ServerResponse result = Executive.ExecuteCommand(context);
 
-            command.Verify(true);
-
-            using (new BusyGuard(Busy))
-            {
-                ClientQuery query = command.CreateQuery();
-                query.Verify(true);
-
-                ServerResponse result = command.Execute(query);
-                result.Verify(true);
-                command.CheckResponse(result);
-
-                return result;
-            }
-        }
-
-        /// <summary>
-        /// Execute any command.
-        /// </summary>
-        [NotNull]
-        public ServerResponse ExecuteCommand
-            (
-                [NotNull] AbstractCommand command,
-                params object[] arguments
-            )
-        {
-            Code.NotNull(command, "command");
-
-            if (!Connected)
-            {
-                throw new IrbisException("Not connected");
-            }
-
-            command.Verify(true);
-
-            using (new BusyGuard(Busy))
-            {
-                ClientQuery query = command.CreateQuery();
-
-                foreach (object argument in arguments)
-                {
-                    query.Add(argument);
-                }
-
-                query.Verify(true);
-
-                ServerResponse result = command.Execute(query);
-                result.Verify(true);
-                command.CheckResponse(result);
-
-                return result;
-            }
+            return result;
         }
 
         /// <summary>
@@ -643,14 +588,11 @@ namespace ManagedIrbis
             UniversalCommand command = new UniversalCommand
                 (
                     this,
-                    commandCode
-                );
-
-            return ExecuteCommand
-                (
-                    command,
+                    commandCode,
                     arguments
                 );
+
+            return ExecuteCommand(command);
         }
 
         #endregion
@@ -1666,6 +1608,21 @@ namespace ManagedIrbis
                 );
 
             return result;
+        }
+
+        // =========================================================
+
+        /// <summary>
+        /// Set execution engine.
+        /// </summary>
+        public void SetEngine
+            (
+                [NotNull] AbstractEngine engine
+            )
+        {
+            Code.NotNull(engine, "engine");
+
+            Executive = engine;
         }
 
         // =========================================================

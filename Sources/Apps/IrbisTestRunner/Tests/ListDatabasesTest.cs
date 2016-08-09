@@ -46,7 +46,7 @@ namespace IrbisTestRunner.Tests
         [TestMethod]
         public void TestListDatabases()
         {
-            IrbisDatabaseInfo[] databases
+            DatabaseInfo[] databases
                 = Connection.ListDatabases();
 
             string text = string.Join

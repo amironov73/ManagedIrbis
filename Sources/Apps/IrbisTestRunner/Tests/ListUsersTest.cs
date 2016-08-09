@@ -46,7 +46,7 @@ namespace IrbisTestRunner.Tests
         [TestMethod]
         public void TestListUsers()
         {
-            IrbisUserInfo[] users = Connection.ListUsers();
+            UserInfo[] users = Connection.ListUsers();
 
             Write
                 (

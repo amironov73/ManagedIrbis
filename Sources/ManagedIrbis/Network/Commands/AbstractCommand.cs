@@ -71,6 +71,11 @@ namespace ManagedIrbis.Network.Commands
         /// </summary>
         public bool RelaxResponse { get; set; }
 
+        /// <summary>
+        /// Does the command require established connection?
+        /// </summary>
+        public virtual bool RequireConnection { get { return true; } }
+
         #endregion
 
         #region Construction
