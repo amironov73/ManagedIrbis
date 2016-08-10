@@ -86,7 +86,7 @@ namespace ManagedIrbis.Direct
             //    .WriteLine();
 
             //Encoding encoding = new UTF8Encoding(false, true);
-            Encoding encoding = Encoding.Default;
+            Encoding encoding = IrbisEncoding.Ansi;
 
             MstRecordLeader32 leader = MstRecordLeader32.Read(_stream);
 
@@ -160,7 +160,7 @@ namespace ManagedIrbis.Direct
                 throw new IOException();
             }
 
-            Encoding encoding = Encoding.Default;
+            Encoding encoding = IrbisEncoding.Ansi;
 
             MemoryStream memory = new MemoryStream(PreloadLength);
             _AppendStream(_stream, memory, PreloadLength);
