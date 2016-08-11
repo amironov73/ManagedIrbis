@@ -7,7 +7,7 @@
 #region Using directives
 
 using System;
-
+using System.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -218,6 +218,44 @@ namespace ManagedIrbis.Network
         public virtual SearchReadCommand GetSearchReadCommand()
         {
             return new SearchReadCommand(Connection);
+        }
+
+        /// <summary>
+        /// Get UniversalCommand.
+        /// </summary>
+        [NotNull]
+        public virtual UniversalCommand GetUniversalCommand
+            (
+                [NotNull] string commandCode,
+                params object[] arguments
+            )
+        {
+            return new UniversalCommand
+                (
+                    Connection,
+                    commandCode,
+                    arguments
+                );
+        }
+
+        /// <summary>
+        /// Get UniversalTextCommand.
+        /// </summary>
+        [NotNull]
+        public virtual UniversalTextCommand GetUniversalTextCommand
+            (
+                [NotNull] string commandCode,
+                [NotNull] string[] lines,
+                [NotNull] Encoding encoding
+            )
+        {
+            return new UniversalTextCommand
+                (
+                    Connection,
+                    commandCode,
+                    lines,
+                    encoding
+                );
         }
 
         /// <summary>

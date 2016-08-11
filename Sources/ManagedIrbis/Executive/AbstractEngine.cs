@@ -7,9 +7,6 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 
 using AM;
 using AM.Threading;
@@ -45,6 +42,11 @@ namespace ManagedIrbis.Executive
         /// Raised before execution.
         /// </summary>
         public event EventHandler<ExecutionEventArgs> BeforeExecution;
+
+        /// <summary>
+        /// Raised on exception.
+        /// </summary>
+        public event EventHandler<ExecutionEventArgs> ExceptionOccurs;
 
         #endregion
 
@@ -144,6 +146,24 @@ namespace ManagedIrbis.Executive
         }
 
         /// <summary>
+        /// Exception occurs.
+        /// </summary>
+        protected void OnException
+            (
+                [NotNull] ExecutionContext context
+            )
+        {
+            EventHandler<ExecutionEventArgs> handler = ExceptionOccurs;
+
+            if (!ReferenceEquals(handler, null))
+            {
+                ExecutionEventArgs args = new ExecutionEventArgs(context);
+
+                handler(this, args);
+            }
+        }
+
+        /// <summary>
         /// Standard command execution.
         /// </summary>
         /// <param name="context"></param>
@@ -162,12 +182,37 @@ namespace ManagedIrbis.Executive
 
             using (new BusyGuard(connection.Busy))
             {
-                ClientQuery query = command.CreateQuery();
-                query.Verify(true);
+                ServerResponse result = ServerResponse
+                    .GetEmptyResponse
+                    (
+                        connection
+                    );
 
-                ServerResponse result = command.Execute(query);
-                result.Verify(true);
-                command.CheckResponse(result);
+                connection.Interrupted = false;
+
+                try
+                {
+
+                    ClientQuery query = command.CreateQuery();
+                    query.Verify(true);
+
+                    result = command.Execute(query);
+                    result.Verify(true);
+                    command.CheckResponse(result);
+
+                }
+                catch (Exception exception)
+                {
+                    context.Exception = exception;
+
+                    OnException(context);
+
+                    if (!context.ExceptionHandled)
+                    {
+                        throw;
+                    }
+                }
+
                 context.Response = result;
 
                 return result;

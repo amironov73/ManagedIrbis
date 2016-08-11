@@ -265,6 +265,28 @@ namespace ManagedIrbis.Network
         }
 
         /// <summary>
+        /// Get empty response.
+        /// </summary>
+        [NotNull]
+        public static ServerResponse GetEmptyResponse
+            (
+                IrbisConnection connection
+            )
+        {
+            byte[] empty = new byte[0];
+
+            ServerResponse result = new ServerResponse
+                (
+                    connection,
+                    empty,
+                    empty,
+                    true
+                );
+
+            return result;
+        }
+
+        /// <summary>
         /// Get 32-bit integer value.
         /// </summary>
         public int GetInt32

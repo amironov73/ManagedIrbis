@@ -132,8 +132,17 @@ namespace ManagedIrbis
         /// </summary>
         public int QueryID { get { return _queryID; } }
 
+        /// <summary>
+        /// Executive engine.
+        /// </summary>
         [NotNull]
         public AbstractEngine Executive { get; private set; }
+
+        /// <summary>
+        /// Command factory.
+        /// </summary>
+        [NotNull]
+        public CommandFactory CommandFactory { get; private set; }
 
         ///// <summary>
         ///// Конфигурация клиента.
@@ -149,37 +158,12 @@ namespace ManagedIrbis
         /// </summary>
         /// <value>Устанавливается в true при успешном выполнении
         /// <see cref="Connect"/>, сбрасывается при выполнении
-        /// <see cref="Disconnect"/> или <see cref="Dispose"/>.</value>
+        /// <see cref="Disconnect"/> или <see cref="Dispose"/>.
+        /// </value>
         public bool Connected
         {
             get { return _connected; }
         }
-
-        ///// <summary>
-        ///// Для ожидания окончания запроса.
-        ///// </summary>
-        //public WaitHandle WaitHandle
-        //{
-        //    get { return _waitHandle; }
-        //}
-
-        ///// <summary>
-        ///// Поток для вывода отладочной информации.
-        ///// </summary>
-        ///// <remarks><para><c>null</c> означает, что вывод отладочной 
-        ///// информации не нужен.</para>
-        ///// <para>Обратите внимание, что <see cref="DebugWriter"/>
-        ///// не сериализуется, т. к. большинство потоков не умеют
-        ///// сериализоваться. Так что при восстановлении клиента
-        ///// вам придётся восстанавливать <see cref="DebugWriter"/>
-        ///// самостоятельно.</para>
-        ///// </remarks>
-        //[DefaultValue(null)]
-        //public TextWriter DebugWriter
-        //{
-        //    get { return _debugWriter; }
-        //    set { _debugWriter = value; }
-        //}
 
         /// <summary>
         /// Таймаут получения ответа от сервера в миллисекундах
@@ -227,6 +211,8 @@ namespace ManagedIrbis
             Workstation = ConnectionSettings.DefaultWorkstation;
 
             Executive = new StandardEngine(this, null);
+            CommandFactory = CommandFactory
+                .GetDataultFactory(this);
             Socket = new SimpleClientSocket(this);
         }
 
@@ -407,9 +393,12 @@ namespace ManagedIrbis
         /// </summary>
         public string Connect()
         {
+            // TODO use Executive
+
             if (!_connected)
             {
-                ConnectCommand command = new ConnectCommand(this);
+                ConnectCommand command
+                    = CommandFactory.GetConnectCommand();
                 ClientQuery query = command.CreateQuery();
                 ServerResponse result = command.Execute(query);
                 command.CheckResponse(result);
@@ -437,15 +426,16 @@ namespace ManagedIrbis
             Code.NotNull(record, "record");
             Code.NotNull(statements, "statements");
 
-            GblVirtualCommand command = new GblVirtualCommand(this)
-            {
-                Database = database,
-                Record = record,
-                Statements = statements
-            };
+            GblVirtualCommand command
+                = CommandFactory.GetGblVirtualCommand();
+            command.Database = database;
+            command.Record = record;
+            command.Statements = statements;
+
             ExecuteCommand(command);
 
-            return command.Result.ThrowIfNull("command.Result");
+            return command.Result
+                .ThrowIfNull("command.Result");
         }
 
         /// <summary>
@@ -463,15 +453,16 @@ namespace ManagedIrbis
             Code.NotNull(record, "record");
             Code.NotNullNorEmpty(filename, "filename");
 
-            GblVirtualCommand command = new GblVirtualCommand(this)
-            {
-                Database = database,
-                Record = record,
-                FileName = filename
-            };
+            GblVirtualCommand command
+                = CommandFactory.GetGblVirtualCommand();
+            command.Database = database;
+            command.Record = record;
+            command.FileName = filename;
+
             ExecuteCommand(command);
 
-            return command.Result.ThrowIfNull("command.Result");
+            return command.Result
+                .ThrowIfNull("command.Result");
         }
 
         // ========================================================
@@ -492,13 +483,12 @@ namespace ManagedIrbis
             Code.NotNullNorEmpty(description, "description");
 
             CreateDatabaseCommand command
-                = new CreateDatabaseCommand(this)
-                {
-                    Database = databaseName,
-                    Description = description,
-                    ReaderAccess = readerAccess,
-                    Template = template
-                };
+                = CommandFactory.GetCreateDatabaseCommand();
+            command.Database = databaseName;
+            command.Description = description;
+            command.ReaderAccess = readerAccess;
+            command.Template = template;
+
             ExecuteCommand(command);
         }
 
@@ -515,15 +505,13 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(databaseName, "databaseName");
 
-            UniversalCommand command = new UniversalCommand
+            UniversalCommand command
+                = CommandFactory.GetUniversalCommand
                 (
-                    this,
                     CommandCode.CreateDictionary,
                     databaseName
-                )
-            {
-                RelaxResponse = true
-            };
+                );
+            command.RelaxResponse = true;
 
             ExecuteCommand(command);
         }
@@ -568,7 +556,8 @@ namespace ManagedIrbis
                     this,
                     command
                 );
-            ServerResponse result = Executive.ExecuteCommand(context);
+            ServerResponse result
+                = Executive.ExecuteCommand(context);
 
             return result;
         }
@@ -585,9 +574,9 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(commandCode, "commandCode");
 
-            UniversalCommand command = new UniversalCommand
+            UniversalCommand command
+                = CommandFactory.GetUniversalCommand
                 (
-                    this,
                     commandCode,
                     arguments
                 );
@@ -614,11 +603,11 @@ namespace ManagedIrbis
             Code.Positive(mfn, "mfn");
             Code.NotNull(format, "format");
 
-            FormatCommand command = new FormatCommand(this)
-            {
-                FormatSpecification = format
-            };
+            FormatCommand command
+                = CommandFactory.GetFormatCommand();
+            command.FormatSpecification = format;
             command.MfnList.Add(mfn);
+
             ExecuteCommand(command);
 
             string result = command.FormatResult
@@ -641,11 +630,11 @@ namespace ManagedIrbis
             Code.NotNull(format, "format");
             Code.NotNull(record, "record");
 
-            FormatCommand command = new FormatCommand(this)
-            {
-                FormatSpecification = format,
-                VirtualRecord = record
-            };
+            FormatCommand command
+                = CommandFactory.GetFormatCommand();
+            command.FormatSpecification = format;
+            command.VirtualRecord = record;
+
             ExecuteCommand(command);
 
             string result = command.FormatResult
@@ -670,11 +659,10 @@ namespace ManagedIrbis
             Code.NotNullNorEmpty(database, "database");
             Code.NotNull(format, "format");
 
-            FormatCommand command = new FormatCommand(this)
-            {
-                Database = database,
-                FormatSpecification = format
-            };
+            FormatCommand command
+                = CommandFactory.GetFormatCommand();
+            command.Database = database;
+            command.FormatSpecification = format;
             command.MfnList.AddRange(mfnList);
 
             if (command.MfnList.Count == 0)
@@ -707,12 +695,15 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(databaseName, "databaseName");
 
-            UniversalCommand command = new UniversalCommand
+            // TODO create DatabaseInfoCommand
+
+            UniversalCommand command
+                = CommandFactory.GetUniversalCommand
                 (
-                    this,
                     CommandCode.RecordList,
                     databaseName
                 );
+
             ServerResponse response = ExecuteCommand(command);
             DatabaseInfo result
                 = DatabaseInfo.ParseServerResponse(response);
@@ -732,13 +723,13 @@ namespace ManagedIrbis
         {
             Code.NotNull(definition, "definition");
 
-            DatabaseStatCommand command = new DatabaseStatCommand(this)
-            {
-                Definition = definition
-            };
-            ExecuteCommand(command);
+            DatabaseStatCommand command
+                = CommandFactory.GetDatabaseStatCommand();
+            command.Definition = definition;
 
-            string result = command.Result;
+            ExecuteCommand(command);
+            string result = command.Result
+                .ThrowIfNull("command.Result");
 
             return result;
         }
@@ -766,9 +757,9 @@ namespace ManagedIrbis
                 database = Database;
             }
 
-            UniversalCommand command = new UniversalCommand
+            UniversalCommand command
+                = CommandFactory.GetUniversalCommand
                 (
-                    this,
                     CommandCode.GetMaxMfn,
                     database
                 );
@@ -787,6 +778,8 @@ namespace ManagedIrbis
         [NotNull]
         public ServerStat GetServerStat()
         {
+            // TODO Create ServerStatCommand
+
             ServerResponse response = ExecuteCommand
                 (
                     CommandCode.GetServerStat
@@ -804,6 +797,8 @@ namespace ManagedIrbis
         [NotNull]
         public IrbisVersion GetServerVersion()
         {
+            // TODO Create ServerVersionCommand
+
             ServerResponse response
                 = ExecuteCommand(CommandCode.ServerInfo);
             IrbisVersion result
@@ -863,7 +858,8 @@ namespace ManagedIrbis
         /// <summary>
         /// Global correction.
         /// </summary>
-        /// <remarks>Filename = @filename without extension</remarks>
+        /// <remarks>Filename = @filename without
+        /// extension</remarks>
         [NotNull]
         public GblResult GlobalCorrection
             (
@@ -918,6 +914,8 @@ namespace ManagedIrbis
                 [NotNull] string listFile
             )
         {
+            // TODO Create ListDatabasesCommand
+
             Code.NotNull(listFile, "listFile");
 
             string menuFile = this.ReadTextFile
@@ -926,7 +924,8 @@ namespace ManagedIrbis
                     listFile
                 );
             string[] lines = menuFile.SplitLines();
-            DatabaseInfo[] result = DatabaseInfo.ParseMenu(lines);
+            DatabaseInfo[] result
+                = DatabaseInfo.ParseMenu(lines);
 
             return result;
         }
@@ -1011,11 +1010,14 @@ namespace ManagedIrbis
         [NotNull]
         public IrbisProcessInfo[] ListProcesses()
         {
+            // TODO Create ListProcessesCommand
+
             ServerResponse response = ExecuteCommand
                 (
                     CommandCode.GetProcessList
                 );
-            IrbisProcessInfo[] result = IrbisProcessInfo.Parse(response);
+            IrbisProcessInfo[] result
+                = IrbisProcessInfo.Parse(response);
 
             return result;
         }
@@ -1028,6 +1030,8 @@ namespace ManagedIrbis
         [NotNull]
         public UserInfo[] ListUsers()
         {
+            // TODO Create ListUsersCommand
+
             ServerResponse response = ExecuteCommand
                 (
                     CommandCode.GetUserList
@@ -1044,6 +1048,8 @@ namespace ManagedIrbis
         /// </summary>
         public void NoOp()
         {
+            // TODO Create NopCommand
+
             ExecuteCommand(CommandCode.Nop);
         }
 

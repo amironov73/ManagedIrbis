@@ -49,6 +49,17 @@ namespace ManagedIrbis.Executive
         public IrbisConnection Connection { get; set; }
 
         /// <summary>
+        /// Exception.
+        /// </summary>
+        [CanBeNull]
+        public Exception Exception { get; set; }
+
+        /// <summary>
+        /// Exception handled?
+        /// </summary>
+        public bool ExceptionHandled { get; set; }
+
+        /// <summary>
         /// Server response.
         /// </summary>
         [CanBeNull]
