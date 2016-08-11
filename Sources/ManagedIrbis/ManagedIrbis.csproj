@@ -261,6 +261,7 @@
     <Compile Include="IrbisStopWords.cs" />
     <Compile Include="IrbisText.cs" />
     <Compile Include="IrbisTreeFile.cs" />
+    <Compile Include="Network\CommandFactory.cs" />
     <Compile Include="Network\Commands\DatabaseStatCommand.cs" />
     <Compile Include="Network\Commands\DynamicCommand.cs" />
     <Compile Include="Network\Commands\GblCommand.cs" />
@@ -268,6 +269,7 @@
     <Compile Include="Network\Commands\PrintTableCommand.cs" />
     <Compile Include="Network\Commands\SearchReadCommand.cs" />
     <Compile Include="Network\Commands\UpdateUserListCommand.cs" />
+    <Compile Include="Network\ConnectionFactory.cs" />
     <Compile Include="Network\Resolving\AbstractResolver.cs" />
     <Compile Include="Network\Resolving\ConnectionResolver.cs" />
     <Compile Include="Network\Resolving\UniversalResolver.cs" />
