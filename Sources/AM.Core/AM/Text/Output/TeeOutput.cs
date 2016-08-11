@@ -26,6 +26,18 @@ namespace AM.Text.Output
     public sealed class TeeOutput
         : AbstractOutput
     {
+        #region Properties
+
+        /// <summary>
+        /// Подчинённые потоки
+        /// </summary>
+        public List<AbstractOutput> Output
+        {
+            get { return _output; }
+        }
+
+        #endregion
+
         #region Construction
 
         /// <summary>
@@ -49,18 +61,6 @@ namespace AM.Text.Output
                 (
                     children
                 );
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Подчинённые потоки
-        /// </summary>
-        public List<AbstractOutput> Output
-        {
-            get { return _output; }
         }
 
         #endregion

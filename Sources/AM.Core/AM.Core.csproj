@@ -236,6 +236,7 @@
     <Compile Include="AM\Text\Output\OutputWriter.cs" />
     <Compile Include="AM\Text\Output\StreamOutput.cs" />
     <Compile Include="AM\Text\Output\TextOutput.cs" />
+    <Compile Include="AM\Text\Output\TimestampedOutput.cs" />
     <Compile Include="AM\Text\RussianFormat.cs" />
     <Compile Include="AM\Text\StreamParser.cs" />
     <Compile Include="AM\Text\TextNavigator.cs" />
