@@ -503,6 +503,8 @@ namespace ManagedIrbis
                 [NotNull] string databaseName
             )
         {
+            // TODO Create CreateDictionaryCommand
+
             Code.NotNullNorEmpty(databaseName, "databaseName");
 
             UniversalCommand command
@@ -527,6 +529,8 @@ namespace ManagedIrbis
                 [NotNull] string databaseName
             )
         {
+            // TODO Create DeleteDatabaseCommand
+
             Code.NotNullNorEmpty(databaseName, "databaseName");
 
             ExecuteCommand
@@ -603,8 +607,7 @@ namespace ManagedIrbis
             Code.Positive(mfn, "mfn");
             Code.NotNull(format, "format");
 
-            FormatCommand command
-                = CommandFactory.GetFormatCommand();
+            FormatCommand command = CommandFactory.GetFormatCommand();
             command.FormatSpecification = format;
             command.MfnList.Add(mfn);
 
@@ -630,8 +633,7 @@ namespace ManagedIrbis
             Code.NotNull(format, "format");
             Code.NotNull(record, "record");
 
-            FormatCommand command
-                = CommandFactory.GetFormatCommand();
+            FormatCommand command = CommandFactory.GetFormatCommand();
             command.FormatSpecification = format;
             command.VirtualRecord = record;
 
@@ -659,8 +661,7 @@ namespace ManagedIrbis
             Code.NotNullNorEmpty(database, "database");
             Code.NotNull(format, "format");
 
-            FormatCommand command
-                = CommandFactory.GetFormatCommand();
+            FormatCommand command = CommandFactory.GetFormatCommand();
             command.Database = database;
             command.FormatSpecification = format;
             command.MfnList.AddRange(mfnList);
@@ -693,9 +694,9 @@ namespace ManagedIrbis
                 [NotNull] string databaseName
             )
         {
-            Code.NotNullNorEmpty(databaseName, "databaseName");
-
             // TODO create DatabaseInfoCommand
+
+            Code.NotNullNorEmpty(databaseName, "databaseName");
 
             UniversalCommand command
                 = CommandFactory.GetUniversalCommand
@@ -752,6 +753,8 @@ namespace ManagedIrbis
                 [CanBeNull] string database
             )
         {
+            // TODO Create GetMaxMfnCommand
+
             if (ReferenceEquals(database, null))
             {
                 database = Database;
@@ -835,20 +838,19 @@ namespace ManagedIrbis
                 database = Database;
             }
 
-            GblCommand command = new GblCommand(this)
-            {
-                SearchExpression = searchExpression,
-                AutoIn = autoin,
-                Actualize = actualize,
-                FormalControl = formalControl,
-                Database = database,
-                FirstRecord = firstRecord,
-                NumberOfRecords = numberOfRecords,
-                MfnList = mfnList,
-                Statements = statements,
-                MinMfn = minMfn,
-                MaxMfn = maxMfn
-            };
+            GblCommand command = CommandFactory.GetGblCommand();
+            command.SearchExpression = searchExpression;
+            command.AutoIn = autoin;
+            command.Actualize = actualize;
+            command.FormalControl = formalControl;
+            command.Database = database;
+            command.FirstRecord = firstRecord;
+            command.NumberOfRecords = numberOfRecords;
+            command.MfnList = mfnList;
+            command.Statements = statements;
+            command.MinMfn = minMfn;
+            command.MaxMfn = maxMfn;
+
             ExecuteCommand(command);
 
             return command.Result
@@ -883,20 +885,19 @@ namespace ManagedIrbis
                 database = Database;
             }
 
-            GblCommand command = new GblCommand(this)
-            {
-                SearchExpression = searchExpression,
-                AutoIn = autoin,
-                Actualize = actualize,
-                FormalControl = formalControl,
-                Database = database,
-                FirstRecord = firstRecord,
-                NumberOfRecords = numberOfRecords,
-                MfnList = mfnList,
-                FileName = fileName,
-                MinMfn = minMfn,
-                MaxMfn = maxMfn
-            };
+            GblCommand command = CommandFactory.GetGblCommand();
+            command.SearchExpression = searchExpression;
+            command.AutoIn = autoin;
+            command.Actualize = actualize;
+            command.FormalControl = formalControl;
+            command.Database = database;
+            command.FirstRecord = firstRecord;
+            command.NumberOfRecords = numberOfRecords;
+            command.MfnList = mfnList;
+            command.FileName = fileName;
+            command.MinMfn = minMfn;
+            command.MaxMfn = maxMfn;
+
             ExecuteCommand(command);
 
             return command.Result
@@ -1165,10 +1166,10 @@ namespace ManagedIrbis
         {
             Code.NotNull(tableDefinition, "tableDefinition");
 
-            PrintTableCommand command = new PrintTableCommand (this)
-            {
-                Definition = tableDefinition
-            };
+            PrintTableCommand command
+                = CommandFactory.GetPrintTableCommand();
+            command.Definition = tableDefinition;
+
             ExecuteCommand(command);
 
             return command.Result;
@@ -1207,10 +1208,9 @@ namespace ManagedIrbis
             Code.NotNull(file, "file");
 
             ReadBinaryFileCommand command
-                = new ReadBinaryFileCommand(this)
-                {
-                    File = file
-                };
+                = CommandFactory.GetReadBinaryFileCommand();
+            command.File = file;
+
             ExecuteCommand(command);
 
             return command.Content;
@@ -1233,21 +1233,18 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(term, "term");
 
-            ReadPostingsCommand command = new ReadPostingsCommand
-                (
-                    this
-                )
-            {
-                Database = databaseName,
-                Term = term,
-                NumberOfPostings = numberOfPostings,
-                FirstPosting = firstPosting,
-                Format = format
-            };
+            ReadPostingsCommand command
+                = CommandFactory.GetReadPostingsCommand();
+            command.Database = databaseName;
+            command.Term = term;
+            command.NumberOfPostings = numberOfPostings;
+            command.FirstPosting = firstPosting;
+            command.Format = format;
 
             ExecuteCommand(command);
 
-            return command.Postings.ThrowIfNull("command.Postings");
+            return command.Postings
+                .ThrowIfNull("command.Postings");
         }
 
         /// <summary>
@@ -1268,19 +1265,15 @@ namespace ManagedIrbis
             if (terms.Length == 0)
             {
                 return new TermPosting[0];
-            }
+            } 
 
-            ReadPostingsCommand command = new ReadPostingsCommand
-                (
-                    this
-                )
-            {
-                Database = databaseName,
-                ListOfTerms = terms,
-                NumberOfPostings = numberOfPostings,
-                FirstPosting = firstPosting,
-                Format = format
-            };
+            ReadPostingsCommand command
+                = CommandFactory.GetReadPostingsCommand();
+            command.Database = databaseName;
+            command.ListOfTerms = terms;
+            command.NumberOfPostings = numberOfPostings;
+            command.FirstPosting = firstPosting;
+            command.Format = format;
 
             ExecuteCommand(command);
 
@@ -1307,13 +1300,13 @@ namespace ManagedIrbis
             Code.NotNullNorEmpty(database, "database");
             Code.Positive(mfn, "mfn");
 
-            ReadRecordCommand command = new ReadRecordCommand(this)
-            {
-                Mfn = mfn,
-                Database = database,
-                Lock = lockFlag,
-                Format = format
-            };
+            ReadRecordCommand command
+                = CommandFactory.GetReadRecordCommand();
+            command.Mfn = mfn;
+            command.Database = database;
+            command.Lock = lockFlag;
+            command.Format = format;
+
             ExecuteCommand(command);
 
             return command.ReadRecord
@@ -1337,13 +1330,13 @@ namespace ManagedIrbis
             Code.NotNullNorEmpty(database, "database");
             Code.Positive(mfn, "mfn");
 
-            ReadRecordCommand command = new ReadRecordCommand(this)
-            {
-                Mfn = mfn,
-                Database = database,
-                VersionNumber = versionNumber,
-                Format = format
-            };
+            ReadRecordCommand command
+                = CommandFactory.GetReadRecordCommand();
+            command.Mfn = mfn;
+            command.Database = database;
+            command.VersionNumber = versionNumber;
+            command.Format = format;
+
             ExecuteCommand(command);
 
             return command.ReadRecord;
@@ -1366,11 +1359,9 @@ namespace ManagedIrbis
                 database = Database;
             }
 
-            FormatCommand command = new FormatCommand(this)
-            {
-                Database = database,
-                FormatSpecification = IrbisFormat.All
-            };
+            FormatCommand command = CommandFactory.GetFormatCommand();
+            command.Database = database;
+            command.FormatSpecification = IrbisFormat.All;
             command.MfnList.AddRange(mfnList);
 
             if (command.MfnList.Count == 0)
@@ -1430,14 +1421,13 @@ namespace ManagedIrbis
             Code.NotNull(startTerm, "startTerm");
 
             ReadTermsCommand command
-                = new ReadTermsCommand (this)
-            {
-                Database = Database,
-                StartTerm = startTerm,
-                NumberOfTerms = numberOfTerms,
-                ReverseOrder = reverseOrder,
-                Format = format
-            };
+                = CommandFactory.GetReadTermsCommand();
+            command.Database = Database;
+            command.StartTerm = startTerm;
+            command.NumberOfTerms = numberOfTerms;
+            command.ReverseOrder = reverseOrder;
+            command.Format = format;
+
             ExecuteCommand(command);
 
             return command.Terms.ThrowIfNull("command.Terms");
@@ -1482,10 +1472,12 @@ namespace ManagedIrbis
                 return new string[0];
             }
 
-            ReadFileCommand command = new ReadFileCommand(this);
+            ReadFileCommand command
+                = CommandFactory.GetReadFileCommand();
             command.Files.AddRange(files);
 
             ExecuteCommand(command);
+
             string[] result = command.Result
                 .ThrowIfNullOrEmpty("command.Result");
 
@@ -1503,6 +1495,8 @@ namespace ManagedIrbis
                 [NotNull] string databaseName
             )
         {
+            // TODO Create ReloadDictionaryCommand
+
             Code.NotNullNorEmpty(databaseName, "databaseName");
 
             ExecuteCommand
@@ -1523,6 +1517,8 @@ namespace ManagedIrbis
                 [NotNull] string databaseName
             )
         {
+            // TODO Create ReloadMasterFileCommand
+
             Code.NotNullNorEmpty(databaseName, "databaseName");
 
             ExecuteCommand
@@ -1540,6 +1536,8 @@ namespace ManagedIrbis
         /// <remarks>For Administrator only.</remarks>
         public void RestartServer()
         {
+            // TODO Create RestartServerCommand
+
             ExecuteCommand(CommandCode.RestartServer);
         }
 
@@ -1556,11 +1554,11 @@ namespace ManagedIrbis
         {
             Code.NotNull(expression, "expression");
 
-            SearchCommand command = new SearchCommand(this)
-            {
-                SearchExpression = expression
-            };
+            SearchCommand command = CommandFactory.GetSearchCommand();
+            command.SearchExpression = expression;
+
             ExecuteCommand(command);
+
             int[] result = FoundItem.ConvertToMfn
                 (
                     command.Found.ThrowIfNull("Found")
@@ -1595,19 +1593,18 @@ namespace ManagedIrbis
                 database = Database;
             }
 
-            SearchCommand command = new SearchCommand(this)
-            {
-                Database = database,
-                SearchExpression = expression,
-                FirstRecord = firstRecord,
-                NumberOfRecords = numberOfRecords,
-                MinMfn = minMfn,
-                MaxMfn = maxMfn,
-                SequentialSpecification = sequential,
-                FormatSpecification = format
-            };
+            SearchCommand command = CommandFactory.GetSearchCommand();
+            command.Database = database;
+            command.SearchExpression = expression;
+            command.FirstRecord = firstRecord;
+            command.NumberOfRecords = numberOfRecords;
+            command.MinMfn = minMfn;
+            command.MaxMfn = maxMfn;
+            command.SequentialSpecification = sequential;
+            command.FormatSpecification = format;
 
             ExecuteCommand(command);
+
             int[] result = FoundItem.ConvertToMfn
                 (
                     command.Found.ThrowIfNull("Found")
@@ -1742,6 +1739,8 @@ namespace ManagedIrbis
                 [NotNull] string databaseName
             )
         {
+            // TODO TruncateDatabaseCommand
+
             Code.NotNullNorEmpty(databaseName, "databaseName");
 
             ExecuteCommand
@@ -1761,6 +1760,8 @@ namespace ManagedIrbis
                 [NotNull] string databaseName
             )
         {
+            // TODO UnlockDatabaseCommand
+
             Code.NotNullNorEmpty(databaseName, "databaseName");
 
             ExecuteCommand
@@ -1781,6 +1782,8 @@ namespace ManagedIrbis
                 params int[] mfnList
             )
         {
+            // TODO UnlockRecordsCommand
+
             Code.NotNullNorEmpty(database, "database");
 
             if (mfnList.Length == 0)
@@ -1809,6 +1812,8 @@ namespace ManagedIrbis
                 [NotNull] string[] text
             )
         {
+            // TODO UpdateIniFileCommand
+
             Code.NotNull(text, "text");
 
             if (text.Length == 0)
@@ -1816,13 +1821,14 @@ namespace ManagedIrbis
                 return;
             }
 
-            UniversalTextCommand command = new UniversalTextCommand
+            UniversalTextCommand command =
+                CommandFactory.GetUniversalTextCommand
                 (
-                    this,
                     CommandCode.UpdateIniFile,
                     text,
                     IrbisEncoding.Ansi
                 );
+
             ExecuteCommand(command);
         }
 
@@ -1839,10 +1845,9 @@ namespace ManagedIrbis
             Code.NotNull(userList, "userList");
 
             UpdateUserListCommand command
-                = new UpdateUserListCommand(this)
-                {
-                    UserList = userList
-                };
+                = CommandFactory.GetUpdateUserListCommand();
+            command.UserList = userList;
+
             ExecuteCommand(command);
         }
 
@@ -1937,8 +1942,10 @@ namespace ManagedIrbis
         {
             Code.NotNull(file, "file");
 
-            WriteFileCommand command = new WriteFileCommand (this);
+            WriteFileCommand command
+                = CommandFactory.GetWriteFileCommand();
             command.Files.Add(file);
+
             ExecuteCommand(command);
         }
 
@@ -1950,11 +1957,13 @@ namespace ManagedIrbis
                 params FileSpecification[] files
             )
         {
-            WriteFileCommand command = new WriteFileCommand(this);
+            WriteFileCommand command
+                = CommandFactory.GetWriteFileCommand();
             foreach (FileSpecification file in files)
             {
                 command.Files.Add(file);
             }
+
             ExecuteCommand(command);
         }
 

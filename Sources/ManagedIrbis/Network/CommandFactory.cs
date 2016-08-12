@@ -197,7 +197,7 @@ namespace ManagedIrbis.Network
         /// Get ReadTermsCommand.
         /// </summary>
         [NotNull]
-        public virtual ReadTermsCommand GeReadTermsCommand()
+        public virtual ReadTermsCommand GetReadTermsCommand()
         {
             return new ReadTermsCommand(Connection);
         }

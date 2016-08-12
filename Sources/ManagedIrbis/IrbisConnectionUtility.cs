@@ -131,15 +131,14 @@ namespace ManagedIrbis
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(commandCode, "commandCode");
 
-            UniversalCommand command = new UniversalCommand
+            UniversalCommand command = connection.CommandFactory
+                .GetUniversalCommand
                 (
-                    connection,
                     commandCode,
                     arguments
-                )
-            {
-                AcceptAnyResponse = true
-            };
+                );
+            command.AcceptAnyResponse = true;
+
             ServerResponse result = connection.ExecuteCommand(command);
 
             return result;
@@ -220,22 +219,22 @@ namespace ManagedIrbis
 
             GblFile file = GblFile.ParseLocalFile(fileName, encoding);
 
-            GblCommand command = new GblCommand(connection)
-            {
-                SearchExpression = searchExpression,
-                AutoIn = autoin,
-                Actualize = actualize,
-                FormalControl = formalControl,
-                Database = database,
-                FirstRecord = firstRecord,
-                NumberOfRecords = numberOfRecords,
-                MfnList = mfnList,
-                Statements = file.Statements
-                    .ThrowIfNullOrEmpty("Statements")
-                    .ToArray(),
-                MinMfn = minMfn,
-                MaxMfn = maxMfn
-            };
+            GblCommand command = connection.CommandFactory
+                .GetGblCommand();
+            command.SearchExpression = searchExpression;
+            command.AutoIn = autoin;
+            command.Actualize = actualize;
+            command.FormalControl = formalControl;
+            command.Database = database;
+            command.FirstRecord = firstRecord;
+            command.NumberOfRecords = numberOfRecords;
+            command.MfnList = mfnList;
+            command.Statements = file.Statements
+                .ThrowIfNullOrEmpty("Statements")
+                .ToArray();
+            command.MinMfn = minMfn;
+            command.MaxMfn = maxMfn;
+
             connection.ExecuteCommand(command);
 
             return command.Result
@@ -358,20 +357,22 @@ namespace ManagedIrbis
                 int mfn
             )
         {
+            // TODO Create ReadRawRecordsCommand
+
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(database, "database");
 
-            UniversalCommand command = new UniversalCommand
-                (
-                    connection,
-                    CommandCode.ReadRecord,
-                    database,
-                    mfn
-                )
-            {
-                AcceptAnyResponse = true
-            };
+            UniversalCommand command
+                = connection.CommandFactory.GetUniversalCommand
+                    (
+                        CommandCode.ReadRecord,
+                        database,
+                        mfn
+                    );
+            command.AcceptAnyResponse = true;
+
             ServerResponse response = connection.ExecuteCommand(command);
+
             List<string> result = response.RemainingUtfStrings();
 
             return result.ToArray();
@@ -395,19 +396,19 @@ namespace ManagedIrbis
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(database, "database");
 
-            UniversalCommand command = new UniversalCommand
-                (
-                    connection,
-                    CommandCode.ReadRecord,
-                    database,
-                    mfn,
-                    lockFlag,
-                    new TextWithEncoding(format, IrbisEncoding.Ansi)
-                )
-            {
-                AcceptAnyResponse = true
-            };
+            UniversalCommand command
+                = connection.CommandFactory.GetUniversalCommand
+                    (
+                        CommandCode.ReadRecord,
+                        database,
+                        mfn,
+                        lockFlag,
+                        new TextWithEncoding(format, IrbisEncoding.Ansi)
+                    );
+            command.AcceptAnyResponse = true;
+
             ServerResponse response = connection.ExecuteCommand(command);
+            
             List<string> result = response.RemainingUtfStrings();
 
             return result.ToArray();
@@ -431,19 +432,19 @@ namespace ManagedIrbis
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(database, "database");
 
-            UniversalCommand command = new UniversalCommand
-                (
-                    connection,
-                    CommandCode.ReadRecord,
-                    database,
-                    mfn,
-                    version,
-                    new TextWithEncoding(format, IrbisEncoding.Ansi)
-                )
-            {
-                AcceptAnyResponse = true
-            };
+            UniversalCommand command
+                = connection.CommandFactory.GetUniversalCommand
+                    (
+                        CommandCode.ReadRecord,
+                        database,
+                        mfn,
+                        version,
+                        new TextWithEncoding(format, IrbisEncoding.Ansi)
+                    );
+            command.AcceptAnyResponse = true;
+
             ServerResponse response = connection.ExecuteCommand(command);
+            
             List<string> result = response.RemainingUtfStrings();
 
             return result.ToArray();
@@ -485,16 +486,16 @@ namespace ManagedIrbis
                 arguments.Add(mfn);
             }
 
-            UniversalCommand command = new UniversalCommand
-                (
-                    connection,
-                    CommandCode.FormatRecord,
-                    arguments.ToArray()
-                )
-            {
-                AcceptAnyResponse = true
-            };
+            UniversalCommand command
+                = connection.CommandFactory.GetUniversalCommand
+                    (
+                        CommandCode.FormatRecord,
+                        arguments.ToArray()
+                    );
+            command.AcceptAnyResponse = true;
+
             ServerResponse response = connection.ExecuteCommand(command);
+            
             List<string> result = response.RemainingUtfStrings();
 
             return result.ToArray();
@@ -701,13 +702,14 @@ namespace ManagedIrbis
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(searchExpression, "searchExpression");
 
-            SearchCommand command = new SearchCommand(connection)
-            {
-                Database = connection.Database,
-                SearchExpression = searchExpression,
-                FirstRecord = 0
-            };
+            SearchCommand command
+                = connection.CommandFactory.GetSearchCommand();
+            command.Database = connection.Database;
+            command.SearchExpression = searchExpression;
+            command.FirstRecord = 0;
+
             connection.ExecuteCommand(command);
+            
             int result = command.FoundCount;
 
             return result;
@@ -731,13 +733,14 @@ namespace ManagedIrbis
             Code.NotNullNorEmpty(searchExpression, "searchExpression");
             Code.NotNullNorEmpty(formatSpecification, "formatSpecification");
 
-            SearchCommand command = new SearchCommand(connection)
-            {
-                Database = connection.Database,
-                SearchExpression = searchExpression,
-                FormatSpecification = formatSpecification
-            };
+            SearchCommand command
+                = connection.CommandFactory.GetSearchCommand();
+            command.Database = connection.Database;
+            command.SearchExpression = searchExpression;
+            command.FormatSpecification = formatSpecification;
+
             connection.ExecuteCommand(command);
+            
             FoundItem[] result = command.Found
                 .ThrowIfNull("command.Found")
                 .ToArray();
@@ -761,13 +764,15 @@ namespace ManagedIrbis
                 [CanBeNull] string format
             )
         {
+            // TODO Create RawSearchCommand
+
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(database, "database");
             Code.NotNullNorEmpty(expression, "expression");
 
-            UniversalCommand command = new UniversalCommand
+            UniversalCommand command
+                = connection.CommandFactory.GetUniversalCommand
                 (
-                    connection,
                     CommandCode.Search,
                     database,
                     new TextWithEncoding (expression, IrbisEncoding.Utf8),
@@ -775,7 +780,9 @@ namespace ManagedIrbis
                     firstRecord,
                     new TextWithEncoding(format, IrbisEncoding.Ansi)
                 );
+
             ServerResponse response = connection.ExecuteCommand(command);
+            
             List<string> result = response.RemainingUtfStrings();
 
             return result.ToArray();
@@ -805,12 +812,13 @@ namespace ManagedIrbis
                     args
                 );
 
-            SearchReadCommand command = new SearchReadCommand(connection)
-            {
-                Database = connection.Database,
-                SearchExpression = expression
-            };
+            SearchReadCommand command
+                = connection.CommandFactory.GetSearchReadCommand();
+            command.Database = connection.Database;
+            command.SearchExpression = expression;
+
             connection.ExecuteCommand(command);
+
             MarcRecord[] result = command.Records
                 .ThrowIfNull("command.Records");
 
@@ -839,13 +847,14 @@ namespace ManagedIrbis
                     format,
                     args
                 );
-            SearchReadCommand command = new SearchReadCommand(connection)
-            {
-                Database = connection.Database,
-                SearchExpression = expression,
-                NumberOfRecords = 1
-            };
+            SearchReadCommand command
+                = connection.CommandFactory.GetSearchReadCommand();
+            command.Database = connection.Database;
+            command.SearchExpression = expression;
+            command.NumberOfRecords = 1;
+
             connection.ExecuteCommand(command);
+            
             MarcRecord result = command.Records
                 .ThrowIfNull("command.Records")
                 .GetItem(0);
@@ -877,9 +886,9 @@ namespace ManagedIrbis
             Code.NotNullNorEmpty(expression, "expression");
             Code.NotNullNorEmpty(sequential, "sequential");
 
-            UniversalCommand command = new UniversalCommand
+            UniversalCommand command
+                = connection.CommandFactory.GetUniversalCommand
                 (
-                    connection,
                     CommandCode.Search,
                     database,
                     new TextWithEncoding (expression, IrbisEncoding.Utf8),
@@ -890,7 +899,9 @@ namespace ManagedIrbis
                     maxMfn,
                     new TextWithEncoding(sequential, IrbisEncoding.Utf8)
                 );
+
             ServerResponse response = connection.ExecuteCommand(command);
+
             List<string> result = response.RemainingUtfStrings();
 
             return result.ToArray();
@@ -996,13 +1007,15 @@ namespace ManagedIrbis
                 bool actualize
             )
         {
+            // TODO Create WriteRawRecordCommand
+
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(database, "database");
             Code.NotNullNorEmpty(record, "record");
 
-            UniversalCommand command = new UniversalCommand
+            UniversalCommand command
+                = connection.CommandFactory.GetUniversalCommand
                 (
-                    connection,
                     CommandCode.UpdateRecord,
                     database,
                     lockFlag,
@@ -1014,6 +1027,7 @@ namespace ManagedIrbis
                         )
                 );
             ServerResponse response = connection.ExecuteCommand(command);
+            
             string result = response.RemainingUtfText();
 
             return result;
@@ -1034,6 +1048,8 @@ namespace ManagedIrbis
                 bool actualize
             )
         {
+            // TODO Create WriteRawRecordsCommand
+
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(database, "database");
             Code.NotNull(records, "records");
@@ -1066,13 +1082,15 @@ namespace ManagedIrbis
                     );
             }
 
-            UniversalCommand command = new UniversalCommand
+            UniversalCommand command
+                = connection.CommandFactory.GetUniversalCommand
                 (
-                    connection,
                     CommandCode.SaveRecordGroup,
                     arguments.ToArray()
                 );
+
             ServerResponse response = connection.ExecuteCommand(command);
+            
             List<string> result = response.RemainingUtfStrings();
 
             return result.ToArray();
