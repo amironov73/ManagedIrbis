@@ -1,4 +1,4 @@
-﻿/* MstRecordLeader32.cs
+﻿/* MstRecordLeader32.cs -- leader of MST record
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -6,21 +6,26 @@
 
 #region Using directives
 
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+
 using AM.IO;
+
+using CodeJam;
+
+using JetBrains.Annotations;
 
 #endregion
 
 namespace ManagedIrbis.Direct
 {
     /// <summary>
-    /// 
+    /// Leader of MST record.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    [DebuggerDisplay("MFN={Mfn}, Length={Length}, NVF={Nvf}, Status={Status}")]
+    [DebuggerDisplay("MFN={Mfn}, Length={Length}, "
+        + "NVF={Nvf}, Status={Status}")]
     public sealed class MstRecordLeader32
     {
         #region Constants
@@ -44,8 +49,14 @@ namespace ManagedIrbis.Direct
         /// </summary>
         public int Length { get; set; }
 
+        /// <summary>
+        /// Number of block containing previous version.
+        /// </summary>
         public int PreviousBlock { get; set; }
 
+        /// <summary>
+        /// Offset of previous version.
+        /// </summary>
         public int PreviousOffset { get; set; }
 
         /// <summary>
@@ -70,11 +81,17 @@ namespace ManagedIrbis.Direct
 
         #region Public methods
 
+        /// <summary>
+        /// Read the record.
+        /// </summary>
+        [NotNull]
         public static MstRecordLeader32 Read
             (
-                Stream stream
+                [NotNull] Stream stream
             )
         {
+            Code.NotNull(stream, "stream");
+
             MstRecordLeader32 result = new MstRecordLeader32
             {
                 Mfn = stream.ReadInt32Host(),
@@ -96,6 +113,12 @@ namespace ManagedIrbis.Direct
 
         #region Object members
 
+        /// <summary>
+        /// Returns a <see cref="System.String" />
+        /// that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" />
+        /// that represents this instance.</returns>
         public override string ToString()
         {
             return string.Format

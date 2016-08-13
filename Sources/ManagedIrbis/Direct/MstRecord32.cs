@@ -1,4 +1,4 @@
-﻿/* MstRecord32.cs
+﻿/* MstRecord32.cs -- MST file record
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -9,18 +9,29 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
 
 #endregion
 
 namespace ManagedIrbis.Direct
 {
+    /// <summary>
+    /// MST file record.
+    /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     [DebuggerDisplay("Leader={Leader}")]
     public sealed class MstRecord32
     {
         #region Constants
 
+        /// <summary>
+        /// Block size of MST file.
+        /// </summary>
         //public const int MstBlockSize = 2048;
         public const int MstBlockSize = 512;
 
@@ -28,10 +39,19 @@ namespace ManagedIrbis.Direct
 
         #region Properties
 
+        /// <summary>
+        /// Leader.
+        /// </summary>
         public MstRecordLeader32 Leader { get; set; }
 
+        /// <summary>
+        /// Dictionary.
+        /// </summary>
         public List<MstDictionaryEntry32> Dictionary { get; set; }
 
+        /// <summary>
+        /// Whether the record deleted.
+        /// </summary>
         public bool Deleted
         {
             get { return ((Leader.Status & 
@@ -63,23 +83,31 @@ namespace ManagedIrbis.Direct
 
         #region Public methods
 
-        public RecordField DecodeField
+        /// <summary>
+        /// Decode the field.
+        /// </summary>
+        public static RecordField DecodeField
             (
                 MstDictionaryEntry32 entry
             )
         {
-            string catenated = string.Format
+            string concatenated = string.Format
                 (
                     "{0}#{1}",
                     entry.Tag,
                     entry.Text
                 );
 
-            RecordField result = RecordFieldUtility.Parse(catenated);
+            RecordField result
+                = RecordFieldUtility.Parse(concatenated);
 
             return result;
         }
 
+        /// <summary>
+        /// Decode record.
+        /// </summary>
+        [NotNull]
         public MarcRecord DecodeRecord()
         {
             MarcRecord result = new MarcRecord
@@ -103,13 +131,20 @@ namespace ManagedIrbis.Direct
 
         #region Object members
 
+        /// <summary>
+        /// Returns a <see cref="System.String" />
+        /// that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" />
+        /// that represents this instance.</returns>
         public override string ToString()
         {
             return string.Format
                 (
-                    "Leader: {0}\r\nDictionary: {1}",
+                    "Leader: {0}{2}Dictionary: {1}",
                     Leader,
-                    _DumpDictionary()
+                    _DumpDictionary(),
+                    Environment.NewLine
                 );
         }
 

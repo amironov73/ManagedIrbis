@@ -6,8 +6,11 @@
 
 #region Using directives
 
-using System;
 using System.Runtime.InteropServices;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
 
 #endregion
 
@@ -19,6 +22,8 @@ namespace ManagedIrbis.Direct
     /// базы данных или при ее инициализации) и поддерживается 
     /// автоматически.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     [StructLayout(LayoutKind.Sequential)]
     public sealed class MstControlRecord32
     {

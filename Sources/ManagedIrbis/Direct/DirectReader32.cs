@@ -1,4 +1,4 @@
-﻿/* DirectReader32.cs
+﻿/* DirectReader32.cs -- direct reading IRBIS32 databases
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -11,33 +11,68 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
 #endregion
 
 namespace ManagedIrbis.Direct
 {
+    /// <summary>
+    /// Direct reading IRBIS32 databases.
+    /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class DirectReader32
         : IDisposable
     {
         #region Properties
 
+        /// <summary>
+        /// Master file.
+        /// </summary>
+        [NotNull]
         public MstFile32 Mst { get; private set; }
 
+        /// <summary>
+        /// Cross-reference file.
+        /// </summary>
+        [NotNull]
         public XrfFile32 Xrf { get; private set; }
 
+        /// <summary>
+        /// Inverted (index) file.
+        /// </summary>
+        [NotNull]
         public InvertedFile32 InvertedFile { get; private set; }
 
+        /// <summary>
+        /// Database name.
+        /// </summary>
+        [NotNull]
         public string Database { get; private set; }
 
         #endregion
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public DirectReader32
             (
-                string masterFile
+                [NotNull] string masterFile
             )
         {
-            Database = Path.GetFileNameWithoutExtension(masterFile);
+            Code.NotNullNorEmpty(masterFile, "masterFile");
+
+            Database = Path.GetFileNameWithoutExtension
+                (
+                    masterFile
+                );
             Mst = new MstFile32
                 (
                     Path.ChangeExtension
@@ -72,32 +107,61 @@ namespace ManagedIrbis.Direct
 
         #region Public methods
 
+        /// <summary>
+        /// Get maximal MFN for the database.
+        /// </summary>
+        /// <returns></returns>
         public int GetMaxMfn()
         {
             return Mst.ControlRecord.NextMfn - 1;
         }
 
+        /// <summary>
+        /// Read given record.
+        /// </summary>
+        /// <returns><c>null</c> if no such record
+        /// or record physically deleted.</returns>
+        [CanBeNull]
         public MarcRecord ReadRecord
             (
                 int mfn
             )
         {
-            XrfRecord32 xrfRecord = Xrf.ReadRecord(mfn);
-            if ((xrfRecord.Status & RecordStatus.PhysicallyDeleted) != 0)
+            Code.Positive(mfn, "mfn");
+
+            if (mfn > GetMaxMfn())
             {
                 return null;
             }
-            MstRecord32 mstRecord = Mst.ReadRecord2(xrfRecord.AbsoluteOffset);
+
+            XrfRecord32 xrfRecord = Xrf.ReadRecord(mfn);
+            if ((xrfRecord.Status & RecordStatus.PhysicallyDeleted)
+                != 0)
+            {
+                return null;
+            }
+
+            MstRecord32 mstRecord = Mst.ReadRecord2
+                (
+                    xrfRecord.AbsoluteOffset
+                );
             MarcRecord result = mstRecord.DecodeRecord();
             result.Database = Database;
+
             return result;
         }
 
+        /// <summary>
+        /// Read all versions of the record.
+        /// </summary>
+        [NotNull]
         public MarcRecord[] ReadAllRecordVersions
             (
                 int mfn
             )
         {
+            Code.Positive(mfn, "mfn");
+
             List<MarcRecord> result = new List<MarcRecord>();
             MarcRecord lastVersion = ReadRecord(mfn);
             if (lastVersion != null)
@@ -135,25 +199,45 @@ namespace ManagedIrbis.Direct
         //    return result;
         //}
 
-        public int[] SearchSimple(string key)
+        /// <summary>
+        /// Simple search by the key.
+        /// </summary>
+        [NotNull]
+        public int[] SearchSimple
+            (
+                [NotNull] string key
+            )
         {
-            int[] mfns = InvertedFile.SearchSimple(key);
+            Code.NotNullNorEmpty(key, "key");
+
+            int[] found = InvertedFile.SearchSimple(key);
             List<int> result = new List<int>();
-            foreach (int mfn in mfns)
+
+            foreach (int mfn in found)
             {
                 if (!Xrf.ReadRecord(mfn).Deleted)
                 {
                     result.Add(mfn);
                 }
             }
+
             return result.ToArray();
         }
 
-        public MarcRecord[] SearchReadSimple(string key)
+        /// <summary>
+        /// Simple search and read records by the key.
+        /// </summary>
+        public MarcRecord[] SearchReadSimple
+            (
+                [NotNull] string key
+            )
         {
-            int[] mfns = InvertedFile.SearchSimple(key);
+            Code.NotNullNorEmpty(key, "key");
+
+            int[] found = InvertedFile.SearchSimple(key);
             List<MarcRecord> result = new List<MarcRecord>();
-            foreach (int mfn in mfns)
+
+            foreach (int mfn in found)
             {
                 try
                 {
@@ -163,9 +247,10 @@ namespace ManagedIrbis.Direct
                         MstRecord32 mstRecord = Mst.ReadRecord2(xrfRecord.AbsoluteOffset);
                         if (!mstRecord.Deleted)
                         {
-                            MarcRecord irbisRecord = mstRecord.DecodeRecord();
-                            irbisRecord.Database = Database;
-                            result.Add(irbisRecord);
+                            MarcRecord marcRecord
+                                = mstRecord.DecodeRecord();
+                            marcRecord.Database = Database;
+                            result.Add(marcRecord);
                         }
                     }
                 }
@@ -174,6 +259,7 @@ namespace ManagedIrbis.Direct
                     Debug.WriteLine(ex);
                 }
             }
+
             return result.ToArray();
         }
 
@@ -181,23 +267,16 @@ namespace ManagedIrbis.Direct
 
         #region IDisposable members
 
+        /// <summary>
+        /// Performs application-defined tasks associated
+        /// with freeing, releasing, or resetting
+        /// unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
-            if (Mst != null)
-            {
-                Mst.Dispose();
-                Mst = null;
-            }
-            if (Xrf != null)
-            {
-                Xrf.Dispose();
-                Xrf = null;
-            }
-            if (InvertedFile != null)
-            {
-                InvertedFile.Dispose();
-                InvertedFile = null;
-            }
+            Mst.Dispose();
+            Xrf.Dispose();
+            InvertedFile.Dispose();
         }
 
         #endregion

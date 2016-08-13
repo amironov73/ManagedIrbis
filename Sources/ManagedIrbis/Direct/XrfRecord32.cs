@@ -1,4 +1,4 @@
-﻿/* XrfRecord32.cs
+﻿/* XrfRecord32.cs -- XRF file record.
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -6,8 +6,11 @@
 
 #region Usingd directives
 
-using System;
 using System.Diagnostics;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
 
 #endregion
 
@@ -16,6 +19,8 @@ namespace ManagedIrbis.Direct
     /// <summary>
     /// Contains information about record offset and status.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     [DebuggerDisplay("Offset={AbsoluteOffset}, Status={Status}")]
     public sealed class XrfRecord32
     {
@@ -30,12 +35,24 @@ namespace ManagedIrbis.Direct
 
         #region Properties
 
+        /// <summary>
+        /// Absolute offset.
+        /// </summary>
         public int AbsoluteOffset { get; set; }
 
+        /// <summary>
+        /// Block number.
+        /// </summary>
         public int BlockNumber { get; set; }
 
+        /// <summary>
+        /// Block offset.
+        /// </summary>
         public int BlockOffset { get; set; }
 
+        /// <summary>
+        /// Record status.
+        /// </summary>
         public RecordStatus Status { get; set; }
 
         /// <summary>
@@ -85,8 +102,11 @@ namespace ManagedIrbis.Direct
         #region Object members
 
         /// <summary>
-        /// 
+        /// Returns a <see cref="System.String" />
+        /// that represents this instance.
         /// </summary>
+        /// <returns>A <see cref="System.String" />
+        /// that represents this instance.</returns>
         public override string ToString()
         {
             return string.Format

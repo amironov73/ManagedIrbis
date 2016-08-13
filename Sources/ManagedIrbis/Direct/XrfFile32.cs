@@ -1,4 +1,4 @@
-﻿/* XrfFile32.cs
+﻿/* XrfFile32.cs -- cross-reference file reading
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -7,12 +7,15 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 using AM.IO;
+
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
 
 #endregion
 
@@ -24,29 +27,47 @@ namespace ManagedIrbis.Direct
     /// Первая ссылка соответствует записи файла документов
     /// с номером 1, вторая – 2  и тд.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class XrfFile32
         : IDisposable
     {
         #region Constants
 
+        /// <summary>
+        /// Block size of XRF file.
+        /// </summary>
         public const int XrfBlockSize = 512;
+
+        /// <summary>
+        /// Block capacity of XRF file.
+        /// </summary>
         public const int XrfBlockCapacity = 127;
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// File name.
+        /// </summary>
+        [NotNull]
         public string FileName { get; private set; }
 
         #endregion
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public XrfFile32
             (
-                string fileName
+                [NotNull] string fileName
             )
         {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
             FileName = fileName;
 
             _stream = new FileStream
@@ -83,7 +104,10 @@ namespace ManagedIrbis.Direct
 
         #region Public methods
 
-        public XrfRecord32 Decode
+        /// <summary>
+        /// Decode value.
+        /// </summary>
+        public static XrfRecord32 Decode
             (
                 int value
             )
@@ -116,18 +140,19 @@ namespace ManagedIrbis.Direct
                 };
 
                 return result;
-            }            
+            }
         }
 
+        /// <summary>
+        /// Read the record.
+        /// </summary>
+        [NotNull]
         public XrfRecord32 ReadRecord
             (
                 int mfn
             )
         {
-            if (mfn <= 0)
-            {
-                throw new ArgumentOutOfRangeException("mfn");
-            }
+            Code.Positive(mfn, "mfn");
 
             long offset = _GetOffset(mfn);
             if (offset >= _stream.Length)
@@ -146,18 +171,22 @@ namespace ManagedIrbis.Direct
             return Decode(coded);
         }
 
+        /// <summary>
+        /// Write the record.
+        /// </summary>
         public void WriteRecord
             (
-                XrfRecord32 record
+                [NotNull] XrfRecord32 record
             )
         {
-            if (record == null)
-            {
-                throw new ArgumentNullException("record");
-            }
+            Code.NotNull(record, "record");
 
+            throw new NotImplementedException("WriteRecord");
         }
 
+        /// <summary>
+        /// Lock the record.
+        /// </summary>
         public void LockRecord
             (
                 int mfn,
@@ -175,6 +204,11 @@ namespace ManagedIrbis.Direct
 
         #region IDisposable members
 
+        /// <summary>
+        /// Performs application-defined tasks associated
+        /// with freeing, releasing, or resetting
+        /// unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             if (_stream != null)

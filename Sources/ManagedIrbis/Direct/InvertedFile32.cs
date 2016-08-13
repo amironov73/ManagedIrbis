@@ -1,4 +1,4 @@
-﻿/* InvertedFile32.cs
+﻿/* InvertedFile32.cs -- read inverted (index) file
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -8,24 +8,37 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+
+using AM;
 using AM.IO;
+
+using CodeJam;
+
+using JetBrains.Annotations;
+
 using ManagedIrbis.Search;
+
+using MoonSharp.Interpreter;
 
 #endregion
 
 namespace ManagedIrbis.Direct
 {
+    /// <summary>
+    /// Read inverted (index) file of IRBIS32 database.
+    /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public class InvertedFile32
         : IDisposable
     {
         #region Constants
 
         /// <summary>
-        /// Длина записи N01/L01.
+        /// Node length for N01/L01 files.
         /// </summary>
         public const int NodeLength = 2048;
 
@@ -33,50 +46,77 @@ namespace ManagedIrbis.Direct
 
         #region Properties
 
-        public string FileName { get { return _fileName; } }
+        /// <summary>
+        /// Name of the IFP file.
+        /// </summary>
+        [NotNull]
+        public string FileName { get; private set; }
 
-        public Stream Ifp { get { return _ifp; } }
+        /// <summary>
+        /// Inverted file.
+        /// </summary>
+        [NotNull]
+        public Stream Ifp { get; private set; }
 
-        public Stream L01 { get { return _l01; } }
+        /// <summary>
+        /// L01 node file.
+        /// </summary>
+        [NotNull]
+        public Stream L01 { get; private set; }
 
-        public Stream L02 { get { return _l02; } }
+        /// <summary>
+        /// L02 node file.
+        /// </summary>
+        [NotNull]
+        public Stream L02 { get; private set; }
 
-        public Stream N01 { get { return _n01; } }
+        /// <summary>
+        /// N01 node file.
+        /// </summary>
+        [NotNull]
+        public Stream N01 { get; private set; }
 
-        public Stream N02 { get { return _n02; } }
+        /// <summary>
+        /// N02 node file.
+        /// </summary>
+        [NotNull]
+        public Stream N02 { get; private set; }
 
         #endregion
 
         #region Construction
 
-        public InvertedFile32(string fileName)
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public InvertedFile32
+            (
+                [NotNull] string fileName
+            )
         {
-            _encoding = new UTF8Encoding(false, true);
+            Code.NotNullNorEmpty(fileName, "fileName");
 
-            _fileName = fileName;
+            _encoding = IrbisEncoding.Ansi;
 
-            _ifp = _OpenStream(fileName);
-            _l01 = _OpenStream(Path.ChangeExtension(fileName, ".l01"));
-            _l02 = _OpenStream(Path.ChangeExtension(fileName, ".l02"));
-            _n01 = _OpenStream(Path.ChangeExtension(fileName, ".n01"));
-            _n02 = _OpenStream(Path.ChangeExtension(fileName, ".n02"));
+            FileName = fileName;
+
+            Ifp = _OpenStream(fileName);
+            L01 = _OpenStream(Path.ChangeExtension(fileName, ".l01"));
+            L02 = _OpenStream(Path.ChangeExtension(fileName, ".l02"));
+            N01 = _OpenStream(Path.ChangeExtension(fileName, ".n01"));
+            N02 = _OpenStream(Path.ChangeExtension(fileName, ".n02"));
         }
 
         #endregion
 
         #region Private members
 
-        private readonly string _fileName;
-
-        private Stream _ifp;
-
-        private Stream _l01, _l02;
-
-        private Stream _n01, _n02;
-
         private readonly Encoding _encoding;
 
-        private static Stream _OpenStream(string fileName)
+        private static Stream _OpenStream
+            (
+                string fileName
+            )
         {
             return new FileStream
                 (
@@ -87,9 +127,14 @@ namespace ManagedIrbis.Direct
                 );
         }
 
-        private long _NodeOffset(int nodeNumber)
+        private long _NodeOffset
+            (
+                int nodeNumber
+            )
         {
-            long result = unchecked((((long)nodeNumber) - 1) * NodeLength);
+            long result
+                = unchecked((((long)nodeNumber) - 1) * NodeLength);
+
             return result;
         }
 
@@ -130,9 +175,10 @@ namespace ManagedIrbis.Direct
             foreach (NodeItem item in result.Items)
             {
                 stream.Position = offset + item.KeyOffset;
-                byte[] buffer = stream.ReadBytes(item.Length);
+                byte[] buffer = stream.ReadBytes(item.Length)
+                    .ThrowIfNull("buffer");
                 string text = _encoding.GetString(buffer);
-                item.Text = text;
+                    item.Text = text;
             }
 
             return result;
@@ -142,18 +188,47 @@ namespace ManagedIrbis.Direct
 
         #region Public methods
 
-        public NodeRecord ReadNode(int number)
+        /// <summary>
+        /// Read given non-leaf node.
+        /// </summary>
+        [NotNull]
+        public NodeRecord ReadNode
+            (
+                int number
+            )
         {
-            return _ReadNode(false, _n01, _NodeOffset(number));
+            return _ReadNode(false, N01, _NodeOffset(number));
         }
 
-        public NodeRecord ReadLeaf(int number)
+        /// <summary>
+        /// Read given leaf node.
+        /// </summary>
+        [NotNull]
+        public NodeRecord ReadLeaf
+            (
+                int number
+            )
         {
             number = Math.Abs(number);
-            return _ReadNode(true, _l01, _NodeOffset(number));
+            NodeRecord result = _ReadNode
+                (
+                    true,
+                    L01,
+                    _NodeOffset(number)
+                );
+
+            return result;
         }
 
-        public NodeRecord ReadNext(NodeRecord record)
+        /// <summary>
+        /// Read next node.
+        /// </summary>
+        /// <returns><c>null</c> if no next node.</returns>
+        [CanBeNull]
+        public NodeRecord ReadNext
+            (
+                [NotNull] NodeRecord record
+            )
         {
             int number = record.Leader.Next;
 
@@ -162,9 +237,22 @@ namespace ManagedIrbis.Direct
                 return null;
             }
 
-            return _ReadNode(record.IsLeaf, record._stream, _NodeOffset(number));
+            NodeRecord result = _ReadNode
+                (
+                    record.IsLeaf,
+                    record._stream,
+                    _NodeOffset(number)
+                );
+
+            return result;
         }
 
+        /// <summary>
+        /// Read previous node.
+        /// </summary>
+        /// <returns><c>null</c> if no previous node.
+        /// </returns>
+        [CanBeNull]
         public NodeRecord ReadPrevious(NodeRecord record)
         {
             int number = record.Leader.Previous;
@@ -173,16 +261,37 @@ namespace ManagedIrbis.Direct
                 return null;
             }
 
-            return _ReadNode(record.IsLeaf, record._stream, _NodeOffset(number));
-        }
+            NodeRecord result = _ReadNode
+                (
+                    record.IsLeaf,
+                    record._stream,
+                    _NodeOffset(number)
+                );
 
-        public IfpRecord ReadIfpRecord(long offset)
-        {
-            IfpRecord result = IfpRecord.Read(Ifp, offset);
             return result;
         }
 
-        public TermLink[] SearchExact(string key)
+        /// <summary>
+        /// Read <see cref="IfpRecord"/> from given offset.
+        /// </summary>
+        public IfpRecord ReadIfpRecord
+            (
+                long offset
+            )
+        {
+            IfpRecord result = IfpRecord.Read(Ifp, offset);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Search without truncation.
+        /// </summary>
+        [NotNull]
+        public TermLink[] SearchExact
+            (
+                [CanBeNull] string key
+            )
         {
             if (string.IsNullOrEmpty(key))
             {
@@ -192,18 +301,29 @@ namespace ManagedIrbis.Direct
             key = key.ToUpperInvariant();
 
             NodeRecord firstNode = ReadNode(1);
-            NodeRecord rootNode = ReadNode(firstNode.Leader.Number);
+            NodeRecord rootNode
+                = ReadNode(firstNode.Leader.Number);
             NodeRecord currentNode = rootNode;
 
             NodeItem goodItem = null;
+
             while (true)
             {
                 bool found = false;
                 bool beyond = false;
 
+                if (ReferenceEquals(currentNode, null))
+                {
+                    break;
+                }
+
                 foreach (NodeItem item in currentNode.Items)
                 {
-                    int compareResult = string.CompareOrdinal(item.Text, key);
+                    int compareResult = string.CompareOrdinal
+                        (
+                            item.Text,
+                            key
+                        );
                     if (compareResult > 0)
                     {
                         beyond = true;
@@ -243,7 +363,6 @@ namespace ManagedIrbis.Direct
                         ? ReadLeaf(goodItem.LowOffset)
                         : ReadNode(goodItem.LowOffset);
                 }
-                //Console.WriteLine(currentNode);
             }
 
         FOUND:
@@ -256,19 +375,29 @@ namespace ManagedIrbis.Direct
             return new TermLink[0];
         }
 
-        public TermLink[] SearchStart(string key)
+        /// <summary>
+        /// Search with truncation.
+        /// </summary>
+        [NotNull]
+        public TermLink[] SearchTruncated
+            (
+                [CanBeNull] string key
+            )
         {
-            List<TermLink> result = new List<TermLink>();
-
             if (string.IsNullOrEmpty(key))
             {
                 return new TermLink[0];
             }
 
+            List<TermLink> result = new List<TermLink>();
+
             key = key.ToUpperInvariant();
 
             NodeRecord firstNode = ReadNode(1);
-            NodeRecord rootNode = ReadNode(firstNode.Leader.Number);
+            NodeRecord rootNode = ReadNode
+                (
+                    firstNode.Leader.Number
+                );
             NodeRecord currentNode = rootNode;
 
             NodeItem goodItem = null;
@@ -277,9 +406,18 @@ namespace ManagedIrbis.Direct
                 bool found = false;
                 bool beyond = false;
 
+                if (ReferenceEquals(currentNode, null))
+                {
+                    break;
+                }
+
                 foreach (NodeItem item in currentNode.Items)
                 {
-                    int compareResult = string.CompareOrdinal(item.Text, key);
+                    int compareResult = string.CompareOrdinal
+                        (
+                            item.Text,
+                            key
+                        );
                     if (compareResult > 0)
                     {
                         beyond = true;
@@ -316,18 +454,27 @@ namespace ManagedIrbis.Direct
                     }
                     currentNode = ReadNode(goodItem.LowOffset);
                 }
-                //Console.WriteLine(currentNode);
             }
 
         FOUND:
             if (goodItem != null)
             {
                 currentNode = ReadLeaf(goodItem.LowOffset);
+
                 while (true)
                 {
+                    if (ReferenceEquals(currentNode, null))
+                    {
+                        break;
+                    }
+
                     foreach (NodeItem item in currentNode.Items)
                     {
-                        int compareResult = string.CompareOrdinal(item.Text, key);
+                        int compareResult = string.CompareOrdinal
+                            (
+                                item.Text,
+                                key
+                            );
                         if (compareResult >= 0)
                         {
                             bool starts = item.Text.StartsWith(key);
@@ -356,7 +503,14 @@ namespace ManagedIrbis.Direct
                 .ToArray();
         }
 
-        public int[] SearchSimple(string key)
+        /// <summary>
+        /// Perform simple search.
+        /// </summary>
+        [NotNull]
+        public int[] SearchSimple
+            (
+                [CanBeNull] string key
+            )
         {
             if (string.IsNullOrEmpty(key))
             {
@@ -370,7 +524,7 @@ namespace ManagedIrbis.Direct
                 key = key.Substring(0, key.Length - 1);
                 if (!string.IsNullOrEmpty(key))
                 {
-                    result = SearchStart(key);
+                    result = SearchTruncated(key);
                 }
             }
             else
@@ -388,33 +542,18 @@ namespace ManagedIrbis.Direct
 
         #region IDisposable members
 
+        /// <summary>
+        /// Performs application-defined tasks associated
+        /// with freeing, releasing, or resetting
+        /// unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
-            if (_ifp != null)
-            {
-                _ifp.Dispose();
-                _ifp = null;
-            }
-            if (_l01 != null)
-            {
-                _l01.Dispose();
-                _l01 = null;
-            }
-            if (_l02 != null)
-            {
-                _l02.Dispose();
-                _l02 = null;
-            }
-            if (_n01 != null)
-            {
-                _n01.Dispose();
-                _n01 = null;
-            }
-            if (_n02 != null)
-            {
-                _n02.Dispose();
-                _n02 = null;
-            }
+            Ifp.Dispose();
+            L01.Dispose();
+            L02.Dispose();
+            N01.Dispose();
+            N02.Dispose();
         }
 
         #endregion

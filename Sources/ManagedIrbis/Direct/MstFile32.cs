@@ -1,4 +1,4 @@
-﻿/* MstFile32.cs
+﻿/* MstFile32.cs -- reading MST file
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -10,35 +10,62 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+
 using AM.IO;
+using CodeJam;
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
 
 #endregion
 
 namespace ManagedIrbis.Direct
 {
     /// <summary>
-    /// 
+    /// Reading MST file.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class MstFile32
         : IDisposable
     {
         #region Constants
+
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// How many data to preload?
+        /// </summary>
         public static int PreloadLength = 6 * 1024;
 
+        /// <summary>
+        /// Control record.
+        /// </summary>
+        [NotNull]
         public MstControlRecord32 ControlRecord { get; private set; }
 
+        /// <summary>
+        /// File name.
+        /// </summary>
+        [NotNull]
         public string FileName { get; private set; }
 
         #endregion
 
         #region Construction
 
-        public MstFile32(string fileName)
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public MstFile32
+            (
+                [NotNull] string fileName
+            )
         {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
             FileName = fileName;
 
             _stream = new FileStream
@@ -49,7 +76,14 @@ namespace ManagedIrbis.Direct
                     FileShare.ReadWrite
                 );
 
-            _ReadControlRecord();
+            ControlRecord = new MstControlRecord32
+            {
+                Zero = _stream.ReadInt32Host(),
+                NextMfn = _stream.ReadInt32Host(),
+                NextBlock = _stream.ReadInt32Host(),
+                NextOffset = _stream.ReadInt16Host(),
+                Type = _stream.ReadInt16Host()
+            };
         }
 
         #endregion
@@ -58,23 +92,18 @@ namespace ManagedIrbis.Direct
 
         private readonly FileStream _stream;
 
-        private void _ReadControlRecord()
-        {
-            ControlRecord = new MstControlRecord32
-            {
-                Zero = _stream.ReadInt32Host(),
-                NextMfn = _stream.ReadInt32Host(),
-                NextBlock = _stream.ReadInt32Host(),
-                NextOffset= _stream.ReadInt16Host(),
-                Type = _stream.ReadInt16Host()
-            };
-        }
-
         #endregion
 
         #region Public methods
 
-        public MstRecord32 ReadRecord(long offset)
+        /// <summary>
+        /// Read the record.
+        /// </summary>
+        [NotNull]
+        public MstRecord32 ReadRecord
+            (
+                long offset
+            )
         {
             if (_stream.Seek(offset, SeekOrigin.Begin) != offset)
             {
@@ -150,6 +179,9 @@ namespace ManagedIrbis.Direct
             //return true;
         }
 
+        /// <summary>
+        /// Read the record.
+        /// </summary>
         public MstRecord32 ReadRecord2
             (
                 long offset
@@ -203,6 +235,7 @@ namespace ManagedIrbis.Direct
                 Leader = leader,
                 Dictionary = dictionary
             };
+
             return result;
         }
 
@@ -230,12 +263,14 @@ namespace ManagedIrbis.Direct
 
         #region IDisposable members
 
+        /// <summary>
+        /// Performs application-defined tasks associated
+        /// with freeing, releasing, or resetting
+        /// unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
-            if (_stream != null)
-            {
-                _stream.Dispose();
-            }
+            _stream.Dispose();
         }
 
         #endregion
