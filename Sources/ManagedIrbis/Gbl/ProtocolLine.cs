@@ -14,9 +14,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Gbl;
 using ManagedIrbis.Network;
-using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
 
@@ -55,9 +53,15 @@ namespace ManagedIrbis.Gbl
         [CanBeNull]
         public string Autoin { get; set; }
 
+        /// <summary>
+        /// UPDATE=
+        /// </summary>
         [CanBeNull]
         public string Update { get; set; }
 
+        /// <summary>
+        /// STATUS=
+        /// </summary>
         [CanBeNull]
         public string Status { get; set; }
 
@@ -67,6 +71,9 @@ namespace ManagedIrbis.Gbl
         [CanBeNull]
         public string Error { get; set; }
 
+        /// <summary>
+        /// UPDUF=
+        /// </summary>
         [CanBeNull]
         public string UpdUf { get; set; }
 

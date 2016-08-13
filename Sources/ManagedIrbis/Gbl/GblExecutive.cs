@@ -1,4 +1,4 @@
-﻿/* GblExecutive.cs --
+﻿/* GblExecutive.cs -- executes GBL statements locally
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -32,7 +32,7 @@ using Newtonsoft.Json.Linq;
 namespace ManagedIrbis.Gbl
 {
     /// <summary>
-    /// Executes GBL statements
+    /// Executes GBL statements locally.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -80,6 +80,9 @@ namespace ManagedIrbis.Gbl
 
         #region Public methods
 
+        /// <summary>
+        /// Get the field from the specification.
+        /// </summary>
         [CanBeNull]
         public RecordField GetField
             (
@@ -91,6 +94,9 @@ namespace ManagedIrbis.Gbl
             return null;
         }
 
+        /// <summary>
+        /// Whether the subfield specification.
+        /// </summary>
         public bool IsSubField
             (
                 [NotNull] string specification

@@ -7,14 +7,16 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
+
 using AM;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Network;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -90,6 +92,9 @@ namespace ManagedIrbis.Gbl
 
         #region Public methods
 
+        /// <summary>
+        /// Get empty result.
+        /// </summary>
         [NotNull]
         public static GblResult GetEmptyResult()
         {
@@ -102,6 +107,9 @@ namespace ManagedIrbis.Gbl
             return result;
         }
 
+        /// <summary>
+        /// Merge result.
+        /// </summary>
         public void MergeResult
             (
                 [NotNull] GblResult intermediateResult

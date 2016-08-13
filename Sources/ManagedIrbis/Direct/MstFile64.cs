@@ -1,4 +1,4 @@
-﻿/* MstFile64.cs
+﻿/* MstFile64.cs -- reading MST file
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -17,6 +17,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using MoonSharp.Interpreter;
+
 #endregion
 
 namespace ManagedIrbis.Direct
@@ -24,6 +26,8 @@ namespace ManagedIrbis.Direct
     /// <summary>
     /// Direct reads MST file.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class MstFile64
         : IDisposable
     {
@@ -33,8 +37,15 @@ namespace ManagedIrbis.Direct
 
         #region Properties
 
-        public static int PreloadLength = 10*1024;
+        /// <summary>
+        /// How many data to preload?
+        /// </summary>
+        public static int PreloadLength = 10 * 1024;
 
+        /// <summary>
+        /// Control record.
+        /// </summary>
+        [NotNull]
         public MstControlRecord64 ControlRecord { get; private set; }
 
         /// <summary>
@@ -59,7 +70,7 @@ namespace ManagedIrbis.Direct
 
             FileName = fileName;
 
-            _stream = new FileStream 
+            _stream = new FileStream
                 (
                     fileName,
                     FileMode.Open,
@@ -67,7 +78,16 @@ namespace ManagedIrbis.Direct
                     FileShare.ReadWrite
                 );
 
-            _ReadControlRecord ();
+            ControlRecord = new MstControlRecord64
+            {
+                Reserv1 = _stream.ReadInt32Network(),
+                NextMfn = _stream.ReadInt32Network(),
+                NextPosition = _stream.ReadInt64Network(),
+                Reserv2 = _stream.ReadInt32Network(),
+                Reserv3 = _stream.ReadInt32Network(),
+                Reserv4 = _stream.ReadInt32Network(),
+                Blocked = _stream.ReadInt32Network()
+            };
         }
 
         #endregion
@@ -77,73 +97,6 @@ namespace ManagedIrbis.Direct
         private bool _lockFlag;
 
         private readonly FileStream _stream;
-
-        private void _ReadControlRecord ()
-        {
-            ControlRecord = new MstControlRecord64
-                {
-                    Reserv1 = _stream.ReadInt32Network (),
-                    NextMfn = _stream.ReadInt32Network (),
-                    NextPosition = _stream.ReadInt64Network (),
-                    Reserv2 = _stream.ReadInt32Network (),
-                    Reserv3 = _stream.ReadInt32Network (),
-                    Reserv4 = _stream.ReadInt32Network (),
-                    Blocked = _stream.ReadInt32Network ()
-                };
-        }
-
-        #endregion
-
-        #region Public methods
-
-        public MstRecord64 ReadRecord ( long offset )
-        {
-            if ( _stream.Seek ( offset, SeekOrigin.Begin ) != offset )
-            {
-                throw new IOException();
-            }
-
-            //new ObjectDumper()
-            //    .DumpStream(_stream,offset,64)
-            //    .WriteLine();
-
-            Encoding encoding = new UTF8Encoding(false,true);
-
-            MstRecordLeader64 leader = MstRecordLeader64.Read(_stream);
-
-            List <MstDictionaryEntry64> dictionary 
-                = new List < MstDictionaryEntry64 > ();
-
-            for ( int i = 0; i < leader.Nvf; i++ )
-            {
-                MstDictionaryEntry64 entry = new MstDictionaryEntry64
-                    {
-                        Tag = _stream.ReadInt32Network (),
-                        Position = _stream.ReadInt32Network (),
-                        Length = _stream.ReadInt32Network ()
-                    };
-                dictionary.Add ( entry );
-            }
-
-            foreach ( MstDictionaryEntry64 entry in dictionary )
-            {
-                long endOffset = offset + leader.Base + entry.Position;
-                _stream.Seek ( endOffset, SeekOrigin.Begin );
-                entry.Bytes = _stream.ReadBytes ( entry.Length );
-                if ( entry.Bytes != null )
-                {
-                    entry.Text = encoding.GetString ( entry.Bytes );
-                }
-            }
-
-            MstRecord64 result = new MstRecord64
-                {
-                    Leader = leader,
-                    Dictionary = dictionary
-                };
-
-            return result;
-        }
 
         private static void _AppendStream
             (
@@ -167,11 +120,77 @@ namespace ManagedIrbis.Direct
                 throw new IOException();
                 //return false;
             }
-            target.Write(buffer,0,readed);
+            target.Write(buffer, 0, readed);
             target.Position = savedPosition;
             //return true;
         }
 
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Read the record.
+        /// </summary>
+        [NotNull]
+        public MstRecord64 ReadRecord
+            (
+                long offset
+            )
+        {
+            if (_stream.Seek(offset, SeekOrigin.Begin) != offset)
+            {
+                throw new IOException();
+            }
+
+            //new ObjectDumper()
+            //    .DumpStream(_stream,offset,64)
+            //    .WriteLine();
+
+            //Encoding encoding = new UTF8Encoding(false, true);
+            Encoding encoding = IrbisEncoding.Utf8;
+
+            MstRecordLeader64 leader
+                = MstRecordLeader64.Read(_stream);
+
+            List<MstDictionaryEntry64> dictionary
+                = new List<MstDictionaryEntry64>();
+
+            for (int i = 0; i < leader.Nvf; i++)
+            {
+                MstDictionaryEntry64 entry = new MstDictionaryEntry64
+                {
+                    Tag = _stream.ReadInt32Network(),
+                    Position = _stream.ReadInt32Network(),
+                    Length = _stream.ReadInt32Network()
+                };
+                dictionary.Add(entry);
+            }
+
+            foreach (MstDictionaryEntry64 entry in dictionary)
+            {
+                long endOffset = offset + leader.Base + entry.Position;
+                _stream.Seek(endOffset, SeekOrigin.Begin);
+                entry.Bytes = _stream.ReadBytes(entry.Length);
+                if (entry.Bytes != null)
+                {
+                    entry.Text = encoding.GetString(entry.Bytes);
+                }
+            }
+
+            MstRecord64 result = new MstRecord64
+            {
+                Leader = leader,
+                Dictionary = dictionary
+            };
+
+            return result;
+        }
+
+        /// <summary>
+        /// Read the record.
+        /// </summary>
+        [NotNull]
         public MstRecord64 ReadRecord2
             (
                 long offset
@@ -182,14 +201,14 @@ namespace ManagedIrbis.Direct
                 throw new IOException();
             }
 
-            Encoding encoding = new UTF8Encoding(false, true);
+            Encoding encoding = IrbisEncoding.Utf8;
 
             MemoryStream memory = new MemoryStream(PreloadLength);
             _AppendStream(_stream, memory, PreloadLength);
             memory.Position = 0;
 
             MstRecordLeader64 leader = MstRecordLeader64.Read(memory);
-            int amountToRead = (int) (leader.Length - memory.Length);
+            int amountToRead = (int)(leader.Length - memory.Length);
             if (amountToRead > 0)
             {
                 _AppendStream(_stream, memory, amountToRead);
@@ -225,6 +244,7 @@ namespace ManagedIrbis.Direct
                 Leader = leader,
                 Dictionary = dictionary
             };
+
             return result;
         }
 
@@ -232,7 +252,6 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Блокировка базы данных в целом.
         /// </summary>
-        /// <param name="flag"></param>
         public void LockDatabase
             (
                 bool flag
@@ -275,16 +294,21 @@ namespace ManagedIrbis.Direct
 
         #region IDisposable members
 
-        public void Dispose ()
+        /// <summary>
+        /// Performs application-defined tasks associated
+        /// with freeing, releasing, or resetting
+        /// unmanaged resources.
+        /// </summary>
+        public void Dispose()
         {
-            if ( _stream != null )
+            if (_stream != null)
             {
                 if (_lockFlag)
                 {
                     LockDatabase(false);
                 }
 
-                _stream.Dispose ();
+                _stream.Dispose();
             }
         }
 

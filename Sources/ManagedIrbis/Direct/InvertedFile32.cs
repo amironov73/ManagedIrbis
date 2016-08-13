@@ -223,7 +223,8 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Read next node.
         /// </summary>
-        /// <returns><c>null</c> if no next node.</returns>
+        /// <returns><c>null</c> if there is no next node.
+        /// </returns>
         [CanBeNull]
         public NodeRecord ReadNext
             (
@@ -250,7 +251,7 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Read previous node.
         /// </summary>
-        /// <returns><c>null</c> if no previous node.
+        /// <returns><c>null</c> if there is no previous node.
         /// </returns>
         [CanBeNull]
         public NodeRecord ReadPrevious(NodeRecord record)
@@ -484,7 +485,8 @@ namespace ManagedIrbis.Direct
                             }
                             if (starts)
                             {
-                                IfpRecord ifp = ReadIfpRecord(item.FullOffset);
+                                IfpRecord ifp
+                                    = ReadIfpRecord(item.FullOffset);
                                 result.AddRange(ifp.Links);
                             }
                         }

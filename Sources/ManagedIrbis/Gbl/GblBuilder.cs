@@ -6,10 +6,7 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-
-using AM;
 
 using CodeJam;
 
@@ -56,6 +53,9 @@ namespace ManagedIrbis.Gbl
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public GblBuilder()
         {
             _statements = new List<GblStatement>();
@@ -100,6 +100,9 @@ namespace ManagedIrbis.Gbl
             return this;
         }
 
+        /// <summary>
+        /// Command "ADD".
+        /// </summary>
         [NotNull]
         public GblBuilder Add
             (
@@ -117,6 +120,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Command "ADD".
+        /// </summary>
         [NotNull]
         public GblBuilder Add
             (
@@ -135,6 +141,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Command "CHA".
+        /// </summary>
         [NotNull]
         public GblBuilder Change
             (
@@ -153,6 +162,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Command "CHA".
+        /// </summary>
         [NotNull]
         public GblBuilder Change
             (
@@ -172,6 +184,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Command "DEL".
+        /// </summary>
         [NotNull]
         public GblBuilder Delete
             (
@@ -189,6 +204,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Command "DEL".
+        /// </summary>
         [NotNull]
         public GblBuilder Delete
             (
@@ -205,6 +223,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Command "DELR".
+        /// </summary>
         [NotNull]
         public GblBuilder DeleteRecord()
         {
@@ -218,6 +239,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Execute the GBL on the given database.
+        /// </summary>
         [NotNull]
         public GblResult Execute
             (
@@ -239,6 +263,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Execute the GBL on the search result.
+        /// </summary>
         [NotNull]
         public GblResult Execute
             (
@@ -258,6 +285,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Execute the GBL on the search result.
+        /// </summary>
         [NotNull]
         public GblResult Execute
             (
@@ -282,6 +312,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Execute the GBL on given record interval.
+        /// </summary>
         [NotNull]
         public GblResult Execute
             (
@@ -309,6 +342,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Execute the GBL on given record interval.
+        /// </summary>
         [NotNull]
         public GblResult Execute
             (
@@ -334,6 +370,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Execute the GBL on given recordset.
+        /// </summary>
         [NotNull]
         public GblResult Execute
             (
@@ -358,6 +397,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Execute the GBL on given recordset.
+        /// </summary>
         [NotNull]
         public GblResult Execute
             (
@@ -380,6 +422,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Command "FI" - closes "IF".
+        /// </summary>
         [NotNull]
         public GblBuilder Fi()
         {
@@ -393,6 +438,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Command "IF".
+        /// </summary>
         [NotNull]
         public GblBuilder If
             (
@@ -409,6 +457,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Command "IF".
+        /// </summary>
         [NotNull]
         public GblBuilder If
             (
@@ -422,6 +473,9 @@ namespace ManagedIrbis.Gbl
             return Fi();
         }
 
+        /// <summary>
+        /// Command "IF"
+        /// </summary>
         [NotNull]
         public GblBuilder If
             (
@@ -436,6 +490,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Comment.
+        /// </summary>
         [NotNull]
         public GblBuilder Nop ()
         {
@@ -449,6 +506,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Comment.
+        /// </summary>
         [NotNull]
         public GblBuilder Nop
             (
@@ -465,7 +525,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
-
+        /// <summary>
+        /// Comment.
+        /// </summary>
         [NotNull]
         public GblBuilder Nop
             (
@@ -483,6 +545,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Command "REP".
+        /// </summary>
         [NotNull]
         public GblBuilder Replace
             (
@@ -501,6 +566,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Command "REP".
+        /// </summary>
         [NotNull]
         public GblBuilder Replace
             (
@@ -518,6 +586,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Build statement array.
+        /// </summary>
         [NotNull]
         [ItemNotNull]
         public GblStatement[] ToStatements()
@@ -525,6 +596,9 @@ namespace ManagedIrbis.Gbl
             return _statements.ToArray();
         }
 
+        /// <summary>
+        /// Command "UNDO"
+        /// </summary>
         [NotNull]
         public GblBuilder Undo
             (
@@ -541,6 +615,9 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Verify command code.
+        /// </summary>
         [NotNull]
         public string VerifyCode
             (
@@ -554,6 +631,9 @@ namespace ManagedIrbis.Gbl
             return code;
         }
 
+        /// <summary>
+        /// Verify field specification.
+        /// </summary>
         [NotNull]
         public string VerifyField
             (
@@ -562,11 +642,14 @@ namespace ManagedIrbis.Gbl
         {
             Code.NotNullNorEmpty(field, "field");
 
-            // TODO some verification
+            // TODO some verification?
 
             return field;
         }
 
+        /// <summary>
+        /// Verify format specification.
+        /// </summary>
         [NotNull]
         public string VerifyFormat
             (
@@ -575,11 +658,14 @@ namespace ManagedIrbis.Gbl
         {
             Code.NotNullNorEmpty(format, "format");
 
-            // TODO some verification
+            // TODO some verification?
 
             return format;
         }
 
+        /// <summary>
+        /// Verify command parameter.
+        /// </summary>
         [NotNull]
         public string VerifyParameter
             (
@@ -588,11 +674,14 @@ namespace ManagedIrbis.Gbl
         {
             Code.NotNullNorEmpty(parameter, "parameter");
 
-            // TODO some verification
+            // TODO some verification?
 
             return parameter;
         }
 
+        /// <summary>
+        /// Verify field repeat specification.
+        /// </summary>
         [NotNull]
         public string VerifyRepeat
             (
@@ -601,9 +690,14 @@ namespace ManagedIrbis.Gbl
         {
             Code.NotNullNorEmpty(repeat, "repeat");
 
+            // TODO some verification?
+
             return repeat;
         }
 
+        /// <summary>
+        /// Verify value for command.
+        /// </summary>
         [NotNull]
         public string VerifyValue
             (
@@ -611,6 +705,8 @@ namespace ManagedIrbis.Gbl
             )
         {
             Code.NotNullNorEmpty(value, "value");
+
+            // TODO some verification?
 
             return value;
         }

@@ -12,7 +12,9 @@ using System.IO;
 using System.Text;
 
 using AM.IO;
+
 using CodeJam;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -92,6 +94,33 @@ namespace ManagedIrbis.Direct
 
         private readonly FileStream _stream;
 
+        private static void _AppendStream
+            (
+                Stream source,
+                Stream target,
+                int amount
+            )
+        {
+            if (amount <= 0)
+            {
+                throw new IOException();
+                //return false;
+            }
+            long savedPosition = target.Position;
+            target.Position = target.Length;
+
+            byte[] buffer = new byte[amount];
+            int readed = source.Read(buffer, 0, amount);
+            if (readed <= 0)
+            {
+                throw new IOException();
+                //return false;
+            }
+            target.Write(buffer, 0, readed);
+            target.Position = savedPosition;
+            //return true;
+        }
+
         #endregion
 
         #region Public methods
@@ -152,36 +181,10 @@ namespace ManagedIrbis.Direct
             return result;
         }
 
-        private static void _AppendStream
-            (
-                Stream source,
-                Stream target,
-                int amount
-            )
-        {
-            if (amount <= 0)
-            {
-                throw new IOException();
-                //return false;
-            }
-            long savedPosition = target.Position;
-            target.Position = target.Length;
-
-            byte[] buffer = new byte[amount];
-            int readed = source.Read(buffer, 0, amount);
-            if (readed <= 0)
-            {
-                throw new IOException();
-                //return false;
-            }
-            target.Write(buffer, 0, readed);
-            target.Position = savedPosition;
-            //return true;
-        }
-
         /// <summary>
         /// Read the record.
         /// </summary>
+        [NotNull]
         public MstRecord32 ReadRecord2
             (
                 long offset

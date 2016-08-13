@@ -8,27 +8,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-using AM.Threading;
 
 using CodeJam;
 
 using JetBrains.Annotations;
-
-using ManagedIrbis.Gbl;
-using ManagedIrbis.Network;
-using ManagedIrbis.Network.Commands;
-using ManagedIrbis.Network.Sockets;
-using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
 
@@ -56,12 +42,21 @@ namespace ManagedIrbis.Gbl
 
         #region Properties
 
+        /// <summary>
+        /// Connection.
+        /// </summary>
         [NotNull]
         public IrbisConnection Connection { get; private set; }
 
+        /// <summary>
+        /// Database name.
+        /// </summary>
         [NotNull]
         public string Database { get; private set; }
 
+        /// <summary>
+        /// Chunk size.
+        /// </summary>
         public int ChunkSize { get; private set; }
 
         /// <summary>
@@ -81,8 +76,14 @@ namespace ManagedIrbis.Gbl
         /// </summary>
         public bool FormalControl { get; set; }
 
+        /// <summary>
+        /// Was cancelled?
+        /// </summary>
         public bool Cancel { get; set; }
 
+        /// <summary>
+        /// Result.
+        /// </summary>
         [NotNull]
         public GblResult Result { get; private set; }
 
@@ -90,6 +91,9 @@ namespace ManagedIrbis.Gbl
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public GlobalCorrector
             (
                 [NotNull] IrbisConnection connection
@@ -103,6 +107,9 @@ namespace ManagedIrbis.Gbl
         {
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public GlobalCorrector
             (
                 [NotNull] IrbisConnection connection,
@@ -117,6 +124,9 @@ namespace ManagedIrbis.Gbl
         {
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public GlobalCorrector
             (
                 [NotNull] IrbisConnection connection,

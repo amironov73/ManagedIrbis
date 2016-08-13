@@ -1,4 +1,4 @@
-﻿/* XrfFile64.cs
+﻿/* XrfFile64.cs -- cross-reference file reading
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -7,12 +7,15 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 using AM.IO;
+
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
 
 #endregion
 
@@ -24,28 +27,45 @@ namespace ManagedIrbis.Direct
     /// Первая ссылка соответствует записи файла документов
     /// с номером 1, вторая – 2  и тд.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class XrfFile64
         : IDisposable
     {
         #region Constants
+
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// File name.
+        /// </summary>
+        [NotNull]
         public string FileName { get; private set; }
 
+        /// <summary>
+        /// XRF located in memory?
+        /// </summary>
         public bool InMemory { get; private set; }
 
         #endregion
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="inMemory"></param>
         public XrfFile64
             (
-                string fileName,
+                [NotNull] string fileName,
                 bool inMemory
             )
         {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
             FileName = fileName;
             InMemory = inMemory;
 
@@ -86,15 +106,16 @@ namespace ManagedIrbis.Direct
 
         #region Public methods
 
+        /// <summary>
+        /// Read the record.
+        /// </summary>
+        [NotNull]
         public XrfRecord64 ReadRecord
             (
                 int mfn
             )
         {
-            if (mfn <= 0)
-            {
-                throw new ArgumentOutOfRangeException("mfn");
-            }
+            Code.Positive(mfn, "mfn");
 
             long offset = _GetOffset(mfn);
             if (offset >= _stream.Length)
@@ -120,18 +141,22 @@ namespace ManagedIrbis.Direct
             return result;
         }
 
+        /// <summary>
+        /// Write the record.
+        /// </summary>
         public void WriteRecord
             (
-                XrfRecord64 record
+                [NotNull] XrfRecord64 record
             )
         {
-            if (record == null)
-            {
-                throw new ArgumentNullException("record");
-            }
+            Code.NotNull(record, "record");
 
+            throw new NotImplementedException("WriteRecord");
         }
 
+        /// <summary>
+        /// Lock the record.
+        /// </summary>
         public void LockRecord
             (
                 int mfn,
@@ -149,6 +174,11 @@ namespace ManagedIrbis.Direct
 
         #region IDisposable members
 
+        /// <summary>
+        /// Performs application-defined tasks associated
+        /// with freeing, releasing, or resetting
+        /// unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             if (_stream != null)

@@ -1,4 +1,4 @@
-﻿/* DirectReader64.cs
+﻿/* DirectReader64.cs -- direct reading IRBIS64 databases
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -22,7 +22,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Direct
 {
     /// <summary>
-    /// Reads MST file directly.
+    /// Direct reading IRBIS64 databases.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -31,12 +31,21 @@ namespace ManagedIrbis.Direct
     {
         #region Properties
 
+        /// <summary>
+        /// Master file.
+        /// </summary>
         [NotNull]
         public MstFile64 Mst { get; private set; }
 
+        /// <summary>
+        /// Cross-references file.
+        /// </summary>
         [NotNull]
         public XrfFile64 Xrf { get; private set; }
 
+        /// <summary>
+        /// Inverted (index) file.
+        /// </summary>
         [NotNull]
         public InvertedFile64 InvertedFile { get; private set; }
 
@@ -128,11 +137,17 @@ namespace ManagedIrbis.Direct
             return result;
         }
 
+        /// <summary>
+        /// Read all versions of the record.
+        /// </summary>
+        [NotNull]
         public MarcRecord[] ReadAllRecordVersions
             (
                 int mfn
             )
         {
+            Code.Positive(mfn, "mfn");
+
             List<MarcRecord> result = new List<MarcRecord>();
             MarcRecord lastVersion = ReadRecord(mfn);
             if (lastVersion != null)
@@ -170,11 +185,20 @@ namespace ManagedIrbis.Direct
         //    return result;
         //}
 
-        public int[] SearchSimple(string key)
+        /// <summary>
+        /// Simple search.
+        /// </summary>
+        [NotNull]
+        public int[] SearchSimple
+            (
+                [NotNull] string key
+            )
         {
-            int[] mfns = InvertedFile.SearchSimple(key);
+            Code.NotNullNorEmpty(key, "key");
+
+            int[] found = InvertedFile.SearchSimple(key);
             List<int> result = new List<int>();
-            foreach (int mfn in mfns)
+            foreach (int mfn in found)
             {
                 if (!Xrf.ReadRecord(mfn).Deleted)
                 {
@@ -184,6 +208,10 @@ namespace ManagedIrbis.Direct
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Simple search and read records.
+        /// </summary>
+        [NotNull]
         public MarcRecord[] SearchReadSimple
             (
                 [NotNull] string key
@@ -203,7 +231,8 @@ namespace ManagedIrbis.Direct
                         MstRecord64 mstRecord = Mst.ReadRecord2(xrfRecord.Offset);
                         if (!mstRecord.Deleted)
                         {
-                            MarcRecord irbisRecord = mstRecord.DecodeRecord();
+                            MarcRecord irbisRecord
+                                = mstRecord.DecodeRecord();
                             irbisRecord.Database = Database;
                             result.Add(irbisRecord);
                         }
@@ -222,8 +251,9 @@ namespace ManagedIrbis.Direct
         #region IDisposable members
 
         /// <summary>
-        /// Performs application-defined tasks associated with
-        /// freeing, releasing, or resetting unmanaged resources.
+        /// Performs application-defined tasks associated
+        /// with freeing, releasing, or resetting
+        /// unmanaged resources.
         /// </summary>
         public void Dispose()
         {

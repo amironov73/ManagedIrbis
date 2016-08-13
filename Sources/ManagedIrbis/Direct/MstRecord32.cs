@@ -54,12 +54,12 @@ namespace ManagedIrbis.Direct
         /// </summary>
         public bool Deleted
         {
-            get { return ((Leader.Status & 
-                    (int)
-                    (
-                        RecordStatus.LogicallyDeleted 
-                        | RecordStatus.PhysicallyDeleted)) != 0
-                    ); 
+            get {
+                    return (Leader.Status & 
+                          (int)(RecordStatus.LogicallyDeleted 
+                                  | RecordStatus.PhysicallyDeleted)
+                                )
+                            != 0; 
                 }
         }
 
@@ -86,9 +86,10 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Decode the field.
         /// </summary>
+        [NotNull]
         public static RecordField DecodeField
             (
-                MstDictionaryEntry32 entry
+                [NotNull] MstDictionaryEntry32 entry
             )
         {
             string concatenated = string.Format
