@@ -188,63 +188,6 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <summary>
-        /// Глобальная корректировка по серверному GBL-файлу.
-        /// </summary>
-        [NotNull]
-        public static GblResult GlobalCorrection
-            (
-                [NotNull] this IrbisConnection connection,
-                [NotNull] string fileName,
-                [NotNull] Encoding encoding,
-                [CanBeNull] string database,
-                [CanBeNull] string searchExpression,
-                int firstRecord,
-                int numberOfRecords,
-                int minMfn,
-                int maxMfn,
-                [CanBeNull] int[] mfnList,
-                bool actualize,
-                bool formalControl,
-                bool autoin
-            )
-        {
-            Code.NotNull(connection, "connection");
-            Code.NotNullNorEmpty(fileName, "fileName");
-            Code.NotNull(encoding, "encoding");
-
-            if (string.IsNullOrEmpty(database))
-            {
-                database = connection.Database;
-            }
-
-            GblFile file = GblFile.ParseLocalFile(fileName, encoding);
-
-            GblCommand command = connection.CommandFactory
-                .GetGblCommand();
-            command.SearchExpression = searchExpression;
-            command.AutoIn = autoin;
-            command.Actualize = actualize;
-            command.FormalControl = formalControl;
-            command.Database = database;
-            command.FirstRecord = firstRecord;
-            command.NumberOfRecords = numberOfRecords;
-            command.MfnList = mfnList;
-            command.Statements = file.Statements
-                .ThrowIfNullOrEmpty("Statements")
-                .ToArray();
-            command.MinMfn = minMfn;
-            command.MaxMfn = maxMfn;
-
-            connection.ExecuteCommand(command);
-
-            return command.Result
-                .ThrowIfNull("command.Result");
-
-        }
-
-        // ========================================================
-
-        /// <summary>
         /// Стандартные наименования для ключа строки подключения
         /// к серверу ИРБИС64.
         /// </summary>

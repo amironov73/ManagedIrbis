@@ -47,6 +47,9 @@ namespace IrbisTestRunner.Tests
         [TestMethod]
         public void TestGbl1()
         {
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
             string field3000 = string.Format
                 (
                     "'{0}'",
@@ -65,22 +68,16 @@ namespace IrbisTestRunner.Tests
                 }, 
             };
 
-            GblResult result = Connection
-                .ThrowIfNull("Connection")
-                .GlobalCorrection
+            GblSettings settings = GblSettings.ForSearchExpression
                 (
+                    connection,
                     "IBIS",
                     "\"I=37/К88-602720\"",
-                    0,
-                    0,
-                    0,
-                    0,
-                    null,
-                    true,
-                    false,
-                    true,
                     statements
                 );
+
+            GblResult result = connection
+                .GlobalCorrection(settings);
 
             string text = "Processed: "
                 + result.RecordsProcessed
@@ -102,6 +99,9 @@ namespace IrbisTestRunner.Tests
         [TestMethod]
         public void TestGbl2()
         {
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
             string field3000 = string.Format
                 (
                     "'{0}'",
@@ -120,22 +120,16 @@ namespace IrbisTestRunner.Tests
                 }, 
             };
 
-            GblResult result = Connection
-                .ThrowIfNull("Connection")
-                .GlobalCorrection
+            GblSettings settings = GblSettings.ForList
                 (
+                    connection,
                     "IBIS",
-                    null,
-                    0,
-                    0,
-                    0,
-                    0,
-                    new int[] { 1, 2, 3 },
-                    true,
-                    false,
-                    true,
+                    new int[] {1, 2, 3},
                     statements
                 );
+
+            GblResult result = connection
+                .GlobalCorrection(settings);
 
             string text = "Processed: "
                 + result.RecordsProcessed
@@ -157,22 +151,18 @@ namespace IrbisTestRunner.Tests
         [TestMethod]
         public void TestGbl3()
         {
-            GblResult result = Connection
-                .ThrowIfNull("Connection")
-                .GlobalCorrection
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
+            GblSettings settings = GblSettings.ForList
                 (
+                    connection,
                     "IBIS",
-                    null,
-                    0,
-                    0,
-                    0,
-                    0,
-                    new int[] { 1, 2, 3 },
-                    true,
-                    false,
-                    true,
-                    "@test"
-                );
+                    new []{1,2,3}
+                )
+                .SetFileName("@test");
+
+            GblResult result = connection.GlobalCorrection(settings);
 
             string text = "Processed: "
                 + result.RecordsProcessed

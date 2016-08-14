@@ -818,85 +818,18 @@ namespace ManagedIrbis
         [NotNull]
         public GblResult GlobalCorrection
             (
-                [CanBeNull] string database,
-                [CanBeNull] string searchExpression,
-                int firstRecord,
-                int numberOfRecords,
-                int minMfn,
-                int maxMfn,
-                [CanBeNull] int[] mfnList,
-                bool actualize,
-                bool formalControl,
-                bool autoin,
-                [NotNull] GblStatement[] statements
+                [NotNull] GblSettings settings
             )
         {
-            Code.NotNull(statements, "statements");
+            Code.NotNull(settings, "settings");
 
-            if (string.IsNullOrEmpty(database))
+            if (string.IsNullOrEmpty(settings.Database))
             {
-                database = Database;
+                settings.Database = Database;
             }
 
-            GblCommand command = CommandFactory.GetGblCommand();
-            command.SearchExpression = searchExpression;
-            command.AutoIn = autoin;
-            command.Actualize = actualize;
-            command.FormalControl = formalControl;
-            command.Database = database;
-            command.FirstRecord = firstRecord;
-            command.NumberOfRecords = numberOfRecords;
-            command.MfnList = mfnList;
-            command.Statements = statements;
-            command.MinMfn = minMfn;
-            command.MaxMfn = maxMfn;
-
-            ExecuteCommand(command);
-
-            return command.Result
-                .ThrowIfNull("command.Result");
-        }
-
-        /// <summary>
-        /// Global correction.
-        /// </summary>
-        /// <remarks>Filename = @filename without
-        /// extension</remarks>
-        [NotNull]
-        public GblResult GlobalCorrection
-            (
-                [CanBeNull] string database,
-                [CanBeNull] string searchExpression,
-                int firstRecord,
-                int numberOfRecords,
-                int minMfn,
-                int maxMfn,
-                [CanBeNull] int[] mfnList,
-                bool actualize,
-                bool formalControl,
-                bool autoin,
-                [NotNull] string fileName
-            )
-        {
-            Code.NotNullNorEmpty(fileName, "fileName");
-
-            if (string.IsNullOrEmpty(database))
-            {
-                database = Database;
-            }
-
-            GblCommand command = CommandFactory.GetGblCommand();
-            command.SearchExpression = searchExpression;
-            command.AutoIn = autoin;
-            command.Actualize = actualize;
-            command.FormalControl = formalControl;
-            command.Database = database;
-            command.FirstRecord = firstRecord;
-            command.NumberOfRecords = numberOfRecords;
-            command.MfnList = mfnList;
-            command.FileName = fileName;
-            command.MinMfn = minMfn;
-            command.MaxMfn = maxMfn;
+            GblCommand command
+                = CommandFactory.GetGblCommand(settings);
 
             ExecuteCommand(command);
 

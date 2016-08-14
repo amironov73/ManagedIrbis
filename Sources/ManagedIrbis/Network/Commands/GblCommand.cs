@@ -177,6 +177,32 @@ namespace ManagedIrbis.Network.Commands
             AutoIn = false;
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public GblCommand
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] GblSettings settings
+            )
+            : base(connection)
+        {
+            Code.NotNull(settings, "settings");
+
+            Actualize = settings.Actualize;
+            AutoIn = settings.Autoin;
+            Database = settings.Database ?? connection.Database;
+            FileName = settings.FileName;
+            FirstRecord = settings.FirstRecord;
+            FormalControl = settings.FormalControl;
+            MaxMfn = settings.MaxMfn;
+            MfnList = settings.MfnList;
+            MinMfn = settings.MinMfn;
+            NumberOfRecords = settings.NumberOfRecords;
+            SearchExpression = settings.SearchExpression;
+            Statements = settings.Statements.ToArray();
+        }
+
         #endregion
 
         #region Private members

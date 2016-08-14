@@ -221,6 +221,7 @@
     <Compile Include="Gbl\GblEventArgs.cs" />
     <Compile Include="Gbl\GblExecutive.cs" />
     <Compile Include="Gbl\GblFile.cs" />
+    <Compile Include="Gbl\GblSettings.cs" />
     <Compile Include="Gbl\GblResult.cs" />
     <Compile Include="Gbl\GblStatement.cs" />
     <Compile Include="Gbl\GblParameter.cs" />

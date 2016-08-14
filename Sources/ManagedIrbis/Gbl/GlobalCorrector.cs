@@ -158,6 +158,32 @@ namespace ManagedIrbis.Gbl
         #region Public methods
 
         /// <summary>
+        /// Create the <see cref="GlobalCorrector"/>
+        /// from <see cref="GblSettings"/>.
+        /// </summary>
+        [NotNull]
+        public static GlobalCorrector FromSettings
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] GblSettings settings
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNull(settings, "settings");
+
+            GlobalCorrector result
+                = new GlobalCorrector(connection)
+            {
+                Database = settings.Database ?? connection.Database,
+                Actualize = settings.Actualize,
+                Autoin = settings.Autoin,
+                FormalControl = settings.FormalControl
+            };
+
+            return result;
+        }
+
+        /// <summary>
         /// Обработать интервал записей.
         /// </summary>
         [NotNull]
@@ -207,21 +233,12 @@ namespace ManagedIrbis.Gbl
 
                 try
                 {
+                    GblSettings settings = ToSettings(statements);
+                    settings.MinMfn = startMfn;
+                    settings.MaxMfn = endMfn;
+
                     GblResult intermediateResult
-                        = Connection.GlobalCorrection
-                        (
-                            null,
-                            Database.ThrowIfNull("Database"),
-                            0,
-                            0,
-                            startMfn,
-                            endMfn,
-                            null,
-                            Actualize,
-                            FormalControl,
-                            Autoin,
-                            statements
-                        );
+                        = Connection.GlobalCorrection (settings);
                     Result.MergeResult(intermediateResult);
 
                     Result.TimeElapsed = DateTime.Now
@@ -284,21 +301,13 @@ namespace ManagedIrbis.Gbl
                 list = list.Skip(ChunkSize).ToList();
                 try
                 {
+                    GblSettings settings = ToSettings(statements);
+                    settings.FirstRecord = 0;
+                    settings.NumberOfRecords = 0;
+                    settings.MfnList = portion;
+
                     GblResult intermediateResult
-                        = Connection.GlobalCorrection
-                        (
-                            null,
-                            Database.ThrowIfNull("Database"),
-                            0,
-                            0,
-                            0,
-                            0,
-                            portion,
-                            Actualize,
-                            FormalControl,
-                            Autoin,
-                            statements
-                        );
+                        = Connection.GlobalCorrection(settings);
                     Result.MergeResult(intermediateResult);
 
                     Result.TimeElapsed = DateTime.Now
@@ -383,6 +392,32 @@ namespace ManagedIrbis.Gbl
                 );
         }
 
+        /// <summary>
+        /// Convert <see cref="GlobalCorrector"/>
+        /// to <see cref="GblSettings"/>.
+        /// </summary>
+        [NotNull]
+        public GblSettings ToSettings
+            (
+                [NotNull] IEnumerable<GblStatement> statements
+            )
+        {
+            Code.NotNull(statements, "statements");
+
+            GblSettings result = new GblSettings
+                (
+                    Connection,
+                    statements
+                )
+            {
+                Actualize = Actualize,
+                Autoin = Autoin,
+                Database = Database,
+                FormalControl = FormalControl
+            };
+
+            return result;
+        }
 
         #endregion
     }

@@ -11,7 +11,7 @@ using System.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Gbl;
 using ManagedIrbis.Network.Commands;
 
 using MoonSharp.Interpreter;
@@ -125,9 +125,16 @@ namespace ManagedIrbis.Network
         /// Get GblCommand.
         /// </summary>
         [NotNull]
-        public virtual GblCommand GetGblCommand()
+        public virtual GblCommand GetGblCommand
+            (
+                [NotNull] GblSettings settings
+            )
         {
-            return new GblCommand(Connection);
+            return new GblCommand
+                (
+                    Connection,
+                    settings
+                );
         }
 
         /// <summary>
