@@ -28,6 +28,16 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestConnectionSettings_ParseConnectionString_Exception()
+        {
+            ConnectionSettings settings = new ConnectionSettings();
+            settings.ParseConnectionString("host=127.0.0.1;port=5555;"
+                + "user=john galt;pwd=who is;db=NODB;arm=A;unknown=nothing");
+
+        }
+
+        [TestMethod]
         public void TestConnectionSettings_Encode()
         {
             ConnectionSettings settings = new ConnectionSettings
@@ -45,6 +55,28 @@ namespace UnitTests.ManagedIrbis
                 + "workstation=A;";
 
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestConnectionSettings_Clone()
+        {
+            ConnectionSettings expected = new ConnectionSettings
+            {
+                Host = "127.0.0.1",
+                Port = 5555,
+                Username = "john galt",
+                Password = "who is",
+                Database = "NODB",
+                Workstation = IrbisWorkstation.Administrator
+            };
+            ConnectionSettings actual = expected.Clone();
+
+            Assert.AreEqual(expected.Host, actual.Host);
+            Assert.AreEqual(expected.Port, actual.Port);
+            Assert.AreEqual(expected.Username, actual.Username);
+            Assert.AreEqual(expected.Password, actual.Password);
+            Assert.AreEqual(expected.Database, actual.Database);
+            Assert.AreEqual(expected.Workstation, actual.Workstation);
         }
     }
 }

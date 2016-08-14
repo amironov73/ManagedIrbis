@@ -898,6 +898,35 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Считывание строки, пока не будет
+        /// встречен пробельный символ или конец текста.
+        /// </summary>
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// </returns>
+        [CanBeNull]
+        public string ReadUntilWhiteSpace()
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            StringBuilder result = new StringBuilder();
+
+            while (!IsEOF)
+            {
+                char c = ReadChar();
+                if (char.IsWhiteSpace(c))
+                {
+                    break;
+                }
+                result.Append(c);
+            }
+
+            return result.ToString();
+        }
+
+        /// <summary>
         /// Считывание, пока встречается указанный символ.
         /// </summary>
         /// <returns><c>null</c>, если достигнут конец текста.

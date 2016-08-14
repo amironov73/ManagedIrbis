@@ -107,7 +107,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -126,6 +128,11 @@
     <Compile Include="AM\Collections\ListUtilityTest.cs" />
     <Compile Include="AM\Collections\DictionaryListTest.cs" />
     <Compile Include="AM\Collections\XRangeTest.cs" />
+    <Compile Include="AM\CommandLine\CommandLineParserTest.cs" />
+    <Compile Include="AM\CommandLine\CommandLineSettingsTest.cs" />
+    <Compile Include="AM\CommandLine\CommandLineSwitchTest.cs" />
+    <Compile Include="AM\CommandLine\CommandLineUtilityTest.cs" />
+    <Compile Include="AM\CommandLine\ParsedCommandLineTest.cs" />
     <Compile Include="AM\Gbl\GblFileTest.cs" />
     <Compile Include="AM\Globalization\BuiltinCulturesTest.cs" />
     <Compile Include="AM\Globalization\RussianStringComparerTest.cs" />
