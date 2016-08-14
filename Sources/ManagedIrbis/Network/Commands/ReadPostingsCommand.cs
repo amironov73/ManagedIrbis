@@ -1,4 +1,4 @@
-﻿/* ReadPostingsCommand.cs --
+﻿/* ReadPostingsCommand.cs -- read posings for given term
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -55,12 +55,12 @@ namespace ManagedIrbis.Network.Commands
     //
 
     /// <summary>
-    /// Read terms
+    /// Read postings for given term.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     [DebuggerDisplay("{Database} {NumberOfPostings} "
-        + "{StartPosting}")]
+        + "{FirstPosting}")]
     public sealed class ReadPostingsCommand
         : AbstractCommand
     {
@@ -103,7 +103,7 @@ namespace ManagedIrbis.Network.Commands
         /// <summary>
         /// Postings.
         /// </summary>
-        [NotNull]
+        [CanBeNull]
         public TermPosting[] Postings { get; set; }
 
         #endregion

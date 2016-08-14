@@ -1,4 +1,4 @@
-﻿/* DynamicCommand.cs --
+﻿/* DynamicCommand.cs -- fully dynamic command.
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -7,23 +7,19 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
-using Newtonsoft.Json;
-
 #endregion
 
 namespace ManagedIrbis.Network.Commands
 {
+    /// <summary>
+    /// Dynamic command. All actions configured
+    /// during runtime.
+    /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class DynamicCommand
@@ -31,18 +27,33 @@ namespace ManagedIrbis.Network.Commands
     {
         #region Properties
 
+        /// <summary>
+        /// Handle return codes.
+        /// </summary>
         public Func<DynamicCommand, int[]> GoodReturnCodesHandler
         { get; set; }
 
+        /// <summary>
+        /// Create query.
+        /// </summary>
         public Func<DynamicCommand,ClientQuery> CreateQueryHandler 
         { get; set; }
 
+        /// <summary>
+        /// Check server response.
+        /// </summary>
         public Action<DynamicCommand, ServerResponse> CheckResponseHandler
         { get; set; }
 
+        /// <summary>
+        /// Execute command.
+        /// </summary>
         public Func<DynamicCommand, ClientQuery, ServerResponse> ExecuteHandler
         { get; set; }
 
+        /// <summary>
+        /// Verify command settings.
+        /// </summary>
         public Func<DynamicCommand, bool, bool> VerifyHandler
         { get; set; }
 
@@ -50,6 +61,9 @@ namespace ManagedIrbis.Network.Commands
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public DynamicCommand
             (
                 [NotNull] IrbisConnection connection
@@ -66,6 +80,9 @@ namespace ManagedIrbis.Network.Commands
 
         #region Public methods
 
+        /// <summary>
+        /// Basic implementation of <see cref="GoodReturnCodes"/>.
+        /// </summary>
         public int[] BaseGoodReturnCodes()
         {
             int[] result = base.GoodReturnCodes;
@@ -73,6 +90,9 @@ namespace ManagedIrbis.Network.Commands
             return result;
         }
 
+        /// <summary>
+        /// Basic implementation of <see cref="CreateQuery"/>.
+        /// </summary>
         public ClientQuery BaseCreateQuery()
         {
             ClientQuery result = base.CreateQuery();
@@ -80,6 +100,9 @@ namespace ManagedIrbis.Network.Commands
             return result;
         }
 
+        /// <summary>
+        /// Basic implementation of <see cref="CheckResponse"/>.
+        /// </summary>
         public void BaseCheckResponse
             (
                 ServerResponse response
@@ -88,6 +111,9 @@ namespace ManagedIrbis.Network.Commands
             base.CheckResponse(response);
         }
 
+        /// <summary>
+        /// Basic implementation of <see cref="Execute"/>.
+        /// </summary>
         public ServerResponse BaseExecute
             (
                 ClientQuery query
@@ -98,6 +124,9 @@ namespace ManagedIrbis.Network.Commands
             return result;
         }
 
+        /// <summary>
+        /// Basic implementation of <see cref="Verify"/>.
+        /// </summary>
         public bool BaseVerify
             (
                 bool throwOnError
@@ -112,6 +141,9 @@ namespace ManagedIrbis.Network.Commands
 
         #region AbstractCommand members
 
+        /// <summary>
+        /// Good return codes.
+        /// </summary>
         public override int[] GoodReturnCodes
         {
             get
@@ -125,6 +157,9 @@ namespace ManagedIrbis.Network.Commands
             }
         }
 
+        /// <summary>
+        /// Check the server response.
+        /// </summary>
         public override void CheckResponse
             (
                 ServerResponse response
@@ -140,6 +175,9 @@ namespace ManagedIrbis.Network.Commands
             }
         }
 
+        /// <summary>
+        /// Create client query.
+        /// </summary>
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = CreateQueryHandler != null
@@ -149,6 +187,9 @@ namespace ManagedIrbis.Network.Commands
             return result;
         }
 
+        /// <summary>
+        /// Execute the command.
+        /// </summary>
         public override ServerResponse Execute
             (
                 ClientQuery query
@@ -161,6 +202,9 @@ namespace ManagedIrbis.Network.Commands
             return result;
         }
 
+        /// <summary>
+        /// Verify the object state.
+        /// </summary>
         public override bool Verify
             (
                 bool throwOnError

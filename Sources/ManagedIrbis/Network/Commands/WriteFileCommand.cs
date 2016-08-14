@@ -36,8 +36,7 @@ namespace ManagedIrbis.Network.Commands
         [NotNull]
         public NonNullCollection<FileSpecification> Files
         {
-            get { return _files; }
-        }
+            get; private set; }
 
         #endregion
 
@@ -52,14 +51,12 @@ namespace ManagedIrbis.Network.Commands
             )
             : base(connection)
         {
-            _files = new NonNullCollection<FileSpecification>();
+            Files = new NonNullCollection<FileSpecification>();
         }
 
         #endregion
 
         #region Private members
-
-        private readonly NonNullCollection<FileSpecification> _files;
 
         #endregion
 

@@ -49,7 +49,7 @@ namespace ManagedIrbis.Network.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class ConnectCommand
+    public class ConnectCommand
         : AbstractCommand
     {
         #region Constants

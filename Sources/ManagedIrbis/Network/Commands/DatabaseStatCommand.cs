@@ -7,7 +7,6 @@
 #region Using directives
 
 using System.Linq;
-using AM;
 
 using CodeJam;
 
@@ -29,8 +28,14 @@ namespace ManagedIrbis.Network.Commands
     {
         #region Properties
 
+        /// <summary>
+        /// Client query definition.
+        /// </summary>
         public StatDefinition Definition { get; set; }
 
+        /// <summary>
+        /// Result of the command.
+        /// </summary>
         public string Result { get; set; }
 
         #endregion
@@ -60,6 +65,9 @@ namespace ManagedIrbis.Network.Commands
 
         #region AbstractCommand members
 
+        /// <summary>
+        /// Check the server response.
+        /// </summary>
         public override void CheckResponse
             (
                 ServerResponse response
@@ -71,6 +79,9 @@ namespace ManagedIrbis.Network.Commands
             response.RefuseAnReturnCode();
         }
 
+        /// <summary>
+        /// Create client query.
+        /// </summary>
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
@@ -106,6 +117,9 @@ namespace ManagedIrbis.Network.Commands
             return result;
         }
 
+        /// <summary>
+        /// Execute the command.
+        /// </summary>
         public override ServerResponse Execute
             (
                 ClientQuery query

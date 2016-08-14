@@ -1,7 +1,7 @@
 ﻿/* ReadBinaryFileCommand.cs -- read binary file from the server
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
- * Status: good
+ * Status: moderate
  */
 
 #region Using directives

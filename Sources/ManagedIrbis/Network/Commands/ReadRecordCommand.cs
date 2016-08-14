@@ -2,7 +2,6 @@
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
- * TODO implement raw reading?
  */
 
 #region Using directives

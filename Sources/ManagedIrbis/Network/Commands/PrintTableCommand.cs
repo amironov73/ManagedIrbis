@@ -1,4 +1,4 @@
-﻿/* PrintTableCommand.cs --
+﻿/* PrintTableCommand.cs -- build table on the server
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -6,29 +6,19 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM;
-using AM.Text;
-
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
-using Newtonsoft.Json;
-
 #endregion
 
 namespace ManagedIrbis.Network.Commands
 {
+    /// <summary>
+    /// Build table on the server.
+    /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PrintTableCommand
@@ -36,14 +26,23 @@ namespace ManagedIrbis.Network.Commands
     {
         #region Properties
 
+        /// <summary>
+        /// Table definition.
+        /// </summary>
         public TableDefinition Definition { get; set; }
 
+        /// <summary>
+        /// Result of the command execution.
+        /// </summary>
         public string Result { get; set; }
 
         #endregion
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public PrintTableCommand
             (
                 [NotNull] IrbisConnection connection
@@ -56,6 +55,9 @@ namespace ManagedIrbis.Network.Commands
 
         #region AbstractCommand members
 
+        /// <summary>
+        /// Check the server response.
+        /// </summary>
         public override void CheckResponse
             (
                 ServerResponse response
@@ -67,6 +69,9 @@ namespace ManagedIrbis.Network.Commands
             response.RefuseAnReturnCode();
         }
 
+        /// <summary>
+        /// Create client query.
+        /// </summary>
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
@@ -98,6 +103,9 @@ namespace ManagedIrbis.Network.Commands
             return result;
         }
 
+        /// <summary>
+        /// Execute the command.
+        /// </summary>
         public override ServerResponse Execute
             (
                 ClientQuery query

@@ -25,7 +25,7 @@ namespace ManagedIrbis.Network.Commands
     /// <remarks>For Administrator only.</remarks>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class CreateDatabaseCommand
+    public class CreateDatabaseCommand
         : AbstractCommand
     {
         #region Properties

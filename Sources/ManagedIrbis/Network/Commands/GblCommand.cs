@@ -83,7 +83,7 @@ namespace ManagedIrbis.Network.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class GblCommand
+    public class GblCommand
         : AbstractCommand
     {
         #region Properties

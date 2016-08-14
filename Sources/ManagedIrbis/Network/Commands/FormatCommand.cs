@@ -55,7 +55,7 @@ namespace ManagedIrbis.Network.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class FormatCommand
+    public class FormatCommand
         : AbstractCommand
     {
         #region Properties

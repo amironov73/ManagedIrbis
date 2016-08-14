@@ -6,8 +6,6 @@
 
 #region Using directives
 
-using System;
-
 using AM;
 
 using CodeJam;
@@ -61,7 +59,7 @@ namespace ManagedIrbis.Network.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class GblVirtualCommand
+    public class GblVirtualCommand
         : AbstractCommand
     {
         #region Properties

@@ -7,19 +7,11 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
 
 using CodeJam;
 
@@ -28,8 +20,6 @@ using JetBrains.Annotations;
 using ManagedIrbis.Network;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -476,6 +466,10 @@ namespace ManagedIrbis.ImportExport
             return record;
         }
 
+        /// <summary>
+        /// Parse response for global correction
+        /// of virtual record.
+        /// </summary>
         [CanBeNull]
         public static MarcRecord ParseResponseForGblFormat
             (

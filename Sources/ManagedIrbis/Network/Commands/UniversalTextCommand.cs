@@ -23,7 +23,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Network.Commands
 {
     /// <summary>
-    /// Universal command with text lines
+    /// Universal command with text lines.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]

@@ -6,13 +6,8 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
@@ -23,8 +18,6 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
-using Newtonsoft.Json;
-
 #endregion
 
 namespace ManagedIrbis.Network.Commands
@@ -34,7 +27,7 @@ namespace ManagedIrbis.Network.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class ListFilesCommand
+    public class ListFilesCommand
         : AbstractCommand
     {
         #region Properties

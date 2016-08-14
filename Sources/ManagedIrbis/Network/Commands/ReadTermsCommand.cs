@@ -1,4 +1,4 @@
-﻿/* ReadTermsCommand.cs --
+﻿/* ReadTermsCommand.cs -- read terms from the search index
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -66,7 +66,7 @@ namespace ManagedIrbis.Network.Commands
     //
 
     /// <summary>
-    /// Read terms
+    /// Read terms from the search index.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -196,9 +196,11 @@ namespace ManagedIrbis.Network.Commands
             ServerResponse result = base.Execute(query);
             CheckResponse(result);
 
+            // ReSharper disable CoVariantArrayConversion
             Terms = string.IsNullOrEmpty(Format)
                 ? TermInfo.Parse(result)
                 : TermInfoEx.ParseEx(result);
+            // ReSharper restore CoVariantArrayConversion
 
             return result;
         }

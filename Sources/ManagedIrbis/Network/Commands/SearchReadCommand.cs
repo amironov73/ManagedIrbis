@@ -6,26 +6,17 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
-using AM.Text;
-
-using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.ImportExport;
 using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -107,6 +98,9 @@ namespace ManagedIrbis.Network.Commands
 
         #region AbstractCommand members
 
+        /// <summary>
+        /// Execute the command.
+        /// </summary>
         public override ServerResponse Execute
             (
                 ClientQuery clientQuery
