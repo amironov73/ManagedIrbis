@@ -69,6 +69,16 @@ namespace ManagedIrbis.Infrastructure
         #region Public methods
 
         /// <summary>
+        /// Get <see cref="ActualizeRecordCommand"/>.
+        /// </summary>
+        /// <returns></returns>
+        [NotNull]
+        public virtual ActualizeRecordCommand GetActualizeRecordCommand()
+        {
+            return new ActualizeRecordCommand(Connection);
+        }
+
+        /// <summary>
         /// Get ConnectCommand.
         /// </summary>
         [NotNull]

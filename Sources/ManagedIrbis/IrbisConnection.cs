@@ -333,12 +333,12 @@ namespace ManagedIrbis
             Code.NotNullNorEmpty(database, "database");
             Code.Nonnegative(mfn, "mfn");
 
-            ExecuteCommand
-                (
-                    CommandCode.ActualizeRecord,
-                    database,
-                    mfn
-                );
+            ActualizeRecordCommand command
+                = CommandFactory.GetActualizeRecordCommand();
+            command.Database = database;
+            command.Mfn = mfn;
+
+            ExecuteCommand(command);
         }
 
         // =========================================================

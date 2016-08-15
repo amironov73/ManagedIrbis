@@ -5,9 +5,11 @@
 #region Using directives
 
 using System;
+
 using AM;
+
 using ManagedIrbis;
-using ManagedIrbis.Network;
+using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Testing;
 
 #endregion

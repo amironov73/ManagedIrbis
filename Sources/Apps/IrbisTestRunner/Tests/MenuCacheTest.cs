@@ -20,7 +20,7 @@ using JetBrains.Annotations;
 using ManagedIrbis;
 using ManagedIrbis.Caching;
 using ManagedIrbis.Menus;
-using ManagedIrbis.Network;
+using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Testing;
 
 using Newtonsoft.Json;

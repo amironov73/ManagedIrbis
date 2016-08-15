@@ -18,7 +18,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
-using ManagedIrbis.Network;
+using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Testing;
 
 using Newtonsoft.Json;
