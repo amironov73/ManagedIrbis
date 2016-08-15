@@ -1,63 +1,84 @@
-﻿/* TableDefinition.cs --
+﻿/* TableDefinition.cs -- parameters for table command
  * Ars Magna project, http://arsmagna.ru
  */
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM.IO;
-using AM.Runtime;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Menus;
-using ManagedIrbis.Infrastructure;
-using ManagedIrbis.Infrastructure.Commands;
-
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
 namespace ManagedIrbis
 {
+    /// <summary>
+    /// Parameters for Table command.
+    /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class TableDefinition
     {
         #region Properties
 
+        /// <summary>
+        /// Database name.
+        /// </summary>
+        [CanBeNull]
         public string DatabaseName { get; set; }
 
+        /// <summary>
+        /// Table name.
+        /// </summary>
+        [CanBeNull]
         public string Table { get; set; }
 
+        /// <summary>
+        /// Table headers.
+        /// </summary>
+        // ReSharper disable ConvertToAutoProperty
         public List<string> Headers
         {
             get { return _headers; }
         }
+        // ReSharper restore ConvertToAutoProperty
 
+        /// <summary>
+        /// Mode.
+        /// </summary>
         public string Mod { get; set; }
 
+        /// <summary>
+        /// Search query.
+        /// </summary>
         public string SearchQuery { get; set; }
 
+        /// <summary>
+        /// Minimal MFN.
+        /// </summary>
         public int MinMfn { get; set; }
 
+        /// <summary>
+        /// Maximal MFN.
+        /// </summary>
         public int MaxMfn { get; set; }
 
+        /// <summary>
+        /// Optional sequential query.
+        /// </summary>
         public string SequentialQuery { get; set; }
 
+        /// <summary>
+        /// List of MFN.
+        /// </summary>
+        // ReSharper disable ConvertToAutoProperty
         public List<int> MfnList
         {
             get { return _mfnList; }
         }
+        // ReSharper restore ConvertToAutoProperty
 
         #endregion
 

@@ -7,25 +7,12 @@
 #region Using directives
 
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
-
-using AM;
-using AM.IO;
-using AM.Runtime;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis.Infrastructure;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -40,12 +27,24 @@ namespace ManagedIrbis
     {
         #region Properties
 
+        /// <summary>
+        /// List of running client.
+        /// </summary>
         public ClientInfo[] RunningClients { get; set; }
 
+        /// <summary>
+        /// Unknown field.
+        /// </summary>
         public int Unknown1 { get; set; }
 
+        /// <summary>
+        /// Unknown field.
+        /// </summary>
         public int Unknown2 { get; set; }
 
+        /// <summary>
+        /// Total commands executed since server start.
+        /// </summary>
         public int TotalCommandCount { get; set; }
 
         #endregion
@@ -60,6 +59,9 @@ namespace ManagedIrbis
 
         #region Public methods
 
+        /// <summary>
+        /// Parse server response.
+        /// </summary>
         [NotNull]
         public static ServerStat Parse
             (
