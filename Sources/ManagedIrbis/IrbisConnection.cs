@@ -27,9 +27,8 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Gbl;
-using ManagedIrbis.Network;
-using ManagedIrbis.Network.Commands;
-using ManagedIrbis.Network.Sockets;
+using ManagedIrbis.Infrastructure.Commands;
+using ManagedIrbis.Infrastructure.Sockets;
 using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;

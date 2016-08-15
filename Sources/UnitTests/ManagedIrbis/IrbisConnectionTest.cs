@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using ManagedIrbis.Network;
+using ManagedIrbis.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;

@@ -3,7 +3,7 @@ using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis;
-using ManagedIrbis.Network;
+using ManagedIrbis.Infrastructure;
 
 namespace UnitTests.ManagedIrbis.Network
 {

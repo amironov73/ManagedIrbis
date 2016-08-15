@@ -17,7 +17,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-using ManagedIrbis.Network;
+using ManagedIrbis.Infrastructure;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;

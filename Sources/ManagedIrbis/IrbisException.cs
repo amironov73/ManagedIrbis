@@ -12,7 +12,7 @@ using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
-using ManagedIrbis.Network;
+using ManagedIrbis.Infrastructure;
 
 #endregion
 

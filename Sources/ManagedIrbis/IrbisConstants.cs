@@ -24,8 +24,8 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.ImportExport;
-using ManagedIrbis.Network;
-using ManagedIrbis.Network.Commands;
+using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Infrastructure.Commands;
 using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;

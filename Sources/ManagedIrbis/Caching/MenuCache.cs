@@ -22,7 +22,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Menus;
-using ManagedIrbis.Network;
+using ManagedIrbis.Infrastructure;
 
 using MoonSharp.Interpreter;
 

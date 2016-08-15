@@ -18,8 +18,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Network;
-using ManagedIrbis.Network.Commands;
+using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Infrastructure.Commands;
 
 using MoonSharp.Interpreter;
 
