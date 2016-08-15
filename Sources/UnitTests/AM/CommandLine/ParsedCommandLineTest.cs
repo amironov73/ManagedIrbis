@@ -59,6 +59,68 @@ namespace UnitTests.AM.CommandLine
                     "-t -out:Program.exe \"-p:very long path\"",
                     parsed.ToString()
                 );
+
+            parsed.Switches.Clear();
+            parsed
+                .AddSwitch("t", "one")
+                .AddSwitch("t", "two");
+            Assert.AreEqual
+                (
+                    "-t:one -t:two",
+                    parsed.ToString()
+                );
+
+            parsed.AddSwitch("p", "three");
+            Assert.AreEqual
+                (
+                    "-t:one -t:two -p:three",
+                    parsed.ToString()
+                );
+        }
+
+        [TestMethod]
+        public void TestParsedCommandLine_Merge()
+        {
+            ParsedCommandLine first = new ParsedCommandLine();
+            first
+                .AddSwitch("t", "one")
+                .AddSwitch("p", "two");
+
+            ParsedCommandLine second = new ParsedCommandLine();
+            second
+                .AddSwitch("t", "three")
+                .AddSwitch("q", "four");
+
+            first.Merge(second);
+
+            Assert.AreEqual
+                (
+                    "-t:one -t:three -p:two -q:four",
+                    first.ToString()
+                );
+        }
+
+        [TestMethod]
+        public void TestParsedCommandLine_GetValues()
+        {
+            ParsedCommandLine parsed = new ParsedCommandLine();
+            parsed
+                .AddSwitch("t", "one")
+                .AddSwitch("p", "two")
+                .AddSwitch("t", "three")
+                .AddSwitch("q", "four");
+
+            string[] actual = parsed.GetValues("t");
+            Assert.AreEqual(2, actual.Length);
+            Assert.AreEqual("one", actual[0]);
+            Assert.AreEqual("three", actual[1]);
+
+            actual = parsed.GetValues("p");
+            Assert.AreEqual(1, actual.Length);
+            Assert.AreEqual("two", actual[0]);
+
+            actual = parsed.GetValues("noSuchSwitch");
+            Assert.AreEqual(0, actual.Length);
         }
     }
 }

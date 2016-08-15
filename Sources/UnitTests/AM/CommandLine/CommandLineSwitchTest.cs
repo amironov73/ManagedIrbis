@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.CommandLine;
 
@@ -17,6 +16,25 @@ namespace UnitTests.AM.CommandLine
             Assert.IsNull(clSwitch.Value);
             Assert.IsNotNull(clSwitch.Values);
             Assert.AreEqual(0, clSwitch.Values.Count);
+        }
+
+        [TestMethod]
+        public void TestCommandLineSwitch_ToString()
+        {
+            CommandLineSwitch clSwitch = new CommandLineSwitch
+            {
+                Name = "test"
+            };
+            clSwitch
+                .AddValue("first")
+                .AddValue("second");
+
+            string actual = clSwitch.ToString();
+            Assert.AreEqual
+                (
+                    "-test:first -test:second",
+                    actual
+                );
         }
     }
 }

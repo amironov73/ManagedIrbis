@@ -37,5 +37,30 @@ namespace UnitTests.AM.CommandLine
             items = CommandLineUtility.SplitText(" \"\" ");
             Assert.AreEqual(1, items.Length);
         }
+
+        [TestMethod]
+        public void TestCommandLineUtility_WrapArgumentIfNeeded()
+        {
+            Assert.AreEqual
+                (
+                    null,
+                    CommandLineUtility.WrapArgumentIfNeeded(null)
+                );
+            Assert.AreEqual
+                (
+                    string.Empty,
+                    CommandLineUtility.WrapArgumentIfNeeded(string.Empty)
+                );
+            Assert.AreEqual
+                (
+                    "1",
+                    CommandLineUtility.WrapArgumentIfNeeded("1")
+                );
+            Assert.AreEqual
+                (
+                    "\"1 1\"",
+                    CommandLineUtility.WrapArgumentIfNeeded("1 1")
+                );
+        }
     }
 }

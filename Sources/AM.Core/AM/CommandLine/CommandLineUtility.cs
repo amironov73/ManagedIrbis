@@ -70,7 +70,7 @@ namespace AM.CommandLine
                 }
                 else
                 {
-                    item = navigator.ReadUntilWhiteSpace();
+                    item = c + navigator.ReadUntilWhiteSpace();
                 }
                 result.Add(item);
             }

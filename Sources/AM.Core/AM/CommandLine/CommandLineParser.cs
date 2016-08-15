@@ -105,13 +105,20 @@ namespace AM.CommandLine
                     {
                         throw new ArgumentException();
                     }
+                    if (argument[argument.Length - 1] != '"')
+                    {
+                        throw new ArgumentException();
+                    }
+
                     string trimmed = argument.Substring(1, argument.Length - 2);
-                    char secondChar = trimmed[1];
-                    if (secondChar == CommandLineSettings.ArgumentDelimiter)
+                    if (trimmed.Length == 0)
                     {
                         result.PositionalArguments.Add(string.Empty);
+                        continue;
                     }
-                    else if (secondChar == CommandLineSettings.ResponsePrefix)
+
+                    char secondChar = trimmed[0];
+                    if (secondChar == CommandLineSettings.ResponsePrefix)
                     {
                         string fileName = trimmed.Substring(1);
                         ParsedCommandLine inner = ParseFile(fileName);

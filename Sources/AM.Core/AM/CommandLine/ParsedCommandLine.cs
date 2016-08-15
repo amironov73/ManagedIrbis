@@ -224,6 +224,24 @@ namespace AM.CommandLine
         }
 
         /// <summary>
+        /// Get array of values of the switch.
+        /// </summary>
+        [NotNull]
+        public string[] GetValues
+            (
+                [NotNull] string name
+            )
+        {
+            string[] result = GetValues
+                (
+                    name,
+                    new string[0]
+                );
+
+            return result;
+        }
+
+        /// <summary>
         /// Do we have specified switch?
         /// </summary>
         public bool HaveSwitch
@@ -287,10 +305,7 @@ namespace AM.CommandLine
                 }
                 result.Append
                     (
-                        CommandLineUtility.WrapArgumentIfNeeded
-                        (
-                            Switches[i].ToString()
-                        )
+                        Switches[i]
                     );
             }
 

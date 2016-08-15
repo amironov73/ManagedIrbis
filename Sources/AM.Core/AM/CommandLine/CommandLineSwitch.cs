@@ -40,7 +40,11 @@ namespace AM.CommandLine
         /// Value of the switch.
         /// </summary>
         [CanBeNull]
-        public string Value { get; set; }
+        public string Value
+        {
+            get { return _value; }
+            set { _SetValue(value); }
+        }
 
         /// <summary>
         /// Values of the switch.
@@ -83,10 +87,46 @@ namespace AM.CommandLine
             : this()
         {
             Name = name;
-            value = value.EmptyToNull();
             Value = value;
-            if (!ReferenceEquals(value, null))
+        }
+
+        #endregion
+
+        #region Private members
+
+        private string _value;
+
+        private string _FormatValue
+            (
+                string value
+            )
+        {
+            StringBuilder builder = new StringBuilder();
+
+            builder.Append(CommandLineSettings.SwitchPrefix);
+            builder.Append(Name.Value);
+            builder.Append(CommandLineSettings.ValueSeparator);
+            builder.Append(value);
+
+            string result = CommandLineUtility.WrapArgumentIfNeeded
+                (
+                    builder.ToString()
+                );
+
+            return result;
+        }
+
+        private void _SetValue
+            (
+                string value
+            )
+        {
+            value = value.EmptyToNull();
+
+            if (!string.IsNullOrEmpty(value))
             {
+                _value = value;
+
                 Values.Add(value);
             }
         }
@@ -106,11 +146,7 @@ namespace AM.CommandLine
         {
             Code.NotNullNorEmpty(value, "value");
 
-            if (string.IsNullOrEmpty(Value))
-            {
-                Value = value;
-            }
-            Values.Add(value);
+            _SetValue(value);
 
             return this;
         }
@@ -143,11 +179,8 @@ namespace AM.CommandLine
                     {
                         result.Append(" ");
                     }
-                    result.Append(CommandLineSettings.SwitchPrefix);
-                    result.Append(Name.Value);
+                    result.Append(_FormatValue(value));
                     first = false;
-                    result.Append(CommandLineSettings.ValueSeparator);
-                    result.Append(value);
                 }
             }
 
