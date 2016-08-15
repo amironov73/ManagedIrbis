@@ -22,7 +22,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedIrbis.Executive
+namespace ManagedIrbis.Infrastructure
 {
     /// <summary>
     /// Abstract execution engine.

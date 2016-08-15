@@ -24,7 +24,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedIrbis.Executive
+namespace ManagedIrbis.Infrastructure
 {
     /// <summary>
     /// Command execution context.

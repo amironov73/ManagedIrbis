@@ -25,7 +25,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Executive;
+using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Gbl;
 using ManagedIrbis.Network;
 using ManagedIrbis.Network.Commands;

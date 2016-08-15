@@ -203,10 +203,10 @@
     <Compile Include="Direct\XrfFile64.cs" />
     <Compile Include="Direct\XrfRecord32.cs" />
     <Compile Include="Direct\XrfRecord64.cs" />
-    <Compile Include="Executive\AbstractEngine.cs" />
-    <Compile Include="Executive\ExecutionContext.cs" />
-    <Compile Include="Executive\ExecutionEventArgs.cs" />
-    <Compile Include="Executive\StandardEngine.cs" />
+    <Compile Include="Infrastructure\AbstractEngine.cs" />
+    <Compile Include="Infrastructure\ExecutionContext.cs" />
+    <Compile Include="Infrastructure\ExecutionEventArgs.cs" />
+    <Compile Include="Infrastructure\StandardEngine.cs" />
     <Compile Include="Fields\BinaryResource.cs" />
     <Compile Include="Flc\FlcConstants.cs" />
     <Compile Include="Flc\FlcProcessor.cs" />

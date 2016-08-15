@@ -9,11 +9,10 @@ using AM.Threading.Tasks;
 
 namespace UnitTests.AM.Threading.Tasks
 {
-    [TestClass]
-    [Ignore]
     public class TaskProcessorTest
     {
-        [TestMethod]
+        //[TestMethod]
+        //[Ignore]
         public void TestThreadProcessor()
         {
             List<string> lines = new List<string>();
@@ -41,7 +40,7 @@ namespace UnitTests.AM.Threading.Tasks
             Assert.AreEqual(10, lines.Count);
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void TestThreadProcessorExceptions()
         {
             List<string> lines = new List<string>();

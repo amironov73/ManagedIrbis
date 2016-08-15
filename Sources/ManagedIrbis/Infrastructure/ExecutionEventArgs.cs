@@ -1,4 +1,4 @@
-﻿/* StandardEngine.cs -- standard execution engine
+﻿/* ExecutionEvenArgs.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -11,25 +11,37 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
+using AM;
+using AM.Threading;
+
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Network;
+using ManagedIrbis.Network.Commands;
 
 using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedIrbis.Executive
+namespace ManagedIrbis.Infrastructure
 {
     /// <summary>
-    /// Standard execution engine.
+    /// Event arguments.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class StandardEngine
-        : AbstractEngine
+    public sealed class ExecutionEventArgs
+        : EventArgs
     {
         #region Properties
+
+        /// <summary>
+        /// Context.
+        /// </summary>
+        [NotNull]
+        public ExecutionContext Context { get; private set; }
 
         #endregion
 
@@ -38,13 +50,14 @@ namespace ManagedIrbis.Executive
         /// <summary>
         /// Constructor.
         /// </summary>
-        public StandardEngine
+        public ExecutionEventArgs
             (
-                [NotNull] IrbisConnection connection,
-                [CanBeNull] AbstractEngine nestedEngine
+                [NotNull] ExecutionContext context
             )
-            : base(connection, nestedEngine)
         {
+            Code.NotNull(context, "context");
+
+            Context = context;
         }
 
         #endregion

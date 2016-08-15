@@ -8,8 +8,8 @@ namespace UnitTests.AM.Threading
     [TestClass]
     public class BusyGuardTest
     {
-        [TestMethod]
-        [Ignore]
+        //[TestMethod]
+        //[Ignore]
         public void TestBusyGuard()
         {
             bool done = false;
