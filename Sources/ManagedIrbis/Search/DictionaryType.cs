@@ -1,5 +1,7 @@
 ﻿/* DictionaryType.cs -- type of search dictionary
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 namespace ManagedIrbis.Search

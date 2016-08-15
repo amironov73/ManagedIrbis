@@ -191,11 +191,12 @@
     <Compile Include="ManagedIrbis\Fields\ExemplarInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fst\FstFileTest.cs" />
     <Compile Include="ManagedIrbis\ImportExport\IsoReaderTest.cs" />
+    <Compile Include="ManagedIrbis\Infrastructure\FileSpecificationTest.cs" />
     <Compile Include="ManagedIrbis\IrbisFormatTest.cs" />
     <Compile Include="ManagedIrbis\Mapping\SubFieldMapperTest.cs" />
     <Compile Include="ManagedIrbis\Marc\Schema\MarcSchemaTest.cs" />
     <Compile Include="ManagedIrbis\Menus\IrbisMenuFileTest.cs" />
-    <Compile Include="ManagedIrbis\Network\ClientQueryTest.cs" />
+    <Compile Include="ManagedIrbis\Infrastructure\ClientQueryTest.cs" />
     <Compile Include="ManagedIrbis\Quality\FieldDefectTest.cs" />
     <Compile Include="ManagedIrbis\Quality\RecordReportTest.cs" />
     <Compile Include="ManagedIrbis\Readers\ChairInfoTest.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="ManagedIrbis\Readers\VisitInfoTest.cs" />
     <Compile Include="ManagedIrbis\Requests\BookRequestTest.cs" />
     <Compile Include="ManagedIrbis\Scripting\IrbisScriptTest.cs" />
+    <Compile Include="ManagedIrbis\Search\FoundItemTest.cs" />
     <Compile Include="ManagedIrbis\SubFieldCollectionTest.cs" />
     <Compile Include="ManagedIrbis\RecordFieldTest.cs" />
     <Compile Include="ManagedIrbis\MarcRecordTest.cs" />

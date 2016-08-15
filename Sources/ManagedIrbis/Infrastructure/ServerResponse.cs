@@ -59,7 +59,9 @@ namespace ManagedIrbis.Infrastructure
         /// <summary>
         /// Идентификатор клиента.
         /// </summary>
+        // ReSharper disable InconsistentNaming
         public int ClientID { get; set; }
+        // ReSharper restore InconsistentNaming
 
         /// <summary>
         /// Порядковый номер команды.
