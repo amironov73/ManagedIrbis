@@ -275,7 +275,7 @@ namespace ManagedIrbis
 
             Executive = new StandardEngine(this, null);
             CommandFactory = CommandFactory
-                .GetDataultFactory(this);
+                .GetDefaultFactory(this);
             Socket = new SimpleClientSocket(this);
         }
 
@@ -576,18 +576,16 @@ namespace ManagedIrbis
         /// <remarks>For Administrator only.</remarks>
         public void DeleteDatabase
             (
-                [NotNull] string databaseName
+                [NotNull] string database
             )
         {
-            // TODO Create DeleteDatabaseCommand
+            Code.NotNullNorEmpty(database, "database");
 
-            Code.NotNullNorEmpty(databaseName, "databaseName");
+            DeleteDatabaseCommand command
+                = CommandFactory.GetDeleteDatabaseCommand();
+            command.Database = database;
 
-            ExecuteCommand
-                (
-                    CommandCode.DeleteDatabase,
-                    databaseName
-                );
+            ExecuteCommand(command);
         }
 
         // =========================================================

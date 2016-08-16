@@ -105,7 +105,7 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
-        /// Get DatabaseStatCommand.
+        /// Get <see cref="DatabaseStatCommand"/>.
         /// </summary>
         [NotNull]
         public virtual DatabaseStatCommand GetDatabaseStatCommand()
@@ -117,7 +117,7 @@ namespace ManagedIrbis.Infrastructure
         /// Get default <see cref="CommandFactory"/>.
         /// </summary>
         [NotNull]
-        public static CommandFactory GetDataultFactory
+        public static CommandFactory GetDefaultFactory
             (
                 [NotNull] IrbisConnection connection
             )
@@ -130,7 +130,17 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
-        /// Get FormatCommand.
+        /// Get <see cref="DeleteDatabaseCommand"/>.
+        /// </summary>
+        /// <returns></returns>
+        [NotNull]
+        public virtual DeleteDatabaseCommand GetDeleteDatabaseCommand()
+        {
+            return new DeleteDatabaseCommand(Connection);
+        }
+
+        /// <summary>
+        /// Get <see cref="FormatCommand"/>.
         /// </summary>
         [NotNull]
         public virtual FormatCommand GetFormatCommand()
