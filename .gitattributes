@@ -61,3 +61,11 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+
+###############################################################################
+# for GitHub linguist
+###############################################################################
+/Icons/* linguist-vendored
+
+/Examples/* linguist-documentation
+/Docs/* linguist-documentation
