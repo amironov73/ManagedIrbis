@@ -184,6 +184,7 @@
     <Compile Include="Direct\XrfRecord64.cs" />
     <Compile Include="Infrastructure\AbstractEngine.cs" />
     <Compile Include="Infrastructure\Commands\ActualizeRecordCommand.cs" />
+    <Compile Include="Infrastructure\Commands\CreateDictionaryCommand.cs" />
     <Compile Include="Infrastructure\ExecutionContext.cs" />
     <Compile Include="Infrastructure\ExecutionEventArgs.cs" />
     <Compile Include="Infrastructure\StandardEngine.cs" />

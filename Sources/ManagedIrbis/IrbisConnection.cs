@@ -88,38 +88,102 @@ namespace ManagedIrbis
         /// Адрес сервера.
         /// </summary>
         /// <value>Адрес сервера в цифровом виде.</value>
-        public string Host { get; set; }
+        [NotNull]
+        public string Host
+        {
+            get { return _host; }
+            set
+            {
+                Code.NotNullNorEmpty(value, "value");
+
+                ThrowIfConnected();
+                _host = value;
+            }
+        }
 
         /// <summary>
         /// Порт сервера.
         /// </summary>
         /// <value>Порт сервера (по умолчанию 6666).</value>
-        public int Port { get; set; }
+        public int Port
+        {
+            get { return _port; }
+            set
+            {
+                Code.Positive(value, "value");
+
+                ThrowIfConnected();
+                _port = value;
+            }
+        }
 
         /// <summary>
         /// Имя пользователя.
         /// </summary>
         /// <value>Имя пользователя.</value>
-        public string Username { get; set; }
+        [NotNull]
+        public string Username
+        {
+            get { return _username; }
+            set
+            {
+                Code.NotNullNorEmpty(value, "value");
+
+                ThrowIfConnected();
+                _username = value;
+            }
+        }
 
         /// <summary>
         /// Пароль пользователя.
         /// </summary>
         /// <value>Пароль пользователя.</value>
-        public string Password { get; set; }
+        [NotNull]
+        public string Password
+        {
+            get { return _password; }
+            set
+            {
+                Code.NotNullNorEmpty(value, "value");
+
+                ThrowIfConnected();
+                _password = value;
+            }
+        }
 
         /// <summary>
         /// Имя базы данных.
         /// </summary>
-        /// <value>Служебное имя базы данных (например, "IBIS").</value>
-        public string Database { get; set; }
+        /// <value>Служебное имя базы данных (например, "IBIS").
+        /// </value>
+        [NotNull]
+        public string Database
+        {
+            get { return _database; }
+            set
+            {
+                Code.NotNullNorEmpty(value, "value");
+
+                ThrowIfConnected();
+                _database = value;
+            }
+        }
 
         /// <summary>
         /// Тип АРМ.
         /// </summary>
-        /// <value>По умолчанию <see cref="IrbisWorkstation.Cataloger"/>.
+        /// <value>По умолчанию
+        /// <see cref="IrbisWorkstation.Cataloger"/>.
         /// </value>
-        public IrbisWorkstation Workstation { get; set; }
+        public IrbisWorkstation Workstation
+        {
+            get { return _workstation; }
+            set
+            {
+                ThrowIfConnected();
+                _workstation = value;
+            }
+        }
 
         /// <summary>
         /// Идентификатор клиента.
@@ -175,7 +239,7 @@ namespace ManagedIrbis
         /// Признак: команда прервана.
         /// </summary>
         [DefaultValue(false)]
-        public bool Interrupted { get; set; }
+        public bool Interrupted { get; internal set; }
 
         /// <summary>
         /// Socket.
@@ -205,8 +269,8 @@ namespace ManagedIrbis
             Host = ConnectionSettings.DefaultHost;
             Port = ConnectionSettings.DefaultPort;
             Database = ConnectionSettings.DefaultDatabase;
-            Username = null;
-            Password = null;
+            Username = "111";
+            Password = "111";
             Workstation = ConnectionSettings.DefaultWorkstation;
 
             Executive = new StandardEngine(this, null);
@@ -224,6 +288,8 @@ namespace ManagedIrbis
             )
             : this()
         {
+            Code.NotNullNorEmpty(connectionString, "connectionString");
+
             ParseConnectionString(connectionString);
             Connect();
         }
@@ -232,7 +298,6 @@ namespace ManagedIrbis
 
         #region Private members
 
-        //private string _configuration;
         private bool _connected;
 
         // ReSharper disable InconsistentNaming
@@ -242,12 +307,23 @@ namespace ManagedIrbis
 
         private static Random _random = new Random();
 
-#if !PocketPC
-        //private IrbisSocket _socket;
-#endif
-
         private readonly Stack<string> _databaseStack
             = new Stack<string>();
+
+        private string _host;
+        private int _port;
+        private string _username;
+        private string _password;
+        private string _database;
+        private IrbisWorkstation _workstation;
+
+        internal void ThrowIfConnected()
+        {
+            if (Connected)
+            {
+                throw new IrbisException("Already connected");
+            }
+        }
 
         // ReSharper disable InconsistentNaming
         internal int GenerateClientID()
@@ -297,26 +373,6 @@ namespace ManagedIrbis
         // =========================================================
 
         #region Public methods
-
-        /// <summary>
-        /// Актуализация всех неактуализированных записей
-        /// в указанной базе данных.
-        /// </summary>
-        public void ActualizeDatabase
-            (
-                [NotNull] string database
-            )
-        {
-            Code.NotNullNorEmpty(database, "database");
-
-            ActualizeRecord
-                (
-                    database,
-                    0
-                );
-        }
-
-        // =========================================================
 
         /// <summary>
         /// Actualize given record (if not yet).
@@ -499,19 +555,14 @@ namespace ManagedIrbis
         /// <remarks>For Administrator only.</remarks>
         public void CreateDictionary
             (
-                [NotNull] string databaseName
+                [NotNull] string database
             )
         {
-            // TODO Create CreateDictionaryCommand
+            Code.NotNullNorEmpty(database, "database");
 
-            Code.NotNullNorEmpty(databaseName, "databaseName");
-
-            UniversalCommand command
-                = CommandFactory.GetUniversalCommand
-                (
-                    CommandCode.CreateDictionary,
-                    databaseName
-                );
+            CreateDictionaryCommand command
+                = CommandFactory.GetCreateDictionaryCommand();
+            command.Database = database;
             command.RelaxResponse = true;
 
             ExecuteCommand(command);

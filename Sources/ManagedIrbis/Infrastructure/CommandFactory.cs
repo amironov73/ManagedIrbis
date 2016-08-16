@@ -71,7 +71,6 @@ namespace ManagedIrbis.Infrastructure
         /// <summary>
         /// Get <see cref="ActualizeRecordCommand"/>.
         /// </summary>
-        /// <returns></returns>
         [NotNull]
         public virtual ActualizeRecordCommand GetActualizeRecordCommand()
         {
@@ -79,7 +78,7 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
-        /// Get ConnectCommand.
+        /// Get <see cref="ConnectCommand"/>.
         /// </summary>
         [NotNull]
         public virtual ConnectCommand GetConnectCommand()
@@ -88,12 +87,21 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
-        /// Get CreateDatabaseCommand.
+        /// Get <see cref="CreateDatabaseCommand"/>.
         /// </summary>
         [NotNull]
         public virtual CreateDatabaseCommand GetCreateDatabaseCommand()
         {
             return new CreateDatabaseCommand(Connection);
+        }
+
+        /// <summary>
+        /// Get <see cref="CreateDictionaryCommand"/>.
+        /// </summary>
+        [NotNull]
+        public virtual CreateDictionaryCommand GetCreateDictionaryCommand()
+        {
+            return new CreateDictionaryCommand(Connection);
         }
 
         /// <summary>

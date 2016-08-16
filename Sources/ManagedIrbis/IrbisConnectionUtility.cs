@@ -59,6 +59,28 @@ namespace ManagedIrbis
         #region Public methods
 
         /// <summary>
+        /// Актуализация всех неактуализированных записей
+        /// в указанной базе данных.
+        /// </summary>
+        public static void ActualizeDatabase
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string database
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+
+            connection.ActualizeRecord
+                (
+                    database,
+                    0
+                );
+        }
+
+        // =========================================================
+
+        /// <summary>
         /// Delete given record (mark as deleted on the server).
         /// </summary>
         public static void DeleteRecord

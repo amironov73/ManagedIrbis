@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
-using ManagedIrbis.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;
 
 using ManagedIrbis;
+using ManagedIrbis.Infrastructure;
 
 namespace UnitTests.ManagedIrbis
 {
@@ -84,6 +84,22 @@ namespace UnitTests.ManagedIrbis
         {
             IrbisConnection client = new IrbisConnection();
             _TestSerialization(client);
+        }
+
+        [TestMethod]
+        public void TestIrbisConnection_Clone()
+        {
+            IrbisConnection first = new IrbisConnection();
+            first.ParseConnectionString(ConnectionString);
+
+            IrbisConnection second = first.Clone(false);
+
+            Assert.AreEqual (first.Host, second.Host);
+            Assert.AreEqual(first.Port, second.Port);
+            Assert.AreEqual(first.Username, second.Username);
+            Assert.AreEqual(first.Password, second.Password);
+            Assert.AreEqual(first.Database, second.Database);
+            Assert.AreEqual(first.Workstation, second.Workstation);
         }
     }
 }
