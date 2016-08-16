@@ -66,6 +66,8 @@
 # for GitHub linguist
 ###############################################################################
 /Icons/* linguist-vendored
+*.svg linguist-vendored
 
 /Examples/* linguist-documentation
-/Docs/* linguist-documentation
+*.doc linguist-documentation
+*.docx linguist-documentation
