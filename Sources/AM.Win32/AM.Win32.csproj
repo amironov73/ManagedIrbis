@@ -226,6 +226,12 @@
     <Compile Include="AM\Win32\Gdi32\StockObjects.cs" />
     <Compile Include="AM\Win32\Gdi32\TextAlign.cs" />
     <Compile Include="AM\Win32\Gdi32\TEXTMETRIC.cs" />
+    <Compile Include="AM\Win32\GdiPlus\EmfToWmfBitsFlags.cs" />
+    <Compile Include="AM\Win32\GdiPlus\FlushIntention.cs" />
+    <Compile Include="AM\Win32\GdiPlus\GdiPlus.cs" />
+    <Compile Include="AM\Win32\GdiPlus\GdiPlusStatus.cs" />
+    <Compile Include="AM\Win32\GdiPlus\GdiPlusUtility.cs" />
+    <Compile Include="AM\Win32\GdiPlus\ImageType.cs" />
     <Compile Include="AM\Win32\HELPINFO.cs" />
     <Compile Include="AM\Win32\HotKey.cs">
       <SubType>Component</SubType>
