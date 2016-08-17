@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AEEBB65D-1023-4AC2-A280-4639E085CDB5}</ProjectGuid>
+    <ProjectGuid>{C06E1D15-0D0D-44B3-BF74-1B2C616F9EE5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IrbisUI</RootNamespace>
-    <AssemblyName>IrbisUI</AssemblyName>
+    <RootNamespace>AM.Windows.Forms</RootNamespace>
+    <AssemblyName>AM.Windows.Forms</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -17,10 +17,10 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;FW40;FW45</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\IrbisUI.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\AM.Windows.Forms.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,7 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\IrbisUI.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\AM.Windows.Forms.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>
@@ -43,9 +43,6 @@
   <Choose>
     <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
       <ItemGroup>
-        <Reference Include="Antlr4.Runtime">
-          <HintPath>..\Libs\net35\Antlr4.Runtime.net35.dll</HintPath>
-        </Reference>
         <Reference Include="BLToolkit">
           <HintPath>..\Libs\net35\BLToolkit.3.dll</HintPath>
         </Reference>
@@ -63,9 +60,6 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="Antlr4.Runtime">
-          <HintPath>..\Libs\net40\Antlr4.Runtime.net40.dll</HintPath>
-        </Reference>
         <Reference Include="BLToolkit">
           <HintPath>..\Libs\net40\BLToolkit.4.dll</HintPath>
         </Reference>
@@ -80,9 +74,6 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.5' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="Antlr4.Runtime">
-          <HintPath>..\Libs\net45\Antlr4.Runtime.net45.dll</HintPath>
-        </Reference>
         <Reference Include="BLToolkit">
           <HintPath>..\Libs\net40\BLToolkit.4.dll</HintPath>
         </Reference>
@@ -97,9 +88,6 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.5.1' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="Antlr4.Runtime">
-          <HintPath>..\Libs\net45\Antlr4.Runtime.net45.dll</HintPath>
-        </Reference>
         <Reference Include="BLToolkit">
           <HintPath>..\Libs\net40\BLToolkit.4.dll</HintPath>
         </Reference>
@@ -114,9 +102,6 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.5.2' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="Antlr4.Runtime">
-          <HintPath>..\Libs\net45\Antlr4.Runtime.net45.dll</HintPath>
-        </Reference>
         <Reference Include="BLToolkit">
           <HintPath>..\Libs\net40\BLToolkit.4.dll</HintPath>
         </Reference>
@@ -131,9 +116,6 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.6' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="Antlr4.Runtime">
-          <HintPath>..\Libs\net45\Antlr4.Runtime.net45.dll</HintPath>
-        </Reference>
         <Reference Include="BLToolkit">
           <HintPath>..\Libs\net40\BLToolkit.4.dll</HintPath>
         </Reference>
@@ -148,9 +130,6 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.6.1' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="Antlr4.Runtime">
-          <HintPath>..\Libs\net45\Antlr4.Runtime.net45.dll</HintPath>
-        </Reference>
         <Reference Include="BLToolkit">
           <HintPath>..\Libs\net40\BLToolkit.4.dll</HintPath>
         </Reference>
@@ -171,18 +150,18 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\ControlUtility.cs" />
-    <Compile Include="Extensions\FormUtility.cs" />
-    <Compile Include="Extensions\ProgressBarUtility.cs" />
+    <Compile Include="AM\Windows\Forms\ModalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TextBoxOutput.cs" />
-    <Compile Include="WindowPlacement.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
@@ -193,14 +172,6 @@
     <ProjectReference Include="..\AM.Drawing\AM.Drawing.csproj">
       <Project>{f64c8161-d6e3-4d78-88db-c1787f4fe981}</Project>
       <Name>AM.Drawing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AM.Windows.Forms\AM.Windows.Forms.csproj">
-      <Project>{c06e1d15-0d0d-44b3-bf74-1b2c616f9ee5}</Project>
-      <Name>AM.Windows.Forms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ManagedIrbis\ManagedIrbis.csproj">
-      <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
-      <Name>ManagedIrbis</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

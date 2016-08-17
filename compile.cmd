@@ -5,7 +5,7 @@ rem SET MSBUILD=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
 SET OUTPUT=..\..\Binaries
 SET PARAMS=/consoleloggerparameters:ErrorsOnly /m
 
-FOR %%P IN (AM.Core,ManagedIrbis,AM.Rfid,AM.Drawing,IrbisUI) DO (
+FOR %%P IN (AM.Core,ManagedIrbis,AM.Rfid,AM.Drawing,AM.Windows.Forms,IrbisUI) DO (
   FOR %%B IN (Debug,Release) DO (
     CALL :BUILD %%P %%B 35  v3.5   "FW35"
     CALL :BUILD %%P %%B 40  v4.0   "FW40"

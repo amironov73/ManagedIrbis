@@ -21,7 +21,7 @@ ManagedIrbis currently supports:
 - [IRBIS64 support forum](http://irbis.gpntb.ru) (russian);
 - [NuGet libraries](https://www.nuget.org/packages/ManagedClient/);
 - [ManagedIrbis support topic](http://irbis.gpntb.ru/read.php?24,85009) (russian);
-- [Builds with artefacts on AppVeyor](https://ci.appveyor.com/project/AlexeyMironov/managedclient-45/);
+- [Builds with artifacts on AppVeyor](https://ci.appveyor.com/project/AlexeyMironov/managedclient-45/);
 - [Builds on Travis](https://travis-ci.org/amironov73/ManagedIrbis).
 
 ### Build status
