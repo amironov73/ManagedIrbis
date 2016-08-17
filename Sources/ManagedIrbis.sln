@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Drawing", "AM.Drawing\AM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Windows.Forms", "AM.Windows.Forms\AM.Windows.Forms.csproj", "{C06E1D15-0D0D-44B3-BF74-1B2C616F9EE5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Win32", "AM.Win32\AM.Win32.csproj", "{41452BE0-6F2D-4266-A104-79170A358A42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +91,10 @@ Global
 		{C06E1D15-0D0D-44B3-BF74-1B2C616F9EE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C06E1D15-0D0D-44B3-BF74-1B2C616F9EE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C06E1D15-0D0D-44B3-BF74-1B2C616F9EE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41452BE0-6F2D-4266-A104-79170A358A42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41452BE0-6F2D-4266-A104-79170A358A42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41452BE0-6F2D-4266-A104-79170A358A42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41452BE0-6F2D-4266-A104-79170A358A42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
