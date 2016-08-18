@@ -61,11 +61,14 @@
     <Compile Include="AM\Drawing\ImageInfo.cs" />
     <Compile Include="AM\Drawing\ImageUtility.cs" />
     <Compile Include="AM\Drawing\PaintUtility.cs" />
+    <Compile Include="AM\Drawing\Palette.cs" />
+    <Compile Include="AM\Drawing\PaletteColorAttribute.cs" />
     <Compile Include="AM\Drawing\Printing\ImagePosition.cs" />
     <Compile Include="AM\Drawing\Printing\PicturePrinter.cs" />
     <Compile Include="AM\Drawing\Printing\PlainTextPrinter.cs" />
     <Compile Include="AM\Drawing\Printing\TextPrinter.cs" />
     <Compile Include="AM\Drawing\TextFormat.cs" />
+    <Compile Include="AM\Drawing\Tube.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
