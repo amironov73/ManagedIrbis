@@ -1,5 +1,8 @@
 ﻿/* HslColor.cs -- color in HSL colorspace.
-   Ars Magna project, http://library.istu.edu/am */
+ * Ars Magna project, http://arsmagna.ru 
+ * -------------------------------------------------------
+ * Status: poor
+ */
 
 #region Using directives
 
