@@ -1,4 +1,4 @@
-﻿/* ColorUtility.cs -- font manipulation helpers
+﻿/* FontUtility.cs -- font manipulation helpers
  * Ars Magna project, http://arsmagna.ru 
  * -------------------------------------------------------
  * Status: poor
