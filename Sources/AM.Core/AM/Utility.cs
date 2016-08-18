@@ -101,6 +101,28 @@ namespace AM
         }
 
         /// <summary>
+        /// Determines whether is one of the specified values.
+        /// </summary>
+        public static bool IsOneOf<T>
+            (
+                T value,
+                params T[] array
+            )
+            where T : IComparable<T>
+        {
+            foreach (T one in array)
+            {
+                if (value.CompareTo(one) == 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
+        /// <summary>
         /// Determines whether given object
         /// is default value.
         /// </summary>

@@ -58,6 +58,7 @@
     <Compile Include="AM\Drawing\ColorUtility.cs" />
     <Compile Include="AM\Drawing\FontUtility.cs" />
     <Compile Include="AM\Drawing\GraphicsStateSaver.cs" />
+    <Compile Include="AM\Drawing\ImageInfo.cs" />
     <Compile Include="AM\Drawing\ImageUtility.cs" />
     <Compile Include="AM\Drawing\PaintUtility.cs" />
     <Compile Include="AM\Drawing\TextFormat.cs" />
