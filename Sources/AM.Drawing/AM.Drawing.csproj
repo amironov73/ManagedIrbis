@@ -57,7 +57,10 @@
   <ItemGroup>
     <Compile Include="AM\Drawing\ColorUtility.cs" />
     <Compile Include="AM\Drawing\FontUtility.cs" />
+    <Compile Include="AM\Drawing\GraphicsStateSaver.cs" />
     <Compile Include="AM\Drawing\ImageUtility.cs" />
+    <Compile Include="AM\Drawing\PaintUtility.cs" />
+    <Compile Include="AM\Drawing\TextFormat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
