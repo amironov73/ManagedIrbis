@@ -1,5 +1,7 @@
 ﻿/* TextBoxOutput.cs -- вывод в текстовое поле
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -9,22 +11,20 @@ using System.Windows.Forms;
 
 using AM.Text.Output;
 
-using IrbisUI.Extensions;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
 #endregion
 
-namespace IrbisUI
+namespace AM.Windows.Forms
 {
     /// <summary>
     /// Вывод в текстовое поле.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class TextBoxOutput 
+    public sealed class TextBoxOutput
         : AbstractOutput
     {
         #region Properties
@@ -79,21 +79,15 @@ namespace IrbisUI
         {
             if (!string.IsNullOrEmpty(text))
             {
-                if (TextBox != null)
-                {
-                    TextBox.InvokeIfRequired
-                        (
-                            () => TextBox.AppendText(text)
-                        );
-                }
-            }
-            if (TextBox != null)
-            {
                 TextBox.InvokeIfRequired
                     (
-                        () => TextBox.SelectionStart = TextBox.TextLength
+                        () => TextBox.AppendText(text)
                     );
             }
+            TextBox.InvokeIfRequired
+                (
+                    () => TextBox.SelectionStart = TextBox.TextLength
+                );
         }
 
         #endregion
@@ -112,13 +106,11 @@ namespace IrbisUI
         public override AbstractOutput Clear()
         {
             HaveError = false;
-            if (TextBox != null)
-            {
-                TextBox.InvokeIfRequired
-                    (
-                        () => TextBox.Clear()
+            TextBox.InvokeIfRequired
+                (
+                    () => TextBox.Clear()
                 );
-            }
+
             return this;
         }
 
@@ -132,6 +124,7 @@ namespace IrbisUI
             )
         {
             // TODO: implement
+
             return this;
         }
 
@@ -145,6 +138,7 @@ namespace IrbisUI
             )
         {
             AppendText(text);
+
             return this;
         }
 
@@ -159,6 +153,7 @@ namespace IrbisUI
         {
             HaveError = true;
             AppendText(text);
+
             return this;
         }
 

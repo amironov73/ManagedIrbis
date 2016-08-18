@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="AM\Drawing\ColorUtility.cs" />
     <Compile Include="AM\Drawing\FontUtility.cs" />
+    <Compile Include="AM\Drawing\ImageUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

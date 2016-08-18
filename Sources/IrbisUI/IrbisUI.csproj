@@ -177,12 +177,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\ControlUtility.cs" />
-    <Compile Include="Extensions\FormUtility.cs" />
-    <Compile Include="Extensions\ProgressBarUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TextBoxOutput.cs" />
-    <Compile Include="WindowPlacement.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +203,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ArsMagna.private.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+    <Folder Include="Sources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

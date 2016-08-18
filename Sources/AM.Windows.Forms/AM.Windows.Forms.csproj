@@ -158,9 +158,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AM\Windows\Forms\ControlUtility.cs" />
+    <Compile Include="AM\Windows\Forms\FormUtility.cs" />
     <Compile Include="AM\Windows\Forms\ModalForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="AM\Windows\Forms\TextBoxOutput.cs" />
+    <Compile Include="AM\Windows\Forms\WindowPlacement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>

@@ -1,5 +1,7 @@
 ﻿/* FormUtility.cs -- extension methods for System.Windows.Forms
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -25,7 +27,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace IrbisUI.Extensions
+namespace AM.Windows.Forms
 {
     /// <summary>
     /// Extension methods for <see cref="Form"/>.
@@ -46,7 +48,9 @@ namespace IrbisUI.Extensions
                 [CanBeNull] Screen screen
             )
         {
-            const int Delta = 1;
+            Code.NotNull(form, "form");
+
+            const int delta = 1;
 
             Code.NotNull(form, "form");
 
@@ -54,10 +58,26 @@ namespace IrbisUI.Extensions
 
             Rectangle area = screen.WorkingArea;
 
-            form.Left = Math.Min(form.Left, area.Right - form.Width - Delta);
-            form.Left = Math.Max(form.Left, Delta);
-            form.Top = Math.Min(form.Top, area.Bottom - form.Height - Delta);
-            form.Top = Math.Max(form.Top, Delta);
+            form.Left = Math.Min
+                (
+                    form.Left,
+                    area.Right - form.Width - delta
+                );
+            form.Left = Math.Max
+                (
+                    form.Left,
+                    delta
+                );
+            form.Top = Math.Min
+                (
+                    form.Top,
+                    area.Bottom - form.Height - delta
+                );
+            form.Top = Math.Max
+                (
+                    form.Top,
+                    delta
+                );
 
             return form;
         }
@@ -81,62 +101,77 @@ namespace IrbisUI.Extensions
                 case WindowPlacement.ScreenCenter:
                     result = new Point
                         (
-                        workingArea.Left + (workingArea.Width - windowSize.Width) / 2,
-                        workingArea.Top + (workingArea.Height - windowSize.Height) / 2
+                            workingArea.Left
+                                + (workingArea.Width - windowSize.Width) / 2,
+                            workingArea.Top 
+                                + (workingArea.Height - windowSize.Height) / 2
                         );
                     break;
+
                 case WindowPlacement.TopLeftCorner:
                     result = new Point(indent);
                     break;
+
                 case WindowPlacement.TopRightCorner:
                     result = new Point
                         (
-                        workingArea.Right - windowSize.Width - indent.Width,
-                        indent.Height
+                            workingArea.Right - windowSize.Width - indent.Width,
+                            indent.Height
                         );
                     break;
+
                 case WindowPlacement.TopSide:
                     result = new Point
                         (
-                        workingArea.Left + (workingArea.Width - windowSize.Width) / 2,
-                        indent.Height
+                            workingArea.Left 
+                                + (workingArea.Width - windowSize.Width) / 2,
+                            indent.Height
                         );
                     break;
+
                 case WindowPlacement.LeftSide:
                     result = new Point
                         (
-                        indent.Width,
-                        workingArea.Top + (workingArea.Height - windowSize.Height) / 2
+                            indent.Width,
+                            workingArea.Top 
+                                + (workingArea.Height - windowSize.Height) / 2
                         );
                     break;
+
                 case WindowPlacement.RightSide:
                     result = new Point
                         (
-                        workingArea.Right - windowSize.Width - indent.Width,
-                        workingArea.Top + (workingArea.Height - windowSize.Height) / 2
+                            workingArea.Right - windowSize.Width - indent.Width,
+                            workingArea.Top
+                                + (workingArea.Height - windowSize.Height) / 2
                         );
                     break;
+
                 case WindowPlacement.BottomSide:
                     result = new Point
                         (
-                        workingArea.Left + (workingArea.Width - windowSize.Width) / 2,
-                        workingArea.Height - windowSize.Height - indent.Height
+                            workingArea.Left
+                                + (workingArea.Width - windowSize.Width) / 2,
+                            workingArea.Height - windowSize.Height - indent.Height
                         );
                     break;
+
                 case WindowPlacement.BottomLeftCorner:
                     result = new Point
                         (
-                        indent.Width,
-                        workingArea.Height - windowSize.Height - indent.Height
+                            indent.Width,
+                            workingArea.Height - windowSize.Height - indent.Height
                         );
                     break;
+
                 case WindowPlacement.BottomRightCorner:
                     result = new Point
                         (
-                        workingArea.Width - windowSize.Width - indent.Width,
-                        workingArea.Height - windowSize.Height - indent.Height
+                            workingArea.Width - windowSize.Width - indent.Width,
+                            workingArea.Height - windowSize.Height - indent.Height
                         );
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException("placement");
             }
@@ -205,7 +240,6 @@ namespace IrbisUI.Extensions
             }
         }
 
-        
         #endregion
     }
 }

@@ -5,6 +5,7 @@ autoin
 Bookland
 Builtin
 Ceptor
+codec
 datai
 dbnflc
 delflc
@@ -16,6 +17,7 @@ Hostname
 https
 Hyphenator
 Irbis
+jpeg
 Json
 Magna
 Memoize
