@@ -159,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AM\Windows\Forms\BottomlessRichTextBox.cs" />
+    <Compile Include="AM\Windows\Forms\CollapsibleGroupBox.cs" />
     <Compile Include="AM\Windows\Forms\ColorComboBox.cs" />
     <Compile Include="AM\Windows\Forms\ControlUtility.cs" />
     <Compile Include="AM\Windows\Forms\EnumComboBox.cs" />

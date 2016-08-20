@@ -1,4 +1,4 @@
-/* ColorComboBox.cs --
+п»ї/* ColorComboBox.cs --
  * Ars Magna project, http://arsmagna.ru 
  * -------------------------------------------------------
  * Status: poor
@@ -17,8 +17,8 @@ using JetBrains.Annotations;
 namespace AM.Windows.Forms
 {
     /// <summary>
-    /// Комбинированный список, позволяющий выбрать
-    /// цвет из списка.
+    /// РљРѕРјР±РёРЅРёСЂРѕРІР°РЅРЅС‹Р№ СЃРїРёСЃРѕРє, РїРѕР·РІРѕР»СЏСЋС‰РёР№ РІС‹Р±СЂР°С‚СЊ
+    /// С†РІРµС‚ РёР· СЃРїРёСЃРєР°.
     /// </summary>
     [PublicAPI]
     //[ToolboxBitmap ( typeof ( ColorComboBox ) )]
@@ -30,7 +30,7 @@ namespace AM.Windows.Forms
         #region Properties
 
         ///<summary>
-        /// Выбранный цвет.
+        /// Р’С‹Р±СЂР°РЅРЅС‹Р№ С†РІРµС‚.
         ///</summary>
         public Color SelectedColor
         {
