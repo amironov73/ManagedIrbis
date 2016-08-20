@@ -171,6 +171,7 @@
     <Compile Include="AM\Windows\Forms\ExceptionBox.Designer.cs">
       <DependentUpon>ExceptionBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="AM\Windows\Forms\FontComboBox.cs" />
     <Compile Include="AM\Windows\Forms\FormUtility.cs" />
     <Compile Include="AM\Windows\Forms\KeyboardUtility.cs" />
     <Compile Include="AM\Windows\Forms\ModalForm.cs">
