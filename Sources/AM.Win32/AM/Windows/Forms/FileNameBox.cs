@@ -36,6 +36,20 @@ namespace AM.Windows.Forms
     {
         #region Properties
 
+        /// <summary>
+        /// Gets the dialog.
+        /// </summary>
+        /// <value>The dialog.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public OpenFileDialog Dialog
+        {
+            [DebuggerStepThrough]
+            get
+            {
+                return _dialog;
+            }
+        }
+
         #endregion
 
         #region Construction
@@ -45,6 +59,7 @@ namespace AM.Windows.Forms
         /// </summary>
         public FileNameBox()
         {
+            _dialog = new OpenFileDialog();
             Button.Click += _Button_Click;
         }
 
@@ -52,22 +67,42 @@ namespace AM.Windows.Forms
 
         #region Private members
 
+        private OpenFileDialog _dialog;
+
         void _Button_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog
+            Dialog.FileName = Text;
+            if (Dialog.ShowDialog(Parent) == DialogResult.OK)
             {
-                FileName = Text
-            };
-
-            if (dialog.ShowDialog(this) == DialogResult.OK)
-            {
-                Text = dialog.FileName;
+                Text = Dialog.FileName;
             }
         }
 
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Releases the unmanaged resources used by the
+        /// <see cref="T:System.Windows.Forms.TextBox"/>
+        /// and optionally releases the managed resources.
+        /// </summary>
+        /// <param name="disposing">true to release
+        /// both managed and unmanaged resources;
+        /// false to release only unmanaged resources.
+        /// </param>
+        protected override void Dispose
+            (
+                bool disposing
+            )
+        {
+            base.Dispose(disposing);
+            if (_dialog != null)
+            {
+                _dialog.Dispose();
+                _dialog = null;
+            }
+        }
 
         #endregion
     }

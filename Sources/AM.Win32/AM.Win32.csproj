@@ -401,6 +401,7 @@
     <Compile Include="AM\Win32\WindowsTweaker.cs" />
     <Compile Include="AM\Windows\Forms\ButtonedTextBox.cs" />
     <Compile Include="AM\Windows\Forms\FileNameBox.cs" />
+    <Compile Include="AM\Windows\Forms\FolderNameBox.cs" />
     <Compile Include="AM\Windows\Forms\TextBoxControlHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
