@@ -158,6 +158,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AM\Windows\Forms\BottomlessRichTextBox.cs" />
     <Compile Include="AM\Windows\Forms\ControlUtility.cs" />
     <Compile Include="AM\Windows\Forms\EnumComboBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumListBox.cs" />
