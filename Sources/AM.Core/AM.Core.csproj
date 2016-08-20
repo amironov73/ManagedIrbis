@@ -223,6 +223,7 @@
     <Compile Include="AM\Parameters\ParameterUtility.cs" />
     <Compile Include="AM\ReadOnlyException.cs" />
     <Compile Include="AM\Reflection\AssemblyUtility.cs" />
+    <Compile Include="AM\Reflection\EnumMemberInfo.cs" />
     <Compile Include="AM\Reflection\FieldAccessor.cs" />
     <Compile Include="AM\Reflection\PropertyAccessor.cs" />
     <Compile Include="AM\Reflection\PropertyOrField.cs" />

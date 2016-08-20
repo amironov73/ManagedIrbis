@@ -159,6 +159,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AM\Windows\Forms\ControlUtility.cs" />
+    <Compile Include="AM\Windows\Forms\EnumComboBox.cs" />
+    <Compile Include="AM\Windows\Forms\EnumTypeConverter.cs" />
     <Compile Include="AM\Windows\Forms\ExceptionBox.cs">
       <SubType>Form</SubType>
     </Compile>
