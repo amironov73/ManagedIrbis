@@ -179,6 +179,7 @@
     </Compile>
     <Compile Include="AM\Windows\Forms\KeyboardUtility.cs" />
     <Compile Include="AM\Windows\Forms\LabelEx.cs" />
+    <Compile Include="AM\Windows\Forms\ListBoxOutput.cs" />
     <Compile Include="AM\Windows\Forms\ModalForm.cs">
       <SubType>Form</SubType>
     </Compile>

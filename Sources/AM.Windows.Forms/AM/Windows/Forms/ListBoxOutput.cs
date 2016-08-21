@@ -1,4 +1,4 @@
-﻿/* TextBoxOutput.cs -- вывод в текстовое поле
+﻿/* ListBoxOutput.cs -- вывод в ListBox
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -22,11 +22,11 @@ using MoonSharp.Interpreter;
 namespace AM.Windows.Forms
 {
     /// <summary>
-    /// Вывод в текстовое поле.
+    /// Вывод в ListBox.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class TextBoxOutput
+    public sealed class ListBoxOutput
         : AbstractOutput
     {
         #region Properties
@@ -34,30 +34,30 @@ namespace AM.Windows.Forms
         /// <summary>
         /// Текстбокс
         /// </summary>
-        public TextBox TextBox { get; set; }
+        public ListBox ListBox { get; set; }
 
         #endregion
 
         #region Construction
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor
         /// </summary>
-        public TextBoxOutput()
+        public ListBoxOutput()
         {
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        public TextBoxOutput
+        public ListBoxOutput
             (
-                [NotNull] TextBox textBox
+                [NotNull] ListBox listBox
             )
         {
-            Code.NotNull(textBox, "textBox");
+            Code.NotNull(listBox, "listBox");
 
-            TextBox = textBox;
+            ListBox = listBox;
         }
 
         #endregion
@@ -79,14 +79,21 @@ namespace AM.Windows.Forms
         {
             if (!string.IsNullOrEmpty(text))
             {
-                TextBox.InvokeIfRequired
+                ListBox.InvokeIfRequired
                     (
-                        () => TextBox.AppendText(text)
+                        () => ListBox.Items.Add(text)
                     );
             }
-            TextBox.InvokeIfRequired
+            ListBox.InvokeIfRequired
                 (
-                    () => TextBox.SelectionStart = TextBox.TextLength
+                    () =>
+                        {
+                            if (ListBox.Items.Count != 0)
+                            {
+                                ListBox.SelectedIndex
+                                    = ListBox.Items.Count - 1;
+                            }
+                        }
                 );
         }
 
@@ -106,9 +113,9 @@ namespace AM.Windows.Forms
         public override AbstractOutput Clear()
         {
             HaveError = false;
-            TextBox.InvokeIfRequired
+            ListBox.InvokeIfRequired
                 (
-                    () => TextBox.Clear()
+                    () => ListBox.Items.Clear()
                 );
 
             return this;
