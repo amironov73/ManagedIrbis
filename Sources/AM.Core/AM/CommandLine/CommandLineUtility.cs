@@ -36,6 +36,9 @@ namespace AM.CommandLine
 
         #region Public methods
 
+        /// <summary>
+        /// Split the text to command line arguments.
+        /// </summary>
         [NotNull]
         [ItemNotNull]
         public static string[] SplitText

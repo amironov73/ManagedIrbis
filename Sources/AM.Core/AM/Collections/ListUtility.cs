@@ -165,6 +165,10 @@ namespace AM.Collections
             return true;
         }
 
+        /// <summary>
+        /// Throw <see cref="ArgumentNullException"/>
+        /// if the list is <c>null</c> or empty.
+        /// </summary>
         [NotNull]
         public static IList<T> ThrowIfNullOrEmpty<T>
             (
@@ -184,6 +188,10 @@ namespace AM.Collections
             return list;
         }
 
+        /// <summary>
+        /// Throw <see cref="ArgumentNullException"/>
+        /// if the list is <c>null</c> or empty.
+        /// </summary>
         [NotNull]
         public static IList<T> ThrowIfNullOrEmpty<T>
             (
@@ -206,6 +214,10 @@ namespace AM.Collections
             return list;
         }
 
+        /// <summary>
+        /// Throw <see cref="ArgumentNullException"/>
+        /// if the array is <c>null</c> or empty.
+        /// </summary>
         [NotNull]
         public static T[] ThrowIfNullOrEmpty<T>
             (
@@ -225,6 +237,10 @@ namespace AM.Collections
             return array;
         }
 
+        /// <summary>
+        /// Throw <see cref="ArgumentNullException"/>
+        /// if the array is <c>null</c> or empty.
+        /// </summary>
         [NotNull]
         public static T[] ThrowIfNullOrEmpty<T>
             (

@@ -4,8 +4,21 @@
  * Status: poor
  */
 
+#region Using directives
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
+#endregion
+
 namespace AM.CommandLine
 {
+    /// <summary>
+    /// Settings for command line handling.
+    /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public static class CommandLineSettings
     {
         #region Constants

@@ -28,9 +28,21 @@ using Newtonsoft.Json;
 
 namespace AM.ComponentModel
 {
-    public class NotifyProperty : INotifyPropertyChanged
+    /// <summary>
+    /// Naive INotifyProperty implementation.
+    /// </summary>
+    [PublicAPI]
+    public class NotifyProperty
+        : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Occurs when property changed.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Notifies when the property changed.
+        /// </summary>
         public virtual void NotifyPropertyChanged
             (
                 string str

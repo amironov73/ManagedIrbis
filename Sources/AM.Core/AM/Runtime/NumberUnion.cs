@@ -16,7 +16,7 @@ using JetBrains.Annotations;
 namespace AM.Runtime
 {
     /// <summary>
-    /// 
+    /// Cheap trick with number overlap for conversion purposes.
     /// </summary>
     [PublicAPI]
     [CLSCompliant(false)]
@@ -123,6 +123,9 @@ namespace AM.Runtime
 
         #endregion
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public NumberUnion(int value)
             : this()
         {

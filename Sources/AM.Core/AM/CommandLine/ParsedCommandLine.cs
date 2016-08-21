@@ -163,6 +163,9 @@ namespace AM.CommandLine
             return result;
         }
 
+        /// <summary>
+        /// Get switch with given name.
+        /// </summary>
         [CanBeNull]
         public CommandLineSwitch GetSwitch
             (

@@ -14,9 +14,6 @@ using System.Globalization;
 
 namespace AM.Collections
 {
-    /// <summary>
-    /// 
-    /// </summary>
     //internal sealed class IndexableConverter
     //    : TypeConverter
     //{

@@ -33,6 +33,10 @@ namespace AM.IO
 
         #region Public methods
 
+        /// <summary>
+        /// Write the <see cref="NonNullCollection{T}"/>
+        /// to the stream.
+        /// </summary>
         public static BinaryWriter Write<T>
             (
                 [NotNull] this BinaryWriter writer,

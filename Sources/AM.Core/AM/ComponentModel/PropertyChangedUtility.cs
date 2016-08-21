@@ -32,6 +32,10 @@ using Newtonsoft.Json;
 
 namespace AM.ComponentModel
 {
+    /// <summary>
+    /// Helpers for <see cref="INotifyPropertyChanged"/>.
+    /// </summary>
+    [PublicAPI]
     public static class PropertyChangedUtility
     {
         #region Public methods
@@ -66,6 +70,9 @@ namespace AM.ComponentModel
             return newValue;
         }
 
+        /// <summary>
+        /// Notifies the property changed.
+        /// </summary>
         public static void NotifyPropertyChanged<T, TProperty>
             (
                 this　T propertyChangedBase,
@@ -92,7 +99,6 @@ namespace AM.ComponentModel
             }
 
         }
-
 
         #endregion
     }

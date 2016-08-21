@@ -36,6 +36,9 @@ namespace AM.Runtime
     {
         #region Public methods
 
+        /// <summary>
+        /// Save the list to the stream.
+        /// </summary>
         public static void SaveToStream
             (
                 IList<int> list,
@@ -50,6 +53,9 @@ namespace AM.Runtime
             }
         }
 
+        /// <summary>
+        /// Save the list to the stream.
+        /// </summary>
         public static void SaveToStream
             (
                 IList<long> list,
@@ -64,6 +70,9 @@ namespace AM.Runtime
             }
         }
 
+        /// <summary>
+        /// Save the list to the stream.
+        /// </summary>
         public static void SaveToStream
             (
                 IList<short> list,
@@ -78,6 +87,9 @@ namespace AM.Runtime
             }
         }
 
+        /// <summary>
+        /// Save the list to the stream.
+        /// </summary>
         public static void SaveToStream
             (
                 IList<string> list,
@@ -92,6 +104,9 @@ namespace AM.Runtime
             }
         }
 
+        /// <summary>
+        /// Save the list to the stream.
+        /// </summary>
         public static void SaveToStream
             (
                 IList<double> list,
@@ -106,6 +121,9 @@ namespace AM.Runtime
             }
         }
 
+        /// <summary>
+        /// Save the list to the stream.
+        /// </summary>
         public static void SaveToStream
             (
                 IList<float> list,
@@ -120,6 +138,9 @@ namespace AM.Runtime
             }
         }
 
+        /// <summary>
+        /// Save the list to the stream.
+        /// </summary>
         public static void SaveListToStream<T>
             (
                 [NotNull] IList<T> list,
@@ -138,6 +159,10 @@ namespace AM.Runtime
                 SaveToStream((IList<double>)list, writer);
             else if (list is IList<float>)
                 SaveToStream((IList<float>)list, writer);
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
 
         #endregion

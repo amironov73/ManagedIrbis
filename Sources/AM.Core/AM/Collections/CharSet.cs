@@ -141,11 +141,17 @@ namespace AM.Collections
             #endregion
         }
 
+        /// <summary>
+        /// Converter for JSON serialization.
+        /// </summary>
         public class CharSetConverter
             : JsonConverter
         {
             #region Constructor
 
+            /// <summary>
+            /// Constructor.
+            /// </summary>
             public CharSetConverter(params Type[] types)
             {
                 _types = types;
@@ -161,6 +167,9 @@ namespace AM.Collections
 
             #region JsonConverter members
 
+            /// <summary>
+            /// Writes the JSON representation of the object.
+            /// </summary>
             public override void WriteJson
                 (
                     JsonWriter writer,
@@ -180,6 +189,9 @@ namespace AM.Collections
                 o.WriteTo(writer);
             }
 
+            /// <summary>
+            /// Reads the JSON representation of the object.
+            /// </summary>
             public override object ReadJson
                 (
                     JsonReader reader,
@@ -191,6 +203,10 @@ namespace AM.Collections
                 throw new NotImplementedException();
             }
 
+            /// <summary>
+            /// Determines whether this instance can convert
+            /// the specified object type.
+            /// </summary>
             public override bool CanConvert
                 (
                     Type objectType

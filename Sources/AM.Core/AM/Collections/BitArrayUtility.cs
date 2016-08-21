@@ -1,6 +1,8 @@
-﻿/* BitArrayUtility.cs --
+﻿/* BitArrayUtility.cs -- helper methods for BitArray class
  * Ars Magna project, http://arsmagna.ru
- */
+  * -------------------------------------------------------
+ * Status: poor
+*/
 
 #region Using directives
 
@@ -26,6 +28,9 @@ using Newtonsoft.Json.Linq;
 
 namespace AM.Collections
 {
+    /// <summary>
+    /// Helper methods for <see cref="BitArray"/> class.
+    /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public static class BitArrayUtility
