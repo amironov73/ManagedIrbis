@@ -27,6 +27,9 @@ using MoonSharp.Interpreter;
 
 namespace AM.Caching
 {
+    /// <summary>
+    /// Cache with file-based item storage.
+    /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class FileCache<TKey, TValue>
@@ -36,37 +39,52 @@ namespace AM.Caching
     {
         #region Properties
 
+        /// <summary>
+        /// Path to store items.
+        /// </summary>
         [NotNull]
         public string CachePath
         {
             get { return _cachePath; }
         }
 
+        /// <summary>
+        /// Use compression.
+        /// </summary>
         public bool UseCompression { get; private set; }
 
         #endregion
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public FileCache()
             : this(false)
         {
             _ownPath = true;
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public FileCache
             (
-            bool useCompression
+                bool useCompression
             )
             : this(_UniquePath(), useCompression)
         {
             _ownPath = true;
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public FileCache
             (
-            [NotNull] string cachePath,
-            bool useCompression
+                [NotNull] string cachePath,
+                bool useCompression
             )
         {
             Code.NotNullNorEmpty(cachePath, "cachePath");
