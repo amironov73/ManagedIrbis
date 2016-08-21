@@ -91,6 +91,9 @@ namespace AM.Threading.Tasks
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public TaskProcessor(int degree)
         {
             if (degree < 0)

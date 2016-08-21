@@ -75,6 +75,9 @@ namespace AM
 
         #region Public methods
 
+        /// <summary>
+        /// Is zero-length time span?
+        /// </summary>
         public static bool IsZero
             (
             this TimeSpan timeSpan
@@ -83,6 +86,9 @@ namespace AM
             return TimeSpan.Compare(timeSpan, TimeSpan.Zero) == 0;
         }
 
+        /// <summary>
+        /// Is zero-length or less?
+        /// </summary>
         public static bool IsZeroOrLess
             (
             this TimeSpan timeSpan
@@ -91,6 +97,11 @@ namespace AM
             return TimeSpan.Compare(timeSpan, TimeSpan.Zero) <= 0;
         }
 
+        /// <summary>
+        /// Is length of the time span less than zero?
+        /// </summary>
+        /// <param name="timeSpan"></param>
+        /// <returns></returns>
         public static bool LessThenZero
             (
             this TimeSpan timeSpan

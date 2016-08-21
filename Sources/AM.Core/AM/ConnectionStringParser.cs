@@ -63,6 +63,9 @@ namespace AM
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public ConnectionStringParser()
         {
             KeyDelimiter = DefaultKeyDelimiter;

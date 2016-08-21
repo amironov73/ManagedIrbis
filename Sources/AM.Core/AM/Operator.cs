@@ -21,11 +21,17 @@ using JetBrains.Annotations;
 
 namespace AM
 {
+    /// <summary>
+    /// Experimental operator helpers.
+    /// </summary>
     [PublicAPI]
     public class Operator<T>
     {
         #region Public methods
 
+        /// <summary>
+        /// Operator "new".
+        /// </summary>
         public static Func<T> New { get { return _new; } }
 
         #endregion
@@ -36,7 +42,8 @@ namespace AM
             .Lambda<Func<T>>
             (
                 Expression.New(typeof(T))
-            ).Compile();
+            )
+            .Compile();
 
         #endregion
     }

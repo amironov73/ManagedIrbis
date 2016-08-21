@@ -1,4 +1,4 @@
-﻿/* TaskEx.cs -- 
+﻿/* TaskEx.cs -- helper methods for IDisposable
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -20,12 +20,19 @@ using MoonSharp.Interpreter;
 
 namespace AM
 {
+    /// <summary>
+    /// Helper methods for <see cref="IDisposable"/>.
+    /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public static class DisposableUtility
     {
         #region Public methods
 
+        /// <summary>
+        /// Check for <c>null</c>. Dispose only if
+        /// not <c>null</c>.
+        /// </summary>
         public static void SafeDispose
             (
                 [CanBeNull] this IDisposable obj

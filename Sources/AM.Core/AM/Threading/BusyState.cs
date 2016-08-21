@@ -213,6 +213,9 @@ namespace AM.Threading
             return WaitHandle.WaitOne(timeout);
         }
 
+        /// <summary>
+        /// Implicit conversion operator.
+        /// </summary>
         public static implicit operator bool
             (
                 [NotNull] BusyState state
@@ -221,6 +224,9 @@ namespace AM.Threading
             return state.Busy;
         }
 
+        /// <summary>
+        /// Implicit conversion operator.
+        /// </summary>
         public static implicit operator BusyState
             (
                 bool value

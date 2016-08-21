@@ -19,7 +19,7 @@ using JetBrains.Annotations;
 namespace AM
 {
     /// <summary>
-    /// Class NumericUtility.
+    /// Helper methods for numeric values.
     /// </summary>
     [PublicAPI]
     public static class NumericUtility
@@ -129,6 +129,12 @@ namespace AM
             return value.ToString(CultureInfo.InvariantCulture);
         }
 
+        /// <summary>
+        /// Convert to <see cref="System.String"/>
+        /// using <see cref="CultureInfo.InvariantCulture"/>.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static string ToInvariantString
             (
                 this char value

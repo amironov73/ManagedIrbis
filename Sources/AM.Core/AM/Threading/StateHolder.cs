@@ -47,6 +47,9 @@ namespace AM.Threading
 
         #region Properties
 
+        /// <summary>
+        /// Allow <c>null</c> values?
+        /// </summary>
         public bool AllowNull { get; set; }
 
         /// <summary>
@@ -55,6 +58,9 @@ namespace AM.Threading
         [NotNull]
         public WaitHandle WaitHandle { get { return _waitHandle; } }
 
+        /// <summary>
+        /// Value itself.
+        /// </summary>
         public T Value
         {
             get { return _value; }
@@ -143,6 +149,9 @@ namespace AM.Threading
             }
         }
 
+        /// <summary>
+        /// Implicit conversion operator.
+        /// </summary>
         public static implicit operator T
             (
                 [NotNull] StateHolder<T> holder
@@ -151,6 +160,9 @@ namespace AM.Threading
             return holder.Value;
         }
 
+        /// <summary>
+        /// Implicit conversion operator.
+        /// </summary>
         public static implicit operator StateHolder<T>
             (
                 T value

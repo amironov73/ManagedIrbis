@@ -155,6 +155,9 @@ namespace AM.Caching
 
         #region AbstractCache members
 
+        /// <summary>
+        /// Add or update item with given key.
+        /// </summary>
         public override AbstractCache<TKey, TValue> Add
             (
                 TKey key,
@@ -172,6 +175,9 @@ namespace AM.Caching
             return this;
         }
 
+        /// <summary>
+        /// Adds or update item in async way.
+        /// </summary>
         public Task AddAsync
             (
                 TKey key,
@@ -184,6 +190,9 @@ namespace AM.Caching
                 );
         }
 
+        /// <summary>
+        /// Clear.
+        /// </summary>
         public override void Clear()
         {
             foreach (string item in _dictionary.Values)
@@ -194,6 +203,9 @@ namespace AM.Caching
             _dictionary.Clear();
         }
 
+        /// <summary>
+        /// Clear in the async way.
+        /// </summary>
         public Task ClearAsync()
         {
             return Task.Factory.StartNew
@@ -205,6 +217,9 @@ namespace AM.Caching
                 );
         }
 
+        /// <summary>
+        /// Contains given key?
+        /// </summary>
         public override bool ContainsKey
             (
                 TKey key
@@ -214,6 +229,9 @@ namespace AM.Caching
             return _dictionary.TryGetValue(key, out itemName);
         }
 
+        /// <summary>
+        /// Get item for given key.
+        /// </summary>
         public override TValue Get
             (
                 TKey key
@@ -232,6 +250,9 @@ namespace AM.Caching
             return result;
         }
 
+        /// <summary>
+        /// Remove item for specified key.
+        /// </summary>
         public override void Remove
             (
                 TKey key
@@ -251,6 +272,11 @@ namespace AM.Caching
 
         #region IDisposable members
 
+        /// <summary>
+        /// Performs application-defined tasks associated
+        /// with freeing, releasing, or resetting
+        /// unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             Clear();

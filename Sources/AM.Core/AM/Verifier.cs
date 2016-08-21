@@ -58,6 +58,9 @@ namespace AM
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public Verifier
             (
                 [NotNull] T target,

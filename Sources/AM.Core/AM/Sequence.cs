@@ -300,6 +300,10 @@ namespace AM
             }
         }
 
+        /// <summary>
+        /// Slice the sequence to pieces
+        /// with given size.
+        /// </summary>
         [NotNull]
         public static IEnumerable<T[]> Slice<T>
             (

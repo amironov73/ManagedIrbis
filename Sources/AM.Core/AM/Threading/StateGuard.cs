@@ -54,6 +54,9 @@ namespace AM.Threading
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public StateGuard
             (
                 [NotNull] StateHolder<T> state
