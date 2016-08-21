@@ -100,6 +100,7 @@ namespace AM.Collections
             return result;
         }
 
+        /// <summary>
         /// Merges the specified dictionaries.
         /// </summary>
         /// <param name="dictionaries">Dictionaries to merge.</param>
