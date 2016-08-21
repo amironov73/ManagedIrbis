@@ -41,6 +41,9 @@ namespace AM.Text.Tokenizer
         {
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public TokenizerException
             (
                 [CanBeNull] string message, 

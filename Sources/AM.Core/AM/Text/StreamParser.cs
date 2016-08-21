@@ -147,6 +147,10 @@ namespace AM.Text
 
         #region Public methods
 
+        /// <summary>
+        /// Construct the <see cref="StreamParser"/>
+        /// from the local text file.
+        /// </summary>
         [NotNull]
         public static StreamParser FromFile
             (
@@ -175,6 +179,10 @@ namespace AM.Text
             return result;
         }
 
+        /// <summary>
+        /// Construct the <see cref="StreamParser"/>
+        /// from the given text.
+        /// </summary>
         [NotNull]
         public static StreamParser FromString
             (

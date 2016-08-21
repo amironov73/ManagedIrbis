@@ -49,6 +49,9 @@ namespace AM.Text.Ranges
 
         #region Properties
 
+        /// <summary>
+        /// Gets the collection item count.
+        /// </summary>
         public int Count { get { return _items.Count; } }
 
         /// <summary>
@@ -314,6 +317,10 @@ namespace AM.Text.Ranges
             return GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through
+        /// the collection.
+        /// </summary>
         public IEnumerator<NumberText> GetEnumerator()
         {
             foreach (NumberRange range in _items)

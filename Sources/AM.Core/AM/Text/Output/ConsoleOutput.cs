@@ -31,8 +31,16 @@ namespace AM.Text.Output
     {
         #region AbstractOutput members
 
+        /// <summary>
+        /// Флаг: был ли вывод с помощью WriteError.
+        /// </summary>
         public override bool HaveError { get; set; }
 
+        /// <summary>
+        /// Очищает вывод, например, окно.
+        /// Надо переопределить в потомке.
+        /// </summary>
+        /// <returns>AbstractOutput.</returns>
         public override AbstractOutput Clear()
         {
             HaveError = false;
@@ -40,6 +48,10 @@ namespace AM.Text.Output
             return this;
         }
 
+        /// <summary>
+        /// Конфигурирование объекта.
+        /// Надо переопределить в потомке.
+        /// </summary>
         public override AbstractOutput Configure
             (
                 string configuration
@@ -49,6 +61,10 @@ namespace AM.Text.Output
             return this;
         }
 
+        /// <summary>
+        /// Метод, который нужно переопределить
+        /// в потомке.
+        /// </summary>
         public override AbstractOutput Write
             (
                 string text
@@ -58,6 +74,10 @@ namespace AM.Text.Output
             return this;
         }
 
+        /// <summary>
+        /// Выводит ошибку. Например, красным цветом.
+        /// Надо переопределить в потомке.
+        /// </summary>
         public override AbstractOutput WriteError
             (
                 string text

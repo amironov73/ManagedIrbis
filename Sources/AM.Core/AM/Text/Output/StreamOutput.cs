@@ -93,6 +93,11 @@ namespace AM.Text.Output
         /// Флаг: был ли вывод с помощью WriteError.
         /// </summary>
         public override bool HaveError { get; set; }
+
+        /// <summary>
+        /// Очищает вывод, например, окно.
+        /// Надо переопределить в потомке.
+        /// </summary>
         public override AbstractOutput Clear()
         {
             HaveError = false;

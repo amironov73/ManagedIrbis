@@ -58,6 +58,9 @@ namespace AM.Text.Tokenizer
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public StringTokenizer
             (
                 [NotNull] string text
@@ -349,6 +352,9 @@ namespace AM.Text.Tokenizer
             return result;
         }
 
+        /// <summary>
+        /// Get the next token.
+        /// </summary>
         [NotNull]
         public Token NextToken()
         {
@@ -414,6 +420,10 @@ namespace AM.Text.Tokenizer
             return GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through
+        /// the collection.
+        /// </summary>
         public IEnumerator<Token> GetEnumerator()
         {
             while (true)

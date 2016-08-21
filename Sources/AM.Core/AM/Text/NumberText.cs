@@ -214,6 +214,9 @@ namespace AM.Text
 
         #region Properties
 
+        /// <summary>
+        /// Default index.
+        /// </summary>
         public static int DefaultIndex;
 
         /// <summary>
@@ -240,6 +243,9 @@ namespace AM.Text
             get { return _chunks.Count; }
         }
 
+        /// <summary>
+        /// Contains only text (prefix)?
+        /// </summary>
         public bool TextOnly
         {
             get
@@ -250,6 +256,9 @@ namespace AM.Text
             }
         }
 
+        /// <summary>
+        /// Contains only numeric value?
+        /// </summary>
         public bool ValueOnly
         {
             get
@@ -264,11 +273,17 @@ namespace AM.Text
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public NumberText()
         {
             _chunks = new LinkedList<Chunk>();
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public NumberText
             (
                 string text
@@ -310,6 +325,9 @@ namespace AM.Text
 
         #region Public methods
 
+        /// <summary>
+        /// Appends the chunk.
+        /// </summary>
         [NotNull]
         public NumberText AppendChunk
             (
@@ -382,6 +400,9 @@ namespace AM.Text
             return result;
         }
 
+        /// <summary>
+        /// Gets the difference.
+        /// </summary>
         public long GetDifference
             (
                 NumberText other
@@ -390,6 +411,9 @@ namespace AM.Text
             return GetValue(0) - other.GetValue(0);
         }
 
+        /// <summary>
+        /// Gets the length.
+        /// </summary>
         public int GetLength
             (
                 int index
@@ -403,6 +427,9 @@ namespace AM.Text
                     : 0;
         }
 
+        /// <summary>
+        /// Gets the prefix.
+        /// </summary>
         public string GetPrefix
             (
                 int index
@@ -414,6 +441,9 @@ namespace AM.Text
                 : chunk.Prefix;
         }
 
+        /// <summary>
+        /// Gets the numeric value.
+        /// </summary>
         public long GetValue
             (
                 int index
@@ -427,6 +457,9 @@ namespace AM.Text
                   : 0;
         }
 
+        /// <summary>
+        /// Do we have the chunk with the given index?
+        /// </summary>
         public bool HaveChunk
             (
                 int index
@@ -435,6 +468,10 @@ namespace AM.Text
             return (this[index] != null);
         }
 
+        /// <summary>
+        /// Do we have the prefix in the chunk
+        /// with the given index?
+        /// </summary>
         public bool HavePrefix
             (
                 int index
@@ -444,6 +481,10 @@ namespace AM.Text
             return (chunk != null) && chunk.HavePrefix;
         }
 
+        /// <summary>
+        /// Do we have numeric value in the chunk
+        /// with the given index?
+        /// </summary>
         public bool HaveValue
             (
                 int index
@@ -480,6 +521,10 @@ namespace AM.Text
                 );
         }
 
+        /// <summary>
+        /// Increments numeric value in the chunk with
+        /// the specified index.
+        /// </summary>
         public NumberText Increment
             (
                 int index,
@@ -495,6 +540,10 @@ namespace AM.Text
             return this;
         }
 
+        /// <summary>
+        /// Increments numeric value in the chunk with
+        /// the specified index.
+        /// </summary>
         public NumberText Increment
             (
                 int index,
@@ -510,6 +559,9 @@ namespace AM.Text
             return this;
         }
 
+        /// <summary>
+        /// Parse the specified text.
+        /// </summary>
         public void Parse
             (
                 string text
@@ -567,6 +619,9 @@ namespace AM.Text
             }
         }
 
+        /// <summary>
+        /// Parses the specified tex for ranges.
+        /// </summary>
         public static IEnumerable<NumberText> ParseRanges
             (
                 string text
@@ -685,6 +740,9 @@ namespace AM.Text
             }
         }
 
+        /// <summary>
+        /// Remove the chunk with the specified index.
+        /// </summary>
         public NumberText RemoveChunk
             (
                 int index
@@ -698,6 +756,10 @@ namespace AM.Text
             return this;
         }
 
+        /// <summary>
+        /// Set length for text conversion of
+        /// numeric value in the specified chunk.
+        /// </summary>
         public NumberText SetLength
             (
                 int index,
@@ -712,6 +774,9 @@ namespace AM.Text
             return this;
         }
 
+        /// <summary>
+        /// Set the prefix for the specified chunk.
+        /// </summary>
         public NumberText SetPrefix
             (
                 int index,
@@ -726,6 +791,9 @@ namespace AM.Text
             return this;
         }
 
+        /// <summary>
+        /// Set the numeric value for the specified chunk.
+        /// </summary>
         public NumberText SetValue
             (
                 int index,
@@ -741,6 +809,9 @@ namespace AM.Text
             return this;
         }
 
+        /// <summary>
+        /// Verify the object state.
+        /// </summary>
         public NumberText Verify()
         {
             for (
@@ -770,6 +841,9 @@ namespace AM.Text
             return this;
         }
 
+        /// <summary>
+        /// Soft given text lines.
+        /// </summary>
         public static IEnumerable<string> Sort
             (
                 IEnumerable<string> lines
@@ -784,6 +858,9 @@ namespace AM.Text
             return result.Select(item => item.ToString());
         }
 
+        /// <summary>
+        /// Soft given numbers.
+        /// </summary>
         public static IEnumerable<NumberText> Sort
             (
                 IEnumerable<NumberText> numbers
@@ -794,6 +871,9 @@ namespace AM.Text
             return result;
         }
 
+        /// <summary>
+        /// Implicit conversion operator.
+        /// </summary>
         public static implicit operator NumberText
             (
                 string text
@@ -809,6 +889,24 @@ namespace AM.Text
 
         #region Comparison
 
+        /// <summary>
+        /// Compares the current instance with another
+        /// object of the same type and returns an integer
+        /// that indicates whether the current instance
+        /// precedes, follows, or occurs in the same position
+        /// in the sort order as the other object.
+        /// </summary>
+        /// <param name="other">An object to compare with
+        /// this instance.</param>
+        /// <returns>A value that indicates the relative
+        /// order of the objects being compared. The return
+        /// value has these meanings: Value Meaning
+        /// Less than zero This instance precedes
+        /// <paramref name="other" /> in the sort order.
+        /// Zero This instance occurs in the same position
+        /// in the sort order as <paramref name="other" />.
+        /// Greater than zero This instance follows
+        /// <paramref name="other" /> in the sort order.</returns>
         public int CompareTo
             (
                 [NotNull] NumberText other
@@ -840,6 +938,9 @@ namespace AM.Text
             return 0;
         }
 
+        /// <summary>
+        /// Compares to the <see cref="System.Int64"/>.
+        /// </summary>
         public int CompareTo
             (
                 long value
@@ -861,6 +962,9 @@ namespace AM.Text
             return Math.Sign(chunk.Value - value);
         }
 
+        /// <summary>
+        /// Compares to the <see cref="System.String"/>.
+        /// </summary>
         public int CompareTo
             (
                 string text
@@ -869,6 +973,9 @@ namespace AM.Text
             return CompareTo(new NumberText(text));
         }
 
+        /// <summary>
+        /// Compares two specified strings.
+        /// </summary>
         public static int Compare
             (
                 string left,
@@ -880,6 +987,9 @@ namespace AM.Text
             return one.CompareTo ( two );
         }
 
+        /// <summary>
+        /// Compute maximal value.
+        /// </summary>
         public static NumberText Max
             (
                 NumberText left,
@@ -891,6 +1001,9 @@ namespace AM.Text
                 : left;
         }
 
+        /// <summary>
+        /// Compute minimal value.
+        /// </summary>
         public static NumberText Min
             (
                 NumberText left,
@@ -902,6 +1015,9 @@ namespace AM.Text
                 : right;
         }
 
+        /// <summary>
+        /// Implements the == operator.
+        /// </summary>
         public static bool operator == 
             (
                 NumberText left, 
@@ -920,6 +1036,9 @@ namespace AM.Text
             return (left.CompareTo(right) == 0);
         }
 
+        /// <summary>
+        /// Implements the == operator.
+        /// </summary>
         public static bool operator ==
             (
                 NumberText left, 
@@ -938,6 +1057,9 @@ namespace AM.Text
             return (left.CompareTo(right) == 0);
         }
 
+        /// <summary>
+        /// Implements the == operator.
+        /// </summary>
         public static bool operator ==
             (
                 NumberText left, 
@@ -952,6 +1074,9 @@ namespace AM.Text
             return (left.CompareTo(right) == 0);
         }
 
+        /// <summary>
+        /// Implements the != operator.
+        /// </summary>
         public static bool operator != 
             (
                 NumberText left, 
@@ -970,6 +1095,9 @@ namespace AM.Text
             return (left.CompareTo(right) != 0);            
         }
 
+        /// <summary>
+        /// Implements the != operator.
+        /// </summary>
         public static bool operator !=
             (
                 NumberText left, 
@@ -988,6 +1116,9 @@ namespace AM.Text
             return (left.CompareTo(right) != 0);
         }
 
+        /// <summary>
+        /// Implements the != operator.
+        /// </summary>
         public static bool operator !=
             (
                 NumberText left, 
@@ -1002,6 +1133,9 @@ namespace AM.Text
             return (left.CompareTo(right) != 0);
         }
 
+        /// <summary>
+        /// Implements the &lt; operator.
+        /// </summary>
         public static bool operator < 
             (
                 NumberText left, 
@@ -1020,6 +1154,9 @@ namespace AM.Text
             return (left.CompareTo(right) < 0);
         }
 
+        /// <summary>
+        /// Implements the &lt; operator.
+        /// </summary>
         public static bool operator <
             (
                 NumberText left, 
@@ -1038,6 +1175,9 @@ namespace AM.Text
             return (left.CompareTo(right) < 0);
         }
 
+        /// <summary>
+        /// Implements the &lt;= operator.
+        /// </summary>
         public static bool operator <=
             (
                 NumberText left,
@@ -1056,6 +1196,9 @@ namespace AM.Text
             return (left.CompareTo(right) <= 0);
         }
 
+        /// <summary>
+        /// Implements the &lt; operator.
+        /// </summary>
         public static bool operator <
             (
                 NumberText left, 
@@ -1070,6 +1213,9 @@ namespace AM.Text
             return (left.CompareTo(right) < 0);
         }
 
+        /// <summary>
+        /// Implements the &gt; operator.
+        /// </summary>
         public static bool operator >
             (
                 NumberText left, 
@@ -1088,6 +1234,9 @@ namespace AM.Text
             return (left.CompareTo(right) > 0);
         }
 
+        /// <summary>
+        /// Implements the &gt; operator.
+        /// </summary>
         public static bool operator >
             (
                 NumberText left, 
@@ -1106,6 +1255,9 @@ namespace AM.Text
             return (left.CompareTo(right) > 0);
         }
 
+        /// <summary>
+        /// Implements the &gt; operator.
+        /// </summary>
         public static bool operator >
             (
                 NumberText left, 
@@ -1120,6 +1272,9 @@ namespace AM.Text
             return (left.CompareTo(right) > 0);
         }
 
+        /// <summary>
+        /// Implements the &gt;= operator.
+        /// </summary>
         public static bool operator >=
             (
                 NumberText left,
@@ -1138,6 +1293,15 @@ namespace AM.Text
             return (left.CompareTo(right) >= 0);
         }
 
+        /// <summary>
+        /// Indicates whether the current object is equal
+        /// to another object of the same type.
+        /// </summary>
+        /// <param name="other">An object to compare with
+        /// this object.</param>
+        /// <returns>true if the current object is equal
+        /// to the <paramref name="other" /> parameter;
+        /// otherwise, false.</returns>
         public bool Equals
             (
                 NumberText other
@@ -1150,6 +1314,16 @@ namespace AM.Text
             return (CompareTo(other) == 0);
         }
 
+        /// <summary>
+        /// Determines whether the specified
+        /// <see cref="System.Object" /> is equal to this
+        /// instance.
+        /// </summary>
+        /// <param name="obj">The object to compare with
+        /// the current object.</param>
+        /// <returns><c>true</c> if the specified
+        /// <see cref="System.Object" /> is equal to this
+        /// instance; otherwise, <c>false</c>.</returns>
         public override bool Equals
             (
                 object obj
@@ -1160,6 +1334,12 @@ namespace AM.Text
             return obj is NumberText && Equals((NumberText)obj);
         }
 
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>A hash code for this instance,
+        /// suitable for use in hashing algorithms and data
+        /// structures like a hash table.</returns>
         public override int GetHashCode()
         {
             return (_chunks != null ? _chunks.GetHashCode() : 0);
@@ -1169,6 +1349,9 @@ namespace AM.Text
 
         #region Arithmetics
 
+        /// <summary>
+        /// Implements the + operator.
+        /// </summary>
         [NotNull]
         public static NumberText operator +
             (
@@ -1179,6 +1362,9 @@ namespace AM.Text
             return left.Clone().Increment(right);
         }
 
+        /// <summary>
+        /// Implements the - operator.
+        /// </summary>
         public static long operator -
             (
                 [NotNull] NumberText left,
@@ -1197,6 +1383,12 @@ namespace AM.Text
             return GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through
+        /// the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used
+        /// to iterate through the collection.</returns>
         public IEnumerator<string> GetEnumerator()
         {
             foreach (Chunk chunk in _chunks)
@@ -1274,6 +1466,12 @@ namespace AM.Text
 
         #region Object members
 
+        /// <summary>
+        /// Returns a <see cref="System.String" />
+        /// that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" />
+        /// that represents this instance.</returns>
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();

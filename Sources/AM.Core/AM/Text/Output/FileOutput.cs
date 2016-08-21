@@ -178,24 +178,42 @@ namespace AM.Text.Output
 
         #region AbstractOutput members
 
+        /// <summary>
+        /// Флаг: был ли вывод с помощью WriteError.
+        /// </summary>
         public override bool HaveError { get; set; }
 
+        /// <summary>
+        /// Очищает вывод, например, окно.
+        /// Надо переопределить в потомке.
+        /// </summary>
         public override AbstractOutput Clear()
         {
             // TODO: implement properly
+
             return this;
         }
 
+        /// <summary>
+        /// Конфигурирование объекта.
+        /// Надо переопределить в потомке.
+        /// </summary>
         public override AbstractOutput Configure
             (
                 string configuration
             )
         {
             // TODO: implement properly
+
             Open(configuration);
+
             return this;
         }
 
+        /// <summary>
+        /// Метод, который нужно переопределить
+        /// в потомке.
+        /// </summary>
         public override AbstractOutput Write
             (
                 string text
@@ -206,9 +224,14 @@ namespace AM.Text.Output
                 _writer.Write(text);
                 _writer.Flush();
             }
+
             return this;
         }
 
+        /// <summary>
+        /// Выводит ошибку. Например, красным цветом.
+        /// Надо переопределить в потомке.
+        /// </summary>
         public override AbstractOutput WriteError
             (
                 string text
@@ -220,6 +243,7 @@ namespace AM.Text.Output
                 _writer.Write(text);
                 _writer.Flush();
             }
+
             return this;
         }
 
@@ -227,6 +251,9 @@ namespace AM.Text.Output
 
         #region IDisposable members
 
+        /// <summary>
+        /// Disposes this instance.
+        /// </summary>
         public override void Dispose()
         {
             if (_writer != null)

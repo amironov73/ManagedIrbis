@@ -85,7 +85,15 @@ namespace AM.Text.Output
 
         #region AbstractOutput members
 
+        /// <summary>
+        /// Флаг: был ли вывод с помощью WriteError.
+        /// </summary>
         public override bool HaveError { get; set; }
+
+        /// <summary>
+        /// Очищает вывод, например, окно.
+        /// Надо переопределить в потомке.
+        /// </summary>
         public override AbstractOutput Clear()
         {
             InnerOutput.Clear();
@@ -93,16 +101,23 @@ namespace AM.Text.Output
             return this;
         }
 
+        /// <summary>
+        /// Configures the specified configuration.
+        /// </summary>
         public override AbstractOutput Configure
-            (
-                string configuration
-            )
+                    (
+                        string configuration
+                    )
         {
             InnerOutput.Configure(configuration);
 
             return this;
         }
 
+        /// <summary>
+        /// Метод, который нужно переопределить
+        /// в потомке.
+        /// </summary>
         public override AbstractOutput Write
             (
                 string text
@@ -114,6 +129,10 @@ namespace AM.Text.Output
             return this;
         }
 
+        /// <summary>
+        /// Выводит ошибку. Например, красным цветом.
+        /// Надо переопределить в потомке.
+        /// </summary>
         public override AbstractOutput WriteError
             (
                 string text

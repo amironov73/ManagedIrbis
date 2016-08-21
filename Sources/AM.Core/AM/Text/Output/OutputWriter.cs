@@ -43,6 +43,9 @@ namespace AM.Text.Output
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public OutputWriter
             (
                 [NotNull] AbstractOutput output

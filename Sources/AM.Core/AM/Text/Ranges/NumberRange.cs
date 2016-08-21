@@ -280,6 +280,10 @@ namespace AM.Text.Ranges
             return GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through
+        /// the collection.
+        /// </summary>
         public IEnumerator<NumberText> GetEnumerator()
         {
             if (ReferenceEquals(Start, null))

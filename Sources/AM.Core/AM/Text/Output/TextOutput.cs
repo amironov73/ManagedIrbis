@@ -31,6 +31,10 @@ namespace AM.Text.Output
 
         #region Construction
 
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="TextOutput"/> class.
+        /// </summary>
         public TextOutput()
         {
             _builder = new StringBuilder();
@@ -81,6 +85,10 @@ namespace AM.Text.Output
             return this;
         }
 
+        /// <summary>
+        /// Метод, который нужно переопределить
+        /// в потомке.
+        /// </summary>
         public override AbstractOutput Write
             (
                 string text
@@ -94,6 +102,10 @@ namespace AM.Text.Output
             return this;
         }
 
+        /// <summary>
+        /// Выводит ошибку. Например, красным цветом.
+        /// Надо переопределить в потомке.
+        /// </summary>
         public override AbstractOutput WriteError
             (
                 string text
