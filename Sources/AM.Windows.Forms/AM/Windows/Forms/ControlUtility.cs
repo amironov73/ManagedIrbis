@@ -6,22 +6,12 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -61,12 +51,22 @@ namespace AM.Windows.Forms
                 return;
             }
 
+            int counter = 0;
+
             // When the form, thus the control, isn't visible yet,
             // InvokeRequired returns false, resulting still
             // in a cross-thread exception.
-            while (!control.Visible)
+            while (!control.Visible
+                && counter < 20)
             {
                 Thread.Sleep(50);
+                counter++;
+            }
+
+            if (!control.Visible
+                && counter >= 20)
+            {
+                return;
             }
 
             if (control.InvokeRequired)
