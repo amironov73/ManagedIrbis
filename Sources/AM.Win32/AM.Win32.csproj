@@ -43,9 +43,6 @@
   <Choose>
     <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
       <ItemGroup>
-        <Reference Include="BLToolkit">
-          <HintPath>..\Libs\net35\BLToolkit.3.dll</HintPath>
-        </Reference>
         <Reference Include="MoonSharp.Interpreter">
           <HintPath>..\Libs\net35\MoonSharp.Interpreter.dll</HintPath>
         </Reference>
@@ -60,9 +57,6 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="BLToolkit">
-          <HintPath>..\Libs\net40\BLToolkit.4.dll</HintPath>
-        </Reference>
         <Reference Include="MoonSharp.Interpreter">
           <HintPath>..\Libs\net40\MoonSharp.Interpreter.dll</HintPath>
         </Reference>
@@ -74,9 +68,6 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.5' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="BLToolkit">
-          <HintPath>..\Libs\net40\BLToolkit.4.dll</HintPath>
-        </Reference>
         <Reference Include="MoonSharp.Interpreter">
           <HintPath>..\Libs\net45\MoonSharp.Interpreter.dll</HintPath>
         </Reference>
@@ -88,9 +79,6 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.5.1' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="BLToolkit">
-          <HintPath>..\Libs\net40\BLToolkit.4.dll</HintPath>
-        </Reference>
         <Reference Include="MoonSharp.Interpreter">
           <HintPath>..\Libs\net45\MoonSharp.Interpreter.dll</HintPath>
         </Reference>
@@ -102,9 +90,6 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.5.2' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="BLToolkit">
-          <HintPath>..\Libs\net40\BLToolkit.4.dll</HintPath>
-        </Reference>
         <Reference Include="MoonSharp.Interpreter">
           <HintPath>..\Libs\net45\MoonSharp.Interpreter.dll</HintPath>
         </Reference>
@@ -116,9 +101,6 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.6' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="BLToolkit">
-          <HintPath>..\Libs\net40\BLToolkit.4.dll</HintPath>
-        </Reference>
         <Reference Include="MoonSharp.Interpreter">
           <HintPath>..\Libs\net45\MoonSharp.Interpreter.dll</HintPath>
         </Reference>
@@ -130,9 +112,6 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.6.1' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="BLToolkit">
-          <HintPath>..\Libs\net40\BLToolkit.4.dll</HintPath>
-        </Reference>
         <Reference Include="MoonSharp.Interpreter">
           <HintPath>..\Libs\net45\MoonSharp.Interpreter.dll</HintPath>
         </Reference>

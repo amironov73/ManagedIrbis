@@ -4,8 +4,6 @@
  * Status: poor
  */
 
-#if NETCORE
-
 #region Using directives
 
 using System;
@@ -47,4 +45,3 @@ namespace BLToolkit.Mapping
     }
 }
 
-#endif
