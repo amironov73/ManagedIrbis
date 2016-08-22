@@ -3,6 +3,14 @@
 SET BIN=..\Binaries
 SET BUILD=Debug
 
+FOR %%P IN (JetBrains.Annotations,MoonSharp.Interpreter,Newtonsoft.Json) DO (
+  FOR %%B IN (35,40,45,451,46,461) DO (
+    DEL %BIN%\%BUILD%%%B\%%P.* > nul 2> nul
+  )
+)
+
+DEL %BIN%\%BUILD%35\System.Threading.* > nul 2> nul
+
 del /q *.nupkg > nul 2> nul
 
 if not exist lib mkdir lib   > nul 2> nul

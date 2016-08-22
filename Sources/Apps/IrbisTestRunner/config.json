@@ -8,7 +8,6 @@
     "resultPath": "C:\\Projects\\ManagedClient.45\\Sources\\Apps\\IrbisTestRunner\\Results",
     "references": [
         "AM.Core.dll",
-        "Antlr4.Runtime.net45.dll",
         "JetBrains.Annotations.dll",
         "ManagedIrbis.dll",
         "Microsoft.CSharp.dll",
