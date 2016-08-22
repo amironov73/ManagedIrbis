@@ -10,8 +10,19 @@ using System;
 
 #endregion
 
+namespace BLToolkit
+{
+    /// <summary>
+    /// For compatibility only.
+    /// </summary>
+    public class DummyClass {}
+}
+
 namespace BLToolkit.DataAccess
 {
+    /// <summary>
+    /// For compatibility only.
+    /// </summary>
     public class BLToolkitDummyClass
     {
     }
@@ -19,26 +30,44 @@ namespace BLToolkit.DataAccess
 
 namespace BLToolkit.Mapping
 {
+    /// <summary>
+    /// For compatibility only.
+    /// </summary>
     public class TableNameAttribute
         : Attribute
     {
+        /// <summary>
+        /// For compatibility only.
+        /// </summary>
         public TableNameAttribute(string name)
         {
         }
     }
 
+    /// <summary>
+    /// For compatibility only.
+    /// </summary>
     public class MapIgnoreAttribute
         : Attribute
     {
     }
 
+    /// <summary>
+    /// For compatibility only.
+    /// </summary>
     public class MapFieldAttribute
         : Attribute
     {
+        /// <summary>
+        /// For compatibility only.
+        /// </summary>
         public MapFieldAttribute()
         {
         }
 
+        /// <summary>
+        /// For compatibility only.
+        /// </summary>
         public MapFieldAttribute(string name)
         {
         }

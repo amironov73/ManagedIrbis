@@ -14,6 +14,9 @@ nuget:
   account_feed: false
   project_feed: false
 
+before_build:
+- cmd: nuget restore Sources\ManagedIrbis.sln
+
 build:
   project: Sources\ManagedIrbis.sln
   publish_nuget: false

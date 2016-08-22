@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>ManagedIrbis</id>
-    <version>1.6.0.200</version>
+    <version>1.6.2.300</version>
     <title>Managed framework for Irbis64</title>
     <authors>Mironov Alexey</authors>
     <owners></owners>
@@ -22,6 +22,7 @@
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
     <copyright>Copyright Alexey Mironov 2013-2016</copyright>
     <dependencies>
+        <dependency id="JetBrains.Annotations" version="10.1.5" />
     </dependencies>
     <references></references>
     <tags></tags>
