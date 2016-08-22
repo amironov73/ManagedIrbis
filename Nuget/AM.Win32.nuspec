@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>ManagedIrbis</id>
+    <id>ArsMagna.Win32</id>
     <version>1.6.2.300</version>
-    <title>Managed framework for Irbis64</title>
+    <title>ArsMagna Irbis UI services</title>
     <authors>Mironov Alexey</authors>
     <owners></owners>
     <description>
-      Fully managed framework for popular russian library automation system IRBIS64.
+      ArsMagna Win32 services
     </description>
     <releaseNotes>
       Now supports NET 3.5/4.0/4.5/4.5.1/4.6/4.6.1
@@ -29,7 +29,9 @@
         <dependency id="JetBrains.Annotations" version="10.1.5" />
         <dependency id="MoonSharp" version="1.6.0.0" />
         <dependency id="Newtonsoft.Json" version="9.0.1" />
-        <dependency id="ManagedIrbis" />
+        <dependency id="AM.Core" />
+        <dependency id="AM.Drawing" />
+        <dependency id="AM.Windows.Forms" />
       </group>
     </dependencies>
     <references></references>

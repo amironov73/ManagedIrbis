@@ -3,38 +3,44 @@
 SET BIN=..\Binaries
 SET BUILD=Debug
 
-FOR %%P IN (JetBrains.Annotations,MoonSharp.Interpreter,Newtonsoft.Json) DO (
-  FOR %%B IN (35,40,45,451,46,461) DO (
-    DEL %BIN%\%BUILD%%%B\%%P.* > nul 2> nul
-  )
-)
+DEL /q *.nupkg > nul 2> nul
 
-DEL %BIN%\%BUILD%35\System.Threading.* > nul 2> nul
+IF not exist lib mkdir lib   > nul 2> nul
+IF not exist tools mkdir tools > nul 2> nul
 
-del /q *.nupkg > nul 2> nul
+CALL :BUILD AM.Core
+CALL :BUILD ManagedIrbis
+CALL :BUILD AM.Drawing
+CALL :BUILD AM.Rfid
+CALL :BUILD AM.Windows.Forms
+CALL :BUILD AM.Win32
+CALL :BUILD IrbisUI
 
-if not exist lib mkdir lib   > nul 2> nul
-if not exist tools mkdir tools > nul 2> nul
+GOTO :END
+
+:BUILD
+ECHO BUILD %1
 
 cd lib
 
-if not exist net35  mkdir net35  > nul 2> nul
-if not exist net40  mkdir net40  > nul 2> nul
-if not exist net45  mkdir net45  > nul 2> nul
-if not exist net451 mkdir net451 > nul 2> nul
-if not exist net46  mkdir net46  > nul 2> nul
-if not exist net461 mkdir net461 > nul 2> nul
+IF not exist net35  mkdir net35  > nul 2> nul
+IF not exist net40  mkdir net40  > nul 2> nul
+IF not exist net45  mkdir net45  > nul 2> nul
 
 del /s /q *.* > nul 2> nul
 cd ..
 
-copy %BIN%\%BUILD%35 lib\net35\  > nul
-copy %BIN%\%BUILD%40 lib\net40\  > nul
-copy %BIN%\%BUILD%45 lib\net45\  > nul
-copy %BIN%\%BUILD%45 lib\net451\ > nul
-copy %BIN%\%BUILD%45 lib\net46\  > nul
-copy %BIN%\%BUILD%45 lib\net461\ > nul
+copy %BIN%\%BUILD%35\%1.* lib\net35\  > nul
+copy %BIN%\%BUILD%40\%1.* lib\net40\  > nul
+copy %BIN%\%BUILD%45\%1.* lib\net45\  > nul
 
-PatchNugetVersion.exe %BIN%\%BUILD%40\AM.Core.dll ManagedIrbis.nuspec
+PatchNugetVersion.exe %BIN%\%BUILD%40\AM.Core.dll %1.nuspec
 
-nuget.exe pack
+nuget.exe pack %1.nuspec
+
+echo.
+
+GOTO :END
+
+:END
+
