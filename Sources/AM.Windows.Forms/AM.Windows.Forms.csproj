@@ -160,6 +160,7 @@
   <ItemGroup>
     <Compile Include="AM\Windows\Forms\ApplicationUtility.cs" />
     <Compile Include="AM\Windows\Forms\BottomlessRichTextBox.cs" />
+    <Compile Include="AM\Windows\Forms\Clocks.cs" />
     <Compile Include="AM\Windows\Forms\CollapsibleGroupBox.cs" />
     <Compile Include="AM\Windows\Forms\ColorComboBox.cs" />
     <Compile Include="AM\Windows\Forms\ControlUtility.cs" />
