@@ -1,4 +1,4 @@
-﻿/* ToolStripColorComboBox.cs -- ComboBox that appears in ToolStrip
+﻿/* ToolStripMaskedTextBox.cs -- MaskedTextBox that appears in ToolStrip.
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -18,7 +18,7 @@ using JetBrains.Annotations;
 namespace AM.Windows.Forms
 {
     /// <summary>
-    /// <see cref="T:System.Windows.Forms.ComboBox"/> that
+    /// <see cref="T:System.Windows.Forms.MaskedTextBox"/> that
     /// appears in <see cref="T:System.Windows.Forms.ToolStrip"/>.
     /// </summary>
     [PublicAPI]
@@ -26,24 +26,24 @@ namespace AM.Windows.Forms
     [ToolStripItemDesignerAvailability
         (ToolStripItemDesignerAvailability.ToolStrip
           | ToolStripItemDesignerAvailability.StatusStrip)]
-    public class ToolStripColorComboBox
+    public class ToolStripMaskedTextBox
         : ToolStripControlHost
     {
         #region Properties
 
         /// <summary>
-        /// Gets the color combo box.
+        /// Gets the masked text box.
         /// </summary>
-        /// <value>The color combo box.</value>
-        [NotNull]
+        /// <value>The masked text box.</value>
+        [PublicAPI]
         [DesignerSerializationVisibility
             (DesignerSerializationVisibility.Content)]
-        public ColorComboBox ColorComboBox
+        public MaskedTextBox MaskedTextBox
         {
             [DebuggerStepThrough]
             get
             {
-                return (ColorComboBox) Control;
+                return (MaskedTextBox) Control;
             }
         }
 
@@ -53,10 +53,10 @@ namespace AM.Windows.Forms
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="ToolStripColorComboBox"/> class.
+        /// <see cref="ToolStripMaskedTextBox"/> class.
         /// </summary>
-        public ToolStripColorComboBox()
-            : base(new ColorComboBox())
+        public ToolStripMaskedTextBox()
+            : base(new MaskedTextBox())
         {
         }
 

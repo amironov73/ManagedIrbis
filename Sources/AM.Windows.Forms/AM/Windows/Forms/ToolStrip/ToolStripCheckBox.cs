@@ -37,6 +37,7 @@ namespace AM.Windows.Forms
         /// control.
         /// </summary>
         /// <value>Inner CheckBox control.</value>
+        [NotNull]
         [DesignerSerializationVisibility
             (DesignerSerializationVisibility.Content)]
         public CheckBox CheckBox
@@ -44,7 +45,7 @@ namespace AM.Windows.Forms
             [DebuggerStepThrough]
             get
             {
-                return (Control as CheckBox);
+                return (CheckBox) Control;
             }
         }
 

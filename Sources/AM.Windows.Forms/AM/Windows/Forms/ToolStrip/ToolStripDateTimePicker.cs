@@ -1,4 +1,4 @@
-/* ToolStripDateTimePicker.cs -- DateTimePicker that appears in ToolStrip.
+﻿/* ToolStripDateTimePicker.cs -- DateTimePicker that appears in ToolStrip.
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -35,6 +35,7 @@ namespace AM.Windows.Forms
         /// Gets the date time picker.
         /// </summary>
         /// <value>The date time picker.</value>
+        [NotNull]
         [DesignerSerializationVisibility
             (DesignerSerializationVisibility.Content)]
         public DateTimePicker DateTimePicker
@@ -42,7 +43,7 @@ namespace AM.Windows.Forms
             [DebuggerStepThrough]
             get
             {
-                return (Control as DateTimePicker);
+                return (DateTimePicker) Control;
             }
         }
 
