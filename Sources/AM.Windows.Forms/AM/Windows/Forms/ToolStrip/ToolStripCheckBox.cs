@@ -12,6 +12,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
+using JetBrains.Annotations;
+
 #endregion
 
 namespace AM.Windows.Forms
@@ -20,6 +22,7 @@ namespace AM.Windows.Forms
     /// <see cref="T:System.Windows.Forms.CheckBox"/> that
     /// appears in <see cref="T:System.Windows.Forms.ToolStrip"/>.
     /// </summary>
+    [PublicAPI]
     [System.ComponentModel.DesignerCategory("Code")]
     [ToolStripItemDesignerAvailability
         (ToolStripItemDesignerAvailability.ToolStrip
