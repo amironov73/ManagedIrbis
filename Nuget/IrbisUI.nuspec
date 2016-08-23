@@ -29,9 +29,9 @@
         <dependency id="JetBrains.Annotations" version="10.1.5" />
         <dependency id="MoonSharp" version="1.6.0.0" />
         <dependency id="Newtonsoft.Json" version="9.0.1" />
-        <dependency id="AM.Core" />
-        <dependency id="AM.Drawing" />
-        <dependency id="AM.Windows.Forms" />
+        <dependency id="ArsMagna.Core" />
+        <dependency id="ArsMagna.Drawing" />
+        <dependency id="ArsMagna.Windows.Forms" />
       </group>
     </dependencies>
     <references></references>
