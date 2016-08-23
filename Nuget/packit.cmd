@@ -5,8 +5,9 @@ SET BUILD=Debug
 
 DEL /q *.nupkg > nul 2> nul
 
-IF not exist lib mkdir lib   > nul 2> nul
-IF not exist tools mkdir tools > nul 2> nul
+IF not exist content mkdir content > nul 2> nul
+IF not exist lib     mkdir lib     > nul 2> nul
+IF not exist tools   mkdir tools   > nul 2> nul
 
 CALL :BUILD AM.Core            core
 CALL :BUILD ManagedIrbis       core
