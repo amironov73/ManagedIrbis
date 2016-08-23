@@ -107,6 +107,9 @@
     <Compile Include="AM\Windows\Forms\CollapsibleGroupBox.cs" />
     <Compile Include="AM\Windows\Forms\ColorComboBox.cs" />
     <Compile Include="AM\Windows\Forms\ControlUtility.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewCalendarCell.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewCalendarColumn.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewCalendarEditingControl.cs" />
     <Compile Include="AM\Windows\Forms\EnumComboBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumListBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumTypeConverter.cs" />
@@ -185,6 +188,7 @@
       <DependentUpon>ToolStripCustomizationForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
