@@ -140,6 +140,7 @@
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripDateTimePicker.cs" />
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripMaskedTextBox.cs" />
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripNumericUpDown.cs" />
+    <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripTrackBar.cs" />
     <Compile Include="AM\Windows\Forms\WindowPlacement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
