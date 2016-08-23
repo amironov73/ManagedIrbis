@@ -137,6 +137,13 @@
     <Compile Include="AM\Windows\Forms\TextBoxWriter.cs" />
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripCheckBox.cs" />
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripColorComboBox.cs" />
+    <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripCustomizationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripCustomizationForm.Designer.cs">
+      <DependentUpon>ToolStripCustomizationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripCustomizer.cs" />
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripDateTimePicker.cs" />
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripMaskedTextBox.cs" />
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripNumericUpDown.cs" />
@@ -173,6 +180,9 @@
     <EmbeddedResource Include="AM\Windows\Forms\InputBox.resx">
       <DependentUpon>InputBox.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\ToolStrip\ToolStripCustomizationForm.resx">
+      <DependentUpon>ToolStripCustomizationForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
