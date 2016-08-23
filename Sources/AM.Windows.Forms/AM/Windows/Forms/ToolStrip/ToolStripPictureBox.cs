@@ -35,9 +35,9 @@ namespace AM.Windows.Forms
         #region Properties
 
         /// <summary>
-        /// Gets the picture box.
+        /// Gets the PictureBox.
         /// </summary>
-        /// <value>The picture box.</value>
+        [NotNull]
         [DesignerSerializationVisibility
             (DesignerSerializationVisibility.Content)]
         public PictureBox PictureBox
@@ -45,7 +45,7 @@ namespace AM.Windows.Forms
             [DebuggerStepThrough]
             get
             {
-                return (Control as PictureBox);
+                return (PictureBox) Control;
             }
         }
 

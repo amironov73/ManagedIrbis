@@ -32,9 +32,8 @@ namespace AM.Windows.Forms
         #region Properties
 
         /// <summary>
-        /// Gets the date time picker.
+        /// Gets the DateTimePicker.
         /// </summary>
-        /// <value>The date time picker.</value>
         [NotNull]
         [DesignerSerializationVisibility
             (DesignerSerializationVisibility.Content)]

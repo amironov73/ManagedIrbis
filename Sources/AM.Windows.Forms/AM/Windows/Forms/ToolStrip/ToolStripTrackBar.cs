@@ -48,9 +48,9 @@ namespace AM.Windows.Forms
         #region Properties
 
         /// <summary>
-        /// Gets the track bar.
+        /// Gets the TrackBar.
         /// </summary>
-        /// <value>The track bar.</value>
+        [NotNull]
         [DesignerSerializationVisibility
             (DesignerSerializationVisibility.Content)]
         public TrackBar TrackBar
@@ -58,7 +58,7 @@ namespace AM.Windows.Forms
             [DebuggerStepThrough]
             get
             {
-                return (Control as TrackBar);
+                return (TrackBar) Control;
             }
         }
 

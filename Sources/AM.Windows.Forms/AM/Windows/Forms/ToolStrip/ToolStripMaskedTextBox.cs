@@ -32,10 +32,9 @@ namespace AM.Windows.Forms
         #region Properties
 
         /// <summary>
-        /// Gets the masked text box.
+        /// Gets the MaskedTextBox.
         /// </summary>
-        /// <value>The masked text box.</value>
-        [PublicAPI]
+        [NotNull]
         [DesignerSerializationVisibility
             (DesignerSerializationVisibility.Content)]
         public MaskedTextBox MaskedTextBox
@@ -52,8 +51,7 @@ namespace AM.Windows.Forms
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="ToolStripMaskedTextBox"/> class.
+        /// Constructor.
         /// </summary>
         public ToolStripMaskedTextBox()
             : base(new MaskedTextBox())

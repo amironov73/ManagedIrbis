@@ -32,6 +32,7 @@
         <dependency id="ArsMagna.Core" />
         <dependency id="ArsMagna.Drawing" />
         <dependency id="ArsMagna.Windows.Forms" />
+        <dependency id="ManagedIrbis" />
       </group>
     </dependencies>
     <references></references>

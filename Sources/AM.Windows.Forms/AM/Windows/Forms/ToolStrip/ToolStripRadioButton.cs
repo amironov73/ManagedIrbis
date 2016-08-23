@@ -34,9 +34,9 @@ namespace AM.Windows.Forms
         #region Properties
 
         /// <summary>
-        /// Gets the radio button.
+        /// Gets the RadioButton.
         /// </summary>
-        /// <value>The radio button.</value>
+        [NotNull]
         [DesignerSerializationVisibility
             (DesignerSerializationVisibility.Content)]
         public RadioButton RadioButton
@@ -44,7 +44,7 @@ namespace AM.Windows.Forms
             [DebuggerStepThrough]
             get
             {
-                return (Control as RadioButton);
+                return (RadioButton) Control;
             }
         }
 

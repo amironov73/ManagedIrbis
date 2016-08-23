@@ -33,10 +33,8 @@ namespace AM.Windows.Forms
         #region Properties
 
         /// <summary>
-        /// Gets inner <see cref="T:System.Windows.Forms.CheckBox"/> 
-        /// control.
+        /// Gets inner <see cref="CheckBox"/> control.
         /// </summary>
-        /// <value>Inner CheckBox control.</value>
         [NotNull]
         [DesignerSerializationVisibility
             (DesignerSerializationVisibility.Content)]

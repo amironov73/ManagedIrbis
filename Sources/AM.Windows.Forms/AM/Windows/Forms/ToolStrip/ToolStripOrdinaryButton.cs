@@ -1,4 +1,4 @@
-﻿/* ToolStripNumericUpDown.cs -- NumericUpDown that appears in ToolStrip
+﻿/* ToolStripOrdinaryButton.cs -- Button that appears in ToolStrip.
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -11,6 +11,8 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
 #endregion
@@ -18,31 +20,31 @@ using JetBrains.Annotations;
 namespace AM.Windows.Forms
 {
     /// <summary>
-    /// <see cref="T:System.Windows.Forms.NumericUpDown"/> that
+    /// <see cref="T:System.Windows.Forms.Button"/> that
     /// appears in <see cref="T:System.Windows.Forms.ToolStrip"/>.
     /// </summary>
     [PublicAPI]
     [System.ComponentModel.DesignerCategory("Code")]
     [ToolStripItemDesignerAvailability
         (ToolStripItemDesignerAvailability.ToolStrip
-          | ToolStripItemDesignerAvailability.StatusStrip)]
-    public class ToolStripNumericUpDown
+        | ToolStripItemDesignerAvailability.StatusStrip)]
+    public class ToolStripOrdinaryButton
         : ToolStripControlHost
     {
         #region Properties
 
         /// <summary>
-        /// Gets the NumericUpDown.
+        /// Gets the Button.
         /// </summary>
-        [NotNull]
         [DesignerSerializationVisibility
             (DesignerSerializationVisibility.Content)]
-        public NumericUpDown NumericUpDown
+        [NotNull]
+        public Button Button
         {
             [DebuggerStepThrough]
             get
             {
-                return (NumericUpDown) Control;
+                return (Button) Control;
             }
         }
 
@@ -51,11 +53,10 @@ namespace AM.Windows.Forms
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="ToolStripNumericUpDown"/> class.
+        /// Constructor.
         /// </summary>
-        public ToolStripNumericUpDown()
-            : base(new NumericUpDown())
+        public ToolStripOrdinaryButton()
+            : base(new Button())
         {
         }
 

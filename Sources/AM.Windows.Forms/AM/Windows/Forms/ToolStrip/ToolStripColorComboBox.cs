@@ -32,9 +32,8 @@ namespace AM.Windows.Forms
         #region Properties
 
         /// <summary>
-        /// Gets the color combo box.
+        /// Gets the ColorComboBox.
         /// </summary>
-        /// <value>The color combo box.</value>
         [NotNull]
         [DesignerSerializationVisibility
             (DesignerSerializationVisibility.Content)]
