@@ -135,6 +135,9 @@
     <Compile Include="AM\ComponentModel\PropertyChangedUtility.cs" />
     <Compile Include="AM\ConnectionStringParser.cs" />
     <Compile Include="AM\ConsoleUtility.cs" />
+    <Compile Include="AM\Data\DataColumnInfo.cs" />
+    <Compile Include="AM\Data\DataSetInfo.cs" />
+    <Compile Include="AM\Data\DataTableInfo.cs" />
     <Compile Include="AM\DelegateUtility.cs" />
     <Compile Include="AM\Diagnostics\ConsoleProcessRunner.cs" />
     <Compile Include="AM\DisposableObject.cs" />
