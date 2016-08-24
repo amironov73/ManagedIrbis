@@ -115,6 +115,8 @@
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewNumericCell.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewNumericColumn.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewNumericEditingControl.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewProgressCell.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewProgressColumn.cs" />
     <Compile Include="AM\Windows\Forms\EnumComboBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumListBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumTypeConverter.cs" />
