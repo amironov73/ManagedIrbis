@@ -112,6 +112,9 @@
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewCalendarEditingControl.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewColorCell.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewColorColumn.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewNumericCell.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewNumericColumn.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewNumericEditingControl.cs" />
     <Compile Include="AM\Windows\Forms\EnumComboBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumListBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumTypeConverter.cs" />
