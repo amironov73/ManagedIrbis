@@ -38,6 +38,8 @@ copy %BIN%\%BUILD%35\%1.* lib\net35\  > nul
 copy %BIN%\%BUILD%40\%1.* lib\net40\  > nul
 copy %BIN%\%BUILD%45\%1.* lib\net45\  > nul
 
+copy %BIN%\%BUILD%35\System.Threading.* lib\net35\ > nul
+
 IF %2==core copy %BIN%\%BUILD%Core\%1\bin\%BUILD%\netstandard1.6\%1.* lib\netstandard1.0 > nul
 DEL lib\netstandard1.0\*.json > nul 2> nul
 
