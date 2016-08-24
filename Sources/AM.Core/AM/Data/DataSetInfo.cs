@@ -81,6 +81,8 @@ namespace AM.Data
 
         #region Public methods
 
+#if !NETCORE
+
         /// <summary>
         /// Loads <see cref="DataSetInfo"/> from the specified file.
         /// </summary>
@@ -115,6 +117,8 @@ namespace AM.Data
             }
         }
 
-        #endregion
+#endif
+
+#endregion
     }
 }
