@@ -140,12 +140,14 @@
     <Compile Include="AM\Data\DataTableInfo.cs" />
     <Compile Include="AM\DelegateUtility.cs" />
     <Compile Include="AM\Diagnostics\ConsoleProcessRunner.cs" />
+    <Compile Include="AM\Diagnostics\ConsoleTraceListener.cs" />
     <Compile Include="AM\DisposableObject.cs" />
     <Compile Include="AM\DisposableUtility.cs" />
     <Compile Include="AM\ExceptionEventArgs.cs" />
     <Compile Include="AM\FuncUtility.cs" />
     <Compile Include="AM\IO\BinaryReaderUtility.cs" />
     <Compile Include="AM\IO\BinaryWriterUtility.cs" />
+    <Compile Include="AM\IO\CompressionUtility.cs" />
     <Compile Include="AM\IO\DirectoryUtility.cs" />
     <Compile Include="AM\IO\DumpUtility.cs" />
     <Compile Include="AM\IO\IConsoleOutputReceiver.cs" />

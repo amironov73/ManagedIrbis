@@ -124,6 +124,7 @@
     <Compile Include="AM\Globalization\BuiltinCulturesTest.cs" />
     <Compile Include="AM\Globalization\RussianStringComparerTest.cs" />
     <Compile Include="AM\IO\BinaryWriterTest.cs" />
+    <Compile Include="AM\IO\CompressionUtilityTest.cs" />
     <Compile Include="AM\IO\NotifyStreamTest.cs" />
     <Compile Include="AM\IO\MultiStreamTest.cs" />
     <Compile Include="AM\IO\IniFileTest.cs" />
