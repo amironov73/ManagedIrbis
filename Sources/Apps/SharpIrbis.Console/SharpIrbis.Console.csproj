@@ -112,11 +112,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AM.Core\AM.Core.csproj">
+    <ProjectReference Include="..\..\Libs\AM.Core\AM.Core.csproj">
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
       <Name>AM.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\ManagedIrbis\ManagedIrbis.csproj">
+    <ProjectReference Include="..\..\Libs\ManagedIrbis\ManagedIrbis.csproj">
       <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
       <Name>ManagedIrbis</Name>
     </ProjectReference>
