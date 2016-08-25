@@ -11,7 +11,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-
+using AM.IO;
+using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -32,7 +33,8 @@ namespace AM.Collections
     [MoonSharpUserData]
     [DebuggerDisplay("Count = {Count}")]
     public sealed class StringDictionary
-        : Dictionary<string, string>
+        : Dictionary<string, string>,
+        IHandmadeSerializable
     {
         #region Constants
 
@@ -49,11 +51,6 @@ namespace AM.Collections
         /// Loads <see cref="StringDictionary"/> from 
         /// the specified <see cref="StreamReader"/>.
         /// </summary>
-        /// <param name="reader">Stream reader to load from.</param>
-        /// <returns>Loaded <see cref="StringDictionary"/>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="reader"/> is <c>null</c>.
-        /// </exception>
         [NotNull]
         public static StringDictionary Load
             (
@@ -75,19 +72,13 @@ namespace AM.Collections
                 }
                 result.Add(key, value);
             }
+
             return result;
         }
 
         /// <summary>
         /// Loads <see cref="StringDictionary"/> from the specified file.
         /// </summary>
-        /// <param name="fileName">Name of the file.</param>
-        /// <param name="encoding">File encoding.</param>
-        /// <returns>Loaded <see cref="StringDictionary"/>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="fileName"/> is <c>null</c> or empty
-        /// - or - <paramref name="encoding"/> is <c>null</c>.
-        /// </exception>
         [NotNull]
         public static StringDictionary Load
             (
@@ -114,10 +105,6 @@ namespace AM.Collections
         /// <summary>
         /// Saves the <see cref="StringDictionary"/> with specified writer.
         /// </summary>
-        /// <param name="writer">Writer to use during saving.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="writer"/> is <c>null</c>.
-        /// </exception>
         public void Save
             (
                 [NotNull] TextWriter writer
@@ -130,18 +117,13 @@ namespace AM.Collections
                 writer.WriteLine(pair.Key);
                 writer.WriteLine(pair.Value);
             }
+
             writer.WriteLine(EndOfDictionary);
         }
 
         /// <summary>
         /// Saves the <see cref="StringDictionary"/> to specified file.
         /// </summary>
-        /// <param name="fileName">Name of the file.</param>
-        /// <param name="encoding">File encoding.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="fileName"/> is <c>null</c>
-        /// - or - <paramref name="encoding"/> is <c>null</c>.
-        /// </exception>
         public void Save
             (
                 [NotNull] string fileName,
@@ -151,12 +133,53 @@ namespace AM.Collections
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
-            //using (TextWriter writer
-            //    = new StreamWriter(fileName, false, encoding))
             using (TextWriter writer
                 = new StreamWriter(File.Create(fileName), encoding))
             {
                 Save(writer);
+            }
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <summary>
+        /// Restore the object state from the specified stream.
+        /// </summary>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            Clear();
+
+            int count = reader.ReadPackedInt32();
+            for (int i = 0; i < count; i++)
+            {
+                string key = reader.ReadString();
+                string value = reader.ReadNullableString();
+                Add(key, value);
+            }
+        }
+
+        /// <summary>
+        /// Save the object state to the specified stream.
+        /// </summary>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer.WritePackedInt32(Count);
+            foreach (KeyValuePair<string, string> pair in this)
+            {
+                writer.Write(pair.Key);
+                writer.WriteNullable(pair.Value);
             }
         }
 
