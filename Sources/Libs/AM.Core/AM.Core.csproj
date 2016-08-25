@@ -105,6 +105,8 @@
     <Compile Include="AM\Caching\FileCache.cs" />
     <Compile Include="AM\Caching\MemoryCache.cs" />
     <Compile Include="AM\Caching\CacheItem.cs" />
+    <Compile Include="AM\CancelableEventArgs.cs" />
+    <Compile Include="AM\CancelableEventHandler.cs" />
     <Compile Include="AM\CharUtility.cs" />
     <Compile Include="AM\Collections\BidirectionalDictionary.cs" />
     <Compile Include="AM\Collections\BitArrayUtility.cs" />
