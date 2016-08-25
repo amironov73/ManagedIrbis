@@ -4,6 +4,8 @@
  * Status: poor
  */
 
+#if !NETCORE
+
 #region Using directives
 
 using System;
@@ -49,3 +51,5 @@ namespace AM.Diagnostics
         #endregion
     }
 }
+
+#endif

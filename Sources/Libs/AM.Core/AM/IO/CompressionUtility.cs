@@ -68,7 +68,7 @@ namespace AM.IO
             {
                 MemoryStream result = new MemoryStream();
                 StreamUtility.Copy(decompresser, result);
-                decompresser.Close();
+                decompresser.Dispose();
 
                 return result.ToArray();
             }

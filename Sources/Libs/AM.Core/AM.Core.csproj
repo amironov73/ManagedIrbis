@@ -153,6 +153,7 @@
     <Compile Include="AM\IO\IConsoleOutputReceiver.cs" />
     <Compile Include="AM\IO\IniFile.cs" />
     <Compile Include="AM\IO\MultiStream.cs" />
+    <Compile Include="AM\IO\NonCloseableStream.cs" />
     <Compile Include="AM\IO\NotifyStream.cs" />
     <Compile Include="AM\IO\StreamPacker.cs" />
     <Compile Include="AM\IO\TextReaderUtility.cs" />

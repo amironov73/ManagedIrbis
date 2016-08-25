@@ -461,8 +461,8 @@ namespace AM.Runtime
             using (MemoryStream stream = new MemoryStream())
             using (DeflateStream deflate = new DeflateStream
                 (
-                stream,
-                CompressionMode.Compress
+                    stream,
+                    CompressionMode.Compress
                 ))
             {
                 using (BinaryWriter writer = new BinaryWriter(deflate))
@@ -487,8 +487,8 @@ namespace AM.Runtime
             using (MemoryStream stream = new MemoryStream())
             using (DeflateStream deflate = new DeflateStream
                 (
-                stream,
-                CompressionMode.Compress
+                    stream,
+                    CompressionMode.Compress
                 ))
             {
                 using (BinaryWriter writer = new BinaryWriter(deflate))
