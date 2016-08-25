@@ -1,8 +1,10 @@
 ﻿/* ConsoleProcessRunner.cs
  * ArsMagna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
- #if !NETCORE
+#if !NETCORE
 
 #region Using directives
 

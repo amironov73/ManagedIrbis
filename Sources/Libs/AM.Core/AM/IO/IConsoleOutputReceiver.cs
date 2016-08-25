@@ -1,5 +1,7 @@
 ﻿/* IConsoleOutputReceiver.cs -- receives console output
  *  ArsMagna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 namespace AM.IO

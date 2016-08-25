@@ -1,5 +1,7 @@
 ﻿/* IIndexable.cs -- indexable object interface
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

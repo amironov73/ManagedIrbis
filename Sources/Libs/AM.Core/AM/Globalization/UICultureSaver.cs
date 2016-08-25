@@ -1,5 +1,7 @@
 ﻿/* UICultureSaver.cs -- saves and restores current thread UI culture
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

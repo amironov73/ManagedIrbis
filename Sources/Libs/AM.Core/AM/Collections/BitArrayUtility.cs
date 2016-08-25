@@ -1,6 +1,6 @@
 ﻿/* BitArrayUtility.cs -- helper methods for BitArray class
  * Ars Magna project, http://arsmagna.ru
-  * -------------------------------------------------------
+ * -------------------------------------------------------
  * Status: poor
 */
 

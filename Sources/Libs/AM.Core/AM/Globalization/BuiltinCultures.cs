@@ -1,5 +1,7 @@
 ﻿/* BuiltinCultures.cs -- 
  * Ars Magna project, https://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

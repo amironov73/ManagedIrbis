@@ -1,5 +1,7 @@
 ﻿/* DictionaryUtility.cs -- dictionary manipulation helpers
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

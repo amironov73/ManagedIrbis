@@ -1,5 +1,7 @@
 ﻿/* DictionaryCounterInt32.cs -- simple dictionary to count values
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

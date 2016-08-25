@@ -1,5 +1,7 @@
 ﻿/* CultureSaver.cs -- saves and restores current thread culture
  * Ars Magna project, https://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives

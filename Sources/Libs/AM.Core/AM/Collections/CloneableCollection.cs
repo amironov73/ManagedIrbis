@@ -1,5 +1,7 @@
 ﻿/* CloneableCollection.cs -- 
  * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -24,7 +26,9 @@ namespace AM.Collections
     [DebuggerDisplay("Count={Count}")]
     public class CloneableCollection<T>
         : Collection<T>
-        //ICloneable
+#if !NETCORE
+        , ICloneable
+#endif
     {
         #region ICloneable members
 
