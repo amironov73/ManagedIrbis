@@ -147,6 +147,7 @@
     <Compile Include="AM\DisposableUtility.cs" />
     <Compile Include="AM\ExceptionEventArgs.cs" />
     <Compile Include="AM\FuncUtility.cs" />
+    <Compile Include="AM\InquiryEventArgs.cs" />
     <Compile Include="AM\IO\BinaryReaderUtility.cs" />
     <Compile Include="AM\IO\BinaryWriterUtility.cs" />
     <Compile Include="AM\IO\CompressionUtility.cs" />
