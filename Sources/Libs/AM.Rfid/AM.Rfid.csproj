@@ -107,7 +107,12 @@
   <ItemGroup>
     <Content Include="BlueBook.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\AM.Core\AM.Core.csproj">
+      <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
+      <Name>AM.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="ArsMagna.private.snk" />
     <None Include="packages.config" />
