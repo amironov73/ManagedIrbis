@@ -32,7 +32,11 @@ namespace ManagedIrbis.Infrastructure
         /// Connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection { get; protected set; }
+        public IrbisConnection Connection
+        {
+            get;
+            protected internal set;
+        }
 
         #endregion
 

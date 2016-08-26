@@ -9,29 +9,21 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
+using System.Xml.Serialization;
 
 using AM;
-using AM.Collections;
 using AM.IO;
 using AM.Parameters;
 using AM.Runtime;
-using AM.Threading;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Gbl;
-using ManagedIrbis.Infrastructure;
-using ManagedIrbis.Infrastructure.Commands;
-using ManagedIrbis.Infrastructure.Sockets;
-using ManagedIrbis.Search;
-
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -42,7 +34,9 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [XmlRoot("connection")]
     public sealed class ConnectionSettings
+        : IHandmadeSerializable
     {
         #region Constants
 
@@ -72,45 +66,112 @@ namespace ManagedIrbis
         #region Properties
 
         /// <summary>
-        /// Адрес сервера.
+        /// IP-address of the server.
         /// </summary>
-        /// <value>Адрес сервера в цифровом виде.</value>
+        /// <remarks>Default value is "127.0.0.1".</remarks>
+        [CanBeNull]
+        [XmlAttribute("host")]
+        [JsonProperty("host")]
         public string Host { get; set; }
 
         /// <summary>
-        /// Порт сервера.
+        /// IP-port of the server.
         /// </summary>
-        /// <value>Порт сервера (по умолчанию 6666).</value>
+        /// <remarks>Default value is 6666.</remarks>
+        [XmlAttribute("port")]
+        [JsonProperty("port")]
         public int Port { get; set; }
 
         /// <summary>
-        /// Имя пользователя.
+        /// User logon name.
         /// </summary>
-        /// <value>Имя пользователя.</value>
-        //[DefaultValue(DefaultUsername)]
+        /// <remarks>Default value is <c>null</c>,
+        /// so connection can't be made.</remarks>
+        [CanBeNull]
+        [XmlAttribute("username")]
+        [JsonProperty("username")]
         public string Username { get; set; }
 
         /// <summary>
-        /// Пароль пользователя.
+        /// User logon password.
         /// </summary>
-        /// <value>Пароль пользователя.</value>
-        //[DefaultValue(DefaultPassword)]
+        /// <remarks>Default value is <c>null</c>,
+        /// so connection can't be made.</remarks>
+        [CanBeNull]
+        [XmlAttribute("password")]
+        [JsonProperty("password")]
         public string Password { get; set; }
 
         /// <summary>
-        /// Имя базы данных.
+        /// Database name to connect.
         /// </summary>
-        /// <value>Служебное имя базы данных (например, "IBIS").</value>
+        /// <remarks>Default value is "IBIS".
+        /// Database with such a name can be
+        /// non-existent.
+        /// </remarks>
+        [CanBeNull]
         [DefaultValue(DefaultDatabase)]
+        [XmlAttribute("database")]
+        [JsonProperty("database")]
         public string Database { get; set; }
 
         /// <summary>
-        /// Тип АРМ.
+        /// Workstation application kind.
         /// </summary>
-        /// <value>По умолчанию <see cref="IrbisWorkstation.Cataloger"/>.
-        /// </value>
+        /// <remarks>Default value is
+        /// <see cref="IrbisWorkstation.Cataloger"/>.
+        /// </remarks>
         [DefaultValue(DefaultWorkstation)]
+        [XmlAttribute("workstation")]
+        [JsonProperty("workstation")]
         public IrbisWorkstation Workstation { get; set; }
+
+        /// <summary>
+        /// Turn on network logging.
+        /// </summary>
+        [CanBeNull]
+        [XmlAttribute("log")]
+        [JsonProperty("log")]
+        public string NetworkLogging { get; set; }
+
+        /// <summary>
+        /// Type name for ClientSocket.
+        /// </summary>
+        [CanBeNull]
+        [XmlAttribute("socket")]
+        [JsonProperty("socket")]
+        public string SocketTypeName { get; set; }
+
+        /// <summary>
+        /// Type name for CommandFactory.
+        /// </summary>
+        [CanBeNull]
+        [XmlAttribute("factory")]
+        [JsonProperty("factory")]
+        public string FactoryTypeName { get; set; }
+
+        /// <summary>
+        /// Type name for execution engine.
+        /// </summary>
+        [CanBeNull]
+        [XmlAttribute("engine")]
+        [JsonProperty("engine")]
+        public string EngineTypeName { get; set; }
+
+        /// <summary>
+        /// Retry count.
+        /// </summary>
+        [XmlAttribute("retry")]
+        [JsonProperty("retry")]
+        public int RetryCount { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlAttribute("userdata")]
+        [JsonProperty("userdata")]
+        public string UserData { get; set; }
 
         #endregion
 
@@ -147,9 +208,83 @@ namespace ManagedIrbis
             }
         }
 
+        private static string _Select
+            (
+                string first,
+                string second
+            )
+        {
+            return string.IsNullOrEmpty(first)
+                ? second
+                : first;
+        }
+
+        private static int _Select
+            (
+                int first,
+                int second
+            )
+        {
+            return first != 0
+                ? first
+                : second;
+        }
+
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Apply settings to the <see cref="IrbisConnection"/>.
+        /// </summary>
+        public void ApplyToConnection
+            (
+                [NotNull] IrbisConnection connection
+            )
+        {
+            Code.NotNull(connection, "connection");
+
+            connection.Host = _Select(Host, connection.Host);
+            connection.Port = _Select(Port, connection.Port);
+            connection.Username = _Select(Username, connection.Username);
+            connection.Password = _Select(Password, connection.Password);
+            connection.Database = _Select(Database, connection.Database);
+            connection.Workstation = (IrbisWorkstation) _Select
+                (
+                    (int) Workstation,
+                    (int) connection.Workstation
+                );
+
+            if (!string.IsNullOrEmpty(EngineTypeName))
+            {
+                connection.SetEngine(EngineTypeName);
+            }
+
+            if (!string.IsNullOrEmpty(SocketTypeName))
+            {
+                connection.SetSocket(SocketTypeName);
+            }
+
+            if (!string.IsNullOrEmpty(NetworkLogging))
+            {
+                connection.SetNetworkLogging(NetworkLogging);
+            }
+
+            if (!string.IsNullOrEmpty(FactoryTypeName))
+            {
+                connection.SetCommandFactory(FactoryTypeName);
+            }
+
+            if (RetryCount != 0)
+            {
+                connection.SetRetry(RetryCount, null);
+            }
+
+            if (!string.IsNullOrEmpty(UserData))
+            {
+                connection.UserData = UserData;
+            }
+        }
 
         /// <summary>
         /// Clone.
@@ -158,6 +293,24 @@ namespace ManagedIrbis
         public ConnectionSettings Clone()
         {
             return (ConnectionSettings) MemberwiseClone();
+        }
+
+        /// <summary>
+        /// Decrypt the connection settings.
+        /// </summary>
+        public static ConnectionSettings Decrypt
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNull(text, "text");
+
+            byte[] bytes = Convert.FromBase64String(text);
+            bytes = CompressionUtility.Decompress(bytes);
+            ConnectionSettings result
+                = bytes.RestoreObjectFromMemory<ConnectionSettings>();
+
+            return result;
         }
 
         /// <summary>
@@ -188,6 +341,19 @@ namespace ManagedIrbis
                         ? null
                         : new string( (char)(byte)Workstation, 1)
                 );
+            _Add(parameters, "socket", SocketTypeName);
+            _Add(parameters, "engine", EngineTypeName);
+            _Add(parameters, "factory", FactoryTypeName);
+            _Add(parameters, "log", NetworkLogging);
+            _Add
+                (
+                    parameters,
+                    "retry",
+                    RetryCount == 0
+                    ? null
+                    : RetryCount.ToInvariantString()
+                );
+            _Add(parameters, "data", UserData);
 
             string result = ParameterUtility.Encode
                 (
@@ -198,9 +364,22 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Encrypt the connection settings.
+        /// </summary>
+        [NotNull]
+        public string Encrypt()
+        {
+            byte[] bytes = this.SaveToMemory();
+            bytes = CompressionUtility.Compress(bytes);
+            string result = Convert.ToBase64String(bytes);
+
+            return result;
+        }
+
+        /// <summary>
         /// Парсинг строки подключения.
         /// </summary>
-        public void ParseConnectionString
+        public ConnectionSettings ParseConnectionString
             (
                 [NotNull] string connectionString
             )
@@ -218,7 +397,7 @@ namespace ManagedIrbis
                     .ThrowIfNull("parameter.Name")
                     .ToLower();
                 string value = parameter.Value
-                    .ThrowIfNull();
+                    .ThrowIfNull("parameter.Value");
 
                 switch (name)
                 {
@@ -252,31 +431,105 @@ namespace ManagedIrbis
 
                     case "arm":
                     case "workstation":
-                        Workstation = (IrbisWorkstation)(byte)(value[0]);
+                        Workstation = (IrbisWorkstation)(byte)value[0];
                         break;
 
-                    //case "data":
-                    //    UserData = value;
-                    //    break;
+                    case "socket":
+                        SocketTypeName = value;
+                        break;
 
-                    //case "debug":
-                    //    StartDebug(value);
-                    //    break;
+                    case "engine":
+                        EngineTypeName = value;
+                        break;
 
-                    //case "etr":
-                    //case "stage":
-                    //    StageOfWork = value;
-                    //    break;
+                    case "factory":
+                        FactoryTypeName = value;
+                        break;
+
+                    case "log":
+                        NetworkLogging = value;
+                        break;
+
+                    case "retry":
+                        RetryCount = int.Parse(value);
+                        break;
+
+                    case "userdata":
+                    case "data":
+                        UserData = value;
+                        break;
 
                     default:
-                        throw new ArgumentException("connectionString");
+                        string message = string.Format
+                            (
+                                "Unknown parameter: {0}",
+                                name
+                            );
+                        throw new ArgumentException(message);
                 }
             }
+
+            return this;
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <inheritdoc />
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            Host = reader.ReadNullableString();
+            Port = reader.ReadPackedInt32();
+            Username = reader.ReadNullableString();
+            Password = reader.ReadNullableString();
+            Database = reader.ReadNullableString();
+            Workstation = (IrbisWorkstation) reader.ReadPackedInt32();
+            NetworkLogging = reader.ReadNullableString();
+            SocketTypeName = reader.ReadNullableString();
+            FactoryTypeName = reader.ReadNullableString();
+            EngineTypeName = reader.ReadNullableString();
+            RetryCount = reader.ReadPackedInt32();
+            UserData = reader.ReadNullableString();
+        }
+
+        /// <inheritdoc />
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer
+                .WriteNullable(Host)
+                .WritePackedInt32(Port)
+                .WriteNullable(Username)
+                .WriteNullable(Password)
+                .WriteNullable(Database)
+                .WritePackedInt32((int) Workstation)
+                .WriteNullable(NetworkLogging)
+                .WriteNullable(SocketTypeName)
+                .WriteNullable(FactoryTypeName)
+                .WriteNullable(EngineTypeName)
+                .WritePackedInt32(RetryCount)
+                .WriteNullable(UserData);
         }
 
         #endregion
 
         #region Object members
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return Encode();
+        }
 
         #endregion
     }

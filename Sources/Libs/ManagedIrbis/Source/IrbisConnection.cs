@@ -247,6 +247,12 @@ namespace ManagedIrbis
         [NotNull]
         public AbstractClientSocket Socket { get; private set; }
 
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        public object UserData { get; set; }
+
         #endregion
 
         #region Construction
@@ -1020,81 +1026,14 @@ namespace ManagedIrbis
                 [NotNull] string connectionString
             )
         {
-            if (string.IsNullOrEmpty(connectionString))
-            {
-                throw new ArgumentNullException("connectionString");
-            }
-            connectionString = Regex.Replace
-                (
-                    connectionString,
-                    @"\s+",
-                    string.Empty
-                );
-            if (string.IsNullOrEmpty(connectionString)
-                 || !connectionString.Contains("="))
-            {
-                throw new ArgumentException("connectionString");
-            }
+            Code.NotNull(connectionString, "connectionString");
 
-            Regex regex = new Regex
-                (
-                    "(?<name>[^=;]+?)=(?<value>[^;]+)",
-                    RegexOptions.IgnoreCase
-                    | RegexOptions.IgnorePatternWhitespace
-                );
-            MatchCollection matches = regex.Matches(connectionString);
-            foreach (Match match in matches)
-            {
-                string name =
-                    match.Groups["name"].Value.ToLower();
-                string value = match.Groups["value"].Value;
-                switch (name)
-                {
-                    case "host":
-                    case "server":
-                    case "address":
-                        Host = value;
-                        break;
-                    case "port":
-                        Port = int.Parse(value);
-                        break;
-                    case "user":
-                    case "username":
-                    case "name":
-                    case "login":
-                        Username = value;
-                        break;
-                    case "pwd":
-                    case "password":
-                        Password = value;
-                        break;
-                    case "db":
-                    case "catalog":
-                    case "database":
-                        Database = value;
-                        break;
-                    case "arm":
-                    case "workstation":
-                        Workstation = (IrbisWorkstation)(byte)(value[0]);
-                        break;
-                    case "log":
-                        SetLogging(value);
-                        break;
-                    //case "data":
-                    //    UserData = value;
-                    //    break;
-                    //case "debug":
-                    //    StartDebug(value);
-                    //    break;
-                    //case "etr":
-                    //case "stage":
-                    //    StageOfWork = value;
-                    //    break;
-                    default:
-                        throw new ArgumentException("connectionString");
-                }
-            }
+            ConnectionSettings settings = new ConnectionSettings();
+            settings.ParseConnectionString(connectionString);
+            settings.ApplyToConnection(this);
         }
+
+        // ========================================================
 
         /// <summary>
         /// Возврат к предыдущей базе данных.
@@ -1112,6 +1051,8 @@ namespace ManagedIrbis
 
             return result;
         }
+
+        // ========================================================
 
         /// <summary>
         /// Print table.
@@ -1132,6 +1073,8 @@ namespace ManagedIrbis
 
             return command.Result;
         }
+
+        // ========================================================
 
         /// <summary>
         /// Временное переключение на другую базу данных.
@@ -1574,24 +1517,102 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <summary>
+        /// Set new <see cref="CommandFactory"/>.
+        /// </summary>
+        /// <returns>Previous <see cref="CommandFactory"/>.
+        /// </returns>
+        [NotNull]
+        public CommandFactory SetCommandFactory
+            (
+                [NotNull] CommandFactory newFactory
+            )
+        {
+            Code.NotNull(newFactory, "newFactory");
+
+            CommandFactory previous = CommandFactory;
+            newFactory.Connection = this;
+            CommandFactory = newFactory;
+
+            return previous;
+        }
+
+        /// <summary>
+        /// Set new <see cref="CommandFactory"/>.
+        /// </summary>
+        /// <returns>Previous <see cref="CommandFactory"/>.
+        /// </returns>
+        [NotNull]
+        public CommandFactory SetCommandFactory
+            (
+                [NotNull] string typeName
+            )
+        {
+            Code.NotNull(typeName, "typeName");
+
+            Type type = Type.GetType(typeName, true);
+            CommandFactory newFactory
+                = (CommandFactory) Activator.CreateInstance
+                (
+                    type,
+                    this
+                );
+            CommandFactory previous = SetCommandFactory(newFactory);
+
+            return previous;
+        }
+
+        // =========================================================
+
+        /// <summary>
         /// Set execution engine.
         /// </summary>
-        public void SetEngine
+        [NotNull]
+        public AbstractEngine SetEngine
             (
                 [NotNull] AbstractEngine engine
             )
         {
             Code.NotNull(engine, "engine");
 
+            AbstractEngine previous = Executive;
             Executive = engine;
+
+            return previous;
         }
+
+        /// <summary>
+        /// Set new <see cref="Executive"/>.
+        /// </summary>
+        /// <returns>Previous <see cref="Executive"/>.
+        /// </returns>
+        [NotNull]
+        public AbstractEngine SetEngine
+            (
+                [NotNull] string typeName
+            )
+        {
+            Code.NotNull(typeName, "typeName");
+
+            Type type = Type.GetType(typeName, true);
+            AbstractEngine newEngine
+                = (AbstractEngine)Activator.CreateInstance
+                (
+                    type,
+                    this,
+                    Executive
+                );
+            AbstractEngine previous = SetEngine(newEngine);
+
+            return previous;
+        }
+
 
         // =========================================================
 
         /// <summary>
         /// Set logging socket, gather debug info to specified path.
         /// </summary>
-        public void SetLogging
+        public void SetNetworkLogging
             (
                 [NotNull] string loggingPath
             )
@@ -1668,7 +1689,11 @@ namespace ManagedIrbis
 
             Type type = Type.GetType(typeName, true);
             AbstractClientSocket socket
-                = (AbstractClientSocket) Activator.CreateInstance(type);
+                = (AbstractClientSocket) Activator.CreateInstance
+                (
+                    type,
+                    this
+                );
             SetSocket(socket);
         }
 
