@@ -128,6 +128,7 @@
     <Compile Include="Source\Infrastructure\AbstractEngine.cs" />
     <Compile Include="Source\Infrastructure\Commands\ActualizeRecordCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\CreateDictionaryCommand.cs" />
+    <Compile Include="Source\Infrastructure\Commands\DatabaseInfoCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\DeleteDatabaseCommand.cs" />
     <Compile Include="Source\Infrastructure\ExecutionContext.cs" />
     <Compile Include="Source\Infrastructure\ExecutionEventArgs.cs" />

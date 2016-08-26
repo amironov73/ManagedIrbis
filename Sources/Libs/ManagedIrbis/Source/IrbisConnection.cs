@@ -742,21 +742,15 @@ namespace ManagedIrbis
                 [NotNull] string databaseName
             )
         {
-            // TODO create DatabaseInfoCommand
-
             Code.NotNullNorEmpty(databaseName, "databaseName");
 
-            UniversalCommand command
-                = CommandFactory.GetUniversalCommand
-                (
-                    CommandCode.RecordList,
-                    databaseName
-                );
+            DatabaseInfoCommand command
+                = CommandFactory.GetDatabaseInfoCommand();
+            command.Database = databaseName;
 
-            ServerResponse response = ExecuteCommand(command);
-            DatabaseInfo result
-                = DatabaseInfo.ParseServerResponse(response);
-            result.Name = databaseName;
+            ExecuteCommand(command);
+            DatabaseInfo result = command.Result
+                .ThrowIfNull("command.Result");
 
             return result;
         }

@@ -105,6 +105,15 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Get <see cref="DatabaseInfoCommand"/>.
+        /// </summary>
+        [NotNull]
+        public virtual DatabaseInfoCommand GetDatabaseInfoCommand()
+        {
+            return new DatabaseInfoCommand(Connection);
+        }
+
+        /// <summary>
         /// Get <see cref="DatabaseStatCommand"/>.
         /// </summary>
         [NotNull]
