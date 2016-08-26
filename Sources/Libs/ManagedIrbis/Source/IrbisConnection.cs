@@ -818,13 +818,11 @@ namespace ManagedIrbis
         [NotNull]
         public ServerStat GetServerStat()
         {
-            // TODO Create ServerStatCommand
+            ServerStatCommand command
+                = CommandFactory.GetServerStatCommand();
+            ExecuteCommand(command);
 
-            ServerResponse response = ExecuteCommand
-                (
-                    CommandCode.GetServerStat
-                );
-            ServerStat result = ServerStat.Parse(response);
+            ServerStat result = command.Result;
 
             return result;
         }

@@ -273,6 +273,15 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Get <see cref="ServerStatCommand"/>.
+        /// </summary>
+        [NotNull]
+        public virtual ServerStatCommand GetServerStatCommand()
+        {
+            return new ServerStatCommand(Connection);
+        }
+
+        /// <summary>
         /// Get UniversalCommand.
         /// </summary>
         [NotNull]
