@@ -282,6 +282,15 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Get <see cref="ServerVersionCommand"/>.
+        /// </summary>
+        [NotNull]
+        public virtual ServerVersionCommand GetServerVersionCommand()
+        {
+            return new ServerVersionCommand(Connection);
+        }
+
+        /// <summary>
         /// Get UniversalCommand.
         /// </summary>
         [NotNull]

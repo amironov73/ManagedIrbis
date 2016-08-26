@@ -822,7 +822,8 @@ namespace ManagedIrbis
                 = CommandFactory.GetServerStatCommand();
             ExecuteCommand(command);
 
-            ServerStat result = command.Result;
+            ServerStat result = command.Result
+                .ThrowIfNull("command.Result");
 
             return result;
         }
@@ -835,12 +836,12 @@ namespace ManagedIrbis
         [NotNull]
         public IrbisVersion GetServerVersion()
         {
-            // TODO Create ServerVersionCommand
+            ServerVersionCommand command
+                = CommandFactory.GetServerVersionCommand();
+            ExecuteCommand(command);
 
-            ServerResponse response
-                = ExecuteCommand(CommandCode.ServerInfo);
-            IrbisVersion result
-                = IrbisVersion.ParseServerResponse(response);
+            IrbisVersion result = command.Result
+                .ThrowIfNull("command.Result");
 
             return result;
         }

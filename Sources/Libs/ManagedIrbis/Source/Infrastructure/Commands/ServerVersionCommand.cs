@@ -1,4 +1,4 @@
-﻿/* ServerStatCommand.cs -- 
+﻿/* ServerVersionCommand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -19,7 +19,7 @@ namespace ManagedIrbis.Infrastructure.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class ServerStatCommand
+    public class ServerVersionCommand
         : AbstractCommand
     {
         #region Properties
@@ -28,7 +28,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// Result.
         /// </summary>
         [CanBeNull]
-        public ServerStat Result { get; set; }
+        public IrbisVersion Result { get; set; }
 
         #endregion
 
@@ -37,7 +37,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ServerStatCommand
+        public ServerVersionCommand
             (
                 [NotNull] IrbisConnection connection
             )
@@ -53,7 +53,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
-            result.CommandCode = CommandCode.GetServerStat;
+            result.CommandCode = CommandCode.ServerInfo;
 
             return result;
         }
@@ -66,7 +66,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         {
             ServerResponse response = base.Execute(query);
             response.GetReturnCode();
-            Result = ServerStat.Parse(response);
+            Result = IrbisVersion.ParseServerResponse(response);
 
             return response;
         }

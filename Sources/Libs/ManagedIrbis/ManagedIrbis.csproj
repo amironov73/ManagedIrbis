@@ -132,6 +132,7 @@
     <Compile Include="Source\Infrastructure\Commands\DeleteDatabaseCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\MaxMfnCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\ServerStatCommand.cs" />
+    <Compile Include="Source\Infrastructure\Commands\ServerVersionCommand.cs" />
     <Compile Include="Source\Infrastructure\ExecutionContext.cs" />
     <Compile Include="Source\Infrastructure\ExecutionEventArgs.cs" />
     <Compile Include="Source\Infrastructure\StandardEngine.cs" />
