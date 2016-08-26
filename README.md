@@ -28,5 +28,5 @@ ManagedIrbis currently supports:
 
 [![Issues](https://img.shields.io/github/issues/amironov73/ManagedIrbis.svg)](https://github.com/amironov73/ManagedIrbis/issues)
 [![Release](https://img.shields.io/github/release/amironov73/ManagedIrbis.svg)](https://github.com/amironov73/ManagedIrbis/releases)
-[![NuGet](https://img.shields.io/nuget/v/ManagedClient.svg)](https://www.nuget.org/packages/ManagedClient/)
+[![NuGet](https://img.shields.io/nuget/v/ManagedIrbis.svg)](https://www.nuget.org/packages/ManagedIrbis/)
 [![Build status](https://img.shields.io/appveyor/ci/AlexeyMironov/managedclient-45.svg)](https://ci.appveyor.com/project/AlexeyMironov/managedclient-45/)
