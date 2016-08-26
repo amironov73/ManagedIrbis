@@ -130,6 +130,7 @@
     <Compile Include="Source\Infrastructure\Commands\CreateDictionaryCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\DatabaseInfoCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\DeleteDatabaseCommand.cs" />
+    <Compile Include="Source\Infrastructure\Commands\ListProcessCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\MaxMfnCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\ServerStatCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\ServerVersionCommand.cs" />

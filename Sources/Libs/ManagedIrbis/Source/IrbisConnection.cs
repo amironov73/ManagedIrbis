@@ -884,8 +884,6 @@ namespace ManagedIrbis
                 [NotNull] string listFile
             )
         {
-            // TODO Create ListDatabasesCommand
-
             Code.NotNull(listFile, "listFile");
 
             string menuFile = this.ReadTextFile
@@ -980,14 +978,12 @@ namespace ManagedIrbis
         [NotNull]
         public IrbisProcessInfo[] ListProcesses()
         {
-            // TODO Create ListProcessesCommand
+            ListProcessCommand command
+                = CommandFactory.GetListProcessCommand();
+            ExecuteCommand(command);
 
-            ServerResponse response = ExecuteCommand
-                (
-                    CommandCode.GetProcessList
-                );
-            IrbisProcessInfo[] result
-                = IrbisProcessInfo.Parse(response);
+            IrbisProcessInfo[] result = command.Result
+                .ThrowIfNullOrEmpty("command.Result");
 
             return result;
         }

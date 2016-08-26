@@ -192,6 +192,15 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Get <see cref="ListProcessCommand"/>.
+        /// </summary>
+        [NotNull]
+        public virtual ListProcessCommand GetListProcessCommand()
+        {
+            return new ListProcessCommand(Connection);
+        }
+
+        /// <summary>
         /// Get <see cref="MaxMfnCommand"/>.
         /// </summary>
         [NotNull]
