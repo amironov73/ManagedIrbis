@@ -931,11 +931,8 @@ namespace ManagedIrbis
 
             ExecuteCommand(command);
 
-            string[] result = command.Files;
-            if (ReferenceEquals(result, null))
-            {
-                throw new IrbisException("file list is null");
-            }
+            string[] result = command.Files
+                .ThrowIfNull("command.Files");
 
             return result;
         }
@@ -961,11 +958,8 @@ namespace ManagedIrbis
 
             ExecuteCommand(command);
 
-            string[] result = command.Files;
-            if (ReferenceEquals(result, null))
-            {
-                throw new IrbisException("file list is null");
-            }
+            string[] result = command.Files
+                .ThrowIfNull("command.Files");
 
             return result;
         }
@@ -978,7 +972,7 @@ namespace ManagedIrbis
         [NotNull]
         public IrbisProcessInfo[] ListProcesses()
         {
-            ListProcessCommand command
+            ListProcessesCommand command
                 = CommandFactory.GetListProcessCommand();
             ExecuteCommand(command);
 
@@ -996,13 +990,12 @@ namespace ManagedIrbis
         [NotNull]
         public UserInfo[] ListUsers()
         {
-            // TODO Create ListUsersCommand
+            ListUsersCommand command
+                = CommandFactory.GetListUsersCommand();
+            ExecuteCommand(command);
 
-            ServerResponse response = ExecuteCommand
-                (
-                    CommandCode.GetUserList
-                );
-            UserInfo[] result = UserInfo.Parse(response);
+            UserInfo[] result = command.Result
+                .ThrowIfNull("command.Result");
 
             return result;
         }

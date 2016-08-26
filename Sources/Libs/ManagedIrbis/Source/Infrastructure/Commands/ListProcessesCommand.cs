@@ -1,4 +1,4 @@
-﻿/* ListProcessCommand.cs -- 
+﻿/* ListProcessesCommand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -19,7 +19,7 @@ namespace ManagedIrbis.Infrastructure.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class ListProcessCommand
+    public class ListProcessesCommand
         : AbstractCommand
     {
         #region Properties
@@ -37,7 +37,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ListProcessCommand
+        public ListProcessesCommand
             (
                 [NotNull] IrbisConnection connection
             )

@@ -192,12 +192,21 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
-        /// Get <see cref="ListProcessCommand"/>.
+        /// Get <see cref="ListProcessesCommand"/>.
         /// </summary>
         [NotNull]
-        public virtual ListProcessCommand GetListProcessCommand()
+        public virtual ListProcessesCommand GetListProcessCommand()
         {
-            return new ListProcessCommand(Connection);
+            return new ListProcessesCommand(Connection);
+        }
+
+        /// <summary>
+        /// Get <see cref="ListUsersCommand"/>.
+        /// </summary>
+        [NotNull]
+        public virtual ListUsersCommand GetListUsersCommand()
+        {
+            return new ListUsersCommand(Connection);
         }
 
         /// <summary>
