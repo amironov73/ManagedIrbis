@@ -330,5 +330,104 @@ namespace UnitTests.ManagedIrbis
                     connection.Socket.GetType()
                 );
         }
+
+        [TestMethod]
+        public void TestConnectionSettings_FromConnection1()
+        {
+            string source = "host=127.0.0.1;port=5555;"
+                + "database=NODB;username=john galt;password=who is;"
+                + "workstation=A;"
+                + "engine=" + typeof(MyEngine).AssemblyQualifiedName + ";"
+                + "factory=" + typeof(MyFactory).AssemblyQualifiedName + ";"
+                + "retry=3;data=hello;";
+
+            ConnectionSettings expected = new ConnectionSettings()
+                .ParseConnectionString(source);
+            IrbisConnection connection = new IrbisConnection();
+            expected.ApplyToConnection(connection);
+
+            ConnectionSettings actual
+                = ConnectionSettings.FromConnection(connection);
+
+            Assert.AreEqual(expected.Host, connection.Host);
+            Assert.AreEqual(expected.Port, connection.Port);
+            Assert.AreEqual(expected.Username, connection.Username);
+            Assert.AreEqual(expected.Password, connection.Password);
+            Assert.AreEqual(expected.Database, connection.Database);
+            Assert.AreEqual(expected.Workstation, connection.Workstation);
+
+            string target = actual.Encode();
+            Assert.AreEqual(source, target);
+        }
+
+        [TestMethod]
+        public void TestConnectionSettings_FromConnection2()
+        {
+            string logPath = Path.Combine
+                (
+                    Path.GetTempPath(),
+                    Guid.NewGuid().ToString()
+                )
+                .Replace('\\', '/');
+            Directory.CreateDirectory(logPath);
+
+            try
+            {
+                string source = "host=127.0.0.1;port=5555;"
+                    + "database=NODB;username=john galt;password=who is;"
+                    + "workstation=A;"
+                    + "log=" + logPath + ";";
+
+                ConnectionSettings expected = new ConnectionSettings()
+                    .ParseConnectionString(source);
+                IrbisConnection connection = new IrbisConnection();
+                expected.ApplyToConnection(connection);
+
+                ConnectionSettings actual
+                    = ConnectionSettings.FromConnection(connection);
+
+                Assert.AreEqual(expected.Host, connection.Host);
+                Assert.AreEqual(expected.Port, connection.Port);
+                Assert.AreEqual(expected.Username, connection.Username);
+                Assert.AreEqual(expected.Password, connection.Password);
+                Assert.AreEqual(expected.Database, connection.Database);
+                Assert.AreEqual(expected.Workstation, connection.Workstation);
+
+                string target = actual.Encode();
+                Assert.AreEqual(source, target);
+            }
+            finally
+            {
+                Directory.Delete(logPath);
+            }
+        }
+
+        [TestMethod]
+        public void TestConnectionSettings_FromConnection3()
+        {
+            string source = "host=127.0.0.1;port=5555;"
+                + "database=NODB;username=john galt;password=who is;"
+                + "workstation=A;"
+                + "socket=" + typeof(MySocket).AssemblyQualifiedName + ";";
+
+            ConnectionSettings expected = new ConnectionSettings()
+                .ParseConnectionString(source);
+            IrbisConnection connection = new IrbisConnection();
+            expected.ApplyToConnection(connection);
+
+            ConnectionSettings actual
+                = ConnectionSettings.FromConnection(connection);
+
+            Assert.AreEqual(expected.Host, connection.Host);
+            Assert.AreEqual(expected.Port, connection.Port);
+            Assert.AreEqual(expected.Username, connection.Username);
+            Assert.AreEqual(expected.Password, connection.Password);
+            Assert.AreEqual(expected.Database, connection.Database);
+            Assert.AreEqual(expected.Workstation, connection.Workstation);
+
+            string target = actual.Encode();
+            Assert.AreEqual(source, target);
+        }
+
     }
 }

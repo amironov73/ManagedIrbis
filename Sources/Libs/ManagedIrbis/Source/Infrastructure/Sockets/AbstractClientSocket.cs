@@ -42,10 +42,7 @@ namespace ManagedIrbis.Infrastructure
         /// Connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection
-        {
-            get { return _connection; }
-        }
+        public IrbisConnection Connection { get; internal set; }
 
         /// <summary>
         /// Busy state flag.
@@ -70,15 +67,13 @@ namespace ManagedIrbis.Infrastructure
         {
             Code.NotNull(connection, "connection");
 
-            _connection = connection;
+            Connection = connection;
             _busy = new BusyState(false);
         }
 
         #endregion
 
         #region Private members
-
-        private readonly IrbisConnection _connection;
 
         private readonly BusyState _busy;
 

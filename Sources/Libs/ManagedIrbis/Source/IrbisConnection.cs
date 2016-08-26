@@ -304,9 +304,8 @@ namespace ManagedIrbis
 
         #region Private members
 
-        private bool _connected;
-
         // ReSharper disable InconsistentNaming
+        internal bool _connected;
         private int _clientID;
         private int _queryID;
         // ReSharper restore InconsistentNaming
@@ -1166,7 +1165,7 @@ namespace ManagedIrbis
             if (terms.Length == 0)
             {
                 return new TermPosting[0];
-            } 
+            }
 
             ReadPostingsCommand command
                 = CommandFactory.GetReadPostingsCommand();
@@ -1282,7 +1281,7 @@ namespace ManagedIrbis
                         null
                     );
 
-                return new[] {record};
+                return new[] { record };
             }
 
             ExecuteCommand(command);
@@ -1445,6 +1444,27 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <summary>
+        /// Restore previously suspended connection.
+        /// </summary>
+        [NotNull]
+        public static IrbisConnection Restore
+            (
+                [NotNull] string state
+            )
+        {
+            Code.NotNullNorEmpty(state, "state");
+
+            ConnectionSettings settings
+                = ConnectionSettings.Decrypt(state);
+            IrbisConnection result = new IrbisConnection();
+            settings.ApplyToConnection(result);
+
+            return result;
+        }
+
+        // =========================================================
+
+        /// <summary>
         /// Поиск записей.
         /// </summary>
         [NotNull]
@@ -1551,7 +1571,7 @@ namespace ManagedIrbis
 
             Type type = Type.GetType(typeName, true);
             CommandFactory newFactory
-                = (CommandFactory) Activator.CreateInstance
+                = (CommandFactory)Activator.CreateInstance
                 (
                     type,
                     this
@@ -1689,7 +1709,7 @@ namespace ManagedIrbis
 
             Type type = Type.GetType(typeName, true);
             AbstractClientSocket socket
-                = (AbstractClientSocket) Activator.CreateInstance
+                = (AbstractClientSocket)Activator.CreateInstance
                 (
                     type,
                     this
@@ -1708,7 +1728,25 @@ namespace ManagedIrbis
         {
             Code.NotNull(socket, "socket");
 
+            socket.Connection = this;
             Socket = socket;
+        }
+
+        // =========================================================
+
+        /// <summary>
+        /// Temporary "shutdown" the connection for some reason.
+        /// </summary>
+        [NotNull]
+        public string Suspend()
+        {
+            ConnectionSettings settings
+                = ConnectionSettings.FromConnection(this);
+            string result = settings.Encrypt();
+
+            _connected = false;
+
+            return result;
         }
 
         // =========================================================

@@ -20,7 +20,8 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Infrastructure.Sockets;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -173,6 +174,11 @@ namespace ManagedIrbis
         [JsonProperty("userdata")]
         public string UserData { get; set; }
 
+        /// <summary>
+        /// Saved "connected" state.
+        /// </summary>
+        public bool Connected { get; set; }
+
         #endregion
 
         #region Construction
@@ -284,6 +290,8 @@ namespace ManagedIrbis
             {
                 connection.UserData = UserData;
             }
+
+            connection._connected = Connected;
         }
 
         /// <summary>
@@ -372,6 +380,70 @@ namespace ManagedIrbis
             byte[] bytes = this.SaveToMemory();
             bytes = CompressionUtility.Compress(bytes);
             string result = Convert.ToBase64String(bytes);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Construct <see cref="ConnectionSettings"/>
+        /// from <see cref="IrbisConnection"/>.
+        /// </summary>
+        [NotNull]
+        public static ConnectionSettings FromConnection
+            (
+                [NotNull] IrbisConnection connection
+            )
+        {
+            Code.NotNull(connection, "connection");
+
+            ConnectionSettings result = new ConnectionSettings
+            {
+                Host = connection.Host,
+                Port = connection.Port,
+                Username = connection.Username,
+                Password = connection.Password,
+                Database = connection.Database,
+                Workstation = connection.Workstation,
+                UserData = connection.UserData as string,
+                Connected = connection.Connected
+            };
+
+            LoggingClientSocket loggingSocket
+                = connection.Socket as LoggingClientSocket;
+            if (loggingSocket != null)
+            {
+                result.NetworkLogging = loggingSocket.DebugPath;
+            }
+
+            RetryClientSocket retrySocket
+                = connection.Socket as RetryClientSocket;
+            if (retrySocket != null)
+            {
+                result.RetryCount = retrySocket.RetryManager.RetryCount;
+            }
+
+            if ((connection.Socket.GetType() != typeof(SimpleClientSocket))
+                && (retrySocket == null)
+                && (loggingSocket == null)
+            )
+            {
+                result.SocketTypeName = connection.Socket
+                    .GetType().AssemblyQualifiedName;
+            }
+
+            if (connection.CommandFactory.GetType() !=
+                typeof(CommandFactory))
+            {
+                result.FactoryTypeName = connection.CommandFactory
+                    .GetType().AssemblyQualifiedName;
+            }
+
+            if (connection.Executive.GetType() !=
+                typeof(StandardEngine))
+            {
+                result.EngineTypeName = connection.Executive
+                    .GetType().AssemblyQualifiedName;
+            }
 
             return result;
         }
@@ -496,6 +568,7 @@ namespace ManagedIrbis
             EngineTypeName = reader.ReadNullableString();
             RetryCount = reader.ReadPackedInt32();
             UserData = reader.ReadNullableString();
+            Connected = reader.ReadBoolean();
         }
 
         /// <inheritdoc />
@@ -518,7 +591,8 @@ namespace ManagedIrbis
                 .WriteNullable(FactoryTypeName)
                 .WriteNullable(EngineTypeName)
                 .WritePackedInt32(RetryCount)
-                .WriteNullable(UserData);
+                .WriteNullable(UserData)
+                .Write(Connected);
         }
 
         #endregion
