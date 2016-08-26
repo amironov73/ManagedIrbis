@@ -795,19 +795,14 @@ namespace ManagedIrbis
                 [CanBeNull] string database
             )
         {
-            // TODO Create GetMaxMfnCommand
-
             if (ReferenceEquals(database, null))
             {
                 database = Database;
             }
 
-            UniversalCommand command
-                = CommandFactory.GetUniversalCommand
-                (
-                    CommandCode.GetMaxMfn,
-                    database
-                );
+
+            MaxMfnCommand command = CommandFactory.GetMaxMfnCommand();
+            command.Database = database;
 
             ServerResponse response = ExecuteCommand(command);
             int result = response.ReturnCode;

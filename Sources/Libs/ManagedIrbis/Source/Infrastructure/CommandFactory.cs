@@ -192,6 +192,15 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Get <see cref="MaxMfnCommand"/>.
+        /// </summary>
+        [NotNull]
+        public virtual MaxMfnCommand GetMaxMfnCommand()
+        {
+            return new MaxMfnCommand(Connection);
+        }
+
+        /// <summary>
         /// Get PrintTableCommand.
         /// </summary>
         [NotNull]

@@ -41,7 +41,7 @@
     "ListFilesTest.cs",
     "ListProcessesTest.cs",
     "ListUsersTest.cs",
-    //"MaxMfnTest.cs",
+    "MaxMfnTest.cs",
     //"MenuCacheTest.cs",
     //"NopTest.cs",
     //"ReadBinaryFileTest.cs",
