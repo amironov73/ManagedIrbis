@@ -314,7 +314,7 @@ namespace ManagedIrbis.Scripting
         {
             if (_ownClient)
             {
-                Client.Disconnect();
+                Client.Dispose();
             }
         }
 

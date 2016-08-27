@@ -221,7 +221,7 @@ namespace ManagedIrbis
         /// </summary>
         /// <value>Устанавливается в true при успешном выполнении
         /// <see cref="Connect"/>, сбрасывается при выполнении
-        /// <see cref="Disconnect"/> или <see cref="Dispose"/>.
+        /// <see cref="Dispose"/>.
         /// </value>
         public bool Connected
         {
@@ -347,30 +347,6 @@ namespace ManagedIrbis
         internal void ResetCommandNumber()
         {
             _queryID = 0;
-        }
-
-        internal void Disconnect()
-        {
-            Disposing.Raise
-                (
-                    this
-                );
-
-            if (_connected)
-            {
-                UniversalCommand command = new UniversalCommand
-                    (
-                        this,
-                        CommandCode.UnregisterClient,
-                        Username
-                    )
-                {
-                    AcceptAnyResponse = true
-                };
-
-                ExecuteCommand(command);
-                _connected = false;
-            }
         }
 
         #endregion
@@ -1900,7 +1876,15 @@ namespace ManagedIrbis
         /// </summary>
         public void Dispose()
         {
-            Disconnect();
+            Disposing.Raise(this);
+
+            if (_connected)
+            {
+                DisconnectCommand command
+                    = CommandFactory.GetDisconnectCommand();
+
+                ExecuteCommand(command);
+            }
         }
 
         #endregion

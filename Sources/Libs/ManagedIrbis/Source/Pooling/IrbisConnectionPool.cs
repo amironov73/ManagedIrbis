@@ -363,7 +363,7 @@ namespace ManagedIrbis.Pooling
 
                 foreach (IrbisConnection client in _idleConnections)
                 {
-                    client.Disconnect();
+                    client.Dispose();
                 }
             }
         }

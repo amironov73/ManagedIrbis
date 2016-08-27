@@ -145,11 +145,19 @@ namespace ManagedIrbis.Infrastructure
         /// <summary>
         /// Get <see cref="DeleteDatabaseCommand"/>.
         /// </summary>
-        /// <returns></returns>
         [NotNull]
         public virtual DeleteDatabaseCommand GetDeleteDatabaseCommand()
         {
             return new DeleteDatabaseCommand(Connection);
+        }
+
+        /// <summary>
+        /// Get <see cref="DisconnectCommand"/>.
+        /// </summary>
+        [NotNull]
+        public virtual DisconnectCommand GetDisconnectCommand()
+        {
+            return new DisconnectCommand(Connection);
         }
 
         /// <summary>
