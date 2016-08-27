@@ -164,7 +164,6 @@ namespace ManagedIrbis
             {
                 Code.NotNullNorEmpty(value, "value");
 
-                ThrowIfConnected();
                 _database = value;
             }
         }
