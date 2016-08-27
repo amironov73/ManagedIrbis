@@ -149,6 +149,8 @@
     <Compile Include="AM\Text\Ranges\NumberRangeCollectionTest.cs" />
     <Compile Include="AM\Text\StringTokenizerTest.cs" />
     <Compile Include="AM\Text\StreamParserTest.cs" />
+    <Compile Include="AM\Text\Tokenizer\TokenStreamTest.cs" />
+    <Compile Include="AM\Text\Tokenizer\TokenTest.cs" />
     <Compile Include="AM\Text\TransliteratorTest.cs" />
     <Compile Include="AM\Text\Ranges\NumberRangeTest.cs" />
     <Compile Include="AM\Text\TextWithEncodingTest.cs" />

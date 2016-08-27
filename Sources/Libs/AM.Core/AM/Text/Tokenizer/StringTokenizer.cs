@@ -149,7 +149,7 @@ namespace AM.Text.Tokenizer
                 int begin
             )
         {
-            token._value = _text.Substring(begin, _position - begin);
+            token.Value = _text.Substring(begin, _position - begin);
             return token;
         }
 

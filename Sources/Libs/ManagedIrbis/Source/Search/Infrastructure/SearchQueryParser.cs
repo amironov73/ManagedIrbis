@@ -20,7 +20,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedIrbis.Search
+namespace ManagedIrbis.Search.Infrastructure
 {
     //
     // See official documentation at

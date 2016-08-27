@@ -217,6 +217,7 @@
     <Compile Include="AM\Text\Tokenizer\TokenizerException.cs" />
     <Compile Include="AM\Text\Tokenizer\TokenizerSettings.cs" />
     <Compile Include="AM\Text\Tokenizer\TokenKind.cs" />
+    <Compile Include="AM\Text\Tokenizer\TokenStream.cs" />
     <Compile Include="AM\Text\Transliterator.cs" />
     <Compile Include="AM\Threading\BusyGuard.cs" />
     <Compile Include="AM\Threading\BusyState.cs" />
