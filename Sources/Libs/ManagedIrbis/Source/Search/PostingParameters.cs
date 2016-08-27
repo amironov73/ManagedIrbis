@@ -100,6 +100,19 @@ namespace ManagedIrbis.Search
         }
 
         #endregion
+        
+        #region Public methods
+
+        /// <summary>
+        /// Clone the parameters.
+        /// </summary>
+        [NotNull]
+        public PostingParameters Clone()
+        {
+            return (PostingParameters) MemberwiseClone();
+        }
+
+        #endregion
 
         #region IVerifiable members
 
@@ -118,9 +131,16 @@ namespace ManagedIrbis.Search
                         throwOnError
                     );
 
-            verifier
+            verifier                
                 .Assert(FirstPosting >= 0, "FirstPosting")
                 .Assert(NumberOfPostings >= 0, "NumberOfPostings");
+
+            verifier
+                .Assert
+                (
+                    Term != null || ListOfTerms != null,
+                    "Term or ListOfTerms"
+                );
 
             return verifier.Result;
         }

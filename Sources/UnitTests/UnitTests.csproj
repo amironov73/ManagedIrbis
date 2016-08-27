@@ -196,6 +196,8 @@
     <Compile Include="ManagedIrbis\Requests\BookRequestTest.cs" />
     <Compile Include="ManagedIrbis\Scripting\IrbisScriptTest.cs" />
     <Compile Include="ManagedIrbis\Search\FoundItemTest.cs" />
+    <Compile Include="ManagedIrbis\Search\PostingParametersTest.cs" />
+    <Compile Include="ManagedIrbis\Search\TermInfoTest.cs" />
     <Compile Include="ManagedIrbis\SubFieldCollectionTest.cs" />
     <Compile Include="ManagedIrbis\RecordFieldTest.cs" />
     <Compile Include="ManagedIrbis\MarcRecordTest.cs" />
