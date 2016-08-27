@@ -197,6 +197,8 @@
     <Compile Include="ManagedIrbis\Scripting\IrbisScriptTest.cs" />
     <Compile Include="ManagedIrbis\Search\FoundItemTest.cs" />
     <Compile Include="ManagedIrbis\Search\PostingParametersTest.cs" />
+    <Compile Include="ManagedIrbis\Search\SearchParametersTest.cs" />
+    <Compile Include="ManagedIrbis\Search\SearchScenarioTest.cs" />
     <Compile Include="ManagedIrbis\Search\TermInfoTest.cs" />
     <Compile Include="ManagedIrbis\Search\TermLinkTest.cs" />
     <Compile Include="ManagedIrbis\Search\TermPostingTest.cs" />

@@ -8,11 +8,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+
 using AM;
+using AM.IO;
+using AM.Runtime;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -34,7 +39,8 @@ namespace ManagedIrbis.Search
     [MoonSharpUserData]
     [XmlRoot("search")]
     public sealed class SearchParameters
-        : IVerifiable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
@@ -125,11 +131,50 @@ namespace ManagedIrbis.Search
 
         #endregion
 
+        #region IHandmadeSerializable members
+
+        /// <inheritdoc />
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            Database = reader.ReadNullableString();
+            FirstRecord = reader.ReadPackedInt32();
+            FormatSpecification = reader.ReadNullableString();
+            MaxMfn = reader.ReadPackedInt32();
+            MinMfn = reader.ReadPackedInt32();
+            NumberOfRecords = reader.ReadPackedInt32();
+            SearchExpression = reader.ReadNullableString();
+            SequentialSpecification = reader.ReadNullableString();
+        }
+
+        /// <inheritdoc />
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer
+                .WriteNullable(Database)
+                .WritePackedInt32(FirstRecord)
+                .WriteNullable(FormatSpecification)
+                .WritePackedInt32(MaxMfn)
+                .WritePackedInt32(MinMfn)
+                .WritePackedInt32(NumberOfRecords)
+                .WriteNullable(SearchExpression)
+                .WriteNullable(SequentialSpecification);
+        }
+
+        #endregion
+
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc />
         public bool Verify
             (
                 bool throwOnError

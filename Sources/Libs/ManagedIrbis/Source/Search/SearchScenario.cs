@@ -10,7 +10,9 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using System.Xml.Serialization;
 
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -19,6 +21,8 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -50,8 +54,10 @@ namespace ManagedIrbis.Search
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [XmlRoot("search")]
     public sealed class SearchScenario
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
@@ -60,6 +66,8 @@ namespace ManagedIrbis.Search
         /// </summary>
         /// <remarks>Например: ItemName5=Заглавие</remarks>
         [CanBeNull]
+        [XmlAttribute("name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
         /// <summary>
@@ -67,12 +75,16 @@ namespace ManagedIrbis.Search
         /// </summary>
         /// <remarks>Например: ItemPref5=Т=</remarks>
         [CanBeNull]
+        [XmlAttribute("prefix")]
+        [JsonProperty("prefix")]
         public string Prefix { get; set; }
 
         /// <summary>
         /// Тип словаря для соответствующего поиска.
         /// </summary>
         /// <remarks>Например: ItemDictionType8=1</remarks>
+        [XmlAttribute("type")]
+        [JsonProperty("type")]
         public DictionaryType DictionaryType { get; set; }
 
         /// <summary>
@@ -80,6 +92,8 @@ namespace ManagedIrbis.Search
         /// </summary>
         /// <remarks>Например: ItemMenu8=str.mnu</remarks>
         [CanBeNull]
+        [XmlAttribute("menu")]
+        [JsonProperty("menu")]
         public string MenuName { get; set; }
 
         /// <summary>
@@ -94,12 +108,16 @@ namespace ManagedIrbis.Search
         /// Например: ItemF8For5=!F8TIT.
         /// </remarks>
         [CanBeNull]
+        [XmlAttribute("old")]
+        [JsonProperty("old")]
         public string OldFormat { get; set; }
 
         /// <summary>
         /// Способ Корректировки по словарю.
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("correction")]
+        [JsonProperty("correction")]
         public string Correction { get; set; }
 
         /// <summary>
@@ -109,23 +127,31 @@ namespace ManagedIrbis.Search
         /// переключателя "Усечение" для данного вида поиска
         /// (0 - нет; 1 - да) - действует только в АРМе "Каталогизатор".
         /// </remarks>
+        [XmlAttribute("truncation")]
+        [JsonProperty("truncation")]
         public bool Truncation { get; set; }
 
         /// <summary>
         /// Текст подсказки/предупреждения.
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("hint")]
+        [JsonProperty("hint")]
         public string Hint { get; set; }
 
         /// <summary>
         /// Параметр пока не задействован.
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("mod")]
+        [JsonProperty("mod")]
         public string ModByDicAuto { get; set; }
 
         /// <summary>
         /// Логические операторы.
         /// </summary>
+        [XmlAttribute("logic")]
+        [JsonProperty("logic")]
         public SearchLogicType Logic { get; set; }
 
         /// <summary>
@@ -136,12 +162,16 @@ namespace ManagedIrbis.Search
         /// Dbname,Prefix,Format.
         /// </remarks>
         [CanBeNull]
+        [XmlAttribute("advance")]
+        [JsonProperty("advance")]
         public string Advance { get; set; }
 
         /// <summary>
         /// Имя формата показа документов.
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("format")]
+        [JsonProperty("format")]
         public string Format { get; set; }
 
         #endregion
@@ -156,29 +186,82 @@ namespace ManagedIrbis.Search
 
         #region Public methods
 
+        /// <summary>
+        /// Clone the <see cref="SearchScenario"/>.
+        /// </summary>
+        [NotNull]
+        public SearchScenario Clone()
+        {
+            return (SearchScenario) MemberwiseClone();
+        }
+
         #endregion
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore object state from the stream.
-        /// </summary>
+        /// <inheritdoc />
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
-            
+            Code.NotNull(reader, "reader");
+
+            Name = reader.ReadNullableString();
+            Prefix = reader.ReadNullableString();
+            DictionaryType = (DictionaryType) reader.ReadPackedInt32();
+            MenuName = reader.ReadNullableString();
+            OldFormat = reader.ReadNullableString();
+            Correction = reader.ReadNullableString();
+            Hint = reader.ReadNullableString();
+            ModByDicAuto = reader.ReadNullableString();
+            Logic = (SearchLogicType) reader.ReadPackedInt32();
+            Advance = reader.ReadNullableString();
+            Format = reader.ReadNullableString();
+            Truncation = reader.ReadBoolean();
         }
 
-        /// <summary>
-        /// Save object state to the stream.
-        /// </summary>
+        /// <inheritdoc />
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
+            writer
+                .WriteNullable(Name)
+                .WriteNullable(Prefix)
+                .WritePackedInt32((int) DictionaryType)
+                .WriteNullable(MenuName)
+                .WriteNullable(OldFormat)
+                .WriteNullable(Correction)
+                .WriteNullable(Hint)
+                .WriteNullable(ModByDicAuto)
+                .WritePackedInt32((int)Logic)
+                .WriteNullable(Advance)
+                .WriteNullable(Format)
+                .Write(Truncation);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<SearchScenario> verifier
+                = new Verifier<SearchScenario>
+                (
+                    this,
+                    throwOnError
+                );
+
+            return verifier.Result;
         }
 
         #endregion
