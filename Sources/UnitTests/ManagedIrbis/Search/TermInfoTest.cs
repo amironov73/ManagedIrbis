@@ -74,6 +74,31 @@ namespace UnitTests.ManagedIrbis.Search
             Assert.AreEqual("HELLO", actual[0]);
             Assert.AreEqual("IRBIS", actual[1]);
             Assert.AreEqual("WORLD", actual[2]);
+
+            terms = new []
+            {
+                new TermInfo {Count=1, Text = "HELLO"},
+                new TermInfo {Count=2, Text = "IRBIS"},
+                new TermInfo {Count=3, Text = "WORLD"},
+            };
+            actual = TermInfo.TrimPrefix(terms, string.Empty);
+            Assert.AreEqual(3, actual.Length);
+            Assert.AreEqual("HELLO", actual[0]);
+            Assert.AreEqual("IRBIS", actual[1]);
+            Assert.AreEqual("WORLD", actual[2]);
+        }
+
+        [TestMethod]
+        public void TestTermInfo_Clone()
+        {
+            TermInfo expected = new TermInfo
+            {
+                Count = 10,
+                Text = "T=HELLLO"
+            };
+            TermInfo actual = expected.Clone();
+            Assert.AreEqual(expected.Count, actual.Count);
+            Assert.AreEqual(expected.Text, actual.Text);
         }
     }
 }

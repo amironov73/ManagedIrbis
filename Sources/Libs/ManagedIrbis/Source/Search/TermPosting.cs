@@ -4,7 +4,6 @@
  * Status: poor
  */
 
-
 #region Using directives
 
 using System.Collections.Generic;
@@ -93,6 +92,16 @@ namespace ManagedIrbis.Search
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Clone the <see cref="TermPosting"/>.
+        /// </summary>
+        /// <returns></returns>
+        [NotNull]
+        public TermPosting Clone()
+        {
+            return (TermPosting) MemberwiseClone();
+        }
 
         /// <summary>
         /// Parse server response.

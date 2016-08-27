@@ -4,7 +4,6 @@
  * Status: poor
  */
 
-
 #region Using directives
 
 using System.Diagnostics;
@@ -69,6 +68,16 @@ namespace ManagedIrbis.Search
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Clone the <see cref="TermLink"/>.
+        /// </summary>
+        /// <returns></returns>
+        [NotNull]
+        public TermLink Clone()
+        {
+            return (TermLink) MemberwiseClone();
+        }
 
         /// <summary>
         /// Чтение ссылки из файла.
@@ -142,8 +151,7 @@ namespace ManagedIrbis.Search
         {
             return string.Format
                 (
-                    "Mfn: {0}, Tag: {1}, "
-                    + "Occurrence: {2}, Index: {3}", 
+                    "[{0}] {1}/{2} {3}",
                     Mfn, 
                     Tag, 
                     Occurrence, 
@@ -154,7 +162,7 @@ namespace ManagedIrbis.Search
         /// <summary>
         /// Compares this term link with another.
         /// </summary>
-        private bool Equals
+        public bool Equals
             (
                 [NotNull] TermLink other
             )

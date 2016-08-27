@@ -71,6 +71,15 @@ namespace ManagedIrbis.Search
         #region Public methods
 
         /// <summary>
+        /// Clone the <see cref="TermInfo"/>.
+        /// </summary>
+        [NotNull]
+        public TermInfo Clone()
+        {
+            return (TermInfo) MemberwiseClone();
+        }
+
+        /// <summary>
         /// Разбор ответа сервера.
         /// </summary>
         [NotNull]
