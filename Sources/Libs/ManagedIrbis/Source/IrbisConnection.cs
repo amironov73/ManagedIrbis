@@ -1496,33 +1496,13 @@ namespace ManagedIrbis
         [NotNull]
         public int[] SequentialSearch
             (
-                [CanBeNull] string database,
-                [NotNull] string expression,
-                int firstRecord,
-                int numberOfRecords,
-                int minMfn,
-                int maxMfn,
-                [NotNull] string sequential,
-                [CanBeNull] string format
+                [NotNull] SearchParameters parameters
             )
         {
-            Code.NotNull(expression, "expression");
-            Code.NotNull(sequential, "sequential");
-
-            if (string.IsNullOrEmpty(database))
-            {
-                database = Database;
-            }
+            Code.NotNull(parameters, "parameters");
 
             SearchCommand command = CommandFactory.GetSearchCommand();
-            command.Database = database;
-            command.SearchExpression = expression;
-            command.FirstRecord = firstRecord;
-            command.NumberOfRecords = numberOfRecords;
-            command.MinMfn = minMfn;
-            command.MaxMfn = maxMfn;
-            command.SequentialSpecification = sequential;
-            command.FormatSpecification = format;
+            command.ApplyParameters(parameters);
 
             ExecuteCommand(command);
 

@@ -19,6 +19,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Search;
 using ManagedIrbis.Testing;
 
 using Newtonsoft.Json;
@@ -48,16 +49,16 @@ namespace IrbisTestRunner.Tests
         [TestMethod]
         public void TestSequentialSearch()
         {
+            SearchParameters parameters = new SearchParameters
+            {
+                Database = "IBIS",
+                SearchExpression = "\"T=A$\"",
+                SequentialSpecification = "v200:'O'"
+            };
+
             int[] found = Connection.SequentialSearch
                 (
-                    "IBIS", // database
-                    "\"T=А$\"", // expression
-                    1, // first record
-                    0, // number of records
-                    0, // minimal MFN
-                    0, // maximal MFN
-                    "v200:'О'", // sequential
-                    null // format
+                    parameters
                 );
 
             Write("found: {0}", found.Length);

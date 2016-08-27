@@ -199,6 +199,27 @@ namespace ManagedIrbis.Infrastructure.Commands
         #region Public methods
 
         /// <summary>
+        /// Apply <see cref="SearchParameters"/>.
+        /// </summary>
+        public void ApplyParameters
+            (
+                [NotNull] SearchParameters parameters
+            )
+        {
+            Code.NotNull(parameters, "parameters");
+
+            Database = parameters.Database;
+            FirstRecord = parameters.FirstRecord;
+            FormatSpecification = parameters.FormatSpecification;
+            MaxMfn = parameters.MaxMfn;
+            MinMfn = parameters.MinMfn;
+            NumberOfRecords = parameters.NumberOfRecords;
+            SearchExpression = parameters.SearchExpression;
+            SequentialSpecification
+                = parameters.SequentialSpecification;
+        }
+
+        /// <summary>
         /// Clone the command.
         /// </summary>
         public SearchCommand Clone()
@@ -207,6 +228,28 @@ namespace ManagedIrbis.Infrastructure.Commands
                 (
                     Connection
                 )
+            {
+                Database = Database,
+                FirstRecord = FirstRecord,
+                FormatSpecification = FormatSpecification,
+                MaxMfn = MaxMfn,
+                MinMfn = MinMfn,
+                NumberOfRecords = NumberOfRecords,
+                SearchExpression = SearchExpression,
+                SequentialSpecification = SequentialSpecification
+            };
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gather <see cref="SearchParameters"/>
+        /// from the record.
+        /// </summary>
+        [NotNull]
+        public SearchParameters GatherParameters()
+        {
+            SearchParameters result = new SearchParameters
             {
                 Database = Database,
                 FirstRecord = FirstRecord,
@@ -337,7 +380,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             if (!string.IsNullOrEmpty(SequentialSpecification))
             {
                 verifier
-                    .NotNullNorEmpty(SearchExpression, "SearchQuery");
+                    .NotNullNorEmpty(SearchExpression, "SearchExpression");
             }
 
             verifier.
