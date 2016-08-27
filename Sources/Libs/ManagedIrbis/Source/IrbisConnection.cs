@@ -881,43 +881,6 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <summary>
-        /// Get list of the databases.
-        /// </summary>
-        [NotNull]
-        public DatabaseInfo[] ListDatabases
-            (
-                [NotNull] string listFile
-            )
-        {
-            Code.NotNull(listFile, "listFile");
-
-            string menuFile = this.ReadTextFile
-                (
-                    IrbisPath.Data,
-                    listFile
-                );
-            string[] lines = menuFile.SplitLines();
-            DatabaseInfo[] result
-                = DatabaseInfo.ParseMenu(lines);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Get list of the databases.
-        /// </summary>
-        [NotNull]
-        public DatabaseInfo[] ListDatabases()
-        {
-            return ListDatabases
-                (
-                    IrbisConstants.AdministratorDatabaseList
-                );
-        }
-
-        // =========================================================
-
-        /// <summary>
         /// List server files by the specification.
         /// </summary>
         [NotNull]

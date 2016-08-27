@@ -209,6 +209,50 @@ namespace ManagedIrbis
 
 #endif
 
+        // =========================================================
+
+        /// <summary>
+        /// Get list of the databases.
+        /// </summary>
+        [NotNull]
+        public static DatabaseInfo[] ListDatabases
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string listFile
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(listFile, "listFile");
+
+            string menuFile = connection.ReadTextFile
+                (
+                    IrbisPath.Data,
+                    listFile
+                );
+            string[] lines = menuFile.SplitLines();
+            DatabaseInfo[] result
+                = DatabaseInfo.ParseMenu(lines);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get list of the databases.
+        /// </summary>
+        [NotNull]
+        public static DatabaseInfo[] ListDatabases
+            (
+                [NotNull] this IrbisConnection connection
+            )
+        {
+            return ListDatabases
+                (
+                    connection,
+                    IrbisConstants.AdministratorDatabaseList
+                );
+        }
+
+
         // ========================================================
 
         /// <summary>
@@ -592,6 +636,45 @@ namespace ManagedIrbis
 
         // ========================================================
 
+#if !NETCORE
+
+        /// <summary>
+        /// Require minimal client version.
+        /// </summary>
+        public static bool RequireClientVersion
+            (
+                [CanBeNull] this IrbisConnection connection,
+                [NotNull] string minimalVersion,
+                bool throwException
+            )
+        {
+            Code.NotNullNorEmpty(minimalVersion, "minimalVersion");
+
+            Version requiredVersion = new Version(minimalVersion);
+            Version actualVersion = IrbisConnection.ClientVersion;
+            bool result = actualVersion
+                .CompareTo(requiredVersion) >= 0;
+
+            if (!result
+                 && throwException
+                )
+            {
+                string message = string.Format
+                    (
+                        "Required client version {0}, found version {1}",
+                        minimalVersion,
+                        actualVersion
+                    );
+                throw new IrbisException(message);
+            }
+
+            return result;
+        }
+
+#endif
+
+        // ========================================================
+
         /// <summary>
         /// Require minimal server version.
         /// </summary>
@@ -614,7 +697,8 @@ namespace ManagedIrbis
                 ) >= 0;
 
             if (!result
-                 && throwException)
+                 && throwException
+                )
             {
                 string message = string.Format
                     (
