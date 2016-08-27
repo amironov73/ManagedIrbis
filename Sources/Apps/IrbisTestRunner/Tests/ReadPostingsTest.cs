@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
-
+using AM.Collections;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -47,20 +47,27 @@ namespace IrbisTestRunner.Tests
         [TestMethod]
         public void TestReadPostings1()
         {
-            TermInfo[] terms = Connection.ReadTerms
+            IrbisConnection connection
+                = Connection.ThrowIfNull("Connection");
+
+            TermInfo[] terms = connection.ReadTerms
                 (
                     "K=",
                     3,
                     false,
                     null
                 );
+
+            PostingParameters parameters = new PostingParameters
+            {
+                Database = "IBIS",
+                Term = terms.ThrowIfNullOrEmpty("terms")[0].Text,
+                NumberOfPostings = 3
+            };
+
             TermPosting[] postings = Connection.ReadPostings
                 (
-                    null,
-                    terms[0].Text,
-                    0,
-                    1,
-                    null
+                    parameters
                 );
 
             string text = string.Join
@@ -81,13 +88,18 @@ namespace IrbisTestRunner.Tests
                     false,
                     null
                 );
+
+            PostingParameters parameters = new PostingParameters
+            {
+                Database = "IBIS",
+                Term = terms.ThrowIfNullOrEmpty("terms")[0].Text,
+                NumberOfPostings = 3,
+                Format = IrbisFormat.Brief
+            };
+
             TermPosting[] postings = Connection.ReadPostings
                 (
-                    null,
-                    terms[0].Text,
-                    0,
-                    1,
-                    "@brief"
+                    parameters
                 );
 
             string text = string.Join
@@ -108,13 +120,19 @@ namespace IrbisTestRunner.Tests
                     false,
                     null
                 );
+
+            PostingParameters parameters = new PostingParameters
+            {
+                Database = "IBIS",
+                ListOfTerms = terms.ThrowIfNullOrEmpty("terms")
+                    .Select(t => t.Text).ToArray(),
+                NumberOfPostings = 3,
+                Format = IrbisFormat.Brief
+            };
+
             TermPosting[] postings = Connection.ReadPostings
                 (
-                    null,
-                    terms.Select(t=>t.Text).ToArray(),
-                    0,
-                    1,
-                    "@brief"
+                    parameters
                 );
 
             string text = string.Join

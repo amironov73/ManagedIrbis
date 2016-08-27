@@ -377,11 +377,11 @@ namespace ManagedIrbis.Infrastructure.Commands
             Verifier<SearchCommand> verifier
                 = new Verifier<SearchCommand>(this, throwOnError);
 
-            if (!string.IsNullOrEmpty(SequentialSpecification))
-            {
-                verifier
-                    .NotNullNorEmpty(SearchExpression, "SearchExpression");
-            }
+            //if (!string.IsNullOrEmpty(SequentialSpecification))
+            //{
+            //    verifier
+            //        .NotNullNorEmpty(SearchExpression, "SearchExpression");
+            //}
 
             verifier.
                 Assert(base.Verify(throwOnError));

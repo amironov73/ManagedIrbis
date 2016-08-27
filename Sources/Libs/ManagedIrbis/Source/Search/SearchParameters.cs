@@ -49,8 +49,8 @@ namespace ManagedIrbis.Search
         /// <summary>
         /// First record offset.
         /// </summary>
-        [XmlAttribute("firstRecord")]
-        [JsonProperty("firstRecord")]
+        [XmlAttribute("first")]
+        [JsonProperty("first")]
         public int FirstRecord { get; set; }
 
         /// <summary>
@@ -64,15 +64,15 @@ namespace ManagedIrbis.Search
         /// <summary>
         /// Maximal MFN.
         /// </summary>
-        [XmlAttribute("maxMfn")]
-        [JsonProperty("maxMfn")]
+        [XmlAttribute("max")]
+        [JsonProperty("max")]
         public int MaxMfn { get; set; }
 
         /// <summary>
         /// Minimal MFN.
         /// </summary>
-        [XmlAttribute("minMfn")]
-        [JsonProperty("minMfn")]
+        [XmlAttribute("min")]
+        [JsonProperty("min")]
         public int MinMfn { get; set; }
 
         /// <summary>
@@ -138,11 +138,11 @@ namespace ManagedIrbis.Search
             Verifier<SearchParameters> verifier
                 = new Verifier<SearchParameters>(this, throwOnError);
 
-            if (!string.IsNullOrEmpty(SequentialSpecification))
-            {
-                verifier
-                    .NotNullNorEmpty(SearchExpression, "SearchExpression");
-            }
+            //if (!string.IsNullOrEmpty(SequentialSpecification))
+            //{
+            //    verifier
+            //        .NotNullNorEmpty(SearchExpression, "SearchExpression");
+            //}
 
             return verifier.Result;
         }

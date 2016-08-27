@@ -1124,62 +1124,20 @@ namespace ManagedIrbis
         [NotNull]
         public TermPosting[] ReadPostings
             (
-                [CanBeNull] string databaseName,
-                [NotNull] string term,
-                int numberOfPostings,
-                int firstPosting,
-                [CanBeNull] string format
+                [NotNull] PostingParameters parameters
             )
         {
-            Code.NotNullNorEmpty(term, "term");
+            Code.NotNull(parameters, "parameters");
 
             ReadPostingsCommand command
                 = CommandFactory.GetReadPostingsCommand();
-            command.Database = databaseName;
-            command.Term = term;
-            command.NumberOfPostings = numberOfPostings;
-            command.FirstPosting = firstPosting;
-            command.Format = format;
+            command.ApplyParameters(parameters);
 
             ExecuteCommand(command);
 
             return command.Postings
                 .ThrowIfNull("command.Postings");
         }
-
-        /// <summary>
-        /// Read term postings.
-        /// </summary>
-        [NotNull]
-        public TermPosting[] ReadPostings
-            (
-                [CanBeNull] string databaseName,
-                [NotNull] string[] terms,
-                int numberOfPostings,
-                int firstPosting,
-                [CanBeNull] string format
-            )
-        {
-            Code.NotNull(terms, "terms");
-
-            if (terms.Length == 0)
-            {
-                return new TermPosting[0];
-            }
-
-            ReadPostingsCommand command
-                = CommandFactory.GetReadPostingsCommand();
-            command.Database = databaseName;
-            command.ListOfTerms = terms;
-            command.NumberOfPostings = numberOfPostings;
-            command.FirstPosting = firstPosting;
-            command.Format = format;
-
-            ExecuteCommand(command);
-
-            return command.Postings.ThrowIfNull("command.Postings");
-        }
-
 
         // ========================================================
 

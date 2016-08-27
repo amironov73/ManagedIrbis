@@ -134,6 +134,45 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region Public methods
 
+        /// <summary>
+        /// Apply <see cref="PostingParameters"/>
+        /// to the command.
+        /// </summary>
+        public void ApplyParameters
+            (
+                [NotNull] PostingParameters parameters
+            )
+        {
+            Code.NotNull(parameters, "parameters");
+
+            Database = parameters.Database;
+            FirstPosting = parameters.FirstPosting;
+            Format = parameters.Format;
+            NumberOfPostings = parameters.NumberOfPostings;
+            Term = parameters.Term;
+            ListOfTerms = parameters.ListOfTerms;
+        }
+
+        /// <summary>
+        /// Gather <see cref="PostingParameters"/>
+        /// from the command.
+        /// </summary>
+        [NotNull]
+        public PostingParameters GatherParameters()
+        {
+            PostingParameters result = new PostingParameters
+            {
+                Database = Database,
+                FirstPosting = FirstPosting,
+                Format = Format,
+                NumberOfPostings = NumberOfPostings,
+                Term = Term,
+                ListOfTerms = ListOfTerms
+            };
+
+            return result;
+        }
+
         #endregion
 
         #region AbstractCommand members
