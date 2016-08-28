@@ -47,12 +47,21 @@ namespace IrbisTestRunner.Tests
         [TestMethod]
         public void TestReadTerms_Forward()
         {
-            TermInfo[] terms = Connection.ReadTerms
+            IrbisConnection connection
+                = Connection.ThrowIfNull("Connection");
+
+            TermParameters parameters = new TermParameters
+            {
+                Database = "IBIS",
+                NumberOfTerms = 3,
+                ReverseOrder = false,
+                StartTerm = "K=",
+                Format = null
+            };
+
+            TermInfo[] terms = connection.ReadTerms
                 (
-                    "K=",
-                    3,
-                    false,
-                    null
+                    parameters
                 );
 
             string text = string.Join
@@ -66,12 +75,21 @@ namespace IrbisTestRunner.Tests
         [TestMethod]
         public void TestReadTerms_Backward()
         {
-            TermInfo[] terms = Connection.ReadTerms
+            IrbisConnection connection
+                = Connection.ThrowIfNull("Connection");
+
+            TermParameters parameters = new TermParameters
+            {
+                Database = "IBIS",
+                NumberOfTerms = 3,
+                ReverseOrder = true,
+                StartTerm = "K=C",
+                Format = null
+            };
+
+            TermInfo[] terms = connection.ReadTerms
                 (
-                    "K=C",
-                    3,
-                    true,
-                    null
+                    parameters
                 );
 
             string text = string.Join
@@ -85,12 +103,21 @@ namespace IrbisTestRunner.Tests
         [TestMethod]
         public void TestReadTerms_Format()
         {
-            TermInfoEx[] terms = (TermInfoEx[]) Connection.ReadTerms
+            IrbisConnection connection
+                = Connection.ThrowIfNull("Connection");
+
+            TermParameters parameters = new TermParameters
+            {
+                Database = "IBIS",
+                NumberOfTerms = 10,
+                ReverseOrder = false,
+                StartTerm = "K=",
+                Format = IrbisFormat.Brief
+            };
+
+            TermInfoEx[] terms = (TermInfoEx[])connection.ReadTerms
                 (
-                    "K=",
-                    10,
-                    false,
-                    "@brief"
+                    parameters
                 );
 
             string text = string.Join
@@ -103,7 +130,6 @@ namespace IrbisTestRunner.Tests
                 );
             Write(text);
         }
-
 
         #endregion
     }

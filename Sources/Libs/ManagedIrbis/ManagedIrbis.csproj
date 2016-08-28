@@ -214,6 +214,7 @@
     <Compile Include="Source\Search\SearchParameters.cs" />
     <Compile Include="Source\Search\Infrastructure\SearchQueryParser.cs" />
     <Compile Include="Source\Search\TermInfoEx.cs" />
+    <Compile Include="Source\Search\TermParameters.cs" />
     <Compile Include="Source\ServerStat.cs" />
     <Compile Include="Source\StatDefinition.cs" />
     <Compile Include="Source\TableDefinition.cs" />

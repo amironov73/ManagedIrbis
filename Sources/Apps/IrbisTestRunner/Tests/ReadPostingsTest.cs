@@ -50,15 +50,21 @@ namespace IrbisTestRunner.Tests
             IrbisConnection connection
                 = Connection.ThrowIfNull("Connection");
 
+            TermParameters termParameters = new TermParameters
+            {
+                Database = "IBIS",
+                NumberOfTerms = 3,
+                ReverseOrder = false,
+                StartTerm = "K=",
+                Format = null
+            };
+
             TermInfo[] terms = connection.ReadTerms
                 (
-                    "K=",
-                    3,
-                    false,
-                    null
+                    termParameters
                 );
 
-            PostingParameters parameters = new PostingParameters
+            PostingParameters postingParameters = new PostingParameters
             {
                 Database = "IBIS",
                 Term = terms.ThrowIfNullOrEmpty("terms")[0].Text,
@@ -67,7 +73,7 @@ namespace IrbisTestRunner.Tests
 
             TermPosting[] postings = Connection.ReadPostings
                 (
-                    parameters
+                    postingParameters
                 );
 
             string text = string.Join
@@ -81,15 +87,24 @@ namespace IrbisTestRunner.Tests
         [TestMethod]
         public void TestReadPostings2()
         {
-            TermInfo[] terms = Connection.ReadTerms
+            IrbisConnection connection
+                = Connection.ThrowIfNull("Connection");
+
+            TermParameters termParameters = new TermParameters
+            {
+                Database = "IBIS",
+                NumberOfTerms = 3,
+                ReverseOrder = false,
+                StartTerm = "K=",
+                Format = null
+            };
+
+            TermInfo[] terms = connection.ReadTerms
                 (
-                    "K=",
-                    3,
-                    false,
-                    null
+                    termParameters
                 );
 
-            PostingParameters parameters = new PostingParameters
+            PostingParameters postingParameters = new PostingParameters
             {
                 Database = "IBIS",
                 Term = terms.ThrowIfNullOrEmpty("terms")[0].Text,
@@ -99,7 +114,7 @@ namespace IrbisTestRunner.Tests
 
             TermPosting[] postings = Connection.ReadPostings
                 (
-                    parameters
+                    postingParameters
                 );
 
             string text = string.Join
@@ -113,15 +128,24 @@ namespace IrbisTestRunner.Tests
         [TestMethod]
         public void TestReadPostings3()
         {
-            TermInfo[] terms = Connection.ReadTerms
+            IrbisConnection connection
+                = Connection.ThrowIfNull("Connection");
+
+            TermParameters termParameters = new TermParameters
+            {
+                Database = "IBIS",
+                NumberOfTerms = 3,
+                ReverseOrder = false,
+                StartTerm = "K=",
+                Format = null
+            };
+
+            TermInfo[] terms = connection.ReadTerms
                 (
-                    "K=",
-                    3,
-                    false,
-                    null
+                    termParameters
                 );
 
-            PostingParameters parameters = new PostingParameters
+            PostingParameters postingParameters = new PostingParameters
             {
                 Database = "IBIS",
                 ListOfTerms = terms.ThrowIfNullOrEmpty("terms")
@@ -132,7 +156,7 @@ namespace IrbisTestRunner.Tests
 
             TermPosting[] postings = Connection.ReadPostings
                 (
-                    parameters
+                    postingParameters
                 );
 
             string text = string.Join

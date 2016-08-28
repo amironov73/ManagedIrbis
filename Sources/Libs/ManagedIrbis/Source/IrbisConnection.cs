@@ -1208,21 +1208,14 @@ namespace ManagedIrbis
         [NotNull]
         public TermInfo[] ReadTerms
             (
-                [NotNull] string startTerm,
-                int numberOfTerms,
-                bool reverseOrder,
-                [CanBeNull] string format
+                [NotNull] TermParameters parameters
             )
         {
-            Code.NotNull(startTerm, "startTerm");
+            Code.NotNull(parameters, "parameters");
 
             ReadTermsCommand command
                 = CommandFactory.GetReadTermsCommand();
-            command.Database = Database;
-            command.StartTerm = startTerm;
-            command.NumberOfTerms = numberOfTerms;
-            command.ReverseOrder = reverseOrder;
-            command.Format = format;
+            command.ApplyParameters(parameters);
 
             ExecuteCommand(command);
 

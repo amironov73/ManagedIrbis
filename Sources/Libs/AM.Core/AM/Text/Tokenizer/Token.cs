@@ -137,6 +137,53 @@ namespace AM.Text.Tokenizer
         }
 
         /// <summary>
+        /// Create token from <see cref="TextNavigator"/>.
+        /// </summary>
+        [NotNull]
+        public static Token FromNavigator
+            (
+                [NotNull] TextNavigator navigator,
+                string value
+            )
+        {
+            Code.NotNull(navigator, "navigator");
+
+            Token result = new Token
+                (
+                    TokenKind.Unknown,
+                    value,
+                    navigator.Line,
+                    navigator.Column
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Create token from <see cref="TextNavigator"/>.
+        /// </summary>
+        [NotNull]
+        public static Token FromNavigator
+            (
+                [NotNull] TextNavigator navigator,
+                TokenKind kind,
+                string value
+            )
+        {
+            Code.NotNull(navigator, "navigator");
+
+            Token result = new Token
+                (
+                    kind,
+                    value,
+                    navigator.Line,
+                    navigator.Column
+                );
+
+            return result;
+        }
+
+        /// <summary>
         /// Convert token to string.
         /// </summary>
         [CanBeNull]

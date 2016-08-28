@@ -137,6 +137,43 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region Public methods
 
+        /// <summary>
+        /// Apply the <see cref="TermParameters"/>
+        /// to the command.
+        /// </summary>
+        public void ApplyParameters
+            (
+                [NotNull] TermParameters parameters
+            )
+        {
+            Code.NotNull(parameters, "parameters");
+
+            Database = parameters.Database;
+            NumberOfTerms = parameters.NumberOfTerms;
+            ReverseOrder = parameters.ReverseOrder;
+            StartTerm = parameters.StartTerm;
+            Format = parameters.Format;
+        }
+
+        /// <summary>
+        /// Create <see cref="TermParameters"/>
+        /// from the command.
+        /// </summary>
+        [NotNull]
+        public TermParameters GatherParameters()
+        {
+            TermParameters result = new TermParameters
+            {
+                Database = Database,
+                NumberOfTerms = NumberOfTerms,
+                ReverseOrder = ReverseOrder,
+                StartTerm = StartTerm,
+                Format = Format
+            };
+
+            return result;
+        }
+
         #endregion
 
         #region AbstractCommand members

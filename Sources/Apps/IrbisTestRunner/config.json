@@ -51,7 +51,7 @@
     //"ReadRawRecordTest.cs",
     //"ReadRawRecordsTest.cs",
     "ReadRecordTest.cs",
-    //"ReadTermsTest.cs",
+    "ReadTermsTest.cs",
     //"RecordCacheTest.cs",
     //"RecordHistoryTest.cs",
     //"SearchRawTest.cs",
