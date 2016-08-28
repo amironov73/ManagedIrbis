@@ -135,6 +135,7 @@
     <Compile Include="Source\Infrastructure\Commands\ListProcessesCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\ListUsersCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\MaxMfnCommand.cs" />
+    <Compile Include="Source\Infrastructure\Commands\ReloadDictionaryCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\ServerStatCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\ServerVersionCommand.cs" />
     <Compile Include="Source\Infrastructure\ExecutionContext.cs" />

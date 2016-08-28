@@ -1284,15 +1284,13 @@ namespace ManagedIrbis
                 [NotNull] string databaseName
             )
         {
-            // TODO Create ReloadDictionaryCommand
-
             Code.NotNullNorEmpty(databaseName, "databaseName");
 
-            ExecuteCommand
-                (
-                    CommandCode.ReloadDictionary,
-                    databaseName
-                );
+            ReloadDictionaryCommand command
+                = CommandFactory.GetReloadDictionaryCommand();
+            command.Database = databaseName;
+
+            ExecuteCommand(command);
         }
 
         // =========================================================

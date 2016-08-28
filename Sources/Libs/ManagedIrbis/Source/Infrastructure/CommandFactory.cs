@@ -285,6 +285,15 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Get <see cref="ReloadDictionaryCommand"/>.
+        /// </summary>
+        [NotNull]
+        public virtual ReloadDictionaryCommand GetReloadDictionaryCommand()
+        {
+            return new ReloadDictionaryCommand(Connection);
+        }
+
+        /// <summary>
         /// Get SearchCommand.
         /// </summary>
         [NotNull]
