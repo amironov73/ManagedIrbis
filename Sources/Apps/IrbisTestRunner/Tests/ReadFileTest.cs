@@ -35,16 +35,44 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestReadFile()
+        public void TestReadFile_Existent()
         {
-            string text = Connection.ReadTextFile
+            IrbisConnection connection
+                = Connection.ThrowIfNull("Connection");
+
+            string text = connection.ReadTextFile
                 (
                     IrbisPath.MasterFile,
                     "II.MNU"
                 );
             Write
                 (
-                    IrbisFormat.PrepareFormat(text.Substring(0, 50)).Trim()
+                    IrbisFormat.PrepareFormat
+                        (
+                            text.Substring(0, 50)
+                        )
+                        .Trim()
+                );
+        }
+
+        [TestMethod]
+        public void TestReadFile_NonExistent()
+        {
+            IrbisConnection connection
+                = Connection.ThrowIfNull("Connection");
+
+            string text = connection.ReadTextFile
+                (
+                    IrbisPath.MasterFile,
+                    "NOTEXIST.MNU"
+                );
+            Write
+                (
+                    IrbisFormat.PrepareFormat
+                        (
+                            text
+                        )
+                        .Trim()
                 );
         }
 
