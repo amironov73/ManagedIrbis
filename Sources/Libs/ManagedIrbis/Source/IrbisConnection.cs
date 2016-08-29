@@ -1321,9 +1321,10 @@ namespace ManagedIrbis
         /// <remarks>For Administrator only.</remarks>
         public void RestartServer()
         {
-            // TODO Create RestartServerCommand
+            RestartServerCommand command
+                = CommandFactory.GetRestartServerCommand();
 
-            ExecuteCommand(CommandCode.RestartServer);
+            ExecuteCommand(command);
         }
 
         // =========================================================

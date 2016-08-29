@@ -303,6 +303,15 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Get <see cref="RestartServerCommand"/>.
+        /// </summary>
+        [NotNull]
+        public virtual RestartServerCommand GetRestartServerCommand()
+        {
+            return new RestartServerCommand(Connection);
+        }
+
+        /// <summary>
         /// Get SearchCommand.
         /// </summary>
         [NotNull]
