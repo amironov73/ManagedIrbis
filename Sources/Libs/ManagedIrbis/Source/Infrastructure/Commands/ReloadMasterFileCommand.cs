@@ -1,4 +1,4 @@
-﻿/* ReloadDictionaryCommand.cs --
+﻿/* ReloadMasterFileCommand.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -17,11 +17,11 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Infrastructure.Commands
 {
     /// <summary>
-    /// Reload database dictionary.
+    /// Reload database master file.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class ReloadDictionaryCommand
+    public sealed class ReloadMasterFileCommand
         : AbstractCommand
     {
         #region Properties
@@ -39,7 +39,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ReloadDictionaryCommand
+        public ReloadMasterFileCommand
             (
                 [NotNull] IrbisConnection connection
             )
@@ -65,7 +65,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
-            result.CommandCode = CommandCode.ReloadDictionary;
+            result.CommandCode = CommandCode.ReloadMasterFile;
 
             string database = Database ?? Connection.Database;
             if (string.IsNullOrEmpty(database))

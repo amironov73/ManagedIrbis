@@ -294,6 +294,15 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Get <see cref="ReloadMasterFileCommand"/>.
+        /// </summary>
+        [NotNull]
+        public virtual ReloadMasterFileCommand GetReloadMasterFileCommand()
+        {
+            return new ReloadMasterFileCommand(Connection);
+        }
+
+        /// <summary>
         /// Get SearchCommand.
         /// </summary>
         [NotNull]

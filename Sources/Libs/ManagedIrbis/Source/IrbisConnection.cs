@@ -1304,15 +1304,13 @@ namespace ManagedIrbis
                 [NotNull] string databaseName
             )
         {
-            // TODO Create ReloadMasterFileCommand
-
             Code.NotNullNorEmpty(databaseName, "databaseName");
 
-            ExecuteCommand
-                (
-                    CommandCode.ReloadMasterFile,
-                    databaseName
-                );
+            ReloadMasterFileCommand command
+                = CommandFactory.GetReloadMasterFileCommand();
+            command.Database = databaseName;
+
+            ExecuteCommand(command);
         }
 
         // =========================================================
