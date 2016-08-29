@@ -125,7 +125,7 @@ namespace AM.Rfid
                 string password
             )
         {
-            byte mode = 0; // Mode (always 0)
+            //byte mode = 0; // Mode (always 0)
             //byte epcLen = (byte) epc.Length; // Number of bytes in EPC
             _reader.SetData(FedmIscReaderID.FEDM_ISC_TMP_EPC_DESTROY_MODE, 0);
             //_reader.SetData(FedmIscReaderID.FEDM_ISC_TMP_EPC_DESTROY_LEN, epcLen);

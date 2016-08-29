@@ -27,16 +27,19 @@ namespace AM.Rfid
     {
         #region Properties
 
+        /// <inheritdoc/>
         public override RfidCapabilities Capabilities
         {
             get { return RfidCapabilities.None; }
         }
 
+        /// <inheritdoc/>
         public override bool Connected
         {
             get { return _connected; }
         }
 
+        /// <inheritdoc/>
         public override string Name
         {
             get { return "Cardman"; }
@@ -46,6 +49,9 @@ namespace AM.Rfid
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public RfidCardmanDriver()
         {
             _context = new SCardContext();
