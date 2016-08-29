@@ -187,7 +187,7 @@
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>ArsMagna.private.snk</AssemblyOriginatorKeyFile>
@@ -226,7 +226,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AM\Rfid\RfidCapabilities.cs" />
+    <Compile Include="AM\Rfid\RfidCardmanDriver.cs" />
+    <Compile Include="AM\Rfid\RfidDriver.cs" />
     <Compile Include="AM\Rfid\RfidException.cs" />
+    <Compile Include="AM\Rfid\RfidFactory.cs" />
+    <Compile Include="AM\Rfid\RfidFeigDriver.cs" />
+    <Compile Include="AM\Rfid\RfidFeigNxpDriver.cs" />
+    <Compile Include="AM\Rfid\RfidSystemInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
