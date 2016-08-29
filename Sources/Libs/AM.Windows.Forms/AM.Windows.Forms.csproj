@@ -167,13 +167,28 @@
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripTrackBar.cs" />
     <Compile Include="AM\Windows\Forms\WindowPlacement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
+  <Choose>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
+      <ItemGroup>
+        <Compile Include="Properties\35\Resources.Designer.cs">
+          <AutoGen>True</AutoGen>
+          <DesignTime>True</DesignTime>
+          <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Compile Include="Properties\Resources.Designer.cs">
+          <AutoGen>True</AutoGen>
+          <DesignTime>True</DesignTime>
+          <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
   <ItemGroup>
     <ProjectReference Include="..\AM.Core\AM.Core.csproj">
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
@@ -209,11 +224,25 @@
     <EmbeddedResource Include="AM\Windows\Forms\ToolStrip\ToolStripCustomizationForm.resx">
       <DependentUpon>ToolStripCustomizationForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
+  <Choose>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
+      <ItemGroup>
+        <EmbeddedResource Include="Properties\35\Resources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <EmbeddedResource Include="Properties\Resources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

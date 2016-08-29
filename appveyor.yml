@@ -1,8 +1,8 @@
-version: 1.6.3.{build}
+version: 1.6.4.{build}
 configuration: Debug
 image: Visual Studio 2015
 environment:
-  packageVersion: 1.6.3
+  packageVersion: 1.6.4
 
 assembly_info:
   patch: true
