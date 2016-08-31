@@ -121,6 +121,7 @@
     <Compile Include="AM\Collections\DoublyLinkedList.cs" />
     <Compile Include="AM\Collections\IIndexable.cs" />
     <Compile Include="AM\Collections\IndexableConverter.cs" />
+    <Compile Include="AM\Collections\KeyedCollection.cs" />
     <Compile Include="AM\Collections\ListUtility.cs" />
     <Compile Include="AM\Collections\NonNullCollection.cs" />
     <Compile Include="AM\Collections\Pair.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="AM\IO\DumpUtility.cs" />
     <Compile Include="AM\IO\IConsoleOutputReceiver.cs" />
     <Compile Include="AM\IO\IniFile.cs" />
+    <Compile Include="AM\IO\IniFile2.cs" />
     <Compile Include="AM\IO\MultiStream.cs" />
     <Compile Include="AM\IO\NonCloseableStream.cs" />
     <Compile Include="AM\IO\NonCloseableStreamReader.cs" />
