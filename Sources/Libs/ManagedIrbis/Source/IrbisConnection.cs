@@ -1638,22 +1638,21 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <summary>
-        /// Unlock specified database.
+        /// Unlock the specified database.
         /// </summary>
+        /// <remarks>For Administrator only.</remarks>
         public void UnlockDatabase
             (
                 [NotNull] string databaseName
             )
         {
-            // TODO UnlockDatabaseCommand
-
             Code.NotNullNorEmpty(databaseName, "databaseName");
 
-            ExecuteCommand
-                (
-                    CommandCode.UnlockDatabase,
-                    databaseName
-                );
+            UnlockDatabaseCommand command
+                = CommandFactory.GetUnlockDatabaseCommand();
+            command.Database = databaseName;
+
+            ExecuteCommand(command);
         }
 
         // =========================================================

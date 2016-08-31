@@ -141,6 +141,7 @@
     <Compile Include="Source\Infrastructure\Commands\ServerStatCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\ServerVersionCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\TruncateDatabaseCommand.cs" />
+    <Compile Include="Source\Infrastructure\Commands\UnlockDatabaseCommand.cs" />
     <Compile Include="Source\Infrastructure\ExecutionContext.cs" />
     <Compile Include="Source\Infrastructure\ExecutionEventArgs.cs" />
     <Compile Include="Source\Infrastructure\StandardEngine.cs" />

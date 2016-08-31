@@ -350,7 +350,6 @@ namespace ManagedIrbis.Infrastructure
         /// <summary>
         /// Get <see cref="TruncateDatabaseCommand"/>.
         /// </summary>
-        /// <returns></returns>
         [NotNull]
         public virtual TruncateDatabaseCommand GetTruncateDatabaseCommand()
         {
@@ -393,6 +392,15 @@ namespace ManagedIrbis.Infrastructure
                     lines,
                     encoding
                 );
+        }
+
+        /// <summary>
+        /// Get <see cref="UnlockDatabaseCommand"/>.
+        /// </summary>
+        [NotNull]
+        public virtual UnlockDatabaseCommand GetUnlockDatabaseCommand()
+        {
+            return new UnlockDatabaseCommand(Connection);
         }
 
         /// <summary>
