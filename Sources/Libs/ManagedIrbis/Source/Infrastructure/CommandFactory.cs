@@ -348,6 +348,16 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Get <see cref="TruncateDatabaseCommand"/>.
+        /// </summary>
+        /// <returns></returns>
+        [NotNull]
+        public virtual TruncateDatabaseCommand GetTruncateDatabaseCommand()
+        {
+            return new TruncateDatabaseCommand(Connection);
+        }
+
+        /// <summary>
         /// Get UniversalCommand.
         /// </summary>
         [NotNull]

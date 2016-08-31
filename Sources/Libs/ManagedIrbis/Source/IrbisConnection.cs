@@ -1626,15 +1626,13 @@ namespace ManagedIrbis
                 [NotNull] string databaseName
             )
         {
-            // TODO TruncateDatabaseCommand
-
             Code.NotNullNorEmpty(databaseName, "databaseName");
 
-            ExecuteCommand
-                (
-                    CommandCode.EmptyDatabase,
-                    databaseName
-                );
+            TruncateDatabaseCommand command
+                = CommandFactory.GetTruncateDatabaseCommand();
+            command.Database = databaseName;
+
+            ExecuteCommand(command);
         }
 
         // =========================================================
