@@ -53,7 +53,7 @@
           <HintPath>..\..\ThirdParty\IDLogic\NET2\OBIDISC4NET.dll</HintPath>
           <Private>True</Private>
         </Reference>
-        <Reference Include="pcsc-sharp">
+        <Reference Include="pcsc-sharp, Version=3.5.1.0, Culture=neutral, PublicKeyToken=6d1a05bf134decdf, processorArchitecture=MSIL">
           <HintPath>..\..\ThirdParty\PCSC\net35\pcsc-sharp.dll</HintPath>
           <Private>True</Private>
         </Reference>
@@ -101,8 +101,8 @@
           <HintPath>..\..\ThirdParty\IDLogic\NET4\x86\OBIDISC4NET.dll</HintPath>
           <Private>True</Private>
         </Reference>
-        <Reference Include="pcsc-sharp, Version=3.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-          <HintPath>..\..\packages\PCSC.3.5.1\lib\net40\pcsc-sharp.dll</HintPath>
+        <Reference Include="pcsc-sharp, Version=3.5.1.0, Culture=neutral, PublicKeyToken=6d1a05bf134decdf, processorArchitecture=MSIL">
+          <HintPath>..\..\ThirdParty\PCSC\net40\pcsc-sharp.dll</HintPath>
           <Private>True</Private>
         </Reference>
         <Content Include="..\..\ThirdParty\IDLogic\NET4\x86\FeCom.dll">
@@ -149,8 +149,8 @@
           <HintPath>..\..\ThirdParty\IDLogic\NET4\x86\OBIDISC4NET.dll</HintPath>
           <Private>True</Private>
         </Reference>
-        <Reference Include="pcsc-sharp, Version=3.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-          <HintPath>..\..\packages\PCSC.3.5.1\lib\net40\pcsc-sharp.dll</HintPath>
+        <Reference Include="pcsc-sharp, Version=3.5.1.0, Culture=neutral, PublicKeyToken=6d1a05bf134decdf, processorArchitecture=MSIL">
+          <HintPath>..\..\ThirdParty\PCSC\net40\pcsc-sharp.dll</HintPath>
           <Private>True</Private>
         </Reference>
         <Content Include="..\..\ThirdParty\IDLogic\NET4\x86\FeCom.dll">
@@ -187,7 +187,7 @@
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>ArsMagna.private.snk</AssemblyOriginatorKeyFile>
