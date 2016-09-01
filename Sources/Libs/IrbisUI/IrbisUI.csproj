@@ -107,6 +107,7 @@
       <DependentUpon>IrbisBusyForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Sources\IrbisBusyManager.cs" />
+    <Compile Include="Sources\IrbisLoginCenter.cs" />
     <Compile Include="Sources\IrbisLoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
