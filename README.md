@@ -11,6 +11,18 @@ ManagedIrbis currently supports:
 - Mono 4.3;
 - Xamarin Android.
 
+### Components
+
+- **AM.Core** - common classes and routines;
+- **AM.Drawing** - System.Drawing related stuff;
+- **AM.Windows.Forms** - Syste.Windows.Forms based visual components;
+- **AM.Win32** - interop, Win32 API wrappers;
+- **AM.Rfid** - RFID technology support;
+- **ManagedIrbis** - common IRBIS client related classes;
+- **IrbisUI** - System.Windows.Forms based common UI components for clients;
+- **SharpIrbis** - C#-based client scripting;
+- **MoonIrbis** - Lua-based client scripting.
+
 ### Links
 
 - [Source code repository](https://github.com/amironov73/ManagedIrbis);

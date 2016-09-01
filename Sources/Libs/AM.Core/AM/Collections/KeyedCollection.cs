@@ -25,6 +25,7 @@ namespace AM.Collections
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [DebuggerDisplay("Count={Count}")]
     public sealed class KeyedCollection<TKey, TValue>
         : IEnumerable<KeyedCollection<TKey, TValue>.Element>
     {
