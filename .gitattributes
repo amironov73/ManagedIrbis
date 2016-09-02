@@ -65,9 +65,10 @@
 ###############################################################################
 # for GitHub linguist
 ###############################################################################
-/Icons/* linguist-vendored
-*.svg linguist-vendored
+*.svg linguist-vendored=true
+*.mst linguist-vendored=true
+/TestData/* linguist-vendored=true
 
-/Examples/* linguist-documentation
-*.doc linguist-documentation
-*.docx linguist-documentation
+/Examples/* linguist-documentation=true
+*.doc linguist-documentation=true
+*.docx linguist-documentation=true
