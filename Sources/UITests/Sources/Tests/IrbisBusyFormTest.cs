@@ -1,4 +1,4 @@
-﻿/* IrbisLoginForm2Test.cs -- 
+﻿/* IrbisBusyFormTest.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -12,13 +12,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using AM;
 
 using CodeJam;
-
 using IrbisUI;
-
 using JetBrains.Annotations;
 
 using ManagedIrbis;
@@ -31,7 +28,7 @@ using Newtonsoft.Json;
 
 namespace UITests
 {
-    public sealed class IrbisLoginForm2Test
+    public sealed class IrbisBusyFormTest
         : IUITest
     {
         #region IUITest members
@@ -41,16 +38,9 @@ namespace UITests
                 IWin32Window ownerWindow
             )
         {
-            using (IrbisLoginForm2 form = new IrbisLoginForm2())
+            using (IrbisBusyForm form = new IrbisBusyForm())
             {
-                ConnectionSettings settings = new ConnectionSettings();
-                form.ApplySettings(settings);
-
-                if (form.ShowDialog(ownerWindow) == DialogResult.OK)
-                {
-                    settings = form.GatherSettings();
-                    MessageBox.Show(settings.ToString());
-                }
+                form.ShowDialog(ownerWindow);
             }
         }
 

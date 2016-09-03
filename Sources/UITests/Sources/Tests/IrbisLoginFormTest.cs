@@ -35,12 +35,12 @@ namespace UITests
 
         public void Run
             (
-                IWin32Window parentWindow
+                IWin32Window ownerWindow
             )
         {
             using (IrbisLoginForm form = new IrbisLoginForm())
             {
-                if (form.ShowDialog(parentWindow) == DialogResult.OK)
+                if (form.ShowDialog(ownerWindow) == DialogResult.OK)
                 {
                     ConnectionSettings settings
                         = form.GatherSettings();

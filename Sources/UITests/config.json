@@ -1,10 +1,14 @@
 ﻿[
   {
     "class": "UITests.IrbisLoginFormTest",
-    "title": "Irbis login form"
+    "title": "Login form"
   },
   {
     "class": "UITests.IrbisLoginForm2Test",
-    "title": "Irbis login form 2"
+    "title": "Login form 2"
+  },
+  {
+    "class": "UITests.IrbisBusyFormTest",
+    "title": "Busy form"
   }
 ]
