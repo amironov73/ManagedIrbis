@@ -112,6 +112,10 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Sources\IrbisLoginForm.Designer.cs" />
+    <Compile Include="Sources\IrbisLoginForm2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sources\IrbisLoginForm2.Designer.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +151,7 @@
       <DependentUpon>IrbisBusyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sources\IrbisLoginForm.resx" />
+    <EmbeddedResource Include="Sources\IrbisLoginForm2.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,4 +1,4 @@
-﻿/* IrbisLoginForm.cs -- логин и пароль для входа в ИРБИС
+﻿/* IrbisLoginForm2.cs -- логин и пароль для входа в ИРБИС
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -20,14 +20,35 @@ using MoonSharp.Interpreter;
 namespace IrbisUI
 {
     /// <summary>
-    /// Окно с вводом логина и пароля для входа в ИРБИС.
+    /// Окно с вводом адреса сервера, логина 
+    /// и пароля для входа в ИРБИС.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public partial class IrbisLoginForm 
+    public partial class IrbisLoginForm2 
         : Form
     {
         #region Properties
+
+        /// <summary>
+        /// Адрес сервера.
+        /// </summary>
+        [CanBeNull]
+        public string Host
+        {
+            get { return _serverBox.Text; }
+            set { _serverBox.Text = value; }
+        }
+
+        /// <summary>
+        /// Порт для подключения.
+        /// </summary>
+        [CanBeNull]
+        public string Port
+        {
+            get { return _portBox.Text; }
+            set { _portBox.Text = value; }
+        }
 
         /// <summary>
         /// Логин.
@@ -54,9 +75,9 @@ namespace IrbisUI
         #region Construction
 
         /// <summary>
-        /// Конструктор по умолчанию.
+        /// Constructor.
         /// </summary>
-        public IrbisLoginForm()
+        public IrbisLoginForm2()
         {
             InitializeComponent();
         }
@@ -67,11 +88,21 @@ namespace IrbisUI
 
         private void _okButton_Click
             (
-                object sender, 
+                object sender,
                 EventArgs e
             )
         {
-            if (string.IsNullOrEmpty(_nameBox.Text))
+            if (string.IsNullOrEmpty(_serverBox.Text))
+            {
+                _serverBox.Focus();
+                DialogResult = DialogResult.None;
+            }
+            else if (string.IsNullOrEmpty(_portBox.Text))
+            {
+                _portBox.Focus();
+                DialogResult = DialogResult.None;
+            }
+            else if (string.IsNullOrEmpty(_nameBox.Text))
             {
                 _nameBox.Focus();
                 DialogResult = DialogResult.None;
