@@ -23,7 +23,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace UITests.Sources
+namespace UITests
 {
     /// <summary>
     /// UI test description.
@@ -78,7 +78,7 @@ namespace UITests.Sources
         /// </summary>
         public void Run
             (
-                [CanBeNull] IWin32Window parentWindow
+                [CanBeNull] IWin32Window ownerWindow
             )
         {
             Type type = Type.GetType
@@ -90,7 +90,7 @@ namespace UITests.Sources
                 (
                     type
                 );
-            testObject.Run(parentWindow);
+            testObject.Run(ownerWindow);
         }
 
         #endregion

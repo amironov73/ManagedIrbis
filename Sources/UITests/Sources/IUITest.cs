@@ -12,7 +12,7 @@ using JetBrains.Annotations;
 
 #endregion
 
-namespace UITests.Sources
+namespace UITests
 {
     /// <summary>
     /// UI test interface
@@ -24,11 +24,11 @@ namespace UITests.Sources
         /// <summary>
         /// Run the test.
         /// </summary>
-        /// <param name="parentWindow">Parent window
+        /// <param name="ownerWindow">Owner window
         /// (can be <c>null</c>).</param>
         void Run
             (
-                [CanBeNull] IWin32Window parentWindow
+                [CanBeNull] IWin32Window ownerWindow
             );
     }
 }

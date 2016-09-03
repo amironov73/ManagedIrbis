@@ -100,6 +100,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Sources\IrbisBusyForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,11 +117,15 @@
     <Compile Include="Sources\IrbisLoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sources\IrbisLoginForm.Designer.cs" />
+    <Compile Include="Sources\IrbisLoginForm.Designer.cs" >
+      <DependentUpon>IrbisLoginForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Sources\IrbisLoginForm2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sources\IrbisLoginForm2.Designer.cs" />
+    <Compile Include="Sources\IrbisLoginForm2.Designer.cs" >
+      <DependentUpon>IrbisLoginForm2.cs</DependentUpon>
+    </Compile>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
@@ -148,11 +157,19 @@
     <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Sources\IrbisBusyForm.resx">
       <DependentUpon>IrbisBusyForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sources\IrbisLoginForm.resx" />
-    <EmbeddedResource Include="Sources\IrbisLoginForm2.resx" />
+    <EmbeddedResource Include="Sources\IrbisLoginForm.resx" >
+      <DependentUpon>IrbisLoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\IrbisLoginForm2.resx" >
+      <DependentUpon>IrbisLoginForm2.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

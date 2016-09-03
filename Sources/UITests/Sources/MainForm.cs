@@ -15,7 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using AM.Windows.Forms;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -26,9 +26,25 @@ using MoonSharp.Interpreter;
 
 namespace UITests
 {
+    /// <summary>
+    /// Main form.
+    /// </summary>
     public partial class MainForm
         : Form
     {
+        #region Properties
+
+        [CanBeNull]
+        public UITest CurrentTest
+        {
+            get
+            {
+                return _listBox.SelectedItem as UITest;
+            }
+        }
+
+        #endregion
+
         public MainForm()
         {
             InitializeComponent();
@@ -41,6 +57,37 @@ namespace UITests
             )
         {
             Close();
+        }
+
+        private void MainForm_Load
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            UITest[] tests = UITest.LoadFromFile("config.json");
+
+            _listBox.Items.AddRange(tests);
+        }
+
+        private void _listBox_DoubleClick
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            try
+            {
+                UITest test = CurrentTest;
+                if (test != null)
+                {
+                    test.Run(this);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionBox.Show(ex);
+            }
         }
     }
 }

@@ -45,8 +45,8 @@ namespace IrbisUI
 
             using (IrbisLoginForm form = new IrbisLoginForm())
             {
-                form.UserName = connection.Username;
-                form.UserPassword = connection.Password;
+                form.Username = connection.Username;
+                form.Password = connection.Password;
                 form.Text = string.Format
                     (
                         "{0} - {1}",
@@ -60,8 +60,8 @@ namespace IrbisUI
                     );
                 if (result == DialogResult.OK)
                 {
-                    connection.Username = form.UserName;
-                    connection.Password = form.UserPassword;
+                    connection.Username = form.Username;
+                    connection.Password = form.Password;
                     return true;
                 }
             }
