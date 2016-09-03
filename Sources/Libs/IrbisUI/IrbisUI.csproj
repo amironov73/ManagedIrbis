@@ -115,7 +115,7 @@
     <Compile Include="Sources\IrbisCredentialsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sources\IrbisCredentialsForm.designer.cs">
+    <Compile Include="Sources\IrbisCredentialsForm.Designer.cs">
       <DependentUpon>IrbisCredentialsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Sources\IrbisIdleManager.cs" />
