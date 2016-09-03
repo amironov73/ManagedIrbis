@@ -112,18 +112,24 @@
       <DependentUpon>IrbisBusyForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Sources\IrbisBusyManager.cs" />
+    <Compile Include="Sources\IrbisCredentialsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sources\IrbisCredentialsForm.designer.cs">
+      <DependentUpon>IrbisCredentialsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Sources\IrbisIdleManager.cs" />
     <Compile Include="Sources\IrbisLoginCenter.cs" />
     <Compile Include="Sources\IrbisLoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sources\IrbisLoginForm.Designer.cs" >
+    <Compile Include="Sources\IrbisLoginForm.Designer.cs">
       <DependentUpon>IrbisLoginForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Sources\IrbisLoginForm2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sources\IrbisLoginForm2.Designer.cs" >
+    <Compile Include="Sources\IrbisLoginForm2.Designer.cs">
       <DependentUpon>IrbisLoginForm2.cs</DependentUpon>
     </Compile>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
@@ -164,10 +170,13 @@
     <EmbeddedResource Include="Sources\IrbisBusyForm.resx">
       <DependentUpon>IrbisBusyForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sources\IrbisLoginForm.resx" >
+    <EmbeddedResource Include="Sources\IrbisCredentialsForm.resx">
+      <DependentUpon>IrbisCredentialsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\IrbisLoginForm.resx">
       <DependentUpon>IrbisLoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sources\IrbisLoginForm2.resx" >
+    <EmbeddedResource Include="Sources\IrbisLoginForm2.resx">
       <DependentUpon>IrbisLoginForm2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
