@@ -1,15 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedIrbis", "Libs\ManagedIrbis\ManagedIrbis.csproj", "{727C0B37-1E31-49BB-927A-A93DAC558C52}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisUI", "Libs\IrbisUI\IrbisUI.csproj", "{AEEBB65D-1023-4AC2-A280-4639E085CDB5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Core", "Libs\AM.Core\AM.Core.csproj", "{1126394A-4392-4341-8DDD-69B5C3E884D2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoonIrbis", "Apps\MoonIrbis\MoonIrbis.csproj", "{6CCBB4F4-FA97-4153-BB0B-BD84772DC8B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Drawing", "Libs\AM.Drawing\AM.Drawing.csproj", "{F64C8161-D6E3-4D78-88DB-C1787F4FE981}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Windows.Forms", "Libs\AM.Windows.Forms\AM.Windows.Forms.csproj", "{C06E1D15-0D0D-44B3-BF74-1B2C616F9EE5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisUI", "Libs\IrbisUI\IrbisUI.csproj", "{AEEBB65D-1023-4AC2-A280-4639E085CDB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +25,6 @@ Global
 		{727C0B37-1E31-49BB-927A-A93DAC558C52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{727C0B37-1E31-49BB-927A-A93DAC558C52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{727C0B37-1E31-49BB-927A-A93DAC558C52}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AEEBB65D-1023-4AC2-A280-4639E085CDB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AEEBB65D-1023-4AC2-A280-4639E085CDB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AEEBB65D-1023-4AC2-A280-4639E085CDB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AEEBB65D-1023-4AC2-A280-4639E085CDB5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1126394A-4392-4341-8DDD-69B5C3E884D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1126394A-4392-4341-8DDD-69B5C3E884D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1126394A-4392-4341-8DDD-69B5C3E884D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +33,18 @@ Global
 		{6CCBB4F4-FA97-4153-BB0B-BD84772DC8B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CCBB4F4-FA97-4153-BB0B-BD84772DC8B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CCBB4F4-FA97-4153-BB0B-BD84772DC8B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F64C8161-D6E3-4D78-88DB-C1787F4FE981}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F64C8161-D6E3-4D78-88DB-C1787F4FE981}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F64C8161-D6E3-4D78-88DB-C1787F4FE981}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F64C8161-D6E3-4D78-88DB-C1787F4FE981}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C06E1D15-0D0D-44B3-BF74-1B2C616F9EE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C06E1D15-0D0D-44B3-BF74-1B2C616F9EE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C06E1D15-0D0D-44B3-BF74-1B2C616F9EE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C06E1D15-0D0D-44B3-BF74-1B2C616F9EE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEEBB65D-1023-4AC2-A280-4639E085CDB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEEBB65D-1023-4AC2-A280-4639E085CDB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEEBB65D-1023-4AC2-A280-4639E085CDB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEEBB65D-1023-4AC2-A280-4639E085CDB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
