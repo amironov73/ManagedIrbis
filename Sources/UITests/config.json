@@ -2,5 +2,9 @@
   {
     "class": "UITests.IrbisLoginFormTest",
     "title": "Irbis login form"
+  },
+  {
+    "class": "UITests.IrbisLoginForm2Test",
+    "title": "Irbis login form 2"
   }
 ]

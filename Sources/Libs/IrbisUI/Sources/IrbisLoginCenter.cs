@@ -85,8 +85,8 @@ namespace IrbisUI
                 form.Host = connection.Host;
                 form.Port = connection.Port
                     .ToString(CultureInfo.InvariantCulture);
-                form.UserName = connection.Username;
-                form.UserPassword = connection.Password;
+                form.Username = connection.Username;
+                form.Password = connection.Password;
                 form.Text = string.Format
                     (
                         "{0} - {1}",
@@ -102,8 +102,8 @@ namespace IrbisUI
                 {
                     connection.Host = form.Host;
                     connection.Port = int.Parse(form.Port);
-                    connection.Username = form.UserName;
-                    connection.Password = form.UserPassword;
+                    connection.Username = form.Username;
+                    connection.Password = form.Password;
                     return true;
                 }
             }

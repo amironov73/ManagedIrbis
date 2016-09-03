@@ -9,9 +9,13 @@
 using System;
 using System.Windows.Forms;
 
+using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis;
 
 using MoonSharp.Interpreter;
 
@@ -54,7 +58,7 @@ namespace IrbisUI
         /// Логин.
         /// </summary>
         [CanBeNull]
-        public string UserName
+        public string Username
         {
             get { return _nameBox.Text; }
             set { _nameBox.Text = value; }
@@ -64,7 +68,7 @@ namespace IrbisUI
         /// Пароль.
         /// </summary>
         [CanBeNull]
-        public string UserPassword
+        public string Password
         {
             get { return _passwordBox.Text; }
             set { _passwordBox.Text = value; }
@@ -119,5 +123,46 @@ namespace IrbisUI
         }
 
         #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Apply the <see cref="ConnectionSettings"/>.
+        /// </summary>
+        [NotNull]
+        public IrbisLoginForm2 ApplySettings
+            (
+                [NotNull] ConnectionSettings settings
+            )
+        {
+            Code.NotNull(settings, "settings");
+
+            Host = settings.Host;
+            Port = settings.Port.ToInvariantString();
+            Username = settings.Username;
+            Password = settings.Password;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Convert to <see cref="ConnectionSettings"/>.
+        /// </summary>
+        [NotNull]
+        public ConnectionSettings GatherSettings()
+        {
+            ConnectionSettings result = new ConnectionSettings
+            {
+                Host = Host,
+                Port = int.Parse(Port.ThrowIfNull("Port")),
+                Username = Username,
+                Password = Password
+            };
+
+            return result;
+        }
+
+        #endregion
+
     }
 }

@@ -12,7 +12,9 @@ using System.Windows.Forms;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -63,25 +65,6 @@ namespace IrbisUI
 
         #endregion
 
-        #region Public methods
-
-        /// <summary>
-        /// Convert to <see cref="ConnectionSettings"/>.
-        /// </summary>
-        [NotNull]
-        public ConnectionSettings ToConnectionSettings()
-        {
-            ConnectionSettings result = new ConnectionSettings
-            {
-                Username = Username,
-                Password = Password
-            };
-
-            return result;
-        }
-
-        #endregion
-
         #region Private members
 
         private void _okButton_Click
@@ -104,6 +87,42 @@ namespace IrbisUI
             {
                 DialogResult = DialogResult.OK;
             }
+        }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Apply the <see cref="ConnectionSettings"/>.
+        /// </summary>
+        [NotNull]
+        public IrbisLoginForm ApplySettings
+            (
+                [NotNull] ConnectionSettings settings
+            )
+        {
+            Code.NotNull(settings, "settings");
+
+            Username = settings.Username;
+            Password = settings.Password;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Convert to <see cref="ConnectionSettings"/>.
+        /// </summary>
+        [NotNull]
+        public ConnectionSettings GatherSettings()
+        {
+            ConnectionSettings result = new ConnectionSettings
+            {
+                Username = Username,
+                Password = Password
+            };
+
+            return result;
         }
 
         #endregion

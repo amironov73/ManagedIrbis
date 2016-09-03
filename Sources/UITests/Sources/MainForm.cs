@@ -65,7 +65,10 @@ namespace UITests
                 EventArgs e
             )
         {
-            UITest[] tests = UITest.LoadFromFile("config.json");
+            UITest[] tests = UITest
+                .LoadFromFile("config.json")
+                .OrderBy(test => test.Title)
+                .ToArray();
 
             _listBox.Items.AddRange(tests);
         }
