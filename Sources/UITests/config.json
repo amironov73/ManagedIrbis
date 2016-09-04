@@ -14,5 +14,9 @@
   {
     "class": "UITests.ClocksTest",
     "title": "Clocks"
+  },
+  {
+    "class": "UITests.CollapsibleGroupBoxTest",
+    "title": "Collapsible GroupBox"
   }
 ]
