@@ -38,5 +38,9 @@
   {
     "class": "UITests.HatchComboBoxTest",
     "title": "HatchComboBox"
+  },
+  {
+    "class": "UITests.InputBoxTest",
+    "title": "InputBox"
   }
 ]
