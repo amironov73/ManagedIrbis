@@ -7,8 +7,9 @@
 #region Using directives
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
-
+using System.Reflection;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -31,6 +32,151 @@ namespace AM
         #endregion
 
         #region Public methods
+
+        // =========================================================
+
+#if !NETCORE
+
+        /// <summary>
+        /// Compare two sequences.
+        /// </summary>
+        /// <remarks>Borrowed from StackOverflow:
+        /// http://stackoverflow.com/questions/1680602/what-is-the-algorithm-used-by-the-memberwise-equality-test-in-net-structs
+        /// </remarks>
+        public static bool EnumerableEquals
+            (
+                [CanBeNull] IEnumerable left,
+                [CanBeNull] IEnumerable right
+            )
+        {
+            if (ReferenceEquals(left, null)
+                || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+            if (ReferenceEquals(left, right))
+            {
+                return false;
+            }
+
+            IEnumerator rightEnumerator = right.GetEnumerator();
+            rightEnumerator.Reset();
+
+            foreach (object leftItem in left)
+            {
+                // unequal amount of items
+                if (!rightEnumerator.MoveNext())
+                {
+                    return false;
+                }
+                {
+                    if (!MemberwiseEquals
+                    (
+                        leftItem,
+                        rightEnumerator.Current
+                    ))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Implementation of a memberwise comparison
+        /// for objects.
+        /// </summary>
+        /// <remarks>Borrowed from StackOverflow:
+        /// http://stackoverflow.com/questions/1680602/what-is-the-algorithm-used-by-the-memberwise-equality-test-in-net-structs
+        /// </remarks>
+        public static bool MemberwiseEquals
+            (
+                [CanBeNull] object left,
+                [CanBeNull] object right
+            )
+        {
+            if (ReferenceEquals(left, null)
+                || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            Type type = left.GetType();
+            if (type != right.GetType())
+            {
+                return false;
+            }
+            if (type.IsValueType)
+            {
+                return left.Equals(right);
+            }
+            if (type == type.GetMethod("Equals").DeclaringType)
+            {
+                return left.Equals(right);
+            }
+
+            IEnumerable leftEnumerable = left as IEnumerable;
+            IEnumerable rightEnumerable = right as IEnumerable;
+            if (!ReferenceEquals(leftEnumerable, null))
+            {
+                return EnumerableEquals
+                    (
+                        leftEnumerable,
+                        rightEnumerable
+                    );
+            }
+
+            // compare each property
+            foreach (PropertyInfo info in type.GetProperties
+                (
+                    BindingFlags.Public |
+                    BindingFlags.NonPublic |
+                    BindingFlags.Instance |
+                    BindingFlags.GetProperty
+                ))
+            {
+                // TODO: need to special-case indexable properties
+                if (!MemberwiseEquals
+                    (
+                        info.GetValue(left, null),
+                        info.GetValue(right, null)
+                    ))
+                {
+                    return false;
+                }
+            }
+
+            // compare each field
+            foreach (FieldInfo info in type.GetFields
+                (
+                    BindingFlags.GetField |
+                    BindingFlags.NonPublic |
+                    BindingFlags.Public |
+                    BindingFlags.Instance
+                ))
+            {
+                if (!MemberwiseEquals
+                    (
+                        info.GetValue(left),
+                        info.GetValue(right))
+                )
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+#endif
+
+        // =========================================================
 
         /// <summary>
         /// Выборка элемента из массива.
@@ -93,7 +239,7 @@ namespace AM
         /// </summary>
         public static T GetItem<T>
             (
-                [NotNull] this IList<T>  list,
+                [NotNull] this IList<T> list,
                 int index
             )
         {
@@ -167,7 +313,7 @@ namespace AM
             (
                 [CanBeNull] this T value
             )
-            where T: class
+            where T : class
         {
             return ReferenceEquals(value, null)
                 ? null
@@ -184,7 +330,7 @@ namespace AM
             (
                 [CanBeNull] this T value
             )
-            where T: class
+            where T : class
         {
             string text = value.NullableToString();
             return text.ToVisibleString();
