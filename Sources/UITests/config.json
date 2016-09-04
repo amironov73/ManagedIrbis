@@ -10,5 +10,9 @@
   {
     "class": "UITests.IrbisBusyFormTest",
     "title": "Busy form"
+  },
+  {
+    "class": "UITests.ClocksTest",
+    "title": "Clocks"
   }
 ]

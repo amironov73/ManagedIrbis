@@ -1,4 +1,4 @@
-﻿/* IrbisBusyFormTest.cs -- 
+﻿/* ClocksTest.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -8,12 +8,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using AM;
+using AM.Windows.Forms;
 
 using CodeJam;
 
@@ -31,7 +33,7 @@ using Newtonsoft.Json;
 
 namespace UITests
 {
-    public sealed class IrbisBusyFormTest
+    public sealed class ClocksTest
         : IUITest
     {
         #region IUITest members
@@ -41,8 +43,17 @@ namespace UITests
                 IWin32Window ownerWindow
             )
         {
-            using (IrbisBusyForm form = new IrbisBusyForm())
+            using (Form form = new Form())
             {
+                form.Size = new Size(800, 600);
+
+                Clocks clocks = new Clocks
+                {
+                    Location = new Point(10, 10),
+                    Size = new Size(100, 100)
+                };
+                form.Controls.Add(clocks);
+
                 form.ShowDialog(ownerWindow);
             }
         }

@@ -135,6 +135,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sources\Tests\ClocksTest.cs" />
     <Compile Include="Sources\Tests\IrbisBusyFormTest.cs" />
     <Compile Include="Sources\Tests\IrbisLoginForm2Test.cs" />
     <Compile Include="Sources\Tests\IrbisLoginFormTest.cs" />
