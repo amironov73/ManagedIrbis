@@ -138,6 +138,7 @@
     <Compile Include="Sources\Tests\ClocksTest.cs" />
     <Compile Include="Sources\Tests\CollapsibleGroupBoxTest.cs" />
     <Compile Include="Sources\Tests\ColorComboBoxTest.cs" />
+    <Compile Include="Sources\Tests\EnumComboBoxTest.cs" />
     <Compile Include="Sources\Tests\IrbisBusyFormTest.cs" />
     <Compile Include="Sources\Tests\IrbisLoginForm2Test.cs" />
     <Compile Include="Sources\Tests\IrbisLoginFormTest.cs" />

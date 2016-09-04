@@ -17,36 +17,35 @@ namespace ManagedIrbis.Marc
     /// </summary>
     [PublicAPI]
     public enum MarcBibliographicalIndex
-        : byte
     {
         /// <summary>
         /// Часть монографии.
         /// </summary>
-        PartOfMonograph = (byte)'a',
+        PartOfMonograph = (int)'a',
 
         /// <summary>
         /// Часть сериального издания.
         /// </summary>
-        PartOfSerialPrinting = (byte)'b',
+        PartOfSerialPrinting = (int)'b',
 
         /// <summary>
         /// Коллекция.
         /// </summary>
-        Collection = (byte)'c',
+        Collection = (int)'c',
 
         /// <summary>
         /// Часть коллекции.
         /// </summary>
-        PartOfCollection = (byte)'d',
+        PartOfCollection = (int)'d',
 
         /// <summary>
         /// Монография (книга, рукопись, картина и т.д.).
         /// </summary>
-        Monograph = (byte)'m',
+        Monograph = (int)'m',
 
         /// <summary>
         /// Сериальное издание, периодика.
         /// </summary>
-        SerialPrinting = (byte)'s'
+        SerialPrinting = (int)'s'
     }
 }

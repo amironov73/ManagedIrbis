@@ -17,41 +17,40 @@ namespace ManagedIrbis.Marc
     /// </summary>
     [PublicAPI]
     public enum MarcBibliographicalLevel
-        : byte
     {
         /// <summary>
         /// Полный уровень описания.
         /// </summary>
-        Full = (byte)' ',
+        Full = (int)' ',
 
         /// <summary>
         /// Полный уровень, но запись не была проверена.
         /// </summary>
-        FullNotChecked = (byte)'1',
+        FullNotChecked = (int)'1',
 
         /// <summary>
         /// Не окончательно созданная запись.
         /// </summary>
-        NotComplete = (byte)'5',
+        NotComplete = (int)'5',
 
         /// <summary>
         /// Минимальный уровень.
         /// </summary>
-        Minimal = (byte)'7',
+        Minimal = (int)'7',
 
         /// <summary>
         /// Запись сделана по тематическому плану издательства.
         /// </summary>
-        Publisher = (byte)'8',
+        Publisher = (int)'8',
 
         /// <summary>
         /// Уровень неизвестен.
         /// </summary>
-        Unknown = (byte)'u',
+        Unknown = (int)'u',
 
         /// <summary>
         /// Невозможно установить уровень записи.
         /// </summary>
-        NotAvailable = (byte)'z'
+        NotAvailable = (int)'z'
     }
 }

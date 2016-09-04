@@ -17,21 +17,20 @@ namespace ManagedIrbis.Marc
     /// </summary>
     [PublicAPI]
     public enum MarcCatalogingRules
-        : byte
     {
         /// <summary>
         /// Не соответствуте ISBD, AACR2
         /// </summary>
-        NotConforming = (byte)' ',
+        NotConforming = (int)' ',
 
         /// <summary>
         /// Соответствует AACR2.
         /// </summary>
-        AACR2 = (byte)'a',
+        AACR2 = (int)'a',
 
         /// <summary>
         /// Соответствует ISBD.
         /// </summary>
-        ISBD = (byte)'i'
+        ISBD = (int)'i'
     }
 }

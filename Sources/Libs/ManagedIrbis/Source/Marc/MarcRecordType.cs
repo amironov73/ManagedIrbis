@@ -17,71 +17,70 @@ namespace ManagedIrbis.Marc
     /// </summary>
     [PublicAPI]
     public enum MarcRecordType
-        : byte
     {
         /// <summary>
         /// Текстовый материал.
         /// </summary>
-        Text = (byte) 'a',
+        Text = (int) 'a',
 
         /// <summary>
         /// Архивный материал, рукописи.
         /// </summary>
-        ArchiveMaterial = (byte)'b',
+        ArchiveMaterial = (int)'b',
 
         /// <summary>
         /// Печатные ноты.
         /// </summary>
-        PrintedMusic = (byte)'c',
+        PrintedMusic = (int)'c',
 
         /// <summary>
         /// Рукописные ноты.
         /// </summary>
-        HandwrittenMusic = (byte)'d',
+        HandwrittenMusic = (int)'d',
 
         /// <summary>
         /// Печатные карты.
         /// </summary>
-        PrintedMap = (byte)'e',
+        PrintedMap = (int)'e',
 
         /// <summary>
         /// Рукописные карты.
         /// </summary>
-        HandwrittenMap = (byte)'f',
+        HandwrittenMap = (int)'f',
 
         /// <summary>
         /// Фильмокопии, видеофильмы и проч.
         /// </summary>
-        Film = (byte)'g',
+        Film = (int)'g',
 
         /// <summary>
         /// Немузыкальные записи.
         /// </summary>
-        NonMusicRecord = (byte)'i',
+        NonMusicRecord = (int)'i',
 
         /// <summary>
         /// Музыкальные записи.
         /// </summary>
-        MusicRecord = (byte)'j',
+        MusicRecord = (int)'j',
 
         /// <summary>
         /// Картины, фотографии и т.д. (двумерная графика).
         /// </summary>
-        Picture = (byte)'k',
+        Picture = (int)'k',
 
         /// <summary>
         /// Компьютерные файлы.
         /// </summary>
-        ComputerFiles = (byte)'m',
+        ComputerFiles = (int)'m',
 
         /// <summary>
         /// Смешанные материалы.
         /// </summary>
-        MixedMaterial = (byte)'o',
+        MixedMaterial = (int)'o',
 
         /// <summary>
         /// Скульптуры и другие трехмерные объекты.
         /// </summary>
-        Sculpture = (byte)'r'
+        Sculpture = (int)'r'
     }
 }

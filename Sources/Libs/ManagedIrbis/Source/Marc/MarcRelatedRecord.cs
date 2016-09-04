@@ -17,16 +17,15 @@ namespace ManagedIrbis.Marc
     /// </summary>
     [PublicAPI]
     public enum MarcRelatedRecord
-        : byte
     {
         /// <summary>
         /// Не требуется.
         /// </summary>
-        NotRequired = (byte)' ',
+        NotRequired = (int)' ',
 
         /// <summary>
         /// Требуется.
         /// </summary>
-        Required = (byte)'r'
+        Required = (int)'r'
     }
 }

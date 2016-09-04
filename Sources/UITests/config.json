@@ -22,5 +22,9 @@
   {
     "class": "UITests.ColorComboBoxTest",
     "title": "ColorComboBox"
+  },
+  {
+    "class": "UITests.EnumComboBoxTest",
+    "title": "EnumComboBox"
   }
 ]
