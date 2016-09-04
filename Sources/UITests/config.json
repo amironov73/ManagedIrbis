@@ -34,5 +34,9 @@
   {
     "class": "UITests.FontComboBoxTest",
     "title": "FontComboBox"
+  },
+  {
+    "class": "UITests.HatchComboBoxTest",
+    "title": "HatchComboBox"
   }
 ]
