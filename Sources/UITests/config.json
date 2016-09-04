@@ -18,5 +18,9 @@
   {
     "class": "UITests.CollapsibleGroupBoxTest",
     "title": "Collapsible GroupBox"
+  },
+  {
+    "class": "UITests.ColorComboBoxTest",
+    "title": "ColorComboBox"
   }
 ]
