@@ -147,6 +147,7 @@
     <Compile Include="Sources\Tests\IrbisLoginForm2Test.cs" />
     <Compile Include="Sources\Tests\IrbisLoginFormTest.cs" />
     <Compile Include="Sources\Tests\JogControlTest.cs" />
+    <Compile Include="Sources\Tests\LabelExTest.cs" />
     <Compile Include="Sources\UITest.cs" />
     <EmbeddedResource Include="Sources\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

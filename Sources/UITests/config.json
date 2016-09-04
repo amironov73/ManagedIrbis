@@ -46,5 +46,9 @@
   {
     "class": "UITests.JogControlTest",
     "title": "JogControl"
+  },
+  {
+    "class": "UITests.LabelExTest",
+    "title": "LabelEx"
   }
 ]

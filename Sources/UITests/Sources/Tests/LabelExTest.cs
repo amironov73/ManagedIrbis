@@ -1,4 +1,4 @@
-﻿/* HatchComboBoxTest.cs -- 
+﻿/* LabelExTest.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -24,7 +24,6 @@ using IrbisUI;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
-using ManagedIrbis.Marc;
 
 using MoonSharp.Interpreter;
 
@@ -34,7 +33,7 @@ using Newtonsoft.Json;
 
 namespace UITests
 {
-    public sealed class HatchComboBoxTest
+    public sealed class LabelExTest
         : IUITest
     {
         #region IUITest members
@@ -48,24 +47,28 @@ namespace UITests
             {
                 form.Size = new Size(800, 600);
 
-                HatchComboBox comboBox = new HatchComboBox
+                LabelEx label = new LabelEx
                 {
+                    Text = "This is label",
                     Location = new Point(10, 10),
-                    Width = 200
                 };
-                form.Controls.Add(comboBox);
+                form.Controls.Add(label);
 
-                TextBox textBox = new TextBox
+                TextBox textBox1 = new TextBox
                 {
-                    Location = new Point(220, 10),
-                    Width = 200
+                    Text = "This is text box",
+                    Location = new Point(10, 40)
                 };
-                form.Controls.Add(textBox);
+                form.Controls.Add(textBox1);
+                TextBox textBox2 = new TextBox
+                {
+                    Text = "This is another text box",
+                    Location = new Point(10, 70)
+                };
+                form.Controls.Add(textBox2);
+                textBox2.Focus();
 
-                comboBox.SelectedValueChanged += (sender, args) =>
-                {
-                    textBox.Text = comboBox.Style.ToString();
-                };
+                label.BuddyControl = textBox1;
 
                 form.ShowDialog(ownerWindow);
             }
