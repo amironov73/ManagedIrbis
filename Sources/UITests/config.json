@@ -26,5 +26,9 @@
   {
     "class": "UITests.EnumComboBoxTest",
     "title": "EnumComboBox"
+  },
+  {
+    "class": "UITests.EnumListBoxTest",
+    "title": "EnumListBox"
   }
 ]
