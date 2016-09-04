@@ -40,7 +40,15 @@ namespace AM.Windows.Forms
             [DebuggerStepThrough]
             get
             {
-                return SelectedText;
+                object selected = SelectedItem;
+                if (selected == null)
+                {
+                    return null;
+                }
+
+                FontFamily font = (FontFamily) selected;
+
+                return font.Name;
             }
             [DebuggerStepThrough]
             set
