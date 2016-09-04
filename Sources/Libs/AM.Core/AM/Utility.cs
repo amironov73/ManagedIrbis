@@ -10,6 +10,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -135,10 +136,10 @@ namespace AM
             // compare each property
             foreach (PropertyInfo info in type.GetProperties
                 (
-                    BindingFlags.Public |
-                    BindingFlags.NonPublic |
-                    BindingFlags.Instance |
-                    BindingFlags.GetProperty
+                    BindingFlags.Public
+                    | BindingFlags.NonPublic
+                    | BindingFlags.Instance
+                    | BindingFlags.GetProperty
                 ))
             {
                 // TODO: need to special-case indexable properties
@@ -155,10 +156,10 @@ namespace AM
             // compare each field
             foreach (FieldInfo info in type.GetFields
                 (
-                    BindingFlags.GetField |
-                    BindingFlags.NonPublic |
-                    BindingFlags.Public |
-                    BindingFlags.Instance
+                    BindingFlags.GetField
+                    | BindingFlags.NonPublic
+                    | BindingFlags.Public
+                    | BindingFlags.Instance
                 ))
             {
                 if (!MemberwiseEquals
@@ -172,6 +173,59 @@ namespace AM
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Compares two object by public instance properties.
+        /// </summary>
+        /// <remarks>Borrowed from StackOverflow:
+        /// http://stackoverflow.com/questions/506096/comparing-object-properties-in-c-sharp
+        /// </remarks>
+        public static bool PropertyEquals
+            (
+                [CanBeNull] object left,
+                [CanBeNull] object right
+            )
+        {
+            if (ReferenceEquals(left, null)
+                || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            Type type = left.GetType();
+            if (type != right.GetType())
+            {
+                return false;
+            }
+
+            PropertyInfo[] properties = type.GetProperties
+            (
+                BindingFlags.Public
+                | BindingFlags.Instance
+            );
+
+            foreach (PropertyInfo property in properties)
+            {
+                object leftValue = property.GetValue(left, null);
+                object rightValue = property.GetValue(right, null);
+
+                if (ReferenceEquals(leftValue, null)
+                    || ReferenceEquals(rightValue, null))
+                {
+                    return false;
+                }
+                if (!leftValue.Equals(rightValue))
+                {
+                    return false;
+                }
+            }
+
+            return left.Equals(right);
         }
 
 #endif
