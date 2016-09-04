@@ -42,5 +42,9 @@
   {
     "class": "UITests.InputBoxTest",
     "title": "InputBox"
+  },
+  {
+    "class": "UITests.JogControlTest",
+    "title": "JogControl"
   }
 ]
