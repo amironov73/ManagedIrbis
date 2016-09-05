@@ -187,12 +187,19 @@ namespace AM
             Expression last = null;
             foreach (PropertyInfo property in type.GetProperties())
             {
-                MethodCallExpression hash = Expression.Call
+                Expression hash = Expression.Call
+                (
+                    typeof(ComparableObject).GetMethod
+                    (
+                        "GetHashCode",
+                        new[] { typeof(object) }
+                    ),
+                    Expression.Convert
                     (
                         Expression.Property(pCastThis, property),
-                        "GetHashCode",
-                        Type.EmptyTypes
-                    );
+                        typeof(object)
+                    )
+                );
 
                 if (last == null)
                 {
@@ -206,6 +213,19 @@ namespace AM
 
             return Expression.Lambda<Func<object, int>>(last, pThis)
                 .Compile();
+        }
+
+        /// <summary>
+        /// Get hash code for arbitrary object.
+        /// </summary>
+        public static int GetHashCode
+            (
+                [CanBeNull] object obj
+            )
+        {
+            return ReferenceEquals(obj, null)
+                ? 0
+                : obj.GetHashCode();
         }
 
         #endregion

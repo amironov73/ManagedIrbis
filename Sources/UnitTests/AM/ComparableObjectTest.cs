@@ -96,7 +96,6 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        [Ignore]
         public void TestComparableObject_GetHashCode_WithNull()
         {
             MyClass first = new MyClass
