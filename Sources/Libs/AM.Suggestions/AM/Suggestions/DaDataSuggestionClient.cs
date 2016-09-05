@@ -6,13 +6,7 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Mime;
-using System.Text;
-using System.Threading.Tasks;
 
 using CodeJam;
 
@@ -28,7 +22,7 @@ namespace AM.Suggestions
 {
     using DaData;
 
-    #pragma warning disable 1591
+#pragma warning disable 1591
 
     /// <summary>
     /// Client for dadata.ru
@@ -37,23 +31,41 @@ namespace AM.Suggestions
     [MoonSharpUserData]
     public sealed class DaDataSuggestionClient
     {
-        const string SUGGESTIONS_URL = "{0}/suggest";
-        const string ADDRESS_RESOURCE = "address";
-        const string PARTY_RESOURCE = "party";
-        const string BANK_RESOURCE = "bank";
-        const string FIO_RESOURCE = "fio";
-        const string EMAIL_RESOURCE = "email";
+        #region Constants
 
-        RestClient client;
-        string token;
-        ContentType contentType = ContentType.XML;
+        /// <summary>
+        /// URL for DaData API.
+        /// </summary>
+        public const string DaDataApiUrl = "https://dadata.ru/api/v2";
 
+        private const string SuggestionsUrl = "{0}/suggest";
+        private const string Address = "address";
+        private const string Party = "party";
+        private const string Bank = "bank";
+        private const string Fio = "fio";
+        private const string Email = "email";
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Proxy specification.
+        /// </summary>
+        [CanBeNull]
         public IWebProxy Proxy
         {
-            get { return client.Proxy; }
-            set { client.Proxy = value; }
+            get { return _client.Proxy; }
+            set { _client.Proxy = value; }
         }
 
+        #endregion
+
+        #region Construction
+
+        /// <summary>
+        /// Static constructor.
+        /// </summary>
         static DaDataSuggestionClient()
         {
             // use SSL v3
@@ -61,69 +73,193 @@ namespace AM.Suggestions
                 = SecurityProtocolType.Ssl3;
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public DaDataSuggestionClient
             (
-                string token,
-                string baseUrl
+                [NotNull] string token
             )
+            : this(token, "https://dadata.ru/api/v2")
         {
-            this.token = token;
-            client = new RestClient
-                (
-                    String.Format(SUGGESTIONS_URL, baseUrl)
-                );
         }
 
-        public SuggestAddressResponse QueryAddress(string address)
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public DaDataSuggestionClient
+        (
+            [NotNull] string token,
+            [NotNull] string baseUrl
+        )
         {
-            var request = new RestRequest(ADDRESS_RESOURCE, Method.POST);
-            var query = new SuggestQuery(address);
-            return Execute<SuggestAddressResponse>(request, query, this.contentType);
+            Code.NotNullNorEmpty(token, "token");
+            Code.NotNullNorEmpty(baseUrl, "baseUrl");
+
+            _token = token;
+            _client = new RestClient
+            (
+                string.Format(SuggestionsUrl, baseUrl)
+            );
+            _contentType = ContentType.XML;
         }
 
-        public SuggestBankResponse QueryBank(string bank)
-        {
-            var request = new RestRequest(BANK_RESOURCE, Method.POST);
-            var query = new SuggestQuery(bank);
-            return Execute<SuggestBankResponse>(request, query, this.contentType);
-        }
+        #endregion
 
-        public SuggestEmailResponse QueryEmail(string email)
-        {
-            var request = new RestRequest(EMAIL_RESOURCE, Method.POST);
-            var query = new SuggestQuery(email);
-            return Execute<SuggestEmailResponse>(request, query, this.contentType);
-        }
+        #region Private members
 
-        public SuggestFioResponse QueryFio(string fio)
-        {
-            var request = new RestRequest(FIO_RESOURCE, Method.POST);
-            var query = new SuggestQuery(fio);
-            return Execute<SuggestFioResponse>(request, query, this.contentType);
-        }
+        private readonly RestClient _client;
+        private readonly string _token;
+        private readonly ContentType _contentType;
 
-        public SuggestPartyResponse QueryParty(string party)
+        private T Execute<T>
+            (
+                RestRequest request,
+                SuggestQuery query,
+                ContentType contentType
+            )
+            where T : new()
         {
-            var request = new RestRequest(PARTY_RESOURCE, Method.POST);
-            var query = new SuggestQuery(party);
-            return Execute<SuggestPartyResponse>(request, query, this.contentType);
-        }
-
-        private T Execute<T>(RestRequest request, SuggestQuery query, ContentType contentType) where T : new()
-        {
-            request.AddHeader("Authorization", "Token " + this.token);
+            request.AddHeader("Authorization", "Token " + _token);
             request.AddHeader("Content-Type", contentType.Name);
             request.AddHeader("Accept", contentType.Name);
             request.RequestFormat = contentType.Format;
             request.XmlSerializer.ContentType = contentType.Name;
             request.AddBody(query);
-            var response = client.Execute<T>(request);
+            IRestResponse<T> response = _client.Execute<T>(request);
 
             if (response.ErrorException != null)
             {
                 throw response.ErrorException;
             }
+
             return response.Data;
         }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Query address suggestion.
+        /// </summary>
+        [NotNull]
+        public SuggestAddressResponse QueryAddress
+            (
+                [NotNull] string address
+            )
+        {
+            Code.NotNullNorEmpty(address, "address");
+
+            RestRequest request = new RestRequest
+                (
+                    Address,
+                    Method.POST
+                );
+            SuggestQuery query = new SuggestQuery(address);
+            SuggestAddressResponse result
+                = Execute<SuggestAddressResponse>
+                (
+                    request,
+                    query,
+                    _contentType
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Query bank suggestion.
+        /// </summary>
+        [NotNull]
+        public SuggestBankResponse QueryBank
+            (
+                [NotNull] string bank
+            )
+        {
+            Code.NotNullNorEmpty(bank, "bank");
+
+            RestRequest request = new RestRequest(Bank, Method.POST);
+            SuggestQuery query = new SuggestQuery(bank);
+            SuggestBankResponse result = Execute<SuggestBankResponse>
+                (
+                    request,
+                    query,
+                    _contentType
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Query e-mail suggestion.
+        /// </summary>
+        [NotNull]
+        public SuggestEmailResponse QueryEmail
+            (
+                [NotNull] string email
+            )
+        {
+            Code.NotNullNorEmpty(email, "email");
+
+            RestRequest request = new RestRequest(Email, Method.POST);
+            SuggestQuery query = new SuggestQuery(email);
+            SuggestEmailResponse result = Execute<SuggestEmailResponse>
+                (
+                    request,
+                    query,
+                    _contentType
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Query name suggestion.
+        /// </summary>
+        [NotNull]
+        public SuggestFioResponse QueryFio
+            (
+                [NotNull] string fio
+            )
+        {
+            Code.NotNullNorEmpty(fio, "fio");
+
+            RestRequest request = new RestRequest(Fio, Method.POST);
+            SuggestQuery query = new SuggestQuery(fio);
+            SuggestFioResponse result = Execute<SuggestFioResponse>
+                (
+                    request,
+                    query,
+                    _contentType
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Query party suggestion.
+        /// </summary>
+        [NotNull]
+        public SuggestPartyResponse QueryParty
+            (
+                [NotNull] string party
+            )
+        {
+            Code.NotNullNorEmpty(party, "party");
+
+            RestRequest request = new RestRequest(Party, Method.POST);
+            SuggestQuery query = new SuggestQuery(party);
+            SuggestPartyResponse result = Execute<SuggestPartyResponse>
+                (
+                    request,
+                    query,
+                    _contentType
+                );
+
+            return result;
+        }
+
+        #endregion
     }
 }

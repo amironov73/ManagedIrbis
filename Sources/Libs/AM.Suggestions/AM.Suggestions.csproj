@@ -115,6 +115,12 @@
   <ItemGroup>
     <Compile Include="AM\Suggestions\DaDataModel.cs" />
     <Compile Include="AM\Suggestions\DaDataSuggestionClient.cs" />
+    <Compile Include="AM\Suggestions\SuggestingTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AM\Suggestions\SuggestingTextBox.Designer.cs">
+      <DependentUpon>SuggestingTextBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
