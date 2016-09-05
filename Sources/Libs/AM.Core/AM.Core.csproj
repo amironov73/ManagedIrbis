@@ -134,6 +134,7 @@
     <Compile Include="AM\CommandLine\CommandLineSwitch.cs" />
     <Compile Include="AM\CommandLine\CommandLineUtility.cs" />
     <Compile Include="AM\CommandLine\ParsedCommandLine.cs" />
+    <Compile Include="AM\ComparableObject.cs" />
     <Compile Include="AM\ComponentModel\NotifyProperty.cs" />
     <Compile Include="AM\ComponentModel\PropertyChangedUtility.cs" />
     <Compile Include="AM\ConnectionStringParser.cs" />

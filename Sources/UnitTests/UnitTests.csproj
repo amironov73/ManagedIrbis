@@ -121,6 +121,7 @@
     <Compile Include="AM\CommandLine\CommandLineSwitchTest.cs" />
     <Compile Include="AM\CommandLine\CommandLineUtilityTest.cs" />
     <Compile Include="AM\CommandLine\ParsedCommandLineTest.cs" />
+    <Compile Include="AM\ComparableObjectTest.cs" />
     <Compile Include="AM\Gbl\GblFileTest.cs" />
     <Compile Include="AM\Globalization\BuiltinCulturesTest.cs" />
     <Compile Include="AM\Globalization\RussianStringComparerTest.cs" />
