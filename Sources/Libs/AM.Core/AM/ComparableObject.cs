@@ -125,9 +125,15 @@ namespace AM
             UnaryExpression pCastThis = Expression.Convert(pThis, type);
             UnaryExpression pCastThat = Expression.Convert(pThat, type);
 
+            PropertyInfo[] properties = type.GetProperties();
+            if (properties.Length == 0)
+            {
+                
+            }
+
             // compound AND expression using short-circuit evaluation
             Expression last = null;
-            foreach (PropertyInfo property in type.GetProperties())
+            foreach (PropertyInfo property in properties)
             {
                 BinaryExpression equalExpression = Expression.Equal
                     (
@@ -144,10 +150,45 @@ namespace AM
                         );
             }
 
+            // use fields if no properties present
+            if (properties.Length == 0)
+            {
+                FieldInfo[] fields = type.GetFields();
+                foreach (FieldInfo field in fields)
+                {
+                    BinaryExpression equalExpression = Expression.Equal
+                    (
+                        Expression.Field(pCastThis, field),
+                        Expression.Field(pCastThat, field)
+                    );
+
+                    last = last == null
+                        ? equalExpression
+                        : Expression.AndAlso
+                            (
+                                last,
+                                equalExpression
+                            );
+                }
+            }
+
+            if (ReferenceEquals(last, null))
+            {
+                last = Expression.Constant(false, typeof(bool));
+            }
+
             // call Object.Equals if second parameter doesn't match type
             last = Expression.Condition
                 (
-                    Expression.TypeIs(pThat, type),
+                    Expression.AndAlso
+                    (
+                        Expression.NotEqual
+                        (
+                            pThat, 
+                            Expression.Constant(null)
+                        ),
+                        Expression.TypeIs(pThat, type)
+                    ),
                     last,
                     Expression.Equal(pThis, pThat)
                 );
@@ -184,8 +225,10 @@ namespace AM
                     type
                 );
 
+            PropertyInfo[] properties = type.GetProperties();
+
             Expression last = null;
-            foreach (PropertyInfo property in type.GetProperties())
+            foreach (PropertyInfo property in properties)
             {
                 Expression hash = Expression.Call
                 (
@@ -201,14 +244,41 @@ namespace AM
                     )
                 );
 
-                if (last == null)
+                last = last == null ?
+                    hash
+                    : Expression.ExclusiveOr(last, hash);
+            }
+
+            // use fields if no properties present
+            if (properties.Length == 0)
+            {
+                FieldInfo[] fields = type.GetFields();
+
+                foreach (FieldInfo field in fields)
                 {
-                    last = hash;
+                    Expression hash = Expression.Call
+                    (
+                        typeof(ComparableObject).GetMethod
+                        (
+                            "GetHashCode",
+                            new[] { typeof(object) }
+                        ),
+                        Expression.Convert
+                        (
+                            Expression.Field(pCastThis, field),
+                            typeof(object)
+                        )
+                    );
+
+                    last = last == null ?
+                        hash
+                        : Expression.ExclusiveOr(last, hash);
                 }
-                else
-                {
-                    last = Expression.ExclusiveOr(last, hash);
-                }
+            }
+
+            if (ReferenceEquals(last, null))
+            {
+                last = Expression.Constant(0, typeof(int));
             }
 
             return Expression.Lambda<Func<object, int>>(last, pThis)
@@ -240,8 +310,17 @@ namespace AM
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals
+            (
+                object obj
+            )
         {
+            if (ReferenceEquals(obj, null)
+                || obj.GetType() != GetType())
+            {
+                return false;
+            }
+
             return _functions[GetType()].EqualsFunc(this, obj);
         }
 

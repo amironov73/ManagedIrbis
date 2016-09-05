@@ -16,8 +16,22 @@ namespace UnitTests.AM
             public string Title { get; set; }
         }
 
+        class FieldsOnlyClass
+            : ComparableObject
+        {
+            // There are no properties, fields only
+
+            public int Id;
+        }
+
+        class EmptyClass
+            : ComparableObject
+        {
+            // No public properties, no public fields
+        }
+
         [TestMethod]
-        public void TestComparableObject_Equals()
+        public void TestComparableObject_Equals1()
         {
             MyClass first = new MyClass
             {
@@ -50,7 +64,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void TestComparableObject_Equals_WithNull()
+        public void TestComparableObject_Equals2()
         {
             MyClass first = new MyClass
             {
@@ -73,7 +87,46 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void TestComparableObject_GetHashCode()
+        public void TestComparableObject_Equals3()
+        {
+            MyClass first = new MyClass
+            {
+                Id = 1,
+                Title = null
+            };
+            MyClass second = null;
+            Assert.IsFalse(first.Equals(second));
+
+            Assert.IsFalse(first.Equals("Hello"));
+        }
+
+        [TestMethod]
+        public void TestComparableObject_Equals4()
+        {
+            FieldsOnlyClass first = new FieldsOnlyClass
+            {
+                Id = 1
+            };
+            FieldsOnlyClass second = new FieldsOnlyClass
+            {
+                Id = 1
+            };
+            Assert.IsTrue(first.Equals(second));
+
+            second.Id = 2;
+            Assert.IsFalse(first.Equals(second));
+        }
+
+        [TestMethod]
+        public void TestComparableObject_Equals5()
+        {
+            EmptyClass first = new EmptyClass();
+            EmptyClass second = new EmptyClass();
+            Assert.IsFalse(first.Equals(second));
+        }
+
+        [TestMethod]
+        public void TestComparableObject_GetHashCode1()
         {
             MyClass first = new MyClass
             {
@@ -96,7 +149,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void TestComparableObject_GetHashCode_WithNull()
+        public void TestComparableObject_GetHashCode2()
         {
             MyClass first = new MyClass
             {
@@ -116,6 +169,32 @@ namespace UnitTests.AM
                 Title = "two"
             };
             Assert.AreNotEqual(first.GetHashCode(), third.GetHashCode());
+        }
+
+        [TestMethod]
+        public void TestComparableObject_GetHashCode3()
+        {
+            FieldsOnlyClass first = new FieldsOnlyClass
+            {
+                Id = 1
+            };
+            FieldsOnlyClass second = new FieldsOnlyClass
+            {
+                Id = 2
+            };
+            Assert.AreNotEqual(first.GetHashCode(), second.GetHashCode());
+
+            second.Id = 1;
+            Assert.AreEqual(first.GetHashCode(), second.GetHashCode());
+        }
+
+        [TestMethod]
+        public void TestComparableObject_GetHashCode4()
+        {
+            EmptyClass first = new EmptyClass();
+            EmptyClass second = new EmptyClass();
+
+            Assert.AreEqual(first.GetHashCode(), second.GetHashCode());
         }
     }
 }
