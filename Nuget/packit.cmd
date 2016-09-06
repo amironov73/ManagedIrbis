@@ -14,6 +14,7 @@ CALL :BUILD AM.Rfid            no
 CALL :BUILD AM.Windows.Forms   no
 CALL :BUILD AM.Win32           no
 CALL :BUILD IrbisUI            no
+CALL :BUILD AM.Suggestions     no
 
 GOTO :END
 
