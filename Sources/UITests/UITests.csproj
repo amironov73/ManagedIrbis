@@ -164,6 +164,7 @@
     <Compile Include="Sources\Tests\IrbisLoginFormTest.cs" />
     <Compile Include="Sources\Tests\JogControlTest.cs" />
     <Compile Include="Sources\Tests\LabelExTest.cs" />
+    <Compile Include="Sources\Tests\ListBoxExTest.cs" />
     <Compile Include="Sources\Tests\SuggestingTextBoxTest.cs" />
     <Compile Include="Sources\UITest.cs" />
     <EmbeddedResource Include="Sources\MainForm.resx">
