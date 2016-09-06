@@ -11,6 +11,21 @@
     <AssemblyName>UITests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,7 +50,7 @@
     <ApplicationIcon>science.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>ArsMagna.private.snk</AssemblyOriginatorKeyFile>
@@ -138,6 +153,7 @@
     <Compile Include="Sources\Tests\ClocksTest.cs" />
     <Compile Include="Sources\Tests\CollapsibleGroupBoxTest.cs" />
     <Compile Include="Sources\Tests\ColorComboBoxTest.cs" />
+    <Compile Include="Sources\Tests\DaDataClientTest.cs" />
     <Compile Include="Sources\Tests\EnumComboBoxTest.cs" />
     <Compile Include="Sources\Tests\EnumListBoxTest.cs" />
     <Compile Include="Sources\Tests\FontComboBoxTest.cs" />
@@ -148,6 +164,7 @@
     <Compile Include="Sources\Tests\IrbisLoginFormTest.cs" />
     <Compile Include="Sources\Tests\JogControlTest.cs" />
     <Compile Include="Sources\Tests\LabelExTest.cs" />
+    <Compile Include="Sources\Tests\SuggestingTextBoxTest.cs" />
     <Compile Include="Sources\UITest.cs" />
     <EmbeddedResource Include="Sources\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -188,6 +205,10 @@
       <Project>{f64c8161-d6e3-4d78-88db-c1787f4fe981}</Project>
       <Name>AM.Drawing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Libs\AM.Suggestions\AM.Suggestions.csproj">
+      <Project>{929cc021-a694-43c2-b7d0-57fb7734053a}</Project>
+      <Name>AM.Suggestions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Libs\AM.Win32\AM.Win32.csproj">
       <Project>{41452be0-6f2d-4266-a104-79170a358a42}</Project>
       <Name>AM.Win32</Name>
@@ -208,7 +229,18 @@
   <ItemGroup>
     <Content Include="science.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

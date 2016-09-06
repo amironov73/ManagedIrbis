@@ -50,5 +50,13 @@
   {
     "class": "UITests.LabelExTest",
     "title": "LabelEx"
+  },
+  {
+    "class": "UITests.SuggestingTextBoxTest",
+    "title": "SuggestingTextBox"
+  },
+  {
+    "class": "UITests.DaDataClientTest",
+    "title": "DaData client"
   }
 ]
