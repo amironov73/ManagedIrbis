@@ -74,5 +74,9 @@
   {
     "class": "UITests.ButtonedTextBoxTest",
     "title": "ButtonedTextBox"
+  },
+  {
+    "class": "UITests.FileNameBoxTest",
+    "title": "FileNameBox"
   }
 ]
