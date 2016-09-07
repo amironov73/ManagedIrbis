@@ -70,5 +70,9 @@
   {
     "class": "UITests.DataGridViewTest",
     "title": "DataGridView items"
+  },
+  {
+    "class": "UITests.ButtonedTextBoxTest",
+    "title": "ButtonedTextBox"
   }
 ]

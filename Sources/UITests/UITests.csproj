@@ -150,6 +150,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sources\Tests\ButtonedTextBoxTest.cs" />
     <Compile Include="Sources\Tests\ClocksTest.cs" />
     <Compile Include="Sources\Tests\CollapsibleGroupBoxTest.cs" />
     <Compile Include="Sources\Tests\ColorComboBoxTest.cs" />

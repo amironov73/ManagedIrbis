@@ -57,13 +57,23 @@ namespace AM.Windows.Forms
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="ButtonedTextBox"/> class.
+        /// Constructor.
         /// </summary>
         public ButtonedTextBox()
             : base(new Button())
         {
             Button.Width = 16;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public ButtonedTextBox
+            (
+                [NotNull] Button button
+            )
+            : base(button)
+        {
         }
 
         #endregion
