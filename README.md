@@ -18,6 +18,7 @@ ManagedIrbis currently supports:
 - **AM.Windows.Forms** - Syste.Windows.Forms based visual components;
 - **AM.Win32** - interop, Win32 API wrappers;
 - **AM.Rfid** - RFID technology support;
+- **AM.Suggestions** - suggestion control and clients (currently dadata.ru only);
 - **ManagedIrbis** - common IRBIS client related classes;
 - **IrbisUI** - System.Windows.Forms based common UI components for clients;
 - **SharpIrbis** - C#-based client scripting;
