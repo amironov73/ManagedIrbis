@@ -90,5 +90,9 @@
   {
     "class": "UITests.BottomlessTextBoxTest",
     "title": "BottomlessTextBox"
+  },
+  {
+    "class": "UITests.BindingListSourceTest",
+    "title": "BindingListSource"
   }
 ]
