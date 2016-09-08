@@ -107,7 +107,7 @@
     <Compile Include="AM\Windows\Forms\BrowserForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AM\Windows\Forms\BrowserForm.designer.cs">
+    <Compile Include="AM\Windows\Forms\BrowserForm.Designer.cs">
       <DependentUpon>BrowserForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AM\Windows\Forms\BusyStripe.cs" />
@@ -149,11 +149,11 @@
     <Compile Include="AM\Windows\Forms\JogControl.cs" />
     <Compile Include="AM\Windows\Forms\KeyboardUtility.cs" />
     <Compile Include="AM\Windows\Forms\LabeledComboBox.cs" />
-    <Compile Include="AM\Windows\Forms\LabeledComboBox.designer.cs">
+    <Compile Include="AM\Windows\Forms\LabeledComboBox.Designer.cs">
       <DependentUpon>LabeledComboBox.cs</DependentUpon>
     </Compile>
     <Compile Include="AM\Windows\Forms\LabeledTextBox.cs" />
-    <Compile Include="AM\Windows\Forms\LabeledTextBox.designer.cs">
+    <Compile Include="AM\Windows\Forms\LabeledTextBox.Designer.cs">
       <DependentUpon>LabeledTextBox.cs</DependentUpon>
     </Compile>
     <Compile Include="AM\Windows\Forms\LabelEx.cs" />
