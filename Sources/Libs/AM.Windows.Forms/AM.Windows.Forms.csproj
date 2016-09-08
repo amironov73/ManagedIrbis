@@ -104,6 +104,12 @@
     <Compile Include="AM\Windows\Forms\ApplicationUtility.cs" />
     <Compile Include="AM\Windows\Forms\BindingListSource.cs" />
     <Compile Include="AM\Windows\Forms\BottomlessRichTextBox.cs" />
+    <Compile Include="AM\Windows\Forms\BrowserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\BrowserForm.designer.cs">
+      <DependentUpon>BrowserForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AM\Windows\Forms\BusyStripe.cs" />
     <Compile Include="AM\Windows\Forms\CheckBoxGroup.cs" />
     <Compile Include="AM\Windows\Forms\CheckedGroupBox.cs" />
@@ -216,6 +222,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AM\Windows\Forms\BrowserForm.resx">
+      <DependentUpon>BrowserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\BrowserForm.ru.resx">
+      <DependentUpon>BrowserForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AM\Windows\Forms\ExceptionBox.resx">
       <DependentUpon>ExceptionBox.cs</DependentUpon>
       <SubType>Designer</SubType>
