@@ -105,6 +105,7 @@
     <Compile Include="AM\Windows\Forms\BindingListSource.cs" />
     <Compile Include="AM\Windows\Forms\BottomlessRichTextBox.cs" />
     <Compile Include="AM\Windows\Forms\BusyStripe.cs" />
+    <Compile Include="AM\Windows\Forms\CheckBoxGroup.cs" />
     <Compile Include="AM\Windows\Forms\Clocks.cs" />
     <Compile Include="AM\Windows\Forms\CollapsibleGroupBox.cs" />
     <Compile Include="AM\Windows\Forms\ColorComboBox.cs" />

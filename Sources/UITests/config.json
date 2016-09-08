@@ -94,5 +94,9 @@
   {
     "class": "UITests.BindingListSourceTest",
     "title": "BindingListSource"
+  },
+  {
+    "class": "UITests.CheckBoxGroupTest",
+    "title": "CheckBoxGroup"
   }
 ]
