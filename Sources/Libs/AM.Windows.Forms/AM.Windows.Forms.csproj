@@ -152,6 +152,10 @@
     <Compile Include="AM\Windows\Forms\LabeledComboBox.designer.cs">
       <DependentUpon>LabeledComboBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="AM\Windows\Forms\LabeledTextBox.cs" />
+    <Compile Include="AM\Windows\Forms\LabeledTextBox.designer.cs">
+      <DependentUpon>LabeledTextBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="AM\Windows\Forms\LabelEx.cs" />
     <Compile Include="AM\Windows\Forms\ListBoxEx.cs" />
     <Compile Include="AM\Windows\Forms\ListBoxOutput.cs" />
@@ -242,6 +246,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AM\Windows\Forms\LabeledComboBox.resx">
       <DependentUpon>LabeledComboBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\LabeledTextBox.resx">
+      <DependentUpon>LabeledTextBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AM\Windows\Forms\ToolStrip\ToolStripCustomizationForm.resx">
       <DependentUpon>ToolStripCustomizationForm.cs</DependentUpon>

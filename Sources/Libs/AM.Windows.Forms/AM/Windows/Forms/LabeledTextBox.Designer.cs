@@ -1,6 +1,6 @@
 ﻿namespace AM.Windows.Forms
 {
-	partial class LabeledComboBox
+	partial class LabeledTextBox
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -29,7 +29,7 @@
 		private void InitializeComponent ()
 		{
 			this._label = new System.Windows.Forms.Label ();
-			this._comboBox = new System.Windows.Forms.ComboBox ();
+			this._textBox = new System.Windows.Forms.TextBox ();
 			this.SuspendLayout ();
 			// 
 			// _label
@@ -37,34 +37,34 @@
 			this._label.Dock = System.Windows.Forms.DockStyle.Top;
 			this._label.Location = new System.Drawing.Point ( 0, 0 );
 			this._label.Name = "_label";
-			this._label.Size = new System.Drawing.Size ( 150, 18 );
+			this._label.Size = new System.Drawing.Size ( 150, 21 );
 			this._label.TabIndex = 0;
 			this._label.Text = "_label";
 			// 
-			// _comboBox
+			// _textBox
 			// 
-			this._comboBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._comboBox.FormattingEnabled = true;
-			this._comboBox.Location = new System.Drawing.Point ( 0, 18 );
-			this._comboBox.Name = "_comboBox";
-			this._comboBox.Size = new System.Drawing.Size ( 150, 21 );
-			this._comboBox.TabIndex = 1;
+			this._textBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._textBox.Location = new System.Drawing.Point ( 0, 21 );
+			this._textBox.Name = "_textBox";
+			this._textBox.Size = new System.Drawing.Size ( 150, 20 );
+			this._textBox.TabIndex = 1;
 			// 
-			// LabeledComboBox
+			// LabeledTextBox
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF ( 6F, 13F );
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add ( this._comboBox );
+			this.Controls.Add ( this._textBox );
 			this.Controls.Add ( this._label );
-			this.Name = "LabeledComboBox";
-			this.Size = new System.Drawing.Size ( 150, 44 );
+			this.Name = "LabeledTextBox";
+			this.Size = new System.Drawing.Size ( 150, 45 );
 			this.ResumeLayout ( false );
+			this.PerformLayout ();
 
 		}
 
 		#endregion
 
 		private System.Windows.Forms.Label _label;
-		private System.Windows.Forms.ComboBox _comboBox;
+		private System.Windows.Forms.TextBox _textBox;
 	}
 }

@@ -110,5 +110,9 @@
   {
     "class": "UITests.LabeledComboBoxTest",
     "title": "LabeledComboBox"
+  },
+  {
+    "class": "UITests.LabeledTextBoxTest",
+    "title": "LabeledTextBox"
   }
 ]
