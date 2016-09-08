@@ -173,6 +173,7 @@
     <Compile Include="Sources\Tests\IrbisLoginForm2Test.cs" />
     <Compile Include="Sources\Tests\IrbisLoginFormTest.cs" />
     <Compile Include="Sources\Tests\JogControlTest.cs" />
+    <Compile Include="Sources\Tests\LabeledComboBoxTest.cs" />
     <Compile Include="Sources\Tests\LabelExTest.cs" />
     <Compile Include="Sources\Tests\ListBoxExTest.cs" />
     <Compile Include="Sources\Tests\SuggestingTextBoxTest.cs" />

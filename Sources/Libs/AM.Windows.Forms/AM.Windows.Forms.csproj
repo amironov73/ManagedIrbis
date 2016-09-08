@@ -148,6 +148,10 @@
     <Compile Include="AM\Windows\Forms\InputLanguageIndicator.cs" />
     <Compile Include="AM\Windows\Forms\JogControl.cs" />
     <Compile Include="AM\Windows\Forms\KeyboardUtility.cs" />
+    <Compile Include="AM\Windows\Forms\LabeledComboBox.cs" />
+    <Compile Include="AM\Windows\Forms\LabeledComboBox.designer.cs">
+      <DependentUpon>LabeledComboBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="AM\Windows\Forms\LabelEx.cs" />
     <Compile Include="AM\Windows\Forms\ListBoxEx.cs" />
     <Compile Include="AM\Windows\Forms\ListBoxOutput.cs" />
@@ -235,6 +239,9 @@
     <EmbeddedResource Include="AM\Windows\Forms\InputBox.resx">
       <DependentUpon>InputBox.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\LabeledComboBox.resx">
+      <DependentUpon>LabeledComboBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AM\Windows\Forms\ToolStrip\ToolStripCustomizationForm.resx">
       <DependentUpon>ToolStripCustomizationForm.cs</DependentUpon>

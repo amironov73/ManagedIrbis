@@ -106,5 +106,9 @@
   {
     "class": "UITests.BrowserFormTest",
     "title": "BrowserForm"
+  },
+  {
+    "class": "UITests.LabeledComboBoxTest",
+    "title": "LabeledComboBox"
   }
 ]

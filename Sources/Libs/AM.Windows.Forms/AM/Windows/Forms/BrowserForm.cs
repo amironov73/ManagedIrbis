@@ -11,6 +11,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
 #endregion
 
 namespace AM.Windows.Forms
@@ -18,6 +24,8 @@ namespace AM.Windows.Forms
     /// <summary>
     /// 
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public partial class BrowserForm
         : Form
     {
