@@ -86,5 +86,9 @@
   {
     "class": "UITests.BusyStripeTest",
     "title": "BusyStripe"
+  },
+  {
+    "class": "UITests.BottomlessTextBoxTest",
+    "title": "BottomlessTextBox"
   }
 ]
