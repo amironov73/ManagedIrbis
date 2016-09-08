@@ -98,5 +98,9 @@
   {
     "class": "UITests.CheckBoxGroupTest",
     "title": "CheckBoxGroup"
+  },
+  {
+    "class": "UITests.CheckedGroupBoxTest",
+    "title": "CheckedGroupBox"
   }
 ]
