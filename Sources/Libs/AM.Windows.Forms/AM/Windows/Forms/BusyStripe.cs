@@ -27,7 +27,8 @@ namespace AM.Windows.Forms
     /// </summary>
     [PublicAPI]
     [System.ComponentModel.DesignerCategory("Code")]
-    //[ToolboxBitmap("AM.Windows.Forms.BusyStripe.bmp")]
+    [ToolboxBitmap(typeof(BusyStripe),
+        "Images.BusyStripe.bmp")]
     public class BusyStripe
         : Control
     {

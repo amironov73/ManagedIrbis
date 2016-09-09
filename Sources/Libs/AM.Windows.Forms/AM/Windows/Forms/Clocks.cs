@@ -25,7 +25,8 @@ namespace AM.Windows.Forms
     /// Simple analog clock control.
     /// </summary>
     [PublicAPI]
-    //[ToolboxBitmap("AM.Windows.Forms.Clocks.bmp")]
+    [ToolboxBitmap(typeof(Clocks),
+        "Images.Clocks.bmp")]
     [System.ComponentModel.DesignerCategory("Code")]
     public sealed class Clocks
         : Control

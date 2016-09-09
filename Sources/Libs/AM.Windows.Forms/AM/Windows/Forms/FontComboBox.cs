@@ -22,7 +22,8 @@ namespace AM.Windows.Forms
     /// шрифт из списка.
     /// </summary>
     [PublicAPI]
-    //[ToolboxBitmap(typeof(FontComboBox), "FontComboBox.bmp")]
+    [ToolboxBitmap(typeof(FontComboBox),
+        "Images.FontComboBox.bmp")]
     [System.ComponentModel.DesignerCategory("Code")]
     public class FontComboBox
         : ComboBox

@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
@@ -22,7 +23,8 @@ namespace AM.Windows.Forms
     /// </summary>
     [PublicAPI]
     [System.ComponentModel.DesignerCategory("Code")]
-    //[ToolboxBitmap ("AM.Windows.Forms.HatchComboBox.bmp")]
+    [ToolboxBitmap (typeof(HatchComboBox),
+        "Images.HatchComboBox.bmp")]
     public class HatchComboBox
         : ComboBox
     {

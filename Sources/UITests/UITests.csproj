@@ -141,6 +141,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sources\DummyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sources\DummyForm.Designer.cs">
+      <DependentUpon>DummyForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Sources\IUITest.cs" />
     <Compile Include="Sources\MainForm.cs">
       <SubType>Form</SubType>
@@ -184,6 +190,9 @@
     <Compile Include="Sources\Tests\SuggestingTextBoxTest.cs" />
     <Compile Include="Sources\Tests\ToolStripTest.cs" />
     <Compile Include="Sources\UITest.cs" />
+    <EmbeddedResource Include="Sources\DummyForm.resx">
+      <DependentUpon>DummyForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Sources\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

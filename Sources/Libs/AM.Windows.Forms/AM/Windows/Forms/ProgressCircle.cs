@@ -31,6 +31,8 @@ namespace AM.Windows.Forms
     [PublicAPI]
     [MoonSharpUserData]
     [System.ComponentModel.DesignerCategory("Code")]
+    [ToolboxBitmap(typeof(ProgressCircle),
+        "Images.ProgressCircle.bmp")]
     public class ProgressCircle
         : Control
     {

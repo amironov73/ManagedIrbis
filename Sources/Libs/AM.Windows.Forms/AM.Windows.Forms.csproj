@@ -232,6 +232,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />
+    <EmbeddedResource Include="Images\HatchComboBox.bmp" />
+    <EmbeddedResource Include="Images\FontComboBox.bmp" />
+    <EmbeddedResource Include="Images\ColorComboBox.bmp" />
+    <EmbeddedResource Include="Images\ProgressCircle.bmp" />
+    <EmbeddedResource Include="Images\BusyStripe.bmp" />
+    <EmbeddedResource Include="Images\Clocks.bmp" />
     <None Include="Images\Gear2.png" />
     <None Include="Images\Gear1.png" />
     <None Include="Images\Gear0.png" />

@@ -21,8 +21,8 @@ namespace AM.Windows.Forms
     /// цвет из списка.
     /// </summary>
     [PublicAPI]
-    //[ToolboxBitmap ( typeof ( ColorComboBox ) )]
-    //[ToolboxBitmap ( "AM.Windows.Forms.ColorComboBox.bmp" )]
+    [ToolboxBitmap(typeof(ColorComboBox),
+        "Images.ColorComboBox.bmp")]
     [System.ComponentModel.DesignerCategory("Code")]
     public class ColorComboBox
         : ComboBox
