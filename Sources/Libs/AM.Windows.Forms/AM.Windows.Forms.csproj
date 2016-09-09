@@ -103,6 +103,10 @@
   <ItemGroup>
     <Compile Include="AM\Windows\Forms\ApplicationUtility.cs" />
     <Compile Include="AM\Windows\Forms\BindingListSource.cs" />
+    <Compile Include="AM\Windows\Forms\BorderInfo.cs" />
+    <Compile Include="AM\Windows\Forms\BorderInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="AM\Windows\Forms\BottomlessRichTextBox.cs" />
     <Compile Include="AM\Windows\Forms\BrowserForm.cs">
       <SubType>Form</SubType>
