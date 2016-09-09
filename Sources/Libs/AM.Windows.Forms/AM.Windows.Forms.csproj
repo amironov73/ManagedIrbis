@@ -169,6 +169,10 @@
     <Compile Include="AM\Windows\Forms\ModalForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="AM\Windows\Forms\PenInfo.cs" />
+    <Compile Include="AM\Windows\Forms\PenInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="AM\Windows\Forms\PlainTextEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
