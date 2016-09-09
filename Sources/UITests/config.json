@@ -114,5 +114,9 @@
   {
     "class": "UITests.LabeledTextBoxTest",
     "title": "LabeledTextBox"
+  },
+  {
+    "class": "UITests.MeterTest",
+    "title": "Meter"
   }
 ]
