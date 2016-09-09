@@ -188,6 +188,7 @@
     </Compile>
     <Compile Include="AM\Windows\Forms\ScreenUtility.cs" />
     <Compile Include="AM\Windows\Forms\TextBoxOutput.cs" />
+    <Compile Include="AM\Windows\Forms\TextBoxTraceListener.cs" />
     <Compile Include="AM\Windows\Forms\TextBoxWriter.cs" />
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripCheckBox.cs" />
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripColorComboBox.cs" />
