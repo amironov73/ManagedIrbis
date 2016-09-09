@@ -118,5 +118,9 @@
   {
     "class": "UITests.MeterTest",
     "title": "Meter"
+  },
+  {
+    "class": "UITests.PlainTextEditorTest",
+    "title": "PlainTextEditor"
   }
 ]

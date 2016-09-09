@@ -178,6 +178,7 @@
     <Compile Include="Sources\Tests\LabelExTest.cs" />
     <Compile Include="Sources\Tests\ListBoxExTest.cs" />
     <Compile Include="Sources\Tests\MeterTest.cs" />
+    <Compile Include="Sources\Tests\PlainTextEditorTest.cs" />
     <Compile Include="Sources\Tests\SuggestingTextBoxTest.cs" />
     <Compile Include="Sources\Tests\ToolStripTest.cs" />
     <Compile Include="Sources\UITest.cs" />
