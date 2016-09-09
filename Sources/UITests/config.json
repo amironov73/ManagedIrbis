@@ -126,5 +126,9 @@
   {
     "class": "UITests.RichTextEditorTest",
     "title": "RichTextEditor"
+  },
+  {
+    "class": "UITests.ProgressCircleTest",
+    "title": "ProgressCircle"
   }
 ]

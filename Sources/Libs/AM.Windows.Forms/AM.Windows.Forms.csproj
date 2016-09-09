@@ -170,6 +170,7 @@
     <Compile Include="AM\Windows\Forms\PlainTextEditor.Designer.cs">
       <DependentUpon>PlainTextEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="AM\Windows\Forms\ProgressCircle.cs" />
     <Compile Include="AM\Windows\Forms\RichTextEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
