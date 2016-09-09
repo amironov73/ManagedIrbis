@@ -134,6 +134,7 @@
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewRatingCell.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewRatingColumn.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewUtility.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\GridColumnAttribute.cs" />
     <Compile Include="AM\Windows\Forms\EnumComboBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumListBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumTypeConverter.cs" />
