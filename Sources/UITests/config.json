@@ -122,5 +122,9 @@
   {
     "class": "UITests.PlainTextEditorTest",
     "title": "PlainTextEditor"
+  },
+  {
+    "class": "UITests.RichTextEditorTest",
+    "title": "RichTextEditor"
   }
 ]

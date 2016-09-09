@@ -1,4 +1,4 @@
-﻿/* PlainTextEditor.cs -- 
+﻿/* RichTextEditor.cs -- 
  * Ars Magna project, http://arsmagna.ru 
  * -------------------------------------------------------
  * Status: poor
@@ -32,7 +32,7 @@ namespace AM.Windows.Forms
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public partial class PlainTextEditor 
+    public partial class RichTextEditor 
         : UserControl
     {
         #region Properties
@@ -40,18 +40,24 @@ namespace AM.Windows.Forms
         [CanBeNull]
         private string FileName { get; set; }
 
+        [NotNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public RichTextBox RichTextBox
+        {
+            get { return _richTextBox; }
+        }
+
+        public string Rtf
+        {
+            get { return _richTextBox.Rtf; }
+            set { _richTextBox.Rtf = value; }
+        }
+
         /// <inheritdoc />
         public override string Text
         {
-            get { return _textBox.Text; }
-            set { _textBox.Text = value; }
-        }
-
-        [NotNull]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public TextBox TextBox
-        {
-            get { return _textBox; }
+            get { return _richTextBox.Text; }
+            set { _richTextBox.Text = value; }
         }
 
         #endregion
@@ -59,9 +65,9 @@ namespace AM.Windows.Forms
         #region Construction
 
         /// <summary>
-        /// Constructor.
+        /// Initializes a new instance of the <see cref="RichTextEditor"/> class.
         /// </summary>
-        public PlainTextEditor ()
+        public RichTextEditor ()
         {
             InitializeComponent ();
         }
@@ -85,11 +91,6 @@ namespace AM.Windows.Forms
             SaveToFile();
         }
 
-        private void _printToolStripButton_Click(object sender, EventArgs e)
-        {
-            Print();
-        }
-
         private void _cutToolStripButton_Click(object sender, EventArgs e)
         {
             Cut();
@@ -111,17 +112,17 @@ namespace AM.Windows.Forms
 
         public void Clear()
         {
-            _textBox.Clear();
+            _richTextBox.Clear();
         }
 
         public void Copy()
         {
-            _textBox.Copy();
+            _richTextBox.Copy();
         }
 
         public void Cut()
         {
-            _textBox.Cut();
+            _richTextBox.Cut();
         }
 
         public void LoadFromFile()
@@ -135,18 +136,12 @@ namespace AM.Windows.Forms
 
         public void LoadFromFile(string fileName)
         {
-            Text = File.ReadAllText(fileName, Encoding.UTF8);
+            Rtf = File.ReadAllText(fileName, Encoding.UTF8);
         }
 
         public void Paste()
         {
-            _textBox.Paste();
-        }
-
-        public void Print()
-        {
-            PlainTextPrinter printer = new PlainTextPrinter();
-            printer.Print(Text);
+            _richTextBox.Paste();
         }
 
         public void SaveToFile()
@@ -164,7 +159,7 @@ namespace AM.Windows.Forms
 
         public void SaveToFile(string fileName)
         {
-            File.WriteAllText(fileName, Text, Encoding.UTF8);
+            File.WriteAllText(fileName, Rtf, Encoding.UTF8);
         }
 
         #endregion
