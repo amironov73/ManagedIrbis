@@ -135,6 +135,7 @@
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewRatingColumn.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewUtility.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\GridColumnAttribute.cs" />
+    <Compile Include="AM\Windows\Forms\DriveComboBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumComboBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumListBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumTypeConverter.cs" />
@@ -242,6 +243,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />
+    <None Include="Images\drivenet.bmp" />
+    <EmbeddedResource Include="Images\drive.bmp" />
+    <None Include="Images\cddrive.bmp" />
+    <None Include="Images\35floppy.bmp" />
     <EmbeddedResource Include="Images\HatchComboBox.bmp" />
     <EmbeddedResource Include="Images\FontComboBox.bmp" />
     <EmbeddedResource Include="Images\ColorComboBox.bmp" />

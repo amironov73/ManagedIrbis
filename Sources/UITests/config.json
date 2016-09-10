@@ -130,5 +130,9 @@
   {
     "class": "UITests.ProgressCircleTest",
     "title": "ProgressCircle"
+  },
+  {
+    "class": "UITests.DriveComboBoxTest",
+    "title": "DriveComboBox"
   }
 ]

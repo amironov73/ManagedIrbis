@@ -168,6 +168,7 @@
     <Compile Include="Sources\Tests\ColorComboBoxTest.cs" />
     <Compile Include="Sources\Tests\DaDataClientTest.cs" />
     <Compile Include="Sources\Tests\DataGridViewTest.cs" />
+    <Compile Include="Sources\Tests\DriveComboBoxTest.cs" />
     <Compile Include="Sources\Tests\EnumComboBoxTest.cs" />
     <Compile Include="Sources\Tests\EnumListBoxTest.cs" />
     <Compile Include="Sources\Tests\FileNameBoxTest.cs" />

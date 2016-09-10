@@ -7,6 +7,7 @@
 #region Using directives
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -26,9 +27,9 @@ namespace AM.Windows.Forms
     /// 
     /// </summary>
     [PublicAPI]
+    [ToolboxItem(true)]
     [System.ComponentModel.DesignerCategory("Code")]
-    [ToolboxBitmap(typeof(BusyStripe),
-        "Images.BusyStripe.bmp")]
+    [ToolboxBitmap(typeof(BusyStripe), "Images.BusyStripe.bmp")]
     public class BusyStripe
         : Control
     {
