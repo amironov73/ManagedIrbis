@@ -244,8 +244,20 @@
   <ItemGroup>
     <Content Include="BlueBook.ico" />
     <None Include="Images\drivenet.bmp" />
+    <EmbeddedResource Include="AM\Windows\Forms\BorderInfoControl.resx">
+      <DependentUpon>BorderInfoControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AM\Windows\Forms\ExceptionBox.ru.resx">
       <DependentUpon>ExceptionBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\InputBox.ru.resx">
+      <DependentUpon>InputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\PlainTextEditor.ru.resx">
+      <DependentUpon>PlainTextEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\RichTextEditor.ru.resx">
+      <DependentUpon>RichTextEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Images\drive.bmp" />
     <None Include="Images\cddrive.bmp" />

@@ -63,118 +63,75 @@ namespace AM.Windows.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Resources.ResourceManager resources =
-                new System.Resources.ResourceManager(typeof(InputBox));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InputBox));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.topLabel = new System.Windows.Forms.Label();
             this.promptLabel = new System.Windows.Forms.Label();
             this.inputTextBox = new System.Windows.Forms.TextBox();
-            this.okButton = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.okButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.topLabel);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(368, 56);
-            this.panel1.TabIndex = 0;
-            // 
-            // topLabel
-            // 
-            this.topLabel.Anchor =
-                ((System.Windows.Forms.AnchorStyles)
-                  (((System.Windows.Forms.AnchorStyles.Top
-                        | System.Windows.Forms.AnchorStyles.Left)
-                      | System.Windows.Forms.AnchorStyles.Right)));
-            this.topLabel.Font =
-                new System.Drawing.Font("Microsoft Sans Serif",
-                                          8.25F,
-                                          System.Drawing.FontStyle.Bold,
-                                          System.Drawing.GraphicsUnit.Point,
-                                          ((System.Byte)(204)));
-            this.topLabel.Location = new System.Drawing.Point(16, 8);
-            this.topLabel.Name = "topLabel";
-            this.topLabel.Size = new System.Drawing.Size(278, 40);
-            this.topLabel.TabIndex = 0;
-            this.topLabel.Text =
-                "Введите значение. Нажмите OK для подтверждения или Отмена для прекращения";
-            this.topLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // promptLabel
-            // 
-            this.promptLabel.Location = new System.Drawing.Point(16, 80);
-            this.promptLabel.Name = "promptLabel";
-            this.promptLabel.Size = new System.Drawing.Size(328, 16);
-            this.promptLabel.TabIndex = 1;
-            this.promptLabel.Text = "Поясняющий текст";
-            // 
-            // inputTextBox
-            // 
-            this.inputTextBox.Location = new System.Drawing.Point(16, 96);
-            this.inputTextBox.Name = "inputTextBox";
-            this.inputTextBox.Size = new System.Drawing.Size(336, 20);
-            this.inputTextBox.TabIndex = 2;
-            this.inputTextBox.Text = "";
-            // 
-            // okButton
-            // 
-            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.okButton.ImageIndex = 0;
-            this.okButton.ImageList = this.imageList1;
-            this.okButton.Location = new System.Drawing.Point(72, 136);
-            this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(96, 23);
-            this.okButton.TabIndex = 3;
-            this.okButton.Text = "OK";
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
-            this.imageList1.ImageStream =
-                ((System.Windows.Forms.ImageListStreamer)
-                  (resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.White;
-            // 
-            // cancelButton
-            // 
-            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cancelButton.ImageIndex = 1;
-            this.cancelButton.ImageList = this.imageList1;
-            this.cancelButton.Location = new System.Drawing.Point(184, 136);
-            this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(96, 23);
-            this.cancelButton.TabIndex = 4;
-            this.cancelButton.Text = "Отмена";
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image =
-                ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(288, 8);
+            resources.ApplyResources(this.pictureBox1, "pictureBox1");
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(72, 40);
-            this.pictureBox1.SizeMode =
-                System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
+            // 
+            // topLabel
+            // 
+            resources.ApplyResources(this.topLabel, "topLabel");
+            this.topLabel.Name = "topLabel";
+            // 
+            // promptLabel
+            // 
+            resources.ApplyResources(this.promptLabel, "promptLabel");
+            this.promptLabel.Name = "promptLabel";
+            // 
+            // inputTextBox
+            // 
+            resources.ApplyResources(this.inputTextBox, "inputTextBox");
+            this.inputTextBox.Name = "inputTextBox";
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.White;
+            this.imageList1.Images.SetKeyName(0, "");
+            this.imageList1.Images.SetKeyName(1, "");
+            // 
+            // okButton
+            // 
+            resources.ApplyResources(this.okButton, "okButton");
+            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.okButton.ImageList = this.imageList1;
+            this.okButton.Name = "okButton";
+            // 
+            // cancelButton
+            // 
+            resources.ApplyResources(this.cancelButton, "cancelButton");
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cancelButton.ImageList = this.imageList1;
+            this.cancelButton.Name = "cancelButton";
             // 
             // InputBox
             // 
             this.AcceptButton = this.okButton;
-            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+            resources.ApplyResources(this, "$this");
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(368, 176);
             this.ControlBox = false;
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
@@ -187,10 +144,11 @@ namespace AM.Windows.Forms
             this.Name = "InputBox";
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "InputBox";
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         /// <summary>

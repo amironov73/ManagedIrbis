@@ -145,7 +145,7 @@ namespace AM.Windows.Forms
             this.drawBox.AutoSize = true;
             this.drawBox.Location = new System.Drawing.Point(13, 13);
             this.drawBox.Name = "drawBox";
-            this.drawBox.Size = new System.Drawing.Size(80, 17);
+            this.drawBox.Size = new System.Drawing.Size(108, 21);
             this.drawBox.TabIndex = 0;
             this.drawBox.Text = "Draw border";
             this.drawBox.CheckedChanged += new System.EventHandler(this.drawBox_CheckedChanged);
@@ -155,7 +155,7 @@ namespace AM.Windows.Forms
             this.draw3D.AutoSize = true;
             this.draw3D.Location = new System.Drawing.Point(122, 13);
             this.draw3D.Name = "draw3D";
-            this.draw3D.Size = new System.Drawing.Size(69, 17);
+            this.draw3D.Size = new System.Drawing.Size(94, 21);
             this.draw3D.TabIndex = 1;
             this.draw3D.Text = "3D border";
             this.draw3D.CheckedChanged += new System.EventHandler(this.drawBox_CheckedChanged);
@@ -167,7 +167,7 @@ namespace AM.Windows.Forms
             this.style2D.Location = new System.Drawing.Point(73, 37);
             this.style2D.Margin = new System.Windows.Forms.Padding(2, 3, 3, 3);
             this.style2D.Name = "style2D";
-            this.style2D.Size = new System.Drawing.Size(107, 21);
+            this.style2D.Size = new System.Drawing.Size(139, 24);
             this.style2D.TabIndex = 2;
             this.style2D.SelectedIndexChanged += new System.EventHandler(this.drawBox_CheckedChanged);
             // 
@@ -177,7 +177,7 @@ namespace AM.Windows.Forms
             this.style3D.FormattingEnabled = true;
             this.style3D.Location = new System.Drawing.Point(73, 95);
             this.style3D.Name = "style3D";
-            this.style3D.Size = new System.Drawing.Size(107, 21);
+            this.style3D.Size = new System.Drawing.Size(139, 24);
             this.style3D.TabIndex = 4;
             this.style3D.SelectedIndexChanged += new System.EventHandler(this.drawBox_CheckedChanged);
             // 
@@ -185,7 +185,7 @@ namespace AM.Windows.Forms
             // 
             this.panel1.Location = new System.Drawing.Point(14, 124);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(166, 72);
+            this.panel1.Size = new System.Drawing.Size(198, 72);
             this.panel1.TabIndex = 5;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
@@ -195,7 +195,7 @@ namespace AM.Windows.Forms
             this.label1.Location = new System.Drawing.Point(15, 44);
             this.label1.Margin = new System.Windows.Forms.Padding(3, 3, 1, 3);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(45, 14);
+            this.label1.Size = new System.Drawing.Size(59, 17);
             this.label1.TabIndex = 6;
             this.label1.Text = "2D style";
             // 
@@ -204,7 +204,7 @@ namespace AM.Windows.Forms
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(14, 74);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 14);
+            this.label2.Size = new System.Drawing.Size(61, 17);
             this.label2.TabIndex = 7;
             this.label2.Text = "2D color";
             // 
@@ -213,7 +213,7 @@ namespace AM.Windows.Forms
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(13, 103);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(45, 14);
+            this.label3.Size = new System.Drawing.Size(59, 17);
             this.label3.TabIndex = 8;
             this.label3.Text = "3D style";
             // 
@@ -221,16 +221,16 @@ namespace AM.Windows.Forms
             // 
             this.okButton.Location = new System.Drawing.Point(14, 203);
             this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(79, 23);
+            this.okButton.Size = new System.Drawing.Size(107, 23);
             this.okButton.TabIndex = 9;
             this.okButton.Text = "OK";
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(100, 203);
+            this.cancelButton.Location = new System.Drawing.Point(122, 203);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(80, 23);
+            this.cancelButton.Size = new System.Drawing.Size(90, 23);
             this.cancelButton.TabIndex = 10;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
@@ -240,7 +240,7 @@ namespace AM.Windows.Forms
             this.color2D.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.color2D.Location = new System.Drawing.Point(73, 68);
             this.color2D.Name = "color2D";
-            this.color2D.Size = new System.Drawing.Size(106, 19);
+            this.color2D.Size = new System.Drawing.Size(139, 19);
             this.color2D.TabIndex = 11;
             this.color2D.Click += new System.EventHandler(this.color2D_Click);
             // 
@@ -258,7 +258,7 @@ namespace AM.Windows.Forms
             this.Controls.Add(this.draw3D);
             this.Controls.Add(this.drawBox);
             this.Name = "BorderInfoControl";
-            this.Size = new System.Drawing.Size(195, 232);
+            this.Size = new System.Drawing.Size(224, 239);
             this.Load += new System.EventHandler(this.BorderInfoControl_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

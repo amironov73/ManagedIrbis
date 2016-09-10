@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,7 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="_openButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="_newToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAERSURBVDhPrZDbSgJRGIXnpewd6jXsjSQvIrwoI0RQMChU
+        0iiDPCGiE3ZCRkvR8VzTeBhnyR5/ccaZNnPhB4t9sdf6Ln5hb8QeathNJFVFKF5C8DqL4ksDVHWGDf7j
+        LHyPg6NjviSaFqlu5yQYR+KpupaIkrMknCxT3Y7v/NYYb0ITK1c3BarbWWhLQ7IR0cTKReyZ6lZ0XYei
+        ztHpK4bAc+h1FgQijzSxMptrGIxVSO0xX3AaStFki7bUMVFmaMm/eJMGfIH/MkGzLep0AXn4h/r3CJV3
+        mS9gn2bY4UY/UzQ7E9TqfeTFtnuB+XAfzSHKr11kSl/uBebDiZ89ZCst3OUkdwL28sIVsE83ock+EIQV
+        2Mz2wxeg6/UAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="_newToolStripButton.Text" xml:space="preserve">
+    <value>&amp;Новый</value>
+  </data>
+  <data name="_openToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAJHSURBVDhPxZBdSNNhFMb/F110ZZEVhVBgeeHNICiiuggp
@@ -134,10 +148,10 @@
         g6eHO+A/lyD8ARfG3mk9fv1YAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="_openButton.Text" xml:space="preserve">
+  <data name="_openToolStripButton.Text" xml:space="preserve">
     <value>&amp;Открыть</value>
   </data>
-  <data name="_saveButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="_saveToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAIySURBVDhPrZLfS5NRGMfff6H7boIuuq2pMZyL1eAt11CW
@@ -153,25 +167,10 @@
         AElFTkSuQmCC
 </value>
   </data>
-  <data name="_saveButton.Text" xml:space="preserve">
+  <data name="_saveToolStripButton.Text" xml:space="preserve">
     <value>&amp;Сохранить</value>
   </data>
-  <data name="_pageSetupButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAFuSURBVDhPrZC9S0JRGMYda2ipIQgaamqKlqKtMYpoiCCI
-        hsD+GfuCFKXsw1Cj1LBQMLTSsgw/spK8YEWDNEhYVoapqfeJ83YvaMjNwR+8PMM5z+/e98jqhs0bw9+x
-        uqMwOa9htAdgsAfmhKvVYQXG3QxHWc6a5QR9wzPSkj0Ph5g8Cm46gsjUFcITQQTGLnA+cgq10QmXL0oS
-        vc0/L1QqsRxG6Gs3k2HKclT6AyqLI1Qq2XZc0uXQuJ+yHFv/PklEkVCpxGD7LfpGvZQiPM9jt8eM59cM
-        CXqH5NUFG9YzKngGjyhF8t9FbHUZEE98SAu0JjcVnAMOSkaxxCOdyUPXsY77eEpaoNlyUYntK5LNFZB8
-        +8JK2zJuH5LSAnbIYPsyCsUS3j9zeHpOQ9WiRIhL/C8wd+/QvpudOqy2a6FpVUPZvITFpgXMNs7W9gds
-        X/ZwqY8sPRz3+AJFgwLHwXhtApZSIylgh7WMUKkHMtkP7rjNAKtcVsAAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="_pageSetupButton.Text" xml:space="preserve">
-    <value>Настройка печати</value>
-  </data>
-  <data name="_printButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="_printToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAIpSURBVDhPtZL/T1JRGMb5p1itrVZbbRpqZbawnBENV1I0
@@ -186,10 +185,26 @@
         uqob5KjiXwWH/GVl5HPt5zZh37GL2H1EiF1VZ7GDI6CNW5r/TSzWbwHYL0mKJ5czAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="_printButton.Text" xml:space="preserve">
+  <data name="_printToolStripButton.Text" xml:space="preserve">
     <value>&amp;Печатать</value>
   </data>
-  <data name="_copyButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="_cutToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAGDSURBVDhPrZFNSwJRGIX9NYGbFoUlFElY1EJQKEYhCJsi
+        LaVsERnRF5iCaSZJO1toCDVGFkgoFpWQWWRR2aIvUxm1BKN1wSnHCFw4TOCzue+9nPNw4eVVnav4Izzb
+        QfxeGZ5TWaxT/rK3irzmC7CsusvC1G4IkbNLboIiDieF4GGUKeTeClDpppF8eeEu2PIfwfrzizSdw3Hk
+        EnKlFpkMzV2wH77AosOFTV8A+vkl9CiHuJeLJNNZjM8tYWB0FkTvMAwmy/8ERTR6CwjlGAi1Ccence6C
+        1NsXzN4PKIxJLLgeIJ2MoXvmFraNBKK3eXZRIveJPvs7FIYniEkXZENOdE+GIZ2Ko10TwLK7tJmKmL0F
+        EEYarYM+NMnt0C1sQzpx/lcSEnZ2gcKY/gs0dlmZuWvmjjmpwA1qxVp2AWFIMAF/OAGBzMjMI7ZrtJCb
+        4Df3o4Zfxy7QrdxDRFKol5khkpR2H4qmIOzUQNBGwrsXYxccnNOQqNbQ0KGGZ+eEPVwdeLxvqqrf4wGh
+        TNAAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="_cutToolStripButton.Text" xml:space="preserve">
+    <value>&amp;Вырезать</value>
+  </data>
+  <data name="_copyToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAHkSURBVDhPvZHfS1NhHIf3p5QypLr2D4goMwoMCi/qIugH
@@ -203,10 +218,10 @@
         FF7bIVJVZ0N/soPK421UHGstlFvYd/hWecF/Qqf7CR0A5wwgSQA2AAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="_copyButton.Text" xml:space="preserve">
+  <data name="_copyToolStripButton.Text" xml:space="preserve">
     <value>&amp;Копировать</value>
   </data>
-  <data name="_pasteButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="_pasteToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAJSSURBVDhPtZJrSJNRGMdf6IN9KbpQn/pUEH2JIoLqQ0Zh
@@ -222,117 +237,7 @@
         PdXm80/AfDokTVu+8DfPXv9XCcIPTvjvLQ8YoakAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="_pasteButton.Text" xml:space="preserve">
-    <value>&amp;Вставить</value>
-  </data>
-  <data name="_openFileDialog.Filter" xml:space="preserve">
-    <value>Файлы HTML|*.html;*.htm|Все файлы|*.*</value>
-  </data>
-  <data name="_openFileDialog.Title" xml:space="preserve">
-    <value>Открытие документа</value>
-  </data>
-  <data name="_saveFileDialog.Filter" xml:space="preserve">
-    <value>Файлы HTML|*.htm;*.htm|Все файлы|*.*</value>
-  </data>
-  <data name="_saveFileDialog.Title" xml:space="preserve">
-    <value>Сохранение документа</value>
-  </data>
-  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        AAABAAIAEBAAAAEAIABoBAAAJgAAACAgAAABACAAqBAAAI4EAAAoAAAAEAAAACAAAAABACAAAAAAAEAE
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD++vT////+/wAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADywlr/6KEd/+WT
-        AP/88OD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPrlvv/mlQD/+dmf/+OT
-        Ef/qoBv/88Zo/+6wQf////3/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//35/+yqN//zxlb/6aAA//fQ
-        kf/nlwD/8bxO/+2vR//204j/6J0G//fZlv8AAAAAAAAAAAAAAAAAAAAA9taR/+qnM//0zYL/77tb/+2w
-        Tv/2z2//6JoB//TMkP/qpRT/9sx+/+qiAP/1yHH/66EW///47/8AAAAA7q85//TEb//qow//9Mp3/+2w
-        RP/xxG3/3n4A/+GJAP/hiQP/4IMA//fPhP/rpyr/8sVl//C9Z//ts07/AAAAAOWXAP/2zYH/66cI//XI
-        bv/ggQD/4YkC/+GJAP/hiQD/4YkA/+GJAP/fggD/7rRW//G/bf/xxGr/7Ks3/wAAAADmlwD/99WC/+qn
-        Sf/fhQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAf/fgAD/88JK/+yoAP8AAAAA5ZQA/+CE
-        AP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+CHAv/nmyf/AAAAAP3x
-        4P/ihgD/4YkC/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/egQD/8btk/wAA
-        AAAAAAAAAAAAAPTLgf/dfgD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJA//ihwD//O7V/wAA
-        AAAAAAAAAAAAAAAAAAAAAAAA/fbq/+WQAP/hiAP/4YkA/+GJAP/hiQD/4YkA/919AP/1043/AAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+eCx/95/AP/hiQD/4IgD/+iXC////fr/AAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA88Fs//vr0f8AAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/////+f////D////AP///AB///gAH//wAB//8AAf//AAH//wAB
-        //8AAf//wAP//+AP///4H////n////////8oAAAAIAAAAEAAAAABACAAAAAAAIAQAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD53LD/88Bj//ncsP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD87tn/66cA/+OQAP/pnwD/45AA/+unAP/87tn/AAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA88Bj/+SSAP/wtj//AAAAAPvjwP8AAAAA8LY//+SS
-        AP/zwGP/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+uC5/+idAP/pnwD/++O+//O/YP/jkAD/4YsA/+OQ
-        AP/zv2D/++O+/+mfAP/onQD/+uC5/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO+0Mf/kkgD/9MRv//rgt//onQD/6Z8A//nZ
-        p/8AAAAA+dmn/+mfAP/onQD/+uC3//TEb//kkgD/77Qx/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPfRlf/llwD/7KkA//zs0//vsyz/5JIA//PC
-        af/64Lf/66UA/+SUAP/rpQD/+uC3//PCaf/kkgD/77Ms//zs0//sqQD/5ZcA//fRlf8AAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADsqQD/5ZcA//fSl//30JL/5ZYA/+yp
-        AP/869L/77Qz/+SSAP/xuEj/99KX//G4SP/kkgD/77Qz//zr0v/sqQD/5ZYA//fQkv/30pf/5ZcA/+yp
-        AP/979z/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD0w2z/5JIA//C1Nf/869L/7KkA/+WX
-        AP/30pf/99GV/+WXAP/sqQD//OvS//K9Wv/sqQD/8r1a//zr0v/sqQD/5ZcA//fRlf/30pf/5ZcA/+yp
-        AP/869L/8LU1/+SSAP/0w2z/AAAAAAAAAAAAAAAAAAAAAAAAAAD748D/6Z8A/+ieAP/64br/88Jp/+SS
-        AP/wtTX//OvS/+ypAP/llwD/99KX//fRlf/llgD/4YkA/+GJAP/hiQD/5ZYA//fRlf/30pf/5ZcA/+yp
-        AP/869L/8LU1/+SSAP/zwmn/+uG6/+ieAP/pnwD/++PA/wAAAAAAAAAA9cl//+SSAP/zwGP/+uK8/+ie
-        AP/ongD/+uG6//PCaf/kkgD/8LU1//zr0v/sqQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+yp
-        AP/869L/8LU1/+SSAP/zwmn/+uG6/+ieAP/ongD/+uK8//PAY//kkgD/9cl//wAAAADnmwD/99OY//G5
-        TP/kkgD/88Bj//rivP/ongD/6J0A//rgt//zwmn/45AA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJ
-        AP/hiQD/4YkA/+OQAP/zwmn/+uC3/+idAP/ongD/+uK8//PAY//kkgD/8LY7//zq0P/0w27/AAAAAOeb
-        AP/31Jv/8LU5//zq0P/wtjv/5JIA//PAY//74r3/6Z8A/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJ
-        AP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/pnwD/++K9//PAY//kkgD/8LY7//zq0P/rpwD/5pcA/wAA
-        AAAAAAAA5JQA//vmxv/63bH/5ZcA/+unAP/86tD/8LY7/+KMAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJ
-        AP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/ijAD/8LY7//zq0P/rpwD/5ZcA//fU
-        m//20JD/77Ms/wAAAADonQD/+dut/+umAP/2zo3/+NSd/+aXAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJ
-        AP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/5pcA//jU
-        nf/2zo3/5ZUA/+yqAP8AAAAAAAAAAOSTAP/63rP//fDe/+yrAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJ
-        AP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJ
-        AP/hiQD/4YkA/+yrAP/87NP/77Ee/+2uAP8AAAAA6J0A//C2O//kkwD/4YkA/+GJAP/hiQD/4YkA/+GJ
-        AP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJ
-        AP/hiQD/4YkA/+GJAP/hiQD/4YkA/+ORAP/0xXX/AAAAAAAAAADmmQD/4YkA/+GJAP/hiQD/4YkA/+GJ
-        AP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJ
-        AP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/wtj//AAAAAPXJf//ijAD/4YkA/+GJ
-        AP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJ
-        AP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4owA//XJf/8AAAAAAAAAAPvj
-        wP/pnwD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJ
-        AP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+mfAP/748D/AAAAAAAA
-        AAAAAAAAAAAAAAAAAAD0w2z/45AA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJ
-        AP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+OQAP/0w2z/AAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD979z/7KkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJ
-        AP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/sqQD//e/c/wAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA99GV/+WWAP/hiQD/4YkA/+GJ
-        AP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/llgD/99GV/wAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO+0
-        Mf/hiwD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiwD/77Qx/wAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAPrguf/onQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/4YkA/+GJAP/hiQD/6J0A//rg
-        uf8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADzwGP/448A/+GJAP/hiQD/4YkA/+GJAP/hiQD/448A//PA
-        Y/8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD87tn/66cA/+GJAP/hiQD/4YkA/+un
-        AP/87tn/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+dyw//PA
-        Y//53LD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/////////////////8f///8B///+KP//+AA///AQH//AAAf/gA
-        AB/gAAAPgAAAAwAAAAEAAAABAAAAAwAAAAEAAAADAAAAAQAAAAMAAAABAAAAAYAAAAPgAAAP8AAAH/wA
-        AH//AAH//4AD///gD///8B////x/////////////
-</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Просмотр документа</value>
+  <data name="_pasteToolStripButton.Text" xml:space="preserve">
+    <value>Вс&amp;тавить</value>
   </data>
 </root>
