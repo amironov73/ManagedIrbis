@@ -187,6 +187,7 @@
     <Compile Include="Sources\Tests\ListBoxExTest.cs" />
     <Compile Include="Sources\Tests\MeterTest.cs" />
     <Compile Include="Sources\Tests\PlainTextEditorTest.cs" />
+    <Compile Include="Sources\Tests\PopupFormTest.cs" />
     <Compile Include="Sources\Tests\ProgressCircleTest.cs" />
     <Compile Include="Sources\Tests\RichTextEditorTest.cs" />
     <Compile Include="Sources\Tests\SuggestingTextBoxTest.cs" />

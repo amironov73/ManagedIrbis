@@ -138,5 +138,9 @@
   {
     "class": "UITests.ExceptionBoxTest",
     "title": "ExceptionBox"
+  },
+  {
+    "class": "UITests.PopupFormTest",
+    "title": "PopupForm"
   }
 ]
