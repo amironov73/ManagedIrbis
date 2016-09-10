@@ -184,13 +184,13 @@
     <Compile Include="AM\Windows\Forms\ProgressForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AM\Windows\Forms\ProgressForm.designer.cs">
+    <Compile Include="AM\Windows\Forms\ProgressForm.Designer.cs">
       <DependentUpon>ProgressForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AM\Windows\Forms\ProgressPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="AM\Windows\Forms\ProgressPanel.designer.cs">
+    <Compile Include="AM\Windows\Forms\ProgressPanel.Designer.cs">
       <DependentUpon>ProgressPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="AM\Windows\Forms\RichTextEditor.cs">
