@@ -27,7 +27,7 @@ namespace AM.Windows.Forms
     /// 
     /// </summary>
     [PublicAPI]
-    [ToolboxItem(true)]
+    [MoonSharpUserData]
     [System.ComponentModel.DesignerCategory("Code")]
     [ToolboxBitmap(typeof(BusyStripe), "Images.BusyStripe.bmp")]
     public class BusyStripe
