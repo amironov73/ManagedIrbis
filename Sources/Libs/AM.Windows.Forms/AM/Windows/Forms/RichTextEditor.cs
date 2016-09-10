@@ -7,15 +7,10 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-
-using AM.Drawing.Printing;
 
 using CodeJam;
 
@@ -40,6 +35,9 @@ namespace AM.Windows.Forms
         [CanBeNull]
         private string FileName { get; set; }
 
+        /// <summary>
+        /// Text box.
+        /// </summary>
         [NotNull]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public RichTextBox RichTextBox
@@ -47,6 +45,9 @@ namespace AM.Windows.Forms
             get { return _richTextBox; }
         }
 
+        /// <summary>
+        /// Formatted text.
+        /// </summary>
         public string Rtf
         {
             get { return _richTextBox.Rtf; }
@@ -65,7 +66,7 @@ namespace AM.Windows.Forms
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RichTextEditor"/> class.
+        /// Constructor.
         /// </summary>
         public RichTextEditor ()
         {
@@ -110,40 +111,68 @@ namespace AM.Windows.Forms
 
         #region Public methods
 
+        /// <summary>
+        /// Clear the text area.
+        /// </summary>
         public void Clear()
         {
             _richTextBox.Clear();
         }
 
+        /// <summary>
+        /// Copy selected text to the clipboard.
+        /// </summary>
         public void Copy()
         {
             _richTextBox.Copy();
         }
 
+        /// <summary>
+        /// Cut the selected text to the clipboard.
+        /// </summary>
         public void Cut()
         {
             _richTextBox.Cut();
         }
 
+        /// <summary>
+        /// Load text from file.
+        /// </summary>
         public void LoadFromFile()
         {
             if (_openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                FileName = _openFileDialog.FileName;
+                FileName = _openFileDialog.FileName
+                    .ThrowIfNull("FileName");
+
                 LoadFromFile(FileName);
             }
         }
 
-        public void LoadFromFile(string fileName)
+        /// <summary>
+        /// Load text from the file.
+        /// </summary>
+        public void LoadFromFile
+            (
+                [NotNull] string fileName
+            )
         {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
             Rtf = File.ReadAllText(fileName, Encoding.UTF8);
         }
 
+        /// <summary>
+        /// Paste text from the clipboard.
+        /// </summary>
         public void Paste()
         {
             _richTextBox.Paste();
         }
 
+        /// <summary>
+        /// Save text to file.
+        /// </summary>
         public void SaveToFile()
         {
             if (string.IsNullOrEmpty(FileName))
@@ -152,13 +181,22 @@ namespace AM.Windows.Forms
                 {
                     return;
                 }
-                FileName = _saveFileDialog.FileName;
+                FileName = _saveFileDialog.FileName
+                    .ThrowIfNull("FileName");
             }
             SaveToFile(FileName);
         }
 
-        public void SaveToFile(string fileName)
+        /// <summary>
+        /// Save text to the file.
+        /// </summary>
+        public void SaveToFile
+            (
+                [NotNull] string fileName
+            )
         {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
             File.WriteAllText(fileName, Rtf, Encoding.UTF8);
         }
 

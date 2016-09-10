@@ -30,14 +30,14 @@ namespace AM.Windows.Forms
     {
         #region Properties
 
-        private const bool _DefaultBorder = true;
-        private bool _drawBorder = _DefaultBorder;
+        private const bool DefaultBorder = true;
+        private bool _drawBorder = DefaultBorder;
 
         ///<summary>
         /// Рисовать границу или нет.
         ///</summary>
-        [DefaultValue(_DefaultBorder)]
-        [Description("Draw border or not.")]
+        [DefaultValue(DefaultBorder)]
+        [Description("Draw border or not")]
         public bool DrawBorder
         {
             [DebuggerStepThrough]
@@ -52,14 +52,14 @@ namespace AM.Windows.Forms
             }
         }
 
-        private const bool _Default3D = true;
-        private bool _draw3D = _Default3D;
+        private const bool Default3D = true;
+        private bool _draw3D = Default3D;
 
         ///<summary>
         /// Граница трехмерная или нет.
         ///</summary>
-        [DefaultValue(_Default3D)]
-        [Description("Is border 3D.")]
+        [DefaultValue(Default3D)]
+        [Description("Whether border is 3D?")]
         public bool Draw3D
         {
             [DebuggerStepThrough]
@@ -74,15 +74,15 @@ namespace AM.Windows.Forms
             }
         }
 
-        private const ButtonBorderStyle _DefaultStyle2D =
+        private const ButtonBorderStyle DefaultStyle2D =
             ButtonBorderStyle.Solid;
-        private ButtonBorderStyle _style2D = _DefaultStyle2D;
+        private ButtonBorderStyle _style2D = DefaultStyle2D;
 
         ///<summary>
         /// Стиль двухмерной границы.
         ///</summary>
-        [DefaultValue(_DefaultStyle2D)]
-        [Description("Style of 2D border.")]
+        [DefaultValue(DefaultStyle2D)]
+        [Description("Style of 2D border")]
         public ButtonBorderStyle Style2D
         {
             [DebuggerStepThrough]
@@ -97,13 +97,13 @@ namespace AM.Windows.Forms
             }
         }
 
-        private const string _DefaultColor = "Black";
-        private Color _borderColor = Color.FromName(_DefaultColor);
+        private const string DefaultColor = "Black";
+        private Color _borderColor = Color.FromName(DefaultColor);
 
         ///<summary>
         /// Цвет двухмерной границы.
         ///</summary>
-        [DefaultValue(typeof(Color), _DefaultColor)]
+        [DefaultValue(typeof(Color), DefaultColor)]
         [Description("Color for 2D border.")]
         public Color BorderColor
         {
@@ -119,14 +119,14 @@ namespace AM.Windows.Forms
             }
         }
 
-        private const Border3DStyle _DefaultStyle3D =
+        private const Border3DStyle DefaultStyle3D =
             Border3DStyle.Etched;
-        private Border3DStyle _style3D = _DefaultStyle3D;
+        private Border3DStyle _style3D = DefaultStyle3D;
 
         ///<summary>
         /// Стиль трехмерной границы.
         ///</summary>
-        [DefaultValue(_DefaultStyle3D)]
+        [DefaultValue(DefaultStyle3D)]
         [Description("Style for 3D border")]
         public Border3DStyle Style3D
         {
@@ -149,8 +149,6 @@ namespace AM.Windows.Forms
         /// <summary>
         /// Отрисовка границы контрола.
         /// </summary>
-        /// <param name="g"></param>
-        /// <param name="r"></param>
         public void Draw(Graphics g, Rectangle r)
         {
             if (DrawBorder)
@@ -170,49 +168,65 @@ namespace AM.Windows.Forms
 
         #region Designer
 
+        /// <summary>
+        /// Editor for <see cref="BorderInfo"/>.
+        /// </summary>
         public class Editor : UITypeEditor
         {
-            private BorderInfo _bi;
-
-            public Editor()
-            {
-            }
-
-            public Editor(BorderInfo bi)
-            {
-                _bi = bi;
-            }
-
-            public override UITypeEditorEditStyle GetEditStyle(
-                ITypeDescriptorContext context)
+            /// <inheritdoc />
+            public override UITypeEditorEditStyle GetEditStyle
+                (
+                    ITypeDescriptorContext context
+                )
             {
                 return UITypeEditorEditStyle.DropDown;
             }
 
-            public override object EditValue(
-                ITypeDescriptorContext context,
-                IServiceProvider provider, object value)
+            /// <inheritdoc />
+            public override object EditValue
+                (
+                    ITypeDescriptorContext context,
+                    IServiceProvider provider,
+                    object value
+                )
             {
-                BorderInfo binfo = (BorderInfo)value;
+                BorderInfo borderInfo = (BorderInfo)value;
 
-                IWindowsFormsEditorService edSvc = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
+                if (ReferenceEquals(provider, null))
+                {
+                    return borderInfo;
+                }
+
+                IWindowsFormsEditorService edSvc
+                    = (IWindowsFormsEditorService)provider.GetService
+                    (
+                        typeof(IWindowsFormsEditorService)
+                    );
                 if (edSvc != null)
                 {
-                    BorderInfoControl form = new BorderInfoControl(binfo,
-                        edSvc, context, provider);
+                    BorderInfoControl form = new BorderInfoControl
+                        (
+                            borderInfo,
+                            edSvc,
+                            context,
+                            provider
+                        );
                     edSvc.DropDownControl(form);
+
                     if (form.Result != null)
                     {
                         return form.Result;
                     }
                 }
 
-                //throw new NotImplementedException ();
-                //return new BorderInfo ();
-                return binfo;
+                return borderInfo;
             }
 
-            public override void PaintValue(PaintValueEventArgs e)
+            /// <inheritdoc />
+            public override void PaintValue
+                (
+                    PaintValueEventArgs e
+                )
             {
                 Graphics g = e.Graphics;
                 using (Font font = new Font("Arial", 8))
@@ -220,10 +234,13 @@ namespace AM.Windows.Forms
                 {
                     g.DrawString("Not implemented", font, brush, 0, 0);
                 }
-                //_bi.Draw ( g, e.Bounds );
             }
 
-            public override bool GetPaintValueSupported(ITypeDescriptorContext context)
+            /// <inheritdoc />
+            public override bool GetPaintValueSupported
+                (
+                    ITypeDescriptorContext context
+                )
             {
                 return false;
             }

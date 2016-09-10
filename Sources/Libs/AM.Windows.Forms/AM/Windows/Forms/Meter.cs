@@ -15,8 +15,6 @@ using System.Windows.Forms;
 
 using AM.Drawing;
 
-using CodeJam;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -30,20 +28,32 @@ namespace AM.Windows.Forms
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    // ReSharper disable once RedundantNameQualifier
     [System.ComponentModel.DesignerCategoryAttribute("Code")]
-    public class Meter
+    public sealed class Meter
         : Control
     {
+        /// <summary>
+        /// Raised when <see cref="Value"/> changed.
+        /// </summary>
         public event EventHandler ValueChanged;
+
+        /// <summary>
+        /// Raised when <see cref="MinimalValue"/> changed.
+        /// </summary>
         public event EventHandler MinValueChanged;
+
+        /// <summary>
+        /// Raised when <see cref="MaximalValue"/> changed.
+        /// </summary>
         public event EventHandler MaxValueChanged;
 
-        private float _value = _DefaultMinValue;
+        private float _value = DefaultMinimalValue;
 
         ///<summary>
-        /// 
+        /// Current value.
         ///</summary>
-        [DefaultValue(_DefaultMinValue)]
+        [DefaultValue(DefaultMinimalValue)]
         public float Value
         {
             [DebuggerStepThrough]
@@ -60,59 +70,59 @@ namespace AM.Windows.Forms
             }
         }
 
-        private const float _DefaultMinValue = 0.0f;
-        private float _minValue = _DefaultMinValue;
+        private const float DefaultMinimalValue = 0.0f;
+        private float _minimalValue = DefaultMinimalValue;
 
         ///<summary>
-        /// 
+        /// Minimal value.
         ///</summary>
-        [DefaultValue(_DefaultMinValue)]
-        public float MinValue
+        [DefaultValue(DefaultMinimalValue)]
+        public float MinimalValue
         {
             [DebuggerStepThrough]
             get
             {
-                return _minValue;
+                return _minimalValue;
             }
             [DebuggerStepThrough]
             set
             {
-                _minValue = value;
+                _minimalValue = value;
                 Invalidate();
                 MinValueChanged.Raise(this);
             }
         }
 
-        private const float _DefaultMaxValue = 100.0f;
-        private float _maxValue = _DefaultMaxValue;
+        private const float DefaultMaximalValue = 100.0f;
+        private float _maximalValue = DefaultMaximalValue;
 
         ///<summary>
-        /// 
+        /// Maximal value.
         ///</summary>
-        [DefaultValue(_DefaultMaxValue)]
-        public float MaxValue
+        [DefaultValue(DefaultMaximalValue)]
+        public float MaximalValue
         {
             [DebuggerStepThrough]
             get
             {
-                return _maxValue;
+                return _maximalValue;
             }
             [DebuggerStepThrough]
             set
             {
-                _maxValue = value;
+                _maximalValue = value;
                 Invalidate();
                 MaxValueChanged.Raise(this);
             }
         }
 
-        private const bool _DefaultEnableTracking = false;
-        private bool _enableTracking = _DefaultEnableTracking;
+        private const bool DefaultEnableTracking = false;
+        private bool _enableTracking = DefaultEnableTracking;
 
         ///<summary>
-        /// 
+        /// Enable tracking?
         ///</summary>
-        [DefaultValue(_DefaultEnableTracking)]
+        [DefaultValue(DefaultEnableTracking)]
         public bool EnableTracking
         {
             [DebuggerStepThrough]
@@ -179,7 +189,7 @@ namespace AM.Windows.Forms
                 }
                 using (new GraphicsStateSaver(g))
                 {
-                    float angle = (Value - MinValue) / (MaxValue - MinValue) * 180f;
+                    float angle = (Value - MinimalValue) / (MaximalValue - MinimalValue) * 180f;
                     g.RotateTransform(angle - 90f);
                     g.DrawLine(redPen, 0, 0, 0, 750);
                 }
@@ -197,7 +207,7 @@ namespace AM.Windows.Forms
             float angle = (float)(Math.Atan2(y, x) * 180f / Math.PI);
             if ((angle >= 0f) && (angle <= 180f))
             {
-                Value = MinValue + (MaxValue - MinValue) * angle / 180f;
+                Value = MinimalValue + (MaximalValue - MinimalValue) * angle / 180f;
             }
         }
 

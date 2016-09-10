@@ -51,8 +51,8 @@ namespace UITests
                 {
                     Location = new Point(10, 10),
                     Size = new Size(400, 200),
-                    MinValue = 0.0f,
-                    MaxValue = 100.0f,
+                    MinimalValue = 0.0f,
+                    MaximalValue = 100.0f,
                     Value = 50.0f
                 };
                 form.Controls.Add(meter);

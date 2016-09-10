@@ -126,6 +126,7 @@ namespace AM.Windows.Forms
         /// Gets or sets the placement.
         /// </summary>
         /// <value>The placement.</value>
+        [CLSCompliant(false)]
         [DefaultValue(WindowPlacement.BottomRightCorner)]
         public WindowPlacement Placement
         {

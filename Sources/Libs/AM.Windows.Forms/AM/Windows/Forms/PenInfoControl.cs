@@ -121,7 +121,7 @@ namespace AM.Windows.Forms
         private void panel1_Paint ( object sender, PaintEventArgs e )
         {
             Graphics g = e.Graphics;
-            using ( Pen pen = _Pen ().GetPen () )
+            using ( Pen pen = _Pen ().ToPen () )
             {
                 int y = panel1.Height / 2;
                 g.DrawLine ( pen, 10, y, panel1.Width - 10, y );

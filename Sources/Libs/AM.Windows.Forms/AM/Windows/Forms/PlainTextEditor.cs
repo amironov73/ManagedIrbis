@@ -7,10 +7,7 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -47,6 +44,9 @@ namespace AM.Windows.Forms
             set { _textBox.Text = value; }
         }
 
+        /// <summary>
+        /// Text box.
+        /// </summary>
         [NotNull]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TextBox TextBox
@@ -109,46 +109,77 @@ namespace AM.Windows.Forms
 
         #region Public methods
 
+        /// <summary>
+        /// Clear the text area.
+        /// </summary>
         public void Clear()
         {
             _textBox.Clear();
         }
 
+        /// <summary>
+        /// Copy selected text to the clipboard.
+        /// </summary>
         public void Copy()
         {
             _textBox.Copy();
         }
 
+        /// <summary>
+        /// Cut selected text to the clipboard.
+        /// </summary>
         public void Cut()
         {
             _textBox.Cut();
         }
 
+        /// <summary>
+        /// Load text from file.
+        /// </summary>
         public void LoadFromFile()
         {
             if (_openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                FileName = _openFileDialog.FileName;
+                FileName = _openFileDialog.FileName
+                    .ThrowIfNull("FileName");
+
                 LoadFromFile(FileName);
             }
         }
 
-        public void LoadFromFile(string fileName)
+        /// <summary>
+        /// Load text from the file.
+        /// </summary>
+        public void LoadFromFile
+            (
+                [NotNull] string fileName
+            )
         {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
             Text = File.ReadAllText(fileName, Encoding.UTF8);
         }
 
+        /// <summary>
+        /// Paste text from the clipboard.
+        /// </summary>
         public void Paste()
         {
             _textBox.Paste();
         }
 
+        /// <summary>
+        /// Print the text.
+        /// </summary>
         public void Print()
         {
             PlainTextPrinter printer = new PlainTextPrinter();
             printer.Print(Text);
         }
 
+        /// <summary>
+        /// Save the text to file.
+        /// </summary>
         public void SaveToFile()
         {
             if (string.IsNullOrEmpty(FileName))
@@ -157,13 +188,22 @@ namespace AM.Windows.Forms
                 {
                     return;
                 }
-                FileName = _saveFileDialog.FileName;
+                FileName = _saveFileDialog.FileName
+                    .ThrowIfNull("FileName");
             }
             SaveToFile(FileName);
         }
 
-        public void SaveToFile(string fileName)
+        /// <summary>
+        /// Save the text to the file.
+        /// </summary>
+        public void SaveToFile
+            (
+                [NotNull] string fileName
+            )
         {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
             File.WriteAllText(fileName, Text, Encoding.UTF8);
         }
 

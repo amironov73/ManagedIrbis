@@ -8,14 +8,13 @@
 
 using System;
 using System.ComponentModel;
-using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using System.Windows.Forms.ComponentModel;
 using System.Windows.Forms.Design;
+
+using JetBrains.Annotations;
 
 #endregion
 
@@ -30,13 +29,13 @@ namespace AM.Windows.Forms
     {
         #region Properties
 
-        private const PenAlignment _DefaultAlignment = PenAlignment.Center;
-        private PenAlignment _alignment = _DefaultAlignment;
+        private const PenAlignment DefaultAlignment = PenAlignment.Center;
+        private PenAlignment _alignment = DefaultAlignment;
 
         ///<summary>
-        /// 
+        /// Alingnment.
         ///</summary>
-        [DefaultValue(_DefaultAlignment)]
+        [DefaultValue(DefaultAlignment)]
         public PenAlignment Alignment
         {
             [DebuggerStepThrough]
@@ -51,13 +50,13 @@ namespace AM.Windows.Forms
             }
         }
 
-        private const string _DefaultColor = "Black";
-        private Color _color = Color.FromName(_DefaultColor);
+        private const string DefaultColor = "Black";
+        private Color _color = Color.FromName(DefaultColor);
 
         ///<summary>
-        /// 
+        /// Color.
         ///</summary>
-        [DefaultValue(typeof(Color), _DefaultColor)]
+        [DefaultValue(typeof(Color), DefaultColor)]
         public Color Color
         {
             [DebuggerStepThrough]
@@ -72,13 +71,13 @@ namespace AM.Windows.Forms
             }
         }
 
-        private const DashCap _DefaultDashCap = DashCap.Flat;
-        private DashCap _dashCap = _DefaultDashCap;
+        private const DashCap DefaultDashCap = DashCap.Flat;
+        private DashCap _dashCap = DefaultDashCap;
 
         ///<summary>
-        /// 
+        /// Dash.
         ///</summary>
-        [DefaultValue(_DefaultDashCap)]
+        [DefaultValue(DefaultDashCap)]
         public DashCap DashCap
         {
             [DebuggerStepThrough]
@@ -93,13 +92,13 @@ namespace AM.Windows.Forms
             }
         }
 
-        private const DashStyle _DefaultDashStyle = DashStyle.Solid;
-        private DashStyle _dashStyle = _DefaultDashStyle;
+        private const DashStyle DefaultDashStyle = DashStyle.Solid;
+        private DashStyle _dashStyle = DefaultDashStyle;
 
         ///<summary>
-        /// 
+        /// Dash.
         ///</summary>
-        [DefaultValue(_DefaultDashStyle)]
+        [DefaultValue(DefaultDashStyle)]
         public DashStyle DashStyle
         {
             [DebuggerStepThrough]
@@ -114,13 +113,13 @@ namespace AM.Windows.Forms
             }
         }
 
-        private const LineCap _DefaultEndCap = LineCap.Flat;
-        private LineCap _endCap = _DefaultEndCap;
+        private const LineCap DefaultEndCap = LineCap.Flat;
+        private LineCap _endCap = DefaultEndCap;
 
         ///<summary>
         /// 
         ///</summary>
-        [DefaultValue(_DefaultEndCap)]
+        [DefaultValue(DefaultEndCap)]
         public LineCap EndCap
         {
             [DebuggerStepThrough]
@@ -135,13 +134,13 @@ namespace AM.Windows.Forms
             }
         }
 
-        private const LineJoin _DefaultLineJoin = LineJoin.Bevel;
-        private LineJoin _lineJoin = _DefaultLineJoin;
+        private const LineJoin DefaultLineJoin = LineJoin.Bevel;
+        private LineJoin _lineJoin = DefaultLineJoin;
 
         ///<summary>
-        /// 
+        /// Line join.
         ///</summary>
-        [DefaultValue(_DefaultLineJoin)]
+        [DefaultValue(DefaultLineJoin)]
         public LineJoin LineJoin
         {
             [DebuggerStepThrough]
@@ -156,13 +155,13 @@ namespace AM.Windows.Forms
             }
         }
 
-        private const LineCap _DefaultStartCap = LineCap.Flat;
-        private LineCap _startCap = _DefaultStartCap;
+        private const LineCap DefaultStartCap = LineCap.Flat;
+        private LineCap _startCap = DefaultStartCap;
 
         ///<summary>
         /// 
         ///</summary>
-        [DefaultValue(_DefaultStartCap)]
+        [DefaultValue(DefaultStartCap)]
         public LineCap StartCap
         {
             [DebuggerStepThrough]
@@ -177,13 +176,13 @@ namespace AM.Windows.Forms
             }
         }
 
-        private const float _DefaultWidth = 1.0f;
-        private float _width = _DefaultWidth;
+        private const float DefaultWidth = 1.0f;
+        private float _width = DefaultWidth;
 
         ///<summary>
-        /// 
+        /// Pen width.
         ///</summary>
-        [DefaultValue(_DefaultWidth)]
+        [DefaultValue(DefaultWidth)]
         public float Width
         {
             [DebuggerStepThrough]
@@ -202,15 +201,22 @@ namespace AM.Windows.Forms
 
         #region Public methods
 
-        public virtual Pen GetPen()
+        /// <summary>
+        /// Convert <see cref="PenInfo"/> to <see cref="Pen"/>.
+        /// </summary>
+        [NotNull]
+        public virtual Pen ToPen()
         {
-            Pen result = new Pen(Color, Width);
-            result.Alignment = Alignment;
-            result.DashStyle = DashStyle;
-            result.EndCap = EndCap;
-            result.LineJoin = LineJoin;
-            result.StartCap = StartCap;
-            result.DashCap = DashCap;
+            Pen result = new Pen(Color, Width)
+            {
+                Alignment = Alignment,
+                DashStyle = DashStyle,
+                EndCap = EndCap,
+                LineJoin = LineJoin,
+                StartCap = StartCap,
+                DashCap = DashCap
+            };
+
             return result;
         }
 
@@ -218,48 +224,66 @@ namespace AM.Windows.Forms
 
         #region Editor
 
-        public class Editor : UITypeEditor
+        /// <summary>
+        /// Editor for <see cref="PenInfo"/>.
+        /// </summary>
+        public class Editor
+            : UITypeEditor
         {
-            /// <summary>
-            /// Constructor.
-            /// </summary>
-            public Editor()
-            {
-            }
-
             /// <inheritdoc />
-            public override UITypeEditorEditStyle GetEditStyle(
-                ITypeDescriptorContext context)
+            public override UITypeEditorEditStyle GetEditStyle
+                (
+                    ITypeDescriptorContext context
+                )
             {
                 return UITypeEditorEditStyle.DropDown;
             }
 
             /// <inheritdoc />
-            public override object EditValue(
-                ITypeDescriptorContext context,
-                IServiceProvider provider, object value)
+            public override object EditValue
+                (
+                    ITypeDescriptorContext context,
+                    IServiceProvider provider,
+                    object value
+                )
             {
-                PenInfo pinfo = (PenInfo)value;
+                PenInfo penInfo = (PenInfo)value;
 
-                IWindowsFormsEditorService edSvc = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
+                if (ReferenceEquals(provider, null))
+                {
+                    return penInfo;
+                }
+
+                IWindowsFormsEditorService edSvc
+                    = (IWindowsFormsEditorService)provider.GetService
+                    (
+                        typeof(IWindowsFormsEditorService)
+                    );
                 if (edSvc != null)
                 {
-                    PenInfoControl form = new PenInfoControl(pinfo,
-                        edSvc, context, provider);
+                    PenInfoControl form = new PenInfoControl
+                        (
+                            penInfo,
+                            edSvc,
+                            context,
+                            provider
+                        );
                     edSvc.DropDownControl(form);
+
                     if (form.Result != null)
                     {
                         return form.Result;
                     }
                 }
 
-                //throw new NotImplementedException ();
-                //return new BorderInfo ();
-                return pinfo;
+                return penInfo;
             }
 
             /// <inheritdoc />
-            public override bool GetPaintValueSupported(ITypeDescriptorContext context)
+            public override bool GetPaintValueSupported
+                (
+                    ITypeDescriptorContext context
+                )
             {
                 return false;
             }
