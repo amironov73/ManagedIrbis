@@ -142,5 +142,9 @@
   {
     "class": "UITests.PopupFormTest",
     "title": "PopupForm"
+  },
+  {
+    "class": "UITests.PictureViewFormTest",
+    "title": "PictureViewForm"
   }
 ]
