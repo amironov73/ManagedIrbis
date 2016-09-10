@@ -134,5 +134,9 @@
   {
     "class": "UITests.DriveComboBoxTest",
     "title": "DriveComboBox"
+  },
+  {
+    "class": "UITests.ExceptionBoxTest",
+    "title": "ExceptionBox"
   }
 ]

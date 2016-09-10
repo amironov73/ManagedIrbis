@@ -244,6 +244,9 @@
   <ItemGroup>
     <Content Include="BlueBook.ico" />
     <None Include="Images\drivenet.bmp" />
+    <EmbeddedResource Include="AM\Windows\Forms\ExceptionBox.ru.resx">
+      <DependentUpon>ExceptionBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Images\drive.bmp" />
     <None Include="Images\cddrive.bmp" />
     <None Include="Images\35floppy.bmp" />
