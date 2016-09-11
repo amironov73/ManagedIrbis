@@ -190,6 +190,7 @@
     <Compile Include="Sources\Tests\PlainTextEditorTest.cs" />
     <Compile Include="Sources\Tests\PopupFormTest.cs" />
     <Compile Include="Sources\Tests\ProgressCircleTest.cs" />
+    <Compile Include="Sources\Tests\PropertyBoxTest.cs" />
     <Compile Include="Sources\Tests\RadioGroupTest.cs" />
     <Compile Include="Sources\Tests\RichTextEditorTest.cs" />
     <Compile Include="Sources\Tests\StringGridTest.cs" />
