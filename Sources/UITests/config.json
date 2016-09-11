@@ -150,5 +150,9 @@
   {
     "class": "UITests.RadioGroupTest",
     "title": "RadioGroup"
+  },
+  {
+    "class": "UITests.StringGridTest",
+    "title": "StringGrid"
   }
 ]

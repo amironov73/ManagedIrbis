@@ -371,6 +371,7 @@
     <Compile Include="AM\Windows\Forms\PopupForm.Designer.cs">
       <DependentUpon>PopupForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AM\Windows\Forms\StringGrid.cs" />
     <Compile Include="AM\Windows\Forms\TextBoxControlHost.cs" />
     <Compile Include="AM\Windows\Forms\Win32FormUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -397,6 +398,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />
+    <EmbeddedResource Include="Images\StringGrid.bmp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ArsMagna.private.snk" />
