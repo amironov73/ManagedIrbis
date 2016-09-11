@@ -200,6 +200,7 @@
     <Compile Include="AM\Windows\Forms\ProgressPanel.Designer.cs">
       <DependentUpon>ProgressPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="AM\Windows\Forms\RadioGroup.cs" />
     <Compile Include="AM\Windows\Forms\RichTextEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>

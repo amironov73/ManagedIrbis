@@ -146,5 +146,9 @@
   {
     "class": "UITests.PictureViewFormTest",
     "title": "PictureViewForm"
+  },
+  {
+    "class": "UITests.RadioGroupTest",
+    "title": "RadioGroup"
   }
 ]
