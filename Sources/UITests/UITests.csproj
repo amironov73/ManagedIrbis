@@ -186,6 +186,7 @@
     <Compile Include="Sources\Tests\LabelExTest.cs" />
     <Compile Include="Sources\Tests\ListBoxExTest.cs" />
     <Compile Include="Sources\Tests\MeterTest.cs" />
+    <Compile Include="Sources\Tests\PickListTest.cs" />
     <Compile Include="Sources\Tests\PictureViewFormTest.cs" />
     <Compile Include="Sources\Tests\PlainTextEditorTest.cs" />
     <Compile Include="Sources\Tests\PopupFormTest.cs" />
