@@ -135,6 +135,7 @@
     <Compile Include="AM\IO\PathUtilityTest.cs" />
     <Compile Include="AM\IO\TextReaderUtilityTest.cs" />
     <Compile Include="AM\IO\VersionStreamTest.cs" />
+    <Compile Include="AM\OptionalTest.cs" />
     <Compile Include="AM\Parameters\ParameterUtilityTest.cs" />
     <Compile Include="AM\Reflection\CanaryClass.cs" />
     <Compile Include="AM\Reflection\PropertyAccessorTest.cs" />

@@ -178,6 +178,7 @@
     <Compile Include="AM\NonNullValue.cs" />
     <Compile Include="AM\ObjectDumper.cs" />
     <Compile Include="AM\Operator.cs" />
+    <Compile Include="AM\Optional.cs" />
     <Compile Include="AM\Parameters\Parameter.cs" />
     <Compile Include="AM\Parameters\ParameterUtility.cs" />
     <Compile Include="AM\ReadOnlyException.cs" />
