@@ -191,7 +191,7 @@ namespace ManagedIrbis
         /// Является ли поле фиксированным.
         /// </summary>
         [XmlIgnore]
-        //[Browsable(false)]
+        [JsonIgnore]
         public bool IsFixed
         {
             [DebuggerStepThrough]
