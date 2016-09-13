@@ -193,6 +193,7 @@
     <Compile Include="Sources\Tests\ProgressCircleTest.cs" />
     <Compile Include="Sources\Tests\PropertyBoxTest.cs" />
     <Compile Include="Sources\Tests\RadioGroupTest.cs" />
+    <Compile Include="Sources\Tests\RainbowControlTest.cs" />
     <Compile Include="Sources\Tests\RichTextEditorTest.cs" />
     <Compile Include="Sources\Tests\StringGridTest.cs" />
     <Compile Include="Sources\Tests\SuggestingTextBoxTest.cs" />

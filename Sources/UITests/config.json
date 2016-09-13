@@ -162,5 +162,9 @@
   {
     "class": "UITests.PickListTest",
     "title": "PickList"
+  },
+  {
+    "class": "UITests.RainbowControlTest",
+    "title": "RainbowControl"
   }
 ]
