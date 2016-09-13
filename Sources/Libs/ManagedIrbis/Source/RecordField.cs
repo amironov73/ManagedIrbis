@@ -53,6 +53,11 @@ namespace ManagedIrbis
         /// </summary>
         public const char Delimiter = '^';
 
+        /// <summary>
+        /// Количество индикаторов поля.
+        /// </summary>
+        public const int IndicatorCount = 2;
+
         #endregion
 
         #region Properties
@@ -181,6 +186,21 @@ namespace ManagedIrbis
                 return result;
             }
         }
+
+        /// <summary>
+        /// Является ли поле фиксированным.
+        /// </summary>
+        [XmlIgnore]
+        //[Browsable(false)]
+        public bool IsFixed
+        {
+            [DebuggerStepThrough]
+            get
+            {
+                return StringUtility.SafeStarts(Tag, "00");
+            }
+        }
+
 
         #endregion
 
