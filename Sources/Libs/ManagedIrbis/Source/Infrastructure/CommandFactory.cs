@@ -404,6 +404,15 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Get <see cref="UnlockRecordsCommand"/>.
+        /// </summary>
+        [NotNull]
+        public virtual UnlockRecordsCommand GetUnlockRecordsCommand()
+        {
+            return new UnlockRecordsCommand(Connection);
+        }
+
+        /// <summary>
         /// Get UpdateUserListCommand.
         /// </summary>
         [NotNull]

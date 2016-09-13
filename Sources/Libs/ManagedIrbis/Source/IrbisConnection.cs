@@ -1666,7 +1666,7 @@ namespace ManagedIrbis
                 params int[] mfnList
             )
         {
-            // TODO UnlockRecordsCommand
+            // TODO: write UnlockRecordsTest
 
             Code.NotNullNorEmpty(database, "database");
 
@@ -1675,15 +1675,12 @@ namespace ManagedIrbis
                 return;
             }
 
-            List<object> arguments
-                = new List<object>(mfnList.Length + 1) { Database };
-            arguments.AddRange(mfnList.Cast<object>());
+            UnlockRecordsCommand command
+                = CommandFactory.GetUnlockRecordsCommand();
+            command.Database = database;
+            command.Records.AddRange(mfnList);
 
-            ExecuteCommand
-                (
-                    CommandCode.UnlockRecords,
-                    arguments.ToArray()
-                );
+            ExecuteCommand(command);
         }
 
         // =========================================================
