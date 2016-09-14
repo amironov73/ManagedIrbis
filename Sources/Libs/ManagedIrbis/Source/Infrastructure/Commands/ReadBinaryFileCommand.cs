@@ -6,6 +6,7 @@
 
 #region Using directives
 
+using System.Text;
 using AM;
 
 using CodeJam;
@@ -68,6 +69,36 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region Private members
 
+        private static int _FindPreamble
+            (
+                byte[] buffer,
+                byte[] preamble
+            )
+        {
+            int bufferLength = buffer.Length;
+            int preambleLength = preamble.Length;
+            bufferLength -= preambleLength;
+
+            for (int i = 0; i < bufferLength; i++)
+            {
+                bool found = true;
+                for (int j = 0; j < preamble.Length; j++)
+                {
+                    if (buffer[i + j] != preamble[j])
+                    {
+                        found = false;
+                        break;
+                    }
+                }
+                if (found)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
         #endregion
 
         #region Public methods
@@ -120,14 +151,15 @@ namespace ManagedIrbis.Infrastructure.Commands
 
             ServerResponse result = base.Execute(query);
 
-            byte[] preambleBytes = result.GetAnswerCopy(0, 17);
-            string preambleText
-                = IrbisEncoding.Ansi.GetString(preambleBytes);
-            if (string.CompareOrdinal(Preamble, preambleText) != 0)
+            byte[] buffer = result.RawAnswer;
+            byte[] preamble = Encoding.ASCII.GetBytes(Preamble);
+            int offset = _FindPreamble(buffer, preamble);
+            if (offset < 0)
             {
                 throw new IrbisNetworkException("No binary data received");
             }
-            Content = result.RawAnswer.GetSpan(17);
+            offset += preamble.Length;
+            Content = result.RawAnswer.GetSpan(offset);
 
             return result;
         }
