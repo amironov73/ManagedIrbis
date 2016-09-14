@@ -22,7 +22,7 @@ using AM.Threading;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Batch;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Gbl;
 using ManagedIrbis.Infrastructure.Commands;
@@ -1134,66 +1134,6 @@ namespace ManagedIrbis
             ExecuteCommand(command);
 
             return command.Record;
-        }
-
-        /// <summary>
-        /// Read multiple records.
-        /// </summary>
-        [NotNull]
-        public MarcRecord[] ReadRecords
-            (
-                [CanBeNull] string database,
-                [NotNull] IEnumerable<int> mfnList
-            )
-        {
-            Code.NotNull(mfnList, "mfnList");
-
-            if (string.IsNullOrEmpty(database))
-            {
-                database = Database;
-            }
-
-            FormatCommand command = CommandFactory.GetFormatCommand();
-            command.Database = database;
-            command.FormatSpecification = IrbisFormat.All;
-            command.MfnList.AddRange(mfnList);
-
-            if (command.MfnList.Count == 0)
-            {
-                return new MarcRecord[0];
-            }
-
-            if (command.MfnList.Count == 1)
-            {
-                int mfn = command.MfnList[0];
-
-                MarcRecord record = ReadRecord
-                    (
-                        database,
-                        mfn,
-                        false,
-                        null
-                    );
-
-                return new[] { record };
-            }
-
-            ExecuteCommand(command);
-
-            MarcRecord[] result = MarcRecordUtility.ParseAllFormat
-                (
-                    database,
-                    this,
-                    command.FormatResult
-                        .ThrowIfNullOrEmpty("command.FormatResult")
-                );
-            Debug.Assert
-                (
-                    command.MfnList.Count == result.Length,
-                    "some records not retrieved"
-                );
-
-            return result;
         }
 
         #endregion

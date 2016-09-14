@@ -77,6 +77,12 @@ namespace IrbisTestRunner
                     engine.StopServer();
                 }
             }
+
+            if (!ReferenceEquals(engine, null))
+            {
+                engine.PrintReport();
+            }
+
         }
     }
 }

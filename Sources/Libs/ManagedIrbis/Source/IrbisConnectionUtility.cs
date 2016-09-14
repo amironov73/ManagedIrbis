@@ -24,7 +24,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Gbl;
+using ManagedIrbis.Batch;
 using ManagedIrbis.Menus;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Infrastructure.Commands;
@@ -490,6 +490,32 @@ namespace ManagedIrbis
             List<string> result = response.RemainingUtfStrings();
 
             return result.ToArray();
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Read multiple records.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord[] ReadRecords
+            (
+                [NotNull] this IrbisConnection connection,
+                [CanBeNull] string database,
+                [NotNull] IEnumerable<int> mfnList
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNull(mfnList, "mfnList");
+
+            BatchAccessor batch = new BatchAccessor(connection);
+            MarcRecord[] result = batch.ReadRecords
+                (
+                    database,
+                    mfnList
+                );
+
+            return result;
         }
 
         // ========================================================

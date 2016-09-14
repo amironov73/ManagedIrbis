@@ -49,7 +49,7 @@
     //"PrintTableTest.cs",
     "ReadPostingsTest.cs",
     "ReadRawRecordTest.cs",
-    //"ReadRawRecordsTest.cs",
+    "ReadRawRecordsTest.cs",
     "ReadRecordTest.cs",
     "ReadTermsTest.cs",
     //"RecordCacheTest.cs",
