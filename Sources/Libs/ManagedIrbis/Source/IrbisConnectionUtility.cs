@@ -360,7 +360,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Read server representation of record from server.
         /// </summary>
-        [NotNull]
+        [CanBeNull]
         public static string[] ReadRawRecord
             (
                 [NotNull] this IrbisConnection connection,
@@ -368,25 +368,17 @@ namespace ManagedIrbis
                 int mfn
             )
         {
-            // TODO Create ReadRawRecordsCommand
-
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(database, "database");
 
-            UniversalCommand command
-                = connection.CommandFactory.GetUniversalCommand
-                    (
-                        CommandCode.ReadRecord,
-                        database,
-                        mfn
-                    );
-            command.AcceptAnyResponse = true;
+            ReadRawRecordCommand command
+                = connection.CommandFactory.GetReadRawRecordCommand();
+            command.Database = database;
+            command.Mfn = mfn;
 
-            ServerResponse response = connection.ExecuteCommand(command);
+            connection.ExecuteCommand(command);
 
-            List<string> result = response.RemainingUtfStrings();
-
-            return result.ToArray();
+            return command.RawRecord;
         }
 
         // ========================================================
@@ -394,7 +386,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Read server representation of record from server.
         /// </summary>
-        [NotNull]
+        [CanBeNull]
         public static string[] ReadRawRecord
             (
                 [NotNull] this IrbisConnection connection,
@@ -407,22 +399,16 @@ namespace ManagedIrbis
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(database, "database");
 
-            UniversalCommand command
-                = connection.CommandFactory.GetUniversalCommand
-                    (
-                        CommandCode.ReadRecord,
-                        database,
-                        mfn,
-                        lockFlag,
-                        new TextWithEncoding(format, IrbisEncoding.Ansi)
-                    );
-            command.AcceptAnyResponse = true;
+            ReadRawRecordCommand command
+                = connection.CommandFactory.GetReadRawRecordCommand();
+            command.Database = database;
+            command.Mfn = mfn;
+            command.Lock = lockFlag;
+            command.Format = format;
 
-            ServerResponse response = connection.ExecuteCommand(command);
-            
-            List<string> result = response.RemainingUtfStrings();
+            connection.ExecuteCommand(command);
 
-            return result.ToArray();
+            return command.RawRecord;
         }
 
         // ========================================================
@@ -430,7 +416,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Read server representation of record from server.
         /// </summary>
-        [NotNull]
+        [CanBeNull]
         public static string[] ReadRawRecord
             (
                 [NotNull] this IrbisConnection connection,
@@ -443,22 +429,16 @@ namespace ManagedIrbis
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(database, "database");
 
-            UniversalCommand command
-                = connection.CommandFactory.GetUniversalCommand
-                    (
-                        CommandCode.ReadRecord,
-                        database,
-                        mfn,
-                        version,
-                        new TextWithEncoding(format, IrbisEncoding.Ansi)
-                    );
-            command.AcceptAnyResponse = true;
+            ReadRawRecordCommand command
+                = connection.CommandFactory.GetReadRawRecordCommand();
+            command.Database = database;
+            command.Mfn = mfn;
+            command.VersionNumber = version;
+            command.Format = format;
 
-            ServerResponse response = connection.ExecuteCommand(command);
-            
-            List<string> result = response.RemainingUtfStrings();
+            connection.ExecuteCommand(command);
 
-            return result.ToArray();
+            return command.RawRecord;
         }
 
         // ========================================================

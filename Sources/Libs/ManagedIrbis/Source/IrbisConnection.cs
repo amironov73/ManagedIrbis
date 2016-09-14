@@ -11,9 +11,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 
 using AM;
 using AM.Collections;
@@ -1105,7 +1103,7 @@ namespace ManagedIrbis
 
             ExecuteCommand(command);
 
-            return command.ReadRecord
+            return command.Record
                 .ThrowIfNull("no record retrieved");
         }
 
@@ -1135,7 +1133,7 @@ namespace ManagedIrbis
 
             ExecuteCommand(command);
 
-            return command.ReadRecord;
+            return command.Record;
         }
 
         /// <summary>
@@ -1874,12 +1872,19 @@ namespace ManagedIrbis
                 BinaryReader reader
             )
         {
-            Host = reader.ReadNullableString();
+            Code.NotNull(reader, "reader");
+
+            Host = reader.ReadNullableString()
+                .ThrowIfNull("Host");
             Port = reader.ReadPackedInt32();
-            Username = reader.ReadNullableString();
-            Password = reader.ReadNullableString();
-            Database = reader.ReadNullableString();
-            Workstation = (IrbisWorkstation)reader.ReadPackedInt32();
+            Username = reader.ReadNullableString()
+                .ThrowIfNull("Username");
+            Password = reader.ReadNullableString()
+                .ThrowIfNull("Password");
+            Database = reader.ReadNullableString()
+                .ThrowIfNull("Database");
+            Workstation
+                = (IrbisWorkstation)reader.ReadPackedInt32();
         }
 
         /// <summary>

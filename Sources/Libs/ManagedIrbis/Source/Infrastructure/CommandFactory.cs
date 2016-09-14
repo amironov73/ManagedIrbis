@@ -276,6 +276,16 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Get <see cref="ReadRawRecordCommand"/>.
+        /// </summary>
+        /// <returns></returns>
+        [NotNull]
+        public virtual ReadRawRecordCommand GetReadRawRecordCommand()
+        {
+            return new ReadRawRecordCommand(Connection);
+        }
+
+        /// <summary>
         /// Get ReadRecordCommand.
         /// </summary>
         [NotNull]

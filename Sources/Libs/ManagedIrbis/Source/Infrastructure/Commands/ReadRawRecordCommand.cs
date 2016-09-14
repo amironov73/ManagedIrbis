@@ -1,4 +1,4 @@
-﻿/* ReadRecordCommand.cs -- read one record from the server
+﻿/* ReadRawRecordCommand.cs -- read one record from the server
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -23,7 +23,7 @@ namespace ManagedIrbis.Infrastructure.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class ReadRecordCommand
+    public sealed class ReadRawRecordCommand
         : AbstractCommand
     {
         #region Properties
@@ -59,7 +59,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// Readed record.
         /// </summary>
         [CanBeNull]
-        public MarcRecord Record { get; set; }
+        public string[] RawRecord { get; set; }
 
         #endregion
 
@@ -68,7 +68,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ReadRecordCommand
+        public ReadRawRecordCommand
             (
                 [NotNull] IrbisConnection connection
             )
@@ -126,20 +126,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             // Check whether no records read
             if (result.GetReturnCode() != -201)
             {
-
-                MarcRecord record = new MarcRecord
-                {
-                    HostName = Connection.Host,
-                    Database = Database
-                };
-
-                record = ProtocolText.ParseResponseForReadRecord
-                    (
-                        result,
-                        record
-                    );
-                record.Verify(true);
-                Record = record;
+                RawRecord = result.RemainingUtfStrings().ToArray();
             }
 
             return result;
