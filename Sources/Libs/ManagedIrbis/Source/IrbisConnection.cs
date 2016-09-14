@@ -950,9 +950,9 @@ namespace ManagedIrbis
         /// </summary>
         public void NoOp()
         {
-            // TODO Create NopCommand
+            NopCommand command = CommandFactory.GetNopCommand();
 
-            ExecuteCommand(CommandCode.Nop);
+            ExecuteCommand(command);
         }
 
         /// <summary>

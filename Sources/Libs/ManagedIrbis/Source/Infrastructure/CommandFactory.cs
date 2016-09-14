@@ -231,6 +231,15 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Get <see cref="NopCommand"/>.
+        /// </summary>
+        [NotNull]
+        public virtual NopCommand GetNopCommand()
+        {
+            return new NopCommand(Connection);
+        }
+
+        /// <summary>
         /// Get PrintTableCommand.
         /// </summary>
         [NotNull]

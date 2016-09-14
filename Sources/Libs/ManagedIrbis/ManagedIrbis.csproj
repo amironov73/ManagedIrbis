@@ -141,6 +141,7 @@
     <Compile Include="Source\Infrastructure\Commands\ListProcessesCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\ListUsersCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\MaxMfnCommand.cs" />
+    <Compile Include="Source\Infrastructure\Commands\NopCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\ReloadDictionaryCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\ReloadMasterFileCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\RestartServerCommand.cs" />
