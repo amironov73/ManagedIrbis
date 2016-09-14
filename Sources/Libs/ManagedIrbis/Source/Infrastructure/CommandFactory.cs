@@ -422,6 +422,15 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Get <see cref="UpdateIniFileCommand"/>.
+        /// </summary>
+        [NotNull]
+        public virtual UpdateIniFileCommand GetUpdateIniFileCommand()
+        {
+            return new UpdateIniFileCommand(Connection);
+        }
+
+        /// <summary>
         /// Get UpdateUserListCommand.
         /// </summary>
         [NotNull]

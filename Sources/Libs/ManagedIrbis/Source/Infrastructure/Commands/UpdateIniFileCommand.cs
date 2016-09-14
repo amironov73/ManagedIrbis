@@ -1,4 +1,4 @@
-﻿/* NopCommand.cs -- unlock the database
+﻿/* UpdateIniFileCommand.cs -- unlock the database
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -21,10 +21,16 @@ namespace ManagedIrbis.Infrastructure.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class NopCommand
+    public class UpdateIniFileCommand
         : AbstractCommand
     {
         #region Properties
+
+        /// <summary>
+        /// Text to update.
+        /// </summary>
+        [CanBeNull]
+        public string[] Lines { get; set; }
 
         #endregion
 
@@ -33,7 +39,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public NopCommand
+        public UpdateIniFileCommand
             (
                 [NotNull] IrbisConnection connection
             )
@@ -49,7 +55,15 @@ namespace ManagedIrbis.Infrastructure.Commands
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
-            result.CommandCode = CommandCode.Nop;
+            result.CommandCode = CommandCode.UpdateIniFile;
+
+            if (Lines != null)
+            {
+                foreach (string line in Lines)
+                {
+                    result.AddAnsi(line);
+                }
+            }
 
             return result;
         }

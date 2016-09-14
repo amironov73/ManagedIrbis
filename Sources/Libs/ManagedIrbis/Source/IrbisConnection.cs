@@ -1690,25 +1690,17 @@ namespace ManagedIrbis
         /// </summary>
         public void UpdateIniFile
             (
-                [NotNull] string[] text
+                [CanBeNull] string[] lines
             )
         {
-            // TODO UpdateIniFileCommand
-
-            Code.NotNull(text, "text");
-
-            if (text.Length == 0)
+            if (lines.IsNullOrEmpty())
             {
                 return;
             }
 
-            UniversalTextCommand command =
-                CommandFactory.GetUniversalTextCommand
-                (
-                    CommandCode.UpdateIniFile,
-                    text,
-                    IrbisEncoding.Ansi
-                );
+            UpdateIniFileCommand command
+                = CommandFactory.GetUpdateIniFileCommand();
+            command.Lines = lines;
 
             ExecuteCommand(command);
         }
