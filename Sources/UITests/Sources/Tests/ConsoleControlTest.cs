@@ -83,6 +83,8 @@ namespace UITests
                 ConsoleControl console = new ConsoleControl
                 {
                     Location = new Point(10, 50),
+                    //Size = new Size(880, 350),
+                    //Font = new Font("Consolas", 10f)
                 };
                 form.Controls.Add(console);
 
@@ -98,7 +100,8 @@ namespace UITests
                                     column,
                                     '0',
                                     Color.Red,
-                                    Color.White
+                                    Color.White,
+                                    false
                                 );
                         }
                         else
@@ -110,7 +113,8 @@ namespace UITests
                                     column,
                                     c,
                                     Color.Blue, 
-                                    Color.GreenYellow
+                                    Color.GreenYellow,
+                                    false
                                 );
                         }
 
@@ -128,7 +132,11 @@ namespace UITests
                     console.ForeColor = Color.LimeGreen;
                     for (int i = 0; i < 100; i++)
                     {
-                        console.Write("Mary has a little lamb. ");
+                        console.Write
+                        (
+                            i % 2 == 0,
+                            "Mary has a little lamb. "
+                        );
                         Application.DoEvents();
                     }
                 };

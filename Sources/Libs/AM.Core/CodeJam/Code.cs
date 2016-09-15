@@ -5,6 +5,7 @@
 #region Using directives
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq.Expressions;
@@ -378,6 +379,7 @@ namespace CodeJam
         /// <summary>
         /// Ensures that <paramref name="arg" /> != <c>null</c>
         /// </summary>
+        [Localizable(false)]
         [DebuggerHidden]
         [AssertionMethod]
         [Conditional("DEBUG")]

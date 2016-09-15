@@ -40,6 +40,11 @@ namespace AM.Windows.Forms
         #region Constants
 
         /// <summary>
+        /// Default cursor height (lines).
+        /// </summary>
+        public const int DefaultCursorHeight = 2;
+
+        /// <summary>
         /// Default window height.
         /// </summary>
         public const int DefaultWindowHeight = 25;
@@ -59,12 +64,34 @@ namespace AM.Windows.Forms
         /// </summary>
         public const float DefaultFontSize = 8f;
 
+        /// <summary>
+        /// Maximal window height.
+        /// </summary>
+        public const int MaximalWindowHeight = 100;
+
+        /// <summary>
+        /// Maximal window width.
+        /// </summary>
+        public const int MaximalWindowWidth = 100;
+
+        /// <summary>
+        /// Minimal window height.
+        /// </summary>
+        public const int MinimalWindowHeight = 2;
+
+        /// <summary>
+        /// Minimal window width.
+        /// </summary>
+        public const int MinimalWindowWidth = 2;
+
         #endregion
 
         #region Nested classes
 
         struct Cell
         {
+            public bool Emphasized;
+
             public char Character;
 
             public Color ForeColor;
@@ -82,6 +109,31 @@ namespace AM.Windows.Forms
         #region Properties
 
         /// <summary>
+        /// Bold version of the <see cref="P:Font"/>.
+        /// </summary>
+        [NotNull]
+        public Font ItalicFont { get { return _italicFont; } }
+
+        /// <summary>
+        /// Cursor height.
+        /// </summary>
+        [DefaultValue(DefaultCursorHeight)]
+        public int CursorHeight
+        {
+            get { return _cursorHeight; }
+            set
+            {
+                if (value < 1
+                    || value > _cellHeight)
+                {
+                    throw new ArgumentOutOfRangeException("value");
+                }
+
+                _cursorHeight = value;
+            }
+        }
+
+        /// <summary>
         /// Column position of the cursor.
         /// </summary>
         public int CursorLeft { get; set; }
@@ -92,16 +144,58 @@ namespace AM.Windows.Forms
         public int CursorTop { get; set; }
 
         /// <summary>
+        /// Whether the cursor is visible.
+        /// </summary>
+        [DefaultValue(true)]
+        public bool CursorVisible
+        {
+            get { return _cursorVisible; }
+            set
+            {
+                _cursorVisible = value;
+                _CursorHandler(this, EventArgs.Empty);
+            }
+        }
+
+        /// <summary>
         /// Window height.
         /// </summary>
         [DefaultValue(DefaultWindowHeight)]
-        public int WindowHeight { get; set; }
+        public int WindowHeight
+        {
+            get {return _windowHeight;}
+            set
+            {
+                if (value < MinimalWindowHeight
+                    || value > MaximalWindowHeight)
+                {
+                    throw new ArgumentOutOfRangeException("value");
+                }
+
+                _windowHeight = value;
+                _SetupWindow();
+            }
+        }
 
         /// <summary>
         /// Window width.
         /// </summary>
         [DefaultValue(DefaultWindowWidth)]
-        public int WindowWidth { get; set; }
+        public int WindowWidth
+        {
+            get { return _windowWidth; }
+            set
+            {
+                if (value < MinimalWindowWidth
+                    || value > MaximalWindowWidth)
+                {
+                    throw new ArgumentOutOfRangeException("value");
+                }
+
+                _windowWidth = value;
+                _SetupWindow();
+            }
+        }
 
         #endregion
 
@@ -114,22 +208,27 @@ namespace AM.Windows.Forms
         {
             DoubleBuffered = true;
 
-            WindowHeight = DefaultWindowHeight;
-            WindowWidth = DefaultWindowWidth;
-
+            BackColor = Color.Black;
+            ForeColor = Color.LightGray;
             Font = new Font
                 (
                     DefaultFontName,
                     DefaultFontSize,
                     FontStyle.Regular
                 );
-            BackColor = Color.Black;
-            ForeColor = Color.LightGray;
 
-            _cellWidth = 8;
-            _cellHeight = 12;
+            WindowHeight = DefaultWindowHeight;
+            WindowWidth = DefaultWindowWidth;
+            _SetupWindow();
 
-            _cells = new Cell[WindowHeight * WindowWidth];
+            _cursorTimer = new Timer
+            {
+                Enabled = true,
+                Interval = 200
+            };
+            _cursorTimer.Tick += _CursorHandler;
+            CursorHeight = DefaultCursorHeight;
+            CursorVisible = true;
         }
 
         #endregion
@@ -140,6 +239,17 @@ namespace AM.Windows.Forms
 
         private int _cellWidth;
         private int _cellHeight;
+        private int _windowWidth;
+        private int _windowHeight;
+
+        private int _cursorHeight;
+        private bool _cursorVisible;
+        private bool _cursorVisibleNow;
+
+        private readonly Timer _cursorTimer;
+
+        private Font _font;
+        private Font _italicFont;
 
         private void _AdvanceCursor()
         {
@@ -154,6 +264,91 @@ namespace AM.Windows.Forms
                 ScrollUp();
                 CursorTop--;
             }
+        }
+
+        private void _CursorHandler
+            (
+                object sender,
+                EventArgs eventArgs
+            )
+        {
+            if (!_cursorVisible)
+            {
+                return;
+            }
+
+            _cursorVisibleNow = !_cursorVisibleNow;
+
+            using (Graphics graphics = Graphics.FromHwnd(Handle))
+            {
+                Rectangle rectangle = new Rectangle
+                    (
+                        _cellWidth * CursorLeft,
+                        _cellHeight * CursorTop,
+                        _cellWidth,
+                        _cellHeight
+                    );
+
+                Cell cell = _cells[CursorTop*WindowWidth + CursorLeft];
+                using (Brush foreBrush = new SolidBrush(cell.ForeColor))
+                using (Brush backBrush = new SolidBrush(cell.BackColor))
+                using (Brush cursorBrush = new SolidBrush(ForeColor))
+                {
+                    string s = new string(cell.Character, 1);
+                    graphics.FillRectangle(backBrush, rectangle);
+                    graphics.DrawString(s, Font, foreBrush, rectangle);
+
+                    if (_cursorVisibleNow)
+                    {
+                        rectangle = new Rectangle
+                            (
+                                rectangle.Left,
+                                rectangle.Top + _cellHeight - CursorHeight,
+                                rectangle.Width,
+                                CursorHeight
+                            );
+                        graphics.FillRectangle(cursorBrush, rectangle);
+                    }
+                }
+            }
+        }
+
+        private void _SetupCells()
+        {
+            if (WindowHeight == 0
+                || WindowWidth == 0)
+            {
+                return;
+            }
+
+            int cellCount = WindowHeight * WindowWidth;
+            _cells = new Cell[cellCount];
+            Cell empty = new Cell
+            {
+                Character = ' ',
+                ForeColor = ForeColor,
+                BackColor = BackColor
+            };
+            for (int i = 0; i < cellCount; i++)
+            {
+                _cells[i] = empty;
+            }
+
+            Size clientSize = ClientSize;
+            _cellHeight = clientSize.Height/WindowHeight;
+            _cellWidth = clientSize.Width/WindowWidth;
+        }
+
+        private void _SetupFont()
+        {
+            _italicFont = new Font(_font, FontStyle.Italic);
+
+            _SetupCells();
+        }
+
+        private void _SetupWindow()
+        {
+            _SetupCells();
         }
 
         #endregion
@@ -207,7 +402,7 @@ namespace AM.Windows.Forms
             {
                 _cells[i] = empty;
             }
-            
+
             Invalidate();
         }
 
@@ -218,17 +413,19 @@ namespace AM.Windows.Forms
             (
                 char c,
                 Color foreColor,
-                Color backColor
+                Color backColor,
+                bool emphasize
             )
         {
             Cell cell = new Cell
             {
                 Character = c,
                 BackColor = backColor,
-                ForeColor = foreColor
+                ForeColor = foreColor,
+                Emphasized = emphasize
             };
 
-            _cells[CursorTop*WindowWidth + CursorLeft] = cell;
+            _cells[CursorTop * WindowWidth + CursorLeft] = cell;
             _AdvanceCursor();
             Invalidate();
         }
@@ -242,7 +439,8 @@ namespace AM.Windows.Forms
                 int column,
                 char c,
                 Color foreColor,
-                Color backColor
+                Color backColor,
+                bool emphasize
             )
         {
             if (
@@ -259,9 +457,10 @@ namespace AM.Windows.Forms
             {
                 Character = c,
                 BackColor = backColor,
-                ForeColor = foreColor
+                ForeColor = foreColor,
+                Emphasized = emphasize
             };
-            _cells[row*WindowWidth + column] = cell;
+            _cells[row * WindowWidth + column] = cell;
             Invalidate();
         }
 
@@ -270,9 +469,10 @@ namespace AM.Windows.Forms
         /// </summary>
         public void Write
             (
-                [CanBeNull] string text,
                 Color foreColor,
-                Color backColor
+                Color backColor,
+                bool emphasize,
+                [CanBeNull] string text
             )
         {
             if (string.IsNullOrEmpty(text))
@@ -282,7 +482,27 @@ namespace AM.Windows.Forms
 
             foreach (char c in text)
             {
-                Write(c, foreColor, backColor);
+                Write(c, foreColor, backColor, emphasize);
+            }
+        }
+
+        /// <summary>
+        /// Write text.
+        /// </summary>
+        public void Write
+            (
+                bool emphasize,
+                [CanBeNull] string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return;
+            }
+
+            foreach (char c in text)
+            {
+                Write(c, ForeColor, BackColor, emphasize);
             }
         }
 
@@ -301,7 +521,7 @@ namespace AM.Windows.Forms
 
             foreach (char c in text)
             {
-                Write(c, ForeColor, BackColor);
+                Write(c, ForeColor, BackColor, false);
             }
         }
 
@@ -331,6 +551,19 @@ namespace AM.Windows.Forms
             WriteLine();
         }
 
+        /// <summary>
+        /// Write text and move cursor to beginning of next line.
+        /// </summary>
+        public void WriteLine
+            (
+                bool emphasize,
+                [CanBeNull] string text
+            )
+        {
+            Write(emphasize, text);
+            WriteLine();
+        }
+
         #endregion
 
         #region Control members
@@ -350,6 +583,33 @@ namespace AM.Windows.Forms
         protected override Size DefaultSize
         {
             get { return new Size(640, 300); }
+        }
+
+        /// <inheritdoc />
+        protected override void Dispose
+            (
+                bool disposing
+            )
+        {
+            if (_cursorTimer != null)
+            {
+                _cursorTimer.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
+
+        /// <inheritdoc />
+        public override Font Font
+        {
+            get { return _font; }
+            set
+            {
+                Code.NotNull(value, "value");
+
+                _font = value;
+                _SetupFont();
+            }
         }
 
         /// <inheritdoc />
@@ -384,7 +644,13 @@ namespace AM.Windows.Forms
                     {
                         graphics.FillRectangle(backBrush, rectangle);
                         string s = new string(cell.Character, 1);
-                        graphics.DrawString(s, Font, foreBrush, rectangle);
+                        graphics.DrawString
+                            (
+                                s,
+                                cell.Emphasized ? ItalicFont : Font,
+                                foreBrush,
+                                rectangle
+                            );
                     }
 
                     cellOffset++;
@@ -404,6 +670,17 @@ namespace AM.Windows.Forms
             )
         {
             // Do nothing
+        }
+
+        /// <inheritdoc />
+        protected override void OnClientSizeChanged
+            (
+                EventArgs e
+            )
+        {
+            base.OnClientSizeChanged(e);
+
+            _SetupCells();
         }
 
         #endregion
