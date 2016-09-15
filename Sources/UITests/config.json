@@ -174,5 +174,9 @@
   {
     "class": "UITests.TextBoxPlusTest",
     "title": "TextBoxPlus"
+  },
+  {
+    "class": "UITests.ConsoleControlTest",
+    "title": "ConsoleControl"
   }
 ]

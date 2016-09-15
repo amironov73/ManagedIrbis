@@ -166,6 +166,7 @@
     <Compile Include="Sources\Tests\ClocksTest.cs" />
     <Compile Include="Sources\Tests\CollapsibleGroupBoxTest.cs" />
     <Compile Include="Sources\Tests\ColorComboBoxTest.cs" />
+    <Compile Include="Sources\Tests\ConsoleControlTest.cs" />
     <Compile Include="Sources\Tests\DaDataClientTest.cs" />
     <Compile Include="Sources\Tests\DataGridViewTest.cs" />
     <Compile Include="Sources\Tests\DriveComboBoxTest.cs" />

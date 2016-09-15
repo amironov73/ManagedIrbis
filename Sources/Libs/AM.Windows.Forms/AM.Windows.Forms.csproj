@@ -120,6 +120,7 @@
     <Compile Include="AM\Windows\Forms\Clocks.cs" />
     <Compile Include="AM\Windows\Forms\CollapsibleGroupBox.cs" />
     <Compile Include="AM\Windows\Forms\ColorComboBox.cs" />
+    <Compile Include="AM\Windows\Forms\ConsoleControl.cs" />
     <Compile Include="AM\Windows\Forms\ControlUtility.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewCalendarCell.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewCalendarColumn.cs" />
@@ -273,6 +274,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />
+    <EmbeddedResource Include="Images\ConsoleControl.bmp" />
     <EmbeddedResource Include="Images\Triangle.bmp" />
     <EmbeddedResource Include="Images\RainbowControl.bmp" />
     <None Include="Images\drivenet.bmp" />
