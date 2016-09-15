@@ -170,5 +170,9 @@
   {
     "class": "UITests.ThermometerTest",
     "title": "Thermometer"
+  },
+  {
+    "class": "UITests.TextBoxPlusTest",
+    "title": "TextBoxPlus"
   }
 ]

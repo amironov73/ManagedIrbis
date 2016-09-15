@@ -373,6 +373,7 @@
     </Compile>
     <Compile Include="AM\Windows\Forms\StringGrid.cs" />
     <Compile Include="AM\Windows\Forms\TextBoxControlHost.cs" />
+    <Compile Include="AM\Windows\Forms\TextBoxPlus.cs" />
     <Compile Include="AM\Windows\Forms\Win32FormUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />

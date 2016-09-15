@@ -197,6 +197,7 @@
     <Compile Include="Sources\Tests\RichTextEditorTest.cs" />
     <Compile Include="Sources\Tests\StringGridTest.cs" />
     <Compile Include="Sources\Tests\SuggestingTextBoxTest.cs" />
+    <Compile Include="Sources\Tests\TextBoxPlusTest.cs" />
     <Compile Include="Sources\Tests\ThermometerTest.cs" />
     <Compile Include="Sources\Tests\ToolStripTest.cs" />
     <Compile Include="Sources\UITest.cs" />
