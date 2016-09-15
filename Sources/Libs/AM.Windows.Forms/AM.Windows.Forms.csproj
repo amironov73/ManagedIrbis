@@ -220,6 +220,7 @@
     <Compile Include="AM\Windows\Forms\TextBoxOutput.cs" />
     <Compile Include="AM\Windows\Forms\TextBoxTraceListener.cs" />
     <Compile Include="AM\Windows\Forms\TextBoxWriter.cs" />
+    <Compile Include="AM\Windows\Forms\Thermometer.cs" />
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripCheckBox.cs" />
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripColorComboBox.cs" />
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripCustomizationForm.cs">

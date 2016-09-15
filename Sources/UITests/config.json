@@ -166,5 +166,9 @@
   {
     "class": "UITests.RainbowControlTest",
     "title": "RainbowControl"
+  },
+  {
+    "class": "UITests.ThermometerTest",
+    "title": "Thermometer"
   }
 ]
