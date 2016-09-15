@@ -379,7 +379,6 @@ namespace CodeJam
         /// <summary>
         /// Ensures that <paramref name="arg" /> != <c>null</c>
         /// </summary>
-        [Localizable(false)]
         [DebuggerHidden]
         [AssertionMethod]
         [Conditional("DEBUG")]
