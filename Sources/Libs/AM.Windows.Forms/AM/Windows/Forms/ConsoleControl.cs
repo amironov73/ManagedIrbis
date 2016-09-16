@@ -541,6 +541,10 @@ namespace AM.Windows.Forms
                 _cells[i] = empty;
             }
 
+            _inputBuffer.Length = 0;
+            _inputColumn = 0;
+            _inputRow = 0;
+
             Invalidate();
         }
 

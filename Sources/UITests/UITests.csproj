@@ -169,6 +169,7 @@
     <Compile Include="Sources\Tests\ConsoleControlTest.cs" />
     <Compile Include="Sources\Tests\ConsoleControlTest2.cs" />
     <Compile Include="Sources\Tests\ConsoleFormTest.cs" />
+    <Compile Include="Sources\Tests\ConsoleFormTest2.cs" />
     <Compile Include="Sources\Tests\DaDataClientTest.cs" />
     <Compile Include="Sources\Tests\DataGridViewTest.cs" />
     <Compile Include="Sources\Tests\DriveComboBoxTest.cs" />

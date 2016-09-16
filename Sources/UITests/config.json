@@ -185,6 +185,10 @@
   },
   {
     "class": "UITests.ConsoleFormTest",
-    "title": "ConsoleForm"
+    "title": "ConsoleForm - test 1"
+  },
+  {
+    "class": "UITests.ConsoleFormTest2",
+    "title": "ConsoleForm - test 2"
   }
 ]
