@@ -1130,17 +1130,17 @@ namespace AM.Windows.Forms
             int cellOffset = 0;
             int rowOffset = 0;
 
-            for (int row = 0; row < WindowHeight; row++)
+            Color backColor = BackColor;
+            Brush backBrush = new SolidBrush(backColor);
+            Color foreColor = ForeColor;
+            Brush foreBrush = new SolidBrush(foreColor);
+
+            try
             {
-                int columnOffset = 0;
-
-                Color backColor = BackColor;
-                Brush backBrush = new SolidBrush(backColor);
-                Color foreColor = ForeColor;
-                Brush foreBrush = new SolidBrush(foreColor);
-
-                try
+                for (int row = 0; row < WindowHeight; row++)
                 {
+                    int columnOffset = 0;
+
                     for (int column = 0; column < WindowWidth; column++)
                     {
                         Cell cell = _cells[cellOffset];
@@ -1183,11 +1183,11 @@ namespace AM.Windows.Forms
 
                     rowOffset += _cellHeight;
                 }
-                finally
-                {
-                    backBrush.Dispose();
-                    foreBrush.Dispose();
-                }
+            }
+            finally
+            {
+                backBrush.Dispose();
+                foreBrush.Dispose();
             }
 
             base.OnPaint(paintEvent);
