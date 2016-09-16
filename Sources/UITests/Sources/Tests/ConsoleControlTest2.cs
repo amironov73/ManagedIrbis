@@ -84,6 +84,13 @@ int main ( int argc, char** argv )
                         );
                 };
 
+                console.TabPressed += (sender, args) =>
+                {
+                    string text = DateTime.Now.ToShortTimeString()
+                                  + ": " + args.Text;
+                    console.SetInput(text);
+                };
+
                 form.ShowDialog(ownerWindow);
             }
         }

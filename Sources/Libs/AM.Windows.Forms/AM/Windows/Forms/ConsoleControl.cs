@@ -29,6 +29,7 @@ namespace AM.Windows.Forms
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    // ReSharper disable once RedundantNameQualifier
     [System.ComponentModel.DesignerCategory("Code")]
     [ToolboxBitmap(typeof(BusyStripe), "Images.ConsoleControl.bmp")]
     public sealed class ConsoleControl
@@ -109,6 +110,11 @@ namespace AM.Windows.Forms
         /// Raised on input (Enter key).
         /// </summary>
         public event EventHandler<ConsoleInputEventArgs> Input;
+
+        /// <summary>
+        /// Raised when TAB key pressed.
+        /// </summary>
+        public event EventHandler<ConsoleInputEventArgs> TabPressed;
 
         #endregion
 
@@ -370,6 +376,7 @@ namespace AM.Windows.Forms
 
         private void _HandleEnter()
         {
+            _HideCursorTemporary();
             WriteLine();
 
             string text = _inputBuffer.ToString();
@@ -383,6 +390,17 @@ namespace AM.Windows.Forms
             AddHistoryEntry(text);
 
             _inputBuffer.Length = 0;
+        }
+
+        private void _HandleTab()
+        {
+            string text = _inputBuffer.ToString();
+            ConsoleInputEventArgs eventArgs
+                = new ConsoleInputEventArgs
+                {
+                    Text = text
+                };
+            TabPressed.Raise(this, eventArgs);
         }
 
         private void _HideCursorTemporary()
@@ -594,9 +612,7 @@ namespace AM.Windows.Forms
             }
 
             _HideCursorTemporary();
-
-            string text = new string(' ', _inputBuffer.Length);
-            Write(_inputRow, _inputColumn, text);
+            ClearFrom(_inputRow, _inputColumn);
 
             CursorLeft = _inputColumn;
             CursorTop = _inputRow;
@@ -617,7 +633,7 @@ namespace AM.Windows.Forms
                 return false;
             }
 
-            if (c >= ' ' || c == '\t')
+            if (c >= ' ')
             {
                 int position = _InputPosition();
 
@@ -763,7 +779,6 @@ namespace AM.Windows.Forms
             DropInput();
             _inputBuffer.Append(text);
             Write(text);
-            //_MoveInput(text.Length);
         }
 
         /// <summary>
@@ -1040,18 +1055,6 @@ namespace AM.Windows.Forms
         #region Control members
 
         /// <inheritdoc />
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams result = base.CreateParams;
-                //result.ExStyle |= 0x02000000;
-
-                return result;
-            }
-        }
-
-        /// <inheritdoc />
         protected override Size DefaultSize
         {
             get { return new Size(640, 375); }
@@ -1201,6 +1204,11 @@ namespace AM.Windows.Forms
 
             switch (e.KeyData)
             {
+                case Keys.Tab:
+                    e.IsInputKey = true;
+                    _HandleTab();
+                    return;
+
                 case Keys.Delete:
                     e.IsInputKey = true;
                     DeleteCharacter();
