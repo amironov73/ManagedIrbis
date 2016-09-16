@@ -121,6 +121,7 @@
     <Compile Include="AM\Windows\Forms\CollapsibleGroupBox.cs" />
     <Compile Include="AM\Windows\Forms\ColorComboBox.cs" />
     <Compile Include="AM\Windows\Forms\ConsoleControl.cs" />
+    <Compile Include="AM\Windows\Forms\ConsoleInputEventArgs.cs" />
     <Compile Include="AM\Windows\Forms\ControlUtility.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewCalendarCell.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewCalendarColumn.cs" />

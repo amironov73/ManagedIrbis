@@ -83,7 +83,8 @@ namespace UITests
                 ConsoleControl console = new ConsoleControl
                 {
                     Location = new Point(10, 50),
-                    //Size = new Size(880, 350),
+                    AllowInput = false,
+                    //Size = new Size(580, 300),
                     //Font = new Font("Consolas", 10f)
                 };
                 form.Controls.Add(console);

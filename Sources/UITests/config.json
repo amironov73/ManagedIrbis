@@ -177,6 +177,10 @@
   },
   {
     "class": "UITests.ConsoleControlTest",
-    "title": "ConsoleControl"
+    "title": "ConsoleControl - test 1"
+  },
+  {
+    "class": "UITests.ConsoleControlTest2",
+    "title": "ConsoleControl - test 2"
   }
 ]
