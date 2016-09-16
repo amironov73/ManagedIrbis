@@ -7,18 +7,12 @@
 #region Using directives
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Design;
-using System.Drawing.Drawing2D;
-using System.Drawing.Text;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
-using System.Windows.Forms.ComponentModel;
-using System.Windows.Forms.Design;
 
 using CodeJam;
 
@@ -261,6 +255,8 @@ namespace AM.Windows.Forms
 
             EchoInput = true;
             _inputBuffer = new StringBuilder();
+            _historyList = new List<string>();
+            _historyPosition = 0;
         }
 
         #endregion
@@ -287,6 +283,9 @@ namespace AM.Windows.Forms
         private Font _font;
         private Font _italicFont;
 
+        private readonly List<string> _historyList;
+        private int _historyPosition;
+
         private void _AdvanceCursor()
         {
             CursorLeft++;
@@ -298,8 +297,19 @@ namespace AM.Windows.Forms
             if (CursorTop >= WindowHeight)
             {
                 ScrollUp();
-                CursorTop--;
+                //CursorTop--;
             }
+        }
+
+        private int _CellOffset
+        (
+            int row,
+            int column
+        )
+        {
+            int result = row * WindowWidth + column;
+
+            return result;
         }
 
         private void _CursorHandler
@@ -338,7 +348,7 @@ namespace AM.Windows.Forms
                             s,
                             cell.Emphasized ? ItalicFont : Font,
                             foreBrush,
-                            rectangle.Left - 1,
+                            rectangle.Left - 2,
                             rectangle.Top
                         );
 
@@ -358,45 +368,52 @@ namespace AM.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Backspace.
-        /// </summary>
-        public bool Backspace()
-        {
-            if (_inputBuffer.Length == 0)
-            {
-                return false;
-            }
-
-            CursorLeft--;
-            if (CursorLeft < 0)
-            {
-                CursorLeft = 0;
-                CursorTop--;
-                if (CursorTop < 0)
-                {
-                    CursorTop = 0;
-                }
-            }
-            Write(CursorTop, CursorLeft, ' ');
-            _inputBuffer.Length--;
-
-            return true;
-        }
-
-        private void _HandleInput()
+        private void _HandleEnter()
         {
             WriteLine();
 
             string text = _inputBuffer.ToString();
             ConsoleInputEventArgs eventArgs
                 = new ConsoleInputEventArgs
-            {
-                Text = text
-            };
+                {
+                    Text = text
+                };
             Input.Raise(this, eventArgs);
 
+            AddHistoryEntry(text);
+
             _inputBuffer.Length = 0;
+        }
+
+        private void _HideCursorTemporary()
+        {
+            _cursorVisibleNow = true;
+            _CursorHandler(this, EventArgs.Empty);
+        }
+
+        private int _InputPosition()
+        {
+            int result = (CursorTop - _inputRow) * WindowWidth
+                         + CursorLeft - _inputColumn;
+
+            return result;
+        }
+
+        private void _MoveInput(int delta)
+        {
+            int length = _inputBuffer.Length;
+            int currentPosition = _InputPosition();
+            int newPosition = currentPosition + delta;
+            if (newPosition < 0)
+            {
+                newPosition = 0;
+            }
+            if (newPosition > length)
+            {
+                newPosition = length;
+            }
+            int newDelta = newPosition - currentPosition;
+            MoveCursor(newDelta, 0);
         }
 
         private void _SetupCells()
@@ -442,6 +459,50 @@ namespace AM.Windows.Forms
         #region Public methods
 
         /// <summary>
+        /// Add history entry.
+        /// </summary>
+        public void AddHistoryEntry
+            (
+                [NotNull] string text
+            )
+        {
+            if (!string.IsNullOrEmpty(text)
+                && !_historyList.Contains(text))
+            {
+                _historyList.Insert(0, text);
+            }
+            _historyPosition = 0;
+        }
+
+        /// <summary>
+        /// Backspace.
+        /// </summary>
+        public bool Backspace()
+        {
+            int length = _inputBuffer.Length;
+
+            if (length == 0)
+            {
+                return false;
+            }
+
+            _HideCursorTemporary();
+
+            int position = _InputPosition();
+            if (position != 0)
+            {
+                _inputBuffer.Remove(position - 1, 1);
+            }
+
+            string text = _inputBuffer + " ";
+            Write(_inputRow, _inputColumn, text);
+
+            MoveCursor(-1, 0);
+
+            return true;
+        }
+
+        /// <summary>
         /// Clear the console.
         /// </summary>
         public void Clear()
@@ -463,6 +524,162 @@ namespace AM.Windows.Forms
             }
 
             Invalidate();
+        }
+
+        /// <summary>
+        /// Clear from given position to end of the console.
+        /// </summary>
+        public void ClearFrom
+            (
+                int row,
+                int column
+            )
+        {
+            for (int x = column; x < WindowWidth; x++)
+            {
+                Write(row, x, ' ', ForeColor, BackColor, false);
+            }
+            for (int y = row + 1; y < WindowHeight; y++)
+            {
+                for (int x = 0; x < WindowWidth; x++)
+                {
+                    Write(y, x, ' ', ForeColor, BackColor, false);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Clear history list.
+        /// </summary>
+        public void ClearHistory()
+        {
+            _historyList.Clear();
+            _historyPosition = 0;
+        }
+
+        /// <summary>
+        /// Delete current character (DEL key).
+        /// </summary>
+        public bool DeleteCharacter()
+        {
+            int length = _inputBuffer.Length;
+
+            if (length == 0)
+            {
+                return false;
+            }
+
+            _HideCursorTemporary();
+
+            int position = _InputPosition();
+            if (position < length)
+            {
+                _inputBuffer.Remove(position, 1);
+            }
+
+            string text = _inputBuffer + " ";
+            Write(_inputRow, _inputColumn, text);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Drop current input.
+        /// </summary>
+        public void DropInput()
+        {
+            if (_inputBuffer.Length == 0)
+            {
+                return;
+            }
+
+            _HideCursorTemporary();
+
+            string text = new string(' ', _inputBuffer.Length);
+            Write(_inputRow, _inputColumn, text);
+
+            CursorLeft = _inputColumn;
+            CursorTop = _inputRow;
+            _inputBuffer.Length = 0;
+        }
+
+        /// <summary>
+        /// Input one char.
+        /// </summary>
+        public bool InputChar
+            (
+                char c
+            )
+        {
+            int screenSize = WindowWidth * WindowHeight;
+            if (_inputBuffer.Length >= screenSize)
+            {
+                return false;
+            }
+
+            if (c >= ' ' || c == '\t')
+            {
+                int position = _InputPosition();
+
+                if (_inputBuffer.Length == 0)
+                {
+                    _inputColumn = CursorLeft;
+                    _inputRow = CursorTop;
+                }
+
+                if (position >= _inputBuffer.Length)
+                {
+                    _inputBuffer.Append(c);
+                }
+                else
+                {
+                    _inputBuffer.Insert(position, c);
+                }
+                if (EchoInput)
+                {
+                    string text = _inputBuffer.ToString();
+                    Write(_inputRow, _inputColumn, text);
+                    _AdvanceCursor();
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Move the cursor.
+        /// </summary>
+        public void MoveCursor
+            (
+                int deltaX,
+                int deltaY
+            )
+        {
+            _HideCursorTemporary();
+
+            CursorLeft += deltaX;
+            CursorTop += deltaY;
+
+            while (CursorLeft < 0)
+            {
+                CursorTop--;
+                CursorLeft += WindowWidth;
+            }
+            while (CursorLeft >= WindowWidth)
+            {
+                CursorTop++;
+                CursorLeft -= WindowWidth;
+            }
+            if (CursorTop < 0)
+            {
+                CursorTop = 0;
+            }
+            if (CursorTop >= WindowHeight)
+            {
+                CursorTop = WindowHeight - 1;
+            }
         }
 
         /// <summary>
@@ -489,7 +706,64 @@ namespace AM.Windows.Forms
                 _cells[i] = empty;
             }
 
+            if (_inputRow != 0)
+            {
+                _inputRow--;
+            }
+            if (CursorTop != 0)
+            {
+                CursorTop--;
+            }
+
             Invalidate();
+        }
+
+        /// <summary>
+        /// Show current history entry.
+        /// </summary>
+        public void ShowHistoryEntry
+            (
+                bool advanceAfter
+            )
+        {
+            int count = _historyList.Count;
+            if (_historyPosition >= count)
+            {
+                DropInput();
+                return;
+            }
+
+            string text = _historyList[_historyPosition];
+            SetInput(text);
+
+            if (advanceAfter)
+            {
+                if (_historyPosition < count)
+                {
+                    _historyPosition++;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Set input text.
+        /// </summary>
+        public void SetInput
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+            if (_inputBuffer.Length == 0)
+            {
+                _inputRow = CursorTop;
+                _inputColumn = CursorLeft;
+            }
+            DropInput();
+            _inputBuffer.Append(text);
+            Write(text);
+            //_MoveInput(text.Length);
         }
 
         /// <summary>
@@ -570,7 +844,7 @@ namespace AM.Windows.Forms
                 return;
             }
 
-            int offset = row*WindowWidth + column;
+            int offset = row * WindowWidth + column;
 
             Cell previousCell = _cells[offset];
 
@@ -603,7 +877,24 @@ namespace AM.Windows.Forms
 
             foreach (char c in text)
             {
-                Write(c, foreColor, backColor, emphasize);
+                switch (c)
+                {
+                    case '\t':
+                        WriteTab(backColor);
+                        break;
+
+                    case '\r':
+                        CursorLeft = 0;
+                        break;
+
+                    case '\n':
+                        WriteLine();
+                        break;
+
+                    default:
+                        Write(c, foreColor, backColor, emphasize);
+                        break;
+                }
             }
         }
 
@@ -616,15 +907,7 @@ namespace AM.Windows.Forms
                 [CanBeNull] string text
             )
         {
-            if (string.IsNullOrEmpty(text))
-            {
-                return;
-            }
-
-            foreach (char c in text)
-            {
-                Write(c, ForeColor, BackColor, emphasize);
-            }
+            Write(ForeColor, BackColor, emphasize, text);
         }
 
         /// <summary>
@@ -636,15 +919,7 @@ namespace AM.Windows.Forms
                 [CanBeNull] string text
             )
         {
-            if (string.IsNullOrEmpty(text))
-            {
-                return;
-            }
-
-            foreach (char c in text)
-            {
-                Write(c, foreColor, BackColor, false);
-            }
+            Write(foreColor, BackColor, false, text);
         }
 
         /// <summary>
@@ -655,6 +930,19 @@ namespace AM.Windows.Forms
                 [CanBeNull] string text
             )
         {
+            Write(ForeColor, BackColor, false, text);
+        }
+
+        /// <summary>
+        /// Write text.
+        /// </summary>
+        public void Write
+            (
+                int row,
+                int column,
+                [CanBeNull] string text
+            )
+        {
             if (string.IsNullOrEmpty(text))
             {
                 return;
@@ -662,7 +950,18 @@ namespace AM.Windows.Forms
 
             foreach (char c in text)
             {
-                Write(c, ForeColor, BackColor, false);
+                Write(row, column, c, ForeColor, BackColor, false);
+                column++;
+                if (column >= WindowWidth)
+                {
+                    column = 0;
+                    row++;
+                    if (row >= WindowHeight)
+                    {
+                        ScrollUp();
+                        row--;
+                    }
+                }
             }
         }
 
@@ -676,7 +975,6 @@ namespace AM.Windows.Forms
             if (CursorTop >= WindowHeight)
             {
                 ScrollUp();
-                CursorTop--;
             }
         }
 
@@ -716,6 +1014,25 @@ namespace AM.Windows.Forms
         {
             Write(foreColor, text);
             WriteLine();
+        }
+
+        /// <summary>
+        /// Tabulation.
+        /// </summary>
+        public void WriteTab
+            (
+                Color backColor
+            )
+        {
+            int count = CursorLeft % 8;
+            if (count == 0)
+            {
+                count = 8;
+            }
+            for (int i = 0; i < count; i++)
+            {
+                Write(' ', ForeColor, backColor, false);
+            }
         }
 
         #endregion
@@ -791,22 +1108,8 @@ namespace AM.Windows.Forms
                 return;
             }
 
-            if (_inputBuffer.Length == 0)
-            {
-                _inputColumn = CursorLeft;
-                _inputRow = CursorTop;
-            }
-
             char c = e.KeyChar;
-            if (c >= ' ')
-            {
-                _inputBuffer.Append(c);
-                if (EchoInput)
-                {
-                    string s = new string(c, 1);
-                    Write(s);
-                }
-            }
+            e.Handled = InputChar(c);
         }
 
         /// <inheritdoc />
@@ -898,34 +1201,52 @@ namespace AM.Windows.Forms
 
             switch (e.KeyData)
             {
+                case Keys.Delete:
+                    e.IsInputKey = true;
+                    DeleteCharacter();
+                    return;
+
                 case Keys.Back:
+                    e.IsInputKey = true;
                     Backspace();
                     return;
 
                 case Keys.Escape:
-                    while (Backspace())
-                    {
-                        // Do nothing
-                    }
-                    CursorLeft = _inputColumn;
-                    CursorTop = _inputRow;
-                    _inputBuffer.Length = 0;
+                    e.IsInputKey = true;
+                    DropInput();
                     return;
 
                 case Keys.Enter:
-                    _HandleInput();
+                    e.IsInputKey = true;
+                    _HandleEnter();
                     return;
 
                 case Keys.Left:
+                    e.IsInputKey = true;
+                    _MoveInput(-1);
                     return;
 
                 case Keys.Right:
+                    e.IsInputKey = true;
+                    _MoveInput(1);
                     return;
 
                 case Keys.Up:
+                    e.IsInputKey = true;
+                    ShowHistoryEntry(true);
                     return;
 
                 case Keys.Down:
+                    e.IsInputKey = true;
+                    if (_historyPosition != 0)
+                    {
+                        _historyPosition--;
+                        ShowHistoryEntry(false);
+                    }
+                    else
+                    {
+                        DropInput();
+                    }
                     return;
             }
         }

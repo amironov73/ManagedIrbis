@@ -92,5 +92,14 @@ namespace UITests
                 ExceptionBox.Show(ex);
             }
         }
+
+        private void _listBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                e.Handled = true;
+                _listBox_DoubleClick(sender, e);
+            }
+        }
     }
 }

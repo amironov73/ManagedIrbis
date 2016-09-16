@@ -101,6 +101,7 @@
             this._listBox.Size = new System.Drawing.Size(260, 503);
             this._listBox.TabIndex = 0;
             this._listBox.DoubleClick += new System.EventHandler(this._listBox_DoubleClick);
+            this._listBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this._listBox_KeyDown);
             // 
             // menuStrip1
             // 
