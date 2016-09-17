@@ -78,6 +78,8 @@ namespace IrbisUI
         {
             InitializeComponent();
 
+            _grid.AutoGenerateColumns = false;
+
             _terms = new List<TermInfo>();
             _bindingSource = new BindingSource
             {

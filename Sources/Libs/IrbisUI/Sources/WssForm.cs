@@ -1,4 +1,4 @@
-﻿/* MenuForm.cs --
+﻿/* DictionaryForm.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -21,10 +21,9 @@ using AM.IO;
 using AM.Runtime;
 
 using CodeJam;
-
+using IrbisUI.Sources;
 using JetBrains.Annotations;
 
-using ManagedIrbis.Menus;
 using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
@@ -40,32 +39,32 @@ namespace IrbisUI
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public partial class MenuForm
+    public partial class WssForm 
         : Form
     {
         #region Properties
 
         /// <summary>
-        /// Current menu entry.
+        /// Current term.
         /// </summary>
         [CanBeNull]
-        public MenuEntry CurrentEntry
+        public TermInfo CurrentTerm
         {
             get
             {
-                MenuEntry result = (MenuEntry)_bindingSource.Current;
+                TermInfo result = (TermInfo)_bindingSource.Current;
 
                 return result;
             }
         }
 
         /// <summary>
-        /// Entries
+        /// Terms.
         /// </summary>
         [NotNull]
-        public List<MenuEntry> Entries
+        public List<WorksheetLine> Lines
         {
-            get { return _entries; }
+            get { return _lines; }
         }
 
         #endregion
@@ -75,16 +74,16 @@ namespace IrbisUI
         /// <summary>
         /// Constructor.
         /// </summary>
-        public MenuForm()
+        public WssForm()
         {
             InitializeComponent();
 
             _grid.AutoGenerateColumns = false;
 
-            _entries = new List<MenuEntry>();
+            _lines = new List<WorksheetLine>();
             _bindingSource = new BindingSource
             {
-                DataSource = _entries
+                DataSource = _lines
             };
             _grid.DataSource = _bindingSource;
         }
@@ -94,7 +93,7 @@ namespace IrbisUI
         #region Private members
 
         private readonly BindingSource _bindingSource;
-        private readonly List<MenuEntry> _entries;
+        private readonly List<WorksheetLine> _lines;
 
         #endregion
     }

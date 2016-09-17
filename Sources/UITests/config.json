@@ -202,5 +202,9 @@
   {
     "class": "UITests.MenuFormTest",
     "title": "MenuForm"
+  },
+  {
+    "class": "UITests.WssFormTest",
+    "title": "WssForm"
   }
 ]
