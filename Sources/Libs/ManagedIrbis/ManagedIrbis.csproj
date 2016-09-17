@@ -231,7 +231,9 @@
     <Compile Include="Source\Menus\MenuEntry.cs" />
     <Compile Include="Source\Menus\MenuSort.cs" />
     <Compile Include="Source\Pft\FormatError.cs" />
+    <Compile Include="Source\Search\FoundLine.cs" />
     <Compile Include="Source\Search\PostingParameters.cs" />
+    <Compile Include="Source\Search\SearchManager.cs" />
     <Compile Include="Source\Search\SearchParameters.cs" />
     <Compile Include="Source\Search\Infrastructure\SearchQueryParser.cs" />
     <Compile Include="Source\Search\TermInfoEx.cs" />

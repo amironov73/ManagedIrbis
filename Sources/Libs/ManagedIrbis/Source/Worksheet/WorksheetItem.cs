@@ -232,9 +232,15 @@ namespace ManagedIrbis.Worksheet
             {
                 Tag = reader.RequireLine(),
                 Title = reader.RequireLine().Trim(),
-                Repeatable = ConversionUtility.ToBoolean(reader.RequireLine()),
+                Repeatable = ConversionUtility.ToBoolean
+                    (
+                        reader.RequireLine()
+                    ),
                 Help = reader.RequireLine().Trim(),
-                InputMode = (InputMode) int.Parse(reader.RequireLine()),
+                InputMode = (InputMode) int.Parse
+                    (
+                        reader.RequireLine()
+                    ),
                 InputInfo = reader.RequireLine(),
                 FormalVerification = reader.RequireLine().Trim(),
                 Hint = reader.RequireLine().Trim(),
@@ -258,6 +264,8 @@ namespace ManagedIrbis.Worksheet
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             Tag = reader.ReadNullableString();
             Title = reader.ReadNullableString();
             Repeatable = reader.ReadBoolean();
@@ -278,6 +286,8 @@ namespace ManagedIrbis.Worksheet
                 BinaryWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             writer
                 .WriteNullable(Tag)
                 .WriteNullable(Title)
@@ -297,12 +307,7 @@ namespace ManagedIrbis.Worksheet
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc />
         public override string ToString()
         {
             return string.Format

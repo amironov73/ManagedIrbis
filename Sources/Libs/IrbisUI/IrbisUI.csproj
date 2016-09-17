@@ -117,6 +117,12 @@
     <Compile Include="Sources\DictionaryPanel.Designer.cs">
       <DependentUpon>DictionaryPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Sources\FoundPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Sources\FoundPanel.Designer.cs">
+      <DependentUpon>FoundPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Sources\IrbisBusyForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,6 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />
+    <Content Include="Images\check.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ArsMagna.private.snk" />
@@ -197,6 +204,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sources\DictionaryPanel.resx">
       <DependentUpon>DictionaryPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\FoundPanel.resx">
+      <DependentUpon>FoundPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sources\IrbisBusyForm.resx">
       <DependentUpon>IrbisBusyForm.cs</DependentUpon>

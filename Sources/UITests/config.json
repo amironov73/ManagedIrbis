@@ -206,5 +206,9 @@
   {
     "class": "UITests.WssFormTest",
     "title": "WssForm"
+  },
+  {
+    "class": "UITests.FoundPanelTest",
+    "title": "FoundPanel"
   }
 ]
