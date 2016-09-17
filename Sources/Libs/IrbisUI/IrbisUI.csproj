@@ -132,6 +132,7 @@
     <Compile Include="Sources\IrbisLoginForm2.Designer.cs">
       <DependentUpon>IrbisLoginForm2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Sources\WorksheetLine.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
