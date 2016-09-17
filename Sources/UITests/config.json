@@ -190,5 +190,9 @@
   {
     "class": "UITests.ConsoleFormTest2",
     "title": "ConsoleForm - test 2"
+  },
+  {
+    "class": "UITests.DictionaryPanelTest",
+    "title": "DictionaryPanel"
   }
 ]
