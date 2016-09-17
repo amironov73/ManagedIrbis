@@ -194,5 +194,9 @@
   {
     "class": "UITests.DictionaryPanelTest",
     "title": "DictionaryPanel"
+  },
+  {
+    "class": "UITests.DictionaryFormTest",
+    "title": "DictionaryForm"
   }
 ]

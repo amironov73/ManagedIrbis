@@ -1,4 +1,4 @@
-﻿/* DictionaryPanel.cs --
+﻿/* DictionaryForm.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -35,12 +35,12 @@ using Newtonsoft.Json;
 namespace IrbisUI
 {
     /// <summary>
-    /// Panel for dictionary entries.
+    /// 
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public partial class DictionaryPanel
-        : UserControl
+    public partial class DictionaryForm
+        : Form
     {
         #region Properties
 
@@ -52,7 +52,7 @@ namespace IrbisUI
         {
             get
             {
-                TermInfo result = (TermInfo) _bindingSource.Current;
+                TermInfo result = (TermInfo)_bindingSource.Current;
 
                 return result;
             }
@@ -74,7 +74,7 @@ namespace IrbisUI
         /// <summary>
         /// Constructor.
         /// </summary>
-        public DictionaryPanel()
+        public DictionaryForm()
         {
             InitializeComponent();
 
