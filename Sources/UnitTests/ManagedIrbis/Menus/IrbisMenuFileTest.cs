@@ -20,16 +20,16 @@ namespace UnitTests.ManagedIrbis.Menus
         {
             Assert.AreEqual(first.FileName, second.FileName);
 
-            MenuFile.Entry[] firstEntries
-                = first.SortEntries(MenuFile.Sort.None);
-            MenuFile.Entry[] secondEntries
-                = second.SortEntries(MenuFile.Sort.None);
+            MenuEntry[] firstEntries
+                = first.SortEntries(MenuSort.None);
+            MenuEntry[] secondEntries
+                = second.SortEntries(MenuSort.None);
 
             Assert.AreEqual(firstEntries.Length, secondEntries.Length);
             for (int i = 0; i < firstEntries.Length; i++)
             {
-                MenuFile.Entry entry1 = firstEntries[i];
-                MenuFile.Entry entry2 = secondEntries[i];
+                MenuEntry entry1 = firstEntries[i];
+                MenuEntry entry2 = secondEntries[i];
 
                 Assert.AreEqual(entry1.Code, entry2.Code);
                 Assert.AreEqual(entry1.Comment, entry2.Comment);

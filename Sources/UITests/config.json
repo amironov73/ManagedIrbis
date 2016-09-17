@@ -198,5 +198,9 @@
   {
     "class": "UITests.DictionaryFormTest",
     "title": "DictionaryForm"
+  },
+  {
+    "class": "UITests.MenuFormTest",
+    "title": "MenuForm"
   }
 ]

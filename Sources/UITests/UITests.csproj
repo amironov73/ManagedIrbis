@@ -191,6 +191,7 @@
     <Compile Include="Sources\Tests\LabeledTextBoxTest.cs" />
     <Compile Include="Sources\Tests\LabelExTest.cs" />
     <Compile Include="Sources\Tests\ListBoxExTest.cs" />
+    <Compile Include="Sources\Tests\MenuFormTest.cs" />
     <Compile Include="Sources\Tests\MeterTest.cs" />
     <Compile Include="Sources\Tests\PickListTest.cs" />
     <Compile Include="Sources\Tests\PictureViewFormTest.cs" />

@@ -6,12 +6,8 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using AM;
@@ -102,7 +98,7 @@ namespace ManagedIrbis.Menus
             Code.NotNull(menu, "menu");
             Code.NotNull(code, "code");
 
-            MenuFile.Entry found = menu.FindEntry(code);
+            MenuEntry found = menu.FindEntry(code);
 
             return found == null
                 ? defaultValue
@@ -123,7 +119,7 @@ namespace ManagedIrbis.Menus
             Code.NotNull(menu, "menu");
             Code.NotNull(code, "code");
 
-            MenuFile.Entry found = menu.FindEntrySensitive(code);
+            MenuEntry found = menu.FindEntrySensitive(code);
 
             return found == null
                 ? defaultValue
@@ -158,9 +154,8 @@ namespace ManagedIrbis.Menus
         {
             Code.NotNullNorEmpty(text, "text");
 
-            NonNullCollection<MenuFile.Entry> entries 
-                = JsonConvert
-                .DeserializeObject<NonNullCollection<MenuFile.Entry>>
+            NonNullCollection<MenuEntry> entries = JsonConvert
+                .DeserializeObject<NonNullCollection<MenuEntry>>
                     (
                         text
                     );

@@ -227,6 +227,9 @@
     <Compile Include="Source\Infrastructure\Sockets\RetryClientSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\SmartClientSocket.cs" />
     <Compile Include="Source\LocalCatalogManager.cs" />
+    <Compile Include="Source\Menus\MenuConverter.cs" />
+    <Compile Include="Source\Menus\MenuEntry.cs" />
+    <Compile Include="Source\Menus\MenuSort.cs" />
     <Compile Include="Source\Pft\FormatError.cs" />
     <Compile Include="Source\Search\PostingParameters.cs" />
     <Compile Include="Source\Search\SearchParameters.cs" />
