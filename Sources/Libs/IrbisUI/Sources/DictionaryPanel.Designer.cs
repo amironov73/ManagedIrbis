@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this._keyLabel = new System.Windows.Forms.Label();
             this._keyBox = new System.Windows.Forms.TextBox();
+            this._keyLabel = new System.Windows.Forms.Label();
             this._grid = new System.Windows.Forms.DataGridView();
             this._scrollBar = new System.Windows.Forms.VScrollBar();
             this._countColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,14 +49,6 @@
             this.panel1.Size = new System.Drawing.Size(379, 46);
             this.panel1.TabIndex = 0;
             // 
-            // _keyLabel
-            // 
-            this._keyLabel.Location = new System.Drawing.Point(14, 14);
-            this._keyLabel.Name = "_keyLabel";
-            this._keyLabel.Size = new System.Drawing.Size(59, 23);
-            this._keyLabel.TabIndex = 0;
-            this._keyLabel.Text = "Key";
-            // 
             // _keyBox
             // 
             this._keyBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -66,12 +58,19 @@
             this._keyBox.Size = new System.Drawing.Size(297, 22);
             this._keyBox.TabIndex = 1;
             // 
+            // _keyLabel
+            // 
+            this._keyLabel.Location = new System.Drawing.Point(14, 14);
+            this._keyLabel.Name = "_keyLabel";
+            this._keyLabel.Size = new System.Drawing.Size(59, 23);
+            this._keyLabel.TabIndex = 0;
+            this._keyLabel.Text = "Key";
+            // 
             // _grid
             // 
             this._grid.AllowUserToAddRows = false;
             this._grid.AllowUserToDeleteRows = false;
             this._grid.AllowUserToResizeRows = false;
-            this._grid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this._grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this._grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this._countColumn,
@@ -97,12 +96,14 @@
             // 
             // _countColumn
             // 
-            this._countColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this._countColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this._countColumn.DataPropertyName = "Count";
             this._countColumn.FillWeight = 30F;
             this._countColumn.HeaderText = "Count";
+            this._countColumn.MinimumWidth = 50;
             this._countColumn.Name = "_countColumn";
             this._countColumn.ReadOnly = true;
+            this._countColumn.Width = 50;
             // 
             // _termColumn
             // 

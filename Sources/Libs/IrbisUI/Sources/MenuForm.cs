@@ -53,7 +53,10 @@ namespace IrbisUI
         {
             get
             {
-                MenuEntry result = (MenuEntry)_bindingSource.Current;
+                DataGridViewRow currentRow = _grid.CurrentRow;
+                MenuEntry result = currentRow == null
+                    ? null
+                    : (MenuEntry)currentRow.DataBoundItem;
 
                 return result;
             }
@@ -63,10 +66,7 @@ namespace IrbisUI
         /// Entries
         /// </summary>
         [NotNull]
-        public List<MenuEntry> Entries
-        {
-            get { return _entries; }
-        }
+        public MenuEntry[] Entries { get; private set; }
 
         #endregion
 
@@ -81,21 +81,55 @@ namespace IrbisUI
 
             _grid.AutoGenerateColumns = false;
 
-            _entries = new List<MenuEntry>();
-            _bindingSource = new BindingSource
-            {
-                DataSource = _entries
-            };
-            _grid.DataSource = _bindingSource;
+            Entries = new MenuEntry[0];
+            _grid.DataSource = Entries;
+            _grid.Focus();
         }
 
         #endregion
 
         #region Private members
 
-        private readonly BindingSource _bindingSource;
-        private readonly List<MenuEntry> _entries;
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Set entries.
+        /// </summary>
+        public void SetEntries
+            (
+                [NotNull] IEnumerable<MenuEntry> entries
+            )
+        {
+            Code.NotNull(entries, "entries");
+
+            Entries = entries.ToArray();
+            _grid.DataSource = Entries;
+        }
 
         #endregion
+
+        private void _grid_DoubleClick
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            DialogResult = DialogResult.OK;
+        }
+
+        private void _grid_PreviewKeyDown
+            (
+                object sender,
+                PreviewKeyDownEventArgs e
+            )
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.IsInputKey = false;
+                DialogResult = DialogResult.OK;
+            }
+        }
     }
 }

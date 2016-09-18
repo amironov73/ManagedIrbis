@@ -59,7 +59,7 @@ namespace UITests
                 FoundPanel panel = new FoundPanel
                 {
                     Location = new Point(10, 10),
-                    Size = new Size(400, 200)
+                    Size = new Size(600, 200)
                 };
                 form.Controls.Add(panel);
 

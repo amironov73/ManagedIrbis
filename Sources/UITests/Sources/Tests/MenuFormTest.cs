@@ -73,7 +73,7 @@ namespace UITests
                         @"..\..\..\..\..\TestData\dbnam1.mnu",
                         IrbisEncoding.Ansi
                     );
-                form.Entries.AddRange(menuFile.Entries);
+                form.SetEntries(menuFile.Entries);
 
                 form.ShowDialog(ownerWindow);
             }

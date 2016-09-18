@@ -70,7 +70,8 @@ namespace UITests
                     NumberOfTerms = 100
                 };
                 TermInfo[] terms = connection.ReadTerms(parameters);
-                panel.Terms.AddRange(terms);
+                terms = TermInfo.TrimPrefix(terms, "K=");
+                panel.SetTerms(terms);
 
                 form.ShowDialog(ownerWindow);
             }

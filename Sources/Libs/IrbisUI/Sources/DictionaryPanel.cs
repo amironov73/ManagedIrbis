@@ -52,7 +52,10 @@ namespace IrbisUI
         {
             get
             {
-                TermInfo result = (TermInfo) _bindingSource.Current;
+                DataGridViewRow currentRow = _grid.CurrentRow;
+                TermInfo result = currentRow == null
+                    ? null
+                    : (TermInfo) currentRow.DataBoundItem;
 
                 return result;
             }
@@ -62,10 +65,7 @@ namespace IrbisUI
         /// Terms.
         /// </summary>
         [NotNull]
-        public List<TermInfo> Terms
-        {
-            get { return _terms; }
-        }
+        public TermInfo[] Terms { get; private set; }
 
         #endregion
 
@@ -80,20 +80,31 @@ namespace IrbisUI
 
             _grid.AutoGenerateColumns = false;
 
-            _terms = new List<TermInfo>();
-            _bindingSource = new BindingSource
-            {
-                DataSource = _terms
-            };
-            _grid.DataSource = _bindingSource;
+            Terms = new TermInfo[0];
+            _grid.DataSource = Terms;
         }
 
         #endregion
 
         #region Private members
 
-        private readonly BindingSource _bindingSource;
-        private readonly List<TermInfo> _terms;
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Set terms.
+        /// </summary>
+        public void SetTerms
+            (
+                [NotNull] IEnumerable<TermInfo> terms
+            )
+        {
+            Code.NotNull(terms, "terms");
+
+            Terms = terms.ToArray();
+            _grid.DataSource = Terms;
+        }
 
         #endregion
     }

@@ -32,8 +32,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuForm));
             this._bottomPanel = new System.Windows.Forms.Panel();
-            this._okButton = new System.Windows.Forms.Button();
             this._cancelButton = new System.Windows.Forms.Button();
+            this._okButton = new System.Windows.Forms.Button();
             this._grid = new System.Windows.Forms.DataGridView();
             this._codeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._commentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,24 +51,26 @@
             this._bottomPanel.Size = new System.Drawing.Size(622, 50);
             this._bottomPanel.TabIndex = 0;
             // 
-            // _okButton
-            // 
-            this._okButton.Location = new System.Drawing.Point(10, 10);
-            this._okButton.Name = "_okButton";
-            this._okButton.Size = new System.Drawing.Size(120, 30);
-            this._okButton.TabIndex = 0;
-            this._okButton.Text = "O&K";
-            this._okButton.UseVisualStyleBackColor = true;
-            // 
             // _cancelButton
             // 
             this._cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._cancelButton.Location = new System.Drawing.Point(490, 8);
             this._cancelButton.Name = "_cancelButton";
             this._cancelButton.Size = new System.Drawing.Size(120, 30);
             this._cancelButton.TabIndex = 0;
             this._cancelButton.Text = "&Cancel";
             this._cancelButton.UseVisualStyleBackColor = true;
+            // 
+            // _okButton
+            // 
+            this._okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this._okButton.Location = new System.Drawing.Point(10, 10);
+            this._okButton.Name = "_okButton";
+            this._okButton.Size = new System.Drawing.Size(120, 30);
+            this._okButton.TabIndex = 0;
+            this._okButton.Text = "O&K";
+            this._okButton.UseVisualStyleBackColor = true;
             // 
             // _grid
             // 
@@ -100,6 +102,8 @@
             this._grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this._grid.Size = new System.Drawing.Size(622, 303);
             this._grid.TabIndex = 1;
+            this._grid.DoubleClick += new System.EventHandler(this._grid_DoubleClick);
+            this._grid.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this._grid_PreviewKeyDown);
             // 
             // _codeColumn
             // 
@@ -119,12 +123,15 @@
             // 
             // MenuForm
             // 
+            this.AcceptButton = this._okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this._cancelButton;
             this.ClientSize = new System.Drawing.Size(622, 353);
             this.Controls.Add(this._grid);
             this.Controls.Add(this._bottomPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(640, 400);
             this.Name = "MenuForm";
