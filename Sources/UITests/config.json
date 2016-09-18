@@ -210,5 +210,9 @@
   {
     "class": "UITests.FoundPanelTest",
     "title": "FoundPanel"
+  },
+  {
+    "class": "UITests.PreviewPanelTest",
+    "title": "PreviewPanel"
   }
 ]

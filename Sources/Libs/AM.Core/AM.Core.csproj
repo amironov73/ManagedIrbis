@@ -205,7 +205,9 @@
     <Compile Include="AM\Text\Output\TimestampedOutput.cs" />
     <Compile Include="AM\Text\RussianFormat.cs" />
     <Compile Include="AM\Text\StreamParser.cs" />
+    <Compile Include="AM\Text\TextKind.cs" />
     <Compile Include="AM\Text\TextNavigator.cs" />
+    <Compile Include="AM\Text\TextUtility.cs" />
     <Compile Include="AM\Text\Tokenizer\StringTokenizer.cs" />
     <Compile Include="AM\Text\Tokenizer\Token.cs" />
     <Compile Include="AM\Sequence.cs" />

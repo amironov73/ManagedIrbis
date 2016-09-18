@@ -156,6 +156,12 @@
     <Compile Include="Sources\MenuForm.Designer.cs">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Sources\PreviewPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Sources\PreviewPanel.Designer.cs">
+      <DependentUpon>PreviewPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Sources\WorksheetLine.cs" />
     <Compile Include="Sources\WssForm.cs">
       <SubType>Form</SubType>
@@ -222,6 +228,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sources\MenuForm.resx">
       <DependentUpon>MenuForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\PreviewPanel.resx">
+      <DependentUpon>PreviewPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sources\WssForm.resx">
       <DependentUpon>WssForm.cs</DependentUpon>
