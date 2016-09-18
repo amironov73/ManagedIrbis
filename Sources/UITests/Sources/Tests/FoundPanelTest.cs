@@ -70,7 +70,7 @@ namespace UITests
                         "K=О$",
                         "K="
                     );
-                panel.Lines.AddRange(found);
+                panel.SetFound(found);
 
                 form.ShowDialog(ownerWindow);
             }

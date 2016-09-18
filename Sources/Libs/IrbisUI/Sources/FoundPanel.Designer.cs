@@ -72,9 +72,9 @@
             this._grid.Dock = System.Windows.Forms.DockStyle.Fill;
             this._grid.Location = new System.Drawing.Point(0, 24);
             this._grid.Name = "_grid";
-            this._grid.ReadOnly = true;
             this._grid.RowHeadersVisible = false;
             this._grid.RowTemplate.Height = 24;
+            this._grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this._grid.Size = new System.Drawing.Size(500, 176);
             this._grid.TabIndex = 1;
             // 
@@ -95,7 +95,6 @@
             this._selectionColumn.HeaderText = "";
             this._selectionColumn.MinimumWidth = 30;
             this._selectionColumn.Name = "_selectionColumn";
-            this._selectionColumn.ReadOnly = true;
             this._selectionColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this._selectionColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this._selectionColumn.Width = 30;
@@ -107,8 +106,6 @@
             this._iconColumn.HeaderText = "";
             this._iconColumn.MinimumWidth = 30;
             this._iconColumn.Name = "_iconColumn";
-            this._iconColumn.ReadOnly = true;
-            this._iconColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this._iconColumn.Width = 30;
             // 
             // _descriptionColumn

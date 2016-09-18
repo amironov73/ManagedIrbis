@@ -236,6 +236,7 @@
     <Compile Include="Source\Search\SearchManager.cs" />
     <Compile Include="Source\Search\SearchParameters.cs" />
     <Compile Include="Source\Search\Infrastructure\SearchQueryParser.cs" />
+    <Compile Include="Source\Search\SearchResult.cs" />
     <Compile Include="Source\Search\TermInfoEx.cs" />
     <Compile Include="Source\Search\TermParameters.cs" />
     <Compile Include="Source\ServerStat.cs" />

@@ -53,7 +53,10 @@ namespace IrbisUI
         {
             get
             {
-                FoundLine result = (FoundLine)_bindingSource.Current;
+                DataGridViewRow currentRow = _grid.CurrentRow;
+                FoundLine result = currentRow == null
+                    ? null
+                    : (FoundLine) currentRow.DataBoundItem;
 
                 return result;
             }
@@ -63,10 +66,7 @@ namespace IrbisUI
         /// Terms.
         /// </summary>
         [NotNull]
-        public List<FoundLine> Lines
-        {
-            get { return _lines; }
-        }
+        public FoundLine[] Lines { get; private set; }
 
         #endregion
 
@@ -81,20 +81,31 @@ namespace IrbisUI
 
             _grid.AutoGenerateColumns = false;
 
-            _lines = new List<FoundLine>();
-            _bindingSource = new BindingSource
-            {
-                DataSource = _lines
-            };
-            _grid.DataSource = _bindingSource;
+            Lines = new FoundLine[0];
+            _grid.DataSource = Lines;
         }
 
         #endregion
 
         #region Private members
 
-        private readonly BindingSource _bindingSource;
-        private readonly List<FoundLine> _lines;
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Set found lines.
+        /// </summary>
+        public void SetFound
+            (
+                [NotNull] IEnumerable<FoundLine> found
+            )
+        {
+            Code.NotNull(found, "found");
+
+            Lines = found.ToArray();
+            _grid.DataSource = Lines;
+        }
 
         #endregion
     }
