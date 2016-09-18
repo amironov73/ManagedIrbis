@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Media;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 using CodeJam;
@@ -19,6 +20,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+using Timer = System.Windows.Forms.Timer;
 
 #endregion
 
@@ -703,6 +705,39 @@ namespace AM.Windows.Forms
         }
 
         /// <summary>
+        /// Read line from the console.
+        /// </summary>
+        [CanBeNull]
+        public string ReadLine()
+        {
+            bool done = false;
+            string result = null;
+            EventHandler<ConsoleInputEventArgs> inputHandler
+                = (sender, args) =>
+                {
+                    result = args.Text;
+                    done = true;
+                };
+            EventHandler disposeHandler = (sender, args) =>
+            {
+                done = true;
+            };
+
+            Input += inputHandler;
+            Disposed += disposeHandler;
+            while (!done)
+            {
+                Application.DoEvents();
+
+                Thread.Sleep(10);
+            }
+            Input -= inputHandler;
+            Disposed -= disposeHandler;
+
+            return result;
+        }
+
+        /// <summary>
         /// Scroll up by one line.
         /// </summary>
         public void ScrollUp()
@@ -1054,9 +1089,9 @@ namespace AM.Windows.Forms
             }
         }
 
-        #endregion
+#endregion
 
-        #region Control members
+#region Control members
 
         /// <inheritdoc />
         protected override Size DefaultSize
@@ -1272,6 +1307,6 @@ namespace AM.Windows.Forms
             // Do nothing
         }
 
-        #endregion
+#endregion
     }
 }

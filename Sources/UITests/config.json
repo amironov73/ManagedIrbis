@@ -192,6 +192,10 @@
     "title": "ConsoleForm - test 2"
   },
   {
+    "class": "UITests.ConsoleFormTest3",
+    "title": "ConsoleForm - test 3"
+  },
+  {
     "class": "UITests.DictionaryPanelTest",
     "title": "DictionaryPanel"
   },
