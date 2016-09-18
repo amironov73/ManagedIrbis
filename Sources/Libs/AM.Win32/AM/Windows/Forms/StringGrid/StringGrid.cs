@@ -12,6 +12,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using CodeJam;
 
 #endregion
 
@@ -22,179 +23,9 @@ namespace AM.Windows.Forms
     /// </summary>
     [System.ComponentModel.DesignerCategory("Code")]
     //[ToolboxBitmap(typeof(StringGrid), "Images.StringGrid.bmp")]
-    [Serializable]
     public class StringGrid
         : Control
     {
-        #region Delegates
-
-        //===========================================================
-        // DELEGATES
-        //===========================================================
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public class CellChangeEventArgs
-            : EventArgs
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            public int Column;
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public int Row;
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public string OldValue;
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public string NewValue;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public class CellClickEventArgs
-            : EventArgs
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            public int Column;
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public int Row;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public class HeaderClickEventArgs
-            : EventArgs
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            public int Column;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public class CellDrawEventArgs
-            : EventArgs
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            public int Column;
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public int Row;
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public string Value;
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public RectangleF Rectangle;
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public StringFormat Format;
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public Graphics Graphics;
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public bool Drawn;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public delegate void CellChangingHandler
-            (
-                StringGrid sender,
-                CellChangeEventArgs e
-            );
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public delegate void CellChangedHandler
-            (
-                StringGrid sender,
-                CellChangeEventArgs e
-            );
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public delegate void CellClickHandler
-            (
-                StringGrid sender,
-                CellClickEventArgs e
-            );
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public delegate void HeaderClickHandler
-            (
-                StringGrid sender,
-                HeaderClickEventArgs e
-            );
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public delegate void CellDrawHandler
-            (
-                StringGrid sender, CellDrawEventArgs e
-            );
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        public delegate void ModifiedChangedHandler
-            (
-                StringGrid sender
-            );
-
-        #endregion
-
         #region Public events
 
         //===========================================================
@@ -204,300 +35,32 @@ namespace AM.Windows.Forms
         /// <summary>
         /// 
         /// </summary>
-        public event CellChangingHandler CellChanging;
+        public event EventHandler<CellChangedEventArgs> CellChanging;
 
         /// <summary>
         /// 
         /// </summary>
-        public event CellChangedHandler CellChanged;
+        public event EventHandler<CellChangedEventArgs> CellChanged;
 
         /// <summary>
         /// 
         /// </summary>
-        public event CellClickHandler CellClick;
+        public event EventHandler<CellClickEventArgs> CellClick;
 
         /// <summary>
         /// 
         /// </summary>
-        public event HeaderClickHandler HeaderClick;
+        public event EventHandler<HeaderClickEventArgs> HeaderClick;
 
         /// <summary>
         /// 
         /// </summary>
-        public event CellDrawHandler CellDraw;
+        public event EventHandler<CellDrawEventArgs> CellDraw;
 
         /// <summary>
         /// 
         /// </summary>
-        public event ModifiedChangedHandler ModifiedChanged;
-
-        #endregion
-
-        #region Helper classes
-
-        //===========================================================
-        // HELPER CLASSES
-        //===========================================================
-
-        /// <summary>
-        /// Описание одной колонки.
-        /// </summary>
-        [Serializable]
-        public class Column
-        {
-            /// <summary>
-            /// Грид-владелец колонки.
-            /// </summary>
-            private StringGrid grid;
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="Column"/> class.
-            /// </summary>
-            /// <param name="grid">The grid.</param>
-            public Column(StringGrid grid)
-            {
-                this.grid = grid;
-            }
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="Column"/> class.
-            /// </summary>
-            /// <param name="grid">The grid.</param>
-            /// <param name="col">The col.</param>
-            public Column(StringGrid grid, Column col)
-            {
-                this.grid = grid;
-                header = col.header;
-                width = col.width;
-                alignment = col.alignment;
-                readOnly = col.readOnly;
-            }
-
-            private string header = null;
-
-            /// <summary>
-            /// Заголовок колонки.
-            /// </summary>
-            [Browsable(true)]
-            [DefaultValue(null)]
-            public string Header
-            {
-                get
-                {
-                    return header;
-                }
-                set
-                {
-                    header = value;
-                    if (grid != null)
-                    {
-                        grid.Invalidate();
-                    }
-                }
-            }
-
-            private const int DEFAULT_WIDTH = 100;
-            private int width = DEFAULT_WIDTH;
-
-            /// <summary>
-            /// Ширина колонки в пикселах.
-            /// </summary>
-            [Browsable(true)]
-            [DefaultValue(DEFAULT_WIDTH)]
-            public int Width
-            {
-                get
-                {
-                    return width;
-                }
-                set
-                {
-                    width = value;
-                    if (grid != null)
-                    {
-                        grid.Invalidate();
-                    }
-                }
-            }
-
-            private const StringAlignment DEFAULT_ALIGNMENT = StringAlignment.Near;
-            private StringAlignment alignment = DEFAULT_ALIGNMENT;
-
-            /// <summary>
-            /// Property Alignment (StringAlignment)
-            /// </summary>
-            [Browsable(true)]
-            [DefaultValue(DEFAULT_ALIGNMENT)]
-            public StringAlignment Alignment
-            {
-                get
-                {
-                    return alignment;
-                }
-                set
-                {
-                    alignment = value;
-                }
-            }
-
-            /// <summary>
-            /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
-            /// </summary>
-            /// <returns>
-            /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
-            /// </returns>
-            public override string ToString()
-            {
-                return header;
-            }
-
-            private const bool DEFAULT_READ_ONLY = false;
-            private bool readOnly = DEFAULT_READ_ONLY;
-
-            /// <summary>
-            /// Property ReadOnly (bool)
-            /// </summary>
-            [Browsable(true)]
-            [DefaultValue(DEFAULT_READ_ONLY)]
-            public bool ReadOnly
-            {
-                get
-                {
-                    return readOnly;
-                }
-                set
-                {
-                    readOnly = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Collection of columns.
-        /// </summary>
-        /// <remarks>
-        /// Doesn't work?
-        /// </remarks>
-        [Serializable]
-        public class ColumnsCollection : CollectionBase
-        {
-            /// <summary>
-            /// Ссылка на грид-владелец.
-            /// </summary>
-            private StringGrid grid;
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="ColumnsCollection"/> class.
-            /// </summary>
-            /// <param name="grid">The grid.</param>
-            public ColumnsCollection(StringGrid grid)
-            {
-                this.grid = grid;
-            }
-
-            /// <summary>
-            /// News the column.
-            /// </summary>
-            /// <returns></returns>
-            public Column NewColumn()
-            {
-                return new Column(grid);
-            }
-
-            /// <summary>
-            /// Gets or sets the <see cref="StringGrid.Column"/> at the specified index.
-            /// </summary>
-            /// <value></value>
-            public Column this[int index]
-            {
-                get
-                {
-                    return (Column)List[index];
-                }
-                set
-                {
-                    List[index] = value;
-                }
-            }
-
-            /// <summary>
-            /// Adds the specified value.
-            /// </summary>
-            /// <param name="value">The value.</param>
-            /// <returns></returns>
-            public int Add(Column value)
-            {
-                return (List.Add(value));
-            }
-
-            /// <summary>
-            /// Indexes the of.
-            /// </summary>
-            /// <param name="value">The value.</param>
-            /// <returns></returns>
-            public int IndexOf(Column value)
-            {
-                return (List.IndexOf(value));
-            }
-
-            /// <summary>
-            /// Inserts the specified index.
-            /// </summary>
-            /// <param name="index">The index.</param>
-            /// <param name="value">The value.</param>
-            public void Insert(int index, Column value)
-            {
-                List.Insert(index, value);
-            }
-
-            /// <summary>
-            /// Removes the specified value.
-            /// </summary>
-            /// <param name="value">The value.</param>
-            public void Remove(Column value)
-            {
-                List.Remove(value);
-            }
-
-            /// <summary>
-            /// Determines whether [contains] [the specified value].
-            /// </summary>
-            /// <param name="value">The value.</param>
-            /// <returns>
-            /// 	<c>true</c> if [contains] [the specified value]; otherwise, <c>false</c>.
-            /// </returns>
-            public bool Contains(Column value)
-            {
-                return (List.Contains(value));
-            }
-
-#if NOTDEF
-
-            protected override void OnInsert ( int index, object value )  
-            {
-                if ( value.GetType () != Type.GetType ( "Column" ) )
-                    throw new ArgumentException ( "value must be of type Column.", "value" );
-            }
-
-            protected override void OnRemove ( int index, object value )  
-            {
-                if ( value.GetType () != Type.GetType ( "Column" ) )
-                    throw new ArgumentException ( "value must be of type Column", "value" );
-            }
-
-            protected override void OnSet ( int index, object oldValue, object newValue )  
-            {
-                if ( newValue.GetType () != Type.GetType ( "Column" ) )
-                    throw new ArgumentException ( "newValue must be of type Column", "newValue" );
-            }
-
-            protected override void OnValidate ( object value )  
-            {
-                if ( value.GetType () != Type.GetType ( "Column" ) )
-                    throw new ArgumentException ( "value must be of type Column", "value" );
-            }
-#endif
-        }
+        public event EventHandler ModifiedChanged;
 
         #endregion
 
@@ -512,8 +75,9 @@ namespace AM.Windows.Forms
         // PUBLIC PROPERTIES
         //===========================================================
 
-        private static readonly Color DEFAULT_GRID_COLOR = Color.DarkGray;
-        private Color gridColor = DEFAULT_GRID_COLOR;
+        private static readonly Color DefaultGridColor
+            = Color.DarkGray;
+        private Color _gridColor = DefaultGridColor;
 
         /// <summary>
         /// Цвет линий.
@@ -523,17 +87,18 @@ namespace AM.Windows.Forms
         {
             get
             {
-                return gridColor;
+                return _gridColor;
             }
             set
             {
-                gridColor = value;
+                _gridColor = value;
                 Invalidate();
             }
         }
 
-        private static readonly Color DEFAULT_CURRENT_CELL_COLOR = Color.White;
-        private Color currentCellColor = DEFAULT_CURRENT_CELL_COLOR;
+        private static readonly Color DefaultCurrentCellColor
+            = Color.White;
+        private Color _currentCellColor = DefaultCurrentCellColor;
 
         /// <summary>
         /// Property CurrentCellColor (Color)
@@ -543,17 +108,18 @@ namespace AM.Windows.Forms
         {
             get
             {
-                return currentCellColor;
+                return _currentCellColor;
             }
             set
             {
-                currentCellColor = value;
+                _currentCellColor = value;
                 Invalidate();
             }
         }
 
-        private static readonly Color DEFAULT_HEADER_BACK_COLOR = Color.Blue;
-        private Color headerBackColor = DEFAULT_HEADER_BACK_COLOR;
+        private static readonly Color DefaultHeaderBackColor
+            = Color.Blue;
+        private Color _headerBackColor = DefaultHeaderBackColor;
 
         /// <summary>
         /// Property HeaderBackColor (Color)
@@ -563,17 +129,18 @@ namespace AM.Windows.Forms
         {
             get
             {
-                return headerBackColor;
+                return _headerBackColor;
             }
             set
             {
-                headerBackColor = value;
+                _headerBackColor = value;
                 Invalidate();
             }
         }
 
-        private static readonly Color DEFAULT_HEADER_FORE_COLOR = Color.White;
-        private Color headerForeColor = DEFAULT_HEADER_FORE_COLOR;
+        private static readonly Color DefaultHeaderForeColor
+            = Color.White;
+        private Color _headerForeColor = DefaultHeaderForeColor;
 
         /// <summary>
         /// Property HeaderForeColor (Color)
@@ -583,79 +150,79 @@ namespace AM.Windows.Forms
         {
             get
             {
-                return headerForeColor;
+                return _headerForeColor;
             }
             set
             {
-                headerForeColor = value;
+                _headerForeColor = value;
                 Invalidate();
             }
         }
 
-        private const bool DEFAULT_SHOW_GRID_LINES = true;
-        private bool showGridLines = DEFAULT_SHOW_GRID_LINES;
+        private const bool DefaultShowGridLines = true;
+        private bool _showGridLines = DefaultShowGridLines;
 
         /// <summary>
         /// Property ShowGridLines (bool)
         /// </summary>
         [Browsable(true)]
-        [DefaultValue(DEFAULT_SHOW_GRID_LINES)]
+        [DefaultValue(DefaultShowGridLines)]
         public bool ShowGrid
         {
             get
             {
-                return showGridLines;
+                return _showGridLines;
             }
             set
             {
-                showGridLines = value;
+                _showGridLines = value;
                 Invalidate();
             }
         }
 
-        private const int DEFAULT_COLUMN_COUNT = 2;
-        private int columnCount = DEFAULT_COLUMN_COUNT;
+        private const int DefaultColumnCount = 2;
+        private int _columnCount = DefaultColumnCount;
 
         /// <summary>
         /// Property ColumnCount (int)
         /// </summary>
         [Browsable(true)]
-        [DefaultValue(DEFAULT_COLUMN_COUNT)]
+        [DefaultValue(DefaultColumnCount)]
         public int ColumnCount
         {
             get
             {
-                return columnCount;
+                return _columnCount;
             }
             set
             {
                 Debug.Assert(value > 0, "ColumnCount must be > 0");
-                CreateCells(value, rowCount, true);
+                CreateCells(value, _rowCount, true);
             }
         }
 
-        private const int DEFAULT_ROW_COUNT = 3;
-        private int rowCount = DEFAULT_ROW_COUNT;
+        private const int DefaultRowCount = 3;
+        private int _rowCount = DefaultRowCount;
 
         /// <summary>
         /// Property RowCount (int)
         /// </summary>
         [Browsable(true)]
-        [DefaultValue(DEFAULT_ROW_COUNT)]
+        [DefaultValue(DefaultRowCount)]
         public int RowCount
         {
             get
             {
-                return rowCount;
+                return _rowCount;
             }
             set
             {
                 Debug.Assert(value > 0, "ColumnCount must be > 0");
-                CreateCells(columnCount, value, true);
+                CreateCells(_columnCount, value, true);
             }
         }
 
-        private ColumnsCollection columns;
+        private ColumnsCollection _columns;
 
         /// <summary>
         /// Gets or sets the columns.
@@ -666,58 +233,58 @@ namespace AM.Windows.Forms
         {
             get
             {
-                return columns;
+                return _columns;
             }
             set
             {
-                Debug.Assert(value.Count == columnCount);
-                columns = value;
+                Debug.Assert(value.Count == _columnCount);
+                _columns = value;
                 Invalidate();
             }
         }
 
-        private const bool DEFAULT_SHOW_COLUMN_HEADER = true;
-        private bool showColumnHeader = DEFAULT_SHOW_COLUMN_HEADER;
+        private const bool DefaultShowColumnHeader = true;
+        private bool _showColumnHeader = DefaultShowColumnHeader;
 
         /// <summary>
         /// Property ShowColumnHeader (bool)
         /// </summary>
         [Browsable(true)]
-        [DefaultValue(DEFAULT_SHOW_COLUMN_HEADER)]
+        [DefaultValue(DefaultShowColumnHeader)]
         public bool ShowColumnHeader
         {
             get
             {
-                return showColumnHeader;
+                return _showColumnHeader;
             }
             set
             {
-                showColumnHeader = value;
+                _showColumnHeader = value;
                 Invalidate();
             }
         }
 
-        private const bool DEFAULT_ALLOW_COLUMN_RESIZE = true;
-        private bool allowColumnResize = DEFAULT_ALLOW_COLUMN_RESIZE;
+        private const bool DefaultAllowColumnResize = true;
+        private bool _allowColumnResize = DefaultAllowColumnResize;
 
         /// <summary>
         /// Property AllowColumnResize (bool)
         /// </summary>
         [Browsable(true)]
-        [DefaultValue(DEFAULT_ALLOW_COLUMN_RESIZE)]
+        [DefaultValue(DefaultAllowColumnResize)]
         public bool AllowColumnResize
         {
             get
             {
-                return allowColumnResize;
+                return _allowColumnResize;
             }
             set
             {
-                allowColumnResize = value;
+                _allowColumnResize = value;
             }
         }
 
-        private string[,] cells = null;
+        private string[,] _cells;
 
         /// <summary>
         /// Property Cells (string[])
@@ -726,74 +293,71 @@ namespace AM.Windows.Forms
         {
             get
             {
-                return cells[col, row];
+                return _cells[col, row];
             }
             set
             {
-                CellChangeEventArgs e = new CellChangeEventArgs();
-                e.Column = col;
-                e.Row = row;
-                e.OldValue = cells[col, row];
-                e.NewValue = value;
-
-                if (CellChanging != null)
+                CellChangedEventArgs eventArgs
+                    = new CellChangedEventArgs
                 {
-                    CellChanging(this, e);
-                }
+                    Column = col,
+                    Row = row,
+                    OldValue = _cells[col, row],
+                    NewValue = value
+                };
 
-                cells[col, row] = value;
+                CellChanging.Raise(this, eventArgs);
 
-                if (autoColumnSize)
+                _cells[col, row] = value;
+
+                if (_autoColumnSize)
                 {
                     AutoSizeColumn(col);
                 }
 
-                if (CellChanged != null)
-                {
-                    CellChanged(this, e);
-                }
+                CellChanged.Raise(this, eventArgs);
 
                 Invalidate();
             }
         }
 
-        private const int DEFAULT_CURRENT_COLUMN = 0;
-        private int currentColumn = DEFAULT_CURRENT_COLUMN;
+        private const int DefaultCurrentColumn = 0;
+        private int _currentColumn = DefaultCurrentColumn;
 
         /// <summary>
         /// Property CurrentColumn (int)
         /// </summary>
         [Browsable(false)]
-        [DefaultValue(DEFAULT_CURRENT_COLUMN)]
+        [DefaultValue(DefaultCurrentColumn)]
         public int CurrentColumn
         {
             get
             {
-                return currentColumn;
+                return _currentColumn;
             }
             set
             {
-                MoveTo(value, currentRow);
+                MoveTo(value, _currentRow);
             }
         }
 
-        private const int DEFAULT_CURRENT_ROW = 0;
-        private int currentRow = DEFAULT_CURRENT_ROW;
+        private const int DefaultCurrentRow = 0;
+        private int _currentRow = DefaultCurrentRow;
 
         /// <summary>
         /// Property CurrentRow (int)
         /// </summary>
         [Browsable(false)]
-        [DefaultValue(DEFAULT_CURRENT_ROW)]
+        [DefaultValue(DefaultCurrentRow)]
         public int CurrentRow
         {
             get
             {
-                return currentRow;
+                return _currentRow;
             }
             set
             {
-                MoveTo(currentColumn, value);
+                MoveTo(_currentColumn, value);
             }
         }
 
@@ -806,84 +370,84 @@ namespace AM.Windows.Forms
         {
             get
             {
-                return this[currentColumn, currentRow];
+                return this[_currentColumn, _currentRow];
             }
             set
             {
-                this[currentColumn, currentRow] = value;
+                this[_currentColumn, _currentRow] = value;
             }
         }
 
-        private const int DEFAULT_TOP_ROW = 0;
-        private int topRow = DEFAULT_TOP_ROW;
+        private const int DefaultTopRow = 0;
+        private int _topRow = DefaultTopRow;
 
         /// <summary>
         /// Property TopRow (int)
         /// </summary>
         [Browsable(false)]
-        [DefaultValue(DEFAULT_TOP_ROW)]
+        [DefaultValue(DefaultTopRow)]
         public int TopRow
         {
             get
             {
-                return topRow;
+                return _topRow;
             }
         }
 
-        private const int DEFAULT_LEFT_COLUMN = 0;
-        private int leftColumn = DEFAULT_LEFT_COLUMN;
+        private const int DefaultLeftColumn = 0;
+        private int _leftColumn = DefaultLeftColumn;
 
         /// <summary>
         /// Property LeftColumn (int)
         /// </summary>
         [Browsable(false)]
-        [DefaultValue(DEFAULT_LEFT_COLUMN)]
+        [DefaultValue(DefaultLeftColumn)]
         public int LeftColumn
         {
             get
             {
-                return leftColumn;
+                return _leftColumn;
             }
         }
 
-        private const bool DEFAULT_READ_ONLY = false;
-        private bool readOnly = DEFAULT_READ_ONLY;
+        private const bool DefaultReadOnly = false;
+        private bool _readOnly = DefaultReadOnly;
 
         /// <summary>
         /// Property ReadOnly (bool)
         /// </summary>
         [Browsable(true)]
-        [DefaultValue(DEFAULT_READ_ONLY)]
+        [DefaultValue(DefaultReadOnly)]
         public bool ReadOnly
         {
             get
             {
-                return readOnly;
+                return _readOnly;
             }
             set
             {
-                readOnly = value;
+                _readOnly = value;
                 AcceptText();
             }
         }
 
-        private const bool DEFAULT_ALLOW_APPEND = true;
-        private bool allowAppend = DEFAULT_ALLOW_APPEND;
+        private const bool DefaultAllowAppend = true;
+        private bool _allowAppend = DefaultAllowAppend;
 
         /// <summary>
         /// Property AllowAppend (bool)
         /// </summary>
         [Browsable(true)]
-        [DefaultValue(DEFAULT_ALLOW_APPEND)]
+        [DefaultValue(DefaultAllowAppend)]
         public bool AllowAppend
         {
             get
             {
-                return allowAppend;
+                return _allowAppend;
             }
             set
             {
-                allowAppend = value;
+                _allowAppend = value;
             }
         }
 
@@ -897,8 +461,8 @@ namespace AM.Windows.Forms
             {
                 int height = ClientSize.Height;
                 int vr1 = height / FontHeight,
-                    vr2 = rowCount - topRow;
-                if (showColumnHeader)
+                    vr2 = _rowCount - _topRow;
+                if (_showColumnHeader)
                 {
                     vr1--;
                 }
@@ -920,35 +484,35 @@ namespace AM.Windows.Forms
             {
                 int width = 0;
                 int col;
-                for (col = leftColumn; col < columnCount; col++)
+                for (col = _leftColumn; col < _columnCount; col++)
                 {
-                    width += columns[col].Width;
+                    width += _columns[col].Width;
                     if (width >= Width)
                     {
                         break;
                     }
                 }
-                return (col - leftColumn);
+                return (col - _leftColumn);
             }
         }
 
-        private const string DEFAULT_DELIMITER = ";";
-        private string delimiter = DEFAULT_DELIMITER;
+        private const string DefaultDelimiter = ";";
+        private string _delimiter = DefaultDelimiter;
 
         /// <summary>
         /// Property Delimiter (string)
         /// </summary>
         [Browsable(true)]
-        [DefaultValue(DEFAULT_DELIMITER)]
+        [DefaultValue(DefaultDelimiter)]
         public string Delimiter
         {
             get
             {
-                return delimiter;
+                return _delimiter;
             }
             set
             {
-                delimiter = value;
+                _delimiter = value;
             }
         }
 
@@ -961,14 +525,14 @@ namespace AM.Windows.Forms
             get
             {
                 StringBuilder sb = new StringBuilder(1000);
-                string[] tmp = new string[columnCount];
-                for (int row = 0; row < rowCount; row++)
+                string[] tmp = new string[_columnCount];
+                for (int row = 0; row < _rowCount; row++)
                 {
-                    for (int col = 0; col < columnCount; col++)
+                    for (int col = 0; col < _columnCount; col++)
                     {
-                        tmp[col] = cells[col, row];
+                        tmp[col] = _cells[col, row];
                     }
-                    sb.Append(string.Join(delimiter, tmp));
+                    sb.Append(string.Join(_delimiter, tmp));
                     sb.Append(Environment.NewLine);
                 }
                 return sb.ToString();
@@ -977,7 +541,7 @@ namespace AM.Windows.Forms
             {
                 StringReader sr = new StringReader(value);
                 string line;
-                char[] sep = delimiter.ToCharArray();
+                char[] sep = _delimiter.ToCharArray();
                 ArrayList list = new ArrayList(1000);
                 int ncol = 0;
                 while ((line = sr.ReadLine()) != null)
@@ -994,13 +558,13 @@ namespace AM.Windows.Forms
                 {
                     string[] tmp = (string[])list[row];
                     int nc = tmp.Length;
-                    if (nc > columnCount)
+                    if (nc > _columnCount)
                     {
-                        nc = columnCount;
+                        nc = _columnCount;
                     }
                     for (int col = 0; col < nc; col++)
                     {
-                        cells[col, row] = tmp[col];
+                        _cells[col, row] = tmp[col];
                     }
                 }
                 AutoSizeColumns();
@@ -1008,52 +572,47 @@ namespace AM.Windows.Forms
             }
         }
 
-        private const bool DEFAULT_IS_MODIFIED = false;
-        private bool isModified = DEFAULT_IS_MODIFIED;
+        private const bool DefaultIsModified = false;
+        private bool _modified = DefaultIsModified;
 
         /// <summary>
         /// Property IsModified (bool)
         /// </summary>
         [Browsable(false)]
-        [DefaultValue(DEFAULT_IS_MODIFIED)]
-        public bool IsModified
+        [DefaultValue(DefaultIsModified)]
+        public bool Modified
         {
             get
             {
-                return isModified;
+                return _modified;
             }
             set
             {
-                if ((value != isModified)
-                     && (ModifiedChanged != null))
+                if (value != _modified)
                 {
-                    isModified = value;
-                    ModifiedChanged(this);
-                }
-                else
-                {
-                    isModified = value;
+                    _modified = value;
+                    ModifiedChanged.Raise(this);
                 }
             }
         }
 
-        private const ScrollBars DEFAULT_SCROLLBARS = ScrollBars.Both;
-        private ScrollBars scrollBars = DEFAULT_SCROLLBARS;
+        private const ScrollBars DefaultScrollbars = ScrollBars.Both;
+        private ScrollBars _scrollBars = DefaultScrollbars;
 
         /// <summary>
         /// Property ScrollBars (ScrollBars)
         /// </summary>
         [Browsable(true)]
-        [DefaultValue(DEFAULT_SCROLLBARS)]
+        [DefaultValue(DefaultScrollbars)]
         public ScrollBars ScrollBars
         {
             get
             {
-                return scrollBars;
+                return _scrollBars;
             }
             set
             {
-                scrollBars = value;
+                _scrollBars = value;
                 if (Created)
                 {
                     RecreateHandle();
@@ -1061,65 +620,65 @@ namespace AM.Windows.Forms
             }
         }
 
-        private const bool DEFAULT_FULL_WIDTH = true;
-        private bool fullWidth = DEFAULT_FULL_WIDTH;
+        private const bool DefaultFullWidth = true;
+        private bool _fullWidth = DefaultFullWidth;
 
         /// <summary>
         /// Property FullWidth (bool)
         /// </summary>
         [Browsable(true)]
-        [DefaultValue(DEFAULT_FULL_WIDTH)]
+        [DefaultValue(DefaultFullWidth)]
         public bool FullWidth
         {
             get
             {
-                return fullWidth;
+                return _fullWidth;
             }
             set
             {
-                fullWidth = value;
+                _fullWidth = value;
                 Invalidate();
             }
         }
 
-        private const bool DEFAULT_AUTO_COLUMN_SIZE = false;
-        private bool autoColumnSize = DEFAULT_AUTO_COLUMN_SIZE;
+        private const bool DefaultAutoColumnSize = false;
+        private bool _autoColumnSize = DefaultAutoColumnSize;
 
         /// <summary>
         /// Property AutoColumnSize (bool)
         /// </summary>
         [Browsable(true)]
-        [DefaultValue(DEFAULT_AUTO_COLUMN_SIZE)]
+        [DefaultValue(DefaultAutoColumnSize)]
         public bool AutoColumnSize
         {
             get
             {
-                return autoColumnSize;
+                return _autoColumnSize;
             }
             set
             {
-                autoColumnSize = value;
+                _autoColumnSize = value;
                 AutoSizeColumns();
             }
         }
 
-        private const int DEFAULT_MINIMAL_COLUMN_WIDTH = 50;
-        private int minimalColumnWidth = DEFAULT_MINIMAL_COLUMN_WIDTH;
+        private const int DefaultMinimalColumnWidth = 50;
+        private int _minimalColumnWidth = DefaultMinimalColumnWidth;
 
         /// <summary>
         /// Property MinimalColumnWidth (int)
         /// </summary>
         [Browsable(true)]
-        [DefaultValue(DEFAULT_MINIMAL_COLUMN_WIDTH)]
+        [DefaultValue(DefaultMinimalColumnWidth)]
         public int MinimalColumnWidth
         {
             get
             {
-                return minimalColumnWidth;
+                return _minimalColumnWidth;
             }
             set
             {
-                minimalColumnWidth = value;
+                _minimalColumnWidth = value;
                 AutoSizeColumns();
             }
         }
@@ -1133,24 +692,31 @@ namespace AM.Windows.Forms
         //===========================================================
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StringGrid"/> class.
+        /// Constructor.
         /// </summary>
         public StringGrid()
-            : this(DEFAULT_COLUMN_COUNT, DEFAULT_ROW_COUNT)
+            : this(DefaultColumnCount, DefaultRowCount)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StringGrid"/> class.
         /// </summary>
-        /// <param name="ncols">The ncols.</param>
-        /// <param name="nrows">The nrows.</param>
-        public StringGrid(int ncols, int nrows)
+        public StringGrid
+            (
+                int columnCount,
+                int rowCount
+            )
         {
+            Code.Positive(columnCount, "columnCount");
+            Code.Positive(rowCount, "rowCount");
+
             // This call is required by the Windows.Forms Form Designer.
             InitializeComponent();
 
+            // ReSharper disable once VirtualMemberCallInConstructor
             DoubleBuffered = true;
+
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.Selectable, true);
@@ -1158,7 +724,7 @@ namespace AM.Windows.Forms
             SetStyle(ControlStyles.StandardDoubleClick, true);
             SetStyle(ControlStyles.UserMouse, true);
 
-            CreateCells(ncols, nrows, false);
+            CreateCells(columnCount, rowCount, false);
             AutoSizeColumns();
         }
 
@@ -1185,8 +751,8 @@ namespace AM.Windows.Forms
         public void Cut()
         {
             AcceptText();
-            if (!readOnly
-                 && !columns[currentColumn].ReadOnly)
+            if (!_readOnly
+                 && !_columns[_currentColumn].ReadOnly)
             {
                 Clipboard.SetDataObject(CurrentCell);
                 CurrentCell = null;
@@ -1199,8 +765,8 @@ namespace AM.Windows.Forms
         public void Paste()
         {
             DiscardText();
-            if (!readOnly
-                 && !columns[currentColumn].ReadOnly)
+            if (!_readOnly
+                 && !_columns[_currentColumn].ReadOnly)
             {
                 IDataObject obj = Clipboard.GetDataObject();
                 if (obj.GetDataPresent(DataFormats.Text))
@@ -1211,29 +777,28 @@ namespace AM.Windows.Forms
         }
 
         /// <summary>
-        /// Autoes the size column.
+        /// 
         /// </summary>
-        /// <param name="col">The col.</param>
         public void AutoSizeColumn(int col)
         {
             using (Graphics g = CreateGraphics())
             {
-                SizeF r = g.MeasureString(columns[col].Header, Font);
+                SizeF r = g.MeasureString(_columns[col].Header, Font);
                 int width = (int)r.Width;
-                for (int row = 0; row < rowCount; row++)
+                for (int row = 0; row < _rowCount; row++)
                 {
-                    r = g.MeasureString(cells[col, row], Font);
+                    r = g.MeasureString(_cells[col, row], Font);
                     int cur = (int)r.Width;
                     if (cur > width)
                     {
                         width = cur;
                     }
                 }
-                if (width < minimalColumnWidth)
+                if (width < _minimalColumnWidth)
                 {
-                    width = minimalColumnWidth;
+                    width = _minimalColumnWidth;
                 }
-                columns[col].Width = width;
+                _columns[col].Width = width;
             }
         }
 
@@ -1246,267 +811,333 @@ namespace AM.Windows.Forms
         //===========================================================
 
         /// <summary>
-        /// Autoes the size columns.
+        /// 
         /// </summary>
         public void AutoSizeColumns()
         {
-            if (autoColumnSize)
+            if (_autoColumnSize)
             {
-                for (int col = 0; col < columnCount; col++)
+                for (int col = 0; col < _columnCount; col++)
                 {
                     AutoSizeColumn(col);
                 }
             }
         }
 
-        protected void CreateCells(int ncols, int nrows, bool copyData)
+        /// <summary>
+        /// Create cells.
+        /// </summary>
+        protected void CreateCells
+            (
+                int columnCount,
+                int rowCount, 
+                bool copyData
+            )
         {
-            string[,] oldCells = cells;
-            ColumnsCollection oldColumns = columns;
+            string[,] oldCells = _cells;
+            ColumnsCollection oldColumns = _columns;
 
-            int maxRow = nrows;
-            if (maxRow > rowCount)
+            int maxRow = rowCount;
+            if (maxRow > _rowCount)
             {
-                maxRow = rowCount;
+                maxRow = _rowCount;
             }
-            int maxCol = ncols;
-            if (maxCol > columnCount)
+            int maxCol = columnCount;
+            if (maxCol > _columnCount)
             {
-                maxCol = columnCount;
+                maxCol = _columnCount;
             }
-            cells = new string[ncols, nrows];
+            _cells = new string[columnCount, rowCount];
             if (copyData && (oldCells != null))
             {
                 for (int col = 0; col < maxCol; col++)
                 {
                     for (int row = 0; row < maxRow; row++)
                     {
-                        cells[col, row] = oldCells[col, row];
+                        _cells[col, row] = oldCells[col, row];
                     }
                 }
             }
 
-            columns = new ColumnsCollection(this);
+            _columns = new ColumnsCollection(this);
             if (oldColumns != null)
             {
                 for (int col = 0;
                       (col < maxCol) && (col < oldColumns.Count);
                       col++)
                 {
-                    columns.Add(oldColumns[col]);
+                    _columns.Add(oldColumns[col]);
                 }
             }
-            while (columns.Count < ncols)
+            while (_columns.Count < columnCount)
             {
-                columns.Add(columns.NewColumn());
+                _columns.Add(_columns.NewColumn());
             }
 
-            columnCount = ncols;
-            HScrollRange = ncols;
-            rowCount = nrows;
-            VScrollRange = nrows;
+            _columnCount = columnCount;
+            HScrollRange = columnCount;
+            _rowCount = rowCount;
+            VScrollRange = rowCount;
         }
 
-        protected void MoveTo(int col, int row)
+        /// <summary>
+        /// Move cursor to specified position.
+        /// </summary>
+        protected void MoveTo
+            (
+                int column,
+                int row
+            )
         {
             AcceptText();
 
-            if (col < 0)
+            if (column < 0)
             {
-                col = 0;
+                column = 0;
             }
             if (row < 0)
             {
                 row = 0;
             }
-            if (col >= columnCount)
+            if (column >= _columnCount)
             {
-                col = columnCount - 1;
+                column = _columnCount - 1;
             }
-            if (row >= rowCount)
+            if (row >= _rowCount)
             {
-                row = rowCount - 1;
+                row = _rowCount - 1;
             }
 
             int vr = VisibleRows;
-            if (row < topRow)
+            if (row < _topRow)
             {
-                topRow = row;
+                _topRow = row;
             }
-            if (row >= (topRow + vr))
+            if (row >= (_topRow + vr))
             {
-                topRow = row - vr + 1;
-                if (topRow < 0)
+                _topRow = row - vr + 1;
+                if (_topRow < 0)
                 {
-                    topRow = 0;
+                    _topRow = 0;
                 }
             }
 
-            if (col < leftColumn)
+            if (column < _leftColumn)
             {
-                leftColumn = col;
+                _leftColumn = column;
             }
             int vc = VisibleColumns;
-            if (col >= (leftColumn + vc))
+            if (column >= (_leftColumn + vc))
             {
-                leftColumn = col - vc + 1;
-                if (leftColumn < 0)
+                _leftColumn = column - vc + 1;
+                if (_leftColumn < 0)
                 {
-                    leftColumn = 0;
+                    _leftColumn = 0;
                 }
             }
 
-            currentColumn = col;
-            HScrollPos = col;
-            currentRow = row;
+            _currentColumn = column;
+            HScrollPos = column;
+            _currentRow = row;
             VScrollPos = row;
             Invalidate();
         }
 
+        /// <summary>
+        /// Move one line up.
+        /// </summary>
         protected void MoveOneLineUp()
         {
-            MoveTo(currentColumn, currentRow - 1);
+            MoveTo(_currentColumn, _currentRow - 1);
         }
 
+        /// <summary>
+        /// Move one line down.
+        /// </summary>
         protected void MoveOneLineDown()
         {
-            if (currentRow == (rowCount - 1))
+            if (_currentRow == (_rowCount - 1))
             {
                 AppendRow();
             }
-            MoveTo(currentColumn, currentRow + 1);
+            MoveTo(_currentColumn, _currentRow + 1);
         }
 
+        /// <summary>
+        /// Move one page down.
+        /// </summary>
         protected void MoveOnePageDown()
         {
-            if (currentRow == (rowCount - 1))
+            if (_currentRow == (_rowCount - 1))
             {
                 AppendRow();
             }
-            MoveTo(currentColumn, currentRow + VisibleRows);
+            MoveTo(_currentColumn, _currentRow + VisibleRows);
         }
 
+        /// <summary>
+        /// Move one page up.
+        /// </summary>
         protected void MoveOnePageUp()
         {
-            MoveTo(currentColumn, currentRow - VisibleRows);
+            MoveTo(_currentColumn, _currentRow - VisibleRows);
         }
 
+        /// <summary>
+        /// Move one column left.
+        /// </summary>
         protected void MoveOneColumnLeft()
         {
-            MoveTo(currentColumn - 1, currentRow);
+            MoveTo(_currentColumn - 1, _currentRow);
         }
 
+        /// <summary>
+        /// Move one column left.
+        /// </summary>
         protected void MoveOneColumnRight()
         {
-            MoveTo(currentColumn + 1, currentRow);
+            MoveTo(_currentColumn + 1, _currentRow);
         }
 
+        /// <summary>
+        /// Move to the first column.
+        /// </summary>
         protected void MoveToFirstColumn()
         {
-            MoveTo(0, currentRow);
+            MoveTo(0, _currentRow);
         }
 
+        /// <summary>
+        /// Move to the last column.
+        /// </summary>
         protected void MoveToLastColumn()
         {
-            MoveTo(columnCount - 1, currentRow);
+            MoveTo(_columnCount - 1, _currentRow);
         }
 
-        private TextBox textBox = null;
+        private TextBox _textBox;
 
         /// <summary>
         /// Accepts the text.
         /// </summary>
         public void AcceptText()
         {
-            if (textBox != null)
+            if (_textBox != null)
             {
-                if (CurrentCell != textBox.Text)
+                if (CurrentCell != _textBox.Text)
                 {
-                    IsModified = true;
+                    Modified = true;
                 }
-                CurrentCell = textBox.Text;
-                textBox.Dispose();
-                textBox = null;
+                CurrentCell = _textBox.Text;
+                _textBox.Dispose();
+                _textBox = null;
             }
         }
 
+        /// <summary>
+        /// Discard the entered text.
+        /// </summary>
         protected void DiscardText()
         {
-            if (textBox != null)
+            if (_textBox != null)
             {
-                textBox.Dispose();
-                textBox = null;
+                _textBox.Dispose();
+                _textBox = null;
             }
         }
 
-        protected Rectangle GetCellRectangle(int col, int row)
+        /// <summary>
+        /// Compute rectangle for the cell.
+        /// </summary>
+        protected Rectangle GetCellRectangle
+            (
+                int column,
+                int row
+            )
         {
-            Rectangle r = new Rectangle();
+            Rectangle r = new Rectangle
+            {
+                Y = (row - _topRow)*FontHeight
+            };
 
-            r.Y = (row - topRow) * FontHeight;
-            if (showColumnHeader)
+            if (_showColumnHeader)
             {
                 r.Y += FontHeight;
             }
-            for (int i = leftColumn; i < col; i++)
+            for (int i = _leftColumn; i < column; i++)
             {
-                r.X += columns[i].Width;
+                r.X += _columns[i].Width;
             }
             r.Height = FontHeight;
-            r.Width = columns[col].Width;
+            r.Width = _columns[column].Width;
             return r;
         }
 
-        protected void CreateTextBox(string txt)
+        /// <summary>
+        /// Create <see cref="TextBox"/> with given text.
+        /// </summary>
+        protected void CreateTextBox
+            (
+                string text
+            )
         {
             AcceptText();
-            if (readOnly)
+            if (_readOnly)
             {
                 return;
             }
 
-            textBox = new TextBox();
-            Rectangle r = GetCellRectangle(currentColumn, currentRow);
+            _textBox = new TextBox();
+            Rectangle r = GetCellRectangle(_currentColumn, _currentRow);
             r.Inflate(-2, 0);
-            textBox.Location = r.Location;
-            textBox.Size = r.Size;
-            textBox.Font = Font;
-            textBox.Visible = true;
-            textBox.BorderStyle = BorderStyle.None;
-            textBox.TextAlign = A2A(columns[currentColumn].Alignment);
-            Controls.Add(textBox);
-            textBox.Focus();
-            textBox.KeyDown += new KeyEventHandler(tb_KeyDown);
-            if (txt != null)
+            _textBox.Location = r.Location;
+            _textBox.Size = r.Size;
+            _textBox.Font = Font;
+            _textBox.Visible = true;
+            _textBox.BorderStyle = BorderStyle.None;
+            _textBox.TextAlign = A2A(_columns[_currentColumn].Alignment);
+            Controls.Add(_textBox);
+            _textBox.Focus();
+            _textBox.KeyDown += new KeyEventHandler(tb_KeyDown);
+            if (text != null)
             {
-                textBox.AppendText(txt);
+                _textBox.AppendText(text);
             }
         }
 
+        /// <summary>
+        /// Create <see cref="TextBox"/> without text.
+        /// </summary>
         protected void CreateTextBox()
         {
             CreateTextBox(null);
         }
 
+        /// <summary>
+        /// Append new row to the grid.
+        /// </summary>
         protected void AppendRow()
         {
-            if (!allowAppend)
+            if (!_allowAppend)
             {
                 return;
             }
-            CreateCells(columnCount, rowCount + 1, true);
-            IsModified = true;
+            CreateCells(_columnCount, _rowCount + 1, true);
+            Modified = true;
             Invalidate();
         }
 
+        /// <summary>
+        /// Append column to the grid.
+        /// </summary>
         protected void AppendColumn()
         {
-            if (!allowAppend)
+            if (!_allowAppend)
             {
                 return;
             }
-            CreateCells(columnCount + 1, rowCount, true);
-            IsModified = true;
+            CreateCells(_columnCount + 1, _rowCount, true);
+            Modified = true;
             Invalidate();
         }
 
@@ -1538,39 +1169,52 @@ namespace AM.Windows.Forms
             }
         }
 
-        protected int OverColumnDelimiter(MouseEventArgs e)
+        /// <summary>
+        /// Whether the mouse is over column delimiter?
+        /// </summary>
+        protected int OverColumnDelimiter
+            (
+                MouseEventArgs e
+            )
         {
-            if (allowColumnResize)
+            if (_allowColumnResize)
             {
-                for (int col = leftColumn,
+                for (int col = _leftColumn,
                           x = 0;
-                      col < columnCount;
+                      col < _columnCount;
                       col++)
                 {
-                    x += columns[col].Width;
+                    x += _columns[col].Width;
                     if (x == e.X)
                     {
                         return col;
                     }
                 }
             }
+
             return -1;
         }
 
-        protected Point OverCell(MouseEventArgs e)
+        /// <summary>
+        /// Compute the cell where mouse.
+        /// </summary>
+        protected Point OverCell
+            (
+                MouseEventArgs e
+            )
         {
             Point p = new Point(-1, -1);
 
-            p.Y = e.Y / FontHeight + topRow;
-            if (showColumnHeader)
+            p.Y = e.Y / FontHeight + _topRow;
+            if (_showColumnHeader)
             {
                 p.Y--;
             }
             int col,
                 x;
-            for (col = leftColumn, x = 0; col < columnCount; col++)
+            for (col = _leftColumn, x = 0; col < _columnCount; col++)
             {
-                x += columns[col].Width;
+                x += _columns[col].Width;
                 if (x >= e.X)
                 {
                     break;
@@ -1589,12 +1233,21 @@ namespace AM.Windows.Forms
         // OVERRIDEN HANDLERS
         //===========================================================
 
-        protected override bool IsInputKey(Keys keyData)
+        /// <inheritdoc />
+        protected override bool IsInputKey
+            (
+                Keys keyData
+            )
         {
+            // Enable all the keys.
             return true;
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        /// <inheritdoc />
+        protected override void OnPaint
+            (
+                PaintEventArgs e
+            )
         {
             Graphics g = e.Graphics;
             g.Clear(BackColor); // ???
@@ -1604,80 +1257,80 @@ namespace AM.Windows.Forms
             int delta = 0;
             CellDrawEventArgs ea = new CellDrawEventArgs();
             Brush foreBrush = new SolidBrush(ForeColor);
-            Brush currCellBrush = new SolidBrush(currentCellColor);
-            Pen gridPen = new Pen(gridColor);
+            Brush currCellBrush = new SolidBrush(_currentCellColor);
+            Pen gridPen = new Pen(_gridColor);
             int col,
                 row,
                 x,
                 y;
             StringFormat sf = new StringFormat();
             RectangleF r = new RectangleF();
-            int endRow = topRow + VisibleRows;
-            int endCol = leftColumn + VisibleColumns;
-            if (endCol < columnCount)
+            int endRow = _topRow + VisibleRows;
+            int endCol = _leftColumn + VisibleColumns;
+            if (endCol < _columnCount)
             {
                 endCol++;
             }
 
             // Вычисляем ширину перерисовываемой области
-            if (!fullWidth)
+            if (!_fullWidth)
             {
-                for (col = leftColumn, width = 0; col < endCol; col++)
+                for (col = _leftColumn, width = 0; col < endCol; col++)
                 {
-                    width += columns[col].Width;
+                    width += _columns[col].Width;
                 }
             }
 
             // Рисуем заголовки колонок
-            if (showColumnHeader)
+            if (_showColumnHeader)
             {
-                Brush hdrBack = new SolidBrush(headerBackColor);
-                Brush hdrFore = new SolidBrush(headerForeColor);
+                Brush hdrBack = new SolidBrush(_headerBackColor);
+                Brush hdrFore = new SolidBrush(_headerForeColor);
                 Font hdrFont = new Font(Font, FontStyle.Bold);
 
                 g.FillRectangle(hdrBack, 0, 0, width, height);
                 r.X = 0;
                 r.Y = 0;
                 r.Height = height;
-                for (col = leftColumn; col < endCol; col++)
+                for (col = _leftColumn; col < endCol; col++)
                 {
-                    r.Width = columns[col].Width;
-                    sf.Alignment = columns[col].Alignment;
-                    g.DrawString(columns[col].Header, hdrFont, hdrFore, r, sf);
+                    r.Width = _columns[col].Width;
+                    sf.Alignment = _columns[col].Alignment;
+                    g.DrawString(_columns[col].Header, hdrFont, hdrFore, r, sf);
                     r.X += r.Width;
                 }
                 delta += height;
             }
 
             // Рисуем грид
-            for (row = topRow, y = height + delta; row < endRow; row++)
+            for (row = _topRow, y = height + delta; row < endRow; row++)
             {
-                if (showGridLines)
+                if (_showGridLines)
                 {
                     g.DrawLine(gridPen, 0, y, width, y);
                 }
                 y += height;
             }
-            for (col = leftColumn, x = 0, y -= height; col < endCol; col++)
+            for (col = _leftColumn, x = 0, y -= height; col < endCol; col++)
             {
-                x += columns[col].Width;
-                if (showGridLines)
+                x += _columns[col].Width;
+                if (_showGridLines)
                 {
                     g.DrawLine(gridPen, x, 0, x, y);
                 }
             }
 
             // Рисуем собственно данные
-            for (row = topRow, r.Y = delta, r.Height = height; row < endRow; row++)
+            for (row = _topRow, r.Y = delta, r.Height = height; row < endRow; row++)
             {
                 r.X = 0;
-                for (col = leftColumn; col < endCol; col++)
+                for (col = _leftColumn; col < endCol; col++)
                 {
-                    r.Width = columns[col].Width;
-                    sf.Alignment = columns[col].Alignment;
+                    r.Width = _columns[col].Width;
+                    sf.Alignment = _columns[col].Alignment;
                     // Обработка текущей ячейки
-                    if ((row == currentRow)
-                         && (col == currentColumn))
+                    if ((row == _currentRow)
+                         && (col == _currentColumn))
                     {
                         RectangleF r2;
                         r2 = r;
@@ -1691,13 +1344,13 @@ namespace AM.Windows.Forms
                         ea.Row = row;
                         ea.Rectangle = r;
                         ea.Format = sf;
-                        ea.Value = cells[col, row];
+                        ea.Value = _cells[col, row];
                         ea.Graphics = g;
                         CellDraw(this, ea);
                     }
                     if (ea.Drawn == false)
                     {
-                        g.DrawString(cells[col, row], Font, foreBrush, r, sf);
+                        g.DrawString(_cells[col, row], Font, foreBrush, r, sf);
                     }
                     r.X += r.Width;
                 }
@@ -1707,7 +1360,11 @@ namespace AM.Windows.Forms
             base.OnPaint(e);
         }
 
-        protected override void OnKeyDown(KeyEventArgs e)
+        /// <inheritdoc />
+        protected override void OnKeyDown
+            (
+                KeyEventArgs e
+            )
         {
             base.OnKeyDown(e);
 
@@ -1741,17 +1398,17 @@ namespace AM.Windows.Forms
                         MoveOnePageUp();
                         break;
                     case Keys.Enter:
-                        if (!columns[currentColumn].ReadOnly)
+                        if (!_columns[_currentColumn].ReadOnly)
                         {
                             CreateTextBox(CurrentCell);
                         }
                         break;
                     case Keys.Delete:
-                        if (!readOnly
-                             && !columns[currentColumn].ReadOnly)
+                        if (!_readOnly
+                             && !_columns[_currentColumn].ReadOnly)
                         {
                             CurrentCell = null;
-                            IsModified = true;
+                            Modified = true;
                         }
                         break;
                     default:
@@ -1801,11 +1458,15 @@ namespace AM.Windows.Forms
             }
         }
 
-        protected override void OnKeyPress(KeyPressEventArgs e)
+        /// <inheritdoc />
+        protected override void OnKeyPress
+            (
+                KeyPressEventArgs e
+            )
         {
             base.OnKeyPress(e);
 
-            if (readOnly || columns[currentColumn].ReadOnly)
+            if (_readOnly || _columns[_currentColumn].ReadOnly)
             {
                 return;
             }
@@ -1822,7 +1483,11 @@ namespace AM.Windows.Forms
 
         private bool inColumnResize = false;
 
-        protected override void OnMouseDown(MouseEventArgs e)
+        /// <inheritdoc />
+        protected override void OnMouseDown
+            (
+                MouseEventArgs e
+            )
         {
             AcceptText();
             base.OnMouseDown(e);
@@ -1835,21 +1500,24 @@ namespace AM.Windows.Forms
                 {
                     resizingColumn = col;
                     columnPosition = 0;
-                    for (int i = leftColumn; i < col; i++)
+                    for (int i = _leftColumn; i < col; i++)
                     {
-                        columnPosition += columns[i].Width;
+                        columnPosition += _columns[i].Width;
                     }
                     inColumnResize = true;
                     return;
                 }
 
-                Point where = OverCell(e);
-                if (where.Y < 0)
+                Point point = OverCell(e);
+                if (point.Y < 0)
                 {
                     if (HeaderClick != null)
                     {
-                        HeaderClickEventArgs ea = new HeaderClickEventArgs();
-                        ea.Column = where.X;
+                        HeaderClickEventArgs ea
+                            = new HeaderClickEventArgs
+                            {
+                                Column = point.X
+                            };
                         HeaderClick(this, ea);
                     }
                 }
@@ -1857,13 +1525,16 @@ namespace AM.Windows.Forms
                 {
                     if (CellClick != null)
                     {
-                        CellClickEventArgs ea = new CellClickEventArgs();
-                        ea.Column = where.X;
-                        ea.Row = where.Y;
+                        CellClickEventArgs ea
+                            = new CellClickEventArgs
+                        {
+                            Column = point.X,
+                            Row = point.Y
+                        };
                         CellClick(this, ea);
                     }
-                    MoveTo(where.X, where.Y);
-                    if (!columns[currentColumn].ReadOnly
+                    MoveTo(point.X, point.Y);
+                    if (!_columns[_currentColumn].ReadOnly
                          && (e.Clicks > 1))
                     {
                         CreateTextBox(CurrentCell);
@@ -1872,16 +1543,18 @@ namespace AM.Windows.Forms
             }
         }
 
+        /// <inheritdoc />
         protected override void OnMouseMove(MouseEventArgs e)
         {
             if (inColumnResize)
             {
                 if (e.X
-                     > (columnPosition + minimalColumnWidth))
+                     > (columnPosition + _minimalColumnWidth))
                 {
-                    columns[resizingColumn].Width = e.X - columnPosition;
+                    _columns[resizingColumn].Width = e.X - columnPosition;
                     Invalidate();
                 }
+
                 return;
             }
 
@@ -1897,6 +1570,7 @@ namespace AM.Windows.Forms
             }
         }
 
+        /// <inheritdoc />
         protected override void OnMouseUp(MouseEventArgs e)
         {
             if (inColumnResize)
@@ -1907,17 +1581,19 @@ namespace AM.Windows.Forms
             base.OnMouseUp(e);
         }
 
+        /// <inheritdoc />
         protected override void OnMouseWheel(MouseEventArgs e)
         {
             base.OnMouseWheel(e);
 
             int delta = e.Delta / 120;
-            MoveTo(currentColumn, currentRow - delta);
+            MoveTo(_currentColumn, _currentRow - delta);
         }
 
         private const int WM_HSCROLL = 0x0114;
         private const int WM_VSCROLL = 0x0115;
 
+        /// <inheritdoc />
         protected override void WndProc(ref Message m)
         {
             switch (m.Msg)
@@ -1938,13 +1614,13 @@ namespace AM.Windows.Forms
                             MoveOneColumnRight();
                             break;
                         case SB_PAGELEFT:
-                            MoveTo(currentColumn - VisibleColumns, currentRow);
+                            MoveTo(_currentColumn - VisibleColumns, _currentRow);
                             break;
                         case SB_PAGERIGHT:
-                            MoveTo(currentColumn + VisibleColumns, currentRow);
+                            MoveTo(_currentColumn + VisibleColumns, _currentRow);
                             break;
                         case SB_THUMBPOSITION:
-                            MoveTo(((int)m.WParam) >> 16, currentRow);
+                            MoveTo(((int)m.WParam) >> 16, _currentRow);
                             break;
                         case SB_THUMBTRACK:
                             goto case SB_THUMBPOSITION;
@@ -1967,13 +1643,13 @@ namespace AM.Windows.Forms
                             MoveOnePageDown();
                             break;
                         case SB_BOTTOM:
-                            MoveTo(currentColumn, rowCount - 1);
+                            MoveTo(_currentColumn, _rowCount - 1);
                             break;
                         case SB_TOP:
-                            MoveTo(currentColumn, 0);
+                            MoveTo(_currentColumn, 0);
                             break;
                         case SB_THUMBPOSITION:
-                            MoveTo(currentColumn, ((int)m.WParam) >> 16);
+                            MoveTo(_currentColumn, ((int)m.WParam) >> 16);
                             break;
                         case SB_THUMBTRACK:
                             goto case SB_THUMBPOSITION;
@@ -2010,15 +1686,15 @@ namespace AM.Windows.Forms
         private const int SB_LEFT = 6;
         private const int SB_BOTTOM = 7;
         private const int SB_RIGHT = 7;
-        //private const int SB_ENDSCROLL = 8;
 
+        /// <inheritdoc />
         protected override CreateParams CreateParams
         {
             get
             {
                 CreateParams par = base.CreateParams;
 
-                switch (scrollBars)
+                switch (_scrollBars)
                 {
                     case ScrollBars.Both:
                         par.Style |= (WS_VSCROLL | WS_HSCROLL);
@@ -2035,12 +1711,15 @@ namespace AM.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Vertical scroll position.
+        /// </summary>
         protected int VScrollPos
         {
             get
             {
-                if ((scrollBars == ScrollBars.Vertical)
-                     || (scrollBars == ScrollBars.Both))
+                if ((_scrollBars == ScrollBars.Vertical)
+                     || (_scrollBars == ScrollBars.Both))
                 {
                     return GetScrollPos(Handle, SB_VERT);
                 }
@@ -2048,20 +1727,23 @@ namespace AM.Windows.Forms
             }
             set
             {
-                if ((scrollBars == ScrollBars.Vertical)
-                     || (scrollBars == ScrollBars.Both))
+                if ((_scrollBars == ScrollBars.Vertical)
+                     || (_scrollBars == ScrollBars.Both))
                 {
                     SetScrollPos(Handle, SB_VERT, value, true);
                 }
             }
         }
 
+        /// <summary>
+        /// Horizontal scroll position.
+        /// </summary>
         protected int HScrollPos
         {
             get
             {
-                if ((scrollBars == ScrollBars.Horizontal)
-                     || (scrollBars == ScrollBars.Both))
+                if ((_scrollBars == ScrollBars.Horizontal)
+                     || (_scrollBars == ScrollBars.Both))
                 {
                     return GetScrollPos(Handle, SB_HORZ);
                 }
@@ -2069,32 +1751,38 @@ namespace AM.Windows.Forms
             }
             set
             {
-                if ((scrollBars == ScrollBars.Horizontal)
-                     || (scrollBars == ScrollBars.Both))
+                if ((_scrollBars == ScrollBars.Horizontal)
+                     || (_scrollBars == ScrollBars.Both))
                 {
                     SetScrollPos(Handle, SB_HORZ, value, true);
                 }
             }
         }
 
+        /// <summary>
+        /// Vertical scroll range.
+        /// </summary>
         protected int VScrollRange
         {
             set
             {
-                if ((scrollBars == ScrollBars.Vertical)
-                     || (scrollBars == ScrollBars.Both))
+                if ((_scrollBars == ScrollBars.Vertical)
+                     || (_scrollBars == ScrollBars.Both))
                 {
                     SetScrollRange(Handle, SB_VERT, 0, value, true);
                 }
             }
         }
 
+        /// <summary>
+        /// Horizontal scroll range.
+        /// </summary>
         protected int HScrollRange
         {
             set
             {
-                if ((scrollBars == ScrollBars.Horizontal)
-                     || (scrollBars == ScrollBars.Both))
+                if ((_scrollBars == ScrollBars.Horizontal)
+                     || (_scrollBars == ScrollBars.Both))
                 {
                     SetScrollRange(Handle, SB_HORZ, 0, value, true);
                 }
@@ -2135,27 +1823,27 @@ namespace AM.Windows.Forms
         [DllImport("user32.dll", EntryPoint = "GetScrollPos")]
         private static extern int GetScrollPos
             (
-            IntPtr hWnd,
-            int nBar
+                IntPtr hWnd,
+                int nBar
             );
 
         [DllImport("user32.dll", EntryPoint = "SetScrollPos")]
         private static extern int SetScrollPos
             (
-            IntPtr hWnd,
-            int nBar,
-            int nPos,
-            bool bRedraw
+                IntPtr hWnd,
+                int nBar,
+                int nPos,
+                bool bRedraw
             );
 
         [DllImport("user32.dll", EntryPoint = "SetScrollRange")]
         private static extern bool SetScrollRange
             (
-            IntPtr hWnd,
-            int nBar,
-            int nMinPos,
-            int nMaxPos,
-            bool bRedraw
+                IntPtr hWnd,
+                int nBar,
+                int nMinPos,
+                int nMaxPos,
+                bool bRedraw
             );
 
         #endregion

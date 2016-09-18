@@ -6,7 +6,6 @@
 
 #region Using directives
 
-using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -21,6 +20,7 @@ namespace AM.Windows.Forms
     /// <summary>
     /// 
     /// </summary>
+    // ReSharper disable once RedundantNameQualifier
     [System.ComponentModel.DesignerCategoryAttribute("Code")]
     public class TextBoxPlus
         : TextBox
@@ -91,6 +91,7 @@ namespace AM.Windows.Forms
             }
         }
 
+        /// <inheritdoc />
         protected override void WndProc(ref Message m)
         {
             base.WndProc(ref m);

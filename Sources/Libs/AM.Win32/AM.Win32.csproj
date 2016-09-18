@@ -371,7 +371,13 @@
     <Compile Include="AM\Windows\Forms\PopupForm.Designer.cs">
       <DependentUpon>PopupForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AM\Windows\Forms\StringGrid.cs" />
+    <Compile Include="AM\Windows\Forms\StringGrid\CellClickEventArgs.cs" />
+    <Compile Include="AM\Windows\Forms\StringGrid\CellDrawEventArgs.cs" />
+    <Compile Include="AM\Windows\Forms\StringGrid\HeaderClickEventArgs.cs" />
+    <Compile Include="AM\Windows\Forms\StringGrid\StringGrid.cs" />
+    <Compile Include="AM\Windows\Forms\StringGrid\CellChangedEventArgs.cs" />
+    <Compile Include="AM\Windows\Forms\StringGrid\StringGridColumn.cs" />
+    <Compile Include="AM\Windows\Forms\StringGrid\StringGridColumnCollection.cs" />
     <Compile Include="AM\Windows\Forms\TextBoxControlHost.cs" />
     <Compile Include="AM\Windows\Forms\TextBoxPlus.cs" />
     <Compile Include="AM\Windows\Forms\Win32FormUtility.cs" />
