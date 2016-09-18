@@ -95,7 +95,6 @@
             this._grid.AllowUserToAddRows = false;
             this._grid.AllowUserToDeleteRows = false;
             this._grid.AllowUserToResizeRows = false;
-            this._grid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this._grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this._grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this._countColumn,
@@ -111,13 +110,14 @@
             // 
             // _countColumn
             // 
-            this._countColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this._countColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this._countColumn.DataPropertyName = "Count";
             this._countColumn.FillWeight = 30F;
             this._countColumn.HeaderText = "Count";
-            this._countColumn.MinimumWidth = 30;
+            this._countColumn.MinimumWidth = 50;
             this._countColumn.Name = "_countColumn";
             this._countColumn.ReadOnly = true;
+            this._countColumn.Width = 50;
             // 
             // _termColumn
             // 

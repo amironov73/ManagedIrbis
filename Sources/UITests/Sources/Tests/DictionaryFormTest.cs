@@ -61,7 +61,8 @@ namespace UITests
                     NumberOfTerms = 100
                 };
                 TermInfo[] terms = connection.ReadTerms(parameters);
-                form.Terms.AddRange(terms);
+                terms = TermInfo.TrimPrefix(terms, "K=");
+                form.SetTerms(terms);
 
                 form.ShowDialog(ownerWindow);
             }

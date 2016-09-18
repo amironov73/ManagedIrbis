@@ -67,7 +67,8 @@ namespace UITests
                 FoundLine[] found = manager.Search
                     (
                         "IBIS",
-                        "K=О$"
+                        "K=О$",
+                        "K="
                     );
                 panel.Lines.AddRange(found);
 

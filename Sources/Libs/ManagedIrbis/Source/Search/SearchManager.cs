@@ -85,7 +85,8 @@ namespace ManagedIrbis.Search
         public FoundLine[] Search
             (
                 [NotNull] string database,
-                [NotNull] string expression
+                [NotNull] string expression,
+                [CanBeNull] string prefix
             )
         {
             Code.NotNullNorEmpty(database, "database");
@@ -115,6 +116,24 @@ namespace ManagedIrbis.Search
                     }
                 )
                 .ToArray();
+
+            if (!string.IsNullOrEmpty(prefix))
+            {
+                int prefixLength = prefix.Length;
+
+                foreach (FoundLine line in result)
+                {
+                    if (string.IsNullOrEmpty(line.Description))
+                    {
+                        continue;
+                    }
+                    if (line.Description.StartsWith(prefix))
+                    {
+                        line.Description = line.Description
+                            .Substring(prefixLength);
+                    }
+                }
+            }
 
             return result;
         }
