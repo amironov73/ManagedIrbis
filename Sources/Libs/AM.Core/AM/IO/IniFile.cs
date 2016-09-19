@@ -682,7 +682,7 @@ namespace AM.IO
             Encoding = encoding;
             Writable = writable;
 
-            Reread();
+            Read();
         }
 
         #endregion
@@ -923,7 +923,7 @@ namespace AM.IO
         /// <summary>
         /// Reread from the file.
         /// </summary>
-        public void Reread()
+        public void Read()
         {
             if (string.IsNullOrEmpty(FileName))
             {
@@ -931,13 +931,13 @@ namespace AM.IO
             }
 
             Encoding encoding = Encoding ?? Encoding.GetEncoding(0);
-            Reread(FileName, encoding);
+            Read(FileName, encoding);
         }
 
         /// <summary>
         /// Reread from the file.
         /// </summary>
-        public void Reread
+        public void Read
             (
                 [NotNull] string fileName,
                 [NotNull] Encoding encoding
@@ -952,14 +952,14 @@ namespace AM.IO
                     encoding
                 ))
             {
-                Reread(reader);
+                Read(reader);
             }
         }
 
         /// <summary>
         /// Reread from the stream.
         /// </summary>
-        public void Reread
+        public void Read
             (
                 [NotNull] TextReader reader
             )

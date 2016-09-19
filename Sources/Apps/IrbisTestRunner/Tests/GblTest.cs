@@ -1,4 +1,4 @@
-﻿/* TestTemplate.cs -- IRBIS64 test template
+﻿/* GblTest.cs -- IRBIS64 test template
  * Ars Magna project, http://arsmagna.ru 
  */
 
@@ -45,7 +45,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestGbl1()
+        public void Gbl_Test1()
         {
             IrbisConnection connection = Connection
                 .ThrowIfNull("Connection");
@@ -97,7 +97,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestGbl2()
+        public void Gbl_Test2()
         {
             IrbisConnection connection = Connection
                 .ThrowIfNull("Connection");
@@ -149,7 +149,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestGbl3()
+        public void Gbl_Test3()
         {
             IrbisConnection connection = Connection
                 .ThrowIfNull("Connection");

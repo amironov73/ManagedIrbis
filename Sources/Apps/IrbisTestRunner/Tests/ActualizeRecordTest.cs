@@ -1,4 +1,4 @@
-﻿/* TestTemplate.cs -- IRBIS64 test template
+﻿/* ActualizeRecordTest.cs -- IRBIS64 test template
  * Ars Magna project, http://arsmagna.ru 
  */
 
@@ -44,7 +44,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void ActualizeRecordTest_OneMfn()
+        public void ActualizeRecord_OneMfn()
         {
             IrbisConnection connection = Connection
                 .ThrowIfNull("Connection");
@@ -57,7 +57,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void ActualizeRecordTest_WholeDatabase()
+        public void ActualizeRecord_WholeDatabase()
         {
             IrbisConnection connection = Connection
                 .ThrowIfNull("Connection");

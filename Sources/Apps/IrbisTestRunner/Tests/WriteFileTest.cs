@@ -1,4 +1,4 @@
-﻿/* TestTemplate.cs -- IRBIS64 test template
+﻿/* WriteFileTest.cs -- IRBIS64 test template
  * Ars Magna project, http://arsmagna.ru 
  */
 
@@ -45,7 +45,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestWriteFile()
+        public void WriteFile_WriteOneFile()
         {
             string fileName = "hello.txt";
             string fileContents = "Hello, IRBIS!\r\nHello!";
@@ -62,7 +62,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestWriteFiles()
+        public void WriteFile_WriteManyFiles()
         {
             string fileName1 = "hello1.txt";
             string fileContents1 = "Hello1, IRBIS!\r\nHello!";

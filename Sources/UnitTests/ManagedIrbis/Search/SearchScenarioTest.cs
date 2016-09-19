@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.IO;
@@ -11,6 +12,7 @@ namespace UnitTests.ManagedIrbis.Search
 {
     [TestClass]
     public class SearchScenarioTest
+        : Common.CommonUnitTest
     {
         private void _TestSerialization
             (
@@ -37,23 +39,7 @@ namespace UnitTests.ManagedIrbis.Search
         }
 
         [TestMethod]
-        public void TestSearchScenario_Serialization()
-        {
-            SearchScenario scenario = new SearchScenario();
-            _TestSerialization(scenario);
-
-            scenario = new SearchScenario
-            {
-                Name = "Author",
-                Prefix = "A=",
-                Truncation = true,
-                Logic = SearchLogicType.OrAndNot
-            };
-            _TestSerialization(scenario);
-        }
-
-        [TestMethod]
-        public void TestSearchScenario_Clone()
+        public void SearchScenario_Clone()
         {
             SearchScenario first = new SearchScenario
             {
@@ -79,7 +65,43 @@ namespace UnitTests.ManagedIrbis.Search
         }
 
         [TestMethod]
-        public void TestSearchScenario_Verify()
+        public void SearchScenario_ParseIniFile()
+        {
+            string fileName = Path.Combine
+                (
+                    TestDataPath,
+                    "istu.ini"
+                );
+            IniFile file = new IniFile(fileName);
+
+            SearchScenario[] scenarios = SearchScenario.ParseIniFile(file);
+            Assert.AreEqual(73, scenarios.Length);
+
+            foreach (SearchScenario scenario in scenarios)
+            {
+                Assert.IsNotNull(scenario.Name);
+                Assert.IsNotNull(scenario.Prefix);
+            }
+        }
+
+        [TestMethod]
+        public void SearchScenario_Serialization()
+        {
+            SearchScenario scenario = new SearchScenario();
+            _TestSerialization(scenario);
+
+            scenario = new SearchScenario
+            {
+                Name = "Author",
+                Prefix = "A=",
+                Truncation = true,
+                Logic = SearchLogicType.OrAndNot
+            };
+            _TestSerialization(scenario);
+        }
+
+        [TestMethod]
+        public void SearchScenario_Verify()
         {
             SearchScenario scenario = new SearchScenario
             {

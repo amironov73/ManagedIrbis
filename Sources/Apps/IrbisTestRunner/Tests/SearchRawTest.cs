@@ -1,4 +1,4 @@
-﻿/* TestTemplate.cs -- IRBIS64 test template
+﻿/* SearchRawTest.cs -- IRBIS64 test template
  * Ars Magna project, http://arsmagna.ru 
  */
 
@@ -44,7 +44,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestSearchRaw1()
+        public void SearchRaw_Test1()
         {
             IrbisConnection connection = Connection.ThrowIfNull("Connection");
 
@@ -68,7 +68,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestSearchRaw2()
+        public void SearchRaw_Test2()
         {
             IrbisConnection connection = Connection.ThrowIfNull("Connection");
 
@@ -92,7 +92,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestSequentialSearchRaw()
+        public void SearchRaw_Sequential()
         {
             IrbisConnection connection = Connection.ThrowIfNull("Connection");
 

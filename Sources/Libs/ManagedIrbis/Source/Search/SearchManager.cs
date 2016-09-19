@@ -22,7 +22,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Infrastructure.Commands;
 
 using MoonSharp.Interpreter;
@@ -78,6 +78,32 @@ namespace ManagedIrbis.Search
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Load search scenarios.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public SearchScenario[] LoadSearchScenarios
+            (
+                [NotNull] FileSpecification file
+            )
+        {
+            Code.NotNull(file, "file");
+
+            string text = Connection.ReadTextFile(file);
+            if (string.IsNullOrEmpty(text))
+            {
+                return new SearchScenario[0];
+            }
+            StringReader reader = new StringReader(text);
+            IniFile iniFile = new IniFile();
+            iniFile.Read(reader);
+            SearchScenario[] result
+                = SearchScenario.ParseIniFile(iniFile);
+
+            return result;
+        }
 
         /// <summary>
         /// Search.

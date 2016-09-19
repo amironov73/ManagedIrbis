@@ -68,6 +68,8 @@ namespace IrbisTestRunner.Tests
                 (
                     "; ",
                     TermInfo.TrimPrefix(terms, "K=")
+                        .Select(term => term.Text)
+                        .ToArray()
                 );
             Write(text);
         }
@@ -96,6 +98,8 @@ namespace IrbisTestRunner.Tests
                 (
                     "; ",
                     TermInfo.TrimPrefix(terms, "K=")
+                        .Select(term => term.Text)
+                        .ToArray()
                 );
             Write(text);
         }

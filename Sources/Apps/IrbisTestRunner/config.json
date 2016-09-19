@@ -54,6 +54,7 @@
     "ReadTermsTest.cs",
     //"RecordCacheTest.cs",
     //"RecordHistoryTest.cs",
+    "SearchManagerTest.cs",
     //"SearchRawTest.cs",
     "SearchTest.cs",
     "SequentialSearchTest.cs",
