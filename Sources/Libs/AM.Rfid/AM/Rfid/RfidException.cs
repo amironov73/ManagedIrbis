@@ -14,12 +14,12 @@ using JetBrains.Annotations;
 namespace AM.Rfid
 {
     /// <summary>
-    /// RFID-specific exception
+    /// RFID-specific exception.
     /// </summary>
     [PublicAPI]
     [Serializable]
     public sealed class RfidException
-        : ApplicationException
+        : ArsMagnaException
     {
         #region Construciton
 
@@ -57,21 +57,21 @@ namespace AM.Rfid
         {
         }
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public RfidException
-            (
-                SerializationInfo info,
-                StreamingContext context
-            )
-            : base
-            (
-                info,
-                context
-            )
-        {
-        }
+        ///// <summary>
+        ///// Constructor.
+        ///// </summary>
+        //public RfidException
+        //    (
+        //        SerializationInfo info,
+        //        StreamingContext context
+        //    )
+        //    : base
+        //    (
+        //        info,
+        //        context
+        //    )
+        //{
+        //}
 
         #endregion
     }

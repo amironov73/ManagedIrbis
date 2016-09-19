@@ -18,6 +18,8 @@ using OBID.TagHandler;
 
 namespace AM.Rfid
 {
+    // ReSharper disable InconsistentNaming
+
     /// <summary>
     /// RFID FEIG driver.
     /// </summary>
@@ -30,7 +32,12 @@ namespace AM.Rfid
         /// <inheritdoc/>
         public override RfidCapabilities Capabilities
         {
-            get { return RfidCapabilities.AFI | RfidCapabilities.EAS | RfidCapabilities.SystemInfo; }
+            get
+            {
+                return RfidCapabilities.AFI
+                    | RfidCapabilities.EAS
+                    | RfidCapabilities.SystemInfo;
+            }
         }
 
         /// <inheritdoc/>
@@ -158,9 +165,9 @@ namespace AM.Rfid
             }
             int index = _reader.FindTableIndex
                 (
-                    0, 
+                    0,
                     FedmIscReaderConst.ISO_TABLE,
-                    FedmIscReaderConst.DATA_SNR, 
+                    FedmIscReaderConst.DATA_SNR,
                     uid
                 );
             if (index < 0)
@@ -171,9 +178,9 @@ namespace AM.Rfid
             byte afi;
             _reader.GetTableData
                 (
-                    index, 
+                    index,
                     FedmIscReaderConst.ISO_TABLE,
-                    FedmIscReaderConst.DATA_AFI, 
+                    FedmIscReaderConst.DATA_AFI,
                     out afi
                 );
             result.UID = uid;
@@ -181,9 +188,9 @@ namespace AM.Rfid
             byte dsfid;
             _reader.GetTableData
                 (
-                    index, 
+                    index,
                     FedmIscReaderConst.ISO_TABLE,
-                    FedmIscReaderConst.DATA_DSFID, 
+                    FedmIscReaderConst.DATA_DSFID,
                     out dsfid
                 );
             result.DSFID = dsfid;
@@ -322,22 +329,22 @@ namespace AM.Rfid
             {
                 throw new RfidException();
             }
-            
+
         }
 
         /// <inheritdoc/>
         public override void SetAFI
             (
-                string uid, 
+                string uid,
                 int afi
             )
         {
             _reader.SetData(FedmIscReaderID.FEDM_ISC_TMP_B0_REQ_UID, uid);
             int index = _reader.FindTableIndex
                 (
-                    0, 
+                    0,
                     FedmIscReaderConst.ISO_TABLE,
-                    FedmIscReaderConst.DATA_SNR, 
+                    FedmIscReaderConst.DATA_SNR,
                     uid
                 );
             if (index < 0)
@@ -346,10 +353,10 @@ namespace AM.Rfid
             }
             _reader.SetTableData
                 (
-                    index, 
+                    index,
                     FedmIscReaderConst.ISO_TABLE,
-                    FedmIscReaderConst.DATA_AFI, 
-                    checked ((byte)afi)
+                    FedmIscReaderConst.DATA_AFI,
+                    checked((byte)afi)
                 );
             _reader.SetData(FedmIscReaderID.FEDM_ISC_TMP_B0_CMD, 0x27);
             _reader.SetData(FedmIscReaderID.FEDM_ISC_TMP_B0_MODE, 0x00);
@@ -365,7 +372,7 @@ namespace AM.Rfid
         /// <inheritdoc/>
         public override void SetEAS
             (
-                string uid, 
+                string uid,
                 bool flag
             )
         {
@@ -383,7 +390,7 @@ namespace AM.Rfid
                 );
             _reader.SetData
                 (
-                    FedmIscReaderID.FEDM_ISC_TMP_B1_REQ_UID, 
+                    FedmIscReaderID.FEDM_ISC_TMP_B1_REQ_UID,
                     uid
                 );
             int status = _reader.SendProtocol(0xB1);
@@ -392,7 +399,7 @@ namespace AM.Rfid
                 byte isoError;
                 _reader.GetData
                     (
-                        FedmIscReaderID.FEDM_ISC_TMP_B1_ISO_ERROR, 
+                        FedmIscReaderID.FEDM_ISC_TMP_B1_ISO_ERROR,
                         out isoError
                     );
                 // Do something with isoError
