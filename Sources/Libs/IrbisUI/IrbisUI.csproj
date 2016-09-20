@@ -162,6 +162,12 @@
     <Compile Include="Sources\PreviewPanel.Designer.cs">
       <DependentUpon>PreviewPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Sources\RelatedSearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sources\RelatedSearchForm.Designer.cs">
+      <DependentUpon>RelatedSearchForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Sources\WorksheetLine.cs" />
     <Compile Include="Sources\WssForm.cs">
       <SubType>Form</SubType>
@@ -231,6 +237,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sources\PreviewPanel.resx">
       <DependentUpon>PreviewPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\RelatedSearchForm.resx">
+      <DependentUpon>RelatedSearchForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sources\WssForm.resx">
       <DependentUpon>WssForm.cs</DependentUpon>
