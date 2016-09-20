@@ -179,6 +179,7 @@
     <Compile Include="AM\JsonUtilityTest.cs" />
     <Compile Include="AM\DateTimeUtilityTest.cs" />
     <Compile Include="AM\UniversalComparerTest.cs" />
+    <Compile Include="AM\ValueEventArgsTest.cs" />
     <Compile Include="CodeJam\CodeTest.cs" />
     <Compile Include="Common\CommonUnitTest.cs" />
     <Compile Include="ManagedIrbis\Fields\RevisionInfoTest.cs" />

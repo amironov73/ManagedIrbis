@@ -235,6 +235,7 @@
     <Compile Include="AM\TimeSpanUtility.cs" />
     <Compile Include="AM\UniversalComparer.cs" />
     <Compile Include="AM\Utility.cs" />
+    <Compile Include="AM\ValueEventArgs.cs" />
     <Compile Include="AM\VerificationException.cs" />
     <Compile Include="AM\Verifier.cs" />
     <Compile Include="CodeJam\Code.cs" />
