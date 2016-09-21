@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{440DDE7C-1DC1-4F35-AE7D-8E2595FB15A8}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{E1BD8F93-22AF-4ADD-9D19-482968C3635F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AM.Istu</RootNamespace>
-    <AssemblyName>AM.Istu</AssemblyName>
+    <RootNamespace>Garfield</RootNamespace>
+    <AssemblyName>Garfield</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -93,40 +95,66 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sources\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sources\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sources\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="ArsMagna.private.snk" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AM.Core\AM.Core.csproj">
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libs\AM.Core\AM.Core.csproj">
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
       <Name>AM.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AM.Drawing\AM.Drawing.csproj">
+    <ProjectReference Include="..\..\Libs\AM.Drawing\AM.Drawing.csproj">
       <Project>{f64c8161-d6e3-4d78-88db-c1787f4fe981}</Project>
       <Name>AM.Drawing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AM.Suggestions\AM.Suggestions.csproj">
-      <Project>{929cc021-a694-43c2-b7d0-57fb7734053a}</Project>
-      <Name>AM.Suggestions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AM.Windows.Forms\AM.Windows.Forms.csproj">
+    <ProjectReference Include="..\..\Libs\AM.Windows.Forms\AM.Windows.Forms.csproj">
       <Project>{c06e1d15-0d0d-44b3-bf74-1b2c616f9ee5}</Project>
       <Name>AM.Windows.Forms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ManagedIrbis\ManagedIrbis.csproj">
+    <ProjectReference Include="..\..\Libs\IrbisUI\IrbisUI.csproj">
+      <Project>{aeebb65d-1023-4ac2-a280-4639e085cdb5}</Project>
+      <Name>IrbisUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libs\ManagedIrbis\ManagedIrbis.csproj">
       <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
       <Name>ManagedIrbis</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AM\Istu\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ArsMagna.private.snk" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />
