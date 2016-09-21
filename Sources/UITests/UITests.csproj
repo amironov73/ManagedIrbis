@@ -171,6 +171,7 @@
     <Compile Include="Sources\Tests\ConsoleFormTest.cs" />
     <Compile Include="Sources\Tests\ConsoleFormTest2.cs" />
     <Compile Include="Sources\Tests\ConsoleFormTest3.cs" />
+    <Compile Include="Sources\Tests\ConsoleControlOutputTest.cs" />
     <Compile Include="Sources\Tests\DaDataClientTest.cs" />
     <Compile Include="Sources\Tests\DataGridViewTest.cs" />
     <Compile Include="Sources\Tests\DictionaryFormTest.cs" />
