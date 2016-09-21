@@ -43,4 +43,4 @@ deploy:
   protocol: ftp
   username: alexeymnet_ftp
   password:
-    secure: sLbeQTSV54foCg741X7Quw==  artifact: ManagedIrbis,Nuget,Garfield- provider: NuGet  api_key:    secure: IZZIZyDbjfCXEftqtCgTr/96da50AnxLND8VzxN/rtE62bGXxsAz7N97G8nYAyQB  skip_symbols: true  artifact: Nuget  on:    branch: nuget
+    secure: sLbeQTSV54foCg741X7Quw==  artifact: ManagedIrbis,Nuget- provider: NuGet  api_key:    secure: IZZIZyDbjfCXEftqtCgTr/96da50AnxLND8VzxN/rtE62bGXxsAz7N97G8nYAyQB  skip_symbols: true  artifact: Nuget  on:    branch: nuget
