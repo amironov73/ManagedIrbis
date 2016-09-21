@@ -294,6 +294,26 @@ namespace AM.Windows.Forms
         private readonly List<string> _historyList;
         private int _historyPosition;
 
+        private static Color[] _egaColors =
+        {
+            /* 0x00 */ Color.Black,
+            /* 0x01 */ Color.Blue,
+            /* 0x02 */ Color.Green,
+            /* 0x03 */ Color.Cyan,
+            /* 0x04 */ Color.Red,
+            /* 0x05 */ Color.DarkMagenta,
+            /* 0x06 */ Color.Brown,
+            /* 0x07 */ Color.LightGray,
+            /* 0x08 */ Color.DarkGray,
+            /* 0x09 */ Color.LightSkyBlue,
+            /* 0x0A */ Color.LightGreen,
+            /* 0x0B */ Color.LightCyan,
+            /* 0x0C */ Color.Orange,
+            /* 0x0D */ Color.Magenta,
+            /* 0x0E */ Color.Yellow,
+            /* 0x0F */ Color.White
+        };
+
         private void _AdvanceCursor()
         {
             CursorLeft++;
@@ -929,10 +949,53 @@ namespace AM.Windows.Forms
                 return;
             }
 
+            Color saveForeColor = foreColor;
+            Color saveBackColor = backColor;
+            int mode = 0;
+
             foreach (char c in text)
             {
+                if (mode == 1)
+                {
+                    foreColor = _egaColors[c];
+                    mode = 0;
+                    continue;
+                }
+                if (mode == 2)
+                {
+                    backColor = _egaColors[c];
+                    mode = 0;
+                    continue;
+                }
+
                 switch (c)
                 {
+                    case '\x1':
+                        mode = 1;
+                        break;
+
+                    case '\x2':
+                        mode = 2;
+                        break;
+
+                    case '\x3':
+                        foreColor = saveForeColor;
+                        break;
+
+                    case '\x4':
+                        backColor = saveBackColor;
+                        break;
+
+                    case '\b':
+                        MoveCursor(-1, 0);
+                        Write(' ', foreColor, backColor, emphasize);
+                        MoveCursor(-1, 0);
+                        break;
+
+                    case '\f':
+                        Clear();
+                        break;
+
                     case '\t':
                         WriteTab(backColor);
                         break;
@@ -1091,7 +1154,7 @@ namespace AM.Windows.Forms
 
 #endregion
 
-#region Control members
+        #region Control members
 
         /// <inheritdoc />
         protected override Size DefaultSize
@@ -1307,6 +1370,6 @@ namespace AM.Windows.Forms
             // Do nothing
         }
 
-#endregion
+        #endregion
     }
 }

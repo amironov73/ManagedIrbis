@@ -184,6 +184,10 @@
     "title": "ConsoleControl - test 2"
   },
   {
+    "class": "UITests.ConsoleControlTest3",
+    "title": "ConsoleControl - test 3"
+  },
+  {
     "class": "UITests.ConsoleFormTest",
     "title": "ConsoleForm - test 1"
   },

@@ -168,6 +168,7 @@
     <Compile Include="Sources\Tests\ColorComboBoxTest.cs" />
     <Compile Include="Sources\Tests\ConsoleControlTest.cs" />
     <Compile Include="Sources\Tests\ConsoleControlTest2.cs" />
+    <Compile Include="Sources\Tests\ConsoleControlTest3.cs" />
     <Compile Include="Sources\Tests\ConsoleFormTest.cs" />
     <Compile Include="Sources\Tests\ConsoleFormTest2.cs" />
     <Compile Include="Sources\Tests\ConsoleFormTest3.cs" />
