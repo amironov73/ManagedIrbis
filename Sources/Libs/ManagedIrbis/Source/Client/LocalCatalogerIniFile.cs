@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -90,6 +91,27 @@ namespace ManagedIrbis.Client
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Load from specified file.
+        /// </summary>
+        [NotNull]
+        public static LocalCatalogerIniFile Load
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            LocalCatalogerIniFile result = new LocalCatalogerIniFile();
+            result.Read
+                (
+                    fileName,
+                    IrbisEncoding.Ansi
+                );
+
+            return result;
+        }
 
         #endregion
     }

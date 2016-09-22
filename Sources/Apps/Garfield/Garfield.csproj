@@ -102,6 +102,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sources\Center.cs" />
     <Compile Include="Sources\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

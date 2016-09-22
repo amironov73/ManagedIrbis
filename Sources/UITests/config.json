@@ -230,5 +230,9 @@
   {
     "class": "UITests.ScrollControlTest",
     "title": "ScrollControl"
+  },
+  {
+    "class": "UITests.HabitualDataGridViewTest",
+    "title": "HabitualDataGridView"
   }
 ]

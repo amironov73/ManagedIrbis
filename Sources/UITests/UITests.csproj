@@ -185,6 +185,7 @@
     <Compile Include="Sources\Tests\FolderNameBoxTest.cs" />
     <Compile Include="Sources\Tests\FontComboBoxTest.cs" />
     <Compile Include="Sources\Tests\FoundPanelTest.cs" />
+    <Compile Include="Sources\Tests\HabitualDataGridViewTest.cs" />
     <Compile Include="Sources\Tests\HatchComboBoxTest.cs" />
     <Compile Include="Sources\Tests\InputBoxTest.cs" />
     <Compile Include="Sources\Tests\IrbisBusyFormTest.cs" />
