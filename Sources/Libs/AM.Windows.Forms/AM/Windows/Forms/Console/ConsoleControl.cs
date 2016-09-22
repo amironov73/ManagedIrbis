@@ -957,13 +957,13 @@ namespace AM.Windows.Forms
             {
                 if (mode == 1)
                 {
-                    foreColor = _egaColors[c];
+                    foreColor = _egaColors[c % 16];
                     mode = 0;
                     continue;
                 }
                 if (mode == 2)
                 {
-                    backColor = _egaColors[c];
+                    backColor = _egaColors[c % 16];
                     mode = 0;
                     continue;
                 }
@@ -1152,7 +1152,7 @@ namespace AM.Windows.Forms
             }
         }
 
-#endregion
+        #endregion
 
         #region Control members
 

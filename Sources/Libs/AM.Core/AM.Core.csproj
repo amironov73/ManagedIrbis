@@ -234,6 +234,7 @@
     <Compile Include="AM\Threading\Tasks\TaskProcessor.cs" />
     <Compile Include="AM\Threading\Tasks\TaskUtility.cs" />
     <Compile Include="AM\TimeSpanUtility.cs" />
+    <Compile Include="AM\TriState.cs" />
     <Compile Include="AM\UniversalComparer.cs" />
     <Compile Include="AM\Utility.cs" />
     <Compile Include="AM\ValueEventArgs.cs" />

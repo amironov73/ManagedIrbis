@@ -223,6 +223,9 @@
       <DependentUpon>RichTextEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="AM\Windows\Forms\ScreenUtility.cs" />
+    <Compile Include="AM\Windows\Forms\ScrollControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="AM\Windows\Forms\TextBoxOutput.cs" />
     <Compile Include="AM\Windows\Forms\TextBoxTraceListener.cs" />
     <Compile Include="AM\Windows\Forms\TextBoxWriter.cs" />
@@ -279,6 +282,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />
+    <None Include="Images\arrowUp.png" />
+    <None Include="Images\arrowDown.png" />
+    <None Include="Images\upArrow.png" />
+    <None Include="Images\rightArrow.png" />
+    <None Include="Images\leftArrow.png" />
+    <None Include="Images\downArrow.png" />
     <EmbeddedResource Include="Images\ConsoleControl.bmp" />
     <EmbeddedResource Include="Images\Triangle.bmp" />
     <EmbeddedResource Include="Images\RainbowControl.bmp" />
@@ -391,6 +400,7 @@
         <EmbeddedResource Include="Properties\Resources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+          <SubType>Designer</SubType>
         </EmbeddedResource>
       </ItemGroup>
     </Otherwise>
