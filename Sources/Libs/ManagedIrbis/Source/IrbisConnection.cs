@@ -204,14 +204,14 @@ namespace ManagedIrbis
         [NotNull]
         public CommandFactory CommandFactory { get; private set; }
 
-        ///// <summary>
-        ///// Конфигурация клиента.
-        ///// </summary>
-        ///// <value>Высылается сервером при подключении.</value>
-        //public string Configuration
-        //{
-        //    get { return _configuration; }
-        //}
+        /// <summary>
+        /// Remote INI-file for the client.
+        /// </summary>
+        [CanBeNull]
+        public IniFile IniFile
+        {
+            get { return _iniFile; }
+        }
 
         /// <summary>
         /// Статус подключения к серверу.
@@ -319,6 +319,8 @@ namespace ManagedIrbis
         private string _database;
         private IrbisWorkstation _workstation;
 
+        private IniFile _iniFile;
+
         internal void ThrowIfConnected()
         {
             if (Connected)
@@ -424,7 +426,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Establish connection (if not yet).
         /// </summary>
-        public string Connect()
+        public IniFile Connect()
         {
             // TODO use Executive
 
@@ -433,13 +435,21 @@ namespace ManagedIrbis
                 ConnectCommand command
                     = CommandFactory.GetConnectCommand();
                 ClientQuery query = command.CreateQuery();
-                ServerResponse result = command.Execute(query);
-                command.CheckResponse(result);
+                ServerResponse response = command.Execute(query);
+                command.CheckResponse(response);
                 _connected = true;
-                return command.Configuration;
+
+                string iniText = command.Configuration
+                    .ThrowIfNull("command.Configuration");
+                IniFile result = new IniFile();
+                StringReader reader = new StringReader(iniText);
+                result.Read(reader);
+                _iniFile = result;
+
+                return result;
             }
 
-            return null;
+            return _iniFile;
         }
 
         // ========================================================
@@ -1798,6 +1808,8 @@ namespace ManagedIrbis
 
                 ExecuteCommand(command);
             }
+
+            _iniFile = null;
         }
 
         #endregion

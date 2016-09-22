@@ -111,6 +111,8 @@
     <Compile Include="Source\Caching\MenuCache.cs" />
     <Compile Include="Source\Caching\RecordCache.cs" />
     <Compile Include="Source\Caching\TextCache.cs" />
+    <Compile Include="Source\Client\LocalCatalogerIniFile.cs" />
+    <Compile Include="Source\Client\RemoteCatalogerIniFile.cs" />
     <Compile Include="Source\ConnectionSettings.cs" />
     <Compile Include="Source\CopyRecordManager.cs" />
     <Compile Include="Source\Direct\DirectReader32.cs" />
