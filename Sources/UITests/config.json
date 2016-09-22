@@ -234,5 +234,9 @@
   {
     "class": "UITests.HabitualDataGridViewTest",
     "title": "HabitualDataGridView"
+  },
+  {
+    "class": "UITests.PagingDataGridViewTest",
+    "title": "PagingDataGridView"
   }
 ]

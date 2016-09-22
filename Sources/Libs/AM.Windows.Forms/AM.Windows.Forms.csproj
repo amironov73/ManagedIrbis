@@ -141,9 +141,9 @@
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewRatingColumn.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewUtility.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\GridColumnAttribute.cs" />
-    <Compile Include="AM\Windows\Forms\DataGridView\HabitualDataGridView.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="AM\Windows\Forms\DataGridView\HabitualDataGridView.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\PagingDataGridViewEventArgs.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\PagingDataGridView.cs" />
     <Compile Include="AM\Windows\Forms\DriveComboBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumComboBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumListBox.cs" />
