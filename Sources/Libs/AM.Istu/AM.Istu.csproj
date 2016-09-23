@@ -41,6 +41,10 @@
   <Choose>
     <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
       <ItemGroup>
+        <Reference Include="BLToolkit.4, Version=4.3.4.0, Culture=neutral, PublicKeyToken=b1d3f6ab3aadaca3, processorArchitecture=MSIL">
+          <HintPath>..\..\packages\BLToolkit.4.3.4\lib\net35\BLToolkit.3.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="MoonSharp.Interpreter, Version=1.6.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
           <HintPath>..\..\packages\MoonSharp.1.6.0.0\lib\net35-client\MoonSharp.Interpreter.dll</HintPath>
           <Private>True</Private>
@@ -57,6 +61,10 @@
     </When>
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
       <ItemGroup>
+        <Reference Include="BLToolkit.4, Version=4.3.4.0, Culture=neutral, PublicKeyToken=b1d3f6ab3aadaca3, processorArchitecture=MSIL">
+          <HintPath>..\..\packages\BLToolkit.4.3.4\lib\net40\BLToolkit.4.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="Microsoft.CSharp" />
         <Reference Include="MoonSharp.Interpreter, Version=1.6.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
           <HintPath>..\..\packages\MoonSharp.1.6.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
@@ -70,6 +78,10 @@
     </When>
     <Otherwise>
       <ItemGroup>
+        <Reference Include="BLToolkit.4, Version=4.3.4.0, Culture=neutral, PublicKeyToken=b1d3f6ab3aadaca3, processorArchitecture=MSIL">
+          <HintPath>..\..\packages\BLToolkit.4.3.4\lib\net40\BLToolkit.4.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="Microsoft.CSharp" />
         <Reference Include="MoonSharp.Interpreter, Version=1.6.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
           <HintPath>..\..\packages\MoonSharp.1.6.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
