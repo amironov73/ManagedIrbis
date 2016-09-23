@@ -34,6 +34,8 @@ artifacts:
     name: ManagedIrbis
   - path: Nuget\*.nupkg
     name: Nuget
+  - path: Sources\Libs\AM.Istu\bin\Debug
+    name: AM.Istu
   - path: Sources\Apps\Garfield\bin\Debug
     name: Garfield
 
