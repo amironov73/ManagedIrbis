@@ -50,15 +50,13 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         public static MagazineArticleInfo Parse
             (
-                MarcRecord record
+                [NotNull] MarcRecord record
             )
         {
-            if (ReferenceEquals(record, null))
-            {
-                throw new ArgumentNullException("record");
-            }
+            Code.NotNull(record, "record");
 
             MagazineArticleInfo result = new MagazineArticleInfo();
+
             return result;
         }
 
@@ -80,9 +78,7 @@ namespace ManagedIrbis.Magazines
 
         #region IHandmadeSerializable
 
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -90,9 +86,7 @@ namespace ManagedIrbis.Magazines
         {
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <inheritdoc />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -103,8 +97,6 @@ namespace ManagedIrbis.Magazines
         #endregion
 
         #region Object members
-
-
 
         #endregion
     }
