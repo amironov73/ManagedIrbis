@@ -208,7 +208,7 @@ namespace ManagedIrbis.Batch
         /// Search and read records.
         /// </summary>
         [NotNull]
-        public IEnumerable<MarcRecord> Search
+        public static IEnumerable<MarcRecord> Search
             (
                 [NotNull] IrbisConnection connection,
                 [NotNull] string database,
@@ -321,6 +321,5 @@ namespace ManagedIrbis.Batch
         }
 
         #endregion
-
     }
 }
