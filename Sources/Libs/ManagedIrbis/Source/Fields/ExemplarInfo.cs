@@ -6,7 +6,6 @@
 
 #region Using directives
 
-using System;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
@@ -15,8 +14,7 @@ using AM.IO;
 using AM.Runtime;
 using AM.Text;
 
-using BLToolkit.DataAccess;
-using BLToolkit.Mapping;
+using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -34,7 +32,6 @@ namespace ManagedIrbis.Fields
     /// Информация об экземпляре (поле 910).
     /// </summary>
     [PublicAPI]
-    [TableName("exemplars")]
     [XmlRoot("exemplar")]
     [MoonSharpUserData]
     public sealed class ExemplarInfo
@@ -59,260 +56,260 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Статус. Подполе a.
         /// </summary>
+        [CanBeNull]
         [SubField('a')]
         [XmlAttribute("status")]
         [JsonProperty("status")]
-        [MapField("status")]
         public string Status { get; set; }
 
         /// <summary>
         /// Инвентарный номер. Подполе b.
         /// </summary>
+        [CanBeNull]
         [SubField('b')]
         [XmlAttribute("number")]
         [JsonProperty("number")]
-        [MapField("number")]
         public string Number { get; set; }
 
         /// <summary>
         /// Дата поступления. Подполе c.
         /// </summary>
+        [CanBeNull]
         [SubField('c')]
         [XmlAttribute("date")]
         [JsonProperty("date")]
-        [MapField("date")]
         public string Date { get; set; }
 
         /// <summary>
         /// Место хранения. Подполе d.
         /// </summary>
+        [CanBeNull]
         [SubField('d')]
         [XmlAttribute("place")]
         [JsonProperty("place")]
-        [MapField("place")]
         public string Place { get; set; }
 
         /// <summary>
         /// Наименование коллекции. Подполе q.
         /// </summary>
+        [CanBeNull]
         [SubField('q')]
         [XmlAttribute("collection")]
         [JsonProperty("collection")]
-        [MapField("collection")]
         public string Collection { get; set; }
 
         /// <summary>
         /// Расстановочный шифр. Подполе r.
         /// </summary>
+        [CanBeNull]
         [SubField('r')]
         [XmlAttribute("shelf-index")]
         [JsonProperty("shelf-index")]
-        [MapField("shelfindex")]
         public string ShelfIndex { get; set; }
 
         /// <summary>
         /// Цена экземпляра. Подполе e.
         /// </summary>
+        [CanBeNull]
         [SubField('e')]
         [XmlAttribute("price")]
         [JsonProperty("price")]
-        [MapField("price")]
         public string Price { get; set; }
 
         /// <summary>
         /// Штрих-код/радиометка. Подполе h.
         /// </summary>
+        [CanBeNull]
         [SubField('h')]
         [XmlAttribute("barcode")]
         [JsonProperty("barcode")]
-        [MapField("barcode")]
         public string Barcode { get; set; }
 
         /// <summary>
         /// Число экземпляров. Подполе 1.
         /// </summary>
+        [CanBeNull]
         [SubField('1')]
         [XmlAttribute("amount")]
         [JsonProperty("amount")]
-        [MapField("amount")]
         public string Amount { get; set; }
 
         /// <summary>
         /// Специальное назначение фонда. Подполе t.
         /// </summary>
+        [CanBeNull]
         [SubField('t')]
         [XmlAttribute("purpose")]
         [JsonProperty("purpose")]
-        [MapField("purpose")]
         public string Purpose { get; set; }
 
         /// <summary>
         /// Коэффициент многоразового использования. Подполе =.
         /// </summary>
+        [CanBeNull]
         [SubField('=')]
         [XmlAttribute("coefficient")]
         [JsonProperty("coefficient")]
-        [MapField("coefficient")]
         public string Coefficient { get; set; }
 
         /// <summary>
         /// Экземпляры не на баланс. Подполе 4.
         /// </summary>
+        [CanBeNull]
         [SubField('4')]
         [XmlAttribute("off-balance")]
         [JsonProperty("off-balance")]
-        [MapField("offbalance")]
         public string OffBalance { get; set; }
 
         /// <summary>
         /// Номер записи КСУ. Подполе u.
         /// </summary>
+        [CanBeNull]
         [SubField('u')]
         [XmlAttribute("ksu-number1")]
         [JsonProperty("ksu-number1")]
-        [MapField("ksunumber1")]
         public string KsuNumber1 { get; set; }
 
         /// <summary>
         /// Номер акта. Подполе y.
         /// </summary>
+        [CanBeNull]
         [SubField('y')]
         [XmlAttribute("act-number1")]
         [JsonProperty("act-number1")]
-        [MapField("actnumber1")]
         public string ActNumber1 { get; set; }
 
         /// <summary>
         /// Канал поступления. Подполе f.
         /// </summary>
+        [CanBeNull]
         [SubField('f')]
         [XmlAttribute("channel")]
         [JsonProperty("channel")]
-        [MapField("channel")]
         public string Channel { get; set; }
 
         /// <summary>
         /// Число выданных экземпляров. Подполе 2.
         /// </summary>
+        [CanBeNull]
         [SubField('2')]
         [XmlAttribute("on-hand")]
         [JsonProperty("on-hand")]
-        [MapField("onhand")]
         public string OnHand { get; set; }
 
         /// <summary>
         /// Номер акта списания. Подполе v.
         /// </summary>
+        [CanBeNull]
         [SubField('v')]
         [XmlAttribute("act-number2")]
         [JsonProperty("act-number2")]
-        [MapField("actnumber2")]
         public string ActNumber2 { get; set; }
 
         /// <summary>
         /// Количество списываемых экземпляров. Подполе x.
         /// </summary>
+        [CanBeNull]
         [SubField('x')]
         [XmlAttribute("write-off")]
         [JsonProperty("write-off")]
-        [MapField("writeoff")]
         public string WriteOff { get; set; }
 
         /// <summary>
         /// Количество экземпляров для докомплектования. Подполе k.
         /// </summary>
+        [CanBeNull]
         [SubField('k')]
         [XmlAttribute("completion")]
         [JsonProperty("completion")]
-        [MapField("completion")]
         public string Completion { get; set; }
 
         /// <summary>
         /// Номер акта передачи в другое подразделение. Подполе w.
         /// </summary>
+        [CanBeNull]
         [SubField('w')]
         [XmlAttribute("act-number3")]
         [JsonProperty("act-number3")]
-        [MapField("actnumber3")]
         public string ActNumber3 { get; set; }
 
         /// <summary>
         /// Количество передаваемых экземпляров. Подполе z.
         /// </summary>
+        [CanBeNull]
         [SubField('z')]
         [XmlAttribute("moving")]
         [JsonProperty("moving")]
-        [MapField("moving")]
         public string Moving { get; set; }
 
         /// <summary>
         /// Нове место хранения. Подполе m.
         /// </summary>
+        [CanBeNull]
         [SubField('m')]
         [XmlAttribute("new-place")]
         [JsonProperty("new-place")]
-        [MapField("newplace")]
         public string NewPlace { get; set; }
 
         /// <summary>
         /// Дата проверки фонда. Подполе s.
         /// </summary>
+        [CanBeNull]
         [SubField('s')]
         [XmlAttribute("checked-date")]
         [JsonProperty("checked-date")]
-        [MapField("checkeddate")]
         public string CheckedDate { get; set; }
 
         /// <summary>
         /// Число проверенных экземпляров. Подполе 0.
         /// </summary>
+        [CanBeNull]
         [SubField('0')]
         [XmlAttribute("checked-amount")]
         [JsonProperty("checked-amount")]
-        [MapField("checkedamount")]
         public string CheckedAmount { get; set; }
 
         /// <summary>
         /// Реальное место нахождения книги. Подполе !.
         /// </summary>
+        [CanBeNull]
         [SubField('!')]
         [XmlAttribute("real-place")]
         [JsonProperty("real-place")]
-        [MapField("realplace")]
         public string RealPlace { get; set; }
 
         /// <summary>
         /// Шифр подшивки. Подполе p.
         /// </summary>
+        [CanBeNull]
         [SubField('p')]
         [XmlAttribute("binding-index")]
         [JsonProperty("binding-index")]
-        [MapField("bindingindex")]
         public string BindingIndex { get; set; }
 
         /// <summary>
         /// Инвентарный номер подшивки. Подполе i.
         /// </summary>
+        [CanBeNull]
         [SubField('i')]
         [XmlAttribute("binding-number")]
         [JsonProperty("binding-number")]
-        [MapField("bindingnumber")]
         public string BindingNumber { get; set; }
 
         /// <summary>
         /// Год издания. Берётся не из подполя.
         /// </summary>
+        [CanBeNull]
         [XmlAttribute("year")]
         [JsonProperty("year")]
-        [MapField("year")]
         public string Year { get; set; }
 
         /// <summary>
         /// Прочие подполя, не попавшие в вышеперечисленные.
         /// </summary>
+        [CanBeNull]
         [XmlElement("other-subfields")]
         [JsonProperty("other-subfields")]
-        [MapIgnore]
         public SubField[] OtherSubFields { get; set; }
 
         /// <summary>
@@ -320,23 +317,22 @@ namespace ManagedIrbis.Fields
         /// </summary>
         [XmlAttribute("mfn")]
         [JsonProperty("mfn")]
-        [MapField("mfn")]
         public int Mfn { get; set; }
 
         /// <summary>
         /// Краткое библиографическое описание экземпляра.
         /// </summary>
+        [CanBeNull]
         [XmlAttribute("description")]
         [JsonProperty("description")]
-        [MapField("description")]
         public string Description { get; set; }
 
         /// <summary>
         /// ББК.
         /// </summary>
+        [CanBeNull]
         [XmlAttribute("bbk")]
         [JsonProperty("bbk")]
-        [MapIgnore]
         public string Bbk { get; set; }
 
         /// <summary>
@@ -344,36 +340,27 @@ namespace ManagedIrbis.Fields
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
-        [MapIgnore]
         public int SequentialNumber { get; set; }
 
         /// <summary>
         /// Информация для упорядочения в списках.
         /// </summary>
+        [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        [MapIgnore]
-        [CanBeNull]
         public string OrderingData { get; set; }
 
         /// <summary>
         /// Произвольные пользовательские данные.
         /// </summary>
+        [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        [MapIgnore]
-        public object UserData
-        {
-            get { return _userData; }
-            set { _userData = value; }
-        }
+        public object UserData { get; set; }
 
         #endregion
 
         #region Private members
-
-        //[NonSerialized]
-        private object _userData;
 
         #endregion
 
@@ -382,18 +369,13 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Parses the specified field.
         /// </summary>
-        /// <param name="field">The field.</param>
-        /// <returns>ExemplarInfo.</returns>
-        [JetBrains.Annotations.NotNull]
+        [NotNull]
         public static ExemplarInfo Parse
             (
-                [JetBrains.Annotations.NotNull] RecordField field
+                [NotNull] RecordField field
             )
         {
-            if (ReferenceEquals(field, null))
-            {
-                throw new ArgumentNullException("field");
-            }
+            Code.NotNull(field, "field");
 
             ExemplarInfo result = new ExemplarInfo
                 {
@@ -429,28 +411,23 @@ namespace ManagedIrbis.Fields
                             .IndexOf(char.ToLower(sub.Code)) < 0)
                         .ToArray()
                 };
+
             return result;
         }
 
         /// <summary>
         /// Разбор записи на экземпляры.
         /// </summary>
+        [NotNull]
         [ItemNotNull]
-        [JetBrains.Annotations.NotNull]
         public static ExemplarInfo[] Parse
             (
-                [JetBrains.Annotations.NotNull] MarcRecord record,
-                [JetBrains.Annotations.NotNull] string tagNumber
+                [NotNull] MarcRecord record,
+                [NotNull] string tagNumber
             )
         {
-            if (ReferenceEquals(record, null))
-            {
-                throw new ArgumentNullException("record");
-            }
-            if (string.IsNullOrEmpty(tagNumber))
-            {
-                throw new ArgumentNullException("tagNumber");
-            }
+            Code.NotNull(record, "record");
+            Code.NotNullNorEmpty(tagNumber, "tagNumber");
 
             ExemplarInfo[] result = record.Fields
                 .GetField(tagNumber)
@@ -469,13 +446,15 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Разбор записи на экземпляры.
         /// </summary>
+        [NotNull]
         [ItemNotNull]
-        [JetBrains.Annotations.NotNull]
         public static ExemplarInfo[] Parse
             (
-                [JetBrains.Annotations.NotNull] MarcRecord record
+                [NotNull] MarcRecord record
             )
         {
+            Code.NotNull(record, "record");
+
             return Parse
                 (
                     record,
@@ -486,7 +465,7 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Преобразование экземпляра обратно в поле записи.
         /// </summary>
-        [JetBrains.Annotations.NotNull]
+        [NotNull]
         public RecordField ToField()
         {
             RecordField result = new RecordField("910")
@@ -532,27 +511,28 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Compares two specified numbers.
         /// </summary>
-        /// <param name="first">The first.</param>
-        /// <param name="second">The second.</param>
-        /// <returns>System.Int32.</returns>
         public static int CompareNumbers
             (
-                [JetBrains.Annotations.NotNull] ExemplarInfo first,
-                [JetBrains.Annotations.NotNull] ExemplarInfo second
+                [NotNull] ExemplarInfo first,
+                [NotNull] ExemplarInfo second
             )
         {
+            Code.NotNull(first, "first");
+            Code.NotNull(second, "second");
+
             NumberText one = new NumberText(first.Number);
             NumberText two = new NumberText(second.Number);
-            return one.CompareTo(two);
+
+            int result = one.CompareTo(two);
+
+            return result;
         }
 
         #endregion
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Read one instance from the given stream.
-        /// </summary>
+        /// <inheritdoc />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -592,9 +572,7 @@ namespace ManagedIrbis.Fields
             Mfn = reader.ReadInt32();
         }
 
-        /// <summary>
-        /// Save this instance to the given stream.
-        /// </summary>
+        /// <inheritdoc />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -640,12 +618,7 @@ namespace ManagedIrbis.Fields
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc />
         public override string ToString()
         {
             string result = string.Format
@@ -658,7 +631,7 @@ namespace ManagedIrbis.Fields
 
             if (!string.IsNullOrEmpty(BindingNumber))
             {
-                result = result + " <подшивка " + BindingNumber + ">";
+                result = result + " <binding " + BindingNumber + ">";
             }
 
             return result;

@@ -1481,6 +1481,7 @@ namespace ManagedIrbis
                             code,
                             value
                         );
+                    value.Length = 0;
                     code = (char)0;
                 }
                 else

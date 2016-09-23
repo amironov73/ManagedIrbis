@@ -49,10 +49,7 @@ namespace ManagedIrbis.Fst
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public NonNullCollection<FstLine> Lines
-        {
-            get { return _lines; }
-        }
+        public NonNullCollection<FstLine> Lines { get; private set; }
 
         #endregion
 
@@ -63,18 +60,34 @@ namespace ManagedIrbis.Fst
         /// </summary>
         public FstFile()
         {
-            _lines = new NonNullCollection<FstLine>();
+            Lines = new NonNullCollection<FstLine>();
         }
 
         #endregion
 
         #region Private members
 
-        private readonly NonNullCollection<FstLine> _lines;
-
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Build concatenated format string.
+        /// </summary>
+        [NotNull]
+        public string ConcatenateFormat()
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.Append('!');
+
+            foreach (FstLine line in Lines)
+            {
+                result.Append(line.ToFormat());
+            }
+
+            return result.ToString();
+        }
 
         /// <summary>
         /// Parse the stream.

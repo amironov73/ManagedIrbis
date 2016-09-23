@@ -33,6 +33,7 @@
     //"DeleteRecordTest.cs",
     "FlcTest.cs",
     "FormatTest.cs",
+    "FstProcessorTest.cs",
     //"GblVirtualTest.cs",
     //"GblBuilderTest.cs",
     //"GblTest.cs",
