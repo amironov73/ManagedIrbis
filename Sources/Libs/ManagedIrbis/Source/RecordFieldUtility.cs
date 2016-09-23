@@ -137,7 +137,7 @@ namespace ManagedIrbis
                 .NonNullItems()
                 .Where
                 (
-                // ReSharper disable AssignNullToNotNullAttribute
+                    // ReSharper disable AssignNullToNotNullAttribute
                     field => !string.IsNullOrEmpty(field.Tag)
                         && Regex.IsMatch
                         (
@@ -975,7 +975,7 @@ namespace ManagedIrbis
                 [CanBeNull] Action<RecordField> action
             )
         {
-            Code.NotNull (fields, "fields");
+            Code.NotNull(fields, "fields");
 
             RecordField[] result = fields.ToArray();
             if (!ReferenceEquals(action, null))
@@ -1497,11 +1497,14 @@ namespace ManagedIrbis
                 }
             }
 
-            result.AddSubField
+            if (code != (char)0)
+            {
+                result.AddSubField
                 (
                     code,
                     value
                 );
+            }
 
             return result;
         }
@@ -1545,8 +1548,8 @@ namespace ManagedIrbis
 
             XmlWriterSettings settings = new XmlWriterSettings
             {
-                OmitXmlDeclaration = true,
-                NewLineOnAttributes = true,
+                OmitXmlDeclaration = false,
+                NewLineOnAttributes = false,
                 Indent = true,
                 CloseOutput = true
             };
@@ -1556,7 +1559,7 @@ namespace ManagedIrbis
                 (
                     typeof(RecordField)
                 );
-            serializer.Serialize(writer, field);
+            serializer.Serialize(xml, field);
 
             return writer.ToString();
         }

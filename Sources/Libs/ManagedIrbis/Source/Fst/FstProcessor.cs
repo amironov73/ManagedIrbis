@@ -8,13 +8,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+
 using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
-using ManagedIrbis;
+
+using ManagedIrbis.Infrastructure;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -62,6 +67,32 @@ namespace ManagedIrbis.Fst
         #region Public methods
 
         /// <summary>
+        /// Read FST file from server.
+        /// </summary>
+        [CanBeNull]
+        public FstFile ReadFile
+            (
+                [NotNull] FileSpecification fileSpecification
+            )
+        {
+            Code.NotNull(fileSpecification, "fileSpecification");
+
+            string content = Connection.ReadTextFile(fileSpecification);
+            if (string.IsNullOrEmpty(content))
+            {
+                return null;
+            }
+            StringReader reader = new StringReader(content);
+            FstFile result = FstFile.ParseStream(reader);
+            if (result.Lines.Count == 0)
+            {
+                return null;
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Transform record.
         /// </summary>
         [NotNull]
@@ -81,7 +112,10 @@ namespace ManagedIrbis.Fst
                 )
                 .ThrowIfNull("Connection.FormatRecord");
 
-            MarcRecord result = new MarcRecord();
+            MarcRecord result = new MarcRecord
+            {
+                Database = record.Database ?? Connection.Database
+            };
             string[] lines = transformed.Split((char) 0x07);
             string[] separators = {"\r\n", "\r", "\n"};
             foreach (string line in lines)

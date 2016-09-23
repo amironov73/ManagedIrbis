@@ -81,6 +81,7 @@ namespace IrbisTestRunner.Tests
                         new FstLine { Tag = "200", Format = "v200" },
                         new FstLine { Tag = "210", Format = "v210" },
                         new FstLine { Tag = "215", Format = "v215" },
+                        new FstLine { Tag = "300", Format = "(v300,/)" }, 
                         new FstLine { Tag = "900", Format = "v900" } 
                     }
                 );
