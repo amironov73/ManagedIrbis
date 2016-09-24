@@ -140,6 +140,8 @@ namespace ManagedIrbis.Readers
                 [CanBeNull] RecordField field
             )
         {
+            // TODO Support for unknown subfields
+
             if (ReferenceEquals(field, null))
             {
                 return null;

@@ -14,6 +14,8 @@ using System.Xml.Serialization;
 using AM.IO;
 using AM.Runtime;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -78,8 +80,8 @@ namespace ManagedIrbis.Readers
         /// подполе D, дата выдачи
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("date-given")]
-        [JsonProperty("date-given")]
+        [XmlAttribute("dateGiven")]
+        [JsonProperty("dateGiven")]
         public string DateGivenString { get; set; }
 
         /// <summary>
@@ -94,32 +96,32 @@ namespace ManagedIrbis.Readers
         /// подполе E, дата предполагаемого возврата
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("date-expected")]
-        [JsonProperty("date-expected")]
+        [XmlAttribute("dateExpected")]
+        [JsonProperty("dateExpected")]
         public string DateExpectedString { get; set; }
 
         /// <summary>
         /// подполе F, дата фактического возврата
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("date-returned")]
-        [JsonProperty("date-returned")]
+        [XmlAttribute("dateReturned")]
+        [JsonProperty("dateReturned")]
         public string DateReturnedString { get; set; }
 
         /// <summary>
         /// подполе L, дата продления
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("date-prolong")]
-        [JsonProperty("date-prolong")]
+        [XmlAttribute("dateProlong")]
+        [JsonProperty("dateProlong")]
         public string DateProlongString { get; set; }
 
         /// <summary>
         /// подполе U, признак утерянной книги
         /// </summary>
+        [CanBeNull]
         [XmlAttribute("lost")]
         [JsonProperty("lost")]
-        [CanBeNull]
         public string Lost { get; set; }
 
         /// <summary>
@@ -142,16 +144,16 @@ namespace ManagedIrbis.Readers
         /// подполе 1, время начала визита в библиотеку
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("time-in")]
-        [JsonProperty("time-in")]
+        [XmlAttribute("timeIn")]
+        [JsonProperty("timeIn")]
         public string TimeIn { get; set; }
 
         /// <summary>
         /// подполе 2, время окончания визита в библиотеку
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("time-out")]
-        [JsonProperty("time-out")]
+        [XmlAttribute("timeOut")]
+        [JsonProperty("timeOut")]
         public string TimeOut { get; set; }
 
         /// <summary>
@@ -178,10 +180,7 @@ namespace ManagedIrbis.Readers
                     return false;
                 }
 
-                // False positive ReSharper
-                // ReSharper disable PossibleNullReferenceException
                 return !DateReturnedString.StartsWith("*");
-                // ReSharper restore PossibleNullReferenceException
             }
         }
 
@@ -194,7 +193,10 @@ namespace ManagedIrbis.Readers
         {
             get
             {
-                return IrbisDate.ConvertStringToDate(DateGivenString);
+                return IrbisDate.ConvertStringToDate
+                    (
+                        DateGivenString
+                    );
             }
         }
 
@@ -207,7 +209,10 @@ namespace ManagedIrbis.Readers
         {
             get
             {
-                return IrbisDate.ConvertStringToDate(DateReturnedString);
+                return IrbisDate.ConvertStringToDate
+                    (
+                        DateReturnedString
+                    );
             }
         }
 
@@ -220,7 +225,10 @@ namespace ManagedIrbis.Readers
         {
             get
             {
-                return IrbisDate.ConvertStringToDate(DateExpectedString);
+                return IrbisDate.ConvertStringToDate
+                    (
+                        DateExpectedString
+                    );
             }
         }
 
@@ -236,6 +244,7 @@ namespace ManagedIrbis.Readers
 
         #region Private members
 
+        // ReSharper disable once InconsistentNaming
         private static string FM
             (
                 RecordField field,
@@ -252,13 +261,16 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Parses the specified field.
         /// </summary>
-        /// <param name="field">The field.</param>
-        /// <returns>VisitInfo.</returns>
+        [NotNull]
         public static VisitInfo Parse
             (
-                RecordField field
+                [NotNull] RecordField field
             )
         {
+            // TODO Support for unknown subfields
+
+            Code.NotNull(field, "field");
+
             VisitInfo result = new VisitInfo
             {
                 Database = FM(field, 'g'),
@@ -304,8 +316,11 @@ namespace ManagedIrbis.Readers
             result.AddNonEmptySubField('i', Responsible);
             result.AddNonEmptySubField('1', TimeIn);
             result.AddNonEmptySubField('2', TimeOut);
+
             return result;
         }
+
+        #endregion
 
         #region Ручная сериализация
 
@@ -402,8 +417,6 @@ namespace ManagedIrbis.Readers
 
             return result;
         }
-
-        #endregion
 
         #endregion
 

@@ -437,6 +437,8 @@ namespace ManagedIrbis.Readers
                 [NotNull] MarcRecord record
             )
         {
+            // TODO Support for unknown fields
+
             Code.NotNull(record, "record");
 
             ReaderInfo result = new ReaderInfo

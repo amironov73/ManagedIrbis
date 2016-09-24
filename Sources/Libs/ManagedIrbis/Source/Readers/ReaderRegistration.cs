@@ -14,12 +14,15 @@ using System.Xml.Serialization;
 using AM.IO;
 using AM.Runtime;
 
+using CodeJam;
+
 using JetBrains.Annotations;
+
+using ManagedIrbis.Mapping;
 
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
-using ManagedIrbis.Mapping;
 
 #endregion
 
@@ -131,6 +134,10 @@ namespace ManagedIrbis.Readers
                 [NotNull]RecordField field
             )
         {
+            // TODO Support for unknown subfields
+
+            Code.NotNull(field, "field");
+
             ReaderRegistration result = new ReaderRegistration
             {
                 DateString = field.Value,
@@ -153,14 +160,8 @@ namespace ManagedIrbis.Readers
                 [NotNull] string tag
             )
         {
-            if (ReferenceEquals(record, null))
-            {
-                throw new ArgumentNullException("record");
-            }
-            if (string.IsNullOrEmpty(tag))
-            {
-                throw new ArgumentNullException("tag");
-            }
+            Code.NotNull(record, "record");
+            Code.NotNullNorEmpty(tag, "tag");
 
             ReaderRegistration[] result = record.Fields
                 .GetField(tag)
@@ -188,37 +189,37 @@ namespace ManagedIrbis.Readers
             return result;
         }
 
+        #endregion
+
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Сохранение в поток.
-        /// </summary>
-        public void SaveToStream
-            (
-                BinaryWriter writer
-            )
-        {
-            writer.WriteNullable(DateString);
-            writer.WriteNullable(Chair);
-            writer.WriteNullable(OrderNumber);
-            writer.WriteNullable(Reason);
-        }
-
-        /// <summary>
-        /// Считывание из потока.
-        /// </summary>
+        /// <inheritdoc />
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             DateString = reader.ReadNullableString();
             Chair = reader.ReadNullableString();
             OrderNumber = reader.ReadNullableString();
             Reason = reader.ReadNullableString();
         }
 
-        #endregion
+        /// <inheritdoc />
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer.WriteNullable(DateString);
+            writer.WriteNullable(Chair);
+            writer.WriteNullable(OrderNumber);
+            writer.WriteNullable(Reason);
+        }
 
         #endregion
     }

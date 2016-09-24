@@ -130,6 +130,8 @@ namespace ManagedIrbis.Readers
                 [NotNull] RecordField field
             )
         {
+            // TODO Support for unknown subfields
+
             Code.NotNull(field, "field");
 
             IriProfile result = new IriProfile
