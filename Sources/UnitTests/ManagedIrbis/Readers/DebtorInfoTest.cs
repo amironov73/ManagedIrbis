@@ -22,7 +22,7 @@ namespace UnitTests.ManagedIrbis.Readers
 
             Assert.AreEqual(first.Age, second.Age);
             Assert.AreEqual(first.Category, second.Category);
-            Assert.AreEqual(first.Fio, second.Fio);
+            Assert.AreEqual(first.Name, second.Name);
         }
 
         [TestMethod]
@@ -31,7 +31,7 @@ namespace UnitTests.ManagedIrbis.Readers
             DebtorInfo debtorInfo = new DebtorInfo();
             _TestSerialization(debtorInfo);
 
-            debtorInfo.Fio = "Иванов Иван Иванович";
+            debtorInfo.Name = "Иванов Иван Иванович";
             _TestSerialization(debtorInfo);
         }
     }

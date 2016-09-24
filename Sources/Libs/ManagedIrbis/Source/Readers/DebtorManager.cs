@@ -8,8 +8,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+
+using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -22,32 +25,37 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Readers
 {
     /// <summary>
-    /// Работа с задолжниками
+    /// Работа с задолжниками.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [DebuggerDisplay("{Department}")]
     public sealed class DebtorManager
     {
         #region Properties
 
         /// <summary>
-        /// Клиент.
+        /// Connection.
         /// </summary>
-        public IrbisConnection Client { get; private set; }
+        [NotNull]
+        public IrbisConnection Connection { get; private set; }
 
         /// <summary>
         /// Кафедра обслуживания.
         /// </summary>
+        [CanBeNull]
         public string Department { get; set; }
 
         /// <summary>
         /// С какой даты задолженность?
         /// </summary>
+        [CanBeNull]
         public DateTime? FromDate { get; set; }
 
         /// <summary>
         /// По какую дату задолженность.
         /// </summary>
+        [CanBeNull]
         public DateTime? ToDate { get; set; }
 
         #endregion
@@ -55,19 +63,16 @@ namespace ManagedIrbis.Readers
         #region Construction
 
         /// <summary>
-        /// Конструктор
+        /// Constructor.
         /// </summary>
         public DebtorManager
             (
-                [NotNull] IrbisConnection client
+                [NotNull] IrbisConnection connection
             )
         {
-            if (ReferenceEquals(client, null))
-            {
-                throw new ArgumentNullException("client");
-            }
+            Code.NotNull(connection, "connection");
 
-            Client = client;
+            Connection = connection;
         }
 
         #endregion
@@ -83,6 +88,8 @@ namespace ManagedIrbis.Readers
         /// </summary>
         public DebtorInfo[] GetDebtors()
         {
+            // TODO implement
+
             return new DebtorInfo[0];
         }
 
