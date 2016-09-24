@@ -19,6 +19,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Mapping;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -51,6 +53,7 @@ namespace ManagedIrbis.Readers
         /// Почтовый индекс. Подполе A.
         /// </summary>
         [CanBeNull]
+        [SubField('a')]
         [XmlAttribute("postcode")]
         [JsonProperty("postcode")]
         public string Postcode { get; set; }
@@ -59,6 +62,7 @@ namespace ManagedIrbis.Readers
         /// Страна/республика. Подполе B.
         /// </summary>
         [CanBeNull]
+        [SubField('b')]
         [XmlAttribute("country")]
         [JsonProperty("country")]
         public string Country { get; set; }
@@ -67,6 +71,7 @@ namespace ManagedIrbis.Readers
         /// Город. Подполе C.
         /// </summary>
         [CanBeNull]
+        [SubField('c')]
         [XmlAttribute("city")]
         [JsonProperty("city")]
         public string City { get; set; }
@@ -75,6 +80,7 @@ namespace ManagedIrbis.Readers
         /// Улица. Подполе D.
         /// </summary>
         [CanBeNull]
+        [SubField('d')]
         [XmlAttribute("street")]
         [JsonProperty("street")]
         public string Street { get; set; }
@@ -83,6 +89,7 @@ namespace ManagedIrbis.Readers
         /// Номер дома. Подполе E.
         /// </summary>
         [CanBeNull]
+        [SubField('e')]
         [XmlAttribute("building")]
         [JsonProperty("building")]
         public string Building { get; set; }
@@ -91,6 +98,7 @@ namespace ManagedIrbis.Readers
         /// Номер подъезда. Подполе G.
         /// </summary>
         [CanBeNull]
+        [SubField('g')]
         [XmlAttribute("entrance")]
         [JsonProperty("entrance")]
         public string Entrance { get; set; }
@@ -99,6 +107,7 @@ namespace ManagedIrbis.Readers
         /// Номер квартиры. Подполе H.
         /// </summary>
         [CanBeNull]
+        [SubField('h')]
         [XmlAttribute("apartment")]
         [JsonProperty("apartment")]
         public string Apartment { get; set; }
@@ -107,6 +116,7 @@ namespace ManagedIrbis.Readers
         /// Дополнительные данные. Подполе F.
         /// </summary>
         [CanBeNull]
+        [SubField('f')]
         [XmlAttribute("additionalData")]
         [JsonProperty("additionalData")]
         public string AdditionalData { get; set; }

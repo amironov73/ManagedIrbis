@@ -10,6 +10,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+
 using AM.Collections;
 using AM.IO;
 using AM.Runtime;
@@ -17,6 +18,10 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Mapping;
+
+using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 
@@ -29,6 +34,7 @@ namespace ManagedIrbis.Readers
     /// </summary>
     [PublicAPI]
     [XmlRoot("reader")]
+    [MoonSharpUserData]
     public sealed class ReaderInfo
         : IHandmadeSerializable
     {
@@ -46,6 +52,7 @@ namespace ManagedIrbis.Readers
         /// Фамилия. Поле 10.
         /// </summary>
         [CanBeNull]
+        [Field("10")]
         [XmlAttribute("familyName")]
         [JsonProperty("familyName")]
         public string FamilyName { get; set; }
@@ -54,6 +61,7 @@ namespace ManagedIrbis.Readers
         /// Имя. Поле 11.
         /// </summary>
         [CanBeNull]
+        [Field("11")]
         [XmlAttribute("firstName")]
         [JsonProperty("firstName")]
         public string FirstName { get; set; }
@@ -62,6 +70,7 @@ namespace ManagedIrbis.Readers
         /// Отчество. Поле 12.
         /// </summary>
         [CanBeNull]
+        [Field("12")]
         [XmlAttribute("patronymic")]
         [JsonProperty("patronymic")]
         public string Patronymic { get; set; }
@@ -70,6 +79,7 @@ namespace ManagedIrbis.Readers
         /// Дата рождения. Поле 21.
         /// </summary>
         [CanBeNull]
+        [Field("21")]
         [XmlAttribute("dateOfBirth")]
         [JsonProperty("dateOfBirth")]
         public string DateOfBirth { get; set; }
@@ -78,6 +88,7 @@ namespace ManagedIrbis.Readers
         /// Номер читательского. Поле 30.
         /// </summary>
         [CanBeNull]
+        [Field("30")]
         [XmlAttribute("ticket")]
         [JsonProperty("ticket")]
         public string Ticket { get; set; }
@@ -86,6 +97,7 @@ namespace ManagedIrbis.Readers
         /// Пол. Поле 23.
         /// </summary>
         [CanBeNull]
+        [Field("23")]
         [XmlAttribute("gender")]
         [JsonProperty("gender")]
         public string Gender { get; set; }
@@ -94,6 +106,7 @@ namespace ManagedIrbis.Readers
         /// Категория. Поле 50.
         /// </summary>
         [CanBeNull]
+        [Field("50")]
         [XmlAttribute("category")]
         [JsonProperty("category")]
         public string Category { get; set; }
@@ -110,6 +123,7 @@ namespace ManagedIrbis.Readers
         /// Место работы. Поле 15.
         /// </summary>
         [CanBeNull]
+        [Field("15")]
         [XmlAttribute("workPlace")]
         [JsonProperty("workPlace")]
         public string WorkPlace { get; set; }
@@ -118,6 +132,7 @@ namespace ManagedIrbis.Readers
         /// Образование. Поле 20.
         /// </summary>
         [CanBeNull]
+        [Field("20")]
         [XmlAttribute("education")]
         [JsonProperty("education")]
         public string Education { get; set; }
@@ -126,6 +141,7 @@ namespace ManagedIrbis.Readers
         /// Электронная почта. Поле 32.
         /// </summary>
         [CanBeNull]
+        [Field("32")]
         [XmlAttribute("email")]
         [JsonProperty("email")]
         public string Email { get; set; }
@@ -134,6 +150,7 @@ namespace ManagedIrbis.Readers
         /// Домашний телефон. Поле 17.
         /// </summary>
         [CanBeNull]
+        [Field("17")]
         [XmlAttribute("homePhone")]
         [JsonProperty("homePhone")]
         public string HomePhone { get; set; }
@@ -142,6 +159,7 @@ namespace ManagedIrbis.Readers
         /// Дата записи. Поле 51.
         /// </summary>
         [CanBeNull]
+        [Field("51")]
         [XmlAttribute("registrationDate")]
         [JsonProperty("registrationDate")]
         public string RegistrationDateString { get; set; }
@@ -218,6 +236,7 @@ namespace ManagedIrbis.Readers
         /// Разрешенные места получения литературы. Поле 56.
         /// </summary>
         [CanBeNull]
+        [Field("56")]
         [XmlAttribute("enabledPlaces")]
         [JsonProperty("enabledPlaces")]
         public string EnabledPlaces { get; set; }
@@ -226,6 +245,7 @@ namespace ManagedIrbis.Readers
         /// Запрещенные места получения литературы. Поле 57.
         /// </summary>
         [CanBeNull]
+        [Field("57")]
         [XmlAttribute("disabledPlaces")]
         [JsonProperty("disabledPlaces")]
         public string DisabledPlaces { get; set; }
@@ -234,6 +254,7 @@ namespace ManagedIrbis.Readers
         /// Право пользования библиотекой. Поле 29.
         /// </summary>
         [CanBeNull]
+        [Field("29")]
         [XmlAttribute("rights")]
         [JsonProperty("rights")]
         public string Rights { get; set; }
@@ -242,6 +263,7 @@ namespace ManagedIrbis.Readers
         /// Примечания. Поле 33.
         /// </summary>
         [CanBeNull]
+        [Field("33")]
         [XmlAttribute("remarks")]
         [JsonProperty("remarks")]
         public string Remarks { get; set; }
@@ -250,8 +272,9 @@ namespace ManagedIrbis.Readers
         /// Фотография читателя. Поле 950.
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("photo-file")]
-        [JsonProperty("photo-file")]
+        [Field("950")]
+        [XmlAttribute("photoFile")]
+        [JsonProperty("photoFile")]
         public string PhotoFile { get; set; }
 
         /// <summary>

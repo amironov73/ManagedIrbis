@@ -7,6 +7,7 @@
 #region Using directives
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
@@ -17,6 +18,8 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Mapping;
 
 using MoonSharp.Interpreter;
 
@@ -31,6 +34,7 @@ namespace ManagedIrbis.Readers
     /// </summary>
     [XmlRoot("visit")]
     [MoonSharpUserData]
+    [DebuggerDisplay("{DateGivenString} {Index} {Description}")]
     public sealed class VisitInfo
         : IHandmadeSerializable
     {
@@ -40,6 +44,7 @@ namespace ManagedIrbis.Readers
         /// подполе G, имя БД каталога.
         /// </summary>
         [CanBeNull]
+        [SubField('g')]
         [XmlAttribute("database")]
         [JsonProperty("database")]
         public string Database { get; set; }
@@ -48,6 +53,7 @@ namespace ManagedIrbis.Readers
         /// подполе A, шифр документа.
         /// </summary>
         [CanBeNull]
+        [SubField('a')]
         [XmlAttribute("index")]
         [JsonProperty("index")]
         public string Index { get; set; }
@@ -56,6 +62,7 @@ namespace ManagedIrbis.Readers
         /// подполе B, инвентарный номер экземпляра
         /// </summary>
         [CanBeNull]
+        [SubField('b')]
         [XmlAttribute("inventory")]
         [JsonProperty("inventory")]
         public string Inventory { get; set; }
@@ -64,6 +71,7 @@ namespace ManagedIrbis.Readers
         /// подполе H, штрих-код экземпляра.
         /// </summary>
         [CanBeNull]
+        [SubField('h')]
         [XmlAttribute("barcode")]
         [JsonProperty("barcode")]
         public string Barcode { get; set; }
@@ -72,6 +80,7 @@ namespace ManagedIrbis.Readers
         /// подполе K, место хранения экземпляра
         /// </summary>
         [CanBeNull]
+        [SubField('k')]
         [XmlAttribute("sigla")]
         [JsonProperty("sigla")]
         public string Sigla { get; set; }
@@ -80,6 +89,7 @@ namespace ManagedIrbis.Readers
         /// подполе D, дата выдачи
         /// </summary>
         [CanBeNull]
+        [SubField('d')]
         [XmlAttribute("dateGiven")]
         [JsonProperty("dateGiven")]
         public string DateGivenString { get; set; }
@@ -88,6 +98,7 @@ namespace ManagedIrbis.Readers
         /// подполе V, место выдачи
         /// </summary>
         [CanBeNull]
+        [SubField('v')]
         [XmlAttribute("department")]
         [JsonProperty("department")]
         public string Department { get; set; }
@@ -96,6 +107,7 @@ namespace ManagedIrbis.Readers
         /// подполе E, дата предполагаемого возврата
         /// </summary>
         [CanBeNull]
+        [SubField('e')]
         [XmlAttribute("dateExpected")]
         [JsonProperty("dateExpected")]
         public string DateExpectedString { get; set; }
@@ -104,6 +116,7 @@ namespace ManagedIrbis.Readers
         /// подполе F, дата фактического возврата
         /// </summary>
         [CanBeNull]
+        [SubField('f')]
         [XmlAttribute("dateReturned")]
         [JsonProperty("dateReturned")]
         public string DateReturnedString { get; set; }
@@ -112,6 +125,7 @@ namespace ManagedIrbis.Readers
         /// подполе L, дата продления
         /// </summary>
         [CanBeNull]
+        [SubField('l')]
         [XmlAttribute("dateProlong")]
         [JsonProperty("dateProlong")]
         public string DateProlongString { get; set; }
@@ -120,6 +134,7 @@ namespace ManagedIrbis.Readers
         /// подполе U, признак утерянной книги
         /// </summary>
         [CanBeNull]
+        [SubField('u')]
         [XmlAttribute("lost")]
         [JsonProperty("lost")]
         public string Lost { get; set; }
@@ -128,6 +143,7 @@ namespace ManagedIrbis.Readers
         /// подполе C, краткое библиографическое описание
         /// </summary>
         [CanBeNull]
+        [SubField('c')]
         [XmlAttribute("description")]
         [JsonProperty("description")]
         public string Description { get; set; }
@@ -136,6 +152,7 @@ namespace ManagedIrbis.Readers
         /// подполе I, ответственное лицо
         /// </summary>
         [CanBeNull]
+        [SubField('i')]
         [XmlAttribute("responsible")]
         [JsonProperty("responsible")]
         public string Responsible { get; set; }
@@ -144,6 +161,7 @@ namespace ManagedIrbis.Readers
         /// подполе 1, время начала визита в библиотеку
         /// </summary>
         [CanBeNull]
+        [SubField('1')]
         [XmlAttribute("timeIn")]
         [JsonProperty("timeIn")]
         public string TimeIn { get; set; }
@@ -152,6 +170,7 @@ namespace ManagedIrbis.Readers
         /// подполе 2, время окончания визита в библиотеку
         /// </summary>
         [CanBeNull]
+        [SubField('2')]
         [XmlAttribute("timeOut")]
         [JsonProperty("timeOut")]
         public string TimeOut { get; set; }
@@ -422,10 +441,7 @@ namespace ManagedIrbis.Readers
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        /// <inheritdoc />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();

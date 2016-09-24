@@ -19,6 +19,10 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Mapping;
+
+using MoonSharp.Interpreter;
+
 using Newtonsoft.Json;
 
 #endregion
@@ -29,6 +33,7 @@ namespace ManagedIrbis.Readers
     /// Профиль ИРИ
     /// </summary>
     [PublicAPI]
+    [MoonSharpUserData]
     [XmlRoot("iri-profile")]
     [DebuggerDisplay("{Title} {Query}")]
     public sealed class IriProfile
@@ -40,7 +45,7 @@ namespace ManagedIrbis.Readers
         /// Тег поля ИРИ.
         /// </summary>
         public const string IriTag = "140";
-        
+
         #endregion
 
         #region Properties
@@ -48,6 +53,7 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Подполе A
         /// </summary>
+        [SubField('a')]
         [XmlAttribute("active")]
         [JsonProperty("active")]
         public bool Active { get; set; }
@@ -56,6 +62,7 @@ namespace ManagedIrbis.Readers
         /// Подполе B
         /// </summary>
         [CanBeNull]
+        [SubField('b')]
         [XmlAttribute("id")]
         [JsonProperty("id")]
         // ReSharper disable once InconsistentNaming
@@ -65,6 +72,7 @@ namespace ManagedIrbis.Readers
         /// Подполе C
         /// </summary>
         [CanBeNull]
+        [SubField('c')]
         [XmlAttribute("title")]
         [JsonProperty("title")]
         public string Title { get; set; }
@@ -73,6 +81,7 @@ namespace ManagedIrbis.Readers
         /// Подполе D
         /// </summary>
         [CanBeNull]
+        [SubField('d')]
         [XmlAttribute("query")]
         [JsonProperty("query")]
         public string Query { get; set; }
@@ -80,6 +89,7 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Подполе E
         /// </summary>
+        [SubField('e')]
         [XmlAttribute("periodicity")]
         [JsonProperty("periodicity")]
         public int Periodicity { get; set; }
@@ -88,6 +98,7 @@ namespace ManagedIrbis.Readers
         /// Подполе F
         /// </summary>
         [CanBeNull]
+        [SubField('f')]
         [XmlAttribute("lastServed")]
         [JsonProperty("lastServed")]
         public string LastServed { get; set; }
@@ -96,10 +107,10 @@ namespace ManagedIrbis.Readers
         /// Подполе I
         /// </summary>
         [CanBeNull]
+        [SubField('i')]
         [XmlAttribute("database")]
         [JsonProperty("database")]
         public string Database { get; set; }
-
 
         /// <summary>
         /// Ссылка на читателя.
