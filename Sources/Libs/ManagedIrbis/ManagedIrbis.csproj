@@ -312,7 +312,7 @@
     <Compile Include="Source\Transform\RecordTransformContext.cs" />
     <Compile Include="Source\Worksheet\InputMode.cs" />
     <Compile Include="Source\IrbisOpt.cs" />
-    <Compile Include="Source\IrbisParFile.cs" />
+    <Compile Include="Source\ParFile.cs" />
     <Compile Include="Source\IrbisPath.cs" />
     <Compile Include="Source\IrbisProcessInfo.cs" />
     <Compile Include="Source\IrbisSearchQuery.cs" />

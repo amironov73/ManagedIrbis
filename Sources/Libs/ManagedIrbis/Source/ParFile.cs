@@ -1,4 +1,4 @@
-﻿/* IrbisParFile.cs -- PAR files handling
+﻿/* ParFile.cs -- PAR files handling
  * Ars Magna project, http://arsmagna.ru
  */
 
@@ -26,6 +26,8 @@ using Newtonsoft.Json;
 
 namespace ManagedIrbis
 {
+    // Official documentation:
+    //
     // Каждой базе данных ИРБИС соответствует один .par-файл.
     // Этот файл содержит набор путей к файлам базы данных ИРБИС.
     // Имя .par-файла соответствует имени базы данных.
@@ -84,8 +86,9 @@ namespace ManagedIrbis
     [PublicAPI]
     [XmlRoot("par")]
     [MoonSharpUserData]
-    public sealed class IrbisParFile
-        : IHandmadeSerializable
+    public sealed class ParFile
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Constants
 
@@ -97,6 +100,7 @@ namespace ManagedIrbis
         /// Путь к файлу XRF
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("xrf")]
         [JsonProperty("xrf")]
         public string XrfPath { get; set; }
 
@@ -253,7 +257,7 @@ namespace ManagedIrbis
         /// Разбор файла.
         /// </summary>
         [NotNull]
-        public static IrbisParFile ParseFile
+        public static ParFile ParseFile
             (
                 [NotNull] string fileName
             )
@@ -274,16 +278,17 @@ namespace ManagedIrbis
         /// Разбор текста.
         /// </summary>
         [NotNull]
-        public static IrbisParFile ParseText
+        public static ParFile ParseText
             (
                 [NotNull] TextReader reader
             )
         {
             Code.NotNull(reader, "reader");
 
-            Dictionary<string, string> dictionary = ReadDictionary(reader);
+            Dictionary<string, string> dictionary
+                = ReadDictionary(reader);
 
-            IrbisParFile result = new IrbisParFile
+            ParFile result = new ParFile
             {
                 XrfPath = dictionary["1"],
                 MstPath = dictionary["2"],
@@ -377,14 +382,14 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc />
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             XrfPath = reader.ReadNullableString();
             MstPath = reader.ReadNullableString();
             CntPath = reader.ReadNullableString();
@@ -398,14 +403,14 @@ namespace ManagedIrbis
             ExtPath = reader.ReadNullableString();
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <inheritdoc />
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             writer
                 .WriteNullable(XrfPath)
                 .WriteNullable(MstPath)
@@ -420,45 +425,42 @@ namespace ManagedIrbis
                 .WriteNullable(ExtPath);
         }
 
-        /// <summary>
-        /// Проверяем.
-        /// </summary>
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc />
         public bool Verify
             (
-                bool throwException
+                bool throwOnError
             )
         {
-            bool result =
-                !string.IsNullOrEmpty(XrfPath) &&
-                !string.IsNullOrEmpty(MstPath) &&
-                !string.IsNullOrEmpty(CntPath) &&
-                !string.IsNullOrEmpty(N01Path) &&
-                !string.IsNullOrEmpty(N02Path) &&
-                !string.IsNullOrEmpty(L01Path) &&
-                !string.IsNullOrEmpty(L02Path) &&
-                !string.IsNullOrEmpty(IfpPath) &&
-                !string.IsNullOrEmpty(AnyPath) &&
-                !string.IsNullOrEmpty(PftPath) &&
-                !string.IsNullOrEmpty(ExtPath);
+            Verifier<ParFile> verifier = new Verifier<ParFile>
+                (
+                    this,
+                    throwOnError
+                );
 
-            if (!result && throwException)
-            {
-                throw new FormatException();
-            }
+            verifier
+                .NotNullNorEmpty(XrfPath, "XrfPath")
+                .NotNullNorEmpty(MstPath, "MstPath")
+                .NotNullNorEmpty(CntPath, "CntPath")
+                .NotNullNorEmpty(N01Path, "N01Path")
+                .NotNullNorEmpty(N02Path, "N02Path")
+                .NotNullNorEmpty(L01Path, "L01Path")
+                .NotNullNorEmpty(L02Path, "L02Path")
+                .NotNullNorEmpty(IfpPath, "IfpPath")
+                .NotNullNorEmpty(AnyPath, "AnyPath")
+                .NotNullNorEmpty(PftPath, "PftPath");
 
-            return result;
+            return verifier.Result;
         }
 
         #endregion
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc />
         public override string ToString()
         {
             return MstPath.ToVisibleString();

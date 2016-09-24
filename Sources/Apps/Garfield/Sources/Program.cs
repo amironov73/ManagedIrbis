@@ -65,7 +65,7 @@ namespace Garfield
                 fileName = arguments[0];
             }
 
-            Center.IniFile = LocalCatalogerIniFile.Load(fileName);
+            Center.LocalIniFile = LocalCatalogerIniFile.Load(fileName);
 
             Center.MainForm = new MainForm();
         }

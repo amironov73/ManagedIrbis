@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
 using AM.IO;
 
@@ -33,7 +34,6 @@ namespace ManagedIrbis.Client
     [PublicAPI]
     [MoonSharpUserData]
     public class LocalCatalogerIniFile
-        : IniFile
     {
         #region Constants
 
@@ -47,12 +47,18 @@ namespace ManagedIrbis.Client
         #region Properties
         
         /// <summary>
+        /// INI-file.
+        /// </summary>
+        [NotNull]
+        public IniFile Ini { get; private set; }
+
+        /// <summary>
         /// Main section.
         /// </summary>
         [NotNull]
-        public Section MainSection
+        public IniFile.Section MainSection
         {
-            get { return GetSection(Main).ThrowIfNull(); }
+            get { return Ini.GetSection(Main).ThrowIfNull(); }
         }
 
         /// <summary>
@@ -90,7 +96,52 @@ namespace ManagedIrbis.Client
 
         #endregion
 
+        #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public LocalCatalogerIniFile
+            (
+                [NotNull] IniFile iniFile
+            )
+        {
+            Code.NotNull(iniFile, "iniFile");
+
+            Ini = iniFile;
+        }
+
+        #endregion
+
+        #region Private members
+
+        #endregion
+
         #region Public methods
+
+        /// <summary>
+        /// Get value.
+        /// </summary>
+        [CanBeNull]
+        public string GetValue
+            (
+                [NotNull] string sectionName,
+                [NotNull] string keyName,
+                [CanBeNull] string defaultValue
+            )
+        {
+            Code.NotNullNorEmpty(sectionName, "sectionName");
+            Code.NotNullNorEmpty(keyName, "keyName");
+
+            string result = Ini.GetValue
+                (
+                    sectionName,
+                    keyName,
+                    defaultValue
+                );
+
+            return result;
+        }
 
         /// <summary>
         /// Load from specified file.
@@ -103,12 +154,14 @@ namespace ManagedIrbis.Client
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            LocalCatalogerIniFile result = new LocalCatalogerIniFile();
-            result.Read
+            IniFile iniFile = new IniFile();
+            iniFile.Read
                 (
                     fileName,
                     IrbisEncoding.Ansi
                 );
+            LocalCatalogerIniFile result
+                = new LocalCatalogerIniFile(iniFile);
 
             return result;
         }

@@ -222,7 +222,7 @@
     <Compile Include="ManagedIrbis\IrbisQueryTest.cs" />
     <Compile Include="ManagedIrbis\IrbisOptTest.cs" />
     <Compile Include="ManagedIrbis\IrbisAlphabetTableTest.cs" />
-    <Compile Include="ManagedIrbis\IrbisParFileTest.cs" />
+    <Compile Include="ManagedIrbis\ParFileTest.cs" />
     <Compile Include="ManagedIrbis\FieldReferenceTest.cs" />
     <Compile Include="ManagedIrbis\Identifiers\IsbnTest.cs" />
     <Compile Include="ManagedIrbis\IrbisTreeFileTest.cs" />

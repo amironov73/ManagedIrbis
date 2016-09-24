@@ -29,7 +29,9 @@ namespace Garfield
     {
         public static IrbisConnection Connection { get; set; }
 
-        public static LocalCatalogerIniFile IniFile { get; set; }
+        public static RemoteCatalogerIniFile IniFile { get; set; }
+
+        public static LocalCatalogerIniFile LocalIniFile { get; set; }
 
         public static MainForm MainForm { get; set; }
     }
