@@ -46,9 +46,11 @@ namespace IrbisTestRunner.Tests
         [TestMethod]
         public void Connection_IniFile()
         {
-            IrbisConnection connection = Connection.ThrowIfNull();
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
 
-            string dbNameCat = connection.IniFile["Main", "DBNNAMECAT"];
+            string dbNameCat
+                = connection.IniFile["Main", "DBNNAMECAT"];
             Write("DBNNAMECAT=" + dbNameCat);
         }
 

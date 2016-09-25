@@ -45,9 +45,10 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestBatchRecordReader_ManyRecords()
+        public void BatchRecordReader_ManyRecords()
         {
-            IrbisConnection connection = Connection.ThrowIfNull("Connection");
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
 
             BatchRecordReader reader = new BatchRecordReader
                 (
@@ -66,9 +67,10 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestBatchRecordReader_OneRecord()
+        public void BatchRecordReader_OneRecord()
         {
-            IrbisConnection connection = Connection.ThrowIfNull("Connection");
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
 
             BatchRecordReader reader = new BatchRecordReader
                 (
@@ -87,9 +89,10 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestBatchRecordReader_NoRecords()
+        public void BatchRecordReader_NoRecords()
         {
-            IrbisConnection connection = Connection.ThrowIfNull("Connection");
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
 
             BatchRecordReader reader = new BatchRecordReader
                 (

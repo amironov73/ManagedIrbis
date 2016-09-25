@@ -9,6 +9,8 @@
 using System;
 using System.IO;
 
+using AM;
+
 using ManagedIrbis;
 using ManagedIrbis.Fields;
 using ManagedIrbis.Testing;
@@ -36,9 +38,13 @@ namespace IrbisTestRunner.Tests
                 int mfn
             )
         {
-            MarcRecord record = Connection.ReadRecord(mfn);
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
 
-            BinaryResource[] resources = BinaryResource.Parse(record);
+            MarcRecord record = connection.ReadRecord(mfn);
+
+            BinaryResource[] resources
+                = BinaryResource.Parse(record);
             for (int i = 0; i < resources.Length; i++)
             {
                 BinaryResource resource = resources[i];
@@ -75,7 +81,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestBinaryResource()
+        public void BinaryResource_Read()
         {
             _TestBinaryResource(18);
             _TestBinaryResource(23);

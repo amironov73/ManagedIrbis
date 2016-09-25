@@ -87,9 +87,10 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestFlcProcessor()
+        public void FlcProcessor_Test1()
         {
-            IrbisConnection connection = Connection.ThrowIfNull();
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
 
             MarcRecord record = _GetRecord();
             FlcProcessor processor = new FlcProcessor();

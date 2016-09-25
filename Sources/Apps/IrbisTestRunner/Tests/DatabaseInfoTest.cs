@@ -44,13 +44,17 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestDatabaseInfo()
+        public void DatabaseInfo_Test1()
         {
-            Connection.ReadRecord("IBIS", 3, true, null);
-            DatabaseInfo info = Connection.GetDatabaseInfo("IBIS");
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
+            connection.ReadRecord("IBIS", 3, true, null);
+            DatabaseInfo info = connection.GetDatabaseInfo("IBIS");
             Write(info);
-            Connection.UnlockRecords("IBIS", 3);
-            info = Connection.GetDatabaseInfo("ISTU");
+
+            connection.UnlockRecords("IBIS", 3);
+            info = connection.GetDatabaseInfo("ISTU");
             Write(info);
         }
 

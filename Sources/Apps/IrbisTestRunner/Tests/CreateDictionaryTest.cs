@@ -44,9 +44,12 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestCreateDictionary()
+        public void CreateDictionary_Test1()
         {
-            Connection.CreateDictionary("IBIS");
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
+            connection.CreateDictionary("IBIS");
         }
 
         #endregion

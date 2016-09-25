@@ -45,8 +45,11 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestDatabaseStat()
+        public void DatabaseStat_Test1()
         {
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
             StatDefinition.Item item = new StatDefinition.Item
             {
                 Field = "v200^a",
@@ -60,7 +63,7 @@ namespace IrbisTestRunner.Tests
                 SearchQuery = "T=А$"
             };
             definition.Items.Add(item);
-            string text = Connection.GetDatabaseStat(definition);
+            string text = connection.GetDatabaseStat(definition);
             string filePath = Path.Combine
                 (
                     Path.GetTempPath(),

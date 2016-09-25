@@ -79,7 +79,7 @@ namespace ManagedIrbis.Fst
         {
             StringBuilder result = new StringBuilder();
 
-            result.Append('!');
+            // result.Append('!');
 
             foreach (FstLine line in Lines)
             {

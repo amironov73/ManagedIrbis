@@ -98,7 +98,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestArbitraryCommand()
+        public void ArbitraryCommand_Test1 ()
         {
             //_TestCommand("2", "IBIS");
             //_TestCommand("C", "IBIS", "3", "1", "0");
