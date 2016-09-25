@@ -331,12 +331,21 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
-        /// Get SearchCommand.
+        /// Get <see cref="SearchCommand"/>.
         /// </summary>
         [NotNull]
         public virtual SearchCommand GetSearchCommand()
         {
             return new SearchCommand(Connection);
+        }
+
+        /// <summary>
+        /// Get <see cref="SearchRawCommand"/>.
+        /// </summary>
+        [NotNull]
+        public virtual SearchRawCommand GetSearchRawCommand()
+        {
+            return new SearchRawCommand(Connection);
         }
 
         /// <summary>

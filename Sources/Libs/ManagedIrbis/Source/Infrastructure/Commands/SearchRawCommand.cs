@@ -6,11 +6,8 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
 using AM;
+using AM.Text;
 
 using CodeJam;
 
@@ -114,6 +111,12 @@ namespace ManagedIrbis.Infrastructure.Commands
         public string SequentialSpecification { get; set; }
 
         /// <summary>
+        /// Use UTF8 encoding for
+        /// <see cref="FormatSpecification"/>?
+        /// </summary>
+        public bool UtfFormat { get; set; }
+
+        /// <summary>
         /// Found records
         /// </summary>
         [CanBeNull]
@@ -162,6 +165,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             SearchExpression = parameters.SearchExpression;
             SequentialSpecification
                 = parameters.SequentialSpecification;
+            UtfFormat = parameters.UtfFormat;
         }
 
         /// <summary>
@@ -181,7 +185,8 @@ namespace ManagedIrbis.Infrastructure.Commands
                 MinMfn = MinMfn,
                 NumberOfRecords = NumberOfRecords,
                 SearchExpression = SearchExpression,
-                SequentialSpecification = SequentialSpecification
+                SequentialSpecification = SequentialSpecification,
+                UtfFormat = UtfFormat
             };
 
             return result;
@@ -203,7 +208,8 @@ namespace ManagedIrbis.Infrastructure.Commands
                 MinMfn = MinMfn,
                 NumberOfRecords = NumberOfRecords,
                 SearchExpression = SearchExpression,
-                SequentialSpecification = SequentialSpecification
+                SequentialSpecification = SequentialSpecification,
+                UtfFormat = UtfFormat
             };
 
             return result;
@@ -243,7 +249,18 @@ namespace ManagedIrbis.Infrastructure.Commands
                     FormatSpecification
                 );
 
-            result.AddAnsi(preparedFormat);
+            result.Add
+                (
+                    new TextWithEncoding
+                        (
+                            UtfFormat
+                            ? "!" + preparedFormat
+                            : preparedFormat,
+                            UtfFormat
+                            ? IrbisEncoding.Utf8
+                            : IrbisEncoding.Ansi
+                        )
+                );
 
             if (!string.IsNullOrEmpty(SequentialSpecification))
             {

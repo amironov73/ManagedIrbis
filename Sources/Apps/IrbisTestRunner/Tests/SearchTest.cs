@@ -172,6 +172,29 @@ namespace IrbisTestRunner.Tests
             Write(record.NullableToVisibleString().Substring(0,50));
         }
 
+        [TestMethod]
+        public void Search_Raw()
+        {
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
+            SearchParameters parameters = new SearchParameters
+            {
+                Database = "IBIS",
+                SearchExpression = "T=A$",
+                FormatSpecification = "v200^a, ' Привет!'"
+            };
+            string[] found = connection.SearchRaw(parameters);
+            Write
+                (
+                    string.Join
+                    (
+                        Environment.NewLine,
+                        found
+                    )
+                );
+        }
+
         #endregion
     }
 }

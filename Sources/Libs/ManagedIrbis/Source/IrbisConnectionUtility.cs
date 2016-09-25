@@ -947,35 +947,21 @@ namespace ManagedIrbis
         public static string[] SearchRaw
             (
                 [NotNull] this IrbisConnection connection,
-                [NotNull] string database,
-                [NotNull] string expression,
-                int firstRecord,
-                int numberOfRecords,
-                [CanBeNull] string format
+                [NotNull] SearchParameters parameters
             )
         {
-            // TODO Create RawSearchCommand
-
             Code.NotNull(connection, "connection");
-            Code.NotNullNorEmpty(database, "database");
-            Code.NotNullNorEmpty(expression, "expression");
+            Code.NotNull(parameters, "parameters");
 
-            UniversalCommand command
-                = connection.CommandFactory.GetUniversalCommand
-                (
-                    CommandCode.Search,
-                    database,
-                    new TextWithEncoding (expression, IrbisEncoding.Utf8),
-                    numberOfRecords,
-                    firstRecord,
-                    new TextWithEncoding(format, IrbisEncoding.Ansi)
-                );
+            SearchRawCommand command = connection.CommandFactory
+                .GetSearchRawCommand();
+            command.ApplyParameters(parameters);
 
-            ServerResponse response = connection.ExecuteCommand(command);
+            connection.ExecuteCommand(command);
+            string[] result = command.Found
+                .ThrowIfNull("command.Found");
             
-            List<string> result = response.RemainingUtfStrings();
-
-            return result.ToArray();
+            return result;
         }
 
         // ========================================================
