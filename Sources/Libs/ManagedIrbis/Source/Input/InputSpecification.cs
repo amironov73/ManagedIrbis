@@ -95,6 +95,8 @@ namespace ManagedIrbis.Input
             return result;
         }
 
+#if !NETCORE
+
         /// <summary>
         /// Load specification from XML file.
         /// </summary>
@@ -114,6 +116,8 @@ namespace ManagedIrbis.Input
 
             return result;
         }
+
+#endif
 
         #endregion
 
