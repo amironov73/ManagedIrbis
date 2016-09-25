@@ -631,7 +631,7 @@ namespace ManagedIrbis
         #region FormatRecord
 
         /// <summary>
-        /// Форматирование записи.
+        /// Format specified record using ANSI encoding.
         /// </summary>
         [CanBeNull]
         public string FormatRecord
@@ -640,8 +640,8 @@ namespace ManagedIrbis
                 int mfn
             )
         {
-            Code.Positive(mfn, "mfn");
             Code.NotNull(format, "format");
+            Code.Positive(mfn, "mfn");
 
             FormatCommand command = CommandFactory.GetFormatCommand();
             command.FormatSpecification = format;
@@ -657,7 +657,7 @@ namespace ManagedIrbis
         }
 
         /// <summary>
-        /// Форматирование записи.
+        /// Format specified record using ANSI encoding.
         /// </summary>
         [CanBeNull]
         public string FormatRecord
@@ -683,7 +683,7 @@ namespace ManagedIrbis
         }
 
         /// <summary>
-        /// Форматирование записей.
+        /// Format specified records using ANSI encoding.
         /// </summary>
         [NotNull]
         public string[] FormatRecords

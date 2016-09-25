@@ -85,6 +85,11 @@ namespace ManagedIrbis.Infrastructure.Commands
         public MarcRecord VirtualRecord { get; set; }
 
         /// <summary>
+        /// Use UTF-8 for <see cref="FormatSpecification"/>.
+        /// </summary>
+        public bool UtfFormat { get; set; }
+
+        /// <summary>
         /// Result of the command.
         /// </summary>
         [CanBeNull]
@@ -181,8 +186,12 @@ namespace ManagedIrbis.Infrastructure.Commands
                 (
                     new TextWithEncoding
                         (
-                            preparedFormat,
-                            IrbisEncoding.Ansi
+                            UtfFormat
+                            ? "!" + preparedFormat
+                            : preparedFormat,
+                            UtfFormat
+                            ? IrbisEncoding.Utf8
+                            : IrbisEncoding.Ansi
                         )
                 );
 

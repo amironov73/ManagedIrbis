@@ -162,14 +162,14 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void Format_Bang()
+        public void Format_Verbatim_Utf8()
         {
             IrbisConnection connection = Connection
                 .ThrowIfNull("Connection");
 
-            string actual = connection.FormatRecord
+            string actual = connection.FormatUtf8
                 (
-                    "!'Привет, мир!'",
+                    "'Привет, мир!'",
                     1
                 );
             Write(actual);

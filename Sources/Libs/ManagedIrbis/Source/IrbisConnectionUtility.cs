@@ -168,6 +168,105 @@ namespace ManagedIrbis
             return result;
         }
 
+        // ========================================================
+
+        /// <summary>
+        /// Format specified record using UTF8 encoding.
+        /// </summary>
+        public static string FormatUtf8
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string format,
+                int mfn
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNull(format, "format");
+            Code.Positive(mfn, "mfn");
+
+            FormatCommand command = connection.CommandFactory
+                .GetFormatCommand();
+            command.FormatSpecification = format;
+            command.UtfFormat = true;
+            command.MfnList.Add(mfn);
+
+            connection.ExecuteCommand(command);
+
+            string result = command.FormatResult
+                .ThrowIfNullOrEmpty("command.FormatResult")
+                [0];
+
+            return result;
+
+        }
+
+        /// <summary>
+        /// Format specified record using UTF8 encoding.
+        /// </summary>
+        public static string FormatUtf8
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string format,
+                [NotNull] MarcRecord record
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNull(format, "format");
+            Code.NotNull(record, "record");
+
+            FormatCommand command = connection.CommandFactory
+                .GetFormatCommand();
+            command.FormatSpecification = format;
+            command.UtfFormat = true;
+            command.VirtualRecord = record;
+
+            connection.ExecuteCommand(command);
+
+            string result = command.FormatResult
+                .ThrowIfNullOrEmpty("command.FormatResult")
+                [0];
+
+            return result;
+
+        }
+
+        /// <summary>
+        /// Format specified records using UTF8 encoding.
+        /// </summary>
+        [NotNull]
+        public static string[] FormatUtf8
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string database,
+                [NotNull] string format,
+                [NotNull] IEnumerable<int> mfnList
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNull(mfnList, "mfnList");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNull(format, "format");
+
+            FormatCommand command = connection.CommandFactory
+                .GetFormatCommand();
+            command.Database = database;
+            command.FormatSpecification = format;
+            command.UtfFormat = true;
+            command.MfnList.AddRange(mfnList);
+
+            if (command.MfnList.Count == 0)
+            {
+                return new string[0];
+            }
+
+            connection.ExecuteCommand(command);
+
+            string[] result = command.FormatResult
+                .ThrowIfNull("command.FormatResult");
+
+            return result;
+        }
+
 #if !NETCORE
 
         // ========================================================
