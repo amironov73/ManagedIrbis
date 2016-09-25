@@ -875,6 +875,7 @@ namespace ManagedIrbis
 
         /// <summary>
         /// Поиск с одновременным расформатированием.
+        /// Для формата используется кодировка ANSI.
         /// </summary>
         [NotNull]
         [ItemNotNull]
@@ -897,6 +898,39 @@ namespace ManagedIrbis
 
             connection.ExecuteCommand(command);
             
+            FoundItem[] result = command.Found
+                .ThrowIfNull("command.Found")
+                .ToArray();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Поиск с одновременным расформатированием.
+        /// Для формата используется кодировка UTF-8.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static FoundItem[] SearchFormatUtf8
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string searchExpression,
+                [NotNull] string formatSpecification
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(searchExpression, "searchExpression");
+            Code.NotNullNorEmpty(formatSpecification, "formatSpecification");
+
+            SearchCommand command
+                = connection.CommandFactory.GetSearchCommand();
+            command.Database = connection.Database;
+            command.SearchExpression = searchExpression;
+            command.FormatSpecification = formatSpecification;
+            command.UtfFormat = true;
+
+            connection.ExecuteCommand(command);
+
             FoundItem[] result = command.Found
                 .ThrowIfNull("command.Found")
                 .ToArray();

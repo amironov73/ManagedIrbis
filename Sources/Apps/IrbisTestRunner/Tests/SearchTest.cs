@@ -37,9 +37,12 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestSearch_Few()
+        public void Search_Few()
         {
-            int[] found = Connection.Search("T=A$");
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
+            int[] found = connection.Search("T=A$");
             Write
                 (
                     string.Join
@@ -52,13 +55,16 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestSearch_Many()
+        public void Search_Many()
         {
-            string saveDatabase = Connection.Database;
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
+            string saveDatabase = connection.Database;
             try
             {
-                //Connection.Database = "ISTU";
-                int[] found = Connection.Search("K=А$");
+                // connection.Database = "ISTU";
+                int[] found = connection.Search("K=А$");
                 Write
                     (
                         "Found: " + found.Length + ": "
@@ -75,14 +81,17 @@ namespace IrbisTestRunner.Tests
             }
             finally
             {
-                Connection.Database = saveDatabase;
+                connection.Database = saveDatabase;
             }
         }
 
         [TestMethod]
-        public void TestSearch_Format()
+        public void Search_Format()
         {
-            FoundItem[] found = Connection.SearchFormat
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
+            FoundItem[] found = connection.SearchFormat
                 (
                     "T=A$",
                     IrbisFormat.Brief
@@ -104,25 +113,61 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestSearch_Count()
+        public void Search_Format_Utf8()
         {
-            int result = Connection.SearchCount("T=A$");
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
+            FoundItem[] found = connection.SearchFormatUtf8
+                (
+                    "T=A$",
+                    "v200^a, ' Привет, мир!'"
+                );
+            Write
+                (
+                    "Found: " + found.Length + ": "
+                    + string.Join
+                        (
+                            "| ",
+                            found.Select
+                                (
+                                    item => item.ToString()
+                                        .SafeSubstring(0, 20)
+                                )
+                        )
+                        .SafeSubstring(0, 100)
+                );
+        }
+
+        [TestMethod]
+        public void Search_Count()
+        {
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
+            int result = connection.SearchCount("T=A$");
 
             Write("Found: " + result);
         }
 
         [TestMethod]
-        public void TestSearch_Read()
+        public void Search_Read()
         {
-            MarcRecord[] records = Connection.SearchRead("T=A$");
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
+            MarcRecord[] records = connection.SearchRead("T=A$");
 
             Write(records.Length);
         }
 
         [TestMethod]
-        public void TestSearch_ReadOneRecord()
+        public void Search_ReadOneRecord()
         {
-            MarcRecord record = Connection.SearchReadOneRecord("T=A$");
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
+            MarcRecord record = connection.SearchReadOneRecord("T=A$");
 
             Write(record.NullableToVisibleString().Substring(0,50));
         }

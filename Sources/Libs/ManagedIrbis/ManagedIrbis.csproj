@@ -150,6 +150,7 @@
     <Compile Include="Source\Infrastructure\Commands\ReloadDictionaryCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\ReloadMasterFileCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\RestartServerCommand.cs" />
+    <Compile Include="Source\Infrastructure\Commands\SearchRawCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\ServerStatCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\ServerVersionCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\TruncateDatabaseCommand.cs" />

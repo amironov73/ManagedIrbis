@@ -104,6 +104,12 @@ namespace ManagedIrbis.Search
         [JsonProperty("sequential")]
         public string SequentialSpecification { get; set; }
 
+        /// <summary>
+        /// Use UTF8 encoding for
+        /// <see cref="FormatSpecification"/>?
+        /// </summary>
+        public bool UtfFormat { get; set; }
+
         #endregion
 
         #region Construction
@@ -149,6 +155,7 @@ namespace ManagedIrbis.Search
             NumberOfRecords = reader.ReadPackedInt32();
             SearchExpression = reader.ReadNullableString();
             SequentialSpecification = reader.ReadNullableString();
+            UtfFormat = reader.ReadBoolean();
         }
 
         /// <inheritdoc />
@@ -167,7 +174,8 @@ namespace ManagedIrbis.Search
                 .WritePackedInt32(MinMfn)
                 .WritePackedInt32(NumberOfRecords)
                 .WriteNullable(SearchExpression)
-                .WriteNullable(SequentialSpecification);
+                .WriteNullable(SequentialSpecification)
+                .Write(UtfFormat);
         }
 
         #endregion

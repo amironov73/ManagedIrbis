@@ -1,4 +1,4 @@
-﻿/* SearchCommand.cs -- search records on IRBIS-server
+﻿/* SearchRawCommand.cs -- search records on IRBIS-server
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: moderate
@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 
 using AM;
-using AM.Text;
 
 using CodeJam;
 
@@ -65,7 +64,7 @@ namespace ManagedIrbis.Infrastructure.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class SearchCommand
+    public class SearchRawCommand
         : AbstractCommand
     {
         #region Properties
@@ -115,20 +114,10 @@ namespace ManagedIrbis.Infrastructure.Commands
         public string SequentialSpecification { get; set; }
 
         /// <summary>
-        /// Use UTF8 for <see cref="FormatSpecification"/>?
-        /// </summary>
-        public bool UtfFormat { get; set; }
-
-        /// <summary>
-        /// Found records.
+        /// Found records
         /// </summary>
         [CanBeNull]
-        public List<FoundItem> Found { get; set; }
-
-        /// <summary>
-        /// Count of found records.
-        /// </summary>
-        public int FoundCount { get; set; }
+        public string[] Found { get; set; }
 
         #endregion
 
@@ -137,7 +126,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SearchCommand
+        public SearchRawCommand
             (
                 [NotNull] IrbisConnection connection
             )
@@ -149,56 +138,6 @@ namespace ManagedIrbis.Infrastructure.Commands
         #endregion
 
         #region Private members
-
-        private bool _subCommand;
-
-        private void _FetchRemaining
-            (
-                ServerResponse mainResponse,
-                int expected
-            )
-        {
-            if (ReferenceEquals(Found, null))
-            {
-                return;
-            }
-
-            if (!_subCommand && (expected > IrbisConstants.MaxPostings))
-            {
-                int firstRecord = FirstRecord + Found.Count;
-
-                while (firstRecord < expected)
-                {
-                    SearchCommand subCommand = Clone();
-                    subCommand.FirstRecord = firstRecord;
-                    subCommand.NumberOfRecords =
-                        Math.Min
-                        (
-                            expected - firstRecord + 1,
-                            IrbisConstants.MaxPostings
-                        );
-                    subCommand._subCommand = true;
-
-                    ClientQuery clientQuery = subCommand.CreateQuery();
-                    ServerResponse subResponse = subCommand
-                        .Execute(clientQuery);
-                    subCommand.CheckResponse(subResponse);
-
-                    List<FoundItem> found = subCommand.Found
-                        .ThrowIfNull("Found");
-                    int count = found.Count;
-                    Found.AddRange(found);
-
-                    Debug.Assert
-                        (
-                            count != 0,
-                            "Found.Count == 0 in SubCommand"
-                        );
-
-                    firstRecord += count;
-                }
-            }
-        }
 
         #endregion
 
@@ -223,7 +162,6 @@ namespace ManagedIrbis.Infrastructure.Commands
             SearchExpression = parameters.SearchExpression;
             SequentialSpecification
                 = parameters.SequentialSpecification;
-            UtfFormat = parameters.UtfFormat;
         }
 
         /// <summary>
@@ -243,8 +181,7 @@ namespace ManagedIrbis.Infrastructure.Commands
                 MinMfn = MinMfn,
                 NumberOfRecords = NumberOfRecords,
                 SearchExpression = SearchExpression,
-                SequentialSpecification = SequentialSpecification,
-                UtfFormat = UtfFormat
+                SequentialSpecification = SequentialSpecification
             };
 
             return result;
@@ -266,8 +203,7 @@ namespace ManagedIrbis.Infrastructure.Commands
                 MinMfn = MinMfn,
                 NumberOfRecords = NumberOfRecords,
                 SearchExpression = SearchExpression,
-                SequentialSpecification = SequentialSpecification,
-                UtfFormat = UtfFormat
+                SequentialSpecification = SequentialSpecification
             };
 
             return result;
@@ -307,18 +243,7 @@ namespace ManagedIrbis.Infrastructure.Commands
                     FormatSpecification
                 );
 
-            result.Add
-                (
-                    new TextWithEncoding
-                        (
-                            UtfFormat
-                            ? "!" + preparedFormat
-                            : preparedFormat,
-                            UtfFormat
-                            ? IrbisEncoding.Utf8
-                            : IrbisEncoding.Ansi
-                        )
-                );
+            result.AddAnsi(preparedFormat);
 
             if (!string.IsNullOrEmpty(SequentialSpecification))
             {
@@ -358,26 +283,9 @@ namespace ManagedIrbis.Infrastructure.Commands
 
             ServerResponse result = base.Execute(clientQuery);
             result.GetReturnCode();
-            if (result.ReturnCode == 0)
-            {
-                int expected = result.RequireInt32();
-                FoundCount = expected;
-                Found = FoundItem.ParseServerResponse(result, expected)
-                    .ThrowIfNull("Found");
 
-                _FetchRemaining(result, expected);
-
-                if (!_subCommand
-                    && (FirstRecord == 1)
-                    && (NumberOfRecords == 0))
-                {
-                    Debug.Assert 
-                        (
-                            Found.Count == expected,
-                            "Found.Count != expected in total"
-                        );
-                }
-            }
+            Found = result.RemainingUtfStrings()
+                .ToArray();
 
             return result;
         }
@@ -394,8 +302,8 @@ namespace ManagedIrbis.Infrastructure.Commands
                 bool throwOnError
             )
         {
-            Verifier<SearchCommand> verifier
-                = new Verifier<SearchCommand>(this, throwOnError);
+            Verifier<SearchRawCommand> verifier
+                = new Verifier<SearchRawCommand>(this, throwOnError);
 
             //if (!string.IsNullOrEmpty(SequentialSpecification))
             //{
