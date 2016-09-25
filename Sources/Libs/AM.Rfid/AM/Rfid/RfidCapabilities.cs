@@ -12,6 +12,8 @@ using System;
 
 namespace AM.Rfid
 {
+    // ReSharper disable InconsistentNaming
+
     /// <summary>
     /// RFID capabilities.
     /// </summary>

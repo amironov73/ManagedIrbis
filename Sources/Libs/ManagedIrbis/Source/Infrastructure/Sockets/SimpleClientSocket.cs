@@ -65,16 +65,30 @@ namespace ManagedIrbis.Infrastructure
 
             if (_address == null)
             {
-                //try
-                //{
+#if NETCORE
+
+                _address = IPAddress.Parse(Connection.Host);
+
+#else
+
+                try
+                {
                     _address = IPAddress.Parse(Connection.Host);
-                //}
-                //catch
-                //{
-                //    // Not supported in .NET Core
-                //    IPHostEntry ipHostEntry = Dns.GetHostEntry(Connection.Host);
-                //    _address = ipHostEntry.AddressList[0];
-                //}
+                }
+                catch
+                {
+                    // Not supported in .NET Core
+                    IPHostEntry ipHostEntry
+                        = Dns.GetHostEntry(Connection.Host);
+                    if (ipHostEntry != null
+                        && ipHostEntry.AddressList != null
+                        && ipHostEntry.AddressList.Length != 0)
+                    {
+                        _address = ipHostEntry.AddressList[0];
+                    }
+                }
+
+#endif
             }
 
             if (_address == null)
@@ -92,13 +106,6 @@ namespace ManagedIrbis.Infrastructure
 
             // TODO some setup
 
-#if FW35
-
-            // Not supported in .NET Core
-            result.Connect(_address, Connection.Port);
-
-#endif
-
 #if NETCORE
 
             Task task = result.ConnectAsync(_address, Connection.Port);
@@ -106,7 +113,7 @@ namespace ManagedIrbis.Infrastructure
 
 #else
 
-            // FW40 doesn't contain ConnectAsync
+            // Not supported in .NET Core
             result.Connect(_address, Connection.Port);
 
 #endif
@@ -114,9 +121,9 @@ namespace ManagedIrbis.Infrastructure
             return result;
         }
 
-        #endregion
+#endregion
 
-        #region AbstractClientSocket members
+#region AbstractClientSocket members
 
         /// <summary>
         /// Abort the request.
@@ -158,6 +165,6 @@ namespace ManagedIrbis.Infrastructure
             }
         }
 
-        #endregion
+#endregion
     }
 }

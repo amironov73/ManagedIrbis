@@ -9,18 +9,18 @@ using ManagedIrbis;
 namespace UnitTests.ManagedIrbis
 {
     [TestClass]
-    public class IrbisParFileTest
+    public class ParFileTest
         : Common.CommonUnitTest
     {
         private void _TestSerialization
             (
-                IrbisParFile first
+                ParFile first
             )
         {
             byte[] bytes = first.SaveToMemory();
 
-            IrbisParFile second = bytes
-                .RestoreObjectFromMemory<IrbisParFile>();
+            ParFile second = bytes
+                .RestoreObjectFromMemory<ParFile>();
 
             Assert.AreEqual(first.AnyPath, second.AnyPath);
             Assert.AreEqual(first.CntPath, second.CntPath);
@@ -36,16 +36,16 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestIrbisParFileSerialization()
+        public void ParFile_Serialization()
         {
-            IrbisParFile parFile = new IrbisParFile();
+            ParFile parFile = new ParFile();
             _TestSerialization(parFile);
 
             parFile.MstPath = @".\datai\ibis\";
             _TestSerialization(parFile);
         }
 
-        private IrbisParFile _GetParFile ()
+        private ParFile _GetParFile ()
         {
             string fileName = Path.Combine
                 (
@@ -53,23 +53,23 @@ namespace UnitTests.ManagedIrbis
                     "ibis.par"
                 );
 
-            IrbisParFile result = IrbisParFile.ParseFile(fileName);
+            ParFile result = ParFile.ParseFile(fileName);
 
             return result;
         }
 
         [TestMethod]
-        public void TestIrbisParFileParseFile()
+        public void ParFile_ParseFile()
         {
-            IrbisParFile parFile = _GetParFile();
+            ParFile parFile = _GetParFile();
             Assert.AreEqual(@".\datai\ibis\", parFile.MstPath);
             _TestSerialization(parFile);
         }
 
         [TestMethod]
-        public void TestIrbisParFileWriteText()
+        public void ParFile_WriteText()
         {
-            IrbisParFile parFile = _GetParFile();
+            ParFile parFile = _GetParFile();
 
             StringWriter writer = new StringWriter();
             parFile.WriteText(writer);

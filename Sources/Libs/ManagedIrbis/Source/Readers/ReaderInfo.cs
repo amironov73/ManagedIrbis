@@ -11,12 +11,17 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 
+using AM.Collections;
 using AM.IO;
 using AM.Runtime;
 
-using BLToolkit.Mapping;
+using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Mapping;
+
+using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 
@@ -29,6 +34,7 @@ namespace ManagedIrbis.Readers
     /// </summary>
     [PublicAPI]
     [XmlRoot("reader")]
+    [MoonSharpUserData]
     public sealed class ReaderInfo
         : IHandmadeSerializable
     {
@@ -37,127 +43,125 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// ФИО. Комбинируется из полей 10, 11 и 12.
         /// </summary>
+        [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        [CanBeNull]
-        [MapField("name")]
-        public string Fio { get; set; }
+        public string FullName { get; set; }
 
         /// <summary>
         /// Фамилия. Поле 10.
         /// </summary>
-        [XmlAttribute("family-name")]
-        [JsonProperty("family-name")]
         [CanBeNull]
-        [MapIgnore]
+        [Field("10")]
+        [XmlAttribute("familyName")]
+        [JsonProperty("familyName")]
         public string FamilyName { get; set; }
 
         /// <summary>
         /// Имя. Поле 11.
         /// </summary>
-        [XmlAttribute("first-name")]
-        [JsonProperty("first-name")]
         [CanBeNull]
-        [MapIgnore]
+        [Field("11")]
+        [XmlAttribute("firstName")]
+        [JsonProperty("firstName")]
         public string FirstName { get; set; }
 
         /// <summary>
         /// Отчество. Поле 12.
         /// </summary>
-        [XmlAttribute("patronym")]
-        [JsonProperty("patronym")]
         [CanBeNull]
-        [MapIgnore]
-        public string Patronym { get; set; }
+        [Field("12")]
+        [XmlAttribute("patronymic")]
+        [JsonProperty("patronymic")]
+        public string Patronymic { get; set; }
 
         /// <summary>
         /// Дата рождения. Поле 21.
         /// </summary>
-        [XmlAttribute("birthdate")]
-        [JsonProperty("birthdate")]
         [CanBeNull]
-        [MapField("birthdate")]
-        public string Birthdate { get; set; }
+        [Field("21")]
+        [XmlAttribute("dateOfBirth")]
+        [JsonProperty("dateOfBirth")]
+        public string DateOfBirth { get; set; }
 
         /// <summary>
         /// Номер читательского. Поле 30.
         /// </summary>
+        [CanBeNull]
+        [Field("30")]
         [XmlAttribute("ticket")]
         [JsonProperty("ticket")]
-        [CanBeNull]
-        [MapField("ticket")]
         public string Ticket { get; set; }
 
         /// <summary>
         /// Пол. Поле 23.
         /// </summary>
+        [CanBeNull]
+        [Field("23")]
         [XmlAttribute("gender")]
         [JsonProperty("gender")]
-        [CanBeNull]
-        [MapField("gender")]
         public string Gender { get; set; }
 
         /// <summary>
         /// Категория. Поле 50.
         /// </summary>
+        [CanBeNull]
+        [Field("50")]
         [XmlAttribute("category")]
         [JsonProperty("category")]
-        [CanBeNull]
-        [MapField("category")]
         public string Category { get; set; }
 
         /// <summary>
         /// Домашний адрес. Поле 13.
         /// </summary>
-        [XmlAttribute("address")]
-        [JsonProperty("address")]
         [CanBeNull]
-        [MapIgnore]
+        [XmlElement("address")]
+        [JsonProperty("address")]
         public ReaderAddress Address { get; set; }
 
         /// <summary>
         /// Место работы. Поле 15.
         /// </summary>
-        [XmlAttribute("work")]
-        [JsonProperty("work")]
         [CanBeNull]
-        [MapField("work")]
-        public string Work { get; set; }
+        [Field("15")]
+        [XmlAttribute("workPlace")]
+        [JsonProperty("workPlace")]
+        public string WorkPlace { get; set; }
 
         /// <summary>
         /// Образование. Поле 20.
         /// </summary>
+        [CanBeNull]
+        [Field("20")]
         [XmlAttribute("education")]
         [JsonProperty("education")]
-        [CanBeNull]
-        [MapField("education")]
         public string Education { get; set; }
 
         /// <summary>
         /// Электронная почта. Поле 32.
         /// </summary>
+        [CanBeNull]
+        [Field("32")]
         [XmlAttribute("email")]
         [JsonProperty("email")]
-        [CanBeNull]
-        [MapField("email")]
         public string Email { get; set; }
 
         /// <summary>
         /// Домашний телефон. Поле 17.
         /// </summary>
-        [XmlAttribute("home-phone")]
-        [JsonProperty("home-phone")]
         [CanBeNull]
-        [MapField("homephone")]
+        [Field("17")]
+        [XmlAttribute("homePhone")]
+        [JsonProperty("homePhone")]
         public string HomePhone { get; set; }
 
         /// <summary>
         /// Дата записи. Поле 51.
         /// </summary>
-        [XmlAttribute("registration-date")]
-        [JsonProperty("registration-date")]
         [CanBeNull]
-        [MapField("registration")]
+        [Field("51")]
+        [XmlAttribute("registrationDate")]
+        [JsonProperty("registrationDate")]
         public string RegistrationDateString { get; set; }
 
         /// <summary>
@@ -165,12 +169,14 @@ namespace ManagedIrbis.Readers
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
-        [MapIgnore]
         public DateTime RegistrationDate
         {
             get
             {
-                return IrbisDate.ConvertStringToDate(RegistrationDateString);
+                return IrbisDate.ConvertStringToDate
+                    (
+                        RegistrationDateString
+                    );
             }
         }
 
@@ -180,30 +186,29 @@ namespace ManagedIrbis.Readers
         /// </summary>
         [XmlArray("enrollment")]
         [JsonProperty("enrollment")]
-        public ReaderRegistration[] Enrollment;
+        public ReaderRegistration[] Enrollment { get; set; }
 
         /// <summary>
         /// Дата перерегистрации. Поле 52.
         /// </summary>
         [XmlArray("registrations")]
         [JsonProperty("registrations")]
-        public ReaderRegistration[] Registrations;
+        public ReaderRegistration[] Registrations { get; set; }
 
         /// <summary>
         /// Дата последней перерегистрации.
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
-        [MapIgnore]
         public DateTime LastRegistrationDate
         {
             get
             {
-                if ((Registrations == null) 
-                    || (Registrations.Length == 0))
+                if (Registrations.IsNullOrEmpty())
                 {
                     return DateTime.MinValue;
                 }
+
                 return Registrations.Last().Date;
             }
         }
@@ -211,19 +216,18 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Последнее место регистрации.
         /// </summary>
+        [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        [CanBeNull]
-        [MapIgnore]
         public string LastRegistrationPlace
         {
             get
             {
-                if ((Registrations == null) 
-                    || (Registrations.Length == 0))
+                if (Registrations.IsNullOrEmpty())
                 {
                     return null;
                 }
+
                 return Registrations.Last().Chair;
             }
         }
@@ -231,41 +235,46 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Разрешенные места получения литературы. Поле 56.
         /// </summary>
-        [XmlAttribute("enabled-places")]
-        [JsonProperty("enabled-places")]
-        [MapField("enabledplaces")]
+        [CanBeNull]
+        [Field("56")]
+        [XmlAttribute("enabledPlaces")]
+        [JsonProperty("enabledPlaces")]
         public string EnabledPlaces { get; set; }
 
         /// <summary>
         /// Запрещенные места получения литературы. Поле 57.
         /// </summary>
-        [XmlAttribute("disabled-places")]
-        [JsonProperty("disabled-places")]
-        [MapField("disabledplaces")]
+        [CanBeNull]
+        [Field("57")]
+        [XmlAttribute("disabledPlaces")]
+        [JsonProperty("disabledPlaces")]
         public string DisabledPlaces { get; set; }
 
         /// <summary>
         /// Право пользования библиотекой. Поле 29.
         /// </summary>
+        [CanBeNull]
+        [Field("29")]
         [XmlAttribute("rights")]
         [JsonProperty("rights")]
-        [MapField("rights")]
         public string Rights { get; set; }
 
         /// <summary>
         /// Примечания. Поле 33.
         /// </summary>
+        [CanBeNull]
+        [Field("33")]
         [XmlAttribute("remarks")]
         [JsonProperty("remarks")]
-        [MapField("remarks")]
         public string Remarks { get; set; }
 
         /// <summary>
         /// Фотография читателя. Поле 950.
         /// </summary>
-        [XmlAttribute("photo-file")]
-        [JsonProperty("photo-file")]
-        [MapField("photofile")]
+        [CanBeNull]
+        [Field("950")]
+        [XmlAttribute("photoFile")]
+        [JsonProperty("photoFile")]
         public string PhotoFile { get; set; }
 
         /// <summary>
@@ -273,32 +282,31 @@ namespace ManagedIrbis.Readers
         /// </summary>
         [XmlArray("visits")]
         [JsonProperty("visits")]
-        [MapIgnore]
-        public VisitInfo[] Visits;
+        public VisitInfo[] Visits { get; set; }
 
         /// <summary>
         /// Профили обслуживания ИРИ.
         /// </summary>
         [XmlArray("iri")]
         [JsonProperty("iri")]
-        [MapIgnore]
-        public IriProfile[] Profiles;
+        public IriProfile[] Profiles { get; set; }
 
         /// <summary>
         /// Возраст, годы
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
-        [MapIgnore]
         public int Age
         {
             get
             {
-                string yearText = Birthdate;
+                string yearText = DateOfBirth;
+
                 if (string.IsNullOrEmpty(yearText))
                 {
                     return 0;
                 }
+
                 if (yearText.Length > 4)
                 {
                     yearText = yearText.Substring(1, 4);
@@ -319,10 +327,9 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Возрастная категория.
         /// </summary>
+        [NotNull]
         [XmlIgnore]
         [JsonIgnore]
-        [MapIgnore]
-        [JetBrains.Annotations.NotNull]
         public string AgeCategory
         {
             get
@@ -341,29 +348,25 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Произвольные данные, ассоциированные с читателем.
         /// </summary>
+        [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        [MapIgnore]
-        public object UserData
-        {
-            get { return _userData; }
-            set { _userData = value; }
-        }
+        public object UserData { get; set; }
 
         /// <summary>
         /// Дата первого посещения
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
-        [MapIgnore]
         public DateTime FirstVisitDate
         {
             get
             {
-                if ((Visits == null) || (Visits.Length == 0))
+                if (Visits.IsNullOrEmpty())
                 {
                     return DateTime.MinValue;
                 }
+
                 return Visits.First().DateGiven;
             }
         }
@@ -373,15 +376,15 @@ namespace ManagedIrbis.Readers
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
-        [MapIgnore]
         public DateTime LastVisitDate
         {
             get
             {
-                if ((Visits == null) || (Visits.Length == 0))
+                if (Visits.IsNullOrEmpty())
                 {
                     return DateTime.MinValue;
                 }
+
                 return Visits.Last().DateGiven;
             }
         }
@@ -389,18 +392,18 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Кафедра последнего посещения.
         /// </summary>
+        [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        [CanBeNull]
-        [MapIgnore]
         public string LastVisitPlace
         {
             get
             {
-                if ((Visits == null) || (Visits.Length == 0))
+                if (Visits.IsNullOrEmpty())
                 {
                     return null;
                 }
+
                 return Visits.Last().Department;
             }
         }
@@ -408,18 +411,18 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Последний обслуживавший библиотекарь.
         /// </summary>
+        [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        [CanBeNull]
-        [MapIgnore]
         public string LastVisitResponsible
         {
             get
             {
-                if ((Visits == null) || (Visits.Length == 0))
+                if (Visits.IsNullOrEmpty())
                 {
                     return null;
                 }
+
                 return Visits.Last().Responsible;
             }
         }
@@ -428,10 +431,9 @@ namespace ManagedIrbis.Readers
         /// Расформатированное описание.
         /// Не соответствует никакому полю.
         /// </summary>
+        [CanBeNull]
         [XmlAttribute("description")]
         [JsonProperty("description")]
-        [MapField("description")]
-        [CanBeNull]
         public string Description { get; set; }
 
         /// <summary>
@@ -439,15 +441,11 @@ namespace ManagedIrbis.Readers
         /// </summary>
         [XmlAttribute("mfn")]
         [JsonProperty("mfn")]
-        [MapIgnore]
         public int Mfn { get; set; }
 
         #endregion
 
         #region Private members
-
-        //[NonSerialized]
-        private object _userData;
 
         #endregion
 
@@ -456,58 +454,55 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Parse the specified field.
         /// </summary>
-        /// <param name="record"></param>
-        /// <returns></returns>
-        [JetBrains.Annotations.NotNull]
+        [NotNull]
         public static ReaderInfo Parse
             (
-                [JetBrains.Annotations.NotNull] MarcRecord record
+                [NotNull] MarcRecord record
             )
         {
-            if (ReferenceEquals(record, null))
-            {
-                throw new ArgumentNullException("record");
-            }
+            // TODO Support for unknown fields
+
+            Code.NotNull(record, "record");
 
             ReaderInfo result = new ReaderInfo
-                                    {
-                                        FamilyName = record.FM("10"),
-                                        FirstName = record.FM("11"),
-                                        Patronym = record.FM("12"),
-                                        Birthdate = record.FM("21"),
-                                        Ticket = record.FM("30"),
-                                        Gender = record.FM("23"),
-                                        Category = record.FM("50"),
-                                        Address = ReaderAddress.Parse
-                                            (
-                                                record.Fields
-                                                .GetField("13")
-                                                .FirstOrDefault()
-                                            ),
-                                        Work = record.FM("15"),
-                                        Education = record.FM("20"),
-                                        Email = record.FM("32"),
-                                        HomePhone = record.FM("17"),
-                                        RegistrationDateString = record.FM("51"),
-                                        Enrollment = record.Fields
-                                            .GetField("51")
-                                            .Select(ReaderRegistration.Parse)
-                                            .ToArray(),
-                                        Registrations = record.Fields
-                                            .GetField("52")
-                                            .Select(ReaderRegistration.Parse)
-                                            .ToArray(),
-                                        EnabledPlaces = record.FM("56"),
-                                        DisabledPlaces = record.FM("57"),
-                                        Rights = record.FM("29"),
-                                        Remarks = record.FM("33"),
-                                        PhotoFile = record.FM("950"),
-                                        Visits = record.Fields
-                                            .GetField("40")
-                                            .Select(VisitInfo.Parse)
-                                            .ToArray(),
-                                        Profiles = IriProfile.ParseRecord(record)
-                                    };
+                {
+                    FamilyName = record.FM("10"),
+                    FirstName = record.FM("11"),
+                    Patronymic = record.FM("12"),
+                    DateOfBirth = record.FM("21"),
+                    Ticket = record.FM("30"),
+                    Gender = record.FM("23"),
+                    Category = record.FM("50"),
+                    Address = ReaderAddress.Parse
+                        (
+                            record.Fields
+                            .GetField("13")
+                            .FirstOrDefault()
+                        ),
+                    WorkPlace = record.FM("15"),
+                    Education = record.FM("20"),
+                    Email = record.FM("32"),
+                    HomePhone = record.FM("17"),
+                    RegistrationDateString = record.FM("51"),
+                    Enrollment = record.Fields
+                        .GetField("51")
+                        .Select(ReaderRegistration.Parse)
+                        .ToArray(),
+                    Registrations = record.Fields
+                        .GetField("52")
+                        .Select(ReaderRegistration.Parse)
+                        .ToArray(),
+                    EnabledPlaces = record.FM("56"),
+                    DisabledPlaces = record.FM("57"),
+                    Rights = record.FM("29"),
+                    Remarks = record.FM("33"),
+                    PhotoFile = record.FM("950"),
+                    Visits = record.Fields
+                        .GetField("40")
+                        .Select(VisitInfo.Parse)
+                        .ToArray(),
+                    Profiles = IriProfile.ParseRecord(record)
+                };
 
             foreach (ReaderRegistration registration in result.Registrations)
             {
@@ -518,50 +513,84 @@ namespace ManagedIrbis.Readers
                 visit.Reader = result;
             }
 
-            string fio = result.FamilyName;
+            string fullName = result.FamilyName;
             if (!string.IsNullOrEmpty(result.FirstName))
             {
-                fio = fio + " " + result.FirstName;
+                fullName = fullName + " " + result.FirstName;
             }
-            if (!string.IsNullOrEmpty(result.Patronym))
+            if (!string.IsNullOrEmpty(result.Patronymic))
             {
-                fio = fio + " " + result.Patronym;
+                fullName = fullName + " " + result.Patronymic;
             }
-            result.Fio = fio;
+            result.FullName = fullName;
 
             return result;
         }
 
         /// <summary>
+        /// Считывание из файла.
+        /// </summary>
+        [CanBeNull]
+        [ItemNotNull]
+        public static ReaderInfo[] ReadFromFile
+        (
+            [NotNull] string fileName
+        )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            ReaderInfo[] result = SerializationUtility
+                .RestoreArrayFromFile<ReaderInfo>(fileName);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Сохранение в файле.
+        /// </summary>
+        public static void SaveToFile
+        (
+            [NotNull] string fileName,
+            [NotNull] [ItemNotNull] ReaderInfo[] readers
+        )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNull(readers, "readers");
+
+            readers.SaveToFile(fileName);
+        }
+
+        /// <summary>
         /// Формирование записи по данным о читателе.
         /// </summary>
-        /// <returns></returns>
-        [JetBrains.Annotations.NotNull]
+        [NotNull]
         public MarcRecord ToRecord()
         {
+            // TODO Implement
+
             throw new NotImplementedException();
         }
 
-        #region Ручная сериализация
+        #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Сохранение в поток.
-        /// </summary>
+        /// <inheritdoc />
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
-            writer.WriteNullable(Fio);
+            Code.NotNull(writer, "writer");
+
+            writer.WriteNullable(FullName);
             writer.WriteNullable(FamilyName);
             writer.WriteNullable(FirstName);
-            writer.WriteNullable(Patronym);
-            writer.WriteNullable(Birthdate);
+            writer.WriteNullable(Patronymic);
+            writer.WriteNullable(DateOfBirth);
             writer.WriteNullable(Ticket);
             writer.WriteNullable(Gender);
             writer.WriteNullable(Category);
             writer.WriteNullable(Address);
-            writer.WriteNullable(Work);
+            writer.WriteNullable(WorkPlace);
             writer.WriteNullable(Education);
             writer.WriteNullable(Email);
             writer.WriteNullable(HomePhone);
@@ -579,24 +608,24 @@ namespace ManagedIrbis.Readers
             writer.WritePackedInt32(Mfn);
         }
 
-        /// <summary>
-        /// Считывание из потока.
-        /// </summary>
+        /// <inheritdoc />
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
-            Fio = reader.ReadNullableString();
+            Code.NotNull(reader, "reader");
+
+            FullName = reader.ReadNullableString();
             FamilyName = reader.ReadNullableString();
             FirstName = reader.ReadNullableString();
-            Patronym = reader.ReadNullableString();
-            Birthdate = reader.ReadNullableString();
+            Patronymic = reader.ReadNullableString();
+            DateOfBirth = reader.ReadNullableString();
             Ticket = reader.ReadNullableString();
             Gender = reader.ReadNullableString();
             Category = reader.ReadNullableString();
             Address = reader.RestoreNullable<ReaderAddress>();
-            Work = reader.ReadNullableString();
+            WorkPlace = reader.ReadNullableString();
             Education = reader.ReadNullableString();
             Email = reader.ReadNullableString();
             HomePhone = reader.ReadNullableString();
@@ -614,52 +643,20 @@ namespace ManagedIrbis.Readers
             Mfn = reader.ReadPackedInt32();
         }
 
-        /// <summary>
-        /// Сохранение в файле.
-        /// </summary>
-        public static void SaveToFile
-            (
-                [JetBrains.Annotations.NotNull] string fileName,
-                [JetBrains.Annotations.NotNull]
-                [ItemNotNull] ReaderInfo[] readers
-            )
-        {
-            readers.SaveToZipFile(fileName);
-        }
-
-        /// <summary>
-        /// Считывание из файла.
-        /// </summary>
-        [CanBeNull]
-        [ItemNotNull]
-        public static ReaderInfo[] ReadFromFile
-            (
-                [JetBrains.Annotations.NotNull] string fileName
-            )
-        {
-            ReaderInfo[] result = SerializationUtility
-                .RestoreArrayFromZipFile<ReaderInfo>(fileName);
-
-            return result;
-        }
-
         #endregion
 
         #endregion
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        /// <inheritdoc />
         public override string ToString()
         {
             return string.Format
                 (
                     "{0} - {1}", 
                     Ticket,
-                    Fio
+                    FullName
                 );
         }
 

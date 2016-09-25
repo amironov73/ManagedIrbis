@@ -59,7 +59,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// Readed record.
         /// </summary>
         [CanBeNull]
-        public MarcRecord ReadRecord { get; set; }
+        public MarcRecord Record { get; set; }
 
         #endregion
 
@@ -139,7 +139,7 @@ namespace ManagedIrbis.Infrastructure.Commands
                         record
                     );
                 record.Verify(true);
-                ReadRecord = record;
+                Record = record;
             }
 
             return result;

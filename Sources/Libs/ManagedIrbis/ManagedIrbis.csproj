@@ -98,6 +98,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\Authentication\AbstractAuthenticator.cs" />
+    <Compile Include="Source\Authentication\AuthenticationResult.cs" />
+    <Compile Include="Source\Authentication\Credentials.cs" />
+    <Compile Include="Source\Authentication\UserContext.cs" />
+    <Compile Include="Source\Batch\BatchAccessor.cs" />
     <Compile Include="Source\Batch\BatchRecordFormatter.cs" />
     <Compile Include="Source\Batch\BatchRecordReader.cs" />
     <Compile Include="Source\Batch\BatchRecordWriter.cs" />
@@ -106,6 +111,8 @@
     <Compile Include="Source\Caching\MenuCache.cs" />
     <Compile Include="Source\Caching\RecordCache.cs" />
     <Compile Include="Source\Caching\TextCache.cs" />
+    <Compile Include="Source\Client\LocalCatalogerIniFile.cs" />
+    <Compile Include="Source\Client\RemoteCatalogerIniFile.cs" />
     <Compile Include="Source\ConnectionSettings.cs" />
     <Compile Include="Source\CopyRecordManager.cs" />
     <Compile Include="Source\Direct\DirectReader32.cs" />
@@ -126,6 +133,9 @@
     <Compile Include="Source\Direct\XrfFile64.cs" />
     <Compile Include="Source\Direct\XrfRecord32.cs" />
     <Compile Include="Source\Direct\XrfRecord64.cs" />
+    <Compile Include="Source\Fst\FstProcessor.cs" />
+    <Compile Include="Source\ImportExport\IsoMarker.cs" />
+    <Compile Include="Source\ImportExport\IsoRecordHeader.cs" />
     <Compile Include="Source\Infrastructure\AbstractEngine.cs" />
     <Compile Include="Source\Infrastructure\Commands\ActualizeRecordCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\CreateDictionaryCommand.cs" />
@@ -135,6 +145,8 @@
     <Compile Include="Source\Infrastructure\Commands\ListProcessesCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\ListUsersCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\MaxMfnCommand.cs" />
+    <Compile Include="Source\Infrastructure\Commands\NopCommand.cs" />
+    <Compile Include="Source\Infrastructure\Commands\ReadRawRecordCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\ReloadDictionaryCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\ReloadMasterFileCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\RestartServerCommand.cs" />
@@ -142,6 +154,8 @@
     <Compile Include="Source\Infrastructure\Commands\ServerVersionCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\TruncateDatabaseCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\UnlockDatabaseCommand.cs" />
+    <Compile Include="Source\Infrastructure\Commands\UnlockRecordsCommand.cs" />
+    <Compile Include="Source\Infrastructure\Commands\UpdateIniFileCommand.cs" />
     <Compile Include="Source\Infrastructure\ExecutionContext.cs" />
     <Compile Include="Source\Infrastructure\ExecutionEventArgs.cs" />
     <Compile Include="Source\Infrastructure\StandardEngine.cs" />
@@ -194,6 +208,8 @@
     <Compile Include="Source\ImportExport\ProtocolText.cs" />
     <Compile Include="Source\ImportExport\Iso2709.cs" />
     <Compile Include="Source\ImportExport\IsoReader.cs" />
+    <Compile Include="Source\Input\InputLine.cs" />
+    <Compile Include="Source\Input\InputSpecification.cs" />
     <Compile Include="Source\IrbisAlphabetTable.cs" />
     <Compile Include="Source\ClientInfo.cs" />
     <Compile Include="Source\IrbisCatalog.cs" />
@@ -216,10 +232,18 @@
     <Compile Include="Source\Infrastructure\Sockets\RetryClientSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\SmartClientSocket.cs" />
     <Compile Include="Source\LocalCatalogManager.cs" />
+    <Compile Include="Source\Magazines\MagazineInfo.cs" />
+    <Compile Include="Source\Magazines\MagazineManager.cs" />
+    <Compile Include="Source\Menus\MenuConverter.cs" />
+    <Compile Include="Source\Menus\MenuEntry.cs" />
+    <Compile Include="Source\Menus\MenuSort.cs" />
     <Compile Include="Source\Pft\FormatError.cs" />
+    <Compile Include="Source\Search\FoundLine.cs" />
     <Compile Include="Source\Search\PostingParameters.cs" />
+    <Compile Include="Source\Search\SearchManager.cs" />
     <Compile Include="Source\Search\SearchParameters.cs" />
     <Compile Include="Source\Search\Infrastructure\SearchQueryParser.cs" />
+    <Compile Include="Source\Search\SearchResult.cs" />
     <Compile Include="Source\Search\TermInfoEx.cs" />
     <Compile Include="Source\Search\TermParameters.cs" />
     <Compile Include="Source\ServerStat.cs" />
@@ -290,7 +314,7 @@
     <Compile Include="Source\Transform\RecordTransformContext.cs" />
     <Compile Include="Source\Worksheet\InputMode.cs" />
     <Compile Include="Source\IrbisOpt.cs" />
-    <Compile Include="Source\IrbisParFile.cs" />
+    <Compile Include="Source\ParFile.cs" />
     <Compile Include="Source\IrbisPath.cs" />
     <Compile Include="Source\IrbisProcessInfo.cs" />
     <Compile Include="Source\IrbisSearchQuery.cs" />

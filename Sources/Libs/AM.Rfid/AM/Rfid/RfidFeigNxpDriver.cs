@@ -7,14 +7,10 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using JetBrains.Annotations;
-
 using OBID;
-using OBID.TagHandler;
 
 using HandlerType=OBID.TagHandler.FedmIscTagHandler_ISO15693_NXP_ICODE_SLI;
 
@@ -22,177 +18,7 @@ using HandlerType=OBID.TagHandler.FedmIscTagHandler_ISO15693_NXP_ICODE_SLI;
 
 namespace AM.Rfid
 {
-    /// <summary>
-    /// RFID tag list.
-    /// </summary>
-    [PublicAPI]
-    public sealed class RfidTagList
-    {
-        #region Properties
-
-        /// <summary>
-        /// Handlers.
-        /// </summary>
-        public HandlerType[] Handlers
-        {
-            get
-            {
-                return _dictionary
-                    .Values
-                    .ToArray();
-            }
-        }
-
-        /// <summary>
-        /// Identifiers.
-        /// </summary>
-        public string[] Identifiers
-        {
-            get
-            {
-                return _dictionary
-                    .Keys
-                    .ToArray();
-            }
-        }
-
-        /// <summary>
-        /// Index.
-        /// </summary>
-        public HandlerType this[string uid]
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(uid))
-                {
-                    throw new ArgumentNullException("uid");
-                }
-                if (_dictionary.ContainsKey("uid"))
-                {
-                    throw new RfidException("No such UID: " + uid);
-                }
-                return _dictionary[uid];
-            }
-        }
-
-        #endregion
-
-        #region Construction
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public RfidTagList
-            (
-                Dictionary<string, FedmIscTagHandler> source
-            )
-        {
-            if (ReferenceEquals(source, null))
-            {
-                throw new ArgumentNullException("source");
-            }
-            
-            _dictionary = new Dictionary<string, HandlerType>();
-            
-            foreach (var pair in source)
-            {
-                HandlerType handler = pair.Value as HandlerType;
-                if (!ReferenceEquals(handler, null))
-                {
-                    _dictionary.Add
-                        (
-                            pair.Key,
-                            handler
-                        );
-                }
-            }
-        }
-
-        #endregion
-
-        #region Private members
-
-        private readonly Dictionary<string, HandlerType> _dictionary;
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-    }
-
-    /// <summary>
-    /// System information.
-    /// </summary>
-    [Serializable]
-    public sealed class RfidSystemInformation
-    {
-        #region Properties
-
-        /// <summary>
-        /// Manufacturer name.
-        /// </summary>
-        public string ManufacturerName { get; set; }
-
-        /// <summary>
-        /// Tag name.
-        /// </summary>
-        public string TagName { get; set; }
-
-        /// <summary>
-        /// UID.
-        /// </summary>
-        public string UID { get; set; }
-
-        /// <summary>
-        /// DSFID.
-        /// </summary>
-        public byte DSFID { get; set; }
-
-        /// <summary>
-        /// AFI.
-        /// </summary>
-        public byte AFI { get; set; }
-
-        /// <summary>
-        /// Memory size.
-        /// </summary>
-        public int MemorySize { get; set; }
-
-        /// <summary>
-        /// IC reference.
-        /// </summary>
-        public byte ICReference { get; set; }
-
-        #endregion
-
-        #region Object members
-
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            return string.Format
-                (
-                    "ManufacturerName: {0}{7}"
-                +   "TagName: {1}{7}"
-                +   "UID: {2}{7}"
-                +   "DSFID: {3}{7}"
-                +   "AFI: {4}{7}"
-                +   "MemorySize: {5}{7}"
-                +   "ICReference: {6}", 
-                    ManufacturerName, 
-                    TagName, 
-                    UID, 
-                    DSFID, 
-                    AFI, 
-                    MemorySize, 
-                    ICReference,
-                    Environment.NewLine
-                );
-        }
-
-        #endregion
-    }
+    // ReSharper disable InconsistentNaming
 
     /// <summary>
     /// RFID NXP driver.
@@ -243,7 +69,6 @@ namespace AM.Rfid
 
         private readonly FedmIscReader _reader;
 
-        // ReSharper disable UnusedParameter.Local
         private void _CheckReturnCode
             (
                 int code
@@ -257,7 +82,6 @@ namespace AM.Rfid
                     );
             }
         }
-        // ReSharper restore UnusedParameter.Local
 
         private void _CheckConnection()
         {
@@ -267,7 +91,7 @@ namespace AM.Rfid
             }
         }
 
-        private RfidSystemInformation _GetSystemInfo
+        private FeigSystemInformation _GetSystemInfo
             (
                 HandlerType tag
             )
@@ -286,7 +110,7 @@ namespace AM.Rfid
                             out icRef
                         )
                 );
-            RfidSystemInformation result = new RfidSystemInformation
+            FeigSystemInformation result = new FeigSystemInformation
                 {
                     TagName = tag.GetTagName(),
                     ManufacturerName = tag.GetManufacturerName(),
@@ -514,7 +338,7 @@ namespace AM.Rfid
         /// Get system information.
         /// </summary>
         /// <returns></returns>
-        public RfidSystemInformation[] GetSystemInformation()
+        public FeigSystemInformation[] GetSystemInformation()
         {
             _CheckConnection();
             ResetRF();

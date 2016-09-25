@@ -6,15 +6,22 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
 
+using AM;
 using AM.IO;
 using AM.Runtime;
 
+using CodeJam;
+
 using JetBrains.Annotations;
+
+using ManagedIrbis.Mapping;
+
+using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 
@@ -26,7 +33,9 @@ namespace ManagedIrbis.Readers
     /// Профиль ИРИ
     /// </summary>
     [PublicAPI]
+    [MoonSharpUserData]
     [XmlRoot("iri-profile")]
+    [DebuggerDisplay("{Title} {Query}")]
     public sealed class IriProfile
         : IHandmadeSerializable
     {
@@ -36,7 +45,7 @@ namespace ManagedIrbis.Readers
         /// Тег поля ИРИ.
         /// </summary>
         public const string IriTag = "140";
-        
+
         #endregion
 
         #region Properties
@@ -44,47 +53,64 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Подполе A
         /// </summary>
+        [SubField('a')]
         [XmlAttribute("active")]
+        [JsonProperty("active")]
         public bool Active { get; set; }
 
         /// <summary>
         /// Подполе B
         /// </summary>
         [CanBeNull]
+        [SubField('b')]
         [XmlAttribute("id")]
+        [JsonProperty("id")]
+        // ReSharper disable once InconsistentNaming
         public string ID { get; set; }
 
         /// <summary>
         /// Подполе C
         /// </summary>
         [CanBeNull]
+        [SubField('c')]
         [XmlAttribute("title")]
+        [JsonProperty("title")]
         public string Title { get; set; }
 
         /// <summary>
         /// Подполе D
         /// </summary>
         [CanBeNull]
+        [SubField('d')]
         [XmlAttribute("query")]
+        [JsonProperty("query")]
         public string Query { get; set; }
 
         /// <summary>
         /// Подполе E
         /// </summary>
+        [SubField('e')]
+        [XmlAttribute("periodicity")]
+        [JsonProperty("periodicity")]
         public int Periodicity { get; set; }
 
         /// <summary>
         /// Подполе F
         /// </summary>
         [CanBeNull]
+        [SubField('f')]
+        [XmlAttribute("lastServed")]
+        [JsonProperty("lastServed")]
         public string LastServed { get; set; }
 
         /// <summary>
         /// Подполе I
         /// </summary>
         [CanBeNull]
+        [SubField('i')]
+        [XmlAttribute("database")]
+        [JsonProperty("database")]
         public string Database { get; set; }
-
 
         /// <summary>
         /// Ссылка на читателя.
@@ -115,10 +141,9 @@ namespace ManagedIrbis.Readers
                 [NotNull] RecordField field
             )
         {
-            if (ReferenceEquals(field, null))
-            {
-                throw new ArgumentNullException("field");
-            }
+            // TODO Support for unknown subfields
+
+            Code.NotNull(field, "field");
 
             IriProfile result = new IriProfile
             {
@@ -143,10 +168,7 @@ namespace ManagedIrbis.Readers
                 [NotNull] MarcRecord record
             )
         {
-            if (ReferenceEquals(record, null))
-            {
-                throw new ArgumentNullException("record");
-            }
+            Code.NotNull(record, "record");
 
             List<IriProfile> result = new List<IriProfile>();
             foreach (RecordField field in record.Fields
@@ -155,26 +177,30 @@ namespace ManagedIrbis.Readers
                 IriProfile profile = ParseField(field);
                 result.Add(profile);
             }
+
             return result.ToArray();
         }
 
-        #region IHandmadeSerializable
-
         /// <summary>
-        /// Сохранение в поток.
+        /// Считывание из файла.
         /// </summary>
-        public void SaveToStream
+        [NotNull]
+        [ItemNotNull]
+        public static IriProfile[] LoadFromFile
             (
-                BinaryWriter writer
+                [NotNull] string fileName
             )
         {
-            writer.Write(Active);
-            writer.WriteNullable(ID);
-            writer.WriteNullable(Title);
-            writer.WriteNullable(Query);
-            writer.WritePackedInt32(Periodicity);
-            writer.WriteNullable(LastServed);
-            writer.WriteNullable(Database);
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            IriProfile[] result = SerializationUtility
+                .RestoreArrayFromFile<IriProfile>
+                (
+                    fileName
+                )
+                .ThrowIfNull("RestoreArrayFromFile");
+
+            return result;
         }
 
         /// <summary>
@@ -186,17 +212,24 @@ namespace ManagedIrbis.Readers
                 [NotNull][ItemNotNull] IriProfile[] profiles
             )
         {
+            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNull(profiles, "profiles");
+
             profiles.SaveToFile(fileName);
         }
-        
-        /// <summary>
-        /// Чтение из потока.
-        /// </summary>
+
+        #endregion
+
+        #region IHandmadeSerializable
+
+        /// <inheritdoc />
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             Active = reader.ReadBoolean();
             ID = reader.ReadNullableString();
             Title = reader.ReadNullableString();
@@ -206,26 +239,22 @@ namespace ManagedIrbis.Readers
             Database = reader.ReadNullableString();
         }
 
-        /// <summary>
-        /// Считывание из файла.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static IriProfile[] ReadProfilesFromFile
+        /// <inheritdoc />
+        public void SaveToStream
             (
-                [NotNull] string fileName
+                BinaryWriter writer
             )
         {
-            IriProfile[] result = SerializationUtility
-                .RestoreArrayFromFile<IriProfile>
-                (
-                    fileName
-                );
+            Code.NotNull(writer, "writer");
 
-            return result;
+            writer.Write(Active);
+            writer.WriteNullable(ID);
+            writer.WriteNullable(Title);
+            writer.WriteNullable(Query);
+            writer.WritePackedInt32(Periodicity);
+            writer.WriteNullable(LastServed);
+            writer.WriteNullable(Database);
         }
-
-        #endregion
 
         #endregion
     }

@@ -34,6 +34,12 @@ artifacts:
     name: ManagedIrbis
   - path: Nuget\*.nupkg
     name: Nuget
+  - path: Sources\Libs\AM.Istu\bin\Debug
+    name: AM.Istu
+  - path: Sources\Apps\Garfield\bin\Debug
+    name: Garfield
+  - path: Sources\Apps\mx64\bin\Debug
+    name: mx64
 
 deploy:
 - provider: FTP

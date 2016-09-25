@@ -2,9 +2,11 @@ abcdefghijklmnopqrstuvwxyz
 Alexey
 arsmagna
 autoin
+Barcode
 Bookland
 Builtin
 Cardman
+cdrom
 Ceptor
 codec
 colorspace
@@ -12,6 +14,7 @@ datai
 dbnflc
 delflc
 Durden
+Feig
 fias
 github
 Globalization
@@ -22,6 +25,8 @@ Hyphenator
 ibiskw
 inheritdoc
 Irbis
+irbiswrk
+istu
 jfif
 jpeg
 Json
@@ -40,13 +45,18 @@ Powrprof
 Readonly
 Recordset
 referencesource
+resizeable
+Rfid
 Rubricator
+Rusmarc
+Sigla
 stackoverflow
 stopword
 subarray
 timestamp
 Topo
 Toub
+Tranc
 transcode
 Transliterator
 typeof
@@ -55,5 +65,6 @@ Unescape
 userdata
 Username
 webshare
+wikipedia
 wildcards
 yyyy

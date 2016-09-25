@@ -121,7 +121,7 @@ namespace ManagedIrbis.Search
         /// Trim prefix from terms.
         /// </summary>
         [NotNull]
-        public static string[] TrimPrefix
+        public static TermInfo[] TrimPrefix
             (
                 [NotNull][ItemNotNull] TermInfo[] terms,
                 [NotNull] string prefix
@@ -131,12 +131,12 @@ namespace ManagedIrbis.Search
             Code.NotNull(prefix, "prefix");
 
             int prefixLength = prefix.Length;
-            List<string> result = new List<string>(terms.Length);
+            List<TermInfo> result = new List<TermInfo>(terms.Length);
             if (prefixLength == 0)
             {
                 foreach (TermInfo term in terms)
                 {
-                    result.Add(term.Text);
+                    result.Add(term.Clone());
                 }
             }
             else
@@ -144,11 +144,14 @@ namespace ManagedIrbis.Search
                 foreach (TermInfo term in terms)
                 {
                     string item = term.Text;
-                    if (item.StartsWith(prefix))
+                    if (!string.IsNullOrEmpty(item)
+                        && item.StartsWith(prefix))
                     {
                         item = item.Substring(prefixLength);
                     }
-                    result.Add(item);
+                    TermInfo clone = term.Clone();
+                    clone.Text = item;
+                    result.Add(clone);
                 }
             }
 

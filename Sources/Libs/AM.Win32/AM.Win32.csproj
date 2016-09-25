@@ -365,11 +365,30 @@
     <Compile Include="AM\Windows\Forms\ButtonedTextBox.cs" />
     <Compile Include="AM\Windows\Forms\FileNameBox.cs" />
     <Compile Include="AM\Windows\Forms\FolderNameBox.cs" />
+    <Compile Include="AM\Windows\Forms\PopupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\PopupForm.Designer.cs">
+      <DependentUpon>PopupForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\StringGrid\CellClickEventArgs.cs" />
+    <Compile Include="AM\Windows\Forms\StringGrid\CellDrawEventArgs.cs" />
+    <Compile Include="AM\Windows\Forms\StringGrid\HeaderClickEventArgs.cs" />
+    <Compile Include="AM\Windows\Forms\StringGrid\StringGrid.cs" />
+    <Compile Include="AM\Windows\Forms\StringGrid\CellChangedEventArgs.cs" />
+    <Compile Include="AM\Windows\Forms\StringGrid\StringGridColumn.cs" />
+    <Compile Include="AM\Windows\Forms\StringGrid\StringGridColumnCollection.cs" />
     <Compile Include="AM\Windows\Forms\TextBoxControlHost.cs" />
+    <Compile Include="AM\Windows\Forms\TextBoxPlus.cs" />
+    <Compile Include="AM\Windows\Forms\Win32FormUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="AM\Windows\Forms\PopupForm.resx">
+      <DependentUpon>PopupForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AM.Core\AM.Core.csproj">
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
@@ -379,9 +398,14 @@
       <Project>{f64c8161-d6e3-4d78-88db-c1787f4fe981}</Project>
       <Name>AM.Drawing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AM.Windows.Forms\AM.Windows.Forms.csproj">
+      <Project>{c06e1d15-0d0d-44b3-bf74-1b2c616f9ee5}</Project>
+      <Name>AM.Windows.Forms</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />
+    <EmbeddedResource Include="Images\StringGrid.bmp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ArsMagna.private.snk" />

@@ -29,7 +29,7 @@ namespace ManagedIrbis.Readers
     /// </summary>
     [PublicAPI]
     [XmlRoot("chair")]
-    [DebuggerDisplay("Code={Code} Title={Title}")]
+    [DebuggerDisplay("{Code} {Title}")]
     public sealed class ChairInfo
         : IHandmadeSerializable
     {

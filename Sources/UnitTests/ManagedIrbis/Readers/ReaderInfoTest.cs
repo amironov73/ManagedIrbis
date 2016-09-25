@@ -21,10 +21,10 @@ namespace UnitTests.ManagedIrbis.Readers
                 .RestoreObjectFromMemory<ReaderInfo>();
 
             Assert.AreEqual(first.Age, second.Age);
-            Assert.AreEqual(first.Birthdate, second.Birthdate);
+            Assert.AreEqual(first.DateOfBirth, second.DateOfBirth);
             Assert.AreEqual(first.Category, second.Category);
             Assert.AreEqual(first.Description, second.Description);
-            Assert.AreEqual(first.Fio, second.Fio);
+            Assert.AreEqual(first.FullName, second.FullName);
         }
 
         [TestMethod]
@@ -34,7 +34,7 @@ namespace UnitTests.ManagedIrbis.Readers
             _TestSerialization(readerInfo);
 
             readerInfo.Category = "студент";
-            readerInfo.Fio = "Иванов Иван Иванович";
+            readerInfo.FullName = "Иванов Иван Иванович";
             _TestSerialization(readerInfo);
         }
     }

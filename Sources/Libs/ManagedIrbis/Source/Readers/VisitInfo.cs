@@ -7,6 +7,7 @@
 #region Using directives
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
@@ -14,7 +15,11 @@ using System.Xml.Serialization;
 using AM.IO;
 using AM.Runtime;
 
+using CodeJam;
+
 using JetBrains.Annotations;
+
+using ManagedIrbis.Mapping;
 
 using MoonSharp.Interpreter;
 
@@ -29,6 +34,7 @@ namespace ManagedIrbis.Readers
     /// </summary>
     [XmlRoot("visit")]
     [MoonSharpUserData]
+    [DebuggerDisplay("{DateGivenString} {Index} {Description}")]
     public sealed class VisitInfo
         : IHandmadeSerializable
     {
@@ -38,6 +44,7 @@ namespace ManagedIrbis.Readers
         /// подполе G, имя БД каталога.
         /// </summary>
         [CanBeNull]
+        [SubField('g')]
         [XmlAttribute("database")]
         [JsonProperty("database")]
         public string Database { get; set; }
@@ -46,6 +53,7 @@ namespace ManagedIrbis.Readers
         /// подполе A, шифр документа.
         /// </summary>
         [CanBeNull]
+        [SubField('a')]
         [XmlAttribute("index")]
         [JsonProperty("index")]
         public string Index { get; set; }
@@ -54,6 +62,7 @@ namespace ManagedIrbis.Readers
         /// подполе B, инвентарный номер экземпляра
         /// </summary>
         [CanBeNull]
+        [SubField('b')]
         [XmlAttribute("inventory")]
         [JsonProperty("inventory")]
         public string Inventory { get; set; }
@@ -62,6 +71,7 @@ namespace ManagedIrbis.Readers
         /// подполе H, штрих-код экземпляра.
         /// </summary>
         [CanBeNull]
+        [SubField('h')]
         [XmlAttribute("barcode")]
         [JsonProperty("barcode")]
         public string Barcode { get; set; }
@@ -70,6 +80,7 @@ namespace ManagedIrbis.Readers
         /// подполе K, место хранения экземпляра
         /// </summary>
         [CanBeNull]
+        [SubField('k')]
         [XmlAttribute("sigla")]
         [JsonProperty("sigla")]
         public string Sigla { get; set; }
@@ -78,14 +89,16 @@ namespace ManagedIrbis.Readers
         /// подполе D, дата выдачи
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("date-given")]
-        [JsonProperty("date-given")]
+        [SubField('d')]
+        [XmlAttribute("dateGiven")]
+        [JsonProperty("dateGiven")]
         public string DateGivenString { get; set; }
 
         /// <summary>
         /// подполе V, место выдачи
         /// </summary>
         [CanBeNull]
+        [SubField('v')]
         [XmlAttribute("department")]
         [JsonProperty("department")]
         public string Department { get; set; }
@@ -94,38 +107,43 @@ namespace ManagedIrbis.Readers
         /// подполе E, дата предполагаемого возврата
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("date-expected")]
-        [JsonProperty("date-expected")]
+        [SubField('e')]
+        [XmlAttribute("dateExpected")]
+        [JsonProperty("dateExpected")]
         public string DateExpectedString { get; set; }
 
         /// <summary>
         /// подполе F, дата фактического возврата
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("date-returned")]
-        [JsonProperty("date-returned")]
+        [SubField('f')]
+        [XmlAttribute("dateReturned")]
+        [JsonProperty("dateReturned")]
         public string DateReturnedString { get; set; }
 
         /// <summary>
         /// подполе L, дата продления
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("date-prolong")]
-        [JsonProperty("date-prolong")]
+        [SubField('l')]
+        [XmlAttribute("dateProlong")]
+        [JsonProperty("dateProlong")]
         public string DateProlongString { get; set; }
 
         /// <summary>
         /// подполе U, признак утерянной книги
         /// </summary>
+        [CanBeNull]
+        [SubField('u')]
         [XmlAttribute("lost")]
         [JsonProperty("lost")]
-        [CanBeNull]
         public string Lost { get; set; }
 
         /// <summary>
         /// подполе C, краткое библиографическое описание
         /// </summary>
         [CanBeNull]
+        [SubField('c')]
         [XmlAttribute("description")]
         [JsonProperty("description")]
         public string Description { get; set; }
@@ -134,6 +152,7 @@ namespace ManagedIrbis.Readers
         /// подполе I, ответственное лицо
         /// </summary>
         [CanBeNull]
+        [SubField('i')]
         [XmlAttribute("responsible")]
         [JsonProperty("responsible")]
         public string Responsible { get; set; }
@@ -142,16 +161,18 @@ namespace ManagedIrbis.Readers
         /// подполе 1, время начала визита в библиотеку
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("time-in")]
-        [JsonProperty("time-in")]
+        [SubField('1')]
+        [XmlAttribute("timeIn")]
+        [JsonProperty("timeIn")]
         public string TimeIn { get; set; }
 
         /// <summary>
         /// подполе 2, время окончания визита в библиотеку
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("time-out")]
-        [JsonProperty("time-out")]
+        [SubField('2')]
+        [XmlAttribute("timeOut")]
+        [JsonProperty("timeOut")]
         public string TimeOut { get; set; }
 
         /// <summary>
@@ -178,10 +199,7 @@ namespace ManagedIrbis.Readers
                     return false;
                 }
 
-                // False positive ReSharper
-                // ReSharper disable PossibleNullReferenceException
                 return !DateReturnedString.StartsWith("*");
-                // ReSharper restore PossibleNullReferenceException
             }
         }
 
@@ -194,7 +212,10 @@ namespace ManagedIrbis.Readers
         {
             get
             {
-                return IrbisDate.ConvertStringToDate(DateGivenString);
+                return IrbisDate.ConvertStringToDate
+                    (
+                        DateGivenString
+                    );
             }
         }
 
@@ -207,7 +228,10 @@ namespace ManagedIrbis.Readers
         {
             get
             {
-                return IrbisDate.ConvertStringToDate(DateReturnedString);
+                return IrbisDate.ConvertStringToDate
+                    (
+                        DateReturnedString
+                    );
             }
         }
 
@@ -220,7 +244,10 @@ namespace ManagedIrbis.Readers
         {
             get
             {
-                return IrbisDate.ConvertStringToDate(DateExpectedString);
+                return IrbisDate.ConvertStringToDate
+                    (
+                        DateExpectedString
+                    );
             }
         }
 
@@ -236,6 +263,7 @@ namespace ManagedIrbis.Readers
 
         #region Private members
 
+        // ReSharper disable once InconsistentNaming
         private static string FM
             (
                 RecordField field,
@@ -252,13 +280,16 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Parses the specified field.
         /// </summary>
-        /// <param name="field">The field.</param>
-        /// <returns>VisitInfo.</returns>
+        [NotNull]
         public static VisitInfo Parse
             (
-                RecordField field
+                [NotNull] RecordField field
             )
         {
+            // TODO Support for unknown subfields
+
+            Code.NotNull(field, "field");
+
             VisitInfo result = new VisitInfo
             {
                 Database = FM(field, 'g'),
@@ -304,8 +335,11 @@ namespace ManagedIrbis.Readers
             result.AddNonEmptySubField('i', Responsible);
             result.AddNonEmptySubField('1', TimeIn);
             result.AddNonEmptySubField('2', TimeOut);
+
             return result;
         }
+
+        #endregion
 
         #region Ручная сериализация
 
@@ -405,14 +439,9 @@ namespace ManagedIrbis.Readers
 
         #endregion
 
-        #endregion
-
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        /// <inheritdoc />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();

@@ -7,13 +7,7 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -32,13 +26,15 @@ namespace AM
         /// <summary>
         /// Operator "new".
         /// </summary>
+        // ReSharper disable once ConvertToAutoProperty
         public static Func<T> New { get { return _new; } }
 
         #endregion
 
         #region Private members
 
-        static readonly Func<T> _new = Expression
+        // ReSharper disable once InconsistentNaming
+        private static readonly Func<T> _new = Expression
             .Lambda<Func<T>>
             (
                 Expression.New(typeof(T))

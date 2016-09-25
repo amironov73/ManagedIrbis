@@ -6,6 +6,7 @@
 
 #region Using directives
 
+using System.Diagnostics;
 using System.Linq;
 
 using AM.Collections;
@@ -25,6 +26,7 @@ namespace ManagedIrbis.Fields
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [DebuggerDisplay("{Resource}")]
     public sealed class BinaryResource
     {
         #region Constants
@@ -94,7 +96,8 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Encode the resource.
         /// </summary>
-        public void Encode
+        [CanBeNull]
+        public string Encode
             (
                 [CanBeNull] byte[] array
             )
@@ -102,10 +105,13 @@ namespace ManagedIrbis.Fields
             if (array.IsNullOrEmpty())
             {
                 Resource = null;
-                return;
+            }
+            else
+            {
+                Resource = IrbisUtility.EncodePercentString(array);
             }
 
-            Resource = IrbisUtility.EncodePercentString(array);
+            return Resource;
         }
 
         /// <summary>

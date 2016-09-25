@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.CodeDom.Compiler;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -433,6 +434,73 @@ namespace ManagedIrbis
             }
 
             WriteLine(ConsoleColor.Green, "OK");
+        }
+
+        /// <summary>
+        /// Print test execution report.
+        /// </summary>
+        public void PrintReport()
+        {
+            const ConsoleColor tableColor = ConsoleColor.White;
+            const string tableFormat = "| {0,-50} | {1,-5} | {2,8} |";
+            const int tableWidth = 50 + 3 + 5 + 3 + 8 + 3;
+            string horizontalLine = new string('-', tableWidth);
+
+            WriteLine(ConsoleColor.Blue, string.Empty);
+
+            TestContext[] tests = _contextList
+                .OrderBy(test => test.Name)
+                .ToArray();
+            
+            WriteLine
+                (
+                    tableColor,
+                    horizontalLine
+                );
+            WriteLine
+                (
+                    tableColor,
+                    tableFormat,
+                    "Test",
+                    "OK?",
+                    "Duration"
+                );
+            WriteLine
+                (
+                    tableColor,
+                    horizontalLine
+                );
+            foreach (TestContext context in tests)
+            {
+                WriteLine
+                    (
+                        tableColor,
+                        tableFormat,
+                        context.Name,
+                        context.Failed ? "FAIL" : "OK",
+                        context.Duration.TotalMilliseconds
+                    );
+            }
+
+            WriteLine
+                (
+                    tableColor,
+                    horizontalLine
+                );
+            WriteLine(tableColor, string.Empty);
+
+            int total = _contextList.Count;
+            int failed = _contextList.Count(test => test.Failed);
+            int success = total - failed;
+            WriteLine
+                (
+                    tableColor,
+                    "Tests: {0}, failed: {1}, success: {2}",
+                    total,
+                    failed,
+                    success
+                );
+            WriteLine(tableColor, string.Empty);
         }
 
         /// <summary>

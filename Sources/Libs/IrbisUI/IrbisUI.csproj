@@ -105,6 +105,24 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Sources\DictionaryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sources\DictionaryForm.Designer.cs">
+      <DependentUpon>DictionaryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sources\DictionaryPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Sources\DictionaryPanel.Designer.cs">
+      <DependentUpon>DictionaryPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sources\FoundPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Sources\FoundPanel.Designer.cs">
+      <DependentUpon>FoundPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Sources\IrbisBusyForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,6 +150,31 @@
     <Compile Include="Sources\IrbisLoginForm2.Designer.cs">
       <DependentUpon>IrbisLoginForm2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Sources\MenuForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sources\MenuForm.Designer.cs">
+      <DependentUpon>MenuForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sources\PreviewPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Sources\PreviewPanel.Designer.cs">
+      <DependentUpon>PreviewPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sources\RelatedSearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sources\RelatedSearchForm.Designer.cs">
+      <DependentUpon>RelatedSearchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sources\WorksheetLine.cs" />
+    <Compile Include="Sources\WssForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sources\WssForm.Designer.cs">
+      <DependentUpon>WssForm.cs</DependentUpon>
+    </Compile>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +197,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />
+    <Content Include="Images\check.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ArsMagna.private.snk" />
@@ -167,6 +211,15 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Sources\DictionaryForm.resx">
+      <DependentUpon>DictionaryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\DictionaryPanel.resx">
+      <DependentUpon>DictionaryPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\FoundPanel.resx">
+      <DependentUpon>FoundPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Sources\IrbisBusyForm.resx">
       <DependentUpon>IrbisBusyForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -178,6 +231,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sources\IrbisLoginForm2.resx">
       <DependentUpon>IrbisLoginForm2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\MenuForm.resx">
+      <DependentUpon>MenuForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\PreviewPanel.resx">
+      <DependentUpon>PreviewPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\RelatedSearchForm.resx">
+      <DependentUpon>RelatedSearchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\WssForm.resx">
+      <DependentUpon>WssForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

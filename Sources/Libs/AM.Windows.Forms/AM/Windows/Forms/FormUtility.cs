@@ -191,6 +191,10 @@ namespace AM.Windows.Forms
 
             Assembly assembly = Assembly.GetEntryAssembly();
             Version vi = assembly.GetName().Version;
+            if (ReferenceEquals(assembly.Location, null))
+            {
+                return;
+            }
             FileVersionInfo fvi = FileVersionInfo
                 .GetVersionInfo(assembly.Location);
             FileInfo fi = new FileInfo(assembly.Location);
@@ -225,6 +229,10 @@ namespace AM.Windows.Forms
                     );
                 Assembly assembly = Assembly.GetEntryAssembly();
                 Version vi = assembly.GetName().Version;
+                if (ReferenceEquals(assembly.Location, null))
+                {
+                    return;
+                }
                 FileInfo fi = new FileInfo(assembly.Location);
                 output.WriteLine
                     (

@@ -141,6 +141,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sources\DummyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sources\DummyForm.Designer.cs">
+      <DependentUpon>DummyForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Sources\IUITest.cs" />
     <Compile Include="Sources\MainForm.cs">
       <SubType>Form</SubType>
@@ -150,23 +156,70 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sources\Tests\BindingListSourceTest.cs" />
+    <Compile Include="Sources\Tests\BottomlessRichTextBoxTest.cs" />
+    <Compile Include="Sources\Tests\BrowserFormTest.cs" />
+    <Compile Include="Sources\Tests\BusyStripeTest.cs" />
+    <Compile Include="Sources\Tests\ButtonedTextBoxTest.cs" />
+    <Compile Include="Sources\Tests\CheckBoxGroupTest.cs" />
+    <Compile Include="Sources\Tests\CheckedGroupBoxTest.cs" />
     <Compile Include="Sources\Tests\ClocksTest.cs" />
     <Compile Include="Sources\Tests\CollapsibleGroupBoxTest.cs" />
     <Compile Include="Sources\Tests\ColorComboBoxTest.cs" />
+    <Compile Include="Sources\Tests\ConsoleControlTest.cs" />
+    <Compile Include="Sources\Tests\ConsoleControlTest2.cs" />
+    <Compile Include="Sources\Tests\ConsoleControlTest3.cs" />
+    <Compile Include="Sources\Tests\ConsoleFormTest.cs" />
+    <Compile Include="Sources\Tests\ConsoleFormTest2.cs" />
+    <Compile Include="Sources\Tests\ConsoleFormTest3.cs" />
+    <Compile Include="Sources\Tests\ConsoleControlOutputTest.cs" />
     <Compile Include="Sources\Tests\DaDataClientTest.cs" />
+    <Compile Include="Sources\Tests\DataGridViewTest.cs" />
+    <Compile Include="Sources\Tests\DictionaryFormTest.cs" />
+    <Compile Include="Sources\Tests\DictionaryPanelTest.cs" />
+    <Compile Include="Sources\Tests\DriveComboBoxTest.cs" />
     <Compile Include="Sources\Tests\EnumComboBoxTest.cs" />
     <Compile Include="Sources\Tests\EnumListBoxTest.cs" />
+    <Compile Include="Sources\Tests\ExceptionBoxTest.cs" />
+    <Compile Include="Sources\Tests\FileNameBoxTest.cs" />
+    <Compile Include="Sources\Tests\FolderNameBoxTest.cs" />
     <Compile Include="Sources\Tests\FontComboBoxTest.cs" />
+    <Compile Include="Sources\Tests\FoundPanelTest.cs" />
+    <Compile Include="Sources\Tests\HabitualDataGridViewTest.cs" />
     <Compile Include="Sources\Tests\HatchComboBoxTest.cs" />
     <Compile Include="Sources\Tests\InputBoxTest.cs" />
     <Compile Include="Sources\Tests\IrbisBusyFormTest.cs" />
     <Compile Include="Sources\Tests\IrbisLoginForm2Test.cs" />
     <Compile Include="Sources\Tests\IrbisLoginFormTest.cs" />
     <Compile Include="Sources\Tests\JogControlTest.cs" />
+    <Compile Include="Sources\Tests\LabeledComboBoxTest.cs" />
+    <Compile Include="Sources\Tests\LabeledTextBoxTest.cs" />
     <Compile Include="Sources\Tests\LabelExTest.cs" />
     <Compile Include="Sources\Tests\ListBoxExTest.cs" />
+    <Compile Include="Sources\Tests\MenuFormTest.cs" />
+    <Compile Include="Sources\Tests\MeterTest.cs" />
+    <Compile Include="Sources\Tests\PagingDataGridViewTest.cs" />
+    <Compile Include="Sources\Tests\PickListTest.cs" />
+    <Compile Include="Sources\Tests\PictureViewFormTest.cs" />
+    <Compile Include="Sources\Tests\PlainTextEditorTest.cs" />
+    <Compile Include="Sources\Tests\PopupFormTest.cs" />
+    <Compile Include="Sources\Tests\PreviewPanelTest.cs" />
+    <Compile Include="Sources\Tests\ProgressCircleTest.cs" />
+    <Compile Include="Sources\Tests\PropertyBoxTest.cs" />
+    <Compile Include="Sources\Tests\RadioGroupTest.cs" />
+    <Compile Include="Sources\Tests\RainbowControlTest.cs" />
+    <Compile Include="Sources\Tests\RichTextEditorTest.cs" />
+    <Compile Include="Sources\Tests\ScrollControlTest.cs" />
+    <Compile Include="Sources\Tests\StringGridTest.cs" />
     <Compile Include="Sources\Tests\SuggestingTextBoxTest.cs" />
+    <Compile Include="Sources\Tests\TextBoxPlusTest.cs" />
+    <Compile Include="Sources\Tests\ThermometerTest.cs" />
+    <Compile Include="Sources\Tests\ToolStripTest.cs" />
+    <Compile Include="Sources\Tests\WssFormTest.cs" />
     <Compile Include="Sources\UITest.cs" />
+    <EmbeddedResource Include="Sources\DummyForm.resx">
+      <DependentUpon>DummyForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Sources\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -228,6 +281,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\sherlock.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="science.ico" />
   </ItemGroup>
   <ItemGroup>

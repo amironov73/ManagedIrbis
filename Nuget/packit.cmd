@@ -39,6 +39,23 @@ copy %BIN%\%BUILD%35\%1.* lib\net35\  > nul
 copy %BIN%\%BUILD%40\%1.* lib\net40\  > nul
 copy %BIN%\%BUILD%45\%1.* lib\net45\  > nul
 
+RMDIR lib\net35\ru > nul 2> nul
+RMDIR lib\net40\ru > nul 2> nul
+RMDIR lib\net45\ru > nul 2> nul
+
+IF EXIST %BIN%\%BUILD%35\ru\%1.resources.dll (
+MKDIR lib\net35\ru > nul 2> nul
+copy %BIN%\%BUILD%35\ru\%1.resources.dll lib\net35\ru > nul 2> nul
+)
+IF EXIST %BIN%\%BUILD%40\ru\%1.resources.dll (
+MKDIR lib\net40\ru > nul 2> nul
+copy %BIN%\%BUILD%40\ru\%1.resources.dll lib\net40\ru > nul 2> nul
+)
+IF EXIST %BIN%\%BUILD%45\ru\%1.resources.dll (
+MKDIR lib\net45\ru > nul 2> nul
+copy %BIN%\%BUILD%45\ru\%1.resources.dll lib\net45\ru > nul 2> nul
+)
+
 copy %BIN%\%BUILD%35\System.Threading.* lib\net35\ > nul
 
 IF %2==core copy %BIN%\%BUILD%Core\%1\bin\%BUILD%\netstandard1.6\%1.* lib\netstandard1.0 > nul

@@ -70,58 +70,58 @@ namespace ManagedIrbis
         /// <summary>
         /// Максимальный MFN.
         /// </summary>
-        [XmlAttribute("max-mfn")]
-        [JsonProperty("max-mfn")]
+        [XmlAttribute("maxMfn")]
+        [JsonProperty("maxMfn")]
         public int MaxMfn { get; set; }
 
         /// <summary>
         /// Список логически удаленных записей.
         /// </summary>
         [CanBeNull]
-        [XmlArray("logically-deleted")]
         [XmlArrayItem("mfn")]
-        [JsonProperty("logically-deleted")]
+        [XmlArray("logicallyDeleted")]
+        [JsonProperty("logicallyDeleted")]
         public int[] LogicallyDeletedRecords { get; set; }
 
         /// <summary>
         /// Список физически удаленных записей.
         /// </summary>
         [CanBeNull]
-        [XmlArray("physically-deleted")]
         [XmlArrayItem("mfn")]
-        [JsonProperty("physically-deleted")]
+        [XmlArray("physicallyDeleted")]
+        [JsonProperty("physicallyDeleted")]
         public int[] PhysicallyDeletedRecords { get; set; }
 
         /// <summary>
         /// Список неактуализированных записей.
         /// </summary>
         [CanBeNull]
-        [XmlArray("nonactualized-records")]
         [XmlArrayItem("mfn")]
-        [JsonProperty("nonactualized-records")]
+        [XmlArray("nonActualizedRecords")]
+        [JsonProperty("nonActualizedRecords")]
         public int[] NonActualizedRecords { get; set; }
 
         /// <summary>
         /// Список заблокированных записей.
         /// </summary>
         [CanBeNull]
-        [XmlArray("locked-records")]
         [XmlArrayItem("mfn")]
-        [JsonProperty("locked-records")]
+        [XmlArray("lockedRecords")]
+        [JsonProperty("lockedRecords")]
         public int[] LockedRecords { get; set; }
 
         /// <summary>
         /// Флаг монопольной блокировки базы данных.
         /// </summary>
-        [XmlAttribute("database-locked")]
-        [JsonProperty("database-locked")]
+        [XmlAttribute("databaseLocked")]
+        [JsonProperty("databaseLocked")]
         public bool DatabaseLocked { get; set; }
 
         /// <summary>
         /// База данных только для чтения.
         /// </summary>
-        [XmlAttribute("read-only")]
-        [JsonProperty("read-only")]
+        [XmlAttribute("readOnly")]
+        [JsonProperty("readOnly")]
         public bool ReadOnly { get; set; }
 
         #endregion
@@ -226,14 +226,14 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable membrs
 
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc />
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             Name = reader.ReadNullableString();
             Description = reader.ReadNullableString();
             MaxMfn = reader.ReadPackedInt32();
@@ -248,14 +248,14 @@ namespace ManagedIrbis
             DatabaseLocked = reader.ReadBoolean();
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <inheritdoc />
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             writer
                 .WriteNullable(Name)
                 .WriteNullable(Description)
@@ -271,12 +271,7 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();

@@ -44,7 +44,18 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestConnectionFailure()
+        public void Connection_IniFile()
+        {
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
+            string dbNameCat
+                = connection.IniFile["Main", "DBNNAMECAT"];
+            Write("DBNNAMECAT=" + dbNameCat);
+        }
+
+        //[TestMethod]
+        public void Connection_Failure()
         {
             IrbisConnection secondConnection
                 = Connection.Clone(false);

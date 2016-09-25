@@ -4,7 +4,7 @@
  * Status: poor
  */
 
-#if NOTDEF
+#if !NETCORE
 
 #region Using directives
 
@@ -13,8 +13,12 @@ using System.IO;
 using System.Linq;
 
 using AM;
+
 using CodeJam;
+
 using JetBrains.Annotations;
+
+using ManagedIrbis.Readers;
 
 using MoonSharp.Interpreter;
 
@@ -26,9 +30,8 @@ using CM = System.Configuration.ConfigurationManager;
 
 #endregion
 
-namespace ManagedClient.Requests
+namespace ManagedIrbis.Requests
 {
-    using Readers;
 
     /// <summary>
     /// Управление читательскими заказами.
@@ -44,7 +47,7 @@ namespace ManagedClient.Requests
         /// ИРБИС-клиент
         /// </summary>
         [NotNull]
-        public IrbisConnection Client { get; private set; }
+        public IrbisConnection Connection { get; private set; }
 
         /// <summary>
         /// Host name.
@@ -57,7 +60,7 @@ namespace ManagedClient.Requests
                 return _GetSetting
                     (
                         "host",
-                        IrbisConnection.DefaultHost
+                        "127.0.0.1"
                     );
             }
         }
@@ -72,7 +75,7 @@ namespace ManagedClient.Requests
                 return int.Parse(_GetSetting
                     (
                         "port",
-                        IrbisConnection.DefaultPort.ToInvariantString()
+                        "6666"
                     ));
             }
         }
@@ -174,21 +177,6 @@ namespace ManagedClient.Requests
         }
 
         /// <summary>
-        /// Allow debug.
-        /// </summary>
-        public bool AllowDebug
-        {
-            get
-            {
-                return bool.Parse(_GetSetting
-                    (
-                        "debug",
-                        "false"
-                    ));
-            }
-        }
-
-        /// <summary>
         /// Places.
         /// </summary>
         [NotNull]
@@ -209,24 +197,20 @@ namespace ManagedClient.Requests
             {
                 result = defaultValue;
             }
+
             return result;
         }
 
         private IrbisConnection _CreateClient()
         {
             IrbisConnection result = new IrbisConnection
-                                         {
-                                             Host = Host,
-                                             Port = Port,
-                                             Database = RequestDatabase,
-                                             Username = Login,
-                                             Password = Password
-                                         };
-            if (AllowDebug)
-            {
-                //result.DebugWriter = File.AppendText("Watcher.log");
-                //result.AllowHexadecimalDump = true;
-            }
+                {
+                    Host = Host,
+                    Port = Port,
+                    Database = RequestDatabase,
+                    Username = Login,
+                    Password = Password
+                };
             result.Connect();
 
             return result;
@@ -241,7 +225,7 @@ namespace ManagedClient.Requests
         /// </summary>
         public RequestManager()
         {
-            Client = _CreateClient();
+            Connection = _CreateClient();
             Places = _GetSetting("place", "*").Split(',', ';');
         }
 
@@ -255,10 +239,10 @@ namespace ManagedClient.Requests
         [NotNull]
         public BookRequest[] GetRequests()
         {
-            int[] found = Client.Search("I=0");
+            int[] found = Connection.Search("I=0");
 
             return found
-                .Select(mfn => Client.ReadRecord(mfn))
+                .Select(mfn => Connection.ReadRecord(mfn))
                 .Where(record => record != null)
                 .Select(record => BookRequest.Parse(record))
                 .Where(request => request != null)
@@ -277,7 +261,7 @@ namespace ManagedClient.Requests
 
             if (!ReferenceEquals(request.BookCode, null))
             {
-                IrbisRecord record = ReadCatalog(request.BookCode);
+                MarcRecord record = ReadCatalog(request.BookCode);
                 request.BookRecord = record;
                 request.FreeNumbers = ExtractInventoryNumbers(record);
                 //request.Reader = ReadReader(request.ReaderID);
@@ -289,15 +273,15 @@ namespace ManagedClient.Requests
         /// Read info from catalog.
         /// </summary>
         [CanBeNull]
-        public IrbisRecord ReadCatalog
+        public MarcRecord ReadCatalog
             (
                 [NotNull] string bookCode
             )
         {
             try
             {
-                Client.PushDatabase(CatalogDatabase);
-                int[] found = Client.Search
+                Connection.PushDatabase(CatalogDatabase);
+                int[] found = Connection.Search
                     (
                         "\"I={0}\"",
                         bookCode
@@ -306,13 +290,13 @@ namespace ManagedClient.Requests
                 {
                     return null;
                 }
-                IrbisRecord result = Client.ReadRecord(found[0]);
+                MarcRecord result = Connection.ReadRecord(found[0]);
 
                 return result;
             }
             finally
             {
-                Client.PopDatabase();
+                Connection.PopDatabase();
             }
         }
 
@@ -324,10 +308,10 @@ namespace ManagedClient.Requests
                 [NotNull] BookRequest request
             )
         {
-            IrbisRecord record = request.RequestRecord;
+            MarcRecord record = request.RequestRecord;
             if (record != null)
             {
-                Client.WriteRecord(record, false, true);
+                Connection.WriteRecord(record, false, true);
             }
         }
 
@@ -357,7 +341,7 @@ namespace ManagedClient.Requests
         [ItemNotNull]
         public string[] ExtractInventoryNumbers
             (
-                [CanBeNull] IrbisRecord record
+                [CanBeNull] MarcRecord record
             )
         {
             if (record == null)
@@ -395,8 +379,8 @@ namespace ManagedClient.Requests
 
             try
             {
-                Client.PushDatabase(ReaderDatabase);
-                int[] found = Client.Search
+                Connection.PushDatabase(ReaderDatabase);
+                int[] found = Connection.Search
                     (
                         "I={0}",
                         readerID
@@ -405,14 +389,14 @@ namespace ManagedClient.Requests
                 {
                     return null;
                 }
-                IrbisRecord record = Client.ReadRecord(found[0]);
+                MarcRecord record = Connection.ReadRecord(found[0]);
                 ReaderInfo result = ReaderInfo.Parse(record);
 
                 return result;
             }
             finally
             {
-                Client.PopDatabase();
+                Connection.PopDatabase();
             }
         }
 
@@ -443,7 +427,7 @@ namespace ManagedClient.Requests
         public void Dispose()
         {
             // ReSharper disable ConditionIsAlwaysTrueOrFalse
-            if (Client != null)
+            if (Connection != null)
             {
                 //if (Client.DebugWriter != null)
                 //{
@@ -451,7 +435,7 @@ namespace ManagedClient.Requests
                 //    Client.DebugWriter = null;
                 //}
 
-                Client.Dispose();
+                Connection.Dispose();
             }
             // ReSharper restore ConditionIsAlwaysTrueOrFalse
         }

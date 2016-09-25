@@ -135,6 +135,7 @@
     <Compile Include="AM\IO\PathUtilityTest.cs" />
     <Compile Include="AM\IO\TextReaderUtilityTest.cs" />
     <Compile Include="AM\IO\VersionStreamTest.cs" />
+    <Compile Include="AM\OptionalTest.cs" />
     <Compile Include="AM\Parameters\ParameterUtilityTest.cs" />
     <Compile Include="AM\Reflection\CanaryClass.cs" />
     <Compile Include="AM\Reflection\PropertyAccessorTest.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="AM\JsonUtilityTest.cs" />
     <Compile Include="AM\DateTimeUtilityTest.cs" />
     <Compile Include="AM\UniversalComparerTest.cs" />
+    <Compile Include="AM\ValueEventArgsTest.cs" />
     <Compile Include="CodeJam\CodeTest.cs" />
     <Compile Include="Common\CommonUnitTest.cs" />
     <Compile Include="ManagedIrbis\Fields\RevisionInfoTest.cs" />
@@ -220,7 +222,7 @@
     <Compile Include="ManagedIrbis\IrbisQueryTest.cs" />
     <Compile Include="ManagedIrbis\IrbisOptTest.cs" />
     <Compile Include="ManagedIrbis\IrbisAlphabetTableTest.cs" />
-    <Compile Include="ManagedIrbis\IrbisParFileTest.cs" />
+    <Compile Include="ManagedIrbis\ParFileTest.cs" />
     <Compile Include="ManagedIrbis\FieldReferenceTest.cs" />
     <Compile Include="ManagedIrbis\Identifiers\IsbnTest.cs" />
     <Compile Include="ManagedIrbis\IrbisTreeFileTest.cs" />

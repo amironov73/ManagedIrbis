@@ -7,6 +7,7 @@
 #region Using directives
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -38,7 +39,7 @@ namespace ManagedIrbis.Search
     // ItemLogicNN логические операторы
     // ItemMenuNN имя файла справочника
     // ItemModByDicAutoNN не задействован
-    // ItemModByDicNN способ Корректировки по словарю
+    // ItemModByDicNN способ корректировки по словарю
     // ItemNameNN название поиска
     // ItemNumb общее количество поисков по словарю
     // ItemPftNN имя формата показа документов
@@ -55,6 +56,7 @@ namespace ManagedIrbis.Search
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("search")]
+    [DebuggerDisplay("{Prefix} {Name}")]
     public sealed class SearchScenario
         : IHandmadeSerializable,
         IVerifiable
@@ -195,6 +197,57 @@ namespace ManagedIrbis.Search
             return (SearchScenario) MemberwiseClone();
         }
 
+        /// <summary>
+        /// Parse INI file for scenarios.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static SearchScenario[] ParseIniFile
+            (
+                [NotNull] IniFile iniFile
+            )
+        {
+            IniFile.Section section = iniFile["SEARCH"];
+            if (section == null)
+            {
+                return new SearchScenario[0];
+            }
+
+            int count = section.GetValue<int>("ItemNumb", 0);
+            if (count == 0)
+            {
+                return new SearchScenario[0];
+            }
+
+            List<SearchScenario> result
+                = new List<SearchScenario>(count);
+
+            for (int i = 0; i < count; i++)
+            {
+                SearchScenario scenario = new SearchScenario
+                {
+                    Name = section.GetValue("ItemName" + i, null)
+                            .ThrowIfNull("Name"),
+                    Prefix = section.GetValue("ItemPref"+i,string.Empty),
+                    DictionaryType = (DictionaryType) section
+                        .GetValue("ItemDictionType"+i,0),
+                    Advance = section.GetValue("ItemAdv"+i, null),
+                    Format = section.GetValue("ItemPft"+i,null),
+                    Hint = section.GetValue("ItemHint"+i,null),
+                    Logic = (SearchLogicType) section
+                        .GetValue("ItemLogic"+i,0),
+                    MenuName = section.GetValue("ItemMenu"+i, null),
+                    ModByDicAuto = section.GetValue("ItemModByDicAuto"+i,null),
+                    Correction = section.GetValue("ModByDic"+i, null),
+                    Truncation = Convert.ToBoolean(section.GetValue("ItemTranc"+i, 0))
+                };
+
+                result.Add(scenario);
+            }
+
+            return result.ToArray();
+        }
+
         #endregion
 
         #region IHandmadeSerializable members
@@ -267,6 +320,17 @@ namespace ManagedIrbis.Search
         #endregion
 
         #region Object members
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return string.Format
+                (
+                    "{0} {1}",
+                    Prefix,
+                    Name
+                );
+        }
 
         #endregion
     }

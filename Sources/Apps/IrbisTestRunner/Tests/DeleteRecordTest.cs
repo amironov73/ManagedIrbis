@@ -86,31 +86,35 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestDeleteRecord()
+        public void DeleteRecord_Delete()
         {
-            IrbisConnection connection = Connection.ThrowIfNull("Connection");
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
             MarcRecord record = _GetRecord();
             record = connection.WriteRecord(record);
             int mfn = record.Mfn;
             Write("MFN={0}: ", mfn);
-            Write("created|");
+            Write("created | ");
 
             connection.DeleteRecord(mfn);
             Write("deleted");
         }
 
         [TestMethod]
-        public void TestUndeleteRecord()
+        public void DeleteRecord_Undelete()
         {
-            IrbisConnection connection = Connection.ThrowIfNull("Connection");
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
             MarcRecord record = _GetRecord();
             record = connection.WriteRecord(record);
             int mfn = record.Mfn;
             Write("MFN={0}: ", mfn);
-            Write("created|");
+            Write("created | ");
 
             connection.DeleteRecord(mfn);
-            Write("deleted|");
+            Write("deleted | ");
 
             connection.UndeleteRecord(mfn);
             Write("undeleted");

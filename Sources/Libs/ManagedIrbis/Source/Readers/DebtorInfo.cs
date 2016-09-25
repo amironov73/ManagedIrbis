@@ -8,15 +8,21 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 using AM.IO;
 using AM.Runtime;
 
+using CodeJam;
+
 using JetBrains.Annotations;
+
 using ManagedIrbis.Fields;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -30,6 +36,7 @@ namespace ManagedIrbis.Readers
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [DebuggerDisplay("Name")]
     public sealed class DebtorInfo
         : IHandmadeSerializable
     {
@@ -39,90 +46,118 @@ namespace ManagedIrbis.Readers
         /// Фамилия, имя, отчество
         /// </summary>
         [CanBeNull]
-        public string Fio { get; set; }
+        [XmlAttribute("name")]
+        [JsonProperty("name")]
+        public string Name { get; set; }
 
         /// <summary>
         /// Дата рождения
         /// </summary>
         [CanBeNull]
-        public string Birthdate { get; set; }
+        [XmlAttribute("dateOfBirth")]
+        [JsonProperty("dateOfBirth")]
+        public string DateOfBirth { get; set; }
 
         /// <summary>
         /// Номер читательского билета
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("ticket")]
+        [JsonProperty("ticket")]
         public string Ticket { get; set; }
-
 
         /// <summary>
         /// Пол
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("gender")]
+        [JsonProperty("gender")]
         public string Gender { get; set; }
 
         /// <summary>
         /// Категория
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("category")]
+        [JsonProperty("category")]
         public string Category { get; set; }
 
         /// <summary>
         /// Адрес
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("address")]
+        [JsonProperty("address")]
         public string Address { get; set; }
 
         /// <summary>
         /// Место работы
         /// </summary>
         [CanBeNull]
-        public string Work { get; set; }
+        [XmlAttribute("workPlace")]
+        [JsonProperty("workPlace")]
+        public string WorkPlace { get; set; }
 
         /// <summary>
         /// Электронная почта
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("email")]
+        [JsonProperty("email")]
         public string Email { get; set; }
 
         /// <summary>
         /// Домашний телефон
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("homePhone")]
+        [JsonProperty("homePhone")]
         public string HomePhone { get; set; }
 
         /// <summary>
         /// Возраст
         /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
         public int Age { get; set; }
 
         /// <summary>
         /// Примечания
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("remarks")]
+        [JsonProperty("remarks")]
         public string Remarks { get; set; }
 
         /// <summary>
         /// MFN записи
         /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
         public int Mfn { get; set; }
-
 
         /// <summary>
         /// Расформатированное описание
         /// </summary>
         [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
         public string Description { get; set; }
 
         /// <summary>
         /// Произвольные данные
         /// </summary>
         [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
         public object UserData { get; set; }
 
         /// <summary>
         /// Задолженные экземпляры
         /// </summary>
         [CanBeNull]
+        [XmlArrayItem("exemplar")]
+        [JsonProperty("exemplars")]
         public ExemplarInfo[] Exemplars { get; set; }
 
         #endregion
@@ -146,14 +181,11 @@ namespace ManagedIrbis.Readers
                 [NotNull] ReaderInfo reader
             )
         {
-            if (ReferenceEquals(reader, null))
-            {
-                throw new ArgumentNullException("reader");
-            }
+            Code.NotNull(reader, "reader");
 
             DebtorInfo result = new DebtorInfo();
 
-
+            // TODO Implement
 
             return result;
         }
@@ -162,22 +194,44 @@ namespace ManagedIrbis.Readers
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Просим объект записаться в поток.
-        /// </summary>
+        /// <inheritdoc />
+        public void RestoreFromStream
+        (
+            BinaryReader reader
+        )
+        {
+            Code.NotNull(reader, "reader");
+
+            Name = reader.ReadNullableString();
+            DateOfBirth = reader.ReadNullableString();
+            Ticket = reader.ReadNullableString();
+            Gender = reader.ReadNullableString();
+            Category = reader.ReadNullableString();
+            Address = reader.ReadNullableString();
+            WorkPlace = reader.ReadNullableString();
+            Email = reader.ReadNullableString();
+            HomePhone = reader.ReadNullableString();
+            Age = reader.ReadPackedInt32();
+            Remarks = reader.ReadNullableString();
+            Mfn = reader.ReadPackedInt32();
+            Description = reader.ReadNullableString();
+            Exemplars = reader.ReadArray<ExemplarInfo>();
+        }
+
+        /// <inheritdoc />
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
             writer
-                .WriteNullable(Fio)
-                .WriteNullable(Birthdate)
+                .WriteNullable(Name)
+                .WriteNullable(DateOfBirth)
                 .WriteNullable(Ticket)
                 .WriteNullable(Gender)
                 .WriteNullable(Category)
                 .WriteNullable(Address)
-                .WriteNullable(Work)
+                .WriteNullable(WorkPlace)
                 .WriteNullable(Email)
                 .WriteNullable(HomePhone)
                 .WritePackedInt32(Age)
@@ -186,30 +240,6 @@ namespace ManagedIrbis.Readers
                 .WriteNullable(Description);
 
             Exemplars.SaveToStream(writer);
-        }
-
-        /// <summary>
-        /// Восстанавливаем объект из потока.
-        /// </summary>
-        public void RestoreFromStream
-            (
-                [NotNull] BinaryReader reader
-            )
-        {
-            Fio = reader.ReadNullableString();
-            Birthdate = reader.ReadNullableString();
-            Ticket = reader.ReadNullableString();
-            Gender = reader.ReadNullableString();
-            Category = reader.ReadNullableString();
-            Address = reader.ReadNullableString();
-            Work = reader.ReadNullableString();
-            Email = reader.ReadNullableString();
-            HomePhone = reader.ReadNullableString();
-            Age = reader.ReadPackedInt32();
-            Remarks = reader.ReadNullableString();
-            Mfn = reader.ReadPackedInt32();
-            Description = reader.ReadNullableString();
-            Exemplars = reader.ReadArray<ExemplarInfo>();
         }
 
         #endregion

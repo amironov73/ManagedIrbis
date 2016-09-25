@@ -103,6 +103,9 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Tests\FstRusmarcTest.cs" />
+    <None Include="Tests\FstProcessorTest.cs" />
+    <None Include="Tests\SearchManagerTest.cs" />
     <None Include="packages.config" />
     <None Include="Tests\ActualizeRecordTest.cs" />
     <None Include="Tests\BatchRecordReaderTest.cs" />

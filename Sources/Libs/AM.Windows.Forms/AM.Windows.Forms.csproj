@@ -103,10 +103,29 @@
   <ItemGroup>
     <Compile Include="AM\Windows\Forms\ApplicationUtility.cs" />
     <Compile Include="AM\Windows\Forms\BindingListSource.cs" />
+    <Compile Include="AM\Windows\Forms\BorderInfo.cs" />
+    <Compile Include="AM\Windows\Forms\BorderInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="AM\Windows\Forms\BottomlessRichTextBox.cs" />
+    <Compile Include="AM\Windows\Forms\BrowserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\BrowserForm.Designer.cs">
+      <DependentUpon>BrowserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\BusyStripe.cs" />
+    <Compile Include="AM\Windows\Forms\CheckBoxGroup.cs" />
+    <Compile Include="AM\Windows\Forms\CheckedGroupBox.cs" />
     <Compile Include="AM\Windows\Forms\Clocks.cs" />
     <Compile Include="AM\Windows\Forms\CollapsibleGroupBox.cs" />
     <Compile Include="AM\Windows\Forms\ColorComboBox.cs" />
+    <Compile Include="AM\Windows\Forms\Console\ConsoleControl.cs" />
+    <Compile Include="AM\Windows\Forms\Console\ConsoleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\Console\ConsoleInputEventArgs.cs" />
+    <Compile Include="AM\Windows\Forms\Console\ConsoleControlOutput.cs" />
     <Compile Include="AM\Windows\Forms\ControlUtility.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewCalendarCell.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewCalendarColumn.cs" />
@@ -121,6 +140,11 @@
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewRatingCell.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewRatingColumn.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewUtility.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\GridColumnAttribute.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\HabitualDataGridView.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\PagingDataGridViewEventArgs.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\PagingDataGridView.cs" />
+    <Compile Include="AM\Windows\Forms\DriveComboBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumComboBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumListBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumTypeConverter.cs" />
@@ -139,16 +163,76 @@
     <Compile Include="AM\Windows\Forms\InputLanguageIndicator.cs" />
     <Compile Include="AM\Windows\Forms\JogControl.cs" />
     <Compile Include="AM\Windows\Forms\KeyboardUtility.cs" />
+    <Compile Include="AM\Windows\Forms\LabeledComboBox.cs" />
+    <Compile Include="AM\Windows\Forms\LabeledComboBox.Designer.cs">
+      <DependentUpon>LabeledComboBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\LabeledTextBox.cs" />
+    <Compile Include="AM\Windows\Forms\LabeledTextBox.Designer.cs">
+      <DependentUpon>LabeledTextBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="AM\Windows\Forms\LabelEx.cs" />
     <Compile Include="AM\Windows\Forms\ListBoxEx.cs" />
     <Compile Include="AM\Windows\Forms\ListBoxOutput.cs" />
     <Compile Include="AM\Windows\Forms\ListBoxTextWriter.cs" />
+    <Compile Include="AM\Windows\Forms\Meter.cs" />
     <Compile Include="AM\Windows\Forms\ModalForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="AM\Windows\Forms\PenInfo.cs" />
+    <Compile Include="AM\Windows\Forms\PenInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\PickList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\PictureViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\PictureViewForm.Designer.cs">
+      <DependentUpon>PictureViewForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\PictureViewMode.cs" />
+    <Compile Include="AM\Windows\Forms\PlainTextEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\PlainTextEditor.Designer.cs">
+      <DependentUpon>PlainTextEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\ProgressCircle.cs" />
+    <Compile Include="AM\Windows\Forms\ProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\ProgressForm.Designer.cs">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\ProgressPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\ProgressPanel.Designer.cs">
+      <DependentUpon>ProgressPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\PropertyBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\RadioGroup.cs" />
+    <Compile Include="AM\Windows\Forms\RainbowControl.cs" />
+    <Compile Include="AM\Windows\Forms\RainbowItem.cs" />
+    <Compile Include="AM\Windows\Forms\RainbowItemList.cs" />
+    <Compile Include="AM\Windows\Forms\RichTextEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\RichTextEditor.Designer.cs">
+      <DependentUpon>RichTextEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="AM\Windows\Forms\ScreenUtility.cs" />
+    <Compile Include="AM\Windows\Forms\ScrollControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="AM\Windows\Forms\TextBoxOutput.cs" />
+    <Compile Include="AM\Windows\Forms\TextBoxTraceListener.cs" />
     <Compile Include="AM\Windows\Forms\TextBoxWriter.cs" />
+    <Compile Include="AM\Windows\Forms\Thermometer.cs" />
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripCheckBox.cs" />
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripColorComboBox.cs" />
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripCustomizationForm.cs">
@@ -201,6 +285,68 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />
+    <None Include="Images\arrowUp.png" />
+    <None Include="Images\arrowDown.png" />
+    <None Include="Images\upArrow.png" />
+    <None Include="Images\rightArrow.png" />
+    <None Include="Images\leftArrow.png" />
+    <None Include="Images\downArrow.png" />
+    <EmbeddedResource Include="Images\ConsoleControl.bmp" />
+    <EmbeddedResource Include="Images\Triangle.bmp" />
+    <EmbeddedResource Include="Images\RainbowControl.bmp" />
+    <None Include="Images\drivenet.bmp" />
+    <EmbeddedResource Include="AM\Windows\Forms\BorderInfoControl.resx">
+      <DependentUpon>BorderInfoControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\ExceptionBox.ru.resx">
+      <DependentUpon>ExceptionBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\InputBox.ru.resx">
+      <DependentUpon>InputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\PenInfoControl.resx">
+      <DependentUpon>PenInfoControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\PickList.resx">
+      <DependentUpon>PickList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\PictureViewForm.resx">
+      <DependentUpon>PictureViewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\PictureViewForm.ru.resx">
+      <DependentUpon>PictureViewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\PlainTextEditor.ru.resx">
+      <DependentUpon>PlainTextEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\ProgressForm.resx">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\ProgressForm.ru.resx">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\ProgressPanel.resx">
+      <DependentUpon>ProgressPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\ProgressPanel.ru.resx">
+      <DependentUpon>ProgressPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\PropertyBox.resx">
+      <DependentUpon>PropertyBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\RichTextEditor.ru.resx">
+      <DependentUpon>RichTextEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\drive.bmp" />
+    <None Include="Images\cddrive.bmp" />
+    <None Include="Images\35floppy.bmp" />
+    <EmbeddedResource Include="Images\HatchComboBox.bmp" />
+    <EmbeddedResource Include="Images\FontComboBox.bmp" />
+    <EmbeddedResource Include="Images\ColorComboBox.bmp" />
+    <EmbeddedResource Include="Images\ProgressCircle.bmp" />
+    <EmbeddedResource Include="Images\BusyStripe.bmp" />
+    <EmbeddedResource Include="Images\Clocks.bmp" />
     <None Include="Images\Gear2.png" />
     <None Include="Images\Gear1.png" />
     <None Include="Images\Gear0.png" />
@@ -213,6 +359,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AM\Windows\Forms\BrowserForm.resx">
+      <DependentUpon>BrowserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\BrowserForm.ru.resx">
+      <DependentUpon>BrowserForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AM\Windows\Forms\ExceptionBox.resx">
       <DependentUpon>ExceptionBox.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -220,6 +372,18 @@
     <EmbeddedResource Include="AM\Windows\Forms\InputBox.resx">
       <DependentUpon>InputBox.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\LabeledComboBox.resx">
+      <DependentUpon>LabeledComboBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\LabeledTextBox.resx">
+      <DependentUpon>LabeledTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\PlainTextEditor.resx">
+      <DependentUpon>PlainTextEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\RichTextEditor.resx">
+      <DependentUpon>RichTextEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AM\Windows\Forms\ToolStrip\ToolStripCustomizationForm.resx">
       <DependentUpon>ToolStripCustomizationForm.cs</DependentUpon>
@@ -239,6 +403,7 @@
         <EmbeddedResource Include="Properties\Resources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+          <SubType>Designer</SubType>
         </EmbeddedResource>
       </ItemGroup>
     </Otherwise>

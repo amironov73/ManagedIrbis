@@ -130,6 +130,28 @@ namespace ManagedIrbis.Fst
             return result;
         }
 
+        /// <summary>
+        /// Convert line to the IRBIS format.
+        /// </summary>
+        [NotNull]
+        public string ToFormat()
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.AppendFormat
+                (
+                    "mpl,'{0}',/,",
+                    Tag
+                );
+            result.Append
+                (
+                    IrbisFormat.PrepareFormat(Format)
+                );
+            result.Append(",'\x07'");
+
+            return result.ToString();
+        }
+
         #endregion
 
         #region IHandmadeSerializable

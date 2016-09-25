@@ -11,9 +11,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 
 using AM;
 using AM.Collections;
@@ -24,7 +22,7 @@ using AM.Threading;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Batch;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Gbl;
 using ManagedIrbis.Infrastructure.Commands;
@@ -206,14 +204,14 @@ namespace ManagedIrbis
         [NotNull]
         public CommandFactory CommandFactory { get; private set; }
 
-        ///// <summary>
-        ///// Конфигурация клиента.
-        ///// </summary>
-        ///// <value>Высылается сервером при подключении.</value>
-        //public string Configuration
-        //{
-        //    get { return _configuration; }
-        //}
+        /// <summary>
+        /// Remote INI-file for the client.
+        /// </summary>
+        [CanBeNull]
+        public IniFile IniFile
+        {
+            get { return _iniFile; }
+        }
 
         /// <summary>
         /// Статус подключения к серверу.
@@ -321,6 +319,8 @@ namespace ManagedIrbis
         private string _database;
         private IrbisWorkstation _workstation;
 
+        private IniFile _iniFile;
+
         internal void ThrowIfConnected()
         {
             if (Connected)
@@ -426,7 +426,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Establish connection (if not yet).
         /// </summary>
-        public string Connect()
+        public IniFile Connect()
         {
             // TODO use Executive
 
@@ -435,13 +435,21 @@ namespace ManagedIrbis
                 ConnectCommand command
                     = CommandFactory.GetConnectCommand();
                 ClientQuery query = command.CreateQuery();
-                ServerResponse result = command.Execute(query);
-                command.CheckResponse(result);
+                ServerResponse response = command.Execute(query);
+                command.CheckResponse(response);
                 _connected = true;
-                return command.Configuration;
+
+                string iniText = command.Configuration
+                    .ThrowIfNull("command.Configuration");
+                IniFile result = new IniFile();
+                StringReader reader = new StringReader(iniText);
+                result.Read(reader);
+                _iniFile = result;
+
+                return result;
             }
 
-            return null;
+            return _iniFile;
         }
 
         // ========================================================
@@ -623,7 +631,7 @@ namespace ManagedIrbis
         #region FormatRecord
 
         /// <summary>
-        /// Форматирование записи.
+        /// Format specified record using ANSI encoding.
         /// </summary>
         [CanBeNull]
         public string FormatRecord
@@ -632,8 +640,8 @@ namespace ManagedIrbis
                 int mfn
             )
         {
-            Code.Positive(mfn, "mfn");
             Code.NotNull(format, "format");
+            Code.Positive(mfn, "mfn");
 
             FormatCommand command = CommandFactory.GetFormatCommand();
             command.FormatSpecification = format;
@@ -649,7 +657,7 @@ namespace ManagedIrbis
         }
 
         /// <summary>
-        /// Форматирование записи.
+        /// Format specified record using ANSI encoding.
         /// </summary>
         [CanBeNull]
         public string FormatRecord
@@ -675,7 +683,7 @@ namespace ManagedIrbis
         }
 
         /// <summary>
-        /// Форматирование записей.
+        /// Format specified records using ANSI encoding.
         /// </summary>
         [NotNull]
         public string[] FormatRecords
@@ -950,9 +958,9 @@ namespace ManagedIrbis
         /// </summary>
         public void NoOp()
         {
-            // TODO Create NopCommand
+            NopCommand command = CommandFactory.GetNopCommand();
 
-            ExecuteCommand(CommandCode.Nop);
+            ExecuteCommand(command);
         }
 
         /// <summary>
@@ -1105,7 +1113,7 @@ namespace ManagedIrbis
 
             ExecuteCommand(command);
 
-            return command.ReadRecord
+            return command.Record
                 .ThrowIfNull("no record retrieved");
         }
 
@@ -1135,67 +1143,7 @@ namespace ManagedIrbis
 
             ExecuteCommand(command);
 
-            return command.ReadRecord;
-        }
-
-        /// <summary>
-        /// Read multiple records.
-        /// </summary>
-        [NotNull]
-        public MarcRecord[] ReadRecords
-            (
-                [CanBeNull] string database,
-                [NotNull] IEnumerable<int> mfnList
-            )
-        {
-            Code.NotNull(mfnList, "mfnList");
-
-            if (string.IsNullOrEmpty(database))
-            {
-                database = Database;
-            }
-
-            FormatCommand command = CommandFactory.GetFormatCommand();
-            command.Database = database;
-            command.FormatSpecification = IrbisFormat.All;
-            command.MfnList.AddRange(mfnList);
-
-            if (command.MfnList.Count == 0)
-            {
-                return new MarcRecord[0];
-            }
-
-            if (command.MfnList.Count == 1)
-            {
-                int mfn = command.MfnList[0];
-
-                MarcRecord record = ReadRecord
-                    (
-                        database,
-                        mfn,
-                        false,
-                        null
-                    );
-
-                return new[] { record };
-            }
-
-            ExecuteCommand(command);
-
-            MarcRecord[] result = MarcRecordUtility.ParseAllFormat
-                (
-                    database,
-                    this,
-                    command.FormatResult
-                        .ThrowIfNullOrEmpty("command.FormatResult")
-                );
-            Debug.Assert
-                (
-                    command.MfnList.Count == result.Length,
-                    "some records not retrieved"
-                );
-
-            return result;
+            return command.Record;
         }
 
         #endregion
@@ -1666,7 +1614,7 @@ namespace ManagedIrbis
                 params int[] mfnList
             )
         {
-            // TODO UnlockRecordsCommand
+            // TODO: write UnlockRecordsTest
 
             Code.NotNullNorEmpty(database, "database");
 
@@ -1675,15 +1623,12 @@ namespace ManagedIrbis
                 return;
             }
 
-            List<object> arguments
-                = new List<object>(mfnList.Length + 1) { Database };
-            arguments.AddRange(mfnList.Cast<object>());
+            UnlockRecordsCommand command
+                = CommandFactory.GetUnlockRecordsCommand();
+            command.Database = database;
+            command.Records.AddRange(mfnList);
 
-            ExecuteCommand
-                (
-                    CommandCode.UnlockRecords,
-                    arguments.ToArray()
-                );
+            ExecuteCommand(command);
         }
 
         // =========================================================
@@ -1693,25 +1638,17 @@ namespace ManagedIrbis
         /// </summary>
         public void UpdateIniFile
             (
-                [NotNull] string[] text
+                [CanBeNull] string[] lines
             )
         {
-            // TODO UpdateIniFileCommand
-
-            Code.NotNull(text, "text");
-
-            if (text.Length == 0)
+            if (lines.IsNullOrEmpty())
             {
                 return;
             }
 
-            UniversalTextCommand command =
-                CommandFactory.GetUniversalTextCommand
-                (
-                    CommandCode.UpdateIniFile,
-                    text,
-                    IrbisEncoding.Ansi
-                );
+            UpdateIniFileCommand command
+                = CommandFactory.GetUpdateIniFileCommand();
+            command.Lines = lines;
 
             ExecuteCommand(command);
         }
@@ -1871,6 +1808,8 @@ namespace ManagedIrbis
 
                 ExecuteCommand(command);
             }
+
+            _iniFile = null;
         }
 
         #endregion
@@ -1885,12 +1824,19 @@ namespace ManagedIrbis
                 BinaryReader reader
             )
         {
-            Host = reader.ReadNullableString();
+            Code.NotNull(reader, "reader");
+
+            Host = reader.ReadNullableString()
+                .ThrowIfNull("Host");
             Port = reader.ReadPackedInt32();
-            Username = reader.ReadNullableString();
-            Password = reader.ReadNullableString();
-            Database = reader.ReadNullableString();
-            Workstation = (IrbisWorkstation)reader.ReadPackedInt32();
+            Username = reader.ReadNullableString()
+                .ThrowIfNull("Username");
+            Password = reader.ReadNullableString()
+                .ThrowIfNull("Password");
+            Database = reader.ReadNullableString()
+                .ThrowIfNull("Database");
+            Workstation
+                = (IrbisWorkstation)reader.ReadPackedInt32();
         }
 
         /// <summary>

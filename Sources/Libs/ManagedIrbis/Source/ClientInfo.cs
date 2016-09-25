@@ -6,15 +6,11 @@
 
 #region Using directives
 
-using System;
-
-using CodeJam;
+using System.Diagnostics;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -26,6 +22,7 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [DebuggerDisplay("{IPAddress} {Name} {Workstation}")]
     public sealed class ClientInfo
     {
         #region Properties
@@ -33,68 +30,74 @@ namespace ManagedIrbis
         /// <summary>
         /// Номер
         /// </summary>
+        [CanBeNull]
         public string Number { get; set; }
 
         /// <summary>
         /// Адрес клиента
         /// </summary>
+        [CanBeNull]
+        // ReSharper disable once InconsistentNaming
         public string IPAddress { get; set; }
 
         /// <summary>
         /// Порт клиента
         /// </summary>
+        [CanBeNull]
         public string Port { get; set; }
 
         /// <summary>
         /// Логин
         /// </summary>
+        [CanBeNull]
         public string Name { get; set; }
 
         /// <summary>
         /// Идентификатор клиентской программы
         /// </summary>
+        [CanBeNull]
+        // ReSharper disable once InconsistentNaming
         public string ID { get; set; }
 
         /// <summary>
         /// Клиентский АРМ
         /// </summary>
+        [CanBeNull]
         public string Workstation { get; set; }
 
         /// <summary>
         /// Время подключения к серверу
         /// </summary>
+        [CanBeNull]
         public string Registered { get; set; }
 
         /// <summary>
         /// Последнее подтверждение
         /// </summary>
+        [CanBeNull]
         public string Acknowledged { get; set; }
 
         /// <summary>
         /// Последняя команда
         /// </summary>
+        [CanBeNull]
         public string LastCommand { get; set; }
 
         /// <summary>
         /// Номер последней команды
         /// </summary>
+        [CanBeNull]
         public string CommandNumber { get; set; }
 
         #endregion
 
         #region Public methods
-        
 
         #endregion
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc />
         public override string ToString ()
         {
             return string.Format 

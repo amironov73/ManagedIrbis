@@ -128,6 +128,7 @@
     <Compile Include="AM\Collections\Quartet.cs" />
     <Compile Include="AM\Collections\StringDictionary.cs" />
     <Compile Include="AM\Collections\Triplet.cs" />
+    <Compile Include="AM\Collections\VirtualList.cs" />
     <Compile Include="AM\Collections\XRange.cs" />
     <Compile Include="AM\CommandLine\CommandLineParser.cs" />
     <Compile Include="AM\CommandLine\CommandLineSettings.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="AM\Diagnostics\ConsoleTraceListener.cs" />
     <Compile Include="AM\DisposableObject.cs" />
     <Compile Include="AM\DisposableUtility.cs" />
+    <Compile Include="AM\DuplicateKeyException.cs" />
     <Compile Include="AM\ExceptionEventArgs.cs" />
     <Compile Include="AM\FuncUtility.cs" />
     <Compile Include="AM\InquiryEventArgs.cs" />
@@ -157,7 +159,6 @@
     <Compile Include="AM\IO\DumpUtility.cs" />
     <Compile Include="AM\IO\IConsoleOutputReceiver.cs" />
     <Compile Include="AM\IO\IniFile.cs" />
-    <Compile Include="AM\IO\IniFile2.cs" />
     <Compile Include="AM\IO\MultiStream.cs" />
     <Compile Include="AM\IO\NonCloseableStream.cs" />
     <Compile Include="AM\IO\NonCloseableStreamReader.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="AM\NonNullValue.cs" />
     <Compile Include="AM\ObjectDumper.cs" />
     <Compile Include="AM\Operator.cs" />
+    <Compile Include="AM\Optional.cs" />
     <Compile Include="AM\Parameters\Parameter.cs" />
     <Compile Include="AM\Parameters\ParameterUtility.cs" />
     <Compile Include="AM\ReadOnlyException.cs" />
@@ -204,7 +206,9 @@
     <Compile Include="AM\Text\Output\TimestampedOutput.cs" />
     <Compile Include="AM\Text\RussianFormat.cs" />
     <Compile Include="AM\Text\StreamParser.cs" />
+    <Compile Include="AM\Text\TextKind.cs" />
     <Compile Include="AM\Text\TextNavigator.cs" />
+    <Compile Include="AM\Text\TextUtility.cs" />
     <Compile Include="AM\Text\Tokenizer\StringTokenizer.cs" />
     <Compile Include="AM\Text\Tokenizer\Token.cs" />
     <Compile Include="AM\Sequence.cs" />
@@ -230,8 +234,10 @@
     <Compile Include="AM\Threading\Tasks\TaskProcessor.cs" />
     <Compile Include="AM\Threading\Tasks\TaskUtility.cs" />
     <Compile Include="AM\TimeSpanUtility.cs" />
+    <Compile Include="AM\TriState.cs" />
     <Compile Include="AM\UniversalComparer.cs" />
     <Compile Include="AM\Utility.cs" />
+    <Compile Include="AM\ValueEventArgs.cs" />
     <Compile Include="AM\VerificationException.cs" />
     <Compile Include="AM\Verifier.cs" />
     <Compile Include="CodeJam\Code.cs" />

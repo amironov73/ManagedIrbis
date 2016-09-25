@@ -45,12 +45,15 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestCreateDatabase()
+        public void CreateDatabase_Test1()
         {
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
             const string DatabaseName = "NEWDB2";
             const string Description = "New database 2";
 
-            Connection.CreateDatabase
+            connection.CreateDatabase
                 (
                     DatabaseName,
                     Description,
@@ -58,11 +61,16 @@ namespace IrbisTestRunner.Tests
                     null
                 );
 
-            Write("{0} created |", DatabaseName);
+            Write("{0} created | ", DatabaseName);
 
             Thread.Sleep(700);
 
-            Connection.DeleteDatabase(DatabaseName);
+            int maxMfn = connection.GetMaxMfn(DatabaseName);
+            Write("MaxMfn={0} | ", maxMfn);
+
+            Thread.Sleep(700);
+
+            connection.DeleteDatabase(DatabaseName);
 
             Write("{0} deleted", DatabaseName);
         }

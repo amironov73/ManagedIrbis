@@ -42,97 +42,67 @@
             // 
             // _textBox
             // 
+            resources.ApplyResources(this._textBox, "_textBox");
             this._textBox.BackColor = System.Drawing.SystemColors.Window;
-            this._textBox.Location = new System.Drawing.Point(0, 83);
-            this._textBox.Multiline = true;
             this._textBox.Name = "_textBox";
             this._textBox.ReadOnly = true;
-            this._textBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this._textBox.Size = new System.Drawing.Size(784, 213);
-            this._textBox.TabIndex = 2;
             // 
             // _printButton
             // 
-            this._printButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._printButton.Location = new System.Drawing.Point(160, 302);
+            resources.ApplyResources(this._printButton, "_printButton");
             this._printButton.Name = "_printButton";
-            this._printButton.Size = new System.Drawing.Size(147, 39);
-            this._printButton.TabIndex = 4;
-            this._printButton.Text = "Print text";
             this._printButton.UseVisualStyleBackColor = true;
             this._printButton.Click += new System.EventHandler(this._printButton_Click);
             // 
             // _saveButton
             // 
-            this._saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._saveButton.Location = new System.Drawing.Point(316, 302);
+            resources.ApplyResources(this._saveButton, "_saveButton");
             this._saveButton.Name = "_saveButton";
-            this._saveButton.Size = new System.Drawing.Size(147, 39);
-            this._saveButton.TabIndex = 5;
-            this._saveButton.Text = "Save to file";
             this._saveButton.UseVisualStyleBackColor = true;
             this._saveButton.Click += new System.EventHandler(this._saveButton_Click);
             // 
             // _closeButton
             // 
-            this._closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this._closeButton, "_closeButton");
             this._closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this._closeButton.Location = new System.Drawing.Point(622, 302);
             this._closeButton.Name = "_closeButton";
-            this._closeButton.Size = new System.Drawing.Size(147, 39);
-            this._closeButton.TabIndex = 7;
-            this._closeButton.Text = "Close the window";
             this._closeButton.UseVisualStyleBackColor = true;
             this._closeButton.Click += new System.EventHandler(this._closeButton_Click);
             // 
             // _copyButton
             // 
-            this._copyButton.Location = new System.Drawing.Point(7, 302);
+            resources.ApplyResources(this._copyButton, "_copyButton");
             this._copyButton.Name = "_copyButton";
-            this._copyButton.Size = new System.Drawing.Size(147, 39);
-            this._copyButton.TabIndex = 3;
-            this._copyButton.Text = "Copy to clipboard";
             this._copyButton.UseVisualStyleBackColor = true;
             this._copyButton.Click += new System.EventHandler(this._copyButton_Click);
             // 
             // _saveFileDialog
             // 
             this._saveFileDialog.FileName = "exception.txt";
-            this._saveFileDialog.Filter = "Text files|*.txt|All files|*.*";
+            resources.ApplyResources(this._saveFileDialog, "_saveFileDialog");
             // 
             // _abortButton
             // 
-            this._abortButton.Location = new System.Drawing.Point(469, 302);
+            resources.ApplyResources(this._abortButton, "_abortButton");
             this._abortButton.Name = "_abortButton";
-            this._abortButton.Size = new System.Drawing.Size(147, 39);
-            this._abortButton.TabIndex = 6;
-            this._abortButton.Text = "Abort the program";
             this._abortButton.UseVisualStyleBackColor = true;
             this._abortButton.Click += new System.EventHandler(this._abortButton_Click);
             // 
             // _typeLabel
             // 
-            this._typeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this._typeLabel.Location = new System.Drawing.Point(12, 9);
+            resources.ApplyResources(this._typeLabel, "_typeLabel");
             this._typeLabel.Name = "_typeLabel";
-            this._typeLabel.Size = new System.Drawing.Size(757, 23);
-            this._typeLabel.TabIndex = 0;
-            this._typeLabel.Text = "Exception type";
             // 
             // _messageLabel
             // 
-            this._messageLabel.Location = new System.Drawing.Point(12, 32);
+            resources.ApplyResources(this._messageLabel, "_messageLabel");
             this._messageLabel.Name = "_messageLabel";
-            this._messageLabel.Size = new System.Drawing.Size(758, 37);
-            this._messageLabel.TabIndex = 1;
-            this._messageLabel.Text = "Exception message";
             // 
             // ExceptionBox
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this._closeButton;
-            this.ClientSize = new System.Drawing.Size(782, 353);
             this.Controls.Add(this._messageLabel);
             this.Controls.Add(this._typeLabel);
             this.Controls.Add(this._abortButton);
@@ -141,10 +111,8 @@
             this.Controls.Add(this._saveButton);
             this.Controls.Add(this._printButton);
             this.Controls.Add(this._textBox);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ExceptionBox";
             this.ShowIcon = false;
-            this.Text = "Exception occurred";
             this.ResumeLayout(false);
             this.PerformLayout();
 

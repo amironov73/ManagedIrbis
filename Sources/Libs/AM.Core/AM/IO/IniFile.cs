@@ -1,4 +1,4 @@
-/* IniFile.cs -- simple INI-file reader/writer
+п»ї/* IniFile.cs -- simple INI-file reader/writer
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -9,11 +9,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 
+using AM.Collections;
 using AM.Runtime;
 
 using CodeJam;
@@ -33,40 +34,54 @@ namespace AM.IO
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    // ReSharper disable RedundantNameQualifier
-    [System.ComponentModel.DesignerCategory("Code")]
-    // ReSharper restore RedundantNameQualifier
     [DebuggerDisplay("{FileName}")]
+    // ReSharper disable once RedundantNameQualifier
+    [System.ComponentModel.DesignerCategory("Code")]
     public class IniFile
-        : IDisposable,
-        IHandmadeSerializable
+        : IHandmadeSerializable,
+        IEnumerable<IniFile.Section>,
+        IDisposable
     {
         #region Nested classes
 
-        #region IniItem
-
         /// <summary>
-        /// Элемент (строка) INI-файла).
+        /// Line (element) of the INI-file.
         /// </summary>
         [PublicAPI]
         [MoonSharpUserData]
-        [DebuggerDisplay("{Name}={Value} [{Modified}]")]
-        public sealed class IniItem
+        [DebuggerDisplay("{Key}={Value} [{Modified}]")]
+        public sealed class Line
             : IHandmadeSerializable
         {
             #region Properties
 
             /// <summary>
-            /// Key (name) of the item.
+            /// Key (name) of the element.
             /// </summary>
             [NotNull]
-            public string Name { get; set; }
+            public string Key
+            {
+                get { return _key; }
+                //private set
+                //{
+                //    CheckName(value);
+                //    _name = value;
+                //}
+            }
 
             /// <summary>
-            /// Value of the item.
+            /// Value of the element.
             /// </summary>
             [CanBeNull]
-            public string Value { get; set; }
+            public string Value
+            {
+                get { return _value; }
+                set
+                {
+                    _value = value;
+                    Modified = true;
+                }
+            }
 
             /// <summary>
             /// Modification flag.
@@ -78,229 +93,215 @@ namespace AM.IO
             #region Construction
 
             /// <summary>
-            /// Constructor for internal use only.
+            /// Default constructor.
             /// </summary>
-            // ReSharper disable NotNullMemberIsNotInitialized
-            internal IniItem()
+            public Line()
             {
                 // Leave Name=null for a while.
             }
-            // ReSharper restore NotNullMemberIsNotInitialized
 
             /// <summary>
             /// Constructor.
             /// </summary>
-            public IniItem
+            public Line
                 (
-                    [NotNull] string name,
+                    [NotNull] string key,
                     [CanBeNull] string value
                 )
             {
-                Code.NotNullNorEmpty(name, "name");
+                CheckKeyName(key);
 
-                Name = name;
-                Value = value;
+                _key = key;
+                _value = value;
             }
 
             /// <summary>
             /// Constructor.
             /// </summary>
-            public IniItem
+            public Line
                 (
-                    [NotNull] string name,
+                    [NotNull] string key,
                     [CanBeNull] string value,
                     bool modified
                 )
             {
-                Code.NotNullNorEmpty(name, "name");
+                CheckKeyName(key);
 
-                Name = name;
-                Value = value;
+                _key = key;
+                _value = value;
                 Modified = modified;
+            }
+
+            #endregion
+
+            #region Private members
+
+            private string _key;
+            private string _value;
+
+            #endregion
+
+            #region Public methods
+
+            /// <summary>
+            /// Write the line to the stream.
+            /// </summary>
+            public void Write
+                (
+                    [NotNull] TextWriter writer
+                )
+            {
+                Code.NotNull(writer, "writer");
+
+                if (string.IsNullOrEmpty(Value))
+                {
+                    writer.WriteLine(Key);
+                }
+                else
+                {
+                    writer.WriteLine
+                        (
+                            "{0}={1}",
+                            Key, Value
+                        );
+                }
             }
 
             #endregion
 
             #region IHandmadeSerializable members
 
-            /// <summary>
-            /// Restore object state from the stream.
-            /// </summary>
+            /// <inheritdoc />
             public void RestoreFromStream
                 (
                     BinaryReader reader
                 )
             {
-                Name = reader.ReadString();
-                Value = reader.ReadNullableString();
+                Code.NotNull(reader, "reader");
+
+                _key = reader.ReadNullableString();
+                _value = reader.ReadNullableString();
                 Modified = reader.ReadBoolean();
             }
 
-            /// <summary>
-            /// Save object state to the stream.
-            /// </summary>
+            /// <inheritdoc />
             public void SaveToStream
                 (
                     BinaryWriter writer
                 )
             {
-                writer.Write(Name);
-                writer.WriteNullable(Value);
-                writer.Write(Modified);
+                Code.NotNull(writer, "writer");
+
+                writer
+                    .WriteNullable(Key)
+                    .WriteNullable(Value)
+                    .Write(Modified);
             }
 
             #endregion
 
             #region Object members
 
-            /// <summary>
-            /// Returns a <see cref="System.String" />
-            /// that represents this instance.
-            /// </summary>
-            /// <returns>A <see cref="System.String" />
-            /// that represents this instance.</returns>
+            /// <inheritdoc />
             public override string ToString()
             {
-                return string.Format
+                string result = string.Format
                     (
-                        "{0}={1} [{2}]",
-                        Name,
+                        "{0}={1}{2}",
+                        Key,
                         Value,
-                        Modified
+                        Modified ? " [modified]" : string.Empty
                     );
+
+                return result;
             }
 
             #endregion
-
         }
 
-        #endregion
-
-        #region Section
+        // =========================================================
 
         /// <summary>
         /// INI-file section.
         /// </summary>
         [PublicAPI]
-        [DebuggerDisplay("{Name}")]
+        [MoonSharpUserData]
         public sealed class Section
-            : IEnumerable,
-            IHandmadeSerializable
+            : IHandmadeSerializable,
+            IEnumerable<Line>
         {
             #region Properties
 
-            ///<summary>
-            /// INI file owning this section.
-            ///</summary>
-            [NotNull]
-            public IniFile Owner
-            {
-                [DebuggerStepThrough]
-                get
-                {
-                    return _owner;
-                }
-            }
-
-            ///<summary>
-            /// Section name.
-            ///</summary>
-            public string Name
-            {
-                [DebuggerStepThrough]
-                get
-                {
-                    return _name;
-                }
-                [DebuggerStepThrough]
-                set
-                {
-                    SetName(value);
-                }
-            }
-
             /// <summary>
-            /// Access to the keys.
-            /// </summary>
-            [CanBeNull]
-            public string this
-                [
-                    [NotNull] string key
-                ]
-            {
-                [DebuggerStepThrough]
-                get
-                {
-                    IniItem item;
-                    Dictionary.TryGetValue(key, out item);
-
-                    return item == null
-                        ? null
-                        : item.Value;
-                }
-                set
-                {
-                    _CheckKey(key);
-                    Dictionary[key] = new IniItem
-                        (
-                            key,
-                            value,
-                            true
-                        );
-                    _owner._modified = true;
-                }
-            }
-
-            /// <summary>
-            /// Item count.
+            /// Count of lines.
             /// </summary>
             public int Count
             {
-                [DebuggerStepThrough]
+                get { return _lines.Count; }
+            }
+
+            /// <summary>
+            /// All the keys of the section.
+            /// </summary>
+            [NotNull]
+            public IEnumerable<string> Keys
+            {
                 get
                 {
-                    return Dictionary.Count;
+                    foreach (Line line in _lines)
+                    {
+                        yield return line.Key;
+                    }
                 }
             }
 
             /// <summary>
-            /// All the keys for this section.
+            /// Section is modified?
             /// </summary>
-            public IEnumerable<string> Keys
+            public bool Modified { get; set; }
+
+            /// <summary>
+            /// Section name.
+            /// </summary>
+            [CanBeNull]
+            public string Name
             {
-                get { return Dictionary.Keys; }
+                [DebuggerStepThrough]
+                get { return _name; }
+                set
+                {
+                    SetName(value.ThrowIfNull("value"));
+                }
+            }
+
+            /// <summary>
+            /// INI-file.
+            /// </summary>
+            [NotNull]
+            public IniFile Owner { get; private set; }
+
+            /// <summary>
+            /// Indexer.
+            /// </summary>
+            public string this[[NotNull] string key]
+            {
+                get { return GetValue(key, null); }
+                set { SetValue(key, value); }
             }
 
             #endregion
 
             #region Construction
 
-            /// <summary>
-            /// Constructor.
-            /// </summary>
             internal Section
-                (
-                    [NotNull] IniFile owner
-                )
+            (
+                [NotNull] IniFile owner,
+                [CanBeNull] string name
+            )
             {
-                _owner = owner;
-                Dictionary = new Dictionary<string, IniItem>
-                    (
-                        Owner.GetComparer()
-                    );
-            }
-
-            /// <summary>
-            /// Constructor.
-            /// </summary>
-            internal Section
-                (
-                    [NotNull] IniFile owner,
-                    [NotNull] string name
-                )
-                : this(owner)
-            {
+                Owner = owner;
                 _name = name;
+                _lines = new NonNullCollection<Line>();
             }
 
             #endregion
@@ -309,129 +310,149 @@ namespace AM.IO
 
             private string _name;
 
-            private readonly IniFile _owner;
-
-            internal readonly Dictionary<string, IniItem> Dictionary;
-
-            private static void _CheckKey
-                (
-                    [NotNull] string key
-                )
-            {
-                Code.NotNullNorEmpty(key, "key");
-
-                if (key.Contains("="))
-                {
-                    throw new ArgumentException();
-                }
-            }
+            private NonNullCollection<Line> _lines;
 
             #endregion
 
             #region Public methods
 
             /// <summary>
-            /// Add the item to the current section.
+            /// Add new item to the section.
             /// </summary>
             public void Add
                 (
-                    [NotNull] string name,
+                    [NotNull] string key,
                     [CanBeNull] string value
                 )
             {
-                _CheckKey(name);
-
-                Dictionary.Add(name, new IniItem(name, value, false));
-                Owner._modified = true;
+                Line line = new Line(key, value);
+                Add(line);
             }
 
             /// <summary>
-            /// Clear this section.
+            /// Add new line to the section.
+            /// </summary>
+            public void Add
+                (
+                    [NotNull] Line line
+                )
+            {
+                Code.NotNull(line, "line");
+                CheckKeyName(line.Key);
+                if (ContainsKey(line.Key))
+                {
+                    throw new DuplicateKeyException("key");
+                }
+
+                _lines.Add(line);
+            }
+
+            /// <summary>
+            /// Clear the section.
             /// </summary>
             public void Clear()
             {
-                Dictionary.Clear();
-                Owner._modified = true;
+                _lines.Clear();
+                Modified = true;
+                Owner.Modified = true;
             }
 
             /// <summary>
-            /// Do section have item with given name (key)?
+            /// Whether the section have line with given key?
             /// </summary>
+            /// <param name="key"></param>
+            /// <returns></returns>
             public bool ContainsKey
                 (
                     [NotNull] string key
                 )
             {
-                Code.NotNull(key, "key");
+                Code.NotNullNorEmpty(key, "key");
 
-                return Dictionary.ContainsKey(key);
+                foreach (Line line in _lines)
+                {
+                    if (line.Key.SameString(key))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
             }
 
             /// <summary>
-            /// Gets the specified value.
+            /// Get value associated with specified key.
             /// </summary>
-            public T Get<T>
+            [CanBeNull]
+            public string GetValue
                 (
-                    [NotNull] string keyName,
+                    [NotNull] string key,
+                    [CanBeNull] string defaultValue
+                )
+            {
+                CheckKeyName(key);
+
+                foreach (Line line in _lines)
+                {
+                    if (line.Key.SameString(key))
+                    {
+                        return line.Value;
+                    }
+                }
+
+                return defaultValue;
+            }
+
+            /// <summary>
+            /// Get value associated with given key.
+            /// </summary>
+            [CanBeNull]
+            public T GetValue<T>
+                (
+                    [NotNull] string key,
                     [CanBeNull] T defaultValue
                 )
             {
-                Code.NotNull(keyName, "keyName");
+                Code.NotNullNorEmpty(key, "key");
 
-                string textValue = this[keyName];
-                if (string.IsNullOrEmpty(textValue))
+                string value = GetValue(key, null);
+                if (string.IsNullOrEmpty(value))
                 {
                     return defaultValue;
                 }
 
-                T result = ConversionUtility.ConvertTo<T>(textValue);
+                T result = ConversionUtility.ConvertTo<T>(value);
+
                 return result;
             }
 
             /// <summary>
-            /// Sets the specified value.
+            /// Remove specified key.
             /// </summary>
-            public Section Set<T>
+            [NotNull]
+            public Section Remove
                 (
-                    [NotNull] string keyName,
-                    [CanBeNull] T value
+                    [NotNull] string key
                 )
             {
-                Code.NotNull(keyName, "keyName");
+                CheckKeyName(key);
 
-                if (ReferenceEquals(value, null))
+                foreach (Line line in _lines)
                 {
-                    this[keyName] = null;
-                }
-                else
-                {
-                    string textValue = ConversionUtility
-                        .ConvertTo<string>
-                        (
-                            value
-                        );
-                    this[keyName] = textValue;
+                    if (line.Key.SameString(key))
+                    {
+                        _lines.Remove(line);
+                        Modified = true;
+                        Owner.Modified = true;
+                        break;
+                    }
                 }
 
                 return this;
             }
 
             /// <summary>
-            /// Remove item with given name (key).
-            /// </summary>
-            public void Remove
-                (
-                    [NotNull] string name
-                )
-            {
-                Code.NotNull(name, "name");
-
-                Dictionary.Remove(name);
-                Owner._modified = true;
-            }
-
-            /// <summary>
-            /// Sets the name for current section.
+            /// Set name of the section.
             /// </summary>
             public void SetName
                 (
@@ -439,100 +460,132 @@ namespace AM.IO
                 )
             {
                 Code.NotNullNorEmpty(name, "name");
-
-                if (!string.IsNullOrEmpty(_name))
-                {
-                    Owner.Sections.Remove(_name);
-                }
-
-                name = name.Trim();
-                if (string.IsNullOrEmpty(name))
-                {
-                    throw new ArgumentException();
-                }
-
                 _name = name;
-
-                Owner.Sections.Add(name, this);
-                Owner._modified = true;
+                Modified = true;
+                Owner.Modified = true;
             }
 
             /// <summary>
-            /// Trying to get value for given key.
+            /// Set value associated with given key.
+            /// </summary>
+            [NotNull]
+            public Section SetValue
+                (
+                    [NotNull] string key,
+                    [CanBeNull] string value
+                )
+            {
+                CheckKeyName(key);
+
+                Line target = null;
+                foreach (Line line in _lines)
+                {
+                    if (line.Key.SameString(key))
+                    {
+                        target = line;
+                        break;
+                    }
+                }
+
+                if (ReferenceEquals(target, null))
+                {
+                    target = new Line(key, value);
+                    _lines.Add(target);
+                }
+
+                target.Value = value;
+
+                return this;
+            }
+
+            /// <summary>
+            /// Set value associate with given key.
+            /// </summary>
+            [NotNull]
+            public Section SetValue<T>
+                (
+                    [NotNull] string key,
+                    T value
+                )
+            {
+                CheckKeyName(key);
+
+                if (ReferenceEquals(value, null))
+                {
+                    SetValue(key, null);
+                }
+                else
+                {
+                    string text
+                        = ConversionUtility.ConvertTo<string>(value);
+                    SetValue(key, text);
+                }
+
+                return this;
+            }
+
+            /// <summary>
+            /// Try to get value for given key.
             /// </summary>
             public bool TryGetValue
                 (
-                    [NotNull] string name,
+                    [NotNull] string key,
                     out string value
                 )
             {
-                IniItem item;
-                bool result = Dictionary.TryGetValue
-                    (
-                        name,
-                        out item
-                    );
-                value = result
-                    ? item.Value
-                    : null;
+                CheckKeyName(key);
 
-                return result;
-            }
+                foreach (Line line in _lines)
+                {
+                    if (line.Key.SameString(key))
+                    {
+                        value = line.Value;
+                        return true;
+                    }
+                }
 
-            #endregion
+                value = null;
 
-            #region IEnumerable members
-
-            /// <summary>
-            /// Returns an enumerator that iterates
-            /// through a collection.
-            /// </summary>
-            /// <returns>
-            /// An <see cref="T:System.Collections.IEnumerator"></see> 
-            /// object that can be used to iterate
-            /// through the collection.
-            /// </returns>
-            public IEnumerator GetEnumerator()
-            {
-                return Dictionary.GetEnumerator();
+                return false;
             }
 
             #endregion
 
             #region IHandmadeSerializable members
 
-            /// <summary>
-            /// Restore the object state from given stream.
-            /// </summary>
+            /// <inheritdoc />
             public void RestoreFromStream
                 (
                     BinaryReader reader
                 )
             {
                 _name = reader.ReadNullableString();
-                int count = reader.ReadPackedInt32();
-                for (int i = 0; i < count; i++)
-                {
-                    IniItem item = new IniItem();
-                    item.RestoreFromStream(reader);
-                    Dictionary.Add(item.Name, item);
-                }
+                _lines = reader.ReadNonNullCollection<Line>();
             }
 
-            /// <summary>
-            /// Save the object state from given stream.
-            /// </summary>
+            /// <inheritdoc />
             public void SaveToStream
                 (
                     BinaryWriter writer
                 )
             {
-                writer.WriteNullable(Name);
-                writer.WritePackedInt32(Count);
-                foreach (KeyValuePair<string, IniItem> item in Dictionary)
-                {
-                    item.Value.SaveToStream(writer);
-                }
+                writer.WriteNullable(_name);
+                writer.WriteCollection(_lines);
+            }
+
+            #endregion
+
+            #region IEnumerable<Line> members
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+
+            /// <inheritdoc />
+            public IEnumerator<Line> GetEnumerator()
+            {
+                return _lines.GetEnumerator();
             }
 
             #endregion
@@ -540,62 +593,53 @@ namespace AM.IO
 
         #endregion
 
-        #endregion
+        // =========================================================
 
         #region Properties
 
-        ///<summary>
-        /// Name of the file.
-        ///</summary>
+        /// <summary>
+        /// Encoding.
+        /// </summary>
         [CanBeNull]
-        [DefaultValue(null)]
-        public string FileName { get; set; }
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [Browsable(false)]
-        [CanBeNull]
-        [DefaultValue(null)]
         public Encoding Encoding { get; set; }
 
-        private Dictionary<string, Section> _sections;
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [Browsable(false)]
-        [DesignerSerializationVisibility
-            (DesignerSerializationVisibility.Hidden)]
-        public Dictionary<string, Section> Sections
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return _sections;
-            }
-        }
-
-        private bool _modified;
+        /// <summary>
+        /// Name of the file.
+        /// </summary>
+        [CanBeNull]
+        public string FileName { get; set; }
 
         /// <summary>
-        /// Whether INI-file modified.
+        /// Modified?
         /// </summary>
-        [Browsable(false)]
-        [DefaultValue(false)]
-        public bool Modified
+        public bool Modified { get; set; }
+
+        /// <summary>
+        /// Section indexer.
+        /// </summary>
+        [CanBeNull]
+        public Section this[[NotNull] string sectionName]
         {
-            [DebuggerStepThrough]
-            get
-            {
-                return _modified;
-            }
+            get { return GetSection(sectionName); }
         }
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [DefaultValue(false)]
+        /// <summary>
+        /// Value indexer.
+        /// </summary>
+        [CanBeNull]
+        public string this
+            [
+                [NotNull] string sectionName,
+                [NotNull] string keyName
+            ]
+        {
+            get { return GetValue(sectionName, keyName, null); }
+            set { SetValue(sectionName, keyName, value); }
+        }
+
+        /// <summary>
+        /// Writable?
+        /// </summary>
         public bool Writable { get; set; }
 
         #endregion
@@ -605,102 +649,81 @@ namespace AM.IO
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="encoding"></param>
-        /// <param name="writable"></param>
-        public IniFile
-            (
-                [NotNull] string fileName,
-                Encoding encoding,
-                bool writable
-            )
+        public IniFile()
         {
-            Code.NotNullNorEmpty(fileName, "fileName");
-
-            Writable = writable;
-            FileName = fileName;
-            Reread();
+            _sections = new NonNullCollection<Section>();
         }
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="writable"></param>
-        public IniFile
-            (
-                [NotNull] string fileName,
-                bool writable
-            )
-            : this(fileName, null, writable)
-        {
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="fileName"></param>
         public IniFile
             (
                 [NotNull] string fileName
             )
-            : this(fileName, null, false)
+            : this (fileName, null, false)
         {
         }
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public IniFile()
+        public IniFile
+            (
+                [NotNull] string fileName,
+                [CanBeNull] Encoding encoding,
+                bool writable
+            )
+            : this()
         {
-            _CreateSections();
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            FileName = fileName;
+            Encoding = encoding;
+            Writable = writable;
+
+            Read();
         }
 
         #endregion
 
         #region Private members
 
-        private Section _CreateSections()
-        {
-            _sections = new Dictionary<string, Section>(GetComparer());
-            return CreateSection(string.Empty);
-        }
+        private NonNullCollection<Section> _sections;
 
-        /// <summary>
-        /// Get comparer for dictionary.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual IEqualityComparer<string> GetComparer()
-        {
-            //return StringComparer.InvariantCultureIgnoreCase;
-            return StringComparer.OrdinalIgnoreCase;
-        }
-
-        private void _SaveSection
+        internal static void CheckKeyName
             (
-                TextWriter writer,
-                Section section
+                string keyName
+            )
+        {
+            if (string.IsNullOrEmpty(keyName))
+            {
+                throw new ArgumentException("keyName");
+            }
+
+            if (keyName.Contains("="))
+            {
+                throw new ArgumentException("key");
+            }
+        }
+
+        private static void _SaveSection
+            (
+                [NotNull] TextWriter writer,
+                [NotNull] Section section
             )
         {
             if (!string.IsNullOrEmpty(section.Name))
             {
-                writer.WriteLine("[{0}]", section.Name);
-            }
-
-            Dictionary<string, IniItem>.Enumerator line =
-                section.Dictionary.GetEnumerator();
-            while (line.MoveNext())
-            {
                 writer.WriteLine
                     (
-                        "{0}={1}",
-                        line.Current.Key,
-                        line.Current.Value.Value
+                        "[{0}]", section.Name
                     );
             }
-            if (section.Count != 0)
+
+            foreach (Line line in section)
             {
-                writer.WriteLine();
+                line.Write(writer);
             }
         }
 
@@ -709,271 +732,418 @@ namespace AM.IO
         #region Public methods
 
         /// <summary>
-        /// Sections access.
+        /// Clear the INI-file.
         /// </summary>
-        public Section this[string name]
+        public IniFile Clear()
         {
-            get
+            _sections.Clear();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Clear modification flag in all sections and lines.
+        /// </summary>
+        public void ClearModification()
+        {
+            Modified = false;
+
+            foreach (Section section in _sections)
             {
-                Section result;
-
-                Sections.TryGetValue(name, out result);
-
-                return result;
+                section.Modified = false;
+                foreach (Line line in section)
+                {
+                    line.Modified = false;
+                }
             }
         }
 
         /// <summary>
-        /// Item access.
+        /// Contains section with given name?
         /// </summary>
-        public string this[string sectionName, string keyName]
-        {
-            get
-            {
-                Section section = this[sectionName];
-                if (section == null)
-                {
-                    return null;
-                }
-
-                return section[keyName];
-            }
-            set
-            {
-                Section section = this[sectionName];
-                if (section == null)
-                {
-                    section = CreateSection(sectionName);
-                }
-
-                section[keyName] = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the specified item.
-        /// </summary>
-        public T Get<T>
+        public bool ContainsSection
             (
-                [NotNull] string sectionName,
-                [NotNull] string keyName,
-                T defaultValue
+                [NotNull] string name
             )
         {
-            Code.NotNull(sectionName, "sectionName");
-            Code.NotNull(keyName, "keyName");
+            CheckKeyName(name);
 
-            string textValue = this[sectionName, keyName];
-            if (string.IsNullOrEmpty(textValue))
+            foreach (Section section in _sections)
             {
-                return defaultValue;
+                if (section.Name.SameString(name))
+                {
+                    return true;
+                }
             }
 
-            T result = ConversionUtility.ConvertTo<T>(textValue);
+            return false;
+        }
+
+        /// <summary>
+        /// Create section with specified name.
+        /// </summary>
+        [NotNull]
+        public Section CreateSection
+            (
+                [NotNull] string name
+            )
+        {
+            CheckKeyName(name);
+
+            if (ContainsSection(name))
+            {
+                throw new DuplicateKeyException("name");
+            }
+
+            Section result = new Section(this, name);
+            _sections.Add(result);
 
             return result;
         }
 
         /// <summary>
-        /// Sets the specified item.
+        /// Get or create (if not exist) section with given name.
         /// </summary>
-        public IniFile Set<T>
+        [NotNull]
+        public Section GetOrCreateSection
+            (
+                [NotNull] string name
+            )
+        {
+            CheckKeyName(name);
+
+            Section result = GetSection(name)
+                ?? CreateSection(name);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get section with given name.
+        /// </summary>
+        [CanBeNull]
+        public Section GetSection
+            (
+                [NotNull] string name
+            )
+        {
+            CheckKeyName(name);
+
+            foreach (Section section in _sections)
+            {
+                if (section.Name.SameString(name))
+                {
+                    return section;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Get value from the given section and key.
+        /// </summary>
+        [CanBeNull]
+        public string GetValue
             (
                 [NotNull] string sectionName,
                 [NotNull] string keyName,
-                [CanBeNull] T value
+                [CanBeNull] string defaultValue
             )
         {
-            Code.NotNull(sectionName, "sectionName");
-            Code.NotNull(keyName, "keyName");
+            Section section = GetSection(sectionName);
+            string result = section == null
+                ? defaultValue
+                : section.GetValue(keyName, defaultValue);
 
-            if (ReferenceEquals(value, null))
+            return result;
+        }
+
+        /// <summary>
+        /// Get value from the given section and key.
+        /// </summary>
+        [CanBeNull]
+        public T GetValue<T>
+            (
+                [NotNull] string sectionName,
+                [NotNull] string keyName,
+                [CanBeNull] T defaultValue
+            )
+        {
+            Section section = GetSection(sectionName);
+            T result = section == null
+                ? defaultValue
+                : section.GetValue(keyName, defaultValue);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Remove specified section.
+        /// </summary>
+        [NotNull]
+        public IniFile RemoveSection
+            (
+                [NotNull] string name
+            )
+        {
+            CheckKeyName(name);
+
+            foreach (Section section in _sections)
             {
-                this[sectionName, keyName] = null;
-            }
-            else
-            {
-                string textValue = ConversionUtility
-                    .ConvertTo<string>(value);
-                this[sectionName, keyName] = textValue;
+                if (section.Name.SameString(name))
+                {
+                    _sections.Remove(section);
+                    break;
+                }
             }
 
             return this;
         }
 
         /// <summary>
-        /// Reread from file.
+        /// Remove specified value.
         /// </summary>
-        public void Reread()
+        [NotNull]
+        public IniFile RemoveValue
+            (
+                [NotNull] string sectionName,
+                [NotNull] string keyName
+            )
+        {
+            Section section = GetSection(sectionName);
+            if (section != null)
+            {
+                section.Remove(keyName);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Reread from the file.
+        /// </summary>
+        public void Read()
         {
             if (string.IsNullOrEmpty(FileName))
             {
-                throw new ArsMagnaException();
+                return;
             }
 
-            Section section = _CreateSections();
             Encoding encoding = Encoding ?? Encoding.GetEncoding(0);
+            Read(FileName, encoding);
+        }
+
+        /// <summary>
+        /// Reread from the file.
+        /// </summary>
+        public void Read
+            (
+                [NotNull] string fileName,
+                [NotNull] Encoding encoding
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNull(encoding, "encoding");
+
             using (StreamReader reader = new StreamReader
                 (
-                    File.OpenRead(FileName),
+                    File.OpenRead(fileName),
                     encoding
                 ))
             {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    if (string.IsNullOrEmpty(line))
-                    {
-                        continue;
-                    }
-                    line = line.Trim();
-                    if (line.StartsWith(";"))
-                    {
-                        continue;
-                    }
-                    StringBuilder builder = new StringBuilder();
-                    char chr;
-                    string name, value;
-                    if (line.StartsWith("["))
-                    {
-                        for (int i = 1; i < line.Length; i++)
-                        {
-                            if ((chr = line[i]) == ']')
-                            {
-                                break;
-                            }
-                            builder.Append(chr);
-                        }
-                        name = builder.ToString().Trim();
-                        if (string.IsNullOrEmpty(name))
-                        {
-                            throw new FormatException();
-                        }
-                        section = CreateSection(name);
-                    }
-                    else
-                    {
-                        bool found = false;
-                        int i;
-                        for (i = 0; i < line.Length; i++)
-                        {
-                            if ((chr = line[i]) == '=')
-                            {
-                                found = true;
-                                i++;
-                                break;
-                            }
-                            builder.Append(chr);
-                        }
-                        if (!found)
-                        {
-                            throw new FormatException();
-                        }
-                        name = builder.ToString().Trim();
-                        if (string.IsNullOrEmpty(name))
-                        {
-                            throw new FormatException();
-                        }
-                        value = line.Substring(i).Trim();
-                        section[name] = value;
-                    }
-                }
+                Read(reader);
             }
-            _modified = false;
         }
 
         /// <summary>
-        /// Создаем новую секцию.
+        /// Reread from the stream.
         /// </summary>
-
-        public Section CreateSection
+        public void Read
             (
-                [NotNull] string name
+                [NotNull] TextReader reader
             )
         {
-            Code.NotNull(name, "name");
+            Code.NotNull(reader, "reader");
 
-            Section result = new Section(this, name);
-            Sections.Add(name, result);
+            char[] separators = {'='};
+            _sections.Clear();
+            Section section = null;
 
-            return result;
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                line = line.Trim();
+                if (string.IsNullOrEmpty(line))
+                {
+                    continue;
+                }
+
+                if (line.StartsWith("["))
+                {
+                    if (!line.EndsWith("]"))
+                    {
+                        throw new FormatException();
+                    }
+
+                    string name = line.Substring(1, line.Length - 2);
+                    section = CreateSection(name);
+                }
+                else
+                {
+                    if (section == null)
+                    {
+                        section = new Section(this, null);
+                        _sections.Add(section);
+                    }
+
+                    string[] parts = line.Split(separators,2);
+                    string key = parts[0];
+                    string value = parts.Length == 2
+                        ? parts[1]
+                        : null;
+                    section.SetValue(key, value);
+                }
+            }
+
+            ClearModification();
         }
 
         /// <summary>
-        /// Записываем в поток.
+        /// Write INI-file into the stream.
         /// </summary>
-        public virtual void Save
+        /// <param name="writer"></param>
+        public void Save
             (
                 [NotNull] TextWriter writer
             )
         {
             Code.NotNull(writer, "writer");
 
-            Section root;
-            if (Sections.TryGetValue(string.Empty, out root))
+            bool first = true;
+            foreach (Section section in _sections)
             {
-                _SaveSection(writer, root);
-            }
-            foreach (Section section in Sections.Values)
-            {
-                if (!string.IsNullOrEmpty(section.Name))
+                if (!first)
                 {
-                    _SaveSection(writer, section);
+                    writer.WriteLine();
                 }
+
+                _SaveSection
+                    (
+                        writer,
+                        section
+                    );
+
+                first = false;
             }
-            _modified = false;
+
+            Modified = false;
         }
 
         /// <summary>
-        /// Записываем в файл.
+        /// Save the INI-file to specified file.
         /// </summary>
         public void Save
             (
                 [NotNull] string fileName
             )
         {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
             Encoding encoding = Encoding ?? Encoding.GetEncoding(0);
-            //using (StreamWriter writer
-            //    = new StreamWriter(fileName, false, encoding))
-            using (StreamWriter writer
-                = new StreamWriter
-                    (
-                        File.Create(fileName),
-                        encoding
-                    ))
+            using (StreamWriter writer = new StreamWriter
+                (
+                    File.Create(fileName),
+                    encoding
+                ))
             {
                 Save(writer);
             }
         }
 
         /// <summary>
-        /// 
+        /// Set value for specified section and key.
         /// </summary>
-        public void Save()
+        [NotNull]
+        public IniFile SetValue
+            (
+                [NotNull] string sectionName,
+                [NotNull] string keyName,
+                [CanBeNull] string value
+            )
         {
-            if (string.IsNullOrEmpty(FileName))
-            {
-                throw new ArsMagnaException();
-            }
+            Section section = GetOrCreateSection(sectionName);
+            section.SetValue(keyName, value);
 
-            Save(FileName);
+            return this;
         }
 
-        #endregion
+        /// <summary>
+        /// Set value for specified section and key.
+        /// </summary>
+        [NotNull]
+        public IniFile SetValue<T>
+            (
+                [NotNull] string sectionName,
+                [NotNull] string keyName,
+                [CanBeNull] T value
+            )
+        {
+            Section section = GetOrCreateSection(sectionName);
+            section.SetValue(keyName, value);
 
-        #region Component members
+            return this;
+        }
 
         /// <summary>
-        /// 
+        /// Write modified values to the stream.
         /// </summary>
-        public void Dispose()
+        public void WriteModifiedValues
+            (
+                [NotNull] TextWriter writer
+            )
         {
-            if (Writable
-                 && Modified
-                 && !string.IsNullOrEmpty(FileName)
-                )
+            Code.NotNull(writer, "writer");
+
+            bool first = true;
+            foreach (Section section in _sections)
             {
-                Save();
+                Line[] lines = section
+                    .Where(line => line.Modified)
+                    .ToArray();
+
+                if (lines.Length != 0)
+                {
+                    if (!first)
+                    {
+                        writer.WriteLine();
+                    }
+
+                    if (!string.IsNullOrEmpty(section.Name))
+                    {
+                        writer.WriteLine
+                            (
+                                "[{0}]",
+                                section.Name
+                            );
+                    }
+
+                    foreach (Line line in lines)
+                    {
+                        line.Write(writer);
+                    }
+
+                    first = false;
+                }
+                else if (section.Modified)
+                {
+                    if (!first)
+                    {
+                        writer.WriteLine();
+                    }
+                    _SaveSection(writer, section);
+                    first = false;
+                }
             }
         }
 
@@ -981,44 +1151,78 @@ namespace AM.IO
 
         #region IHandmadeSerializable
 
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc />
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             FileName = reader.ReadNullableString();
+            string encodingName = reader.ReadNullableString();
+            Encoding = string.IsNullOrEmpty(encodingName)
+                ? null
+                : Encoding.GetEncoding(encodingName);
+            Modified = reader.ReadBoolean();
+            _sections.Clear();
             int count = reader.ReadPackedInt32();
             for (int i = 0; i < count; i++)
             {
-                Section section = new Section(this);
+                Section section = new Section(this, null);
                 section.RestoreFromStream(reader);
-                if (string.IsNullOrEmpty(section.Name))
-                {
-                    _sections[section.Name] = section;
-                }
-                else
-                {
-                    _sections.Add(section.Name, section);
-                }
+                _sections.Add(section);
             }
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <inheritdoc />
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             writer.WriteNullable(FileName);
-            writer.WritePackedInt32(Sections.Count);
-            foreach (KeyValuePair<string, Section> pair in Sections)
+            string encodingName = Encoding == null
+                ? null
+                : Encoding.EncodingName;
+            writer.WriteNullable(encodingName);
+            writer.Write(Modified);
+            writer.WritePackedInt32(_sections.Count);
+            foreach (Section section in _sections)
             {
-                pair.Value.SaveToStream(writer);
+                section.SaveToStream(writer);
+            }
+        }
+
+        #endregion
+
+        #region IEnumerable<Section> members
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        /// <inheritdoc />
+        public IEnumerator<Section> GetEnumerator()
+        {
+            return _sections.GetEnumerator();
+        }
+
+        #endregion
+
+        #region IDisposable members
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            if (Writable
+                && Modified
+                && !string.IsNullOrEmpty(FileName))
+            {
+                Save(FileName);
             }
         }
 

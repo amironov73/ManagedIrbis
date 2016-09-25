@@ -1,4 +1,4 @@
-﻿/* TestSequentialSearch.cs --
+﻿/* SequentialSearchTest.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: none
@@ -29,7 +29,7 @@ using Newtonsoft.Json;
 namespace IrbisTestRunner.Tests
 {
     [TestClass]
-    class TestTemplate
+    class SequentialSearchTets
         : AbstractTest
     {
         #region Properties
@@ -47,7 +47,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestSequentialSearch()
+        public void SequentialSearch_Test1()
         {
             SearchParameters parameters = new SearchParameters
             {

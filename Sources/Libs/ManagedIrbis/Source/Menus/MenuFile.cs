@@ -1,4 +1,4 @@
-﻿/* MenuFile.cs -- MNU file handling.
+﻿/* MenuFile.cs -- MNU file handling
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -6,9 +6,7 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -52,206 +50,6 @@ namespace ManagedIrbis.Menus
 
         #endregion
 
-        #region Nested classes
-
-        /// <summary>
-        /// Menu sorting.
-        /// </summary>
-        [PublicAPI]
-        public enum Sort
-        {
-            /// <summary>
-            /// None sorting.
-            /// </summary>
-            None,
-
-            /// <summary>
-            /// Sort by code.
-            /// </summary>
-            ByCode,
-
-            /// <summary>
-            /// Sort by comment.
-            /// </summary>
-            ByComment
-        }
-
-        /// <summary>
-        /// Menu entry. Represents two lines.
-        /// </summary>
-        [PublicAPI]
-        [XmlRoot("entry")]
-        [MoonSharpUserData]
-        [DebuggerDisplay("{Code} = {Comment}")]
-        public sealed class Entry
-            : IHandmadeSerializable
-        {
-            #region Properties
-
-            /// <summary>
-            /// First line -- the code.
-            /// </summary>
-            [NotNull]
-            [XmlAttribute("code")]
-            [JsonProperty("code")]
-            // ReSharper disable NotNullMemberIsNotInitialized
-            public string Code { get; set; }
-            // ReSharper restore NotNullMemberIsNotInitialized
-
-            /// <summary>
-            /// Second line -- the comment.
-            /// </summary>
-            [CanBeNull]
-            [XmlAttribute("comment")]
-            [JsonProperty("comment")]
-            public string Comment { get; set; }
-
-            #endregion
-
-            #region IHandmadeSerializable
-
-            /// <summary>
-            /// Restore object state from given stream.
-            /// </summary>
-            public void RestoreFromStream
-                (
-                    BinaryReader reader
-                )
-            {
-                // ReSharper disable AssignNullToNotNullAttribute
-                Code = reader.ReadNullableString();
-                Comment = reader.ReadNullableString();
-                // ReSharper restore AssignNullToNotNullAttribute
-            }
-
-            /// <summary>
-            /// Save object state to the stream.
-            /// </summary>
-            public void SaveToStream
-                (
-                    BinaryWriter writer
-                )
-            {
-                writer
-                    .WriteNullable(Code)
-                    .WriteNullable(Comment);
-            }
-
-            #endregion
-
-            #region Public methods
-
-            /// <summary>
-            /// Should JSON serialize the comment?
-            /// </summary>
-            public bool ShouldSerializeComment()
-            {
-                return !string.IsNullOrEmpty(Comment);
-            }
-
-            #endregion
-
-            #region Object members
-
-            /// <summary>
-            /// Returns a <see cref="System.String" />
-            /// that represents this instance.
-            /// </summary>
-            /// <returns>A <see cref="System.String" />
-            /// that represents this instance.</returns>
-            public override string ToString()
-            {
-                return string.Format
-                    (
-                        "Code: {0}, Comment: {1}",
-                        Code,
-                        Comment
-                    );
-            }
-
-            #endregion
-        }
-        
-        /// <summary>
-        /// Converts the <see cref="MenuFile"/> to JSON.
-        /// </summary>
-        public sealed class MenuConverter
-            : JsonConverter
-        {
-            #region JsonConverter members
-
-            /// <summary>
-            /// Writes the JSON representation of the object.
-            /// </summary>
-            /// <param name="writer">The
-            /// <see cref="T:Newtonsoft.Json.JsonWriter" />
-            /// to write to.</param>
-            /// <param name="value">The value.</param>
-            /// <param name="serializer">The calling serializer.
-            /// </param>
-            public override void WriteJson
-                (
-                    JsonWriter writer,
-                    object value,
-                    JsonSerializer serializer
-                )
-            {
-                MenuFile menu = (MenuFile) value;
-                serializer.Serialize(writer, menu.Entries);
-            }
-
-            /// <summary>
-            /// Reads the JSON representation of the object.
-            /// </summary>
-            /// <param name="reader">The
-            /// <see cref="T:Newtonsoft.Json.JsonReader" />
-            /// to read from.</param>
-            /// <param name="objectType">Type of the object.</param>
-            /// <param name="existingValue">The existing value
-            /// of object being read.</param>
-            /// <param name="serializer">The calling serializer.
-            /// </param>
-            /// <returns>The object value.</returns>
-            public override object ReadJson
-                (
-                    JsonReader reader,
-                    Type objectType,
-                    object existingValue,
-                    JsonSerializer serializer
-                )
-            {
-                MenuFile menu = (MenuFile) existingValue;
-                NonNullCollection<Entry> entries = serializer
-                    .Deserialize<NonNullCollection<Entry>>
-                        (
-                            reader
-                        );
-                menu._entries.AddRange(entries);
-
-                return menu;
-            }
-
-            /// <summary>
-            /// Determines whether this instance can convert
-            /// the specified object type.
-            /// </summary>
-            /// <param name="objectType">Type of the object.</param>
-            /// <returns><c>true</c> if this instance can convert
-            /// the specified object type; otherwise, <c>false</c>.
-            /// </returns>
-            public override bool CanConvert
-                (
-                    Type objectType
-                )
-            {
-                return objectType == typeof(MenuFile);
-            }
-
-            #endregion
-        }
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -267,7 +65,7 @@ namespace ManagedIrbis.Menus
         [NotNull]
         [XmlElement("entry")]
         [JsonProperty("entries")]
-        public NonNullCollection<Entry> Entries
+        public NonNullCollection<MenuEntry> Entries
         {
             get
             {
@@ -284,7 +82,7 @@ namespace ManagedIrbis.Menus
         /// </summary>
         public MenuFile()
         {
-            _entries = new NonNullCollection<Entry>();
+            _entries = new NonNullCollection<MenuEntry>();
         }
 
         /// <summary>
@@ -292,7 +90,7 @@ namespace ManagedIrbis.Menus
         /// </summary>
         internal MenuFile
             (
-                NonNullCollection<Entry> entries
+                NonNullCollection<MenuEntry> entries
             )
         {
             _entries = entries;
@@ -302,7 +100,8 @@ namespace ManagedIrbis.Menus
 
         #region Private members
 
-        private readonly NonNullCollection<Entry> _entries;
+        // ReSharper disable once InconsistentNaming
+        internal readonly NonNullCollection<MenuEntry> _entries;
 
         #endregion
 
@@ -320,7 +119,7 @@ namespace ManagedIrbis.Menus
         {
             Code.NotNull(code, "code");
 
-            Entry entry = new Entry
+            MenuEntry entry = new MenuEntry
             {
                 Code = code,
                 Comment = comment
@@ -355,7 +154,7 @@ namespace ManagedIrbis.Menus
         /// Finds the entry.
         /// </summary>
         [CanBeNull]
-        public Entry FindEntry
+        public MenuEntry FindEntry
             (
                 [NotNull] string code
             )
@@ -370,7 +169,7 @@ namespace ManagedIrbis.Menus
         /// Finds the entry (case sensitive).
         /// </summary>
         [CanBeNull]
-        public Entry FindEntrySensitive
+        public MenuEntry FindEntrySensitive
             (
                 [NotNull] string code
             )
@@ -385,14 +184,14 @@ namespace ManagedIrbis.Menus
         /// Finds the entry.
         /// </summary>
         [CanBeNull]
-        public Entry GetEntry
+        public MenuEntry GetEntry
             (
                 [NotNull] string code
             )
         {
             Code.NotNull(code, "code");
 
-            Entry candidate = FindEntry(code);
+            MenuEntry candidate = FindEntry(code);
             if (candidate != null)
             {
                 return candidate;
@@ -422,14 +221,14 @@ namespace ManagedIrbis.Menus
         /// Finds the entry (case sensitive).
         /// </summary>
         [CanBeNull]
-        public Entry GetEntrySensitive
+        public MenuEntry GetEntrySensitive
             (
                 [NotNull] string code
             )
         {
             Code.NotNull(code, "code");
 
-            Entry candidate = FindEntrySensitive(code);
+            MenuEntry candidate = FindEntrySensitive(code);
             if (candidate != null)
             {
                 return candidate;
@@ -466,7 +265,7 @@ namespace ManagedIrbis.Menus
         {
             Code.NotNull(code, "code");
 
-            Entry found = FindEntry(code);
+            MenuEntry found = FindEntry(code);
 
             return found == null
                 ? defaultValue
@@ -497,7 +296,7 @@ namespace ManagedIrbis.Menus
         {
             Code.NotNull(code, "code");
 
-            Entry found = FindEntrySensitive(code);
+            MenuEntry found = FindEntrySensitive(code);
 
             return found == null
                 ? defaultValue
@@ -543,7 +342,7 @@ namespace ManagedIrbis.Menus
                 }
 
                 string comment = reader.RequireLine();
-                Entry entry = new Entry
+                MenuEntry entry = new MenuEntry
                 {
                     Code = code,
                     Comment = comment
@@ -644,7 +443,9 @@ namespace ManagedIrbis.Menus
             Code.NotNull(connection, "connection");
             Code.NotNull(fileSpecification, "fileSpecification");
 
-            string response = connection.ReadTextFile(fileSpecification);
+            string response = connection
+                .ReadTextFile(fileSpecification)
+                .ThrowIfNull("ReadTextFile");
             MenuFile result = ParseServerResponse(response);
 
             return result;
@@ -655,18 +456,18 @@ namespace ManagedIrbis.Menus
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public Entry[] SortEntries
+        public MenuEntry[] SortEntries
             (
-                Sort sortBy
+                MenuSort sortBy
             )
         {
-            List<Entry> copy = new List<Entry>(_entries);
+            List<MenuEntry> copy = new List<MenuEntry>(_entries);
             switch (sortBy)
             {
-                case Sort.ByCode:
+                case MenuSort.ByCode:
                     copy = copy.OrderBy(entry => entry.Code).ToList();
                     break;
-                case Sort.ByComment:
+                case MenuSort.ByComment:
                     copy = copy.OrderBy(entry => entry.Comment).ToList();
                     break;
             }
@@ -681,7 +482,7 @@ namespace ManagedIrbis.Menus
         {
             StringBuilder result = new StringBuilder();
 
-            foreach (Entry entry in _entries)
+            foreach (MenuEntry entry in _entries)
             {
                 result.AppendLine(entry.Code);
                 result.AppendLine(entry.Comment);

@@ -6,6 +6,8 @@
 
 using System;
 
+using AM;
+
 using ManagedIrbis;
 using ManagedIrbis.Testing;
 
@@ -74,9 +76,12 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestFormat_Verbatim()
+        public void Format_Verbatim()
         {
-            string actual = Connection.FormatRecord
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
+            string actual = connection.FormatRecord
                 (
                     "'Привет, мир!'",
                     1
@@ -85,9 +90,12 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestFormat_OneRecord1()
+        public void Format_OneRecord_Test1()
         {
-            string actual = Connection.FormatRecord
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
+            string actual = connection.FormatRecord
                 (
                     "@brief",
                     1
@@ -96,9 +104,12 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestFormat_OneRecord2()
+        public void Format_OneRecord_Test2()
         {
-            string actual = Connection.FormatRecord
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
+            string actual = connection.FormatRecord
                 (
                     "v200^a,/,v200^e",
                     1
@@ -107,10 +118,13 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestFormat_VirtualRecord()
+        public void Format_VirtualRecord()
         {
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
             MarcRecord record = _GetRecord();
-            string actual = Connection.FormatRecord
+            string actual = connection.FormatRecord
                 (
                     "@brief",
                     record
@@ -119,9 +133,12 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestFormat_ThreeRecords()
+        public void Format_ThreeRecords()
         {
-            string[] actual = Connection.FormatRecords
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
+            string[] actual = connection.FormatRecords
                 (
                     "IBIS",
                     "@brief",
@@ -131,11 +148,28 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestFormat_Optimized()
+        public void Format_Optimized()
         {
-            string actual = Connection.FormatRecord
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
+            string actual = connection.FormatRecord
                 (
                     "@",
+                    1
+                );
+            Write(actual);
+        }
+
+        [TestMethod]
+        public void Format_Verbatim_Utf8()
+        {
+            IrbisConnection connection = Connection
+                .ThrowIfNull("Connection");
+
+            string actual = connection.FormatUtf8
+                (
+                    "'Привет, мир!'",
                     1
                 );
             Write(actual);

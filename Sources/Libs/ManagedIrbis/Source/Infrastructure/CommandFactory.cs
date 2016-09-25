@@ -231,6 +231,15 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Get <see cref="NopCommand"/>.
+        /// </summary>
+        [NotNull]
+        public virtual NopCommand GetNopCommand()
+        {
+            return new NopCommand(Connection);
+        }
+
+        /// <summary>
         /// Get PrintTableCommand.
         /// </summary>
         [NotNull]
@@ -264,6 +273,16 @@ namespace ManagedIrbis.Infrastructure
         public virtual ReadPostingsCommand GetReadPostingsCommand()
         {
             return new ReadPostingsCommand(Connection);
+        }
+
+        /// <summary>
+        /// Get <see cref="ReadRawRecordCommand"/>.
+        /// </summary>
+        /// <returns></returns>
+        [NotNull]
+        public virtual ReadRawRecordCommand GetReadRawRecordCommand()
+        {
+            return new ReadRawRecordCommand(Connection);
         }
 
         /// <summary>
@@ -401,6 +420,24 @@ namespace ManagedIrbis.Infrastructure
         public virtual UnlockDatabaseCommand GetUnlockDatabaseCommand()
         {
             return new UnlockDatabaseCommand(Connection);
+        }
+
+        /// <summary>
+        /// Get <see cref="UnlockRecordsCommand"/>.
+        /// </summary>
+        [NotNull]
+        public virtual UnlockRecordsCommand GetUnlockRecordsCommand()
+        {
+            return new UnlockRecordsCommand(Connection);
+        }
+
+        /// <summary>
+        /// Get <see cref="UpdateIniFileCommand"/>.
+        /// </summary>
+        [NotNull]
+        public virtual UpdateIniFileCommand GetUpdateIniFileCommand()
+        {
+            return new UpdateIniFileCommand(Connection);
         }
 
         /// <summary>

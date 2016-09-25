@@ -15,6 +15,8 @@ using JetBrains.Annotations;
 
 namespace AM.Rfid
 {
+    // ReSharper disable InconsistentNaming
+
     /// <summary>
     /// 
     /// </summary>

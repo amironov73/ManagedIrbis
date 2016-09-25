@@ -234,6 +234,8 @@
     <Compile Include="AM\Rfid\RfidFeigDriver.cs" />
     <Compile Include="AM\Rfid\RfidFeigNxpDriver.cs" />
     <Compile Include="AM\Rfid\RfidSystemInfo.cs" />
+    <Compile Include="AM\Rfid\FeigSystemInformation.cs" />
+    <Compile Include="AM\Rfid\RfidTagList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

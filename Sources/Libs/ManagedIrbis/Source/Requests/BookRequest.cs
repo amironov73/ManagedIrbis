@@ -6,10 +6,11 @@
 
 #region Using directives
 
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Xml.Serialization;
+
 using AM;
 using AM.IO;
 using AM.Runtime;
@@ -17,6 +18,8 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Mapping;
 
 using MoonSharp.Interpreter;
 
@@ -33,7 +36,8 @@ namespace ManagedIrbis.Requests
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    [DebuggerDisplay("Date={RequestDate} Description={BookDescription}")]
+    [XmlRoot("request")]
+    [DebuggerDisplay("{RequestDate} {BookDescription}")]
     public sealed class BookRequest
         : IHandmadeSerializable
     {
@@ -42,6 +46,7 @@ namespace ManagedIrbis.Requests
         /// <summary>
         /// MFN записи с заказом.
         /// </summary>
+        [XmlAttribute("mfn")]
         [JsonProperty("mfn")]
         public int Mfn { get; set; }
 
@@ -50,7 +55,9 @@ namespace ManagedIrbis.Requests
         /// Поле 201.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("book-description")]
+        [Field("201")]
+        [XmlAttribute("bookDescription")]
+        [JsonProperty("bookDescription")]
         public string BookDescription { get; set; }
 
         /// <summary>
@@ -58,7 +65,9 @@ namespace ManagedIrbis.Requests
         /// Поле 903.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("book-code")]
+        [Field("903")]
+        [XmlAttribute("bookCode")]
+        [JsonProperty("bookCode")]
         public string BookCode { get; set; }
 
         /// <summary>
@@ -66,7 +75,9 @@ namespace ManagedIrbis.Requests
         /// Поле 40.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("request-date")]
+        [Field("40")]
+        [XmlAttribute("requestDate")]
+        [JsonProperty("requestDate")]
         public string RequestDate { get; set; }
 
         /// <summary>
@@ -74,15 +85,20 @@ namespace ManagedIrbis.Requests
         /// Поле 30.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("reader-id")]
-        public string ReaderId { get; set; }
+        [Field("30")]
+        [XmlAttribute("readerID")]
+        [JsonProperty("readerID")]
+        // ReSharper disable once InconsistentNaming
+        public string ReaderID { get; set; }
 
         /// <summary>
         /// Краткое описание читателя.
         /// Поле 31.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("reader-description")]
+        [Field("31")]
+        [XmlAttribute("readerDescription")]
+        [JsonProperty("readerDescription")]
         public string ReaderDescription { get; set; }
 
         /// <summary>
@@ -91,6 +107,8 @@ namespace ManagedIrbis.Requests
         /// Как правило, IBIS.
         /// </summary>
         [CanBeNull]
+        [Field("1")]
+        [XmlAttribute("database")]
         [JsonProperty("database")]
         public string Database { get; set; }
 
@@ -101,7 +119,9 @@ namespace ManagedIrbis.Requests
         /// Подполе B: дата.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("reject-info")]
+        [Field("44^b")]
+        [XmlAttribute("rejectInfo")]
+        [JsonProperty("rejectInfo")]
         public string RejectInfo { get; set; }
 
         /// <summary>
@@ -110,8 +130,10 @@ namespace ManagedIrbis.Requests
         /// Часто равно *.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("place")]
-        public string Place { get; set; }
+        [Field("102")]
+        [XmlAttribute("department")]
+        [JsonProperty("department")]
+        public string Department { get; set; }
 
         /// <summary>
         /// Ответственное лицо.
@@ -119,13 +141,16 @@ namespace ManagedIrbis.Requests
         /// Берется из логина.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("responsible-person")]
+        [Field("50")]
+        [XmlAttribute("responsiblePerson")]
+        [JsonProperty("responsiblePerson")]
         public string ResponsiblePerson { get; set; }
 
         /// <summary>
         /// Библиографическая запись о книге.
         /// </summary>
         [CanBeNull]
+        [XmlIgnore]
         [JsonIgnore]
         public MarcRecord BookRecord { get; set; }
 
@@ -133,6 +158,7 @@ namespace ManagedIrbis.Requests
         /// Сведения о читателе.
         /// </summary>
         [CanBeNull]
+        [XmlIgnore]
         [JsonIgnore]
         public ReaderInfo Reader { get; set; }
 
@@ -141,6 +167,7 @@ namespace ManagedIrbis.Requests
         /// </summary>
         [CanBeNull]
         [ItemNotNull]
+        [XmlIgnore]
         [JsonIgnore]
         public string[] FreeNumbers { get; set; }
 
@@ -149,6 +176,7 @@ namespace ManagedIrbis.Requests
         /// </summary>
         [CanBeNull]
         [ItemNotNull]
+        [XmlIgnore]
         [JsonIgnore]
         public string[] MyNumbers { get; set; }
 
@@ -156,6 +184,7 @@ namespace ManagedIrbis.Requests
         /// Запись, на осонове которой построен запрос
         /// </summary>
         [CanBeNull]
+        [XmlIgnore]
         [JsonIgnore]
         public MarcRecord RequestRecord { get; set; }
 
@@ -189,6 +218,8 @@ namespace ManagedIrbis.Requests
                 [NotNull] MarcRecord record
             )
         {
+            // TODO Support for unknown fields
+
             Code.NotNull(record, "record");
 
             BookRequest result = new BookRequest
@@ -197,11 +228,11 @@ namespace ManagedIrbis.Requests
                     BookDescription = record.FM("201"),
                     BookCode = record.FM("903"),
                     RequestDate = record.FM("40"),
-                    ReaderId = record.FM("30"),
+                    ReaderID = record.FM("30"),
                     ReaderDescription = record.FM("31"),
                     Database = record.FM("1"),
                     RejectInfo = record.FM("44"),
-                    Place = record.FM("102"),
+                    Department = record.FM("102"),
                     ResponsiblePerson = record.FM("50"),
                     RequestRecord = record
                 };
@@ -223,11 +254,11 @@ namespace ManagedIrbis.Requests
             _AddField(result, "201", BookDescription);
             _AddField(result, "903", BookCode);
             _AddField(result, "40", RequestDate);
-            _AddField(result, "30", ReaderId);
+            _AddField(result, "30", ReaderID);
             _AddField(result, "31", ReaderDescription);
             _AddField(result, "1", Database);
             _AddField(result, "44", RejectInfo);
-            _AddField(result, "102", Place);
+            _AddField(result, "102", Department);
             _AddField(result, "50", ResponsiblePerson);
 
             return result;
@@ -237,9 +268,7 @@ namespace ManagedIrbis.Requests
 
         #region IHandmadeSerializable
 
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -249,17 +278,15 @@ namespace ManagedIrbis.Requests
             BookDescription = reader.ReadNullableString();
             BookCode = reader.ReadNullableString();
             RequestDate = reader.ReadNullableString();
-            ReaderId = reader.ReadNullableString();
+            ReaderID = reader.ReadNullableString();
             ReaderDescription = reader.ReadNullableString();
             Database = reader.ReadNullableString();
             RejectInfo = reader.ReadNullableString();
-            Place = reader.ReadNullableString();
+            Department = reader.ReadNullableString();
             ResponsiblePerson = reader.ReadNullableString();
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <inheritdoc />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -270,11 +297,11 @@ namespace ManagedIrbis.Requests
                 .WriteNullable(BookDescription)
                 .WriteNullable(BookCode)
                 .WriteNullable(RequestDate)
-                .WriteNullable(ReaderId)
+                .WriteNullable(ReaderID)
                 .WriteNullable(ReaderDescription)
                 .WriteNullable(Database)
                 .WriteNullable(RejectInfo)
-                .WriteNullable(Place)
+                .WriteNullable(Department)
                 .WriteNullable(ResponsiblePerson);
         }
 
@@ -282,21 +309,14 @@ namespace ManagedIrbis.Requests
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="System.String" />
-        /// that represents this instance.
-        /// </returns>
+        /// <inheritdoc />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
 
             result.AppendFormat
                 (
-                    "Читатель: {0}",
+                    "Reader: {0}",
                     ReaderDescription.ToVisibleString()
                 );
             result.AppendLine();
@@ -306,7 +326,7 @@ namespace ManagedIrbis.Requests
             {
                 result.AppendFormat
                 (
-                    "Свободные экземпляры: {0}",
+                    "Free exemplars: {0}",
                     string.Join(", ", FreeNumbers)
                 );
                 result.AppendLine();
@@ -315,15 +335,15 @@ namespace ManagedIrbis.Requests
             {
                 result.AppendFormat
                     (
-                        "Мои экземпляры: {0}",
+                        "My exemplars: {0}",
                         string.Join(", ", MyNumbers)
                     );
                 result.AppendLine();
             }
             result.AppendFormat
                 (
-                    "Место выдачи: {0}",
-                    Place.ToVisibleString()
+                    "Department: {0}",
+                    Department.ToVisibleString()
                 );
             result.AppendLine();
 
