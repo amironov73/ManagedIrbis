@@ -248,6 +248,7 @@
     <Compile Include="Source\Search\TermInfoEx.cs" />
     <Compile Include="Source\Search\TermParameters.cs" />
     <Compile Include="Source\ServerStat.cs" />
+    <Compile Include="Source\Server\ServerIni.cs" />
     <Compile Include="Source\StatDefinition.cs" />
     <Compile Include="Source\TableDefinition.cs" />
     <Compile Include="Source\UserInfo.cs" />
