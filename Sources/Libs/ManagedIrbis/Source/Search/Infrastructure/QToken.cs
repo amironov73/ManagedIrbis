@@ -1,4 +1,4 @@
-﻿/* QAstToken.cs --
+﻿/* QToken.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -34,14 +34,14 @@ namespace ManagedIrbis.Search.Infrastructure
     /// Token.
     /// </summary>
     [DebuggerDisplay("{Kind} {Text} {Position}")]
-    public sealed class QAstToken
+    public sealed class QToken
     {
         #region Properties
 
         /// <summary>
         /// Token kind.
         /// </summary>
-        public QAstTokenKind Kind { get; set; }
+        public QTokenKind Kind { get; set; }
 
         /// <summary>
         /// Token position.
@@ -60,16 +60,16 @@ namespace ManagedIrbis.Search.Infrastructure
         /// <summary>
         /// Constructor.
         /// </summary>
-        public QAstToken()
+        public QToken()
         {
         }
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public QAstToken
+        public QToken
             (
-                QAstTokenKind kind,
+                QTokenKind kind,
                 int position,
                 string text
             )

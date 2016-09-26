@@ -254,9 +254,9 @@
     <Compile Include="Source\Search\Infrastructure\QAstLevel9.cs" />
     <Compile Include="Source\Search\Infrastructure\QAstReference.cs" />
     <Compile Include="Source\Search\Infrastructure\QAstRoot.cs" />
-    <Compile Include="Source\Search\Infrastructure\QAstToken.cs" />
-    <Compile Include="Source\Search\Infrastructure\QAstTokenKind.cs" />
-    <Compile Include="Source\Search\Infrastructure\QAstTokenList.cs" />
+    <Compile Include="Source\Search\Infrastructure\QToken.cs" />
+    <Compile Include="Source\Search\Infrastructure\QTokenKind.cs" />
+    <Compile Include="Source\Search\Infrastructure\QTokenList.cs" />
     <Compile Include="Source\Search\PostingParameters.cs" />
     <Compile Include="Source\Search\SearchManager.cs" />
     <Compile Include="Source\Search\SearchParameters.cs" />

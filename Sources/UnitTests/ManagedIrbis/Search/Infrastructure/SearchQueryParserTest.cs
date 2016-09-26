@@ -16,7 +16,7 @@ namespace UnitTests.ManagedIrbis.Search.Infrastructure
             )
         {
             SearchQueryParser parser = new SearchQueryParser();
-            QAstTokenList tokens = parser.Tokenize(text);
+            QTokenList tokens = parser.Tokenize(text);
             Assert.AreEqual(expected, tokens.Length);
         }
 
@@ -30,6 +30,7 @@ namespace UnitTests.ManagedIrbis.Search.Infrastructure
             _TestTokenize("#123",1);
             _TestTokenize("\"K=&CONTRA$\"/()", 4);
             _TestTokenize("\"RI=30439B4B\"", 1);
+            _TestTokenize("A=Пушкин$ ^ T=Сказк$", 3);
             _TestTokenize("\"K=ЭЛЕКТРООБОРУДОВАНИЕ АВТОМОБИЛЕЙ$\"/()", 4);
             _TestTokenize("(\"K=электрооборудовани$\"/()*\"K=автомоб$\"/())", 11);
             _TestTokenize("\"T=МАТЕМАТИЧЕСКИЙ АНАЛИЗ В ЗАДАЧАХ И УПРАЖНЕНИЯХ$\" + \"T=МАТЕМАТИЧЕСКИЙ ПРАКТИКУМ ДЛЯ ВУЗОВ$\"", 3);
@@ -50,7 +51,7 @@ namespace UnitTests.ManagedIrbis.Search.Infrastructure
             )
         {
             SearchQueryParser parser = new SearchQueryParser();
-            QAstTokenList tokens = parser.Tokenize(text);
+            QTokenList tokens = parser.Tokenize(text);
             QAstRoot root = parser.Parse(tokens);
             string actual = root.ToString();
 
@@ -63,7 +64,7 @@ namespace UnitTests.ManagedIrbis.Search.Infrastructure
             )
         {
             SearchQueryParser parser = new SearchQueryParser();
-            QAstTokenList tokens = parser.Tokenize(text);
+            QTokenList tokens = parser.Tokenize(text);
             QAstRoot root = parser.Parse(tokens);
             string actual = root.ToString();
             Assert.IsNotNull(actual);

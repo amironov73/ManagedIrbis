@@ -1,4 +1,4 @@
-﻿/* QAstTokenList.cs --
+﻿/* QTokenList.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -29,24 +29,16 @@ namespace ManagedIrbis.Search.Infrastructure
     /// <summary>
     /// List of tokens.
     /// </summary>
-    public sealed class QAstTokenList
+    public sealed class QTokenList
     {
         #region Properties
 
         /// <summary>
         /// Current token.
         /// </summary>
-        public QAstToken Current
+        public QToken Current
         {
             get { return _tokens[_position]; }
-        }
-
-        /// <summary>
-        /// Has next token?
-        /// </summary>
-        public bool HasNext
-        {
-            get { return _position + 1 < _tokens.Length; }
         }
 
         /// <summary>
@@ -59,11 +51,6 @@ namespace ManagedIrbis.Search.Infrastructure
         /// </summary>
         public int Length { get { return _tokens.Length; } }
 
-        /// <summary>
-        /// Current position index.
-        /// </summary>
-        public int Position { get { return _position; } }
-
         #endregion
 
         #region Constructor
@@ -71,9 +58,9 @@ namespace ManagedIrbis.Search.Infrastructure
         /// <summary>
         /// Constructor.
         /// </summary>
-        public QAstTokenList
+        public QTokenList
             (
-                IEnumerable<QAstToken> tokens
+                IEnumerable<QToken> tokens
             )
         {
             _tokens = tokens.ToArray();
@@ -85,7 +72,7 @@ namespace ManagedIrbis.Search.Infrastructure
         #region Private members
 
         private int _position;
-        private readonly QAstToken[] _tokens;
+        private readonly QToken[] _tokens;
 
         #endregion
 
@@ -104,7 +91,7 @@ namespace ManagedIrbis.Search.Infrastructure
         /// <summary>
         /// Require next token.
         /// </summary>
-        public QAstTokenList RequireNext()
+        public QTokenList RequireNext()
         {
             if (!MoveNext())
             {

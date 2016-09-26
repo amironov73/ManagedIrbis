@@ -1,4 +1,4 @@
-﻿/* QAstTokenKind.cs --
+﻿/* QTokenKind.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -9,7 +9,7 @@ namespace ManagedIrbis.Search.Infrastructure
     /// <summary>
     /// Token kind.
     /// </summary>
-    public enum QAstTokenKind
+    public enum QTokenKind
     {
         /// <summary>
         /// No tokens.

@@ -147,40 +147,41 @@ namespace ManagedIrbis.Search.Infrastructure
         /// <summary>
         /// Leaf node.
         /// </summary>
-        public void ParseLeaf
+        public QAstLeaf ParseLeaf
             (
-                QAstTokenList list,
-                QAstLeaf leaf
+                QTokenList list
             )
         {
-            QAstToken token = list.Current;
-            if (token.Kind != QAstTokenKind.Term)
+            QAstLeaf result = new QAstLeaf();
+
+            QToken token = list.Current;
+            if (token.Kind != QTokenKind.Term)
             {
                 throw new IrbisException();
             }
+
             string text = token.Text;
             if (text.EndsWith("$") || text.EndsWith("@"))
             {
-                leaf.Tail = text.Substring(text.Length - 1, 1);
+                result.Tail = text.Substring(text.Length - 1, 1);
                 text = text.Substring(0, text.Length - 1);
             }
-            leaf.Term = text;
+            result.Term = text;
 
-            list.MoveNext();
-            if (list.IsEof)
+            if (!list.MoveNext())
             {
-                return;
+                return result;
             }
 
             token = list.Current;
-            if (token.Kind != QAstTokenKind.Slash)
+            if (token.Kind != QTokenKind.Slash)
             {
-                return;
+                return result;
             }
             list.RequireNext();
 
             token = list.Current;
-            if (token.Kind != QAstTokenKind.LeftParenthesis)
+            if (token.Kind != QTokenKind.LeftParenthesis)
             {
                 throw new IrbisException();
             }
@@ -190,200 +191,216 @@ namespace ManagedIrbis.Search.Infrastructure
             while (true)
             {
                 token = list.Current;
-                if (token.Kind == QAstTokenKind.RightParenthesis)
+
+                if (token.Kind == QTokenKind.RightParenthesis)
                 {
-                    leaf.Context = context.ToArray();
-                    if (leaf.Context.Length == 0)
+                    result.Context = context.ToArray();
+                    if (result.Context.Length == 0)
                     {
-                        leaf.Context = null;
+                        result.Context = null;
                     }
                     list.MoveNext();
-                    return;
+                    return result;
                 }
-                if (token.Kind == QAstTokenKind.Comma)
+
+                if (token.Kind == QTokenKind.Comma)
                 {
                     list.RequireNext();
                     continue;
                 }
-                if (token.Kind != QAstTokenKind.Term)
+
+                if (token.Kind != QTokenKind.Term)
                 {
                     throw new IrbisException();
                 }
                 context.Add(token.Text);
+
                 list.RequireNext();
             }
-            throw new IrbisException();
         }
 
         /// <summary>
         /// token . token
         /// </summary>
-        public void ParseLevel1
+        public QAstLevel1 ParseLevel1
             (
-                QAstTokenList list, QAstLevel1 level1
+                QTokenList list
             )
         {
-            QAstLeaf left = new QAstLeaf();
-            ParseLeaf(list, left);
-            level1.Left = left;
+            QAstLevel1 result = new QAstLevel1
+            {
+                Left = ParseLeaf(list)
+            };
             List<QAstLeaf> right = new List<QAstLeaf>();
-            while (!list.IsEof && list.Current.Kind == QAstTokenKind.Dot)
+            while (!list.IsEof && list.Current.Kind == QTokenKind.Dot)
             {
                 list.RequireNext();
-                QAstLeaf next = new QAstLeaf();
-                ParseLeaf(list, next);
+                QAstLeaf next = ParseLeaf(list);
                 right.Add(next);
             }
             if (right.Count != 0)
             {
-                level1.Right = right.ToArray();
+                result.Right = right.ToArray();
             }
+
+            return result;
         }
 
         /// <summary>
         /// token (F) token
         /// </summary>
-        public void ParseLevel2
+        public QAstLevel2 ParseLevel2
             (
-                QAstTokenList list, QAstLevel2 level2
+                QTokenList list
             )
         {
-            QAstLevel1 left = new QAstLevel1();
-            ParseLevel1(list, left);
-            level2.Left = left;
+            QAstLevel2 result = new QAstLevel2
+            {
+                Left = ParseLevel1(list)
+            };
             List<QAstLevel1> right = new List<QAstLevel1>();
-            while (!list.IsEof && list.Current.Kind == QAstTokenKind.F)
+            while (!list.IsEof && list.Current.Kind == QTokenKind.F)
             {
                 list.RequireNext();
-                QAstLevel1 next = new QAstLevel1();
-                ParseLevel1(list, next);
+                QAstLevel1 next = ParseLevel1(list);
                 right.Add(next);
             }
             if (right.Count != 0)
             {
-                level2.Right = right.ToArray();
+                result.Right = right.ToArray();
             }
+
+            return result;
         }
 
         /// <summary>
         /// token (G) token
         /// </summary>
-        public void ParseLevel3
+        public QAstLevel3 ParseLevel3
             (
-                QAstTokenList list, QAstLevel3 level3
+                QTokenList list
             )
         {
-            QAstLevel2 left = new QAstLevel2();
-            ParseLevel2(list, left);
-            level3.Left = left;
+            QAstLevel3 result = new QAstLevel3
+            {
+                Left = ParseLevel2(list)
+            };
             List<QAstLevel2> right = new List<QAstLevel2>();
-            while (!list.IsEof && list.Current.Kind == QAstTokenKind.G)
+            while (!list.IsEof && list.Current.Kind == QTokenKind.G)
             {
                 list.RequireNext();
-                QAstLevel2 next = new QAstLevel2();
-                ParseLevel2(list, next);
+                QAstLevel2 next = ParseLevel2(list);
                 right.Add(next);
             }
             if (right.Count != 0)
             {
-                level3.Right = right.ToArray();
+                result.Right = right.ToArray();
             }
+
+            return result;
         }
 
         /// <summary>
         /// token * token
         /// </summary>
-        public void ParseLevel4
+        public QAstLevel4 ParseLevel4
             (
-                QAstTokenList list, QAstLevel4 level4
+                QTokenList list
             )
         {
-            QAstLevel3 left = new QAstLevel3();
-            ParseLevel3(list, left);
-            level4.Left = left;
+            QAstLevel4 result = new QAstLevel4
+            {
+                Left = ParseLevel3(list)
+            };
             List<QAstLevel3> right = new List<QAstLevel3>();
-            while (!list.IsEof && list.Current.Kind == QAstTokenKind.Star)
+            while (!list.IsEof && list.Current.Kind == QTokenKind.Star)
             {
                 list.RequireNext();
-                QAstLevel3 next = new QAstLevel3();
-                ParseLevel3(list, next);
+                QAstLevel3 next = ParseLevel3(list);
                 right.Add(next);
             }
             if (right.Count != 0)
             {
-                level4.Right = right.ToArray();
+                result.Right = right.ToArray();
             }
+
+            return result;
         }
 
         /// <summary>
         /// token ^ token
         /// </summary>
-        public void ParseLevel5
+        public QAstLevel5 ParseLevel5
             (
-                QAstTokenList list, QAstLevel5 level5
+                QTokenList list
             )
         {
-            QAstLevel4 left = new QAstLevel4();
-            ParseLevel4(list, left);
-            level5.Left = left;
+            QAstLevel5 result = new QAstLevel5
+            {
+                Left = ParseLevel4(list)
+            };
             List<QAstLevel4> right = new List<QAstLevel4>();
-            while (!list.IsEof && list.Current.Kind == QAstTokenKind.Hat)
+            while (!list.IsEof && list.Current.Kind == QTokenKind.Hat)
             {
                 list.RequireNext();
-                QAstLevel4 next = new QAstLevel4();
-                ParseLevel4(list, next);
+                QAstLevel4 next = ParseLevel4(list);
                 right.Add(next);
             }
             if (right.Count != 0)
             {
-                level5.Right = right.ToArray();
+                result.Right = right.ToArray();
             }
+
+            return result;
         }
 
         /// <summary>
         /// token + token
         /// </summary>
-        public void ParseLevel6
+        public QAstLevel6 ParseLevel6
             (
-                QAstTokenList list, QAstLevel6 level6
+                QTokenList list
             )
         {
-            QAstLevel5 left = new QAstLevel5();
-            ParseLevel5(list, left);
-            level6.Left = left;
+            QAstLevel6 result = new QAstLevel6
+            {
+                Left = ParseLevel5(list)
+            };
             List<QAstLevel5> right = new List<QAstLevel5>();
-            while (!list.IsEof && list.Current.Kind == QAstTokenKind.Plus)
+            while (!list.IsEof && list.Current.Kind == QTokenKind.Plus)
             {
                 list.RequireNext();
-                QAstLevel5 next = new QAstLevel5();
-                ParseLevel5(list, next);
+                QAstLevel5 next = ParseLevel5(list);
                 right.Add(next);
             }
             if (right.Count != 0)
             {
-                level6.Right = right.ToArray();
+                result.Right = right.ToArray();
             }
+
+            return result;
         }
 
         /// <summary>
         /// ( tokens )
         /// </summary>
-        public void ParseLevel7
+        public QAstLevel7 ParseLevel7
             (
-                QAstTokenList list, QAstLevel7 level7
+                QTokenList list
             )
         {
-            if (list.Current.Kind == QAstTokenKind.LeftParenthesis)
+            QAstLevel7 result = new QAstLevel7();
+
+            if (list.Current.Kind == QTokenKind.LeftParenthesis)
             {
                 list.RequireNext();
-                QAstLevel6 item = new QAstLevel6();
-                ParseLevel6(list, item);
-                level7.Items = new[] {item};
+                QAstLevel6 item = ParseLevel6(list);
+                result.Items = new[] {item};
                 if (list.IsEof)
                 {
                     throw new IrbisException();
                 }
-                if (list.Current.Kind != QAstTokenKind.RightParenthesis)
+                if (list.Current.Kind != QTokenKind.RightParenthesis)
                 {
                     throw new IrbisException();
                 }
@@ -391,110 +408,119 @@ namespace ManagedIrbis.Search.Infrastructure
             }
             else
             {
-                QAstLevel6 left = new QAstLevel6();
-                ParseLevel6(list, left);
-                level7.Items = new[] { left };
+                QAstLevel6 left = ParseLevel6(list);
+                result.Items = new[] { left };
             }
+
+            return result;
         }
 
         /// <summary>
         /// ( tokens ) * ( tokens )
         /// </summary>
-        public void ParseLevel8
+        public QAstLevel8 ParseLevel8
             (
-                QAstTokenList list, QAstLevel8 level8
+                QTokenList list
             )
         {
-            QAstLevel7 left = new QAstLevel7();
-            ParseLevel7(list, left);
-            level8.Left = left;
+            QAstLevel8 result = new QAstLevel8
+            {
+                Left = ParseLevel7(list)
+            };
             List<QAstLevel7> right = new List<QAstLevel7>();
-            while (!list.IsEof && list.Current.Kind == QAstTokenKind.Star)
+            while (!list.IsEof && list.Current.Kind == QTokenKind.Star)
             {
                 list.RequireNext();
-                QAstLevel7 next = new QAstLevel7();
-                ParseLevel7(list, next);
+                QAstLevel7 next = ParseLevel7(list);
                 right.Add(next);
             }
             if (right.Count != 0)
             {
-                level8.Right = right.ToArray();
+                result.Right = right.ToArray();
             }
+
+            return result;
         }
 
         /// <summary>
         /// ( tokens ) + ( tokens )
         /// </summary>
-        public void ParseLevel9
+        public QAstLevel9 ParseLevel9
             (
-                QAstTokenList list, QAstLevel9 level9
+                QTokenList list
             )
         {
-            QAstLevel8 left = new QAstLevel8();
-            ParseLevel8(list, left);
-            level9.Left = left;
+            QAstLevel9 result = new QAstLevel9
+            {
+                Left = ParseLevel8(list)
+            };
             List<QAstLevel8> right = new List<QAstLevel8>();
-            while (!list.IsEof && list.Current.Kind == QAstTokenKind.Plus)
+            while (!list.IsEof && list.Current.Kind == QTokenKind.Plus)
             {
                 list.RequireNext();
-                QAstLevel8 next = new QAstLevel8();
-                ParseLevel8(list, next);
+                QAstLevel8 next = ParseLevel8(list);
                 right.Add(next);
             }
             if (right.Count != 0)
             {
-                level9.Right = right.ToArray();
+                result.Right = right.ToArray();
             }
+
+            return result;
         }
 
         /// <summary>
         /// ( tokens ) + ( tokens )
         /// </summary>
-        public void ParseLevel10
+        public QAstLevel10 ParseLevel10
             (
-                QAstTokenList list, QAstLevel10 level10
+                QTokenList list
             )
         {
-            QAstLevel9 left = new QAstLevel9();
-            ParseLevel9(list, left);
-            level10.Left = left;
+            QAstLevel10 result = new QAstLevel10
+            {
+                Left = ParseLevel9(list)
+            };
             List<QAstLevel10> right = new List<QAstLevel10>();
-            while (!list.IsEof && list.Current.Kind == QAstTokenKind.Star)
+            while (!list.IsEof && list.Current.Kind == QTokenKind.Star)
             {
                 list.RequireNext();
-                QAstLevel10 next = new QAstLevel10();
-                ParseLevel10(list, next);
+                QAstLevel10 next = ParseLevel10(list);
                 right.Add(next);
             }
             if (right.Count != 0)
             {
-                level10.Right = right.ToArray();
+                result.Right = right.ToArray();
             }
+
+            return result;
         }
 
         /// <summary>
         /// ( tokens ) + ( tokens )
         /// </summary>
-        public void ParseLevel11
+        public QAstLevel11 ParseLevel11
             (
-                QAstTokenList list, QAstLevel11 level11
+                QTokenList list
             )
         {
-            QAstLevel10 left = new QAstLevel10();
-            ParseLevel10(list, left);
-            level11.Left = left;
+            QAstLevel11 result = new QAstLevel11
+            {
+                Left = ParseLevel10(list)
+            };
             List<QAstLevel11> right = new List<QAstLevel11>();
-            while (!list.IsEof && list.Current.Kind == QAstTokenKind.Plus)
+            while (!list.IsEof && list.Current.Kind == QTokenKind.Plus)
             {
                 list.RequireNext();
-                QAstLevel11 next = new QAstLevel11();
-                ParseLevel11(list, next);
+                QAstLevel11 next = ParseLevel11(list);
                 right.Add(next);
             }
             if (right.Count != 0)
             {
-                level11.Right = right.ToArray();
+                result.Right = right.ToArray();
             }
+
+            return result;
         }
 
         /// <summary>
@@ -502,15 +528,16 @@ namespace ManagedIrbis.Search.Infrastructure
         /// </summary>
         public QAstRoot Parse
             (
-                QAstTokenList list
+                [NotNull] QTokenList list
             )
         {
+            Code.NotNull(list, "list");
+
             QAstRoot result = new QAstRoot();
 
             if (list.Length != 0)
             {
-                QAstLevel11 level11 = new QAstLevel11();
-                ParseLevel11(list, level11);
+                QAstLevel11 level11 = ParseLevel11(list);
                 result.Level11 = level11;
             }
 
@@ -520,12 +547,12 @@ namespace ManagedIrbis.Search.Infrastructure
         /// <summary>
         /// Tokenize the text.
         /// </summary>
-        public QAstTokenList Tokenize
+        public QTokenList Tokenize
             (
                 string text
             )
         {
-            List<QAstToken> result = new List<QAstToken>();
+            List<QToken> result = new List<QToken>();
             TextNavigator navigator = new TextNavigator(text);
 
             while (!navigator.IsEOF)
@@ -539,12 +566,12 @@ namespace ManagedIrbis.Search.Infrastructure
                 char c = navigator.ReadChar();
                 string value;
                 int position = navigator.Position;
-                QAstTokenKind kind;
+                QTokenKind kind;
                 switch (c)
                 {
                     case '"':
                         value = navigator.ReadUntil('"').ThrowIfNull();
-                        kind = QAstTokenKind.Term;
+                        kind = QTokenKind.Term;
                         if (navigator.ReadChar() != '"')
                         {
                             throw new IrbisException();
@@ -554,37 +581,37 @@ namespace ManagedIrbis.Search.Infrastructure
                     case '#':
                         value = navigator.ReadWhile('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
                             .ThrowIfNull();
-                        kind = QAstTokenKind.Sharp;
+                        kind = QTokenKind.Sharp;
                         break;
 
                     case '+':
                         value = c.ToString();
-                        kind = QAstTokenKind.Plus;
+                        kind = QTokenKind.Plus;
                         break;
 
                     case '*':
                         value = c.ToString();
-                        kind = QAstTokenKind.Star;
+                        kind = QTokenKind.Star;
                         break;
 
                     case '^':
                         value = c.ToString();
-                        kind = QAstTokenKind.Hat;
+                        kind = QTokenKind.Hat;
                         break;
 
                     case '.':
                         value = c.ToString();
-                        kind = QAstTokenKind.Dot;
+                        kind = QTokenKind.Dot;
                         break;
 
                     case '/':
                         value = c.ToString();
-                        kind = QAstTokenKind.Slash;
+                        kind = QTokenKind.Slash;
                         break;
 
                     case ',':
                         value = c.ToString();
-                        kind = QAstTokenKind.Comma;
+                        kind = QTokenKind.Comma;
                         break;
 
                     case '(':
@@ -592,46 +619,46 @@ namespace ManagedIrbis.Search.Infrastructure
                         if (preview == "(G)" || preview == "(g)")
                         {
                             value = preview;
-                            kind = QAstTokenKind.G;
+                            kind = QTokenKind.G;
                             navigator.ReadChar();
                             navigator.ReadChar();
                         }
                         else if (preview == "(F)" || preview == "(f)")
                         {
                             value = preview;
-                            kind = QAstTokenKind.F;
+                            kind = QTokenKind.F;
                             navigator.ReadChar();
                             navigator.ReadChar();
                         }
                         else
                         {
                             value = c.ToString();
-                            kind = QAstTokenKind.LeftParenthesis;
+                            kind = QTokenKind.LeftParenthesis;
                         }
                         break;
 
                     case ')':
                         value = c.ToString();
-                        kind = QAstTokenKind.RightParenthesis;
+                        kind = QTokenKind.RightParenthesis;
                         break;
 
                     default:
                         value = c + navigator.ReadUntil('(', '/', '\t', ' ', ',', ')');
-                        kind = QAstTokenKind.Term;
+                        kind = QTokenKind.Term;
                         break;
                 }
 
-                if (kind == QAstTokenKind.None)
+                if (kind == QTokenKind.None)
                 {
                     throw new IrbisException();
                 }
 
-                QAstToken token = new QAstToken(kind, position, value);
+                QToken token = new QToken(kind, position, value);
 
                 result.Add(token);
             }
 
-            return new QAstTokenList(result);
+            return new QTokenList(result);
         }
 
         #endregion
