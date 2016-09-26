@@ -36,6 +36,20 @@ namespace ManagedIrbis.Search.Infrastructure
     {
         #region Properties
 
+        /// <summary>
+        /// Is complex expression?
+        /// </summary>
+        public bool IsComplex
+        {
+            get
+            {
+                return Items[0].IsComplex;
+            }
+        }
+
+        /// <summary>
+        /// Items.
+        /// </summary>
         public QAstLevel6[] Items { get; set; }
 
         #endregion
@@ -45,21 +59,15 @@ namespace ManagedIrbis.Search.Infrastructure
         /// <inheritdoc/>
         public override string ToString()
         {
-            if (Items.Length == 1)
+            QAstLevel6 level6 = Items[0];
+            string result = level6.ToString();
+
+            if (level6.IsComplex)
             {
-                return Items[0].ToString();
+                result = " ( " + result + " ) ";
             }
 
-            StringBuilder result = new StringBuilder();
-
-            result.Append(" ( ");
-            foreach (QAstLevel6 item in Items)
-            {
-                result.Append(item);
-            }
-            result.Append(" ) ");
-
-            return result.ToString();
+            return result;
         }
 
         #endregion

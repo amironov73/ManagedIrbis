@@ -1,4 +1,4 @@
-﻿/* QAstLevel3.cs --
+﻿/* QAstLevel11.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -30,9 +30,9 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Search.Infrastructure
 {
     /// <summary>
-    /// Level 3.
+    /// Level 10.
     /// </summary>
-    public sealed class QAstLevel3
+    public sealed class QAstLevel11
     {
         #region Properties
 
@@ -51,12 +51,12 @@ namespace ManagedIrbis.Search.Infrastructure
         /// <summary>
         /// Left part.
         /// </summary>
-        public QAstLevel2 Left { get; set; }
+        public QAstLevel10 Left { get; set; }
 
         /// <summary>
         /// Right part.
         /// </summary>
-        public QAstLevel2[] Right { get; set; }
+        public QAstLevel11[] Right { get; set; }
 
         #endregion
 
@@ -70,9 +70,9 @@ namespace ManagedIrbis.Search.Infrastructure
             result.Append(Left);
             if (!ReferenceEquals(Right, null))
             {
-                foreach (QAstLevel2 right in Right)
+                foreach (QAstLevel11 right in Right)
                 {
-                    result.Append(" (G) ");
+                    result.Append(" + ");
                     result.Append(right);
                 }
             }

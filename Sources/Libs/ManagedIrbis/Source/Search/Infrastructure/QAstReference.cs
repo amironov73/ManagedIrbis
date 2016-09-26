@@ -1,4 +1,4 @@
-﻿/* QAstRoot.cs --
+﻿/* QAstReference.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -30,34 +30,17 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Search.Infrastructure
 {
     /// <summary>
-    /// Root of the syntax tree.
+    /// #N
     /// </summary>
-    public sealed class QAstRoot
+    public sealed class QAstReference
     {
         #region Properties
 
         /// <summary>
-        /// Level 11.
+        /// Number.
         /// </summary>
-        public QAstLevel11 Level11 { get; set; }
-
-        #endregion
-
-        #region Object members
-
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            if (ReferenceEquals(Level11, null))
-            {
-                return string.Empty;
-            }
-
-            string result = Level11.ToString()
-                .Trim();
-
-            return result;
-        }
+        [CanBeNull]
+        public string Number { get; set; }
 
         #endregion
     }

@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -98,6 +99,34 @@ namespace ManagedIrbis.Search.Infrastructure
             _position++;
 
             return _position < _tokens.Length;
+        }
+
+        /// <summary>
+        /// Require next token.
+        /// </summary>
+        public QAstTokenList RequireNext()
+        {
+            if (!MoveNext())
+            {
+                throw new IrbisException();
+            }
+
+            return this;
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            if (IsEof)
+            {
+                return "(EOF)";
+            }
+
+            return Current.ToString();
         }
 
         #endregion

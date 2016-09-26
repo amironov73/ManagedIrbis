@@ -242,6 +242,8 @@
     <Compile Include="Source\Search\FoundLine.cs" />
     <Compile Include="Source\Search\Infrastructure\QAstLeaf.cs" />
     <Compile Include="Source\Search\Infrastructure\QAstLevel1.cs" />
+    <Compile Include="Source\Search\Infrastructure\QAstLevel10.cs" />
+    <Compile Include="Source\Search\Infrastructure\QAstLevel11.cs" />
     <Compile Include="Source\Search\Infrastructure\QAstLevel2.cs" />
     <Compile Include="Source\Search\Infrastructure\QAstLevel3.cs" />
     <Compile Include="Source\Search\Infrastructure\QAstLevel4.cs" />
@@ -250,6 +252,7 @@
     <Compile Include="Source\Search\Infrastructure\QAstLevel7.cs" />
     <Compile Include="Source\Search\Infrastructure\QAstLevel8.cs" />
     <Compile Include="Source\Search\Infrastructure\QAstLevel9.cs" />
+    <Compile Include="Source\Search\Infrastructure\QAstReference.cs" />
     <Compile Include="Source\Search\Infrastructure\QAstRoot.cs" />
     <Compile Include="Source\Search\Infrastructure\QAstToken.cs" />
     <Compile Include="Source\Search\Infrastructure\QAstTokenKind.cs" />

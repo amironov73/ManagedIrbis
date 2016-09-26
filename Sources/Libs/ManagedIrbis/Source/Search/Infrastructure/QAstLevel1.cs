@@ -29,12 +29,32 @@ using Newtonsoft.Json;
 
 namespace ManagedIrbis.Search.Infrastructure
 {
+    /// <summary>
+    /// Level 1.
+    /// </summary>
     public sealed class QAstLevel1
     {
         #region Properties
 
+        /// <summary>
+        /// Is complex expression?
+        /// </summary>
+        public bool IsComplex
+        {
+            get
+            {
+                return Right != null && Right.Length != 0;
+            }
+        }
+
+        /// <summary>
+        /// Left part.
+        /// </summary>
         public QAstLeaf Left { get; set; }
 
+        /// <summary>
+        /// Right part.
+        /// </summary>
         public QAstLeaf[] Right { get; set; }
 
         #endregion

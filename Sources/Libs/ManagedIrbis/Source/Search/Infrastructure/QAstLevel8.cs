@@ -36,8 +36,26 @@ namespace ManagedIrbis.Search.Infrastructure
     {
         #region Properties
 
+        /// <summary>
+        /// Is complex expression?
+        /// </summary>
+        public bool IsComplex
+        {
+            get
+            {
+                return (Right != null && Right.Length != 0)
+                    || Left.IsComplex;
+            }
+        }
+
+        /// <summary>
+        /// Left part.
+        /// </summary>
         public QAstLevel7 Left { get; set; }
 
+        /// <summary>
+        /// Right part.
+        /// </summary>
         public QAstLevel7[] Right { get; set; }
 
         #endregion
