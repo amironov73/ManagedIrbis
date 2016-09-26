@@ -203,6 +203,7 @@
     <Compile Include="ManagedIrbis\Requests\BookRequestTest.cs" />
     <Compile Include="ManagedIrbis\Scripting\IrbisScriptTest.cs" />
     <Compile Include="ManagedIrbis\Search\FoundItemTest.cs" />
+    <Compile Include="ManagedIrbis\Search\Infrastructure\SearchQueryParserTest.cs" />
     <Compile Include="ManagedIrbis\Search\PostingParametersTest.cs" />
     <Compile Include="ManagedIrbis\Search\SearchParametersTest.cs" />
     <Compile Include="ManagedIrbis\Search\SearchScenarioTest.cs" />

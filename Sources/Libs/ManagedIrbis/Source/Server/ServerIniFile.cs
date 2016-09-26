@@ -1,4 +1,4 @@
-﻿/* ServerIni.cs --
+﻿/* ServerIniFile.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -34,7 +34,7 @@ namespace ManagedIrbis.Server
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class ServerIni
+    public sealed class ServerIniFile
     {
         #region Constants
 
@@ -346,7 +346,7 @@ namespace ManagedIrbis.Server
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ServerIni
+        public ServerIniFile
             (
                 [NotNull] IniFile iniFile
             )
@@ -453,7 +453,7 @@ namespace ManagedIrbis.Server
         /// <summary>
         /// Set value.
         /// </summary>
-        public ServerIni SetValue
+        public ServerIniFile SetValue
             (
                 [NotNull] string keyName,
                 [CanBeNull] string value
@@ -474,7 +474,7 @@ namespace ManagedIrbis.Server
         /// <summary>
         /// Set value.
         /// </summary>
-        public ServerIni SetValue<T>
+        public ServerIniFile SetValue<T>
             (
                 [NotNull] string keyName,
                 [CanBeNull] T value
