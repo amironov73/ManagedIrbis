@@ -22,6 +22,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         A,
 
         /// <summary>
+        /// \
+        /// </summary>
+        Backslash,
+
+        /// <summary>
         /// !
         /// </summary>
         Bang,
@@ -279,7 +284,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <summary>
         /// 'literal'
         /// </summary>
-        UnkonditionalLiteral,
+        UnconditionalLiteral,
 
         /// <summary>
         /// v200

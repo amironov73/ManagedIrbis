@@ -239,6 +239,8 @@
     <Compile Include="Source\Menus\MenuEntry.cs" />
     <Compile Include="Source\Menus\MenuSort.cs" />
     <Compile Include="Source\Pft\FormatError.cs" />
+    <Compile Include="Source\Pft\Infrastructure\AstItem.cs" />
+    <Compile Include="Source\Pft\Infrastructure\AstRoot.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftToken.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftTokenKind.cs" />

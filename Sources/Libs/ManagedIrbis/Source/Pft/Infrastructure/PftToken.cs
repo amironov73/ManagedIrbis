@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -17,6 +18,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -37,6 +39,7 @@ namespace ManagedIrbis.Pft.Infrastructure
     [MoonSharpUserData]
     [DebuggerDisplay("{Kind} {Text} {Line} {Column}")]
     public sealed class PftToken
+        : IHandmadeSerializable
     {
         #region Properties
 
@@ -58,6 +61,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <summary>
         /// Token text.
         /// </summary>
+        [CanBeNull]
         public string Text { get; set; }
 
         #endregion
@@ -98,12 +102,47 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #endregion
 
+        #region IHandmadeSerializable members
+
+        /// <inheritdoc/>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            Column = reader.ReadPackedInt32();
+            Kind = (PftTokenKind) reader.ReadPackedInt32();
+            Line = reader.ReadPackedInt32();
+            Text = reader.ReadNullableString();
+        }
+
+        /// <inheritdoc/>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer
+                .WritePackedInt32(Column)
+                .WritePackedInt32((int) Kind)
+                .WritePackedInt32(Line)
+                .WriteNullable(Text);
+        }
+
+        #endregion
+
         #region Object members
 
         /// <inheritdoc/>
         public override string ToString()
         {
-            return Text.ToVisibleString();
+            return Kind 
+                + ": " 
+                + Text.ToVisibleString();
         }
 
         #endregion
