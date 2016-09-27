@@ -272,7 +272,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         Tilda,
 
         /// <summary>
-        /// &uf('0')
+        /// &amp;uf('0')
         /// </summary>
         Unifor,
 
