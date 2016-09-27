@@ -239,12 +239,14 @@
     <Compile Include="Source\Menus\MenuEntry.cs" />
     <Compile Include="Source\Menus\MenuSort.cs" />
     <Compile Include="Source\Pft\FormatError.cs" />
-    <Compile Include="Source\Pft\Infrastructure\AstItem.cs" />
-    <Compile Include="Source\Pft\Infrastructure\AstRoot.cs" />
+    <Compile Include="Source\Pft\Infrastructure\PftAst.cs" />
+    <Compile Include="Source\Pft\Infrastructure\PftProgram.cs" />
+    <Compile Include="Source\Pft\Infrastructure\PftOutput.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftToken.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftTokenKind.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftTokenList.cs" />
+    <Compile Include="Source\Pft\PftException.cs" />
     <Compile Include="Source\Search\FoundLine.cs" />
     <Compile Include="Source\Search\Infrastructure\QAstLeaf.cs" />
     <Compile Include="Source\Search\Infrastructure\QAstLevel1.cs" />

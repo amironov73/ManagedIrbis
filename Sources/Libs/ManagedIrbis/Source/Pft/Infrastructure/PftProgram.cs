@@ -1,4 +1,4 @@
-﻿/* AstRoot.cs --
+﻿/* PftProgram.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -37,8 +37,8 @@ namespace ManagedIrbis.Pft.Infrastructure
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class AstRoot
-        : AstItem
+    public class PftProgram
+        : PftAst
     {
         #region Properties
 

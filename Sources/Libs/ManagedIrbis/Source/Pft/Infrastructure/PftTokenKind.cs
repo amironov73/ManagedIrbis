@@ -57,6 +57,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         Comma,
 
         /// <summary>
+        /// /* comment
+        /// </summary>
+        Comment,
+
+        /// <summary>
         /// 'literal'
         /// </summary>
         ConditionalLiteral,
@@ -202,6 +207,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         Plus,
 
         /// <summary>
+        /// ?
+        /// </summary>
+        Question,
+
+        /// <summary>
         /// ravr
         /// </summary>
         Ravr,
@@ -295,6 +305,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// val
         /// </summary>
         Val,
+
+        /// <summary>
+        /// $variable
+        /// </summary>
+        Variable,
 
         /// <summary>
         /// x10

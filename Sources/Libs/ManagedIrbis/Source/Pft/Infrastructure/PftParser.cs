@@ -21,7 +21,7 @@ using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
-using ManagedIrbis.Systematization;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -139,7 +139,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case '!':
                         c2 = navigator.PeekChar();
-                        if (c2 == '!')
+                        if (c2 == '=')
                         {
                             kind = PftTokenKind.NotEqual2;
                             navigator.ReadChar();
@@ -214,6 +214,24 @@ namespace ManagedIrbis.Pft.Infrastructure
                         kind = PftTokenKind.Tilda;
                         break;
 
+                    case '?':
+                        kind = PftTokenKind.Question;
+                        break;
+
+                    case '/':
+                        c2 = navigator.PeekChar();
+                        if (c2 == '*')
+                        {
+                            navigator.ReadChar();
+                            value = navigator.ReadUntil('\r', '\n');
+                            kind = PftTokenKind.Comment;
+                        }
+                        else
+                        {
+                            kind = PftTokenKind.Slash;
+                        }
+                        break;
+
                     case '<':
                         c2 = navigator.PeekChar();
                         if (c2 == '=')
@@ -248,6 +266,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                     case '&':
                         value = ReadIdentifier(navigator);
                         kind = PftTokenKind.Unifor;
+                        break;
+
+                    case '$':
+                        value = ReadIdentifier(navigator);
+                        kind = PftTokenKind.Variable;
                         break;
 
                     case 'a':

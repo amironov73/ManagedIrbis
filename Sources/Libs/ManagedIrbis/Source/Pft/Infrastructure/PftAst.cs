@@ -1,4 +1,4 @@
-﻿/* AstItem.cs --
+﻿/* PftAst.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -37,7 +37,7 @@ namespace ManagedIrbis.Pft.Infrastructure
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class AstItem
+    public class PftAst
         : IHandmadeSerializable
     {
         #region Properties
