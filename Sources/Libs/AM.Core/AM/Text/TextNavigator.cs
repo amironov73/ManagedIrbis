@@ -337,6 +337,20 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Смещение указателя.
+        /// </summary>
+        public void Move
+            (
+                int distance
+            )
+        {
+            // TODO Some checks
+
+            _position += distance;
+            _column += distance;
+        }
+
+        /// <summary>
         /// Подглядывание текущего символа.
         /// </summary>
         public char PeekChar()

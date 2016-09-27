@@ -39,7 +39,7 @@ namespace ManagedIrbis.Search.Infrastructure
         /// <summary>
         /// #
         /// </summary>
-        Sharp,
+        Hash,
 
         /// <summary>
         /// +

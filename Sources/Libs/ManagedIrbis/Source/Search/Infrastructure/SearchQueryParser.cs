@@ -547,11 +547,14 @@ namespace ManagedIrbis.Search.Infrastructure
         /// <summary>
         /// Tokenize the text.
         /// </summary>
+        [NotNull]
         public QTokenList Tokenize
             (
-                string text
+                [NotNull] string text
             )
         {
+            Code.NotNull(text, "text");
+
             List<QToken> result = new List<QToken>();
             TextNavigator navigator = new TextNavigator(text);
 
@@ -581,7 +584,7 @@ namespace ManagedIrbis.Search.Infrastructure
                     case '#':
                         value = navigator.ReadWhile('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
                             .ThrowIfNull();
-                        kind = QTokenKind.Sharp;
+                        kind = QTokenKind.Hash;
                         break;
 
                     case '+':
