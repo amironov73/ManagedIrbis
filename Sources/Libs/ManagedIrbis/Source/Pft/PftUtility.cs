@@ -1,4 +1,4 @@
-﻿/* PftProgram.cs --
+﻿/* PftUtility.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -8,17 +8,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-
-using AM;
-using AM.IO;
-using AM.Runtime;
 
 using CodeJam;
 
@@ -30,21 +22,16 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedIrbis.Pft.Infrastructure
+namespace ManagedIrbis.Pft
 {
     /// <summary>
-    /// AST root
+    /// Utility routines for PFT scripting.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class PftProgram
-        : PftNode
+    public static class PftUtility
     {
         #region Properties
-
-        #endregion
-
-        #region Construction
 
         #endregion
 
@@ -55,10 +42,5 @@ namespace ManagedIrbis.Pft.Infrastructure
         #region Public methods
 
         #endregion
-
-        #region Object members
-
-        #endregion
-
     }
 }
