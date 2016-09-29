@@ -16,6 +16,7 @@ namespace ManagedIrbis.Search.Infrastructure
     /// #N
     /// </summary>
     sealed class SearchReference
+        : ISearchTree
     {
         #region Properties
 
@@ -24,6 +25,17 @@ namespace ManagedIrbis.Search.Infrastructure
         /// </summary>
         [CanBeNull]
         public string Number { get; set; }
+
+        #endregion
+
+        #region ISearchTree members
+
+        public ISearchTree[] Children
+        {
+            get { return new ISearchTree[0]; }
+        }
+
+        public string Value { get { return Number; } }
 
         #endregion
 

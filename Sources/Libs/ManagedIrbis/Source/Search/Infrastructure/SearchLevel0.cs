@@ -18,6 +18,7 @@ namespace ManagedIrbis.Search.Infrastructure
     /// Term, reference or parenthesis.
     /// </summary>
     sealed class SearchLevel0
+        : ISearchTree
     {
         #region Properties
 
@@ -41,14 +42,41 @@ namespace ManagedIrbis.Search.Infrastructure
 
         #endregion
 
+        #region ISearchTree members
+
+        public ISearchTree[] Children
+        {
+            get
+            {
+                if (!ReferenceEquals(Term, null))
+                {
+                    return new ISearchTree[] { Term };
+                }
+
+                if (!ReferenceEquals(Reference, null))
+                {
+                    return new ISearchTree[] { Reference };
+                }
+
+                return new ISearchTree[] { Parenthesis };
+            }
+        }
+
+        public string Value
+        {
+            get { return null; }
+        }
+
+        #endregion
+
         #region Object members
 
         /// <inheritdoc/>
         public override string ToString()
         {
-            return 
+            return
                 (
-                    Term 
+                    Term
                     ?? (object)Reference
                     ?? Parenthesis
                 )

@@ -42,6 +42,17 @@ namespace ManagedIrbis.Search
     {
         #region Properties
 
+        /// <summary>
+        /// Count of records found.
+        /// </summary>
+        public int FoundCount { get; set; }
+
+        /// <summary>
+        /// Search query text.
+        /// </summary>
+        [CanBeNull]
+        public string Query { get; set; }
+
         #endregion
 
         #region Construction

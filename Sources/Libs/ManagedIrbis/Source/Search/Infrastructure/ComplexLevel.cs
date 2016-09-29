@@ -6,6 +6,7 @@
 
 #region Using directives
 
+using System.Linq;
 using AM;
 using AM.Collections;
 using CodeJam;
@@ -16,7 +17,8 @@ using JetBrains.Annotations;
 namespace ManagedIrbis.Search.Infrastructure
 {
     class ComplexLevel<T>
-        where T: class
+        : ISearchTree
+        where T: class, ISearchTree
     {
         #region Properties
 
@@ -79,6 +81,17 @@ namespace ManagedIrbis.Search.Infrastructure
 
             return this;
         }
+
+        #endregion
+
+        #region ISearchTree members
+
+        public ISearchTree[] Children
+        {
+            get { return Items.ToArray(); }
+        }
+
+        public string Value { get { return null; } }
 
         #endregion
 

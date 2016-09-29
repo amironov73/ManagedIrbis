@@ -32,12 +32,31 @@ namespace ManagedIrbis.Search.Infrastructure
     [MoonSharpUserData]
     public static class SearchQueryUtility
     {
-        #region Public methods
+        #region Private members
+
+        private static List<ISearchTree> GetDescendants
+            (
+                ISearchTree node
+            )
+        {
+            List<ISearchTree> result = new List<ISearchTree>
+            {
+                node
+            };
+
+            foreach (ISearchTree child in node.Children)
+            {
+                List<ISearchTree> descendants = GetDescendants(child);
+                result.AddRange(descendants);
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Require syntax element.
         /// </summary>
-        public static string RequireSyntax
+        internal static string RequireSyntax
             (
                 [CanBeNull] this string element,
                 [NotNull] string message
@@ -49,6 +68,28 @@ namespace ManagedIrbis.Search.Infrastructure
             }
 
             return element;
+        }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Extract search terms from the query.
+        /// </summary>
+        [NotNull]
+        public static string[] ExtractTerms
+            (
+                [NotNull] SearchProgram program
+            )
+        {
+            Code.NotNull(program, "program");
+
+            List<ISearchTree> nodes = GetDescendants(program);
+            SearchTerm[] terms = nodes.OfType<SearchTerm>().ToArray();
+            string[] result = terms.Select(term => term.Term).ToArray();
+
+            return result;
         }
 
         #endregion

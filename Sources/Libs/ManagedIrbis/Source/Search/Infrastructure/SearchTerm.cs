@@ -33,6 +33,7 @@ namespace ManagedIrbis.Search.Infrastructure
     /// Leaf node of AST.
     /// </summary>
     sealed class SearchTerm
+        : ISearchTree
     {
         #region Properties
 
@@ -53,6 +54,17 @@ namespace ManagedIrbis.Search.Infrastructure
         /// </summary>
         [CanBeNull]
         public string[] Context { get; set; }
+
+        #endregion
+
+        #region ISearchTree members
+
+        public ISearchTree[] Children
+        {
+            get { return new ISearchTree[0]; }
+        }
+
+        public string Value { get { return Term; } }
 
         #endregion
 

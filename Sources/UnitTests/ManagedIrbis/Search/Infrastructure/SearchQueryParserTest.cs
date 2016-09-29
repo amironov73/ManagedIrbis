@@ -3,6 +3,7 @@ using ManagedIrbis;
 using ManagedIrbis.Search;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using ManagedIrbis.Search;
 using ManagedIrbis.Search.Infrastructure;
 
 namespace UnitTests.ManagedIrbis.Search.Infrastructure
@@ -151,6 +152,33 @@ namespace UnitTests.ManagedIrbis.Search.Infrastructure
         public void SearchQueryParser_Parse_Exception9()
         {
             _TestParse2("(K=(");
+        }
+
+        private void _TestTerms
+            (
+                string text,
+                int expected
+            )
+        {
+            SearchTokenList tokens = SearchQueryLexer.Tokenize(text);
+            SearchQueryParser parser = new SearchQueryParser(tokens);
+            SearchProgram program = parser.Parse(tokens);
+            string[] terms = SearchQueryUtility.ExtractTerms(program);
+
+            Assert.AreEqual(expected, terms.Length);
+        }
+
+        [TestMethod]
+        public void SearchQueryParser_ExtractTerms()
+        {
+            _TestTerms("", 0);
+            _TestTerms("\"RI=30439B4B\"", 1);
+            _TestTerms("\"K=ЭЛЕКТРООБОРУДОВАНИЕ АВТОМОБИЛЕЙ$\"/()",1);
+            _TestTerms("(\"K=электрооборудовани$\"/()*\"K=автомоб$\"/())",2);
+            _TestTerms("\"K=ЛЕПКА ИГРУШЕК ИЗ ПЛАСТИЛИНА, ГЛИНЫ, СОЛЕНОГО ТЕСТА$\"/(1200,12251,12252,12253,1330,1430,1451,1452,1454,1461,1462,1463,1464,1465,14611,14612,1470,1481,1510,1517,1541,1922,19231,19232,19233,1924,19251,19252,19253)",1);
+            _TestTerms("\"K=Вербальные $\"/() . \"K=средства $\"/() . \"K=коммуникаций $\"/()",3);
+            _TestTerms("\"K=ОЦЕНКА ПРЕДПРИЯТИЙ$\"/()+\"K=ОЦЕНКА ПРЕДПРИЯТИЯ$\"/()",2);
+            _TestTerms("(\"K=ПРЕДПРИНИМАТЕЛЬСТВ$\"/())*(\"V=KN$\")*(\"G=2009$\"+\"G=201$\")*(\"K=МАЛЫЙ БИЗНЕС$\"/()+\"K=СРЕДНИЙ БИЗНЕС$\"/())",6);
         }
     }
 }

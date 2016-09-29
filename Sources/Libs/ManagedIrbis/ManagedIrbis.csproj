@@ -258,6 +258,7 @@
     <Compile Include="Source\Pft\PftUtility.cs" />
     <Compile Include="Source\Search\FoundLine.cs" />
     <Compile Include="Source\Search\Infrastructure\ComplexLevel.cs" />
+    <Compile Include="Source\Search\Infrastructure\ISearchTree.cs" />
     <Compile Include="Source\Search\Infrastructure\SearchQueryLexer.cs" />
     <Compile Include="Source\Search\Infrastructure\SearchQueryUtility.cs" />
     <Compile Include="Source\Search\Infrastructure\SearchTerm.cs" />

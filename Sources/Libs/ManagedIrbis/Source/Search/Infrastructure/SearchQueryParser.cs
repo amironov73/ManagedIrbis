@@ -252,11 +252,11 @@ namespace ManagedIrbis.Search.Infrastructure
         /// </summary>
         private TLevel ParseLevel<TLevel, TItem>
             (
-            Func<TItem> parse,
-            SearchTokenKind separator
+                Func<TItem> parse,
+                SearchTokenKind separator
             )
             where TLevel: ComplexLevel<TItem>, new()
-            where TItem: class
+            where TItem: class, ISearchTree
         {
             TLevel result = new TLevel();
 

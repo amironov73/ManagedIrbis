@@ -20,14 +20,33 @@ namespace ManagedIrbis.Search.Infrastructure
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class SearchProgram
+        : ISearchTree
     {
         #region Properties
 
         /// <summary>
-        /// Program entry point - root of syntax tree..
+        /// Program entry point - root of syntax tree.
         /// </summary>
         [CanBeNull]
         internal SearchLevel6 EntryPoint { get; set; }
+
+        #endregion
+
+        #region ISearchTree members
+
+        ISearchTree[] ISearchTree.Children
+        {
+            get
+            {
+                ISearchTree[] result = ReferenceEquals(EntryPoint, null)
+                    ? new ISearchTree[0]
+                    : EntryPoint.Children;
+
+                return result;
+            }
+        }
+
+        string ISearchTree.Value { get { return null; } }
 
         #endregion
 

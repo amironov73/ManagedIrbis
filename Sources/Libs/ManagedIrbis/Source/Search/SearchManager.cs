@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using AM;
+using AM.Collections;
 using AM.IO;
 using AM.Runtime;
 
@@ -52,6 +53,12 @@ namespace ManagedIrbis.Search
             get { return _connection; }
         }
 
+        /// <summary>
+        /// Search history.
+        /// </summary>
+        [NotNull]
+        public NonNullCollection<SearchResult> SearchHistory { get; private set; }
+
         #endregion
 
         #region Construction
@@ -59,7 +66,6 @@ namespace ManagedIrbis.Search
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="connection"></param>
         public SearchManager
             (
                 [NotNull] IrbisConnection connection
@@ -68,6 +74,7 @@ namespace ManagedIrbis.Search
             Code.NotNull(connection, "connection");
 
             _connection = connection;
+            SearchHistory = new NonNullCollection<SearchResult>();
         }
 
         #endregion
