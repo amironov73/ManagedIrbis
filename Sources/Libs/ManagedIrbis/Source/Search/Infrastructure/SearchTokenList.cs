@@ -1,4 +1,4 @@
-﻿/* QTokenList.cs --
+﻿/* SearchTokenList.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -29,14 +29,16 @@ namespace ManagedIrbis.Search.Infrastructure
     /// <summary>
     /// List of tokens.
     /// </summary>
-    public sealed class QTokenList
+    [PublicAPI]
+    [MoonSharpUserData]
+    public sealed class SearchTokenList
     {
         #region Properties
 
         /// <summary>
         /// Current token.
         /// </summary>
-        public QToken Current
+        internal SearchToken Current
         {
             get { return _tokens[_position]; }
         }
@@ -44,7 +46,7 @@ namespace ManagedIrbis.Search.Infrastructure
         /// <summary>
         /// EOF reached?
         /// </summary>
-        public bool IsEof { get { return _position >= _tokens.Length; } }
+        internal bool IsEof { get { return _position >= _tokens.Length; } }
 
         /// <summary>
         /// How many tokens?
@@ -58,9 +60,9 @@ namespace ManagedIrbis.Search.Infrastructure
         /// <summary>
         /// Constructor.
         /// </summary>
-        public QTokenList
+        internal SearchTokenList
             (
-                IEnumerable<QToken> tokens
+                IEnumerable<SearchToken> tokens
             )
         {
             _tokens = tokens.ToArray();
@@ -72,7 +74,7 @@ namespace ManagedIrbis.Search.Infrastructure
         #region Private members
 
         private int _position;
-        private readonly QToken[] _tokens;
+        private readonly SearchToken[] _tokens;
 
         #endregion
 
@@ -81,7 +83,7 @@ namespace ManagedIrbis.Search.Infrastructure
         /// <summary>
         /// Move to next token.
         /// </summary>
-        public bool MoveNext()
+        internal bool MoveNext()
         {
             _position++;
 
@@ -91,11 +93,32 @@ namespace ManagedIrbis.Search.Infrastructure
         /// <summary>
         /// Require next token.
         /// </summary>
-        public QTokenList RequireNext()
+        internal SearchTokenList RequireNext()
         {
             if (!MoveNext())
             {
-                throw new IrbisException();
+                throw new SearchSyntaxException();
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Require next token.
+        /// </summary>
+        internal SearchTokenList RequireNext
+            (
+                SearchTokenKind tokenKind
+            )
+        {
+            if (!MoveNext())
+            {
+                throw new SearchSyntaxException();
+            }
+
+            if (Current.Kind != tokenKind)
+            {
+                throw new SearchSyntaxException();
             }
 
             return this;

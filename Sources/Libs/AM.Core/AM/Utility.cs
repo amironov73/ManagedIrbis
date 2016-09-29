@@ -414,6 +414,26 @@ namespace AM
         /// if given value is <c>null</c>.
         /// </summary>
         [NotNull]
+        public static T1 ThrowIfNull<T1, T2>
+            (
+                [CanBeNull] this T1 value
+            )
+            where T1: class
+            where T2: Exception, new()
+        {
+            if (ReferenceEquals(value, null))
+            {
+                throw new T2();
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// Throw <see cref="ArgumentNullException"/>
+        /// if given value is <c>null</c>.
+        /// </summary>
+        [NotNull]
         public static T ThrowIfNull<T>
             (
                 [CanBeNull] this T value,

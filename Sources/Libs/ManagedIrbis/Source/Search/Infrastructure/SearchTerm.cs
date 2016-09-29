@@ -1,4 +1,4 @@
-﻿/* QAstLevel3.cs --
+﻿/* SearchTerm.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -30,33 +30,29 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Search.Infrastructure
 {
     /// <summary>
-    /// Level 3.
+    /// Leaf node of AST.
     /// </summary>
-    public sealed class QAstLevel3
+    sealed class SearchTerm
     {
         #region Properties
 
         /// <summary>
-        /// Is complex expression?
+        /// K=keyword
         /// </summary>
-        public bool IsComplex
-        {
-            get
-            {
-                return (Right != null && Right.Length != 0)
-                    || Left.IsComplex;
-            }
-        }
+        [CanBeNull]
+        public string Term { get; set; }
 
         /// <summary>
-        /// Left part.
+        /// $ or @
         /// </summary>
-        public QAstLevel2 Left { get; set; }
+        [CanBeNull]
+        public string Tail { get; set; }
 
         /// <summary>
-        /// Right part.
+        /// /(tag,tag,tag)
         /// </summary>
-        public QAstLevel2[] Right { get; set; }
+        [CanBeNull]
+        public string[] Context { get; set; }
 
         #endregion
 
@@ -67,14 +63,25 @@ namespace ManagedIrbis.Search.Infrastructure
         {
             StringBuilder result = new StringBuilder();
 
-            result.Append(Left);
-            if (!ReferenceEquals(Right, null))
+            result.Append('"');
+            result.Append(Term);
+            if (!string.IsNullOrEmpty(Tail))
             {
-                foreach (QAstLevel2 right in Right)
-                {
-                    result.Append(" (G) ");
-                    result.Append(right);
-                }
+                result.Append(Tail);
+            }
+            result.Append('"');
+            if (!ReferenceEquals(Context, null))
+            {
+                result.Append("/(");
+                result.Append
+                    (
+                        string.Join
+                        (
+                            ",",
+                            Context
+                        )
+                    );
+                result.Append(')');
             }
 
             return result.ToString();

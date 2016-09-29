@@ -1,5 +1,6 @@
 ﻿using System;
 using ManagedIrbis;
+using ManagedIrbis.Search;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis.Search.Infrastructure;
@@ -15,8 +16,8 @@ namespace UnitTests.ManagedIrbis.Search.Infrastructure
                 int expected
             )
         {
-            SearchQueryParser parser = new SearchQueryParser();
-            QTokenList tokens = parser.Tokenize(text);
+            SearchTokenList tokens = SearchQueryLexer.Tokenize(text);
+            
             Assert.AreEqual(expected, tokens.Length);
         }
 
@@ -50,10 +51,10 @@ namespace UnitTests.ManagedIrbis.Search.Infrastructure
                 string expected
             )
         {
-            SearchQueryParser parser = new SearchQueryParser();
-            QTokenList tokens = parser.Tokenize(text);
-            QAstRoot root = parser.Parse(tokens);
-            string actual = root.ToString();
+            SearchTokenList tokens = SearchQueryLexer.Tokenize(text);
+            SearchQueryParser parser = new SearchQueryParser(tokens);
+            SearchProgram program = parser.Parse(tokens);
+            string actual = program.ToString();
 
             Assert.AreEqual(expected, actual);
         }
@@ -63,10 +64,10 @@ namespace UnitTests.ManagedIrbis.Search.Infrastructure
                 string text
             )
         {
-            SearchQueryParser parser = new SearchQueryParser();
-            QTokenList tokens = parser.Tokenize(text);
-            QAstRoot root = parser.Parse(tokens);
-            string actual = root.ToString();
+            SearchTokenList tokens = SearchQueryLexer.Tokenize(text);
+            SearchQueryParser parser = new SearchQueryParser(tokens);
+            SearchProgram program = parser.Parse(tokens);
+            string actual = program.ToString();
             Assert.IsNotNull(actual);
         }
 
@@ -86,67 +87,67 @@ namespace UnitTests.ManagedIrbis.Search.Infrastructure
             _TestParse("\"K=ОЦЕНКА ПРЕДПРИЯТИЙ$\"/()+\"K=ОЦЕНКА ПРЕДПРИЯТИЯ$\"/()",
                 "( \"K=ОЦЕНКА ПРЕДПРИЯТИЙ$\" + \"K=ОЦЕНКА ПРЕДПРИЯТИЯ$\" )");
             _TestParse("(\"K=ПРЕДПРИНИМАТЕЛЬСТВ$\"/())*(\"V=KN$\")*(\"G=2009$\"+\"G=201$\")*(\"K=МАЛЫЙ БИЗНЕС$\"/()+\"K=СРЕДНИЙ БИЗНЕС$\"/())",
-                "\"K=ПРЕДПРИНИМАТЕЛЬСТВ$\" * \"V=KN$\" *  ( \"G=2009$\" + \"G=201$\" )  *  ( \"K=МАЛЫЙ БИЗНЕС$\" + \"K=СРЕДНИЙ БИЗНЕС$\" )");
+                "( \"K=ПРЕДПРИНИМАТЕЛЬСТВ$\" * \"V=KN$\" *  ( \"G=2009$\" + \"G=201$\" )  *  ( \"K=МАЛЫЙ БИЗНЕС$\" + \"K=СРЕДНИЙ БИЗНЕС$\" )  )");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(IrbisException))]
+        [ExpectedException(typeof(SearchSyntaxException))]
         public void SearchQueryParser_Parse_Exception1()
         {
             _TestParse2("\"RI=30439B4");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(IrbisException))]
+        [ExpectedException(typeof(SearchSyntaxException))]
         public void SearchQueryParser_Parse_Exception2()
         {
             _TestParse2("\"K=ЭЛЕКТРООБОРУДОВАНИЕ АВТОМОБИЛЕЙ$\"/");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(IrbisException))]
+        [ExpectedException(typeof(SearchSyntaxException))]
         public void SearchQueryParser_Parse_Exception3()
         {
             _TestParse2("(\"K=электрооборудовани$\"/()*");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(IrbisException))]
+        [ExpectedException(typeof(SearchSyntaxException))]
         public void SearchQueryParser_Parse_Exception4()
         {
             _TestParse2("(\"K=электрооборудовани$\"/()*\"K=автомоб$\"/()");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(IrbisException))]
+        [ExpectedException(typeof(SearchSyntaxException))]
         public void SearchQueryParser_Parse_Exception5()
         {
             _TestParse2("(\"K=ПРЕДПРИНИМАТЕЛЬСТВ$\"/())*(\"V=KN$\")*(\"G=2009$\"+\"G=201$\")*(\"K=МАЛЫЙ БИЗНЕС$\"/()+\"K=СРЕДНИЙ БИЗНЕС$\"/()");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(IrbisException))]
+        [ExpectedException(typeof(SearchSyntaxException))]
         public void SearchQueryParser_Parse_Exception6()
         {
             _TestParse2("(\"K=ПРЕДПРИНИМАТЕЛЬСТВ$\"/(*))*(\"V=KN$\")*(\"G=2009$\"+\"G=201$\")*(\"K=МАЛЫЙ БИЗНЕС$\"/()+\"K=СРЕДНИЙ БИЗНЕС$\"/()");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(IrbisException))]
+        [ExpectedException(typeof(SearchSyntaxException))]
         public void SearchQueryParser_Parse_Exception7()
         {
             _TestParse2("(\"K=ПРЕДПРИНИМАТЕЛЬСТВ$\"/1))*(\"V=KN$\")*(\"G=2009$\"+\"G=201$\")*(\"K=МАЛЫЙ БИЗНЕС$\"/()+\"K=СРЕДНИЙ БИЗНЕС$\"/()");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(IrbisException))]
+        [ExpectedException(typeof(SearchSyntaxException))]
         public void SearchQueryParser_Parse_Exception8()
         {
             _TestParse2("*");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(IrbisException))]
+        [ExpectedException(typeof(SearchSyntaxException))]
         public void SearchQueryParser_Parse_Exception9()
         {
             _TestParse2("(K=(");
