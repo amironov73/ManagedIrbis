@@ -15,6 +15,7 @@ CALL :BUILD AM.Windows.Forms   no
 CALL :BUILD AM.Win32           no
 CALL :BUILD IrbisUI            no
 CALL :BUILD AM.Suggestions     no
+CALL :BUILD AM.Stemming        no
 
 GOTO :END
 
