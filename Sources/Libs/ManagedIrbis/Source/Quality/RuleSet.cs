@@ -175,6 +175,8 @@ namespace ManagedIrbis.Quality
             return result;
         }
 
+#if !NETCORE
+
         /// <summary>
         /// Регистрируем все правила из указанной сборки.
         /// </summary>
@@ -195,8 +197,6 @@ namespace ManagedIrbis.Quality
                 RegisterRule(ruleType);
             }
         }
-
-#if !NETCORE
 
         /// <summary>
         /// Регистрация встроенных правил.
