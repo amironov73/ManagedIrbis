@@ -36,7 +36,7 @@ namespace ManagedIrbis.Quality
         /// Правила, входящие в набор.
         /// </summary>
         [JsonProperty("rules")]
-        public IrbisRule[] Rules { get; set; }
+        public QualityRule[] Rules { get; set; }
 
         #endregion
 
@@ -102,7 +102,7 @@ namespace ManagedIrbis.Quality
             result.Gold = 1000;
             int bonus = 0;
 
-            foreach (IrbisRule rule in Rules)
+            foreach (QualityRule rule in Rules)
             {
                 RuleReport oneReport = rule.CheckRecord(context);
                 result.Defects.AddRange(oneReport.Defects);
@@ -123,7 +123,7 @@ namespace ManagedIrbis.Quality
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static IrbisRule GetRule
+        public static QualityRule GetRule
             (
                 string name
             )
@@ -137,7 +137,7 @@ namespace ManagedIrbis.Quality
             {
                 return null;
             }
-            IrbisRule result = (IrbisRule)Activator.CreateInstance
+            QualityRule result = (QualityRule)Activator.CreateInstance
                 (
                     ruleType
                 );
@@ -158,12 +158,12 @@ namespace ManagedIrbis.Quality
             JObject obj = JObject.Parse(text);
             
             RuleSet result = new RuleSet();
-            List<IrbisRule> rules = new List<IrbisRule>();
+            List<QualityRule> rules = new List<QualityRule>();
 
             foreach (JToken o in obj["rules"])
             {
                 string name = o.ToString();
-                IrbisRule rule = GetRule(name);
+                QualityRule rule = GetRule(name);
                 if (rule != null)
                 {
                     rules.Add(rule);
@@ -190,7 +190,7 @@ namespace ManagedIrbis.Quality
                 .GetTypes()
                 .Where(t => t.IsPublic)
                 .Where(t => !t.IsAbstract)
-                .Where(t => t.IsSubclassOf(typeof(IrbisRule)))
+                .Where(t => t.IsSubclassOf(typeof(QualityRule)))
                 .ToArray();
             foreach (Type ruleType in types)
             {

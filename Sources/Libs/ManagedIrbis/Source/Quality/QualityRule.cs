@@ -1,4 +1,4 @@
-﻿/* IrbisRule.cs -- абстрактный базовый класс для правил
+﻿/* QualityRule.cs -- абстрактный базовый класс для правил
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -10,12 +10,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -29,7 +33,7 @@ namespace ManagedIrbis.Quality
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public abstract class IrbisRule
+    public abstract class QualityRule
     {
         #region Properties
 

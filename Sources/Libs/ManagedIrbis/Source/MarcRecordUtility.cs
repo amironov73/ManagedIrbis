@@ -53,6 +53,30 @@ namespace ManagedIrbis
         #region Public methods
 
         /// <summary>
+        /// Есть хотя бы одно поле с указанными тегами?
+        /// </summary>
+        public static bool HaveField
+            (
+            this MarcRecord record,
+            params string[] tags
+            )
+        {
+            return (record.Fields.GetField(tags).Length != 0);
+        }
+
+        /// <summary>
+        /// Нет ни одного поля с указанными тегами?
+        /// </summary>
+        public static bool HaveNotField
+            (
+            this MarcRecord record,
+            params string[] tags
+            )
+        {
+            return (record.Fields.GetField(tags).Length == 0);
+        }
+
+        /// <summary>
         /// Parse ALL-formatted records in server response.
         /// </summary>
         [NotNull]
