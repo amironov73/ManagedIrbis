@@ -196,6 +196,8 @@ namespace ManagedIrbis.Quality
             }
         }
 
+#if !NETCORE
+
         /// <summary>
         /// Регистрация встроенных правил.
         /// </summary>
@@ -203,6 +205,8 @@ namespace ManagedIrbis.Quality
         {
             RegisterAssembly(Assembly.GetExecutingAssembly());
         }
+
+#endif
 
         public static void RegisterRule
             (
