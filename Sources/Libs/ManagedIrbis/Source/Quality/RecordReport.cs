@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Xml.Serialization;
 
 using AM.IO;
 using AM.Runtime;
@@ -40,7 +39,6 @@ namespace ManagedIrbis.Quality
         /// MFN записи.
         /// </summary>
         [JsonProperty("mfn")]
-        [XmlAttribute("mfn")]
         public int Mfn { get; set; }
 
         /// <summary>
@@ -48,7 +46,6 @@ namespace ManagedIrbis.Quality
         /// </summary>
         [CanBeNull]
         [JsonProperty("index")]
-        [XmlAttribute("index")]
         public string Index { get; set; }
 
         /// <summary>
@@ -56,7 +53,6 @@ namespace ManagedIrbis.Quality
         /// </summary>
         [CanBeNull]
         [JsonProperty("description")]
-        [XmlAttribute("description")]
         public string Description { get; set; }
 
         /// <summary>
@@ -65,14 +61,12 @@ namespace ManagedIrbis.Quality
         [NotNull]
         [ItemNotNull]
         [JsonProperty("defects")]
-        [XmlArray("defects")]
-        public DefectList Defects { get; private set; }
+        public DefectList Defects { get; internal set; }
 
         /// <summary>
         /// Формальная оценка качества.
         /// </summary>
         [JsonProperty("gold")]
-        [XmlAttribute("gold")]
         public int Gold { get; set; }
 
         #endregion

@@ -1,6 +1,4 @@
 ﻿using System;
-using ManagedIrbis;
-using ManagedIrbis.Search;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis.Search;

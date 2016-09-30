@@ -256,6 +256,10 @@
     <Compile Include="Source\Pft\PftSemanticException.cs" />
     <Compile Include="Source\Pft\PftSyntaxException.cs" />
     <Compile Include="Source\Pft\PftUtility.cs" />
+    <Compile Include="Source\Quality\IrbisRule.cs" />
+    <Compile Include="Source\Quality\RuleContext.cs" />
+    <Compile Include="Source\Quality\RuleReport.cs" />
+    <Compile Include="Source\Quality\RuleSet.cs" />
     <Compile Include="Source\Search\FoundLine.cs" />
     <Compile Include="Source\Search\Infrastructure\ComplexLevel.cs" />
     <Compile Include="Source\Search\Infrastructure\ISearchTree.cs" />

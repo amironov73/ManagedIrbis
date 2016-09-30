@@ -9,7 +9,6 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Xml.Serialization;
 
 using AM.IO;
 using AM.Runtime;
@@ -30,7 +29,6 @@ namespace ManagedIrbis.Quality
     /// Дефект в поле/подполе.
     /// </summary>
     [PublicAPI]
-    [XmlRoot("defect")]
     [MoonSharpUserData]
     [DebuggerDisplay("Field={Field} Value={Value} Message={Message}")]
     public sealed class FieldDefect
@@ -43,14 +41,12 @@ namespace ManagedIrbis.Quality
         /// </summary>
         [CanBeNull]
         [JsonProperty("field")]
-        [XmlAttribute("field")]
         public string Field { get; set; }
 
         /// <summary>
         /// Повторение поля.
         /// </summary>
         [JsonProperty("field-repeat")]
-        [XmlAttribute("field-repeat")]
         public int FieldRepeat { get; set; }
 
         /// <summary>
@@ -58,7 +54,6 @@ namespace ManagedIrbis.Quality
         /// </summary>
         [CanBeNull]
         [JsonProperty("subfield")]
-        [XmlAttribute("subfield")]
         public string Subfield { get; set; }
 
         /// <summary>
@@ -66,7 +61,6 @@ namespace ManagedIrbis.Quality
         /// </summary>
         [CanBeNull]
         [JsonProperty("value")]
-        [XmlAttribute("value")]
         public string Value { get; set; }
 
         /// <summary>
@@ -74,14 +68,12 @@ namespace ManagedIrbis.Quality
         /// </summary>
         [CanBeNull]
         [JsonProperty("message")]
-        [XmlAttribute("message")]
         public string Message { get; set; }
 
         /// <summary>
         /// Урон от дефекта.
         /// </summary>
         [JsonProperty("damage")]
-        [XmlAttribute("damage")]
         public int Damage { get; set; }
 
         #endregion

@@ -36,6 +36,28 @@ namespace ManagedIrbis.Quality
         : NonNullCollection<FieldDefect>,
         IHandmadeSerializable
     {
+        #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public DefectList()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public DefectList
+            (
+                IEnumerable<FieldDefect> defects
+            )
+        {
+            AddRange(defects);
+        }
+
+        #endregion
+
         #region Public methods
 
         #endregion
