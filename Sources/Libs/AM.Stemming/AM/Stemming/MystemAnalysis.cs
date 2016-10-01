@@ -68,6 +68,7 @@ namespace AM.Stemming
             get { return Split.Contains("обсц"); }
         }
 
+        /// <inheritdoc />
         public override string ToString()
         {
             return string.Format

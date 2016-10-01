@@ -61,7 +61,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <summary>
         /// Список потомков. Может быть пустым.
         /// </summary>
-        public NonNullCollection<PftNode> Children { get { return _children; } }
+        public NonNullCollection<PftNode> Children
+        {
+            get; protected set;
+        }
 
         /// <summary>
         /// Номер строки, на которой в скрипте расположена
@@ -79,15 +82,17 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftNode()
+        {
+            Children = new NonNullCollection<PftNode>();
+        }
+
         #endregion
 
         #region Private members
-
-        /// <summary>
-        /// Children.
-        /// </summary>
-        [CLSCompliant(false)]
-        protected NonNullCollection<PftNode> _children;
 
         /// <summary>
         /// Change child.
@@ -213,9 +218,10 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             foreach (PftNode child in Children)
             {
-                if (child is T)
+                T item = child as T;
+                if (item != null)
                 {
-                    result.Add((T)child);
+                    result.Add(item);
                 }
                 result.AddRange(child.GetDescendants<T>());
             }
@@ -256,9 +262,9 @@ namespace ManagedIrbis.Pft.Infrastructure
         [CanBeNull]
         public virtual PftNode Optimize()
         {
-            if (_children.Count == 1)
+            if (Children.Count == 1)
             {
-                return _children[0].Optimize();
+                return Children[0].Optimize();
             }
 
             return this;

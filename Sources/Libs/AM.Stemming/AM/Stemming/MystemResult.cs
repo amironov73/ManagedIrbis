@@ -24,11 +24,18 @@ namespace AM.Stemming
     /// </summary>
     public sealed class MystemResult
     {
+        /// <summary>
+        /// Text.
+        /// </summary>
         [JsonProperty("text")]
         public string Text { get; set; }
 
+        /// <summary>
+        /// Analysis.
+        /// </summary>
         public MystemAnalysis[] Analysis { get; set; }
 
+        /// <inheritdoc />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
