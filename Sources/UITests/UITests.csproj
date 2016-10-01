@@ -177,6 +177,7 @@
     <Compile Include="Sources\Tests\DataGridViewTest.cs" />
     <Compile Include="Sources\Tests\DictionaryFormTest.cs" />
     <Compile Include="Sources\Tests\DictionaryPanelTest.cs" />
+    <Compile Include="Sources\Tests\DragMoveTest.cs" />
     <Compile Include="Sources\Tests\DriveComboBoxTest.cs" />
     <Compile Include="Sources\Tests\EnumComboBoxTest.cs" />
     <Compile Include="Sources\Tests\EnumListBoxTest.cs" />

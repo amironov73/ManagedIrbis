@@ -144,6 +144,13 @@
     <Compile Include="AM\Windows\Forms\DataGridView\HabitualDataGridView.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\PagingDataGridViewEventArgs.cs" />
     <Compile Include="AM\Windows\Forms\DataGridView\PagingDataGridView.cs" />
+    <Compile Include="AM\Windows\Forms\DragMoveProvider.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\DragMoveProvider.designer.cs">
+      <DependentUpon>DragMoveProvider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\DragMoveUtility.cs" />
     <Compile Include="AM\Windows\Forms\DriveComboBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumComboBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumListBox.cs" />

@@ -238,5 +238,9 @@
   {
     "class": "UITests.PagingDataGridViewTest",
     "title": "PagingDataGridView"
+  },
+  {
+    "class": "UITests.DragMoveTest",
+    "title": "DragMove"
   }
 ]
