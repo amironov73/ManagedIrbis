@@ -1,9 +1,20 @@
 ﻿/* Require102.cs -- страна.
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
 
 using ManagedIrbis.Menus;
+
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -12,6 +23,8 @@ namespace ManagedIrbis.Quality.Rules
     /// <summary>
     /// Страна.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class Require102
         : QualityRule
     {
@@ -41,13 +54,15 @@ namespace ManagedIrbis.Quality.Rules
 
         #endregion
 
-        #region IrbisRule members
+        #region QualityRule members
 
+        /// <inheritdoc />
         public override string FieldSpec
         {
             get { return "102"; }
         }
 
+        /// <inheritdoc />
         public override RuleReport CheckRecord
             (
                 RuleContext context

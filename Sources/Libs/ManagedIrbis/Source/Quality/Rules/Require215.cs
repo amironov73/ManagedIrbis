@@ -1,4 +1,4 @@
-﻿/* Require215.cs
+﻿/* Require215.cs -- количественные характеристики
  */
 
 #region Using directives
@@ -10,6 +10,14 @@ using System.Text;
 
 using AM;
 
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
+
 #endregion
 
 namespace ManagedIrbis.Quality.Rules
@@ -17,6 +25,8 @@ namespace ManagedIrbis.Quality.Rules
     /// <summary>
     /// Количественные характеристики.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class Require215
         : QualityRule
     {
@@ -57,13 +67,15 @@ namespace ManagedIrbis.Quality.Rules
 
         #endregion
 
-        #region IrbisRule members
+        #region QualityRule members
 
+        /// <inheritdoc />
         public override string FieldSpec
         {
             get { return "215"; }
         }
 
+        /// <inheritdoc />
         public override RuleReport CheckRecord
             (
                 RuleContext context

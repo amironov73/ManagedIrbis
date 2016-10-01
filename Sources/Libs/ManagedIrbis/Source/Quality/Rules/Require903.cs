@@ -1,4 +1,7 @@
-﻿/* Require903.cs
+﻿/* Require903.cs -- шифр документа в базе
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -8,10 +11,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
+
 #endregion
 
 namespace ManagedIrbis.Quality.Rules
 {
+    /// <summary>
+    /// Шифр документа в базе.
+    /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class Require903
         : QualityRule
     {
@@ -19,13 +35,15 @@ namespace ManagedIrbis.Quality.Rules
 
         #endregion
 
-        #region IrbisRule members
+        #region QualityRule members
 
+        /// <inheritdoc />
         public override string FieldSpec
         {
             get { return "903"; }
         }
 
+        /// <inheritdoc />
         public override RuleReport CheckRecord
             (
                 RuleContext context

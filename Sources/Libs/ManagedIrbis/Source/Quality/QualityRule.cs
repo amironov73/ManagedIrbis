@@ -45,31 +45,40 @@ namespace ManagedIrbis.Quality
         /// <summary>
         /// Затрагиваемые поля.
         /// </summary>
+        [NotNull]
         public abstract string FieldSpec { get; }
 
         /// <summary>
         /// Клиент.
         /// </summary>
-        public IrbisConnection Connection { get { return _context.Connection; } }
+        [NotNull]
+        public IrbisConnection Connection
+        {
+            get { return Context.Connection; }
+        }
 
         /// <summary>
         /// Текущий контекст.
         /// </summary>
-        public RuleContext Context { get { return _context; } }
+        [NotNull]
+        public RuleContext Context { get; protected set; }
 
         /// <summary>
         /// Текущая проверяемая запись.
         /// </summary>
-        public MarcRecord Record { get { return _context.Record; } }
+        [NotNull]
+        public MarcRecord Record { get { return Context.Record; } }
 
         /// <summary>
         /// Накопленный отчёт.
         /// </summary>
-        public RuleReport Report { get { return _report; } }
+        [NotNull]
+        public RuleReport Report { get; protected set; }
 
         /// <summary>
         /// Рабочий лист.
         /// </summary>
+        [CanBeNull]
         public string Worksheet
         {
             get { return Record.FM("920"); }
@@ -79,10 +88,9 @@ namespace ManagedIrbis.Quality
 
         #region Private members
 
-        protected RuleContext _context;
-
-        protected RuleReport _report;
-
+        /// <summary>
+        /// Add detected defect.
+        /// </summary>
         protected void AddDefect
             (
                 string tag,
@@ -100,6 +108,9 @@ namespace ManagedIrbis.Quality
             Report.Defects.Add(defect);
         }
 
+        /// <summary>
+        /// Add detected defect.
+        /// </summary>
         protected void AddDefect
             (
                 RecordField field,
@@ -119,6 +130,9 @@ namespace ManagedIrbis.Quality
             Report.Defects.Add(defect);
         }
 
+        /// <summary>
+        /// Add detected defect.
+        /// </summary>
         protected void AddDefect
             (
                 RecordField field,
@@ -140,15 +154,21 @@ namespace ManagedIrbis.Quality
             Report.Defects.Add(defect);
         }
 
+        /// <summary>
+        /// Add detected defect.
+        /// </summary>
         protected void BeginCheck
             (
                 RuleContext context
             )
         {
-            _context = context;
-            _report = new RuleReport();
+            Context = context;
+            Report = new RuleReport();
         }
 
+        /// <summary>
+        /// Cache the menu.
+        /// </summary>
         protected MenuFile CacheMenu
             (
                 string name,
@@ -161,9 +181,13 @@ namespace ManagedIrbis.Quality
                     Connection,
                     new FileSpecification(IrbisPath.MasterFile, name)
                 );
+
             return menu;
         }
 
+        /// <summary>
+        /// Check value against menu.
+        /// </summary>
         protected bool CheckForMenu
             (
                 MenuFile menu,
@@ -179,9 +203,13 @@ namespace ManagedIrbis.Quality
                 return true;
             }
             MenuEntry entry = menu.GetEntrySensitive(value);
-            return (entry != null);
+
+            return entry != null;
         }
 
+        /// <summary>
+        /// Get text at specified position in the string.
+        /// </summary>
         protected static string GetTextAtPosition
             (
                 string text,
@@ -209,6 +237,7 @@ namespace ManagedIrbis.Quality
                 stop++;
             }
             stop = Math.Min(length - 1, stop);
+
             return text.Substring
             (
                 start,
@@ -216,12 +245,16 @@ namespace ManagedIrbis.Quality
             ).Trim();
         }
 
+        /// <summary>
+        /// Show double whitespace.
+        /// </summary>
         protected static string ShowDoubleWhiteSpace
             (
                 string text
             )
         {
             int position = text.IndexOf("  ");
+
             return GetTextAtPosition
                 (
                     text,
@@ -229,6 +262,9 @@ namespace ManagedIrbis.Quality
                 );
         }
 
+        /// <summary>
+        /// Check for whitespace.
+        /// </summary>
         protected void CheckWhitespace
             (
                 RecordField field,
@@ -292,6 +328,9 @@ namespace ManagedIrbis.Quality
             }
         }
 
+        /// <summary>
+        /// Check for whitespace.
+        /// </summary>
         protected void CheckWhitespace
             (
                 RecordField field
@@ -343,18 +382,28 @@ namespace ManagedIrbis.Quality
             }
         }
 
+        /// <summary>
+        /// End the checking.
+        /// </summary>
         protected RuleReport EndCheck()
         {
             Report.Damage = Report.Defects
                 .Sum(defect => defect.Damage);
+
             return Report;
         }
 
+        /// <summary>
+        /// ASP?
+        /// </summary>
         protected bool IsAsp()
         {
             return Worksheet.SameString("ASP");
         }
 
+        /// <summary>
+        /// PAZK, SPEC or PVK?
+        /// </summary>
         protected bool IsBook()
         {
             string worksheet = Worksheet;
@@ -363,22 +412,34 @@ namespace ManagedIrbis.Quality
                     || worksheet.SameString("PVK"));
         }
 
+        /// <summary>
+        /// PAZK?
+        /// </summary>
         protected bool IsPazk()
         {
             return Worksheet.SameString("PAZK");
         }
 
+        /// <summary>
+        /// SPEC?
+        /// </summary>
         protected bool IsSpec()
         {
             return Worksheet.SameString("SPEC");
         }
 
+        /// <summary>
+        /// Get fields for the rule.
+        /// </summary>
         protected RecordField[] GetFields()
         {
             return Record.Fields
                 .GetFieldBySpec(FieldSpec);
         }
 
+        /// <summary>
+        /// Must not contain subfields.
+        /// </summary>
         protected void MustNotContainSubfields
             (
                 RecordField field
@@ -396,6 +457,9 @@ namespace ManagedIrbis.Quality
             }
         }
 
+        /// <summary>
+        /// Must not contain plain text value.
+        /// </summary>
         protected void MustNotContainText
             (
                 RecordField field
@@ -413,6 +477,9 @@ namespace ManagedIrbis.Quality
             }
         }
 
+        /// <summary>
+        /// Must not repeat subfields.
+        /// </summary>
         protected void MustNotRepeatSubfields
             (
                 RecordField field
@@ -436,6 +503,9 @@ namespace ManagedIrbis.Quality
             }
         }
 
+        /// <summary>
+        /// Must be unique field.
+        /// </summary>
         protected void MustBeUniqueField
             (
                 RecordField[] fields
@@ -459,6 +529,9 @@ namespace ManagedIrbis.Quality
             }
         }
 
+        /// <summary>
+        /// Must be non-emptu subfield.
+        /// </summary>
         protected void MustBeNonEmptySubfield
             (
                 RecordField field,
@@ -482,6 +555,9 @@ namespace ManagedIrbis.Quality
             }
         }
 
+        /// <summary>
+        /// Must be unique subfield.
+        /// </summary>
         protected void MustBeUniqueSubfield
             (
                 RecordField[] fields,
@@ -510,6 +586,9 @@ namespace ManagedIrbis.Quality
             }
         }
 
+        /// <summary>
+        /// Must be unique subfield.
+        /// </summary>
         protected void MustBeUniqueSubfield
             (
                 RecordField[] fields,
@@ -526,6 +605,9 @@ namespace ManagedIrbis.Quality
             }
         }
 
+        /// <summary>
+        /// Must not contain whitespace.
+        /// </summary>
         protected void MustNotContainWhitespace
             (
                 RecordField field
@@ -545,6 +627,9 @@ namespace ManagedIrbis.Quality
             }
         }
 
+        /// <summary>
+        /// Must not contain whitespace.
+        /// </summary>
         protected void MustNotContainWhitespace
             (
                 RecordField field,
@@ -567,6 +652,9 @@ namespace ManagedIrbis.Quality
             }
         }
 
+        /// <summary>
+        /// Must not contain whitespace.
+        /// </summary>
         protected void MustNotContainWhitespace
             (
                 RecordField field,
@@ -587,6 +675,9 @@ namespace ManagedIrbis.Quality
             }
         }
 
+        /// <summary>
+        /// Must not contain bad characters.
+        /// </summary>
         protected void MustNotContainBadCharacters
             (
                 RecordField field
@@ -609,6 +700,9 @@ namespace ManagedIrbis.Quality
             }
         }
 
+        /// <summary>
+        /// Must not contain bad characters.
+        /// </summary>
         protected void MustNotContainBadCharacters
             (
                 RecordField field,
@@ -642,11 +736,10 @@ namespace ManagedIrbis.Quality
         /// <summary>
         /// Проверка записи.
         /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
+        [NotNull]
         public abstract RuleReport CheckRecord
             (
-                RuleContext context
+                [NotNull] RuleContext context
             );
 
         #endregion

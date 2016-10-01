@@ -1,4 +1,7 @@
 ﻿/* CheckMixedCharacters.cs -- проверка на смешение символов.
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -8,6 +11,14 @@ using System.Text.RegularExpressions;
 
 using AM.Text;
 
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
+
 #endregion
 
 namespace ManagedIrbis.Quality.Rules
@@ -15,6 +26,8 @@ namespace ManagedIrbis.Quality.Rules
     /// <summary>
     /// Проверка на смешение символов.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class CheckMixedCharacters
         : QualityRule
     {
@@ -61,7 +74,7 @@ namespace ManagedIrbis.Quality.Rules
                 (
                     "Смешение кириллицы и латиницы в {0}: {1}",
                     word,
-                    string.Join(", ", list)
+                    string.Join(", ", list.ToArray())
                 );
         }
 
@@ -103,13 +116,15 @@ namespace ManagedIrbis.Quality.Rules
 
         #endregion
 
-        #region IrbisRule members
+        #region QualityRule members
 
+        /// <inheritdoc />
         public override string FieldSpec
         {
             get { return "*"; }
         }
 
+        /// <inheritdoc />
         public override RuleReport CheckRecord
             (
                 RuleContext context

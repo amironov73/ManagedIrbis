@@ -28,15 +28,15 @@ namespace ManagedIrbis.Pft.Infrastructure
     {
         #region Events
 
-        /// <summary>
-        /// Вызывается непосредственно перед считыванием значения.
-        /// </summary>
-        public event EventHandler<PftDebugEventArgs> BeforeReading;
+        ///// <summary>
+        ///// Вызывается непосредственно перед считыванием значения.
+        ///// </summary>
+        //public event EventHandler<PftDebugEventArgs> BeforeReading;
 
-        /// <summary>
-        /// Вызывается непосредственно после модификации.
-        /// </summary>
-        public event EventHandler<PftDebugEventArgs> AfterModification;
+        ///// <summary>
+        ///// Вызывается непосредственно после модификации.
+        ///// </summary>
+        //public event EventHandler<PftDebugEventArgs> AfterModification;
 
         #endregion
 

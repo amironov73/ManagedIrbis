@@ -1,4 +1,7 @@
-﻿/* Require60x.cs
+﻿/* Require60x.cs -- предметные рубрики
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -8,10 +11,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
+
 #endregion
 
 namespace ManagedIrbis.Quality.Rules
 {
+    /// <summary>
+    /// Предметные рубрики
+    /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class Require60x
         : QualityRule
     {
@@ -19,14 +35,19 @@ namespace ManagedIrbis.Quality.Rules
 
         #endregion
 
-        #region IrbisRule members
+        #region QualityRule members
 
+        /// <inheritdoc />
         public override string FieldSpec
         {
             get { throw new NotImplementedException(); }
         }
 
-        public override RuleReport CheckRecord(RuleContext context)
+        /// <inheritdoc />
+        public override RuleReport CheckRecord
+            (
+                RuleContext context
+            )
         {
             throw new NotImplementedException();
         }

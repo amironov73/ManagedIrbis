@@ -1,9 +1,20 @@
-﻿/* Require210.cs
+﻿/* Require210.cs -- выходные данные
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
 
 using AM;
+
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -12,6 +23,8 @@ namespace ManagedIrbis.Quality.Rules
     /// <summary>
     /// Выходные данные
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class Require210
         : QualityRule
     {
@@ -125,13 +138,15 @@ namespace ManagedIrbis.Quality.Rules
 
         #endregion
 
-        #region IrbisRule members
+        #region QualityRule members
 
+        /// <inheritdoc />
         public override string FieldSpec
         {
             get { return "210"; }
         }
 
+        /// <inheritdoc />
         public override RuleReport CheckRecord
             (
                 RuleContext context

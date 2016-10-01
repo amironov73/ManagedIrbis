@@ -1,4 +1,7 @@
-﻿/* Require700.cs
+﻿/* Require700.cs -- индивидуальные авторы
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -8,6 +11,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
+
 #endregion
 
 namespace ManagedIrbis.Quality.Rules
@@ -15,6 +26,8 @@ namespace ManagedIrbis.Quality.Rules
     /// <summary>
     /// Индивидуальные авторы.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class Require700
         : QualityRule
     {
@@ -22,13 +35,15 @@ namespace ManagedIrbis.Quality.Rules
 
         #endregion
 
-        #region IrbisRule members
+        #region QualityRule members
 
+        /// <inheritdoc />
         public override string FieldSpec
         {
             get { return "70[01]"; }
         }
 
+        /// <inheritdoc />
         public override RuleReport CheckRecord
             (
                 RuleContext context

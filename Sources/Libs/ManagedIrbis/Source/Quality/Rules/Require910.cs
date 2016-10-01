@@ -1,10 +1,21 @@
-﻿/* Require910.cs -- сведения об экземплярах.
+﻿/* Require910.cs -- сведения об экземплярах
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
 
 using ManagedIrbis.Fields;
 using ManagedIrbis.Menus;
+
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -13,6 +24,8 @@ namespace ManagedIrbis.Quality.Rules
     /// <summary>
     /// Сведения об экземплярах.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class Require910
         : QualityRule
     {
@@ -59,13 +72,15 @@ namespace ManagedIrbis.Quality.Rules
 
         #endregion
 
-        #region IrbisRule members
+        #region QualityRule members
 
+        /// <inheritdoc />
         public override string FieldSpec
         {
             get { return "910"; }
         }
 
+        /// <inheritdoc />
         public override RuleReport CheckRecord
             (
                 RuleContext context

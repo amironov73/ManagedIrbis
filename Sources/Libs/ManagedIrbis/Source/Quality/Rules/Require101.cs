@@ -1,9 +1,20 @@
 ﻿/* Require101.cs -- язык основного текста.
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
 
 using ManagedIrbis.Menus;
+
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -12,6 +23,8 @@ namespace ManagedIrbis.Quality.Rules
     /// <summary>
     /// Язык основного текста.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class Require101
         : QualityRule
     {
@@ -41,19 +54,12 @@ namespace ManagedIrbis.Quality.Rules
 
         #endregion
 
-        #region IrbisRule members
+        #region QualityRule members
 
-        /// <summary>
-        /// Затрагиваемые поля.
-        /// </summary>
-        /// <value>The field spec.</value>
+        /// <inheritdoc />
         public override string FieldSpec { get { return "101"; } }
 
-        /// <summary>
-        /// Проверка записи.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        /// <returns>RuleReport.</returns>
+        /// <inheritdoc />
         public override RuleReport CheckRecord
             (
                 RuleContext context

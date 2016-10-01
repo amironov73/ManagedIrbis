@@ -208,6 +208,9 @@ namespace ManagedIrbis.Quality
 
 #endif
 
+        /// <summary>
+        /// Register rule from type.
+        /// </summary>
         public static void RegisterRule
             (
                 Type ruleType

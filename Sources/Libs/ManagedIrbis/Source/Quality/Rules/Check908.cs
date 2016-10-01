@@ -1,5 +1,9 @@
-﻿/* Check908.cs
+﻿/* Check908.cs -- авторский знак
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
+
 
 #region Using directives
 
@@ -9,13 +13,23 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
+
 #endregion
 
 namespace ManagedIrbis.Quality.Rules
 {
     /// <summary>
-    /// Авторский знак
+    /// Авторский знак.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class Check908
         : QualityRule
     {
@@ -80,13 +94,15 @@ namespace ManagedIrbis.Quality.Rules
 
         #endregion
 
-        #region IrbisRule members
+        #region QualityRule members
 
+        /// <inheritdoc />
         public override string FieldSpec
         {
             get { return "908"; }
         }
 
+        /// <inheritdoc />
         public override RuleReport CheckRecord
             (
                 RuleContext context
