@@ -1,4 +1,4 @@
-﻿/* PftModeSwitch.cs -- переключение режима вывода
+﻿/* PftMode.cs -- переключение режима вывода
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -27,7 +27,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class PftModeSwitch
+    public sealed class PftMode
         : PftNode
     {
         #region Properties
@@ -49,14 +49,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PftModeSwitch()
+        public PftMode()
         {
         }
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PftModeSwitch
+        public PftMode
             (
                 [NotNull] string text
             )
