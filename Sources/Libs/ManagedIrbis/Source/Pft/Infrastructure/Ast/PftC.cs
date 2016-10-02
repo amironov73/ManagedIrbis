@@ -105,8 +105,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            base.Execute(context);
-
             int desired = NewPosition * 8;
             int current = context.Output.GetCaretPosition();
             int delta = desired - current;

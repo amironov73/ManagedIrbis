@@ -1,4 +1,4 @@
-﻿/* PftS.cs --
+﻿/* PftS.cs -- конкатенация строк
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -23,7 +23,8 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    /// Функция S возвращает текст, полученный 
+    /// в результате вычисления ее аргумента.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -56,7 +57,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            base.Execute(context);
+            foreach (PftNode child in Children)
+            {
+                child.Execute
+                    (
+                        context
+                    );
+            }
 
             OnAfterExecution(context);
         }

@@ -154,8 +154,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            base.Execute(context);
-
             context.FieldOutputMode = OutputMode;
             context.UpperMode = UpperMode;
 

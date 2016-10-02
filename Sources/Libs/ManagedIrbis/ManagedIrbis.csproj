@@ -262,6 +262,8 @@
     <Compile Include="Source\Pft\Infrastructure\PftProgram.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftOutput.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Testing\PftTest.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Testing\PftTester.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftToken.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftTokenKind.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftTokenList.cs" />

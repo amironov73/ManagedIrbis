@@ -50,6 +50,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #region PftNode members
 
         /// <inheritdoc />
+        public override void Execute
+            (
+                PftContext context
+            )
+        {
+            OnBeforeExecution(context);
+
+            OnAfterExecution(context);
+        }
+
+        /// <inheritdoc />
         public override void Write
             (
                 StreamWriter writer

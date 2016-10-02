@@ -141,7 +141,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {
                     throw new PftSyntaxException(_navigator);
                 }
-                result.Append(ReadChar());
+                c = ReadChar();
+                if (!SubFieldCode.IsValidCode(c))
+                {
+                    throw new PftSyntaxException(_navigator);
+                }
+                result.Append(c);
                 c = PeekChar();
             }
 

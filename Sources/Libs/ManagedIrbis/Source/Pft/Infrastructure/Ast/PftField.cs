@@ -238,7 +238,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 {
                     throw new PftSyntaxException(navigator);
                 }
-                SubField = navigator.ReadChar();
+                c = navigator.ReadChar();
+                if (!SubFieldCode.IsValidCode(c))
+                {
+                    throw new PftSyntaxException(navigator);
+                }
+                SubField = c;
             }
 
             if (c == '[')
@@ -414,8 +419,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             OnBeforeExecution(context);
-
-            base.Execute(context);
 
             OnAfterExecution(context);
         }

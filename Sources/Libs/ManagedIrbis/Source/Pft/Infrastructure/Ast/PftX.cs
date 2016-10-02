@@ -103,8 +103,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            base.Execute(context);
-
             if (Shift > 0)
             {
                 context.Write

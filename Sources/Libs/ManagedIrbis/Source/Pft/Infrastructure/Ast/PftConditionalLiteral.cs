@@ -1,4 +1,4 @@
-﻿/* PftConditionalLiteral.cs --
+﻿/* PftConditionalLiteral.cs -- условный литерал
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -22,7 +22,13 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    /// Определяет текст, который будет выведен только
+    /// в случае присутствия в записи соответствующего
+    /// ему поля/подполя. Если поле является повторяющимся,
+    /// то текст будет выведен только один раз,
+    /// независимо от количества экземпляров поля/подполя.
+    /// Условные  литералы заключаются в двойные кавычки ("),
+    /// например, "Заглавие: ".
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -96,7 +102,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            base.Execute(context);
+            context.Write
+                (
+                    this,
+                    Text
+                );
 
             OnAfterExecution(context);
         }

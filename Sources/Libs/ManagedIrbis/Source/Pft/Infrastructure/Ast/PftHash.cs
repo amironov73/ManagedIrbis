@@ -78,8 +78,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            base.Execute(context);
-
             context.WriteLine(this);
 
             OnAfterExecution(context);

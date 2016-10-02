@@ -119,8 +119,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            base.Execute(context);
-
             if (context.Record != null)
             {
                 string text = context.Record.Mfn

@@ -1,4 +1,4 @@
-﻿/* PftRepeatableLiteral.cs --
+﻿/* PftRepeatableLiteral.cs -- повторяющийся литерал
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -22,7 +22,13 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    /// Определяет текст, который будет выведен только
+    /// в случае присутствия в записи соответствующего
+    /// ему поля или подполя. Однако, если поле
+    /// повторяющееся, литерал будет выводиться
+    /// для каждого экземпляра поля/подполя.
+    /// Повторяющиеся литералы заключаются
+    /// в вертикальные черты (|), например, |Автор: |.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -101,7 +107,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            base.Execute(context);
+            context.Write
+                (
+                    this,
+                    Text
+                );
 
             OnAfterExecution(context);
         }
