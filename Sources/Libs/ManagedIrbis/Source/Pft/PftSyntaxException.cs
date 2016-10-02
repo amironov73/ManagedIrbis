@@ -7,7 +7,7 @@
 #region Using directives
 
 using System;
-
+using AM.Text;
 using JetBrains.Annotations;
 using ManagedIrbis.Pft.Infrastructure;
 
@@ -84,6 +84,20 @@ namespace ManagedIrbis.Pft
                 (
                     "Unexpected token: " + token,
                     innerException
+                )
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftSyntaxException
+            (
+                [NotNull] TextNavigator navigator
+            )
+            : this
+                (
+                    "Syntax error at: " + navigator
                 )
         {
         }

@@ -21,7 +21,7 @@ using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Ast;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -66,6 +66,264 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Private members
 
+        private PftNode ParseGroup()
+        {
+            PftGroup result = new PftGroup();
+
+            PftToken token = Tokens.Current;
+
+            token.MustBe(PftTokenKind.LeftParenthesis);
+            Tokens.RequireNext();
+            while (true)
+            {
+                token = Tokens.Current;
+
+                if (token.Kind == PftTokenKind.RightParenthesis)
+                {
+                    Tokens.MoveNext();
+                    break;
+                }
+
+                if (token.Kind == PftTokenKind.LeftParenthesis)
+                {
+                    throw new PftSyntaxException(token);
+                }
+
+                PftNode node = ParseSimple();
+                result.Children.Add(node);
+
+                Tokens.RequireNext();
+            }
+
+            return result;
+        }
+
+        [NotNull]
+        private PftNode ParseSimple()
+        {
+            PftNode result = null;
+            bool moveNext = true;
+            PftToken token = Tokens.Current;
+
+            switch (token.Kind)
+            {
+                case PftTokenKind.Comma:
+                    result = new PftComma();
+                    break;
+
+                case PftTokenKind.C:
+                    result = new PftC(token);
+                    break;
+
+                case PftTokenKind.ConditionalLiteral:
+                case PftTokenKind.V:
+                case PftTokenKind.RepeatableLiteral:
+                    result = ParseField();
+                    break;
+
+                case PftTokenKind.Hash:
+                    result = new PftHash();
+                    break;
+
+                case PftTokenKind.Mfn:
+                    result = new PftMfn(token);
+                    break;
+
+                case PftTokenKind.Mpl:
+                    result = new PftMode(token);
+                    break;
+
+                case PftTokenKind.Percent:
+                    result = new PftPercent();
+                    break;
+
+                case PftTokenKind.Slash:
+                    result = new PftSlash();
+                    break;
+
+                case PftTokenKind.UnconditionalLiteral:
+                    result = new PftUnconditionalLiteral(token);
+                    break;
+
+                case PftTokenKind.X:
+                    result = new PftX(token);
+                    break;
+
+                default:
+                    throw new PftSyntaxException(token);
+            }
+
+            if (ReferenceEquals(result, null))
+            {
+                throw new PftSyntaxException(token);
+            }
+            if (moveNext)
+            {
+                Tokens.MoveNext();
+            }
+
+            return result;
+        }
+
+        private PftNode ParseField()
+        {
+            PftField result = new PftField();
+            PftToken token;
+            PftNode node;
+            PftRepeatableLiteral literal;
+
+            while (!Tokens.IsEof)
+            {
+                node = null;
+                token = Tokens.Current;
+                switch (token.Kind)
+                {
+                    case PftTokenKind.ConditionalLiteral:
+                        node = new PftConditionalLiteral(token);
+                        break;
+
+                    case PftTokenKind.C:
+                        node = new PftC(token);
+                        break;
+
+                    case PftTokenKind.Comma:
+                        node = new PftComma();
+                        break;
+
+                    case PftTokenKind.Hash:
+                        node = new PftHash();
+                        break;
+
+                    case PftTokenKind.Mpl:
+                        node = new PftMode(token);
+                        break;
+
+                    case PftTokenKind.Percent:
+                        node = new PftPercent();
+                        break;
+
+                    case PftTokenKind.RepeatableLiteral:
+                        // goto next step
+                        break;
+
+                    case PftTokenKind.Slash:
+                        node = new PftSlash();
+                        break;
+
+                    case PftTokenKind.V:
+                        // goto next step
+                        break;
+
+                    case PftTokenKind.X:
+                        node = new PftX(token);
+                        break;
+                }
+
+                if (node != null)
+                {
+                    result.LeftHand.Add(node);
+                    Tokens.MoveNext();
+                }
+            }
+
+            if (!Tokens.IsEof)
+            {
+                token = Tokens.Current;
+                if (token.Kind == PftTokenKind.RepeatableLiteral)
+                {
+                    literal = new PftRepeatableLiteral(token);
+                    result.LeftHand.Add(literal);
+
+                    if (Tokens.Peek() == PftTokenKind.Plus)
+                    {
+                        literal.Plus = true;
+                        Tokens.MoveNext();
+                    }
+
+                    Tokens.MoveNext();
+                }
+            }
+
+            if (!Tokens.IsEof)
+            {
+                token = Tokens.Current;
+                if (token.Kind != PftTokenKind.V)
+                {
+                    goto DONE;
+                }
+                if (string.IsNullOrEmpty(token.Text))
+                {
+                    throw new PftSyntaxException(token);
+                }
+                result.Parse(token.Text);
+                Tokens.MoveNext();
+            }
+
+            if (!Tokens.IsEof)
+            {
+                bool plus = false;
+                token = Tokens.Current;
+                if (token.Kind == PftTokenKind.Plus)
+                {
+                    plus = true;
+                    Tokens.RequireNext();
+                    token = Tokens.Current;
+                }
+                if (token.Kind == PftTokenKind.RepeatableLiteral)
+                {
+                    literal = new PftRepeatableLiteral(token)
+                    {
+                        Plus = plus
+                    };
+                    result.RightHand.Add(literal);
+                    Tokens.MoveNext();
+                }
+                else
+                {
+                    if (plus)
+                    {
+                        throw new PftSyntaxException(token);
+                    }
+                }
+                Tokens.MoveNext();
+            }
+
+            if (!Tokens.IsEof)
+            {
+                token = Tokens.Current;
+                if (token.Kind == PftTokenKind.ConditionalLiteral)
+                {
+                    node = new PftConditionalLiteral(token);
+                    result.RightHand.Add(node);
+                    Tokens.MoveNext();
+                }
+            }
+
+            DONE: return result;
+        }
+
+        private PftNode ParseComposite()
+        {
+            if (Tokens.Current.Kind == PftTokenKind.LeftParenthesis)
+            {
+                return ParseGroup();
+            }
+            return ParseSimple();
+        }
+
+        private PftProgram ParseProgram()
+        {
+            PftProgram result = new PftProgram();
+
+            while (!Tokens.IsEof)
+            {
+                PftNode node = ParseComposite();
+                result.Children.Add(node);
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region Public methods
@@ -76,7 +334,9 @@ namespace ManagedIrbis.Pft.Infrastructure
         [NotNull]
         public PftProgram Parse()
         {
-            return new PftProgram();
+            PftProgram result = ParseProgram();
+
+            return result;
         }
 
         #endregion

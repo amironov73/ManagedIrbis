@@ -94,6 +94,20 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// Peek next token.
+        /// </summary>
+        public PftTokenKind Peek()
+        {
+            int newPosition = _position + 1;
+            if (newPosition >= _tokens.Length)
+            {
+                return PftTokenKind.None;
+            }
+
+            return _tokens[newPosition].Kind;
+        }
+
+        /// <summary>
         /// Require next token.
         /// </summary>
         public PftTokenList RequireNext()

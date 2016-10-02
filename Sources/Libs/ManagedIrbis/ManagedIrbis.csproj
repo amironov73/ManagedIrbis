@@ -245,6 +245,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftField.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftGroup.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftHash.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftMfn.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftMode.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftPercent.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftRepeatableLiteral.cs" />

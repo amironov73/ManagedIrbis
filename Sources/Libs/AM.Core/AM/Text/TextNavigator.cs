@@ -1016,6 +1016,30 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Restore previously saved position.
+        /// </summary>
+        public void RestorePosition
+            (
+                [NotNull] TextPosition saved
+            )
+        {
+            Code.NotNull(saved, "saved");
+
+            _column = saved.Column;
+            _line = saved.Line;
+            _position = saved.Position;
+        }
+
+        /// <summary>
+        /// Save current position.
+        /// </summary>
+        [NotNull]
+        public TextPosition SavePosition()
+        {
+            return new TextPosition(this);
+        }
+
+        /// <summary>
         /// Пропускает один символ, если он совпадает с указанным.
         /// </summary>
         /// <returns><c>true</c>, если символ был съеден успешно
@@ -1220,6 +1244,21 @@ namespace AM.Text
                     return true;
                 }
             }
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return string.Format
+                (
+                    "Line={0}, Column={1}",
+                    Line,
+                    Column
+                );
         }
 
         #endregion

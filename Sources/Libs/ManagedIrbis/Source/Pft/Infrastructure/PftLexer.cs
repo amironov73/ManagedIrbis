@@ -74,9 +74,189 @@ namespace ManagedIrbis.Pft.Infrastructure
             return _navigator.PeekChar();
         }
 
+        private string PeekString(int length)
+        {
+            return _navigator.PeekString(length);
+        }
+
         private char ReadChar()
         {
             return _navigator.ReadChar();
+        }
+
+        [CanBeNull]
+        private string ReadField()
+        {
+            StringBuilder result = new StringBuilder();
+            bool good;
+            char c = PeekChar();
+
+            if (!c.IsArabicDigit())
+            {
+                return null;
+            }
+            ReadChar();
+            result.Append(c);
+
+            while (true)
+            {
+                c = PeekChar();
+                if (!c.IsArabicDigit())
+                {
+                    break;
+                }
+                ReadChar();
+                result.Append(c);
+            }
+
+            if (c == '@')
+            {
+                ReadChar();
+                result.Append(c);
+
+                good = false;
+                while (true)
+                {
+                    c = PeekChar();
+                    if (!c.IsArabicDigit())
+                    {
+                        break;
+                    }
+                    ReadChar();
+                    result.Append(c);
+                    good = true;
+                }
+
+                if (!good)
+                {
+                    throw new PftSyntaxException(_navigator);
+                }
+            }
+
+            if (c == '^')
+            {
+                ReadChar();
+                result.Append(c);
+                if (IsEOF)
+                {
+                    throw new PftSyntaxException(_navigator);
+                }
+                result.Append(ReadChar());
+                c = PeekChar();
+            }
+
+            if (c == '[')
+            {
+                ReadChar();
+                result.Append(c);
+
+                good = false;
+                while (true)
+                {
+                    c = ReadChar();
+                    if (c == ']')
+                    {
+                        result.Append(c);
+                        c = PeekChar();
+                        break;
+                    }
+                    if (c.IsArabicDigit())
+                    {
+                        good = true;
+                        result.Append(c);
+                    }
+                    else
+                    {
+                        throw new PftSyntaxException(_navigator);
+                    }
+                }
+
+                if (!good)
+                {
+                    throw new PftSyntaxException(_navigator);
+                }
+            }
+
+            if (c == '*')
+            {
+                ReadChar();
+                result.Append(c);
+
+                good = false;
+                while (true)
+                {
+                    c = PeekChar();
+                    if (!c.IsArabicDigit())
+                    {
+                        break;
+                    }
+                    good = true;
+                    ReadChar();
+                    result.Append(c);
+                }
+
+                if (!good)
+                {
+                    throw new PftSyntaxException(_navigator);
+                }
+            }
+
+            if (c == '.')
+            {
+                ReadChar();
+                result.Append(c);
+
+                good = false;
+                while (true)
+                {
+                    c = PeekChar();
+                    if (!c.IsArabicDigit())
+                    {
+                        break;
+                    }
+                    good = true;
+                    ReadChar();
+                    result.Append(c);
+                }
+
+                if (!good)
+                {
+                    throw new PftSyntaxException(_navigator);
+                }
+            }
+
+            if (c == '(')
+            {
+                ReadChar();
+                result.Append(c);
+
+                good = false;
+                while (true)
+                {
+                    c = ReadChar();
+                    if (c == ')')
+                    {
+                        result.Append(c);
+                        break;
+                    }
+                    if (c.IsArabicDigit())
+                    {
+                        good = true;
+                        result.Append(c);
+                    }
+                    else
+                    {
+                        throw new PftSyntaxException(_navigator);
+                    }
+                }
+
+                if (!good)
+                {
+                    throw new PftSyntaxException(_navigator);
+                }
+            }
+
+            return result.ToString();
         }
 
         [NotNull]
@@ -177,6 +357,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 char c = ReadChar();
                 char c2;
                 string value = null;
+                string value2 = null;
                 int line = Line;
                 int column = Column;
                 PftTokenKind kind = PftTokenKind.None;
@@ -352,6 +533,17 @@ namespace ManagedIrbis.Pft.Infrastructure
                         kind = PftTokenKind.C;
                         break;
 
+                    case 'd':
+                    case 'D':
+                        value2 = ReadField();
+                        if (value2 == null)
+                        {
+                            goto default;
+                        }
+                        value = c + value2;
+                        kind = PftTokenKind.V;
+                        break;
+
                     case 'f':
                     case 'F':
                         if (IsIdentifier(PeekChar()))
@@ -372,13 +564,36 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case 'm':
                     case 'M':
-                        value = ReadIdentifier();
-                        if (value.Length != 3)
+                        value2 = PeekString(2).ToLower();
+                        if (value2 == "fn")
+                        {
+                            kind = PftTokenKind.Mfn;
+                            break;
+                        }
+                        if (value2.Length != 2)
                         {
                             goto default;
                         }
-                        // TODO Differentiate
-                        kind = PftTokenKind.Mpl;
+                        if ((value2[0] == 'h'
+                             || value2[0] == 'p')
+                            && (value2[1] == 'l'
+                                || value2[1] == 'u'))
+                        {
+                            kind = PftTokenKind.Mpl;
+                            value = c + value2;
+                            break;
+                        }
+                        goto default;
+
+                    case 'n':
+                    case 'N':
+                        value2 = ReadField();
+                        if (value2 == null)
+                        {
+                            goto default;
+                        }
+                        value = c + value2;
+                        kind = PftTokenKind.V;
                         break;
 
                     case 'p':
@@ -401,7 +616,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case 'v':
                     case 'V':
-                        // TODO Differentiate from identifier
+                        value2 = ReadField();
+                        if (value2 == null)
+                        {
+                            goto default;
+                        }
+                        value = c + value2;
                         kind = PftTokenKind.V;
                         break;
 

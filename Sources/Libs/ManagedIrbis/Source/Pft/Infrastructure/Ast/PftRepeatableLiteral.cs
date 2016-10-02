@@ -31,6 +31,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     {
         #region Properties
 
+        /// <summary>
+        /// Plus?
+        /// </summary>
+        public bool Plus { get; set; }
+
         #endregion
 
         #region Construction
