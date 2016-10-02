@@ -52,7 +52,7 @@ namespace UnitTests.ManagedIrbis.Search.Infrastructure
         {
             SearchTokenList tokens = SearchQueryLexer.Tokenize(text);
             SearchQueryParser parser = new SearchQueryParser(tokens);
-            SearchProgram program = parser.Parse(tokens);
+            SearchProgram program = parser.Parse();
             string actual = program.ToString();
 
             Assert.AreEqual(expected, actual);
@@ -65,7 +65,7 @@ namespace UnitTests.ManagedIrbis.Search.Infrastructure
         {
             SearchTokenList tokens = SearchQueryLexer.Tokenize(text);
             SearchQueryParser parser = new SearchQueryParser(tokens);
-            SearchProgram program = parser.Parse(tokens);
+            SearchProgram program = parser.Parse();
             string actual = program.ToString();
             Assert.IsNotNull(actual);
         }
@@ -160,7 +160,7 @@ namespace UnitTests.ManagedIrbis.Search.Infrastructure
         {
             SearchTokenList tokens = SearchQueryLexer.Tokenize(text);
             SearchQueryParser parser = new SearchQueryParser(tokens);
-            SearchProgram program = parser.Parse(tokens);
+            SearchProgram program = parser.Parse();
             string[] terms = SearchQueryUtility.ExtractTerms(program);
 
             Assert.AreEqual(expected, terms.Length);

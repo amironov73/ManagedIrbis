@@ -9,6 +9,7 @@
 using System;
 
 using JetBrains.Annotations;
+using ManagedIrbis.Pft.Infrastructure;
 
 #endregion
 
@@ -49,14 +50,41 @@ namespace ManagedIrbis.Pft
         /// </summary>
         public PftSyntaxException
             (
+                [NotNull] PftToken token
+            )
+            : this ("Unexpected token: " + token)
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftSyntaxException
+            (
                 string message,
                 Exception innerException
             )
             : base
+                (
+                    message,
+                    innerException
+                )
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftSyntaxException
             (
-                message,
-                innerException
+                [NotNull] PftToken token,
+                Exception innerException
             )
+            : this 
+                (
+                    "Unexpected token: " + token,
+                    innerException
+                )
         {
         }
 

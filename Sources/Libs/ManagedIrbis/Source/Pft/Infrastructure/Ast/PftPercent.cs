@@ -6,13 +6,7 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CodeJam;
+using System.IO;
 
 using JetBrains.Annotations;
 
@@ -23,7 +17,16 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
+    /// Команда % подавляет все последовательно
+    /// расположенные пустые строки(если они имеются)
+    /// между текущей строкой и последней непустой строкой.
+    /// Таким образом, формат
     /// 
+    /// %##V10%##V20%##V30 ...
+    /// 
+    /// приведет к созданию одной и только одной пустой
+    /// строки между каждым полем, независимо от их наличия
+    /// или отсутствия в документе.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -58,8 +61,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             base.Execute(context);
 
+            context.Output.RemoveEmptyLine();
+
             OnAfterExecution(context);
         }
+
+        /// <inheritdoc />
+        public override void Write
+            (
+                StreamWriter writer
+            )
+        {
+            // Обрамляем пробелами
+            writer.Write(" % ");
+        }
+
 
         #endregion
     }

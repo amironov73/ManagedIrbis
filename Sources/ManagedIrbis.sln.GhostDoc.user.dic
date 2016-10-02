@@ -33,6 +33,7 @@ jfif
 jpeg
 Json
 kladr
+Lexer
 Localizable
 Magna
 memberwise
@@ -45,11 +46,15 @@ okato
 okpo
 oktmo
 Powrprof
+ravr
 Readonly
 Recordset
 referencesource
 resizeable
 Rfid
+rmax
+rmin
+rsum
 Rubricator
 Rusmarc
 Sigla

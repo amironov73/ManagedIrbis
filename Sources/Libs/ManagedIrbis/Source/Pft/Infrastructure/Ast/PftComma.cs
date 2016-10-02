@@ -24,7 +24,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// Оператор "запятая"
+    /// Оператор "запятая".
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]

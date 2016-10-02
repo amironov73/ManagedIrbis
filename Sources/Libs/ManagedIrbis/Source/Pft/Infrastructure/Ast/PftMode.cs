@@ -61,6 +61,53 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 [NotNull] string text
             )
         {
+            try
+            {
+                ParseText(text);
+            }
+            catch (Exception exception)
+            {
+                throw new PftSyntaxException("bad mode text", exception);
+            }
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftMode
+            (
+                [NotNull] PftToken token
+            )
+        {
+            Code.NotNull(token, "token");
+            token.MustBe(PftTokenKind.Mpl);
+
+            try
+            {
+                ParseText(token.Text);
+            }
+            catch (Exception exception)
+            {
+                throw new PftSyntaxException(token, exception);
+            }
+        }
+
+        #endregion
+
+        #region Private members
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Parse specified text.
+        /// </summary>
+        public void ParseText
+            (
+                [NotNull] string text
+            )
+        {
             Code.NotNullNorEmpty(text, "text");
 
             text = text.ToLower();
@@ -94,14 +141,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     throw new ArgumentException();
             }
         }
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 

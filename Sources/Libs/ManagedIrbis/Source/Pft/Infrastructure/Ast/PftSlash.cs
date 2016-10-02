@@ -1,4 +1,4 @@
-﻿/* PftSlash.cs --
+﻿/* PftSlash.cs -- переход на новую строку
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -6,13 +6,7 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CodeJam;
+using System.IO;
 
 using JetBrains.Annotations;
 
@@ -23,8 +17,13 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
-    /// </summary>
+    /// Команда / приводит к размещению последующих данных
+    /// с начала следующей строки.
+    /// Однако подряд расположенные команды /, 
+    /// хотя и являются синтаксически правильными,
+    /// но имеют тот же смысл, что и одна команда /,
+    /// т.е.команда / никогда не создает пустых строк.
+      /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftSlash
@@ -58,7 +57,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             base.Execute(context);
 
+            if (!context.Output.HaveEmptyLine())
+            {
+                context.WriteLine(this);
+            }
+
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc />
+        public override void Write
+            (
+                StreamWriter writer
+            )
+        {
+            // Обрамляем пробелами
+            writer.Write(" / ");
         }
 
         #endregion

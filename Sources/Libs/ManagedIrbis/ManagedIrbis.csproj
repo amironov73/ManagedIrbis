@@ -252,6 +252,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftSlash.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftUnconditionalLiteral.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftX.cs" />
+    <Compile Include="Source\Pft\Infrastructure\PftLexer.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftNode.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftContext.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftDebugEventArgs.cs" />

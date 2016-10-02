@@ -1,4 +1,4 @@
-﻿/* PftX.cs --
+﻿/* PftX.cs -- вставляет n пробелов
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -7,10 +7,9 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+
+using AM;
 
 using CodeJam;
 
@@ -23,7 +22,8 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    /// Команда горизонтального позиционирования.
+    /// Вставляет n пробелов.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -32,9 +32,56 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     {
         #region Properties
 
+        /// <summary>
+        /// Количество добавляемых пробелов.
+        /// </summary>
+        public int Shift { get; set; }
+
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftX()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftX
+            (
+                int shift
+            )
+        {
+            Shift = shift;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftX
+            (
+                [NotNull] PftToken token
+            )
+        {
+            Code.NotNull(token, "token");
+            token.MustBe(PftTokenKind.X);
+
+            try
+            {
+                Shift = int.Parse
+                (
+                    token.Text.ThrowIfNull("token.Text")
+                );
+            }
+            catch (Exception exception)
+            {
+                throw new PftSyntaxException(token, exception);
+            }
+        }
 
         #endregion
 
@@ -58,7 +105,29 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             base.Execute(context);
 
+            if (Shift > 0)
+            {
+                context.Write
+                    (
+                        this,
+                        new string(' ', Shift)
+                    );
+            }
+
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc />
+        public override void Write
+            (
+                StreamWriter writer
+            )
+        {
+            writer.Write
+                (
+                    "x{0}", // Всегда в нижнем регистре
+                    Shift.ToInvariantString()
+                );
         }
 
         #endregion

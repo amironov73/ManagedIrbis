@@ -405,16 +405,11 @@ namespace ManagedIrbis.Search.Infrastructure
         /// Parse the token list.
         /// </summary>
         [NotNull]
-        public SearchProgram Parse
-            (
-                [NotNull] SearchTokenList list
-            )
+        public SearchProgram Parse()
         {
-            Code.NotNull(list, "list");
-
             SearchProgram result = new SearchProgram();
 
-            if (list.Length != 0)
+            if (Tokens.Length != 0)
             {
                 SearchLevel6 entryPoint = ParseLevel6();
                 result.EntryPoint = entryPoint;

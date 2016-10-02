@@ -7,10 +7,9 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+
+using AM;
 
 using CodeJam;
 
@@ -36,6 +35,47 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftRepeatableLiteral()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftRepeatableLiteral
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNull(text, "text");
+
+            Text = text;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftRepeatableLiteral
+            (
+                [NotNull] PftToken token
+            )
+        {
+            Code.NotNull(token, "token");
+            token.MustBe(PftTokenKind.UnconditionalLiteral);
+
+            try
+            {
+                Text = token.Text.ThrowIfNull("token.Text");
+            }
+            catch (Exception exception)
+            {
+                throw new PftSyntaxException(token, exception);
+            }
+        }
+
         #endregion
 
         #region Private members
@@ -60,6 +100,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             OnAfterExecution(context);
         }
+
+        /// <inheritdoc />
+        public override void Write
+            (
+                StreamWriter writer
+            )
+        {
+            writer.Write('|');
+            writer.Write(Text);
+            writer.Write('|');
+        }
+
 
         #endregion
     }
