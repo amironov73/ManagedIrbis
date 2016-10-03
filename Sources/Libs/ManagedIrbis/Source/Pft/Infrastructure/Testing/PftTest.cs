@@ -100,10 +100,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
             PftLexer lexer = new PftLexer();
             PftTokenList tokenList = lexer.Tokenize(pftText);
             tokenList.Dump(Console.Out);
+            Console.WriteLine();
             
             PftParser parser = new PftParser(tokenList);
             PftProgram program = parser.Parse();
             program.PrintDebug(Console.Out,0);
+            Console.WriteLine();
 
             PftFormatter formatter = new PftFormatter
             {
@@ -112,8 +114,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
             string result = formatter.Format(record);
             Console.WriteLine(result);
 
-            //string backFormat = program.ToString();
-            //Console.WriteLine(backFormat);
 
             return true;
         }

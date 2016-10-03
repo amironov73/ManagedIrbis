@@ -100,12 +100,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
             Code.NotNull(test, "test");
 
             string name = Path.GetFileName(test.Folder);
+            ConsoleColor foreColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write("{0}: ", name);
+            Console.ForegroundColor = foreColor;
 
             try
             {
                 test.Run();
-                Console.Write(" OK");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine();
+                Console.WriteLine("OK");
+                Console.ForegroundColor = foreColor;
+                Console.WriteLine(new string('=', 70));
+                Console.WriteLine();
             }
             catch (Exception exception)
             {

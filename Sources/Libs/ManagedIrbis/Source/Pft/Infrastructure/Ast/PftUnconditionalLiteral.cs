@@ -96,11 +96,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            context.Write
-                (
-                    this,
-                    Text
-                );
+            if (!context.BreakFlag)
+            {
+                context.Write
+                    (
+                        this,
+                        Text
+                    );
+            }
 
             OnAfterExecution(context);
         }

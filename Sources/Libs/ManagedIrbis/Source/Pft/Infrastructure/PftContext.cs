@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Ast;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -71,6 +71,33 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Режим перевода текста в верхний регистр при выводе полей.
         /// </summary>
         public bool UpperMode { get; set; }
+
+        /// <summary>
+        /// Текущая группа (если есть).
+        /// </summary>
+        [CanBeNull]
+        public PftGroup CurrentGroup { get; internal set; }
+
+        /// <summary>
+        /// Номер повторения в текущей группе.
+        /// </summary>
+        public int Index { get; internal set; }
+
+        /// <summary>
+        /// Флаг, устанавливается при наличии вывода при заданном повторении.
+        /// </summary>
+        public bool OutputFlag { get; internal set; }
+
+        /// <summary>
+        /// Флаг, устанавливается при срабатывании оператора break.
+        /// </summary>
+        public bool BreakFlag { get; internal set; }
+
+        /// <summary>
+        /// Текущее обрабатываемое поле записи, если есть.
+        /// </summary>
+        [CanBeNull]
+        public PftField CurrentField { get; internal set; }
 
         ///// <summary>
         ///// Глобальные переменные.

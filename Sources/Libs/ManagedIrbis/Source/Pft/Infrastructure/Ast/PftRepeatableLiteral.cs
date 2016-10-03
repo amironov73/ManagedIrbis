@@ -38,6 +38,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #region Properties
 
         /// <summary>
+        /// Prefix or postfix?
+        /// </summary>
+        public bool IsPrefix { get; set; }
+
+        /// <summary>
         /// Plus?
         /// </summary>
         public bool Plus { get; set; }
@@ -75,7 +80,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             Code.NotNull(token, "token");
-            token.MustBe(PftTokenKind.UnconditionalLiteral);
+            token.MustBe(PftTokenKind.RepeatableLiteral);
 
             try
             {
@@ -107,11 +112,49 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            context.Write
-                (
-                    this,
-                    Text
-                );
+            PftGroup group = context.CurrentGroup;
+            PftField field = context.CurrentField;
+
+            if (!context.BreakFlag)
+            {
+                if (group != null)
+                {
+                    // TODO Поддержка повторяющегося литерала в группе
+
+                }
+                else
+                {
+                    if (field != null)
+                    {
+                        int count = field.GetCount(context);
+                        if (count != 0)
+                        {
+                            bool flag = true;
+
+                            if (Plus)
+                            {
+                                if (IsPrefix)
+                                {
+                                    flag = context.Index != 0;
+                                }
+                                else
+                                {
+                                    flag = context.Index < (count - 1);
+                                }
+                            }
+
+                            if (flag)
+                            {
+                                context.Write
+                                    (
+                                        this,
+                                        Text
+                                    );
+                            }
+                        }
+                    }
+                }
+            }
 
             OnAfterExecution(context);
         }

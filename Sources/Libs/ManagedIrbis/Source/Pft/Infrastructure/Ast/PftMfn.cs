@@ -119,16 +119,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            if (context.Record != null)
+            if (!context.BreakFlag)
             {
-                string text = context.Record.Mfn
-                    .ToInvariantString();
+                if (context.Record != null)
+                {
+                    string text = context.Record.Mfn
+                        .ToInvariantString();
 
-                context.Write
-                    (
-                        this,
-                        text
-                    );
+                    context.Write
+                        (
+                            this,
+                            text
+                        );
+                }
             }
 
             OnAfterExecution(context);

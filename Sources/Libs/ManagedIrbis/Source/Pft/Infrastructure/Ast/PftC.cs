@@ -105,16 +105,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            int desired = NewPosition * 8;
-            int current = context.Output.GetCaretPosition();
-            int delta = desired - current;
-            if (delta > 0)
+            if (!context.BreakFlag)
             {
-                context.Write
-                    (
-                        this,
-                        new string(' ', delta)
-                    );
+                int desired = NewPosition*8;
+                int current = context.Output.GetCaretPosition();
+                int delta = desired - current;
+                if (delta > 0)
+                {
+                    context.Write
+                        (
+                            this,
+                            new string(' ', delta)
+                        );
+                }
             }
 
             OnAfterExecution(context);

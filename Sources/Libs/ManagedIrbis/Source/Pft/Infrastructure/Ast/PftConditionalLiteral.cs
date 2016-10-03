@@ -70,7 +70,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             Code.NotNull(token, "token");
-            token.MustBe(PftTokenKind.UnconditionalLiteral);
+            token.MustBe(PftTokenKind.ConditionalLiteral);
 
             try
             {
@@ -102,11 +102,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            context.Write
-                (
-                    this,
-                    Text
-                );
+            if (!context.BreakFlag)
+            {
+                if (context.Index == 0)
+                {
+                    context.Write
+                        (
+                            this,
+                            Text
+                        );
+                }
+            }
 
             OnAfterExecution(context);
         }

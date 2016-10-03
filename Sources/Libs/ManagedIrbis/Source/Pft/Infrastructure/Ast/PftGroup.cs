@@ -54,10 +54,50 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftContext context
             )
         {
-            OnBeforeExecution(context);
+            if (context.CurrentGroup != null)
+            {
+                throw new PftSemanticException("Nested group");
+            }
 
+            if (!context.BreakFlag)
+            {
+                try
+                {
+                    context.CurrentGroup = this;
+                    context.Index = 0;
 
-            OnAfterExecution(context);
+                    OnBeforeExecution(context);
+
+                    while (true)
+                    {
+                        context.OutputFlag = false;
+
+                        foreach (PftNode child in Children)
+                        {
+                            child.Execute(context);
+
+                            if (context.BreakFlag)
+                            {
+                                break;
+                            }
+                        }
+
+                        if (!context.OutputFlag
+                            || context.BreakFlag)
+                        {
+                            break;
+                        }
+
+                        context.Index++;
+                    }
+
+                    OnAfterExecution(context);
+                }
+                finally
+                {
+                    context.CurrentGroup = null;
+                }
+            }
         }
 
         #endregion

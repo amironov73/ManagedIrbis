@@ -1,4 +1,4 @@
-﻿/* PftS.cs -- конкатенация строк
+﻿/* PftBreak.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -23,12 +23,11 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// Функция S возвращает текст, полученный 
-    /// в результате вычисления ее аргумента.
+    /// 
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class PftS
+    public sealed class Break
         : PftNode
     {
         #region Properties
@@ -57,16 +56,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            if (!context.BreakFlag)
-            {
-                foreach (PftNode child in Children)
-                {
-                    child.Execute
-                        (
-                            context
-                        );
-                }
-            }
+            context.BreakFlag = true;
 
             OnAfterExecution(context);
         }

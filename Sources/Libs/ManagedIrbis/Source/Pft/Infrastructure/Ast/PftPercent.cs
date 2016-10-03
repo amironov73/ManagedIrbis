@@ -59,7 +59,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            context.Output.RemoveEmptyLine();
+            if (!context.BreakFlag)
+            {
+                context.Output.RemoveEmptyLine();
+            }
 
             OnAfterExecution(context);
         }

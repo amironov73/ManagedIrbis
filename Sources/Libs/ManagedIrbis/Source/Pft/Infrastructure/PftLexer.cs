@@ -359,12 +359,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                     break;
                 }
 
+                int line = Line;
+                int column = Column;
                 char c = ReadChar();
                 char c2;
                 string value = null;
                 string value2 = null;
-                int line = Line;
-                int column = Column;
                 PftTokenKind kind = PftTokenKind.None;
                 switch (c)
                 {
@@ -750,7 +750,5 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         #endregion
-
-
     }
 }

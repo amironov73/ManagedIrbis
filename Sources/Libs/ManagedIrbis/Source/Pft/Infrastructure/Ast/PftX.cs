@@ -103,13 +103,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            if (Shift > 0)
+            if (!context.BreakFlag)
             {
-                context.Write
-                    (
-                        this,
-                        new string(' ', Shift)
-                    );
+                if (Shift > 0)
+                {
+                    context.Write
+                        (
+                            this,
+                            new string(' ', Shift)
+                        );
+                }
             }
 
             OnAfterExecution(context);

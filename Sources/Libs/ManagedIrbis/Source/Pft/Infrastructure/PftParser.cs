@@ -91,8 +91,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 PftNode node = ParseSimple();
                 result.Children.Add(node);
-
-                Tokens.RequireNext();
             }
 
             return result;
@@ -119,6 +117,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 case PftTokenKind.V:
                 case PftTokenKind.RepeatableLiteral:
                     result = ParseField();
+                    moveNext = false;
                     break;
 
                 case PftTokenKind.Hash:
@@ -219,7 +218,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                         break;
                 }
 
-                if (node != null)
+                if (node == null)
+                {
+                    break;
+                }
+                else
                 {
                     result.LeftHand.Add(node);
                     Tokens.MoveNext();
@@ -231,7 +234,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                 token = Tokens.Current;
                 if (token.Kind == PftTokenKind.RepeatableLiteral)
                 {
-                    literal = new PftRepeatableLiteral(token);
+                    literal = new PftRepeatableLiteral(token)
+                    {
+                        IsPrefix = true
+                    };
                     result.LeftHand.Add(literal);
 
                     if (Tokens.Peek() == PftTokenKind.Plus)
@@ -285,7 +291,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                         throw new PftSyntaxException(token);
                     }
                 }
-                Tokens.MoveNext();
             }
 
             if (!Tokens.IsEof)

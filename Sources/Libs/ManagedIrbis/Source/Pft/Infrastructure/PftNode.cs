@@ -173,9 +173,16 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             OnBeforeExecution(context);
 
-            foreach (PftNode child in Children)
+            if (!context.BreakFlag)
             {
-                child.Execute(context);
+                foreach (PftNode child in Children)
+                {
+                    child.Execute(context);
+                    if (context.BreakFlag)
+                    {
+                        break;
+                    }
+                }
             }
 
             OnAfterExecution(context);

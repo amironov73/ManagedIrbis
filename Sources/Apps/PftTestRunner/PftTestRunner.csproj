@@ -153,6 +153,37 @@
   <ItemGroup>
     <None Include="Tests\010\description.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Tests\011\description.txt" />
+    <None Include="Tests\011\expected.txt" />
+    <None Include="Tests\011\input.txt" />
+    <None Include="Tests\011\record.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tests\014\description.txt" />
+    <None Include="Tests\014\expected.txt" />
+    <None Include="Tests\014\input.txt" />
+    <None Include="Tests\014\record.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tests\012\description.txt" />
+    <None Include="Tests\012\expected.txt" />
+    <None Include="Tests\012\input.txt" />
+    <None Include="Tests\012\record.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tests\013\description.txt" />
+    <None Include="Tests\013\expected.txt" />
+    <None Include="Tests\013\input.txt" />
+    <None Include="Tests\013\record.txt" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Tests\015\description.txt" />
+    <None Include="Tests\015\expected.txt" />
+    <None Include="Tests\015\input.txt" />
+    <None Include="Tests\015\record.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
