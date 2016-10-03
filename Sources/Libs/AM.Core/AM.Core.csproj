@@ -190,10 +190,11 @@
     <Compile Include="AM\Reflection\PropertyOrField.cs" />
     <Compile Include="AM\Reflection\ReflectionUtility.cs" />
     <Compile Include="AM\Resources\LocalizationManager.cs" />
-    <Compile Include="AM\Runtime\DumbSerializer.cs" />
+    <Compile Include="AM\Runtime\HandmadeSerializer.cs" />
     <Compile Include="AM\Runtime\IHandmadeSerializable.cs" />
     <Compile Include="AM\Runtime\NumberUnion.cs" />
     <Compile Include="AM\Runtime\PinnedStructure.cs" />
+    <Compile Include="AM\Runtime\PrefixLength.cs" />
     <Compile Include="AM\Runtime\SerializationUtility.cs" />
     <Compile Include="AM\Text\Hyphenation\EnglishHyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\Hyphenator.cs" />
@@ -279,6 +280,7 @@
     <Compile Include="Compatibility\ComponentModel.cs" />
     <Compile Include="Compatibility\Data.cs" />
     <Compile Include="Compatibility\DummyClass.cs" />
+    <Compile Include="Compatibility\JetBrains.cs" />
     <Compile Include="Compatibility\MoonSharp.cs" />
     <Compile Include="Compatibility\Reflection.cs" />
     <Compile Include="Compatibility\StringBuilderCompability.cs" />

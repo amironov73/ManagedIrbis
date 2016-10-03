@@ -142,6 +142,7 @@
     <Compile Include="AM\Reflection\FieldAccessorTest.cs" />
     <Compile Include="AM\Runtime\InteropUtilityTest.cs" />
     <Compile Include="AM\Runtime\NumberUnionTest.cs" />
+    <Compile Include="AM\Runtime\HandmadeSerializerTest.cs" />
     <Compile Include="AM\StringUtiltityTest.cs" />
     <Compile Include="AM\NumberTextTest.cs" />
     <Compile Include="AM\Text\Hyphenation\RussianHyphenatorTest.cs" />
