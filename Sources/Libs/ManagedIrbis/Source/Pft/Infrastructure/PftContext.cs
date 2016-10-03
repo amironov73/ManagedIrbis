@@ -96,7 +96,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public PftContext
             (
-                [NotNull] PftFormatter formatter,
+                [CanBeNull] PftFormatter formatter,
                 [CanBeNull] PftContext parent
             )
         {

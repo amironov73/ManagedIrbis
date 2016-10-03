@@ -12,7 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -87,7 +87,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 (
                     recordFile,
                     IrbisEncoding.Utf8
-                );
+                )
+                .ThrowIfNull("record");
 
             string pftFile = GetFullName("input.txt");
             string pftText = File.ReadAllText
@@ -98,11 +99,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
 
             PftLexer lexer = new PftLexer();
             PftTokenList tokenList = lexer.Tokenize(pftText);
+            tokenList.Dump(Console.Out);
+            
             PftParser parser = new PftParser(tokenList);
             PftProgram program = parser.Parse();
+            program.PrintDebug(Console.Out,0);
 
-            string backFormat = program.ToString();
-            Console.WriteLine(backFormat);
+            PftFormatter formatter = new PftFormatter
+            {
+                Program = program
+            };
+            string result = formatter.Format(record);
+            Console.WriteLine(result);
+
+            //string backFormat = program.ToString();
+            //Console.WriteLine(backFormat);
 
             return true;
         }

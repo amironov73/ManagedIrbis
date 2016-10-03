@@ -339,6 +339,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         public bool HaveEmptyLine()
         {
             StringBuilder builder = _normal.GetStringBuilder();
+
+            if (builder.Length == 0)
+            {
+                return false;
+            }
+
             bool result = true;
             int pos;
             for (pos = builder.Length - 1; pos >= 0; pos--)

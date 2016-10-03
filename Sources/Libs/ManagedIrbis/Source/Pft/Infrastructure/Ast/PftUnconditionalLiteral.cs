@@ -117,5 +117,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         #endregion
+
+        #region Object members
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return '\'' + Text + '\'';
+        }
+
+        #endregion
     }
 }

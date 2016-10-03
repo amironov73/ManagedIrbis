@@ -75,16 +75,16 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Construction
 
-        //// <summary>
-        ///// Constructor.
-        ///// </summary>
-        //public PftFormatter()
-        //    : this
-        //    (
-        //        new PftContext(this, null)
-        //    )
-        //{
-        //}
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftFormatter()
+            : this
+            (
+                new PftContext(null, null)
+            )
+        {
+        }
 
         /// <summary>
         /// Constructor.

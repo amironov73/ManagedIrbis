@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -82,6 +83,28 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Dump token list.
+        /// </summary>
+        public void Dump
+            (
+                [NotNull] TextWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+
+            writer.WriteLine
+                (
+                    "Total tokens: {0}",
+                    _tokens.Length
+                );
+            foreach (PftToken token in _tokens)
+            {
+                Console.WriteLine(token);
+            }
+        }
 
         /// <summary>
         /// Move to next token.
