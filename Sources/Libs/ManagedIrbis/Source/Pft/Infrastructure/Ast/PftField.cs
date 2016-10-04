@@ -146,7 +146,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.V);
 
-            FieldSpecification specification = ((FieldSpecification) token.UserData)
+            FieldSpecification specification = ((FieldSpecification)token.UserData)
                 .ThrowIfNull("token.UserData");
             Apply(specification);
         }
@@ -283,6 +283,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Length = specification.Length;
             SubField = specification.SubField;
             Tag = specification.Tag;
+
+            Text = specification.ToString();
         }
 
         /// <summary>
@@ -323,7 +325,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 return null;
             }
 
-            RecordField field = record.Fields.GetField(Tag, context.Index);
+            int index = context.Index;
+            if (IndexFrom != 0)
+            {
+                index = index + IndexFrom - 1;
+            }
+
+            if (IndexTo != 0)
+            {
+                if (index >= IndexTo)
+                {
+                    return null;
+                }
+            }
+
+            RecordField field = record.Fields.GetField(Tag, index);
             if (field == null)
             {
                 return null;
@@ -333,7 +349,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (SubField == NoSubField)
             {
-                result = field.ToText();
+                result = field.FormatField
+                    (
+                        context.FieldOutputMode,
+                        context.UpperMode
+                    );
             }
             else if (SubField == '*')
             {
@@ -370,7 +390,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             return field != null;
         }
-        
+
         /// <summary>
         /// Limit text.
         /// </summary>
@@ -402,9 +422,49 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
+        /// <summary>
+        /// Convert to <see cref="FieldSpecification"/>.
+        /// </summary>
+        [NotNull]
+        public FieldSpecification ToSpecification()
+        {
+            FieldSpecification result = new FieldSpecification
+            {
+                Command = Command,
+                Embedded = Embedded,
+                Indent = Indent,
+                IndexFrom = IndexFrom,
+                IndexTo = IndexTo,
+                Offset = Offset,
+                Length = Length,
+                SubField = SubField,
+                Tag = Tag
+            };
+
+            return result;
+        }
+
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc/>
+        public override void PrintDebug
+            (
+                TextWriter writer,
+                int level
+            )
+        {
+            base.PrintDebug(writer, level);
+            foreach (PftNode node in LeftHand)
+            {
+                node.PrintDebug(writer, level + 1);
+            }
+            foreach (PftNode node in RightHand)
+            {
+                node.PrintDebug(writer, level + 1);
+            }
+        }
 
         /// <inheritdoc />
         public override void Execute
@@ -472,59 +532,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <inheritdoc/>
         public override string ToString()
         {
-            StringBuilder result = new StringBuilder();
-
-            result.Append(Command);
-            result.Append(Tag);
-            if (!string.IsNullOrEmpty(Embedded))
-            {
-                result.Append('@');
-                result.Append(Embedded);
-            }
-            if (SubField != NoSubField)
-            {
-                result.Append('^');
-                result.Append(SubField);
-            }
-            if (IndexFrom != 0 || IndexTo != 0)
-            {
-                result.Append('[');
-                if (IndexFrom == IndexTo)
-                {
-                    result.Append(IndexFrom);
-                }
-                else
-                {
-                    if (IndexFrom != 0)
-                    {
-                        result.Append(IndexFrom);
-                    }
-                    result.Append('-');
-                    if (IndexTo != 0)
-                    {
-                        result.Append(IndexTo);
-                    }
-                }
-                result.Append(']');
-            }
-            if (Offset != 0)
-            {
-                result.Append('*');
-                result.Append(Offset);
-            }
-            if (Length != 0)
-            {
-                result.Append('.');
-                result.Append(Length);
-            }
-            if (Indent != 0)
-            {
-                result.Append('(');
-                result.Append(Indent);
-                result.Append(')');
-            }
-
-            return result.ToString();
+            return ToSpecification().ToString();
         }
 
         #endregion

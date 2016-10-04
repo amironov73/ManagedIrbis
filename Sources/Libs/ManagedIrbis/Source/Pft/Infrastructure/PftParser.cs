@@ -222,11 +222,9 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {
                     break;
                 }
-                else
-                {
-                    result.LeftHand.Add(node);
-                    Tokens.MoveNext();
-                }
+
+                result.LeftHand.Add(node);
+                Tokens.MoveNext();
             }
 
             if (!Tokens.IsEof)

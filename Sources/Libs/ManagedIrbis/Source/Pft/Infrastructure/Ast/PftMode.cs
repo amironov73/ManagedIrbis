@@ -118,13 +118,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             switch (text[1])
             {
                 case 'p':
-                    OutputMode = PftFieldOutputMode.ModeP;
+                    OutputMode = PftFieldOutputMode.PreviewMode;
                     break;
                 case 'h':
-                    OutputMode = PftFieldOutputMode.ModeH;
+                    OutputMode = PftFieldOutputMode.HeaderMode;
                     break;
                 case 'd':
-                    OutputMode = PftFieldOutputMode.ModeD;
+                    OutputMode = PftFieldOutputMode.DataMode;
                     break;
                 default:
                     throw new ArgumentException();

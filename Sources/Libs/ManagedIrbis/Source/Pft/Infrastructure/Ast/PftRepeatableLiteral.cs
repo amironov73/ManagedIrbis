@@ -127,7 +127,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     if (field != null)
                     {
                         int count = field.GetCount(context);
-                        if (count != 0)
+
+                        int index = context.Index;
+                        if (field.IndexFrom != 0)
+                        {
+                            index = index + field.IndexFrom - 1;
+                        }
+
+                        int stop = count;
+                        if (field.IndexTo != 0)
+                        {
+                            if (field.IndexTo < stop)
+                            {
+                                stop = field.IndexTo;
+                            }
+                        }
+
+                        if (count != 0
+                            && index < stop)
                         {
                             bool flag = true;
 
@@ -139,7 +156,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                                 }
                                 else
                                 {
-                                    flag = context.Index < (count - 1);
+                                    flag = index < (stop - 1);
                                 }
                             }
 

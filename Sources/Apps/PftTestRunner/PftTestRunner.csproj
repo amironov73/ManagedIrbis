@@ -177,12 +177,47 @@
     <None Include="Tests\013\input.txt" />
     <None Include="Tests\013\record.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Tests\017\description.txt" />
+    <None Include="Tests\017\expected.txt" />
+    <None Include="Tests\017\input.txt" />
+    <None Include="Tests\017\record.txt" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Tests\015\description.txt" />
     <None Include="Tests\015\expected.txt" />
     <None Include="Tests\015\input.txt" />
     <None Include="Tests\015\record.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tests\016\description.txt" />
+    <None Include="Tests\016\expected.txt" />
+    <None Include="Tests\016\input.txt" />
+    <None Include="Tests\016\record.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tests\018\description.txt" />
+    <None Include="Tests\018\expected.txt" />
+    <None Include="Tests\018\input.txt" />
+    <None Include="Tests\018\record.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tests\019\description.txt" />
+    <None Include="Tests\019\expected.txt" />
+    <None Include="Tests\019\input.txt" />
+    <None Include="Tests\019\record.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tests\021\description.txt" />
+    <None Include="Tests\021\expected.txt" />
+    <None Include="Tests\021\input.txt" />
+    <None Include="Tests\021\record.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tests\020\description.txt" />
+    <None Include="Tests\020\expected.txt" />
+    <None Include="Tests\020\input.txt" />
+    <None Include="Tests\020\record.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

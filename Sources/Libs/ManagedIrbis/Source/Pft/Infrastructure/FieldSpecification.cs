@@ -6,6 +6,7 @@
 
 #region Using directives
 
+using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 
@@ -27,6 +28,7 @@ namespace ManagedIrbis.Pft.Infrastructure
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [DebuggerDisplay("{Command}{Tag}")]
     public sealed class FieldSpecification
     {
         #region Properties
@@ -190,13 +192,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {
                     throw new PftSyntaxException(navigator);
                 }
-                SubField = c;
+                SubField = SubFieldCode.Normalize(c);
                 c = navigator.ReadChar();
             }
 
             if (c == '[')
             {
-                navigator.ReadChar();
                 navigator.SkipWhitespace();
 
                 string index;
@@ -349,10 +350,72 @@ namespace ManagedIrbis.Pft.Infrastructure
                 IndexTo = indexFrom;
             }
 
-            int length = navigator.Position - start + 1;
+            int length = navigator.Position - start;
             Text = navigator.Substring(start, length);
 
             return true;
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.Append(Command);
+            result.Append(Tag);
+            if (!string.IsNullOrEmpty(Embedded))
+            {
+                result.Append('@');
+                result.Append(Embedded);
+            }
+            if (SubField != '\0')
+            {
+                result.Append('^');
+                result.Append(SubField);
+            }
+            if (IndexFrom != 0 || IndexTo != 0)
+            {
+                result.Append('[');
+                if (IndexFrom == IndexTo)
+                {
+                    result.Append(IndexFrom);
+                }
+                else
+                {
+                    if (IndexFrom != 0)
+                    {
+                        result.Append(IndexFrom);
+                    }
+                    result.Append('-');
+                    if (IndexTo != 0)
+                    {
+                        result.Append(IndexTo);
+                    }
+                }
+                result.Append(']');
+            }
+            if (Offset != 0)
+            {
+                result.Append('*');
+                result.Append(Offset);
+            }
+            if (Length != 0)
+            {
+                result.Append('.');
+                result.Append(Length);
+            }
+            if (Indent != 0)
+            {
+                result.Append('(');
+                result.Append(Indent);
+                result.Append(')');
+            }
+
+            return result.ToString();
         }
 
         #endregion

@@ -286,7 +286,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <summary>
         /// Отладочный вывод "ступеньками" или "деревом".
         /// </summary>
-        public void PrintDebug
+        public virtual void PrintDebug
             (
                 [NotNull] TextWriter writer,
                 int level

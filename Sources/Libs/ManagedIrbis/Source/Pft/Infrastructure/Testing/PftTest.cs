@@ -97,6 +97,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     IrbisEncoding.Utf8
                 );
 
+            Console.WriteLine(pftText);
+            Console.WriteLine();
+
             PftLexer lexer = new PftLexer();
             PftTokenList tokenList = lexer.Tokenize(pftText);
             tokenList.Dump(Console.Out);

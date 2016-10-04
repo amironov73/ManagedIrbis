@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -411,6 +412,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                         if (value2 == "fn")
                         {
                             kind = PftTokenKind.Mfn;
+                            ReadChar();
+                            ReadChar();
                             break;
                         }
                         if (value2.Length != 2)
@@ -418,12 +421,15 @@ namespace ManagedIrbis.Pft.Infrastructure
                             goto default;
                         }
                         if ((value2[0] == 'h'
-                             || value2[0] == 'p')
+                            || value2[0] == 'd'
+                            || value2[0] == 'p')
                             && (value2[1] == 'l'
                                 || value2[1] == 'u'))
                         {
                             kind = PftTokenKind.Mpl;
                             value = c + value2;
+                            ReadChar();
+                            ReadChar();
                             break;
                         }
                         goto default;
