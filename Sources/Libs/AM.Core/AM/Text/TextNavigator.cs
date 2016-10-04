@@ -1246,6 +1246,21 @@ namespace AM.Text
             }
         }
 
+        /// <summary>
+        /// Get substring.
+        /// </summary>
+        [NotNull]
+        public string Substring
+            (
+                int offset,
+                int length
+            )
+        {
+            string result = _text.Substring(offset, length);
+
+            return result;
+        }
+
         #endregion
 
         #region Object members

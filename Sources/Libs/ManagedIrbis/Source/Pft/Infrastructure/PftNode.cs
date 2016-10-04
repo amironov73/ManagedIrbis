@@ -40,6 +40,7 @@ namespace ManagedIrbis.Pft.Infrastructure
     [MoonSharpUserData]
     public class PftNode
         : IHandmadeSerializable,
+        ITreeSerialize,
         IVerifiable
     {
         #region Events
@@ -65,6 +66,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             get; protected set;
         }
+
+        /// <summary>
+        /// Column number.
+        /// </summary>
+        public int Column { get; set; }
 
         /// <summary>
         /// Номер строки, на которой в скрипте расположена
@@ -359,6 +365,68 @@ namespace ManagedIrbis.Pft.Infrastructure
             )
         {
             Code.NotNull(writer, "writer");
+        }
+
+        #endregion
+
+        #region ITreeSerialize members
+
+        /// <inheritdoc/>
+        public void DeserializeTree
+            (
+                BinaryReader reader
+            )
+        {
+#if NETCORE
+
+            throw new NotImplementedException();
+
+#else
+
+            Code.NotNull(reader, "reader");
+
+            RestoreFromStream(reader);
+
+            Children.Clear();
+            int count = reader.ReadPackedInt32();
+            for (int i = 0; i < count; i++)
+            {
+                string typeName = reader.ReadString();
+                Type type = Type.GetType(typeName, true);
+                PftNode child = (PftNode) Activator.CreateInstance(type);
+                Children.Add(child);
+            }
+#endif
+        }
+
+        /// <inheritdoc/>
+        public void SerializeTree
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+#if NETCORE
+
+            throw new NotImplementedException();
+
+#else
+
+            SaveToStream(writer);
+
+            int count = Children.Count;
+            writer.WritePackedInt32(count);
+            foreach (PftNode child in Children)
+            {
+                Type type = child.GetType();
+                string typeName = type.AssemblyQualifiedName
+                    .ThrowIfNull("typeName");
+                writer.Write(typeName);
+                child.SerializeTree(writer);
+            }
+
+#endif
         }
 
         #endregion

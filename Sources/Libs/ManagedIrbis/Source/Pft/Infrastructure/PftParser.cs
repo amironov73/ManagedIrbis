@@ -261,7 +261,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {
                     throw new PftSyntaxException(token);
                 }
-                result.Parse(token.Text);
+                FieldSpecification specification = (FieldSpecification)token.UserData;
+                if (specification == null)
+                {
+                    throw new PftSyntaxException(token);
+                }
+                result.Apply(specification);
                 Tokens.MoveNext();
             }
 

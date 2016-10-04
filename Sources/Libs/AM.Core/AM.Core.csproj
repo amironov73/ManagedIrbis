@@ -192,6 +192,7 @@
     <Compile Include="AM\Resources\LocalizationManager.cs" />
     <Compile Include="AM\Runtime\HandmadeSerializer.cs" />
     <Compile Include="AM\Runtime\IHandmadeSerializable.cs" />
+    <Compile Include="AM\Runtime\ITreeSerialize.cs" />
     <Compile Include="AM\Runtime\NumberUnion.cs" />
     <Compile Include="AM\Runtime\PinnedStructure.cs" />
     <Compile Include="AM\Runtime\PrefixLength.cs" />

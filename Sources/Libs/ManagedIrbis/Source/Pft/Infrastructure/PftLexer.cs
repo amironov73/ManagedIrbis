@@ -85,183 +85,20 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         [CanBeNull]
-        private string ReadField()
+        private FieldSpecification ReadField()
         {
-            StringBuilder result = new StringBuilder();
-            bool good;
-            char c = PeekChar();
+            FieldSpecification result = new FieldSpecification();
 
-            if (!c.IsArabicDigit())
+            TextPosition position = _navigator.SavePosition();
+            _navigator.Move(-1);
+
+            if (!result.Parse(_navigator))
             {
+                _navigator.RestorePosition(position);
                 return null;
             }
-            ReadChar();
-            result.Append(c);
 
-            while (true)
-            {
-                c = PeekChar();
-                if (!c.IsArabicDigit())
-                {
-                    break;
-                }
-                ReadChar();
-                result.Append(c);
-            }
-
-            if (c == '@')
-            {
-                ReadChar();
-                result.Append(c);
-
-                good = false;
-                while (true)
-                {
-                    c = PeekChar();
-                    if (!c.IsArabicDigit())
-                    {
-                        break;
-                    }
-                    ReadChar();
-                    result.Append(c);
-                    good = true;
-                }
-
-                if (!good)
-                {
-                    throw new PftSyntaxException(_navigator);
-                }
-            }
-
-            if (c == '^')
-            {
-                ReadChar();
-                result.Append(c);
-                if (IsEOF)
-                {
-                    throw new PftSyntaxException(_navigator);
-                }
-                c = ReadChar();
-                if (!SubFieldCode.IsValidCode(c))
-                {
-                    throw new PftSyntaxException(_navigator);
-                }
-                result.Append(c);
-                c = PeekChar();
-            }
-
-            if (c == '[')
-            {
-                ReadChar();
-                result.Append(c);
-
-                good = false;
-                while (true)
-                {
-                    c = ReadChar();
-                    if (c == ']')
-                    {
-                        result.Append(c);
-                        c = PeekChar();
-                        break;
-                    }
-                    if (c.IsArabicDigit())
-                    {
-                        good = true;
-                        result.Append(c);
-                    }
-                    else
-                    {
-                        throw new PftSyntaxException(_navigator);
-                    }
-                }
-
-                if (!good)
-                {
-                    throw new PftSyntaxException(_navigator);
-                }
-            }
-
-            if (c == '*')
-            {
-                ReadChar();
-                result.Append(c);
-
-                good = false;
-                while (true)
-                {
-                    c = PeekChar();
-                    if (!c.IsArabicDigit())
-                    {
-                        break;
-                    }
-                    good = true;
-                    ReadChar();
-                    result.Append(c);
-                }
-
-                if (!good)
-                {
-                    throw new PftSyntaxException(_navigator);
-                }
-            }
-
-            if (c == '.')
-            {
-                ReadChar();
-                result.Append(c);
-
-                good = false;
-                while (true)
-                {
-                    c = PeekChar();
-                    if (!c.IsArabicDigit())
-                    {
-                        break;
-                    }
-                    good = true;
-                    ReadChar();
-                    result.Append(c);
-                }
-
-                if (!good)
-                {
-                    throw new PftSyntaxException(_navigator);
-                }
-            }
-
-            if (c == '(')
-            {
-                ReadChar();
-                result.Append(c);
-
-                good = false;
-                while (true)
-                {
-                    c = ReadChar();
-                    if (c == ')')
-                    {
-                        result.Append(c);
-                        break;
-                    }
-                    if (c.IsArabicDigit())
-                    {
-                        good = true;
-                        result.Append(c);
-                    }
-                    else
-                    {
-                        throw new PftSyntaxException(_navigator);
-                    }
-                }
-
-                if (!good)
-                {
-                    throw new PftSyntaxException(_navigator);
-                }
-            }
-
-            return result.ToString();
+            return result;
         }
 
         [NotNull]
@@ -365,6 +202,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 char c2;
                 string value = null;
                 string value2 = null;
+                FieldSpecification field = null;
                 PftTokenKind kind = PftTokenKind.None;
                 switch (c)
                 {
@@ -540,12 +378,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case 'd':
                     case 'D':
-                        value2 = ReadField();
-                        if (value2 == null)
+                        field = ReadField();
+                        if (field == null)
                         {
                             goto default;
                         }
-                        value = c + value2;
+                        value = field.Text;
                         kind = PftTokenKind.V;
                         break;
 
@@ -592,12 +430,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case 'n':
                     case 'N':
-                        value2 = ReadField();
-                        if (value2 == null)
+                        field = ReadField();
+                        if (field == null)
                         {
                             goto default;
                         }
-                        value = c + value2;
+                        value = field.Text;
                         kind = PftTokenKind.V;
                         break;
 
@@ -621,12 +459,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case 'v':
                     case 'V':
-                        value2 = ReadField();
-                        if (value2 == null)
+                        field = ReadField();
+                        if (field == null)
                         {
                             goto default;
                         }
-                        value = c + value2;
+                        value = field.Text;
                         kind = PftTokenKind.V;
                         break;
 
@@ -741,6 +579,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
 
                 PftToken token = new PftToken(kind, line, column, value);
+                if (kind == PftTokenKind.V)
+                {
+                    token.UserData = field;
+                }
 
                 result.Add(token);
 

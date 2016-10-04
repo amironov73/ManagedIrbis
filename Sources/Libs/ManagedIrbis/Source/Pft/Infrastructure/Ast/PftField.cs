@@ -7,15 +7,12 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+
 using AM;
 using AM.Collections;
-using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -129,7 +126,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             Code.NotNullNorEmpty(text, "text");
 
-            Parse(text);
+            FieldSpecification specification = new FieldSpecification();
+            if (!specification.Parse(text))
+            {
+                throw new PftSyntaxException();
+            }
+            Apply(specification);
         }
 
         /// <summary>
@@ -144,18 +146,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.V);
 
-            try
-            {
-                Parse
-                    (
-                        token.Text
-                        .ThrowIfNull("token.Text")
-                    );
-            }
-            catch (Exception exception)
-            {
-                throw new PftSyntaxException(token, exception);
-            }
+            FieldSpecification specification = ((FieldSpecification) token.UserData)
+                .ThrowIfNull("token.UserData");
+            Apply(specification);
         }
 
         #endregion
@@ -272,6 +265,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #region Public methods
 
         /// <summary>
+        /// Apply the specification.
+        /// </summary>
+        public void Apply
+            (
+                [NotNull] FieldSpecification specification
+            )
+        {
+            Code.NotNull(specification, "specification");
+
+            Command = specification.Command;
+            Embedded = specification.Embedded;
+            Indent = specification.Indent;
+            IndexFrom = specification.IndexFrom;
+            IndexTo = specification.IndexTo;
+            Offset = specification.Offset;
+            Length = specification.Length;
+            SubField = specification.SubField;
+            Tag = specification.Tag;
+        }
+
+        /// <summary>
         /// Число повторений _поля_ в записи.
         /// </summary>
         public int GetCount
@@ -386,253 +400,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Parse the text.
-        /// </summary>
-        public void Parse
-            (
-                [NotNull] string text
-            )
-        {
-            Code.NotNullNorEmpty(text, "text");
-
-            TextNavigator navigator = new TextNavigator(text);
-            char c = navigator.ReadChar();
-            StringBuilder builder = new StringBuilder();
-
-            switch (c)
-            {
-                case 'd':
-                case 'D':
-                    Command = 'd';
-                    break;
-
-                case 'n':
-                case 'N':
-                    Command = 'n';
-                    break;
-
-                case 'v':
-                case 'V':
-                    Command = 'v';
-                    break;
-
-                default:
-                    throw new PftSyntaxException(navigator);
-            }
-
-            c = navigator.ReadChar();
-            if (!c.IsArabicDigit())
-            {
-                throw new PftSyntaxException(navigator);
-            }
-            builder.Append(c);
-
-            while (true)
-            {
-                c = navigator.PeekChar();
-                if (!c.IsArabicDigit())
-                {
-                    break;
-                }
-                navigator.ReadChar();
-                builder.Append(c);
-            }
-            Tag = builder.ToString();
-
-            if (c == '@')
-            {
-                builder.Length = 0;
-                navigator.ReadChar();
-                while (true)
-                {
-                    c = navigator.PeekChar();
-                    if (!c.IsArabicDigit())
-                    {
-                        break;
-                    }
-                    navigator.ReadChar();
-                    builder.Append(c);
-                }
-                if (builder.Length == 0)
-                {
-                    throw new PftSyntaxException(navigator);
-                }
-                Embedded = builder.ToString();
-            }
-
-            if (c == '^')
-            {
-                navigator.ReadChar();
-                if (navigator.IsEOF)
-                {
-                    throw new PftSyntaxException(navigator);
-                }
-                c = navigator.ReadChar();
-                if (!SubFieldCode.IsValidCode(c))
-                {
-                    throw new PftSyntaxException(navigator);
-                }
-                SubField = c;
-                c = navigator.ReadChar();
-            }
-
-            if (c == '[')
-            {
-                navigator.ReadChar();
-                navigator.SkipWhitespace();
-
-                string index;
-
-                if (navigator.PeekChar() == '-')
-                {
-                    navigator.ReadChar();
-                    navigator.SkipWhitespace();
-                    index = navigator.ReadInteger();
-                    if (string.IsNullOrEmpty(index))
-                    {
-                        throw new PftSyntaxException(navigator);
-                    }
-                    int indexTo = int.Parse
-                        (
-                            index,
-                            CultureInfo.InvariantCulture
-                        );
-                    IndexTo = indexTo;
-                }
-                else
-                {
-                    index = navigator.ReadInteger();
-                    if (string.IsNullOrEmpty(index))
-                    {
-                        throw new PftSyntaxException(navigator);
-                    }
-                    int indexFrom = int.Parse
-                        (
-                            index,
-                            CultureInfo.InvariantCulture
-                        );
-                    IndexFrom = indexFrom;
-                    IndexTo = indexFrom;
-                }
-
-                navigator.SkipWhitespace();
-                if (navigator.SkipChar('-'))
-                {
-                    navigator.SkipWhitespace();
-                    index = navigator.ReadInteger();
-                    if (string.IsNullOrEmpty(index))
-                    {
-                        IndexTo = 0;
-                    }
-                    else
-                    {
-                        int indexTo = int.Parse
-                            (
-                                index,
-                                CultureInfo.InvariantCulture
-                            );
-                        IndexTo = indexTo;
-                    }
-                }
-
-                navigator.SkipWhitespace();
-                if (navigator.ReadChar() != ']')
-                {
-                    throw new PftSyntaxException(navigator);
-                }
-            }
-
-            if (c == '*')
-            {
-                builder.Length = 0;
-
-                while (true)
-                {
-                    c = navigator.ReadChar();
-                    if (!c.IsArabicDigit())
-                    {
-                        break;
-                    }
-                    builder.Append(c);
-                }
-
-                if (builder.Length == 0)
-                {
-                    throw new PftSyntaxException(navigator);
-                }
-                Offset = int.Parse
-                    (
-                        builder.ToString(),
-                        CultureInfo.InvariantCulture
-                    );
-            }
-
-            if (c == '.')
-            {
-                builder.Length = 0;
-
-                while (true)
-                {
-                    c = navigator.ReadChar();
-                    if (!c.IsArabicDigit())
-                    {
-                        break;
-                    }
-                    builder.Append(c);
-                }
-
-                if (builder.Length == 0)
-                {
-                    throw new PftSyntaxException(navigator);
-                }
-                Length = int.Parse
-                    (
-                        builder.ToString(),
-                        CultureInfo.InvariantCulture
-                    );
-            }
-
-            if (c == '(')
-            {
-                builder.Length = 0;
-
-                while (true)
-                {
-                    c = navigator.ReadChar();
-                    if (!c.IsArabicDigit())
-                    {
-                        break;
-                    }
-                    builder.Append(c);
-                }
-
-                if (builder.Length == 0)
-                {
-                    throw new PftSyntaxException(navigator);
-                }
-                Indent = int.Parse
-                    (
-                        builder.ToString(),
-                        CultureInfo.InvariantCulture
-                    );
-            }
-
-            if (c == '#')
-            {
-                navigator.ReadChar();
-
-                string index = navigator.ReadInteger();
-                if (string.IsNullOrEmpty(index))
-                {
-                    throw new PftSyntaxException(navigator);
-                }
-                int indexFrom = int.Parse(index);
-                IndexFrom = indexFrom;
-                IndexTo = indexFrom;
-            }
         }
 
         #endregion

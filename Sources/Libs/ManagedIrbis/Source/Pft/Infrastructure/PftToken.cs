@@ -55,6 +55,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         [CanBeNull]
         public string Text { get; set; }
 
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        public object UserData { get; set; }
+
         #endregion
 
         #region Construction
