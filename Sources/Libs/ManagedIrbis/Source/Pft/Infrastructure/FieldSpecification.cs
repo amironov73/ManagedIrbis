@@ -116,6 +116,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Code.NotNull(navigator, "navigator");
 
             int start = navigator.Position;
+            TextPosition saved = navigator.SavePosition();
             char c = navigator.ReadChar();
             StringBuilder builder = new StringBuilder();
 
@@ -124,6 +125,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                 case 'd':
                 case 'D':
                     Command = 'd';
+                    break;
+
+                case 'g':
+                case 'G':
+                    Command = 'g';
                     break;
 
                 case 'n':
@@ -137,6 +143,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     break;
 
                 default:
+                    navigator.RestorePosition(saved);
                     return false;
             }
 
@@ -193,7 +200,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     throw new PftSyntaxException(navigator);
                 }
                 SubField = SubFieldCode.Normalize(c);
-                c = navigator.ReadChar();
+                c = navigator.PeekChar();
             }
 
             if (c == '[')

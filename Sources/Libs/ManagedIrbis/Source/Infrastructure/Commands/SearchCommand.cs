@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-
+using System.Text;
 using AM;
 using AM.Text;
 
@@ -329,17 +329,27 @@ namespace ManagedIrbis.Infrastructure.Commands
                         (
                             SequentialSpecification
                         );
-                if (
-                    !string.IsNullOrEmpty(preparedSequential))
+                if (!string.IsNullOrEmpty(preparedSequential))
                 {
-                    if (!preparedSequential.StartsWith("!"))
+                    if (!preparedSequential.StartsWith("!if"))
                     {
                         preparedSequential = "!if "
                             + preparedSequential
                             + " then '1' else '0'";
                     }
 
-                    result.AddUtf8(preparedSequential);
+                    Encoding encoding = preparedSequential.StartsWith("!")
+                        ? IrbisEncoding.Utf8
+                        : IrbisEncoding.Ansi;
+
+                    result.Add
+                        (
+                            new TextWithEncoding
+                                (
+                                    preparedSequential,
+                                    encoding
+                                )
+                        );
                 }
             }
 
