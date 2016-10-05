@@ -149,6 +149,129 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Sets the field.
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>Устанавливает значение только для
+        /// первого повторения поля (если в записи их несколько)!
+        /// </remarks>
+        [NotNull]
+        public static MarcRecord SetField
+            (
+                [NotNull] this MarcRecord record,
+                string tag,
+                string text
+            )
+        {
+            Code.NotNull(record, "record");
+
+            RecordField field = record.Fields
+                .GetField(tag)
+                .FirstOrDefault();
+
+            if (field == null)
+            {
+                field = new RecordField(tag);
+                record.Fields.Add(field);
+            }
+
+            field.Value = text;
+
+            return record;
+        }
+
+        /// <summary>
+        /// Установка поля.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord SetField
+            (
+                [NotNull] this MarcRecord record,
+                string tag,
+                int occurrence,
+                string newText
+            )
+        {
+            Code.NotNull(record, "record");
+
+            RecordField field = record.Fields
+                .GetField(tag)
+                .GetOccurrence(occurrence);
+
+            if (!ReferenceEquals(field, null))
+            {
+                field.Value = newText;
+            }
+
+            return record;
+        }
+
+        /// <summary>
+        /// Установка подполя.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord SetSubField
+            (
+                [NotNull] this MarcRecord record,
+                string tag,
+                char code,
+                string text
+            )
+        {
+            Code.NotNull(record, "record");
+
+            RecordField field = record.Fields
+                .GetField(tag)
+                .FirstOrDefault();
+
+            if (field == null)
+            {
+                field = new RecordField(tag);
+                record.Fields.Add(field);
+            }
+
+            field.SetSubField(code, text);
+
+            return record;
+        }
+
+        /// <summary>
+        /// Установка подполя.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord SetSubField
+            (
+                [NotNull] this MarcRecord record,
+                string tag,
+                int fieldOccurrence,
+                char code,
+                int subFieldOccurrence,
+                string newText
+            )
+        {
+            Code.NotNull(record, "record");
+
+            RecordField field = record.Fields
+                .GetField(tag)
+                .GetOccurrence(fieldOccurrence);
+
+            if (!ReferenceEquals(field, null))
+            {
+                SubField subField = field.GetSubField
+                    (
+                        code,
+                        subFieldOccurrence
+                    );
+                if (!ReferenceEquals(subField, null))
+                {
+                    subField.Value = newText;
+                }
+            }
+
+            return record;
+        }
+
+        /// <summary>
         /// Convert the <see cref="MarcRecord"/> to JSON.
         /// </summary>
         [NotNull]
