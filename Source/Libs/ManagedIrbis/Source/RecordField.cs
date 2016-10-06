@@ -20,7 +20,9 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.ImportExport;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -149,11 +151,7 @@ namespace ManagedIrbis
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        public object UserData
-        {
-            get { return _userData; }
-            set { _userData = value; }
-        }
+        public object UserData { get; set; }
 
         /// <summary>
         /// Ссылка на запись, владеющую
@@ -237,7 +235,7 @@ namespace ManagedIrbis
             _indicator2 = other.Indicator2.Clone();
             _value = other.Value;
             _subFields = other.SubFields.Clone();
-            _userData = other.UserData;
+            UserData = other.UserData;
         }
 
         /// <summary>
@@ -335,9 +333,6 @@ namespace ManagedIrbis
         private string _value;
 
         private readonly SubFieldCollection _subFields;
-
-        [NonSerialized]
-        private object _userData;
 
         private static void _AddSubField
             (

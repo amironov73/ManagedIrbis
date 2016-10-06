@@ -166,11 +166,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
-        public object UserData
-        {
-            get { return _userData; }
-            set { _userData = value; }
-        }
+        public object UserData { get; set; }
 
         #endregion
 
@@ -179,9 +175,6 @@ namespace ManagedIrbis.Magazines
         #endregion
 
         #region Private members
-
-        [NonSerialized]
-        private object _userData;
 
         #endregion
 
