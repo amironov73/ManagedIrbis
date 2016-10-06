@@ -25,7 +25,9 @@ namespace AM.Text
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Text={Text} Encoding={Encoding}")]
+#endif
     public sealed class TextWithEncoding
         : IComparable<TextWithEncoding>
     {

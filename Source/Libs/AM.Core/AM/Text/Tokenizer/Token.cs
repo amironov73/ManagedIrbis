@@ -31,7 +31,9 @@ namespace AM.Text.Tokenizer
     [PublicAPI]
     [XmlRoot("token")]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Kind={Kind} Value='{Value}'")]
+#endif
     public class Token
         : IHandmadeSerializable
     {

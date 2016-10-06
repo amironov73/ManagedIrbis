@@ -29,7 +29,9 @@ namespace AM.Threading
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Busy = {Busy}")]
+#endif
     public sealed class BusyState
         : IHandmadeSerializable
     {
@@ -126,7 +128,14 @@ namespace AM.Threading
 
                     if (UseAsync)
                     {
+#if WINMOBILE || PocketPC
+
+                        StateChanged.Raise(this);
+#else
+
                         StateChanged.RaiseAsync(this);
+
+#endif
                     }
                     else
                     {
@@ -172,7 +181,22 @@ namespace AM.Threading
                     return true;
                 }
 
-                bool result = WaitHandle.WaitOne(timeout);
+                bool result;
+
+#if WINMOBILE || PocketPC
+
+                result = WaitHandle.WaitOne
+                    (
+                        (int) timeout.TotalMilliseconds,
+                        false
+                    );
+
+#else
+
+                result = WaitHandle.WaitOne(timeout);
+
+#endif
+
                 if (result)
                 {
                     SetState(true);
@@ -210,7 +234,20 @@ namespace AM.Threading
             {
                 return true;
             }
+
+#if WINMOBILE || PocketPC
+
+            return WaitHandle.WaitOne
+                (
+                    (int) timeout.TotalMilliseconds,
+                    false
+                );
+
+#else
+
             return WaitHandle.WaitOne(timeout);
+
+#endif
         }
 
         /// <summary>

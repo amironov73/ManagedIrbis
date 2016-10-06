@@ -4,16 +4,41 @@
  * Status: poor
  */
 
-#if NETCORE
+#if NETCORE || WINMOBILE || PocketPC
 
 using System;
 
 namespace System
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public sealed class NonSerializedAttribute
         : Attribute
     {
     }
+
+    //public sealed class ArgumentOutOfRangeException
+    //    : Exception
+    //{
+    //    public ArgumentOutOfRangeException()
+    //    {
+    //    }
+
+    //    public ArgumentOutOfRangeException(string message) : base(message)
+    //    {
+    //    }
+
+    //    public ArgumentOutOfRangeException(string message, Exception innerException) : base(message, innerException)
+    //    {
+    //    }
+
+    //    public ArgumentOutOfRangeException(string paramName, object actualValue, string message)
+    //        : base(message)
+    //    {
+            
+    //    }
+    //}
 }
 
 #endif

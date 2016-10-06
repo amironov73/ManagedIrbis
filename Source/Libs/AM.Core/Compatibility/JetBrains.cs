@@ -4,7 +4,7 @@
  * Status: poor
  */
 
-#if NOTDEF
+#if WINMOBILE || PocketPC
 
 using System;
 

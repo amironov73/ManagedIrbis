@@ -13,7 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+//using System.Threading.Tasks;
 
 using AM.IO;
 using AM.Runtime;
@@ -31,7 +31,9 @@ namespace AM.Threading
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Value}")]
+#endif
     public sealed class StateHolder<T>
         : IHandmadeSerializable
         where T: IEquatable<T>

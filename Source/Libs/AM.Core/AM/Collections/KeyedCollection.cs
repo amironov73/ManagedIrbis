@@ -25,7 +25,9 @@ namespace AM.Collections
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Count={Count}")]
+#endif
     public sealed class KeyedCollection<TKey, TValue>
         : IEnumerable<KeyedCollection<TKey, TValue>.Element>
     {
@@ -36,7 +38,9 @@ namespace AM.Collections
         /// </summary>
         [PublicAPI]
         [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
         [DebuggerDisplay("{Key}={Value}")]
+#endif
         public sealed class Element
         {
             #region Properties

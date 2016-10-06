@@ -4,6 +4,8 @@
  * Status: poor
  */
 
+#if !WINMOBILE && !PocketPC
+
 #region Using directives
 
 using System;
@@ -44,3 +46,6 @@ namespace AM
         #endregion
     }
 }
+
+#endif
+

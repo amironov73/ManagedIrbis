@@ -8,7 +8,12 @@
 
 using System;
 using System.Threading;
+
+#if NETCORE || FW45
+
 using System.Threading.Tasks;
+
+#endif
 
 using CodeJam;
 

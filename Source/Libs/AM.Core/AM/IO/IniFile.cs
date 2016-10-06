@@ -34,7 +34,9 @@ namespace AM.IO
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{FileName}")]
+#endif
     // ReSharper disable once RedundantNameQualifier
     [System.ComponentModel.DesignerCategory("Code")]
     public class IniFile
@@ -49,7 +51,9 @@ namespace AM.IO
         /// </summary>
         [PublicAPI]
         [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
         [DebuggerDisplay("{Key}={Value} [{Modified}]")]
+#endif
         public sealed class Line
             : IHandmadeSerializable
         {
@@ -997,7 +1001,16 @@ namespace AM.IO
                         _sections.Add(section);
                     }
 
+#if WINMOBILE || PocketPC
+
+                    string[] parts = line.Split(separators);
+
+#else
+
                     string[] parts = line.Split(separators,2);
+
+#endif
+
                     string key = parts[0];
                     string value = parts.Length == 2
                         ? parts[1]
@@ -1184,9 +1197,18 @@ namespace AM.IO
             Code.NotNull(writer, "writer");
 
             writer.WriteNullable(FileName);
+
+#if WINMOBILE || PocketPC
+
+            string encodingName = null;
+#else
+
             string encodingName = Encoding == null
                 ? null
                 : Encoding.EncodingName;
+
+#endif
+
             writer.WriteNullable(encodingName);
             writer.Write(Modified);
             writer.WritePackedInt32(_sections.Count);

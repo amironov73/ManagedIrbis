@@ -21,7 +21,9 @@ namespace AM
     /// Information about exception.
     /// </summary>
     [PublicAPI]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Exception} {Handled}")]
+#endif
     public sealed class ExceptionEventArgs<T>
         : EventArgs
         where T: Exception

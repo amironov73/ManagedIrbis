@@ -35,7 +35,9 @@ namespace AM.Collections
     /// <seealso cref="Quartet{T1,T2,T3,T4}"/>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{First};{Second};{Third}")]
+#endif
     //[TypeConverter(typeof(IndexableConverter))]
     public class Triplet<T1, T2, T3>
         : IList,

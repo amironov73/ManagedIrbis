@@ -4,7 +4,7 @@
  * State: poor
  */
 
-#if NETCORE
+#if NETCORE || WINMOBILE || PocketPC
 
 #region Using directives
 
@@ -14,17 +14,29 @@ using System;
 
 namespace MoonSharp.Interpreter
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class MoonSharpUserDataAttribute
         : Attribute
     {
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class Script
     {
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class DynValue
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public static DynValue Nil { get { return new DynValue(); } }
     }
 }

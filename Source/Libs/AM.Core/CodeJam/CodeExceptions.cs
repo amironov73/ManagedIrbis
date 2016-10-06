@@ -99,11 +99,21 @@ namespace CodeJam
             int value, int fromValue, int toValue)
         {
             BreakIfAttached();
-            return new ArgumentOutOfRangeException(
-                argumentName,
-                value,
-                string.Format("The value of '{0}' ({1}) should be between {2} and {3}",
-                argumentName, value, fromValue, toValue));
+            return new ArgumentOutOfRangeException
+                (
+                    argumentName
+#if !PocketPC
+                    ,value,
+                    string.Format
+                    (
+                        "The value of '{0}' ({1}) should be between {2} and {3}",
+                        argumentName,
+                        value,
+                        fromValue,
+                        toValue
+                    )
+#endif
+                );
         }
 
         /// <summary>
@@ -115,11 +125,20 @@ namespace CodeJam
             int value, int fromValue)
         {
             BreakIfAttached();
-            return new ArgumentOutOfRangeException(
-                argumentName,
-                value,
-                string.Format("The value of '{0}' ({1}) should be greater than {2}",
-                argumentName, value, fromValue));
+            return new ArgumentOutOfRangeException
+                (
+                    argumentName
+#if !PocketPC
+                    ,value,
+                    string.Format
+                    (
+                        "The value of '{0}' ({1}) should be greater than {2}",
+                        argumentName,
+                        value,
+                        fromValue
+                    )
+#endif
+                );
         }
 
         /// <summary>
@@ -131,50 +150,75 @@ namespace CodeJam
             T value, T fromValue, T toValue)
         {
             BreakIfAttached();
-            return new ArgumentOutOfRangeException(
-                argumentName,
-                value,
-                string.Format("The value of '{0}' ('{1}') should be between '{2}' and '{3}'",
-                argumentName, value, fromValue, toValue));
+            return new ArgumentOutOfRangeException
+                (
+                    argumentName
+#if !PocketPC
+                    ,value,
+                    string.Format
+                    (
+                        "The value of '{0}' ('{1}') should be between '{2}' and '{3}'",
+                        argumentName,
+                        value,
+                        fromValue,
+                        toValue
+                    )
+#endif
+                );
         }
 
         /// <summary>
         /// Creates <seealso cref="ArgumentOutOfRangeException"/>
         /// </summary>
         [DebuggerHidden, NotNull]
-        public static ArgumentOutOfRangeException ArgumentOutOfRange<T>(
-            [NotNull, InvokerParameterName] string argumentName,
-            T value,
-            T fromValue)
+        public static ArgumentOutOfRangeException ArgumentOutOfRange<T>
+            (
+                [NotNull, InvokerParameterName] string argumentName,
+                T value,
+                T fromValue
+            )
         {
             BreakIfAttached();
-            return new ArgumentOutOfRangeException(
-                argumentName,
-                value,
-                string.Format
-                ("The value of '{0}' ('{1}') should be greater than '{2}'.",
-                argumentName, value, fromValue
-                ));
+            return new ArgumentOutOfRangeException
+                (
+                    argumentName
+#if !PocketPC
+                    ,value,
+                    string.Format
+                        (
+                            "The value of '{0}' ('{1}') should be greater than '{2}'.",
+                            argumentName,
+                            value,
+                            fromValue
+                        )
+#endif
+                );
         }
 
         /// <summary>
         /// Creates <seealso cref="IndexOutOfRangeException"/>
         /// </summary>
         [DebuggerHidden, NotNull]
-        public static IndexOutOfRangeException IndexOutOfRange(
-            [NotNull, InvokerParameterName] string argumentName,
-            int value, int startIndex, int length)
+        public static IndexOutOfRangeException IndexOutOfRange
+            (
+                [NotNull, InvokerParameterName] string argumentName,
+                int value,
+                int startIndex,
+                int length
+            )
         {
             BreakIfAttached();
-            return new IndexOutOfRangeException(
-                string.Format
+            return new IndexOutOfRangeException
+                (
+                    string.Format
                     (
                         "The value of '{0}' ({1}) should be greater than or equal to {2} and less than {3}.",
                         argumentName,
                         value,
                         startIndex,
                         length
-                    ));
+                    )
+                );
         }
         #endregion
 
@@ -218,13 +262,23 @@ namespace CodeJam
             [CanBeNull] T value)
         {
             BreakIfAttached();
+#if !PocketPC
             // ReSharper disable once CompareNonConstrainedGenericWithNull
             var valueType = (value == null) ? typeof (T) : value.GetType();
-            return new ArgumentOutOfRangeException(
-                argumentName, value,
-                string.Format("Unexpected value '{0}' of type '{1}'",
-                value,
-                valueType.FullName));
+#endif
+            return new ArgumentOutOfRangeException
+                (
+                    argumentName
+#if !PocketPC
+                    ,value,
+                    string.Format
+                        (
+                            "Unexpected value '{0}' of type '{1}'",
+                            value,
+                            valueType.FullName
+                        )
+#endif
+                );
         }
 
         /// <summary>
@@ -239,9 +293,19 @@ namespace CodeJam
             [NotNull] string messageFormat, [CanBeNull] params object[] args)
         {
             BreakIfAttached();
-            return new ArgumentOutOfRangeException(
-                argumentName, value,
-                FormatMessage(messageFormat, args));
+
+            return new ArgumentOutOfRangeException
+                (
+                    argumentName
+#if !PocketPC
+                    , value,
+                    FormatMessage
+                        (
+                            messageFormat,
+                            args
+                        )
+#endif
+                );
         }
 
         /// <summary>

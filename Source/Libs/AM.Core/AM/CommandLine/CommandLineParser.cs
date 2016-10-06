@@ -56,7 +56,17 @@ namespace AM.CommandLine
             {
                 char[] separators
                     = { CommandLineSettings.ValueSeparator };
+
+#if WINMOBILE || PocketPC
+
+                string[] parts = text.Split(separators);
+
+#else
+
                 string[] parts = text.Split(separators, 2);
+
+#endif
+
                 if (string.IsNullOrEmpty(parts[0])
                     || string.IsNullOrEmpty(parts[1]))
                 {
@@ -120,9 +130,13 @@ namespace AM.CommandLine
                     char secondChar = trimmed[0];
                     if (secondChar == CommandLineSettings.ResponsePrefix)
                     {
+#if !WINMOBILE && !PocketPC
+
                         string fileName = trimmed.Substring(1);
                         ParsedCommandLine inner = ParseFile(fileName);
                         result.Merge(inner);
+
+#endif
                     }
                     else if (secondChar == CommandLineSettings.SwitchPrefix)
                     {
@@ -136,9 +150,13 @@ namespace AM.CommandLine
                 }
                 else if (firstChar == CommandLineSettings.ResponsePrefix)
                 {
+#if !WINMOBILE && !PocketPC
+
                     string fileName = argument.Substring(1);
                     ParsedCommandLine inner = ParseFile(fileName);
                     result.Merge(inner);
+
+#endif
                 }
                 else if (firstChar == CommandLineSettings.SwitchPrefix)
                 {
@@ -153,6 +171,8 @@ namespace AM.CommandLine
 
             return result;
         }
+
+#if !WINMOBILE && !PocketPC
 
         /// <summary>
         /// Parse arguments from response file.
@@ -189,6 +209,8 @@ namespace AM.CommandLine
                     Encoding.GetEncoding(0)
                 );
         }
+
+#endif
 
         #endregion
     }

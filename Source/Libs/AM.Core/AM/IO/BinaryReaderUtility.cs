@@ -122,6 +122,8 @@ namespace AM.IO
             return reader;
         }
 
+#if !WINMOBILE && !PocketPC
+
         /// <summary>
         /// Read <see cref="DateTime"/> from the stream.
         /// </summary>
@@ -136,6 +138,8 @@ namespace AM.IO
 
             return result;
         }
+
+#endif
 
         /// <summary>
         /// Read array of 16-bit integers.

@@ -22,7 +22,9 @@ namespace AM
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Value}")]
+#endif
     public class ValueEventArgs<T>
         : EventArgs
     {
@@ -93,7 +95,9 @@ namespace AM
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Value1} {Value2}")]
+#endif
     public class ValueEventArgs<T1, T2>
         : EventArgs
     {

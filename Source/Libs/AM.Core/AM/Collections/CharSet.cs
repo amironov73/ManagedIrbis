@@ -33,7 +33,9 @@ namespace AM.Collections
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{ToString()}")]
+#endif
     public sealed class CharSet
         : IHandmadeSerializable,
         IEnumerable<char>,
@@ -141,6 +143,8 @@ namespace AM.Collections
             #endregion
         }
 
+#if !WINMOBILE && !PocketPC
+
         /// <summary>
         /// Converter for JSON serialization.
         /// </summary>
@@ -217,6 +221,8 @@ namespace AM.Collections
 
             #endregion
         }
+
+#endif
 
         #endregion
 

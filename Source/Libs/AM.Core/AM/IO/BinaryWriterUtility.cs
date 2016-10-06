@@ -178,6 +178,8 @@ namespace AM.IO
             return writer;
         }
 
+#if !WINMOBILE && !PocketPC
+
         /// <summary>
         /// Write <see cref="DateTime"/>.
         /// </summary>
@@ -218,6 +220,8 @@ namespace AM.IO
 
             return writer;
         }
+
+#endif
 
         /// <summary>
         /// Write nullable double precision number.

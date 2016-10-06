@@ -24,7 +24,9 @@ namespace AM
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Value}")]
+#endif
     public struct NonNullValue<T>
         where T: class
     {

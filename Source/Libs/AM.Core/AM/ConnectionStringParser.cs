@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using CodeJam;
 
@@ -28,7 +27,9 @@ namespace AM
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("KeyDelimiter={KeyDelimiter} ValueDelimiter={ValueDelimiter}")]
+#endif
     public sealed class ConnectionStringParser
     {
         #region Constants

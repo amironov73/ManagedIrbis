@@ -56,10 +56,26 @@ namespace AM
             }
 
             int result;
+
+#if WINMOBILE || PocketPC
+
+            try
+            {
+                result = int.Parse(text);
+            }
+            catch (Exception)
+            {
+                result = defaultValue;
+            }
+
+#else
+
             if (!int.TryParse(text, out result))
             {
                 result = defaultValue;
             }
+
+#endif
 
             if ((result < minValue)
                 || (result > maxValue))
@@ -85,10 +101,26 @@ namespace AM
             }
 
             int result;
+
+#if WINMOBILE || PocketPC
+
+            try
+            {
+                result = int.Parse(text);
+            }
+            catch (Exception)
+            {
+                result = defaultValue;
+            }
+
+#else
+
             if (!int.TryParse(text, out result))
             {
                 result = defaultValue;
             }
+
+#endif
 
             return result;
         }
@@ -107,10 +139,25 @@ namespace AM
             }
 
             int result;
+
+#if WINMOBILE || PocketPC
+
+            try
+            {
+                result = int.Parse(text);
+            }
+            catch (Exception)
+            {
+                result = 0;
+            }
+#else
+
             if (!int.TryParse(text, out result))
             {
                 result = 0;
             }
+
+#endif
 
             return result;
         }
