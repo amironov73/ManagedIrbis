@@ -28,12 +28,12 @@ EXIT
 
 :BUILDLIB
 ECHO BUILD %1 %2 %4
-"%MSBUILD%" Sources\Libs\%1\%1.csproj /p:Configuration=%2 /p:TargetFrameworkVersion=%4  /p:OutputPath=%OUTPUT%\%2%3 %PARAMS% /p:DefineConstants=%5 /t:Rebuild
+"%MSBUILD%" Source\Libs\%1\%1.csproj /p:Configuration=%2 /p:TargetFrameworkVersion=%4  /p:OutputPath=%OUTPUT%\%2%3 %PARAMS% /p:DefineConstants=%5 /t:Rebuild
 GOTO :END
 
 :BUILDAPP
 ECHO BUILD %1 %2 %4
-"%MSBUILD%" Sources\Apps\%1\%1.csproj /p:Configuration=%2 /p:TargetFrameworkVersion=%4  /p:OutputPath=%OUTPUT%\%2%3 %PARAMS% /p:DefineConstants=%5 /t:Rebuild
+"%MSBUILD%" Source\Apps\%1\%1.csproj /p:Configuration=%2 /p:TargetFrameworkVersion=%4  /p:OutputPath=%OUTPUT%\%2%3 %PARAMS% /p:DefineConstants=%5 /t:Rebuild
 GOTO :END
 
 :END
