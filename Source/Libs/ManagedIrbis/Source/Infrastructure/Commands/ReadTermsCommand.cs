@@ -70,8 +70,10 @@ namespace ManagedIrbis.Infrastructure.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Database} {NumberOfTerms} "
         + "{ReverseOrder} {StartTerm}")]
+#endif
     public sealed class ReadTermsCommand
         : AbstractCommand
     {

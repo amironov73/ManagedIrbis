@@ -34,7 +34,9 @@ namespace ManagedIrbis.Magazines
     [PublicAPI]
     [XmlRoot("issue")]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Year} {Number} {Supplement}")]
+#endif
     public sealed class MagazineIssueInfo
         : IHandmadeSerializable
     {
@@ -178,14 +180,35 @@ namespace ManagedIrbis.Magazines
                 Number = record.FM("936"),
                 Supplement = record.FM("931", 'c'),
                 Worksheet = record.FM("920"),
+
                 Articles = record.Fields
                     .GetField("922")
+
+#if !WINMOBILE && !PocketPC
+
                     .Select(MagazineArticleInfo.Parse)
+
+#else
+                    .Select(field => MagazineArticleInfo.Parse(field))
+
+#endif
+
                     .ToArray(),
+
                 Exemplars = record.Fields
                     .GetField("910")
+
+#if !WINMOBILE && !PocketPC
+
                     .Select(ExemplarInfo.Parse)
-                    .ToArray()
+
+#else
+
+                    .Select(field => ExemplarInfo.Parse(field))
+
+#endif
+
+                        .ToArray()
             };
 
             return result;

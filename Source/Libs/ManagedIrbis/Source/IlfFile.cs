@@ -56,7 +56,14 @@ namespace ManagedIrbis
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class IlfFile
-        : IHandmadeSerializable,
+        :
+
+#if !WINMOBILE && !PocketPC
+        
+        IHandmadeSerializable,
+
+#endif
+
         IVerifiable
     {
         #region Constants
@@ -74,9 +81,17 @@ namespace ManagedIrbis
         /// Entry.
         /// </summary>
         [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
         [DebuggerDisplay("[{Number}] {Name}")]
+#endif
         public sealed class Entry
-            : IHandmadeSerializable,
+            :
+#if !WINMOBILE && !PocketPC
+
+            IHandmadeSerializable,
+
+#endif
+
             IVerifiable
         {
             #region Properties
@@ -133,6 +148,8 @@ namespace ManagedIrbis
 
             #region IHandmadeSerializable members
 
+#if !WINMOBILE && !PocketPC
+
             /// <summary>
             /// Restore object state from the specified stream.
             /// </summary>
@@ -170,6 +187,8 @@ namespace ManagedIrbis
                 writer.WriteNullable(Description);
                 writer.WriteNullable(Data);
             }
+
+#endif
 
             #endregion
 
@@ -382,12 +401,24 @@ namespace ManagedIrbis
                     entry.Flags = reader.ReadInt16();
                     char[] chars = reader.ReadChars(entry.DataLength);
                     string text = new string(chars);
+
+#if !WINMOBILE && !PocketPC
+
                     string[] parts = text.Split
                         (
                             separators,
                             2,
                             StringSplitOptions.None
                         );
+
+#else
+
+                    string[] parts = text
+                        .Replace("\r", string.Empty)
+                        .Split('\n');
+
+#endif
+
                     entry.Description = parts[0];
                     if (parts.Length > 1)
                     {
@@ -406,6 +437,8 @@ namespace ManagedIrbis
         #endregion
 
         #region IHandmadeSerializable members
+
+#if !WINMOBILE && !PocketPC
 
         /// <summary>
         /// Restore object state from the given stream.
@@ -428,6 +461,8 @@ namespace ManagedIrbis
         {
             writer.WriteCollection(Entries);
         }
+
+#endif
 
         #endregion
 

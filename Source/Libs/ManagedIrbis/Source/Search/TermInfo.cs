@@ -36,7 +36,9 @@ namespace ManagedIrbis.Search
     [PublicAPI]
     [XmlRoot("term-info")]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("[{Count}] {Text}")]
+#endif
     public class TermInfo
         : IHandmadeSerializable,
         IVerifiable

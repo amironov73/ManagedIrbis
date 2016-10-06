@@ -32,7 +32,9 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Length={Length}, KeyOffset={KeyOffset}, Text={Text}")]
+#endif
     public sealed class NodeItem
     {
         #region Properties

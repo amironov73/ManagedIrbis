@@ -219,7 +219,19 @@ namespace ManagedIrbis
                 {
                     continue;
                 }
+
+#if !WINMOBILE && !PocketPC
+
                 string[] parts = line.Split(separator, 2);
+
+#else
+
+                // TODO Implement it properly
+
+                string[] parts = line.Split(separator);
+
+#endif
+
                 if (parts.Length != 2)
                 {
                     throw new FormatException();
@@ -242,7 +254,18 @@ namespace ManagedIrbis
             }
 
             foreach (string key in Enumerable.Range(1, 10)
-                .Select(NumericUtility.ToInvariantString))
+
+#if !WINMOBILE && !PocketPC
+
+                .Select(NumericUtility.ToInvariantString)
+
+#else
+
+                .Select(n => n.ToInvariantString())
+
+#endif
+
+                )
             {
                 if (!result.ContainsKey(key))
                 {

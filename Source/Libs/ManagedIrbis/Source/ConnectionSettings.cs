@@ -410,6 +410,8 @@ namespace ManagedIrbis
                 Connected = connection.Connected
             };
 
+#if !WINMOBILE && !PocketPC
+
             LoggingClientSocket loggingSocket
                 = connection.Socket as LoggingClientSocket;
             if (loggingSocket != null)
@@ -417,12 +419,16 @@ namespace ManagedIrbis
                 result.NetworkLogging = loggingSocket.DebugPath;
             }
 
+#endif
+
             RetryClientSocket retrySocket
                 = connection.Socket as RetryClientSocket;
             if (retrySocket != null)
             {
                 result.RetryCount = retrySocket.RetryManager.RetryCount;
             }
+
+#if !WINMOBILE && !PocketPC
 
             if ((connection.Socket.GetType() != typeof(SimpleClientSocket))
                 && (retrySocket == null)
@@ -432,6 +438,17 @@ namespace ManagedIrbis
                 result.SocketTypeName = connection.Socket
                     .GetType().AssemblyQualifiedName;
             }
+
+#else
+
+            if ((connection.Socket.GetType() != typeof (SimpleClientSocket))
+                && (retrySocket == null))
+            {
+                result.SocketTypeName = connection.Socket
+                    .GetType().AssemblyQualifiedName;
+            }
+
+#endif
 
             if (connection.CommandFactory.GetType() !=
                 typeof(CommandFactory))

@@ -35,7 +35,9 @@ namespace ManagedIrbis
     [PublicAPI]
     [XmlRoot("field")]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{DebugText}")]
+#endif
     public sealed class RecordField
         : IHandmadeSerializable,
         IReadOnly<RecordField>,
@@ -110,7 +112,6 @@ namespace ManagedIrbis
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
-        [NonSerialized]
         public int Repeat;
 
         /// <summary>
@@ -163,7 +164,6 @@ namespace ManagedIrbis
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        [NonSerialized]
         public MarcRecord Record;
 
         /// <summary>

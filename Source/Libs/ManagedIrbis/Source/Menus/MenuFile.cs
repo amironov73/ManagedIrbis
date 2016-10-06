@@ -37,7 +37,9 @@ namespace ManagedIrbis.Menus
     [PublicAPI]
     [XmlRoot("menu")]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [JsonConverter(typeof(MenuConverter))]
+#endif
     public sealed class MenuFile
         : IHandmadeSerializable
     {

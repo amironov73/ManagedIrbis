@@ -22,10 +22,14 @@ using ManagedIrbis.Readers;
 
 using MoonSharp.Interpreter;
 
-#if PocketPC
+#if WINMOBILE || PocketPC
+
 using CM=OpenNETCF.Configuration.ConfigurationSettings;
+
 #else
+
 using CM = System.Configuration.ConfigurationManager;
+
 #endif
 
 #endregion

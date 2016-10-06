@@ -431,7 +431,17 @@ namespace ManagedIrbis.Fields
 
             ExemplarInfo[] result = record.Fields
                 .GetField(tagNumber)
+
+#if !WINMOBILE && !PocketPC
+
                 .Select(Parse)
+
+#else
+
+                .Select(field => Parse(field))
+
+#endif
+
                 .ToArray();
 
             foreach (ExemplarInfo exemplar in result)

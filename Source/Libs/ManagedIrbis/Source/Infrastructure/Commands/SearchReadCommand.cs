@@ -112,10 +112,14 @@ namespace ManagedIrbis.Infrastructure.Commands
             {
                 Records = Found
                     .ThrowIfNull("Found")
-#if !NETCORE
+
+#if !NETCORE && !WINMOBILE && !PocketPC
+
                     .AsParallel()
                     .AsOrdered()
+
 #endif
+
                     .Select
                     (
                         // ReSharper disable ConvertClosureToMethodGroup

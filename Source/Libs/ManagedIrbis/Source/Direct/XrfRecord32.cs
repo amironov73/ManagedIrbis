@@ -21,7 +21,9 @@ namespace ManagedIrbis.Direct
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Offset={AbsoluteOffset}, Status={Status}")]
+#endif
     public sealed class XrfRecord32
     {
         #region Constants

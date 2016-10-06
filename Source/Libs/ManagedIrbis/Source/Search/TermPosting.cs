@@ -36,7 +36,9 @@ namespace ManagedIrbis.Search
     [PublicAPI]
     [XmlRoot("term-link")]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("[{Mfn}] {Tag} {Occurrence} {Count} {Text}")]
+#endif
     public sealed class TermPosting
         : IHandmadeSerializable,
         IVerifiable
@@ -127,7 +129,18 @@ namespace ManagedIrbis.Search
                     break;
                 }
 
+#if !WINMOBILE && !PocketPC
+
                 string[] parts = line.Split(_separators, 5);
+
+#else
+
+                // TODO Implement it properly
+
+                string[] parts = line.Split(_separators);
+
+#endif
+
                 if (parts.Length < 4)
                 {
                     break;

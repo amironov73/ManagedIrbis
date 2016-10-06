@@ -30,8 +30,10 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Number={Number}, Previous={Previous}, Next={Next}, "
         + "TermCount={TermCount}, FreeOffset={FreeOffset}")]
+#endif
     public sealed class NodeLeader
     {
         #region Properties

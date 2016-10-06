@@ -37,7 +37,9 @@ namespace ManagedIrbis
     [PublicAPI]
     [XmlRoot("record")]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("MFN={Mfn}, Index={Index}")]
+#endif
     public sealed class RecordReference
         : IHandmadeSerializable,
         IVerifiable

@@ -327,6 +327,8 @@ namespace ManagedIrbis
                 .ToArray();
         }
 
+#if !WINMOBILE && !PocketPC
+
         /// <summary>
         /// Convert the subfield to <see cref="JObject"/>.
         /// </summary>
@@ -393,6 +395,8 @@ namespace ManagedIrbis
 
             return result;
         }
+
+#endif
 
 #if !NETCORE
 

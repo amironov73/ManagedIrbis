@@ -165,7 +165,17 @@ namespace ManagedIrbis.Readers
 
             ReaderRegistration[] result = record.Fields
                 .GetField(tag)
+
+#if !WINMOBILE && !PocketPC
+
                 .Select(Parse)
+
+#else
+
+                .Select(field => Parse(field))
+
+#endif
+
                 .ToArray();
 
             return result;

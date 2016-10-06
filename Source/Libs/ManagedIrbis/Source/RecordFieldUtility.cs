@@ -25,7 +25,12 @@ using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
+#if !WINMOBILE && !PocketPC
+
 using Formatting = Newtonsoft.Json.Formatting;
+
+#endif
 
 #endregion
 
@@ -1376,6 +1381,8 @@ namespace ManagedIrbis
             return result.ToArray();
         }
 
+#if !WINMOBILE && !PocketPC
+
         /// <summary>
         /// Convert the field to <see cref="JObject"/>.
         /// </summary>
@@ -1439,6 +1446,8 @@ namespace ManagedIrbis
 
             return result;
         }
+
+#endif
 
         /// <summary>
         /// Парсинг текстового представления поля

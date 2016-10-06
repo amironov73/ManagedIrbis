@@ -4,6 +4,9 @@
  * Status: poor
  */
 
+#if !WINMOBILE && !PocketPC
+
+
 #region Using directives
 
 using System;
@@ -201,3 +204,6 @@ namespace ManagedIrbis.Infrastructure.Sockets
         #endregion
     }
 }
+
+#endif
+

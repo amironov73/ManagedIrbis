@@ -37,7 +37,9 @@ namespace ManagedIrbis.Requests
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("request")]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{RequestDate} {BookDescription}")]
+#endif
     public sealed class BookRequest
         : IHandmadeSerializable
     {

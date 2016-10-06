@@ -31,7 +31,9 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Version={Version}")]
+#endif
     public sealed class IrbisVersion
         : IHandmadeSerializable
     {

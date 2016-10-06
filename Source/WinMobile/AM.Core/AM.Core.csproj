@@ -293,6 +293,12 @@
     <Compile Include="..\..\Libs\AM.Core\AM\Optional.cs">
       <Link>AM\Optional.cs</Link>
     </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Parameters\Parameter.cs">
+      <Link>AM\Parameters\Parameter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Parameters\ParameterUtility.cs">
+      <Link>AM\Parameters\ParameterUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Libs\AM.Core\AM\ProcessorArchitecture.cs">
       <Link>AM\ProcessorArchitecture.cs</Link>
     </Compile>
@@ -520,6 +526,9 @@
     </Compile>
     <Compile Include="..\..\Libs\AM.Core\Compatibility\System.cs">
       <Link>Compability\System.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\Compatibility\Tasks.cs">
+      <Link>Compability\Tasks.cs</Link>
     </Compile>
     <Compile Include="..\..\Libs\AM.Core\Compatibility\Xml.cs">
       <Link>Compability\Xml.cs</Link>

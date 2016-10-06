@@ -31,8 +31,10 @@ namespace ManagedIrbis
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("indicator")]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Value = '{Value}'")]
     [JsonConverter(typeof(FieldIndicatorConverter))]
+#endif
     public sealed class FieldIndicator
         : IHandmadeSerializable,
         IReadOnly<FieldIndicator>
@@ -52,6 +54,8 @@ namespace ManagedIrbis
         #endregion
 
         #region Nested classes
+
+#if !WINMOBILE && !PocketPC
 
         /// <summary>
         /// JSON converter for <see cref="FieldIndicator"/>
@@ -128,6 +132,8 @@ namespace ManagedIrbis
 
             #endregion
         }
+
+#endif
 
         #endregion
 

@@ -23,7 +23,11 @@ using MoonSharp.Interpreter;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
+#if !WINMOBILE && !PocketPC
+
 using Formatting = Newtonsoft.Json.Formatting;
+
+#endif
 
 #endregion
 
@@ -123,10 +127,25 @@ namespace ManagedIrbis.Marc.Schema
             }
 
             int result;
+
+#if WINMOBILE || PocketPC
+
+            try
+            {
+                result = int.Parse(attribute.Value);
+            }
+            catch (Exception)
+            {
+                result = defaultValue;
+            }
+#else
+
             if (!int.TryParse(attribute.Value, out result))
             {
                 result = defaultValue;
             }
+
+#endif
 
             return result;
         }
@@ -243,6 +262,8 @@ namespace ManagedIrbis.Marc.Schema
             return value.SameString("y");
         }
 
+#if !WINMOBILE && !PocketPC
+
         /// <summary>
         /// Convert schema to JSON.
         /// </summary>
@@ -267,6 +288,8 @@ namespace ManagedIrbis.Marc.Schema
 
             return result;
         }
+
+#endif
 
         #endregion
     }

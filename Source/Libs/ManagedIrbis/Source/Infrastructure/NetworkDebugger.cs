@@ -79,6 +79,8 @@ namespace ManagedIrbis.Infrastructure
         {
             Code.NotNull(response, "response");
 
+#if !WINMOBILE && !PocketPC
+
             string filePath = Path.Combine
                 (
                     Path.GetTempPath(),
@@ -89,6 +91,8 @@ namespace ManagedIrbis.Infrastructure
                     filePath,
                     response.RawAnswer
                 );
+
+#endif
         }
 
         /// <summary>
@@ -105,12 +109,16 @@ namespace ManagedIrbis.Infrastructure
 
 #else
 
+#if !WINMOBILE && !PocketPC
+
             Debugger.Log
                 (
                     0,
                     "IRBIS",
                     text
                 );
+
+#endif
 
 #endif
         }

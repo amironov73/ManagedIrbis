@@ -484,23 +484,58 @@ namespace ManagedIrbis.Readers
                     Email = record.FM("32"),
                     HomePhone = record.FM("17"),
                     RegistrationDateString = record.FM("51"),
+
                     Enrollment = record.Fields
                         .GetField("51")
+
+#if !WINMOBILE && !PocketPC
+
                         .Select(ReaderRegistration.Parse)
-                        .ToArray(),
+
+#else
+
+                        .Select(field => ReaderRegistration.Parse(field))
+
+#endif
+
+                            .ToArray(),
+
                     Registrations = record.Fields
                         .GetField("52")
+
+#if !WINMOBILE && !PocketPC
+
                         .Select(ReaderRegistration.Parse)
-                        .ToArray(),
-                    EnabledPlaces = record.FM("56"),
+
+#else
+
+                        .Select(field => ReaderRegistration.Parse(field))
+
+#endif
+
+                            .ToArray(),
+                    
+                        EnabledPlaces = record.FM("56"),
                     DisabledPlaces = record.FM("57"),
                     Rights = record.FM("29"),
                     Remarks = record.FM("33"),
                     PhotoFile = record.FM("950"),
+                    
                     Visits = record.Fields
                         .GetField("40")
+
+#if !WINMOBILE && !PocketPC
+
                         .Select(VisitInfo.Parse)
-                        .ToArray(),
+
+#else
+
+                        .Select(field => VisitInfo.Parse(field))
+
+#endif
+
+                            .ToArray(),
+
                     Profiles = IriProfile.ParseRecord(record)
                 };
 

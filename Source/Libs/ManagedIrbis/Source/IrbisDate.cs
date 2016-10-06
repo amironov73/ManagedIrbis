@@ -28,7 +28,9 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Text}")]
+#endif
     public sealed class IrbisDate
         : IHandmadeSerializable
     {
@@ -130,7 +132,9 @@ namespace ManagedIrbis
             }
 
             DateTime result;
-            
+
+#if !WINMOBILE && !PocketPC
+
             DateTime.TryParseExact
                 (
                     date,
@@ -139,6 +143,18 @@ namespace ManagedIrbis
                     DateTimeStyles.None,
                     out result
                 );
+
+#else
+
+            result = DateTime.ParseExact
+                (
+                    date,
+                    ConversionFormat,
+                    CultureInfo.CurrentCulture,
+                    DateTimeStyles.None
+                );
+
+#endif
 
             return result;
         }

@@ -33,7 +33,14 @@ namespace JetBrains.Annotations
     public sealed class ItemNotNullAttribute
         : Attribute
     {
-        
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public sealed class ItemCanBeNullAttribute
+        : Attribute
+    {
     }
 
     /// <summary>

@@ -174,7 +174,9 @@ namespace ManagedIrbis.Direct
                 entry.Bytes = _stream.ReadBytes(entry.Length);
                 if (entry.Bytes != null)
                 {
-                    entry.Text = encoding.GetString(entry.Bytes);
+                    byte[] bytes = entry.Bytes;
+
+                    entry.Text = encoding.GetString(bytes, 0, bytes.Length);
                 }
             }
 
@@ -235,7 +237,8 @@ namespace ManagedIrbis.Direct
                 entry.Bytes = memory.ReadBytes(entry.Length);
                 if (entry.Bytes != null)
                 {
-                    entry.Text = encoding.GetString(entry.Bytes);
+                    byte[] buffer = entry.Bytes;
+                    entry.Text = encoding.GetString(buffer, 0, buffer.Length);
                 }
             }
 
@@ -264,14 +267,25 @@ namespace ManagedIrbis.Direct
             _stream.Position = MstControlRecord64.LockFlagPosition;
             if (flag)
             {
+
+#if !WINMOBILE && !PocketPC
+
                 _stream.Lock(0, MstControlRecord64.RecordSize);
+
+#endif
+
                 buffer[0] = 1;
                 _stream.Write(buffer, 0, buffer.Length);
             }
             else
             {
                 _stream.Write(buffer, 0, buffer.Length);
+
+#if !WINMOBILE && !PocketPC
+
                 _stream.Unlock(0, MstControlRecord64.RecordSize);
+
+#endif
             }
             _lockFlag = flag;
 

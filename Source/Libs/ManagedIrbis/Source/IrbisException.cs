@@ -24,7 +24,9 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     //[MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Code={Code}, Message={Message}")]
+#endif
     public class IrbisException
         : ArsMagnaException
     {

@@ -126,6 +126,8 @@ namespace ManagedIrbis.Menus
                 : ConversionUtility.ConvertTo<T>(found.Comment);
         }
 
+#if !WINMOBILE && !PocketPC
+
         /// <summary>
         /// Converts the menu to JSON.
         /// </summary>
@@ -207,6 +209,8 @@ namespace ManagedIrbis.Menus
 
             return result;
         }
+
+#endif
 
 #if !NETCORE
 

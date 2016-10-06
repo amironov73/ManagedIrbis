@@ -25,7 +25,9 @@ namespace ManagedIrbis.Search.Infrastructure
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Kind} {Text} {Position}")]
+#endif
     internal sealed class SearchToken
     {
         #region Properties

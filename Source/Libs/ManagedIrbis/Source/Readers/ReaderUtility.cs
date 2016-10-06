@@ -274,8 +274,11 @@ namespace ManagedIrbis.Readers
             }
 
             return events
-#if !NETCORE
+
+#if !NETCORE && !WINMOBILE && !PocketPC
+
                 .AsParallel()
+
 #endif
                 .Where(v => v.Department.SameString(department))
                 .ToArray();
@@ -297,9 +300,13 @@ namespace ManagedIrbis.Readers
             }
 
             return events
-#if !NETCORE
+
+#if !NETCORE && !WINMOBILE && !PocketPC
+
                 .AsParallel()
+
 #endif
+
                 .Where(v => v.IsVisit == visit)
                 .ToArray();
         }
@@ -321,9 +328,13 @@ namespace ManagedIrbis.Readers
 
             string dayString = IrbisDate.ConvertDateToString(day);
             VisitInfo[] result = events
-#if !NETCORE
+
+#if !NETCORE && !WINMOBILE && !PocketPC
+
                 .AsParallel()
+
 #endif
+
                 .Where(v => v.DateGivenString.SameString(dayString))
                 .ToArray();
             return result;
@@ -348,9 +359,13 @@ namespace ManagedIrbis.Readers
             string fromDayString = IrbisDate.ConvertDateToString(fromDay);
             string toDayString = IrbisDate.ConvertDateToString(toDay);
             VisitInfo[] result = events
-#if !NETCORE
+
+#if !NETCORE && !WINMOBILE && !PocketPC
+
                 .AsParallel()
+
 #endif
+
                 .Where(v => (v.DateGivenString.SafeCompare(fromDayString) >= 0)
                             && (v.DateGivenString.SafeCompare(toDayString) <= 0))
                 .ToArray();

@@ -7,6 +7,7 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -189,9 +190,13 @@ namespace ManagedIrbis.Infrastructure
                 memory.WriteByte((byte)code);
             }
 
+            byte[] bytes = memory.ToArray();
+
             string result = IrbisEncoding.Ansi.GetString
                 (
-                    memory.ToArray()
+                    bytes,
+                    0,
+                    bytes.Length
                 );
 
             return result;
@@ -297,11 +302,28 @@ namespace ManagedIrbis.Infrastructure
             )
         {
             string line = GetAnsiString();
+
             int result;
+
+#if !WINMOBILE && !PocketPC
+
             if (!int.TryParse(line, out result))
             {
                 result = defaultValue;
             }
+
+#else
+
+            try
+            {
+                result = int.Parse(line);
+            }
+            catch (Exception)
+            {
+                result = defaultValue;
+            }
+
+#endif
 
             return result;
         }
@@ -531,10 +553,8 @@ namespace ManagedIrbis.Infrastructure
                 memory.WriteByte((byte)code);
             }
 
-            string result = IrbisEncoding.Utf8.GetString
-                (
-                    memory.ToArray()
-                );
+            byte[] buffer = memory.ToArray();
+            string result = IrbisEncoding.Utf8.GetString(buffer, 0, buffer.Length);
 
             return result;
         }
@@ -669,11 +689,32 @@ namespace ManagedIrbis.Infrastructure
         public int RequireInt32()
         {
             string line = GetAnsiString();
+            
             int result;
+
+#if !WINMOBILE && !PocketPC
+
             if (!int.TryParse(line, out result))
             {
                 throw new IrbisNetworkException();
             }
+
+#else
+
+            try
+            {
+                result = int.Parse(line);
+            }
+            catch (Exception exception)
+            {
+                throw new IrbisNetworkException
+                    (
+                        "packet",
+                        exception
+                    );
+            }
+
+#endif
 
             return result;
         }

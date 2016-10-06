@@ -33,7 +33,9 @@ namespace ManagedIrbis.Marc.Schema
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("subfield")]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("[{Code}] {Name}")]
+#endif
     public sealed class SubFieldSchema
         : IHandmadeSerializable
     {
@@ -50,7 +52,9 @@ namespace ManagedIrbis.Marc.Schema
         /// For serialization.
         /// </summary>
         [CanBeNull]
+#if !WINMOBILE && !PocketPC
         [Browsable(false)]
+#endif
         [XmlAttribute("code")]
         [JsonProperty("code")]
         public string CodeString

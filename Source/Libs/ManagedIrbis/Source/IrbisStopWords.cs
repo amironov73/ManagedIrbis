@@ -162,6 +162,8 @@ namespace ManagedIrbis
                 );
         }
 
+#if !WINMOBILE && !PocketPC
+
         /// <summary>
         /// Parse the text file.
         /// </summary>
@@ -186,6 +188,8 @@ namespace ManagedIrbis
                     lines
                 );
         }
+
+#endif
 
         /// <summary>
         /// Convert <see cref="IrbisStopWords"/> to array

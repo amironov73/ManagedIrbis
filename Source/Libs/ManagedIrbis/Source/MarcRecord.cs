@@ -30,7 +30,9 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("[{Database}] MFN={Mfn} ({Version})")]
+#endif
     public sealed class MarcRecord
         : IHandmadeSerializable,
         IReadOnly<MarcRecord>,

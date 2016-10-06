@@ -27,8 +27,10 @@ namespace ManagedIrbis.Infrastructure
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{CommandCode} {Workstation}"
         + " {ClientID} {CommandNumber}")]
+#endif
     public sealed class ClientQuery
         : IVerifiable
     {

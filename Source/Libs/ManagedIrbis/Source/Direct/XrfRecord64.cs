@@ -19,7 +19,9 @@ namespace ManagedIrbis.Direct
     /// <summary>
     /// Contains information about record offset and status.
     /// </summary>
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Offset={Offset}, Status={Status}")]
+#endif
     public sealed class XrfRecord64
     {
         #region Constants
@@ -27,8 +29,8 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Fixed record size.
         /// </summary>
-        public const int RecordSize 
-            = sizeof ( long ) + sizeof ( int );
+        public const int RecordSize
+            = sizeof(long) + sizeof(int);
 
         #endregion
 
@@ -91,14 +93,14 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// 
         /// </summary>
-        public override string ToString ()
+        public override string ToString()
         {
-            return string.Format 
+            return string.Format
                 (
                     "MFN: {0}, Offset: {1}, Status: {2}",
                     Mfn,
-                    Offset, 
-                    Status 
+                    Offset,
+                    Status
                 );
         }
 

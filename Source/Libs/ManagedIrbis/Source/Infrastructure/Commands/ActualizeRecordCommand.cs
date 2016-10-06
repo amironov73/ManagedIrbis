@@ -23,7 +23,9 @@ namespace ManagedIrbis.Infrastructure.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("MFN={Mfn}")]
+#endif
     public class ActualizeRecordCommand
         : AbstractCommand
     {

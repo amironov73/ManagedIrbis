@@ -111,7 +111,9 @@ namespace ManagedIrbis
         /// <summary>
         /// Элемент словаря.
         /// </summary>
+#if !WINMOBILE && !PocketPC
         [DebuggerDisplay("{Key} {Value}")]
+#endif
         public sealed class Item
             : IHandmadeSerializable
         {
@@ -167,11 +169,23 @@ namespace ManagedIrbis
                     return null;
                 }
                 char[] separator = {' '};
+
+#if !WINMOBILE && !PocketPC
+
                 string[] parts = line.Split
                     (
                         separator,
                         StringSplitOptions.RemoveEmptyEntries
                     );
+
+#else
+
+                // TODO Implement it properly
+
+                string[] parts = line.Split(separator);
+
+#endif
+
                 if (parts.Length != 2)
                 {
                     return null;
@@ -296,8 +310,18 @@ namespace ManagedIrbis
             {
                 return true;
             }
+
+#if !WINMOBILE && !PocketPC
+
             return char.ToUpperInvariant(left)
                    == char.ToUpperInvariant(right);
+
+#else
+
+            return char.ToUpper(left) == char.ToUpper(right);
+
+#endif
+
         }
 
         /// <summary>
@@ -317,6 +341,7 @@ namespace ManagedIrbis
                 {
                     return true;
                 }
+
                 return false;
             }
 

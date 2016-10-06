@@ -59,8 +59,10 @@ namespace ManagedIrbis.Infrastructure.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Database} {NumberOfPostings} "
         + "{FirstPosting}")]
+#endif
     public sealed class ReadPostingsCommand
         : AbstractCommand
     {

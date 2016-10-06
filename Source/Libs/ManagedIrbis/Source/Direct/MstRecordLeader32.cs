@@ -24,8 +24,10 @@ namespace ManagedIrbis.Direct
     /// Leader of MST record.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("MFN={Mfn}, Length={Length}, "
         + "NVF={Nvf}, Status={Status}")]
+#endif
     public sealed class MstRecordLeader32
     {
         #region Constants

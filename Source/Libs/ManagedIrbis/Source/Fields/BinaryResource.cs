@@ -26,7 +26,9 @@ namespace ManagedIrbis.Fields
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Resource}")]
+#endif
     public sealed class BinaryResource
     {
         #region Constants
@@ -155,7 +157,17 @@ namespace ManagedIrbis.Fields
                 .GetField(tag);
 
             BinaryResource[] result = fields
+
+#if !WINMOBILE && !PocketPC
+
                 .Select(Parse)
+
+#else
+
+                .Select(field => Parse(field))
+
+#endif
+
                 .ToArray();
 
             return result;

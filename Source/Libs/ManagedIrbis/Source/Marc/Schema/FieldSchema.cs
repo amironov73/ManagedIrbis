@@ -33,7 +33,9 @@ namespace ManagedIrbis.Marc.Schema
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("field")]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("[{Tag}] {Name}")]
+#endif
     public sealed class FieldSchema
         : IHandmadeSerializable
     {

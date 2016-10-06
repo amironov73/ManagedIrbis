@@ -16,7 +16,7 @@ using AM;
 using AM.Collections;
 using AM.Text;
 
-#if !NETCORE
+#if !NETCORE && !WINMOBILE && !PocketPC
 using AM.Configuration;
 #endif
 
@@ -267,7 +267,7 @@ namespace ManagedIrbis
             return result;
         }
 
-#if !NETCORE
+#if !NETCORE && !WINMOBILE && !PocketPC
 
         // ========================================================
 
@@ -629,6 +629,8 @@ namespace ManagedIrbis
         {
             Code.NotNull(connection, "connection");
 
+#if !WINMOBILE && !PocketPC
+
             LoggingClientSocket oldSocket = connection.Socket
                 as LoggingClientSocket;
             if (!ReferenceEquals(oldSocket, null))
@@ -636,6 +638,8 @@ namespace ManagedIrbis
                 AbstractClientSocket newSocket = oldSocket.InnerSocket;
                 connection.SetSocket(newSocket);
             }
+
+#endif
         }
 
         // ========================================================

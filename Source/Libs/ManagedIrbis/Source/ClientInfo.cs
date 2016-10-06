@@ -22,7 +22,9 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{IPAddress} {Name} {Workstation}")]
+#endif
     public sealed class ClientInfo
     {
         #region Properties

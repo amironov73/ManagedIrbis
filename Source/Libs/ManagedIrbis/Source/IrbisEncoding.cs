@@ -66,10 +66,14 @@ namespace ManagedIrbis
         {
             Code.NotNull(encoding, "encoding");
 
+#if !WINMOBILE && !PocketPC
+
             if (!encoding.IsSingleByte)
             {
                 throw new ArgumentOutOfRangeException("encoding");
             }
+
+#endif
 
             _ansi = encoding;
         }
@@ -84,10 +88,14 @@ namespace ManagedIrbis
         {
             Code.NotNull(encoding, "encoding");
 
+#if !WINMOBILE && !PocketPC
+
             if (!encoding.IsSingleByte)
             {
                 throw new ArgumentOutOfRangeException("encoding");
             }
+
+#endif
 
             _oem = encoding;
         }

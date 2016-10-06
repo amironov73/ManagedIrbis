@@ -45,7 +45,9 @@ namespace ManagedIrbis.Batch
         /// <summary>
         /// Raised when exception occurs.
         /// </summary>
+#if !WINMOBILE && !PocketPC
         [CanBeNull]
+#endif
         public event EventHandler<ExceptionEventArgs<Exception>> Exception;
 
         #endregion

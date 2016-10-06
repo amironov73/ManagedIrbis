@@ -34,7 +34,9 @@ namespace ManagedIrbis.Marc.Schema
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("schema")]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Fields = {Fields.Count}")]
+#endif
     public sealed class MarcSchema
         : IHandmadeSerializable
     {

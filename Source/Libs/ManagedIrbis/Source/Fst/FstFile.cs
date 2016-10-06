@@ -33,7 +33,9 @@ namespace ManagedIrbis.Fst
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("FileName = {FileName}")]
+#endif
     public sealed class FstFile
         : IHandmadeSerializable
     {

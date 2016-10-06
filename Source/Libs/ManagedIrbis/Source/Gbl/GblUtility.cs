@@ -68,6 +68,8 @@ namespace ManagedIrbis.Gbl
             return result.ToString();
         }
 
+#if !WINMOBILE && !PocketPC
+
         /// <summary>
         /// Restore <see cref="GblFile"/> from JSON.
         /// </summary>
@@ -84,6 +86,8 @@ namespace ManagedIrbis.Gbl
 
             return result;
         }
+
+#endif
 
 #if !NETCORE
 
@@ -109,6 +113,8 @@ namespace ManagedIrbis.Gbl
 
 #endif
 
+#if !WINMOBILE && !PocketPC
+
         /// <summary>
         /// Parses the local JSON file.
         /// </summary>
@@ -130,7 +136,9 @@ namespace ManagedIrbis.Gbl
             return result;
         }
 
-#if !NETCORE
+#endif
+
+#if !NETCORE && !WINMOBILE && !PocketPC
 
         /// <summary>
         /// Parses the local XML file.
@@ -154,6 +162,8 @@ namespace ManagedIrbis.Gbl
         }
 
 #endif
+
+#if !WINMOBILE && !PocketPC
 
         /// <summary>
         /// Saves <see cref="GblFile"/> to local JSON file.
@@ -195,6 +205,8 @@ namespace ManagedIrbis.Gbl
 
             return result;
         }
+
+#endif
 
 #if !NETCORE
 

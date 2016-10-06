@@ -180,6 +180,8 @@ namespace ManagedIrbis.Gbl
 
         #region Public methods
 
+#if !WINMOBILE && !PocketPC
+
         /// <summary>
         /// Restore settings from JSON string.
         /// </summary>
@@ -195,6 +197,8 @@ namespace ManagedIrbis.Gbl
 
             return result;
         }
+
+#endif
 
         /// <summary>
         /// Create <see cref="GblSettings"/>
@@ -463,6 +467,8 @@ namespace ManagedIrbis.Gbl
             return this;
         }
 
+#if !WINMOBILE && !PocketPC
+
         /// <summary>
         /// Convert settings to JSON string.
         /// </summary>
@@ -474,6 +480,8 @@ namespace ManagedIrbis.Gbl
 
             return result;
         }
+
+#endif
 
         #endregion
 

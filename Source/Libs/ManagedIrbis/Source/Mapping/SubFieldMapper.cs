@@ -86,7 +86,17 @@ namespace ManagedIrbis.Mapping
             )
         {
             decimal result;
+
+#if !WINMOBILE && !PocketPC
+
             decimal.TryParse(subField.Value, out result);
+
+#else
+
+            result = decimal.Parse(subField.Value);
+
+#endif
+
             return result;
         }
 
@@ -100,7 +110,17 @@ namespace ManagedIrbis.Mapping
             )
         {
             double result;
+
+#if !WINMOBILE && !PocketPC
+
             double.TryParse(subField.Value, out result);
+
+#else
+
+            result = double.Parse(subField.Value);
+
+#endif
+
             return result;
         }
 
@@ -114,7 +134,17 @@ namespace ManagedIrbis.Mapping
             )
         {
             float result;
+
+#if !WINMOBILE && !PocketPC
+
             float.TryParse(subField.Value, out result);
+
+#else
+
+            result = float.Parse(subField.Value);
+
+#endif
+
             return result;
         }
 
@@ -127,7 +157,16 @@ namespace ManagedIrbis.Mapping
             )
         {
             short result;
+
+#if !WINMOBILE && !PocketPC
+
             short.TryParse(subField.Value, out result);
+
+#else
+            result = short.Parse(subField.Value);
+
+#endif
+
             return result;
         }
 
@@ -140,7 +179,17 @@ namespace ManagedIrbis.Mapping
             )
         {
             int result;
+
+#if !WINMOBILE && !PocketPC
+
             int.TryParse(subField.Value, out result);
+
+#else
+
+            result = int.Parse(subField.Value);
+
+#endif
+
             return result;
         }
 
@@ -153,7 +202,16 @@ namespace ManagedIrbis.Mapping
             )
         {
             long result;
+
+#if !WINMOBILE && !PocketPC
+
             long.TryParse(subField.Value, out result);
+
+#else
+            result = long.Parse(subField.Value);
+
+#endif
+
             return result;
         }
 

@@ -78,7 +78,6 @@ namespace ManagedIrbis
             }
         }
 
-        [NonSerialized]
         private MarcRecord _record;
 
         internal RecordFieldCollection _SetRecord

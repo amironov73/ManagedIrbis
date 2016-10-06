@@ -24,7 +24,9 @@ namespace ManagedIrbis.Direct
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Leader={Leader}")]
+#endif
     public sealed class MstRecord32
     {
         #region Constants

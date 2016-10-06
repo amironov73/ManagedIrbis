@@ -36,7 +36,9 @@ namespace ManagedIrbis.Readers
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Name")]
+#endif
     public sealed class DebtorInfo
         : IHandmadeSerializable
     {

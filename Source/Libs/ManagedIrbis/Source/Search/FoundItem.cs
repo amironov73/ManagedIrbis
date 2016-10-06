@@ -29,7 +29,9 @@ namespace ManagedIrbis.Search
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Mfn} {Text}")]
+#endif
     public sealed class FoundItem
         : IHandmadeSerializable,
         IVerifiable
@@ -124,7 +126,18 @@ namespace ManagedIrbis.Search
         {
             Code.NotNull(line, "line");
 
+#if !WINMOBILE && !PocketPC
+
             string[] parts = line.Split(_delimiters, 2);
+
+#else
+
+            // TODO Implement it properly
+
+            string[] parts = line.Split(_delimiters);
+
+#endif
+
             FoundItem result = new FoundItem
             {
                 Mfn = int.Parse(parts[0])

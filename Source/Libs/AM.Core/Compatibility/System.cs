@@ -10,13 +10,13 @@ using System;
 
 namespace System
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public sealed class NonSerializedAttribute
-        : Attribute
-    {
-    }
+    ///// <summary>
+    ///// 
+    ///// </summary>
+    //public sealed class NonSerializedAttribute
+    //    : Attribute
+    //{
+    //}
 
     //public sealed class ArgumentOutOfRangeException
     //    : Exception

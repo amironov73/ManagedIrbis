@@ -34,7 +34,9 @@ namespace ManagedIrbis.Fst
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Tag} {Method} {Format}")]
+#endif
     public sealed class FstLine
         : IHandmadeSerializable
     {
@@ -105,12 +107,26 @@ namespace ManagedIrbis.Fst
             }
 
             char[] delimiters = {' ', '\t'};
+
+#if !WINMOBILE && !PocketPC
+
             string[] parts = line.Split
                 (
                     delimiters,
                     3,
                     StringSplitOptions.RemoveEmptyEntries
                 );
+
+#else
+            // TODO Implement it properly
+
+            string[] parts = line.Split
+                (
+                    delimiters
+                );
+
+#endif
+
             if (parts.Length != 3)
             {
                 throw new FormatException();

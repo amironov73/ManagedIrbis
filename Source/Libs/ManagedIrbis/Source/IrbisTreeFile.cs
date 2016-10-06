@@ -52,7 +52,9 @@ namespace ManagedIrbis
         /// </summary>
         [PublicAPI]
         [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
         [DebuggerDisplay("{Value}")]
+#endif
         public sealed class Item
             : IHandmadeSerializable
         {
@@ -184,17 +186,29 @@ namespace ManagedIrbis
                 if (!string.IsNullOrEmpty(Delimiter)
                     && !string.IsNullOrEmpty(value))
                 {
+
+#if !WINMOBILE && !PocketPC
+
                     string[] parts = value.Split
                         (
                             new [] {Delimiter},
                             2,
                             StringSplitOptions.None
                         );
+
                     _prefix = parts[0];
                     if (parts.Length != 1)
                     {
                         _suffix = parts[1];
                     }
+
+#else
+
+                    // TODO Implement
+
+                    throw new NotImplementedException();
+
+#endif
                 }
             }
 

@@ -34,7 +34,9 @@ namespace ManagedIrbis.Readers
     /// </summary>
     [XmlRoot("visit")]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{DateGivenString} {Index} {Description}")]
+#endif
     public sealed class VisitInfo
         : IHandmadeSerializable
     {

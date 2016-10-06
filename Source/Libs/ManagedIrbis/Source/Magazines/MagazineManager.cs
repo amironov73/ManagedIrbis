@@ -164,7 +164,17 @@ namespace ManagedIrbis.Magazines
                 );
 
             MagazineIssueInfo[] result = records
+
+#if !WINMOBILE && !PocketPC
+
                 .Select(MagazineIssueInfo.Parse)
+
+#else
+
+                .Select(record => MagazineIssueInfo.Parse(record))
+
+#endif
+
                 .NonNullItems()
                 .ToArray();
 

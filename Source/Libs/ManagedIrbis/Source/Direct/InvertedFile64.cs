@@ -163,7 +163,16 @@ namespace ManagedIrbis.Direct
                 stream.Position = offset + item.KeyOffset;
                 byte[] buffer = stream.ReadBytes(item.Length)
                     .ThrowIfNull("buffer");
+
+#if !WINMOBILE && !PocketPC
+
                 string text = _encoding.GetString(buffer);
+
+#else
+                string text = _encoding.GetString(buffer, 0, buffer.Length);
+
+#endif
+
                 item.Text = text;
             }
 
@@ -299,7 +308,15 @@ namespace ManagedIrbis.Direct
             try
             {
 
+#if !WINMOBILE && !PocketPC
+
                 key = key.ToUpperInvariant();
+
+#else
+
+                key = key.ToUpper();
+
+#endif
 
                 NodeRecord firstNode = ReadNode(1);
                 NodeRecord rootNode
@@ -396,7 +413,15 @@ namespace ManagedIrbis.Direct
 
             List<TermLink> result = new List<TermLink>();
 
+#if !WINMOBILE && !PocketPC
+
             key = key.ToUpperInvariant();
+
+#else
+
+            key = key.ToUpper();
+
+#endif
 
             NodeRecord firstNode = ReadNode(1);
             NodeRecord rootNode

@@ -39,7 +39,9 @@ namespace ManagedIrbis
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("subfields")]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Count={Count}")]
+#endif
     public sealed class SubFieldCollection
         : Collection<SubField>,
         IHandmadeSerializable,
@@ -65,7 +67,6 @@ namespace ManagedIrbis
 
         // ReSharper disable InconsistentNaming
 
-        [NonSerialized]
         private RecordField _field;
 
         internal SubFieldCollection _SetField
@@ -338,6 +339,8 @@ namespace ManagedIrbis
             }
         }
 
+#if !WINMOBILE && !PocketPC
+
         /// <summary>
         /// Convert the collection to JSON.
         /// </summary>
@@ -368,6 +371,8 @@ namespace ManagedIrbis
 
             return result;
         }
+
+#endif
 
         /// <summary>
         /// Assign.

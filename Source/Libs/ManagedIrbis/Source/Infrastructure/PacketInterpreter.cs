@@ -112,10 +112,18 @@ namespace ManagedIrbis.Infrastructure
                 memory.WriteByte((byte)code);
             }
 
-            string result = IrbisEncoding.Ansi.GetString
-                (
-                    memory.ToArray()
-                );
+            byte[] bytes = memory.ToArray();
+
+
+#if !WINMOBILE && !PocketPC
+
+            string result = IrbisEncoding.Ansi.GetString (bytes);
+
+#else
+
+            string result = IrbisEncoding.Ansi.GetString(bytes, 0, bytes.Length);
+
+#endif
 
             return result;
         }
@@ -181,10 +189,9 @@ namespace ManagedIrbis.Infrastructure
                 memory.WriteByte((byte)code);
             }
 
-            string result = IrbisEncoding.Utf8.GetString
-                (
-                    memory.ToArray()
-                );
+            byte[] buffer = memory.ToArray();
+            string result = IrbisEncoding.Utf8
+                .GetString(buffer, 0, buffer.Length);
 
             return result;
         }
@@ -195,11 +202,32 @@ namespace ManagedIrbis.Infrastructure
         public int GetInt32 ()
         {
             string line = GetAnsiString();
+
             int result;
+
+#if !WINMOBILE && !PocketPC
+
             if (!int.TryParse(line, out result))
             {
                 throw new IrbisNetworkException();
             }
+
+#else
+
+            try
+            {
+                result = int.Parse(line);
+            }
+            catch (Exception exception)
+            {
+                throw new IrbisNetworkException
+                    (
+                        "packet",
+                        exception
+                    );
+            }
+
+#endif
 
             return result;
         }
@@ -264,10 +292,8 @@ namespace ManagedIrbis.Infrastructure
                 memory.WriteByte((byte)code);
             }
 
-            string result = IrbisEncoding.Ansi.GetString
-                (
-                    memory.ToArray()
-                );
+            byte[] buffer = memory.ToArray();
+            string result = IrbisEncoding.Ansi.GetString(buffer, 0, buffer.Length);
 
             return result;
         }
@@ -306,10 +332,8 @@ namespace ManagedIrbis.Infrastructure
                 memory.WriteByte((byte)code);
             }
 
-            string result = IrbisEncoding.Utf8.GetString
-                (
-                    memory.ToArray()
-                );
+            byte[] buffer = memory.ToArray();
+            string result = IrbisEncoding.Utf8.GetString(buffer, 0, buffer.Length);
 
             return result;
         }
@@ -335,11 +359,32 @@ namespace ManagedIrbis.Infrastructure
         public int RequireInt32()
         {
             string line = GetAnsiString();
+
             int result;
+
+#if !WINMOBILE && !PocketPC
+
             if (!int.TryParse(line, out result))
             {
                 throw new IrbisNetworkException();
             }
+
+#else
+
+            try
+            {
+                result = int.Parse(line);
+            }
+            catch (Exception exception)
+            {
+                throw new IrbisNetworkException
+                    (
+                        "packet",
+                        exception
+                    );
+            }
+
+#endif
 
             return result;
         }

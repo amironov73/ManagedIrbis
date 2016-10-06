@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
 using AM.IO;
 using AM.Runtime;
@@ -271,6 +272,8 @@ namespace ManagedIrbis
             return record;
         }
 
+#if !WINMOBILE && !PocketPC
+
         /// <summary>
         /// Convert the <see cref="MarcRecord"/> to JSON.
         /// </summary>
@@ -287,6 +290,8 @@ namespace ManagedIrbis
 
             return result;
         }
+
+#endif
 
         #endregion
     }

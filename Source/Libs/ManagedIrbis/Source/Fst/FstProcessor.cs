@@ -120,11 +120,22 @@ namespace ManagedIrbis.Fst
             string[] separators = {"\r\n", "\r", "\n"};
             foreach (string line in lines)
             {
+#if !WINMOBILE && !PocketPC
+
                 string[] parts = line.Split
                     (
                         separators,
                         StringSplitOptions.RemoveEmptyEntries
                     );
+
+#else
+
+                string[] parts = line
+                    .Replace("\r", string.Empty)
+                    .Split('\n');
+
+#endif
+
                 if (parts.Length == 0)
                 {
                     continue;

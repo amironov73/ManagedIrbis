@@ -15,8 +15,6 @@ using System.Xml.Serialization;
 using AM.IO;
 using AM.Runtime;
 
-using BLToolkit.Mapping;
-
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -36,7 +34,9 @@ namespace ManagedIrbis.Fields
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Stage={Stage} Date={Date} Name={Name}")]
+#endif
     public sealed class RevisionInfo
         : IHandmadeSerializable
     {
@@ -63,7 +63,6 @@ namespace ManagedIrbis.Fields
         [SubField('c')]
         [XmlAttribute("stage")]
         [JsonProperty("stage")]
-        [MapField("stage")]
         public string Stage { get; set; }
 
         /// <summary>
@@ -73,7 +72,6 @@ namespace ManagedIrbis.Fields
         [SubField('a')]
         [XmlAttribute("date")]
         [JsonProperty("date")]
-        [MapField("date")]
         public string Date { get; set; }
 
         /// <summary>
@@ -83,7 +81,6 @@ namespace ManagedIrbis.Fields
         [SubField('b')]
         [XmlAttribute("name")]
         [JsonProperty("name")]
-        [MapField("name")]
         public string Name { get; set; }
 
         /// <summary>
@@ -92,7 +89,6 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        [MapIgnore]
         public object UserData
         {
             get { return _userData; }
@@ -136,7 +132,7 @@ namespace ManagedIrbis.Fields
         [ItemNotNull]
         public static RevisionInfo[] Parse
             (
-                [JetBrains.Annotations.NotNull] MarcRecord record,
+                [NotNull] MarcRecord record,
                 string tag
             )
         {
@@ -146,7 +142,15 @@ namespace ManagedIrbis.Fields
 
             return record.Fields
                 .GetField(tag)
+
+#if !WINMOBILE && !PocketPC
+
                 .Select(Parse)
+
+#else
+                .Select(field => Parse(field))
+#endif
+
                 .ToArray();
         }
 

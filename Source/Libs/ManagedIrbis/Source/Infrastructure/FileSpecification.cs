@@ -29,8 +29,10 @@ namespace ManagedIrbis.Infrastructure
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Path={Path} Database={Database} " +
                      "FileName={FileName}")]
+#endif
     public sealed class FileSpecification
         : IHandmadeSerializable,
         IVerifiable,

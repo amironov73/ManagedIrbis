@@ -1383,6 +1383,8 @@ namespace ManagedIrbis
         {
             Code.NotNull(typeName, "typeName");
 
+#if !WINMOBILE && !PocketPC
+
             Type type = Type.GetType(typeName, true);
             CommandFactory newFactory
                 = (CommandFactory)Activator.CreateInstance
@@ -1393,6 +1395,11 @@ namespace ManagedIrbis
             CommandFactory previous = SetCommandFactory(newFactory);
 
             return previous;
+
+#else
+            return CommandFactory;
+
+#endif
         }
 
         // =========================================================
@@ -1427,6 +1434,8 @@ namespace ManagedIrbis
         {
             Code.NotNull(typeName, "typeName");
 
+#if !WINMOBILE && !PocketPC
+
             Type type = Type.GetType(typeName, true);
             AbstractEngine newEngine
                 = (AbstractEngine)Activator.CreateInstance
@@ -1438,6 +1447,12 @@ namespace ManagedIrbis
             AbstractEngine previous = SetEngine(newEngine);
 
             return previous;
+
+#else
+
+            return Executive;
+
+#endif
         }
 
 
@@ -1452,6 +1467,8 @@ namespace ManagedIrbis
             )
         {
             Code.NotNullNorEmpty(loggingPath, "loggingPath");
+
+#if !WINMOBILE && !PocketPC
 
             AbstractClientSocket oldSocket = Socket;
             if (oldSocket is LoggingClientSocket)
@@ -1469,6 +1486,9 @@ namespace ManagedIrbis
             DirectoryUtility.ClearDirectory(loggingPath);
 
             SetSocket(newSocket);
+
+#endif
+
         }
 
         // =========================================================
@@ -1521,6 +1541,8 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(typeName, "typeName");
 
+#if !WINMOBILE && !PocketPC
+
             Type type = Type.GetType(typeName, true);
             AbstractClientSocket socket
                 = (AbstractClientSocket)Activator.CreateInstance
@@ -1529,6 +1551,8 @@ namespace ManagedIrbis
                     this
                 );
             SetSocket(socket);
+
+#endif
         }
 
         /// <summary>

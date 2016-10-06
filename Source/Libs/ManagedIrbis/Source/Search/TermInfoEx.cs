@@ -35,7 +35,9 @@ namespace ManagedIrbis.Search
     [PublicAPI]
     [XmlRoot("term-info")]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("[{Count}] {Text} {Formatted}")]
+#endif
     public sealed class TermInfoEx
         : TermInfo
     {
@@ -110,7 +112,17 @@ namespace ManagedIrbis.Search
                     break;
                 }
 
+#if !WINMOBILE && !PocketPC
+
                 string[] parts = line.Split(_separators, 3);
+
+#else
+                // TODO Implement it properly
+
+                string[] parts = line.Split(_separators);
+
+#endif
+
                 if (parts.Length != 3)
                 {
                     throw new IrbisNetworkException();
