@@ -153,7 +153,13 @@ namespace ManagedIrbis.Infrastructure.Commands
             ServerResponse result = base.Execute(query);
 
             byte[] buffer = result.RawAnswer;
-            byte[] preamble = Encoding.ASCII.GetBytes(Preamble);
+            Encoding encoding;
+#if SILVERLIGHT
+            encoding = Encoding.GetEncoding("windows-1251");
+#else
+            encoding = Encoding.ASCII;
+#endif
+            byte[] preamble = encoding.GetBytes(Preamble);
             int offset = _FindPreamble(buffer, preamble);
             if (offset < 0)
             {

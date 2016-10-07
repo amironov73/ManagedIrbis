@@ -684,7 +684,7 @@ namespace ManagedIrbis
                 (
                     oldValue,
                     newValue,
-                    ignoreCase
+                    StringComparison.CurrentCultureIgnoreCase
                 ) != 0;
 
             if (changed)
@@ -1542,7 +1542,7 @@ namespace ManagedIrbis
                 );
         }
 
-#if !NETCORE
+#if !NETCORE && !SILVERLIGHT
 
         /// <summary>
         /// Converts the field to XML.

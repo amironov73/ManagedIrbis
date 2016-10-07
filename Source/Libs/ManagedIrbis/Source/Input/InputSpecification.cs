@@ -95,7 +95,7 @@ namespace ManagedIrbis.Input
             return result;
         }
 
-#if !NETCORE
+#if !NETCORE && !SILVERLIGHT
 
         /// <summary>
         /// Load specification from XML file.

@@ -89,7 +89,7 @@ namespace ManagedIrbis.Gbl
 
 #endif
 
-#if !NETCORE
+#if !NETCORE && !SILVERLIGHT
 
         /// <summary>
         /// Restore <see cref="GblFile"/> from JSON.
@@ -138,7 +138,7 @@ namespace ManagedIrbis.Gbl
 
 #endif
 
-#if !NETCORE && !WINMOBILE && !PocketPC
+#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT
 
         /// <summary>
         /// Parses the local XML file.
@@ -208,7 +208,7 @@ namespace ManagedIrbis.Gbl
 
 #endif
 
-#if !NETCORE
+#if !NETCORE && !SILVERLIGHT
 
         /// <summary>
         /// Converts the <see cref="GblFile"/> to XML.

@@ -48,9 +48,30 @@ namespace ManagedIrbis
 
         #region Private members
 
-        private static Encoding _ansi = Encoding.GetEncoding(1251);
+        private static Encoding _ansi =
 
-        private static Encoding _oem = Encoding.GetEncoding(866);
+#if SILVERLIGHT
+
+            Encoding.GetEncoding("windows-1251")
+
+#else
+            Encoding.GetEncoding(1251)
+
+#endif
+            ;
+
+        private static Encoding _oem =
+
+#if SILVERLIGHT
+
+            Encoding.GetEncoding("windows-1251")
+
+#else
+
+            Encoding.GetEncoding(866)
+
+#endif
+            ;
 
         #endregion
 
@@ -66,7 +87,7 @@ namespace ManagedIrbis
         {
             Code.NotNull(encoding, "encoding");
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
             if (!encoding.IsSingleByte)
             {
@@ -88,7 +109,7 @@ namespace ManagedIrbis
         {
             Code.NotNull(encoding, "encoding");
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
             if (!encoding.IsSingleByte)
             {

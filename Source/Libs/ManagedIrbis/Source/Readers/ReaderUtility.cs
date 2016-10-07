@@ -275,7 +275,7 @@ namespace ManagedIrbis.Readers
 
             return events
 
-#if !NETCORE && !WINMOBILE && !PocketPC
+#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT
 
                 .AsParallel()
 
@@ -301,7 +301,7 @@ namespace ManagedIrbis.Readers
 
             return events
 
-#if !NETCORE && !WINMOBILE && !PocketPC
+#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT
 
                 .AsParallel()
 
@@ -329,7 +329,7 @@ namespace ManagedIrbis.Readers
             string dayString = IrbisDate.ConvertDateToString(day);
             VisitInfo[] result = events
 
-#if !NETCORE && !WINMOBILE && !PocketPC
+#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT
 
                 .AsParallel()
 
@@ -360,7 +360,7 @@ namespace ManagedIrbis.Readers
             string toDayString = IrbisDate.ConvertDateToString(toDay);
             VisitInfo[] result = events
 
-#if !NETCORE && !WINMOBILE && !PocketPC
+#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT
 
                 .AsParallel()
 

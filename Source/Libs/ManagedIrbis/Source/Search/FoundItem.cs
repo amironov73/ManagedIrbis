@@ -126,13 +126,13 @@ namespace ManagedIrbis.Search
         {
             Code.NotNull(line, "line");
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
             string[] parts = line.Split(_delimiters, 2);
 
 #else
 
-            // TODO Implement it properly
+            // TODO Implement properly
 
             string[] parts = line.Split(_delimiters);
 

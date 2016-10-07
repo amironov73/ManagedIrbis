@@ -71,12 +71,19 @@ namespace ManagedIrbis.Infrastructure
 
             writer.Write("  ");
 
+            Encoding encoding;
+#if SILVERLIGHT
+            encoding = Encoding.GetEncoding("windows-1251");
+#else
+            encoding = Encoding.ASCII;
+#endif
+
             for (int i = 0; i < length; i++)
             {
                 byte b = bytes[offset + i];
                 if (b > 32)
                 {
-                    Encoding.ASCII.GetChars
+                    encoding.GetChars
                         (
                             bytes,
                             offset + i,

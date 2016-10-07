@@ -428,7 +428,16 @@ namespace ManagedIrbis
                 = new StreamReader
                     (
                         File.OpenRead(filePath),
+
+#if SILVERLIGHT
+
+                        Encoding.GetEncoding("windows-1251")
+
+#else
+
                         Encoding.GetEncoding(0)
+
+#endif
                     ))
             {
                 return ParseText(reader);

@@ -164,7 +164,7 @@ namespace ManagedIrbis.Direct
                 byte[] buffer = stream.ReadBytes(item.Length)
                     .ThrowIfNull("buffer");
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
                 string text = _encoding.GetString(buffer);
 

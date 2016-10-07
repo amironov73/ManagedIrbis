@@ -108,7 +108,7 @@ namespace ManagedIrbis.Fst
 
             char[] delimiters = {' ', '\t'};
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
             string[] parts = line.Split
                 (

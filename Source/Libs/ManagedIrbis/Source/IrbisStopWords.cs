@@ -162,7 +162,7 @@ namespace ManagedIrbis
                 );
         }
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
         /// <summary>
         /// Parse the text file.

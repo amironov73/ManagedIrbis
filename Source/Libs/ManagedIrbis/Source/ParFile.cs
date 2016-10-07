@@ -220,13 +220,13 @@ namespace ManagedIrbis
                     continue;
                 }
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
                 string[] parts = line.Split(separator, 2);
 
 #else
 
-                // TODO Implement it properly
+                // TODO Implement properly
 
                 string[] parts = line.Split(separator);
 

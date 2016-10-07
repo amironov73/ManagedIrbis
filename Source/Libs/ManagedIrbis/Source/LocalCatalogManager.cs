@@ -136,6 +136,12 @@ namespace ManagedIrbis
             Code.NotNullNorEmpty(backupPath, "backupPath");
             Code.NotNull(catalogName, "catalogName");
 
+#if SILVERLIGHT
+
+            throw new NotImplementedException();
+
+#else
+
             if (!Directory.Exists(backupPath))
             {
                 Directory.CreateDirectory(backupPath);
@@ -148,6 +154,8 @@ namespace ManagedIrbis
                     backupPath,
                     catalogName
                 );
+
+#endif
         }
 
         /// <summary>

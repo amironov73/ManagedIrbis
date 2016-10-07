@@ -268,7 +268,7 @@ namespace ManagedIrbis.Direct
             if (flag)
             {
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
                 _stream.Lock(0, MstControlRecord64.RecordSize);
 
@@ -281,7 +281,7 @@ namespace ManagedIrbis.Direct
             {
                 _stream.Write(buffer, 0, buffer.Length);
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
                 _stream.Unlock(0, MstControlRecord64.RecordSize);
 

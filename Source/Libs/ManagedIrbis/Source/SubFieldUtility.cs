@@ -398,7 +398,7 @@ namespace ManagedIrbis
 
 #endif
 
-#if !NETCORE
+#if !NETCORE && !SILVERLIGHT
 
         /// <summary>
         /// Convert the subfield to XML.

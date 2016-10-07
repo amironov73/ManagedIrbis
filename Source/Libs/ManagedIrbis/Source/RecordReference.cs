@@ -120,6 +120,8 @@ namespace ManagedIrbis
 
         #region Public methods
 
+#if !SILVERLIGHT
+
         /// <summary>
         /// Load references from archive file.
         /// </summary>
@@ -138,6 +140,8 @@ namespace ManagedIrbis
 
             return result;
         }
+
+#endif
 
         /// <summary>
         /// Load record according to the reference.
@@ -210,6 +214,8 @@ namespace ManagedIrbis
             return result;
         }
 
+#if !SILVERLIGHT
+
         /// <summary>
         /// Save references to the archive file.
         /// </summary>
@@ -224,6 +230,8 @@ namespace ManagedIrbis
 
             references.SaveToZipFile(fileName);
         }
+
+#endif
 
         #endregion
 

@@ -16,7 +16,11 @@ using AM.Collections;
 
 using CodeJam;
 
+#if !SILVERLIGHT
+
 using Compatibility;
+
+#endif
 
 using JetBrains.Annotations;
 

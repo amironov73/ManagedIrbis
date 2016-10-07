@@ -386,6 +386,8 @@ namespace ManagedIrbis.Readers
             }
         }
 
+#if !SILVERLIGHT
+
         /// <summary>
         /// Сохранение в файл.
         /// </summary>
@@ -397,6 +399,8 @@ namespace ManagedIrbis.Readers
         {
             visits.SaveToZipFile(fileName);
         }
+
+#endif
 
         /// <summary>
         /// Считывание из потока.
@@ -423,6 +427,8 @@ namespace ManagedIrbis.Readers
             TimeOut = reader.ReadNullableString();
         }
 
+#if !SILVERLIGHT
+
         /// <summary>
         /// Считывание из файла.
         /// </summary>
@@ -438,6 +444,8 @@ namespace ManagedIrbis.Readers
 
             return result;
         }
+
+#endif
 
         #endregion
 

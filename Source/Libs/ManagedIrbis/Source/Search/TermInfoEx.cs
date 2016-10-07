@@ -112,12 +112,12 @@ namespace ManagedIrbis.Search
                     break;
                 }
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
                 string[] parts = line.Split(_separators, 3);
 
 #else
-                // TODO Implement it properly
+                // TODO Implement properly
 
                 string[] parts = line.Split(_separators);
 

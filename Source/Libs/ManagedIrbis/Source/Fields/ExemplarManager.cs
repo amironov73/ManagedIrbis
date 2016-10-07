@@ -532,6 +532,8 @@ namespace ManagedIrbis.Fields
 #endif
         }
 
+#if !SILVERLIGHT
+
         /// <summary>
         /// Save to the file.
         /// </summary>
@@ -542,6 +544,8 @@ namespace ManagedIrbis.Fields
         {
             _list.ToArray().SaveToZipFile(fileName);
         }
+
+#endif
 
         /// <summary>
         /// Read many.

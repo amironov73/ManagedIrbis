@@ -58,7 +58,7 @@ namespace ManagedIrbis
     public sealed class IlfFile
         :
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
         
         IHandmadeSerializable,
 
@@ -86,7 +86,7 @@ namespace ManagedIrbis
 #endif
         public sealed class Entry
             :
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
             IHandmadeSerializable,
 
@@ -148,7 +148,7 @@ namespace ManagedIrbis
 
             #region IHandmadeSerializable members
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
             /// <summary>
             /// Restore object state from the specified stream.
@@ -402,7 +402,7 @@ namespace ManagedIrbis
                     char[] chars = reader.ReadChars(entry.DataLength);
                     string text = new string(chars);
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
                     string[] parts = text.Split
                         (
@@ -438,7 +438,7 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
         /// <summary>
         /// Restore object state from the given stream.

@@ -65,7 +65,7 @@ namespace ManagedIrbis.Infrastructure
 
             if (_address == null)
             {
-#if NETCORE
+#if NETCORE || SILVERLIGHT
 
                 _address = IPAddress.Parse(Connection.Host);
 
@@ -100,6 +100,8 @@ namespace ManagedIrbis.Infrastructure
             }
         }
 
+#if !SILVERLIGHT
+
         private TcpClient _GetTcpClient()
         {
             TcpClient result = new TcpClient();
@@ -120,6 +122,8 @@ namespace ManagedIrbis.Infrastructure
 
             return result;
         }
+
+#endif
 
 #endregion
 
@@ -143,6 +147,12 @@ namespace ManagedIrbis.Infrastructure
         {
             Code.NotNull(request, "request");
 
+#if SILVERLIGHT
+
+            throw new NotImplementedException();
+
+#else
+
             _ResolveHostAddress(Connection.Host);
 
             using (new BusyGuard(Busy))
@@ -163,6 +173,8 @@ namespace ManagedIrbis.Infrastructure
                     return result;
                 }
             }
+
+#endif
         }
 
 #endregion

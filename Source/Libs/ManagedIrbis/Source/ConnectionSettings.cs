@@ -316,7 +316,13 @@ namespace ManagedIrbis
             Code.NotNull(text, "text");
 
             byte[] bytes = Convert.FromBase64String(text);
+
+#if !SILVERLIGHT
+
             bytes = CompressionUtility.Decompress(bytes);
+
+#endif
+
             ConnectionSettings result
                 = bytes.RestoreObjectFromMemory<ConnectionSettings>();
 
@@ -380,7 +386,13 @@ namespace ManagedIrbis
         public string Encrypt()
         {
             byte[] bytes = this.SaveToMemory();
+
+#if !SILVERLIGHT
+
             bytes = CompressionUtility.Compress(bytes);
+
+#endif
+
             string result = Convert.ToBase64String(bytes);
 
             return result;

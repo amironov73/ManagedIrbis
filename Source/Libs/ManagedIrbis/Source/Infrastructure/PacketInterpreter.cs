@@ -115,7 +115,7 @@ namespace ManagedIrbis.Infrastructure
             byte[] bytes = memory.ToArray();
 
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
             string result = IrbisEncoding.Ansi.GetString (bytes);
 
