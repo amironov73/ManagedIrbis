@@ -8,7 +8,12 @@
 
 using System;
 using System.IO;
+
+#if !SILVERLIGHT
+
 using System.IO.Compression;
+
+#endif
 
 using AM.IO;
 
@@ -81,6 +86,8 @@ namespace AM.Runtime
             }
         }
 
+#if !SILVERLIGHT
+
         /// <summary>
         /// Считывание массива из файла.
         /// </summary>
@@ -104,6 +111,8 @@ namespace AM.Runtime
             }
         }
 
+#endif
+
         /// <summary>
         /// Считывание массива из памяти.
         /// </summary>
@@ -121,6 +130,8 @@ namespace AM.Runtime
                 return reader.ReadArray<T>();
             }
         }
+
+#if !SILVERLIGHT
 
         /// <summary>
         /// Считывание массива из памяти.
@@ -144,6 +155,8 @@ namespace AM.Runtime
                 return reader.ReadArray<T>();
             }
         }
+
+#endif
 
         /// <summary>
         /// Считывание из потока обнуляемого объекта.
@@ -189,6 +202,8 @@ namespace AM.Runtime
             }
         }
 
+#if !SILVERLIGHT
+
         /// <summary>
         /// Считывание объекта из файла.
         /// </summary>
@@ -214,6 +229,8 @@ namespace AM.Runtime
             }
         }
 
+#endif
+
         /// <summary>
         /// Считывание объекта из памяти.
         /// </summary>
@@ -231,6 +248,8 @@ namespace AM.Runtime
                 return reader.RestoreNullable<T>();
             }
         }
+
+#if !SILVERLIGHT
 
         /// <summary>
         /// Считывание объекта из строки.
@@ -268,6 +287,8 @@ namespace AM.Runtime
                 return reader.RestoreNullable<T>();
             }
         }
+
+#endif
 
         /// <summary>
         /// Сохранение в поток массива элементов.
@@ -317,6 +338,8 @@ namespace AM.Runtime
             }
         }
 
+#if !SILVERLIGHT
+
         /// <summary>
         /// Сохранение в файл объекта,
         /// умеющего сериализоваться вручную.
@@ -342,6 +365,8 @@ namespace AM.Runtime
                 obj.SaveToStream(writer);
             }
         }
+
+#endif
 
         /// <summary>
         /// Сохранение в файл массива объектов,
@@ -406,6 +431,8 @@ namespace AM.Runtime
                 return stream.ToArray();
             }
         }
+
+#if !SILVERLIGHT
 
         /// <summary>
         /// Сохранение объекта в строке.
@@ -498,6 +525,8 @@ namespace AM.Runtime
                 return stream.ToArray();
             }
         }
+
+#endif
 
         /// <summary>
         /// Сохранение в поток обнуляемого объекта.

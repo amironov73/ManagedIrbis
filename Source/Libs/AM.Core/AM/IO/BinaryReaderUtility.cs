@@ -288,6 +288,8 @@ namespace AM.IO
                 : null;
         }
 
+#if !SILVERLIGHT
+
         /// <summary>
         /// Read nullable decimal.
         /// </summary>
@@ -304,6 +306,8 @@ namespace AM.IO
                 ? (decimal?)reader.ReadDecimal()
                 : null;
         }
+
+#endif
 
         /// <summary>
         /// Read nullable 16-bit integer.

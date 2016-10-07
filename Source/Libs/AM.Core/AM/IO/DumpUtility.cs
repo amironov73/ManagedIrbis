@@ -101,8 +101,18 @@ namespace AM.IO
             StreamWriter writer = new StreamWriter
                 (
                     stream,
+
+#if !SILVERLIGHT
+
                     Encoding.GetEncoding(0)
+
+#else
+
+                    Encoding.GetEncoding("windows-1251")
+
+#endif
                 );
+
             Dump(writer, data);
         }
 

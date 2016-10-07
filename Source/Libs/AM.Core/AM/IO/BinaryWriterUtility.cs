@@ -178,7 +178,7 @@ namespace AM.IO
             return writer;
         }
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
         /// <summary>
         /// Write <see cref="DateTime"/>.

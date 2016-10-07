@@ -37,8 +37,10 @@ namespace AM.IO
 #if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{FileName}")]
 #endif
+#if !SILVERLIGHT
     // ReSharper disable once RedundantNameQualifier
     [System.ComponentModel.DesignerCategory("Code")]
+#endif
     public class IniFile
         : IHandmadeSerializable,
         IEnumerable<IniFile.Section>,
@@ -934,7 +936,17 @@ namespace AM.IO
                 return;
             }
 
+
+#if !SILVERLIGHT
+
             Encoding encoding = Encoding ?? Encoding.GetEncoding(0);
+
+#else
+
+            Encoding encoding = Encoding ?? Encoding.GetEncoding("windows-1251");
+
+#endif
+
             Read(FileName, encoding);
         }
 
@@ -1001,7 +1013,9 @@ namespace AM.IO
                         _sections.Add(section);
                     }
 
-#if WINMOBILE || PocketPC
+#if WINMOBILE || PocketPC || SILVERLIGHT
+
+                    // TODO Implement properly
 
                     string[] parts = line.Split(separators);
 
@@ -1063,7 +1077,17 @@ namespace AM.IO
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if !SILVERLIGHT
+
             Encoding encoding = Encoding ?? Encoding.GetEncoding(0);
+
+
+#else
+
+            Encoding encoding = Encoding ?? Encoding.GetEncoding("windows-1251");
+
+#endif
+
             using (StreamWriter writer = new StreamWriter
                 (
                     File.Create(fileName),
@@ -1198,7 +1222,7 @@ namespace AM.IO
 
             writer.WriteNullable(FileName);
 
-#if WINMOBILE || PocketPC
+#if WINMOBILE || PocketPC || SILVERLIGHT
 
             string encodingName = null;
 #else

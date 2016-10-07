@@ -4,6 +4,8 @@
  * Status: poor
  */
 
+#if !SILVERLIGHT
+
 #region Using directives
 
 using System.IO;
@@ -77,3 +79,6 @@ namespace AM.IO
         #endregion
     }
 }
+
+#endif
+

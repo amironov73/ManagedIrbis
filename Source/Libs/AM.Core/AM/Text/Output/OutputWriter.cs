@@ -76,7 +76,15 @@ namespace AM.Text.Output
         /// </summary>
         public override Encoding Encoding
         {
+#if !SILVERLIGHT
+
             get { return Encoding.GetEncoding(0); }
+
+#else
+
+            get { return Encoding.GetEncoding("windows-1251"); }
+
+#endif
         }
 
         /// <summary>

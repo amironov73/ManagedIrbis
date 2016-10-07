@@ -102,7 +102,9 @@ namespace CodeJam
             return new ArgumentOutOfRangeException
                 (
                     argumentName
-#if !PocketPC
+
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
+
                     ,value,
                     string.Format
                     (
@@ -112,6 +114,7 @@ namespace CodeJam
                         fromValue,
                         toValue
                     )
+
 #endif
                 );
         }
@@ -128,7 +131,9 @@ namespace CodeJam
             return new ArgumentOutOfRangeException
                 (
                     argumentName
-#if !PocketPC
+
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
+
                     ,value,
                     string.Format
                     (
@@ -153,7 +158,9 @@ namespace CodeJam
             return new ArgumentOutOfRangeException
                 (
                     argumentName
-#if !PocketPC
+
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
+
                     ,value,
                     string.Format
                     (
@@ -182,7 +189,9 @@ namespace CodeJam
             return new ArgumentOutOfRangeException
                 (
                     argumentName
-#if !PocketPC
+
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
+
                     ,value,
                     string.Format
                         (
@@ -262,14 +271,19 @@ namespace CodeJam
             [CanBeNull] T value)
         {
             BreakIfAttached();
-#if !PocketPC
+
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
+
             // ReSharper disable once CompareNonConstrainedGenericWithNull
             var valueType = (value == null) ? typeof (T) : value.GetType();
+
 #endif
             return new ArgumentOutOfRangeException
                 (
                     argumentName
-#if !PocketPC
+
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
+
                     ,value,
                     string.Format
                         (
@@ -297,7 +311,9 @@ namespace CodeJam
             return new ArgumentOutOfRangeException
                 (
                     argumentName
-#if !PocketPC
+
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
+
                     , value,
                     FormatMessage
                         (

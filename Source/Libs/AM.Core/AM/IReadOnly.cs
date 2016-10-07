@@ -6,7 +6,11 @@
 
 #region Using directives
 
+#if !SILVERLIGHT
+
 using System.Data;
+
+#endif
 
 using JetBrains.Annotations;
 
@@ -39,8 +43,6 @@ namespace AM
         /// Throws <see cref="ReadOnlyException"/>
         /// if the object is read-only.
         /// </summary>
-        /// <exception cref="System.Data.ReadOnlyException">
-        /// If the object is marked as read-only.</exception>
         void ThrowIfReadOnly();
     }
 }

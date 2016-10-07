@@ -57,7 +57,9 @@ namespace AM.CommandLine
                 char[] separators
                     = { CommandLineSettings.ValueSeparator };
 
-#if WINMOBILE || PocketPC
+#if WINMOBILE || PocketPC || SILVERLIGHT
+
+                // TODO Implement properly
 
                 string[] parts = text.Split(separators);
 
@@ -130,7 +132,8 @@ namespace AM.CommandLine
                     char secondChar = trimmed[0];
                     if (secondChar == CommandLineSettings.ResponsePrefix)
                     {
-#if !WINMOBILE && !PocketPC
+
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
                         string fileName = trimmed.Substring(1);
                         ParsedCommandLine inner = ParseFile(fileName);
@@ -150,7 +153,8 @@ namespace AM.CommandLine
                 }
                 else if (firstChar == CommandLineSettings.ResponsePrefix)
                 {
-#if !WINMOBILE && !PocketPC
+
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
                     string fileName = argument.Substring(1);
                     ParsedCommandLine inner = ParseFile(fileName);
@@ -172,7 +176,7 @@ namespace AM.CommandLine
             return result;
         }
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
         /// <summary>
         /// Parse arguments from response file.

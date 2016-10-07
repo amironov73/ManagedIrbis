@@ -78,10 +78,20 @@ namespace AM.Text
                 bool ansi
             )
         {
+#if !SILVERLIGHT
+
             Text = text;
             Encoding = ansi
                 ? Encoding.GetEncoding(0)
                 : Encoding.UTF8;
+
+#else
+            Text = text;
+            Encoding = ansi
+                ? Encoding.GetEncoding("windows-1251")
+                : Encoding.UTF8;
+
+#endif
         }
 
         /// <summary>
@@ -118,9 +128,18 @@ namespace AM.Text
                 return new byte[0];
             }
 
+#if !SILVERLIGHT
+
             Encoding encoding = Encoding 
                 ?? Encoding.GetEncoding(0);
-            
+
+#else
+
+            Encoding encoding = Encoding
+                ?? Encoding.GetEncoding("windows-1251");
+
+#endif
+
             return encoding.GetBytes(Text);
         }
 
