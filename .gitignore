@@ -23,6 +23,7 @@
 [Dd]ebug461/
 [Dd]ebugCore/
 [Dd]ebugPublic/
+[Dd]ebugSL50/
 [Rr]elease/
 [Rr]elease35/
 [Rr]elease40/
@@ -31,6 +32,7 @@
 [Rr]elease46/
 [Rr]elease461/
 [Rr]eleaseCore/
+[Rr]eleaseSL50/
 [Rr]eleases/
 x64/
 x86/
