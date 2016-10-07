@@ -5,22 +5,35 @@ rem SET MSBUILD=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
 SET OUTPUT=..\..\..\Binaries
 SET PARAMS=/consoleloggerparameters:ErrorsOnly /m
 
-FOR %%P IN (AM.Core,ManagedIrbis,AM.Rfid,AM.Drawing,AM.Windows.Forms,,AM.Win32,IrbisUI,AM.Suggestions) DO (
+FOR %%P IN (AM.Core,ManagedIrbis,AM.Rfid,AM.Drawing,AM.Windows.Forms,,AM.Win32,IrbisUI,AM.Suggestions,AM.AOT,AM.Ocr) DO (
   FOR %%B IN (Debug,Release) DO (
-    CALL :BUILD %%P %%B 35  v3.5   "FW35"
-    CALL :BUILD %%P %%B 40  v4.0   "FW40"
-    CALL :BUILD %%P %%B 45  v4.5   "FW40;FW45"
-    CALL :BUILD %%P %%B 451 v4.5.1 "FW40;FW45;FW451"
-    CALL :BUILD %%P %%B 46  v4.6   "FW40;FW45;FW46"
-    CALL :BUILD %%P %%B 461 v4.6.1 "FW40;FW45;FW46;FW461"
+    CALL :BUILDLIB %%P %%B 35  v3.5   "FW35"
+    CALL :BUILDLIB %%P %%B 40  v4.0   "FW40"
+    CALL :BUILDLIB %%P %%B 45  v4.5   "FW40;FW45"
+rem CALL :BUILDLIB %%P %%B 451 v4.5.1 "FW40;FW45;FW451"
+    CALL :BUILDLIB %%P %%B 46  v4.6   "FW40;FW45;FW46"
+rem CALL :BUILDLIB %%P %%B 461 v4.6.1 "FW40;FW45;FW46;FW461"
+rem CALL :BUILDLIB %%P %%B 461 v4.6.2 "FW40;FW45;FW46;FW461;FW462"
+  )
+)
+
+FOR %%P IN (mx64) DO (
+  FOR %%B IN (Debug,Release) DO (
+    CALL :BUILDAPP %%P %%B 45  v4.5   "FW40;FW45"
+    CALL :BUILDAPP %%P %%B 46  v4.6   "FW40;FW45;FW46"
   )
 )
 
 EXIT
 
-:BUILD
+:BUILDLIB
 ECHO BUILD %1 %2 %4
-"%MSBUILD%" Sources\Libs\%1\%1.csproj /p:Configuration=%2 /p:TargetFrameworkVersion=%4  /p:OutputPath=%OUTPUT%\%2%3 %PARAMS% /p:DefineConstants=%5 /t:Rebuild
+"%MSBUILD%" Source\Libs\%1\%1.csproj /p:Configuration=%2 /p:TargetFrameworkVersion=%4  /p:OutputPath=%OUTPUT%\%2%3 %PARAMS% /p:DefineConstants=%5 /t:Rebuild
+GOTO :END
+
+:BUILDAPP
+ECHO BUILD %1 %2 %4
+"%MSBUILD%" Source\Apps\%1\%1.csproj /p:Configuration=%2 /p:TargetFrameworkVersion=%4  /p:OutputPath=%OUTPUT%\%2%3 %PARAMS% /p:DefineConstants=%5 /t:Rebuild
 GOTO :END
 
 :END

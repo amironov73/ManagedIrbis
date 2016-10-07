@@ -1,2 +1,2 @@
 language: csharp
-solution: Sources/ManagedIrbis.travis.sln
+solution: Source/ManagedIrbis.travis.sln

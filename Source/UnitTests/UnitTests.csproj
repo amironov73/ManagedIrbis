@@ -1,0 +1,295 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FB0B6071-ECC9-471B-A910-0F44C45888ED}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UnitTests</RootNamespace>
+    <AssemblyName>UnitTests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Choose>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
+      <ItemGroup>
+        <Reference Include="MoonSharp.Interpreter, Version=1.6.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\packages\MoonSharp.1.6.0.0\lib\net35-client\MoonSharp.Interpreter.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net35\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+          <HintPath>..\packages\TaskParallelLibrary.1.0.2856.0\lib\Net35\System.Threading.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
+      <ItemGroup>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="MoonSharp.Interpreter, Version=1.6.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\packages\MoonSharp.1.6.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="MoonSharp.Interpreter, Version=1.6.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\packages\MoonSharp.1.6.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Reference Include="JetBrains.Annotations, Version=10.1.5.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.1.5\lib\net\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Include="AM\Caching\MemoryCacheTest.cs" />
+    <Compile Include="AM\Caching\FileCacheTest.cs" />
+    <Compile Include="AM\Collections\KeyedCollectionTest.cs" />
+    <Compile Include="AM\Collections\NonNullCollectionTest.cs" />
+    <Compile Include="AM\Collections\CharSetTest.cs" />
+    <Compile Include="AM\Collections\BitArrayUtilityTest.cs" />
+    <Compile Include="AM\Collections\DictionaryCounterTest.cs" />
+    <Compile Include="AM\Collections\DictionaryUtilityTest.cs" />
+    <Compile Include="AM\Collections\DoublyLinkedListTest.cs" />
+    <Compile Include="AM\Collections\BidirectionalDictionaryTest.cs" />
+    <Compile Include="AM\Collections\StringDictionaryTest.cs" />
+    <Compile Include="AM\Collections\DisposableCollectionTest.cs" />
+    <Compile Include="AM\Collections\ListUtilityTest.cs" />
+    <Compile Include="AM\Collections\DictionaryListTest.cs" />
+    <Compile Include="AM\Collections\XRangeTest.cs" />
+    <Compile Include="AM\CommandLine\CommandLineParserTest.cs" />
+    <Compile Include="AM\CommandLine\CommandLineSettingsTest.cs" />
+    <Compile Include="AM\CommandLine\CommandLineSwitchTest.cs" />
+    <Compile Include="AM\CommandLine\CommandLineUtilityTest.cs" />
+    <Compile Include="AM\CommandLine\ParsedCommandLineTest.cs" />
+    <Compile Include="AM\ComparableObjectTest.cs" />
+    <Compile Include="AM\Gbl\GblFileTest.cs" />
+    <Compile Include="AM\Globalization\BuiltinCulturesTest.cs" />
+    <Compile Include="AM\Globalization\RussianStringComparerTest.cs" />
+    <Compile Include="AM\IO\BinaryWriterTest.cs" />
+    <Compile Include="AM\IO\CompressionUtilityTest.cs" />
+    <Compile Include="AM\IO\FileUtilityTest.cs" />
+    <Compile Include="AM\IO\NotifyStreamTest.cs" />
+    <Compile Include="AM\IO\MultiStreamTest.cs" />
+    <Compile Include="AM\IO\IniFileTest.cs" />
+    <Compile Include="AM\IO\DumpUtilityTest.cs" />
+    <Compile Include="AM\IO\PathUtilityTest.cs" />
+    <Compile Include="AM\IO\TextReaderUtilityTest.cs" />
+    <Compile Include="AM\IO\VersionStreamTest.cs" />
+    <Compile Include="AM\OptionalTest.cs" />
+    <Compile Include="AM\Parameters\ParameterUtilityTest.cs" />
+    <Compile Include="AM\Reflection\CanaryClass.cs" />
+    <Compile Include="AM\Reflection\PropertyAccessorTest.cs" />
+    <Compile Include="AM\Reflection\FieldAccessorTest.cs" />
+    <Compile Include="AM\Runtime\InteropUtilityTest.cs" />
+    <Compile Include="AM\Runtime\NumberUnionTest.cs" />
+    <Compile Include="AM\Runtime\HandmadeSerializerTest.cs" />
+    <Compile Include="AM\StringUtiltityTest.cs" />
+    <Compile Include="AM\NumberTextTest.cs" />
+    <Compile Include="AM\Text\Hyphenation\RussianHyphenatorTest.cs" />
+    <Compile Include="AM\Text\Hyphenation\EnglishHyphenatorTest.cs" />
+    <Compile Include="AM\Text\Hyphenation\HyphenatorTest.cs" />
+    <Compile Include="AM\Text\Output\TextOutputTest.cs" />
+    <Compile Include="AM\Text\Output\OutputWriterTest.cs" />
+    <Compile Include="AM\Text\Output\TimestampedOutputTest.cs" />
+    <Compile Include="AM\Text\Ranges\NumberRangeCollectionTest.cs" />
+    <Compile Include="AM\Text\StringTokenizerTest.cs" />
+    <Compile Include="AM\Text\StreamParserTest.cs" />
+    <Compile Include="AM\Text\Tokenizer\TokenStreamTest.cs" />
+    <Compile Include="AM\Text\Tokenizer\TokenTest.cs" />
+    <Compile Include="AM\Text\TransliteratorTest.cs" />
+    <Compile Include="AM\Text\Ranges\NumberRangeTest.cs" />
+    <Compile Include="AM\Text\TextWithEncodingTest.cs" />
+    <Compile Include="AM\Text\TextNavigatorTest.cs" />
+    <Compile Include="AM\Text\NewLineTest.cs" />
+    <Compile Include="AM\Text\InvariantFormatTest.cs" />
+    <Compile Include="AM\Text\RussianFormatTest.cs" />
+    <Compile Include="AM\Threading\StateHolderTest.cs" />
+    <Compile Include="AM\Threading\BusyStateTest.cs" />
+    <Compile Include="AM\Threading\BusyGuardTest.cs" />
+    <Compile Include="AM\Threading\StateGuardTest.cs" />
+    <Compile Include="AM\Threading\Tasks\TaskProcessorTest.cs" />
+    <Compile Include="AM\TimeSpanUtilityTest.cs" />
+    <Compile Include="AM\CharUtilityTest.cs" />
+    <Compile Include="AM\NonNullValueTest.cs" />
+    <Compile Include="AM\ConnectionStringParserTest.cs" />
+    <Compile Include="AM\ReferenceTest.cs" />
+    <Compile Include="AM\ConversionUtilityTest.cs" />
+    <Compile Include="AM\FuncUtilityTest.cs" />
+    <Compile Include="AM\RetryManagerTest.cs" />
+    <Compile Include="AM\ArrayUtilityTest.cs" />
+    <Compile Include="AM\JsonUtilityTest.cs" />
+    <Compile Include="AM\DateTimeUtilityTest.cs" />
+    <Compile Include="AM\UniversalComparerTest.cs" />
+    <Compile Include="AM\ValueEventArgsTest.cs" />
+    <Compile Include="CodeJam\CodeTest.cs" />
+    <Compile Include="Common\CommonUnitTest.cs" />
+    <Compile Include="ManagedIrbis\Fields\RevisionInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Fields\ExemplarInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Fst\FstFileTest.cs" />
+    <Compile Include="ManagedIrbis\ImportExport\IsoReaderTest.cs" />
+    <Compile Include="ManagedIrbis\Infrastructure\FileSpecificationTest.cs" />
+    <Compile Include="ManagedIrbis\IrbisFormatTest.cs" />
+    <Compile Include="ManagedIrbis\Mapping\SubFieldMapperTest.cs" />
+    <Compile Include="ManagedIrbis\Marc\Schema\MarcSchemaTest.cs" />
+    <Compile Include="ManagedIrbis\Menus\IrbisMenuFileTest.cs" />
+    <Compile Include="ManagedIrbis\Infrastructure\ClientQueryTest.cs" />
+    <Compile Include="ManagedIrbis\Quality\FieldDefectTest.cs" />
+    <Compile Include="ManagedIrbis\Quality\RecordReportTest.cs" />
+    <Compile Include="ManagedIrbis\Readers\ChairInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Readers\DebtorInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Readers\IriProfileTest.cs" />
+    <Compile Include="ManagedIrbis\Readers\ReaderAddressTest.cs" />
+    <Compile Include="ManagedIrbis\Readers\ReaderInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Readers\VisitInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Requests\BookRequestTest.cs" />
+    <Compile Include="ManagedIrbis\Scripting\IrbisScriptTest.cs" />
+    <Compile Include="ManagedIrbis\Search\FoundItemTest.cs" />
+    <Compile Include="ManagedIrbis\Search\Infrastructure\SearchQueryParserTest.cs" />
+    <Compile Include="ManagedIrbis\Search\PostingParametersTest.cs" />
+    <Compile Include="ManagedIrbis\Search\SearchParametersTest.cs" />
+    <Compile Include="ManagedIrbis\Search\SearchScenarioTest.cs" />
+    <Compile Include="ManagedIrbis\Search\TermInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Search\TermLinkTest.cs" />
+    <Compile Include="ManagedIrbis\Search\TermParametersTest.cs" />
+    <Compile Include="ManagedIrbis\Search\TermPostingTest.cs" />
+    <Compile Include="ManagedIrbis\SubFieldCollectionTest.cs" />
+    <Compile Include="ManagedIrbis\RecordFieldTest.cs" />
+    <Compile Include="ManagedIrbis\MarcRecordTest.cs" />
+    <Compile Include="ManagedIrbis\FieldIndicatorTest.cs" />
+    <Compile Include="ManagedIrbis\IrbisDatabaseInfoTest.cs" />
+    <Compile Include="ManagedIrbis\IrbisProcessInfoTest.cs" />
+    <Compile Include="ManagedIrbis\IrbisVersionTest.cs" />
+    <Compile Include="ManagedIrbis\IrbisConnectionTest.cs" />
+    <Compile Include="ManagedIrbis\RecordReferenceTest.cs" />
+    <Compile Include="ManagedIrbis\IrbisQueryTest.cs" />
+    <Compile Include="ManagedIrbis\IrbisOptTest.cs" />
+    <Compile Include="ManagedIrbis\IrbisAlphabetTableTest.cs" />
+    <Compile Include="ManagedIrbis\ParFileTest.cs" />
+    <Compile Include="ManagedIrbis\FieldReferenceTest.cs" />
+    <Compile Include="ManagedIrbis\Identifiers\IsbnTest.cs" />
+    <Compile Include="ManagedIrbis\IrbisTreeFileTest.cs" />
+    <Compile Include="ManagedIrbis\RecordFieldCollectionTest.cs" />
+    <Compile Include="ManagedIrbis\SubFieldCodeTest.cs" />
+    <Compile Include="ManagedIrbis\IlfFileTest.cs" />
+    <Compile Include="ManagedIrbis\EmbeddedFieldTest.cs" />
+    <Compile Include="ManagedIrbis\SubFieldTValueTest.cs" />
+    <Compile Include="ManagedIrbis\FieldTagTest.cs" />
+    <Compile Include="ManagedIrbis\FieldValueTest.cs" />
+    <Compile Include="ManagedIrbis\ConnectionSettingsTest.cs" />
+    <Compile Include="ManagedIrbis\Worksheet\WssFileTest.cs" />
+    <Compile Include="ManagedIrbis\Worksheet\WorksheetItemTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CharacterClassTest.cs" />
+    <Compile Include="NumericUtilityTest.cs" />
+    <Compile Include="AM\IO\StreamPackerTest.cs" />
+    <Compile Include="ManagedIrbis\IrbisDateTest.cs" />
+    <Compile Include="BbkTest.cs" />
+    <Compile Include="BbkRangeTest.cs" />
+    <Compile Include="ManagedIrbis\SubFieldTest.cs" />
+    <Compile Include="AM\SequenceTest.cs" />
+    <Compile Include="System\IO\Compression\DeflateStreamTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Libs\AM.Core\AM.Core.csproj">
+      <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
+      <Name>AM.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Libs\ManagedIrbis\ManagedIrbis.csproj">
+      <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
+      <Name>ManagedIrbis</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ManagedIrbis\Magazines\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

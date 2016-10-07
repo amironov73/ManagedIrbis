@@ -1,0 +1,427 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C06E1D15-0D0D-44B3-BF74-1B2C616F9EE5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AM.Windows.Forms</RootNamespace>
+    <AssemblyName>AM.Windows.Forms</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\AM.Windows.Forms.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\AM.Windows.Forms.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>BlueBook.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>ArsMagna.private.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <Choose>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
+      <ItemGroup>
+        <Reference Include="MoonSharp.Interpreter, Version=1.6.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\..\packages\MoonSharp.1.6.0.0\lib\net35-client\MoonSharp.Interpreter.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net35\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+          <HintPath>..\..\packages\TaskParallelLibrary.1.0.2856.0\lib\Net35\System.Threading.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
+      <ItemGroup>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="MoonSharp.Interpreter, Version=1.6.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\..\packages\MoonSharp.1.6.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="MoonSharp.Interpreter, Version=1.6.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\..\packages\MoonSharp.1.6.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Reference Include="JetBrains.Annotations, Version=10.1.5.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JetBrains.Annotations.10.1.5\lib\net\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AM\Windows\Forms\ApplicationUtility.cs" />
+    <Compile Include="AM\Windows\Forms\BindingListSource.cs" />
+    <Compile Include="AM\Windows\Forms\BorderInfo.cs" />
+    <Compile Include="AM\Windows\Forms\BorderInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\BottomlessRichTextBox.cs" />
+    <Compile Include="AM\Windows\Forms\BrowserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\BrowserForm.Designer.cs">
+      <DependentUpon>BrowserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\BusyStripe.cs" />
+    <Compile Include="AM\Windows\Forms\CheckBoxGroup.cs" />
+    <Compile Include="AM\Windows\Forms\CheckedGroupBox.cs" />
+    <Compile Include="AM\Windows\Forms\Clocks.cs" />
+    <Compile Include="AM\Windows\Forms\CollapsibleGroupBox.cs" />
+    <Compile Include="AM\Windows\Forms\ColorComboBox.cs" />
+    <Compile Include="AM\Windows\Forms\Console\ConsoleControl.cs" />
+    <Compile Include="AM\Windows\Forms\Console\ConsoleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\Console\ConsoleInputEventArgs.cs" />
+    <Compile Include="AM\Windows\Forms\Console\ConsoleControlOutput.cs" />
+    <Compile Include="AM\Windows\Forms\ControlUtility.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewCalendarCell.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewCalendarColumn.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewCalendarEditingControl.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewColorCell.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewColorColumn.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewNumericCell.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewNumericColumn.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewNumericEditingControl.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewProgressCell.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewProgressColumn.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewRatingCell.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewRatingColumn.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\DataGridViewUtility.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\GridColumnAttribute.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\HabitualDataGridView.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\PagingDataGridViewEventArgs.cs" />
+    <Compile Include="AM\Windows\Forms\DataGridView\PagingDataGridView.cs" />
+    <Compile Include="AM\Windows\Forms\DragMoveProvider.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\DragMoveProvider.designer.cs">
+      <DependentUpon>DragMoveProvider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\DragMoveUtility.cs" />
+    <Compile Include="AM\Windows\Forms\DriveComboBox.cs" />
+    <Compile Include="AM\Windows\Forms\EnumComboBox.cs" />
+    <Compile Include="AM\Windows\Forms\EnumListBox.cs" />
+    <Compile Include="AM\Windows\Forms\EnumTypeConverter.cs" />
+    <Compile Include="AM\Windows\Forms\ExceptionBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\ExceptionBox.Designer.cs">
+      <DependentUpon>ExceptionBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\FontComboBox.cs" />
+    <Compile Include="AM\Windows\Forms\FormUtility.cs" />
+    <Compile Include="AM\Windows\Forms\HatchComboBox.cs" />
+    <Compile Include="AM\Windows\Forms\InputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\InputLanguageIndicator.cs" />
+    <Compile Include="AM\Windows\Forms\JogControl.cs" />
+    <Compile Include="AM\Windows\Forms\KeyboardUtility.cs" />
+    <Compile Include="AM\Windows\Forms\LabeledComboBox.cs" />
+    <Compile Include="AM\Windows\Forms\LabeledComboBox.Designer.cs">
+      <DependentUpon>LabeledComboBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\LabeledTextBox.cs" />
+    <Compile Include="AM\Windows\Forms\LabeledTextBox.Designer.cs">
+      <DependentUpon>LabeledTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\LabelEx.cs" />
+    <Compile Include="AM\Windows\Forms\ListBoxEx.cs" />
+    <Compile Include="AM\Windows\Forms\ListBoxOutput.cs" />
+    <Compile Include="AM\Windows\Forms\ListBoxTextWriter.cs" />
+    <Compile Include="AM\Windows\Forms\Meter.cs" />
+    <Compile Include="AM\Windows\Forms\ModalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\PenInfo.cs" />
+    <Compile Include="AM\Windows\Forms\PenInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\PickList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\PictureViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\PictureViewForm.Designer.cs">
+      <DependentUpon>PictureViewForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\PictureViewMode.cs" />
+    <Compile Include="AM\Windows\Forms\PlainTextEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\PlainTextEditor.Designer.cs">
+      <DependentUpon>PlainTextEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\ProgressCircle.cs" />
+    <Compile Include="AM\Windows\Forms\ProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\ProgressForm.Designer.cs">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\ProgressPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\ProgressPanel.Designer.cs">
+      <DependentUpon>ProgressPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\PropertyBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\RadioGroup.cs" />
+    <Compile Include="AM\Windows\Forms\RainbowControl.cs" />
+    <Compile Include="AM\Windows\Forms\RainbowItem.cs" />
+    <Compile Include="AM\Windows\Forms\RainbowItemList.cs" />
+    <Compile Include="AM\Windows\Forms\RichTextEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\RichTextEditor.Designer.cs">
+      <DependentUpon>RichTextEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\ScreenUtility.cs" />
+    <Compile Include="AM\Windows\Forms\ScrollControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\TextBoxOutput.cs" />
+    <Compile Include="AM\Windows\Forms\TextBoxTraceListener.cs" />
+    <Compile Include="AM\Windows\Forms\TextBoxWriter.cs" />
+    <Compile Include="AM\Windows\Forms\Thermometer.cs" />
+    <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripCheckBox.cs" />
+    <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripColorComboBox.cs" />
+    <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripCustomizationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripCustomizationForm.Designer.cs">
+      <DependentUpon>ToolStripCustomizationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripCustomizer.cs" />
+    <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripDateTimePicker.cs" />
+    <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripMaskedTextBox.cs" />
+    <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripNumericUpDown.cs" />
+    <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripOrdinaryButton.cs" />
+    <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripPictureBox.cs" />
+    <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripRadioButton.cs" />
+    <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripTrackBar.cs" />
+    <Compile Include="AM\Windows\Forms\WindowPlacement.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <Choose>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
+      <ItemGroup>
+        <Compile Include="Properties\35\Resources.Designer.cs">
+          <AutoGen>True</AutoGen>
+          <DesignTime>True</DesignTime>
+          <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Compile Include="Properties\Resources.Designer.cs">
+          <AutoGen>True</AutoGen>
+          <DesignTime>True</DesignTime>
+          <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <ProjectReference Include="..\AM.Core\AM.Core.csproj">
+      <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
+      <Name>AM.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AM.Drawing\AM.Drawing.csproj">
+      <Project>{f64c8161-d6e3-4d78-88db-c1787f4fe981}</Project>
+      <Name>AM.Drawing</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BlueBook.ico" />
+    <None Include="Images\arrowUp.png" />
+    <None Include="Images\arrowDown.png" />
+    <None Include="Images\upArrow.png" />
+    <None Include="Images\rightArrow.png" />
+    <None Include="Images\leftArrow.png" />
+    <None Include="Images\downArrow.png" />
+    <EmbeddedResource Include="Images\ConsoleControl.bmp" />
+    <EmbeddedResource Include="Images\Triangle.bmp" />
+    <EmbeddedResource Include="Images\RainbowControl.bmp" />
+    <None Include="Images\drivenet.bmp" />
+    <EmbeddedResource Include="AM\Windows\Forms\BorderInfoControl.resx">
+      <DependentUpon>BorderInfoControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\ExceptionBox.ru.resx">
+      <DependentUpon>ExceptionBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\InputBox.ru.resx">
+      <DependentUpon>InputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\PenInfoControl.resx">
+      <DependentUpon>PenInfoControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\PickList.resx">
+      <DependentUpon>PickList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\PictureViewForm.resx">
+      <DependentUpon>PictureViewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\PictureViewForm.ru.resx">
+      <DependentUpon>PictureViewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\PlainTextEditor.ru.resx">
+      <DependentUpon>PlainTextEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\ProgressForm.resx">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\ProgressForm.ru.resx">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\ProgressPanel.resx">
+      <DependentUpon>ProgressPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\ProgressPanel.ru.resx">
+      <DependentUpon>ProgressPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\PropertyBox.resx">
+      <DependentUpon>PropertyBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\RichTextEditor.ru.resx">
+      <DependentUpon>RichTextEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\drive.bmp" />
+    <None Include="Images\cddrive.bmp" />
+    <None Include="Images\35floppy.bmp" />
+    <EmbeddedResource Include="Images\HatchComboBox.bmp" />
+    <EmbeddedResource Include="Images\FontComboBox.bmp" />
+    <EmbeddedResource Include="Images\ColorComboBox.bmp" />
+    <EmbeddedResource Include="Images\ProgressCircle.bmp" />
+    <EmbeddedResource Include="Images\BusyStripe.bmp" />
+    <EmbeddedResource Include="Images\Clocks.bmp" />
+    <None Include="Images\Gear2.png" />
+    <None Include="Images\Gear1.png" />
+    <None Include="Images\Gear0.png" />
+    <None Include="Images\Star2.png" />
+    <None Include="Images\Star1.png" />
+    <None Include="Images\Star0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ArsMagna.private.snk" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AM\Windows\Forms\BrowserForm.resx">
+      <DependentUpon>BrowserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\BrowserForm.ru.resx">
+      <DependentUpon>BrowserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\ExceptionBox.resx">
+      <DependentUpon>ExceptionBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\InputBox.resx">
+      <DependentUpon>InputBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\LabeledComboBox.resx">
+      <DependentUpon>LabeledComboBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\LabeledTextBox.resx">
+      <DependentUpon>LabeledTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\PlainTextEditor.resx">
+      <DependentUpon>PlainTextEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\RichTextEditor.resx">
+      <DependentUpon>RichTextEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\ToolStrip\ToolStripCustomizationForm.resx">
+      <DependentUpon>ToolStripCustomizationForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Choose>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
+      <ItemGroup>
+        <EmbeddedResource Include="Properties\35\Resources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <EmbeddedResource Include="Properties\Resources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+          <SubType>Designer</SubType>
+        </EmbeddedResource>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

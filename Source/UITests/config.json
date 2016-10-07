@@ -1,0 +1,246 @@
+﻿[
+  {
+    "class": "UITests.IrbisLoginFormTest",
+    "title": "Login form"
+  },
+  {
+    "class": "UITests.IrbisLoginForm2Test",
+    "title": "Login form 2"
+  },
+  {
+    "class": "UITests.IrbisBusyFormTest",
+    "title": "Busy form"
+  },
+  {
+    "class": "UITests.ClocksTest",
+    "title": "Clocks"
+  },
+  {
+    "class": "UITests.CollapsibleGroupBoxTest",
+    "title": "Collapsible GroupBox"
+  },
+  {
+    "class": "UITests.ColorComboBoxTest",
+    "title": "ColorComboBox"
+  },
+  {
+    "class": "UITests.EnumComboBoxTest",
+    "title": "EnumComboBox"
+  },
+  {
+    "class": "UITests.EnumListBoxTest",
+    "title": "EnumListBox"
+  },
+  {
+    "class": "UITests.FontComboBoxTest",
+    "title": "FontComboBox"
+  },
+  {
+    "class": "UITests.HatchComboBoxTest",
+    "title": "HatchComboBox"
+  },
+  {
+    "class": "UITests.InputBoxTest",
+    "title": "InputBox"
+  },
+  {
+    "class": "UITests.JogControlTest",
+    "title": "JogControl"
+  },
+  {
+    "class": "UITests.LabelExTest",
+    "title": "LabelEx"
+  },
+  {
+    "class": "UITests.SuggestingTextBoxTest",
+    "title": "SuggestingTextBox"
+  },
+  {
+    "class": "UITests.DaDataClientTest",
+    "title": "DaData client"
+  },
+  {
+    "class": "UITests.ListBoxExTest",
+    "title": "ListBoxEx"
+  },
+  {
+    "class": "UITests.ToolStripTest",
+    "title": "ToolStrip items"
+  },
+  {
+    "class": "UITests.DataGridViewTest",
+    "title": "DataGridView items"
+  },
+  {
+    "class": "UITests.ButtonedTextBoxTest",
+    "title": "ButtonedTextBox"
+  },
+  {
+    "class": "UITests.FileNameBoxTest",
+    "title": "FileNameBox"
+  },
+  {
+    "class": "UITests.FolderNameBoxTest",
+    "title": "FolderNameBox"
+  },
+  {
+    "class": "UITests.BusyStripeTest",
+    "title": "BusyStripe"
+  },
+  {
+    "class": "UITests.BottomlessTextBoxTest",
+    "title": "BottomlessTextBox"
+  },
+  {
+    "class": "UITests.BindingListSourceTest",
+    "title": "BindingListSource"
+  },
+  {
+    "class": "UITests.CheckBoxGroupTest",
+    "title": "CheckBoxGroup"
+  },
+  {
+    "class": "UITests.CheckedGroupBoxTest",
+    "title": "CheckedGroupBox"
+  },
+  {
+    "class": "UITests.BrowserFormTest",
+    "title": "BrowserForm"
+  },
+  {
+    "class": "UITests.LabeledComboBoxTest",
+    "title": "LabeledComboBox"
+  },
+  {
+    "class": "UITests.LabeledTextBoxTest",
+    "title": "LabeledTextBox"
+  },
+  {
+    "class": "UITests.MeterTest",
+    "title": "Meter"
+  },
+  {
+    "class": "UITests.PlainTextEditorTest",
+    "title": "PlainTextEditor"
+  },
+  {
+    "class": "UITests.RichTextEditorTest",
+    "title": "RichTextEditor"
+  },
+  {
+    "class": "UITests.ProgressCircleTest",
+    "title": "ProgressCircle"
+  },
+  {
+    "class": "UITests.DriveComboBoxTest",
+    "title": "DriveComboBox"
+  },
+  {
+    "class": "UITests.ExceptionBoxTest",
+    "title": "ExceptionBox"
+  },
+  {
+    "class": "UITests.PopupFormTest",
+    "title": "PopupForm"
+  },
+  {
+    "class": "UITests.PictureViewFormTest",
+    "title": "PictureViewForm"
+  },
+  {
+    "class": "UITests.RadioGroupTest",
+    "title": "RadioGroup"
+  },
+  {
+    "class": "UITests.StringGridTest",
+    "title": "StringGrid"
+  },
+  {
+    "class": "UITests.PropertyBoxTest",
+    "title": "PropertyBox"
+  },
+  {
+    "class": "UITests.PickListTest",
+    "title": "PickList"
+  },
+  {
+    "class": "UITests.RainbowControlTest",
+    "title": "RainbowControl"
+  },
+  {
+    "class": "UITests.ThermometerTest",
+    "title": "Thermometer"
+  },
+  {
+    "class": "UITests.TextBoxPlusTest",
+    "title": "TextBoxPlus"
+  },
+  {
+    "class": "UITests.ConsoleControlTest",
+    "title": "ConsoleControl - test 1"
+  },
+  {
+    "class": "UITests.ConsoleControlTest2",
+    "title": "ConsoleControl - test 2"
+  },
+  {
+    "class": "UITests.ConsoleControlTest3",
+    "title": "ConsoleControl - test 3"
+  },
+  {
+    "class": "UITests.ConsoleFormTest",
+    "title": "ConsoleForm - test 1"
+  },
+  {
+    "class": "UITests.ConsoleFormTest2",
+    "title": "ConsoleForm - test 2"
+  },
+  {
+    "class": "UITests.ConsoleFormTest3",
+    "title": "ConsoleForm - test 3"
+  },
+  {
+    "class": "UITests.DictionaryPanelTest",
+    "title": "DictionaryPanel"
+  },
+  {
+    "class": "UITests.DictionaryFormTest",
+    "title": "DictionaryForm"
+  },
+  {
+    "class": "UITests.MenuFormTest",
+    "title": "MenuForm"
+  },
+  {
+    "class": "UITests.WssFormTest",
+    "title": "WssForm"
+  },
+  {
+    "class": "UITests.FoundPanelTest",
+    "title": "FoundPanel"
+  },
+  {
+    "class": "UITests.PreviewPanelTest",
+    "title": "PreviewPanel"
+  },
+  {
+    "class": "UITests.ConsoleControlOutputTest",
+    "title": "ConsoleControlOutput"
+  },
+  {
+    "class": "UITests.ScrollControlTest",
+    "title": "ScrollControl"
+  },
+  {
+    "class": "UITests.HabitualDataGridViewTest",
+    "title": "HabitualDataGridView"
+  },
+  {
+    "class": "UITests.PagingDataGridViewTest",
+    "title": "PagingDataGridView"
+  },
+  {
+    "class": "UITests.DragMoveTest",
+    "title": "DragMove"
+  }
+]

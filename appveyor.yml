@@ -15,10 +15,10 @@ nuget:
   project_feed: false
 
 before_build:
-- cmd: nuget restore Sources\ManagedIrbis.sln
+- cmd: nuget restore Source\ManagedIrbis.sln
 
 build:
-  project: Sources\ManagedIrbis.sln
+  project: Source\ManagedIrbis.sln
   publish_nuget: false
   parallel: true
   verbosity: minimal
@@ -26,6 +26,7 @@ build:
 after_build:
 - cmd: compile.cmd
 - cmd: compilecore.cmd
+- cmd: compilesl.cmd
 - cmd: cd Nuget
 - cmd: packit.cmd
 
@@ -34,12 +35,10 @@ artifacts:
     name: ManagedIrbis
   - path: Nuget\*.nupkg
     name: Nuget
-  - path: Sources\Libs\AM.Istu\bin\Debug
+  - path: Source\Libs\AM.Istu\bin\Debug
     name: AM.Istu
-  - path: Sources\Apps\Garfield\bin\Debug
+  - path: Source\Apps\Garfield\bin\Debug
     name: Garfield
-  - path: Sources\Apps\mx64\bin\Debug
-    name: mx64
 
 deploy:
 - provider: FTP

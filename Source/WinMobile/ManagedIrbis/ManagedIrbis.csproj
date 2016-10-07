@@ -1,0 +1,904 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2A9B1508-57AB-493D-B478-A78F9AFAD27B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ManagedIrbis</RootNamespace>
+    <AssemblyName>ManagedIrbis</AssemblyName>
+    <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PlatformFamilyName>PocketPC</PlatformFamilyName>
+    <PlatformID>4118C335-430C-497f-BE48-11C3316B135E</PlatformID>
+    <OSVersion>5.1</OSVersion>
+    <DeployDirSuffix>ManagedIrbis</DeployDirSuffix>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <NativePlatformName>Windows Mobile 5.0 Pocket PC SDK</NativePlatformName>
+    <FormFactorID>
+    </FormFactorID>
+    <ApplicationIcon>BlueBook.ico</ApplicationIcon>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>ArsMagna.private.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;PocketPC;WINMOBILE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <DocumentationFile>bin\Debug\ManagedIrbis.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;$(PlatformFamilyName)</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <DocumentationFile>bin\Release\ManagedIrbis.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="OpenNETCF, Version=2.3.12317.0, Culture=neutral, PublicKeyToken=e60dbea84bb431b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\OpenNETCF\OpenNETCF.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenNETCF.AppSettings, Version=2.3.12317.0, Culture=neutral, PublicKeyToken=e60dbea84bb431b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\OpenNETCF\OpenNETCF.AppSettings.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenNETCF.Configuration, Version=2.3.12317.0, Culture=neutral, PublicKeyToken=e60dbea84bb431b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\OpenNETCF\OpenNETCF.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Batch\BatchAccessor.cs">
+      <Link>Source\Batch\BatchAccessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Batch\BatchRecordFormatter.cs">
+      <Link>Source\Batch\BatchRecordFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Batch\BatchRecordReader.cs">
+      <Link>Source\Batch\BatchRecordReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Batch\BatchRecordWriter.cs">
+      <Link>Source\Batch\BatchRecordWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Caching\IrbisCache.cs">
+      <Link>Source\Caching\IrbisCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Caching\MenuCache.cs">
+      <Link>Source\Caching\MenuCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Caching\RecordCache.cs">
+      <Link>Source\Caching\RecordCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Caching\TextCache.cs">
+      <Link>Source\Caching\TextCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\ClientInfo.cs">
+      <Link>Source\ClientInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Client\LocalCatalogerIniFile.cs">
+      <Link>Source\Client\LocalCatalogerIniFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Client\RemoteCatalogerIniFile.cs">
+      <Link>Source\Client\RemoteCatalogerIniFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\ConnectionSettings.cs">
+      <Link>Source\ConnectionSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\CopyRecordManager.cs">
+      <Link>Source\CopyRecordManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\DatabaseInfo.cs">
+      <Link>Source\DatabaseInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\DirectReader32.cs">
+      <Link>Source\Direct\DirectReader32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\DirectReader64.cs">
+      <Link>Source\Direct\DirectReader64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\IfpRecord.cs">
+      <Link>Source\Direct\IfpRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\InvertedFile32.cs">
+      <Link>Source\Direct\InvertedFile32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\InvertedFile64.cs">
+      <Link>Source\Direct\InvertedFile64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\MstControlRecord32.cs">
+      <Link>Source\Direct\MstControlRecord32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\MstControlRecord64.cs">
+      <Link>Source\Direct\MstControlRecord64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\MstDictionaryEntry32.cs">
+      <Link>Source\Direct\MstDictionaryEntry32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\MstDictionaryEntry64.cs">
+      <Link>Source\Direct\MstDictionaryEntry64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\MstFile32.cs">
+      <Link>Source\Direct\MstFile32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\MstFile64.cs">
+      <Link>Source\Direct\MstFile64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\MstRecord32.cs">
+      <Link>Source\Direct\MstRecord32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\MstRecord64.cs">
+      <Link>Source\Direct\MstRecord64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\MstRecordLeader32.cs">
+      <Link>Source\Direct\MstRecordLeader32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\MstRecordLeader64.cs">
+      <Link>Source\Direct\MstRecordLeader64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\NodeItem.cs">
+      <Link>Source\Direct\NodeItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\NodeLeader.cs">
+      <Link>Source\Direct\NodeLeader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\NodeRecord.cs">
+      <Link>Source\Direct\NodeRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\XrfFile32.cs">
+      <Link>Source\Direct\XrfFile32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\XrfFile64.cs">
+      <Link>Source\Direct\XrfFile64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\XrfRecord32.cs">
+      <Link>Source\Direct\XrfRecord32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Direct\XrfRecord64.cs">
+      <Link>Source\Direct\XrfRecord64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\EmbeddedField.cs">
+      <Link>Source\EmbeddedField.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\FieldIndicator.cs">
+      <Link>Source\FieldIndicator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\FieldReference.cs">
+      <Link>Source\FieldReference.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Fields\BinaryResource.cs">
+      <Link>Source\Fields\BinaryResource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Fields\CodesInfo.cs">
+      <Link>Source\Fields\CodesInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Fields\ExemplarInfo.cs">
+      <Link>Source\Fields\ExemplarInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Fields\ExemplarManager.cs">
+      <Link>Source\Fields\ExemplarManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Fields\RevisionInfo.cs">
+      <Link>Source\Fields\RevisionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\FieldTag.cs">
+      <Link>Source\FieldTag.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\FieldValue.cs">
+      <Link>Source\FieldValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Flc\FlcConstants.cs">
+      <Link>Source\Flc\FlcConstants.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Flc\FlcProcessor.cs">
+      <Link>Source\Flc\FlcProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Flc\FlcResult.cs">
+      <Link>Source\Flc\FlcResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Flc\FlcStatus.cs">
+      <Link>Source\Flc\FlcStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Fst\FstFile.cs">
+      <Link>Source\Fst\FstFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Fst\FstIndexMethod.cs">
+      <Link>Source\Fst\FstIndexMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Fst\FstLine.cs">
+      <Link>Source\Fst\FstLine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Fst\FstProcessor.cs">
+      <Link>Source\Fst\FstProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Gbl\Gbl.cs">
+      <Link>Source\Gbl\Gbl.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Gbl\GblBuilder.cs">
+      <Link>Source\Gbl\GblBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Gbl\GblCode.cs">
+      <Link>Source\Gbl\GblCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Gbl\GblEventArgs.cs">
+      <Link>Source\Gbl\GblEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Gbl\GblExecutive.cs">
+      <Link>Source\Gbl\GblExecutive.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Gbl\GblFile.cs">
+      <Link>Source\Gbl\GblFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Gbl\GblParameter.cs">
+      <Link>Source\Gbl\GblParameter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Gbl\GblResult.cs">
+      <Link>Source\Gbl\GblResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Gbl\GblSettings.cs">
+      <Link>Source\Gbl\GblSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Gbl\GblStatement.cs">
+      <Link>Source\Gbl\GblStatement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Gbl\GblUtility.cs">
+      <Link>Source\Gbl\GblUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Gbl\GlobalCorrector.cs">
+      <Link>Source\Gbl\GlobalCorrector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Gbl\ProtocolLine.cs">
+      <Link>Source\Gbl\ProtocolLine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IlfFile.cs">
+      <Link>Source\IlfFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\ImportExport\IrbisJson.cs">
+      <Link>Source\ImportExport\IrbisJson.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\ImportExport\IsisText.cs">
+      <Link>Source\ImportExport\IsisText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\ImportExport\Iso2709.cs">
+      <Link>Source\ImportExport\Iso2709.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\ImportExport\IsoMarker.cs">
+      <Link>Source\ImportExport\IsoMarker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\ImportExport\IsoReader.cs">
+      <Link>Source\ImportExport\IsoReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\ImportExport\IsoRecordHeader.cs">
+      <Link>Source\ImportExport\IsoRecordHeader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\ImportExport\PlainText.cs">
+      <Link>Source\ImportExport\PlainText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\ImportExport\ProtocolText.cs">
+      <Link>Source\ImportExport\ProtocolText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\AbstractEngine.cs">
+      <Link>Source\Infrastructure\AbstractEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\ClientQuery.cs">
+      <Link>Source\Infrastructure\ClientQuery.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\CommandCode.cs">
+      <Link>Source\Infrastructure\CommandCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\CommandFactory.cs">
+      <Link>Source\Infrastructure\CommandFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\AbstractCommand.cs">
+      <Link>Source\Infrastructure\Commands\AbstractCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\ActualizeRecordCommand.cs">
+      <Link>Source\Infrastructure\Commands\ActualizeRecordCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\ConnectCommand.cs">
+      <Link>Source\Infrastructure\Commands\ConnectCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\CreateDatabaseCommand.cs">
+      <Link>Source\Infrastructure\Commands\CreateDatabaseCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\CreateDictionaryCommand.cs">
+      <Link>Source\Infrastructure\Commands\CreateDictionaryCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\DatabaseInfoCommand.cs">
+      <Link>Source\Infrastructure\Commands\DatabaseInfoCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\DatabaseStatCommand.cs">
+      <Link>Source\Infrastructure\Commands\DatabaseStatCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\DeleteDatabaseCommand.cs">
+      <Link>Source\Infrastructure\Commands\DeleteDatabaseCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\DisconnectCommand.cs">
+      <Link>Source\Infrastructure\Commands\DisconnectCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\DynamicCommand.cs">
+      <Link>Source\Infrastructure\Commands\DynamicCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\FormatCommand.cs">
+      <Link>Source\Infrastructure\Commands\FormatCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\GblCommand.cs">
+      <Link>Source\Infrastructure\Commands\GblCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\GblVirtualCommand.cs">
+      <Link>Source\Infrastructure\Commands\GblVirtualCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\ListFilesCommand.cs">
+      <Link>Source\Infrastructure\Commands\ListFilesCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\ListProcessesCommand.cs">
+      <Link>Source\Infrastructure\Commands\ListProcessesCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\ListUsersCommand.cs">
+      <Link>Source\Infrastructure\Commands\ListUsersCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\MaxMfnCommand.cs">
+      <Link>Source\Infrastructure\Commands\MaxMfnCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\NopCommand.cs">
+      <Link>Source\Infrastructure\Commands\NopCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\PrintTableCommand.cs">
+      <Link>Source\Infrastructure\Commands\PrintTableCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReadBinaryFileCommand.cs">
+      <Link>Source\Infrastructure\Commands\ReadBinaryFileCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReadFileCommand.cs">
+      <Link>Source\Infrastructure\Commands\ReadFileCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReadPostingsCommand.cs">
+      <Link>Source\Infrastructure\Commands\ReadPostingsCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReadRawRecordCommand.cs">
+      <Link>Source\Infrastructure\Commands\ReadRawRecordCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReadRecordCommand.cs">
+      <Link>Source\Infrastructure\Commands\ReadRecordCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReadTermsCommand.cs">
+      <Link>Source\Infrastructure\Commands\ReadTermsCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReloadDictionaryCommand.cs">
+      <Link>Source\Infrastructure\Commands\ReloadDictionaryCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReloadMasterFileCommand.cs">
+      <Link>Source\Infrastructure\Commands\ReloadMasterFileCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\RestartServerCommand.cs">
+      <Link>Source\Infrastructure\Commands\RestartServerCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\SearchCommand.cs">
+      <Link>Source\Infrastructure\Commands\SearchCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\SearchRawCommand.cs">
+      <Link>Source\Infrastructure\Commands\SearchRawCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\SearchReadCommand.cs">
+      <Link>Source\Infrastructure\Commands\SearchReadCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\ServerStatCommand.cs">
+      <Link>Source\Infrastructure\Commands\ServerStatCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\ServerVersionCommand.cs">
+      <Link>Source\Infrastructure\Commands\ServerVersionCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\TruncateDatabaseCommand.cs">
+      <Link>Source\Infrastructure\Commands\TruncateDatabaseCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\UniversalCommand.cs">
+      <Link>Source\Infrastructure\Commands\UniversalCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\UniversalTextCommand.cs">
+      <Link>Source\Infrastructure\Commands\UniversalTextCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\UnlockDatabaseCommand.cs">
+      <Link>Source\Infrastructure\Commands\UnlockDatabaseCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\UnlockRecordsCommand.cs">
+      <Link>Source\Infrastructure\Commands\UnlockRecordsCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\UpdateIniFileCommand.cs">
+      <Link>Source\Infrastructure\Commands\UpdateIniFileCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\UpdateUserListCommand.cs">
+      <Link>Source\Infrastructure\Commands\UpdateUserListCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\WriteFileCommand.cs">
+      <Link>Source\Infrastructure\Commands\WriteFileCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\WriteRecordCommand.cs">
+      <Link>Source\Infrastructure\Commands\WriteRecordCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Commands\WriteRecordsCommand.cs">
+      <Link>Source\Infrastructure\Commands\WriteRecordsCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\ConnectionFactory.cs">
+      <Link>Source\Infrastructure\ConnectionFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\ExecutionContext.cs">
+      <Link>Source\Infrastructure\ExecutionContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\ExecutionEventArgs.cs">
+      <Link>Source\Infrastructure\ExecutionEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\FileSpecification.cs">
+      <Link>Source\Infrastructure\FileSpecification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\IrbisNetworkException.cs">
+      <Link>Source\Infrastructure\IrbisNetworkException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\IrbisNetworkUtility.cs">
+      <Link>Source\Infrastructure\IrbisNetworkUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\IrbisReturnCode.cs">
+      <Link>Source\Infrastructure\IrbisReturnCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\NetworkDebugger.cs">
+      <Link>Source\Infrastructure\NetworkDebugger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\PacketInterpreter.cs">
+      <Link>Source\Infrastructure\PacketInterpreter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\ServerResponse.cs">
+      <Link>Source\Infrastructure\ServerResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Sockets\AbstractClientSocket.cs">
+      <Link>Source\Infrastructure\Sockets\AbstractClientSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Sockets\FakeClientSocket.cs">
+      <Link>Source\Infrastructure\Sockets\FakeClientSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Sockets\HttpClientSocket.cs">
+      <Link>Source\Infrastructure\Sockets\HttpClientSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Sockets\LoggingClientSocket.cs">
+      <Link>Source\Infrastructure\Sockets\LoggingClientSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Sockets\RetryClientSocket.cs">
+      <Link>Source\Infrastructure\Sockets\RetryClientSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SimpleClientSocket.cs">
+      <Link>Source\Infrastructure\Sockets\SimpleClientSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SmartClientSocket.cs">
+      <Link>Source\Infrastructure\Sockets\SmartClientSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Infrastructure\StandardEngine.cs">
+      <Link>Source\Infrastructure\StandardEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisAlphabetTable.cs">
+      <Link>Source\IrbisAlphabetTable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisCatalog.cs">
+      <Link>Source\IrbisCatalog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisConnection.cs">
+      <Link>Source\IrbisConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisConnectionUtility.cs">
+      <Link>Source\IrbisConnectionUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisConstants.cs">
+      <Link>Source\IrbisConstants.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisDate.cs">
+      <Link>Source\IrbisDate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisEditMask.cs">
+      <Link>Source\IrbisEditMask.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisEncoding.cs">
+      <Link>Source\IrbisEncoding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisException.cs">
+      <Link>Source\IrbisException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisFormat.cs">
+      <Link>Source\IrbisFormat.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisOpt.cs">
+      <Link>Source\IrbisOpt.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisPath.cs">
+      <Link>Source\IrbisPath.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisProcessInfo.cs">
+      <Link>Source\IrbisProcessInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisSearchQuery.cs">
+      <Link>Source\IrbisSearchQuery.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisStopWords.cs">
+      <Link>Source\IrbisStopWords.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisText.cs">
+      <Link>Source\IrbisText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisTreeFile.cs">
+      <Link>Source\IrbisTreeFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisUpperCaseTable.cs">
+      <Link>Source\IrbisUpperCaseTable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisUtility.cs">
+      <Link>Source\IrbisUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisVersion.cs">
+      <Link>Source\IrbisVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\IrbisWorkstation.cs">
+      <Link>Source\IrbisWorkstation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\LocalCatalogManager.cs">
+      <Link>Source\LocalCatalogManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Magazines\MagazineArticleInfo.cs">
+      <Link>Source\Magazines\MagazineArticleInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Magazines\MagazineCumulation.cs">
+      <Link>Source\Magazines\MagazineCumulation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Magazines\MagazineInfo.cs">
+      <Link>Source\Magazines\MagazineInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Magazines\MagazineIssueInfo.cs">
+      <Link>Source\Magazines\MagazineIssueInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Magazines\MagazineManager.cs">
+      <Link>Source\Magazines\MagazineManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Mapping\FieldAttribute.cs">
+      <Link>Source\Mapping\FieldAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Mapping\SubFieldAttribute.cs">
+      <Link>Source\Mapping\SubFieldAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Mapping\SubFieldInfo.cs">
+      <Link>Source\Mapping\SubFieldInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Mapping\SubFieldMapper.cs">
+      <Link>Source\Mapping\SubFieldMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\MarcRecord.cs">
+      <Link>Source\MarcRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\MarcRecordUtility.cs">
+      <Link>Source\MarcRecordUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Marc\MarcBibliographicalIndex.cs">
+      <Link>Source\Marc\MarcBibliographicalIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Marc\MarcBibliographicalLevel.cs">
+      <Link>Source\Marc\MarcBibliographicalLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Marc\MarcCatalogingRules.cs">
+      <Link>Source\Marc\MarcCatalogingRules.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Marc\MarcRecordStatus.cs">
+      <Link>Source\Marc\MarcRecordStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Marc\MarcRecordType.cs">
+      <Link>Source\Marc\MarcRecordType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Marc\MarcRelatedRecord.cs">
+      <Link>Source\Marc\MarcRelatedRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Marc\Schema\Example.cs">
+      <Link>Source\Marc\Schema\Example.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Marc\Schema\FieldSchema.cs">
+      <Link>Source\Marc\Schema\FieldSchema.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Marc\Schema\IndicatorSchema.cs">
+      <Link>Source\Marc\Schema\IndicatorSchema.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Marc\Schema\MarcSchema.cs">
+      <Link>Source\Marc\Schema\MarcSchema.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Marc\Schema\Option.cs">
+      <Link>Source\Marc\Schema\Option.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Marc\Schema\RelatedField.cs">
+      <Link>Source\Marc\Schema\RelatedField.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Marc\Schema\SchemaUtility.cs">
+      <Link>Source\Marc\Schema\SchemaUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Marc\Schema\SubFieldSchema.cs">
+      <Link>Source\Marc\Schema\SubFieldSchema.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Menus\IrbisMenuUtility.cs">
+      <Link>Source\Menus\IrbisMenuUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Menus\MenuConverter.cs">
+      <Link>Source\Menus\MenuConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Menus\MenuEntry.cs">
+      <Link>Source\Menus\MenuEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Menus\MenuFile.cs">
+      <Link>Source\Menus\MenuFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Menus\MenuSort.cs">
+      <Link>Source\Menus\MenuSort.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Morphology\IrbisMorphologyProvider.cs">
+      <Link>Source\Morphology\IrbisMorphologyProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Morphology\MorphologyEngine.cs">
+      <Link>Source\Morphology\MorphologyEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Morphology\MorphologyEntry.cs">
+      <Link>Source\Morphology\MorphologyEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Morphology\MorphologyProvider.cs">
+      <Link>Source\Morphology\MorphologyProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\ParFile.cs">
+      <Link>Source\ParFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Pooling\IrbisConnectionPool.cs">
+      <Link>Source\Pooling\IrbisConnectionPool.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Pooling\IrbisPoolGuard.cs">
+      <Link>Source\Pooling\IrbisPoolGuard.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Pooling\PoolUtility.cs">
+      <Link>Source\Pooling\PoolUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Readers\ChairInfo.cs">
+      <Link>Source\Readers\ChairInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Readers\DebtorInfo.cs">
+      <Link>Source\Readers\DebtorInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Readers\DebtorManager.cs">
+      <Link>Source\Readers\DebtorManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Readers\IriProfile.cs">
+      <Link>Source\Readers\IriProfile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Readers\ReaderAddress.cs">
+      <Link>Source\Readers\ReaderAddress.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Readers\ReaderInfo.cs">
+      <Link>Source\Readers\ReaderInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Readers\ReaderManager.cs">
+      <Link>Source\Readers\ReaderManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Readers\ReaderRegistration.cs">
+      <Link>Source\Readers\ReaderRegistration.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Readers\ReaderUtility.cs">
+      <Link>Source\Readers\ReaderUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Readers\VisitInfo.cs">
+      <Link>Source\Readers\VisitInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Readers\VisitInfoUtility.cs">
+      <Link>Source\Readers\VisitInfoUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\RecordField.cs">
+      <Link>Source\RecordField.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\RecordFieldCollection.cs">
+      <Link>Source\RecordFieldCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\RecordFieldUtility.cs">
+      <Link>Source\RecordFieldUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\RecordReference.cs">
+      <Link>Source\RecordReference.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\RecordStatus.cs">
+      <Link>Source\RecordStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Requests\BookRequest.cs">
+      <Link>Source\Requests\BookRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Requests\RequestManager.cs">
+      <Link>Source\Requests\RequestManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Requests\RequestPrefixes.cs">
+      <Link>Source\Requests\RequestPrefixes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Requests\RequestRefusals.cs">
+      <Link>Source\Requests\RequestRefusals.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\DictionaryType.cs">
+      <Link>Source\Search\DictionaryType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\FoundItem.cs">
+      <Link>Source\Search\FoundItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\FoundLine.cs">
+      <Link>Source\Search\FoundLine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\Infrastructure\ComplexLevel.cs">
+      <Link>Source\Search\Infrastructure\ComplexLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\Infrastructure\ISearchTree.cs">
+      <Link>Source\Search\Infrastructure\ISearchTree.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchLevel0.cs">
+      <Link>Source\Search\Infrastructure\SearchLevel0.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchLevel1.cs">
+      <Link>Source\Search\Infrastructure\SearchLevel1.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchLevel2.cs">
+      <Link>Source\Search\Infrastructure\SearchLevel2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchLevel3.cs">
+      <Link>Source\Search\Infrastructure\SearchLevel3.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchLevel4.cs">
+      <Link>Source\Search\Infrastructure\SearchLevel4.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchLevel5.cs">
+      <Link>Source\Search\Infrastructure\SearchLevel5.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchLevel6.cs">
+      <Link>Source\Search\Infrastructure\SearchLevel6.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchLevel7.cs">
+      <Link>Source\Search\Infrastructure\SearchLevel7.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchProgram.cs">
+      <Link>Source\Search\Infrastructure\SearchProgram.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchQueryLexer.cs">
+      <Link>Source\Search\Infrastructure\SearchQueryLexer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchQueryParser.cs">
+      <Link>Source\Search\Infrastructure\SearchQueryParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchQueryUtility.cs">
+      <Link>Source\Search\Infrastructure\SearchQueryUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchReference.cs">
+      <Link>Source\Search\Infrastructure\SearchReference.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchTerm.cs">
+      <Link>Source\Search\Infrastructure\SearchTerm.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchToken.cs">
+      <Link>Source\Search\Infrastructure\SearchToken.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchTokenKind.cs">
+      <Link>Source\Search\Infrastructure\SearchTokenKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchTokenList.cs">
+      <Link>Source\Search\Infrastructure\SearchTokenList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\PostingParameters.cs">
+      <Link>Source\Search\PostingParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\SearchException.cs">
+      <Link>Source\Search\SearchException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\SearchLogicType.cs">
+      <Link>Source\Search\SearchLogicType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\SearchManager.cs">
+      <Link>Source\Search\SearchManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\SearchParameters.cs">
+      <Link>Source\Search\SearchParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\SearchResult.cs">
+      <Link>Source\Search\SearchResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\SearchScenario.cs">
+      <Link>Source\Search\SearchScenario.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\SearchSyntaxException.cs">
+      <Link>Source\Search\SearchSyntaxException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\TermInfo.cs">
+      <Link>Source\Search\TermInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\TermInfoEx.cs">
+      <Link>Source\Search\TermInfoEx.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\TermLink.cs">
+      <Link>Source\Search\TermLink.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\TermParameters.cs">
+      <Link>Source\Search\TermParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Search\TermPosting.cs">
+      <Link>Source\Search\TermPosting.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\ServerStat.cs">
+      <Link>Source\ServerStat.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\Server\ServerIniFile.cs">
+      <Link>Source\Server\ServerIniFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\StandardDatabases.cs">
+      <Link>Source\StandardDatabases.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\StatDefinition.cs">
+      <Link>Source\StatDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\SubField.cs">
+      <Link>Source\SubField.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\SubFieldCode.cs">
+      <Link>Source\SubFieldCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\SubFieldCollection.cs">
+      <Link>Source\SubFieldCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\SubFieldUtility.cs">
+      <Link>Source\SubFieldUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\SubFieldValue.cs">
+      <Link>Source\SubFieldValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\TableDefinition.cs">
+      <Link>Source\TableDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\ManagedIrbis\Source\UserInfo.cs">
+      <Link>Source\UserInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BlueBook.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ArsMagna.private.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AM.Core\AM.Core.csproj">
+      <Project>{5EB159AC-C548-4B35-AE16-A173983F5A98}</Project>
+      <Name>AM.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}">
+        <HostingProcess disable="1" />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
