@@ -7,8 +7,8 @@
     <ProjectGuid>{0F99A08E-E08F-4FFE-884B-C27AD252E1D5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AM.Stemming</RootNamespace>
-    <AssemblyName>AM.Stemming</AssemblyName>
+    <RootNamespace>AM.AOT</RootNamespace>
+    <AssemblyName>AM.AOT</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -20,7 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\AM.Stemming.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\AM.AOT.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -43,7 +43,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>bin\Debug\AM.Stemming.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\AM.AOT.xml</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -57,7 +57,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\x86\Release\AM.Stemming.xml</DocumentationFile>
+    <DocumentationFile>bin\x86\Release\AM.AOT.xml</DocumentationFile>
   </PropertyGroup>
   <Choose>
     <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
@@ -117,9 +117,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AM\Stemming\MystemAnalysis.cs" />
-    <Compile Include="AM\Stemming\MystemResult.cs" />
-    <Compile Include="AM\Stemming\MystemRunner.cs" />
+    <Compile Include="AM\AOT\Stemming\MystemAnalysis.cs" />
+    <Compile Include="AM\AOT\Stemming\MystemResult.cs" />
+    <Compile Include="AM\AOT\Stemming\MystemRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

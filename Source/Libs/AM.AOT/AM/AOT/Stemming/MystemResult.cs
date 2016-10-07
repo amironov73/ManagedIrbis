@@ -17,7 +17,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace AM.Stemming
+namespace AM.AOT.Stemming
 {
     /// <summary>
     /// Результат анализа для одного слова.
