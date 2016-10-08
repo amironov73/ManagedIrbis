@@ -15,7 +15,7 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Serialization;
 
-#if !ANDROID
+#if !ANDROID && !UAP
 
 using AM.Reflection;
 
@@ -34,7 +34,7 @@ namespace AM.Xml
     /// </summary>
     public static class XmlUtility
     {
-#region Private members
+        #region Private members
 
         private static Dictionary<string, XmlSerializer> _serializers;
 
@@ -49,9 +49,9 @@ namespace AM.Xml
             }
         }
 
-#endregion
+        #endregion
 
-#region Public methods
+        #region Public methods
 
         /// <summary>
         /// Clear cached serializers.
@@ -113,7 +113,7 @@ namespace AM.Xml
             return (T)serializer.Deserialize(reader);
         }
 
-#if !ANDROID
+#if !ANDROID && !UAP
 
         /// <summary>
         /// Get serializer for tagged classes.
@@ -225,6 +225,8 @@ namespace AM.Xml
             Serialize(fileName, serializer, obj);
         }
 
+#if !UAP
+
         /// <summary>
         /// Dumps the specified reader.
         /// </summary>
@@ -244,6 +246,8 @@ namespace AM.Xml
 
             return reader;
         }
+#endif
+
 
         /// <summary>
         /// Reads the trimmed string.

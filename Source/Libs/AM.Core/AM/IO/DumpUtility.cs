@@ -116,6 +116,8 @@ namespace AM.IO
             Dump(writer, data);
         }
 
+#if !UAP
+
         /// <summary>
         /// Dump the array of data to console output.
         /// </summary>
@@ -129,6 +131,8 @@ namespace AM.IO
 
             Dump(Console.Out, data);
         }
+
+#endif
 
         /// <summary>
         /// Dump the array of data to <see cref="AbstractOutput"/>.
@@ -169,6 +173,6 @@ namespace AM.IO
             return writer.ToString();
         }
 
-        #endregion
+#endregion
     }
 }

@@ -4,6 +4,8 @@
  * Status: poor
  */
 
+#if !UAP
+
 #region Using directives
 
 using System;
@@ -91,3 +93,6 @@ namespace AM.Text.Output
         #endregion
     }
 }
+
+#endif
+

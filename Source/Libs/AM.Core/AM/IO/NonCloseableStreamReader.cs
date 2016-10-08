@@ -39,7 +39,7 @@ namespace AM.IO
         {
         }
 
-#if !NETCORE
+#if !NETCORE && !UAP
 
         /// <summary>
         /// Constructor.
@@ -78,7 +78,7 @@ namespace AM.IO
         {
         }
 
-#if !NETCORE
+#if !NETCORE && !UAP
 
         /// <summary>
         /// Constructor.
@@ -119,7 +119,7 @@ namespace AM.IO
         {
         }
 
-#if !NETCORE
+#if !NETCORE && !UAP
 
         /// <summary>
         /// Constructor.
@@ -164,21 +164,21 @@ namespace AM.IO
 
         #region StreamReader members
 
-#if !NETCORE
-
         /// <summary>
         /// NOT closes the <see cref="T:System.IO.StreamReader"></see> 
         /// object and the underlying stream, and releases any system resources 
         /// associated with the reader.
         /// </summary>
-        public override void Close()
+        public
+#if !NETCORE && !UAP
+            override
+#endif
+            void Close()
         {
             // Nothing to do actually
         }
 
-#endif
-
-        #endregion
+#endregion
 
         #region IDisposable Members
 

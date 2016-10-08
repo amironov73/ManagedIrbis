@@ -50,6 +50,8 @@ namespace AM.Text.Output
             }
         }
 
+#if !UAP
+
         /// <summary>
         /// 
         /// </summary>
@@ -65,6 +67,8 @@ namespace AM.Text.Output
                 return _console;
             }
         }
+
+#endif
 
         #endregion
 
@@ -222,9 +226,7 @@ namespace AM.Text.Output
 
         #region IDisposable members
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc cref="IDisposable"/>
         public virtual void Dispose()
         {
         }

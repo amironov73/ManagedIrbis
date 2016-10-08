@@ -64,17 +64,17 @@ namespace AM.IO.NonCloseable
 
         #region TextReader members
 
-#if !NETCORE
-
         /// <summary>
         /// 
         /// </summary>
-        public override void Close()
+        public
+#if !NETCORE && !UAP
+            override
+#endif
+            void Close()
         {
             // Nothing to do actually
         }
-
-#endif
 
         /// <summary>
         /// 
@@ -154,7 +154,7 @@ namespace AM.IO.NonCloseable
             return _innerReader.ReadToEnd();
         }
 
-        #endregion
+#endregion
 
         #region IDisposable members
 

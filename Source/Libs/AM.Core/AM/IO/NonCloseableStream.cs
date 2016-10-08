@@ -109,20 +109,21 @@ namespace AM.IO
             }
         }
 
-#if !NETCORE
-
         /// <summary>
         /// NOT closes the current stream and releases any resources 
         /// (such as sockets and file handles) associated with the current stream.
         /// </summary>
         /// <seealso cref="M:AM.IO.NonCloseable.NonCloseableStream.ReallyClose"/>
         [DebuggerStepThrough]
-        public override void Close()
+        public
+#if !NETCORE && !UAP
+            override
+#endif
+            void Close()
         {
             // Nothing to do actually
         }
 
-#endif
 
         /// <summary>
         /// Clears all buffers for this stream and causes any 
@@ -292,7 +293,7 @@ namespace AM.IO
             _innerStream.Write(buffer, offset, count);
         }
 
-        #endregion
+#endregion
 
         #region IDisposable members
 

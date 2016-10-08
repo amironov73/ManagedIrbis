@@ -103,6 +103,7 @@ namespace AM
             {
                 return false;
             }
+
             if (ReferenceEquals(left, right))
             {
                 return true;
@@ -113,10 +114,16 @@ namespace AM
             {
                 return false;
             }
+
+#if !UAP
+
             if (type.IsValueType)
             {
                 return left.Equals(right);
             }
+
+#endif
+
             if (type == type.GetMethod("Equals").DeclaringType)
             {
                 return left.Equals(right);
@@ -139,7 +146,9 @@ namespace AM
                     BindingFlags.Public
                     | BindingFlags.NonPublic
                     | BindingFlags.Instance
+#if !UAP
                     | BindingFlags.GetProperty
+#endif
                 ))
             {
                 // TODO: need to special-case indexable properties
@@ -156,8 +165,10 @@ namespace AM
             // compare each field
             foreach (FieldInfo info in type.GetFields
                 (
-                    BindingFlags.GetField
-                    | BindingFlags.NonPublic
+#if !UAP
+                    BindingFlags.GetField |
+#endif
+                    BindingFlags.NonPublic
                     | BindingFlags.Public
                     | BindingFlags.Instance
                 ))
@@ -230,11 +241,11 @@ namespace AM
 
 #endif
 
-        // =========================================================
+                // =========================================================
 
-        /// <summary>
-        /// Выборка элемента из массива.
-        /// </summary>
+                /// <summary>
+                /// Выборка элемента из массива.
+                /// </summary>
         public static T GetItem<T>
             (
                 [NotNull] this T[] array,

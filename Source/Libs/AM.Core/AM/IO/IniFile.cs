@@ -37,7 +37,7 @@ namespace AM.IO
 #if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{FileName}")]
 #endif
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !UAP
     // ReSharper disable once RedundantNameQualifier
     [System.ComponentModel.DesignerCategory("Code")]
 #endif
