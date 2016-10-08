@@ -16,6 +16,13 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
+#if UAP
+
+using Windows.Networking;
+using Windows.Networking.Sockets;
+
+#endif
+
 using AM.IO;
 using AM.Threading;
 

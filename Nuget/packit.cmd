@@ -72,7 +72,7 @@ copy %BIN%\%BUILD%35\System.Threading.* lib\net35\ > nul
 IF %2==core  copy %BIN%\%BUILD%Core\%1\bin\%BUILD%\netstandard1.6\%1.* lib\netstandard1.0 > nul
 IF %3==sl    copy %BIN%\%BUILD%SL50\%1.*                               lib\sl50           > nul
 IF %4==droid copy %BIN%\%BUILD%Droid\%1.*                              lib\MonoAndroid    > nul
-IF %5==uap   copy %BIN%\%BUILLD%Universal\%1.*                         lib\uap            > nul
+IF %5==uap   copy %BIN%\%BUILD%Universal\%1.*                          lib\uap            > nul
 
 DEL lib\netstandard1.0\*.json > nul 2> nul
 
