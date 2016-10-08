@@ -1,0 +1,545 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2DA9F212-8619-422F-94E0-B58B938C88F9}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AM.Core</RootNamespace>
+    <AssemblyName>AM.Core</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
+    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ANDROID</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\AM.Core.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;ANDROID</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\AM.Core.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JetBrains.Annotations.Dotnet, Version=10.1.5.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.1.5\lib\dotnet\JetBrains.Annotations.Dotnet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Android" />
+    <Reference Include="MoonSharp.Interpreter, Version=1.8.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+      <HintPath>..\packages\MoonSharp.1.8.0.0\lib\portable-net4+sl5+wp8+win8\MoonSharp.Interpreter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Libs\AM.Core\AM\ArrayUtility.cs">
+      <Link>AM\ArrayUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\ArsMagnaException.cs">
+      <Link>AM\ArsMagnaException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\AutoDisposeAttribute.cs">
+      <Link>AM\AutoDisposeAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Caching\AbstractCache.cs">
+      <Link>AM\Caching\AbstractCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Caching\CacheItem.cs">
+      <Link>AM\Caching\CacheItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Caching\FileCache.cs">
+      <Link>AM\Caching\FileCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Caching\MemoryCache.cs">
+      <Link>AM\Caching\MemoryCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\CancelableEventArgs.cs">
+      <Link>AM\CancelableEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\CancelableEventHandler.cs">
+      <Link>AM\CancelableEventHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\CharUtility.cs">
+      <Link>AM\CharUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\BidirectionalDictionary.cs">
+      <Link>AM\Collections\BidirectionalDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\BitArrayUtility.cs">
+      <Link>AM\Collections\BitArrayUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\CharSet.cs">
+      <Link>AM\Collections\CharSet.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\CloneableCollection.cs">
+      <Link>AM\Collections\CloneableCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\DictionaryCounterDouble.cs">
+      <Link>AM\Collections\DictionaryCounterDouble.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\DictionaryCounterInt32.cs">
+      <Link>AM\Collections\DictionaryCounterInt32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\DictionaryList.cs">
+      <Link>AM\Collections\DictionaryList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\DictionaryListUtility.cs">
+      <Link>AM\Collections\DictionaryListUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\DictionaryUtility.cs">
+      <Link>AM\Collections\DictionaryUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\DisposableCollection.cs">
+      <Link>AM\Collections\DisposableCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\DoublyLinkedList.cs">
+      <Link>AM\Collections\DoublyLinkedList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\IIndexable.cs">
+      <Link>AM\Collections\IIndexable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\IndexableConverter.cs">
+      <Link>AM\Collections\IndexableConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\KeyedCollection.cs">
+      <Link>AM\Collections\KeyedCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\ListUtility.cs">
+      <Link>AM\Collections\ListUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\NonNullCollection.cs">
+      <Link>AM\Collections\NonNullCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\Pair.cs">
+      <Link>AM\Collections\Pair.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\Quartet.cs">
+      <Link>AM\Collections\Quartet.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\StringDictionary.cs">
+      <Link>AM\Collections\StringDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\Triplet.cs">
+      <Link>AM\Collections\Triplet.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\VirtualList.cs">
+      <Link>AM\Collections\VirtualList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Collections\XRange.cs">
+      <Link>AM\Collections\XRange.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\CommandLine\CommandLineParser.cs">
+      <Link>AM\CommandLine\CommandLineParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\CommandLine\CommandLineSettings.cs">
+      <Link>AM\CommandLine\CommandLineSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\CommandLine\CommandLineSwitch.cs">
+      <Link>AM\CommandLine\CommandLineSwitch.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\CommandLine\CommandLineUtility.cs">
+      <Link>AM\CommandLine\CommandLineUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\CommandLine\ParsedCommandLine.cs">
+      <Link>AM\CommandLine\ParsedCommandLine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\ComparableObject.cs">
+      <Link>AM\ComparableObject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\ConnectionStringParser.cs">
+      <Link>AM\ConnectionStringParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\ConsoleUtility.cs">
+      <Link>AM\ConsoleUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\ConversionUtility.cs">
+      <Link>AM\ConversionUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\DateTimeUtility.cs">
+      <Link>AM\DateTimeUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\DelegateUtility.cs">
+      <Link>AM\DelegateUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\DisposableObject.cs">
+      <Link>AM\DisposableObject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\DisposableUtility.cs">
+      <Link>AM\DisposableUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\DuplicateKeyException.cs">
+      <Link>AM\DuplicateKeyException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\EnvironmentUtility.cs">
+      <Link>AM\EnvironmentUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\EventUtility.cs">
+      <Link>AM\EventUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\ExceptionEventArgs.cs">
+      <Link>AM\ExceptionEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\FuncUtility.cs">
+      <Link>AM\FuncUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Globalization\BuiltinCultures.cs">
+      <Link>AM\Globalization\BuiltinCultures.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Globalization\CultureCode.cs">
+      <Link>AM\Globalization\CultureCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Globalization\CultureSaver.cs">
+      <Link>AM\Globalization\CultureSaver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Globalization\RussianStringComparer.cs">
+      <Link>AM\Globalization\RussianStringComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Globalization\UICultureSaver.cs">
+      <Link>AM\Globalization\UICultureSaver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\InquiryEventArgs.cs">
+      <Link>AM\InquiryEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IO\BinaryReaderUtility.cs">
+      <Link>AM\IO\BinaryReaderUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IO\BinaryWriterUtility.cs">
+      <Link>AM\IO\BinaryWriterUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IO\CompressionUtility.cs">
+      <Link>AM\IO\CompressionUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IO\DirectoryUtility.cs">
+      <Link>AM\IO\DirectoryUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IO\DumpUtility.cs">
+      <Link>AM\IO\DumpUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IO\FileUtility.cs">
+      <Link>AM\IO\FileUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IO\IConsoleOutputReceiver.cs">
+      <Link>AM\IO\IConsoleOutputReceiver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IO\IniFile.cs">
+      <Link>AM\IO\IniFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IO\MultiStream.cs">
+      <Link>AM\IO\MultiStream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IO\NonCloseableStream.cs">
+      <Link>AM\IO\NonCloseableStream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IO\NonCloseableStreamReader.cs">
+      <Link>AM\IO\NonCloseableStreamReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IO\NonCloseableTextReader.cs">
+      <Link>AM\IO\NonCloseableTextReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IO\NotifyStream.cs">
+      <Link>AM\IO\NotifyStream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IO\PathUtility.cs">
+      <Link>AM\IO\PathUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IO\StreamPacker.cs">
+      <Link>AM\IO\StreamPacker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IO\StreamUtility.cs">
+      <Link>AM\IO\StreamUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IO\TextReaderUtility.cs">
+      <Link>AM\IO\TextReaderUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IO\VersionStream.cs">
+      <Link>AM\IO\VersionStream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IReadOnly.cs">
+      <Link>AM\IReadOnly.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\ISynchronize.cs">
+      <Link>AM\ISynchronize.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\IVerifiable.cs">
+      <Link>AM\IVerifiable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Json\JsonUtility.cs">
+      <Link>AM\Json\JsonUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\MessageEventArgs.cs">
+      <Link>AM\MessageEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\MessageEventHandler.cs">
+      <Link>AM\MessageEventHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\NonNullValue.cs">
+      <Link>AM\NonNullValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\NumericUtility.cs">
+      <Link>AM\NumericUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\ObjectDumper.cs">
+      <Link>AM\ObjectDumper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Operator.cs">
+      <Link>AM\Operator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Optional.cs">
+      <Link>AM\Optional.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Parameters\Parameter.cs">
+      <Link>AM\Parameters\Parameter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Parameters\ParameterUtility.cs">
+      <Link>AM\Parameters\ParameterUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\ProcessorArchitecture.cs">
+      <Link>AM\ProcessorArchitecture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\ReadOnlyException.cs">
+      <Link>AM\ReadOnlyException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Reference.cs">
+      <Link>AM\Reference.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\RetryManager.cs">
+      <Link>AM\RetryManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Runtime\HandmadeSerializer.cs">
+      <Link>AM\Runtime\HandmadeSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Runtime\IHandmadeSerializable.cs">
+      <Link>AM\Runtime\IHandmadeSerializable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Runtime\InteropUtility.cs">
+      <Link>AM\Runtime\InteropUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Runtime\ITreeSerialize.cs">
+      <Link>AM\Runtime\ITreeSerialize.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Runtime\NumberUnion.cs">
+      <Link>AM\Runtime\NumberUnion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Runtime\PinnedStructure.cs">
+      <Link>AM\Runtime\PinnedStructure.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Runtime\PrefixLength.cs">
+      <Link>AM\Runtime\PrefixLength.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Runtime\RuntimeUtility.cs">
+      <Link>AM\Runtime\RuntimeUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Runtime\SerializationUtility.cs">
+      <Link>AM\Runtime\SerializationUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Sequence.cs">
+      <Link>AM\Sequence.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\StringUtility.cs">
+      <Link>AM\StringUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\CharacterClass.cs">
+      <Link>AM\Text\CharacterClass.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\CharacterClassifier.cs">
+      <Link>AM\Text\CharacterClassifier.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\EncodingUtility.cs">
+      <Link>AM\Text\EncodingUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Hyphenation\EnglishHyphenator.cs">
+      <Link>AM\Text\Hyphenation\EnglishHyphenator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Hyphenation\Hyphenator.cs">
+      <Link>AM\Text\Hyphenation\Hyphenator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Hyphenation\RussianHyphenator.cs">
+      <Link>AM\Text\Hyphenation\RussianHyphenator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\InvariantFormat.cs">
+      <Link>AM\Text\InvariantFormat.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\NewLine.cs">
+      <Link>AM\Text\NewLine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\NumberText.cs">
+      <Link>AM\Text\NumberText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Output\AbstractOutput.cs">
+      <Link>AM\Text\Output\AbstractOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Output\ConsoleOutput.cs">
+      <Link>AM\Text\Output\ConsoleOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Output\DummyOutput.cs">
+      <Link>AM\Text\Output\DummyOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Output\FileOutput.cs">
+      <Link>AM\Text\Output\FileOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Output\NullOutput.cs">
+      <Link>AM\Text\Output\NullOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Output\OutputWriter.cs">
+      <Link>AM\Text\Output\OutputWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Output\StreamOutput.cs">
+      <Link>AM\Text\Output\StreamOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Output\TeeOutput.cs">
+      <Link>AM\Text\Output\TeeOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Output\TextOutput.cs">
+      <Link>AM\Text\Output\TextOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Output\TimestampedOutput.cs">
+      <Link>AM\Text\Output\TimestampedOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Ranges\NumberRange.cs">
+      <Link>AM\Text\Ranges\NumberRange.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Ranges\NumberRangeCollection.cs">
+      <Link>AM\Text\Ranges\NumberRangeCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\RussianFormat.cs">
+      <Link>AM\Text\RussianFormat.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\StreamParser.cs">
+      <Link>AM\Text\StreamParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\TextKind.cs">
+      <Link>AM\Text\TextKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\TextNavigator.cs">
+      <Link>AM\Text\TextNavigator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\TextPosition.cs">
+      <Link>AM\Text\TextPosition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\TextUtility.cs">
+      <Link>AM\Text\TextUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\TextWithEncoding.cs">
+      <Link>AM\Text\TextWithEncoding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Tokenizer\StringTokenizer.cs">
+      <Link>AM\Text\Tokenizer\StringTokenizer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Tokenizer\Token.cs">
+      <Link>AM\Text\Tokenizer\Token.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Tokenizer\TokenizerException.cs">
+      <Link>AM\Text\Tokenizer\TokenizerException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Tokenizer\TokenizerSettings.cs">
+      <Link>AM\Text\Tokenizer\TokenizerSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Tokenizer\TokenKind.cs">
+      <Link>AM\Text\Tokenizer\TokenKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Tokenizer\TokenStream.cs">
+      <Link>AM\Text\Tokenizer\TokenStream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Text\Transliterator.cs">
+      <Link>AM\Text\Transliterator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Threading\BusyGuard.cs">
+      <Link>AM\Threading\BusyGuard.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Threading\BusyState.cs">
+      <Link>AM\Threading\BusyState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Threading\StateGuard.cs">
+      <Link>AM\Threading\StateGuard.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Threading\StateHolder.cs">
+      <Link>AM\Threading\StateHolder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\TimeSpanUtility.cs">
+      <Link>AM\TimeSpanUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\TriState.cs">
+      <Link>AM\TriState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\TypeUtility.cs">
+      <Link>AM\TypeUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\UniversalComparer.cs">
+      <Link>AM\UniversalComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Utility.cs">
+      <Link>AM\Utility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\ValueEventArgs.cs">
+      <Link>AM\ValueEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\VerificationException.cs">
+      <Link>AM\VerificationException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Verifier.cs">
+      <Link>AM\Verifier.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Xml\XmlNamespaces.cs">
+      <Link>AM\Xml\XmlNamespaces.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\AM\Xml\XmlUtility.cs">
+      <Link>AM\Xml\XmlUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\CodeJam\Code.cs">
+      <Link>CodeJam\Code.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Libs\AM.Core\CodeJam\CodeExceptions.cs">
+      <Link>CodeJam\CodeExceptions.cs</Link>
+    </Compile>
+    <Compile Include="Resources\Resource.Designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Resources\AboutResources.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\Values\Strings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Compability\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\Libs\AM.Core\AM\Text\Characters.txt">
+      <Link>AM\Text\Characters.txt</Link>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

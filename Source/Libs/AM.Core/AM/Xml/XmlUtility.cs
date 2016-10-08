@@ -15,7 +15,11 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Serialization;
 
+#if !ANDROID
+
 using AM.Reflection;
+
+#endif
 
 using CodeJam;
 
@@ -30,7 +34,7 @@ namespace AM.Xml
     /// </summary>
     public static class XmlUtility
     {
-        #region Private members
+#region Private members
 
         private static Dictionary<string, XmlSerializer> _serializers;
 
@@ -45,9 +49,9 @@ namespace AM.Xml
             }
         }
 
-        #endregion
+#endregion
 
-        #region Public methods
+#region Public methods
 
         /// <summary>
         /// Clear cached serializers.
@@ -109,6 +113,8 @@ namespace AM.Xml
             return (T)serializer.Deserialize(reader);
         }
 
+#if !ANDROID
+
         /// <summary>
         /// Get serializer for tagged classes.
         /// </summary>
@@ -146,6 +152,8 @@ namespace AM.Xml
                 return ser;
             }
         }
+
+#endif
 
         ///// <summary>
         ///// Get serializer for tagged classes. Scan all assemblies.
@@ -311,7 +319,7 @@ namespace AM.Xml
         }
 
 
-        #endregion
+#endregion
     }
 }
 
