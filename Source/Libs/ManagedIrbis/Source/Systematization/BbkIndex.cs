@@ -16,7 +16,7 @@ using AM.Collections;
 
 using CodeJam;
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !ANDROID
 
 using Compatibility;
 

@@ -16,7 +16,7 @@ using AM;
 using AM.Collections;
 using AM.Text;
 
-#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT
+#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT && !ANDROID
 using AM.Configuration;
 #endif
 
@@ -267,7 +267,7 @@ namespace ManagedIrbis
             return result;
         }
 
-#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT
+#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT && !ANDROID
 
         // ========================================================
 
