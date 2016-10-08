@@ -24,6 +24,7 @@
 [Dd]ebugCore/
 [Dd]ebugPublic/
 [Dd]ebugSL50/
+[Dd]ebugDroid/
 [Rr]elease/
 [Rr]elease35/
 [Rr]elease40/
@@ -33,6 +34,7 @@
 [Rr]elease461/
 [Rr]eleaseCore/
 [Rr]eleaseSL50/
+[Rr]eleaseDroid/
 [Rr]eleases/
 x64/
 x86/
