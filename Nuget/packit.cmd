@@ -7,16 +7,16 @@ DEL /q *.nupkg > nul 2> nul
 
 IF not exist lib     mkdir lib     > nul 2> nul
 
-CALL :BUILD AM.Core            core sl
-CALL :BUILD ManagedIrbis       core sl
-CALL :BUILD AM.Drawing         no   no
-CALL :BUILD AM.Rfid            no   no
-CALL :BUILD AM.Windows.Forms   no   no
-CALL :BUILD AM.Win32           no   no
-CALL :BUILD IrbisUI            no   no
-CALL :BUILD AM.Suggestions     no   no
-CALL :BUILD AM.AOT             no   no
-CALL :BUILD AM.Ocr             no   no
+CALL :BUILD AM.Core            core sl droid
+CALL :BUILD ManagedIrbis       core sl droid
+CALL :BUILD AM.Drawing         no   no no
+CALL :BUILD AM.Rfid            no   no no
+CALL :BUILD AM.Windows.Forms   no   no no
+CALL :BUILD AM.Win32           no   no no
+CALL :BUILD IrbisUI            no   no no
+CALL :BUILD AM.Suggestions     no   no no
+CALL :BUILD AM.AOT             no   no no
+CALL :BUILD AM.Ocr             no   no no
 
 GOTO :END
 
@@ -32,11 +32,14 @@ IF not exist net35 mkdir net35 > nul 2> nul
 IF not exist net40 mkdir net40 > nul 2> nul
 IF not exist net45 mkdir net45 > nul 2> nul
 
-IF %2==core mkdir netstandard1.0  > nul 2> nul
-IF %2==no   rmdir netstandard1.0  > nul 2> nul
+IF %2==core  mkdir netstandard1.0  > nul 2> nul
+IF %2==no    rmdir netstandard1.0  > nul 2> nul
 
-IF %3==sl   mkdir sl50            > nul 2> nul
-IF %3==no   rmdir sl50            > nul 2> nul
+IF %3==sl    mkdir sl50            > nul 2> nul
+IF %3==no    rmdir sl50            > nul 2> nul
+
+IF %4==droid mkdir MonoAndroid     > nul 2> nul
+IF %4==no    rmdir MonoAndroid     > nul 2> nul
 
 cd ..
 
@@ -63,9 +66,12 @@ copy %BIN%\%BUILD%45\ru\%1.resources.dll lib\net45\ru > nul 2> nul
 
 copy %BIN%\%BUILD%35\System.Threading.* lib\net35\ > nul
 
-IF %2==core copy %BIN%\%BUILD%Core\%1\bin\%BUILD%\netstandard1.6\%1.* lib\netstandard1.0 > nul
-IF %3==sl   copy %BIN%\%BUILD%SL50\%1.* lib\sl50 > nul
+IF %2==core  copy %BIN%\%BUILD%Core\%1\bin\%BUILD%\netstandard1.6\%1.* lib\netstandard1.0 > nul
+IF %3==sl    copy %BIN%\%BUILD%SL50\%1.* lib\sl50 > nul
+IF %4==droid copy %BIN%\%BUILD%Droid\%1.* lib\MonoAndroid > nul
+
 DEL lib\netstandard1.0\*.json > nul 2> nul
+
 IF %1==AM.Rfid (
 copy %BIN%\%BUILD%35\FeCom.dll                lib\net35 > nul
 copy %BIN%\%BUILD%35\FedmIscCoreVC80.dll      lib\net35 > nul
