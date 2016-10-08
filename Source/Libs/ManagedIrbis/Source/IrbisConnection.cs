@@ -64,7 +64,7 @@ namespace ManagedIrbis
 
         #region Properties
 
-#if !NETCORE && !SILVERLIGHT
+#if !NETCORE && !SILVERLIGHT && !UAP
 
         /// <summary>
         /// Версия клиента.

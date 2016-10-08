@@ -90,7 +90,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
             }
         }
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !UAP
 
         private TcpClient _GetTcpClient()
         {
@@ -149,6 +149,10 @@ namespace ManagedIrbis.Infrastructure.Sockets
             Code.NotNull(request, "request");
 
 #if SILVERLIGHT
+
+            throw new NotImplementedException();
+
+#elif UAP
 
             throw new NotImplementedException();
 

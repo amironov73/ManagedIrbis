@@ -4,7 +4,7 @@
  * Status: poor
  */
 
-#if !NETCORE && !SILVERLIGHT && !ANDROID
+#if !NETCORE && !SILVERLIGHT && !ANDROID && !UAP
 
 #region Using directives
 

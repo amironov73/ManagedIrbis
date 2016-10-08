@@ -65,7 +65,7 @@ namespace ManagedIrbis.Infrastructure
 
             if (_address == null)
             {
-#if NETCORE || SILVERLIGHT
+#if NETCORE || SILVERLIGHT || UAP
 
                 _address = IPAddress.Parse(Connection.Host);
 
@@ -100,7 +100,7 @@ namespace ManagedIrbis.Infrastructure
             }
         }
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !UAP
 
         private TcpClient _GetTcpClient()
         {
@@ -127,7 +127,7 @@ namespace ManagedIrbis.Infrastructure
 
 #endregion
 
-#region AbstractClientSocket members
+        #region AbstractClientSocket members
 
         /// <summary>
         /// Abort the request.
@@ -148,6 +148,10 @@ namespace ManagedIrbis.Infrastructure
             Code.NotNull(request, "request");
 
 #if SILVERLIGHT
+
+            throw new NotImplementedException();
+
+#elif UAP
 
             throw new NotImplementedException();
 
@@ -177,6 +181,6 @@ namespace ManagedIrbis.Infrastructure
 #endif
         }
 
-#endregion
+        #endregion
     }
 }

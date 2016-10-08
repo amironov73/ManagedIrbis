@@ -16,7 +16,7 @@ using AM;
 using AM.Collections;
 using AM.Text;
 
-#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT && !ANDROID
+#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT && !ANDROID && !UAP
 using AM.Configuration;
 #endif
 
@@ -267,7 +267,7 @@ namespace ManagedIrbis
             return result;
         }
 
-#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT && !ANDROID
+#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT && !ANDROID && !UAP
 
         // ========================================================
 
@@ -745,7 +745,7 @@ namespace ManagedIrbis
 
         // ========================================================
 
-#if !NETCORE && !SILVERLIGHT
+#if !NETCORE && !SILVERLIGHT && !UAP
 
         /// <summary>
         /// Require minimal client version.

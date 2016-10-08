@@ -109,7 +109,7 @@ namespace ManagedIrbis.Infrastructure
 
 #else
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !UAP
 
             Debugger.Log
                 (

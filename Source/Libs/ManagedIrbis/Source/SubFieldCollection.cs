@@ -318,7 +318,6 @@ namespace ManagedIrbis
         /// <summary>
         /// Throws if read only.
         /// </summary>
-        /// <exception cref="System.Data.ReadOnlyException"></exception>
         public void ThrowIfReadOnly()
         {
             if (ReadOnly)

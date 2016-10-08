@@ -54,7 +54,7 @@ namespace ManagedIrbis.Marc.Schema
         /// For serialization.
         /// </summary>
         [CanBeNull]
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !UAP
         [Browsable(false)]
 #endif
         [XmlAttribute("code")]
