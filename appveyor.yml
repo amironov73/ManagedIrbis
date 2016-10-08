@@ -28,6 +28,7 @@ after_build:
 - cmd: compilecore.cmd
 - cmd: compilesl.cmd
 - cmd: compiledroid.cmd
+- cmd: compileuap.cmd
 - cmd: cd Nuget
 - cmd: packit.cmd
 

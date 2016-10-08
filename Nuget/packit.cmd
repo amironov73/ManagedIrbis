@@ -7,16 +7,16 @@ DEL /q *.nupkg > nul 2> nul
 
 IF not exist lib     mkdir lib     > nul 2> nul
 
-CALL :BUILD AM.Core            core sl droid
-CALL :BUILD ManagedIrbis       core sl droid
-CALL :BUILD AM.Drawing         no   no no
-CALL :BUILD AM.Rfid            no   no no
-CALL :BUILD AM.Windows.Forms   no   no no
-CALL :BUILD AM.Win32           no   no no
-CALL :BUILD IrbisUI            no   no no
-CALL :BUILD AM.Suggestions     no   no no
-CALL :BUILD AM.AOT             no   no no
-CALL :BUILD AM.Ocr             no   no no
+CALL :BUILD AM.Core            core sl droid uap
+CALL :BUILD ManagedIrbis       core sl droid uap
+CALL :BUILD AM.Drawing         no   no no    no
+CALL :BUILD AM.Rfid            no   no no    no
+CALL :BUILD AM.Windows.Forms   no   no no    no
+CALL :BUILD AM.Win32           no   no no    no
+CALL :BUILD IrbisUI            no   no no    no
+CALL :BUILD AM.Suggestions     no   no no    no
+CALL :BUILD AM.AOT             no   no no    no
+CALL :BUILD AM.Ocr             no   no no    no
 
 GOTO :END
 
@@ -40,6 +40,9 @@ IF %3==no    rmdir sl50            > nul 2> nul
 
 IF %4==droid mkdir MonoAndroid     > nul 2> nul
 IF %4==no    rmdir MonoAndroid     > nul 2> nul
+
+IF %5==uap   mkdir uap             > nul 2> nul
+IF %5==no    rmdir uap             > nul 2> nul
 
 cd ..
 
@@ -67,8 +70,9 @@ copy %BIN%\%BUILD%45\ru\%1.resources.dll lib\net45\ru > nul 2> nul
 copy %BIN%\%BUILD%35\System.Threading.* lib\net35\ > nul
 
 IF %2==core  copy %BIN%\%BUILD%Core\%1\bin\%BUILD%\netstandard1.6\%1.* lib\netstandard1.0 > nul
-IF %3==sl    copy %BIN%\%BUILD%SL50\%1.* lib\sl50 > nul
-IF %4==droid copy %BIN%\%BUILD%Droid\%1.* lib\MonoAndroid > nul
+IF %3==sl    copy %BIN%\%BUILD%SL50\%1.*                               lib\sl50           > nul
+IF %4==droid copy %BIN%\%BUILD%Droid\%1.*                              lib\MonoAndroid    > nul
+IF %5==uap   copy %BIN%\%BUILLD%Universal\%1.*                         lib\uap            > nul
 
 DEL lib\netstandard1.0\*.json > nul 2> nul
 
