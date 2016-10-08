@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>ArsMagna.Suggestions</id>
-    <version>1.6.2.300</version>
+    <version>1.6.5.700</version>
     <title>ArsMagna suggestion services</title>
     <authors>Mironov Alexey</authors>
     <owners></owners>
@@ -17,17 +17,17 @@
     </summary>
     <language>en-US</language>
     <projectUrl>https://arsmagna.ru</projectUrl>
-    <iconUrl>https://nuget.org/Content/Images/packageDefaultIcon-50x50.png</iconUrl>
+    <iconUrl>http://arsmagna.ru/images/arsmagna-icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+    <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
     <copyright>Copyright Alexey Mironov 2013-2016</copyright>
     <dependencies>
       <dependency id="JetBrains.Annotations" version="10.1.5" />
-      <dependency id="MoonSharp" version="1.6.0.0" />
+      <dependency id="MoonSharp" version="1.8.0.0" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
-      <dependency id="ArsMagna.Core" version="1.6.0.0" />
-      <dependency id="ArsMagna.Drawing" version="1.6.0.0" />
-      <dependency id="ArsMagna.Windows.Forms" version="1.6.0.0" />
+      <dependency id="ArsMagna.Core" version="1.6.5" />
+      <dependency id="ArsMagna.Drawing" version="1.6.5" />
+      <dependency id="ArsMagna.Windows.Forms" version="1.6.5" />
     </dependencies>
     <references></references>
     <tags></tags>
