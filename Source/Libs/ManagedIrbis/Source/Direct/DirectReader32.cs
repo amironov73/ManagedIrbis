@@ -4,6 +4,8 @@
  * Status: poor
  */
 
+#if !WIN81
+
 #region Using directives
 
 using System;
@@ -282,3 +284,6 @@ namespace ManagedIrbis.Direct
         #endregion
     }
 }
+
+#endif
+

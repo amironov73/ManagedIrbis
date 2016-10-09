@@ -154,11 +154,17 @@ namespace ManagedIrbis.Infrastructure.Commands
 
             byte[] buffer = result.RawAnswer;
             Encoding encoding;
-#if SILVERLIGHT
+
+#if SILVERLIGHT || WIN81
+
             encoding = Encoding.GetEncoding("windows-1251");
+
 #else
+
             encoding = Encoding.ASCII;
+
 #endif
+
             byte[] preamble = encoding.GetBytes(Preamble);
             int offset = _FindPreamble(buffer, preamble);
             if (offset < 0)

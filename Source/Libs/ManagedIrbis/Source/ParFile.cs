@@ -276,6 +276,8 @@ namespace ManagedIrbis
             return result;
         }
 
+#if !WIN81
+
         /// <summary>
         /// Разбор файла.
         /// </summary>
@@ -296,6 +298,8 @@ namespace ManagedIrbis
                 return ParseText(reader);
             }
         }
+
+#endif
 
         /// <summary>
         /// Разбор текста.
@@ -357,6 +361,8 @@ namespace ManagedIrbis
             return result;
         }
 
+#if !WIN81
+
         /// <summary>
         /// Запись в файл
         /// </summary>
@@ -377,6 +383,8 @@ namespace ManagedIrbis
                 WriteText(writer);
             }
         }
+
+#endif
 
         /// <summary>
         /// Запись в поток.
@@ -492,3 +500,4 @@ namespace ManagedIrbis
         #endregion
     }
 }
+

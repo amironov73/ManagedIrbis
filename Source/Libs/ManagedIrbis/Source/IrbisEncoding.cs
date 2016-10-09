@@ -50,7 +50,7 @@ namespace ManagedIrbis
 
         private static Encoding _ansi =
 
-#if SILVERLIGHT
+#if SILVERLIGHT || WIN81
 
             Encoding.GetEncoding("windows-1251")
 
@@ -62,7 +62,7 @@ namespace ManagedIrbis
 
         private static Encoding _oem =
 
-#if SILVERLIGHT
+#if SILVERLIGHT || WIN81
 
             Encoding.GetEncoding("windows-1251")
 
@@ -87,7 +87,7 @@ namespace ManagedIrbis
         {
             Code.NotNull(encoding, "encoding");
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81
 
             if (!encoding.IsSingleByte)
             {
@@ -109,7 +109,7 @@ namespace ManagedIrbis
         {
             Code.NotNull(encoding, "encoding");
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81
 
             if (!encoding.IsSingleByte)
             {

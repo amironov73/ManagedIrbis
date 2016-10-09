@@ -64,7 +64,7 @@ namespace ManagedIrbis
 
         #region Properties
 
-#if !NETCORE && !SILVERLIGHT && !UAP
+#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81
 
         /// <summary>
         /// Версия клиента.
@@ -1468,7 +1468,7 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(loggingPath, "loggingPath");
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81
 
             AbstractClientSocket oldSocket = Socket;
             if (oldSocket is LoggingClientSocket)

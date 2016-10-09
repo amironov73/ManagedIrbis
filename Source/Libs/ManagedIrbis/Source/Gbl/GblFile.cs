@@ -98,6 +98,8 @@ namespace ManagedIrbis.Gbl
 
         #region Public methods
 
+#if !WIN81
+
         /// <summary>
         /// Parse local file.
         /// </summary>
@@ -122,6 +124,8 @@ namespace ManagedIrbis.Gbl
                 return result;
             }
         }
+
+#endif
 
         /// <summary>
         /// Parse specified stream.
@@ -240,3 +244,4 @@ namespace ManagedIrbis.Gbl
         #endregion
     }
 }
+

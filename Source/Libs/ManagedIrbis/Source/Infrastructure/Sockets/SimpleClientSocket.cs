@@ -12,11 +12,17 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+
+#if !WIN81
+
 using System.Net.Sockets;
+
+#endif
+
 using System.Text;
 using System.Threading.Tasks;
 
-#if UAP
+#if UAP || WIN81
 
 using Windows.Networking;
 using Windows.Networking.Sockets;
@@ -59,7 +65,9 @@ namespace ManagedIrbis.Infrastructure
 
         #endregion
 
-        #region Private members
+#region Private members
+
+#if !WIN81
 
         private IPAddress _address;
 
@@ -132,6 +140,8 @@ namespace ManagedIrbis.Infrastructure
 
 #endif
 
+#endif
+
 #endregion
 
         #region AbstractClientSocket members
@@ -159,6 +169,10 @@ namespace ManagedIrbis.Infrastructure
             throw new NotImplementedException();
 
 #elif UAP
+
+            throw new NotImplementedException();
+
+#elif WIN81
 
             throw new NotImplementedException();
 

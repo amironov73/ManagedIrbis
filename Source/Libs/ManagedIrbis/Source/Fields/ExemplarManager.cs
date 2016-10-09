@@ -50,6 +50,20 @@ namespace ManagedIrbis.Fields
         [NotNull]
         public string Format { get; set; }
 
+#if WIN81
+
+        /// <summary>
+        /// List of exemplars.
+        /// </summary>
+        [NotNull]
+        public List<ExemplarInfo> List
+        {
+            get { return _list; }
+        }
+
+
+#else
+
         /// <summary>
         /// List of exemplars.
         /// </summary>
@@ -58,6 +72,8 @@ namespace ManagedIrbis.Fields
         {
             get { return _list.AsReadOnly(); }
         }
+
+#endif
 
         /// <summary>
         /// Output.
@@ -417,6 +433,8 @@ namespace ManagedIrbis.Fields
             return result;
         }
 
+#if !WIN81
+
         /// <summary>
         /// Load from file.
         /// </summary>
@@ -446,6 +464,8 @@ namespace ManagedIrbis.Fields
                 }
             }
         }
+
+#endif
 
         /// <summary>
         /// Reads exemplar for given number.
@@ -532,7 +552,7 @@ namespace ManagedIrbis.Fields
 #endif
         }
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !WIN81
 
         /// <summary>
         /// Save to the file.
@@ -640,3 +660,4 @@ namespace ManagedIrbis.Fields
         #endregion
     }
 }
+

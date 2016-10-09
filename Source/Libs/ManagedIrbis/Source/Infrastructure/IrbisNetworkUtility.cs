@@ -72,10 +72,15 @@ namespace ManagedIrbis.Infrastructure
             writer.Write("  ");
 
             Encoding encoding;
-#if SILVERLIGHT
+
+#if SILVERLIGHT || WIN81
+
             encoding = Encoding.GetEncoding("windows-1251");
+
 #else
+
             encoding = Encoding.ASCII;
+
 #endif
 
             for (int i = 0; i < length; i++)

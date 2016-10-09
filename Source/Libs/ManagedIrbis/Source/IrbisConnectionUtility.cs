@@ -16,7 +16,7 @@ using AM;
 using AM.Collections;
 using AM.Text;
 
-#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT && !ANDROID && !UAP
+#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT && !ANDROID && !UAP && !WIN81
 using AM.Configuration;
 #endif
 
@@ -267,7 +267,7 @@ namespace ManagedIrbis
             return result;
         }
 
-#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT && !ANDROID && !UAP
+#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT && !ANDROID && !UAP && !WIN81
 
         // ========================================================
 
@@ -629,7 +629,7 @@ namespace ManagedIrbis
         {
             Code.NotNull(connection, "connection");
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !WIN81
 
             LoggingClientSocket oldSocket = connection.Socket
                 as LoggingClientSocket;
@@ -745,7 +745,7 @@ namespace ManagedIrbis
 
         // ========================================================
 
-#if !NETCORE && !SILVERLIGHT && !UAP
+#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81
 
         /// <summary>
         /// Require minimal client version.

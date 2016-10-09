@@ -94,7 +94,7 @@ namespace ManagedIrbis.Worksheet
             WssFile result = new WssFile();
 
             int count = int.Parse(reader.RequireLine());
-            
+
             for (int i = 0; i < count; i++)
             {
                 WorksheetItem item = WorksheetItem.ParseStream(reader);
@@ -103,6 +103,8 @@ namespace ManagedIrbis.Worksheet
 
             return result;
         }
+
+#if !WIN81
 
         /// <summary>
         /// Считывание из локального файла.
@@ -146,6 +148,8 @@ namespace ManagedIrbis.Worksheet
                     IrbisEncoding.Ansi
                 );
         }
+
+#endif
 
         #endregion
 

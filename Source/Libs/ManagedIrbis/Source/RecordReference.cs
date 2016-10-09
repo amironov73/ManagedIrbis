@@ -120,7 +120,7 @@ namespace ManagedIrbis
 
         #region Public methods
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !WIN81
 
         /// <summary>
         /// Load references from archive file.
@@ -214,7 +214,7 @@ namespace ManagedIrbis
             return result;
         }
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !WIN81
 
         /// <summary>
         /// Save references to the archive file.

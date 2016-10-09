@@ -12,7 +12,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+
+#if !WIN81
+
 using System.Net.Sockets;
+
+#endif
+
 using System.Text;
 using System.Threading.Tasks;
 
@@ -57,6 +63,8 @@ namespace ManagedIrbis.Infrastructure.Sockets
         #endregion
 
         #region Private members
+
+#if !WIN81
 
         private IPAddress _address;
 
@@ -122,6 +130,8 @@ namespace ManagedIrbis.Infrastructure.Sockets
 
 #endif
 
+#endif
+
         #endregion
 
         #region Public methods
@@ -153,6 +163,10 @@ namespace ManagedIrbis.Infrastructure.Sockets
             throw new NotImplementedException();
 
 #elif UAP
+
+            throw new NotImplementedException();
+
+#elif WIN81
 
             throw new NotImplementedException();
 

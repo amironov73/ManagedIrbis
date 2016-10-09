@@ -4,6 +4,8 @@
  * Status: poor
  */
 
+#if !WIN81
+
 #region Using directives
 
 using System;
@@ -159,3 +161,6 @@ namespace ManagedIrbis.ImportExport
         #endregion
     }
 }
+
+#endif
+

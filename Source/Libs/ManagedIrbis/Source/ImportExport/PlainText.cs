@@ -197,6 +197,8 @@ namespace ManagedIrbis.ImportExport
             return result;
         }
 
+#if !WIN81
+
         /// <summary>
         /// Read one record from local file.
         /// </summary>
@@ -226,6 +228,8 @@ namespace ManagedIrbis.ImportExport
                 return result;
             }
         }
+
+#endif
 
         /// <summary>
         /// Формирует плоское текстовое представление записи.

@@ -143,6 +143,8 @@ namespace ManagedIrbis.Client
             return result;
         }
 
+#if !WIN81
+
         /// <summary>
         /// Load from specified file.
         /// </summary>
@@ -165,6 +167,8 @@ namespace ManagedIrbis.Client
 
             return result;
         }
+
+#endif
 
         #endregion
     }

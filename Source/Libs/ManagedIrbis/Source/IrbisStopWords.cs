@@ -162,7 +162,7 @@ namespace ManagedIrbis
                 );
         }
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81
 
         /// <summary>
         /// Parse the text file.
@@ -221,3 +221,4 @@ namespace ManagedIrbis
         #endregion
     }
 }
+

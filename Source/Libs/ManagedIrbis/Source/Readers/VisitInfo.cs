@@ -386,7 +386,7 @@ namespace ManagedIrbis.Readers
             }
         }
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !WIN81
 
         /// <summary>
         /// Сохранение в файл.
@@ -427,7 +427,7 @@ namespace ManagedIrbis.Readers
             TimeOut = reader.ReadNullableString();
         }
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !WIN81
 
         /// <summary>
         /// Считывание из файла.

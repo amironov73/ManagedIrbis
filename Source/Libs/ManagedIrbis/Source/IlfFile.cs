@@ -2,6 +2,8 @@
  * Ars Magna project, http://arsmagna.ru
  */
 
+#if !WIN81
+
 #region Using directives
 
 using System;
@@ -497,3 +499,6 @@ namespace ManagedIrbis
         #endregion
     }
 }
+
+#endif
+

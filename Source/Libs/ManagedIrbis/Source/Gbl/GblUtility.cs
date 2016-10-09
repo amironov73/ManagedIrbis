@@ -113,7 +113,7 @@ namespace ManagedIrbis.Gbl
 
 #endif
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !WIN81
 
         /// <summary>
         /// Parses the local JSON file.
@@ -138,7 +138,7 @@ namespace ManagedIrbis.Gbl
 
 #endif
 
-#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT
+#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81
 
         /// <summary>
         /// Parses the local XML file.
@@ -163,7 +163,7 @@ namespace ManagedIrbis.Gbl
 
 #endif
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !WIN81
 
         /// <summary>
         /// Saves <see cref="GblFile"/> to local JSON file.

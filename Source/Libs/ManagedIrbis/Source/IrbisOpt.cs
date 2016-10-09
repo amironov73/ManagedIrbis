@@ -414,6 +414,8 @@ namespace ManagedIrbis
             return record.FM(WorksheetTag);
         }
 
+#if !WIN81
+
         /// <summary>
         /// Загружаем из OPT-файла.
         /// </summary>
@@ -443,6 +445,8 @@ namespace ManagedIrbis
                 return ParseText(reader);
             }
         }
+
+#endif
 
         /// <summary>
         /// Разбор текста.
@@ -496,6 +500,8 @@ namespace ManagedIrbis
             throw new IrbisException("Can't select worksheet");
         }
 
+#if !WIN81
+
         /// <summary>
         /// Создание OPT-файла по описанию.
         /// </summary>
@@ -516,6 +522,8 @@ namespace ManagedIrbis
                 WriteOptFile(writer);
             }
         }
+
+#endif
 
         /// <summary>
         /// Создание OPT-файла по описанию.
@@ -664,3 +672,4 @@ namespace ManagedIrbis
         #endregion
     }
 }
+

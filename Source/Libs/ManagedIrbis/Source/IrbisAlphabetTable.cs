@@ -159,6 +159,8 @@ namespace ManagedIrbis
             return Array.IndexOf(_characters, c) >= 0;
         }
 
+#if !WIN81
+
         /// <summary>
         /// Парсим локальный файл.
         /// </summary>
@@ -180,6 +182,8 @@ namespace ManagedIrbis
                 return ParseText(reader);
             }
         }
+
+#endif
 
         /// <summary>
         /// Парсим таблицу из текстового представления.
@@ -284,6 +288,8 @@ namespace ManagedIrbis
             writer.WriteLine("};");
         }
 
+#if !WIN81
+
         /// <summary>
         /// Записываемся в файл.
         /// </summary>
@@ -303,6 +309,8 @@ namespace ManagedIrbis
                 WriteTable(writer);
             }
         }
+
+#endif
 
         /// <summary>
         /// Записываемся в поток.
@@ -339,3 +347,4 @@ namespace ManagedIrbis
         #endregion
     }
 }
+

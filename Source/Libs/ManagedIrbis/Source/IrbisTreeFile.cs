@@ -487,6 +487,8 @@ DONE:
             return result;
         }
 
+#if !WIN81
+
         /// <summary>
         /// Read local file.
         /// </summary>
@@ -514,6 +516,8 @@ DONE:
             }
         }
 
+#endif
+
         /// <summary>
         /// Save to text stream.
         /// </summary>
@@ -529,6 +533,8 @@ DONE:
                     0
                 );
         }
+
+#if !WIN81
 
         /// <summary>
         /// Save to local file.
@@ -552,6 +558,8 @@ DONE:
             }
         }
 
+#endif
+
         /// <summary>
         /// Verify the tree.
         /// </summary>
@@ -574,7 +582,7 @@ DONE:
             return result;
         }
 
-        #endregion
+#endregion
 
         #region IHandmadeSerializable members
 

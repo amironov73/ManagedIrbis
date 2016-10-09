@@ -166,6 +166,8 @@ namespace ManagedIrbis.Menus
             return result;
         }
 
+#if !WIN81
+
         /// <summary>
         /// Saves the menu to local JSON file.
         /// </summary>
@@ -209,6 +211,8 @@ namespace ManagedIrbis.Menus
 
             return result;
         }
+
+#endif
 
 #endif
 

@@ -223,6 +223,8 @@ namespace ManagedIrbis.Readers
             writer.WriteNullable(Title);
         }
 
+#if !WIN81
+
         /// <summary>
         /// Сохранение в файл.
         /// </summary>
@@ -235,6 +237,8 @@ namespace ManagedIrbis.Readers
             chairs.SaveToFile(fileName);
         }
 
+#endif
+
         /// <summary>
         /// Считывание из потока.
         /// </summary>
@@ -246,6 +250,8 @@ namespace ManagedIrbis.Readers
             Code = reader.ReadNullableString();
             Title = reader.ReadNullableString();
         }
+
+#if !WIN81
 
         /// <summary>
         /// Считывание из файла.
@@ -265,6 +271,8 @@ namespace ManagedIrbis.Readers
 
             return result;
         }
+
+#endif
 
         #endregion
 

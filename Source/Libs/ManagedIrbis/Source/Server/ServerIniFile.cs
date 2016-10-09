@@ -10,7 +10,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+
+#if !WIN81
+
 using System.Net.Sockets;
+
+#endif
+
 using System.Text;
 using System.Threading.Tasks;
 
@@ -117,6 +123,8 @@ namespace ManagedIrbis.Server
         [NotNull]
         public IniFile Ini { get; private set; }
 
+#if !WIN81
+
         /// <summary>
         /// IP адрес сервера используется только для показа в таблице описателей.
         /// </summary>
@@ -135,6 +143,8 @@ namespace ManagedIrbis.Server
                 return result;
             } 
         }
+
+#endif
 
         /// <summary>
         /// IP порт сервера.
@@ -495,3 +505,4 @@ namespace ManagedIrbis.Server
         #endregion
     }
 }
+

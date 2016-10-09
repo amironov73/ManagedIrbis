@@ -562,6 +562,8 @@ namespace ManagedIrbis.Readers
             return result;
         }
 
+#if !WIN81
+
         /// <summary>
         /// Считывание из файла.
         /// </summary>
@@ -594,6 +596,8 @@ namespace ManagedIrbis.Readers
 
             readers.SaveToFile(fileName);
         }
+
+#endif
 
         /// <summary>
         /// Формирование записи по данным о читателе.
@@ -698,3 +702,4 @@ namespace ManagedIrbis.Readers
         #endregion
     }
 }
+

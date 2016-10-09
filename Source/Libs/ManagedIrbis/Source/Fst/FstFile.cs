@@ -116,6 +116,8 @@ namespace ManagedIrbis.Fst
             return result;
         }
 
+#if !WIN81
+
         /// <summary>
         /// Parse local file.
         /// </summary>
@@ -137,6 +139,8 @@ namespace ManagedIrbis.Fst
                 return result;
             }
         }
+
+#endif
 
         #endregion
 
@@ -173,3 +177,4 @@ namespace ManagedIrbis.Fst
         #endregion
     }
 }
+
