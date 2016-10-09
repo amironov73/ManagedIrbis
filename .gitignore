@@ -299,7 +299,7 @@ PortabilityAnalysis*.html
 *.synctex.gz
 
 # IrbisTestRunner
-Source/Apps/IrbisTestRunner/Results/*.json
+Source/Classic/Apps/IrbisTestRunner/Results/*.json
 
 # Temporary files
 Temp

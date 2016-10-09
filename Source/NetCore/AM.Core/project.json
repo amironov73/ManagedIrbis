@@ -12,6 +12,6 @@
   },
   "buildOptions": {
     "define": [ "NETCORE" ],
-    "compile": "../../Libs/AM.Core/**/*.cs"
+    "compile": "../../Classic/Libs/AM.Core/**/*.cs"
   }
 }
