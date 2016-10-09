@@ -68,7 +68,7 @@ namespace AM.IO.NonCloseable
         /// 
         /// </summary>
         public
-#if !NETCORE && !UAP
+#if !NETCORE && !UAP && !WIN81
             override
 #endif
             void Close()

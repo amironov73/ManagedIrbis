@@ -76,7 +76,7 @@ namespace AM.Text.Output
         /// </summary>
         public override Encoding Encoding
         {
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !WIN81
 
             get { return Encoding.GetEncoding(0); }
 

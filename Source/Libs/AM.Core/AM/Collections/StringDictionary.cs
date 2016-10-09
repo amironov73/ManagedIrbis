@@ -78,6 +78,8 @@ namespace AM.Collections
             return result;
         }
 
+#if !WIN81
+
         /// <summary>
         /// Loads <see cref="StringDictionary"/> from the specified file.
         /// </summary>
@@ -104,6 +106,8 @@ namespace AM.Collections
             }
         }
 
+#endif
+
         /// <summary>
         /// Saves the <see cref="StringDictionary"/> with specified writer.
         /// </summary>
@@ -122,6 +126,8 @@ namespace AM.Collections
 
             writer.WriteLine(EndOfDictionary);
         }
+
+#if !WIN81
 
         /// <summary>
         /// Saves the <see cref="StringDictionary"/> to specified file.
@@ -142,9 +148,11 @@ namespace AM.Collections
             }
         }
 
-        #endregion
+#endif
 
-        #region IHandmadeSerializable members
+#endregion
+
+#region IHandmadeSerializable members
 
         /// <summary>
         /// Restore the object state from the specified stream.
@@ -185,6 +193,6 @@ namespace AM.Collections
             }
         }
 
-        #endregion
+#endregion
     }
 }

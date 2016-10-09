@@ -6,7 +6,7 @@
 
 #region Using directives
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !WIN81
 
 using System.Data;
 

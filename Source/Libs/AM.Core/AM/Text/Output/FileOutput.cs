@@ -4,6 +4,8 @@
  * Status: poor
  */
 
+#if !WIN81
+
 #region
 
 using System;
@@ -267,3 +269,6 @@ namespace AM.Text.Output
         #endregion
     }
 }
+
+#endif
+

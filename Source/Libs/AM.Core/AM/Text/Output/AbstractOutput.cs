@@ -50,7 +50,7 @@ namespace AM.Text.Output
             }
         }
 
-#if !UAP
+#if !UAP && !WIN81
 
         /// <summary>
         /// 

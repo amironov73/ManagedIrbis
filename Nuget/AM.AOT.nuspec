@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>ArsMagna.AOT</id>
-    <version>1.6.5.700</version>
+    <version>1.6.2.300</version>
     <title>Text processing support for Ars Magna project</title>
     <authors>Mironov Alexey</authors>
     <owners></owners>

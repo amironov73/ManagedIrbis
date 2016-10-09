@@ -15,7 +15,7 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Serialization;
 
-#if !ANDROID && !UAP
+#if !ANDROID && !UAP && !WIN81
 
 using AM.Reflection;
 
@@ -64,6 +64,8 @@ namespace AM.Xml
             }
         }
 
+#if !WIN81
+
         /// <summary>
         /// Deserialize object from file.
         /// </summary>
@@ -91,13 +93,18 @@ namespace AM.Xml
         /// <typeparam name="T"></typeparam>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static T Deserialize<T>(string fileName)
+        public static T Deserialize<T>
+            (
+                string fileName
+            )
         {
             Code.FileExists(fileName, "fileName");
 
             XmlSerializer serializer = new XmlSerializer(typeof(T));
             return (T)Deserialize(fileName, serializer);
         }
+
+#endif
 
         /// <summary>
         /// Deserializes the string.
@@ -113,7 +120,7 @@ namespace AM.Xml
             return (T)serializer.Deserialize(reader);
         }
 
-#if !ANDROID && !UAP
+#if !ANDROID && !UAP && !WIN81
 
         /// <summary>
         /// Get serializer for tagged classes.
@@ -155,37 +162,39 @@ namespace AM.Xml
 
 #endif
 
-        ///// <summary>
-        ///// Get serializer for tagged classes. Scan all assemblies.
-        ///// </summary>
-        ///// <param name="tagName">Tag.</param>
-        ///// <param name="mainType">Main type.</param>
-        ///// <returns>Serializer.</returns>
-        //public static XmlSerializer GetSerializer
-        //    (
-        //        string tagName,
-        //        Type mainType
-        //    )
-        //{
-        //    Code.NotNullNorEmpty(tagName, "tagName");
-        //    Code.NotNull(mainType, "mainType");
+///// <summary>
+///// Get serializer for tagged classes. Scan all assemblies.
+///// </summary>
+///// <param name="tagName">Tag.</param>
+///// <param name="mainType">Main type.</param>
+///// <returns>Serializer.</returns>
+//public static XmlSerializer GetSerializer
+//    (
+//        string tagName,
+//        Type mainType
+//    )
+//{
+//    Code.NotNullNorEmpty(tagName, "tagName");
+//    Code.NotNull(mainType, "mainType");
 
-        //    _CreateSerializers();
-        //    lock (_serializers)
-        //    {
-        //        if (_serializers.ContainsKey(tagName))
-        //        {
-        //            return _serializers[tagName];
-        //        }
+//    _CreateSerializers();
+//    lock (_serializers)
+//    {
+//        if (_serializers.ContainsKey(tagName))
+//        {
+//            return _serializers[tagName];
+//        }
 
-        //        Type[] xtraTypes = TaggedClassesCollector.Collect(tagName);
+//        Type[] xtraTypes = TaggedClassesCollector.Collect(tagName);
 
-        //        XmlSerializer ser = new XmlSerializer(mainType, xtraTypes);
-        //        _serializers.Add(tagName, ser);
+//        XmlSerializer ser = new XmlSerializer(mainType, xtraTypes);
+//        _serializers.Add(tagName, ser);
 
-        //        return ser;
-        //    }
-        //}
+//        return ser;
+//    }
+//}
+
+#if !WIN81
 
         /// <summary>
         /// Serialize object to file.
@@ -225,7 +234,9 @@ namespace AM.Xml
             Serialize(fileName, serializer, obj);
         }
 
-#if !UAP
+#endif
+
+#if !UAP && !WIN81
 
         /// <summary>
         /// Dumps the specified reader.

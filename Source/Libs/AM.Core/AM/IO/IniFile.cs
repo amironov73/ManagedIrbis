@@ -37,7 +37,7 @@ namespace AM.IO
 #if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{FileName}")]
 #endif
-#if !SILVERLIGHT && !UAP
+#if !SILVERLIGHT && !UAP && !WIN81
     // ReSharper disable once RedundantNameQualifier
     [System.ComponentModel.DesignerCategory("Code")]
 #endif
@@ -660,6 +660,8 @@ namespace AM.IO
             _sections = new NonNullCollection<Section>();
         }
 
+#if !WIN81
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -690,6 +692,8 @@ namespace AM.IO
 
             Read();
         }
+
+#endif
 
         #endregion
 
@@ -735,7 +739,7 @@ namespace AM.IO
 
         #endregion
 
-        #region Public methods
+#region Public methods
 
         /// <summary>
         /// Clear the INI-file.
@@ -926,6 +930,8 @@ namespace AM.IO
             return this;
         }
 
+#if !WIN81
+
         /// <summary>
         /// Reread from the file.
         /// </summary>
@@ -971,6 +977,8 @@ namespace AM.IO
                 Read(reader);
             }
         }
+
+#endif
 
         /// <summary>
         /// Reread from the stream.
@@ -1067,6 +1075,8 @@ namespace AM.IO
             Modified = false;
         }
 
+#if !WIN81
+
         /// <summary>
         /// Save the INI-file to specified file.
         /// </summary>
@@ -1097,6 +1107,8 @@ namespace AM.IO
                 Save(writer);
             }
         }
+
+#endif
 
         /// <summary>
         /// Set value for specified section and key.
@@ -1184,9 +1196,9 @@ namespace AM.IO
             }
         }
 
-        #endregion
+#endregion
 
-        #region IHandmadeSerializable
+#region IHandmadeSerializable
 
         /// <inheritdoc />
         public void RestoreFromStream
@@ -1222,7 +1234,7 @@ namespace AM.IO
 
             writer.WriteNullable(FileName);
 
-#if WINMOBILE || PocketPC || SILVERLIGHT
+#if WINMOBILE || PocketPC || SILVERLIGHT || WIN81
 
             string encodingName = null;
 #else
@@ -1242,9 +1254,9 @@ namespace AM.IO
             }
         }
 
-        #endregion
+#endregion
 
-        #region IEnumerable<Section> members
+#region IEnumerable<Section> members
 
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -1257,21 +1269,25 @@ namespace AM.IO
             return _sections.GetEnumerator();
         }
 
-        #endregion
+#endregion
 
-        #region IDisposable members
+#region IDisposable members
 
         /// <inheritdoc />
         public void Dispose()
         {
+#if !WIN81
+
             if (Writable
                 && Modified
                 && !string.IsNullOrEmpty(FileName))
             {
                 Save(FileName);
             }
+
+#endif
         }
 
-        #endregion
+#endregion
     }
 }

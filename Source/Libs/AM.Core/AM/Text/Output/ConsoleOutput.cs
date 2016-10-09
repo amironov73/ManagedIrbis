@@ -4,7 +4,7 @@
  * Status: poor
  */
 
-#if !UAP
+#if !UAP && !WIN81
 
 #region Using directives
 

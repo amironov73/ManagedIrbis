@@ -122,7 +122,7 @@ namespace AM.Text
             return result;
         }
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !WIN81
 
         /// <summary>
         /// Навигатор по текстовому файлу.

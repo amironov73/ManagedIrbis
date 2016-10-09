@@ -35,13 +35,15 @@ namespace AM.Json
     {
         #region Properties
 
-        #endregion
+#endregion
 
         #region Private members
 
         #endregion
 
         #region Public methods
+
+#if !WIN81
 
         /// <summary>
         /// Read <see cref="JArray"/> from specified
@@ -163,6 +165,8 @@ namespace AM.Json
                     fileName
                 );
         }
+
+#endif
 
         #endregion
     }

@@ -4,7 +4,7 @@
  * Status: poor
  */
 
-#if !NETCORE && !PocketPC
+#if !NETCORE && !PocketPC && !WIN81
 
 #region Using directives
 

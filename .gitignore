@@ -26,6 +26,7 @@
 [Dd]ebugSL50/
 [Dd]ebugDroid/
 [Dd]ebugUniversal/
+[Dd]ebugWindows81/
 [Rr]elease/
 [Rr]elease35/
 [Rr]elease40/
@@ -37,6 +38,7 @@
 [Rr]eleaseSL50/
 [Rr]eleaseDroid/
 [Rr]eleaseUniversal/
+[Rr]eleaseWindows81/
 [Rr]eleases/
 x64/
 x86/

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>ManagedIrbis</id>
-    <version>1.6.7.500</version>
+    <version>1.6.2.300</version>
     <title>Managed framework for Irbis64</title>
     <authors>Mironov Alexey</authors>
     <owners></owners>

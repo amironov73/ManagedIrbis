@@ -68,6 +68,8 @@ namespace AM.Runtime
             return result;
         }
 
+#if !WIN81
+
         /// <summary>
         /// Считывание массива из файла.
         /// </summary>
@@ -86,7 +88,9 @@ namespace AM.Runtime
             }
         }
 
-#if !SILVERLIGHT
+#endif
+
+#if !SILVERLIGHT && !WIN81
 
         /// <summary>
         /// Считывание массива из файла.
@@ -182,6 +186,8 @@ namespace AM.Runtime
             return result;
         }
 
+#if !WIN81
+
         /// <summary>
         /// Считывание объекта из файла.
         /// </summary>
@@ -202,7 +208,9 @@ namespace AM.Runtime
             }
         }
 
-#if !SILVERLIGHT
+#endif
+
+#if !SILVERLIGHT && !WIN81
 
         /// <summary>
         /// Считывание объекта из файла.
@@ -317,6 +325,8 @@ namespace AM.Runtime
             }
         }
 
+#if !WIN81
+
         /// <summary>
         /// Сохранение в файл объекта,
         /// умеющего сериализоваться вручную.
@@ -338,7 +348,9 @@ namespace AM.Runtime
             }
         }
 
-#if !SILVERLIGHT
+#endif
+
+#if !SILVERLIGHT && !WIN81
 
         /// <summary>
         /// Сохранение в файл объекта,
@@ -368,6 +380,8 @@ namespace AM.Runtime
 
 #endif
 
+#if !WIN81
+
         /// <summary>
         /// Сохранение в файл массива объектов,
         /// умеющих сериализоваться вручную.
@@ -388,6 +402,8 @@ namespace AM.Runtime
                 array.SaveToStream(writer);
             }
         }
+
+#endif
 
         /// <summary>
         /// Сохранение объекта.
@@ -445,8 +461,11 @@ namespace AM.Runtime
         {
             byte[] bytes = obj.SaveToZipMemory();
             string result = Convert.ToBase64String(bytes);
+
             return result;
         }
+
+#if !WIN81
 
         /// <summary>
         /// Сохранение в файл массива объектов
@@ -473,6 +492,8 @@ namespace AM.Runtime
                 writer.WriteArray(array);
             }
         }
+
+#endif
 
         /// <summary>
         /// Сохранение массива объектов.
@@ -553,6 +574,6 @@ namespace AM.Runtime
             return writer;
         }
 
-        #endregion
+#endregion
     }
 }

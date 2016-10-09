@@ -115,7 +115,7 @@ namespace AM
                 return false;
             }
 
-#if !UAP
+#if !UAP && !WIN81
 
             if (type.IsValueType)
             {
@@ -124,11 +124,14 @@ namespace AM
 
 #endif
 
+#if !WIN81
+
             if (type == type.GetMethod("Equals").DeclaringType)
             {
                 return left.Equals(right);
             }
 
+#endif
             IEnumerable leftEnumerable = left as IEnumerable;
             IEnumerable rightEnumerable = right as IEnumerable;
             if (!ReferenceEquals(leftEnumerable, null))
@@ -139,6 +142,8 @@ namespace AM
                         rightEnumerable
                     );
             }
+
+#if !WIN81
 
             // compare each property
             foreach (PropertyInfo info in type.GetProperties
@@ -183,6 +188,8 @@ namespace AM
                 }
             }
 
+#endif
+
             return true;
         }
 
@@ -214,6 +221,8 @@ namespace AM
                 return false;
             }
 
+#if !WIN81
+
             PropertyInfo[] properties = type.GetProperties
             (
                 BindingFlags.Public
@@ -236,16 +245,18 @@ namespace AM
                 }
             }
 
+#endif
+
             return left.Equals(right);
         }
 
 #endif
 
-                // =========================================================
+            // =========================================================
 
-                /// <summary>
-                /// Выборка элемента из массива.
-                /// </summary>
+            /// <summary>
+            /// Выборка элемента из массива.
+            /// </summary>
         public static T GetItem<T>
             (
                 [NotNull] this T[] array,

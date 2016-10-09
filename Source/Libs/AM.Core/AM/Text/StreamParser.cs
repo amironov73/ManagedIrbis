@@ -145,7 +145,9 @@ namespace AM.Text
 
         #endregion
 
-        #region Public methods
+#region Public methods
+
+#if !WIN81
 
         /// <summary>
         /// Construct the <see cref="StreamParser"/>
@@ -178,6 +180,8 @@ namespace AM.Text
 
             return result;
         }
+
+#endif
 
         /// <summary>
         /// Construct the <see cref="StreamParser"/>
@@ -606,9 +610,9 @@ namespace AM.Text
             }
         }
 
-        #endregion
+#endregion
 
-        #region IDisposable members
+#region IDisposable members
 
         /// <summary>
         /// Performs application-defined tasks associated
@@ -623,6 +627,6 @@ namespace AM.Text
             }
         }
 
-        #endregion
+#endregion
     }
 }

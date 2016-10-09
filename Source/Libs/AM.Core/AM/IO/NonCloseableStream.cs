@@ -116,7 +116,7 @@ namespace AM.IO
         /// <seealso cref="M:AM.IO.NonCloseable.NonCloseableStream.ReallyClose"/>
         [DebuggerStepThrough]
         public
-#if !NETCORE && !UAP
+#if !NETCORE && !UAP && !WIN81
             override
 #endif
             void Close()
