@@ -7,20 +7,20 @@ SET PARAMS=/consoleloggerparameters:ErrorsOnly /m
 
 FOR %%P IN (AM.Core,ManagedIrbis,AM.Rfid,AM.Drawing,AM.Windows.Forms,,AM.Win32,IrbisUI,AM.Suggestions,AM.AOT,AM.Ocr) DO (
   FOR %%B IN (Debug,Release) DO (
-    CALL :BUILDLIB %%P %%B 35  v3.5   "FW35"
-    CALL :BUILDLIB %%P %%B 40  v4.0   "FW40"
-    CALL :BUILDLIB %%P %%B 45  v4.5   "FW40;FW45"
-rem CALL :BUILDLIB %%P %%B 451 v4.5.1 "FW40;FW45;FW451"
-    CALL :BUILDLIB %%P %%B 46  v4.6   "FW40;FW45;FW46"
-rem CALL :BUILDLIB %%P %%B 461 v4.6.1 "FW40;FW45;FW46;FW461"
-rem CALL :BUILDLIB %%P %%B 461 v4.6.2 "FW40;FW45;FW46;FW461;FW462"
+    CALL :BUILDLIB %%P %%B 35  v3.5   "DESKTOP;FW35"
+    CALL :BUILDLIB %%P %%B 40  v4.0   "DESKTOP;FW4;FW40"
+    CALL :BUILDLIB %%P %%B 45  v4.5   "DESKTOP;FW4;FW45"
+rem CALL :BUILDLIB %%P %%B 451 v4.5.1 "DESKTOP;FW4;FW40;FW45;FW451"
+    CALL :BUILDLIB %%P %%B 46  v4.6   "DESKTOP;FW4;FW46"
+rem CALL :BUILDLIB %%P %%B 461 v4.6.1 "DESKTOP;FW4;FW46;FW461"
+rem CALL :BUILDLIB %%P %%B 461 v4.6.2 "DESKTOP;FW4;FW46;FW462"
   )
 )
 
 FOR %%P IN (mx64) DO (
   FOR %%B IN (Debug,Release) DO (
-    CALL :BUILDAPP %%P %%B 45  v4.5   "FW40;FW45"
-    CALL :BUILDAPP %%P %%B 46  v4.6   "FW40;FW45;FW46"
+    CALL :BUILDAPP %%P %%B 45  v4.5   "DESKTOP;FW4;FW45"
+    CALL :BUILDAPP %%P %%B 46  v4.6   "DESKTOP;FW4;FW46"
   )
 )
 
