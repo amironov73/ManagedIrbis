@@ -32,13 +32,30 @@ namespace ManagedIrbis.Pft.Infrastructure
     {
         #region Properties
 
+        /// <summary>
+        /// Registry.
+        /// </summary>
+        [NotNull]
+        public static Dictionary<string, Action<PftContext, string>> Registry { get; private set; }
+
         #endregion
 
         #region Construction
 
         static Umarci()
         {
-            
+            Registry = new Dictionary<string, Action<PftContext, string>>
+                (
+#if NETCORE || UAP || WIN81
+
+                    StringComparer.OrdinalIgnoreCase
+
+#else
+
+                    StringComparer.InvariantCultureIgnoreCase
+
+#endif
+                );
         }
 
         #endregion

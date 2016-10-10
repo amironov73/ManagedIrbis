@@ -46,7 +46,15 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Registry = new Dictionary<string, Action<PftContext, string>>
                 (
+#if NETCORE || UAP || WIN81
+
+                    StringComparer.OrdinalIgnoreCase
+
+#else
+
                     StringComparer.InvariantCultureIgnoreCase
+
+#endif
                 );
         }
 

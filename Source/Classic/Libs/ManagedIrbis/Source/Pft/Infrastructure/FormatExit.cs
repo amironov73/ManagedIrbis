@@ -45,7 +45,15 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Registry = new Dictionary<string, IFormatExit>
                 (
+#if NETCORE || UAP || WIN81
+
+                    StringComparer.OrdinalIgnoreCase
+
+#else
+
                     StringComparer.InvariantCultureIgnoreCase
+
+#endif
                 );
 
             Unifor unifor = new Unifor();
