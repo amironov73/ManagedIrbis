@@ -80,8 +80,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         /// <summary>
         /// Run the test.
         /// </summary>
-        public bool Run()
+        public PftTestResult Run
+            (
+                [NotNull] string name
+            )
         {
+            PftTestResult result = new PftTestResult
+            {
+                Name = name,
+                StartTime = DateTime.Now
+            };
+
             string recordFile = GetFullName("record.txt");
             MarcRecord record = PlainText.ReadOneRecord
                 (
@@ -89,19 +98,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     IrbisEncoding.Utf8
                 )
                 .ThrowIfNull("record");
+            result.Record = record;
 
             string pftFile = GetFullName("input.txt");
-            string pftText = File.ReadAllText
+            string input = File.ReadAllText
                 (
                     pftFile,
                     IrbisEncoding.Utf8
                 );
+            result.Input = input;
 
-            Console.WriteLine(pftText);
+            Console.WriteLine(input);
             Console.WriteLine();
 
             PftLexer lexer = new PftLexer();
-            PftTokenList tokenList = lexer.Tokenize(pftText);
+            PftTokenList tokenList = lexer.Tokenize(input);
             tokenList.Dump(Console.Out);
             Console.WriteLine();
             
@@ -114,11 +125,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
             {
                 Program = program
             };
-            string result = formatter.Format(record);
-            Console.WriteLine(result);
+            string output = formatter.Format(record);
+            result.Output = output;
+            Console.WriteLine(output);
 
+            result.FinishTime = DateTime.Now;
+            result.Duration = result.FinishTime - result.StartTime;
 
-            return true;
+            return result;
         }
 
         #endregion

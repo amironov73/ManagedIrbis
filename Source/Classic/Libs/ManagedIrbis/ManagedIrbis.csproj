@@ -272,6 +272,7 @@
     <Compile Include="Source\Pft\Infrastructure\PftTokenKind.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftTokenList.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftVariable.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Testing\PftTestResult.cs" />
     <Compile Include="Source\Pft\PftException.cs" />
     <Compile Include="Source\Pft\PftNotConnectedException.cs" />
     <Compile Include="Source\Pft\PftSemanticException.cs" />

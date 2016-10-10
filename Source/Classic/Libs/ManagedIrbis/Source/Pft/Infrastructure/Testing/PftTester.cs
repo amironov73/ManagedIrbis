@@ -44,6 +44,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         [NotNull]
         public NonNullCollection<PftTest> Tests { get; private set; }
 
+        public NonNullCollection<PftTestResult> Results { get; private set; }
+
         #endregion
 
         #region Construction
@@ -60,6 +62,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
 
             Folder = folder;
             Tests = new NonNullCollection<PftTest>();
+            Results = new NonNullCollection<PftTestResult>();
         }
 
         #endregion
@@ -75,14 +78,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         /// </summary>
         public void DiscoverTests()
         {
-            string[] subDirs = Directory.GetDirectories
+            string[] directories = Directory.GetDirectories
                 (
                     Folder,
                     "*",
                     SearchOption.TopDirectoryOnly
                 );
 
-            foreach (string subDir in subDirs)
+            foreach (string subDir in directories)
             {
                 PftTest test = new PftTest(subDir);
                 Tests.Add(test);
@@ -92,12 +95,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         /// <summary>
         /// Run the test.
         /// </summary>
-        public void RunTest
+        public PftTestResult RunTest
             (
                 [NotNull] PftTest test
             )
         {
             Code.NotNull(test, "test");
+
+            PftTestResult result = null;
 
             string name = Path.GetFileName(test.Folder);
             ConsoleColor foreColor = Console.ForegroundColor;
@@ -107,7 +112,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
 
             try
             {
-                test.Run();
+                result = test.Run(name);
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine();
                 Console.WriteLine("OK");
@@ -121,6 +126,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
             }
 
             Console.WriteLine();
+
+            return result;
         }
 
         /// <summary>
@@ -130,8 +137,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         {
             foreach (PftTest test in Tests)
             {
-                RunTest(test);
+                PftTestResult result = RunTest(test);
+                Results.Add(result);
             }
+
         }
 
         #endregion
