@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -59,6 +59,9 @@ namespace ManagedIrbis.Source.Pft.Infrastructure.Ast
                 [NotNull] PftToken token
             )
         {
+            Code.NotNull(token, "token");
+
+            Name = token.Text;
         }
 
         #endregion
@@ -78,17 +81,15 @@ namespace ManagedIrbis.Source.Pft.Infrastructure.Ast
                 node.Execute(subContext);
             }
             
-            string argument = subContext.Text;
+            string expression = subContext.Text;
 
-            context.Write(this, "unifor: '");
-            context.Write(this, argument);
-            context.Write(this, "'");
-
-            //context.Write(this, "unifor");
-            //foreach (PftNode node in Children)
-            //{
-            //    context.Write(this, " {0}", node.GetType().Name);
-            //}
+            FormatExit.Execute
+                (
+                    context,
+                    this,
+                    Name.ThrowIfNull("Name"),
+                    expression
+                );
         }
 
         #endregion

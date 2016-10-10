@@ -265,6 +265,7 @@
     <Compile Include="Source\Pft\Infrastructure\Environment\PftLocalEnvironment.cs" />
     <Compile Include="Source\Pft\Infrastructure\FieldSpecification.cs" />
     <Compile Include="Source\Pft\Infrastructure\FormatExit.cs" />
+    <Compile Include="Source\Pft\Infrastructure\IFormatExit.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftLexer.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftNode.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftContext.cs" />

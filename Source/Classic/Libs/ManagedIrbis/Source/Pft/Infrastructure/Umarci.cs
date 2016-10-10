@@ -27,7 +27,8 @@ namespace ManagedIrbis.Pft.Infrastructure
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public static class Umarci
+    public sealed class Umarci
+        : IFormatExit
     {
         #region Properties
 
@@ -47,6 +48,36 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region IFormatExit members
+
+        /// <inheritdoc/>
+        public string Name { get { return "umarci"; } }
+
+        /// <inheritdoc/>
+        public void Execute
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            Code.NotNull(context, "context");
+            Code.NotNull(node, "node");
+
+            if (string.IsNullOrEmpty(expression))
+            {
+                return;
+            }
+
+            context.Write
+                (
+                    node,
+                    expression
+                );
+        }
 
         #endregion
     }

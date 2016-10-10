@@ -21,7 +21,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-using MoonSharp.Interpreter.Interop.LuaStateInterop;
+
 using Newtonsoft.Json;
 
 #endregion
