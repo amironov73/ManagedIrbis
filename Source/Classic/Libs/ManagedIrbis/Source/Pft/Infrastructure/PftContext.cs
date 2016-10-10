@@ -62,6 +62,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public string Text { get { return Output.ToString(); } }
 
+        #region Режим вывода
+
         /// <summary>
         /// Режим вывода полей.
         /// </summary>
@@ -71,6 +73,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Режим перевода текста в верхний регистр при выводе полей.
         /// </summary>
         public bool UpperMode { get; set; }
+
+        #endregion
+
+        #region Работа с группами
 
         /// <summary>
         /// Текущая группа (если есть).
@@ -98,6 +104,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         [CanBeNull]
         public PftField CurrentField { get; internal set; }
+
+        #endregion
 
         ///// <summary>
         ///// Глобальные переменные.

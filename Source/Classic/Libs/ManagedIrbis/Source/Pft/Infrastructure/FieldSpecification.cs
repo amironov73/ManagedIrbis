@@ -145,7 +145,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 default:
                     navigator.RestorePosition(saved);
                     return false;
-            }
+            } // switch
 
             c = navigator.ReadChar();
             if (!c.IsArabicDigit())
@@ -166,10 +166,13 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
             Tag = builder.ToString();
 
+            // now c is peeked char
+
             if (c == '@')
             {
                 builder.Length = 0;
                 navigator.ReadChar();
+
                 while (true)
                 {
                     c = navigator.PeekChar();
@@ -180,12 +183,15 @@ namespace ManagedIrbis.Pft.Infrastructure
                     navigator.ReadChar();
                     builder.Append(c);
                 }
+                
                 if (builder.Length == 0)
                 {
                     throw new PftSyntaxException(navigator);
                 }
                 Embedded = builder.ToString();
-            }
+            } // c == '@'
+
+            // c still is peeked char
 
             if (c == '^')
             {
@@ -200,11 +206,18 @@ namespace ManagedIrbis.Pft.Infrastructure
                     throw new PftSyntaxException(navigator);
                 }
                 SubField = SubFieldCode.Normalize(c);
+
                 c = navigator.PeekChar();
+            } // c == '^'
+
+            if (Command != 'v')
+            {
+                goto DONE;
             }
 
             if (c == '[')
             {
+                navigator.ReadChar();
                 navigator.SkipWhitespace();
 
                 string index;
@@ -266,19 +279,23 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {
                     throw new PftSyntaxException(navigator);
                 }
-            }
+            } // c == '['
+
+            // c still is peeked char
 
             if (c == '*')
             {
+                navigator.ReadChar();
                 builder.Length = 0;
 
                 while (true)
                 {
-                    c = navigator.ReadChar();
+                    c = navigator.PeekChar();
                     if (!c.IsArabicDigit())
                     {
                         break;
                     }
+                    navigator.ReadChar();
                     builder.Append(c);
                 }
 
@@ -286,24 +303,27 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {
                     throw new PftSyntaxException(navigator);
                 }
+
                 Offset = int.Parse
                     (
                         builder.ToString(),
                         CultureInfo.InvariantCulture
                     );
-            }
+            } // c == '*'
 
             if (c == '.')
             {
+                navigator.ReadChar();
                 builder.Length = 0;
 
                 while (true)
                 {
-                    c = navigator.ReadChar();
+                    c = navigator.PeekChar();
                     if (!c.IsArabicDigit())
                     {
                         break;
                     }
+                    navigator.ReadChar();
                     builder.Append(c);
                 }
 
@@ -311,24 +331,33 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {
                     throw new PftSyntaxException(navigator);
                 }
+
                 Length = int.Parse
                     (
                         builder.ToString(),
                         CultureInfo.InvariantCulture
                     );
-            }
+            } // c == '.'
 
             if (c == '(')
             {
+                navigator.ReadChar();
                 builder.Length = 0;
 
                 while (true)
                 {
-                    c = navigator.ReadChar();
-                    if (!c.IsArabicDigit())
+                    c = navigator.PeekChar();
+                    if (c == ')')
                     {
+                        navigator.ReadChar();
+                        c = navigator.PeekChar();
                         break;
                     }
+                    if (!c.IsArabicDigit())
+                    {
+                        throw new PftSyntaxException(navigator);
+                    }
+                    navigator.ReadChar();
                     builder.Append(c);
                 }
 
@@ -341,7 +370,9 @@ namespace ManagedIrbis.Pft.Infrastructure
                         builder.ToString(),
                         CultureInfo.InvariantCulture
                     );
-            }
+            } // c == '('
+
+            // c still is peeked char
 
             if (c == '#')
             {
@@ -356,6 +387,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 IndexFrom = indexFrom;
                 IndexTo = indexFrom;
             }
+
+            DONE:
 
             int length = navigator.Position - start;
             Text = navigator.Substring(start, length);

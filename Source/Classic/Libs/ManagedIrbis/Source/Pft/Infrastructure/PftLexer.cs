@@ -12,14 +12,16 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
 using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
+using MoonSharp.Interpreter.Interop.LuaStateInterop;
 using Newtonsoft.Json;
 
 #endregion
@@ -45,6 +47,11 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private TextNavigator _navigator;
 
+        private static char[] Integer =
+            {
+                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+            };
+
         private static char[] Identifier =
             {
                 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
@@ -66,6 +73,22 @@ namespace ManagedIrbis.Pft.Infrastructure
             )
         {
             return Array.IndexOf(Identifier, c) >= 0;
+        }
+
+        private static bool IsInteger
+            (
+                char c
+            )
+        {
+            return Array.IndexOf(Integer, c) >= 0;
+        }
+
+        private static bool IsInteger
+            (
+                string s
+            )
+        {
+            return s.All(IsIdentifier);
         }
 
         private int Line { get { return _navigator.Line; } }
@@ -102,11 +125,10 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
-        [NotNull]
+        [CanBeNull]
         private string ReadIdentifier()
         {
-            string result = _navigator.ReadWhile(Identifier)
-                .ThrowIfNull();
+            string result = _navigator.ReadWhile(Identifier);
 
             return result;
         }
@@ -202,7 +224,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 char c = ReadChar();
                 char c2;
                 string value = null;
-                string value2 = null;
+                string value2;
                 FieldSpecification field = null;
                 PftTokenKind kind = PftTokenKind.None;
                 switch (c)
@@ -350,17 +372,26 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case '&':
                         value = ReadIdentifier();
+                        if (string.IsNullOrEmpty(value))
+                        {
+                            throw new PftSyntaxException(_navigator);
+                        }
                         kind = PftTokenKind.Unifor;
                         break;
 
                     case '$':
                         value = ReadIdentifier();
+                        if (string.IsNullOrEmpty(value))
+                        {
+                            throw new PftSyntaxException(_navigator);
+                        }
                         kind = PftTokenKind.Variable;
                         break;
 
                     case 'a':
                     case 'A':
-                        if (IsIdentifier(PeekChar()))
+                        value = ReadIdentifier();
+                        if (!string.IsNullOrEmpty(value))
                         {
                             goto default;
                         }
@@ -369,12 +400,14 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case 'c':
                     case 'C':
-                        value = ReadInteger();
-                        if (value == null)
+                        value = ReadIdentifier();
+                        if (string.IsNullOrEmpty(value))
                         {
                             goto default;
                         }
-                        kind = PftTokenKind.C;
+                        kind = IsInteger(value)
+                            ? PftTokenKind.C
+                            : PftTokenKind.Identifier;
                         break;
 
                     case 'd':
@@ -390,7 +423,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case 'f':
                     case 'F':
-                        if (IsIdentifier(PeekChar()))
+                        value = ReadIdentifier();
+                        if (string.IsNullOrEmpty(value))
                         {
                             goto default;
                         }
@@ -399,7 +433,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case 'l':
                     case 'L':
-                        if (IsIdentifier(PeekChar()))
+                        value = ReadIdentifier();
+                        if (string.IsNullOrEmpty(value))
                         {
                             goto default;
                         }
@@ -408,14 +443,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case 'm':
                     case 'M':
-                        value2 = PeekString(2).ToLower();
-                        if (value2 == "fn")
+                        value = ReadIdentifier();
+                        if (string.IsNullOrEmpty(value))
                         {
-                            kind = PftTokenKind.Mfn;
-                            ReadChar();
-                            ReadChar();
-                            break;
+                            goto default;
                         }
+                        value2 = value.ToLower();
                         if (value2.Length != 2)
                         {
                             goto default;
@@ -428,8 +461,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                         {
                             kind = PftTokenKind.Mpl;
                             value = c + value2;
-                            ReadChar();
-                            ReadChar();
                             break;
                         }
                         goto default;
@@ -447,7 +478,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case 'p':
                     case 'P':
-                        if (IsIdentifier(PeekChar()))
+                        value = ReadIdentifier();
+                        if (string.IsNullOrEmpty(value))
                         {
                             goto default;
                         }
@@ -456,7 +488,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case 's':
                     case 'S':
-                        if (IsIdentifier(PeekChar()))
+                        value = ReadIdentifier();
+                        if (string.IsNullOrEmpty(value))
                         {
                             goto default;
                         }
@@ -476,12 +509,14 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case 'x':
                     case 'X':
-                        value = ReadInteger();
-                        if (value == null)
+                        value = ReadIdentifier();
+                        if (string.IsNullOrEmpty(value))
                         {
                             goto default;
                         }
-                        kind = PftTokenKind.X;
+                        kind = IsInteger(value)
+                            ? PftTokenKind.X
+                            : PftTokenKind.Identifier;
                         break;
 
                     case '0':
@@ -581,7 +616,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 if (kind == PftTokenKind.None)
                 {
-                    throw new IrbisException();
+                    throw new PftSyntaxException(_navigator);
                 }
 
                 PftToken token = new PftToken(kind, line, column, value);

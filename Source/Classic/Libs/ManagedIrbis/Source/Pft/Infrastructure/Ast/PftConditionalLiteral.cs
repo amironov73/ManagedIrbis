@@ -104,13 +104,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (!context.BreakFlag)
             {
-                if (context.Index == 0)
+                PftField field = context.CurrentField;
+                if (!ReferenceEquals(field, null))
                 {
-                    context.Write
-                        (
-                            this,
-                            Text
-                        );
+                    if (field.IsFirstRepeat(context))
+                    {
+                        context.Write
+                            (
+                                this,
+                                Text
+                            );
+                    }
                 }
             }
 

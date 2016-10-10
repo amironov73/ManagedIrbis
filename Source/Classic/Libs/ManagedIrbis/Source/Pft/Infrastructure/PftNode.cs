@@ -163,6 +163,20 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
+        /// <summary>
+        /// Simplify type name.
+        /// </summary>
+        [NotNull]
+        protected static string SimplifyTypeName
+            (
+                [NotNull] string typeName
+            )
+        {
+            return typeName.StartsWith("Pft")
+                ? typeName.Substring(3)
+                : typeName;
+        }
+
         #endregion
 
         #region Public methods
@@ -303,7 +317,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             writer.WriteLine
                 (
                     "{0}: {1}",
-                    GetType().Name,
+                    SimplifyTypeName(GetType().Name),
                     Text
                 );
 
@@ -473,6 +487,5 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         #endregion
-
     }
 }

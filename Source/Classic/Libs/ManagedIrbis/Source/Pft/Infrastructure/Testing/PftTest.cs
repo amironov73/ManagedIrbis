@@ -91,6 +91,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 StartTime = DateTime.Now
             };
 
+            string descriptionFile = GetFullName("description.txt");
+            if (File.Exists(descriptionFile))
+            {
+                string description = File.ReadAllText(descriptionFile);
+                result.Description = description;
+            }
+
             string recordFile = GetFullName("record.txt");
             MarcRecord record = PlainText.ReadOneRecord
                 (

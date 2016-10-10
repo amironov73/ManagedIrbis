@@ -112,63 +112,41 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            PftGroup group = context.CurrentGroup;
             PftField field = context.CurrentField;
 
-            if (!context.BreakFlag)
+            if (!context.BreakFlag
+                && field != null)
             {
-                if (group != null)
+                int index = context.Index;
+                if (field.IndexFrom != 0)
                 {
-                    // TODO Поддержка повторяющегося литерала в группе
-
+                    index = index + field.IndexFrom - 1;
                 }
-                else
+
+                int stop = int.MaxValue;
+                if (field.IndexTo != 0)
                 {
-                    if (field != null)
+                    stop = field.IndexTo;
+                }
+
+                if (index < stop)
+                {
+                    bool flag = field.HaveRepeat(context);
+
+                    if (flag && Plus)
                     {
-                        int count = field.GetCount(context);
+                        flag = IsPrefix
+                            ? !field.IsFirstRepeat(context)
+                            : !field.IsLastRepeat(context);
+                    }
 
-                        int index = context.Index;
-                        if (field.IndexFrom != 0)
-                        {
-                            index = index + field.IndexFrom - 1;
-                        }
-
-                        int stop = count;
-                        if (field.IndexTo != 0)
-                        {
-                            if (field.IndexTo < stop)
-                            {
-                                stop = field.IndexTo;
-                            }
-                        }
-
-                        if (count != 0
-                            && index < stop)
-                        {
-                            bool flag = true;
-
-                            if (Plus)
-                            {
-                                if (IsPrefix)
-                                {
-                                    flag = context.Index != 0;
-                                }
-                                else
-                                {
-                                    flag = index < (stop - 1);
-                                }
-                            }
-
-                            if (flag)
-                            {
-                                context.Write
-                                    (
-                                        this,
-                                        Text
-                                    );
-                            }
-                        }
+                    if (flag)
+                    {
+                        context.Write
+                            (
+                                this,
+                                Text
+                            );
                     }
                 }
             }

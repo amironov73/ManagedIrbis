@@ -44,6 +44,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         [NotNull]
         public NonNullCollection<PftTest> Tests { get; private set; }
 
+        /// <summary>
+        /// Results.
+        /// </summary>
+        [NotNull]
         public NonNullCollection<PftTestResult> Results { get; private set; }
 
         #endregion

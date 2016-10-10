@@ -1,4 +1,4 @@
-﻿/* PftField.cs -- ссылка на поле
+﻿/* PftField.cs -- base for field reference
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -7,10 +7,12 @@
 #region Using directives
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-using AM;
 using AM.Collections;
 
 using CodeJam;
@@ -24,11 +26,11 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// Ссылка на поле.
+    /// Base for field reference.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class PftField
+    public class PftField
         : PftNode
     {
         #region Constants
@@ -90,7 +92,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public int Length { get; set; }
 
-
         /// <summary>
         /// Subfield.
         /// </summary>
@@ -101,6 +102,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         [CanBeNull]
         public string Tag { get; set; }
+
+        /// <summary>
+        /// Repeat count.
+        /// </summary>
+        public int RepeatCount { get; set; }
 
         #endregion
 
@@ -115,197 +121,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             RightHand = new NonNullCollection<PftNode>();
         }
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public PftField
-            (
-                [NotNull] string text
-            )
-            : this()
-        {
-            Code.NotNullNorEmpty(text, "text");
-
-            FieldSpecification specification = new FieldSpecification();
-            if (!specification.Parse(text))
-            {
-                throw new PftSyntaxException();
-            }
-            Apply(specification);
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public PftField
-            (
-                [NotNull] PftToken token
-            )
-            : this()
-        {
-            Code.NotNull(token, "token");
-            token.MustBe(PftTokenKind.V);
-
-            FieldSpecification specification = ((FieldSpecification)token.UserData)
-                .ThrowIfNull("token.UserData");
-            Apply(specification);
-        }
-
         #endregion
 
         #region Private members
-
-        private void _Execute
-            (
-                PftContext context
-            )
-        {
-            if (!context.BreakFlag)
-            {
-                try
-                {
-                    context.CurrentField = this;
-
-                    foreach (PftNode node in LeftHand)
-                    {
-                        node.Execute(context);
-                    }
-
-                    string value = GetValue(context);
-                    if (!string.IsNullOrEmpty(value))
-                    {
-                        context.Write(this, value);
-                    }
-                    if (HaveRepeat(context))
-                    {
-                        context.OutputFlag = true;
-                    }
-
-                    foreach (PftNode node in RightHand)
-                    {
-                        node.Execute(context);
-                    }
-                }
-                finally
-                {
-                    context.CurrentField = null;
-                }
-            }
-        }
-
-        [CanBeNull]
-        private static string _SafeSubString
-            (
-                [CanBeNull] string text,
-                int offset,
-                int length
-            )
-        {
-            if (string.IsNullOrEmpty(text))
-            {
-                return text;
-            }
-
-            if (offset < 0)
-            {
-                offset = 0;
-            }
-            if (length <= 0)
-            {
-                return string.Empty;
-            }
-            if (offset >= text.Length)
-            {
-                return string.Empty;
-            }
-
-            try
-            {
-                checked
-                {
-                    if ((offset + length) > text.Length)
-                    {
-                        length = text.Length - offset;
-                        if (length <= 0)
-                        {
-                            return string.Empty;
-                        }
-                    }
-                }
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-
-                throw;
-            }
-
-            string result = string.Empty;
-
-            try
-            {
-                result = text.Substring
-                    (
-                        offset,
-                        length
-                    );
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-
-                throw;
-            }
-
-            return result;
-        }
-
-        #endregion
-
-        #region Public methods
-
-        /// <summary>
-        /// Apply the specification.
-        /// </summary>
-        public void Apply
-            (
-                [NotNull] FieldSpecification specification
-            )
-        {
-            Code.NotNull(specification, "specification");
-
-            Command = specification.Command;
-            Embedded = specification.Embedded;
-            Indent = specification.Indent;
-            IndexFrom = specification.IndexFrom;
-            IndexTo = specification.IndexTo;
-            Offset = specification.Offset;
-            Length = specification.Length;
-            SubField = specification.SubField;
-            Tag = specification.Tag;
-
-            Text = specification.ToString();
-        }
-
-        /// <summary>
-        /// Число повторений _поля_ в записи.
-        /// </summary>
-        public int GetCount
-            (
-                [NotNull] PftContext context
-            )
-        {
-            Code.NotNull(context, "context");
-
-            MarcRecord record = context.Record;
-            if (record == null
-                || string.IsNullOrEmpty(Tag))
-            {
-                return 0;
-            }
-
-            return record.Fields.GetField(Tag).Length;
-        }
 
         /// <summary>
         /// Get value.
@@ -412,14 +230,137 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 length = Length;
             }
 
-            string result = _SafeSubString(text, offset, length);
+            string result = SafeSubString
+                (
+                    text,
+                    offset,
+                    length
+                );
 
-            if (Indent != 0)
+            return result;
+        }
+
+        /// <summary>
+        /// Extract substring in safe manner.
+        /// </summary>
+        [CanBeNull]
+        protected static string SafeSubString
+            (
+                [CanBeNull] string text,
+                int offset,
+                int length
+            )
+        {
+            if (string.IsNullOrEmpty(text))
             {
-                result = new string(' ', Indent) + result;
+                return text;
+            }
+
+            if (offset < 0)
+            {
+                offset = 0;
+            }
+            if (length <= 0)
+            {
+                return string.Empty;
+            }
+            if (offset >= text.Length)
+            {
+                return string.Empty;
+            }
+
+            try
+            {
+                checked
+                {
+                    if ((offset + length) > text.Length)
+                    {
+                        length = text.Length - offset;
+                        if (length <= 0)
+                        {
+                            return string.Empty;
+                        }
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+
+                throw;
+            }
+
+            string result = string.Empty;
+
+            try
+            {
+                result = text.Substring
+                    (
+                        offset,
+                        length
+                    );
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+
+                throw;
             }
 
             return result;
+        }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Apply the specification.
+        /// </summary>
+        public void Apply
+            (
+                [NotNull] FieldSpecification specification
+            )
+        {
+            Code.NotNull(specification, "specification");
+
+            Command = specification.Command;
+            Embedded = specification.Embedded;
+            Indent = specification.Indent;
+            IndexFrom = specification.IndexFrom;
+            IndexTo = specification.IndexTo;
+            Offset = specification.Offset;
+            Length = specification.Length;
+            SubField = specification.SubField;
+            Tag = specification.Tag;
+
+            Text = specification.ToString();
+        }
+
+        /// <summary>
+        /// Is first repeat?
+        /// </summary>
+        public bool IsFirstRepeat
+            (
+                [NotNull] PftContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            return context.Index == 0;
+        }
+
+        /// <summary>
+        /// Is last repeat?
+        /// </summary>
+        public virtual bool IsLastRepeat
+            (
+                [NotNull] PftContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            return true;
         }
 
         /// <summary>
@@ -474,35 +415,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            if (context.CurrentField != null)
-            {
-                throw new PftSemanticException("nested field");
-            }
-
-            if (context.CurrentGroup != null)
-            {
-                _Execute(context);
-            }
-            else
-            {
-                context.Index = 0;
-
-                while (true)
-                {
-                    context.OutputFlag = false;
-
-                    _Execute(context);
-
-                    if (!context.OutputFlag
-                        || context.BreakFlag)
-                    {
-                        break;
-                    }
-
-                    context.Index++;
-                }
-            }
-
             OnAfterExecution(context);
         }
 
@@ -512,27 +424,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 StreamWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             foreach (PftNode node in LeftHand)
             {
                 node.Write(writer);
             }
-
-            writer.Write(ToString());
-
-            foreach (PftNode node in RightHand)
-            {
-                node.Write(writer);
-            }
-        }
-
-        #endregion
-
-        #region Object members
-
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            return ToSpecification().ToString();
         }
 
         #endregion

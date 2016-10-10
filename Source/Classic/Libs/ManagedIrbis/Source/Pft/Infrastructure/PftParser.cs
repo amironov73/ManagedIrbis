@@ -22,6 +22,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 using ManagedIrbis.Pft.Infrastructure.Ast;
+using ManagedIrbis.Source.Pft.Infrastructure.Ast;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -148,6 +149,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                     result = new PftX(token);
                     break;
 
+                case PftTokenKind.Unifor:
+                    result = ParseUnifor(token);
+                    break;
+
                 default:
                     throw new PftSyntaxException(token);
             }
@@ -166,11 +171,13 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private PftNode ParseField()
         {
-            PftField result = new PftField();
+            List<PftNode> leftHand = new List<PftNode>();
+            PftField result = new PftV();
             PftToken token;
             PftNode node;
             PftRepeatableLiteral literal;
 
+            // Gather left hand of the field: conditional literal and friends
             while (!Tokens.IsEof)
             {
                 node = null;
@@ -187,6 +194,10 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case PftTokenKind.Comma:
                         node = new PftComma();
+                        break;
+
+                    case PftTokenKind.Comment:
+                        node = new PftComment(token);
                         break;
 
                     case PftTokenKind.Hash:
@@ -223,10 +234,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                     break;
                 }
 
-                result.LeftHand.Add(node);
+                leftHand.Add(node);
                 Tokens.MoveNext();
-            }
+            } // Tokens.IsEof
 
+            // Gather left hand of the field: repeatable literal
             if (!Tokens.IsEof)
             {
                 token = Tokens.Current;
@@ -236,7 +248,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     {
                         IsPrefix = true
                     };
-                    result.LeftHand.Add(literal);
+                    leftHand.Add(literal);
 
                     if (Tokens.Peek() == PftTokenKind.Plus)
                     {
@@ -246,68 +258,149 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     Tokens.MoveNext();
                 }
+            } // Tokens.IsEof
+
+            // Orphaned left hand?
+            if (Tokens.IsEof)
+            {
+                result = new PftOrphan();
+                result.LeftHand.AddRange(leftHand);
+                goto DONE;
             }
 
+            // Parse field itself
             if (!Tokens.IsEof)
             {
                 token = Tokens.Current;
+
+                // Orphaned?
                 if (token.Kind != PftTokenKind.V)
                 {
+                    result = new PftOrphan();
+                    result.LeftHand.AddRange(leftHand);
                     goto DONE;
                 }
                 if (string.IsNullOrEmpty(token.Text))
                 {
                     throw new PftSyntaxException(token);
                 }
+
                 FieldSpecification specification = (FieldSpecification)token.UserData;
                 if (specification == null)
                 {
                     throw new PftSyntaxException(token);
                 }
+
+                // Check for command code
+                switch (specification.Command)
+                {
+                    case 'v':
+                    case 'V':
+                        // Already V
+                        break;
+
+                    case 'd':
+                    case 'D':
+                        result = new PftD();
+                        break;
+
+                    case 'n':
+                    case 'N':
+                        result = new PftN();
+                        break;
+
+                    case 'g':
+                    case 'G':
+                        result = new PftG();
+                        break;
+
+                    default:
+                        throw new PftSyntaxException(token);
+                }
+
+                result.LeftHand.AddRange(leftHand);
                 result.Apply(specification);
                 Tokens.MoveNext();
-            }
+            } // Tokens.IsEof
 
-            if (!Tokens.IsEof)
+            // Gather right hand (for V command only)
+            if (result is PftV)
             {
-                bool plus = false;
-                token = Tokens.Current;
-                if (token.Kind == PftTokenKind.Plus)
+                if (!Tokens.IsEof)
                 {
-                    plus = true;
-                    Tokens.RequireNext();
+                    bool plus = false;
                     token = Tokens.Current;
-                }
-                if (token.Kind == PftTokenKind.RepeatableLiteral)
-                {
-                    literal = new PftRepeatableLiteral(token)
+                    if (token.Kind == PftTokenKind.Plus)
                     {
-                        Plus = plus
-                    };
-                    result.RightHand.Add(literal);
-                    Tokens.MoveNext();
-                }
-                else
-                {
-                    if (plus)
+                        plus = true;
+                        Tokens.RequireNext();
+                        token = Tokens.Current;
+                    }
+                    if (token.Kind == PftTokenKind.RepeatableLiteral)
                     {
-                        throw new PftSyntaxException(token);
+                        literal = new PftRepeatableLiteral(token)
+                        {
+                            Plus = plus
+                        };
+                        result.RightHand.Add(literal);
+                        Tokens.MoveNext();
+                    }
+                    else
+                    {
+                        if (plus)
+                        {
+                            throw new PftSyntaxException(token);
+                        }
+                    }
+                } // Tokens.IsEof
+
+                if (!Tokens.IsEof)
+                {
+                    token = Tokens.Current;
+                    if (token.Kind == PftTokenKind.ConditionalLiteral)
+                    {
+                        node = new PftConditionalLiteral(token);
+                        result.RightHand.Add(node);
+                        Tokens.MoveNext();
                     }
                 }
-            }
-
-            if (!Tokens.IsEof)
-            {
-                token = Tokens.Current;
-                if (token.Kind == PftTokenKind.ConditionalLiteral)
-                {
-                    node = new PftConditionalLiteral(token);
-                    result.RightHand.Add(node);
-                    Tokens.MoveNext();
-                }
-            }
+            } // result is PftV
 
             DONE: return result;
+        }
+
+        private PftUnifor ParseUnifor
+            (
+                PftToken token
+            )
+        {
+            PftUnifor result = new PftUnifor(token);
+
+            Tokens.RequireNext();
+            token = Tokens.Current;
+            token.MustBe(PftTokenKind.LeftParenthesis);
+            Tokens.RequireNext();
+
+            while (true)
+            {
+                token = Tokens.Current;
+
+                if (token.Kind == PftTokenKind.RightParenthesis)
+                {
+                    Tokens.MoveNext();
+                    break;
+                }
+
+                if (token.Kind == PftTokenKind.LeftParenthesis)
+                {
+                    throw new PftSyntaxException(token);
+                }
+
+                PftNode node = ParseSimple();
+                result.Children.Add(node);
+            }
+
+            return result;
         }
 
         private PftNode ParseComposite()
@@ -316,6 +409,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 return ParseGroup();
             }
+
             return ParseSimple();
         }
 

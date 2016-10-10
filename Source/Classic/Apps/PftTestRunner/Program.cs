@@ -41,6 +41,7 @@ namespace PftTestRunner
                 tester.DiscoverTests();
 
                 tester.RunTests();
+
             }
             catch (Exception exception)
             {

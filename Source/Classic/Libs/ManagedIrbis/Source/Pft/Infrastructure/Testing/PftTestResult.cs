@@ -83,6 +83,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         public string Input { get; set; }
 
         /// <summary>
+        /// Tokens.
+        /// </summary>
+        [CanBeNull]
+        public PftTokenList Tokens { get; set; }
+
+        /// <summary>
         /// Output text.
         /// </summary>
         [CanBeNull]
