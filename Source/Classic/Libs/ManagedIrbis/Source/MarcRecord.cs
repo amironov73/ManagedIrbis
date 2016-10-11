@@ -328,25 +328,7 @@ namespace ManagedIrbis
             Code.NotNull(format, "format");
 
             FieldReference reference = FieldReference.Parse(format);
-            string result = reference.FormatSingle(this);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Простейшее форматирование поля/подполя.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public string[] FRA
-            (
-                [NotNull] string format
-            )
-        {
-            Code.NotNull(format, "format");
-
-            FieldReference reference = FieldReference.Parse(format);
-            string[] result = reference.Format(this);
+            string result = reference.Format(this);
 
             return result;
         }

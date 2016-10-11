@@ -64,32 +64,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 try
                 {
                     context.CurrentGroup = this;
-                    context.Index = 0;
 
                     OnBeforeExecution(context);
 
-                    while (true)
-                    {
-                        context.OutputFlag = false;
-
-                        foreach (PftNode child in Children)
-                        {
-                            child.Execute(context);
-
-                            if (context.BreakFlag)
+                    context.DoRepeatableAction
+                        (
+                            ctx =>
                             {
-                                break;
+                                foreach (PftNode child in Children)
+                                {
+                                    child.Execute(ctx);
+
+                                    if (ctx.BreakFlag)
+                                    {
+                                        break;
+                                    }
+                                }
                             }
-                        }
-
-                        if (!context.OutputFlag
-                            || context.BreakFlag)
-                        {
-                            break;
-                        }
-
-                        context.Index++;
-                    }
+                        );
 
                     OnAfterExecution(context);
                 }

@@ -105,7 +105,7 @@ namespace ManagedIrbis.Scripting
             }
 
             FieldReference reference = FieldReference.Parse(format);
-            string result = reference.FormatSingle(Record);
+            string result = reference.Format(Record);
 
             return result;
         }

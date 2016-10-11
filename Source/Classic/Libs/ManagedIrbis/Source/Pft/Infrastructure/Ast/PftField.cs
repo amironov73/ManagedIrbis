@@ -126,121 +126,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #region Private members
 
         /// <summary>
-        /// Get value.
-        /// </summary>
-        [CanBeNull]
-        public string GetValue
-            (
-                [NotNull] PftContext context
-            )
-        {
-            Code.NotNull(context, "context");
-
-            MarcRecord record = context.Record;
-            if (record == null
-                || string.IsNullOrEmpty(Tag))
-            {
-                return null;
-            }
-
-            int index = context.Index;
-            if (IndexFrom != 0)
-            {
-                index = index + IndexFrom - 1;
-            }
-
-            if (IndexTo != 0)
-            {
-                if (index >= IndexTo)
-                {
-                    return null;
-                }
-            }
-
-            RecordField field = record.Fields.GetField(Tag, index);
-            if (field == null)
-            {
-                return null;
-            }
-
-            string result;
-
-            if (SubField == NoSubField)
-            {
-                result = field.FormatField
-                    (
-                        context.FieldOutputMode,
-                        context.UpperMode
-                    );
-            }
-            else if (SubField == '*')
-            {
-                result = field.Value;
-            }
-            else
-            {
-                result = field.GetFirstSubFieldValue(SubField);
-            }
-
-            result = LimitText(result);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Have value?
-        /// </summary>
-        public bool HaveRepeat
-            (
-                [NotNull] PftContext context
-            )
-        {
-            Code.NotNull(context, "context");
-
-            MarcRecord record = context.Record;
-            if (record == null
-                || string.IsNullOrEmpty(Tag))
-            {
-                return false;
-            }
-
-            RecordField field = record.Fields.GetField(Tag, context.Index);
-
-            return field != null;
-        }
-
-        /// <summary>
-        /// Limit text.
-        /// </summary>
-        [CanBeNull]
-        public string LimitText
-            (
-                [CanBeNull] string text
-            )
-        {
-            if (string.IsNullOrEmpty(text))
-            {
-                return text;
-            }
-
-            int offset = Offset;
-            int length = 100000000;
-            if (Length != 0)
-            {
-                length = Length;
-            }
-
-            string result = SafeSubString
-                (
-                    text,
-                    offset,
-                    length
-                );
-
-            return result;
-        }
-
-        /// <summary>
         /// Extract substring in safe manner.
         /// </summary>
         [CanBeNull]
@@ -338,6 +223,113 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         /// <summary>
+        /// Apply the reference.
+        /// </summary>
+        public void Apply
+            (
+                [NotNull] FieldReference reference
+            )
+        {
+            Code.NotNull(reference, "reference");
+
+            Command = reference.Command;
+            Embedded = reference.Embedded;
+            Indent = reference.Indent;
+            IndexFrom = reference.IndexFrom;
+            IndexTo = reference.IndexTo;
+            Offset = reference.Offset;
+            Length = reference.Length;
+            SubField = reference.SubField;
+            Tag = reference.Tag;
+
+            Text = reference.ToString();
+        }
+
+        /// <summary>
+        /// Get value.
+        /// </summary>
+        [CanBeNull]
+        public virtual string GetValue
+            (
+                [NotNull] PftContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            MarcRecord record = context.Record;
+            if (record == null
+                || string.IsNullOrEmpty(Tag))
+            {
+                return null;
+            }
+
+            int index = context.Index;
+            if (IndexFrom != 0)
+            {
+                index = index + IndexFrom - 1;
+            }
+
+            if (IndexTo != 0)
+            {
+                if (index >= IndexTo)
+                {
+                    return null;
+                }
+            }
+
+            RecordField field = record.Fields.GetField(Tag, index);
+            if (field == null)
+            {
+                return null;
+            }
+
+            string result;
+
+            if (SubField == NoSubField)
+            {
+                result = field.FormatField
+                    (
+                        context.FieldOutputMode,
+                        context.UpperMode
+                    );
+            }
+            else if (SubField == '*')
+            {
+                result = field.Value;
+            }
+            else
+            {
+                result = field.GetFirstSubFieldValue(SubField);
+            }
+
+            result = LimitText(result);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Have value?
+        /// </summary>
+        public bool HaveRepeat
+            (
+                [NotNull] PftContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            MarcRecord record = context.Record;
+            if (record == null
+                || string.IsNullOrEmpty(Tag))
+            {
+                return false;
+            }
+
+            RecordField field = record.Fields.GetField(Tag, context.Index);
+
+            return field != null;
+        }
+
+        /// <summary>
         /// Is first repeat?
         /// </summary>
         public bool IsFirstRepeat
@@ -361,6 +353,37 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(context, "context");
 
             return true;
+        }
+
+        /// <summary>
+        /// Limit text.
+        /// </summary>
+        [CanBeNull]
+        public string LimitText
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            int offset = Offset;
+            int length = 100000000;
+            if (Length != 0)
+            {
+                length = Length;
+            }
+
+            string result = SafeSubString
+                (
+                    text,
+                    offset,
+                    length
+                );
+
+            return result;
         }
 
         /// <summary>
@@ -389,6 +412,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc />
+        public override void Execute
+            (
+            PftContext context
+            )
+        {
+            OnBeforeExecution(context);
+
+            OnAfterExecution(context);
+        }
+
         /// <inheritdoc/>
         public override void PrintDebug
             (
@@ -405,17 +439,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 node.PrintDebug(writer, level + 1);
             }
-        }
-
-        /// <inheritdoc />
-        public override void Execute
-            (
-                PftContext context
-            )
-        {
-            OnBeforeExecution(context);
-
-            OnAfterExecution(context);
         }
 
         /// <inheritdoc />

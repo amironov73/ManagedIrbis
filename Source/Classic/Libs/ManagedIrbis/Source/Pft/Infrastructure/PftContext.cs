@@ -6,6 +6,7 @@
 
 #region Using directives
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -28,12 +29,21 @@ namespace ManagedIrbis.Pft.Infrastructure
     [MoonSharpUserData]
     public sealed class PftContext
     {
-        #region Properties
+        #region Constants
 
         /// <summary>
-        /// Форматтер
+        /// Максимальное число повторений группы по умолчанию.
         /// </summary>
-        public PftFormatter Formatter { get { return _formatter; } }
+        public const int DefaultMaxRepeat = 500;
+
+        #endregion
+
+        #region Properties
+
+        ///// <summary>
+        ///// Форматтер
+        ///// </summary>
+        //public PftFormatter Formatter { get { return _formatter; } }
 
         /// <summary>
         /// Родительский контекст.
@@ -61,6 +71,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// т. е. собственно результат расформатирования записи.
         /// </summary>
         public string Text { get { return Output.ToString(); } }
+
+        /// <summary>
+        /// Максимальное число повторений группы.
+        /// </summary>
+        public int MaxRepeat { get; set; }
 
         #region Режим вывода
 
@@ -107,10 +122,10 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #endregion
 
-        ///// <summary>
-        ///// Глобальные переменные.
-        ///// </summary>
-        //public PftGlobalManager Globals { get; private set; }
+        /// <summary>
+        /// Глобальные переменные.
+        /// </summary>
+        public PftGlobalManager Globals { get; private set; }
 
         ///// <summary>
         ///// Нормальные переменные.
@@ -131,13 +146,14 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public PftContext
             (
-                [CanBeNull] PftFormatter formatter,
+            //[CanBeNull] PftFormatter formatter,
                 [CanBeNull] PftContext parent
             )
         {
-            _formatter = formatter;
+            //_formatter = formatter;
 
             _parent = parent;
+            MaxRepeat = DefaultMaxRepeat;
 
             PftOutput parentBuffer = (parent == null)
                 ? null
@@ -145,9 +161,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             Output = new PftOutput(parentBuffer);
 
-            //Globals = (parent == null)
-            //    ? new PftGlobalManager()
-            //    : parent.Globals;
+            Globals = (parent == null)
+                ? new PftGlobalManager()
+                : parent.Globals;
 
             //// Переменные в каждом контексте свои
             //Variables = new PftVariableManager();
@@ -168,17 +184,17 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Private members
 
-        private PftFormatter _formatter;
+        // private PftFormatter _formatter;
 
         private readonly PftContext _parent;
 
-        internal void _SetFormatter
-            (
-                PftFormatter formatter
-            )
-        {
-            _formatter = formatter;
-        }
+        //internal void _SetFormatter
+        //    (
+        //        PftFormatter formatter
+        //    )
+        //{
+        //    _formatter = formatter;
+        //}
 
         #endregion
 
@@ -208,13 +224,57 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// Выполнить повторяющуюся группу.
+        /// </summary>
+        public void DoRepeatableAction
+            (
+                [NotNull] Action<PftContext> action,
+                int count
+            )
+        {
+            Code.NotNull(action, "action");
+            Code.Nonnegative(count, "count");
+
+            count = Math.Min(count, MaxRepeat);
+
+            for (Index = 0; Index < count; Index++)
+            {
+                OutputFlag = false;
+
+                action(this);
+
+                if (!OutputFlag
+                    || BreakFlag)
+                {
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Выполнить повторяющуюся группу
+        /// максимально возможное число раз.
+        /// </summary>
+        public void DoRepeatableAction
+            (
+                [NotNull] Action<PftContext> action
+            )
+        {
+            DoRepeatableAction(action, int.MaxValue);
+        }
+
+        /// <summary>
         /// Временное переключение контекста (например,
         /// при вычислении строковых функций).
         /// </summary>
         [NotNull]
         public PftContext Push()
         {
-            PftContext result = new PftContext(Formatter,this);
+            //PftContext result = new PftContext(Formatter,this);
+            PftContext result = new PftContext(this)
+            {
+                MaxRepeat = MaxRepeat
+            };
 
             return result;
         }
@@ -246,7 +306,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 Output.Write(format, arg);
             }
-            
+
             return this;
         }
 

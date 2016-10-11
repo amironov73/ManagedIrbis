@@ -127,22 +127,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
             else
             {
-                context.Index = 0;
-
-                while (true)
-                {
-                    context.OutputFlag = false;
-
-                    _Execute(context);
-
-                    if (!context.OutputFlag
-                        || context.BreakFlag)
-                    {
-                        break;
-                    }
-
-                    context.Index++;
-                }
+                context.DoRepeatableAction(_Execute,1);
             }
 
             OnAfterExecution(context);

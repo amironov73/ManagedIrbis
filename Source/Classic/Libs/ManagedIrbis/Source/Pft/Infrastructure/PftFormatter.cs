@@ -70,7 +70,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public bool HaveWarning { get { return Context.Output.HaveWarning; } }
 
-
         #endregion
 
         #region Construction
@@ -81,7 +80,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         public PftFormatter()
             : this
             (
-                new PftContext(null, null)
+                new PftContext(null)
             )
         {
         }
@@ -97,7 +96,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Code.NotNull(context, "context");
 
             Context = context;
-            Context._SetFormatter(this);
+            //Context._SetFormatter(this);
         }
 
         #endregion

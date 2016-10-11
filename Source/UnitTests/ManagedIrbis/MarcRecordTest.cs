@@ -115,25 +115,6 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestMarcRecord_FR()
-        {
-            MarcRecord record = _GetRecord();
-
-            string actual = record.FR("\"Автор: \"v700^a");
-            Assert.AreEqual("Автор: Иванов", actual);
-        }
-
-        [TestMethod]
-        public void TestMarcRecord_FRA()
-        {
-            MarcRecord record = _GetRecord();
-
-            string[] actual = record.FRA("\"Автор: \"v700^a");
-            Assert.AreEqual(1, actual.Length);
-            Assert.AreEqual("Автор: Иванов", actual[0]);
-        }
-
-        [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
         public void TestIrbisRecord_ReadOnly()
         {
