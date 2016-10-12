@@ -316,6 +316,8 @@ namespace ManagedIrbis
             return Fields.GetSubFieldValue(tag, code);
         }
 
+#if CLASSIC || NETCORE
+
         /// <summary>
         /// Простейшее форматирование поля/подполя.
         /// </summary>
@@ -332,6 +334,8 @@ namespace ManagedIrbis
 
             return result;
         }
+
+#endif
 
         /// <summary>
         /// Assign database name to the record.
