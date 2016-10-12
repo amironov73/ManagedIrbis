@@ -406,6 +406,95 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Добавление подполя, при условии,
+        /// что у него значение не false.
+        /// </summary>
+        [NotNull]
+        public RecordField AddNonEmptySubField
+            (
+                char code,
+                bool value,
+                [NotNull] string text
+            )
+        {
+            ThrowIfReadOnly();
+
+            if (value)
+            {
+                AddSubField(code, text);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Добавление подполя, при условии,
+        /// что у него значение не 0.
+        /// </summary>
+        [NotNull]
+        public RecordField AddNonEmptySubField
+            (
+                char code,
+                int value
+            )
+        {
+            ThrowIfReadOnly();
+
+            if (value != 0)
+            {
+                string text = value.ToInvariantString();
+                AddSubField(code, text);
+            }
+
+            return this;
+        }
+
+
+        /// <summary>
+        /// Добавление подполя, при условии,
+        /// что у него значение не 0.
+        /// </summary>
+        [NotNull]
+        public RecordField AddNonEmptySubField
+            (
+                char code,
+                long value
+            )
+        {
+            ThrowIfReadOnly();
+
+            if (value != 0)
+            {
+                string text = value.ToInvariantString();
+                AddSubField(code, text);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Добавление подполя, при условии,
+        /// что у него не пустое значение.
+        /// </summary>
+        [NotNull]
+        public RecordField AddNonEmptySubField
+            (
+                char code,
+                [CanBeNull] DateTime? value
+            )
+        {
+            ThrowIfReadOnly();
+
+            if (value != null)
+            {
+                string text = IrbisDate.ConvertDateToString(value.Value);
+                AddSubField(code, text);
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Создание "глубокой" копии поля.
         /// </summary>
         [NotNull]

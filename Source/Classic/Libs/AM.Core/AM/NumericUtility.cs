@@ -177,6 +177,20 @@ namespace AM
         }
 
         /// <summary>
+        /// Преобразование числа в строку по правилам инвариантной 
+        /// (не зависящей от региона) культуры.
+        /// </summary>
+        /// <param name="value">Число для преобразования.</param>
+        /// <returns>Строковое представление числа.</returns>
+        public static string ToInvariantString
+            (
+                this long value
+            )
+        {
+            return value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
         /// Convert to <see cref="System.String"/>
         /// using <see cref="CultureInfo.InvariantCulture"/>.
         /// </summary>

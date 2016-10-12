@@ -6,7 +6,6 @@
 
 #region Using directives
 
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -89,18 +88,11 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        public object UserData
-        {
-            get { return _userData; }
-            set { _userData = value; }
-        }
+        public object UserData { get; set; }
 
         #endregion
 
         #region Private members
-
-        //[NonSerialized]
-        private object _userData;
 
         #endregion
 
@@ -109,10 +101,10 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Разбор поля.
         /// </summary>
-        [JetBrains.Annotations.NotNull]
+        [NotNull]
         public static RevisionInfo Parse
             (
-                [JetBrains.Annotations.NotNull] RecordField field
+                [NotNull] RecordField field
             )
         {
             RevisionInfo result = new RevisionInfo
@@ -128,7 +120,7 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Разбор записи.
         /// </summary>
-        [JetBrains.Annotations.NotNull]
+        [NotNull]
         [ItemNotNull]
         public static RevisionInfo[] Parse
             (
@@ -148,7 +140,9 @@ namespace ManagedIrbis.Fields
                 .Select(Parse)
 
 #else
+
                 .Select(field => Parse(field))
+
 #endif
 
                 .ToArray();
@@ -157,11 +151,11 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Разбор записи.
         /// </summary>
-        [JetBrains.Annotations.NotNull]
+        [NotNull]
         [ItemNotNull]
         public static RevisionInfo[] Parse
             (
-                [JetBrains.Annotations.NotNull] MarcRecord record
+                [NotNull] MarcRecord record
             )
         {
             return Parse
@@ -174,14 +168,14 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Превращение обратно в поле.
         /// </summary>
-        [JetBrains.Annotations.NotNull]
+        [NotNull]
         public RecordField ToField()
         {
-            RecordField result = new RecordField("907")
+            RecordField result = new RecordField(Tag)
                 .AddNonEmptySubField('a', Date)
                 .AddNonEmptySubField('b', Name)
                 .AddNonEmptySubField('c', Stage);
-            
+
             return result;
         }
 
@@ -189,9 +183,7 @@ namespace ManagedIrbis.Fields
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc/>
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -202,9 +194,7 @@ namespace ManagedIrbis.Fields
             Name = reader.ReadNullableString();
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <inheritdoc/>
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -220,12 +210,7 @@ namespace ManagedIrbis.Fields
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc/>
         public override string ToString()
         {
             return string.Format

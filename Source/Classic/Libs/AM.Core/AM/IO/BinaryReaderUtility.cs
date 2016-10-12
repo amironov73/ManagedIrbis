@@ -122,7 +122,7 @@ namespace AM.IO
             return reader;
         }
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
         /// <summary>
         /// Read <see cref="DateTime"/> from the stream.
@@ -135,6 +135,28 @@ namespace AM.IO
             Code.NotNull(reader, "reader");
 
             DateTime result = DateTime.FromBinary(reader.ReadInt64());
+
+            return result;
+        }
+
+        /// <summary>
+        /// Read <see cref="DateTime"/> from the stream.
+        /// </summary>
+        [CanBeNull]
+        public static DateTime? ReadNullableDateTime
+            (
+                [NotNull] this BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            DateTime? result = null;
+
+            bool flag = reader.ReadBoolean();
+            if (flag)
+            {
+                result = reader.ReadDateTime();
+            }
 
             return result;
         }

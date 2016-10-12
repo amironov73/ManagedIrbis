@@ -39,7 +39,7 @@ namespace ManagedIrbis.Mapping
 
         #endregion
 
-        #region Private members
+        #region Public methods
 
         /// <summary>
         /// Преобразование в булево значение.
@@ -50,6 +50,25 @@ namespace ManagedIrbis.Mapping
             )
         {
             return string.IsNullOrEmpty(subField.Value);
+        }
+
+        /// <summary>
+        /// Преобразование в булево значение.
+        /// </summary>
+        public static bool ToBoolean
+            (
+                [NotNull] RecordField field,
+                char code
+            )
+        {
+            bool result = false;
+            SubField subField = field.GetFirstSubField(code);
+            if (!ReferenceEquals(subField, null))
+            {
+                result = ToBoolean(subField);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -75,6 +94,26 @@ namespace ManagedIrbis.Mapping
             )
         {
             return IrbisDate.ConvertStringToDate(subField.Value);
+        }
+
+        /// <summary>
+        /// Преобразование в дату.
+        /// </summary>
+        [CanBeNull]
+        public static DateTime? ToDateTime
+            (
+                [NotNull] RecordField field,
+                char code
+            )
+        {
+            DateTime? result = null;
+            SubField subField = field.GetFirstSubField(code);
+            if (!ReferenceEquals(subField, null))
+            {
+                result = ToDateTime(subField);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -194,6 +233,25 @@ namespace ManagedIrbis.Mapping
         }
 
         /// <summary>
+        /// Преобразование в 32-битное целое со знаком.
+        /// </summary>
+        public static int? ToInt32
+            (
+                [NotNull] RecordField field,
+                char code
+            )
+        {
+            int? result = null;
+            SubField subField = field.GetFirstSubField(code);
+            if (!ReferenceEquals(subField, null))
+            {
+                result = ToInt32(subField);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Преобразование в 64-битное целое со знаком.
         /// </summary>
         public static long ToInt64
@@ -208,9 +266,29 @@ namespace ManagedIrbis.Mapping
             long.TryParse(subField.Value, out result);
 
 #else
+
             result = long.Parse(subField.Value);
 
 #endif
+
+            return result;
+        }
+
+        /// <summary>
+        /// Преобразование в 64-битное целое со знаком.
+        /// </summary>
+        public static long ToInt64
+            (
+                [NotNull] RecordField field,
+                char code
+            )
+        {
+            long result = 0;
+            SubField subField = field.GetFirstSubField(code);
+            if (!ReferenceEquals(subField, null))
+            {
+                result = ToInt64(subField);
+            }
 
             return result;
         }
