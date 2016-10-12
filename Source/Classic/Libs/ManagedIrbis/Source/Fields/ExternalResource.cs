@@ -401,7 +401,6 @@ namespace ManagedIrbis.Fields
             return result;
         }
 
-
         #endregion
 
 #if !WINMOBILE && !PocketPC && !SILVERLIGHT
@@ -409,7 +408,7 @@ namespace ManagedIrbis.Fields
         #region IHandmadeSerializable members
 
         /// <inheritdoc/>
-        public void RestoreFromStream
+        void IHandmadeSerializable.RestoreFromStream
             (
                 BinaryReader reader
             )
@@ -440,7 +439,7 @@ namespace ManagedIrbis.Fields
         }
 
         /// <inheritdoc/>
-        public void SaveToStream
+        void IHandmadeSerializable.SaveToStream
             (
                 BinaryWriter writer
             )

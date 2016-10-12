@@ -134,6 +134,7 @@
     <Compile Include="Source\Direct\XrfRecord32.cs" />
     <Compile Include="Source\Direct\XrfRecord64.cs" />
     <Compile Include="Source\Fields\ExternalResource.cs" />
+    <Compile Include="Source\Fields\TitleInfo.cs" />
     <Compile Include="Source\Fst\FstProcessor.cs" />
     <Compile Include="Source\ImportExport\IsoMarker.cs" />
     <Compile Include="Source\ImportExport\IsoRecordHeader.cs" />
