@@ -1,4 +1,4 @@
-﻿/* PftComma.cs -- оператор "запятая"
+﻿/* PftNl.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -24,11 +24,11 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// Оператор "запятая".
+    /// 
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class PftComma
+    public sealed class PftNl
         : PftNode
     {
         #region Properties
@@ -37,25 +37,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Construction
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public PftComma()
-        {
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public PftComma
-            (
-                [NotNull] PftToken token
-            )
-        {
-            Code.NotNull(token, "token");
-            token.MustBe(PftTokenKind.Comma);
-        }
-
         #endregion
 
         #region Private members
@@ -63,6 +44,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftNl()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftNl
+            (
+                [NotNull] PftToken token
+            )
+        {
+            Code.NotNull(token, "token");
+            token.MustBe(PftTokenKind.Nl);
+        }
 
         #endregion
 
@@ -76,17 +76,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
+            context.Write(this, System.Environment.NewLine);
+
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Write
             (
                 StreamWriter writer
             )
         {
-            // Добавляем пробел для читабельности
-            writer.Write(", ");
+            Code.NotNull(writer, "writer");
+
+            writer.Write("nl");
         }
 
         #endregion

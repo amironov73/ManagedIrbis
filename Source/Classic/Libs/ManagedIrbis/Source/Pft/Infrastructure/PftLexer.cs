@@ -570,6 +570,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 kind = PftTokenKind.Mfn;
                                 break;
 
+                            case "nl":
+                                kind = PftTokenKind.Nl;
+                                break;
+
                             case "not":
                                 kind = PftTokenKind.Not;
                                 break;

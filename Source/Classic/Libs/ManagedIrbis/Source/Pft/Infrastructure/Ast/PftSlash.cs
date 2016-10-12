@@ -8,6 +8,8 @@
 
 using System.IO;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -34,6 +36,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftSlash()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftSlash
+            (
+                [NotNull] PftToken token
+            )
+        {
+            Code.NotNull(token, "token");
+            token.MustBe(PftTokenKind.Slash);
+        }
 
         #endregion
 

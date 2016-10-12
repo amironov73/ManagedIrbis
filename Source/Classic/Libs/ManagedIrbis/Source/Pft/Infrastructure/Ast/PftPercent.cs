@@ -8,6 +8,8 @@
 
 using System.IO;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -38,6 +40,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftPercent()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftPercent
+            (
+                [NotNull] PftToken token
+            )
+        {
+            Code.NotNull(token, "token");
+            token.MustBe(PftTokenKind.Percent);
+        }
 
         #endregion
 

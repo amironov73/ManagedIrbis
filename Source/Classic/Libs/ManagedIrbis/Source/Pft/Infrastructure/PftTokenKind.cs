@@ -167,6 +167,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         MoreEqual,
 
         /// <summary>
+        /// nl
+        /// </summary>
+        Nl,
+
+        /// <summary>
         /// not
         /// </summary>
         Not,

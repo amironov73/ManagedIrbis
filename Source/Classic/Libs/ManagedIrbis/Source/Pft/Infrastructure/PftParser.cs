@@ -61,11 +61,168 @@ namespace ManagedIrbis.Pft.Infrastructure
             Code.NotNull(tokens, "tokens");
 
             Tokens = tokens;
+            CreateTokenMap();
         }
 
         #endregion
 
         #region Private members
+
+        #region Useful routines
+
+        //================================================================
+        // Automate token handling.
+        //================================================================
+
+        private Dictionary<PftTokenKind, Func<PftToken, PftNode>> TokenMap;
+
+        private void CreateTokenMap()
+        {
+            TokenMap = new Dictionary<PftTokenKind, Func<PftToken, PftNode>>
+            {
+                {PftTokenKind.C, ParseC},
+                {PftTokenKind.Comma, ParseComma},
+                {PftTokenKind.Comment, ParseComment},
+                {PftTokenKind.ConditionalLiteral, ParseConditionalLiteral},
+                {PftTokenKind.Hash, ParseHash},
+                {PftTokenKind.Mfn, ParseMfn},
+                {PftTokenKind.Mpl, ParseMpl},
+                {PftTokenKind.Nl, ParseNl},
+                {PftTokenKind.Percent, ParsePercent},
+                {PftTokenKind.RepeatableLiteral, ParseRepeatableLiteral},
+                {PftTokenKind.Slash, ParseSlash},
+                {PftTokenKind.UnconditionalLiteral, ParseUnconditionalLiteral},
+                {PftTokenKind.Unifor, ParseUnifor},
+                {PftTokenKind.X, ParseX}
+            };
+        }
+
+        //================================================================
+        // Dumb but useful routines.
+        //================================================================
+
+        private PftNode Move(PftNode node)
+        {
+            Tokens.MoveNext();
+            return node;
+        }
+
+        private PftNode ParseC(PftToken token)
+        {
+            return Move(new PftC(token));
+        }
+
+        private PftNode ParseComma(PftToken token)
+        {
+            return Move(new PftComma(token));
+        }
+
+        private PftNode ParseComment(PftToken token)
+        {
+            return Move(new PftComment(token));
+        }
+
+        private PftNode ParseConditionalLiteral(PftToken token)
+        {
+            return Move(new PftConditionalLiteral(token));
+        }
+
+        private PftNode ParseHash(PftToken token)
+        {
+            return Move(new PftHash(token));
+        }
+
+        private PftNode ParseMfn(PftToken token)
+        {
+            return Move(new PftMfn(token));
+        }
+
+        private PftNode ParseMpl(PftToken token)
+        {
+            return Move(new PftMode(token));
+        }
+
+        private PftNode ParseNl(PftToken token)
+        {
+            return Move(new PftNl(token));
+        }
+
+        private PftNode ParsePercent(PftToken token)
+        {
+            return Move(new PftPercent(token));
+        }
+
+        private PftNode ParseRepeatableLiteral(PftToken token)
+        {
+            return Move(new PftRepeatableLiteral(token));
+        }
+
+        private PftNode ParseSlash(PftToken token)
+        {
+            return Move(new PftSlash(token));
+        }
+
+        private PftNode ParseUnconditionalLiteral(PftToken token)
+        {
+            return Move(new PftUnconditionalLiteral(token));
+        }
+
+        private PftNode ParseX(PftToken token)
+        {
+            return Move(new PftX(token));
+        }
+
+        //================================================================
+        // Gather tokens etc.
+        //================================================================
+
+        [CanBeNull]
+        private PftNode GetNode
+            (
+                params PftTokenKind[] kinds
+            )
+        {
+            PftNode result = null;
+            PftToken token = Tokens.Current;
+
+            if (Array.IndexOf(kinds, token.Kind) >= 0)
+            {
+                Func<PftToken, PftNode> func;
+                if (!TokenMap.TryGetValue(token.Kind, out func))
+                {
+                    throw new PftException("don't know how to handle token " + token.Kind);
+                }
+                result = func(token);
+            }
+
+            return result;
+        }
+
+        private PftNode[] GetNodes
+            (
+                params PftTokenKind[] kinds
+            )
+        {
+            List<PftNode> result = new List<PftNode>();
+
+            while (true)
+            {
+                PftNode node = GetNode(kinds);
+                if (ReferenceEquals(node, null))
+                {
+                    break;
+                }
+                result.Add(node);
+            }
+
+            return result.ToArray();
+        }
+
+        #endregion
+
+        //================================================================
+        // Other routines
+        //================================================================
 
         private PftNode ParseGroup()
         {
@@ -133,6 +290,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                     result = new PftMode(token);
                     break;
 
+                case PftTokenKind.Nl:
+                    result = new PftNl(token);
+                    break;
+
                 case PftTokenKind.Percent:
                     result = new PftPercent();
                     break;
@@ -151,6 +312,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 case PftTokenKind.Unifor:
                     result = ParseUnifor(token);
+                    moveNext = false;
                     break;
 
                 default:
@@ -208,6 +370,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                         node = new PftMode(token);
                         break;
 
+                    case PftTokenKind.Nl:
+                        node = new PftNl(token);
+                        break;
+
                     case PftTokenKind.Percent:
                         node = new PftPercent();
                         break;
@@ -239,7 +405,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             } // Tokens.IsEof
 
             // Gather left hand of the field: repeatable literal
-            if (!Tokens.IsEof)
+            while (!Tokens.IsEof)
             {
                 token = Tokens.Current;
                 if (token.Kind == PftTokenKind.RepeatableLiteral)
@@ -257,6 +423,25 @@ namespace ManagedIrbis.Pft.Infrastructure
                     }
 
                     Tokens.MoveNext();
+                }
+                else if (token.Kind == PftTokenKind.Nl)
+                {
+                    leftHand.Add(new PftNl(token));
+                    Tokens.MoveNext();
+                }
+                else if (token.Kind == PftTokenKind.Comma)
+                {
+                    leftHand.Add(new PftComma(token));
+                    Tokens.MoveNext();
+                }
+                else if (token.Kind == PftTokenKind.Comment)
+                {
+                    leftHand.Add(new PftComment(token));
+                    Tokens.MoveNext();
+                }
+                else
+                {
+                    break;
                 }
             } // Tokens.IsEof
 
