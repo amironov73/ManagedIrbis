@@ -20,8 +20,12 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+#if CLASSIC || NETCORE
+
 using ManagedIrbis.Pft.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Ast;
+
+#endif
 
 using MoonSharp.Interpreter;
 
@@ -171,6 +175,8 @@ namespace ManagedIrbis
 
         #region Public methods
 
+#if CLASSIC || NETCORE
+
         /// <summary>
         /// Apply the specification.
         /// </summary>
@@ -233,6 +239,8 @@ namespace ManagedIrbis
 
             return result;
         }
+
+#endif
 
         #endregion
 

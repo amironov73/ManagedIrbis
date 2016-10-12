@@ -29,15 +29,6 @@ namespace ManagedIrbis.Pft.Infrastructure
     [MoonSharpUserData]
     public sealed class PftContext
     {
-        #region Constants
-
-        /// <summary>
-        /// Максимальное число повторений группы по умолчанию.
-        /// </summary>
-        public const int DefaultMaxRepeat = 500;
-
-        #endregion
-
         #region Properties
 
         ///// <summary>
@@ -71,11 +62,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// т. е. собственно результат расформатирования записи.
         /// </summary>
         public string Text { get { return Output.ToString(); } }
-
-        /// <summary>
-        /// Максимальное число повторений группы.
-        /// </summary>
-        public int MaxRepeat { get; set; }
 
         #region Режим вывода
 
@@ -153,7 +139,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             //_formatter = formatter;
 
             _parent = parent;
-            MaxRepeat = DefaultMaxRepeat;
 
             PftOutput parentBuffer = (parent == null)
                 ? null
@@ -235,7 +220,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Code.NotNull(action, "action");
             Code.Nonnegative(count, "count");
 
-            count = Math.Min(count, MaxRepeat);
+            count = Math.Min(count, PftConfig.MaxRepeat);
 
             for (Index = 0; Index < count; Index++)
             {
@@ -271,10 +256,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         public PftContext Push()
         {
             //PftContext result = new PftContext(Formatter,this);
-            PftContext result = new PftContext(this)
-            {
-                MaxRepeat = MaxRepeat
-            };
+            PftContext result = new PftContext(this);
 
             return result;
         }

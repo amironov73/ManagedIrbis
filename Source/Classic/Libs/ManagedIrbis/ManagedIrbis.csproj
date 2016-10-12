@@ -269,6 +269,7 @@
     <Compile Include="Source\Pft\Infrastructure\FieldSpecification.cs" />
     <Compile Include="Source\Pft\Infrastructure\FormatExit.cs" />
     <Compile Include="Source\Pft\Infrastructure\IFormatExit.cs" />
+    <Compile Include="Source\Pft\Infrastructure\PftConfig.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftGlobal.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftGlobalManager.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftLexer.cs" />
