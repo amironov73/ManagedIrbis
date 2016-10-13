@@ -102,6 +102,20 @@ namespace ManagedIrbis.Pft
         {
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftSyntaxException
+            (
+                [NotNull] PftNode node
+            )
+            : this
+                (
+                    "Syntax error at: " + node
+                )
+        {
+        }
+
         #endregion
 
         #region Public methods

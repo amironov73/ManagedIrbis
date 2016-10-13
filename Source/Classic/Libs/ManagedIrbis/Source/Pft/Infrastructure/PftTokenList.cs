@@ -137,7 +137,24 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             if (!MoveNext())
             {
-                throw new IrbisException();
+                throw new PftSyntaxException(Current);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Require next token.
+        /// </summary>
+        public PftTokenList RequireNext
+            (
+                PftTokenKind kind
+            )
+        {
+            RequireNext();
+            if (Current.Kind != kind)
+            {
+                throw new PftSyntaxException(Current);
             }
 
             return this;

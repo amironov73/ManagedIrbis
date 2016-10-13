@@ -36,6 +36,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftGroup()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftGroup
+            (
+                [NotNull] PftToken token
+            )
+        {
+            Code.NotNull(token, "token");
+            token.MustBe(PftTokenKind.LeftParenthesis);
+        }
+
         #endregion
 
         #region Private members
