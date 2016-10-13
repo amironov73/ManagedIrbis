@@ -247,6 +247,8 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftConditionalLiteral.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftD.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNl.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftSystem.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftTrim.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftV.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftG.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftGroup.cs" />

@@ -395,6 +395,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         value = ReadIdentifier();
                         if (!string.IsNullOrEmpty(value))
                         {
+                            value = c + value;
                             goto default;
                         }
                         kind = PftTokenKind.A;
@@ -411,11 +412,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                         value = ReadIdentifier();
                         if (string.IsNullOrEmpty(value))
                         {
+                            value = c + value;
                             goto default;
                         }
-                        kind = IsInteger(value)
-                            ? PftTokenKind.C
-                            : PftTokenKind.Identifier;
+                        kind = PftTokenKind.Identifier;
                         break;
 
                     case 'd':
@@ -432,8 +432,9 @@ namespace ManagedIrbis.Pft.Infrastructure
                     case 'f':
                     case 'F':
                         value = ReadIdentifier();
-                        if (string.IsNullOrEmpty(value))
+                        if (!string.IsNullOrEmpty(value))
                         {
+                            value = c + value;
                             goto default;
                         }
                         kind = PftTokenKind.F;
@@ -441,9 +442,10 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case 'l':
                     case 'L':
-                        value = ReadIdentifier();
-                        if (string.IsNullOrEmpty(value))
+                        value = c + ReadIdentifier();
+                        if (!string.IsNullOrEmpty(value))
                         {
+                            value = c + value;
                             goto default;
                         }
                         kind = PftTokenKind.L;
@@ -487,8 +489,9 @@ namespace ManagedIrbis.Pft.Infrastructure
                     case 'p':
                     case 'P':
                         value = ReadIdentifier();
-                        if (string.IsNullOrEmpty(value))
+                        if (!string.IsNullOrEmpty(value))
                         {
+                            value = c + value;
                             goto default;
                         }
                         kind = PftTokenKind.P;
@@ -497,8 +500,9 @@ namespace ManagedIrbis.Pft.Infrastructure
                     case 's':
                     case 'S':
                         value = ReadIdentifier();
-                        if (string.IsNullOrEmpty(value))
+                        if (!string.IsNullOrEmpty(value))
                         {
+                            value = c + value;
                             goto default;
                         }
                         kind = PftTokenKind.S;
@@ -524,13 +528,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                             break;
                         }
                         value = ReadIdentifier();
-                        if (string.IsNullOrEmpty(value))
+                        if (!string.IsNullOrEmpty(value))
                         {
+                            value = c + value;
                             goto default;
                         }
-                        kind = IsInteger(value)
-                            ? PftTokenKind.X
-                            : PftTokenKind.Identifier;
+                        kind = PftTokenKind.Identifier;
                         break;
 
                     case '0':
@@ -548,8 +551,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                         break;
 
                     default:
-                        _navigator.Move(-1);
-                        value = ReadIdentifier();
+                        if (string.IsNullOrEmpty(value))
+                        {
+                            _navigator.Move(-1);
+                            value = ReadIdentifier();
+                        }
                         if (string.IsNullOrEmpty(value))
                         {
                             throw new IrbisException();
@@ -616,8 +622,16 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 kind = PftTokenKind.Rsum;
                                 break;
 
+                            case "system":
+                                kind = PftTokenKind.System;
+                                break;
+
                             case "then":
                                 kind = PftTokenKind.Then;
+                                break;
+
+                            case "trim":
+                                kind = PftTokenKind.Trim;
                                 break;
 
                             case "val":

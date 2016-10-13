@@ -91,6 +91,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.Percent, ParsePercent},
                 {PftTokenKind.RepeatableLiteral, ParseRepeatableLiteral},
                 {PftTokenKind.Slash, ParseSlash},
+                {PftTokenKind.System, ParseSystem},
+                {PftTokenKind.Trim, ParseTrim},
                 {PftTokenKind.UnconditionalLiteral, ParseUnconditionalLiteral},
                 {PftTokenKind.Unifor, ParseUnifor},
                 {PftTokenKind.X, ParseX}
@@ -98,7 +100,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         //================================================================
-        // Dumb but useful routines.
+        // Dumb but necessary routines.
         //================================================================
 
         private PftNode Move(PftNode node)
@@ -106,6 +108,40 @@ namespace ManagedIrbis.Pft.Infrastructure
             Tokens.MoveNext();
             return node;
         }
+
+        private PftNode ParseCall
+            (
+                PftNode result
+            )
+        {
+            Tokens.RequireNext();
+            PftToken token = Tokens.Current;
+            token.MustBe(PftTokenKind.LeftParenthesis);
+            Tokens.RequireNext();
+
+            while (true)
+            {
+                token = Tokens.Current;
+
+                if (token.Kind == PftTokenKind.RightParenthesis)
+                {
+                    Tokens.MoveNext();
+                    break;
+                }
+
+                if (token.Kind == PftTokenKind.LeftParenthesis)
+                {
+                    throw new PftSyntaxException(token);
+                }
+
+                PftNode node = ParseSimple();
+                result.Children.Add(node);
+            }
+
+            return result;
+        }
+
+        //================================================================
 
         private PftNode ParseC(PftToken token)
         {
@@ -302,6 +338,16 @@ namespace ManagedIrbis.Pft.Infrastructure
                     result = new PftSlash();
                     break;
 
+                case PftTokenKind.System:
+                    result = ParseSystem(token);
+                    moveNext = false;
+                    break;
+
+                case PftTokenKind.Trim:
+                    result = ParseTrim(token);
+                    moveNext = false;
+                    break;
+
                 case PftTokenKind.UnconditionalLiteral:
                     result = new PftUnconditionalLiteral(token);
                     break;
@@ -329,6 +375,16 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 
             return result;
+        }
+
+        private PftNode ParseSystem(PftToken token)
+        {
+            return ParseCall(new PftSystem(token));
+        }
+
+        private PftNode ParseTrim(PftToken token)
+        {
+            return ParseCall(new PftTrim(token));
         }
 
         private PftNode ParseField()

@@ -367,9 +367,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         [NotNull]
         public string Evaluate
             (
-                PftNode node
+                [NotNull] PftNode node
             )
         {
+            Code.NotNull(node, "node");
+
             PftContext copy = Push();
             node.Execute(copy);
             string result = copy.ToString();
@@ -381,18 +383,22 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <summary>
         /// Вычисление выражения во временной копии контекста.
         /// </summary>
+        [NotNull]
         public string Evaluate
             (
-                IEnumerable<PftNode> items
+                [NotNull] IEnumerable<PftNode> items
             )
         {
+            Code.NotNull(items, "items");
+
             PftContext copy = Push();
-            foreach (PftNode ast in items)
+            foreach (PftNode node in items)
             {
-                ast.Execute(copy);
+                node.Execute(copy);
             }
             string result = copy.ToString();
             Pop();
+
             return result;
         }
 

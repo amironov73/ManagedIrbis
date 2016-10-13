@@ -282,9 +282,19 @@ namespace ManagedIrbis.Pft.Infrastructure
         Star,
 
         /// <summary>
+        /// system
+        /// </summary>
+        System,
+
+        /// <summary>
         /// then
         /// </summary>
         Then,
+
+        /// <summary>
+        /// trim
+        /// </summary>
+        Trim,
 
         /// <summary>
         /// ~
