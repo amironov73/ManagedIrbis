@@ -69,7 +69,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             Code.NotNull(token, "token");
-            token.MustBe(PftTokenKind.X);
+            token.MustBe(PftTokenKind.C);
 
             try
             {
@@ -89,6 +89,35 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Private members
 
+        private void _Execute
+            (
+                PftContext context
+            )
+        {
+            if (!context.BreakFlag)
+            {
+                int current = context.Output.GetCaretPosition();
+                int delta = NewPosition - current;
+                if (delta > 0)
+                {
+                    context.Write
+                        (
+                            this,
+                            new string(' ', delta)
+                        );
+                }
+                else
+                {
+                    context.WriteLine(this);
+                    context.Write
+                        (
+                            this,
+                            new string(' ', NewPosition - 1)
+                        );
+                }
+            }
+        }
+
         #endregion
 
         #region Public methods
@@ -105,19 +134,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            if (!context.BreakFlag)
+            if (context.CurrentField != null)
             {
-                int desired = NewPosition*8;
-                int current = context.Output.GetCaretPosition();
-                int delta = desired - current;
-                if (delta > 0)
+                if (context.CurrentField.IsFirstRepeat(context))
                 {
-                    context.Write
-                        (
-                            this,
-                            new string(' ', delta)
-                        );
+                    _Execute(context);
                 }
+            }
+            else
+            {
+                _Execute(context);
             }
 
             OnAfterExecution(context);

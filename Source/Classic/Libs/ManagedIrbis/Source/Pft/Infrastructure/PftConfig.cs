@@ -49,6 +49,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public static int MaxRepeat { get; set; }
 
+        /// <summary>
+        /// Выводить ли предупреждения?
+        /// </summary>
+        public static bool EnableWarnings { get; set; }
+
         #endregion
 
         #region Construction

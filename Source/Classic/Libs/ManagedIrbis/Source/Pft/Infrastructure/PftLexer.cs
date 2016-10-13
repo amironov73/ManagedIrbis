@@ -138,21 +138,23 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             StringBuilder result = new StringBuilder();
 
+            char c = PeekChar();
+            if (!c.IsArabicDigit())
+            {
+                return null;
+            }
+            result.Append(c);
+            ReadChar();
+
             while (true)
             {
-                char c = PeekChar();
-                if (IsIdentifier(c))
-                {
-                    if (!c.IsArabicDigit())
-                    {
-                        return null;
-                    }
-                    result.Append(c);
-                }
-                else
+                c = PeekChar();
+                if (!c.IsArabicDigit())
                 {
                     break;
                 }
+                result.Append(c);
+                ReadChar();
             }
 
             return result.ToString();
@@ -400,6 +402,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case 'c':
                     case 'C':
+                        value = ReadInteger();
+                        if (!string.IsNullOrEmpty(value))
+                        {
+                            kind = PftTokenKind.C;
+                            break;
+                        }
                         value = ReadIdentifier();
                         if (string.IsNullOrEmpty(value))
                         {
@@ -509,6 +517,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case 'x':
                     case 'X':
+                        value = ReadInteger();
+                        if (!string.IsNullOrEmpty(value))
+                        {
+                            kind = PftTokenKind.X;
+                            break;
+                        }
                         value = ReadIdentifier();
                         if (string.IsNullOrEmpty(value))
                         {

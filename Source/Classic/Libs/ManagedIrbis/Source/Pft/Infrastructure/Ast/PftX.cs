@@ -87,6 +87,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Private members
 
+        private void _Execute
+            (
+                PftContext context
+            )
+        {
+            if (!context.BreakFlag)
+            {
+                if (Shift > 0)
+                {
+                    context.Write
+                        (
+                            this,
+                            new string(' ', Shift)
+                        );
+                }
+            }
+        }
+
         #endregion
 
         #region Public methods
@@ -103,16 +121,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            if (!context.BreakFlag)
+            if (context.CurrentField != null)
             {
-                if (Shift > 0)
+                if (context.CurrentField.IsFirstRepeat(context))
                 {
-                    context.Write
-                        (
-                            this,
-                            new string(' ', Shift)
-                        );
+                    _Execute(context);
                 }
+            }
+            else
+            {
+                _Execute(context);
             }
 
             OnAfterExecution(context);
