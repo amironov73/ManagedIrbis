@@ -261,6 +261,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case ':':
                         kind = PftTokenKind.Colon;
+                        value = c.ToString();
                         break;
 
                     case ',':
@@ -273,6 +274,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case '=':
                         kind = PftTokenKind.Equals;
+                        value = c.ToString();
                         break;
 
                     case '#':
@@ -281,6 +283,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case '%':
                         kind = PftTokenKind.Percent;
+                        value = c.ToString();
                         break;
 
                     case '{':
@@ -309,18 +312,22 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case '+':
                         kind = PftTokenKind.Plus;
+                        value = c.ToString();
                         break;
 
                     case '-':
                         kind = PftTokenKind.Minus;
+                        value = c.ToString();
                         break;
 
                     case '*':
                         kind = PftTokenKind.Star;
+                        value = c.ToString();
                         break;
 
                     case '~':
                         kind = PftTokenKind.Tilda;
+                        value = c.ToString();
                         break;
 
                     case '?':
@@ -338,6 +345,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         else
                         {
                             kind = PftTokenKind.Slash;
+                            value = c.ToString();
                         }
                         break;
 
@@ -346,16 +354,19 @@ namespace ManagedIrbis.Pft.Infrastructure
                         if (c2 == '=')
                         {
                             kind = PftTokenKind.LessEqual;
+                            value = "<=";
                             ReadChar();
                         }
                         else if (c2 == '>')
                         {
                             kind = PftTokenKind.NotEqual1;
+                            value = "<>";
                             ReadChar();
                         }
                         else
                         {
                             kind = PftTokenKind.Less;
+                            value = c.ToString();
                         }
                         break;
 
@@ -364,11 +375,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                         if (c2 == '=')
                         {
                             kind = PftTokenKind.MoreEqual;
+                            value = ">=";
                             ReadChar();
                         }
                         else
                         {
                             kind = PftTokenKind.More;
+                            value = c.ToString();
                         }
                         break;
 

@@ -315,6 +315,25 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        private static PftTokenKind[] _simplestItems =
+        {
+            PftTokenKind.Mfn, PftTokenKind.Nl, PftTokenKind.Trim,
+            PftTokenKind.UnconditionalLiteral, PftTokenKind.V,
+            PftTokenKind.Unifor
+        };
+
+        [NotNull]
+        private PftNode ParseSimplest()
+        {
+            PftNode result = GetNode(_simplestItems);
+            if (!ReferenceEquals(result, null))
+            {
+                return result;
+            }
+
+            throw new PftSyntaxException(Tokens.Current);
+        }
+
         private static PftTokenKind[] _simpleItems =
         {
             PftTokenKind.Comma, PftTokenKind.C, PftTokenKind.Hash,
@@ -349,6 +368,22 @@ namespace ManagedIrbis.Pft.Infrastructure
         private PftNode ParseTrim(PftToken token)
         {
             return ParseCall(new PftTrim(token));
+        }
+
+        private PftComparison ParseComparison
+            (
+                PftToken token
+            )
+        {
+            PftComparison result = new PftComparison(token)
+            {
+                LeftOperand = ParseSimplest(),
+                Operation = Tokens.Current.Text
+            };
+            Tokens.RequireNext();
+            result.RightOperand = ParseSimplest();
+
+            return result;
         }
 
         private PftNode ParseField
@@ -624,6 +659,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                 parenthesis.InnerCondition = ParseCondition(Tokens.Current);
                 Tokens.RequireNext(PftTokenKind.RightParenthesis);
                 result = parenthesis;
+            }
+            else
+            {
+                PftComparison comparison = ParseComparison(Tokens.Current);
+                result = comparison;
             }
 
             return result;

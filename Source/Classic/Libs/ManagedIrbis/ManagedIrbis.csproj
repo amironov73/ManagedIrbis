@@ -246,6 +246,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftC.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftComma.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftComment.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftComparison.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftCondition.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftConditionalLiteral.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftConditionalStatement.cs" />
