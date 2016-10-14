@@ -254,6 +254,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftConditionNot.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftConditionParenthesis.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftD.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftFunctionCall.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNl.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftP.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftSystem.cs" />
@@ -281,6 +282,8 @@
     <Compile Include="Source\Pft\Infrastructure\FormatExit.cs" />
     <Compile Include="Source\Pft\Infrastructure\IFormatExit.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftConfig.cs" />
+    <Compile Include="Source\Pft\Infrastructure\PftFunction.cs" />
+    <Compile Include="Source\Pft\Infrastructure\PftFunctionManager.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftGlobal.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftGlobalManager.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftLexer.cs" />

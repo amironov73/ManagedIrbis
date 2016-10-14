@@ -118,10 +118,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         ///// </summary>
         //public PftVariableManager Variables { get; set; }
 
-        ///// <summary>
-        ///// Процедуры.
-        ///// </summary>
-        //public PftProcedureManager Procedures { get; set; }
+        /// <summary>
+        /// Функции, зарегистрированные в данном контексте.
+        /// </summary>
+        [NotNull]
+        public PftFunctionManager Functions { get; private set; }
 
         #endregion
 
@@ -132,12 +133,9 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public PftContext
             (
-            //[CanBeNull] PftFormatter formatter,
                 [CanBeNull] PftContext parent
             )
         {
-            //_formatter = formatter;
-
             _parent = parent;
 
             PftOutput parentBuffer = (parent == null)
@@ -163,6 +161,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             Connection = (parent == null)
                 ? new IrbisConnection()
                 : parent.Connection;
+
+            Functions = new PftFunctionManager();
         }
 
         #endregion

@@ -86,6 +86,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.Comment, ParseComment},
                 {PftTokenKind.ConditionalLiteral, ParseField},
                 {PftTokenKind.Hash, ParseHash},
+                {PftTokenKind.Identifier, ParseFunctionCall},
                 {PftTokenKind.If, ParseIf},
                 {PftTokenKind.Mfn, ParseMfn},
                 {PftTokenKind.Mpl, ParseMpl},
@@ -187,6 +188,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         private PftNode ParseConditionalLiteral(PftToken token)
         {
             return Move(new PftConditionalLiteral(token));
+        }
+
+        private PftNode ParseFunctionCall(PftToken token)
+        {
+            PftFunctionCall result = new PftFunctionCall(token);
+            return ParseCall(result);
         }
 
         private PftNode ParseHash(PftToken token)
@@ -344,6 +351,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenKind.V, PftTokenKind.ConditionalLiteral,
             PftTokenKind.RepeatableLiteral,
+
+            PftTokenKind.Identifier,
 
             PftTokenKind.If
         };

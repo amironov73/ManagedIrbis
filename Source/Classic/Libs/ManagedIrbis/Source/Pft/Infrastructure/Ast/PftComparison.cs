@@ -97,15 +97,36 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNullNorEmpty(operation, "operation");
 
             operation = operation.ToLowerInvariant();
-            bool result = false;
+            bool result;
             switch (operation)
             {
                 case ":":
-                    result = Contains(leftValue, rightValue);
+                    result = PftUtility.ContainsSubString(leftValue, rightValue);
                     break;
 
                 case "=":
                     result = leftValue.SameString(rightValue);
+                    break;
+
+                case "!=":
+                case "<>":
+                    result = leftValue.SameString(rightValue);
+                    break;
+
+                case "<":
+                    result = PftUtility.CompareStrings(leftValue, rightValue) < 0;
+                    break;
+
+                case "<=":
+                    result = PftUtility.CompareStrings(leftValue, rightValue) <= 0;
+                    break;
+
+                case ">":
+                    result = PftUtility.CompareStrings(leftValue, rightValue) > 0;
+                    break;
+
+                case ">=":
+                    result = PftUtility.CompareStrings(leftValue, rightValue) >= 0;
                     break;
 
                 case "~":
@@ -115,32 +136,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 default:
                     throw new PftSyntaxException(this);
             }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Whether one string contains another.
-        /// </summary>
-        public static bool Contains
-            (
-                string outer,
-                string inner
-            )
-        {
-            if (string.IsNullOrEmpty(inner))
-            {
-                return true;
-            }
-            if (string.IsNullOrEmpty(outer))
-            {
-                return false;
-            }
-
-            outer = outer.ToLower();
-            inner = inner.ToLower();
-
-            bool result = outer.Contains(inner);
 
             return result;
         }

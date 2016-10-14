@@ -42,6 +42,53 @@ namespace ManagedIrbis.Pft
         #region Public methods
 
         /// <summary>
+        /// Compare two strings.
+        /// </summary>
+        public static int CompareStrings
+            (
+                [CanBeNull] string first,
+                [CanBeNull] string second
+            )
+        {
+            int result = string.Compare
+                (
+                    first,
+                    second,
+                    StringComparison.CurrentCultureIgnoreCase
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Whether one string contains another.
+        /// </summary>
+        public static bool ContainsSubString
+            (
+                [CanBeNull] string outer,
+                [CanBeNull] string inner
+            )
+        {
+            if (string.IsNullOrEmpty(inner))
+            {
+                return true;
+            }
+            if (string.IsNullOrEmpty(outer))
+            {
+                return false;
+            }
+
+            outer = outer.ToLower();
+            inner = inner.ToLower();
+
+            bool result = outer.Contains(inner);
+
+            return result;
+        }
+
+
+
+        /// <summary>
         /// Format for data mode.
         /// </summary>
         [NotNull]
