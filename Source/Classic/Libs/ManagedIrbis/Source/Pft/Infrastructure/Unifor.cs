@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -76,6 +76,7 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("0", FormatAll);
             Registry.Add("9", RemoveDoubleQuotes);
             Registry.Add("A", GetFieldRepeat);
+            Registry.Add("+90", GetIndex);
         }
 
         #endregion
@@ -127,6 +128,7 @@ StringComparer.InvariantCultureIgnoreCase
             {
                 string text = record.ToPlainText();
                 context.Write(node, text);
+                context.OutputFlag = true;
             }
         }
 
@@ -153,9 +155,26 @@ StringComparer.InvariantCultureIgnoreCase
                     if (!string.IsNullOrEmpty(result))
                     {
                         context.Write(node, result);
+                        context.OutputFlag = true;
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Get field repeat.
+        /// </summary>
+        public static void GetIndex
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            int index = context.Index;
+            string text = index.ToInvariantString();
+            context.Write(node, text);
+            context.OutputFlag = true;
         }
 
         /// <summary>

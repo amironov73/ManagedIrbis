@@ -35,7 +35,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftMfn
-        : PftNode
+        : PftNumeric
     {
         #region Constants
 
@@ -136,25 +136,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
+            Value = 0.0;
+
             if (!context.BreakFlag)
             {
                 if (context.Record != null)
                 {
-                    string text;
-                    if (Width == 0)
-                    {
-                        text = context.Record.Mfn
-                            .ToInvariantString();
-                    }
-                    else
-                    {
-                        string format = new string('0', Width);
-                        text = context.Record.Mfn.ToString
+                    Value = context.Record.Mfn;
+
+                    string text = (Width == 0)
+                        ? context.Record.Mfn.ToInvariantString()
+                        : context.Record.Mfn.ToString
                             (
-                                format,
+                                new string('0', Width),
                                 CultureInfo.InvariantCulture
                             );
-                    }
 
                     context.Write
                         (
