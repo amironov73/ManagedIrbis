@@ -31,6 +31,14 @@ namespace ManagedIrbis.Pft.Infrastructure
         // STANDARD BUILTIN FUNCTIONS
         //================================================================
 
+        private static void Bold(PftContext context, PftNode node, string expression)
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                context.Write(node, "<b>" + expression + "</b>");
+            }
+        }
+
         private static void COut(PftContext context, PftNode node, string expression)
         {
 #if DESKTOP || NETCORE
@@ -43,7 +51,17 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void CommandLine(PftContext context, PftNode node, string expression)
         {
+#if DESKTOP
             context.Write(node, global::System.Environment.CommandLine);
+#endif
+        }
+
+        private static void Debug(PftContext context, PftNode node, string expression)
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                global::System.Diagnostics.Debug.WriteLine(expression);
+            }
         }
 
         private static void Error(PftContext context, PftNode node, string expression)
@@ -69,6 +87,14 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
+        private static void Italic(PftContext context, PftNode node, string expression)
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                context.Write(node, "<i>" + expression + "</i>");
+            }
+        }
+
         private static void MachineName(PftContext context, PftNode node, string expression)
         {
             context.Write(node, global::System.Environment.MachineName);
@@ -79,7 +105,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             DateTime now = DateTime.Today;
 
             string output = string.IsNullOrEmpty(expression)
-                ? now.ToShortDateString()
+                ? now.ToString()
                 : now.ToString(expression);
 
             context.Write(node, output);
@@ -87,7 +113,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void OsVersion(PftContext context, PftNode node, string expression)
         {
+#if CLASSIC
             context.Write(node, global::System.Environment.OSVersion.ToString());
+#endif
         }
 
         private static void System(PftContext context, PftNode node, string expression)
@@ -156,6 +184,14 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
+        private static void Trace(PftContext context, PftNode node, string expression)
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                global::System.Diagnostics.Trace.WriteLine(expression);
+            }
+        }
+
         private static void Trim(PftContext context, PftNode node, string expression)
         {
             if (!string.IsNullOrEmpty(expression))
@@ -180,11 +216,14 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             var reg = PftFunctionManager.BuiltinFunctions.Registry;
 
+            reg.Add("bold", Bold);
             reg.Add("cout", COut);
             reg.Add("commandline", CommandLine);
+            reg.Add("debug", Debug);
             reg.Add("error", Error);
             reg.Add("fatal", Fatal);
             reg.Add("getenv", GetEnv);
+            reg.Add("italic", Italic);
             reg.Add("machinename", MachineName);
             reg.Add("now", Now);
             reg.Add("osversion", OsVersion);
@@ -192,6 +231,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("today", Today);
             reg.Add("tolower", ToLower);
             reg.Add("toupper", ToUpper);
+            reg.Add("trace", Trace);
             reg.Add("trim", Trim);
             reg.Add("warn", Warn);
         }

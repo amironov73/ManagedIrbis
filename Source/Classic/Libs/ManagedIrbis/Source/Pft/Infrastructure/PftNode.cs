@@ -96,6 +96,21 @@ namespace ManagedIrbis.Pft.Infrastructure
             Children = new NonNullCollection<PftNode>();
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftNode
+            (
+                [NotNull] PftToken token
+            )
+        {
+            Code.NotNull(token, "token");
+
+            LineNumber = token.Line;
+            Column = token.Column;
+            Text = token.Text;
+        }
+
         #endregion
 
         #region Private members

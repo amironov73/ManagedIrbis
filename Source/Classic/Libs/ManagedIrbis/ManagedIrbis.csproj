@@ -257,6 +257,8 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftD.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftFunctionCall.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNl.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftNumeric.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftNumericExpression.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftP.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftV.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftG.cs" />
