@@ -58,10 +58,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void Debug(PftContext context, PftNode node, string expression)
         {
+#if CLASSIC
             if (!string.IsNullOrEmpty(expression))
             {
                 global::System.Diagnostics.Debug.WriteLine(expression);
             }
+#endif
         }
 
         private static void Error(PftContext context, PftNode node, string expression)
@@ -161,9 +163,21 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             DateTime today = DateTime.Today;
 
+#if CLASSIC
+
             string output = string.IsNullOrEmpty(expression)
                 ? today.ToShortDateString()
                 : today.ToString(expression);
+
+#else
+
+            // TODO Implement properly
+
+            string output = string.IsNullOrEmpty(expression)
+                ? today.ToString()
+                : today.ToString(expression);
+
+#endif
 
             context.Write(node, output);
         }
@@ -186,10 +200,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void Trace(PftContext context, PftNode node, string expression)
         {
+#if CLASSIC
             if (!string.IsNullOrEmpty(expression))
             {
                 global::System.Diagnostics.Trace.WriteLine(expression);
             }
+#endif
         }
 
         private static void Trim(PftContext context, PftNode node, string expression)
