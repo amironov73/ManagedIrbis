@@ -154,6 +154,13 @@ namespace ManagedIrbis.Pft.Infrastructure
             //// Процедуры в каждом контексте свои
             //Procedures = new PftProcedureManager();
 
+            if (!ReferenceEquals(parent, null))
+            {
+                CurrentGroup = parent.CurrentGroup;
+                CurrentField = parent.CurrentField;
+                Index = parent.Index;
+            }
+
             Record = (parent == null)
                 ? new MarcRecord()
                 : parent.Record;

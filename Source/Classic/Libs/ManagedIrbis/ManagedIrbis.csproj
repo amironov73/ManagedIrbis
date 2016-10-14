@@ -243,6 +243,7 @@
     <Compile Include="Source\Pft\FormatError.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftA.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftBoolean.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftBreak.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftC.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftComma.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftComment.cs" />
@@ -257,8 +258,6 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftFunctionCall.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNl.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftP.cs" />
-    <Compile Include="Source\Pft\Infrastructure\Ast\PftSystem.cs" />
-    <Compile Include="Source\Pft\Infrastructure\Ast\PftTrim.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftV.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftG.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftGroup.cs" />
@@ -295,6 +294,7 @@
     <Compile Include="Source\Pft\Infrastructure\PftProgram.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftOutput.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.cs" />
+    <Compile Include="Source\Pft\Infrastructure\StandardFunctions.cs" />
     <Compile Include="Source\Pft\Infrastructure\Testing\PftTest.cs" />
     <Compile Include="Source\Pft\Infrastructure\Testing\PftTester.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftToken.cs" />

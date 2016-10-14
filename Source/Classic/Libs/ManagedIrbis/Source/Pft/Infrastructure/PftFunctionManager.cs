@@ -8,9 +8,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using AM;
 
 using CodeJam;
 
@@ -61,7 +64,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             BuiltinFunctions = new PftFunctionManager();
             UserFunctions = new PftFunctionManager();
 
-            RegisterStandardFunctions();
+            StandardFunctions.Register();
         }
 
         /// <summary>
@@ -78,52 +81,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Private members
-
-        private static void RegisterStandardFunctions()
-        {
-            var reg = BuiltinFunctions.Registry;
-
-            reg.Add("error", Error);
-            reg.Add("tolower", ToLower);
-            reg.Add("toupper", ToUpper);
-            reg.Add("warn", Warn);
-        }
-
-        //================================================================
-        // STANDARD BUILTIN FUNCTIONS
-        //================================================================
-
-        private static void Error(PftContext context, PftNode node, string expression)
-        {
-            if (!string.IsNullOrEmpty(expression))
-            {
-                context.Output.Error.WriteLine(expression);
-            }
-        }
-
-        private static void ToLower(PftContext context, PftNode node, string expression)
-        {
-            if (!string.IsNullOrEmpty(expression))
-            {
-                context.Write(node, expression.ToLower());
-            }
-        }
-
-        private static void ToUpper(PftContext context, PftNode node, string expression)
-        {
-            if (!string.IsNullOrEmpty(expression))
-            {
-                context.Write(node, expression.ToUpper());
-            }
-        }
-
-        private static void Warn(PftContext context, PftNode node, string expression)
-        {
-            if (!string.IsNullOrEmpty(expression))
-            {
-                context.Output.Warning.WriteLine(expression);
-            }
-        }
 
         #endregion
 

@@ -22,6 +22,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         A,
 
         /// <summary>
+        /// and
+        /// </summary>
+        And,
+
+        /// <summary>
         /// \
         /// </summary>
         Backslash,
@@ -282,19 +287,9 @@ namespace ManagedIrbis.Pft.Infrastructure
         Star,
 
         /// <summary>
-        /// system
-        /// </summary>
-        System,
-
-        /// <summary>
         /// then
         /// </summary>
         Then,
-
-        /// <summary>
-        /// trim
-        /// </summary>
-        Trim,
 
         /// <summary>
         /// ~

@@ -423,7 +423,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                             break;
                         }
                         value = ReadIdentifier();
-                        if (string.IsNullOrEmpty(value))
+                        if (!string.IsNullOrEmpty(value))
                         {
                             value = c + value;
                             goto default;
@@ -472,20 +472,51 @@ namespace ManagedIrbis.Pft.Infrastructure
                             goto default;
                         }
                         value2 = value.ToLower();
-                        if (value2.Length != 2)
+                        if (value2.Length == 2)
                         {
-                            goto default;
+                            if (value2 == "fn")
+                            {
+                                StringBuilder builder = new StringBuilder();
+
+                                if (PeekChar() == '(')
+                                {
+                                    builder.Append('(');
+                                    ReadChar();
+
+                                    bool ok = false;
+                                    while (!IsEOF)
+                                    {
+                                        char c3 = PeekChar();
+                                        builder.Append(c3);
+                                        ReadChar();
+                                        if (c3 == ')')
+                                        {
+                                            ok = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!ok)
+                                    {
+                                        throw new PftSyntaxException(_navigator);
+                                    }
+                                }
+
+                                kind = PftTokenKind.Mfn;
+                                value = "mfn" + builder;
+                                break;
+                            }
+                            if ((value2[0] == 'h'
+                                || value2[0] == 'd'
+                                || value2[0] == 'p')
+                                && (value2[1] == 'l'
+                                    || value2[1] == 'u'))
+                            {
+                                kind = PftTokenKind.Mpl;
+                                value = c + value2;
+                                break;
+                            }
                         }
-                        if ((value2[0] == 'h'
-                            || value2[0] == 'd'
-                            || value2[0] == 'p')
-                            && (value2[1] == 'l'
-                                || value2[1] == 'u'))
-                        {
-                            kind = PftTokenKind.Mpl;
-                            value = c + value2;
-                            break;
-                        }
+                        value = c + value;
                         goto default;
 
                     case 'n':
@@ -575,6 +606,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                         }
                         switch (value.ToLower())
                         {
+                            case "and":
+                                kind = PftTokenKind.And;
+                                value = "and";
+                                break;
+
                             case "break":
                                 kind = PftTokenKind.Break;
                                 break;
@@ -599,10 +635,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 kind = PftTokenKind.If;
                                 break;
 
-                            case "mfn":
-                                kind = PftTokenKind.Mfn;
-                                break;
-
                             case "nl":
                                 kind = PftTokenKind.Nl;
                                 break;
@@ -613,6 +645,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                             case "or":
                                 kind = PftTokenKind.Or;
+                                value = "or";
                                 break;
 
                             case "ravr":
@@ -635,16 +668,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 kind = PftTokenKind.Rsum;
                                 break;
 
-                            case "system":
-                                kind = PftTokenKind.System;
-                                break;
-
                             case "then":
                                 kind = PftTokenKind.Then;
-                                break;
-
-                            case "trim":
-                                kind = PftTokenKind.Trim;
                                 break;
 
                             case "val":

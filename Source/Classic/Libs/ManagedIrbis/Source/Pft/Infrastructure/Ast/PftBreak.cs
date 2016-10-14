@@ -27,7 +27,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class Break
+    public sealed class PftBreak
         : PftNode
     {
         #region Properties
@@ -35,6 +35,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftBreak()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftBreak
+            (
+                [NotNull] PftToken token
+            )
+        {
+            Code.NotNull(token, "token");
+            token.MustBe(PftTokenKind.Break);
+        }
 
         #endregion
 

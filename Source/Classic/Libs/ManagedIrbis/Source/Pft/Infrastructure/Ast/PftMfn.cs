@@ -7,6 +7,7 @@
 #region Using directives
 
 using System;
+using System.Globalization;
 using System.IO;
 
 using AM;
@@ -36,6 +37,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     public sealed class PftMfn
         : PftNode
     {
+        #region Constants
+
+        /// <summary>
+        /// Default width.
+        /// </summary>
+        public int DefaultWidth = 10;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -52,7 +62,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftMfn()
         {
-            Width = 0;
+            Width = DefaultWidth;
         }
 
         /// <summary>
@@ -79,16 +89,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.Mfn);
 
-            Width = 0;
+            Width = DefaultWidth;
 
             try
             {
-                if (!ReferenceEquals(token.Text, null))
+                string text = token.Text;
+                if (!string.IsNullOrEmpty(text))
                 {
-                    Width = int.Parse(token.Text);
-                    if (Width < 0)
+                    if (text.Length > 3)
                     {
-                        throw new PftSyntaxException(token);
+                        text = text.Substring(3);
+                        text = text.TrimStart('(').TrimEnd(')');
+
+                        Width = int.Parse(text);
+                        if (Width <= 0)
+                        {
+                            throw new PftSyntaxException(token);
+                        }
                     }
                 }
             }
@@ -123,8 +140,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 if (context.Record != null)
                 {
-                    string text = context.Record.Mfn
-                        .ToInvariantString();
+                    string text;
+                    if (Width == 0)
+                    {
+                        text = context.Record.Mfn
+                            .ToInvariantString();
+                    }
+                    else
+                    {
+                        string format = new string('0', Width);
+                        text = context.Record.Mfn.ToString
+                            (
+                                format,
+                                CultureInfo.InvariantCulture
+                            );
+                    }
 
                     context.Write
                         (
@@ -144,7 +174,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             writer.Write("mfn");
-            if (Width > 0)
+            if (Width > 0
+                && Width != DefaultWidth)
             {
                 writer.Write('(');
                 writer.Write(Width);
