@@ -200,6 +200,7 @@
     <Compile Include="AM\Runtime\PinnedStructure.cs" />
     <Compile Include="AM\Runtime\PrefixLength.cs" />
     <Compile Include="AM\Runtime\SerializationUtility.cs" />
+    <Compile Include="AM\Runtime\Singleton.cs" />
     <Compile Include="AM\Text\Hyphenation\EnglishHyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\Hyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\RussianHyphenator.cs" />
