@@ -127,6 +127,7 @@
     <Compile Include="AM\Collections\NonNullCollection.cs" />
     <Compile Include="AM\Collections\Pair.cs" />
     <Compile Include="AM\Collections\Quartet.cs" />
+    <Compile Include="AM\Collections\Set.cs" />
     <Compile Include="AM\Collections\StringDictionary.cs" />
     <Compile Include="AM\Collections\TreeNode.cs" />
     <Compile Include="AM\Collections\Triplet.cs" />
