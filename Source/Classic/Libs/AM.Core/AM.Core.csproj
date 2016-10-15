@@ -240,6 +240,8 @@
     <Compile Include="AM\Threading\Tasks\TaskFactoryUtility.cs" />
     <Compile Include="AM\Threading\Tasks\TaskProcessor.cs" />
     <Compile Include="AM\Threading\Tasks\TaskUtility.cs" />
+    <Compile Include="AM\Threading\ThreadMethod.cs" />
+    <Compile Include="AM\Threading\ThreadRunner.cs" />
     <Compile Include="AM\TimeSpanUtility.cs" />
     <Compile Include="AM\TriState.cs" />
     <Compile Include="Compatibility\TypeInfo.cs" />
