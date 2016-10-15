@@ -103,6 +103,8 @@
   <ItemGroup>
     <Compile Include="AM\Caching\MemoryCacheTest.cs" />
     <Compile Include="AM\Caching\FileCacheTest.cs" />
+    <Compile Include="AM\Collections\CloneableCollectionTest.cs" />
+    <Compile Include="AM\Collections\CloneableDictionaryTest.cs" />
     <Compile Include="AM\Collections\KeyedCollectionTest.cs" />
     <Compile Include="AM\Collections\NonNullCollectionTest.cs" />
     <Compile Include="AM\Collections\CharSetTest.cs" />
