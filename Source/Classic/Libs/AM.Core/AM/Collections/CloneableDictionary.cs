@@ -28,10 +28,14 @@ namespace AM.Collections
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Count={Count}")]
+#endif
     public class CloneableDictionary<TKey, TValue>
-        : Dictionary<TKey, TValue>,
-          ICloneable
+        : Dictionary<TKey, TValue>
+#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81
+        , ICloneable
+#endif
     {
         #region ICloneable members
 
