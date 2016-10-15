@@ -1,4 +1,4 @@
-﻿/* System.cs -- temporary solution for .NET Core compability
+﻿/* System.cs -- temporary solution for .NET Core compatibility
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -10,6 +10,8 @@ using System;
 
 namespace System
 {
+    public delegate TOutput Converter<in TInput, out TOutput> (TInput input);
+
     ///// <summary>
     ///// 
     ///// </summary>
