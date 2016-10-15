@@ -115,6 +115,7 @@
     <Compile Include="AM\Collections\DisposableCollectionTest.cs" />
     <Compile Include="AM\Collections\ListUtilityTest.cs" />
     <Compile Include="AM\Collections\DictionaryListTest.cs" />
+    <Compile Include="AM\Collections\TreeNodeTest.cs" />
     <Compile Include="AM\Collections\XRangeTest.cs" />
     <Compile Include="AM\CommandLine\CommandLineParserTest.cs" />
     <Compile Include="AM\CommandLine\CommandLineSettingsTest.cs" />
