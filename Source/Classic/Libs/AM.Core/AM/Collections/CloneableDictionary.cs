@@ -4,7 +4,7 @@
  * Status: poor
  */
 
-#if !CLASSIC
+#if CLASSIC
 
 #region Using directives
 
