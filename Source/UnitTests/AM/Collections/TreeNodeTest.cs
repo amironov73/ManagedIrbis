@@ -14,7 +14,7 @@ namespace UnitTests.AM.Collections
         {
             TreeNode<char> node = new TreeNode<char>('a');
             Assert.IsNotNull(node.Children);
-            Assert.AreEqual(0, node.Children);
+            Assert.AreEqual(0, node.Children.Count);
             Assert.AreEqual('a', node.Value);
         }
 
