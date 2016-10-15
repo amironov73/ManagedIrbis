@@ -4,6 +4,8 @@
  * Status: poor
  */
 
+#if !CLASSIC
+
 #region Using directives
 
 using System;
@@ -28,14 +30,10 @@ namespace AM.Collections
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Count={Count}")]
-#endif
     public class CloneableDictionary<TKey, TValue>
-        : Dictionary<TKey, TValue>
-#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81
-        , ICloneable
-#endif
+        : Dictionary<TKey, TValue>,
+        ICloneable
     {
         #region ICloneable members
 
@@ -94,3 +92,6 @@ namespace AM.Collections
         #endregion
     }
 }
+
+#endif
+
