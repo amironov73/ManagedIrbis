@@ -47,11 +47,13 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private TextNavigator _navigator;
 
+        // ReSharper disable once InconsistentNaming
         private static char[] Integer =
             {
                 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
             };
 
+        // ReSharper disable once InconsistentNaming
         private static char[] Identifier =
             {
                 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
@@ -155,6 +157,103 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
                 result.Append(c);
                 ReadChar();
+            }
+
+            return result.ToString();
+        }
+
+        [CanBeNull]
+        private string ReadFloat()
+        {
+            StringBuilder result = new StringBuilder();
+
+            bool dotFound = false;
+            bool digitFound = false;
+
+            char c = PeekChar();
+            if (c != '+'
+                && c != '-'
+                && c != '.'
+                && !c.IsArabicDigit())
+            {
+                return null;
+            }
+            if (c == '.')
+            {
+                dotFound = true;
+            }
+            if (c.IsArabicDigit())
+            {
+                digitFound = true;
+            }
+            result.Append(c);
+            ReadChar();
+
+            while (true)
+            {
+                c = PeekChar();
+                if (!c.IsArabicDigit())
+                {
+                    break;
+                }
+                digitFound = true;
+                result.Append(c);
+                ReadChar();
+            }
+
+            if (!dotFound && c == '.')
+            {
+                result.Append(c);
+                ReadChar();
+
+                while (true)
+                {
+                    c = PeekChar();
+                    if (!c.IsArabicDigit())
+                    {
+                        break;
+                    }
+                    digitFound = true;
+                    result.Append(c);
+                    ReadChar();
+                }
+            }
+
+            if (!digitFound)
+            {
+                throw new PftSyntaxException(_navigator);
+            }
+
+            if (c == 'E' || c == 'e')
+            {
+                result.Append(c);
+                ReadChar();
+                digitFound = false;
+                c = PeekChar();
+
+                if (c == '+' || c == '-')
+                {
+                    result.Append(c);
+                    ReadChar();
+                    c = PeekChar();
+                }
+
+                while (true)
+                {
+                    c = PeekChar();
+                    if (!c.IsArabicDigit())
+                    {
+                        break;
+                    }
+                    digitFound = true;
+                    result.Append(c);
+                    ReadChar();
+                }
+
+                if (!digitFound)
+                {
+                    throw new PftSyntaxException(_navigator);
+                }
             }
 
             return result.ToString();
@@ -316,8 +415,16 @@ namespace ManagedIrbis.Pft.Infrastructure
                         break;
 
                     case '-':
-                        kind = PftTokenKind.Minus;
-                        value = c.ToString();
+                        if (IsInteger(PeekChar()))
+                        {
+                            kind = PftTokenKind.Number;
+                            value = c + ReadFloat();
+                        }
+                        else
+                        {
+                            kind = PftTokenKind.Minus;
+                            value = c.ToString();
+                        }
                         break;
 
                     case '*':
@@ -591,7 +698,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                     case '8':
                     case '9':
                         _navigator.Move(-1);
-                        value = _navigator.ReadInteger();
+                        value = ReadFloat();
+                        kind = PftTokenKind.Number;
                         break;
 
                     default:

@@ -279,6 +279,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftUnifor.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftVal.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftX.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Dispatch.cs" />
     <Compile Include="Source\Pft\Infrastructure\Environment\PftConnectedEnvironment.cs" />
     <Compile Include="Source\Pft\Infrastructure\Environment\PftEnvironmentAbstraction.cs" />
     <Compile Include="Source\Pft\Infrastructure\Environment\PftLocalEnvironment.cs" />
@@ -307,6 +308,7 @@
     <Compile Include="Source\Pft\Infrastructure\PftTokenList.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftVariable.cs" />
     <Compile Include="Source\Pft\Infrastructure\Testing\PftTestResult.cs" />
+    <Compile Include="Source\Pft\Infrastructure\TokenDispatcher.cs" />
     <Compile Include="Source\Pft\Infrastructure\Umarci.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifor.cs" />
     <Compile Include="Source\Pft\PftException.cs" />
