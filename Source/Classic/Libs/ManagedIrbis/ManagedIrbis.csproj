@@ -255,6 +255,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftConditionNot.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftConditionParenthesis.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftD.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftF.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftFunctionCall.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNl.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNumeric.cs" />
@@ -276,6 +277,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftSlash.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftUnconditionalLiteral.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftUnifor.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftVal.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftX.cs" />
     <Compile Include="Source\Pft\Infrastructure\Environment\PftConnectedEnvironment.cs" />
     <Compile Include="Source\Pft\Infrastructure\Environment\PftEnvironmentAbstraction.cs" />

@@ -8,8 +8,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using CodeJam;
@@ -86,7 +88,43 @@ namespace ManagedIrbis.Pft
             return result;
         }
 
+        /// <summary>
+        /// Extract numeric value from the input text.
+        /// </summary>
+        public static double ExtractNumericValue
+            (
+                [CanBeNull] string input
+            )
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                return 0.0;
+            }
 
+            Match match = Regex.Match
+                (
+                    input,
+                    "[-]?[0-9]*[\\.]?[0-9]*"
+                );
+            if (!match.Success)
+            {
+                return 0.0;
+            }
+            string value = match.Value;
+            double result;
+            double.TryParse
+                (
+                    value,
+                    NumberStyles.AllowDecimalPoint
+                    | NumberStyles.AllowLeadingSign
+                    | NumberStyles.AllowExponent
+                    | NumberStyles.Float,
+                    CultureInfo.InvariantCulture,
+                    out result
+                );
+
+            return result;
+        }
 
         /// <summary>
         /// Format for data mode.
@@ -220,6 +258,55 @@ namespace ManagedIrbis.Pft
             return result;
         }
 
+        /// <summary>
+        /// Format value like function f does.
+        /// </summary>
+        public static string FormatLikeF
+            (
+                double value,
+                int arg2,
+                int arg3
+            )
+        {
+            int minLength = 1;
+            if (arg2 < 0)
+            {
+                if (arg3 < 0)
+                {
+                    minLength = 16;
+                }
+            }
+            else
+            {
+                minLength = arg2;
+            }
+
+
+            bool useE = true;
+            int decimalPoints = 0;
+            if (arg3 >= 0)
+            {
+                useE = false;
+                decimalPoints = arg3;
+            }
+
+            string format = useE
+                ? string.Format("E{0}", minLength)
+                : string.Format("F{0}", decimalPoints);
+
+            string result = value.ToString
+                (
+                    format,
+                    CultureInfo.InvariantCulture
+                )
+                .PadLeft
+                (
+                    arg2,
+                    ' '
+                );
+
+            return result;
+        }
 
         #endregion
     }
