@@ -113,10 +113,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public PftGlobalManager Globals { get; private set; }
 
-        ///// <summary>
-        ///// Нормальные переменные.
-        ///// </summary>
-        //public PftVariableManager Variables { get; set; }
+        /// <summary>
+        /// Нормальные переменные.
+        /// </summary>
+        public PftVariableManager Variables { get; private set; }
 
         /// <summary>
         /// Функции, зарегистрированные в данном контексте.
@@ -148,8 +148,9 @@ namespace ManagedIrbis.Pft.Infrastructure
                 ? new PftGlobalManager()
                 : parent.Globals;
 
-            //// Переменные в каждом контексте свои
-            //Variables = new PftVariableManager();
+            Variables = (parent == null)
+                ? new PftVariableManager(null)
+                : parent.Variables;
 
             //// Процедуры в каждом контексте свои
             //Procedures = new PftProcedureManager();

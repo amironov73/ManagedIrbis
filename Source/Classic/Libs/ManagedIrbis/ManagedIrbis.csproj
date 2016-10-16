@@ -242,6 +242,7 @@
     <Compile Include="Source\Menus\MenuSort.cs" />
     <Compile Include="Source\Pft\FormatError.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftA.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftAssignment.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftBoolean.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftBreak.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftC.cs" />
@@ -278,6 +279,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftUnconditionalLiteral.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftUnifor.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftVal.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftVariableReference.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftX.cs" />
     <Compile Include="Source\Pft\Infrastructure\Dispatch.cs" />
     <Compile Include="Source\Pft\Infrastructure\Environment\PftConnectedEnvironment.cs" />
