@@ -122,10 +122,22 @@
     <Compile Include="AM\Suggestions\SuggestingTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="AM\Suggestions\TodayControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AM\Suggestions\TodayControl.Designer.cs">
+      <DependentUpon>TodayControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Suggestions\TodayEditor.cs" />
+    <Compile Include="AM\Suggestions\TodaySuggester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="AM\Suggestions\TodayControl.resx">
+      <DependentUpon>TodayControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AM.Core\AM.Core.csproj">
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
