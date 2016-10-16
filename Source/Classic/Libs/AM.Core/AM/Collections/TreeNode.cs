@@ -1,4 +1,4 @@
-﻿/* TreeNode.cs --
+﻿/* TreeNode.cs -- generic tree node
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor

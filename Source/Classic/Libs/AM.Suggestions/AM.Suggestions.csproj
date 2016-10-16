@@ -115,6 +115,10 @@
   <ItemGroup>
     <Compile Include="AM\Suggestions\DaDataModel.cs" />
     <Compile Include="AM\Suggestions\DaDataSuggestionClient.cs" />
+    <Compile Include="AM\Suggestions\ISuggester.cs" />
+    <Compile Include="AM\Suggestions\StandardSuggester.cs" />
+    <Compile Include="AM\Suggestions\SuggestAttribute.cs" />
+    <Compile Include="AM\Suggestions\SuggesterTypeConverter.cs" />
     <Compile Include="AM\Suggestions\SuggestingTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
