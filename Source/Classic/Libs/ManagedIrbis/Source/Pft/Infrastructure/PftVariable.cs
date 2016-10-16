@@ -1,4 +1,4 @@
-﻿/* PftException.cs --
+﻿/* PftVariable.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -121,6 +122,31 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.Append(Name);
+            result.Append(": ");
+            if (IsNumeric)
+            {
+                result.Append(NumericValue);
+            }
+            else
+            {
+                result.Append("\"");
+                result.Append(StringValue);
+                result.Append("\"");
+            }
+
+            return result.ToString();
+        }
 
         #endregion
     }

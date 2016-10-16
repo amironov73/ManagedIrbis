@@ -11,17 +11,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AM.Collections;
+
 using CodeJam;
 
 using JetBrains.Annotations;
-using ManagedIrbis.Pft.Infrastructure.Ast;
+
 using MoonSharp.Interpreter;
 
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure
 {
+    using Ast;
+
     static class Dispatch
     {
         #region Properties
@@ -59,9 +61,9 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         static Dispatch()
         {
-            MainMap = new CloneableDictionary<PftTokenKind, TokenDispatcher>();
-            FieldMap = new CloneableDictionary<PftTokenKind, TokenDispatcher>();
-            NumericMap = new CloneableDictionary<PftTokenKind, TokenDispatcher>();
+            MainMap = new Dictionary<PftTokenKind, TokenDispatcher>();
+            FieldMap = new Dictionary<PftTokenKind, TokenDispatcher>();
+            NumericMap = new Dictionary<PftTokenKind, TokenDispatcher>();
         }
 
         #endregion
@@ -75,13 +77,13 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
-
         private static PftNode ParseC(PftTokenList tokenList)
         {
             PftNode result = new PftC(tokenList.Current);
             tokenList.MoveNext();
             return result;
         }
+
         private static PftNode ParseComma(PftTokenList tokenList)
         {
             PftNode result = new PftComma(tokenList.Current);

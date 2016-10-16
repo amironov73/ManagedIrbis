@@ -300,6 +300,7 @@
     <Compile Include="Source\Pft\Infrastructure\PftProgram.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftOutput.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.cs" />
+    <Compile Include="Source\Pft\Infrastructure\PftVariableManager.cs" />
     <Compile Include="Source\Pft\Infrastructure\StandardFunctions.cs" />
     <Compile Include="Source\Pft\Infrastructure\Testing\PftTest.cs" />
     <Compile Include="Source\Pft\Infrastructure\Testing\PftTester.cs" />
