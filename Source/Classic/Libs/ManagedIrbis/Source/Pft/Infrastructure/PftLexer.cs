@@ -363,6 +363,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                         value = c.ToString();
                         break;
 
+                    case ';':
+                        kind = PftTokenKind.Semicolon;
+                        break;
+
                     case ',':
                         kind = PftTokenKind.Comma;
                         break;

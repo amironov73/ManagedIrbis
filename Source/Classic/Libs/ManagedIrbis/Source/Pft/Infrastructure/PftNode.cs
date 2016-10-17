@@ -103,6 +103,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             (
                 [NotNull] PftToken token
             )
+            : this()
         {
             Code.NotNull(token, "token");
 

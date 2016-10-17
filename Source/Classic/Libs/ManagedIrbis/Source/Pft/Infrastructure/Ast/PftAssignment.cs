@@ -8,10 +8,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -93,7 +94,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            
+            string value = context.Evaluate(Children);
+            context.Variables.SetVariable
+                (
+                    Name.ThrowIfNull("name"),
+                    value
+                );
 
             OnAfterExecution(context);
         }

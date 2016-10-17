@@ -1,0 +1,2 @@
+﻿$value=v200^a,' =>'(if &uf('+90')='5' then break fi ' ' v692^b ' : ' v692^g nl);
+$value

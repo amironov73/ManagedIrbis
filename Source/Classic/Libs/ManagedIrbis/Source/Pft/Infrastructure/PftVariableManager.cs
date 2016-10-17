@@ -100,10 +100,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
-        /// Get variable with the specified name.
+        /// Get existing variable with the specified name.
         /// </summary>
         [CanBeNull]
-        public PftVariable GetVariable
+        public PftVariable GetExistingVariable
             (
                 [NotNull] string name
             )
@@ -125,6 +125,67 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             return result;
         }
+
+        /// <summary>
+        /// Get existing or create new variable with given name.
+        /// </summary>
+        [NotNull]
+        public PftVariable GetOrCreateVariable
+            (
+                [NotNull] string name,
+                bool isNumeric
+            )
+        {
+            Code.NotNullNorEmpty(name, "name");
+
+            PftVariable result = GetExistingVariable(name);
+            if (ReferenceEquals(result, null))
+            {
+                result = new PftVariable(name, isNumeric);
+                Registry.Add(name, result);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Set the variable value.
+        /// </summary>
+        [NotNull]
+        public PftVariable SetVariable
+            (
+                [NotNull] string name,
+                [CanBeNull] string value
+            )
+        {
+            Code.NotNullNorEmpty(name, "name");
+
+            PftVariable result = GetOrCreateVariable(name, false);
+            result.IsNumeric = false;
+            result.StringValue = value;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Set the variable value.
+        /// </summary>
+        [NotNull]
+        public PftVariable SetVariable
+            (
+                [NotNull] string name,
+                [CanBeNull] double value
+            )
+        {
+            Code.NotNullNorEmpty(name, "name");
+
+            PftVariable result = GetOrCreateVariable(name, true);
+            result.IsNumeric = true;
+            result.NumericValue = value;
+
+            return result;
+        }
+
 
         #endregion
     }

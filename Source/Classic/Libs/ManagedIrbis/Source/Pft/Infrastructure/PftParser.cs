@@ -68,6 +68,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Private members
 
+        //================================================================
+        // Service variables
+        //================================================================
+
+        private bool inAssignment = false;
+
         #region Useful routines
 
         //================================================================
@@ -100,6 +106,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.UnconditionalLiteral, ParseUnconditionalLiteral},
                 {PftTokenKind.Unifor, ParseUnifor},
                 {PftTokenKind.V,ParseField},
+                {PftTokenKind.Variable, ParseVariable},
                 {PftTokenKind.X, ParseX}
             };
 
@@ -361,6 +368,46 @@ namespace ManagedIrbis.Pft.Infrastructure
         //================================================================
         // Other routines
         //================================================================
+
+        private PftNode ParseVariable(PftToken token)
+        {
+            if (Tokens.Peek() == PftTokenKind.Equals)
+            {
+                if (inAssignment)
+                {
+                    throw new PftSyntaxException("nested assignment");
+                }
+
+                try
+                {
+                    inAssignment = true;
+
+                    PftAssignment result = new PftAssignment(token);
+                    Tokens.RequireNext(PftTokenKind.Equals);
+                    Tokens.RequireNext();
+                    while (!Tokens.IsEof)
+                    {
+                        token = Tokens.Current;
+                        if (token.Kind == PftTokenKind.Semicolon)
+                        {
+                            Tokens.MoveNext();
+                            break;
+                        }
+                        //PftNode node = ParseSimple();
+                        PftNode node = ParseComposite();
+                        result.Children.Add(node);
+                    }
+
+                    return result;
+                }
+                finally
+                {
+                    inAssignment = false;
+                }
+            }
+
+            return Move(new PftVariableReference(token));
+        }
 
         private PftNode ParseGroup(PftToken token)
         {
@@ -642,6 +689,10 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private PftNode ParseComposite()
         {
+            if (Tokens.Current.Kind == PftTokenKind.Variable)
+            {
+                return ParseVariable(Tokens.Current);
+            }
             if (Tokens.Current.Kind == PftTokenKind.LeftParenthesis)
             {
                 return ParseGroup(Tokens.Current);

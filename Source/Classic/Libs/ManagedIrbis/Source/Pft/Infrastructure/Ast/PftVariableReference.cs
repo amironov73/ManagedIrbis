@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -94,7 +94,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            
+            string name = Name.ThrowIfNull("name");
+            PftVariable variable
+                = context.Variables.GetExistingVariable(name);
+            if (ReferenceEquals(variable, null))
+            {
+                throw new PftSemanticException
+                    (
+                        "unknown variable: " + name
+                    );
+            }
+            if (variable.IsNumeric)
+            {
+                context.Write(this, variable.NumericValue.ToString());
+            }
+            else
+            {
+                context.Write(this, variable.StringValue);
+            }
 
             OnAfterExecution(context);
         }
