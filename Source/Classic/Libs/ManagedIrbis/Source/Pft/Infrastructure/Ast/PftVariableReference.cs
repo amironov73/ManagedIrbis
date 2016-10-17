@@ -30,7 +30,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftVariableReference
-        : PftNode
+        : PftNumeric
     {
         #region Properties
 
@@ -109,8 +109,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         "unknown variable: " + name
                     );
             }
-            if (!variable.IsNumeric)
+            if (variable.IsNumeric)
             {
+                Value = variable.NumericValue;
                 context.Write(this, variable.NumericValue.ToString());
             }
             else

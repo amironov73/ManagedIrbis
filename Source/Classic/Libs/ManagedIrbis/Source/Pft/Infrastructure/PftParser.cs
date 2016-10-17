@@ -86,10 +86,19 @@ namespace ManagedIrbis.Pft.Infrastructure
         private static PftTokenKind[] NumericTokens =
         {
             PftTokenKind.Number, PftTokenKind.Val, PftTokenKind.Rsum,
-            PftTokenKind.Ravr, PftTokenKind.Rmax, PftTokenKind.Rmin
+            PftTokenKind.Ravr, PftTokenKind.Rmax, PftTokenKind.Rmin,
+            PftTokenKind.Mfn, PftTokenKind.Variable
         };
 
-        private static PftTokenKind[] NumericLimiterTokens =
+        private static PftTokenKind[] NumericGoodies =
+        {
+            PftTokenKind.Number, PftTokenKind.Val, PftTokenKind.Rsum,
+            PftTokenKind.Ravr, PftTokenKind.Rmax, PftTokenKind.Rmin,
+            PftTokenKind.Mfn, PftTokenKind.Plus, PftTokenKind.Minus,
+            PftTokenKind.Star, PftTokenKind.Div,
+        };
+
+        private static PftTokenKind[] NumericLimiter =
         {
             PftTokenKind.Semicolon
         };
@@ -201,6 +210,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             NumericMap = new Dictionary<PftTokenKind, Func<PftNode>>
             {
+                {PftTokenKind.Mfn,ParseMfn},
                 {PftTokenKind.Number, ParseNumber},
                 {PftTokenKind.Rsum, ParseRsum},
                 {PftTokenKind.Rmax, ParseRsum},
@@ -300,7 +310,29 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private PftNumeric ParseArithmetic()
         {
-            return (PftNumeric) Get(NumericMap, NumericTokens);
+            PftNumeric result = (PftNumeric)Get(NumericMap, NumericTokens);
+
+            if (!Tokens.IsEof)
+            {
+                PftTokenKind kind = Tokens.Current.Kind;
+                if (kind == PftTokenKind.Plus
+                    || kind == PftTokenKind.Minus
+                    || kind == PftTokenKind.Star
+                    || kind == PftTokenKind.Div
+                    )
+                {
+                    PftNumericExpression expression = new PftNumericExpression
+                    {
+                        LeftOperand = result
+                    };
+                    expression.Operation = Tokens.Current.Text;
+                    Tokens.RequireNext();
+                    expression.RightOperand = ParseArithmetic();
+                    result = expression;
+                }
+            }
+
+            return result;
         }
 
         private PftNode ParseBreak()
@@ -908,15 +940,31 @@ namespace ManagedIrbis.Pft.Infrastructure
                     Tokens.RequireNext(PftTokenKind.Equals);
                     Tokens.RequireNext();
 
-                    while (!Tokens.IsEof)
+                    if (LookFor(NumericGoodies, NumericLimiter))
                     {
-                        if (Tokens.Current.Kind == PftTokenKind.Semicolon)
+                        while (!Tokens.IsEof)
                         {
-                            Tokens.MoveNext();
-                            break;
+                            if (Tokens.Current.Kind == PftTokenKind.Semicolon)
+                            {
+                                Tokens.MoveNext();
+                                break;
+                            }
+                            PftNode node = ParseArithmetic();
+                            result.Children.Add(node);
                         }
-                        PftNode node = ParseComposite();
-                        result.Children.Add(node);
+                    }
+                    else
+                    {
+                        while (!Tokens.IsEof)
+                        {
+                            if (Tokens.Current.Kind == PftTokenKind.Semicolon)
+                            {
+                                Tokens.MoveNext();
+                                break;
+                            }
+                            PftNode node = ParseComposite();
+                            result.Children.Add(node);
+                        }
                     }
 
                     return result;

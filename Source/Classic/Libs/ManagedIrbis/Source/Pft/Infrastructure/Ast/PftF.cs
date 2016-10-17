@@ -160,20 +160,26 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            Argument1.Execute(context);
+            PftContext clone = context.Push();
+            Argument1.Execute(clone);
+            context.Pop();
             double value = Argument1.Value;
 
             int minWidth = -1;
             if (!ReferenceEquals(Argument2, null))
             {
-                Argument2.Execute(context);
+                clone = context.Push();
+                Argument2.Execute(clone);
+                context.Pop();
                 minWidth = (int) Argument2.Value;
             }
 
             int decimalPoints = -1;
             if (!ReferenceEquals(Argument3, null))
             {
-                Argument3.Execute(context);
+                clone = context.Push();
+                Argument3.Execute(clone);
+                context.Pop();
                 decimalPoints = (int) Argument3.Value;
             }
 
