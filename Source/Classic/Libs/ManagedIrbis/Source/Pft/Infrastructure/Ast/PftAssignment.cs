@@ -96,8 +96,29 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             string name = Name.ThrowIfNull("name");
             string stringValue = context.Evaluate(Children);
+            bool isNumeric = false;
             if (Children.Count != 0
                 && Children[0] is PftNumeric)
+            {
+                if (Children[0] is PftVariableReference)
+                {
+                    PftVariableReference variableReference
+                        = (PftVariableReference) Children[0];
+                    PftVariable variable
+                        = context.Variables.GetExistingVariable
+                        (
+                            variableReference.Name.ThrowIfNull()
+                        )
+                        .ThrowIfNull();
+                    isNumeric = variable.IsNumeric;
+                }
+                else
+                {
+                    isNumeric = true;
+                }
+            }
+
+            if (isNumeric)
             {
                 PftNumeric numeric = Children[0] as PftNumeric;
                 double numericValue = numeric.Value;
