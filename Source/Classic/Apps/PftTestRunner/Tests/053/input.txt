@@ -1,0 +1,4 @@
+﻿$value='first';
+$value=$value', second';
+$value=$value', third';
+$value

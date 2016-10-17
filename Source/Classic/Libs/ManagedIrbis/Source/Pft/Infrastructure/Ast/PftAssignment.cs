@@ -94,12 +94,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            string value = context.Evaluate(Children);
-            context.Variables.SetVariable
-                (
-                    Name.ThrowIfNull("name"),
-                    value
-                );
+            string name = Name.ThrowIfNull("name");
+            string stringValue = context.Evaluate(Children);
+            if (Children.Count != 0
+                && Children[0] is PftNumeric)
+            {
+                PftNumeric numeric = Children[0] as PftNumeric;
+                double numericValue = numeric.Value;
+                context.Variables.SetVariable
+                    (
+                        name,
+                        numericValue
+                    );
+            }
+            else
+            {
+                context.Variables.SetVariable
+                    (
+                        name,
+                        stringValue
+                    );
+            }
 
             OnAfterExecution(context);
         }

@@ -71,6 +71,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
             : base(token)
         {
+            Code.NotNull(token, "token");
+            token.MustBe(PftTokenKind.Variable);
+
             Name = token.Text;
         }
 

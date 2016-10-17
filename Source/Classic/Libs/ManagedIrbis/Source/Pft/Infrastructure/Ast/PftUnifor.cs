@@ -16,13 +16,11 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Pft.Infrastructure;
-
 using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedIrbis.Source.Pft.Infrastructure.Ast
+namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
     /// Unifor.

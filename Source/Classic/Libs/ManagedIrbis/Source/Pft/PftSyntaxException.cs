@@ -61,6 +61,17 @@ namespace ManagedIrbis.Pft
         /// </summary>
         public PftSyntaxException
             (
+                [NotNull] PftTokenList tokenList
+            )
+            : this ("Unexpected end of file" )
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftSyntaxException
+            (
                 string message,
                 Exception innerException
             )
