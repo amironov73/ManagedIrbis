@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -63,6 +63,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
             : base(token)
         {
+            Value = double.Parse(token.Text.ThrowIfNull("token.Text"));
         }
 
         #endregion
@@ -84,8 +85,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             OnBeforeExecution(context);
-
-            base.Execute(context);
 
             OnAfterExecution(context);
         }

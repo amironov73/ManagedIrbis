@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -187,6 +188,50 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             // Doesn't touch context.OutputFlag
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc/>
+        public override void PrintDebug
+            (
+                TextWriter writer,
+                int level
+            )
+        {
+            for (int i = 0; i < level; i++)
+            {
+                writer.Write("| ");
+            }
+            writer.WriteLine("F: ");
+
+            if (!ReferenceEquals(Argument1, null))
+            {
+                for (int i = 0; i <= level; i++)
+                {
+                    writer.Write("| ");
+                }
+                writer.WriteLine("Argument1: ");
+                Argument1.PrintDebug(writer, level + 2);
+            }
+
+            if (!ReferenceEquals(Argument2, null))
+            {
+                for (int i = 0; i <= level; i++)
+                {
+                    writer.Write("| ");
+                }
+                writer.WriteLine("Argument2: ");
+                Argument2.PrintDebug(writer, level + 2);
+            }
+
+            if (!ReferenceEquals(Argument3, null))
+            {
+                for (int i = 0; i <= level; i++)
+                {
+                    writer.Write("| ");
+                }
+                writer.WriteLine("Argument3: ");
+                Argument3.PrintDebug(writer, level + 2);
+            }
         }
 
         #endregion

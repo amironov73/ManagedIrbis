@@ -9,6 +9,8 @@
 using System.Threading;
 using System.Windows.Forms;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -33,6 +35,28 @@ namespace AM.Windows.Forms
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Find focused control.
+        /// </summary>
+        /// <remarks>Borrowed from StackOverflow:
+        /// http://stackoverflow.com/questions/435433/what-is-the-preferred-way-to-find-focused-control-in-winforms-app
+        /// </remarks>
+        [CanBeNull]
+        public static Control FindFocusedControl
+            (
+                [CanBeNull] this Control control
+            )
+        {
+            var container = control as IContainerControl;
+            while (container != null)
+            {
+                control = container.ActiveControl;
+                container = control as IContainerControl;
+            }
+
+            return control;
+        }
 
         /// <summary>
         /// Invoke specified <paramref name="action"/>

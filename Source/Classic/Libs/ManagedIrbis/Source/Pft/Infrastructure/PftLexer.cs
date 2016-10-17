@@ -731,6 +731,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 kind = PftTokenKind.Chr;
                                 break;
 
+                            case "div":
+                                kind = PftTokenKind.Div;
+                                value = "div";
+                                break;
+
                             case "else":
                                 kind = PftTokenKind.Else;
                                 break;

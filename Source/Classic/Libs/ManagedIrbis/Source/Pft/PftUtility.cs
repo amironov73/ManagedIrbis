@@ -110,6 +110,7 @@ namespace ManagedIrbis.Pft
             {
                 return 0.0;
             }
+
             string value = match.Value;
             double result;
             double.TryParse
@@ -124,6 +125,46 @@ namespace ManagedIrbis.Pft
                 );
 
             return result;
+        }
+
+        /// <summary>
+        /// Extract numeric values from the input text.
+        /// </summary>
+        public static double[] ExtractNumericValues
+            (
+                [CanBeNull] string input
+            )
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                return new double[0];
+            }
+
+            List<double> result = new List<double>();
+            MatchCollection matches = Regex.Matches
+                (
+                    input,
+                    "[-]?[0-9]*[\\.]?[0-9]*"
+                );
+            foreach (Match match in matches)
+            {
+                double value;
+                if (double.TryParse
+                    (
+                        match.Value,
+                        NumberStyles.AllowDecimalPoint
+                        | NumberStyles.AllowLeadingSign
+                        | NumberStyles.AllowExponent
+                        | NumberStyles.Float,
+                        CultureInfo.InvariantCulture,
+                        out value
+                    ))
+                {
+                    result.Add(value);
+                }
+            }
+
+            return result.ToArray();
         }
 
         /// <summary>
@@ -301,7 +342,7 @@ namespace ManagedIrbis.Pft
                 )
                 .PadLeft
                 (
-                    arg2,
+                    minLength,
                     ' '
                 );
 

@@ -72,6 +72,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         ConditionalLiteral,
 
         /// <summary>
+        /// div
+        /// </summary>
+        Div,
+
+        /// <summary>
         /// else
         /// </summary>
         Else,

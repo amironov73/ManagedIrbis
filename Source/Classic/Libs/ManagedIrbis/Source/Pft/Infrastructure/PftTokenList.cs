@@ -131,6 +131,24 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// Peek token at arbitrary position.
+        /// </summary>
+        public PftTokenKind Peek
+            (
+                int delta
+            )
+        {
+            int newPosition = _position + delta;
+            if (newPosition < 0
+                || newPosition >= _tokens.Length)
+            {
+                return PftTokenKind.None;
+            }
+
+            return _tokens[newPosition].Kind;
+        }
+
+        /// <summary>
         /// Require next token.
         /// </summary>
         public PftTokenList RequireNext()

@@ -11,7 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -107,7 +109,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         "unknown variable: " + name
                     );
             }
-            if (variable.IsNumeric)
+            if (!variable.IsNumeric)
             {
                 context.Write(this, variable.NumericValue.ToString());
             }
