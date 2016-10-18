@@ -149,6 +149,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Code.NotNull(tokens, "tokens");
             Tokens = tokens;
 
+            procedures = new PftProcedureManager();
             CreateTokenMap();
         }
 
@@ -161,6 +162,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         //================================================================
 
         private bool inAssignment;
+
+        private PftProcedureManager procedures;
 
         private void CreateTokenMap()
         {
@@ -1005,6 +1008,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         public PftProgram Parse()
         {
             PftProgram result = ParseProgram();
+            result.Procedures = procedures;
 
             return result;
         }

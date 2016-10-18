@@ -12,6 +12,7 @@ cdrom
 Ceptor
 codec
 colorspace
+commandline
 comspec
 datai
 dbnflc
@@ -19,6 +20,7 @@ delflc
 Durden
 Feig
 fias
+getenv
 github
 Globalization
 gost
@@ -67,8 +69,10 @@ stopword
 subarray
 timestamp
 Tokenize
+tolower
 Topo
 Toub
+toupper
 Tranc
 transcode
 Transliterator

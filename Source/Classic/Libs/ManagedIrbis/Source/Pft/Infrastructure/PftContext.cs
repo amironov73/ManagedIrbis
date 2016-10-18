@@ -124,6 +124,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         [NotNull]
         public PftFunctionManager Functions { get; private set; }
 
+        /// <summary>
+        /// Процедуры, видимые из данного контекста.
+        /// </summary>
+        [NotNull]
+        public PftProcedureManager Procedures { get; internal set; }
+
         #endregion
 
         #region Construction

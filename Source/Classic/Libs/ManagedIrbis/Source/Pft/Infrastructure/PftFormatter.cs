@@ -156,10 +156,16 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Code.NotNull(record, "record");
 
+            if (ReferenceEquals(Program, null))
+            {
+                throw new PftException("Program was not set");
+            }
+
             Context.ClearAll();
             Context.Record = record;
+            Context.Procedures = Program.Procedures;
             Program.Execute(Context);
-            
+
             return Context.Text;
         }
 
@@ -184,7 +190,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region IDisposable members
 
-        /// <inhreritdoc/>
+        /// <inheritdoc/>
         public void Dispose()
         {
             // TODO Do something?

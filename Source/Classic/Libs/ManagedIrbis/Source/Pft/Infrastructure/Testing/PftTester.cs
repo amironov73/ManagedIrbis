@@ -168,7 +168,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            using (StreamWriter writer = new StreamWriter(fileName, false))
+            using (StreamWriter writer = new StreamWriter
+                (
+                    new FileStream
+                        (
+                            fileName,
+                            FileMode.Create,
+                            FileAccess.Write
+                        )
+                ))
             {
                 JArray array = JArray.FromObject(Results);
                 string text = array.ToString(Formatting.Indented);

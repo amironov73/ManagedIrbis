@@ -13,10 +13,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AM;
+using AM.Collections;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Ast;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -89,6 +90,17 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
+        private static void IOcc(PftContext context, PftNode node, string expression)
+        {
+            int index = context.Index;
+            if (!ReferenceEquals(context.CurrentGroup, null))
+            {
+                index++;
+            }
+            string text = index.ToInvariantString();
+            context.Write(node, text);
+        }
+
         private static void Italic(PftContext context, PftNode node, string expression)
         {
             if (!string.IsNullOrEmpty(expression))
@@ -102,6 +114,33 @@ namespace ManagedIrbis.Pft.Infrastructure
             context.Write(node, global::System.Environment.MachineName);
         }
 
+        private static void NOcc(PftContext context, PftNode node, string expression)
+        {
+            if (ReferenceEquals(context.CurrentGroup, null)
+                || ReferenceEquals(context.Record, null))
+            {
+                context.Write(node, "0");
+                return;
+            }
+
+            int result = 0;
+            var fields = context.CurrentGroup.GetDescendants<PftV>()
+                .Where(field => field.Command == 'v' || field.Command == 'V')
+                .ToArray();
+
+            foreach (PftV field in fields)
+            {
+                int count = context.Record.Fields.GetField(field.Tag).Length;
+                if (count > result)
+                {
+                    result = count;
+                }
+            }
+
+            string text = result.ToInvariantString();
+            context.Write(node, text);
+        }
+
         private static void Now(PftContext context, PftNode node, string expression)
         {
             DateTime now = DateTime.Today;
@@ -111,6 +150,16 @@ namespace ManagedIrbis.Pft.Infrastructure
                 : now.ToString(expression);
 
             context.Write(node, output);
+        }
+
+        private static void NPost(PftContext context, PftNode node, string expression)
+        {
+            FieldSpecification specification = new FieldSpecification();
+            specification.Parse(expression);
+            MarcRecord record = context.Record;
+            int count = record.Fields.GetField(specification.Tag).Length;
+            string text = count.ToInvariantString();
+            context.Write(node, text);
         }
 
         private static void OsVersion(PftContext context, PftNode node, string expression)
@@ -239,9 +288,12 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("error", Error);
             reg.Add("fatal", Fatal);
             reg.Add("getenv", GetEnv);
+            reg.Add("iocc", IOcc);
             reg.Add("italic", Italic);
             reg.Add("machinename", MachineName);
+            reg.Add("nocc", NOcc);
             reg.Add("now", Now);
+            reg.Add("npost", NPost);
             reg.Add("osversion", OsVersion);
             reg.Add("system", System);
             reg.Add("today", Today);

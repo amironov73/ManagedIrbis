@@ -299,6 +299,8 @@
     <Compile Include="Source\Pft\Infrastructure\PftDebugEventArgs.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftFieldOutputMode.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftFormatter.cs" />
+    <Compile Include="Source\Pft\Infrastructure\PftProcedure.cs" />
+    <Compile Include="Source\Pft\Infrastructure\PftProcedureManager.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftProgram.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftOutput.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.cs" />
