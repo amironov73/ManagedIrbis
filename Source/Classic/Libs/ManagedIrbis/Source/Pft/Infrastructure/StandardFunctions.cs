@@ -12,12 +12,16 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
 using AM.Collections;
+
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Ast;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -169,6 +173,15 @@ namespace ManagedIrbis.Pft.Infrastructure
 #endif
         }
 
+        private static void Size(PftContext context, PftNode node, string expression)
+        {
+            int size = string.IsNullOrEmpty(expression)
+                ? 0
+                : expression.Length;
+            string text = size.ToInvariantString();
+            context.Write(node, text);
+        }
+
         private static void System(PftContext context, PftNode node, string expression)
         {
             if (!string.IsNullOrEmpty(expression))
@@ -295,6 +308,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("now", Now);
             reg.Add("npost", NPost);
             reg.Add("osversion", OsVersion);
+            reg.Add("size", Size);
             reg.Add("system", System);
             reg.Add("today", Today);
             reg.Add("tolower", ToLower);
