@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AM;
+using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -91,50 +92,101 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 StartTime = DateTime.Now
             };
 
-            string descriptionFile = GetFullName("description.txt");
-            if (File.Exists(descriptionFile))
+            try
             {
-                string description = File.ReadAllText(descriptionFile);
-                result.Description = description;
+
+                string descriptionFile = GetFullName("description.txt");
+                if (File.Exists(descriptionFile))
+                {
+                    string description = File.ReadAllText(descriptionFile);
+                    result.Description = description;
+                }
+
+                string recordFile = GetFullName("record.txt");
+                MarcRecord record = PlainText.ReadOneRecord
+                    (
+                        recordFile,
+                        IrbisEncoding.Utf8
+                    )
+                    .ThrowIfNull("record");
+                //result.Record = record;
+
+                string pftFile = GetFullName("input.txt");
+                string input = File.ReadAllText
+                    (
+                        pftFile,
+                        IrbisEncoding.Utf8
+                    )
+                    .DosToUnix()
+                    .ThrowIfNull("input");
+                result.Input = input;
+
+                Console.WriteLine(input);
+                Console.WriteLine();
+
+                PftLexer lexer = new PftLexer();
+                PftTokenList tokenList = lexer.Tokenize(input);
+                StringWriter writer = new StringWriter();
+                tokenList.Dump(writer);
+                result.Tokens = writer.ToString()
+                    .DosToUnix()
+                    .ThrowIfNull("tokens");
+                Console.WriteLine(result.Tokens);
+                Console.WriteLine();
+
+                PftParser parser = new PftParser(tokenList);
+                PftProgram program = parser.Parse();
+                writer = new StringWriter();
+                program.PrintDebug(writer, 0);
+                result.Ast = writer.ToString()
+                    .DosToUnix()
+                    .ThrowIfNull("ast");
+                Console.WriteLine(result.Ast);
+                Console.WriteLine();
+
+                string expectedFile = GetFullName("expected.txt");
+                string expected = null;
+                if (File.Exists(expectedFile))
+                {
+                    expected= File.ReadAllText
+                        (
+                            expectedFile,
+                            IrbisEncoding.Utf8
+                        )
+                        .DosToUnix()
+                        .ThrowIfNull("expected");
+                    result.Expected = expected;
+                }
+
+                PftFormatter formatter = new PftFormatter
+                {
+                    Program = program
+                };
+                string output = formatter.Format(record)
+                    .DosToUnix()
+                    .ThrowIfNull("output");
+                result.Output = output;
+                Console.WriteLine(output);
+
+                if (expected != null)
+                {
+                    if (output != expected)
+                    {
+                        result.Failed = true;
+
+                        Console.WriteLine();
+                        Console.WriteLine("!!! FAILED !!!");
+                        Console.WriteLine();
+                        Console.WriteLine(expected);
+                        Console.WriteLine();
+                    }
+                }
             }
-
-            string recordFile = GetFullName("record.txt");
-            MarcRecord record = PlainText.ReadOneRecord
-                (
-                    recordFile,
-                    IrbisEncoding.Utf8
-                )
-                .ThrowIfNull("record");
-            result.Record = record;
-
-            string pftFile = GetFullName("input.txt");
-            string input = File.ReadAllText
-                (
-                    pftFile,
-                    IrbisEncoding.Utf8
-                );
-            result.Input = input;
-
-            Console.WriteLine(input);
-            Console.WriteLine();
-
-            PftLexer lexer = new PftLexer();
-            PftTokenList tokenList = lexer.Tokenize(input);
-            tokenList.Dump(Console.Out);
-            Console.WriteLine();
-            
-            PftParser parser = new PftParser(tokenList);
-            PftProgram program = parser.Parse();
-            program.PrintDebug(Console.Out,0);
-            Console.WriteLine();
-
-            PftFormatter formatter = new PftFormatter
+            catch (Exception exception)
             {
-                Program = program
-            };
-            string output = formatter.Format(record);
-            result.Output = output;
-            Console.WriteLine(output);
+                result.Failed = true;
+                result.Exception = exception.ToString();
+            }
 
             result.FinishTime = DateTime.Now;
             result.Duration = result.FinishTime - result.StartTime;

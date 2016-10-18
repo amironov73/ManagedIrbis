@@ -1,1 +1,1 @@
-﻿
+﻿Evaluating p() function inside group

@@ -1,1 +1,1 @@
-﻿
+﻿Complex condition with 'and'

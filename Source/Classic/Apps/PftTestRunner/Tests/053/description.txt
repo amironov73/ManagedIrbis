@@ -1,1 +1,1 @@
-﻿
+﻿Assign string variables with expressions

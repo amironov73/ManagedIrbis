@@ -1,1 +1,1 @@
-﻿
+﻿Field with subfield evaluation combined with offset and length specification

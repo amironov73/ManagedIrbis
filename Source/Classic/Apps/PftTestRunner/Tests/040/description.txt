@@ -1,1 +1,1 @@
-﻿
+﻿Simple condition with a() function

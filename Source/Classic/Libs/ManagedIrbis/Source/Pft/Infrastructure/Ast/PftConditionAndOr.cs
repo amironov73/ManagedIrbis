@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -127,6 +128,40 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Value = left;
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc/>
+        public override void PrintDebug
+            (
+                TextWriter writer,
+                int level
+            )
+        {
+            for (int i = 0; i < level; i++)
+            {
+                writer.Write("| ");
+            }
+            writer.WriteLine("ConditionAndOr: " + Operation);
+
+            for (int i = 0; i <= level; i++)
+            {
+                writer.Write("| ");
+            }
+            writer.WriteLine("Left:");
+            if (!ReferenceEquals(LeftOperand, null))
+            {
+                LeftOperand.PrintDebug(writer, level + 2);
+            }
+
+            for (int i = 0; i <= level; i++)
+            {
+                writer.Write("| ");
+            }
+            writer.WriteLine("Right:");
+            if (!ReferenceEquals(RightOperand, null))
+            {
+                RightOperand.PrintDebug(writer, level + 2);
+            }
         }
 
         #endregion

@@ -1,1 +1,1 @@
-﻿
+﻿Assign numeric variables with arithmetic expressions

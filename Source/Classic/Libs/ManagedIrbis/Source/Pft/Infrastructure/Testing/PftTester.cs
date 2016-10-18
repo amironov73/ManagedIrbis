@@ -18,6 +18,8 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 #endregion
 
@@ -117,9 +119,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
             try
             {
                 result = test.Run(name);
-                Console.ForegroundColor = ConsoleColor.Green;
+                Console.ForegroundColor = result.Failed
+                    ? ConsoleColor.Red
+                    : ConsoleColor.Green;
                 Console.WriteLine();
-                Console.WriteLine("OK");
+                Console.WriteLine
+                    (
+                        result.Failed
+                        ? "FAIL"
+                        : "OK"
+                    );
                 Console.ForegroundColor = foreColor;
                 Console.WriteLine(new string('=', 70));
                 Console.WriteLine();
@@ -142,9 +151,29 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
             foreach (PftTest test in Tests)
             {
                 PftTestResult result = RunTest(test);
-                Results.Add(result);
+                if (result != null)
+                {
+                    Results.Add(result);
+                }
             }
+        }
 
+        /// <summary>
+        /// Write test results to the file.
+        /// </summary>
+        public void WriteResults
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            using (StreamWriter writer = new StreamWriter(fileName, false))
+            {
+                JArray array = JArray.FromObject(Results);
+                string text = array.ToString(Formatting.Indented);
+                writer.Write(text);
+            }
         }
 
         #endregion

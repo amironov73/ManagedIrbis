@@ -1,1 +1,1 @@
-﻿
+﻿Format arithmetic expression with F function

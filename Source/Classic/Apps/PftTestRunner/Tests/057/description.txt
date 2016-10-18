@@ -1,1 +1,1 @@
-﻿
+﻿Rmax on repeated field with subfield

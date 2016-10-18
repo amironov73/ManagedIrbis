@@ -172,6 +172,10 @@ StringComparer.InvariantCultureIgnoreCase
             )
         {
             int index = context.Index;
+            if (!ReferenceEquals(context.CurrentGroup, null))
+            {
+                index++;
+            }
             string text = index.ToInvariantString();
             context.Write(node, text);
             context.OutputFlag = true;

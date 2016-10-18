@@ -1,1 +1,1 @@
-﻿
+﻿Assign string variable with group evaluation

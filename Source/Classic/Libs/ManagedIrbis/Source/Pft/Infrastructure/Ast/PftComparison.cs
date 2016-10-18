@@ -105,12 +105,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     break;
 
                 case "=":
+                case "==":
                     result = leftValue.SameString(rightValue);
                     break;
 
                 case "!=":
                 case "<>":
-                    result = leftValue.SameString(rightValue);
+                    result = !leftValue.SameString(rightValue);
                     break;
 
                 case "<":

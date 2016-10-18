@@ -1,1 +1,1 @@
-﻿
+﻿Rmin on unconditional literals

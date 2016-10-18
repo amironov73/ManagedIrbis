@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -89,6 +90,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Value = !InnerCondition.Value;
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc/>
+        public override void PrintDebug
+            (
+                TextWriter writer,
+                int level
+            )
+        {
+            for (int i = 0; i < level; i++)
+            {
+                writer.Write("| ");
+            }
+            writer.WriteLine("ConditionNot");
+
+            for (int i = 0; i <= level; i++)
+            {
+                writer.Write("| ");
+            }
+            writer.WriteLine("Inner:");
+            if (!ReferenceEquals(InnerCondition, null))
+            {
+                InnerCondition.PrintDebug(writer, level + 2);
+            }
         }
 
         #endregion

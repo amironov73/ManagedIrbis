@@ -1,1 +1,1 @@
-﻿
+﻿Evaluating trim() function on unconditional literal

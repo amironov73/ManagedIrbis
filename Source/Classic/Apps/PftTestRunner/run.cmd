@@ -1,3 +1,7 @@
 @echo off
 
-bin\Debug\PftTestRunner.exe Tests
+cd bin\Debug
+
+PftTestRunner.exe ..\..\Tests
+
+cd ..\..

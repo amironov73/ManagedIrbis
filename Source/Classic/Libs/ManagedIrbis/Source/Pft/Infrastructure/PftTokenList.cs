@@ -102,7 +102,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 );
             foreach (PftToken token in _tokens)
             {
-                Console.WriteLine(token);
+                writer.WriteLine(token);
             }
         }
 
