@@ -52,9 +52,10 @@ namespace PftTestRunner
                 int total = tester.Results.Count;
                 int failed = tester.Results.Count(t => t.Failed);
 
+                ConsoleColor foreColor;
                 foreach (PftTestResult result in tester.Results)
                 {
-                    ConsoleColor foreColor = Console.ForegroundColor;
+                    foreColor = Console.ForegroundColor;
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.Write(result.Name);
                     Console.Write('\t');
@@ -75,12 +76,18 @@ namespace PftTestRunner
                     Console.WriteLine(result.Description);
                 }
 
+                Console.WriteLine();
+                foreColor = Console.ForegroundColor;
+                Console.ForegroundColor = failed == 0
+                    ? ConsoleColor.Green
+                    : ConsoleColor.Red;
                 Console.WriteLine
                     (
                         "Total tests: {0}, failed: {1}",
                         total,
                         failed
                     );
+                Console.ForegroundColor = foreColor;
             }
             catch (Exception exception)
             {
