@@ -113,6 +113,15 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
+        private static void Len(PftContext context, PftNode node, string expression)
+        {
+            int size = string.IsNullOrEmpty(expression)
+                ? 0
+                : expression.Length;
+            string text = size.ToInvariantString();
+            context.Write(node, text);
+        }
+
         private static void MachineName(PftContext context, PftNode node, string expression)
         {
             context.Write(node, global::System.Environment.MachineName);
@@ -177,7 +186,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             int size = string.IsNullOrEmpty(expression)
                 ? 0
-                : expression.Length;
+                : expression.SplitLines().Length;
             string text = size.ToInvariantString();
             context.Write(node, text);
         }
@@ -303,6 +312,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("getenv", GetEnv);
             reg.Add("iocc", IOcc);
             reg.Add("italic", Italic);
+            reg.Add("len", Len);
             reg.Add("machinename", MachineName);
             reg.Add("nocc", NOcc);
             reg.Add("now", Now);

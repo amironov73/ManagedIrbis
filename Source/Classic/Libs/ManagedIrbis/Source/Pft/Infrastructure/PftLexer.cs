@@ -566,7 +566,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case 'l':
                     case 'L':
-                        value = c + ReadIdentifier();
+                        value = ReadIdentifier();
                         if (!string.IsNullOrEmpty(value))
                         {
                             value = c + value;

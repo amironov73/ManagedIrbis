@@ -121,7 +121,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.V, PftTokenKind.ConditionalLiteral,
             PftTokenKind.RepeatableLiteral,
 
-            PftTokenKind.Identifier,
+            PftTokenKind.Identifier, PftTokenKind.Variable,
 
             PftTokenKind.Number, PftTokenKind.F,
 

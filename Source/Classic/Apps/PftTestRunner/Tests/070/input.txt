@@ -1,0 +1,2 @@
+﻿$s='Hello' nl 'World';
+size($s)

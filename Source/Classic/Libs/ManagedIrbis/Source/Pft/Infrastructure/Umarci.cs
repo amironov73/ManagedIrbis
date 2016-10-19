@@ -161,6 +161,12 @@ StringComparer.InvariantCultureIgnoreCase
                 string expression
             )
         {
+            //
+            // field#code#repeat
+            //
+            // e.g.: if &umarci('1101#a#2') <> '' then ...
+            //
+
             if (string.IsNullOrEmpty(expression)
                 || ReferenceEquals(context.Record, null))
             {
@@ -214,6 +220,12 @@ StringComparer.InvariantCultureIgnoreCase
                 string expression
             )
         {
+            //
+            // field#substring
+            //
+            // e.g.: if val(&umarci('2998#^a'))>1 then ...
+            //
+
             if (string.IsNullOrEmpty(expression)
                 || ReferenceEquals(context.Record, null))
             {
@@ -261,6 +273,23 @@ StringComparer.InvariantCultureIgnoreCase
                 string expression
             )
         {
+            //
+            // field#index#separator
+            //
+            // e.g.: &umarci('391#2#+')
+            //
+
+            //
+            // sample field: #1: 11|22|33|44
+            //
+            // &umarci('31#0#|') gives 11|22|33|44
+            // &umarci('31#1#|') gives 11
+            // &umarci('31#2#|') gives 22
+            // &umarci('31#3#|') gives 33
+            // &umarci('31#4#|') gives 44
+            // &umarci('31#5#|') gives empty string
+            //
+
             if (string.IsNullOrEmpty(expression)
                 || ReferenceEquals(context.Record, null))
             {
@@ -362,6 +391,12 @@ StringComparer.InvariantCultureIgnoreCase
                 string expression
             )
         {
+            //
+            // tag/embed^code
+            //
+            // e.g.: &umarci('4461/011^а')
+            //
+
             if (string.IsNullOrEmpty(expression)
                 || ReferenceEquals(context.Record, null))
             {

@@ -1,1 +1,1 @@
-﻿size('Hello')
+﻿len('Hello')
