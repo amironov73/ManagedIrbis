@@ -62,7 +62,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <summary>
         /// Список потомков. Может быть пустым.
         /// </summary>
-        public NonNullCollection<PftNode> Children
+        public virtual IList<PftNode> Children
         {
             get; protected set;
         }
