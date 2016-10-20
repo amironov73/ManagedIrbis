@@ -60,6 +60,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
             throw new ArgumentOutOfRangeException("something bad happened");
         }
+
         #endregion
 
         #region Public methods

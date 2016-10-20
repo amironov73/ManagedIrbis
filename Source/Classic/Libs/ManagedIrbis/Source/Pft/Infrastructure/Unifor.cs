@@ -91,6 +91,7 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("SX", UniforS.Roman);
             Registry.Add("T", Transliterate);
             Registry.Add("X", RemoveAngleBrackets);
+            Registry.Add("+2", UniforPlus2.System);
             Registry.Add("+90", UniforPlus9.GetIndex);
             Registry.Add("+91", UniforPlus9.GetFileName);
             Registry.Add("+92", UniforPlus9.GetDirectoryName);
@@ -115,7 +116,7 @@ StringComparer.InvariantCultureIgnoreCase
         /// </summary>
         public static Action<PftContext, PftNode, string> FindAction
             (
-            [NotNull] ref string expression
+                [NotNull] ref string expression
             )
         {
             var keys = Registry.Keys;
