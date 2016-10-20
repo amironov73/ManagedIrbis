@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;
@@ -11,7 +12,7 @@ namespace UnitTests.AM.Text.Ranges
     public class NumberRangeTest
     {
         [TestMethod]
-        public void TestNumberRange_Constructor()
+        public void NumberRange_Constructor()
         {
             NumberRange range = new NumberRange("10", "15");
             Assert.AreEqual("10-15", range.ToString());
@@ -20,7 +21,7 @@ namespace UnitTests.AM.Text.Ranges
         }
 
         [TestMethod]
-        public void TestNumberRange_Parse1()
+        public void NumberRange_Parse1()
         {
             NumberRange range = NumberRange.Parse("10-15");
             Assert.AreEqual(range.Start, new NumberText("10"));
@@ -30,7 +31,7 @@ namespace UnitTests.AM.Text.Ranges
         }
 
         [TestMethod]
-        public void TestNumberRange_Parse2()
+        public void NumberRange_Parse2()
         {
             NumberRange range = NumberRange.Parse(" 10-15");
             Assert.AreEqual(range.Start, new NumberText("10"));
@@ -40,7 +41,7 @@ namespace UnitTests.AM.Text.Ranges
         }
 
         [TestMethod]
-        public void TestNumberRange_Parse3()
+        public void NumberRange_Parse3()
         {
             NumberRange range = NumberRange.Parse("10-15 ");
             Assert.AreEqual(range.Start, new NumberText("10"));
@@ -50,7 +51,7 @@ namespace UnitTests.AM.Text.Ranges
         }
 
         [TestMethod]
-        public void TestNumberRange_Parse4()
+        public void NumberRange_Parse4()
         {
             NumberRange range = NumberRange.Parse("10 - 15");
             Assert.AreEqual(range.Start, new NumberText("10"));
@@ -60,7 +61,7 @@ namespace UnitTests.AM.Text.Ranges
         }
 
         [TestMethod]
-        public void TestNumberRange_Parse5()
+        public void NumberRange_Parse5()
         {
             NumberRange range = NumberRange.Parse(" 10 - 15 ");
             Assert.AreEqual(range.Start, new NumberText("10"));
@@ -71,35 +72,35 @@ namespace UnitTests.AM.Text.Ranges
 
         [TestMethod]
         [ExpectedException(typeof(FormatException))]
-        public void TestNumberRange_Parse_Exception1()
+        public void NumberRange_Parse_Exception1()
         {
             NumberRange range = NumberRange.Parse("10-15-");
         }
 
         [TestMethod]
         [ExpectedException(typeof(FormatException))]
-        public void TestNumberRange_Parse_Exception2()
+        public void NumberRange_Parse_Exception2()
         {
             NumberRange range = NumberRange.Parse("-10-15");
         }
 
         [TestMethod]
         [ExpectedException(typeof(FormatException))]
-        public void TestNumberRange_Parse_Exception3()
+        public void NumberRange_Parse_Exception3()
         {
             NumberRange range = NumberRange.Parse("10--15");
         }
 
         [TestMethod]
         [ExpectedException(typeof(FormatException))]
-        public void TestNumberRange_Parse_Exception4()
+        public void NumberRange_Parse_Exception4()
         {
             NumberRange range = NumberRange.Parse("-");
         }
 
         [TestMethod]
         [ExpectedException(typeof(FormatException))]
-        public void TestNumberRange_Parse_Exception5()
+        public void NumberRange_Parse_Exception5()
         {
             NumberRange range = NumberRange.Parse(";");
         }
@@ -107,20 +108,20 @@ namespace UnitTests.AM.Text.Ranges
 
         [TestMethod]
         [ExpectedException(typeof(FormatException))]
-        public void TestNumberRange_Parse_Exception6()
+        public void NumberRange_Parse_Exception6()
         {
             NumberRange range = NumberRange.Parse(";-");
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void TestNumberRange_Parse_Exception7()
+        public void NumberRange_Parse_Exception7()
         {
             NumberRange range = NumberRange.Parse(string.Empty);
         }
 
         [TestMethod]
-        public void TestNumberRange_Equals()
+        public void NumberRange_Equals()
         {
             NumberRange left = new NumberRange("10", "20");
             NumberRange right = new NumberRange("10", "20");
@@ -146,7 +147,7 @@ namespace UnitTests.AM.Text.Ranges
         }
 
         [TestMethod]
-        public void TestNumberRange_Serialization()
+        public void NumberRange_Serialization()
         {
             _TestSerialization("1");
             _TestSerialization("a1");
@@ -155,7 +156,7 @@ namespace UnitTests.AM.Text.Ranges
         }
 
         [TestMethod]
-        public void TestNumberRange_Verify()
+        public void NumberRange_Verify()
         {
             NumberRange range = new NumberRange();
             Assert.IsFalse(range.Verify(false));
@@ -168,6 +169,29 @@ namespace UnitTests.AM.Text.Ranges
 
             range.Stop = "2";
             Assert.IsFalse(range.Verify(false));
+        }
+
+        [TestMethod]
+        public void NumberRange_Enumerate1()
+        {
+            NumberRange range = NumberRange.Parse("10-15");
+            NumberText[] array = range.ToArray();
+            Assert.AreEqual(6, array.Length);
+            Assert.IsTrue(array[0] == "10");
+            Assert.IsTrue(array[1] == "11");
+            Assert.IsTrue(array[2] == "12");
+            Assert.IsTrue(array[3] == "13");
+            Assert.IsTrue(array[4] == "14");
+            Assert.IsTrue(array[5] == "15");
+        }
+
+        [TestMethod]
+        public void NumberRange_Enumerate2()
+        {
+            NumberRange range = NumberRange.Parse("20");
+            NumberText[] array = range.ToArray();
+            Assert.AreEqual(1, array.Length);
+            Assert.IsTrue(array[0] == "20");
         }
     }
 }

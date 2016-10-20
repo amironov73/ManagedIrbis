@@ -299,7 +299,7 @@ namespace AM.Text.Ranges
             for (
                     NumberText current = Start;
                     current.CompareTo(Stop) <= 0;
-                    current = current.Increment()
+                    current = current.Clone().Increment()
                 )
             {
                 yield return current;
