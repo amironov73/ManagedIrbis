@@ -93,6 +93,7 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("+93", UniforPlus9.GetExtension);
             Registry.Add("+94", UniforPlus9.GetDrive);
             Registry.Add("+95", UniforPlus9.Length);
+            Registry.Add("+96", UniforPlus9.Substring);
             Registry.Add("+97", UniforPlus9.ToUpper);
             Registry.Add("+98", UniforPlus9.ReplaceCharacter);
             Registry.Add("+9F", UniforPlus9.GetCharacter);

@@ -23,7 +23,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.ImportExport;
-
+using ManagedIrbis.Pft.Infrastructure.Ast;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -311,6 +311,61 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         System.Environment.NewLine,
                         words.ToArray()
                     );
+                context.Write(node, output);
+                context.OutputFlag = true;
+            }
+        }
+
+        /// <summary>
+        /// Split text to word array.
+        /// </summary>
+        public static void Substring
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                string text;
+                string[] parts = expression.Split(new[]{'#'}, 2);
+                if (parts.Length == 2)
+                {
+                    string prefix = parts[0];
+                    text = parts[1];
+
+                    TextNavigator navigator = new TextNavigator(prefix);
+                    char direction = navigator.ReadChar();
+                    int offset = 0;
+                    int length = text.Length;
+                    string temp;
+                    if (navigator.PeekChar() == '*')
+                    {
+                        navigator.ReadChar();
+                        temp = navigator.ReadInteger();
+                        int.TryParse(temp, out offset);
+                    }
+                    if (navigator.PeekChar() == '.')
+                    {
+                        navigator.ReadChar();
+                        temp = navigator.ReadInteger();
+                        int.TryParse(temp, out length);
+                    }
+
+                    if (direction != '0')
+                    {
+                        offset = text.Length - offset - length;
+                    }
+
+                    text = PftField.SafeSubString(text, offset, length);
+                }
+                else
+                {
+                    text = expression.Substring(1);
+                }
+
+                string output = text;
                 context.Write(node, output);
                 context.OutputFlag = true;
             }

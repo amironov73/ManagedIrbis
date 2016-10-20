@@ -129,7 +129,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Extract substring in safe manner.
         /// </summary>
         [CanBeNull]
-        protected static string SafeSubString
+        internal static string SafeSubString
             (
                 [CanBeNull] string text,
                 int offset,
