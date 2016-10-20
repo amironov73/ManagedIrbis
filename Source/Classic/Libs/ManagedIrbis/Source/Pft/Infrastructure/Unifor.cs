@@ -64,10 +64,10 @@ namespace ManagedIrbis.Pft.Infrastructure
 
 #else
 
-                StringComparer.InvariantCultureIgnoreCase
+StringComparer.InvariantCultureIgnoreCase
 
 #endif
-                );
+);
 
             RegisterActions();
         }
@@ -83,6 +83,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("9", RemoveDoubleQuotes);
             Registry.Add("A", GetFieldRepeat);
             Registry.Add("R", RandomNumber);
+            Registry.Add("T", Transliterate);
             Registry.Add("+90", GetIndex);
         }
 
@@ -433,7 +434,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             int maxValue = 1;
             for (int i = 0; i < length; i++)
             {
-                maxValue = maxValue*10;
+                maxValue = maxValue * 10;
             }
 
             int result = new Random().Next(maxValue);
@@ -441,7 +442,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             string output = result.ToString(format);
             context.Write(node, output);
         }
-
 
         /// <summary>
         /// Remove double quotes from the string.
@@ -457,6 +457,60 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 string clear = expression.Replace("\"", string.Empty);
                 context.Write(node, clear);
+            }
+        }
+
+        private static Dictionary<char, string> _transliterator
+            = new Dictionary<char, string>
+            {
+                {'а', "a"}, {'б', "b"}, {'в', "v"}, {'г', "g"}, {'д', "d"},
+                {'е', "e"}, {'ё', "io"}, {'ж', "zh"}, {'з', "z"}, {'и', "i"},
+                {'й', "i"}, {'к', "k"}, {'л', "l"}, {'м', "m"}, {'н', "n"},
+                {'о', "o"}, {'п', "p"}, {'р', "r"}, {'с', "s"}, {'т', "t"},
+                {'у', "u"}, {'ф', "f"}, {'х', "kh"}, {'ц', "ts"}, {'ч', "ch"},
+                {'ш', "sh"}, {'щ', "shch"}, {'ь', "'"}, {'ы', "y"}, {'ъ', "\""},
+                {'э', "e"}, {'ю', "iu"}, {'я', "ia"},
+                {'А', "A"}, {'Б', "B"}, {'В', "V"}, {'Г', "G"}, {'Д', "D"},
+                {'Е', "E"}, {'Ё', "IO"}, {'Ж', "ZH"}, {'З', "Z"}, {'И', "I"},
+                {'Й', "I"}, {'К', "K"}, {'Л', "L"}, {'М', "M"}, {'Н', "N"},
+                {'О', "O"}, {'П', "P"}, {'Р', "R"}, {'С', "S"}, {'Т', "T"},
+                {'У', "U"}, {'Ф', "F"}, {'Х', "kh"}, {'Ц', "ts"}, {'Ч', "ch"},
+                {'Ш', "sh"}, {'Щ', "shch"}, {'Ь', "'"}, {'Ы', "Y"}, {'Ъ', "\""},
+                {'Э', "E"}, {'Ю', "IU"}, {'Я', "IA"}
+            };
+
+        /// <summary>
+        /// Remove double quotes from the string.
+        /// </summary>
+        public static void Transliterate
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            //
+            // Attention: in original IRBIS &uf('T0ё') breaks the script
+            //
+
+            if (!string.IsNullOrEmpty(expression))
+            {
+                StringBuilder result = new StringBuilder();
+
+                foreach (char c in expression.Skip(1))
+                {
+                    string s;
+                    if (_transliterator.TryGetValue(c, out s))
+                    {
+                        result.Append(s);
+                    }
+                    else
+                    {
+                        result.Append(c);
+                    }
+                }
+
+                context.Write(node, result.ToString());
             }
         }
 
