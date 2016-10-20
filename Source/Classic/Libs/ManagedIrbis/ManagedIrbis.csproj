@@ -316,6 +316,7 @@
     <Compile Include="Source\Pft\Infrastructure\Umarci.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifor.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\Unifor3.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Unifors\UniforM.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforPlus2.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforPlus9.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforS.cs" />

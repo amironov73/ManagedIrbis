@@ -83,6 +83,7 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("3", Unifor3.PrintDate);
             Registry.Add("9", RemoveDoubleQuotes);
             Registry.Add("A", GetFieldRepeat);
+            Registry.Add("M", UniforM.Sort);
             Registry.Add("Q", ToLower);
             Registry.Add("R", RandomNumber);
             Registry.Add("S", UniforS.Add);
