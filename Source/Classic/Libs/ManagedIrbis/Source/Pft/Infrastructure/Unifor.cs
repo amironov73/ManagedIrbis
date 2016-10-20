@@ -85,6 +85,10 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("A", GetFieldRepeat);
             Registry.Add("Q", ToLower);
             Registry.Add("R", RandomNumber);
+            Registry.Add("S", UniforS.Add);
+            Registry.Add("S0", UniforS.Clear);
+            Registry.Add("SA", UniforS.Arabic);
+            Registry.Add("SX", UniforS.Roman);
             Registry.Add("T", Transliterate);
             Registry.Add("X", RemoveAngleBrackets);
             Registry.Add("+90", UniforPlus9.GetIndex);

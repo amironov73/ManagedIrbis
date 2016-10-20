@@ -130,6 +130,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         [NotNull]
         public PftProcedureManager Procedures { get; internal set; }
 
+        /// <summary>
+        /// ”ниверсальный счетчик.
+        /// </summary>
+        public int UniversalCounter { get; set; }
+
         #endregion
 
         #region Construction
