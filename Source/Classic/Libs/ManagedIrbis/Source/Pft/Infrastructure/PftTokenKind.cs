@@ -47,11 +47,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         C,
 
         /// <summary>
-        /// chr(32)
-        /// </summary>
-        Chr,
-
-        /// <summary>
         /// :
         /// </summary>
         Colon,
@@ -80,6 +75,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// else
         /// </summary>
         Else,
+
+        /// <summary>
+        /// end
+        /// </summary>
+        End,
 
         /// <summary>
         /// =

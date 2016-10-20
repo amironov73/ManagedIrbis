@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
-
+using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -44,6 +44,38 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
+        private static void Chr(PftContext context, PftNode node, string expression)
+        {
+            int code;
+            char c;
+
+            PftNumeric numeric = node.Children.FirstOrDefault() as PftNumeric;
+            if (!ReferenceEquals(numeric, null))
+            {
+                code = (int) numeric.Value;
+                c = (char) code;
+                context.Write(numeric, c.ToString());
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(expression))
+                {
+                    if (int.TryParse(expression, out code))
+                    {
+                        c = (char) code;
+                        context.Write(node, c.ToString());
+                    }
+                }
+            }
+        }
+
+        private static void CommandLine(PftContext context, PftNode node, string expression)
+        {
+#if DESKTOP
+            context.Write(node, global::System.Environment.CommandLine);
+#endif
+        }
+
         private static void COut(PftContext context, PftNode node, string expression)
         {
 #if DESKTOP || NETCORE
@@ -51,13 +83,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 Console.Write(expression);
             }
-#endif
-        }
-
-        private static void CommandLine(PftContext context, PftNode node, string expression)
-        {
-#if DESKTOP
-            context.Write(node, global::System.Environment.CommandLine);
 #endif
         }
 
@@ -191,6 +216,27 @@ namespace ManagedIrbis.Pft.Infrastructure
             context.Write(node, text);
         }
 
+        private static void Sort(PftContext context, PftNode node, string expression)
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                return;
+            }
+
+            string[] lines = expression.SplitLines()
+                .NonEmptyLines().ToArray();
+            lines = NumberText.Sort(lines).ToArray();
+            context.Write
+                (
+                    node,
+                    string.Join
+                    (
+                        global::System.Environment.NewLine,
+                        lines
+                    )
+                );
+        }
+
         private static void System(PftContext context, PftNode node, string expression)
         {
             if (!string.IsNullOrEmpty(expression))
@@ -304,8 +350,9 @@ namespace ManagedIrbis.Pft.Infrastructure
             var reg = PftFunctionManager.BuiltinFunctions.Registry;
 
             reg.Add("bold", Bold);
-            reg.Add("cout", COut);
+            reg.Add("chr", Chr);
             reg.Add("commandline", CommandLine);
+            reg.Add("cout", COut);
             reg.Add("debug", Debug);
             reg.Add("error", Error);
             reg.Add("fatal", Fatal);
@@ -319,6 +366,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("npost", NPost);
             reg.Add("osversion", OsVersion);
             reg.Add("size", Size);
+            reg.Add("sort", Sort);
             reg.Add("system", System);
             reg.Add("today", Today);
             reg.Add("tolower", ToLower);
