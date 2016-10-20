@@ -1,1 +1,1 @@
-﻿unifor ('T')
+﻿&uf('T') - transliteration
