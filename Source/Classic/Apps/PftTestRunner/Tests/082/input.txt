@@ -1,0 +1,1 @@
+﻿&uf('+95', 'C:\Windows\System32\esent.dll')

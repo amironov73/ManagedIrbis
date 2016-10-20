@@ -87,7 +87,18 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("R", RandomNumber);
             Registry.Add("T", Transliterate);
             Registry.Add("X", RemoveAngleBrackets);
-            Registry.Add("+90", GetIndex);
+            Registry.Add("+90", UniforPlus9.GetIndex);
+            Registry.Add("+91", UniforPlus9.GetFileName);
+            Registry.Add("+92", UniforPlus9.GetDirectoryName);
+            Registry.Add("+93", UniforPlus9.GetExtension);
+            Registry.Add("+94", UniforPlus9.GetDrive);
+            Registry.Add("+95", UniforPlus9.Length);
+            Registry.Add("+97", UniforPlus9.ToUpper);
+            Registry.Add("+98", UniforPlus9.ReplaceCharacter);
+            Registry.Add("+9F", UniforPlus9.GetCharacter);
+            Registry.Add("+9G", UniforPlus9.SplitWords);
+            Registry.Add("+9I", UniforPlus9.ReplaceString);
+            Registry.Add("+9V", UniforPlus9.GetVersion);
         }
 
         #endregion
@@ -179,27 +190,6 @@ StringComparer.InvariantCultureIgnoreCase
                 // Eat the exception
             }
         }
-
-        /// <summary>
-        /// Get field repeat.
-        /// </summary>
-        public static void GetIndex
-            (
-            PftContext context,
-            PftNode node,
-            string expression
-            )
-        {
-            int index = context.Index;
-            if (!ReferenceEquals(context.CurrentGroup, null))
-            {
-                index++;
-            }
-            string text = index.ToInvariantString();
-            context.Write(node, text);
-            context.OutputFlag = true;
-        }
-
 
         /// <summary>
         /// Generate random number.
