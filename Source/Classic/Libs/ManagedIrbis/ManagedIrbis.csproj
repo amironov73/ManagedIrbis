@@ -133,6 +133,7 @@
     <Compile Include="Source\Direct\XrfFile64.cs" />
     <Compile Include="Source\Direct\XrfRecord32.cs" />
     <Compile Include="Source\Direct\XrfRecord64.cs" />
+    <Compile Include="Source\Fields\ExemplarStatus.cs" />
     <Compile Include="Source\Fields\ExternalResource.cs" />
     <Compile Include="Source\Fields\TitleInfo.cs" />
     <Compile Include="Source\Fst\FstProcessor.cs" />
@@ -317,6 +318,7 @@
     <Compile Include="Source\Pft\Infrastructure\Unifor.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\Unifor3.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforM.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Unifors\UniforO.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforPlus2.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforPlus9.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforS.cs" />

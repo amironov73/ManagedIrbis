@@ -22,6 +22,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.ImportExport;
 using ManagedIrbis.Pft.Infrastructure.Unifors;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -84,6 +85,7 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("9", RemoveDoubleQuotes);
             Registry.Add("A", GetFieldRepeat);
             Registry.Add("M", UniforM.Sort);
+            Registry.Add("O", UniforO.AllExemplars);
             Registry.Add("Q", ToLower);
             Registry.Add("R", RandomNumber);
             Registry.Add("S", UniforS.Add);
@@ -95,6 +97,7 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("V", UniforU.Decumulate);
             Registry.Add("W", UniforU.Check);
             Registry.Add("X", RemoveAngleBrackets);
+            Registry.Add("Y", UniforO.FreeExemplars);
             Registry.Add("+2", UniforPlus2.System);
             Registry.Add("+90", UniforPlus9.GetIndex);
             Registry.Add("+91", UniforPlus9.GetFileName);

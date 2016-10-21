@@ -42,6 +42,32 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Check whether the issue is present
         /// in cumulated collection.
         /// </summary>
+        public static void Check
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                string[] parts = expression.Split(new[] { ',' }, 2);
+                if (parts.Length == 2)
+                {
+                    string issue = parts[0];
+                    string cumulated = parts[1];
+
+                    bool result = Check(issue, cumulated);
+                    string output = result ? "1" : "0";
+                    context.Write(node, output);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Check whether the issue is present
+        /// in cumulated collection.
+        /// </summary>
         public static bool Check
             (
                 string issue,
@@ -83,6 +109,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         }
 
         /// <summary>
+        /// Cumulate the magazine issues.
+        /// </summary>
+        public static void Cumulate
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                string output = Cumulate(expression);
+                if (!string.IsNullOrEmpty(output))
+                {
+                    context.Write(node, output);
+                    context.OutputFlag = true;
+                }
+            }
+        }
+
+        /// <summary>
         /// Decumulate the magazine issues.
         /// </summary>
         public static string Decumulate
@@ -106,46 +153,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             return result.ToString();
         }
 
-        public static void Check
-            (
-                PftContext context,
-                PftNode node,
-                string expression
-            )
-        {
-            if (!string.IsNullOrEmpty(expression))
-            {
-                string[] parts = expression.Split(new []{','}, 2);
-                if (parts.Length == 2)
-                {
-                    string issue = parts[0];
-                    string cumulated = parts[1];
-
-                    bool result = Check(issue, cumulated);
-                    string output = result ? "1" : "0";
-                    context.Write(node, output);
-                }
-            }
-        }
-
-        public static void Cumulate
-            (
-                PftContext context,
-                PftNode node,
-                string expression
-            )
-        {
-            if (!string.IsNullOrEmpty(expression))
-            {
-                string output = Cumulate(expression);
-                if (!string.IsNullOrEmpty(output))
-                {
-                    context.Write(node, output);
-                    context.OutputFlag = true;
-                }
-            }
-        }
-
+        /// <summary>
+        /// Decumulate the magazine issues.
+        /// </summary>
         public static void Decumulate
             (
                 PftContext context,
