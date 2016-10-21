@@ -91,6 +91,9 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("SA", UniforS.Arabic);
             Registry.Add("SX", UniforS.Roman);
             Registry.Add("T", Transliterate);
+            Registry.Add("U", UniforU.Cumulate);
+            Registry.Add("V", UniforU.Decumulate);
+            Registry.Add("W", UniforU.Check);
             Registry.Add("X", RemoveAngleBrackets);
             Registry.Add("+2", UniforPlus2.System);
             Registry.Add("+90", UniforPlus9.GetIndex);
