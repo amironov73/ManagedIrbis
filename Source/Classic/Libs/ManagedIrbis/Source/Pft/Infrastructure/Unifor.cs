@@ -99,6 +99,7 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("X", RemoveAngleBrackets);
             Registry.Add("Y", UniforO.FreeExemplars);
             Registry.Add("+2", UniforPlus2.System);
+            Registry.Add("+6", GetRecordStatus);
             Registry.Add("+90", UniforPlus9.GetIndex);
             Registry.Add("+91", UniforPlus9.GetFileName);
             Registry.Add("+92", UniforPlus9.GetDirectoryName);
@@ -203,6 +204,29 @@ StringComparer.InvariantCultureIgnoreCase
                 // Eat the exception
             }
         }
+
+        /// <summary>
+        /// Get record status: whether the record is deleted?
+        /// </summary>
+        public static void GetRecordStatus
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            string result = "1";
+
+            if (!ReferenceEquals(context.Record, null)
+                && context.Record.Deleted)
+            {
+                result = "0";
+            }
+
+            context.Write(node, result);
+            context.OutputFlag = true;
+        }
+
 
         /// <summary>
         /// Generate random number.
