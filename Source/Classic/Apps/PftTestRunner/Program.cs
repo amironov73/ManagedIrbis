@@ -15,10 +15,12 @@ using System.Threading.Tasks;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Environment;
 using ManagedIrbis.Pft.Infrastructure.Testing;
 
 using MoonSharp.Interpreter;
+
+using CM=System.Configuration.ConfigurationManager;
 
 #endregion
 
@@ -36,7 +38,12 @@ namespace PftTestRunner
 
             try
             {
+                string rootPath = CM.AppSettings["rootPath"];
+                PftEnvironmentAbstraction environment
+                    = new PftLocalEnvironment(rootPath);
+
                 PftTester tester = new PftTester(args[0]);
+                tester.SetEnvironment(environment);
 
                 tester.DiscoverTests();
 

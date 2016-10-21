@@ -12,12 +12,17 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM.Collections;
+
 using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Environment;
+
 using MoonSharp.Interpreter;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -33,6 +38,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
     public sealed class PftTester
     {
         #region Properties
+
+        /// <summary>
+        /// Environment.
+        /// </summary>
+        [NotNull]
+        public PftEnvironmentAbstraction Environment { get; private set; }
 
         /// <summary>
         /// Folder name.
@@ -66,6 +77,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         {
             Code.NotNullNorEmpty(folder, "folder");
 
+            Environment = new PftLocalEnvironment();
             Folder = folder;
             Tests = new NonNullCollection<PftTest>();
             Results = new NonNullCollection<PftTestResult>();
@@ -150,12 +162,26 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         {
             foreach (PftTest test in Tests)
             {
+                test.Environment = Environment;
                 PftTestResult result = RunTest(test);
                 if (result != null)
                 {
                     Results.Add(result);
                 }
             }
+        }
+
+        /// <summary>
+        /// Set environment.
+        /// </summary>
+        public void SetEnvironment
+            (
+                [NotNull] PftEnvironmentAbstraction environment
+            )
+        {
+            Code.NotNull(environment, "environment");
+
+            Environment = environment;
         }
 
         /// <summary>

@@ -6,6 +6,7 @@
 
 #region Using directives
 
+using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -55,6 +56,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Environment
         /// </summary>
         public PftLocalEnvironment()
         {
+            RootPath = "C:/IRBIS64";
+            DataPath = "C:/IRBIS64/DataI";
+            Database = "IBIS";
         }
 
         /// <summary>
@@ -64,10 +68,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Environment
             (
                 string rootPath
             )
+            : this()
         {
             RootPath = rootPath;
             DataPath = rootPath + "/DataI";
         }
+
+        #endregion
+
+        #region Private members
 
         #endregion
 
@@ -79,8 +88,55 @@ namespace ManagedIrbis.Pft.Infrastructure.Environment
                 FileSpecification fileSpecification
             )
         {
-            string fileName = DataPath + "/Deposit" + fileSpecification.FileName;
-            string result = File.ReadAllText(fileName, IrbisEncoding.Ansi);
+            Code.NotNull(fileSpecification, "fileSpecification");
+
+            string fileName = fileSpecification.FileName;
+            if (string.IsNullOrEmpty(fileName))
+            {
+                throw new IrbisException("fileName");
+            }
+
+            string resultPath = null;
+            string database = fileSpecification.Database ?? Database;
+
+            switch (fileSpecification.Path)
+            {
+                case IrbisPath.MasterFile:
+                    resultPath = Path.Combine
+                        (
+                            Path.Combine
+                            (
+                                DataPath,
+                                database
+                            ),
+                            fileName
+                        );
+                    if (!File.Exists(resultPath))
+                    {
+                        resultPath = Path.Combine
+                            (
+                                Path.Combine
+                                (
+                                    DataPath,
+                                    "Deposit"
+                                ),
+                                fileName
+                            );
+                    }
+                    break;
+            }
+
+            if (string.IsNullOrEmpty(resultPath))
+            {
+                throw new IrbisException("filePath");
+            }
+
+            string result = File.ReadAllText
+                (
+                    resultPath,
+                    IrbisEncoding.Ansi
+                );
+
             return result;
         }
 

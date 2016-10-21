@@ -27,10 +27,13 @@ using ManagedIrbis;
 using ManagedIrbis.ImportExport;
 using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
+using ManagedIrbis.Pft.Infrastructure.Environment;
 
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
+
+using CM=System.Configuration.ConfigurationManager;
 
 #endregion
 
@@ -68,6 +71,15 @@ namespace PftBench
                 {
                     Program = program
                 };
+
+                string rootPath = CM.AppSettings["rootPath"];
+                PftEnvironmentAbstraction environment
+                    = new PftLocalEnvironment
+                        (
+                            rootPath
+                        );
+                formatter.SetEnvironment(environment);
+
                 string result = formatter.Format(record);
                 _resutlBox.Text = result;
             }

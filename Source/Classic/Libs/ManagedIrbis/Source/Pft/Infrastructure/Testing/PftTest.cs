@@ -12,13 +12,16 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
 using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis.ImportExport;
+using ManagedIrbis.Pft.Infrastructure.Environment;
 
 using MoonSharp.Interpreter;
 
@@ -34,6 +37,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
     public sealed class PftTest
     {
         #region Properties
+
+        /// <summary>
+        /// Environment.
+        /// </summary>
+        [CanBeNull]
+        public PftEnvironmentAbstraction Environment { get; set; }
 
         /// <summary>
         /// Folder name.
@@ -94,6 +103,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
 
             try
             {
+                if (ReferenceEquals(Environment, null))
+                {
+                    throw new PftException("environment not set");
+                }
 
                 string descriptionFile = GetFullName("description.txt");
                 if (File.Exists(descriptionFile))
@@ -162,6 +175,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 {
                     Program = program
                 };
+                formatter.SetEnvironment(Environment);
                 string output = formatter.Format(record)
                     .DosToUnix()
                     .ThrowIfNull("output");

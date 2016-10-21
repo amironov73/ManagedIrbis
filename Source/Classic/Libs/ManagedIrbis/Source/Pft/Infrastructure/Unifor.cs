@@ -15,12 +15,15 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using AM;
-
+using AM.IO;
+using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis.ImportExport;
+using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Menus;
 using ManagedIrbis.Pft.Infrastructure.Unifors;
 
 using MoonSharp.Interpreter;
@@ -84,6 +87,8 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("3", Unifor3.PrintDate);
             Registry.Add("9", RemoveDoubleQuotes);
             Registry.Add("A", GetFieldRepeat);
+            Registry.Add("I", GetIniFileEntry);
+            Registry.Add("K", GetMenuEntry);
             Registry.Add("M", UniforM.Sort);
             Registry.Add("O", UniforO.AllExemplars);
             Registry.Add("Q", ToLower);
@@ -113,6 +118,9 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("+9G", UniforPlus9.SplitWords);
             Registry.Add("+9I", UniforPlus9.ReplaceString);
             Registry.Add("+9V", UniforPlus9.GetVersion);
+            Registry.Add("+D", GetDatabaseName);
+            Registry.Add("+E", GetFieldIndex);
+            Registry.Add("+N", GetFieldCount);
         }
 
         #endregion
@@ -169,6 +177,95 @@ StringComparer.InvariantCultureIgnoreCase
         }
 
         /// <summary>
+        /// Get current database name.
+        /// </summary>
+        public static void GetDatabaseName
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            string output = context.Environment.Database;
+            if (!string.IsNullOrEmpty(output))
+            {
+                context.Write(node, output);
+                context.OutputFlag = true;
+            }
+        }
+
+        /// <summary>
+        /// Get field count.
+        /// </summary>
+        public static void GetFieldCount
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            MarcRecord record = context.Record;
+            if (!ReferenceEquals(record, null)
+                && !string.IsNullOrEmpty(expression))
+            {
+                int count = record.Fields
+                    .GetField(expression)
+                    .Length;
+                string output = count.ToInvariantString();
+                context.Write(node, output);
+                context.OutputFlag = true;
+            }
+        }
+
+        /// <summary>
+        /// Get field index.
+        /// </summary>
+        public static void GetFieldIndex
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            MarcRecord record = context.Record;
+            if (!ReferenceEquals(record, null)
+                && !string.IsNullOrEmpty(expression))
+            {
+                string[] parts = expression.Split('#');
+                string tag = parts[0];
+                string occText = parts.Length > 1
+                    ? parts[1]
+                    : "1";
+                int occ;
+                if (occText == "*")
+                {
+                    occ = context.Index;
+                }
+                else if (occText == string.Empty)
+                {
+                    occ = 0;
+                }
+                else
+                {
+                    if (!int.TryParse(occText, out occ))
+                    {
+                        return;
+                    }
+                    occ--;
+                }
+                RecordField field = record.Fields
+                    .GetField(tag, occ);
+                if (!ReferenceEquals(field, null))
+                {
+                    int index = record.Fields.IndexOf(field) + 1;
+                    string output = index.ToInvariantString();
+                    context.Write(node, output);
+                    context.OutputFlag = true;
+                }
+            }
+        }
+
+        /// <summary>
         /// Get field repeat.
         /// </summary>
         public static void GetFieldRepeat
@@ -202,6 +299,112 @@ StringComparer.InvariantCultureIgnoreCase
             catch
             {
                 // Eat the exception
+            }
+        }
+
+        /// <summary>
+        /// Get INI-file entry.
+        /// </summary>
+        public static void GetIniFileEntry
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                string[] parts = expression.Split(new[] { ',' }, 3);
+                if (parts.Length >= 2)
+                {
+                    string section = parts[0];
+                    string parameter = parts[1];
+                    string defaultValue = parts.Length > 2
+                        ? parts[2]
+                        : null;
+
+                    if (!string.IsNullOrEmpty(section)
+                        && !string.IsNullOrEmpty(parameter))
+                    {
+                        IniFile iniFile = context.Environment.GetUserIniFile();
+                        if (!ReferenceEquals(iniFile, null))
+                        {
+                            string result = iniFile.GetValue
+                                (
+                                    section,
+                                    parameter,
+                                    defaultValue
+                                );
+                            if (!string.IsNullOrEmpty(result))
+                            {
+                                context.Write(node, result);
+                                context.OutputFlag = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get MNU-file entry.
+        /// </summary>
+        public static void GetMenuEntry
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                TextNavigator navigator = new TextNavigator(expression);
+                string menuName = navigator.ReadUntil('\\', '!');
+                if (string.IsNullOrEmpty(menuName))
+                {
+                    return;
+                }
+                char separator = navigator.ReadChar();
+                if (separator != '\\' && separator != '!')
+                {
+                    return;
+                }
+                string key = navigator.GetRemainingText();
+                if (string.IsNullOrEmpty(key))
+                {
+                    return;
+                }
+                FileSpecification specification = new FileSpecification
+                        (
+                            IrbisPath.MasterFile,
+                            context.Environment.Database,
+                            menuName
+                        );
+                MenuFile menu = context.Environment.ReadMenuFile
+                    (
+                        specification
+                    );
+                if (!ReferenceEquals(menu, null))
+                {
+                    string output = null;
+
+                    switch (separator)
+                    {
+                        case '\\':
+                            output = menu.GetStringSensitive(key);
+                            break;
+
+                        case '!':
+                            output = menu.GetString(key);
+                            break;
+                    }
+
+                    if (!string.IsNullOrEmpty(output))
+                    {
+                        context.Write(node, output);
+                        context.OutputFlag = true;
+                    }
+                }
             }
         }
 

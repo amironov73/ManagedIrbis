@@ -13,6 +13,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Pft.Infrastructure.Environment;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -184,6 +185,19 @@ namespace ManagedIrbis.Pft.Infrastructure
                     _InlineEvaluator
                 );
             return result;
+        }
+
+        /// <summary>
+        /// Set environment.
+        /// </summary>
+        public void SetEnvironment
+            (
+                [NotNull] PftEnvironmentAbstraction environment
+            )
+        {
+            Code.NotNull(environment, "environment");
+
+            Context.SetEnvironment(environment);
         }
 
         #endregion

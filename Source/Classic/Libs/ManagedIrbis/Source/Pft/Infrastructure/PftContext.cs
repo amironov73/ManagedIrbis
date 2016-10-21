@@ -14,6 +14,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 using ManagedIrbis.Pft.Infrastructure.Ast;
+using ManagedIrbis.Pft.Infrastructure.Environment;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -31,10 +32,11 @@ namespace ManagedIrbis.Pft.Infrastructure
     {
         #region Properties
 
-        ///// <summary>
-        ///// Форматтер
-        ///// </summary>
-        //public PftFormatter Formatter { get { return _formatter; } }
+        /// <summary>
+        /// Environment.
+        /// </summary>
+        [NotNull]
+        public PftEnvironmentAbstraction Environment { get; private set; }
 
         /// <summary>
         /// Родительский контекст.
@@ -148,6 +150,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             )
         {
             _parent = parent;
+
+            Environment = new PftLocalEnvironment();
 
             PftOutput parentBuffer = (parent == null)
                 ? null
@@ -289,6 +293,19 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 // Nothing to do?
             }
+        }
+
+        /// <summary>
+        /// Set environment.
+        /// </summary>
+        public void SetEnvironment
+            (
+                [NotNull] PftEnvironmentAbstraction environment
+            )
+        {
+            Code.NotNull(environment, "environment");
+
+            Environment = environment;
         }
 
         /// <summary>
