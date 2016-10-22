@@ -9,10 +9,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using AM.Collections;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -51,6 +50,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [NotNull]
         public NonNullCollection<PftNode> ThenBranch { get; private set; }
 
+        /// <inheritdoc />
+        public override IList<PftNode> Children
+        {
+            get
+            {
+                // TODO: some caching
+
+                _virtualChildren = new VirtualChildren();
+                List<PftNode> nodes = new List<PftNode>
+                {
+                    Condition
+                };
+                nodes.AddRange(ThenBranch);
+                nodes.AddRange(ElseBranch);
+                _virtualChildren.SetChildren(nodes);
+
+                return _virtualChildren;
+            }
+            protected set
+            {
+                // Nothing to do here
+            }
+        }
+
         #endregion
 
         #region Construction
@@ -80,6 +103,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Private members
+
+        private VirtualChildren _virtualChildren;
+
+        private void _OnEnumeration
+            (
+                object sender,
+                EventArgs eventArgs
+            )
+        {
+            _virtualChildren = new VirtualChildren();
+            List<PftNode> nodes = new List<PftNode>
+            {
+                Condition
+            };
+            nodes.AddRange(ThenBranch);
+            nodes.AddRange(ElseBranch);
+            _virtualChildren.SetChildren(nodes);
+        }
 
         #endregion
 

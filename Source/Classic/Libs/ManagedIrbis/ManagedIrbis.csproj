@@ -323,6 +323,7 @@
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforPlus9.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforS.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforU.cs" />
+    <Compile Include="Source\Pft\Infrastructure\VirtualChildren.cs" />
     <Compile Include="Source\Pft\PftException.cs" />
     <Compile Include="Source\Pft\PftNotConnectedException.cs" />
     <Compile Include="Source\Pft\PftSemanticException.cs" />
