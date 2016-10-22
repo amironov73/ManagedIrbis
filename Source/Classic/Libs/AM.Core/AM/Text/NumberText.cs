@@ -305,6 +305,11 @@ namespace AM.Text
         {
             get
             {
+                if (index < 0)
+                {
+                    return null;
+                }
+
                 LinkedListNode<Chunk> result = _chunks.First;
                 while (index > 0)
                 {
@@ -315,6 +320,7 @@ namespace AM.Text
                     result = result.Next;
                     index--;
                 }
+
                 return (result == null)
                     ? null
                     : result.Value;
@@ -648,7 +654,7 @@ namespace AM.Text
                 {
                     if (firstBuffer.Length == 0)
                     {
-                        throw new Exception();
+                        throw new ArsMagnaException();
                     }
 
                     break;
@@ -726,7 +732,7 @@ namespace AM.Text
 
                 while (firstNumber.CompareTo(secondNumber) <= 0)
                 {
-                    yield return firstNumber;
+                    yield return firstNumber.Clone();
                     firstNumber = firstNumber.Increment();
                 }
 
@@ -935,6 +941,7 @@ namespace AM.Text
                         : -1;
                 }
             }
+
             return 0;
         }
 
@@ -984,6 +991,7 @@ namespace AM.Text
         {
             NumberText one = new NumberText(left);
             NumberText two = new NumberText(right);
+
             return one.CompareTo ( two );
         }
 
@@ -1466,12 +1474,7 @@ namespace AM.Text
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc/>
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
