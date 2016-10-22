@@ -1,0 +1,1 @@
+﻿Two field references back-to-back

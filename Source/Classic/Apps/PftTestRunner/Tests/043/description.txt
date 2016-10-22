@@ -1,0 +1,1 @@
+﻿Evaluate string inclusion with ':' operator

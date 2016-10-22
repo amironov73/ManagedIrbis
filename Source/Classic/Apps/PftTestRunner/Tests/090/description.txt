@@ -1,0 +1,1 @@
+﻿&uf('+96') - get substring from the text

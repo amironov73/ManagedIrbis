@@ -14,6 +14,6 @@
   },
   "buildOptions": {
     "define": [ "NETCORE" ],
-    "compile": "../../Libs/ManagedIrbis/**/*.cs"
+    "compile": "../../Classic/Libs/ManagedIrbis/**/*.cs"
   }
 }

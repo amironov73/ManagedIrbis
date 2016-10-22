@@ -1,0 +1,1 @@
+﻿Repeated field with repeatable literal out of the group

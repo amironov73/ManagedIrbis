@@ -1,0 +1,5 @@
+﻿today('yyyy-MMM-dd')/
+getenv('comspec')/
+OsVersion()/
+CommandLine()/
+MachineName()

@@ -1,0 +1,1 @@
+﻿Val function on unconditional literal

@@ -27,6 +27,9 @@ after_build:
 - cmd: compile.cmd
 - cmd: compilecore.cmd
 - cmd: compilesl.cmd
+- cmd: compiledroid.cmd
+- cmd: compileuap.cmd
+- cmd: compilewin81.cmd
 - cmd: cd Nuget
 - cmd: packit.cmd
 
@@ -35,9 +38,9 @@ artifacts:
     name: ManagedIrbis
   - path: Nuget\*.nupkg
     name: Nuget
-  - path: Source\Libs\AM.Istu\bin\Debug
+  - path: Source\Classic\Libs\AM.Istu\bin\Debug
     name: AM.Istu
-  - path: Source\Apps\Garfield\bin\Debug
+  - path: Source\Classic\Apps\Garfield\bin\Debug
     name: Garfield
 
 deploy:

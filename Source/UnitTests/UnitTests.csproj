@@ -37,8 +37,8 @@
   <Choose>
     <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
       <ItemGroup>
-        <Reference Include="MoonSharp.Interpreter, Version=1.6.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
-          <HintPath>..\packages\MoonSharp.1.6.0.0\lib\net35-client\MoonSharp.Interpreter.dll</HintPath>
+        <Reference Include="MoonSharp.Interpreter, Version=1.8.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\packages\MoonSharp.1.8.0.0\lib\net35-client\MoonSharp.Interpreter.dll</HintPath>
           <Private>True</Private>
         </Reference>
         <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -54,8 +54,8 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="MoonSharp.Interpreter, Version=1.6.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
-          <HintPath>..\packages\MoonSharp.1.6.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+        <Reference Include="MoonSharp.Interpreter, Version=1.8.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\packages\MoonSharp.1.8.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
           <Private>True</Private>
         </Reference>
         <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -67,8 +67,8 @@
     <Otherwise>
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="MoonSharp.Interpreter, Version=1.6.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
-          <HintPath>..\packages\MoonSharp.1.6.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+        <Reference Include="MoonSharp.Interpreter, Version=1.8.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\packages\MoonSharp.1.8.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
           <Private>True</Private>
         </Reference>
         <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -103,6 +103,8 @@
   <ItemGroup>
     <Compile Include="AM\Caching\MemoryCacheTest.cs" />
     <Compile Include="AM\Caching\FileCacheTest.cs" />
+    <Compile Include="AM\Collections\CloneableCollectionTest.cs" />
+    <Compile Include="AM\Collections\CloneableDictionaryTest.cs" />
     <Compile Include="AM\Collections\KeyedCollectionTest.cs" />
     <Compile Include="AM\Collections\NonNullCollectionTest.cs" />
     <Compile Include="AM\Collections\CharSetTest.cs" />
@@ -115,6 +117,7 @@
     <Compile Include="AM\Collections\DisposableCollectionTest.cs" />
     <Compile Include="AM\Collections\ListUtilityTest.cs" />
     <Compile Include="AM\Collections\DictionaryListTest.cs" />
+    <Compile Include="AM\Collections\TreeNodeTest.cs" />
     <Compile Include="AM\Collections\XRangeTest.cs" />
     <Compile Include="AM\CommandLine\CommandLineParserTest.cs" />
     <Compile Include="AM\CommandLine\CommandLineSettingsTest.cs" />
@@ -163,6 +166,7 @@
     <Compile Include="AM\Text\NewLineTest.cs" />
     <Compile Include="AM\Text\InvariantFormatTest.cs" />
     <Compile Include="AM\Text\RussianFormatTest.cs" />
+    <Compile Include="AM\Text\NumberTextTest.cs" />
     <Compile Include="AM\Threading\StateHolderTest.cs" />
     <Compile Include="AM\Threading\BusyStateTest.cs" />
     <Compile Include="AM\Threading\BusyGuardTest.cs" />
@@ -225,7 +229,6 @@
     <Compile Include="ManagedIrbis\IrbisOptTest.cs" />
     <Compile Include="ManagedIrbis\IrbisAlphabetTableTest.cs" />
     <Compile Include="ManagedIrbis\ParFileTest.cs" />
-    <Compile Include="ManagedIrbis\FieldReferenceTest.cs" />
     <Compile Include="ManagedIrbis\Identifiers\IsbnTest.cs" />
     <Compile Include="ManagedIrbis\IrbisTreeFileTest.cs" />
     <Compile Include="ManagedIrbis\RecordFieldCollectionTest.cs" />
@@ -250,11 +253,11 @@
     <Compile Include="System\IO\Compression\DeflateStreamTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Libs\AM.Core\AM.Core.csproj">
+    <ProjectReference Include="..\Classic\Libs\AM.Core\AM.Core.csproj">
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
       <Name>AM.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Libs\ManagedIrbis\ManagedIrbis.csproj">
+    <ProjectReference Include="..\Classic\Libs\ManagedIrbis\ManagedIrbis.csproj">
       <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
       <Name>ManagedIrbis</Name>
     </ProjectReference>

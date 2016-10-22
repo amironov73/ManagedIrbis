@@ -1,0 +1,1 @@
+﻿if &uf('+6')<>'0' then 'NOT ' fi 'deleted'

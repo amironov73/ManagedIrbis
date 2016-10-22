@@ -1,0 +1,2 @@
+﻿if p(v200) and a(v201) then 'As expected' else 'Hmm, strange' fi/
+if p(v200) and a(v200) then 'Hmm, strange' else 'As expected' fi/

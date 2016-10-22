@@ -1,0 +1,1 @@
+﻿Evaluating functions: today(), getenv('comspec'), OsVersion(), CommandLine() and MachineName()

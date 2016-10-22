@@ -1,0 +1,1 @@
+﻿&uf('+95') - get string length

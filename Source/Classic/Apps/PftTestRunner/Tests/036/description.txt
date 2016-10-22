@@ -1,0 +1,1 @@
+﻿Conditional literals back-to-back

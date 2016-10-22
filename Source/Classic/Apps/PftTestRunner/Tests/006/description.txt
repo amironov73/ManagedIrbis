@@ -1,0 +1,1 @@
+﻿Simple group on repeated field with subfield

@@ -1,0 +1,1 @@
+﻿Test npost('v700') function

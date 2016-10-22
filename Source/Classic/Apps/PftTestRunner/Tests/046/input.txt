@@ -1,0 +1,1 @@
+﻿toupper(tolower('Hello'))

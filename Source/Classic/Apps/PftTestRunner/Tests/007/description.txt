@@ -1,0 +1,1 @@
+﻿Group on repeated field with unconditional literal

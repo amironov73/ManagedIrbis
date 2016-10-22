@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{51481C63-5D59-4AE1-927A-C94276B63C72}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AM.Rfid</RootNamespace>
+    <AssemblyName>AM.Rfid</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW45</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Debug\AM.Rfid.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW45</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Release\AM.Rfid.xml</DocumentationFile>
+  </PropertyGroup>
+  <Choose>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
+      <ItemGroup>
+        <Reference Include="MoonSharp.Interpreter, Version=1.8.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\MoonSharp.1.8.0.0\lib\net35-client\MoonSharp.Interpreter.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net35\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\TaskParallelLibrary.1.0.2856.0\lib\Net35\System.Threading.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="OBIDISC4NET, Version=4.5.0.0, Culture=neutral, PublicKeyToken=900ed37a7058e4f2, processorArchitecture=x86">
+          <HintPath>..\..\..\ThirdParty\IDLogic\NET2\OBIDISC4NET.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="pcsc-sharp, Version=3.5.1.0, Culture=neutral, PublicKeyToken=6d1a05bf134decdf, processorArchitecture=MSIL">
+          <HintPath>..\..\..\ThirdParty\PCSC\net35\pcsc-sharp.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET2\FeCom.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET2\FedmIscCoreVC80.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET2\FedmIscMyAxxessVC80.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET2\fefu.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET2\FeIsc.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET2\fetcl.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET2\fetcp.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET2\feusb.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET2\OBIDISC4NETnative.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
+      <ItemGroup>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="MoonSharp.Interpreter, Version=1.8.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\MoonSharp.1.8.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="OBIDISC4NET, Version=4.5.0.0, Culture=neutral, PublicKeyToken=900ed37a7058e4f2, processorArchitecture=x86">
+          <HintPath>..\..\..\ThirdParty\IDLogic\NET4\x86\OBIDISC4NET.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="pcsc-sharp, Version=3.5.1.0, Culture=neutral, PublicKeyToken=6d1a05bf134decdf, processorArchitecture=MSIL">
+          <HintPath>..\..\..\ThirdParty\PCSC\net40\pcsc-sharp.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\FeCom.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\FedmIscCoreVC100.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\FedmIscMyAxxessVC100.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\fefu.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\FeIsc.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\fetcl.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\fetcp.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\feusb.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\OBIDISC4NETnative.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="MoonSharp.Interpreter, Version=1.8.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\MoonSharp.1.8.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="OBIDISC4NET, Version=4.5.0.0, Culture=neutral, PublicKeyToken=900ed37a7058e4f2, processorArchitecture=x86">
+          <HintPath>..\..\..\ThirdParty\IDLogic\NET4\x86\OBIDISC4NET.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="pcsc-sharp, Version=3.5.1.0, Culture=neutral, PublicKeyToken=6d1a05bf134decdf, processorArchitecture=MSIL">
+          <HintPath>..\..\..\ThirdParty\PCSC\net40\pcsc-sharp.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\FeCom.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\FedmIscCoreVC100.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\FedmIscMyAxxessVC100.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\fefu.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\FeIsc.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\fetcl.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\fetcp.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\feusb.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\OBIDISC4NETnative.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <PropertyGroup>
+    <ApplicationIcon>BlueBook.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>ArsMagna.private.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>bin\Debug\AM.Rfid.xml</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\AM.Rfid.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JetBrains.Annotations, Version=10.1.5.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\JetBrains.Annotations.10.1.5\lib\net\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AM\Rfid\RfidCapabilities.cs" />
+    <Compile Include="AM\Rfid\RfidCardmanDriver.cs" />
+    <Compile Include="AM\Rfid\RfidDriver.cs" />
+    <Compile Include="AM\Rfid\RfidException.cs" />
+    <Compile Include="AM\Rfid\RfidFactory.cs" />
+    <Compile Include="AM\Rfid\RfidFeigDriver.cs" />
+    <Compile Include="AM\Rfid\RfidFeigNxpDriver.cs" />
+    <Compile Include="AM\Rfid\RfidSystemInfo.cs" />
+    <Compile Include="AM\Rfid\FeigSystemInformation.cs" />
+    <Compile Include="AM\Rfid\RfidTagList.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BlueBook.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AM.Core\AM.Core.csproj">
+      <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
+      <Name>AM.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ArsMagna.private.snk" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
