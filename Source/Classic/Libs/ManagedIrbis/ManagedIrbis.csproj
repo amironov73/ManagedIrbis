@@ -265,6 +265,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNumericLiteral.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftP.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftRsum.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftSemicolon.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftV.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftG.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftGroup.cs" />

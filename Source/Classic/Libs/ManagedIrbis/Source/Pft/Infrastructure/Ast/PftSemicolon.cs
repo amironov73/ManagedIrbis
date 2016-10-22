@@ -1,4 +1,4 @@
-﻿/* PftComma.cs -- оператор "запятая"
+﻿/* PftSemicolon.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -19,11 +19,11 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// Оператор "запятая".
+    /// 
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class PftComma
+    public sealed class PftSemicolon
         : PftNode
     {
         #region Properties
@@ -35,20 +35,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PftComma()
+        public PftSemicolon()
         {
         }
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PftComma
+        public PftSemicolon
             (
                 [NotNull] PftToken token
             )
+            : base(token)
         {
             Code.NotNull(token, "token");
-            token.MustBe(PftTokenKind.Comma);
+            token.MustBe(PftTokenKind.Semicolon);
         }
 
         #endregion
@@ -83,7 +84,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             // Добавляем пробел для читабельности
-            writer.Write(", ");
+            writer.Write("; ");
         }
 
         #endregion

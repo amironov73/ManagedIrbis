@@ -32,6 +32,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 {
     using Ast;
 
+    // ReSharper disable InconsistentNaming
+
     /// <summary>
     /// Parser for PFT language.
     /// </summary>
@@ -61,14 +63,14 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.ConditionalLiteral, PftTokenKind.C,
             PftTokenKind.Comma, PftTokenKind.Comment, PftTokenKind.Hash,
             PftTokenKind.Mpl, PftTokenKind.Nl, PftTokenKind.Percent,
-            PftTokenKind.Slash, PftTokenKind.X
+            PftTokenKind.Semicolon, PftTokenKind.Slash, PftTokenKind.X
         };
 
         private static PftTokenKind[] LeftHandItems2 =
         {
             PftTokenKind.C, PftTokenKind.Comma, PftTokenKind.Comment,
             PftTokenKind.Hash, PftTokenKind.Nl, PftTokenKind.Percent,
-            PftTokenKind.Slash, PftTokenKind.X
+            PftTokenKind.Semicolon, PftTokenKind.Slash, PftTokenKind.X
         };
 
         /// <summary>
@@ -107,7 +109,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftTokenKind.C, PftTokenKind.Comma, PftTokenKind.Comment,
             PftTokenKind.Hash, PftTokenKind.Nl, PftTokenKind.Percent,
-            PftTokenKind.Slash, PftTokenKind.X
+            PftTokenKind.Semicolon, PftTokenKind.Slash, PftTokenKind.X
         };
 
         private static PftTokenKind[] SimpleTokens =
@@ -115,8 +117,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.Break, PftTokenKind.Comma, PftTokenKind.C,
             PftTokenKind.Hash, PftTokenKind.Mfn, PftTokenKind.Mpl,
             PftTokenKind.Nl, PftTokenKind.Percent, PftTokenKind.Slash,
-            PftTokenKind.UnconditionalLiteral, PftTokenKind.X,
-            PftTokenKind.Unifor,
+            PftTokenKind.Semicolon, PftTokenKind.UnconditionalLiteral,
+            PftTokenKind.X, PftTokenKind.Unifor,
 
             PftTokenKind.V, PftTokenKind.ConditionalLiteral,
             PftTokenKind.RepeatableLiteral,
@@ -186,6 +188,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.P,ParseP},
                 {PftTokenKind.Percent, ParsePercent},
                 {PftTokenKind.RepeatableLiteral, ParseField},
+                {PftTokenKind.Semicolon, ParseSemicolon},
                 {PftTokenKind.Slash, ParseSlash},
                 {PftTokenKind.UnconditionalLiteral, ParseUnconditionalLiteral},
                 {PftTokenKind.Unifor, ParseUnifor},
@@ -206,7 +209,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.Nl, ParseNl},
                 {PftTokenKind.Percent, ParsePercent},
                 {PftTokenKind.RepeatableLiteral, ParseRepeatableLiteral},
-                {PftTokenKind.Slash, ParseSlash},
+                {PftTokenKind.Semicolon, ParseSemicolon},
+                { PftTokenKind.Slash, ParseSlash},
                 {PftTokenKind.UnconditionalLiteral, ParseUnconditionalLiteral},
                 {PftTokenKind.X, ParseX}
             };
@@ -902,6 +906,11 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 
             throw new PftSyntaxException(Tokens.Current);
+        }
+
+        private PftNode ParseSemicolon()
+        {
+            return MoveNext(new PftSemicolon(Tokens.Current));
         }
 
         private PftNode ParseSlash()
