@@ -259,6 +259,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftD.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftF.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftFunctionCall.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftInclude.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftL.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNl.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNumeric.cs" />
