@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -245,6 +246,106 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
+        public void StringUtility_LastChar()
+        {
+            Assert.AreEqual('\0', ((string)null).LastChar());
+            Assert.AreEqual('\0', "".LastChar());
+            Assert.AreEqual(' ', " ".LastChar());
+            Assert.AreEqual('!', "Hello, world!".LastChar());
+        }
+
+        [TestMethod]
+        public void StringUtility_OneOf1()
+        {
+            List<string> list = new List<string>
+            {
+                "Hello",
+                "world"
+            };
+            Assert.IsTrue("Hello".OneOf(list));
+            Assert.IsTrue("hello".OneOf(list));
+            Assert.IsTrue("WORLD".OneOf(list));
+            Assert.IsFalse("".OneOf(list));
+            Assert.IsFalse("Other".OneOf(list));
+        }
+
+        [TestMethod]
+        public void StringUtility_OneOf2()
+        {
+            Assert.IsTrue("Hello".OneOf("Hello", "world"));
+            Assert.IsTrue("hello".OneOf("Hello", "world"));
+            Assert.IsTrue("WORLD".OneOf("Hello", "world"));
+            Assert.IsFalse("".OneOf("Hello", "world"));
+            Assert.IsFalse("Other".OneOf("Hello", "world"));
+        }
+
+        [TestMethod]
+        public void StringUtility_OneOf3()
+        {
+            List<char> list = new List<char>
+            {
+                'a',
+                'b',
+                'c'
+            };
+            Assert.IsTrue('a'.OneOf(list));
+            Assert.IsTrue('b'.OneOf(list));
+            Assert.IsTrue('c'.OneOf(list));
+            Assert.IsFalse('d'.OneOf(list));
+            Assert.IsFalse(' '.OneOf(list));
+        }
+
+        [TestMethod]
+        public void StringUtility_OneOf4()
+        {
+            Assert.IsTrue('a'.OneOf('a', 'b', 'c'));
+            Assert.IsTrue('b'.OneOf('a', 'b', 'c'));
+            Assert.IsTrue('c'.OneOf('a', 'b', 'c'));
+            Assert.IsFalse('d'.OneOf('a', 'b', 'c'));
+            Assert.IsFalse(' '.OneOf('a', 'b', 'c'));
+        }
+
+        [TestMethod]
+        public void StringUtility_SafeCompare()
+        {
+            Assert.IsTrue("".SafeCompare("") == 0);
+            Assert.IsTrue("".SafeCompare(" ") < 0);
+            Assert.IsTrue("A".SafeCompare(" ") > 0);
+            Assert.IsTrue("A".SafeCompare(null) > 0);
+            Assert.IsTrue(((string)null).SafeCompare(null) == 0);
+            Assert.IsTrue(((string)null).SafeCompare("") < 0);
+        }
+
+        [TestMethod]
+        public void StringUtility_SameChar()
+        {
+            Assert.IsTrue('a'.SameChar('a'));
+            Assert.IsTrue('a'.SameChar('A'));
+            Assert.IsTrue('A'.SameChar('A'));
+            Assert.IsFalse('a'.SameChar('B'));
+        }
+
+        [TestMethod]
+        public void StringUtility_SameString()
+        {
+            Assert.IsTrue("".SameString(""));
+            Assert.IsTrue(" ".SameString(" "));
+            Assert.IsTrue("Hello".SameString("HELLO"));
+            Assert.IsFalse("Hello".SameString("HELLO2"));
+        }
+
+        [TestMethod]
+        public void StringUtility_SameStringSensitive()
+        {
+            Assert.IsTrue("".SameStringSensitive(""));
+            Assert.IsTrue(" ".SameStringSensitive(" "));
+            Assert.IsTrue("Hello".SameStringSensitive("Hello"));
+            Assert.IsFalse("Hello".SameStringSensitive("HELLO"));
+            Assert.IsFalse("Hello".SameStringSensitive("HELLO2"));
+        }
+
+
+        [TestMethod]
         public void StringUtility_Sparse()
         {
             _TestSparse(null, null);
@@ -254,6 +355,24 @@ namespace UnitTests.AM
             _TestSparse("Hello,world!", "Hello, world!");
             _TestSparse("Hello,  world!", "Hello, world!");
             _TestSparse("Hello ,world!", "Hello, world!");
+        }
+
+        [TestMethod]
+        public void StringUtility_SplitFirst()
+        {
+            string[] parts = "".SplitFirst('!');
+            Assert.AreEqual(1, parts.Length);
+            Assert.AreEqual("", parts[0]);
+
+            parts = "Hello!Again".SplitFirst('!');
+            Assert.AreEqual(2, parts.Length);
+            Assert.AreEqual("Hello", parts[0]);
+            Assert.AreEqual("Again", parts[1]);
+
+            parts = "Hello!Again!And again".SplitFirst('!');
+            Assert.AreEqual(2, parts.Length);
+            Assert.AreEqual("Hello", parts[0]);
+            Assert.AreEqual("Again!And again", parts[1]);
         }
 
         [TestMethod]
@@ -292,7 +411,15 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void StringUtility_Unquote()
+        public void StringUtility_Unquote1()
+        {
+            Assert.AreEqual("", "\"\"".Unquote());
+            Assert.AreEqual("\"\"1", "\"\"1".Unquote());
+            Assert.AreEqual("text", "\"text\"".Unquote());
+        }
+
+        [TestMethod]
+        public void StringUtility_Unquote2()
         {
             Assert.AreEqual("", "()".Unquote('(', ')'));
             Assert.AreEqual("()1", "()1".Unquote('(', ')'));
