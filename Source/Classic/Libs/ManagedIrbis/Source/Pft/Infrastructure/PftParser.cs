@@ -63,14 +63,14 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.ConditionalLiteral, PftTokenKind.C,
             PftTokenKind.Comma, PftTokenKind.Comment, PftTokenKind.Hash,
             PftTokenKind.Mpl, PftTokenKind.Nl, PftTokenKind.Percent,
-            PftTokenKind.Semicolon, PftTokenKind.Slash, PftTokenKind.X
+            PftTokenKind.Slash, PftTokenKind.X
         };
 
         private static PftTokenKind[] LeftHandItems2 =
         {
             PftTokenKind.C, PftTokenKind.Comma, PftTokenKind.Comment,
             PftTokenKind.Hash, PftTokenKind.Nl, PftTokenKind.Percent,
-            PftTokenKind.Semicolon, PftTokenKind.Slash, PftTokenKind.X
+            PftTokenKind.Slash, PftTokenKind.X
         };
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftTokenKind.C, PftTokenKind.Comma, PftTokenKind.Comment,
             PftTokenKind.Hash, PftTokenKind.Nl, PftTokenKind.Percent,
-            PftTokenKind.Semicolon, PftTokenKind.Slash, PftTokenKind.X
+            PftTokenKind.Slash, PftTokenKind.X
         };
 
         private static PftTokenKind[] SimpleTokens =
@@ -117,7 +117,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.Break, PftTokenKind.Comma, PftTokenKind.C,
             PftTokenKind.Hash, PftTokenKind.Mfn, PftTokenKind.Mpl,
             PftTokenKind.Nl, PftTokenKind.Percent, PftTokenKind.Slash,
-            PftTokenKind.Semicolon, PftTokenKind.UnconditionalLiteral,
+            PftTokenKind.UnconditionalLiteral,
             PftTokenKind.X, PftTokenKind.Unifor,
 
             PftTokenKind.V, PftTokenKind.ConditionalLiteral,
