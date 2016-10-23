@@ -20,9 +20,10 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TestTransliterator()
+        public void _Transliterator_Transliterate()
         {
             _TestTransliterate("", "");
+            _TestTransliterate("Hello", "Hello");
             _TestTransliterate("Ого", "Ogo");
             _TestTransliterate("Миронов", "Mironov");
         }
