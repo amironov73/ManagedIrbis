@@ -21,18 +21,26 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TestNewLine()
+        public void NewLine_RemoveLineBreaks()
         {
             _Test(null, NewLine.RemoveLineBreaks, null);
             _Test("", NewLine.RemoveLineBreaks, "");
             _Test("", NewLine.RemoveLineBreaks, "\n");
             _Test(" ", NewLine.RemoveLineBreaks, " ");
+        }
 
+        [TestMethod]
+        public void NewLine_UnixToDos()
+        {
             _Test(null, NewLine.UnixToDos, null);
             _Test("", NewLine.UnixToDos, "");
             _Test("\r\n", NewLine.UnixToDos, "\n");
             _Test(" ", NewLine.UnixToDos, " ");
+        }
 
+        [TestMethod]
+        public void NewLine_DosToUnix()
+        {
             _Test(null, NewLine.DosToUnix, null);
             _Test("", NewLine.DosToUnix, "");
             _Test("\n", NewLine.DosToUnix, "\r\n");

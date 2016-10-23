@@ -37,14 +37,14 @@ namespace AM.Text
         /// Text itself.
         /// </summary>
         [CanBeNull]
-        public string Text { get; set; }
+        public string Text { get; private set; }
 
         /// <summary>
         /// Encoding.
         /// </summary>
         /// <remarks><c>null</c> treated as default encoding.</remarks>
         [CanBeNull]
-        public Encoding Encoding { get; set; }
+        public Encoding Encoding { get; private set; }
 
         #endregion
 
@@ -272,32 +272,24 @@ namespace AM.Text
                 && Equals((TextWithEncoding) obj);
         }
 
-        /// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>A hash code for this instance,
-        /// suitable for use in hashing algorithms
-        /// and data structures like a hash table.
-        /// </returns>
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
-            return (Text != null ? Text.GetHashCode() : 0);
+            return ReferenceEquals(Text, null)
+                ? 0
+                : Text.GetHashCode();
         }
 
         #endregion
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc/>
         public override string ToString()
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
-            return Text;
+            return ReferenceEquals(Text, null)
+                ? string.Empty
+                : Text;
         }
 
         #endregion

@@ -148,6 +148,7 @@
     <Compile Include="AM\Runtime\HandmadeSerializerTest.cs" />
     <Compile Include="AM\StringUtiltityTest.cs" />
     <Compile Include="AM\NumberTextTest.cs" />
+    <Compile Include="AM\Text\CharacterClassifierTest.cs" />
     <Compile Include="AM\Text\Hyphenation\RussianHyphenatorTest.cs" />
     <Compile Include="AM\Text\Hyphenation\EnglishHyphenatorTest.cs" />
     <Compile Include="AM\Text\Hyphenation\HyphenatorTest.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="AM\Text\Ranges\NumberRangeCollectionTest.cs" />
     <Compile Include="AM\Text\StringTokenizerTest.cs" />
     <Compile Include="AM\Text\StreamParserTest.cs" />
+    <Compile Include="AM\Text\TextPositionTest.cs" />
     <Compile Include="AM\Text\Tokenizer\TokenStreamTest.cs" />
     <Compile Include="AM\Text\Tokenizer\TokenTest.cs" />
     <Compile Include="AM\Text\TransliteratorTest.cs" />

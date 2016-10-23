@@ -135,17 +135,17 @@ namespace AM.Text
                 }
                 c = PeekChar();
             }
-            if ((c == 'F') || (c == 'f') || (c == 'D') || (c == 'd')
-                || (c == 'M') || (c == 'm'))
-            {
-                result.Append(ReadChar());
-            }
+            //if ((c == 'F') || (c == 'f') || (c == 'D') || (c == 'd')
+            //    || (c == 'M') || (c == 'm'))
+            //{
+            //    result.Append(ReadChar());
+            //}
             return result;
         }
 
         #endregion
 
-#region Public methods
+        #region Public methods
 
 #if !WIN81
 
@@ -610,9 +610,9 @@ namespace AM.Text
             }
         }
 
-#endregion
+        #endregion
 
-#region IDisposable members
+        #region IDisposable members
 
         /// <summary>
         /// Performs application-defined tasks associated
@@ -627,6 +627,6 @@ namespace AM.Text
             }
         }
 
-#endregion
+        #endregion
     }
 }
