@@ -11,6 +11,36 @@ namespace UnitTests.AM
     public class StringUtilityTest
     {
         [TestMethod]
+        public void StringUtility_CCat1()
+        {
+            Assert.AreEqual
+                (
+                    "Directory\\",
+                    "Directory".CCat("\\")
+                );
+            Assert.AreEqual
+                (
+                    "Directory\\",
+                    "Directory\\".CCat("\\")
+                );
+        }
+
+        [TestMethod]
+        public void StringUtility_CCat2()
+        {
+            Assert.AreEqual
+                (
+                    "Directory\\",
+                    "Directory".CCat("?", "\\")
+                );
+            Assert.AreEqual
+                (
+                    "Directory?",
+                    "Directory?".CCat("?", "\\")
+                );
+        }
+
+        [TestMethod]
         public void StringUtility_CompareNoCase1()
         {
             Assert.IsTrue(StringUtility.CompareNoCase('A', 'a'));
@@ -122,6 +152,22 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
+        public void StringUtility_ContainsAnySymbol()
+        {
+            Assert.IsTrue("Again".ContainsAnySymbol('a', 'b', 'c'));
+            Assert.IsFalse("".ContainsAnySymbol('a', 'b', 'c'));
+            Assert.IsFalse("Other".ContainsAnySymbol('a', 'b', 'c'));
+        }
+
+        [TestMethod]
+        public void StringUtility_ContainsWhitespace()
+        {
+            Assert.IsTrue("Again and again".ContainsWhitespace());
+            Assert.IsFalse("Again_and_again".ContainsWhitespace());
+            Assert.IsFalse("".ContainsWhitespace());
+        }
+
+        [TestMethod]
         public void StringUtility_EmptyToNull()
         {
             Assert.AreEqual("Hello", "Hello".EmptyToNull());
@@ -151,6 +197,24 @@ namespace UnitTests.AM
             _TestGetPositions("a", 'a', 0);
             _TestGetPositions("aga", 'a', 0, 2);
             _TestGetPositions("aga", 'b');
+        }
+
+        [TestMethod]
+        public void StringUtility_GetWords()
+        {
+            string[] words = StringUtility.GetWords("");
+            Assert.AreEqual(0, words.Length);
+
+            words = StringUtility.GetWords("Hello");
+            Assert.AreEqual(1, words.Length);
+
+            words = StringUtility.GetWords("Hello, world!");
+            Assert.AreEqual(2, words.Length);
+            Assert.AreEqual("Hello", words[0]);
+            Assert.AreEqual("world", words[1]);
+
+            words = StringUtility.GetWords("!!!");
+            Assert.AreEqual(0, words.Length);
         }
 
         [TestMethod]
@@ -184,6 +248,28 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
+        public void StringUtility_IsInteger()
+        {
+            Assert.IsFalse(StringUtility.IsInteger(""));
+            Assert.IsFalse(StringUtility.IsInteger("A"));
+            Assert.IsTrue(StringUtility.IsInteger("0"));
+            Assert.IsTrue(StringUtility.IsInteger("1"));
+            Assert.IsTrue(StringUtility.IsInteger("-1"));
+            Assert.IsFalse(StringUtility.IsInteger(new string('1', 1000)));
+        }
+
+        [TestMethod]
+        public void StringUtility_IsLongInteger()
+        {
+            Assert.IsFalse(StringUtility.IsLongInteger(""));
+            Assert.IsFalse(StringUtility.IsLongInteger("A"));
+            Assert.IsTrue(StringUtility.IsLongInteger("0"));
+            Assert.IsTrue(StringUtility.IsLongInteger("1"));
+            Assert.IsTrue(StringUtility.IsLongInteger("-1"));
+            Assert.IsFalse(StringUtility.IsLongInteger(new string('1', 1000)));
+        }
+
+        [TestMethod]
         public void StringUtility_IsNumeric()
         {
             Assert.IsFalse(StringUtility.IsNumeric(string.Empty));
@@ -193,6 +279,16 @@ namespace UnitTests.AM
             Assert.IsTrue(StringUtility.IsNumeric("-12.34"));
             Assert.IsFalse(StringUtility.IsNumeric("12 340"));
             Assert.IsTrue(StringUtility.IsNumeric("12.34E50"));
+        }
+        [TestMethod]
+        public void StringUtility_IsShortInteger()
+        {
+            Assert.IsFalse(StringUtility.IsShortInteger(""));
+            Assert.IsFalse(StringUtility.IsShortInteger("A"));
+            Assert.IsTrue(StringUtility.IsShortInteger("0"));
+            Assert.IsTrue(StringUtility.IsShortInteger("1"));
+            Assert.IsTrue(StringUtility.IsShortInteger("-1"));
+            Assert.IsFalse(StringUtility.IsShortInteger(new string('1', 1000)));
         }
 
         [TestMethod]
@@ -254,6 +350,45 @@ namespace UnitTests.AM
             Assert.AreEqual('!', "Hello, world!".LastChar());
         }
 
+        private void _TestMangle
+            (
+                string text,
+                string expected
+            )
+        {
+            char[] badCharacters = { 'a', 'b', 'c' };
+            string actual = StringUtility.Mangle
+                (
+                    text,
+                    '\\',
+                    badCharacters
+                );
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void StringUtility_Mangle()
+        {
+            _TestMangle(null, null);
+            _TestMangle(string.Empty, string.Empty);
+            _TestMangle("Hello", "Hello");
+            _TestMangle("Hello: a", "Hello: \\a");
+            _TestMangle("abc", "\\a\\b\\c");
+            _TestMangle("\\", "\\\\");
+        }
+
+        [TestMethod]
+        public void StringUtility_MergeLines()
+        {
+            string[] lines = new string[0];
+            string text = lines.MergeLines();
+            Assert.AreEqual(string.Empty, text);
+
+            lines = new[] {"Hello"};
+            text = lines.MergeLines();
+            Assert.AreEqual("Hello", text);
+        }
+
         [TestMethod]
         public void StringUtility_OneOf1()
         {
@@ -306,7 +441,39 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void StringUtility_SafeCompare()
+        public void StringUtility_Random()
+        {
+            string text = StringUtility.Random(1);
+            Assert.AreEqual(1, text.Length);
+
+            text = StringUtility.Random(2);
+            Assert.AreEqual(2, text.Length);
+
+            text = StringUtility.Random(10);
+            Assert.AreEqual(10, text.Length);
+        }
+
+        [TestMethod]
+        public void StringUtility_Replicate()
+        {
+            string text = StringUtility.Replicate("Hello", 0);
+            Assert.AreEqual("", text);
+
+            text = StringUtility.Replicate("Hello", 1);
+            Assert.AreEqual("Hello", text);
+
+            text = StringUtility.Replicate("Hello", 2);
+            Assert.AreEqual("HelloHello", text);
+
+            text = StringUtility.Replicate("Hello", -1);
+            Assert.AreEqual("", text);
+
+            text = StringUtility.Replicate(null, 3);
+            Assert.AreEqual(null, text);
+        }
+
+        [TestMethod]
+        public void StringUtility_SafeCompare1()
         {
             Assert.IsTrue("".SafeCompare("") == 0);
             Assert.IsTrue("".SafeCompare(" ") < 0);
@@ -314,6 +481,88 @@ namespace UnitTests.AM
             Assert.IsTrue("A".SafeCompare(null) > 0);
             Assert.IsTrue(((string)null).SafeCompare(null) == 0);
             Assert.IsTrue(((string)null).SafeCompare("") < 0);
+        }
+
+        [TestMethod]
+        public void StringUtility_SafeCompare2()
+        {
+            Assert.IsTrue
+                (
+                    StringUtility.SafeCompare
+                    (
+                        "Hello",
+                        "Hello", "World"
+                    )
+                );
+            Assert.IsFalse
+                (
+                    StringUtility.SafeCompare
+                    (
+                        "Other",
+                        "Hello", "World"
+                    )
+                );
+        }
+
+        [TestMethod]
+        public void StringUtility_SafeContains1()
+        {
+            Assert.IsFalse("".SafeContains("aga"));
+            Assert.IsFalse("Again".SafeContains((string)null));
+            Assert.IsFalse(((string)null).SafeContains((string)null));
+            Assert.IsTrue("Again".SafeContains("aga"));
+        }
+
+        [TestMethod]
+        public void StringUtility_SafeContains2()
+        {
+            Assert.IsFalse("".SafeContains("aga", "gain"));
+            Assert.IsFalse("Again".SafeContains());
+            Assert.IsTrue("Again".SafeContains("aga","GAIN"));
+            Assert.IsTrue("Again".SafeContains("oga", "GAIN"));
+        }
+
+        [TestMethod]
+        public void StringUtility_SafeStarts()
+        {
+            Assert.IsFalse("".SafeStarts("aga"));
+            Assert.IsFalse("Again".SafeStarts(""));
+            Assert.IsTrue("Again".SafeStarts("aga"));
+        }
+
+        [TestMethod]
+        public void StringUtility_SafeSubstring()
+        {
+            Assert.AreEqual
+                (
+                    "Aga",
+                    "Again".SafeSubstring(0, 3)
+                );
+            Assert.AreEqual
+                (
+                    "Again",
+                    "Again".SafeSubstring(0, 300)
+                );
+            Assert.AreEqual
+                (
+                    null,
+                    ((string)null).SafeSubstring(0, 300)
+                );
+            Assert.AreEqual
+                (
+                    "",
+                    "".SafeSubstring(0, 300)
+                );
+            Assert.AreEqual
+                (
+                    "",
+                    "Again".SafeSubstring(0, -1)
+                );
+            Assert.AreEqual
+                (
+                    "",
+                    "Again".SafeSubstring(500, 300)
+                );
         }
 
         [TestMethod]
@@ -376,6 +625,22 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
+        public void StringUtility_SplitLines()
+        {
+            string[] lines = "".SplitLines();
+            Assert.AreEqual(1, lines.Length);
+
+            lines = " ".SplitLines();
+            Assert.AreEqual(1, lines.Length);
+
+            lines = "first\r\n".SplitLines();
+            Assert.AreEqual(2, lines.Length);
+
+            lines = "first\r\nsecond".SplitLines();
+            Assert.AreEqual(2, lines.Length);
+        }
+
+        [TestMethod]
         public void StringUtility_SplitString()
         {
             Func<char, bool> func = c => c == '!';
@@ -407,7 +672,7 @@ namespace UnitTests.AM
         {
             Assert.AreEqual("a", "a".ToVisibleString());
             Assert.AreEqual("(null)", StringUtility.ToVisibleString(null));
-            Assert.AreEqual("(empty)", String.Empty.ToVisibleString());
+            Assert.AreEqual("(empty)", string.Empty.ToVisibleString());
         }
 
         [TestMethod]

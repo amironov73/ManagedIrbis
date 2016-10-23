@@ -20,7 +20,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void _Transliterator_Transliterate()
+        public void Transliterator_Transliterate()
         {
             _TestTransliterate("", "");
             _TestTransliterate("Hello", "Hello");

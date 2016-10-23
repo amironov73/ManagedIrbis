@@ -9,7 +9,7 @@ namespace UnitTests.AM
     public class OptionalTest
     {
         [TestMethod]
-        public void TestOptional_DefaultConstructor()
+        public void Optional_DefaultConstructor()
         {
             Optional<object> optional = new Optional<object>();
 
@@ -17,7 +17,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void TestOptional_Constructor()
+        public void Optional_Constructor()
         {
             Optional<string> optional = new Optional<string>("Hello");
 
@@ -27,14 +27,14 @@ namespace UnitTests.AM
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void TestOptional_Exception()
+        public void Optional_Exception()
         {
             Optional<object> optional = new Optional<object>();
             object value = optional.Value;
         }
 
         [TestMethod]
-        public void TestOptional_Operators()
+        public void Optional_Operators()
         {
             Optional<string> optional = "Hello";
             Assert.IsTrue(optional.HasValue);
@@ -45,7 +45,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void TestOptional_Equals1()
+        public void Optional_Equals1()
         {
             Optional<int> first = 1;
             Optional<int> second = 1;
@@ -59,7 +59,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void TestOptional_Equals2()
+        public void Optional_Equals2()
         {
             Optional<int> first = 1;
             object second = new Optional<int>(1);
@@ -76,7 +76,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void TestOptional_GetHashCode()
+        public void Optional_GetHashCode()
         {
             Optional<int> first = new Optional<int>();
             Assert.AreEqual(0, first.GetHashCode());
