@@ -33,6 +33,8 @@ using Newtonsoft.Json;
 
 namespace ManagedIrbis.Pft.Infrastructure
 {
+    using Diagnostics;
+
     /// <summary>
     /// AST item
     /// </summary>
@@ -290,6 +292,28 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftNode[] result = Children
                 .SelectMany(child => child.GetLeafs())
                 .ToArray();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get node info for debugger.
+        /// </summary>
+        [NotNull]
+        public virtual PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Name = SimplifyTypeName(GetType().Name),
+                Node = this,
+                Value = Text
+            };
+
+            foreach (PftNode child in Children)
+            {
+                PftNodeInfo info = child.GetNodeInfo();
+                result.Children.Add(info);
+            }
 
             return result;
         }

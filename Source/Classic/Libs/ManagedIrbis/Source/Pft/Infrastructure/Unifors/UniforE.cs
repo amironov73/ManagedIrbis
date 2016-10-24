@@ -20,6 +20,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     {
         #region Private members
 
+        //
+        // TODO Use ISISACW.TAB
+        //
+
         internal static string GetFirstWords
             (
                 [CanBeNull] string text,

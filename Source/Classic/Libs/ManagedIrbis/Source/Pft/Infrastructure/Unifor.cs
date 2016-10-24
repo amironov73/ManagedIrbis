@@ -106,6 +106,7 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("X", RemoveAngleBrackets);
             Registry.Add("Y", UniforO.FreeExemplars);
             Registry.Add("+2", UniforPlus2.System);
+            Registry.Add("+3+", ReplacePlus);
             Registry.Add("+6", GetRecordStatus);
             Registry.Add("+90", UniforPlus9.GetIndex);
             Registry.Add("+91", UniforPlus9.GetFileName);
@@ -501,6 +502,25 @@ StringComparer.InvariantCultureIgnoreCase
                 context.OutputFlag = true;
             }
         }
+
+        /// <summary>
+        /// Replace '+' sign with %2B
+        /// </summary>
+        public static void ReplacePlus
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                string clear = expression.Replace("+", "%2B");
+                context.Write(node, clear);
+                context.OutputFlag = true;
+            }
+        }
+
 
         /// <summary>
         /// Convert the string to lower case.

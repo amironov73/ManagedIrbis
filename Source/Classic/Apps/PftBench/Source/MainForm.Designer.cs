@@ -40,6 +40,8 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._toolStrip = new System.Windows.Forms.ToolStrip();
             this._goButton = new System.Windows.Forms.ToolStripButton();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this._pftTreeView = new IrbisUI.Sources.PftTreeView();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -53,6 +55,10 @@
             this.splitContainer2.SuspendLayout();
             this._menuStrip.SuspendLayout();
             this._toolStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -85,7 +91,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this._pftBox);
+            this.splitContainer1.Panel1.Controls.Add(this.splitContainer3);
             // 
             // splitContainer1.Panel2
             // 
@@ -101,7 +107,7 @@
             this._pftBox.Multiline = true;
             this._pftBox.Name = "_pftBox";
             this._pftBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this._pftBox.Size = new System.Drawing.Size(784, 175);
+            this._pftBox.Size = new System.Drawing.Size(412, 175);
             this._pftBox.TabIndex = 0;
             this._pftBox.Text = "v200^a, \" : \"v200^e, \" / \"v200^f";
             // 
@@ -192,6 +198,31 @@
             this._goButton.Text = "Go!";
             this._goButton.Click += new System.EventHandler(this._goButton_Click);
             // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this._pftBox);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this._pftTreeView);
+            this.splitContainer3.Size = new System.Drawing.Size(784, 175);
+            this.splitContainer3.SplitterDistance = 412;
+            this.splitContainer3.TabIndex = 1;
+            // 
+            // _pftTreeView
+            // 
+            this._pftTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._pftTreeView.Location = new System.Drawing.Point(0, 0);
+            this._pftTreeView.Name = "_pftTreeView";
+            this._pftTreeView.Size = new System.Drawing.Size(368, 175);
+            this._pftTreeView.TabIndex = 0;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -208,7 +239,6 @@
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -222,6 +252,11 @@
             this._menuStrip.PerformLayout();
             this._toolStrip.ResumeLayout(false);
             this._toolStrip.PerformLayout();
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel1.PerformLayout();
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -239,6 +274,8 @@
         private System.Windows.Forms.ToolStripButton _goButton;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.TextBox _pftBox;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private IrbisUI.Sources.PftTreeView _pftTreeView;
 
     }
 }

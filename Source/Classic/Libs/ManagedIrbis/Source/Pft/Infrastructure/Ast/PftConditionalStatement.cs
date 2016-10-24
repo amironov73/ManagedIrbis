@@ -15,7 +15,7 @@ using AM.Collections;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -147,6 +147,50 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc/>
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Name = SimplifyTypeName(GetType().Name)
+            };
+
+            if (!ReferenceEquals(Condition, null))
+            {
+                PftNodeInfo conditionNode = new PftNodeInfo
+                {
+                    Name = "Condition"
+                };
+                result.Children.Add(conditionNode);
+                conditionNode.Children.Add(Condition.GetNodeInfo());
+            }
+
+            PftNodeInfo thenNode = new PftNodeInfo
+            {
+                Name = "Then"
+            };
+            foreach (PftNode node in ThenBranch)
+            {
+                thenNode.Children.Add(node.GetNodeInfo());
+            }
+            result.Children.Add(thenNode);
+
+            if (ElseBranch.Count != 0)
+            {
+                PftNodeInfo elseNode = new PftNodeInfo
+                {
+                    Name = "Else"
+                };
+                foreach (PftNode node in ElseBranch)
+                {
+                    elseNode.Children.Add(node.GetNodeInfo());
+                }
+                result.Children.Add(elseNode);
+            }
+
+            return result;
         }
 
         /// <inheritdoc/>

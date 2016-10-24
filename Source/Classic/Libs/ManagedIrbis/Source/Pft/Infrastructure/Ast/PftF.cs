@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -106,17 +106,53 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <summary>
         /// First argument value.
         /// </summary>
+        [CanBeNull]
         public PftNumeric Argument1 { get; set; }
 
         /// <summary>
         /// Second argument value.
         /// </summary>
+        [CanBeNull]
         public PftNumeric Argument2 { get; set; }
 
         /// <summary>
         /// Third argument value.
         /// </summary>
+        [CanBeNull]
         public PftNumeric Argument3 { get; set; }
+
+        /// <inheritdoc />
+        public override IList<PftNode> Children
+        {
+            get
+            {
+                if (ReferenceEquals(_virtualChildren, null))
+                {
+
+                    _virtualChildren = new VirtualChildren();
+                    List<PftNode> nodes = new List<PftNode>();
+                    if (!ReferenceEquals(Argument1, null))
+                    {
+                        nodes.Add(Argument1);
+                    }
+                    if (!ReferenceEquals(Argument2, null))
+                    {
+                        nodes.Add(Argument2);
+                    }
+                    if (!ReferenceEquals(Argument3, null))
+                    {
+                        nodes.Add(Argument3);
+                    }
+                    _virtualChildren.SetChildren(nodes);
+                }
+
+                return _virtualChildren;
+            }
+            protected set
+            {
+                // Nothing to do here
+            }
+        }
 
         #endregion
 
@@ -144,6 +180,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Private members
 
+        private VirtualChildren _virtualChildren;
+
         #endregion
 
         #region Public methods
@@ -159,6 +197,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             OnBeforeExecution(context);
+
+            if (ReferenceEquals(Argument1, null))
+            {
+                throw new PftException("Argument1 is null");
+            }
 
             PftContext clone = context.Push();
             Argument1.Execute(clone);
@@ -194,6 +237,47 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             // Doesn't touch context.OutputFlag
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc/>
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Name = SimplifyTypeName(GetType().Name)
+            };
+
+            if (!ReferenceEquals(Argument1, null))
+            {
+                PftNodeInfo node = new PftNodeInfo
+                {
+                    Name = "Argument1"
+                };
+                result.Children.Add(node);
+                node.Children.Add(Argument1.GetNodeInfo());
+            }
+
+            if (!ReferenceEquals(Argument2, null))
+            {
+                PftNodeInfo node = new PftNodeInfo
+                {
+                    Name = "Argument2"
+                };
+                result.Children.Add(node);
+                node.Children.Add(Argument2.GetNodeInfo());
+            }
+
+            if (!ReferenceEquals(Argument3, null))
+            {
+                PftNodeInfo node = new PftNodeInfo
+                {
+                    Name = "Argument3"
+                };
+                result.Children.Add(node);
+                node.Children.Add(Argument3.GetNodeInfo());
+            }
+
+            return result;
         }
 
         /// <inheritdoc/>

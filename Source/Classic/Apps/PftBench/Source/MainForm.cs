@@ -67,6 +67,9 @@ namespace PftBench
 
                 PftParser parser = new PftParser(tokenList);
                 PftProgram program = parser.Parse();
+
+                _pftTreeView.SetNodes(program);
+
                 PftFormatter formatter = new PftFormatter
                 {
                     Program = program
