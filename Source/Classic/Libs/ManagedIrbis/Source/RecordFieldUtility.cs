@@ -1485,11 +1485,14 @@ namespace ManagedIrbis
             {
                 if (c == RecordField.Delimiter)
                 {
-                    result.AddSubField
-                        (
-                            code,
-                            value
-                        );
+                    if (code != '\0')
+                    {
+                        result.AddSubField
+                            (
+                                code,
+                                value
+                            );
+                    }
                     value.Length = 0;
                     code = (char)0;
                 }

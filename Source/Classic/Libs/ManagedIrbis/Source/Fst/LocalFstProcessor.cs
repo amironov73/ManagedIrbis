@@ -1,4 +1,4 @@
-﻿/* FstProcessor.cs --
+﻿/* LocalFstProcessor.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -18,7 +18,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Pft.Infrastructure;
+using ManagedIrbis.Pft.Infrastructure.Environment;
 
 using MoonSharp.Interpreter;
 
@@ -27,19 +28,18 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Fst
 {
     /// <summary>
-    /// FST processor.
+    /// Local FST processor.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class FstProcessor
+    public sealed class LocalFstProcessor
     {
         #region Properties
 
         /// <summary>
-        /// Connection.
+        /// Environment.
         /// </summary>
-        [NotNull]
-        public IrbisConnection Connection { get; private set; }
+        public PftEnvironmentAbstraction Environment { get; private set; }
 
         #endregion
 
@@ -48,14 +48,21 @@ namespace ManagedIrbis.Fst
         /// <summary>
         /// Constructor.
         /// </summary>
-        public FstProcessor
+        public LocalFstProcessor
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] string rootPath,
+                [NotNull] string database
             )
         {
-            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(rootPath, "rootPath");
+            Code.NotNullNorEmpty(database, "database");
 
-            Connection = connection;
+            PftLocalEnvironment environment
+                = new PftLocalEnvironment(rootPath)
+                {
+                    Database = database
+                };
+            Environment = environment;
         }
 
         #endregion
@@ -67,17 +74,21 @@ namespace ManagedIrbis.Fst
         #region Public methods
 
         /// <summary>
-        /// Read FST file from server.
+        /// Read FST file from local file.
         /// </summary>
         [CanBeNull]
         public FstFile ReadFile
             (
-                [NotNull] FileSpecification fileSpecification
+                [NotNull] string fileName
             )
         {
-            Code.NotNull(fileSpecification, "fileSpecification");
+            Code.NotNullNorEmpty(fileName, "fileName");
 
-            string content = Connection.ReadTextFile(fileSpecification);
+            string content = File.ReadAllText
+                (
+                    fileName,
+                    IrbisEncoding.Ansi
+                );
             if (string.IsNullOrEmpty(content))
             {
                 return null;
@@ -105,16 +116,21 @@ namespace ManagedIrbis.Fst
             Code.NotNull(record, "record");
             Code.NotNullNorEmpty(format, "format");
 
-            string transformed = Connection.FormatRecord
-                (
-                    format,
-                    record
-                )
-                .ThrowIfNull("Connection.FormatRecord");
+            PftLexer lexer = new PftLexer();
+            PftTokenList tokenList = lexer.Tokenize(format);
+            PftParser parser = new PftParser(tokenList);
+            PftContext context = new PftContext(null)
+            {
+                Record = record
+            };
+            context.SetEnvironment(Environment);
+            PftProgram program = parser.Parse();
+            program.Execute(context);
+            string transformed = context.Text;
 
             MarcRecord result = new MarcRecord
             {
-                Database = record.Database ?? Connection.Database
+                Database = Environment.Database
             };
             string[] lines = transformed.Split((char) 0x07);
             string[] separators = {"\r\n", "\r", "\n"};
@@ -153,7 +169,7 @@ namespace ManagedIrbis.Fst
 
                     SubField[] badSubFields
                         = field.SubFields
-                        .Where(sf=>string.IsNullOrEmpty(sf.Value))
+                        .Where(sf => string.IsNullOrEmpty(sf.Value))
                         .ToArray();
                     foreach (SubField subField in badSubFields)
                     {
