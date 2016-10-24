@@ -1,0 +1,1 @@
+﻿Unifor('E') and 'F' - split string to words

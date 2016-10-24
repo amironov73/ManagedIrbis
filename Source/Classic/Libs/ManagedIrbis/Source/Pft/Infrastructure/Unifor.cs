@@ -87,6 +87,8 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("3", Unifor3.PrintDate);
             Registry.Add("9", RemoveDoubleQuotes);
             Registry.Add("A", GetFieldRepeat);
+            Registry.Add("E", UniforE.GetFirstWords);
+            Registry.Add("F", UniforE.GetLastWords);
             Registry.Add("I", GetIniFileEntry);
             Registry.Add("K", GetMenuEntry);
             Registry.Add("M", UniforM.Sort);
