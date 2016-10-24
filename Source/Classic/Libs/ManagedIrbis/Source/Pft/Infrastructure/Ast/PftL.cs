@@ -28,7 +28,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftL
-        : PftNode
+        : PftNumeric
     {
         #region Properties
 
@@ -76,7 +76,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            base.Execute(context);
+            Value = 0;
+            string expression = context.Evaluate(Children);
+            if (!string.IsNullOrEmpty(expression))
+            {
+                int[] found = context.Environment.Search(expression);
+                if (found.Length != 0)
+                {
+                    Value = found[0];
+                }
+            }
 
             OnAfterExecution(context);
         }

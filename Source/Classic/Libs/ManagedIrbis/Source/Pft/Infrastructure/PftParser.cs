@@ -89,7 +89,9 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftTokenKind.Number, PftTokenKind.Val, PftTokenKind.Rsum,
             PftTokenKind.Ravr, PftTokenKind.Rmax, PftTokenKind.Rmin,
-            PftTokenKind.Mfn, PftTokenKind.Variable
+            PftTokenKind.Mfn, PftTokenKind.Variable,
+
+            PftTokenKind.L,
         };
 
         private static PftTokenKind[] NumericGoodies =
@@ -98,6 +100,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.Ravr, PftTokenKind.Rmax, PftTokenKind.Rmin,
             PftTokenKind.Mfn, PftTokenKind.Plus, PftTokenKind.Minus,
             PftTokenKind.Star, PftTokenKind.Div,
+
+            PftTokenKind.L,
         };
 
         private static PftTokenKind[] NumericLimiter =
@@ -183,6 +187,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.Hash, ParseHash},
                 {PftTokenKind.Identifier, ParseFunctionCall},
                 {PftTokenKind.If, ParseIf},
+                {PftTokenKind.L, ParseL},
                 {PftTokenKind.Mfn, ParseMfn},
                 {PftTokenKind.Mpl, ParseMpl},
                 {PftTokenKind.Nl, ParseNl},
@@ -220,6 +225,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             NumericMap = new Dictionary<PftTokenKind, Func<PftNode>>
             {
+                {PftTokenKind.L, ParseL},
                 {PftTokenKind.Mfn,ParseMfn},
                 {PftTokenKind.Number, ParseNumber},
                 {PftTokenKind.Rsum, ParseRsum},
@@ -834,6 +840,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                 throw new PftSyntaxException(Tokens);
             }
 
+            return result;
+        }
+
+        private PftNode ParseL()
+        {
+            PftL result = new PftL(Tokens.Current);
+            ParseCall(result);
             return result;
         }
 
