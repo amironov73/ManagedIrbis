@@ -55,16 +55,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             get
             {
-                // TODO: some caching
-
-                _virtualChildren = new VirtualChildren();
-                List<PftNode> nodes = new List<PftNode>
+                if (ReferenceEquals(_virtualChildren, null))
                 {
-                    Condition
-                };
-                nodes.AddRange(ThenBranch);
-                nodes.AddRange(ElseBranch);
-                _virtualChildren.SetChildren(nodes);
+
+                    _virtualChildren = new VirtualChildren();
+                    List<PftNode> nodes = new List<PftNode>
+                    {
+                        Condition
+                    };
+                    nodes.AddRange(ThenBranch);
+                    nodes.AddRange(ElseBranch);
+                    _virtualChildren.SetChildren(nodes);
+                }
 
                 return _virtualChildren;
             }
@@ -105,22 +107,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #region Private members
 
         private VirtualChildren _virtualChildren;
-
-        private void _OnEnumeration
-            (
-                object sender,
-                EventArgs eventArgs
-            )
-        {
-            _virtualChildren = new VirtualChildren();
-            List<PftNode> nodes = new List<PftNode>
-            {
-                Condition
-            };
-            nodes.AddRange(ThenBranch);
-            nodes.AddRange(ElseBranch);
-            _virtualChildren.SetChildren(nodes);
-        }
 
         #endregion
 

@@ -272,13 +272,26 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// Execute the nodes.
+        /// </summary>
+        public void Execute
+            (
+                [NotNull] IEnumerable<PftNode> nodes
+            )
+        {
+            foreach (PftNode node in nodes)
+            {
+                node.Execute(this);
+            }
+        }
+
+        /// <summary>
         /// Временное переключение контекста (например,
         /// при вычислении строковых функций).
         /// </summary>
         [NotNull]
         public PftContext Push()
         {
-            //PftContext result = new PftContext(Formatter,this);
             PftContext result = new PftContext(this);
 
             return result;

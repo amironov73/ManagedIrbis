@@ -109,11 +109,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 {
                     if (field.IsFirstRepeat(context))
                     {
-                        context.Write
+                        bool flag = true;
+                        string value = field.GetValue(context);
+
+                        if (field.Command == 'v'
+                            || field.Command == 'd')
+                        {
+                            flag = !string.IsNullOrEmpty(value);
+                        }
+                        else if (field.Command == 'n')
+                        {
+                            flag = string.IsNullOrEmpty(value);
+                        }
+
+                        if (flag)
+                        {
+                            context.Write
                             (
                                 this,
                                 Text
                             );
+                        }
                     }
                 }
             }

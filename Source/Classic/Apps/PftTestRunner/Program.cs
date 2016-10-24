@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -94,6 +94,20 @@ namespace PftTestRunner
                         total,
                         failed
                     );
+                if (failed != 0)
+                {
+                    Console.Write
+                        (
+                            "Failed tests: {0}",
+                            StringUtility.Join
+                                (
+                                    ", ",
+                                    tester.Results
+                                    .Where(t => t.Failed)
+                                    .Select(t => t.Name)
+                                )
+                        );
+                }
                 Console.ForegroundColor = foreColor;
             }
             catch (Exception exception)

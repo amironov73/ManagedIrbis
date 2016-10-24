@@ -296,6 +296,7 @@
     <Compile Include="Source\Pft\Infrastructure\FormatExit.cs" />
     <Compile Include="Source\Pft\Infrastructure\IFormatExit.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftConfig.cs" />
+    <Compile Include="Source\Pft\Infrastructure\PftContextSaver.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftFunction.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftFunctionManager.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftGlobal.cs" />

@@ -107,7 +107,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static PftTokenKind[] RightHandItems =
         {
-            PftTokenKind.C, PftTokenKind.Comma, PftTokenKind.Comment,
+            PftTokenKind.C, PftTokenKind.Comment,
             PftTokenKind.Hash, PftTokenKind.Nl, PftTokenKind.Percent,
             PftTokenKind.Slash, PftTokenKind.X
         };
@@ -126,6 +126,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.Identifier, PftTokenKind.Variable,
 
             PftTokenKind.Number, PftTokenKind.F,
+
+            PftTokenKind.Ref,
 
             PftTokenKind.If
         };
@@ -187,6 +189,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.Number, ParseNumber},
                 {PftTokenKind.P,ParseP},
                 {PftTokenKind.Percent, ParsePercent},
+                {PftTokenKind.Ref, ParseRef},
                 {PftTokenKind.RepeatableLiteral, ParseField},
                 {PftTokenKind.Semicolon, ParseSemicolon},
                 {PftTokenKind.Slash, ParseSlash},
@@ -363,11 +366,15 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftToken token = Tokens.Current;
             token.MustBe(PftTokenKind.LeftParenthesis);
             Tokens.RequireNext();
+            return ParseCall3(result);
+        }
 
+        private PftNode ParseCall3(PftNode result)
+        {
             bool ok = false;
             while (!Tokens.IsEof)
             {
-                token = Tokens.Current;
+                PftToken token = Tokens.Current;
 
                 if (token.Kind == PftTokenKind.RightParenthesis)
                 {
@@ -880,6 +887,22 @@ namespace ManagedIrbis.Pft.Infrastructure
                 PftNode node = ParseComposite();
                 result.Children.Add(node);
             }
+
+            return result;
+        }
+
+        private PftNode ParseRef()
+        {
+            PftRef result = new PftRef(Tokens.Current);
+
+            Tokens.RequireNext(PftTokenKind.LeftParenthesis);
+            Tokens.RequireNext();
+            result.Mfn = ParseNumber();
+            Tokens.Current.MustBe(PftTokenKind.Comma);
+            Tokens.RequireNext();
+            PftNode pseudo = new PftNode();
+            ParseCall3(pseudo);
+            result.Format.AddRange(pseudo.Children);
 
             return result;
         }

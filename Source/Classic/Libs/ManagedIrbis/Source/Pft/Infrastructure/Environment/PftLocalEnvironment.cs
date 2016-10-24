@@ -19,6 +19,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Direct;
 using ManagedIrbis.Infrastructure;
 
 using MoonSharp.Interpreter;
@@ -77,6 +78,41 @@ namespace ManagedIrbis.Pft.Infrastructure.Environment
         #endregion
 
         #region Private members
+
+        private MstFile64 _GetMst()
+        {
+            string fileName = Path.Combine
+                (
+                    Path.Combine
+                        (
+                            DataPath,
+                            Database
+                        ),
+                    Database + ".mst"
+                );
+
+            MstFile64 result = new MstFile64(fileName);
+
+            return result;
+        }
+
+        private DirectReader64 _GetReader()
+        {
+            string fileName = Path.Combine
+                (
+                    Path.Combine
+                        (
+                            DataPath,
+                            Database
+                        ),
+                    Database + ".mst"
+                );
+
+            DirectReader64 result
+                = new DirectReader64(fileName, false);
+
+            return result;
+        }
 
         #endregion
 
@@ -140,6 +176,82 @@ namespace ManagedIrbis.Pft.Infrastructure.Environment
             return result;
         }
 
+        /// <inheritdoc/>
+        public override MarcRecord ReadRecord
+            (
+                int mfn
+            )
+        {
+            if (mfn <= 0)
+            {
+                return null;
+            }
+
+            MarcRecord result = null;
+            DirectReader64 reader = null;
+            try
+            {
+                reader = _GetReader();
+                if (reader != null)
+                {
+                    result = reader.ReadRecord(mfn);
+                }
+            }
+            // ReSharper disable once EmptyGeneralCatchClause
+            catch
+            {
+                // Nothing to do actually
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Dispose();
+                }
+            }
+
+            return result;
+        }
+
+        /// <inheritdoc/>
+        public override int[] Search
+            (
+                string expression
+            )
+        {
+            int[] result = new int[0];
+
+            if (string.IsNullOrEmpty(expression))
+            {
+                return result;
+            }
+
+            DirectReader64 reader = null;
+            try
+            {
+                reader = _GetReader();
+                if (reader != null)
+                {
+                    result = reader.SearchSimple(expression);
+                }
+            }
+            // ReSharper disable once EmptyGeneralCatchClause
+            catch
+            {
+                // Nothing to do actually
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Dispose();
+                }
+            }
+
+            return result;
+        }
+
         #endregion
     }
 }
+
