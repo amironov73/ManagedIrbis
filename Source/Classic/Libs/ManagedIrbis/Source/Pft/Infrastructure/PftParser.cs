@@ -47,7 +47,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftTokenKind.Mfn, PftTokenKind.Nl,
             PftTokenKind.UnconditionalLiteral, PftTokenKind.V,
-            PftTokenKind.Unifor,
+            PftTokenKind.Unifor, PftTokenKind.S,
 
             PftTokenKind.Identifier, PftTokenKind.Variable,
         };
@@ -196,6 +196,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.Percent, ParsePercent},
                 {PftTokenKind.Ref, ParseRef},
                 {PftTokenKind.RepeatableLiteral, ParseField},
+                {PftTokenKind.S, ParseS},
                 {PftTokenKind.Semicolon, ParseSemicolon},
                 {PftTokenKind.Slash, ParseSlash},
                 {PftTokenKind.UnconditionalLiteral, ParseUnconditionalLiteral},
@@ -802,7 +803,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                     break;
                 }
 
-                PftNode node = ParseSimple();
+                //PftNode node = ParseSimple();
+                PftNode node = ParseComposite();
                 result.ThenBranch.Add(node);
             }
 
@@ -820,7 +822,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                         break;
                     }
 
-                    PftNode node = ParseSimple();
+                    //PftNode node = ParseSimple();
+                    PftNode node = ParseComposite();
                     result.ElseBranch.Add(node);
                 }
 
@@ -910,7 +913,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             Tokens.RequireNext(PftTokenKind.LeftParenthesis);
             Tokens.RequireNext();
-            result.Mfn = ParseNumber();
+            //result.Mfn = ParseNumber();
+            result.Mfn = ParseArithmetic();
             Tokens.Current.MustBe(PftTokenKind.Comma);
             Tokens.RequireNext();
             PftNode pseudo = new PftNode();
@@ -929,6 +933,13 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftNode result = new PftRsum(Tokens.Current);
             return ParseCall(result);
+        }
+
+        private PftNode ParseS()
+        {
+            PftNode result = new PftS(Tokens.Current);
+            ParseCall(result);
+            return result;
         }
 
         [NotNull]

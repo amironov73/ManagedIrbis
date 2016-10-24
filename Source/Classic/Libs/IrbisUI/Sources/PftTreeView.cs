@@ -75,8 +75,14 @@ namespace IrbisUI.Sources
 
             foreach (PftNodeInfo child in info.Children)
             {
-                TreeNode node = _ConvertNode(child);
-                result.Nodes.Add(node);
+                if (!ReferenceEquals(child, null))
+                {
+                    TreeNode node = _ConvertNode(child);
+                    if (!ReferenceEquals(node, null))
+                    {
+                        result.Nodes.Add(node);
+                    }
+                }
             }
 
             return result;
