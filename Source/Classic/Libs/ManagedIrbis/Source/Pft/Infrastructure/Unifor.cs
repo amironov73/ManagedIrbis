@@ -129,6 +129,7 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("+D", GetDatabaseName);
             Registry.Add("+E", GetFieldIndex);
             Registry.Add("+N", GetFieldCount);
+            Registry.Add("+R", TrimAtLastDot);
             Registry.Add("+S", DecodeTitle);
         }
 
@@ -623,6 +624,31 @@ StringComparer.InvariantCultureIgnoreCase
 
                 context.Write(node, result.ToString());
                 context.OutputFlag = true;
+            }
+        }
+
+        /// <summary>
+        /// Trim text at last dot.
+        /// </summary>
+        public static void TrimAtLastDot
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                int position = expression.LastIndexOf('.');
+                if (position >= 0)
+                {
+                    string output = expression.Substring(0, position);
+                    if (!string.IsNullOrEmpty(output))
+                    {
+                        context.Write(node, output);
+                        context.OutputFlag = true;
+                    }
+                }
             }
         }
 
