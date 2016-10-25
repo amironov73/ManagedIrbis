@@ -8,6 +8,7 @@
 
 using System.Diagnostics;
 using AM;
+using AM.Text;
 
 #endregion
 
@@ -20,6 +21,50 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Convert text from UTF8 to CP1251.
+        /// </summary>
+        public static void ConvertToAnsi
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                string output = EncodingUtility.ChangeEncoding
+                    (
+                        expression,
+                        IrbisEncoding.Utf8,
+                        IrbisEncoding.Ansi
+                    );
+                context.Write(node, output);
+            }
+        }
+
+        /// <summary>
+        /// Convert text from CP1251 to UTF8.
+        /// </summary>
+        public static void ConvertToUtf
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                string output = EncodingUtility.ChangeEncoding
+                    (
+                        expression,
+                        IrbisEncoding.Ansi,
+                        IrbisEncoding.Utf8
+                    );
+                context.Write(node, output);
+            }
+        }
 
         /// <summary>
         /// Replace '+' sign with %2B

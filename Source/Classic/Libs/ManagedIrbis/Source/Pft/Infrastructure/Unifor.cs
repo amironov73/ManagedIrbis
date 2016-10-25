@@ -108,6 +108,8 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("+2", UniforPlus2.System);
             Registry.Add("+3D", UniforPlus3.UrlDecode);
             Registry.Add("+3E", UniforPlus3.UrlEncode);
+            Registry.Add("+3U", UniforPlus3.ConvertToUtf);
+            Registry.Add("+3W", UniforPlus3.ConvertToAnsi);
             Registry.Add("+3+", UniforPlus3.ReplacePlus);
             Registry.Add("+6", GetRecordStatus);
             Registry.Add("+90", UniforPlus9.GetIndex);
