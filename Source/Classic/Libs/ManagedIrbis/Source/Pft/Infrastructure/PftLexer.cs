@@ -564,6 +564,17 @@ namespace ManagedIrbis.Pft.Infrastructure
                         kind = PftTokenKind.F;
                         break;
 
+                    case 'g':
+                    case 'G':
+                        field = ReadField();
+                        if (field == null)
+                        {
+                            goto default;
+                        }
+                        value = field.Text;
+                        kind = PftTokenKind.V;
+                        break;
+
                     case 'l':
                     case 'L':
                         value = ReadIdentifier();

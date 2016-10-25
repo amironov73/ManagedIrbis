@@ -113,6 +113,10 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("+3W", UniforPlus3.ConvertToAnsi);
             Registry.Add("+3+", UniforPlus3.ReplacePlus);
             Registry.Add("+6", GetRecordStatus);
+            Registry.Add("+7", UniforPlus7.ClearGlobals);
+            Registry.Add("+7R", UniforPlus7.ReadGlobal);
+            Registry.Add("+7U", UniforPlus7.AppendGlobal);
+            Registry.Add("+7W", UniforPlus7.WriteGlobal);
             Registry.Add("+90", UniforPlus9.GetIndex);
             Registry.Add("+91", UniforPlus9.GetFileName);
             Registry.Add("+92", UniforPlus9.GetDirectoryName);

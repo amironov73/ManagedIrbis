@@ -310,7 +310,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <summary>
         /// Have value?
         /// </summary>
-        public bool HaveRepeat
+        public virtual bool HaveRepeat
             (
                 [NotNull] PftContext context
             )

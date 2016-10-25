@@ -112,8 +112,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         bool flag = true;
                         string value = field.GetValue(context);
 
-                        if (field.Command == 'v'
-                            || field.Command == 'd')
+                        if (field.Command.SameChar('v')
+                            || field.Command.SameChar('d')
+                            || field.Command.SameChar('g'))
                         {
                             flag = !string.IsNullOrEmpty(value);
                         }

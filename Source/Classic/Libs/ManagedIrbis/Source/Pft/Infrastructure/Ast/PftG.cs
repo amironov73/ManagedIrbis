@@ -212,6 +212,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
+        /// <summary>
+        /// Have value?
+        /// </summary>
+        public override bool HaveRepeat
+            (
+                [NotNull] PftContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            return context.Index < GetCount(context);
+        }
+
+
         #endregion
 
         #region PftNode members
@@ -240,6 +254,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             if (context.CurrentField != null)
             {
                 throw new PftSemanticException("nested field");
+            }
+
+            if (Number == 0)
+            {
+                Number = int.Parse
+                    (
+                        Tag.ThrowIfNull("Tag")
+                    );
             }
 
             if (context.CurrentGroup != null)

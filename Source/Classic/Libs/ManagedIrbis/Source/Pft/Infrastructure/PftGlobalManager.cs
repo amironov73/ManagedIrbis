@@ -121,6 +121,38 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// Append the variable.
+        /// </summary>
+        [NotNull]
+        public PftGlobalManager Append
+            (
+                int index,
+                [CanBeNull] string text
+            )
+        {
+            Code.Positive(index, "index");
+
+            if (!string.IsNullOrEmpty(text))
+            {
+                PftGlobal variable;
+                if (!Registry.TryGetValue(index, out variable))
+                {
+                    variable = new PftGlobal(index);
+                    Registry.Add(index, variable);
+                }
+                string[] lines = text.SplitLines()
+                    .NonEmptyLines()
+                    .ToArray();
+                foreach (string line in lines)
+                {
+                    variable.ParseLine(line);
+                }
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Clear all the variables.
         /// </summary>
         [NotNull]
