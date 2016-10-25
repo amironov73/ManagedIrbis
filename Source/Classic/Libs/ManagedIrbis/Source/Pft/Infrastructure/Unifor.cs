@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.IO;
 using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -128,6 +129,7 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("+D", GetDatabaseName);
             Registry.Add("+E", GetFieldIndex);
             Registry.Add("+N", GetFieldCount);
+            Registry.Add("+S", DecodeTitle);
         }
 
         #endregion
@@ -162,6 +164,50 @@ StringComparer.InvariantCultureIgnoreCase
             }
 
             return result;
+        }
+
+        private static string _FirstEvaluator(Match match)
+        {
+            return match.Groups["first"].Value;
+        }
+
+        private static string _SecondEvaluator(Match match)
+        {
+            return match.Groups["second"].Value;
+        }
+
+        /// <summary>
+        /// Decode title
+        /// </summary>
+        public static void DecodeTitle
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                TextNavigator navigator = new TextNavigator(expression);
+                char index = navigator.ReadChar();
+                string input = navigator.GetRemainingText();
+                if (!string.IsNullOrEmpty(input))
+                {
+                    MatchEvaluator evaluator = _FirstEvaluator;
+                    if (index != '0')
+                    {
+                        evaluator = _SecondEvaluator;
+                    }
+                    string output = Regex.Replace
+                        (
+                            input,
+                            "[<](?<first>.+?)[=](?<second>.+?)[>]",
+                            evaluator
+                        );
+                    context.Write(node, output);
+                    context.OutputFlag = true;
+                }
+            }
         }
 
         /// <summary>
