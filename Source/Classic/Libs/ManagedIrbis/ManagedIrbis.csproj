@@ -346,7 +346,8 @@
     <Compile Include="Source\Pft\PftSyntaxException.cs" />
     <Compile Include="Source\Pft\PftUtility.cs" />
     <Compile Include="Source\PlatformSpecific\CdeclPluginFunction.cs" />
-    <Compile Include="Source\PlatformSpecific\DynamicCaller.cs" />
+    <Compile Include="Source\PlatformSpecific\DllCache.cs" />
+    <Compile Include="Source\PlatformSpecific\DynamicLibrary.cs" />
     <Compile Include="Source\PlatformSpecific\WinapiPluginFunction.cs" />
     <Compile Include="Source\Quality\QualityRule.cs" />
     <Compile Include="Source\Quality\RuleContext.cs" />

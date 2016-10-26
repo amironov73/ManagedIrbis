@@ -1,4 +1,4 @@
-﻿/* DynamicCaller.cs -- 
+﻿/* DynamicLibrary.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -33,11 +33,11 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.PlatformSpecific
 {
     /// <summary>
-    /// 
+    /// Dynamic library (DLL) of Windows.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class DynamicCaller
+    public sealed class DynamicLibrary
         : IDisposable
     {
         #region Properties
@@ -55,7 +55,7 @@ namespace ManagedIrbis.PlatformSpecific
         /// <summary>
         /// Constructor.
         /// </summary>
-        public DynamicCaller
+        public DynamicLibrary
             (
                 [NotNull] string libraryName
             )
