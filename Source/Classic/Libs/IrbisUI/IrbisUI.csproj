@@ -156,6 +156,12 @@
     <Compile Include="Sources\MenuForm.Designer.cs">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Sources\PftTokenGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Sources\PftTokenGrid.Designer.cs">
+      <DependentUpon>PftTokenGrid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Sources\PftTreeView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -240,6 +246,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sources\MenuForm.resx">
       <DependentUpon>MenuForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\PftTokenGrid.resx">
+      <DependentUpon>PftTokenGrid.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sources\PftTreeView.resx">
       <DependentUpon>PftTreeView.cs</DependentUpon>

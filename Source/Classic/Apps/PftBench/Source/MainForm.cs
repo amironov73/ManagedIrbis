@@ -65,6 +65,8 @@ namespace PftBench
                 PftLexer lexer = new PftLexer();
                 PftTokenList tokenList = lexer.Tokenize(_pftBox.Text);
 
+                _tokenGrid.SetTokens(tokenList);
+
                 PftParser parser = new PftParser(tokenList);
                 PftProgram program = parser.Parse();
 

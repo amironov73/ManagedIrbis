@@ -31,7 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this._pftBox = new System.Windows.Forms.TextBox();
+            this._pftTreeView = new IrbisUI.Sources.PftTreeView();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this._recordBox = new System.Windows.Forms.TextBox();
             this._resutlBox = new System.Windows.Forms.TextBox();
@@ -40,8 +42,10 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._toolStrip = new System.Windows.Forms.ToolStrip();
             this._goButton = new System.Windows.Forms.ToolStripButton();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this._pftTreeView = new IrbisUI.Sources.PftTreeView();
+            this._tabControl = new System.Windows.Forms.TabControl();
+            this._astPage = new System.Windows.Forms.TabPage();
+            this._tokenPage = new System.Windows.Forms.TabPage();
+            this._tokenGrid = new IrbisUI.Sources.PftTokenGrid();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -49,16 +53,19 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this._menuStrip.SuspendLayout();
             this._toolStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
-            this.splitContainer3.Panel1.SuspendLayout();
-            this.splitContainer3.Panel2.SuspendLayout();
-            this.splitContainer3.SuspendLayout();
+            this._tabControl.SuspendLayout();
+            this._astPage.SuspendLayout();
+            this._tokenPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -100,6 +107,23 @@
             this.splitContainer1.SplitterDistance = 175;
             this.splitContainer1.TabIndex = 0;
             // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this._pftBox);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this._tabControl);
+            this.splitContainer3.Size = new System.Drawing.Size(784, 175);
+            this.splitContainer3.SplitterDistance = 412;
+            this.splitContainer3.TabIndex = 1;
+            // 
             // _pftBox
             // 
             this._pftBox.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -110,6 +134,14 @@
             this._pftBox.Size = new System.Drawing.Size(412, 175);
             this._pftBox.TabIndex = 0;
             this._pftBox.Text = "v200^a, \" : \"v200^e, \" / \"v200^f";
+            // 
+            // _pftTreeView
+            // 
+            this._pftTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._pftTreeView.Location = new System.Drawing.Point(3, 3);
+            this._pftTreeView.Name = "_pftTreeView";
+            this._pftTreeView.Size = new System.Drawing.Size(354, 143);
+            this._pftTreeView.TabIndex = 0;
             // 
             // splitContainer2
             // 
@@ -198,30 +230,46 @@
             this._goButton.Text = "Go!";
             this._goButton.Click += new System.EventHandler(this._goButton_Click);
             // 
-            // splitContainer3
+            // _tabControl
             // 
-            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer3.Name = "splitContainer3";
+            this._tabControl.Controls.Add(this._astPage);
+            this._tabControl.Controls.Add(this._tokenPage);
+            this._tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._tabControl.Location = new System.Drawing.Point(0, 0);
+            this._tabControl.Name = "_tabControl";
+            this._tabControl.SelectedIndex = 0;
+            this._tabControl.Size = new System.Drawing.Size(368, 175);
+            this._tabControl.TabIndex = 1;
             // 
-            // splitContainer3.Panel1
+            // _astPage
             // 
-            this.splitContainer3.Panel1.Controls.Add(this._pftBox);
+            this._astPage.Controls.Add(this._pftTreeView);
+            this._astPage.Location = new System.Drawing.Point(4, 22);
+            this._astPage.Name = "_astPage";
+            this._astPage.Padding = new System.Windows.Forms.Padding(3);
+            this._astPage.Size = new System.Drawing.Size(360, 149);
+            this._astPage.TabIndex = 0;
+            this._astPage.Text = "AST";
+            this._astPage.UseVisualStyleBackColor = true;
             // 
-            // splitContainer3.Panel2
+            // _tokenPage
             // 
-            this.splitContainer3.Panel2.Controls.Add(this._pftTreeView);
-            this.splitContainer3.Size = new System.Drawing.Size(784, 175);
-            this.splitContainer3.SplitterDistance = 412;
-            this.splitContainer3.TabIndex = 1;
+            this._tokenPage.Controls.Add(this._tokenGrid);
+            this._tokenPage.Location = new System.Drawing.Point(4, 22);
+            this._tokenPage.Name = "_tokenPage";
+            this._tokenPage.Padding = new System.Windows.Forms.Padding(3);
+            this._tokenPage.Size = new System.Drawing.Size(360, 149);
+            this._tokenPage.TabIndex = 1;
+            this._tokenPage.Text = "Tokens";
+            this._tokenPage.UseVisualStyleBackColor = true;
             // 
-            // _pftTreeView
+            // _tokenGrid
             // 
-            this._pftTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._pftTreeView.Location = new System.Drawing.Point(0, 0);
-            this._pftTreeView.Name = "_pftTreeView";
-            this._pftTreeView.Size = new System.Drawing.Size(368, 175);
-            this._pftTreeView.TabIndex = 0;
+            this._tokenGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._tokenGrid.Location = new System.Drawing.Point(3, 3);
+            this._tokenGrid.Name = "_tokenGrid";
+            this._tokenGrid.Size = new System.Drawing.Size(354, 143);
+            this._tokenGrid.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -242,6 +290,11 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel1.PerformLayout();
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
@@ -252,11 +305,9 @@
             this._menuStrip.PerformLayout();
             this._toolStrip.ResumeLayout(false);
             this._toolStrip.PerformLayout();
-            this.splitContainer3.Panel1.ResumeLayout(false);
-            this.splitContainer3.Panel1.PerformLayout();
-            this.splitContainer3.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
-            this.splitContainer3.ResumeLayout(false);
+            this._tabControl.ResumeLayout(false);
+            this._astPage.ResumeLayout(false);
+            this._tokenPage.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -276,6 +327,10 @@
         private System.Windows.Forms.TextBox _pftBox;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private IrbisUI.Sources.PftTreeView _pftTreeView;
+        private System.Windows.Forms.TabControl _tabControl;
+        private System.Windows.Forms.TabPage _astPage;
+        private System.Windows.Forms.TabPage _tokenPage;
+        private IrbisUI.Sources.PftTokenGrid _tokenGrid;
 
     }
 }
