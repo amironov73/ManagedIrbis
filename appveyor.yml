@@ -1,8 +1,15 @@
 version: 1.6.5.{build}
 configuration: Debug
 image: Visual Studio 2015
+
 # clone_depth: 3
 # shallow_clone: true
+
+branches:
+  only:
+    - master
+    - nuget
+
 environment:
   packageVersion: 1.6.5
 
