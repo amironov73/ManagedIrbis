@@ -1,8 +1,8 @@
 version: 1.6.5.{build}
 configuration: Debug
 image: Visual Studio 2015
-clone_depth: 3
-shallow_clone: true
+# clone_depth: 3
+# shallow_clone: true
 environment:
   packageVersion: 1.6.5
 

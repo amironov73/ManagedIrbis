@@ -43,6 +43,9 @@ namespace IrbisUI.Sources
     {
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public PftTokenGrid()
         {
             InitializeComponent();
