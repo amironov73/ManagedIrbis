@@ -244,6 +244,10 @@
     <Compile Include="Source\Menus\MenuConverter.cs" />
     <Compile Include="Source\Menus\MenuEntry.cs" />
     <Compile Include="Source\Menus\MenuSort.cs" />
+    <Compile Include="Source\Mx\MxAlias.cs" />
+    <Compile Include="Source\Mx\MxArgument.cs" />
+    <Compile Include="Source\Mx\MxCommand.cs" />
+    <Compile Include="Source\Mx\MxExecutive.cs" />
     <Compile Include="Source\Pft\FormatError.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftA.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftAssignment.cs" />
