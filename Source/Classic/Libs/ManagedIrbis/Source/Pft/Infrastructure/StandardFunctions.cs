@@ -36,6 +36,30 @@ namespace ManagedIrbis.Pft.Infrastructure
         // STANDARD BUILTIN FUNCTIONS
         //================================================================
 
+        private static void AddField(PftContext context, PftNode node, string expression)
+        {
+            if (!string.IsNullOrEmpty(expression)
+                && !ReferenceEquals(context.Record, null))
+            {
+                string[] parts = expression.Split(new[] { '#' }, 2);
+                if (parts.Length == 2)
+                {
+                    string tag = parts[0];
+                    string body = parts[1];
+
+                    RecordField field = RecordFieldUtility.Parse
+                        (
+                            tag,
+                            body
+                        );
+                    if (!ReferenceEquals(field, null))
+                    {
+                        context.Record.Fields.Add(field);
+                    }
+                }
+            }
+        }
+
         private static void Bold(PftContext context, PftNode node, string expression)
         {
             if (!string.IsNullOrEmpty(expression))
@@ -52,8 +76,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftNumeric numeric = node.Children.FirstOrDefault() as PftNumeric;
             if (!ReferenceEquals(numeric, null))
             {
-                code = (int) numeric.Value;
-                c = (char) code;
+                code = (int)numeric.Value;
+                c = (char)code;
                 context.Write(numeric, c.ToString());
             }
             else
@@ -62,7 +86,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {
                     if (int.TryParse(expression, out code))
                     {
-                        c = (char) code;
+                        c = (char)code;
                         context.Write(node, c.ToString());
                     }
                 }
@@ -94,6 +118,53 @@ namespace ManagedIrbis.Pft.Infrastructure
                 global::System.Diagnostics.Debug.WriteLine(expression);
             }
 #endif
+        }
+
+        private static void DelField(PftContext context, PftNode node, string expression)
+        {
+            MarcRecord record = context.Record;
+
+            if (!string.IsNullOrEmpty(expression)
+                && !ReferenceEquals(record, null))
+            {
+                int repeat = -1;
+                string[] parts = expression.Split(new[] { '#' }, 2);
+                string tag = parts[0];
+                RecordField[] fields = record.Fields.GetField(tag);
+
+                if (parts.Length == 2)
+                {
+                    string repeatText = parts[1];
+                    if (repeatText == "*")
+                    {
+                        repeat = fields.Length - 1;
+                    }
+                    else 
+                    {
+                        if (!int.TryParse(repeatText, out repeat))
+                        {
+                            return;
+                        }
+                        repeat--;
+                    }
+                }
+
+                if (repeat < 0)
+                {
+                    foreach (RecordField field in fields)
+                    {
+                        record.Fields.Remove(field);
+                    }
+                }
+                else
+                {
+                    RecordField field = fields.GetOccurrence(repeat);
+                    if (!ReferenceEquals(field, null))
+                    {
+                        record.Fields.Remove(field);
+                    }
+                }
+            }
         }
 
         private static void Error(PftContext context, PftNode node, string expression)
@@ -349,11 +420,13 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             var reg = PftFunctionManager.BuiltinFunctions.Registry;
 
+            reg.Add("addField", AddField);
             reg.Add("bold", Bold);
             reg.Add("chr", Chr);
             reg.Add("commandline", CommandLine);
             reg.Add("cout", COut);
             reg.Add("debug", Debug);
+            reg.Add("delField", DelField);
             reg.Add("error", Error);
             reg.Add("fatal", Fatal);
             reg.Add("getenv", GetEnv);

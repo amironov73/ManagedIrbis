@@ -37,9 +37,24 @@ namespace ManagedIrbis.PlatformSpecific
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class DynamicLibrary
+    public class DynamicLibrary
         : IDisposable
     {
+        #region Constants
+
+        private const string Kernel32 = "kernel32.dll";
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// Raised when disposing.
+        /// </summary>
+        public event EventHandler Disposing;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -87,20 +102,72 @@ namespace ManagedIrbis.PlatformSpecific
 
         #region Native methods
 
-        [DllImport("kernel32.dll", CharSet = CharSet.Ansi,
+        /// <summary>
+        /// Loads the specified module into the address space
+        /// of the calling process. The specified module may
+        /// cause other modules to be loaded.
+        /// </summary>
+        /// <param name="libraryName">The name of the module.
+        /// This can be either a library module (a .dll file)
+        /// or an executable module (an .exe file).</param>
+        /// <returns>If the function succeeds, the return value
+        /// is a handle to the module.
+        /// If the function fails, the return value is NULL.
+        /// To get extended error information, call GetLastError.
+        /// </returns>
+        /// <remarks>See https://msdn.microsoft.com/en-us/library/windows/desktop/ms684175(v=vs.85).aspx
+        /// </remarks>
+        [DllImport(Kernel32, CharSet = CharSet.Ansi,
             SetLastError = true)]
         private static extern IntPtr LoadLibrary
             (
                 string libraryName
             );
 
-        [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
+        /// <summary>
+        /// Frees the loaded dynamic-link library (DLL) module and,
+        /// if necessary, decrements its reference count.
+        /// When the reference count reaches zero, the module
+        /// is unloaded from the address space of the calling
+        /// process and the handle is no longer valid.
+        /// </summary>
+        /// <param name="hModule">A handle to the loaded library module.
+        /// The LoadLibrary, LoadLibraryEx, GetModuleHandle,
+        /// or GetModuleHandleEx function returns this handle.
+        /// </param>
+        /// <returns>If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero. 
+        /// To get extended error information, call the GetLastError function.
+        /// </returns>
+        /// <remarks>See https://msdn.microsoft.com/en-us/library/windows/desktop/ms683152(v=vs.85).aspx
+        /// </remarks>
+        [DllImport(Kernel32, CharSet = CharSet.Ansi)]
         private static extern bool FreeLibrary
             (
                 IntPtr hModule
             );
 
-        [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
+        /// <summary>
+        /// Retrieves the address of an exported function
+        /// or variable from the specified dynamic-link library (DLL).
+        /// </summary>
+        /// <param name="hModule">A handle to the DLL module
+        /// that contains the function or variable.
+        /// The LoadLibrary, LoadLibraryEx, LoadPackagedLibrary,
+        /// or GetModuleHandle function returns this handle.
+        /// </param>
+        /// <param name="lpProcName">The function or variable name,
+        /// or the function's ordinal value. If this parameter
+        /// is an ordinal value, it must be in the low-order word;
+        /// the high-order word must be zero.</param>
+        /// <returns>If the function succeeds, the return value
+        /// is the address of the exported function or variable.
+        /// If the function fails, the return value is NULL.
+        /// To get extended error information, call GetLastError.
+        /// </returns>
+        /// <remarks>See https://msdn.microsoft.com/en-us/library/windows/desktop/ms683212(v=vs.85).aspx
+        /// </remarks>
+        [DllImport(Kernel32, CharSet = CharSet.Ansi)]
         private static extern IntPtr GetProcAddress
             (
                 IntPtr hModule,
@@ -108,7 +175,6 @@ namespace ManagedIrbis.PlatformSpecific
             );
 
         #endregion
-
 
         #endregion
 
@@ -153,6 +219,7 @@ namespace ManagedIrbis.PlatformSpecific
         /// <inheritdoc/>
         public void Dispose()
         {
+            Disposing.Raise(this);
             FreeLibrary(_handle);
         }
 
