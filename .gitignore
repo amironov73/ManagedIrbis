@@ -280,6 +280,23 @@ Help/
 # Portability analysis tool
 PortabilityAnalysis*.html
 
+### MicrosoftOffice ###
+
+# Word temporary
+~$*.doc*
+
+# Excel temporary
+~$*.xls*
+
+# Excel Backup File
+*.xlk
+
+# PowerPoint temporary
+~$*.ppt*
+
+# Visio autosave temporary files
+*.~vsdx
+
 # TeX
 *.aux
 *.lof
