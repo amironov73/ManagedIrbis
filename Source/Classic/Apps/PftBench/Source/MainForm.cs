@@ -58,6 +58,7 @@ namespace PftBench
             _tokenGrid.Clear();
             _recordGrid.Clear();
             _varsGrid.Clear();
+            _globalsGrid.Clear();
         }
 
         private void Parse()
@@ -97,6 +98,7 @@ namespace PftBench
             _recordGrid.SetRecord(_record);
 
             _varsGrid.SetVariables(formatter.Context.Variables);
+            _globalsGrid.SetGlobals(formatter.Context.Globals);
         }
 
         private void _goButton_Click

@@ -40,6 +40,8 @@
             this._tokenGrid = new IrbisUI.PftTokenGrid();
             this._recordPage = new System.Windows.Forms.TabPage();
             this._recordGrid = new IrbisUI.RecordViewGrid();
+            this._varsPage = new System.Windows.Forms.TabPage();
+            this._varsGrid = new IrbisUI.PftVariableGrid();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this._recordBox = new System.Windows.Forms.TextBox();
             this._resutlBox = new System.Windows.Forms.TextBox();
@@ -49,8 +51,8 @@
             this._toolStrip = new System.Windows.Forms.ToolStrip();
             this._parseButton = new System.Windows.Forms.ToolStripButton();
             this._goButton = new System.Windows.Forms.ToolStripButton();
-            this._varsPage = new System.Windows.Forms.TabPage();
-            this._varsGrid = new IrbisUI.PftVariableGrid();
+            this._globalsPage = new System.Windows.Forms.TabPage();
+            this._globalsGrid = new IrbisUI.PftGlobalGrid();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -66,13 +68,14 @@
             this._astPage.SuspendLayout();
             this._tokenPage.SuspendLayout();
             this._recordPage.SuspendLayout();
+            this._varsPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this._menuStrip.SuspendLayout();
             this._toolStrip.SuspendLayout();
-            this._varsPage.SuspendLayout();
+            this._globalsPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -148,6 +151,7 @@
             this._tabControl.Controls.Add(this._tokenPage);
             this._tabControl.Controls.Add(this._recordPage);
             this._tabControl.Controls.Add(this._varsPage);
+            this._tabControl.Controls.Add(this._globalsPage);
             this._tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this._tabControl.Location = new System.Drawing.Point(0, 0);
             this._tabControl.Name = "_tabControl";
@@ -211,6 +215,25 @@
             this._recordGrid.Name = "_recordGrid";
             this._recordGrid.Size = new System.Drawing.Size(354, 143);
             this._recordGrid.TabIndex = 0;
+            // 
+            // _varsPage
+            // 
+            this._varsPage.Controls.Add(this._varsGrid);
+            this._varsPage.Location = new System.Drawing.Point(4, 22);
+            this._varsPage.Name = "_varsPage";
+            this._varsPage.Padding = new System.Windows.Forms.Padding(3);
+            this._varsPage.Size = new System.Drawing.Size(360, 149);
+            this._varsPage.TabIndex = 3;
+            this._varsPage.Text = "Variables";
+            this._varsPage.UseVisualStyleBackColor = true;
+            // 
+            // _varsGrid
+            // 
+            this._varsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._varsGrid.Location = new System.Drawing.Point(3, 3);
+            this._varsGrid.Name = "_varsGrid";
+            this._varsGrid.Size = new System.Drawing.Size(354, 143);
+            this._varsGrid.TabIndex = 0;
             // 
             // splitContainer2
             // 
@@ -308,24 +331,24 @@
             this._goButton.Text = "Go! (F5)";
             this._goButton.Click += new System.EventHandler(this._goButton_Click);
             // 
-            // _varsPage
+            // _globalsPage
             // 
-            this._varsPage.Controls.Add(this._varsGrid);
-            this._varsPage.Location = new System.Drawing.Point(4, 22);
-            this._varsPage.Name = "_varsPage";
-            this._varsPage.Padding = new System.Windows.Forms.Padding(3);
-            this._varsPage.Size = new System.Drawing.Size(360, 149);
-            this._varsPage.TabIndex = 3;
-            this._varsPage.Text = "Variables";
-            this._varsPage.UseVisualStyleBackColor = true;
+            this._globalsPage.Controls.Add(this._globalsGrid);
+            this._globalsPage.Location = new System.Drawing.Point(4, 22);
+            this._globalsPage.Name = "_globalsPage";
+            this._globalsPage.Padding = new System.Windows.Forms.Padding(3);
+            this._globalsPage.Size = new System.Drawing.Size(360, 149);
+            this._globalsPage.TabIndex = 4;
+            this._globalsPage.Text = "Globals";
+            this._globalsPage.UseVisualStyleBackColor = true;
             // 
-            // _varsGrid
+            // _globalsGrid
             // 
-            this._varsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._varsGrid.Location = new System.Drawing.Point(3, 3);
-            this._varsGrid.Name = "_varsGrid";
-            this._varsGrid.Size = new System.Drawing.Size(354, 143);
-            this._varsGrid.TabIndex = 0;
+            this._globalsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._globalsGrid.Location = new System.Drawing.Point(3, 3);
+            this._globalsGrid.Name = "_globalsGrid";
+            this._globalsGrid.Size = new System.Drawing.Size(354, 143);
+            this._globalsGrid.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -358,6 +381,7 @@
             this._astPage.ResumeLayout(false);
             this._tokenPage.ResumeLayout(false);
             this._recordPage.ResumeLayout(false);
+            this._varsPage.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
@@ -368,7 +392,7 @@
             this._menuStrip.PerformLayout();
             this._toolStrip.ResumeLayout(false);
             this._toolStrip.PerformLayout();
-            this._varsPage.ResumeLayout(false);
+            this._globalsPage.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -397,6 +421,8 @@
         private System.Windows.Forms.ToolStripButton _parseButton;
         private System.Windows.Forms.TabPage _varsPage;
         private IrbisUI.PftVariableGrid _varsGrid;
+        private System.Windows.Forms.TabPage _globalsPage;
+        private IrbisUI.PftGlobalGrid _globalsGrid;
 
     }
 }

@@ -212,6 +212,17 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// Get all variables.
+        /// </summary>
+        [NotNull]
+        public PftGlobal[] GetAllVariables()
+        {
+            PftGlobal[] result = Registry.Values.ToArray();
+
+            return result;
+        }
+
+        /// <summary>
         /// Have global variable with specified index?
         /// </summary>
         public bool HaveVariable
