@@ -114,7 +114,12 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("+3+", UniforPlus3.ReplacePlus);
             Registry.Add("+6", GetRecordStatus);
             Registry.Add("+7", UniforPlus7.ClearGlobals);
+            Registry.Add("+7A", UniforPlus7.UnionGlobals);
+            Registry.Add("+7G", UniforPlus7.DistinctGlobal);
+            Registry.Add("+7M", UniforPlus7.MultiplyGlobals);
             Registry.Add("+7R", UniforPlus7.ReadGlobal);
+            Registry.Add("+7S", UniforPlus7.SubstractGlobals);
+            Registry.Add("+7T", UniforPlus7.SortGlobal);
             Registry.Add("+7U", UniforPlus7.AppendGlobal);
             Registry.Add("+7W", UniforPlus7.WriteGlobal);
             Registry.Add("+90", UniforPlus9.GetIndex);

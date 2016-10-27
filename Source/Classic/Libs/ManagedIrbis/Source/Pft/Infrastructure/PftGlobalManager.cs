@@ -99,6 +99,21 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Private members
 
+        private PftGlobal _GetOrCreate
+            (
+                int index
+            )
+        {
+            PftGlobal result;
+            if (!Registry.TryGetValue(index, out result))
+            {
+                result = new PftGlobal(index);
+                Registry.Add(index, result);
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region Public methods
@@ -134,12 +149,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             if (!string.IsNullOrEmpty(text))
             {
-                PftGlobal variable;
-                if (!Registry.TryGetValue(index, out variable))
-                {
-                    variable = new PftGlobal(index);
-                    Registry.Add(index, variable);
-                }
+                PftGlobal variable = _GetOrCreate(index);
                 string[] lines = text.SplitLines()
                     .NonEmptyLines()
                     .ToArray();
@@ -210,6 +220,35 @@ namespace ManagedIrbis.Pft.Infrastructure
             )
         {
             return Registry.ContainsKey(index);
+        }
+
+        /// <summary>
+        /// Set the global variable.
+        /// </summary>
+        public void Set
+            (
+                int index,
+                [CanBeNull] IEnumerable<RecordField> fields
+            )
+        {
+            Code.Positive(index, "index");
+
+            if (ReferenceEquals(fields, null))
+            {
+                Delete(index);
+                return;
+            }
+
+            RecordField[] array = fields.ToArray();
+            if (array.Length == 0)
+            {
+                Delete(index);
+                return;
+            }
+
+            PftGlobal variable = _GetOrCreate(index);
+            variable.Fields.Clear();
+            variable.Fields.AddRange(array);
         }
 
         #endregion

@@ -45,16 +45,21 @@ namespace ManagedIrbis.Pft.Infrastructure
                 if (parts.Length == 2)
                 {
                     string tag = parts[0];
-                    string body = parts[1];
+                    string text = parts[1];
+                    string[] lines = text.SplitLines()
+                        .NonEmptyLines().ToArray();
 
-                    RecordField field = RecordFieldUtility.Parse
-                        (
-                            tag,
-                            body
-                        );
-                    if (!ReferenceEquals(field, null))
+                    foreach (string body in lines)
                     {
-                        context.Record.Fields.Add(field);
+                        RecordField field = RecordFieldUtility.Parse
+                            (
+                                tag,
+                                body
+                            );
+                        if (!ReferenceEquals(field, null))
+                        {
+                            context.Record.Fields.Add(field);
+                        }
                     }
                 }
             }
