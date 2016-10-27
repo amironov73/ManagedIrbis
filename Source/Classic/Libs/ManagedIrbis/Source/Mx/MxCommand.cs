@@ -123,6 +123,8 @@ namespace ManagedIrbis.Mx
 
             OnBeforeExecute();
 
+            executive.WriteLine("Connect");
+
             OnAfterExecute();
         }
 

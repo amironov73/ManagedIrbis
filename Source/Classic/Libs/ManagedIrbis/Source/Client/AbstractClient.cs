@@ -43,6 +43,11 @@ namespace ManagedIrbis.Client
         #region Properties
 
         /// <summary>
+        /// Connected?
+        /// </summary>
+        public virtual bool Connected { get { return true; } }
+
+        /// <summary>
         /// Current database.
         /// </summary>
         [NotNull]

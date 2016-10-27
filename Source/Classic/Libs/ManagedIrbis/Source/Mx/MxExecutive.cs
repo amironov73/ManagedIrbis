@@ -22,7 +22,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Client;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -39,10 +39,16 @@ namespace ManagedIrbis.Mx
         #region Properties
 
         /// <summary>
-        /// Connection.
+        /// Client.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection { get; private set; }
+        public ConnectedClient Client { get; private set; }
+
+        /// <summary>
+        /// Commands.
+        /// </summary>
+        [NotNull]
+        public NonNullCollection<MxCommand> Commands { get; private set; }
 
         #endregion
 
@@ -53,16 +59,48 @@ namespace ManagedIrbis.Mx
         /// </summary>
         public MxExecutive()
         {
-            Connection = new IrbisConnection();
+            Client = new ConnectedClient();
+            Commands = new NonNullCollection<MxCommand>();
+
+            _FillStandardCommands();
         }
 
         #endregion
 
         #region Private members
 
+        private void _FillStandardCommands()
+        {
+            
+        }
+
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Write to console.
+        /// </summary>
+        public void Write
+            (
+                [NotNull] string format,
+                params object[] arguments
+            )
+        {
+            Console.Write(format, arguments);
+        }
+
+        /// <summary>
+        /// Write to console.
+        /// </summary>
+        public void WriteLine
+            (
+                [NotNull] string format,
+                params object[] arguments
+            )
+        {
+            Console.WriteLine(format, arguments);
+        }
 
         #endregion
 

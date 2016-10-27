@@ -247,6 +247,13 @@
     <Compile Include="Source\Menus\MenuConverter.cs" />
     <Compile Include="Source\Menus\MenuEntry.cs" />
     <Compile Include="Source\Menus\MenuSort.cs" />
+    <Compile Include="Source\Mx\Commands\AliasCommand.cs" />
+    <Compile Include="Source\Mx\Commands\ConnectCommand.cs" />
+    <Compile Include="Source\Mx\Commands\DisconnectCommand.cs" />
+    <Compile Include="Source\Mx\Commands\FormatCommand.cs" />
+    <Compile Include="Source\Mx\Commands\PrintCommand.cs" />
+    <Compile Include="Source\Mx\Commands\SearchCommand.cs" />
+    <Compile Include="Source\Mx\Commands\SortCommand.cs" />
     <Compile Include="Source\Mx\MxAlias.cs" />
     <Compile Include="Source\Mx\MxArgument.cs" />
     <Compile Include="Source\Mx\MxCommand.cs" />

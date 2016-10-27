@@ -39,11 +39,24 @@ namespace ManagedIrbis.Client
     {
         #region Properties
 
+        /// <inheritdoc/>
+        public override bool Connected
+        {
+            get { return Connection.Connected; }
+        }
+
         /// <summary>
         /// Connection.
         /// </summary>
         [NotNull]
         public IrbisConnection Connection { get; private set; }
+
+        /// <inheritdoc/>
+        public override string Database
+        {
+            get { return Connection.Database; }
+            set { Connection.Database = value; }
+        }
 
         #endregion
 
