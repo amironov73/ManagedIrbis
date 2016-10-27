@@ -1,4 +1,4 @@
-﻿/* RecordViewGrid.cs -- 
+﻿/* PftVariableGrid.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -25,7 +25,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis;
+using ManagedIrbis.Pft.Infrastructure;
 
 using MoonSharp.Interpreter;
 
@@ -38,35 +38,38 @@ namespace IrbisUI
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public partial class RecordViewGrid
+    public partial class PftVariableGrid
         : UserControl
     {
         #region Nested classes
 
-        class FieldInfo
+        class VariableInfo
         {
             #region Properties
 
-            public string Tag { get; set; }
+            public string Name { get; set; }
 
-            public int Repeat { get; set; }
-
-            public string Text { get; set; }
+            public object Value { get; set; }
 
             #endregion
 
             #region Public methods
 
-            public static FieldInfo FromField
+            public static VariableInfo FromVariable
                 (
-                    RecordField field
+                    PftVariable variable
                 )
             {
-                FieldInfo result = new FieldInfo
+                object value = variable.StringValue;
+                if (variable.IsNumeric)
                 {
-                    Tag = field.Tag,
-                    Repeat = field.Repeat,
-                    Text = field.ToText()
+                    value = variable.NumericValue;
+                }
+
+                VariableInfo result = new VariableInfo
+                {
+                    Name = variable.Name,
+                    Value = value
                 };
 
                 return result;
@@ -82,7 +85,7 @@ namespace IrbisUI
         /// <summary>
         /// Constructor.
         /// </summary>
-        public RecordViewGrid()
+        public PftVariableGrid()
         {
             InitializeComponent();
         }
@@ -100,24 +103,24 @@ namespace IrbisUI
         }
 
         /// <summary>
-        /// Set record to view.
+        /// Set variables.
         /// </summary>
-        public void SetRecord
+        public void SetVariables
             (
-                [CanBeNull] MarcRecord record
+                [NotNull] PftVariableManager manager
             )
         {
-            if (ReferenceEquals(record, null))
-            {
-                _grid.DataSource = null;
-                return;
-            }
+            Code.NotNull(manager, "manager");
 
+            PftVariable[] all = manager.GetAllVariables();
+            List<VariableInfo> list = new List<VariableInfo>();
+            foreach (PftVariable variable in all)
+            {
+                VariableInfo info = VariableInfo.FromVariable(variable);
+                list.Add(info);
+            }
             _grid.AutoGenerateColumns = false;
-            _grid.DataSource = record.Fields
-                // ReSharper disable once ConvertClosureToMethodGroup
-                .Select(field => FieldInfo.FromField(field))
-                .ToArray();
+            _grid.DataSource = list.OrderBy(v => v.Name).ToArray();
         }
 
         #endregion

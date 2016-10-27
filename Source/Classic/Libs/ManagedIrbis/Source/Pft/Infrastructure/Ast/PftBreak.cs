@@ -78,7 +78,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             //context.BreakFlag = true;
             throw new PftBreakException(this);
 
-            OnAfterExecution(context);
+            // Never get here
+            // OnAfterExecution(context);
         }
 
         #endregion

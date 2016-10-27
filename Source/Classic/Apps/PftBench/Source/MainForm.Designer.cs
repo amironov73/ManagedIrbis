@@ -49,6 +49,8 @@
             this._toolStrip = new System.Windows.Forms.ToolStrip();
             this._parseButton = new System.Windows.Forms.ToolStripButton();
             this._goButton = new System.Windows.Forms.ToolStripButton();
+            this._varsPage = new System.Windows.Forms.TabPage();
+            this._varsGrid = new IrbisUI.PftVariableGrid();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -70,6 +72,7 @@
             this.splitContainer2.SuspendLayout();
             this._menuStrip.SuspendLayout();
             this._toolStrip.SuspendLayout();
+            this._varsPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -144,6 +147,7 @@
             this._tabControl.Controls.Add(this._astPage);
             this._tabControl.Controls.Add(this._tokenPage);
             this._tabControl.Controls.Add(this._recordPage);
+            this._tabControl.Controls.Add(this._varsPage);
             this._tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this._tabControl.Location = new System.Drawing.Point(0, 0);
             this._tabControl.Name = "_tabControl";
@@ -304,6 +308,25 @@
             this._goButton.Text = "Go! (F5)";
             this._goButton.Click += new System.EventHandler(this._goButton_Click);
             // 
+            // _varsPage
+            // 
+            this._varsPage.Controls.Add(this._varsGrid);
+            this._varsPage.Location = new System.Drawing.Point(4, 22);
+            this._varsPage.Name = "_varsPage";
+            this._varsPage.Padding = new System.Windows.Forms.Padding(3);
+            this._varsPage.Size = new System.Drawing.Size(360, 149);
+            this._varsPage.TabIndex = 3;
+            this._varsPage.Text = "Variables";
+            this._varsPage.UseVisualStyleBackColor = true;
+            // 
+            // _varsGrid
+            // 
+            this._varsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._varsGrid.Location = new System.Drawing.Point(3, 3);
+            this._varsGrid.Name = "_varsGrid";
+            this._varsGrid.Size = new System.Drawing.Size(354, 143);
+            this._varsGrid.TabIndex = 0;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -345,6 +368,7 @@
             this._menuStrip.PerformLayout();
             this._toolStrip.ResumeLayout(false);
             this._toolStrip.PerformLayout();
+            this._varsPage.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -371,6 +395,8 @@
         private System.Windows.Forms.TabPage _recordPage;
         private IrbisUI.RecordViewGrid _recordGrid;
         private System.Windows.Forms.ToolStripButton _parseButton;
+        private System.Windows.Forms.TabPage _varsPage;
+        private IrbisUI.PftVariableGrid _varsGrid;
 
     }
 }

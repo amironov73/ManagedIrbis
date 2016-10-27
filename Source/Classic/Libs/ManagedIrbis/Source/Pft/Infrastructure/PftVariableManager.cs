@@ -73,6 +73,10 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Private members
 
+        #endregion
+
+        #region Public methods
+
         /// <summary>
         /// Dump all the variables.
         /// </summary>
@@ -97,6 +101,31 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
                 writer.WriteLine(new string('=', 60));
             }
+        }
+
+        /// <summary>
+        /// Get all variables.
+        /// </summary>
+        [NotNull]
+        public PftVariable[] GetAllVariables()
+        {
+            List<PftVariable> result = new List<PftVariable>();
+
+            for (
+                    PftVariableManager manager = this;
+                    manager != null;
+                    manager = manager.Parent
+                )
+            {
+                var keys = manager.Registry.Keys.OrderBy(key => key);
+                foreach (string key in keys)
+                {
+                    PftVariable variable = manager.Registry[key];
+                    result.Add(variable);
+                }
+            }
+
+            return result.ToArray();
         }
 
         /// <summary>

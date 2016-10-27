@@ -168,6 +168,12 @@
     <Compile Include="Sources\PftTreeView.Designer.cs">
       <DependentUpon>PftTreeView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Sources\PftVariableGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Sources\PftVariableGrid.Designer.cs">
+      <DependentUpon>PftVariableGrid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Sources\PreviewPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -258,6 +264,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sources\PftTreeView.resx">
       <DependentUpon>PftTreeView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\PftVariableGrid.resx">
+      <DependentUpon>PftVariableGrid.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sources\PreviewPanel.resx">
       <DependentUpon>PreviewPanel.cs</DependentUpon>
