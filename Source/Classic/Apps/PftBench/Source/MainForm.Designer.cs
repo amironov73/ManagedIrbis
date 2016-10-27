@@ -33,7 +33,13 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this._pftBox = new System.Windows.Forms.TextBox();
-            this._pftTreeView = new IrbisUI.Sources.PftTreeView();
+            this._tabControl = new System.Windows.Forms.TabControl();
+            this._astPage = new System.Windows.Forms.TabPage();
+            this._pftTreeView = new IrbisUI.PftTreeView();
+            this._tokenPage = new System.Windows.Forms.TabPage();
+            this._tokenGrid = new IrbisUI.PftTokenGrid();
+            this._recordPage = new System.Windows.Forms.TabPage();
+            this._recordGrid = new IrbisUI.RecordViewGrid();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this._recordBox = new System.Windows.Forms.TextBox();
             this._resutlBox = new System.Windows.Forms.TextBox();
@@ -41,11 +47,8 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._toolStrip = new System.Windows.Forms.ToolStrip();
+            this._parseButton = new System.Windows.Forms.ToolStripButton();
             this._goButton = new System.Windows.Forms.ToolStripButton();
-            this._tabControl = new System.Windows.Forms.TabControl();
-            this._astPage = new System.Windows.Forms.TabPage();
-            this._tokenPage = new System.Windows.Forms.TabPage();
-            this._tokenGrid = new IrbisUI.Sources.PftTokenGrid();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -57,15 +60,16 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
+            this._tabControl.SuspendLayout();
+            this._astPage.SuspendLayout();
+            this._tokenPage.SuspendLayout();
+            this._recordPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this._menuStrip.SuspendLayout();
             this._toolStrip.SuspendLayout();
-            this._tabControl.SuspendLayout();
-            this._astPage.SuspendLayout();
-            this._tokenPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -135,6 +139,29 @@
             this._pftBox.TabIndex = 0;
             this._pftBox.Text = "v200^a, \" : \"v200^e, \" / \"v200^f";
             // 
+            // _tabControl
+            // 
+            this._tabControl.Controls.Add(this._astPage);
+            this._tabControl.Controls.Add(this._tokenPage);
+            this._tabControl.Controls.Add(this._recordPage);
+            this._tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._tabControl.Location = new System.Drawing.Point(0, 0);
+            this._tabControl.Name = "_tabControl";
+            this._tabControl.SelectedIndex = 0;
+            this._tabControl.Size = new System.Drawing.Size(368, 175);
+            this._tabControl.TabIndex = 1;
+            // 
+            // _astPage
+            // 
+            this._astPage.Controls.Add(this._pftTreeView);
+            this._astPage.Location = new System.Drawing.Point(4, 22);
+            this._astPage.Name = "_astPage";
+            this._astPage.Padding = new System.Windows.Forms.Padding(3);
+            this._astPage.Size = new System.Drawing.Size(360, 149);
+            this._astPage.TabIndex = 0;
+            this._astPage.Text = "AST";
+            this._astPage.UseVisualStyleBackColor = true;
+            // 
             // _pftTreeView
             // 
             this._pftTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -142,6 +169,44 @@
             this._pftTreeView.Name = "_pftTreeView";
             this._pftTreeView.Size = new System.Drawing.Size(354, 143);
             this._pftTreeView.TabIndex = 0;
+            // 
+            // _tokenPage
+            // 
+            this._tokenPage.Controls.Add(this._tokenGrid);
+            this._tokenPage.Location = new System.Drawing.Point(4, 22);
+            this._tokenPage.Name = "_tokenPage";
+            this._tokenPage.Padding = new System.Windows.Forms.Padding(3);
+            this._tokenPage.Size = new System.Drawing.Size(360, 149);
+            this._tokenPage.TabIndex = 1;
+            this._tokenPage.Text = "Tokens";
+            this._tokenPage.UseVisualStyleBackColor = true;
+            // 
+            // _tokenGrid
+            // 
+            this._tokenGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._tokenGrid.Location = new System.Drawing.Point(3, 3);
+            this._tokenGrid.Name = "_tokenGrid";
+            this._tokenGrid.Size = new System.Drawing.Size(354, 143);
+            this._tokenGrid.TabIndex = 0;
+            // 
+            // _recordPage
+            // 
+            this._recordPage.Controls.Add(this._recordGrid);
+            this._recordPage.Location = new System.Drawing.Point(4, 22);
+            this._recordPage.Name = "_recordPage";
+            this._recordPage.Padding = new System.Windows.Forms.Padding(3);
+            this._recordPage.Size = new System.Drawing.Size(360, 149);
+            this._recordPage.TabIndex = 2;
+            this._recordPage.Text = "Record";
+            this._recordPage.UseVisualStyleBackColor = true;
+            // 
+            // _recordGrid
+            // 
+            this._recordGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._recordGrid.Location = new System.Drawing.Point(3, 3);
+            this._recordGrid.Name = "_recordGrid";
+            this._recordGrid.Size = new System.Drawing.Size(354, 143);
+            this._recordGrid.TabIndex = 0;
             // 
             // splitContainer2
             // 
@@ -213,6 +278,7 @@
             this._toolStrip.Dock = System.Windows.Forms.DockStyle.None;
             this._toolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this._toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._parseButton,
             this._goButton});
             this._toolStrip.Location = new System.Drawing.Point(0, 24);
             this._toolStrip.Name = "_toolStrip";
@@ -220,56 +286,23 @@
             this._toolStrip.Stretch = true;
             this._toolStrip.TabIndex = 1;
             // 
+            // _parseButton
+            // 
+            this._parseButton.Image = ((System.Drawing.Image)(resources.GetObject("_parseButton.Image")));
+            this._parseButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._parseButton.Name = "_parseButton";
+            this._parseButton.Size = new System.Drawing.Size(78, 22);
+            this._parseButton.Text = "Parse (F4)";
+            this._parseButton.Click += new System.EventHandler(this._parseButton_Click);
+            // 
             // _goButton
             // 
-            this._goButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this._goButton.Image = ((System.Drawing.Image)(resources.GetObject("_goButton.Image")));
             this._goButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._goButton.Name = "_goButton";
-            this._goButton.Size = new System.Drawing.Size(29, 22);
-            this._goButton.Text = "Go!";
+            this._goButton.Size = new System.Drawing.Size(68, 22);
+            this._goButton.Text = "Go! (F5)";
             this._goButton.Click += new System.EventHandler(this._goButton_Click);
-            // 
-            // _tabControl
-            // 
-            this._tabControl.Controls.Add(this._astPage);
-            this._tabControl.Controls.Add(this._tokenPage);
-            this._tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._tabControl.Location = new System.Drawing.Point(0, 0);
-            this._tabControl.Name = "_tabControl";
-            this._tabControl.SelectedIndex = 0;
-            this._tabControl.Size = new System.Drawing.Size(368, 175);
-            this._tabControl.TabIndex = 1;
-            // 
-            // _astPage
-            // 
-            this._astPage.Controls.Add(this._pftTreeView);
-            this._astPage.Location = new System.Drawing.Point(4, 22);
-            this._astPage.Name = "_astPage";
-            this._astPage.Padding = new System.Windows.Forms.Padding(3);
-            this._astPage.Size = new System.Drawing.Size(360, 149);
-            this._astPage.TabIndex = 0;
-            this._astPage.Text = "AST";
-            this._astPage.UseVisualStyleBackColor = true;
-            // 
-            // _tokenPage
-            // 
-            this._tokenPage.Controls.Add(this._tokenGrid);
-            this._tokenPage.Location = new System.Drawing.Point(4, 22);
-            this._tokenPage.Name = "_tokenPage";
-            this._tokenPage.Padding = new System.Windows.Forms.Padding(3);
-            this._tokenPage.Size = new System.Drawing.Size(360, 149);
-            this._tokenPage.TabIndex = 1;
-            this._tokenPage.Text = "Tokens";
-            this._tokenPage.UseVisualStyleBackColor = true;
-            // 
-            // _tokenGrid
-            // 
-            this._tokenGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._tokenGrid.Location = new System.Drawing.Point(3, 3);
-            this._tokenGrid.Name = "_tokenGrid";
-            this._tokenGrid.Size = new System.Drawing.Size(354, 143);
-            this._tokenGrid.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -278,9 +311,12 @@
             this.ClientSize = new System.Drawing.Size(784, 562);
             this.Controls.Add(this.toolStripContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MainMenuStrip = this._menuStrip;
             this.Name = "MainForm";
             this.Text = "PFT Bench";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
+            this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.MainForm_PreviewKeyDown);
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
@@ -295,6 +331,10 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            this._tabControl.ResumeLayout(false);
+            this._astPage.ResumeLayout(false);
+            this._tokenPage.ResumeLayout(false);
+            this._recordPage.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
@@ -305,9 +345,6 @@
             this._menuStrip.PerformLayout();
             this._toolStrip.ResumeLayout(false);
             this._toolStrip.PerformLayout();
-            this._tabControl.ResumeLayout(false);
-            this._astPage.ResumeLayout(false);
-            this._tokenPage.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -326,11 +363,14 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.TextBox _pftBox;
         private System.Windows.Forms.SplitContainer splitContainer3;
-        private IrbisUI.Sources.PftTreeView _pftTreeView;
+        private IrbisUI.PftTreeView _pftTreeView;
         private System.Windows.Forms.TabControl _tabControl;
         private System.Windows.Forms.TabPage _astPage;
         private System.Windows.Forms.TabPage _tokenPage;
-        private IrbisUI.Sources.PftTokenGrid _tokenGrid;
+        private IrbisUI.PftTokenGrid _tokenGrid;
+        private System.Windows.Forms.TabPage _recordPage;
+        private IrbisUI.RecordViewGrid _recordGrid;
+        private System.Windows.Forms.ToolStripButton _parseButton;
 
     }
 }

@@ -35,7 +35,7 @@ using Newtonsoft.Json;
 #endregion
 
 
-namespace IrbisUI.Sources
+namespace IrbisUI
 {
     /// <summary>
     /// TreeView over <see cref="PftNode"/>'s
@@ -91,6 +91,14 @@ namespace IrbisUI.Sources
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Clear.
+        /// </summary>
+        public void Clear()
+        {
+            _tree.Nodes.Clear();
+        }
 
         /// <summary>
         /// Set nodes.

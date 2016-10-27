@@ -1,4 +1,4 @@
-﻿namespace IrbisUI.Sources
+﻿namespace IrbisUI
 {
     partial class PftTreeView
     {

@@ -31,7 +31,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace IrbisUI.Sources
+namespace IrbisUI
 {
     /// <summary>
     /// 
@@ -54,6 +54,14 @@ namespace IrbisUI.Sources
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Clear.
+        /// </summary>
+        public void Clear()
+        {
+            _grid.DataSource = null;
+        }
 
         /// <summary>
         /// Set tokens.

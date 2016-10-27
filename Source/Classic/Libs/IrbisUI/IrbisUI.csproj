@@ -174,6 +174,12 @@
     <Compile Include="Sources\PreviewPanel.Designer.cs">
       <DependentUpon>PreviewPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Sources\RecordViewGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Sources\RecordViewGrid.Designer.cs">
+      <DependentUpon>RecordViewGrid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Sources\RelatedSearchForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -255,6 +261,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sources\PreviewPanel.resx">
       <DependentUpon>PreviewPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\RecordViewGrid.resx">
+      <DependentUpon>RecordViewGrid.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sources\RelatedSearchForm.resx">
       <DependentUpon>RelatedSearchForm.cs</DependentUpon>

@@ -33,7 +33,7 @@ using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 
-using CM=System.Configuration.ConfigurationManager;
+using CM = System.Configuration.ConfigurationManager;
 
 #endregion
 
@@ -47,6 +47,55 @@ namespace PftBench
             InitializeComponent();
         }
 
+        private MarcRecord _record;
+        private PftTokenList _tokenList;
+        private PftProgram _program;
+
+        private void Clear()
+        {
+            _resutlBox.Clear();
+            _pftTreeView.Clear();
+            _tokenGrid.Clear();
+            _recordGrid.Clear();
+        }
+
+        private void Parse()
+        {
+            string recordText = _recordBox.Text;
+            StringReader reader = new StringReader(recordText);
+            _record = PlainText.ReadRecord(reader);
+            _recordGrid.SetRecord(_record);
+
+            PftLexer lexer = new PftLexer();
+            _tokenList = lexer.Tokenize(_pftBox.Text);
+
+            _tokenGrid.SetTokens(_tokenList);
+
+            PftParser parser = new PftParser(_tokenList);
+            _program = parser.Parse();
+            _pftTreeView.SetNodes(_program);
+        }
+
+        private void Run()
+        {
+            PftFormatter formatter = new PftFormatter
+            {
+                Program = _program
+            };
+
+            string rootPath = CM.AppSettings["rootPath"];
+            PftEnvironmentAbstraction environment
+                = new PftLocalEnvironment
+                    (
+                        rootPath
+                    );
+            formatter.SetEnvironment(environment);
+
+            string result = formatter.Format(_record);
+            _resutlBox.Text = result;
+            _recordGrid.SetRecord(_record);
+        }
+
         private void _goButton_Click
             (
                 object sender,
@@ -55,43 +104,66 @@ namespace PftBench
         {
             try
             {
-                _resutlBox.Clear();
-
-                string recordText = _recordBox.Text;
-                StringReader reader = new StringReader(recordText);
-                MarcRecord record = PlainText.ReadRecord(reader)
-                    .ThrowIfNull("record!");
-
-                PftLexer lexer = new PftLexer();
-                PftTokenList tokenList = lexer.Tokenize(_pftBox.Text);
-
-                _tokenGrid.SetTokens(tokenList);
-
-                PftParser parser = new PftParser(tokenList);
-                PftProgram program = parser.Parse();
-
-                _pftTreeView.SetNodes(program);
-
-                PftFormatter formatter = new PftFormatter
-                {
-                    Program = program
-                };
-
-                string rootPath = CM.AppSettings["rootPath"];
-                PftEnvironmentAbstraction environment
-                    = new PftLocalEnvironment
-                        (
-                            rootPath
-                        );
-                formatter.SetEnvironment(environment);
-
-                string result = formatter.Format(record);
-                _resutlBox.Text = result;
+                Clear();
+                Parse();
+                Run();
             }
             catch (Exception exception)
             {
                 _resutlBox.Text = exception.ToString();
             }
         }
+
+        private void _parseButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            try
+            {
+                Clear();
+                Parse();
+            }
+            catch (Exception exception)
+            {
+                _resutlBox.Text = exception.ToString();
+            }
+        }
+
+        private void MainForm_PreviewKeyDown
+            (
+                object sender,
+                PreviewKeyDownEventArgs e
+            )
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F4:
+                    _parseButton_Click(sender, e);
+                    break;
+
+                case Keys.F5:
+                    _goButton_Click(sender, e);
+                    break;
+            }
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F4:
+                    _parseButton_Click(sender, e);
+                    e.Handled = true;
+                    break;
+
+                case Keys.F5:
+                    _goButton_Click(sender, e);
+                    e.Handled = true;
+                    break;
+            }
+        }
+
     }
 }
