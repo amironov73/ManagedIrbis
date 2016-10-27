@@ -62,11 +62,17 @@ namespace ManagedIrbis.Pft.Infrastructure
         #region Properties
 
         /// <summary>
+        /// Breakpoint.
+        /// </summary>
+        public bool Breakpoint { get; set; }
+
+        /// <summary>
         /// Список потомков. Может быть пустым.
         /// </summary>
         public virtual IList<PftNode> Children
         {
-            get; protected set;
+            get;
+            protected set;
         }
 
         /// <summary>
@@ -211,16 +217,9 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             OnBeforeExecution(context);
 
-            if (!context.BreakFlag)
+            foreach (PftNode child in Children)
             {
-                foreach (PftNode child in Children)
-                {
-                    child.Execute(context);
-                    if (context.BreakFlag)
-                    {
-                        break;
-                    }
-                }
+                child.Execute(context);
             }
 
             OnAfterExecution(context);
@@ -447,7 +446,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 string typeName = reader.ReadString();
                 Type type = Type.GetType(typeName, true);
-                PftNode child = (PftNode) Activator.CreateInstance(type);
+                PftNode child = (PftNode)Activator.CreateInstance(type);
                 Children.Add(child);
             }
 #endif
@@ -500,7 +499,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 (
                     child => child.Verify(throwOnError)
                 );
-            
+
             if (!result && throwOnError)
             {
                 throw new ArgumentException();
@@ -517,7 +516,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
-            
+
             foreach (PftNode child in Children)
             {
                 result.Append(child);

@@ -97,10 +97,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public bool OutputFlag { get; internal set; }
 
-        /// <summary>
-        /// ‘лаг, устанавливаетс€ при срабатывании оператора break.
-        /// </summary>
-        public bool BreakFlag { get; internal set; }
+        ///// <summary>
+        ///// ‘лаг, устанавливаетс€ при срабатывании оператора break.
+        ///// </summary>
+        //public bool BreakFlag { get; internal set; }
 
         /// <summary>
         /// “екущее обрабатываемое поле записи, если есть.
@@ -252,7 +252,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 action(this);
 
                 if (!OutputFlag
-                    || BreakFlag)
+                    // || BreakFlag
+                    )
                 {
                     break;
                 }
@@ -276,12 +277,15 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public void Execute
             (
-                [NotNull] IEnumerable<PftNode> nodes
+                [CanBeNull] IEnumerable<PftNode> nodes
             )
         {
-            foreach (PftNode node in nodes)
+            if (!ReferenceEquals(nodes, null))
             {
-                node.Execute(this);
+                foreach (PftNode node in nodes)
+                {
+                    node.Execute(this);
+                }
             }
         }
 

@@ -138,26 +138,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             Value = 0.0;
 
-            if (!context.BreakFlag)
+            if (context.Record != null)
             {
-                if (context.Record != null)
-                {
-                    Value = context.Record.Mfn;
+                Value = context.Record.Mfn;
 
-                    string text = (Width == 0)
-                        ? context.Record.Mfn.ToInvariantString()
-                        : context.Record.Mfn.ToString
-                            (
-                                new string('0', Width),
-                                CultureInfo.InvariantCulture
-                            );
-
-                    context.Write
+                string text = (Width == 0)
+                    ? context.Record.Mfn.ToInvariantString()
+                    : context.Record.Mfn.ToString
                         (
-                            this,
-                            text
+                            new string('0', Width),
+                            CultureInfo.InvariantCulture
                         );
-                }
+
+                context.Write
+                    (
+                        this,
+                        text
+                    );
             }
 
             OnAfterExecution(context);

@@ -246,6 +246,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         /// <summary>
+        /// Can output according given value.
+        /// </summary>
+        public virtual bool CanOutput
+            (
+                [CanBeNull] string value
+            )
+        {
+            return !string.IsNullOrEmpty(value);
+        }
+
+        /// <summary>
         /// Get value.
         /// </summary>
         [CanBeNull]

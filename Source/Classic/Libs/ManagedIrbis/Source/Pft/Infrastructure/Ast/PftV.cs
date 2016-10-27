@@ -90,42 +90,33 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftContext context
             )
         {
-            if (!context.BreakFlag)
+            try
             {
-                try
+                context.CurrentField = this;
+
+                context.Execute(LeftHand);
+
+                string value = GetValue(context);
+                if (!string.IsNullOrEmpty(value))
                 {
-                    context.CurrentField = this;
-
-                    foreach (PftNode node in LeftHand)
+                    if (Indent != 0
+                        && IsFirstRepeat(context))
                     {
-                        node.Execute(context);
+                        value = new string(' ', Indent) + value;
                     }
 
-                    string value = GetValue(context);
-                    if (!string.IsNullOrEmpty(value))
-                    {
-                        if (Indent != 0
-                            && IsFirstRepeat(context))
-                        {
-                            value = new string(' ', Indent) + value;
-                        }
-
-                        context.Write(this, value);
-                    }
-                    if (HaveRepeat(context))
-                    {
-                        context.OutputFlag = true;
-                    }
-
-                    foreach (PftNode node in RightHand)
-                    {
-                        node.Execute(context);
-                    }
+                    context.Write(this, value);
                 }
-                finally
+                if (HaveRepeat(context))
                 {
-                    context.CurrentField = null;
+                    context.OutputFlag = true;
                 }
+
+                context.Execute(RightHand);
+            }
+            finally
+            {
+                context.CurrentField = null;
             }
         }
 
@@ -192,15 +183,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (context.CurrentGroup != null)
             {
-                if (!context.BreakFlag)
+                if (IsFirstRepeat(context))
                 {
-                    if (IsFirstRepeat(context))
-                    {
-                        _count = GetCount(context);
-                    }
-
-                    _Execute(context);
+                    _count = GetCount(context);
                 }
+
+                _Execute(context);
             }
             else
             {

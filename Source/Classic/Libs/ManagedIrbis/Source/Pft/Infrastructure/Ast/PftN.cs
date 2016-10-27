@@ -71,25 +71,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftContext context
             )
         {
-            if (!context.BreakFlag)
+            try
             {
-                try
-                {
-                    context.CurrentField = this;
+                context.CurrentField = this;
 
-                    string value = GetValue(context);
-                    if (string.IsNullOrEmpty(value))
-                    {
-                        foreach (PftNode node in LeftHand)
-                        {
-                            node.Execute(context);
-                        }
-                    }
-                }
-                finally
+                string value = GetValue(context);
+                if (string.IsNullOrEmpty(value))
                 {
-                    context.CurrentField = null;
+                    context.Execute(LeftHand);
                 }
+            }
+            finally
+            {
+                context.CurrentField = null;
             }
         }
 
@@ -100,6 +94,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc/>
+        public override bool CanOutput
+            (
+                string value
+            )
+        {
+            return string.IsNullOrEmpty(value);
+        }
 
         /// <inheritdoc />
         public override void Execute
@@ -116,18 +119,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (context.CurrentGroup != null)
             {
-                if (!context.BreakFlag)
+                if (IsFirstRepeat(context))
                 {
-                    if (IsFirstRepeat(context))
-                    {
-                        _Execute(context);
-                    }
-
+                    _Execute(context);
                 }
             }
             else
             {
-                context.DoRepeatableAction(_Execute,1);
+                context.DoRepeatableAction(_Execute, 1);
             }
 
             OnAfterExecution(context);

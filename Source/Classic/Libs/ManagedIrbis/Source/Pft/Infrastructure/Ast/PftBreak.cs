@@ -75,7 +75,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            context.BreakFlag = true;
+            //context.BreakFlag = true;
+            throw new PftBreakException(this);
 
             OnAfterExecution(context);
         }

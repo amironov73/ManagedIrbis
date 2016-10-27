@@ -102,35 +102,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            if (!context.BreakFlag)
+            PftField field = context.CurrentField;
+            if (!ReferenceEquals(field, null))
             {
-                PftField field = context.CurrentField;
-                if (!ReferenceEquals(field, null))
+                if (field.IsFirstRepeat(context))
                 {
-                    if (field.IsFirstRepeat(context))
+                    string value = field.GetValue(context);
+
+                    if (field.CanOutput(value))
                     {
-                        bool flag = true;
-                        string value = field.GetValue(context);
-
-                        if (field.Command.SameChar('v')
-                            || field.Command.SameChar('d')
-                            || field.Command.SameChar('g'))
-                        {
-                            flag = !string.IsNullOrEmpty(value);
-                        }
-                        else if (field.Command == 'n')
-                        {
-                            flag = string.IsNullOrEmpty(value);
-                        }
-
-                        if (flag)
-                        {
-                            context.Write
-                            (
-                                this,
-                                Text
-                            );
-                        }
+                        context.Write
+                        (
+                            this,
+                            Text
+                        );
                     }
                 }
             }

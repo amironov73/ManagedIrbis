@@ -77,16 +77,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            if (!context.BreakFlag)
-            {
-                foreach (PftNode child in Children)
-                {
-                    child.Execute
-                        (
-                            context
-                        );
-                }
-            }
+            context.Execute(Children);
 
             OnAfterExecution(context);
         }

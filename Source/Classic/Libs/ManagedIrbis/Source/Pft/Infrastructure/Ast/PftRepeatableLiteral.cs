@@ -114,8 +114,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             PftField field = context.CurrentField;
 
-            if (!context.BreakFlag
-                && field != null)
+            if (!ReferenceEquals(field, null))
             {
                 int index = context.Index;
                 if (field.IndexFrom != 0)

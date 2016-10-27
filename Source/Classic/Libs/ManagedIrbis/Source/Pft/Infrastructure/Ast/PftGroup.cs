@@ -78,14 +78,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new PftSemanticException("Nested group");
             }
 
-            if (!context.BreakFlag)
+            try
             {
+                context.CurrentGroup = this;
+
+                OnBeforeExecution(context);
+
                 try
                 {
-                    context.CurrentGroup = this;
-
-                    OnBeforeExecution(context);
-
                     context.DoRepeatableAction
                         (
                             ctx =>
@@ -93,21 +93,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                                 foreach (PftNode child in Children)
                                 {
                                     child.Execute(ctx);
-
-                                    if (ctx.BreakFlag)
-                                    {
-                                        break;
-                                    }
                                 }
                             }
                         );
-
-                    OnAfterExecution(context);
                 }
-                finally
+                catch (PftBreakException)
                 {
-                    context.CurrentGroup = null;
+                    // Nothing to do here
+                    // Just swallow the exception
                 }
+
+                OnAfterExecution(context);
+            }
+            finally
+            {
+                context.CurrentGroup = null;
             }
         }
 
