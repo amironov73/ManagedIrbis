@@ -211,16 +211,21 @@ namespace AM.Text.Tokenizer
             while (true)
             {
                 char c = PeekChar();
+                if (c == EOF)
+                {
+                    break;
+                }
                 if (c == '\\')
                 {
                     ReadChar();
                     c = ReadChar(); // handle \t, \n etc
                     if (c == 'x') // handle \x123
                     {
-                        ReadChar();
+                        c = ReadChar();
                         while (char.IsDigit(c))
                         {
-                            c = ReadChar();
+                            ReadChar();
+                            c = PeekChar();
                         }
                     }
                 }

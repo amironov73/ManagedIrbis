@@ -145,6 +145,7 @@
     <Compile Include="AM\IO\VersionStreamTest.cs" />
     <Compile Include="AM\OperatorTest.cs" />
     <Compile Include="AM\OptionalTest.cs" />
+    <Compile Include="AM\Parameters\ParameterTest.cs" />
     <Compile Include="AM\Parameters\ParameterUtilityTest.cs" />
     <Compile Include="AM\ReadOnlyExceptionTest.cs" />
     <Compile Include="AM\Reflection\CanaryClass.cs" />
@@ -166,6 +167,8 @@
     <Compile Include="AM\Text\StringTokenizerTest.cs" />
     <Compile Include="AM\Text\StreamParserTest.cs" />
     <Compile Include="AM\Text\TextPositionTest.cs" />
+    <Compile Include="AM\Text\Tokenizer\StringTokenizerTest.cs" />
+    <Compile Include="AM\Text\Tokenizer\TokenizerExceptionTest.cs" />
     <Compile Include="AM\Text\Tokenizer\TokenStreamTest.cs" />
     <Compile Include="AM\Text\Tokenizer\TokenTest.cs" />
     <Compile Include="AM\Text\TransliteratorTest.cs" />
