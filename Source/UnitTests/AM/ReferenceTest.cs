@@ -9,7 +9,15 @@ namespace UnitTests.AM
     public class ReferenceTest
     {
         [TestMethod]
-        public void TestReferenceConstructor()
+        public void Reference_Construction1()
+        {
+            Reference<string> reference = new Reference<string>();
+            Assert.IsNull(reference.Target);
+            Assert.AreEqual(1, reference.Counter);
+        }
+
+        [TestMethod]
+        public void Reference_Construction2()
         {
             const string expected1 = "abc";
             Reference<string> reference = new Reference<string>(expected1);
@@ -17,7 +25,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void TestReferenceValue()
+        public void Reference_Value()
         {
             const string expected1 = "abc", expected2 = "cba";
             Reference<string> reference = new Reference<string>(expected1);
@@ -30,7 +38,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void TestReferenceCounter()
+        public void Reference_Counter()
         {
             const string expected1 = "abc";
             Reference<string> reference = new Reference<string>(expected1);
@@ -38,6 +46,31 @@ namespace UnitTests.AM
             Assert.AreEqual(1, reference.Counter);
             Assert.AreEqual(1, reference.ResetCounter());
             Assert.AreEqual(0, reference.Counter);
+        }
+
+        [TestMethod]
+        public void Reference_Implicit1()
+        {
+            const string expected = "abc";
+            Reference<string> reference = new Reference<string>(expected);
+            string actual = reference;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Reference_Implicit2()
+        {
+            const string expected = "abc";
+            Reference<string> reference = expected;
+            Assert.AreEqual(expected, reference.Target);
+        }
+
+        [TestMethod]
+        public void Reference_ToString()
+        {
+            const string expected = "abc";
+            Reference<string> reference = new Reference<string>(expected);
+            Assert.AreEqual(expected, reference.ToString());
         }
     }
 }

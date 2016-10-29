@@ -87,6 +87,16 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
+        public void ArrayUtility_GetOccurrence()
+        {
+            int[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+            Assert.AreEqual(1, array.GetOccurrence(0));
+            Assert.AreEqual(1, array.GetOccurrence(0, 0));
+            Assert.AreEqual(0, array.GetOccurrence(10));
+            Assert.AreEqual(1, array.GetOccurrence(10, 1));
+        }
+
+        [TestMethod]
         public void ArrayUtility_GetSpan1()
         {
             int[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -126,11 +136,78 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void ArrayUtility_IsNullOrEmpty()
+        public void ArrayUtility_GetSpan4()
+        {
+            int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            int[] actual = array.GetSpan(300, 10);
+            int[] expected = new int[0];
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ArrayUtility_IsNullOrEmpty1()
         {
             Assert.IsTrue(((int[])null).IsNullOrEmpty());
             Assert.IsTrue(new int[0].IsNullOrEmpty());
             Assert.IsFalse(new int[1].IsNullOrEmpty());
+        }
+
+        [TestMethod]
+        public void ArrayUtility_IsNullOrEmpty2()
+        {
+            Assert.IsTrue
+                (
+                    ArrayUtility.IsNullOrEmpty(null)
+                );
+            Assert.IsTrue
+                (
+                    ArrayUtility.IsNullOrEmpty(new int[0])
+                );
+            Assert.IsFalse
+                (
+                    ArrayUtility.IsNullOrEmpty(new int[1])
+                );
+
+        }
+
+        [TestMethod]
+        public void ArrayUtility_Merge1()
+        {
+            int[] array1 = {1, 2, 3};
+            int[] array2 = {5, 6, 7};
+            int[] result = ArrayUtility.Merge(array1, array2);
+            Assert.AreEqual(6, result.Length);
+            Assert.AreEqual(1, result[0]);
+            Assert.AreEqual(2, result[1]);
+            Assert.AreEqual(3, result[2]);
+            Assert.AreEqual(5, result[3]);
+            Assert.AreEqual(6, result[4]);
+            Assert.AreEqual(7, result[5]);
+        }
+
+        [TestMethod]
+        public void ArrayUtility_Merge2()
+        {
+            int[] array1 = { 1, 2, 3 };
+            int[] result = ArrayUtility.Merge(array1);
+            Assert.AreEqual(array1.Length, result.Length);
+            Assert.AreEqual(array1[0], result[0]);
+            Assert.AreEqual(array1[1], result[1]);
+            Assert.AreEqual(array1[2], result[2]);
+        }
+
+        [TestMethod]
+        public void ArrayUtility_Merge3()
+        {
+            int[] result = ArrayUtility.Merge<int>();
+            Assert.AreEqual(0, result.Length);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ArrayUtility_Merge_Exception()
+        {
+            ArrayUtility.Merge<int>(null, null);
         }
 
         [TestMethod]

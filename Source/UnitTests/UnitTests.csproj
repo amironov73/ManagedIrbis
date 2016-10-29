@@ -103,6 +103,7 @@
   <ItemGroup>
     <Compile Include="AM\Caching\MemoryCacheTest.cs" />
     <Compile Include="AM\Caching\FileCacheTest.cs" />
+    <Compile Include="AM\CancelableEventArgsTest.cs" />
     <Compile Include="AM\Collections\CloneableCollectionTest.cs" />
     <Compile Include="AM\Collections\CloneableDictionaryTest.cs" />
     <Compile Include="AM\Collections\KeyedCollectionTest.cs" />
@@ -125,9 +126,13 @@
     <Compile Include="AM\CommandLine\CommandLineUtilityTest.cs" />
     <Compile Include="AM\CommandLine\ParsedCommandLineTest.cs" />
     <Compile Include="AM\ComparableObjectTest.cs" />
+    <Compile Include="AM\DisposableUtilityTest.cs" />
+    <Compile Include="AM\DuplicateKeyExceptionTest.cs" />
+    <Compile Include="AM\ExceptionEventArgsTest.cs" />
     <Compile Include="AM\Gbl\GblFileTest.cs" />
     <Compile Include="AM\Globalization\BuiltinCulturesTest.cs" />
     <Compile Include="AM\Globalization\RussianStringComparerTest.cs" />
+    <Compile Include="AM\InquiryEventArgsTest.cs" />
     <Compile Include="AM\IO\BinaryWriterTest.cs" />
     <Compile Include="AM\IO\CompressionUtilityTest.cs" />
     <Compile Include="AM\IO\FileUtilityTest.cs" />
@@ -138,8 +143,10 @@
     <Compile Include="AM\IO\PathUtilityTest.cs" />
     <Compile Include="AM\IO\TextReaderUtilityTest.cs" />
     <Compile Include="AM\IO\VersionStreamTest.cs" />
+    <Compile Include="AM\OperatorTest.cs" />
     <Compile Include="AM\OptionalTest.cs" />
     <Compile Include="AM\Parameters\ParameterUtilityTest.cs" />
+    <Compile Include="AM\ReadOnlyExceptionTest.cs" />
     <Compile Include="AM\Reflection\CanaryClass.cs" />
     <Compile Include="AM\Reflection\PropertyAccessorTest.cs" />
     <Compile Include="AM\Reflection\FieldAccessorTest.cs" />
@@ -185,8 +192,10 @@
     <Compile Include="AM\ArrayUtilityTest.cs" />
     <Compile Include="AM\JsonUtilityTest.cs" />
     <Compile Include="AM\DateTimeUtilityTest.cs" />
+    <Compile Include="AM\TypeUtilityTest.cs" />
     <Compile Include="AM\UniversalComparerTest.cs" />
     <Compile Include="AM\ValueEventArgsTest.cs" />
+    <Compile Include="AM\VerificationExceptionTest.cs" />
     <Compile Include="CodeJam\CodeTest.cs" />
     <Compile Include="Common\CommonUnitTest.cs" />
     <Compile Include="ManagedIrbis\Fields\RevisionInfoTest.cs" />
