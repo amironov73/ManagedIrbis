@@ -220,9 +220,6 @@
 #941: ^AU^BЗИ-1^DЖГ^S20140604^125^TЗИ^!КДИ^C20071226^01
 *****</value>
   </data>
-  <metadata name="_menuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <metadata name="_toolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>132, 17</value>
   </metadata>
@@ -230,7 +227,7 @@
   <data name="_parseButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAB9SURBVEhL7Y5RCoAwDEN3/0tPKwZiSN0c0/34oFC65nVl
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAB9SURBVEhL7Y5RCoAwDEN3/0tPKwZiSN0c0/34oFC65nVl
         MbWezSxCiJoKC6fKPxEH/6/fkzvRkDxCWoqbpWSSDOw3M7rQHdzpkjtZK/hIzIW3jLu3g2yBDzia4gAS
         LsA9k80vuCU9EGDm9i0c0CB6nXfjQpANS4GKuJZQygZhXadZtjlzuQAAAABJRU5ErkJggg==
 </value>
@@ -238,11 +235,14 @@
   <data name="_goButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABgSURBVEhL7Y3RCkAhCEP9/58ubrAYctXhUw8eGEXOkw1D
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAABgSURBVEhL7Y3RCkAhCEP9/58ubrAYctXhUw8eGEXOkw1D
         h7X+00IRcMfnEg4Kou55V0T4UM1dqvCLSEpVyObpriKOOm0xz/ABpyQrRwJJzPAC7t/p0yKTtKXAy5Hh
         Dcw2d7mdY0CzRtIAAAAASUVORK5CYII=
 </value>
   </data>
+  <metadata name="_menuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAYAAAAAAAEAIAAoIAQAZgAAABAQAAABACAAaAQAAI4gBAAwMAAAAQAgAKglAAD2JAQAICAAAAEA

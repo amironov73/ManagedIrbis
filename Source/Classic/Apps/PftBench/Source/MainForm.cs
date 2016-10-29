@@ -59,6 +59,9 @@ namespace PftBench
             _recordGrid.Clear();
             _varsGrid.Clear();
             _globalsGrid.Clear();
+            _rtfBox.Clear();
+            _htmlBox.DocumentText = string.Empty;
+            _warningBox.Clear();
         }
 
         private void Parse()
@@ -95,7 +98,32 @@ namespace PftBench
 
             string result = formatter.Format(_record);
             _resutlBox.Text = result;
+            try
+            {
+                _rtfBox.Rtf = result;
+            }
+            catch
+            {
+                _rtfBox.Text = result;
+            }
+
+            if (ReferenceEquals(_htmlBox.Document, null))
+            {
+                _htmlBox.Navigate("about:blank");
+                while (_htmlBox.IsBusy)
+                {
+                    Application.DoEvents();
+                }
+            }
+            if (!ReferenceEquals(_htmlBox.Document, null))
+            {
+                _htmlBox.Document.Write(result);
+            }
+            //_htmlBox.DocumentText = result;
+
             _recordGrid.SetRecord(_record);
+
+            _warningBox.Text = formatter.Warning;
 
             _varsGrid.SetVariables(formatter.Context.Variables);
             _globalsGrid.SetGlobals(formatter.Context.Globals);
@@ -142,7 +170,7 @@ namespace PftBench
                 PreviewKeyDownEventArgs e
             )
         {
-            switch (e.KeyCode)
+            switch (e.KeyData)
             {
                 case Keys.F4:
                     _parseButton_Click(sender, e);
@@ -156,7 +184,7 @@ namespace PftBench
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            switch (e.KeyCode)
+            switch (e.KeyData)
             {
                 case Keys.F4:
                     _parseButton_Click(sender, e);
@@ -170,5 +198,18 @@ namespace PftBench
             }
         }
 
+        private void MainForm_Load
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            _splitContainer1.SplitterDistance 
+                = _splitContainer1.Height/2;
+            _splitContainer2.SplitterDistance
+                = _splitContainer2.Width/2;
+            _splitContainer3.SplitterDistance
+                = _splitContainer3.Width/2;
+        }
     }
 }
