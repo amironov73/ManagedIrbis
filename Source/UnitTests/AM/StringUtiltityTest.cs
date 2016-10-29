@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM;
@@ -14,29 +15,70 @@ namespace UnitTests.AM
         public void StringUtility_CCat1()
         {
             Assert.AreEqual
-                (
-                    "Directory\\",
-                    "Directory".CCat("\\")
-                );
+            (
+                "Directory\\",
+                "Directory".CCat("\\")
+            );
             Assert.AreEqual
-                (
-                    "Directory\\",
-                    "Directory\\".CCat("\\")
-                );
+            (
+                "Directory\\",
+                "Directory\\".CCat("\\")
+            );
         }
 
         [TestMethod]
         public void StringUtility_CCat2()
         {
             Assert.AreEqual
-                (
-                    "Directory\\",
-                    "Directory".CCat("?", "\\")
-                );
+            (
+                "Directory\\",
+                "Directory".CCat("?", "\\")
+            );
+            Assert.AreEqual
+            (
+                "Directory?",
+                "Directory?".CCat("?", "\\")
+            );
+        }
+
+        [TestMethod]
+        public void StringUtility_ChangeEncoding1()
+        {
             Assert.AreEqual
                 (
-                    "Directory?",
-                    "Directory?".CCat("?", "\\")
+                    "РџСЂРёРІРµС‚",
+                    StringUtility.ChangeEncoding
+                    (
+                        Encoding.UTF8,
+                        Encoding.GetEncoding(1251), 
+                        "Привет"
+                    )
+                );
+
+            Assert.AreEqual
+                (
+                    "Привет",
+                    StringUtility.ChangeEncoding
+                    (
+                        Encoding.GetEncoding(1251),
+                        Encoding.UTF8,
+                        "РџСЂРёРІРµС‚"
+                    )
+                );
+        }
+
+        [TestMethod]
+        public void StringUtility_ChangeEncoding2()
+        {
+            Assert.AreEqual
+                (
+                    "Привет",
+                    StringUtility.ChangeEncoding
+                    (
+                        Encoding.UTF8,
+                        Encoding.UTF8,
+                        "Привет"
+                    )
                 );
         }
 
@@ -188,6 +230,30 @@ namespace UnitTests.AM
             {
                 Assert.AreEqual(expected[i], actual[i]);
             }
+        }
+
+        [TestMethod]
+        public void StringUtility_GetGroups1()
+        {
+            string[] result = StringUtility.GetGroups
+                (
+                    "Слева=Справа",
+                    @"^(\w+)=(\w+)$"
+                );
+            Assert.AreEqual(2, result.Length);
+            Assert.AreEqual("Слева", result[0]);
+            Assert.AreEqual("Справа", result[1]);
+        }
+
+        [TestMethod]
+        public void StringUtility_GetGroups2()
+        {
+            string[] result = StringUtility.GetGroups
+                (
+                    "Слева=Справа",
+                    @"^(\d+)=(\d+)$"
+                );
+            Assert.AreEqual(0, result.Length);
         }
 
         [TestMethod]
@@ -689,6 +755,62 @@ namespace UnitTests.AM
             Assert.AreEqual("", "()".Unquote('(', ')'));
             Assert.AreEqual("()1", "()1".Unquote('(', ')'));
             Assert.AreEqual("text", "\"text\"".Unquote('"'));
+        }
+
+        [TestMethod]
+        public void StringUtility_UrlDecode1()
+        {
+            Assert.AreEqual
+                (
+                    "Тили-тили, трали-вали",
+                    StringUtility.UrlDecode
+                    (
+                        "%D0%A2%D0%B8%D0%BB%D0%B8-%D1%82%D0%B8%D0%BB%D0%B8%2C+%D1%82%D1%80%D0%B0%D0%BB%D0%B8-%D0%B2%D0%B0%D0%BB%D0%B8",
+                        Encoding.UTF8
+                    )
+                );
+        }
+
+        [TestMethod]
+        public void StringUtility_UrlDecode2()
+        {
+            Assert.AreEqual
+                (
+                    null,
+                    StringUtility.UrlDecode
+                    (
+                        null,
+                        Encoding.UTF8
+                    )
+                );
+        }
+
+        [TestMethod]
+        public void StringUtility_UrlEncode1()
+        {
+            Assert.AreEqual
+                (
+                    "%D0%A2%D0%B8%D0%BB%D0%B8-%D1%82%D0%B8%D0%BB%D0%B8%2C+%D1%82%D1%80%D0%B0%D0%BB%D0%B8-%D0%B2%D0%B0%D0%BB%D0%B8",
+                    StringUtility.UrlEncode
+                    (
+                        "Тили-тили, трали-вали",
+                        Encoding.UTF8
+                    )
+                );
+        }
+
+        [TestMethod]
+        public void StringUtility_UrlEncode2()
+        {
+            Assert.AreEqual
+                (
+                    null,
+                    StringUtility.UrlEncode
+                    (
+                        null,
+                        Encoding.UTF8
+                    )
+                );
         }
 
         [TestMethod]
