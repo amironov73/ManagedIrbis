@@ -69,6 +69,7 @@ namespace UnitTests.AM.Collections
                 = new Triplet<int, string, double>(1, "Hello", 3.14, true);
             Assert.AreEqual(1, triplet.First);
             Assert.AreEqual("Hello", triplet.Second);
+            Assert.AreEqual(3.14, triplet.Third);
             Assert.AreEqual(true, triplet.ReadOnly);
         }
 
@@ -175,7 +176,7 @@ namespace UnitTests.AM.Collections
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void Triplet_Indexer5()
         {
-            IList triplet = new Triplet<int, string, double>(1, "Hello");
+            IList triplet = new Triplet<int, string, double>(1, "Hello", 3.14);
             triplet[3] = null;
         }
 

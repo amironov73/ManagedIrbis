@@ -310,7 +310,8 @@ namespace AM.Collections
         {
             foreach (object o in this)
             {
-                if (o == value)
+                if (!ReferenceEquals(o, null)
+                    && o.Equals(value))
                 {
                     return true;
                 }
@@ -346,7 +347,8 @@ namespace AM.Collections
             int index = 0;
             foreach (object o in this)
             {
-                if (o == value)
+                if (!ReferenceEquals(o, null)
+                    && o.Equals(value))
                 {
                     return index;
                 }
@@ -424,12 +426,16 @@ namespace AM.Collections
                 {
                     case 0:
                         return First;
+
                     case 1:
                         return Second;
+
                     case 2:
                         return Third;
+
                     case 3:
                         return Fourth;
+
                     default:
                         throw new ArgumentOutOfRangeException("index");
                 }
@@ -440,20 +446,25 @@ namespace AM.Collections
                 {
                     throw new NotSupportedException();
                 }
+
                 switch (index)
                 {
                     case 0:
                         First = (T1)value;
                         break;
+
                     case 1:
                         Second = (T2)value;
                         break;
+
                     case 2:
                         Third = (T3)value;
                         break;
+
                     case 3:
                         Fourth = (T4)value;
                         break;
+
                     default:
                         throw new ArgumentOutOfRangeException("index");
                 }
