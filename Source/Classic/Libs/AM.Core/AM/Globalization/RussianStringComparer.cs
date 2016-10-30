@@ -30,7 +30,7 @@ namespace AM.Globalization
         ///<summary>
         /// Consider YO letter?
         ///</summary>
-        public bool ConsiderYo { get; }
+        public bool ConsiderYo { get; private set; }
 
         ///<summary>
         /// Ignore case?
