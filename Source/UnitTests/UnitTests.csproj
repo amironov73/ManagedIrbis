@@ -116,6 +116,7 @@
     <Compile Include="AM\Collections\BidirectionalDictionaryTest.cs" />
     <Compile Include="AM\Collections\PairTest.cs" />
     <Compile Include="AM\Collections\QuartetTest.cs" />
+    <Compile Include="AM\Collections\SetTest.cs" />
     <Compile Include="AM\Collections\StringDictionaryTest.cs" />
     <Compile Include="AM\Collections\DisposableCollectionTest.cs" />
     <Compile Include="AM\Collections\ListUtilityTest.cs" />
