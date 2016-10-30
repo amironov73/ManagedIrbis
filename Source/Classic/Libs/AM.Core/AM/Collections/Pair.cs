@@ -40,7 +40,7 @@ namespace AM.Collections
     public class Pair<T1, T2>
         : IList,
           IIndexable<object>,
-          IReadOnly<Pair<T1,T2>>
+          IReadOnly<Pair<T1, T2>>
     {
         #region Properties
 
@@ -194,12 +194,10 @@ namespace AM.Collections
         {
             foreach (object o in this)
             {
-                if (!ReferenceEquals(o, null))
+                if (!ReferenceEquals(o, null)
+                    && o.Equals(value))
                 {
-                    if (o.Equals(value))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
 
@@ -503,7 +501,7 @@ namespace AM.Collections
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((Pair<T1, T2>) obj);
+            return Equals((Pair<T1, T2>)obj);
         }
 
         ///<inheritdoc/>
@@ -512,7 +510,7 @@ namespace AM.Collections
             // ReSharper disable NonReadonlyFieldInGetHashCode
             unchecked
             {
-                return (EqualityComparer<T1>.Default.GetHashCode(_first)*397)
+                return (EqualityComparer<T1>.Default.GetHashCode(_first) * 397)
                     ^ EqualityComparer<T2>.Default.GetHashCode(_second);
             }
             // ReSharper restore NonReadonlyFieldInGetHashCode
