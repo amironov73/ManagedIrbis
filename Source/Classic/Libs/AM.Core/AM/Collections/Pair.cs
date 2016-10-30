@@ -9,7 +9,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Xml.Serialization;
 
@@ -41,7 +40,6 @@ namespace AM.Collections
     public class Pair<T1, T2>
         : IList,
           IIndexable<object>,
-          //ICloneable,
           IReadOnly<Pair<T1,T2>>
     {
         #region Properties
@@ -185,125 +183,81 @@ namespace AM.Collections
 
         #region IList members
 
-        ///<summary>
-        /// Adds an item to the <see cref="T:System.Collections.IList"/>.
-        ///</summary>
-        ///<returns>
-        /// The position into which the new element was inserted.
-        ///</returns>
-        ///<param name="value">The <see cref="T:System.Object"/>
-        /// to add to the <see cref="T:System.Collections.IList"/>.
-        /// </param>
-        ///<exception cref="T:System.NotSupportedException">
-        /// The <see cref="T:System.Collections.IList"/> has a fixed size.
-        /// </exception>
+        ///<inheritdoc/>
         int IList.Add(object value)
         {
             throw new NotSupportedException();
         }
 
-        ///<summary>
-        /// Determines whether the <see cref="T:System.Collections.IList"/>
-        /// contains a specific value.
-        ///</summary>
-        ///<returns>
-        /// <c>true</c> if the <see cref="T:System.Object"/>
-        /// is found in the <see cref="T:System.Collections.IList"/>;
-        /// otherwise, <c>false</c>.
-        ///</returns>
-        ///<param name="value">The <see cref="T:System.Object"/>
-        /// to locate in the <see cref="T:System.Collections.IList"/>.
-        /// </param>
+        ///<inheritdoc/>
         bool IList.Contains(object value)
         {
             foreach (object o in this)
             {
-                if (o == value)
+                if (!ReferenceEquals(o, null))
                 {
-                    return true;
+                    if (o.Equals(value))
+                    {
+                        return true;
+                    }
                 }
             }
+
             return false;
         }
 
-        ///<summary>
-        /// Removes all items from the 
-        /// <see cref="T:System.Collections.IList"/>.
-        ///</summary>
-        ///<exception cref="T:System.NotSupportedException">
-        /// The <see cref="T:System.Collections.IList"/> has a fixed size.
-        /// </exception>
+        ///<inheritdoc/>
         void IList.Clear()
         {
             throw new NotSupportedException();
         }
 
-        ///<summary>
-        /// Determines the index of a specific item in the 
-        /// <see cref="T:System.Collections.IList"/>.
-        ///</summary>
-        ///<returns>
-        /// The index of value if found in the list; otherwise, -1.
-        ///</returns>
-        ///<param name="value">The <see cref="T:System.Object"/>
-        /// to locate in the <see cref="T:System.Collections.IList"/>.
-        /// </param>
-        int IList.IndexOf(object value)
+        ///<inheritdoc/>
+        int IList.IndexOf
+            (
+                object value
+            )
         {
             int index = 0;
             foreach (object o in this)
             {
-                if (o == value)
+                if (!ReferenceEquals(o, null))
                 {
-                    return index;
+                    if (o.Equals(value))
+                    {
+                        return index;
+                    }
                 }
                 index++;
             }
+
             return -1;
         }
 
-        ///<summary>
-        /// Inserts an item to the <see cref="T:System.Collections.IList"/>
-        /// at the specified index.
-        ///</summary>
-        ///<param name="value">The <see cref="T:System.Object"/>
-        /// to insert into the <see cref="T:System.Collections.IList"/>.
-        /// </param>
-        ///<param name="index">The zero-based index at which 
-        /// value should be inserted.</param>
-        ///<exception cref="T:System.NotSupportedException">
-        /// The <see cref="T:System.Collections.IList"/> has a fixed size.
-        /// </exception>
-        void IList.Insert(int index, object value)
+        ///<inheritdoc/>
+        void IList.Insert
+            (
+                int index,
+                object value
+            )
         {
             throw new NotSupportedException();
         }
 
-        ///<summary>
-        /// Removes the first occurrence of a specific object from the 
-        /// <see cref="T:System.Collections.IList"/>.
-        ///</summary>
-        ///<param name="value">The <see cref="T:System.Object"/>
-        /// to remove from the <see cref="T:System.Collections.IList"/>.
-        /// </param>
-        ///<exception cref="T:System.NotSupportedException">
-        /// The <see cref="T:System.Collections.IList"/> has a fixed size.
-        /// </exception>
-        void IList.Remove(object value)
+        ///<inheritdoc/>
+        void IList.Remove
+            (
+                object value
+            )
         {
             throw new NotSupportedException();
         }
 
-        ///<summary>
-        /// Removes the <see cref="T:System.Collections.IList"/>
-        /// item at the specified index.
-        ///</summary>
-        ///<param name="index">The zero-based index of the 
-        /// item to remove.</param>
-        ///<exception cref="T:System.NotSupportedException">
-        /// The <see cref="T:System.Collections.IList"/> has a fixed size.
-        /// </exception>
-        void IList.RemoveAt(int index)
+        ///<inheritdoc/>
+        void IList.RemoveAt
+            (
+                int index
+            )
         {
             throw new NotSupportedException();
         }
@@ -327,8 +281,10 @@ namespace AM.Collections
                 {
                     case 0:
                         return First;
+
                     case 1:
                         return Second;
+
                     default:
                         throw new ArgumentOutOfRangeException("index");
                 }
@@ -344,9 +300,11 @@ namespace AM.Collections
                     case 0:
                         First = (T1)value;
                         break;
+
                     case 1:
                         Second = (T2)value;
                         break;
+
                     default:
                         throw new ArgumentOutOfRangeException("index");
                 }
@@ -355,14 +313,7 @@ namespace AM.Collections
 
         private bool _isReadOnly;
 
-        ///<summary>
-        /// Gets a value indicating whether the 
-        /// <see cref="T:System.Collections.IList"/> is read-only.
-        ///</summary>
-        ///<returns>
-        /// <c>true</c> if the <see cref="T:System.Collections.IList"/>
-        /// is read-only; otherwise, <c>false</c>.
-        ///</returns>
+        ///<inheritdoc/>
         bool IList.IsReadOnly
         {
             get
@@ -390,24 +341,12 @@ namespace AM.Collections
             }
         }
 
-        ///<summary>
-        /// Copies the elements of the 
-        /// <see cref="T:System.Collections.ICollection"/>
-        /// to an <see cref="T:System.Array"/>, 
-        /// starting at a particular <see cref="T:System.Array"/> index.
-        ///</summary>
-        ///<param name="array">The one-dimensional 
-        /// <see cref="T:System.Array"/> that is the destination 
-        /// of the elements copied from 
-        /// <see cref="T:System.Collections.ICollection"/>. 
-        /// The <see cref="T:System.Array"/>
-        /// must have zero-based indexing.</param>
-        ///<param name="index">The zero-based index in array 
-        /// at which copying begins.</param>
-        ///<exception cref="T:System.NotImplementedException">
-        /// Method not implemented.</exception>
-        /// <remarks>Method not implemented.</remarks>
-        void ICollection.CopyTo(Array array, int index)
+        ///<inheritdoc/>
+        void ICollection.CopyTo
+            (
+                Array array,
+                int index
+            )
         {
             throw new NotImplementedException();
         }
@@ -548,9 +487,7 @@ namespace AM.Collections
 
         #region Object members
 
-        /// <summary>
-        /// 
-        /// </summary>
+        ///<inheritdoc/>
         protected bool Equals
             (
                 Pair<T1, T2> other
@@ -560,13 +497,7 @@ namespace AM.Collections
                 && EqualityComparer<T2>.Default.Equals(_second, other._second);
         }
 
-        /// <summary>
-        /// Determines whether the specified <see cref="System.Object" />
-        /// is equal to this instance.
-        /// </summary>
-        /// <param name="obj">The object to compare with the current object.</param>
-        /// <returns><c>true</c> if the specified <see cref="System.Object" />
-        /// is equal to this instance; otherwise, <c>false</c>.</returns>
+        ///<inheritdoc/>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -575,12 +506,7 @@ namespace AM.Collections
             return Equals((Pair<T1, T2>) obj);
         }
 
-        /// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>A hash code for this instance, suitable for use
-        /// in hashing algorithms and data structures like a hash table.
-        /// </returns>
+        ///<inheritdoc/>
         public override int GetHashCode()
         {
             // ReSharper disable NonReadonlyFieldInGetHashCode
@@ -592,14 +518,7 @@ namespace AM.Collections
             // ReSharper restore NonReadonlyFieldInGetHashCode
         }
 
-        ///<summary>
-        /// Returns a <see cref="T:System.String"/> that represents 
-        /// the current <see cref="T:System.Object"/>.
-        ///</summary>
-        ///<returns>
-        /// A <see cref="T:System.String"/> that represents 
-        /// the current <see cref="T:System.Object"/>.
-        ///</returns>
+        ///<inheritdoc/>
         public override string ToString()
         {
             return string.Format
