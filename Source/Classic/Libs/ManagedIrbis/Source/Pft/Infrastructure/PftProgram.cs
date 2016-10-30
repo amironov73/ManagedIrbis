@@ -70,6 +70,31 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #endregion
 
+        #region PftNode members
+
+        /// <inheritdoc/>
+        public override void Execute
+            (
+                PftContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            try
+            {
+                base.Execute(context);
+            }
+            catch (PftBreakException)
+            {
+                if (!ReferenceEquals(context.Parent, null))
+                {
+                    throw;
+                }
+            }
+        }
+
+        #endregion
+
         #region Object members
 
         #endregion

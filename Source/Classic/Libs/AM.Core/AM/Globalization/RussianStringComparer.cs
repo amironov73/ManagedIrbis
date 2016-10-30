@@ -7,7 +7,6 @@
 #region Using directives
 
 using System;
-using System.Diagnostics;
 using System.Globalization;
 
 using JetBrains.Annotations;
@@ -28,33 +27,15 @@ namespace AM.Globalization
     {
         #region Properties
 
-        private bool _considerYo;
+        ///<summary>
+        /// Consider YO letter?
+        ///</summary>
+        public bool ConsiderYo { get; private set; }
 
         ///<summary>
-        ///
+        /// Ignore case?
         ///</summary>
-        public bool ConsiderYo
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return _considerYo;
-            }
-        }
-
-        private bool _ignoreCase;
-
-        ///<summary>
-        ///
-        ///</summary>
-        public bool IgnoreCase
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return _ignoreCase;
-            }
-        }
+        public bool IgnoreCase { get; private set; }
 
         #endregion
 
@@ -74,8 +55,8 @@ namespace AM.Globalization
                 bool ignoreCase
             )
         {
-            _considerYo = considerYo;
-            _ignoreCase = ignoreCase;
+            ConsiderYo = considerYo;
+            IgnoreCase = ignoreCase;
 
             CultureInfo russianCulture = BuiltinCultures.Russian;
 
@@ -120,24 +101,13 @@ namespace AM.Globalization
                     .Replace ( 'ё', 'е' )
                     .Replace ( 'Ё', 'Е' );
             }
-            
+
             return str;
         }
 
         #endregion
 
-        ///<summary>
-        /// When overridden in a derived class, compares two strings 
-        /// and returns an indication of their relative sort order.
-        ///</summary>
-        ///<returns>
-        /// Value Meaning
-        /// Less than zero x is less than y. -or- x is null.
-        /// Zero x is equal to y. 
-        /// Greater than zero x is greater than y. -or- y is null.
-        ///</returns>
-        ///<param name="y">A string to compare to x.</param>
-        ///<param name="x">A string to compare to y.</param>
+        ///<inheritdoc/>
         public override int Compare
             (
                 string x,
@@ -154,16 +124,7 @@ namespace AM.Globalization
                  );
         }
 
-        ///<summary>
-        /// When overridden in a derived class, indicates whether two strings 
-        /// are equal.
-        ///</summary>
-        ///<returns>
-        /// true if x and y refer to the same object, or x and y are equal; otherwise, 
-        /// false.
-        ///</returns>
-        ///<param name="y">A string to compare to x.</param>
-        ///<param name="x">A string to compare to y.</param>
+        ///<inheritdoc/>
         public override bool Equals
             (
                 string x,
@@ -180,22 +141,20 @@ namespace AM.Globalization
                  ) == 0;
         }
 
-        ///<summary>
-        /// When overridden in a derived class, gets the hash code 
-        /// for the specified string.
-        ///</summary>
-        ///<returns>
-        /// A 32-bit signed hash code calculated from the value of the obj 
-        /// parameter.
-        ///</returns>
-        ///<param name="obj">A string.</param>
+        ///<inheritdoc/>
         public override int GetHashCode
             (
                 string obj
             )
         {
             string objCopy = _Replace(obj);
-            
+
+            if (IgnoreCase
+                && !ReferenceEquals(objCopy, null))
+            {
+                objCopy = objCopy.ToUpper();
+            }
+
             return ReferenceEquals(objCopy, null)
                 ? 0
                 : objCopy.GetHashCode();

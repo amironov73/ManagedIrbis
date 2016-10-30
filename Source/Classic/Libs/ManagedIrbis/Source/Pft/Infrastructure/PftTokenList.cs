@@ -178,6 +178,15 @@ namespace ManagedIrbis.Pft.Infrastructure
             return this;
         }
 
+        /// <summary>
+        /// Get array of tokens.
+        /// </summary>
+        [NotNull]
+        public PftToken[] ToArray()
+        {
+            return _tokens;
+        }
+
         #endregion
 
         #region Object members

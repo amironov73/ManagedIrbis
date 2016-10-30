@@ -13,10 +13,14 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
 using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 
 using MoonSharp.Interpreter;
 
@@ -52,6 +56,36 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public PftNode RightOperand { get; set; }
 
+        /// <inheritdoc />
+        public override IList<PftNode> Children
+        {
+            get
+            {
+                if (ReferenceEquals(_virtualChildren, null))
+                {
+
+                    _virtualChildren = new VirtualChildren();
+                    PftNode operationNode = new PftNode()
+                    {
+                        Text = Operation
+                    };
+                    List<PftNode> nodes = new List<PftNode>
+                    {
+                        LeftOperand,
+                        operationNode,
+                        RightOperand
+                    };
+                    _virtualChildren.SetChildren(nodes);
+                }
+
+                return _virtualChildren;
+            }
+            protected set
+            {
+                // Nothing to do here
+            }
+        }
+
         #endregion
 
         #region Construction
@@ -77,6 +111,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Private members
+
+        private VirtualChildren _virtualChildren;
 
         #endregion
 
@@ -178,6 +214,48 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             OnAfterExecution(context);
         }
+
+        /// <inheritdoc/>
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Name = SimplifyTypeName(GetType().Name)
+            };
+
+            if (!ReferenceEquals(LeftOperand, null))
+            {
+                PftNodeInfo leftNode = new PftNodeInfo
+                {
+                    Name = "Left"
+                };
+                result.Children.Add(leftNode);
+                leftNode.Children.Add(LeftOperand.GetNodeInfo());
+            }
+
+            if (!string.IsNullOrEmpty(Operation))
+            {
+                PftNodeInfo operationNode = new PftNodeInfo
+                {
+                    Name="Operation",
+                    Value = Operation
+                };
+                result.Children.Add(operationNode);
+            }
+
+            if (!ReferenceEquals(RightOperand, null))
+            {
+                PftNodeInfo rightNode = new PftNodeInfo
+                {
+                    Name = "Right"
+                };
+                result.Children.Add(rightNode);
+                rightNode.Children.Add(RightOperand.GetNodeInfo());
+            }
+
+            return result;
+        }
+
 
         /// <inheritdoc/>
         public override void PrintDebug

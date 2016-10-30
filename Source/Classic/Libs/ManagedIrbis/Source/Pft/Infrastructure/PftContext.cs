@@ -97,10 +97,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public bool OutputFlag { get; internal set; }
 
-        /// <summary>
-        /// Флаг, устанавливается при срабатывании оператора break.
-        /// </summary>
-        public bool BreakFlag { get; internal set; }
+        ///// <summary>
+        ///// Флаг, устанавливается при срабатывании оператора break.
+        ///// </summary>
+        //public bool BreakFlag { get; internal set; }
 
         /// <summary>
         /// Текущее обрабатываемое поле записи, если есть.
@@ -252,7 +252,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 action(this);
 
                 if (!OutputFlag
-                    || BreakFlag)
+                    // || BreakFlag
+                    )
                 {
                     break;
                 }
@@ -272,13 +273,29 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// Execute the nodes.
+        /// </summary>
+        public void Execute
+            (
+                [CanBeNull] IEnumerable<PftNode> nodes
+            )
+        {
+            if (!ReferenceEquals(nodes, null))
+            {
+                foreach (PftNode node in nodes)
+                {
+                    node.Execute(this);
+                }
+            }
+        }
+
+        /// <summary>
         /// Временное переключение контекста (например,
         /// при вычислении строковых функций).
         /// </summary>
         [NotNull]
         public PftContext Push()
         {
-            //PftContext result = new PftContext(Formatter,this);
             PftContext result = new PftContext(this);
 
             return result;

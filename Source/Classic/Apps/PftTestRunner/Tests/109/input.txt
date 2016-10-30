@@ -1,0 +1,1 @@
+﻿if s(v692^x)<>''then 'SSS' else 'sss' fi

@@ -6,11 +6,11 @@
 
 #region Using directives
 
-using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
+
+using AM.Collections;
 
 using CodeJam;
 
@@ -59,22 +59,27 @@ namespace AM.Data
         [JsonProperty("selectCommand")]
         public string SelectCommandText { get; set; }
 
-        private List<DataTableInfo> _tables
-            = new List<DataTableInfo>();
-
         /// <summary>
         /// Gets the table list.
         /// </summary>
         [NotNull]
         [XmlElement("table")]
         [JsonProperty("tables")]
-        public List<DataTableInfo> Tables
+        public NonNullCollection<DataTableInfo> Tables
         {
-            [DebuggerStepThrough]
-            get
-            {
-                return _tables;
-            }
+            get; private set;
+        }
+
+        #endregion
+
+        #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public DataSetInfo()
+        {
+            Tables = new NonNullCollection<DataTableInfo>();
         }
 
         #endregion
@@ -106,7 +111,10 @@ namespace AM.Data
         /// Saves this instance into the specified file.
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
-        public void Save(string fileName)
+        public void Save
+            (
+                string fileName
+            )
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 

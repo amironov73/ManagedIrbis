@@ -7,6 +7,7 @@
 #region Using directives
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -129,14 +130,15 @@ namespace AM
         /// <summary>
         /// Отбирает из последовательности только непустые строки.
         /// </summary>
-        /// <param name="sequence"></param>
-        /// <returns></returns>
         public static IEnumerable<string> NonEmptyLines
             (
                 this IEnumerable<string> sequence
             )
         {
-            return sequence.Where(line => !string.IsNullOrEmpty(line));
+            return sequence.Where
+                (
+                    line => !string.IsNullOrEmpty(line)
+                );
         }
 
         /// <summary>
@@ -161,9 +163,6 @@ namespace AM
         /// <summary>
         /// Repeats the specified list.
         /// </summary>
-        /// <param name="list">The list.</param>
-        /// <param name="count">The count.</param>
-        /// <returns></returns>
         [NotNull]
         public static IEnumerable<T> Repeat<T>
             (
@@ -193,7 +192,7 @@ namespace AM
         [NotNull]
         public static IEnumerable<T> Replace<T>
             (
-                [NotNull] IEnumerable<T> list,
+                [NotNull] this IEnumerable<T> list,
                 [CanBeNull] T replaceFrom,
                 [CanBeNull] T replaceTo
             )
@@ -224,7 +223,7 @@ namespace AM
         [NotNull]
         public static IEnumerable<T> Segment<T>
             (
-                [NotNull] IEnumerable<T> list,
+                [NotNull] this IEnumerable<T> list,
                 int offset,
                 int count
             )
@@ -279,7 +278,6 @@ namespace AM
         /// Добавляем некоторое действие к каждому
         /// элементу последовательности.
         /// </summary>
-
         [NotNull]
         public static IEnumerable<T> Tee<T>
             (
@@ -297,6 +295,32 @@ namespace AM
                 index++;
 
                 yield return item;
+            }
+        }
+
+        /// <summary>
+        /// Separate the sequence with given separator.
+        /// </summary>
+        public static IEnumerable Separate
+            (
+                [NotNull] this IEnumerable sequence,
+                [CanBeNull] object separator
+            )
+        {
+            Code.NotNull(sequence, "sequence");
+
+            bool first = true;
+            foreach (object obj in sequence)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    yield return separator;
+                }
+                yield return obj;
             }
         }
 

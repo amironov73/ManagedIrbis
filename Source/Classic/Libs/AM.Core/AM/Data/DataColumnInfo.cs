@@ -26,7 +26,7 @@ namespace AM.Data
     [PublicAPI]
     [XmlRoot("column")]
     [MoonSharpUserData]
-    public class DataColumnInfo
+    public sealed class DataColumnInfo
     {
         #region Properties
 
@@ -101,7 +101,8 @@ namespace AM.Data
         public bool ReadOnly { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this column is sorted.
+        /// Gets or sets a value indicating whether
+        /// this column is sorted.
         /// </summary>
         [DefaultValue(false)]
         [JsonProperty("sorted")]
@@ -116,17 +117,10 @@ namespace AM.Data
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="String"/> that represents the current 
-        /// <see cref="Object"/>.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="String"/> that represents the current 
-        /// <see cref="Object"/>.
-        ///</returns>
+        /// <inheritdoc/>
         public override string ToString()
         {
-            return Name ?? GetType().Name;
+            return Name.ToVisibleString();
         }
 
         #endregion

@@ -25,7 +25,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     /// хотя и являются синтаксически правильными,
     /// но имеют тот же смысл, что и одна команда /,
     /// т.е.команда / никогда не создает пустых строк.
-      /// </summary>
+    /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftSlash
@@ -76,12 +76,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            if (!context.BreakFlag)
+            if (!context.Output.HaveEmptyLine())
             {
-                if (!context.Output.HaveEmptyLine())
-                {
-                    context.WriteLine(this);
-                }
+                context.WriteLine(this);
             }
 
             OnAfterExecution(context);

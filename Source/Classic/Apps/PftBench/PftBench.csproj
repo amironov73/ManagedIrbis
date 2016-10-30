@@ -165,6 +165,10 @@
       <Project>{c06e1d15-0d0d-44b3-bf74-1b2c616f9ee5}</Project>
       <Name>AM.Windows.Forms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Libs\IrbisUI\IrbisUI.csproj">
+      <Project>{aeebb65d-1023-4ac2-a280-4639e085cdb5}</Project>
+      <Name>IrbisUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Libs\ManagedIrbis\ManagedIrbis.csproj">
       <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
       <Name>ManagedIrbis</Name>
@@ -189,6 +193,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

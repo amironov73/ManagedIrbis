@@ -94,27 +94,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftContext context
             )
         {
-            if (!context.BreakFlag)
+            int current = context.Output.GetCaretPosition();
+            int delta = NewPosition - current;
+            if (delta > 0)
             {
-                int current = context.Output.GetCaretPosition();
-                int delta = NewPosition - current;
-                if (delta > 0)
-                {
-                    context.Write
-                        (
-                            this,
-                            new string(' ', delta)
-                        );
-                }
-                else
-                {
-                    context.WriteLine(this);
-                    context.Write
-                        (
-                            this,
-                            new string(' ', NewPosition - 1)
-                        );
-                }
+                context.Write
+                    (
+                        this,
+                        new string(' ', delta)
+                    );
+            }
+            else
+            {
+                context.WriteLine(this);
+                context.Write
+                    (
+                        this,
+                        new string(' ', NewPosition - 1)
+                    );
             }
         }
 

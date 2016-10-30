@@ -355,6 +355,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         else
                         {
                             kind = PftTokenKind.Bang;
+                            value = c.ToString();
                         }
                         break;
 
@@ -365,14 +366,17 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case ';':
                         kind = PftTokenKind.Semicolon;
+                        value = c.ToString();
                         break;
 
                     case ',':
                         kind = PftTokenKind.Comma;
+                        value = c.ToString();
                         break;
 
                     case '\\':
                         kind = PftTokenKind.Backslash;
+                        value = c.ToString();
                         break;
 
                     case '=':
@@ -382,6 +386,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case '#':
                         kind = PftTokenKind.Hash;
+                        value = c.ToString();
                         break;
 
                     case '%':
@@ -391,26 +396,32 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case '{':
                         kind = PftTokenKind.LeftCurly;
+                        value = c.ToString();
                         break;
 
                     case '[':
                         kind = PftTokenKind.LeftSquare;
+                        value = c.ToString();
                         break;
 
                     case '(':
                         kind = PftTokenKind.LeftParenthesis;
+                        value = c.ToString();
                         break;
 
                     case '}':
                         kind = PftTokenKind.RightCurly;
+                        value = c.ToString();
                         break;
 
                     case ']':
                         kind = PftTokenKind.RightSquare;
+                        value = c.ToString();
                         break;
 
                     case ')':
                         kind = PftTokenKind.RightParenthesis;
+                        value = c.ToString();
                         break;
 
                     case '+':
@@ -443,6 +454,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     case '?':
                         kind = PftTokenKind.Question;
+                        value = c.ToString();
                         break;
 
                     case '/':
@@ -562,6 +574,17 @@ namespace ManagedIrbis.Pft.Infrastructure
                             goto default;
                         }
                         kind = PftTokenKind.F;
+                        break;
+
+                    case 'g':
+                    case 'G':
+                        field = ReadField();
+                        if (field == null)
+                        {
+                            goto default;
+                        }
+                        value = field.Text;
+                        kind = PftTokenKind.V;
                         break;
 
                     case 'l':

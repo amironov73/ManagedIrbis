@@ -18,7 +18,7 @@ using AM.Collections;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -246,6 +246,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         /// <summary>
+        /// Can output according given value.
+        /// </summary>
+        public virtual bool CanOutput
+            (
+                [CanBeNull] string value
+            )
+        {
+            return !string.IsNullOrEmpty(value);
+        }
+
+        /// <summary>
         /// Get value.
         /// </summary>
         [CanBeNull]
@@ -310,7 +321,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <summary>
         /// Have value?
         /// </summary>
-        public bool HaveRepeat
+        public virtual bool HaveRepeat
             (
                 [NotNull] PftContext context
             )
@@ -421,6 +432,44 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnBeforeExecution(context);
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc/>
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Name = SimplifyTypeName(GetType().Name),
+                Value = Text
+            };
+
+            if (LeftHand.Count != 0)
+            {
+                PftNodeInfo leftNode = new PftNodeInfo
+                {
+                    Name = "Left hand"
+                };
+                result.Children.Add(leftNode);
+                foreach (PftNode node in LeftHand)
+                {
+                    leftNode.Children.Add(node.GetNodeInfo());
+                }
+            }
+
+            if (RightHand.Count != 0)
+            {
+                PftNodeInfo rightNode = new PftNodeInfo
+                {
+                    Name = "Right hand"
+                };
+                result.Children.Add(rightNode);
+                foreach (PftNode node in RightHand)
+                {
+                    rightNode.Children.Add(node.GetNodeInfo());
+                }
+            }
+
+            return result;
         }
 
         /// <inheritdoc/>

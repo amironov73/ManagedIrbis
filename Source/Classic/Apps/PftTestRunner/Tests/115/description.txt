@@ -1,0 +1,1 @@
+﻿&uf('+R') - trim string at last dot sign

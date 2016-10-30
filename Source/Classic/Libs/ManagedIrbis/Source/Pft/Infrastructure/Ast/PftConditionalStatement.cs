@@ -15,7 +15,7 @@ using AM.Collections;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -55,16 +55,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             get
             {
-                // TODO: some caching
-
-                _virtualChildren = new VirtualChildren();
-                List<PftNode> nodes = new List<PftNode>
+                if (ReferenceEquals(_virtualChildren, null))
                 {
-                    Condition
-                };
-                nodes.AddRange(ThenBranch);
-                nodes.AddRange(ElseBranch);
-                _virtualChildren.SetChildren(nodes);
+
+                    _virtualChildren = new VirtualChildren();
+                    List<PftNode> nodes = new List<PftNode>
+                    {
+                        Condition
+                    };
+                    nodes.AddRange(ThenBranch);
+                    nodes.AddRange(ElseBranch);
+                    _virtualChildren.SetChildren(nodes);
+                }
 
                 return _virtualChildren;
             }
@@ -106,22 +108,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         private VirtualChildren _virtualChildren;
 
-        private void _OnEnumeration
-            (
-                object sender,
-                EventArgs eventArgs
-            )
-        {
-            _virtualChildren = new VirtualChildren();
-            List<PftNode> nodes = new List<PftNode>
-            {
-                Condition
-            };
-            nodes.AddRange(ThenBranch);
-            nodes.AddRange(ElseBranch);
-            _virtualChildren.SetChildren(nodes);
-        }
-
         #endregion
 
         #region Public methods
@@ -161,6 +147,50 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc/>
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Name = SimplifyTypeName(GetType().Name)
+            };
+
+            if (!ReferenceEquals(Condition, null))
+            {
+                PftNodeInfo conditionNode = new PftNodeInfo
+                {
+                    Name = "Condition"
+                };
+                result.Children.Add(conditionNode);
+                conditionNode.Children.Add(Condition.GetNodeInfo());
+            }
+
+            PftNodeInfo thenNode = new PftNodeInfo
+            {
+                Name = "Then"
+            };
+            foreach (PftNode node in ThenBranch)
+            {
+                thenNode.Children.Add(node.GetNodeInfo());
+            }
+            result.Children.Add(thenNode);
+
+            if (ElseBranch.Count != 0)
+            {
+                PftNodeInfo elseNode = new PftNodeInfo
+                {
+                    Name = "Else"
+                };
+                foreach (PftNode node in ElseBranch)
+                {
+                    elseNode.Children.Add(node.GetNodeInfo());
+                }
+                result.Children.Add(elseNode);
+            }
+
+            return result;
         }
 
         /// <inheritdoc/>

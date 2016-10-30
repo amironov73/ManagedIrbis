@@ -92,16 +92,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftContext context
             )
         {
-            if (!context.BreakFlag)
+            if (Shift > 0)
             {
-                if (Shift > 0)
-                {
-                    context.Write
-                        (
-                            this,
-                            new string(' ', Shift)
-                        );
-                }
+                context.Write
+                    (
+                        this,
+                        new string(' ', Shift)
+                    );
             }
         }
 

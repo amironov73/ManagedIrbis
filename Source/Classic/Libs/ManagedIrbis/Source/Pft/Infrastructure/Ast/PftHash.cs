@@ -99,10 +99,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            if (!context.BreakFlag)
-            {
-                context.WriteLine(this);
-            }
+            context.WriteLine(this);
 
             OnAfterExecution(context);
         }

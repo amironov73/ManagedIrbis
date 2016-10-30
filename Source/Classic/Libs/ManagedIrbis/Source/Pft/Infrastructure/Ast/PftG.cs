@@ -88,42 +88,33 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftContext context
             )
         {
-            if (!context.BreakFlag)
+            try
             {
-                try
+                context.CurrentField = this;
+
+                context.Execute(LeftHand);
+
+                string value = GetValue(context);
+                if (!string.IsNullOrEmpty(value))
                 {
-                    context.CurrentField = this;
-
-                    foreach (PftNode node in LeftHand)
+                    if (Indent != 0
+                        && IsFirstRepeat(context))
                     {
-                        node.Execute(context);
+                        value = new string(' ', Indent) + value;
                     }
 
-                    string value = GetValue(context);
-                    if (!string.IsNullOrEmpty(value))
-                    {
-                        if (Indent != 0
-                            && IsFirstRepeat(context))
-                        {
-                            value = new string(' ', Indent) + value;
-                        }
-
-                        context.Write(this, value);
-                    }
-                    if (HaveRepeat(context))
-                    {
-                        context.OutputFlag = true;
-                    }
-
-                    foreach (PftNode node in RightHand)
-                    {
-                        node.Execute(context);
-                    }
+                    context.Write(this, value);
                 }
-                finally
+                if (HaveRepeat(context))
                 {
-                    context.CurrentField = null;
+                    context.OutputFlag = true;
                 }
+
+                context.Execute(RightHand);
+            }
+            finally
+            {
+                context.CurrentField = null;
             }
         }
 
@@ -212,6 +203,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
+        /// <summary>
+        /// Have value?
+        /// </summary>
+        public override bool HaveRepeat
+            (
+                [NotNull] PftContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            return context.Index < GetCount(context);
+        }
+
+
         #endregion
 
         #region PftNode members
@@ -242,17 +247,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new PftSemanticException("nested field");
             }
 
+            if (Number == 0)
+            {
+                Number = int.Parse
+                    (
+                        Tag.ThrowIfNull("Tag")
+                    );
+            }
+
             if (context.CurrentGroup != null)
             {
-                if (!context.BreakFlag)
+                if (IsFirstRepeat(context))
                 {
-                    if (IsFirstRepeat(context))
-                    {
-                        _count = GetCount(context);
-                    }
-
-                    _Execute(context);
+                    _count = GetCount(context);
                 }
+
+                _Execute(context);
             }
             else
             {

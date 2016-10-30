@@ -156,11 +156,41 @@
     <Compile Include="Sources\MenuForm.Designer.cs">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Sources\PftGlobalGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Sources\PftGlobalGrid.Designer.cs">
+      <DependentUpon>PftGlobalGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sources\PftTokenGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Sources\PftTokenGrid.Designer.cs">
+      <DependentUpon>PftTokenGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sources\PftTreeView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Sources\PftTreeView.Designer.cs">
+      <DependentUpon>PftTreeView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sources\PftVariableGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Sources\PftVariableGrid.Designer.cs">
+      <DependentUpon>PftVariableGrid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Sources\PreviewPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Sources\PreviewPanel.Designer.cs">
       <DependentUpon>PreviewPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sources\RecordViewGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Sources\RecordViewGrid.Designer.cs">
+      <DependentUpon>RecordViewGrid.cs</DependentUpon>
     </Compile>
     <Compile Include="Sources\RelatedSearchForm.cs">
       <SubType>Form</SubType>
@@ -235,8 +265,23 @@
     <EmbeddedResource Include="Sources\MenuForm.resx">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Sources\PftGlobalGrid.resx">
+      <DependentUpon>PftGlobalGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\PftTokenGrid.resx">
+      <DependentUpon>PftTokenGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\PftTreeView.resx">
+      <DependentUpon>PftTreeView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\PftVariableGrid.resx">
+      <DependentUpon>PftVariableGrid.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Sources\PreviewPanel.resx">
       <DependentUpon>PreviewPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\RecordViewGrid.resx">
+      <DependentUpon>RecordViewGrid.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sources\RelatedSearchForm.resx">
       <DependentUpon>RelatedSearchForm.cs</DependentUpon>

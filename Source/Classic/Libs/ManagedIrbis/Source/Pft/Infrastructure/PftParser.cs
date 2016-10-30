@@ -47,7 +47,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftTokenKind.Mfn, PftTokenKind.Nl,
             PftTokenKind.UnconditionalLiteral, PftTokenKind.V,
-            PftTokenKind.Unifor,
+            PftTokenKind.Unifor, PftTokenKind.S,
 
             PftTokenKind.Identifier, PftTokenKind.Variable,
         };
@@ -63,14 +63,14 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.ConditionalLiteral, PftTokenKind.C,
             PftTokenKind.Comma, PftTokenKind.Comment, PftTokenKind.Hash,
             PftTokenKind.Mpl, PftTokenKind.Nl, PftTokenKind.Percent,
-            PftTokenKind.Semicolon, PftTokenKind.Slash, PftTokenKind.X
+            PftTokenKind.Slash, PftTokenKind.X
         };
 
         private static PftTokenKind[] LeftHandItems2 =
         {
             PftTokenKind.C, PftTokenKind.Comma, PftTokenKind.Comment,
             PftTokenKind.Hash, PftTokenKind.Nl, PftTokenKind.Percent,
-            PftTokenKind.Semicolon, PftTokenKind.Slash, PftTokenKind.X
+            PftTokenKind.Slash, PftTokenKind.X
         };
 
         /// <summary>
@@ -89,7 +89,9 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftTokenKind.Number, PftTokenKind.Val, PftTokenKind.Rsum,
             PftTokenKind.Ravr, PftTokenKind.Rmax, PftTokenKind.Rmin,
-            PftTokenKind.Mfn, PftTokenKind.Variable
+            PftTokenKind.Mfn, PftTokenKind.Variable,
+
+            PftTokenKind.L,
         };
 
         private static PftTokenKind[] NumericGoodies =
@@ -98,6 +100,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.Ravr, PftTokenKind.Rmax, PftTokenKind.Rmin,
             PftTokenKind.Mfn, PftTokenKind.Plus, PftTokenKind.Minus,
             PftTokenKind.Star, PftTokenKind.Div,
+
+            PftTokenKind.L,
         };
 
         private static PftTokenKind[] NumericLimiter =
@@ -107,9 +111,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static PftTokenKind[] RightHandItems =
         {
-            PftTokenKind.C, PftTokenKind.Comma, PftTokenKind.Comment,
+            PftTokenKind.C, PftTokenKind.Comment,
             PftTokenKind.Hash, PftTokenKind.Nl, PftTokenKind.Percent,
-            PftTokenKind.Semicolon, PftTokenKind.Slash, PftTokenKind.X
+            PftTokenKind.Slash, PftTokenKind.X
         };
 
         private static PftTokenKind[] SimpleTokens =
@@ -117,7 +121,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.Break, PftTokenKind.Comma, PftTokenKind.C,
             PftTokenKind.Hash, PftTokenKind.Mfn, PftTokenKind.Mpl,
             PftTokenKind.Nl, PftTokenKind.Percent, PftTokenKind.Slash,
-            PftTokenKind.Semicolon, PftTokenKind.UnconditionalLiteral,
+            PftTokenKind.UnconditionalLiteral,
             PftTokenKind.X, PftTokenKind.Unifor,
 
             PftTokenKind.V, PftTokenKind.ConditionalLiteral,
@@ -126,6 +130,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.Identifier, PftTokenKind.Variable,
 
             PftTokenKind.Number, PftTokenKind.F,
+
+            PftTokenKind.Ref,
 
             PftTokenKind.If
         };
@@ -181,13 +187,16 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.Hash, ParseHash},
                 {PftTokenKind.Identifier, ParseFunctionCall},
                 {PftTokenKind.If, ParseIf},
+                {PftTokenKind.L, ParseL},
                 {PftTokenKind.Mfn, ParseMfn},
                 {PftTokenKind.Mpl, ParseMpl},
                 {PftTokenKind.Nl, ParseNl},
                 {PftTokenKind.Number, ParseNumber},
                 {PftTokenKind.P,ParseP},
                 {PftTokenKind.Percent, ParsePercent},
+                {PftTokenKind.Ref, ParseRef},
                 {PftTokenKind.RepeatableLiteral, ParseField},
+                {PftTokenKind.S, ParseS},
                 {PftTokenKind.Semicolon, ParseSemicolon},
                 {PftTokenKind.Slash, ParseSlash},
                 {PftTokenKind.UnconditionalLiteral, ParseUnconditionalLiteral},
@@ -217,6 +226,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             NumericMap = new Dictionary<PftTokenKind, Func<PftNode>>
             {
+                {PftTokenKind.L, ParseL},
                 {PftTokenKind.Mfn,ParseMfn},
                 {PftTokenKind.Number, ParseNumber},
                 {PftTokenKind.Rsum, ParseRsum},
@@ -363,11 +373,15 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftToken token = Tokens.Current;
             token.MustBe(PftTokenKind.LeftParenthesis);
             Tokens.RequireNext();
+            return ParseCall3(result);
+        }
 
+        private PftNode ParseCall3(PftNode result)
+        {
             bool ok = false;
             while (!Tokens.IsEof)
             {
-                token = Tokens.Current;
+                PftToken token = Tokens.Current;
 
                 if (token.Kind == PftTokenKind.RightParenthesis)
                 {
@@ -789,7 +803,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                     break;
                 }
 
-                PftNode node = ParseSimple();
+                //PftNode node = ParseSimple();
+                PftNode node = ParseComposite();
                 result.ThenBranch.Add(node);
             }
 
@@ -807,7 +822,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                         break;
                     }
 
-                    PftNode node = ParseSimple();
+                    //PftNode node = ParseSimple();
+                    PftNode node = ParseComposite();
                     result.ElseBranch.Add(node);
                 }
 
@@ -827,6 +843,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                 throw new PftSyntaxException(Tokens);
             }
 
+            return result;
+        }
+
+        private PftNode ParseL()
+        {
+            PftL result = new PftL(Tokens.Current);
+            ParseCall(result);
             return result;
         }
 
@@ -884,6 +907,23 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        private PftNode ParseRef()
+        {
+            PftRef result = new PftRef(Tokens.Current);
+
+            Tokens.RequireNext(PftTokenKind.LeftParenthesis);
+            Tokens.RequireNext();
+            //result.Mfn = ParseNumber();
+            result.Mfn = ParseArithmetic();
+            Tokens.Current.MustBe(PftTokenKind.Comma);
+            Tokens.RequireNext();
+            PftNode pseudo = new PftNode();
+            ParseCall3(pseudo);
+            result.Format.AddRange(pseudo.Children);
+
+            return result;
+        }
+
         private PftNode ParseRepeatableLiteral()
         {
             return MoveNext(new PftRepeatableLiteral(Tokens.Current));
@@ -893,6 +933,13 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftNode result = new PftRsum(Tokens.Current);
             return ParseCall(result);
+        }
+
+        private PftNode ParseS()
+        {
+            PftNode result = new PftS(Tokens.Current);
+            ParseCall(result);
+            return result;
         }
 
         [NotNull]

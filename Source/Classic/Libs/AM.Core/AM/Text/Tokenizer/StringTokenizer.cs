@@ -90,21 +90,6 @@ namespace AM.Text.Tokenizer
 
         private Token _CreateToken
             (
-                TokenKind kind,
-                string value
-            )
-        {
-            return new Token
-                (
-                    kind,
-                    value,
-                    _line,
-                    _column
-                );
-        }
-
-        private Token _CreateToken
-            (
                 TokenKind kind
             )
         {
@@ -226,16 +211,21 @@ namespace AM.Text.Tokenizer
             while (true)
             {
                 char c = PeekChar();
+                if (c == EOF)
+                {
+                    break;
+                }
                 if (c == '\\')
                 {
                     ReadChar();
                     c = ReadChar(); // handle \t, \n etc
                     if (c == 'x') // handle \x123
                     {
-                        ReadChar();
+                        c = ReadChar();
                         while (char.IsDigit(c))
                         {
-                            c = ReadChar();
+                            ReadChar();
+                            c = PeekChar();
                         }
                     }
                 }
@@ -256,7 +246,21 @@ namespace AM.Text.Tokenizer
                 ReadChar();
             }
 
-            return _SetTokenValue(result, begin);
+            _SetTokenValue(result, begin);
+
+            if (Settings.TrimQuotes
+                && !string.IsNullOrEmpty(result.Value))
+            {
+                result.Value = result.Value.Unquote(stop);
+
+                result.Value = result.Value.Replace
+                    (
+                        stop.ToString() + stop,
+                        stop.ToString()
+                    );
+            }
+
+            return result;
         }
 
         private Token _ReadWord()

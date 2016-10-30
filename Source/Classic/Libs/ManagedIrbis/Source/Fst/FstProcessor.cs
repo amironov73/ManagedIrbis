@@ -150,7 +150,21 @@ namespace ManagedIrbis.Fst
                     }
                     RecordField field
                         = RecordFieldUtility.Parse(tag, body);
-                    result.Fields.Add(field);
+
+                    SubField[] badSubFields
+                        = field.SubFields
+                        .Where(sf=>string.IsNullOrEmpty(sf.Value))
+                        .ToArray();
+                    foreach (SubField subField in badSubFields)
+                    {
+                        field.SubFields.Remove(subField);
+                    }
+
+                    if (!string.IsNullOrEmpty(field.Value)
+                        || field.SubFields.Count != 0)
+                    {
+                        result.Fields.Add(field);
+                    }
                 }
             }
 

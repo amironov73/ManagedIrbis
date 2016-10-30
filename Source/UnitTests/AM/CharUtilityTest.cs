@@ -8,7 +8,7 @@ namespace UnitTests.AM
     public class CharUtilityTest
     {
         [TestMethod]
-        public void TestCharUtilityIsArabicDigit()
+        public void CharUtility_IsArabicDigit()
         {
             Assert.IsTrue('0'.IsArabicDigit());
             Assert.IsTrue('9'.IsArabicDigit());
@@ -17,7 +17,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void TestCharUtilityIsLatinLetter()
+        public void CharUtility_IsLatinLetter()
         {
             Assert.IsTrue('A'.IsLatinLetter());
             Assert.IsTrue('z'.IsLatinLetter());
@@ -26,7 +26,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void TestCharUtilityIsLatinLetterOrArabicDigit()
+        public void CharUtility_IsLatinLetterOrArabicDigit()
         {
             Assert.IsTrue('0'.IsLatinLetterOrArabicDigit());
             Assert.IsTrue('9'.IsLatinLetterOrArabicDigit());
@@ -39,7 +39,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void TestCharUtilityIsRussianLetter()
+        public void CharUtility_IsRussianLetter()
         {
             Assert.IsTrue('А'.IsRussianLetter());
             Assert.IsTrue('Я'.IsRussianLetter());

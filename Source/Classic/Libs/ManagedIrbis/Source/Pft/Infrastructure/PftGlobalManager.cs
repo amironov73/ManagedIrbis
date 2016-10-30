@@ -99,6 +99,21 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Private members
 
+        private PftGlobal _GetOrCreate
+            (
+                int index
+            )
+        {
+            PftGlobal result;
+            if (!Registry.TryGetValue(index, out result))
+            {
+                result = new PftGlobal(index);
+                Registry.Add(index, result);
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region Public methods
@@ -116,6 +131,33 @@ namespace ManagedIrbis.Pft.Infrastructure
             Code.Positive(index, "index");
 
             this[index] = text;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Append the variable.
+        /// </summary>
+        [NotNull]
+        public PftGlobalManager Append
+            (
+                int index,
+                [CanBeNull] string text
+            )
+        {
+            Code.Positive(index, "index");
+
+            if (!string.IsNullOrEmpty(text))
+            {
+                PftGlobal variable = _GetOrCreate(index);
+                string[] lines = text.SplitLines()
+                    .NonEmptyLines()
+                    .ToArray();
+                foreach (string line in lines)
+                {
+                    variable.ParseLine(line);
+                }
+            }
 
             return this;
         }
@@ -170,6 +212,17 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// Get all variables.
+        /// </summary>
+        [NotNull]
+        public PftGlobal[] GetAllVariables()
+        {
+            PftGlobal[] result = Registry.Values.ToArray();
+
+            return result;
+        }
+
+        /// <summary>
         /// Have global variable with specified index?
         /// </summary>
         public bool HaveVariable
@@ -178,6 +231,35 @@ namespace ManagedIrbis.Pft.Infrastructure
             )
         {
             return Registry.ContainsKey(index);
+        }
+
+        /// <summary>
+        /// Set the global variable.
+        /// </summary>
+        public void Set
+            (
+                int index,
+                [CanBeNull] IEnumerable<RecordField> fields
+            )
+        {
+            Code.Positive(index, "index");
+
+            if (ReferenceEquals(fields, null))
+            {
+                Delete(index);
+                return;
+            }
+
+            RecordField[] array = fields.ToArray();
+            if (array.Length == 0)
+            {
+                Delete(index);
+                return;
+            }
+
+            PftGlobal variable = _GetOrCreate(index);
+            variable.Fields.Clear();
+            variable.Fields.AddRange(array);
         }
 
         #endregion

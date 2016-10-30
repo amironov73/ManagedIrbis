@@ -241,7 +241,8 @@ namespace AM.Collections
         {
             foreach (object o in this)
             {
-                if (o == value)
+                if (!ReferenceEquals(o, null)
+                    && o.Equals(value))
                 {
                     return true;
                 }
@@ -276,7 +277,8 @@ namespace AM.Collections
             int index = 0;
             foreach (object o in this)
             {
-                if (o == value)
+                if (!ReferenceEquals(o, null)
+                    && o.Equals(value))
                 {
                     return index;
                 }
@@ -350,27 +352,38 @@ namespace AM.Collections
                 {
                     case 0:
                         return First;
+
                     case 1:
                         return Second;
+
                     case 2:
                         return Third;
+
                     default:
                         throw new ArgumentOutOfRangeException("index");
                 }
             }
             set
             {
+                if (_isReadOnly)
+                {
+                    throw new NotSupportedException();
+                }
+
                 switch (index)
                 {
                     case 0:
                         First = (T1)value;
                         break;
+
                     case 1:
                         Second = (T2)value;
                         break;
+
                     case 2:
                         Third = (T3)value;
                         break;
+
                     default:
                         throw new ArgumentOutOfRangeException("index");
                 }
@@ -547,7 +560,7 @@ namespace AM.Collections
         /// <returns>Read-only copy of the triplet.</returns>
         public Triplet<T1, T2, T3> AsReadOnly()
         {
-            return new Triplet<T1, T2, T3>(First, Second, Third, _isReadOnly);
+            return new Triplet<T1, T2, T3>(First, Second, Third, true);
         }
 
         /// <summary>

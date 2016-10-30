@@ -37,6 +37,26 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftS()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftS
+            (
+                [NotNull] PftToken token
+            )
+            : base(token)
+        {
+            Code.NotNull(token, "token");
+            token.MustBe(PftTokenKind.S);
+        }
+
         #endregion
 
         #region Private members
@@ -57,16 +77,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            if (!context.BreakFlag)
-            {
-                foreach (PftNode child in Children)
-                {
-                    child.Execute
-                        (
-                            context
-                        );
-                }
-            }
+            context.Execute(Children);
 
             OnAfterExecution(context);
         }

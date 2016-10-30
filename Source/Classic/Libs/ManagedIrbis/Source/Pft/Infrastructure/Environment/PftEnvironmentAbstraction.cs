@@ -123,6 +123,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Environment
             return result;
         }
 
+        /// <summary>
+        /// Read record.
+        /// </summary>
+        [CanBeNull]
+        public virtual MarcRecord ReadRecord
+            (
+                int mfn
+            )
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Search records.
+        /// </summary>
+        [NotNull]
+        public virtual int[] Search
+            (
+                [CanBeNull] string expression
+            )
+        {
+            return new int[0];
+        }
+
         #endregion
     }
 }

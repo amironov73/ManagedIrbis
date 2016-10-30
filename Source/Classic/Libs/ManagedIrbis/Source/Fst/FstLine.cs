@@ -106,6 +106,13 @@ namespace ManagedIrbis.Fst
                 }
             }
 
+            line = line.Replace('\x1A', ' ');
+            line = line.Trim();
+            if (string.IsNullOrEmpty(line))
+            {
+                return null;
+            }
+
             char[] delimiters = {' ', '\t'};
 
 #if !WINMOBILE && !PocketPC && !SILVERLIGHT
@@ -129,7 +136,7 @@ namespace ManagedIrbis.Fst
 
             if (parts.Length != 3)
             {
-                throw new FormatException();
+                throw new FormatException("line: " + line);
             }
 
             FstIndexMethod method = (FstIndexMethod) int.Parse

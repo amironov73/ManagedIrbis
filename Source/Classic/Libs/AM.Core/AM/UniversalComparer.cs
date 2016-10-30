@@ -65,7 +65,11 @@ namespace AM
         /// <summary>
         /// Compares the specified values.
         /// </summary>
-        public int Compare(T left, T right)
+        public int Compare
+            (
+                T left,
+                T right
+            )
         {
             return _function(left, right);
         }

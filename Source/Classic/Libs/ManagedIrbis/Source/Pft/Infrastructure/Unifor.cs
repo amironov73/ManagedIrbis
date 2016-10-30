@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.IO;
 using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -87,6 +88,8 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("3", Unifor3.PrintDate);
             Registry.Add("9", RemoveDoubleQuotes);
             Registry.Add("A", GetFieldRepeat);
+            Registry.Add("E", UniforE.GetFirstWords);
+            Registry.Add("F", UniforE.GetLastWords);
             Registry.Add("I", GetIniFileEntry);
             Registry.Add("K", GetMenuEntry);
             Registry.Add("M", UniforM.Sort);
@@ -104,7 +107,21 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("X", RemoveAngleBrackets);
             Registry.Add("Y", UniforO.FreeExemplars);
             Registry.Add("+2", UniforPlus2.System);
+            Registry.Add("+3D", UniforPlus3.UrlDecode);
+            Registry.Add("+3E", UniforPlus3.UrlEncode);
+            Registry.Add("+3U", UniforPlus3.ConvertToUtf);
+            Registry.Add("+3W", UniforPlus3.ConvertToAnsi);
+            Registry.Add("+3+", UniforPlus3.ReplacePlus);
             Registry.Add("+6", GetRecordStatus);
+            Registry.Add("+7", UniforPlus7.ClearGlobals);
+            Registry.Add("+7A", UniforPlus7.UnionGlobals);
+            Registry.Add("+7G", UniforPlus7.DistinctGlobal);
+            Registry.Add("+7M", UniforPlus7.MultiplyGlobals);
+            Registry.Add("+7R", UniforPlus7.ReadGlobal);
+            Registry.Add("+7S", UniforPlus7.SubstractGlobals);
+            Registry.Add("+7T", UniforPlus7.SortGlobal);
+            Registry.Add("+7U", UniforPlus7.AppendGlobal);
+            Registry.Add("+7W", UniforPlus7.WriteGlobal);
             Registry.Add("+90", UniforPlus9.GetIndex);
             Registry.Add("+91", UniforPlus9.GetFileName);
             Registry.Add("+92", UniforPlus9.GetDirectoryName);
@@ -121,6 +138,8 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("+D", GetDatabaseName);
             Registry.Add("+E", GetFieldIndex);
             Registry.Add("+N", GetFieldCount);
+            Registry.Add("+R", TrimAtLastDot);
+            Registry.Add("+S", DecodeTitle);
         }
 
         #endregion
@@ -155,6 +174,50 @@ StringComparer.InvariantCultureIgnoreCase
             }
 
             return result;
+        }
+
+        private static string _FirstEvaluator(Match match)
+        {
+            return match.Groups["first"].Value;
+        }
+
+        private static string _SecondEvaluator(Match match)
+        {
+            return match.Groups["second"].Value;
+        }
+
+        /// <summary>
+        /// Decode title
+        /// </summary>
+        public static void DecodeTitle
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                TextNavigator navigator = new TextNavigator(expression);
+                char index = navigator.ReadChar();
+                string input = navigator.GetRemainingText();
+                if (!string.IsNullOrEmpty(input))
+                {
+                    MatchEvaluator evaluator = _FirstEvaluator;
+                    if (index != '0')
+                    {
+                        evaluator = _SecondEvaluator;
+                    }
+                    string output = Regex.Replace
+                        (
+                            input,
+                            "[<](?<first>.+?)[=](?<second>.+?)[>]",
+                            evaluator
+                        );
+                    context.Write(node, output);
+                    context.OutputFlag = true;
+                }
+            }
         }
 
         /// <summary>
@@ -570,6 +633,31 @@ StringComparer.InvariantCultureIgnoreCase
 
                 context.Write(node, result.ToString());
                 context.OutputFlag = true;
+            }
+        }
+
+        /// <summary>
+        /// Trim text at last dot.
+        /// </summary>
+        public static void TrimAtLastDot
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                int position = expression.LastIndexOf('.');
+                if (position >= 0)
+                {
+                    string output = expression.Substring(0, position);
+                    if (!string.IsNullOrEmpty(output))
+                    {
+                        context.Write(node, output);
+                        context.OutputFlag = true;
+                    }
+                }
             }
         }
 
