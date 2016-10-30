@@ -126,6 +126,9 @@
     <Compile Include="AM\CommandLine\CommandLineUtilityTest.cs" />
     <Compile Include="AM\CommandLine\ParsedCommandLineTest.cs" />
     <Compile Include="AM\ComparableObjectTest.cs" />
+    <Compile Include="AM\Data\DataColumnInfoTest.cs" />
+    <Compile Include="AM\Data\DataSetInfoTest.cs" />
+    <Compile Include="AM\Data\DataTableInfoTest.cs" />
     <Compile Include="AM\DisposableUtilityTest.cs" />
     <Compile Include="AM\DuplicateKeyExceptionTest.cs" />
     <Compile Include="AM\ExceptionEventArgsTest.cs" />

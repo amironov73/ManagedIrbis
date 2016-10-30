@@ -6,10 +6,9 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Xml.Serialization;
+
+using AM.Collections;
 
 using JetBrains.Annotations;
 
@@ -31,23 +30,17 @@ namespace AM.Data
     {
         #region Properties
 
-        private List<DataColumnInfo> _columns
-            = new List<DataColumnInfo>();
-
         /// <summary>
         /// Gets the columns.
         /// </summary>
         [NotNull]
         [JsonProperty("columns")]
         [XmlElement("column")]
-        public List<DataColumnInfo> Columns
-        {
-            [DebuggerStepThrough]
-            get
+        public NonNullCollection<DataColumnInfo> Columns
             {
-                return _columns;
+                get;
+                private set;
             }
-        }
 
         /// <summary>
         /// Gets or sets the name of the table.
@@ -55,8 +48,31 @@ namespace AM.Data
         [CanBeNull]
         [JsonProperty("name")]
         [XmlAttribute("name")]
-        public string TableName { get; set; }
+        public string Name { get; set; }
 
         #endregion
+
+        #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public DataTableInfo()
+        {
+            Columns = new NonNullCollection<DataColumnInfo>();
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return Name.ToVisibleString();
+        }
+
+        #endregion
+
     }
 }
