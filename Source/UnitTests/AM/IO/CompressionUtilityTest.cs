@@ -26,7 +26,7 @@ namespace UnitTests.AM.IO
         }
 
         [TestMethod]
-        public void TestCompressionUtility()
+        public void CompressionUtility_Compress_Decompress()
         {
             byte[] bytes = new byte[0];
             _TestCompression(bytes);

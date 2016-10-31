@@ -9,7 +9,7 @@ namespace UnitTests.AM.IO
     public class DumpUtilityTest
     {
         [TestMethod]
-        public void TestDumpUtilityDumpToTextByte()
+        public void DumpUtility_DumpToTextByte()
         {
             byte[] data = {1, 2, 5, 10, 25, 50, 100};
 
@@ -21,7 +21,7 @@ namespace UnitTests.AM.IO
         }
 
         [TestMethod]
-        public void TestDumpUtilityDumpToTextInt32()
+        public void DumpUtility_DumpToTextInt32()
         {
             int[] data = { 1, 2, 5, 10, 25, 50, 100 };
 

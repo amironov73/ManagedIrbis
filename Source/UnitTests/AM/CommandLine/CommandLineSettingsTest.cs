@@ -8,7 +8,7 @@ namespace UnitTests.AM.CommandLine
     public class CommandLineSettingsTest
     {
         [TestMethod]
-        public void TestCommandLineSettings_Construction()
+        public void CommandLineSettings_Construction()
         {
             Assert.AreEqual
                 (

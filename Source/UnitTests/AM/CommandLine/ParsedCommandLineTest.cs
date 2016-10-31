@@ -8,7 +8,7 @@ namespace UnitTests.AM.CommandLine
     public class ParsedCommandLineTest
     {
         [TestMethod]
-        public void TestParsedCommandLine_Construction()
+        public void ParsedCommandLine_Construction()
         {
             ParsedCommandLine parsed = new ParsedCommandLine();
 
@@ -79,7 +79,7 @@ namespace UnitTests.AM.CommandLine
         }
 
         [TestMethod]
-        public void TestParsedCommandLine_Merge()
+        public void ParsedCommandLine_Merge()
         {
             ParsedCommandLine first = new ParsedCommandLine();
             first
@@ -101,7 +101,7 @@ namespace UnitTests.AM.CommandLine
         }
 
         [TestMethod]
-        public void TestParsedCommandLine_GetValues()
+        public void ParsedCommandLine_GetValues()
         {
             ParsedCommandLine parsed = new ParsedCommandLine();
             parsed

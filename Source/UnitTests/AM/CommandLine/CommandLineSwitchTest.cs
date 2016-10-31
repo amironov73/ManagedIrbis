@@ -8,7 +8,7 @@ namespace UnitTests.AM.CommandLine
     public class CommandLineSwitchTest
     {
         [TestMethod]
-        public void TestCommandLineSwitch_Construction()
+        public void CommandLineSwitch_Construction()
         {
             CommandLineSwitch clSwitch = new CommandLineSwitch();
 
@@ -19,7 +19,7 @@ namespace UnitTests.AM.CommandLine
         }
 
         [TestMethod]
-        public void TestCommandLineSwitch_ToString()
+        public void CommandLineSwitch_ToString()
         {
             CommandLineSwitch clSwitch = new CommandLineSwitch
             {

@@ -8,7 +8,7 @@ namespace UnitTests.AM.CommandLine
     public class CommandLineUtilityTest
     {
         [TestMethod]
-        public void TestCommandLineUtility_SplitText()
+        public void CommandLineUtility_SplitText()
         {
             string[] items = CommandLineUtility.SplitText(string.Empty);
             Assert.AreEqual(0, items.Length);
@@ -39,7 +39,7 @@ namespace UnitTests.AM.CommandLine
         }
 
         [TestMethod]
-        public void TestCommandLineUtility_WrapArgumentIfNeeded()
+        public void CommandLineUtility_WrapArgumentIfNeeded()
         {
             Assert.AreEqual
                 (

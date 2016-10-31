@@ -137,7 +137,7 @@
     <Compile Include="AM\DisposableUtilityTest.cs" />
     <Compile Include="AM\DuplicateKeyExceptionTest.cs" />
     <Compile Include="AM\ExceptionEventArgsTest.cs" />
-    <Compile Include="AM\Gbl\GblFileTest.cs" />
+    <Compile Include="ManagedIrbis\Gbl\GblFileTest.cs" />
     <Compile Include="AM\Globalization\BuiltinCulturesTest.cs" />
     <Compile Include="AM\Globalization\RussianStringComparerTest.cs" />
     <Compile Include="AM\InquiryEventArgsTest.cs" />
@@ -212,6 +212,10 @@
     <Compile Include="ManagedIrbis\Fields\RevisionInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fields\ExemplarInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fst\FstFileTest.cs" />
+    <Compile Include="ManagedIrbis\Gbl\ProtocolLineTest.cs" />
+    <Compile Include="ManagedIrbis\Gbl\UnitTest1.cs" />
+    <Compile Include="ManagedIrbis\Gbl\GblParameterTest.cs" />
+    <Compile Include="ManagedIrbis\Gbl\GblResultTest.cs" />
     <Compile Include="ManagedIrbis\ImportExport\IsoReaderTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\FileSpecificationTest.cs" />
     <Compile Include="ManagedIrbis\IrbisFormatTest.cs" />

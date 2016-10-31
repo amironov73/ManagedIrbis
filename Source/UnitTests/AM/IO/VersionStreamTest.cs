@@ -10,7 +10,7 @@ namespace UnitTests.AM.IO
     public class VersionStreamTest
     {
         [TestMethod]
-        public void TestVersionStream()
+        public void VersionStream_ResetVersion()
         {
             Stream baseStream = Stream.Null;
             VersionStream versionStream = new VersionStream(baseStream);

@@ -10,7 +10,26 @@ namespace UnitTests.AM.Collections
     public class XRangeTest
     {
         [TestMethod]
-        public void TestXRangeConstruction()
+        public void XRange_Construction1()
+        {
+            const int Length = 10;
+            XRange range = new XRange(Length);
+            Assert.AreEqual(0, range.Start);
+            Assert.AreEqual(Length, range.Length);
+        }
+
+        [TestMethod]
+        public void XRange_Construction2()
+        {
+            const int Start = 1;
+            const int Length = 10;
+            XRange range = new XRange(Start, Length);
+            Assert.AreEqual(Start, range.Start);
+            Assert.AreEqual(Length, range.Length);
+        }
+
+        [TestMethod]
+        public void XRange_Enumeration()
         {
             const int Length = 10;
             XRange range = new XRange(Length);
