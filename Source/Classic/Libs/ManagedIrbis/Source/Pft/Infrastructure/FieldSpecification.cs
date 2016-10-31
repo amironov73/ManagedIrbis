@@ -222,9 +222,13 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 string index;
 
-                if (navigator.PeekChar() == '-')
+                if (navigator.PeekChar() == '.')
                 {
                     navigator.ReadChar();
+                    if (navigator.ReadChar() != '.')
+                    {
+                        throw new PftSyntaxException(navigator);
+                    }
                     navigator.SkipWhitespace();
                     index = navigator.ReadInteger();
                     if (string.IsNullOrEmpty(index))
@@ -255,8 +259,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
 
                 navigator.SkipWhitespace();
-                if (navigator.SkipChar('-'))
+                if (navigator.SkipChar('.'))
                 {
+                    if (navigator.ReadChar() != '.')
+                    {
+                        throw new PftSyntaxException(navigator);
+                    }
                     navigator.SkipWhitespace();
                     index = navigator.ReadInteger();
                     if (string.IsNullOrEmpty(index))
@@ -279,6 +287,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {
                     throw new PftSyntaxException(navigator);
                 }
+
+                c = navigator.PeekChar();
             } // c == '['
 
             // c still is peeked char
@@ -337,6 +347,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                         builder.ToString(),
                         CultureInfo.InvariantCulture
                     );
+
+                if (navigator.PeekChar() == '*')
+                {
+                    throw new PftSyntaxException(navigator);
+                }
             } // c == '.'
 
             if (c == '(')
@@ -389,6 +404,96 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 
             DONE:
+
+            int length = navigator.Position - start;
+            Text = navigator.Substring(start, length);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Parse the specification from text.
+        /// </summary>
+        public bool ParseShort
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+            TextNavigator navigator = new TextNavigator(text);
+            return ParseShort(navigator);
+        }
+
+        /// <summary>
+        /// Parse short specification from navigator.
+        /// </summary>
+        public bool ParseShort
+            (
+                [NotNull] TextNavigator navigator
+            )
+        {
+            Code.NotNull(navigator, "navigator");
+
+            int start = navigator.Position;
+            TextPosition saved = navigator.SavePosition();
+            char c = navigator.ReadChar();
+            StringBuilder builder = new StringBuilder();
+
+            switch (c)
+            {
+                case 'g':
+                case 'G':
+                    Command = 'g';
+                    break;
+
+                case 'v':
+                case 'V':
+                    Command = 'v';
+                    break;
+
+                default:
+                    navigator.RestorePosition(saved);
+                    return false;
+            } // switch
+
+            c = navigator.ReadChar();
+            if (!c.IsArabicDigit())
+            {
+                return false;
+            }
+            builder.Append(c);
+
+            while (true)
+            {
+                c = navigator.PeekChar();
+                if (!c.IsArabicDigit())
+                {
+                    break;
+                }
+                navigator.ReadChar();
+                builder.Append(c);
+            }
+            Tag = builder.ToString();
+
+            // now c is peeked char
+
+            if (c == '^')
+            {
+                navigator.ReadChar();
+                if (navigator.IsEOF)
+                {
+                    throw new PftSyntaxException(navigator);
+                }
+                c = navigator.ReadChar();
+                if (!SubFieldCode.IsValidCode(c))
+                {
+                    throw new PftSyntaxException(navigator);
+                }
+                SubField = SubFieldCode.Normalize(c);
+
+                c = navigator.PeekChar();
+            } // c == '^'
 
             int length = navigator.Position - start;
             Text = navigator.Substring(start, length);

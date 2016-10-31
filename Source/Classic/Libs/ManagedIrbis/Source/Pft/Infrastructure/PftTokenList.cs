@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Collections;
 using AM.IO;
 
 using CodeJam;
@@ -179,6 +180,43 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// Get span.
+        /// </summary>
+        [CanBeNull]
+        public PftTokenList Span
+            (
+                params PftTokenKind[] stop
+            )
+        {
+            int _savePosition = _position;
+
+            while (!IsEof)
+            {
+                if (Array.IndexOf(stop, Current.Kind) >= 0)
+                {
+                    List<PftToken> tokens = new List<PftToken>();
+
+                    for (
+                            int position = _savePosition;
+                            position < _position;
+                            position++
+                       )
+                    {
+                        tokens.Add(_tokens[position]);
+                    }
+
+                    PftTokenList result = new PftTokenList(tokens);
+
+                    return result;
+                }
+            }
+
+            _position = _savePosition;
+
+            return null;
+        }
+
+        /// <summary>
         /// Get array of tokens.
         /// </summary>
         [NotNull]
@@ -199,7 +237,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                 return "(EOF)";
             }
 
-            return Current.ToString();
+            return string.Format
+                (
+                    "{0} of {1}: {2}",
+                    _position,
+                    _tokens.Length,
+                    Current
+                );
         }
 
         #endregion
