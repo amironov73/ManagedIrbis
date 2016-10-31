@@ -213,9 +213,12 @@
     <Compile Include="ManagedIrbis\Fields\ExemplarInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fst\FstFileTest.cs" />
     <Compile Include="ManagedIrbis\Gbl\ProtocolLineTest.cs" />
-    <Compile Include="ManagedIrbis\Gbl\UnitTest1.cs" />
+    <Compile Include="ManagedIrbis\Gbl\GblEventArgsTest.cs" />
     <Compile Include="ManagedIrbis\Gbl\GblParameterTest.cs" />
     <Compile Include="ManagedIrbis\Gbl\GblResultTest.cs" />
+    <Compile Include="ManagedIrbis\Gbl\GblSettingsTest.cs" />
+    <Compile Include="ManagedIrbis\Gbl\GblStatementTest.cs" />
+    <Compile Include="ManagedIrbis\Gbl\GblBuilderTest.cs" />
     <Compile Include="ManagedIrbis\ImportExport\IsoReaderTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\FileSpecificationTest.cs" />
     <Compile Include="ManagedIrbis\IrbisFormatTest.cs" />
