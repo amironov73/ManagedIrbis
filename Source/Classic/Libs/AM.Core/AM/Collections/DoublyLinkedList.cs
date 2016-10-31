@@ -86,6 +86,16 @@ namespace AM.Collections
             }
 
             #endregion
+
+            #region Object members
+
+            /// <inheritdoc/>
+            public override string ToString()
+            {
+                return Value.ToVisibleString();
+            }
+
+            #endregion
         }
 
         #endregion
@@ -108,25 +118,19 @@ namespace AM.Collections
 
         #region Construction
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public DoublyLinkedList()
-        {
-        }
-
         #endregion
 
         #region Private members
 
         /// <summary>
-        /// _s the node at.
+        /// Get node at specified index.
         /// </summary>
-        /// <param name="index">The index.</param>
-        /// <returns></returns>
         [CanBeNull]
         [CLSCompliant(false)]
-        protected Node<T> _NodeAt(int index)
+        protected Node<T> _NodeAt
+            (
+                int index
+            )
         {
             Node<T> result = FirstNode;
 
@@ -164,67 +168,87 @@ namespace AM.Collections
 
         #region IList<T> members
 
-        /// <summary>
-        /// Determines the index of a specific item in the <see cref="T:System.Collections.Generic.IList`1"></see>.
-        /// </summary>
-        /// <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.IList`1"></see>.</param>
-        /// <returns>
-        /// The index of item if found in the list; otherwise, -1.
-        /// </returns>
-        public int IndexOf(T item)
+        /// <inheritdoc/>
+        public int IndexOf
+            (
+                T item
+            )
         {
             IEnumerator<T> enumerator = GetEnumerator();
             for (int i = 0; enumerator.MoveNext(); i++)
             {
-                if (enumerator.Current.Equals(item))
+                T current = enumerator.Current;
+                if (!ReferenceEquals(current, null)
+                    && current.Equals(item))
                 {
                     return i;
                 }
             }
+
             return -1;
         }
 
-        /// <summary>
-        /// Inserts an item to the <see cref="T:System.Collections.Generic.IList`1"></see> at the specified index.
-        /// </summary>
-        /// <param name="index">The zero-based index at which item should be inserted.</param>
-        /// <param name="item">The object to insert into the <see cref="T:System.Collections.Generic.IList`1"></see>.</param>
-        /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.IList`1"></see> is read-only.</exception>
-        /// <exception cref="T:System.ArgumentOutOfRangeException">index is not a valid index in the <see cref="T:System.Collections.Generic.IList`1"></see>.</exception>
-        public void Insert(int index, T item)
+        /// <inheritdoc/>
+        public void Insert
+            (
+                int index,
+                T item
+            )
         {
-            Node<T> exisingNode = _NodeAt(index);
-            Node<T> newNode = _CreateNode(item);
-            Node<T> nextNode = exisingNode.Next;
-            newNode.Previous = exisingNode;
-            newNode.Next = nextNode;
-            exisingNode.Next = exisingNode;
-            if (nextNode != null)
+            Code.Nonnegative(index, "index");
+
+            Node<T> existingNode = _NodeAt(index);
+            if (!ReferenceEquals(existingNode, null))
             {
-                nextNode.Previous = newNode;
+                Node<T> newNode = _CreateNode(item);
+                Node<T> nextNode = existingNode.Next;
+                Node<T> previousNode = existingNode.Previous;
+                newNode.Next = existingNode;
+                newNode.Previous = previousNode;
+                existingNode.Previous = newNode;
+                if (!ReferenceEquals(nextNode, null))
+                {
+                    nextNode.Previous = newNode;
+                }
+                if (!ReferenceEquals(previousNode, null))
+                {
+                    previousNode.Next = newNode;
+                }
+                if (ReferenceEquals(existingNode, FirstNode))
+                {
+                    FirstNode = newNode;
+                }
             }
         }
 
-        /// <summary>
-        /// Removes the <see cref="T:System.Collections.Generic.IList`1"></see> item at the specified index.
-        /// </summary>
-        /// <param name="index">The zero-based index of the item to remove.</param>
-        /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.IList`1"></see> is read-only.</exception>
-        /// <exception cref="T:System.ArgumentOutOfRangeException">index is not a valid index in the <see cref="T:System.Collections.Generic.IList`1"></see>.</exception>
-        public void RemoveAt(int index)
+        /// <inheritdoc/>
+        public void RemoveAt
+            (
+                int index
+            )
         {
+            Code.Nonnegative(index, "index");
+
             Node<T> nodeToRemove = _NodeAt(index);
-            if (nodeToRemove != null)
+            if (!ReferenceEquals(nodeToRemove, null))
             {
                 Node<T> nextNode = nodeToRemove.Next;
                 Node<T> previousNode = nodeToRemove.Previous;
-                if (previousNode != null)
+                if (!ReferenceEquals(previousNode, null))
                 {
                     previousNode.Next = nextNode;
                 }
-                if (nextNode != null)
+                if (!ReferenceEquals(nextNode, null))
                 {
                     nextNode.Previous = previousNode;
+                }
+                if (ReferenceEquals(nodeToRemove, FirstNode))
+                {
+                    FirstNode = nextNode;
+                }
+                if (ReferenceEquals(nodeToRemove, LastNode))
+                {
+                    LastNode = previousNode;
                 }
             }
         }
@@ -263,44 +287,37 @@ namespace AM.Collections
 
         #region ICollection<T> members
 
-        /// <summary>
-        /// Adds an item to the <see cref="T:System.Collections.Generic.ICollection`1"></see>.
-        /// </summary>
-        /// <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1"></see>.</param>
-        /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"></see> is read-only.</exception>
-        public void Add(T item)
+        /// <inheritdoc/>
+        public void Add
+            (
+                T item
+            )
         {
             Node<T> node = _CreateNode(item);
-            if (LastNode != null)
+            if (!ReferenceEquals(LastNode, null))
             {
                 LastNode.Next = node;
             }
             node.Previous = LastNode;
             LastNode = node;
-            if (FirstNode == null)
+            if (ReferenceEquals(FirstNode, null))
             {
                 FirstNode = node;
             }
         }
 
-        /// <summary>
-        /// Removes all items from the <see cref="T:System.Collections.Generic.ICollection`1"></see>.
-        /// </summary>
-        /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"></see> is read-only. </exception>
+        /// <inheritdoc/>
         public void Clear()
         {
             FirstNode = null;
             LastNode = null;
         }
 
-        /// <summary>
-        /// Determines whether the <see cref="T:System.Collections.Generic.ICollection`1"></see> contains a specific value.
-        /// </summary>
-        /// <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.ICollection`1"></see>.</param>
-        /// <returns>
-        /// true if item is found in the <see cref="T:System.Collections.Generic.ICollection`1"></see>; otherwise, false.
-        /// </returns>
-        public bool Contains(T item)
+        /// <inheritdoc/>
+        public bool Contains
+            (
+                T item
+            )
         {
             IEnumerator<T> enumerator = GetEnumerator();
             while (enumerator.MoveNext())
@@ -310,27 +327,27 @@ namespace AM.Collections
                     return true;
                 }
             }
+
             return false;
         }
 
-        /// <summary>
-        /// Copies the elements of the <see cref="T:System.Collections.Generic.ICollection`1"></see> to an <see cref="T:System.Array"></see>, starting at a particular <see cref="T:System.Array"></see> index.
-        /// </summary>
-        /// <param name="array">The one-dimensional <see cref="T:System.Array"></see> that is the destination of the elements copied from <see cref="T:System.Collections.Generic.ICollection`1"></see>. The <see cref="T:System.Array"></see> must have zero-based indexing.</param>
-        /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
-        /// <exception cref="T:System.ArgumentOutOfRangeException">arrayIndex is less than 0.</exception>
-        /// <exception cref="T:System.ArgumentNullException">array is null.</exception>
-        /// <exception cref="T:System.ArgumentException">array is multidimensional.-or-arrayIndex is equal to or greater than the length of array.-or-The number of elements in the source <see cref="T:System.Collections.Generic.ICollection`1"></see> is greater than the available space from arrayIndex to the end of the destination array.-or-Type T cannot be cast automatically to the type of the destination array.</exception>
-        public void CopyTo(T[] array, int arrayIndex)
+        /// <inheritdoc/>
+        public void CopyTo
+            (
+                T[] array, 
+                int arrayIndex
+            )
         {
-            throw new NotImplementedException();
+            IEnumerator<T> enumerator = GetEnumerator();
+            while (enumerator.MoveNext()
+                && arrayIndex < array.Length)
+            {
+                array[arrayIndex] = enumerator.Current;
+                arrayIndex++;
+            }
         }
 
-        /// <summary>
-        /// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"></see>.
-        /// </summary>
-        /// <value></value>
-        /// <returns>The number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"></see>.</returns>
+        /// <inheritdoc/>
         public int Count
         {
             get
@@ -341,15 +358,12 @@ namespace AM.Collections
                 {
                     result++;
                 }
+
                 return result;
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"></see> is read-only.
-        /// </summary>
-        /// <value></value>
-        /// <returns>true if the <see cref="T:System.Collections.Generic.ICollection`1"></see> is read-only; otherwise, false.</returns>
+        /// <inheritdoc/>
         public bool IsReadOnly
         {
             get
@@ -358,29 +372,27 @@ namespace AM.Collections
             }
         }
 
-        /// <summary>
-        /// Removes the first occurrence of a specific object from the <see cref="T:System.Collections.Generic.ICollection`1"></see>.
-        /// </summary>
-        /// <param name="item">The object to remove from the <see cref="T:System.Collections.Generic.ICollection`1"></see>.</param>
-        /// <returns>
-        /// true if item was successfully removed from the <see cref="T:System.Collections.Generic.ICollection`1"></see>; otherwise, false. This method also returns false if item is not found in the original <see cref="T:System.Collections.Generic.ICollection`1"></see>.
-        /// </returns>
-        /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"></see> is read-only.</exception>
-        public bool Remove(T item)
+        /// <inheritdoc/>
+        public bool Remove
+            (
+                T item
+            )
         {
-            throw new NotImplementedException();
+            int index = IndexOf(item);
+            if (index >= 0)
+            {
+                RemoveAt(index);
+                return true;
+            }
+
+            return false;
         }
 
         #endregion
 
         #region IEnumerable members
 
-        /// <summary>
-        /// Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// <returns>
-        /// An <see cref="T:System.Collections.IEnumerator"></see> object that can be used to iterate through the collection.
-        /// </returns>
+        /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator()
         {
             for (Node<T> node = FirstNode;
@@ -395,12 +407,7 @@ namespace AM.Collections
 
         #region IEnumerable<T> members
 
-        /// <summary>
-        /// Returns an enumerator that iterates through the collection.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"></see> that can be used to iterate through the collection.
-        /// </returns>
+        /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator()
         {
             for (Node<T> node = FirstNode;

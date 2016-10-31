@@ -9,7 +9,7 @@ namespace UnitTests.AM.Collections
     public class BidirectionalDictionaryTest
     {
         [TestMethod]
-        public void TestBidirectionalDictionaryConstruction()
+        public void BidirectionalDictionary_Indexer1()
         {
             BidirectionalDictionary<string, int> dictionary
                 = new BidirectionalDictionary<string, int>

@@ -20,11 +20,12 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestDisposableCollectionDispose()
+        public void DisposableCollection_Dispose()
         {
             _count = 0;
 
-            DisposableCollection<Dummy> collection = new DisposableCollection<Dummy>
+            DisposableCollection<Dummy> collection
+                = new DisposableCollection<Dummy>
             {
                 new Dummy(),
                 new Dummy(),

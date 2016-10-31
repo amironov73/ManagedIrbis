@@ -106,11 +106,12 @@
     <Compile Include="AM\CancelableEventArgsTest.cs" />
     <Compile Include="AM\Collections\CloneableCollectionTest.cs" />
     <Compile Include="AM\Collections\CloneableDictionaryTest.cs" />
+    <Compile Include="AM\Collections\DictionaryCounterInt32Test.cs" />
     <Compile Include="AM\Collections\KeyedCollectionTest.cs" />
     <Compile Include="AM\Collections\NonNullCollectionTest.cs" />
     <Compile Include="AM\Collections\CharSetTest.cs" />
     <Compile Include="AM\Collections\BitArrayUtilityTest.cs" />
-    <Compile Include="AM\Collections\DictionaryCounterTest.cs" />
+    <Compile Include="AM\Collections\DictionaryCounterDoubleTest.cs" />
     <Compile Include="AM\Collections\DictionaryUtilityTest.cs" />
     <Compile Include="AM\Collections\DoublyLinkedListTest.cs" />
     <Compile Include="AM\Collections\BidirectionalDictionaryTest.cs" />

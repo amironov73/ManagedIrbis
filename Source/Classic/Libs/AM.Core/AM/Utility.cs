@@ -473,6 +473,27 @@ namespace AM
             return value;
         }
 
+        /// <summary>
+        /// Преобразование любого значения в строку.
+        /// </summary>
+        /// <returns>Для <c>null</c> возвращается "(null)".
+        /// </returns>
+        [NotNull]
+        public static string ToVisibleString<T>
+            (
+                [CanBeNull] this T value
+            )
+        {
+            if (ReferenceEquals(value, null))
+            {
+                return "(null)";
+            }
+            
+            string result = value.ToString();
+
+            return result.ToVisibleString();
+        }
+
         #endregion
     }
 }

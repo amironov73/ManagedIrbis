@@ -14,7 +14,7 @@ namespace UnitTests.AM.Collections
     public class CharSetTest
     {
         [TestMethod]
-        public void TestCharSetConstruction()
+        public void CharSet_Construction()
         {
             CharSet charSet = new CharSet("abc");
 
@@ -23,7 +23,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestCharSetAdd()
+        public void CharSet_Add()
         {
             CharSet charSet = new CharSet();
 
@@ -34,7 +34,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestCharSetAddRange()
+        public void CharSet_AddRange()
         {
             CharSet charSet = new CharSet();
 
@@ -45,7 +45,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestCharSetUnion()
+        public void CharSet_Union()
         {
             CharSet left = new CharSet("abc");
             CharSet right = new CharSet("def");
@@ -55,7 +55,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestCharSetIntersection()
+        public void CharSet_Intersection()
         {
             CharSet left = new CharSet("abcdef");
             CharSet right = new CharSet("defghi");
@@ -65,7 +65,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestCharSetExclusion()
+        public void CharSet_Exclusion()
         {
             CharSet left = new CharSet("abcdef");
             CharSet right = new CharSet("fed");
@@ -75,7 +75,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestCharSetRemove()
+        public void CharSet_Remove()
         {
             CharSet charSet = new CharSet("abcdef");
             charSet.Remove('c').Remove('d');
@@ -84,7 +84,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestCharSetDuplicates()
+        public void CharSet_Duplicates()
         {
             CharSet charSet = new CharSet("abcabc");
 
@@ -92,7 +92,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestCharSetEnumeration()
+        public void CharSet_Enumeration()
         {
             CharSet charSet = new CharSet("abcdef");
             StringBuilder builder = new StringBuilder();
@@ -106,7 +106,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestCharSetJsonSerialization()
+        public void CharSet_JsonSerialization()
         {
             CharSet charSet = new CharSet("abcdef");
             string actual = JsonConvert.SerializeObject
@@ -121,7 +121,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestCharSetCheckText()
+        public void CharSet_CheckText()
         {
             CharSet charSet = new CharSet("abc");
 
@@ -130,7 +130,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestCharSetToArray()
+        public void CharSet_ToArray()
         {
             CharSet charSet = new CharSet("abc");
             char[] array = charSet.ToArray();
@@ -142,7 +142,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestCharSetEquality()
+        public void CharSet_Equality()
         {
             CharSet first = new CharSet("abc");
             CharSet second = new CharSet("def");
@@ -170,7 +170,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestCharSetSerialization()
+        public void CharSet_Serialization()
         {
             CharSet charSet = new CharSet();
             _TestSerialization(charSet);
