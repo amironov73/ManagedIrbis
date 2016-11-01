@@ -1,4 +1,4 @@
-﻿/* DisconnectCommand.cs -- 
+﻿/* ExitCommand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -36,7 +36,7 @@ namespace ManagedIrbis.Mx.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class DisconnectCommand
+    public sealed class ExitCommand
         : MxCommand
     {
         #region Properties
@@ -48,8 +48,8 @@ namespace ManagedIrbis.Mx.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public DisconnectCommand()
-            : base("Disconnect")
+        public ExitCommand()
+            : base("Exit")
         {
         }
 
@@ -74,7 +74,8 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            executive.WriteLine("Disconnect");
+            executive.WriteLine("Exit");
+            executive.StopFlag = true;
 
             OnAfterExecute();
 

@@ -183,7 +183,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Get span.
         /// </summary>
         [CanBeNull]
-        public PftTokenList Span
+        public PftTokenList Segment
             (
                 params PftTokenKind[] stop
             )

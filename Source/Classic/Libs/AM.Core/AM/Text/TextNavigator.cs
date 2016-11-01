@@ -731,6 +731,48 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Чтение до конца строки.
+        /// </summary>
+        [CanBeNull]
+        public string ReadLine()
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            StringBuilder result = new StringBuilder();
+
+            while (!IsEOF)
+            {
+                char c = PeekChar();
+                if (c == '\r' || c == '\n')
+                {
+                    break;
+                }
+                c = ReadChar();
+                result.Append(c);
+            }
+
+            if (!IsEOF)
+            {
+                char c = PeekChar();
+
+                if (c == '\r')
+                {
+                    ReadChar();
+                    c = PeekChar();
+                }
+                if (c == '\n')
+                {
+                    ReadChar();
+                }
+            }
+
+            return result.ToString();
+        }
+
+        /// <summary>
         /// Чтение строки вплоть до указанной длины.
         /// </summary>
         /// <returns><c>null</c>, если достигнут конец текста.

@@ -1,0 +1,11 @@
+#! /bin/sh
+
+echo 'AM.Core'
+
+find ../Source/Classic/Libs/AM.Core/AM/ -name "*.cs" | wc -l
+find ../Source/Classic/Libs/AM.Core/AM/ -name "*.cs" -exec cat {} \; | wc -l
+
+echo 'ManagedIrbis'
+
+find ../Source/Classic/Libs/ManagedIrbis/Source/ -name "*.cs" | wc -l
+find ../Source/Classic/Libs/ManagedIrbis/Source/ -name "*.cs" -exec cat {} \; | wc -l
