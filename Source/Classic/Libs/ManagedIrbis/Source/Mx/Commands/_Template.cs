@@ -74,6 +74,12 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
+            if (!executive.Client.Connected)
+            {
+                executive.WriteLine("Not connected");
+                return false;
+            }
+
             executive.WriteLine("Connect");
 
             OnAfterExecute();

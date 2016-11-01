@@ -111,6 +111,23 @@ namespace ManagedIrbis.Client
             Connection.Dispose();
         }
 
+        /// <inheritdoc/>
+        public override string[] FormatRecords
+            (
+                int[] mfns,
+                string format
+            )
+        {
+            string[] result = Connection.FormatRecords
+                (
+                    Database,
+                    format,
+                    mfns
+                );
+
+            return result;
+        }
+
         /// <summary>
         /// Parse connection string.
         /// </summary>
@@ -120,6 +137,19 @@ namespace ManagedIrbis.Client
             )
         {
             Code.NotNullNorEmpty(connectionString, "connectionString");
+
+            Connection.ParseConnectionString(connectionString);
+        }
+
+        /// <inhertidoc/>
+        public override int[] Search
+            (
+                string expression
+            )
+        {
+            int[] result = Connection.Search(expression);
+
+            return result;
         }
 
         #endregion

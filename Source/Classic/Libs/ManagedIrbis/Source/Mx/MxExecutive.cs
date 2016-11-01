@@ -55,6 +55,17 @@ namespace ManagedIrbis.Mx
         public NonNullCollection<MxCommand> Commands { get; private set; }
 
         /// <summary>
+        /// Format.
+        /// </summary>
+        [CanBeNull]
+        public string Format { get; set; }
+
+        /// <summary>
+        /// Search limit.
+        /// </summary>
+        public int Limit { get; set; }
+
+        /// <summary>
         /// Records.
         /// </summary>
         [NotNull]
@@ -77,10 +88,18 @@ namespace ManagedIrbis.Mx
         {
             get
             {
+#if CLASSIC
+
                 Assembly assembly = typeof (MxExecutive).Assembly;
                 Version result = assembly.GetName().Version;
 
                 return result;
+
+#else
+
+                return new Version (1, 0);
+
+#endif
             }
         }
 
@@ -94,6 +113,7 @@ namespace ManagedIrbis.Mx
         public MxExecutive()
         {
             VerbosityLevel = 3;
+            Format = "@brief";
 
             Client = new ConnectedClient();
             Commands = new NonNullCollection<MxCommand>();
@@ -127,9 +147,12 @@ namespace ManagedIrbis.Mx
                         new DisconnectCommand(),
                         new ExitCommand(),
                         new FormatCommand(),
+                        new LimitCommand(),
+                        new NopCommand(),
                         new PrintCommand(),
                         new SearchCommand(),
                         new SortCommand(),
+                        new StoreCommand(),
                     }
                 );
         }
@@ -152,6 +175,14 @@ namespace ManagedIrbis.Mx
             string line = navigator.ReadLine();
             if (string.IsNullOrEmpty(line))
             {
+                return true;
+            }
+
+            if (navigator.PeekChar() == '#')
+            {
+                // Comment, ignore it
+                navigator.ReadLine();
+
                 return true;
             }
 
@@ -315,6 +346,22 @@ namespace ManagedIrbis.Mx
             )
         {
             Console.WriteLine(format, arguments);
+        }
+
+        /// <summary>
+        /// Write to console.
+        /// </summary>
+        public void WriteLine
+            (
+                int verbosityLevel,
+                [NotNull] string format,
+                params object[] arguments
+            )
+        {
+            if (verbosityLevel <= VerbosityLevel)
+            {
+                WriteLine(format, arguments);
+            }
         }
 
         #endregion

@@ -74,7 +74,12 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            executive.WriteLine("Disconnect");
+            executive.Client.Disconnect();
+            executive.WriteLine
+                (
+                    3,
+                    "Disconnected"
+                );
 
             OnAfterExecute();
 

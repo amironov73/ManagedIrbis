@@ -74,7 +74,62 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            executive.WriteLine("Search");
+            if (!executive.Client.Connected)
+            {
+                executive.WriteLine("Not connected");
+                return false;
+            }
+
+            if (arguments.Length != 0)
+            {
+                string argument = arguments[0].Text;
+                if (!string.IsNullOrEmpty(argument))
+                {
+                    int[] found = executive.Client.Search(argument);
+                    int foundCount = found.Length;
+                    executive.WriteLine
+                        (
+                            3,
+                            "Found: {0}",
+                            found.Length
+                        );
+
+                    if (executive.Limit > 0)
+                    {
+                        found = found.Take(executive.Limit).ToArray();
+                        if (found.Length < foundCount)
+                        {
+                            executive.WriteLine
+                                (
+                                    3,
+                                    "Limited to {0} records",
+                                    found.Length
+                                );
+                        }
+                    }
+                    executive.Records.Clear();
+                    string[] formatted = new string[found.Length];
+                    if (!string.IsNullOrEmpty(executive.Format))
+                    {
+                        formatted = executive.Client.FormatRecords
+                            (
+                                found,
+                                executive.Format
+                            );
+                    }
+                    for (int i = 0; i < found.Length; i++)
+                    {
+                        int mfn = found[i];
+                        MxRecord record = new MxRecord
+                        {
+                            Database = executive.Client.Database,
+                            Mfn = mfn,
+                            Description = formatted[i]
+                        };
+                        executive.Records.Add(record);
+                    }
+                }
+            }
 
             OnAfterExecute();
 

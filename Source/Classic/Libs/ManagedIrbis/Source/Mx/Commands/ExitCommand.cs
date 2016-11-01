@@ -74,7 +74,7 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            executive.WriteLine("Exit");
+            executive.WriteLine(3, "Exit");
             executive.StopFlag = true;
 
             OnAfterExecute();

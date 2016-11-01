@@ -1,4 +1,4 @@
-﻿/* PrintCommand.cs -- 
+﻿/* LimitCommand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -36,7 +36,7 @@ namespace ManagedIrbis.Mx.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class PrintCommand
+    public sealed class LimitCommand
         : MxCommand
     {
         #region Properties
@@ -48,8 +48,8 @@ namespace ManagedIrbis.Mx.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PrintCommand()
-            : base("Print")
+        public LimitCommand()
+            : base("Limit")
         {
         }
 
@@ -74,23 +74,28 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            if (executive.Records.Count == 0)
+            if (arguments.Length != 0)
             {
-                executive.WriteLine("No records");
+                string argument = arguments[0].Text;
+                if (!string.IsNullOrEmpty(argument))
+                {
+                    int newLimit;
+                    if (!int.TryParse(argument, out newLimit))
+                    {
+                        executive.WriteLine("format error");
+                    }
+                    executive.Limit = newLimit;
+                    executive.WriteLine
+                        (
+                            3,
+                            "Limit changed to {0}",
+                            executive.Limit
+                        );
+                }
             }
             else
             {
-                foreach (MxRecord record in executive.Records)
-                {
-                    if (string.IsNullOrEmpty(record.Description))
-                    {
-                        executive.WriteLine("{0}", record.Mfn);
-                    }
-                    else
-                    {
-                        executive.WriteLine(record.Description);
-                    }
-                }
+                executive.WriteLine("Limit is: {0}", executive.Limit);
             }
 
             OnAfterExecute();

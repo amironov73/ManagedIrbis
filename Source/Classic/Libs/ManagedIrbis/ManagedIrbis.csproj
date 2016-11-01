@@ -252,9 +252,12 @@
     <Compile Include="Source\Mx\Commands\DisconnectCommand.cs" />
     <Compile Include="Source\Mx\Commands\ExitCommand.cs" />
     <Compile Include="Source\Mx\Commands\FormatCommand.cs" />
+    <Compile Include="Source\Mx\Commands\LimitCommand.cs" />
+    <Compile Include="Source\Mx\Commands\NopCommand.cs" />
     <Compile Include="Source\Mx\Commands\PrintCommand.cs" />
     <Compile Include="Source\Mx\Commands\SearchCommand.cs" />
     <Compile Include="Source\Mx\Commands\SortCommand.cs" />
+    <Compile Include="Source\Mx\Commands\StoreCommand.cs" />
     <Compile Include="Source\Mx\MxAlias.cs" />
     <Compile Include="Source\Mx\MxArgument.cs" />
     <Compile Include="Source\Mx\MxCommand.cs" />

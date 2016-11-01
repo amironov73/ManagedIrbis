@@ -1,4 +1,4 @@
-﻿/* PrintCommand.cs -- 
+﻿/* StoreCommand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -36,7 +36,7 @@ namespace ManagedIrbis.Mx.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class PrintCommand
+    public sealed class StoreCommand
         : MxCommand
     {
         #region Properties
@@ -48,8 +48,8 @@ namespace ManagedIrbis.Mx.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PrintCommand()
-            : base("Print")
+        public StoreCommand()
+            : base("Store")
         {
         }
 
@@ -74,24 +74,13 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            if (executive.Records.Count == 0)
+            if (!executive.Client.Connected)
             {
-                executive.WriteLine("No records");
+                executive.WriteLine("Not connected");
+                return false;
             }
-            else
-            {
-                foreach (MxRecord record in executive.Records)
-                {
-                    if (string.IsNullOrEmpty(record.Description))
-                    {
-                        executive.WriteLine("{0}", record.Mfn);
-                    }
-                    else
-                    {
-                        executive.WriteLine(record.Description);
-                    }
-                }
-            }
+
+            executive.WriteLine("Store");
 
             OnAfterExecute();
 

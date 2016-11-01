@@ -74,7 +74,36 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            executive.WriteLine("Format");
+            string argument = null;
+
+            if (arguments.Length != 0)
+            {
+                argument = arguments[0].Text;
+            }
+            if (!string.IsNullOrEmpty(argument))
+            {
+                executive.Format = argument;
+
+                if (executive.Client.Connected
+                    && executive.Records.Count != 0)
+                {
+                    int[] mfns = executive.Records.Select(r => r.Mfn)
+                        .ToArray();
+                    string[] formatted = executive.Client.FormatRecords
+                        (
+                            mfns,
+                            executive.Format
+                        );
+                    for (int i = 0; i < mfns.Length; i++)
+                    {
+                        executive.Records[i].Description = formatted[i];
+                    }
+                }
+            }
+            else
+            {
+                executive.WriteLine("Format is: {0}", executive.Format);
+            }
 
             OnAfterExecute();
 

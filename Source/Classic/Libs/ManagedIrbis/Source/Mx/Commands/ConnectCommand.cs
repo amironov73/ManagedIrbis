@@ -74,7 +74,22 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            executive.WriteLine("Connect");
+            if (arguments.Length != 0)
+            {
+                string argument = arguments[0].Text;
+                if (!string.IsNullOrEmpty(argument))
+                {
+                    executive.Client.Disconnect();
+                    executive.Client.ParseConnectionString(argument);
+                    executive.Client.Connect();
+                    executive.WriteLine
+                        (
+                            3,
+                            "Connected, current database: {0}",
+                            executive.Client.Database
+                        );
+                }
+            }
 
             OnAfterExecute();
 

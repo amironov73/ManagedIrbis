@@ -1,4 +1,4 @@
-﻿/* PrintCommand.cs -- 
+﻿/* NopCommand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -36,7 +36,7 @@ namespace ManagedIrbis.Mx.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class PrintCommand
+    public sealed class NopCommand
         : MxCommand
     {
         #region Properties
@@ -48,8 +48,8 @@ namespace ManagedIrbis.Mx.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PrintCommand()
-            : base("Print")
+        public NopCommand()
+            : base("Nop")
         {
         }
 
@@ -74,24 +74,7 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            if (executive.Records.Count == 0)
-            {
-                executive.WriteLine("No records");
-            }
-            else
-            {
-                foreach (MxRecord record in executive.Records)
-                {
-                    if (string.IsNullOrEmpty(record.Description))
-                    {
-                        executive.WriteLine("{0}", record.Mfn);
-                    }
-                    else
-                    {
-                        executive.WriteLine(record.Description);
-                    }
-                }
-            }
+            executive.WriteLine(3, "Nop");
 
             OnAfterExecute();
 
