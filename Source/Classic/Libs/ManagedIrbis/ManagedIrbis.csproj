@@ -249,6 +249,8 @@
     <Compile Include="Source\Menus\MenuSort.cs" />
     <Compile Include="Source\Mx\Commands\AliasCommand.cs" />
     <Compile Include="Source\Mx\Commands\ConnectCommand.cs" />
+    <Compile Include="Source\Mx\Commands\CsCommand.cs" />
+    <Compile Include="Source\Mx\Commands\CsFileCommand.cs" />
     <Compile Include="Source\Mx\Commands\DisconnectCommand.cs" />
     <Compile Include="Source\Mx\Commands\ExitCommand.cs" />
     <Compile Include="Source\Mx\Commands\FormatCommand.cs" />
@@ -263,6 +265,7 @@
     <Compile Include="Source\Mx\MxCommand.cs" />
     <Compile Include="Source\Mx\MxExecutive.cs" />
     <Compile Include="Source\Mx\MxRecord.cs" />
+    <Compile Include="Source\Mx\MxUtility.cs" />
     <Compile Include="Source\Pft\FormatError.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftA.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftAssignment.cs" />

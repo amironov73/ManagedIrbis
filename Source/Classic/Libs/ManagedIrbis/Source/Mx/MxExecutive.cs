@@ -144,6 +144,8 @@ namespace ManagedIrbis.Mx
                     {
                         new AliasCommand(),
                         new ConnectCommand(),
+                        new CsCommand(),
+                        new CsFileCommand(),
                         new DisconnectCommand(),
                         new ExitCommand(),
                         new FormatCommand(),
@@ -178,11 +180,9 @@ namespace ManagedIrbis.Mx
                 return true;
             }
 
-            if (navigator.PeekChar() == '#')
+            if (line.StartsWith("#"))
             {
                 // Comment, ignore it
-                navigator.ReadLine();
-
                 return true;
             }
 
@@ -214,11 +214,22 @@ namespace ManagedIrbis.Mx
                 }
             };
 
-            bool result = command.Execute
-                (
-                    this,
-                    arguments
-                );
+            bool result = false;
+
+            try
+            {
+                result = command.Execute
+                    (
+                        this,
+                        arguments
+                    );
+            }
+            catch (Exception exception)
+            {
+                WriteLine("Exception: {0}", exception);
+
+                return result;
+            }
 
             return result;
         }

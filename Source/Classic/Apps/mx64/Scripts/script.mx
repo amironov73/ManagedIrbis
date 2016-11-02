@@ -1,0 +1,12 @@
+#! /usr/bin/mx
+# My first script
+
+#connect host=192.168.3.2;port=6666;user=miron;password=miron;
+#nop
+#limit 100
+#search "A=ИВАНОВ$"
+#print
+#disconnect
+
+CS Console.WriteLine("Hello, world!");
+CSFILE ..\..\Scripts\HelloWorld.cs
