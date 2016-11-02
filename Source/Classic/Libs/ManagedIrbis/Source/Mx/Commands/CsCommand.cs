@@ -4,6 +4,8 @@
  * Status: poor
  */
 
+#if CLASSIC
+
 #region Using directives
 
 using System;
@@ -196,3 +198,5 @@ namespace ManagedIrbis.Mx.UserSpace
         #endregion
     }
 }
+
+#endif

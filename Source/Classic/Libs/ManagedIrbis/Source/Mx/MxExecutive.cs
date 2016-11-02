@@ -144,8 +144,10 @@ namespace ManagedIrbis.Mx
                     {
                         new AliasCommand(),
                         new ConnectCommand(),
+#if CLASSIC
                         new CsCommand(),
                         new CsFileCommand(),
+#endif
                         new DisconnectCommand(),
                         new ExitCommand(),
                         new FormatCommand(),
