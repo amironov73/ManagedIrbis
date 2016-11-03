@@ -8,28 +8,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
-
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-
-using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Mx;
-using ManagedIrbis.Pft.Infrastructure;
+
 using MoonSharp.Interpreter;
 
 #if CLASSIC
 
 using System.CodeDom.Compiler;
+using System.Reflection;
 
 using Microsoft.CSharp;
 
@@ -49,7 +39,7 @@ namespace ManagedIrbis.Infrastructure
         #region Properties
 
         /// <summary>
-        /// AssemblyReferences
+        /// Assembly references.
         /// </summary>
         public static List<string> AssemblyReferences = new List<string>
         {
@@ -169,13 +159,14 @@ namespace ManagedIrbis.UserSpace
         #region Public methods
 
         /// <summary>
-        /// Compile PFT snippet.
+        /// Compile C# snippet.
         /// </summary>
         [CanBeNull]
-        public static MethodInfo CompileMxSnippet
+        public static MethodInfo CompileSnippet
             (
                 [NotNull] string text,
-                [NotNull] MxExecutive executive
+                [NotNull] string arguments,
+                [NotNull] Action<string> errorAction
             )
         {
 #if CLASSIC
@@ -183,7 +174,7 @@ namespace ManagedIrbis.UserSpace
             string className = "Class" + Guid.NewGuid().ToString("N");
             string code = ClassPrologue
                 .Replace("<<<CLASSNAME>>>", className)
-                .Replace("<<<ARGUMENTS>>>", string.Empty)
+                .Replace("<<<ARGUMENTS>>>", arguments)
                 + text
                 + ClassEpilogue;
 
@@ -209,7 +200,7 @@ namespace ManagedIrbis.UserSpace
             string errors = ExtractErrors(results);
             if (!ReferenceEquals(errors, null))
             {
-                executive.WriteLine(errors);
+                errorAction(errors);
             }
             else
             {
@@ -234,79 +225,13 @@ namespace ManagedIrbis.UserSpace
         }
 
         /// <summary>
-        /// Compile PFT snippet.
+        /// Compile C# file.
         /// </summary>
         [CanBeNull]
-        public static MethodInfo CompilePftSnippet
-            (
-                [NotNull] string text,
-                PftNode node,
-                PftContext context
-            )
-        {
-#if CLASSIC
-
-            string className = "Class" + Guid.NewGuid().ToString("N");
-            string code = ClassPrologue
-                .Replace("<<<CLASSNAME>>>", className)
-                .Replace("<<<ARGUMENTS>>>", "PftNode node, PftContext context")
-                + text
-                + ClassEpilogue;
-
-            CSharpCodeProvider provider = new CSharpCodeProvider();
-
-            CompilerParameters parameters = new CompilerParameters
-                (
-                    AssemblyReferences.ToArray()
-                )
-            {
-                GenerateExecutable = false,
-                GenerateInMemory = true,
-                CompilerOptions = "/d:DEBUG",
-                WarningLevel = 4,
-                IncludeDebugInformation = true
-            };
-            CompilerResults results
-                = provider.CompileAssemblyFromSource
-                (
-                    parameters,
-                    code
-                );
-            string errors = ExtractErrors(results);
-            if (!ReferenceEquals(errors, null))
-            {
-                context.WriteLine(node, errors);
-            }
-            else
-            {
-                Type type = results.CompiledAssembly.GetType
-                    (
-                        "ManagedIrbis.UserSpace."
-                        + className
-                    );
-                MethodInfo result = type.GetMethod
-                    (
-                        "UserCode",
-                        BindingFlags.Static
-                        | BindingFlags.NonPublic
-                    );
-
-                return result;
-            }
-
-#endif
-
-            return null;
-        }
-
-        /// <summary>
-        /// Compile MX C# file.
-        /// </summary>
-        [CanBeNull]
-        public static MethodInfo CompileMxFile
+        public static MethodInfo CompileFile
             (
                 [NotNull] string fileName,
-                [NotNull] MxExecutive executive
+                [NotNull] Action<string> errorAction
             )
         {
 #if CLASSIC
@@ -333,7 +258,7 @@ namespace ManagedIrbis.UserSpace
             string errors = ExtractErrors(results);
             if (!ReferenceEquals(errors, null))
             {
-                executive.WriteLine(errors);
+                errorAction(errors);
             }
             else
             {

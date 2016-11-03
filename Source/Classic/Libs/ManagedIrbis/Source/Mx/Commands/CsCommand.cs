@@ -73,14 +73,15 @@ namespace ManagedIrbis.Mx.Commands
                 string argument = arguments[0].Text;
                 if (!string.IsNullOrEmpty(argument))
                 {
-                    MethodInfo method = SharpRunner.CompileMxSnippet
+                    MethodInfo method = SharpRunner.CompileSnippet
                         (
                             argument,
-                            executive
+                            "MxExecutive executive",
+                            err => executive.WriteLine(err)
                         );
                     if (!ReferenceEquals(method, null))
                     {
-                        method.Invoke(null, null);
+                        method.Invoke(null, new object[]{executive});
                     }
                 }
             }

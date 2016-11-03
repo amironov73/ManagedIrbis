@@ -103,11 +103,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 string text = Text;
                 if (!string.IsNullOrEmpty(text))
                 {
-                    _method = SharpRunner.CompilePftSnippet
+                    _method = SharpRunner.CompileSnippet
                         (
                             text,
-                            this,
-                            context
+                            "PftNode node, PftContext context",
+                            err => context.WriteLine(this, err)
                         );
                 }
             }

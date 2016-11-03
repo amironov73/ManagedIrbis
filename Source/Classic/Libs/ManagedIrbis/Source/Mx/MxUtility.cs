@@ -29,27 +29,12 @@ using MoonSharp.Interpreter;
 
 namespace ManagedIrbis.Mx
 {
+    /// <summary>
+    /// Utility methods for MX interpreter.
+    /// </summary>
     public static class MxUtility
     {
         #region Properties
-
-        public static string[] AssemblyReferences =
-        {
-            "AM.Core.dll",
-            "JetBrains.Annotations.dll",
-            "ManagedIrbis.dll",
-            "Microsoft.CSharp.dll",
-            "MoonSharp.Interpreter.dll",
-            "Newtonsoft.Json.dll",
-            "System.dll",
-            "System.Core.dll",
-            "System.Data.dll",
-            "System.Data.DataSetExtensions.dll",
-            "System.Drawing.dll",
-            "System.Windows.Forms.dll",
-            "System.Xml.dll",
-            "System.Xml.Linq.dll"
-        };
 
         #endregion
     }

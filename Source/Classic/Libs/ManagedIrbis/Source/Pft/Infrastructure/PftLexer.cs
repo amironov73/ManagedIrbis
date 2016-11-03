@@ -398,7 +398,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         c2 = PeekChar();
                         if (c2 == '{')
                         {
-                            c3 = _navigator.PeekChar(1);
+                            c3 = _navigator.LookAhead(1);
                             if (c3 == '{')
                             {
                                 ReadChar();
@@ -506,7 +506,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         }
                         else if (c2 == '<')
                         {
-                            c3 = _navigator.PeekChar(1);
+                            c3 = _navigator.LookAhead(1);
                             if (c3 == '<')
                             {
                                 ReadChar();

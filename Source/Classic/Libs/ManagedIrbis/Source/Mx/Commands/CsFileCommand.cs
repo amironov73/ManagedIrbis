@@ -73,10 +73,10 @@ namespace ManagedIrbis.Mx.Commands
                 string argument = arguments[0].Text;
                 if (!string.IsNullOrEmpty(argument))
                 {
-                    MethodInfo main = SharpRunner.CompileMxFile
+                    MethodInfo main = SharpRunner.CompileFile
                         (
                             argument,
-                            executive
+                            err => executive.WriteLine(err)
                         );
 
                     if (!ReferenceEquals(main, null))
