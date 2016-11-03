@@ -8,18 +8,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 using JetBrains.Annotations;
-
-using ManagedIrbis.Mx;
 
 using MoonSharp.Interpreter;
 
 #if CLASSIC
 
 using System.CodeDom.Compiler;
-using System.Reflection;
 
 using Microsoft.CSharp;
 

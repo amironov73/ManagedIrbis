@@ -43,4 +43,12 @@ namespace System
     //}
 }
 
+namespace System.Reflection
+{
+    public class MethodInfo
+    {
+    }
+}
+
+
 #endif
