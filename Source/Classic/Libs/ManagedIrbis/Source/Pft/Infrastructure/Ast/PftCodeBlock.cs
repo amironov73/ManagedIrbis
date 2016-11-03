@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.CodeDom.Compiler;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -21,9 +20,14 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Mx;
 
+using MoonSharp.Interpreter;
+
+#if CLASSIC
+
+using System.CodeDom.Compiler;
 using Microsoft.CSharp;
 
-using MoonSharp.Interpreter;
+#endif
 
 #endregion
 
@@ -73,6 +77,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Private members
+
+#if CLASSIC
 
         private bool _compiled;
 
@@ -192,6 +198,8 @@ namespace ManagedIrbis.Pft.UserSpace
             return null;
         }
 
+#endif
+
         #endregion
 
         #region Public methods
@@ -208,6 +216,8 @@ namespace ManagedIrbis.Pft.UserSpace
         {
             OnBeforeExecution(context);
 
+#if CLASSIC
+
             if (!_compiled)
             {
                 _compiled = true;
@@ -218,6 +228,8 @@ namespace ManagedIrbis.Pft.UserSpace
             {
                 _method.Invoke(null, new object[] {this, context});
             }
+
+#endif
 
             OnAfterExecution(context);
         }
@@ -237,3 +249,4 @@ namespace ManagedIrbis.Pft.UserSpace
         #endregion
     }
 }
+
