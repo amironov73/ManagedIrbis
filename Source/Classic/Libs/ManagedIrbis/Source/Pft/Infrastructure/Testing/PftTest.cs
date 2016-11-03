@@ -36,6 +36,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
     [MoonSharpUserData]
     public sealed class PftTest
     {
+        #region Constants
+
+        /// <summary>
+        /// Description file name.
+        /// </summary>
+        public const string DescriptionFileName = "description.txt";
+
+        /// <summary>
+        /// Expected result file name.
+        /// </summary>
+        public const string ExpectedFileName = "expected.txt";
+
+        /// <summary>
+        /// Input file name.
+        /// </summary>
+        public const string InputFileName = "input.txt";
+
+        /// <summary>
+        /// Record file name.
+        /// </summary>
+        public const string RecordFileName = "record.txt";
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -88,6 +112,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         #region Public methods
 
         /// <summary>
+        /// Whether the directory contains test?
+        /// </summary>
+        public static bool IsDirectoryContainsTest
+            (
+                [NotNull] string directory
+            )
+        {
+            Code.NotNullNorEmpty(directory, "directory");
+
+            bool result =
+                File.Exists(Path.Combine(directory, DescriptionFileName))
+                && File.Exists(Path.Combine(directory, RecordFileName))
+                && File.Exists(Path.Combine(directory, InputFileName));
+
+            return result;
+        }
+
+        /// <summary>
         /// Run the test.
         /// </summary>
         public PftTestResult Run
@@ -108,14 +150,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     throw new PftException("environment not set");
                 }
 
-                string descriptionFile = GetFullName("description.txt");
+                string descriptionFile = GetFullName(DescriptionFileName);
                 if (File.Exists(descriptionFile))
                 {
                     string description = File.ReadAllText(descriptionFile);
                     result.Description = description;
                 }
 
-                string recordFile = GetFullName("record.txt");
+                string recordFile = GetFullName(RecordFileName);
                 MarcRecord record = PlainText.ReadOneRecord
                     (
                         recordFile,
@@ -124,7 +166,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     .ThrowIfNull("record");
                 //result.Record = record;
 
-                string pftFile = GetFullName("input.txt");
+                string pftFile = GetFullName(InputFileName);
                 string input = File.ReadAllText
                     (
                         pftFile,
@@ -157,7 +199,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 Console.WriteLine(result.Ast);
                 Console.WriteLine();
 
-                string expectedFile = GetFullName("expected.txt");
+                string expectedFile = GetFullName(ExpectedFileName);
                 string expected = null;
                 if (File.Exists(expectedFile))
                 {

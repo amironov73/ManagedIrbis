@@ -31,6 +31,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     {
         #region Properties
 
+        /// <inheritdoc/>
+        public override string Text
+        {
+            get { return base.Text; }
+            set { base.Text = PftUtility.PrepareText(value); }
+        }
+
         #endregion
 
         #region Construction
