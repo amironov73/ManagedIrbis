@@ -4,30 +4,18 @@
  * Status: poor
  */
 
-#if CLASSIC
 
 #region Using directives
 
-using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
+#if CLASSIC
+
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-
-using CodeJam;
+#endif
 
 using JetBrains.Annotations;
 
-using Microsoft.CSharp;
+using ManagedIrbis.Infrastructure;
 
 using MoonSharp.Interpreter;
 
@@ -61,64 +49,6 @@ namespace ManagedIrbis.Mx.Commands
 
         #region Private members
 
-        private const string Prologue = @"
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-
-using CodeJam;
-
-using JetBrains.Annotations;
-
-using ManagedIrbis.Source.Mx;
-
-using MoonSharp.Interpreter;
-
-namespace ManagedIrbis.Mx.UserSpace
-{
-    static class <<<CLASSNAME>>>
-    {
-        static void UserCode ()
-        {
-";
-
-        private const string Epilogue = @"
-        }
-    }
-}
-";
-
-        private static bool HandleErrors
-            (
-                MxExecutive executive,
-                CompilerResults results
-            )
-        {
-            StringBuilder builder = new StringBuilder();
-
-            foreach (var error in results.Errors)
-            {
-                builder.AppendLine(error.ToString());
-            }
-
-            if (builder.Length != 0)
-            {
-                executive.WriteLine(builder.ToString());
-                return true;
-            }
-
-            return false;
-        }
-
         #endregion
 
         #region Public methods
@@ -136,53 +66,26 @@ namespace ManagedIrbis.Mx.UserSpace
         {
             OnBeforeExecute();
 
+#if CLASSIC
+
             if (arguments.Length != 0)
             {
                 string argument = arguments[0].Text;
                 if (!string.IsNullOrEmpty(argument))
                 {
-                    string className = "Class" + Guid.NewGuid().ToString("N");
-                    string code = Prologue.Replace("<<<CLASSNAME>>>", className)
-                        + argument
-                        + Epilogue;
-
-                    CSharpCodeProvider provider = new CSharpCodeProvider();
-
-                    CompilerParameters parameters = new CompilerParameters
+                    MethodInfo method = SharpRunner.CompileMxSnippet
                         (
-                            MxUtility.AssemblyReferences
-                        )
-                    {
-                        GenerateExecutable = false,
-                        GenerateInMemory = true,
-                        CompilerOptions = "/d:DEBUG",
-                        WarningLevel = 4,
-                        IncludeDebugInformation = true
-                    };
-                    CompilerResults results
-                        = provider.CompileAssemblyFromSource
-                        (
-                            parameters,
-                            code
+                            argument,
+                            executive
                         );
-                    if (!HandleErrors(executive, results)
-                        && results.Errors.Count == 0)
+                    if (!ReferenceEquals(method, null))
                     {
-                        Type type = results.CompiledAssembly.GetType
-                            (
-                                "ManagedIrbis.Mx.UserSpace."
-                                + className
-                            );
-                        MethodInfo method = type.GetMethod
-                            (
-                                "UserCode",
-                                BindingFlags.Static
-                                | BindingFlags.NonPublic
-                            );
                         method.Invoke(null, null);
                     }
                 }
             }
+
+#endif
 
             OnAfterExecute();
 
@@ -197,4 +100,3 @@ namespace ManagedIrbis.Mx.UserSpace
     }
 }
 
-#endif

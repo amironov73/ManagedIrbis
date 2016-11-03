@@ -168,6 +168,7 @@
     <Compile Include="Source\Infrastructure\Commands\UpdateIniFileCommand.cs" />
     <Compile Include="Source\Infrastructure\ExecutionContext.cs" />
     <Compile Include="Source\Infrastructure\ExecutionEventArgs.cs" />
+    <Compile Include="Source\Infrastructure\SharpRunner.cs" />
     <Compile Include="Source\Infrastructure\StandardEngine.cs" />
     <Compile Include="Source\Fields\BinaryResource.cs" />
     <Compile Include="Source\Flc\FlcConstants.cs" />

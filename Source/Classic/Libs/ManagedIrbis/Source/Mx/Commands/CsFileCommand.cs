@@ -4,30 +4,18 @@
  * Status: poor
  */
 
-#if CLASSIC
 
 #region Using directives
 
-using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
+#if CLASSIC
+
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-
-using CodeJam;
+#endif
 
 using JetBrains.Annotations;
 
-using Microsoft.CSharp;
+using ManagedIrbis.Infrastructure;
 
 using MoonSharp.Interpreter;
 
@@ -61,51 +49,6 @@ namespace ManagedIrbis.Mx.Commands
 
         #region Private members
 
-        private static bool HandleErrors
-            (
-                MxExecutive executive,
-                CompilerResults results
-            )
-        {
-            StringBuilder builder = new StringBuilder();
-
-            foreach (var error in results.Errors)
-            {
-                builder.AppendLine(error.ToString());
-            }
-
-            if (builder.Length != 0)
-            {
-                executive.WriteLine(builder.ToString());
-                return true;
-            }
-
-            return false;
-        }
-
-        static MethodInfo FindEntryPoint
-            (
-                Assembly assembly
-            )
-        {
-            foreach (Type type in assembly.GetTypes())
-            {
-                MethodInfo main = type.GetMethod
-                    (
-                        "Main",
-                        BindingFlags.Static
-                        | BindingFlags.Public
-                        | BindingFlags.NonPublic
-                    );
-                if (!ReferenceEquals(main, null))
-                {
-                    return main;
-                }
-            }
-
-            return null;
-        }
-
         #endregion
 
         #region Public methods
@@ -123,41 +66,27 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
+#if CLASSIC
+
             if (arguments.Length != 0)
             {
                 string argument = arguments[0].Text;
                 if (!string.IsNullOrEmpty(argument))
                 {
-                    CSharpCodeProvider provider = new CSharpCodeProvider();
-
-                    CompilerParameters parameters = new CompilerParameters
+                    MethodInfo main = SharpRunner.CompileMxFile
                         (
-                            MxUtility.AssemblyReferences
-                        )
-                    {
-                        GenerateExecutable = true,
-                        GenerateInMemory = true,
-                        CompilerOptions = "/d:DEBUG",
-                        WarningLevel = 4,
-                        IncludeDebugInformation = true
-                    };
-                    CompilerResults results
-                        = provider.CompileAssemblyFromFile
-                        (
-                            parameters,
-                            argument
+                            argument,
+                            executive
                         );
-                    if (!HandleErrors(executive, results)
-                        && results.Errors.Count == 0)
+
+                    if (!ReferenceEquals(main, null))
                     {
-                        MethodInfo main = FindEntryPoint(results.CompiledAssembly);
-                        if (!ReferenceEquals(main, null))
-                        {
-                            main.Invoke(null, null);
-                        }
+                        main.Invoke(null, null);
                     }
                 }
             }
+
+#endif
 
             OnAfterExecute();
 
@@ -172,4 +101,3 @@ namespace ManagedIrbis.Mx.Commands
     }
 }
 
-#endif
