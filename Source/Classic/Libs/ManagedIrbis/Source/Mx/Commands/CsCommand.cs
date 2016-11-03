@@ -27,8 +27,6 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Source.Mx;
-
 using Microsoft.CSharp;
 
 using MoonSharp.Interpreter;

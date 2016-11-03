@@ -22,7 +22,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-using ManagedIrbis.Source.Mx;
+
 using MoonSharp.Interpreter;
 
 #endregion

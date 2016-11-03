@@ -135,7 +135,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenKind.Ref,
 
-            PftTokenKind.If
+            PftTokenKind.If,
+
+            PftTokenKind.TripleCurly
         };
 
         /// <summary>
@@ -201,6 +203,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.S, ParseS},
                 {PftTokenKind.Semicolon, ParseSemicolon},
                 {PftTokenKind.Slash, ParseSlash},
+                {PftTokenKind.TripleCurly, ParseCodeBlock},
                 {PftTokenKind.TripleLess, ParseVerbatim},
                 {PftTokenKind.UnconditionalLiteral, ParseUnconditionalLiteral},
                 {PftTokenKind.Unifor, ParseUnifor},
@@ -408,6 +411,11 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 
             return result;
+        }
+
+        private PftNode ParseCodeBlock()
+        {
+            return MoveNext(new PftCodeBlock(Tokens.Current));
         }
 
         private PftNode ParseComma()

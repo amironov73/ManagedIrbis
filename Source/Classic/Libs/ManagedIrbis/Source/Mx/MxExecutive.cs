@@ -23,9 +23,10 @@ using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Client;
 using ManagedIrbis.Mx.Commands;
-using ManagedIrbis.Source.Mx;
+
 using MoonSharp.Interpreter;
 
 #endregion

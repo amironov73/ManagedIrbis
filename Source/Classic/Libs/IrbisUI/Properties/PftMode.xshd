@@ -24,6 +24,10 @@
 				<Begin>&lt;&lt;&lt;</Begin>
 				<End>&gt;&gt;&gt;</End>
 			</Span>
+			<Span name = "CodeBlock" bold = "false" italic = "false" color = "Brown" stopateol = "false">
+				<Begin>{{{</Begin>
+				<End>}}}</End>
+			</Span>
 
       <Span name = "LineComment"  bold = "false" italic = "false" color = "Red" stopateol = "true">
         <Begin>/*</Begin>

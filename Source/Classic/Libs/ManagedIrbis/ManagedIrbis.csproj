@@ -272,6 +272,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftBoolean.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftBreak.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftC.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftCodeBlock.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftComma.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftComment.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftComparison.cs" />

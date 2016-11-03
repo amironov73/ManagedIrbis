@@ -6,6 +6,8 @@
 
 #region Using directives
 
+using System.IO;
+
 using AM;
 using AM.Text;
 
@@ -95,6 +97,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             context.Write(this, Text);
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc />
+        public override void Write
+            (
+                StreamWriter writer
+            )
+        {
+            writer.Write("<<<");
+            writer.Write(Text);
+            writer.Write(">>>");
         }
 
         #endregion

@@ -302,6 +302,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         Tilda,
 
         /// <summary>
+        /// {{{
+        /// </summary>
+        TripleCurly,
+
+        /// <summary>
         /// &lt;&lt;&lt;
         /// </summary>
         TripleLess,

@@ -323,7 +323,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 int line = Line;
                 int column = Column;
                 char c = ReadChar();
-                char c2;
+                char c2, c3;
                 string value = null;
                 string value2;
                 FieldSpecification field = null;
@@ -395,8 +395,32 @@ namespace ManagedIrbis.Pft.Infrastructure
                         break;
 
                     case '{':
-                        kind = PftTokenKind.LeftCurly;
-                        value = c.ToString();
+                        c2 = PeekChar();
+                        if (c2 == '{')
+                        {
+                            c3 = _navigator.PeekChar(1);
+                            if (c3 == '{')
+                            {
+                                ReadChar();
+                                ReadChar();
+                                kind = PftTokenKind.TripleCurly;
+                                value = _navigator.ReadTo("}}}");
+                                if (ReferenceEquals(value, null))
+                                {
+                                    throw new PftSyntaxException(_navigator);
+                                }
+                            }
+                            else
+                            {
+                                kind = PftTokenKind.LeftCurly;
+                                value = c.ToString();
+                            }
+                        }
+                        else
+                        {
+                            kind = PftTokenKind.LeftCurly;
+                            value = c.ToString();
+                        }
                         break;
 
                     case '[':
@@ -482,7 +506,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         }
                         else if (c2 == '<')
                         {
-                            char c3 = _navigator.PeekChar(1);
+                            c3 = _navigator.PeekChar(1);
                             if (c3 == '<')
                             {
                                 ReadChar();
@@ -640,7 +664,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                                     bool ok = false;
                                     while (!IsEOF)
                                     {
-                                        char c3 = PeekChar();
+                                        c3 = PeekChar();
                                         builder.Append(c3);
                                         ReadChar();
                                         if (c3 == ')')

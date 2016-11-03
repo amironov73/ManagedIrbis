@@ -27,7 +27,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedIrbis.Source.Mx
+namespace ManagedIrbis.Mx
 {
     /// <summary>
     /// 
