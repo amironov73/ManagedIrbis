@@ -1,0 +1,102 @@
+﻿/* PftVerbatim.cs --
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
+ */
+
+#region Using directives
+
+using AM;
+using AM.Text;
+
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
+#endregion
+
+namespace ManagedIrbis.Pft.Infrastructure.Ast
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
+    public sealed class PftVerbatim
+        : PftNode
+    {
+        #region Properties
+
+        #endregion
+
+        #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftVerbatim()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftVerbatim
+            (
+                [NotNull] PftToken token
+            )
+            : base(token)
+        {
+            Code.NotNull(token, "token");
+            token.MustBe(PftTokenKind.TripleLess);
+
+            Text = PrepareText
+                (
+                    token.Text.ThrowIfNull("token.Text")
+                );
+        }
+
+        #endregion
+
+        #region Private members
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Prepare text.
+        /// </summary>
+        [CanBeNull]
+        public static string PrepareText
+            (
+                [CanBeNull] string text
+            )
+        {
+            string result = text.DosToUnix();
+
+            return result;
+        }
+
+        #endregion
+
+        #region PftNode members
+
+        /// <inheritdoc />
+        public override void Execute
+            (
+                PftContext context
+            )
+        {
+            OnBeforeExecution(context);
+
+            context.Write(this, Text);
+
+            OnAfterExecution(context);
+        }
+
+        #endregion
+    }
+}

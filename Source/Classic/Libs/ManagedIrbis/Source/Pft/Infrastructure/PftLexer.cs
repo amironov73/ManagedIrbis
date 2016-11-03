@@ -480,6 +480,26 @@ namespace ManagedIrbis.Pft.Infrastructure
                             value = "<=";
                             ReadChar();
                         }
+                        else if (c2 == '<')
+                        {
+                            char c3 = _navigator.PeekChar(1);
+                            if (c3 == '<')
+                            {
+                                ReadChar();
+                                ReadChar();
+                                kind = PftTokenKind.TripleLess;
+                                value = _navigator.ReadTo(">>>");
+                                if (ReferenceEquals(value, null))
+                                {
+                                    throw new PftSyntaxException(_navigator);
+                                }
+                            }
+                            else
+                            {
+                                kind = PftTokenKind.Less;
+                                value = c.ToString();
+                            }
+                        }
                         else if (c2 == '>')
                         {
                             kind = PftTokenKind.NotEqual1;

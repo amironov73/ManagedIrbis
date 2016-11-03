@@ -311,6 +311,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftUnifor.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftVal.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftVariableReference.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftVerbatim.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftX.cs" />
     <Compile Include="Source\Pft\Infrastructure\Diagnostics\PftNodeInfo.cs" />
     <Compile Include="Source\Pft\Infrastructure\Environment\PftConnectedEnvironment.cs" />

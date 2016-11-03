@@ -368,6 +368,24 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Подглядывание текущего символа.
+        /// </summary>
+        public char PeekChar
+            (
+                int delta
+            )
+        {
+            int newPosition = _position + delta;
+            if (newPosition >= _length
+                || newPosition < 0)
+            {
+                return EOF;
+            }
+
+            return _text[newPosition];
+        }
+
+        /// <summary>
         /// Подглядывание строки вплоть до указанной длины.
         /// </summary>
         /// <returns><c>null</c>, если достигнут конец текста.
@@ -837,6 +855,61 @@ namespace AM.Text
                 (
                     savePosition,
                     _position - savePosition
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Считывание вплоть до указанного разделителя
+        /// (разделитель не помещается в возвращаемое значение,
+        /// однако, считывается).
+        /// </summary>
+        [CanBeNull]
+        public string ReadTo
+            (
+                [NotNull] string stopString
+            )
+        {
+            Code.NotNullNorEmpty(stopString, "stopString");
+
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            int savePosition = _position;
+            int length = 0;
+
+            while (true)
+            {
+            AGAIN:
+                char c = ReadChar();
+                if (c == EOF)
+                {
+                    _position = savePosition;
+                    return null;
+                }
+
+                length++;
+                if (length >= stopString.Length)
+                {
+                    int start = _position - stopString.Length;
+                    for (int i = 0; i < stopString.Length; i++)
+                    {
+                        if (_text[start + i] != stopString[i])
+                        {
+                            goto AGAIN;
+                        }
+                    }
+                    break;
+                }
+            }
+
+            string result = _text.Substring
+                (
+                    savePosition,
+                    _position - savePosition - stopString.Length
                 );
 
             return result;
