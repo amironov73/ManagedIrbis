@@ -398,6 +398,7 @@
     <Compile Include="Source\Quality\Rules\Require903.cs" />
     <Compile Include="Source\Quality\Rules\Require910.cs" />
     <Compile Include="Source\Quality\Rules\Require920.cs" />
+    <Compile Include="Source\RawRecord.cs" />
     <Compile Include="Source\Search\FoundLine.cs" />
     <Compile Include="Source\Search\Infrastructure\ComplexLevel.cs" />
     <Compile Include="Source\Search\Infrastructure\ISearchTree.cs" />
