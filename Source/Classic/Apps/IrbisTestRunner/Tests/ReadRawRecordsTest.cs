@@ -49,7 +49,7 @@ namespace IrbisTestRunner.Tests
             IrbisConnection connection = Connection
                 .ThrowIfNull("Connection");
 
-            string[] lines = connection.ReadRawRecords
+            RawRecord[] records = connection.ReadRawRecords
                 (
                     "IBIS",
                     new[] { 1, 2, 3 }
@@ -58,7 +58,7 @@ namespace IrbisTestRunner.Tests
             string text = string.Join
                 (
                     Environment.NewLine,
-                    lines.Select(line => line.SafeSubstring(0,50))
+                    records.Select(record => string.Join("|", record.Lines).SafeSubstring(0,50))
                 );
 
             Write(text);

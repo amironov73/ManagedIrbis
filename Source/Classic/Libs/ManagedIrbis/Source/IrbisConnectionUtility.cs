@@ -546,7 +546,7 @@ namespace ManagedIrbis
         /// Read server representation of record from server.
         /// </summary>
         [NotNull]
-        public static string[] ReadRawRecords
+        public static RawRecord[] ReadRawRecords
             (
                 [NotNull] this IrbisConnection connection,
                 [NotNull] string database,
@@ -559,7 +559,7 @@ namespace ManagedIrbis
 
             if (mfnList.Length == 0)
             {
-                return new string[0];
+                return new RawRecord[0];
             }
 
             List<object> arguments = new List<object>
@@ -586,9 +586,20 @@ namespace ManagedIrbis
 
             ServerResponse response = connection.ExecuteCommand(command);
             
-            List<string> result = response.RemainingUtfStrings();
+            List<string> lines = response.RemainingUtfStrings();
+            List<RawRecord> records = new List<RawRecord>();
 
-            return result.ToArray();
+            foreach (string line in lines)
+            {
+                RawRecord record = new RawRecord
+                {
+                    Database = database,
+                    Lines = line.SplitLines()
+                };
+                records.Add(record);
+            }
+
+            return records.ToArray();
         }
 
         // ========================================================
