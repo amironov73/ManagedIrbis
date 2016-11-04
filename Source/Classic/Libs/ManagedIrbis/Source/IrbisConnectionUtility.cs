@@ -460,7 +460,7 @@ namespace ManagedIrbis
         /// Read server representation of record from server.
         /// </summary>
         [CanBeNull]
-        public static string[] ReadRawRecord
+        public static RawRecord ReadRawRecord
             (
                 [NotNull] this IrbisConnection connection,
                 [NotNull] string database,
@@ -486,7 +486,7 @@ namespace ManagedIrbis
         /// Read server representation of record from server.
         /// </summary>
         [CanBeNull]
-        public static string[] ReadRawRecord
+        public static RawRecord ReadRawRecord
             (
                 [NotNull] this IrbisConnection connection,
                 [NotNull] string database,
@@ -516,7 +516,7 @@ namespace ManagedIrbis
         /// Read server representation of record from server.
         /// </summary>
         [CanBeNull]
-        public static string[] ReadRawRecord
+        public static RawRecord ReadRawRecord
             (
                 [NotNull] this IrbisConnection connection,
                 [NotNull] string database,

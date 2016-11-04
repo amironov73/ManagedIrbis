@@ -59,7 +59,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// Readed record.
         /// </summary>
         [CanBeNull]
-        public string[] RawRecord { get; set; }
+        public RawRecord RawRecord { get; set; }
 
         #endregion
 
@@ -126,7 +126,12 @@ namespace ManagedIrbis.Infrastructure.Commands
             // Check whether no records read
             if (result.GetReturnCode() != -201)
             {
-                RawRecord = result.RemainingUtfStrings().ToArray();
+                RawRecord = new RawRecord
+                {
+                    Database = Database ?? Connection.Database,
+                    Mfn = Mfn,
+                    Lines = result.RemainingUtfStrings().ToArray()
+                };
             }
 
             return result;
