@@ -728,6 +728,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pooling\PoolUtility.cs">
       <Link>Source\Pooling\PoolUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RawRecord.cs">
+      <Link>Source\RawRecord.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Readers\ChairInfo.cs">
       <Link>Source\Readers\ChairInfo.cs</Link>
     </Compile>
