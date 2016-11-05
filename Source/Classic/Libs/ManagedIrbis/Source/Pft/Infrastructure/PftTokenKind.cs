@@ -302,6 +302,16 @@ namespace ManagedIrbis.Pft.Infrastructure
         Tilda,
 
         /// <summary>
+        /// {{{
+        /// </summary>
+        TripleCurly,
+
+        /// <summary>
+        /// &lt;&lt;&lt;
+        /// </summary>
+        TripleLess,
+
+        /// <summary>
         /// &amp;uf('0')
         /// </summary>
         Unifor,

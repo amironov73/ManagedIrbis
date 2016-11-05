@@ -4,6 +4,7 @@
 
 #region Using directives
 
+using System;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -44,6 +45,8 @@ namespace ManagedIrbis
 
         #region Private members
 
+        private static char[] _delimiters = { '\x1F' };
+
         #endregion
 
         #region Public methods
@@ -71,6 +74,35 @@ namespace ManagedIrbis
                 (
                     IrbisDelimiter,
                     WindowsDelimiter
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Split IRBIS-delimited text to lines.
+        /// </summary>
+        [NotNull]
+        public static string[] SplitIrbisToLines
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return new string[0];
+            }
+
+            text = IrbisToWindows(text);
+            if (string.IsNullOrEmpty(text))
+            {
+                return new string[0];
+            }
+
+            string[] result = text.Split
+                (
+                    _delimiters,
+                    StringSplitOptions.None
                 );
 
             return result;

@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+<SyntaxDefinition name="PFT" extensions=".pft;.fst">
+	<Properties>
+		<Property name="LineComment" value="/*"/>
+	</Properties>
+	<Digits name="Digits" bold="true" italic="false" color="DarkBlue" />
+	<RuleSets>
+		<RuleSet ignorecase="true">
+			<Delimiters>&amp;&lt;&gt;~!%^*()-+=|\#/{}[]:;"' , .?</Delimiters>
+
+			<Span name = "Unconditional" bold = "false" italic = "false" color = "Blue" stopateol = "true">
+				<Begin>'</Begin>
+				<End>'</End>
+			</Span>
+			<Span name = "Conditional" bold = "false" italic = "false" color = "Green" stopateol = "true">
+				<Begin>"</Begin>
+				<End>"</End>
+			</Span>
+			<Span name = "Repeatable" bold = "false" italic = "false" color = "Green" stopateol = "true">
+				<Begin>|</Begin>
+				<End>|</End>
+			</Span>
+			<Span name = "Verbatim" bold = "false" italic = "false" color = "Orange" stopateol = "false">
+				<Begin>&lt;&lt;&lt;</Begin>
+				<End>&gt;&gt;&gt;</End>
+			</Span>
+			<Span name = "CodeBlock" bold = "false" italic = "false" color = "Brown" stopateol = "false">
+				<Begin>{{{</Begin>
+				<End>}}}</End>
+			</Span>
+
+      <Span name = "LineComment"  bold = "false" italic = "false" color = "Red" stopateol = "true">
+        <Begin>/*</Begin>
+      </Span>
+      <KeyWords name = "OperatorKeywords" bold="true" italic="false" color="DarkCyan">
+				<Key word = "unifor" />
+				<Key word = "uf" />
+				<Key word = "mfn" />
+				<Key word = "val" />
+				<Key word = "ref" />
+				<Key word = "umarci" />
+				<Key word = "rmax" />
+				<Key word = "rmin" />
+				<Key word = "rsum" />
+				<Key word = "ravr" />
+				<Key word = "and" />
+				<Key word = "or" />
+				<Key word = "mpl" />
+				<Key word = "mhl" />
+				<Key word = "mpu" />
+				<Key word = "mhu" />
+				<Key word = "mdl" />
+				<Key word = "mdu" />
+				<Key word = "break" />
+				<Key word = "if" />
+				<Key word = "then" />
+				<Key word = "else" />
+				<Key word = "fi" />
+				<Key word = "not" />
+			</KeyWords>
+		</RuleSet>
+	</RuleSets>
+</SyntaxDefinition>

@@ -1,0 +1,1 @@
+﻿Single unconditional literal span across lines with empty lines

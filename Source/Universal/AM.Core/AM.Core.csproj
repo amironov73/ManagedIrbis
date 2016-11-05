@@ -574,9 +574,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="..\..\Classic\Libs\AM.Core\AM\Text\Characters.txt">
+    <None Include="..\..\Classic\Libs\AM.Core\AM\Text\Characters.txt">
       <Link>AM\Text\Characters.txt</Link>
-    </Content>
+    </None>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

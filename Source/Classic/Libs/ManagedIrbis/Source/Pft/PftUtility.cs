@@ -18,6 +18,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Ast;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -345,6 +347,29 @@ namespace ManagedIrbis.Pft
                     minLength,
                     ' '
                 );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Prepare text for <see cref="PftUnconditionalLiteral"/>,
+        /// <see cref="PftConditionalLiteral"/>,
+        /// <see cref="PftRepeatableLiteral"/>.
+        /// </summary>
+        [CanBeNull]
+        public static string PrepareText
+            (
+                [CanBeNull] string text
+            )
+        {
+            string result = text;
+
+            if (!string.IsNullOrEmpty(text))
+            {
+                result = text
+                    .Replace("\r", string.Empty)
+                    .Replace("\n", string.Empty);
+            }
 
             return result;
         }

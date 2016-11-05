@@ -23,8 +23,6 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Source.Mx;
-
 using MoonSharp.Interpreter;
 
 #endregion
@@ -66,7 +64,7 @@ namespace ManagedIrbis.Mx.Commands
         #region MxCommand members
 
         /// <inheritdoc/>
-        public override void Execute
+        public override bool Execute
             (
                 MxExecutive executive,
                 MxArgument[] arguments
@@ -74,9 +72,16 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            executive.WriteLine("Disconnect");
+            executive.Client.Disconnect();
+            executive.WriteLine
+                (
+                    3,
+                    "Disconnected"
+                );
 
             OnAfterExecute();
+
+            return true;
         }
 
         #endregion

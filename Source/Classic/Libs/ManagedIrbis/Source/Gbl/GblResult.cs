@@ -176,7 +176,7 @@ namespace ManagedIrbis.Gbl
         {
             return string.Format
                 (
-                    "RecordsProcessed: {0}, Canceled: {1}",
+                    "Records processed: {0}, Canceled: {1}",
                     RecordsProcessed,
                     Canceled
                 );

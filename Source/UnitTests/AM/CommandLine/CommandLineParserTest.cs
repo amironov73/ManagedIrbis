@@ -12,7 +12,7 @@ namespace UnitTests.AM.CommandLine
         : Common.CommonUnitTest
     {
         [TestMethod]
-        public void TestCommandLineParser_Parse1()
+        public void CommandLineParser_Parse1()
         {
             CommandLineParser parser = new CommandLineParser();
             string[] arguments = new string[0];
@@ -48,7 +48,7 @@ namespace UnitTests.AM.CommandLine
         }
 
         [TestMethod]
-        public void TestCommandLineParser_Parse2()
+        public void CommandLineParser_Parse2()
         {
             CommandLineParser parser = new CommandLineParser();
             string[] arguments = {"-p", "-q"};
@@ -69,7 +69,7 @@ namespace UnitTests.AM.CommandLine
         }
 
         [TestMethod]
-        public void TestCommandLineParser_Parse3()
+        public void CommandLineParser_Parse3()
         {
             CommandLineParser parser = new CommandLineParser();
             string[] arguments = { "\"-p\"", "-q" };
@@ -90,7 +90,7 @@ namespace UnitTests.AM.CommandLine
         }
 
         [TestMethod]
-        public void TestCommandLineParser_Parse4()
+        public void CommandLineParser_Parse4()
         {
             CommandLineParser parser = new CommandLineParser();
             string[] arguments = { "\"\"", "-q" };
@@ -105,7 +105,7 @@ namespace UnitTests.AM.CommandLine
         }
 
         [TestMethod]
-        public void TestCommandLineParser_Parse_WithResponse1()
+        public void CommandLineParser_Parse_WithResponse1()
         {
             string filePath = Path.Combine
                 (
@@ -121,7 +121,7 @@ namespace UnitTests.AM.CommandLine
         }
 
         [TestMethod]
-        public void TestCommandLineParser_Parse_WithResponse2()
+        public void CommandLineParser_Parse_WithResponse2()
         {
             string filePath = Path.Combine
                 (
@@ -138,7 +138,7 @@ namespace UnitTests.AM.CommandLine
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void TestCommandLineParser_Parse_Exception1()
+        public void CommandLineParser_Parse_Exception1()
         {
             string[] arguments = {"-", "input"};
             CommandLineParser parser = new CommandLineParser();
@@ -147,7 +147,7 @@ namespace UnitTests.AM.CommandLine
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void TestCommandLineParser_Parse_Exception2()
+        public void CommandLineParser_Parse_Exception2()
         {
             string[] arguments = { "-:", "input" };
             CommandLineParser parser = new CommandLineParser();
@@ -156,7 +156,7 @@ namespace UnitTests.AM.CommandLine
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void TestCommandLineParser_Parse_Exception3()
+        public void CommandLineParser_Parse_Exception3()
         {
             string[] arguments = { "\"-p", "input" };
             CommandLineParser parser = new CommandLineParser();
@@ -165,7 +165,7 @@ namespace UnitTests.AM.CommandLine
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void TestCommandLineParser_Parse_Exception4()
+        public void CommandLineParser_Parse_Exception4()
         {
             string[] arguments = { "-p", "\"input" };
             CommandLineParser parser = new CommandLineParser();
@@ -174,7 +174,7 @@ namespace UnitTests.AM.CommandLine
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void TestCommandLineParser_Parse_Exception5()
+        public void CommandLineParser_Parse_Exception5()
         {
             string[] arguments = { "\"", "input" };
             CommandLineParser parser = new CommandLineParser();
@@ -183,7 +183,7 @@ namespace UnitTests.AM.CommandLine
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void TestCommandLineParser_Parse_Exception6()
+        public void CommandLineParser_Parse_Exception6()
         {
             string[] arguments = { null, "input" };
             CommandLineParser parser = new CommandLineParser();
@@ -191,7 +191,7 @@ namespace UnitTests.AM.CommandLine
         }
 
         [TestMethod]
-        public void TestCommandLineParser_ParseFile()
+        public void CommandLineParser_ParseFile()
         {
             string filePath = Path.Combine
                 (

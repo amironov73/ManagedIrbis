@@ -100,13 +100,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 (
                     Folder,
                     "*",
-                    SearchOption.TopDirectoryOnly
+                    SearchOption.AllDirectories
                 );
 
             foreach (string subDir in directories)
             {
-                PftTest test = new PftTest(subDir);
-                Tests.Add(test);
+                if (PftTest.IsDirectoryContainsTest(subDir))
+                {
+                    PftTest test = new PftTest(subDir);
+                    Tests.Add(test);
+                }
             }
         }
 

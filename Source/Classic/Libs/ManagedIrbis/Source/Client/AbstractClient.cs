@@ -66,6 +66,18 @@ namespace ManagedIrbis.Client
         #region Public methods
 
         /// <summary>
+        /// Format records.
+        /// </summary>
+        public virtual string[] FormatRecords
+            (
+                int[] mfns,
+                string format
+            )
+        {
+            return new string[0];
+        }
+
+        /// <summary>
         /// Get user server INI-file.
         /// </summary>
         /// <returns></returns>

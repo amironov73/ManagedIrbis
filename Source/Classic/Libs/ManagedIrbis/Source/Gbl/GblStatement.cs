@@ -333,8 +333,8 @@ namespace ManagedIrbis.Gbl
                     "Command: {0},{5}"
                     + "Parameter1: {1},{5}"
                     + "Parameter2: {2},{5}"
-                    + "Format1: {3},"
-                    + " Format2: {4}",
+                    + "Format1: {3},{5}"
+                    + "Format2: {4}",
                     Command,
                     Parameter1,
                     Parameter2,

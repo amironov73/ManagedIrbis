@@ -9,7 +9,7 @@ namespace UnitTests.AM.IO
     public class FileUtilityTest
     {
         [TestMethod]
-        public void TestFileUtility_FindFileInPath()
+        public void FileUtility_FindFileInPath()
         {
             string path = Environment.GetEnvironmentVariable("PATH");
             string found = FileUtility.FindFileInPath

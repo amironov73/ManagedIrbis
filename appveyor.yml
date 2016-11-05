@@ -10,6 +10,9 @@ branches:
     - master
     - nuget
 
+init:
+  - git config --global core.autocrlf true
+
 environment:
   packageVersion: 1.6.5
 

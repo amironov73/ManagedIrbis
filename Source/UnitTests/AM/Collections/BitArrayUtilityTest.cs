@@ -10,7 +10,7 @@ namespace UnitTests.AM.Collections
     public class BitArrayUtilityTest
     {
         [TestMethod]
-        public void TestBitArrayUtilityAreEqual()
+        public void BitArrayUtility_AreEqual()
         {
             BitArray left = new BitArray(10);
             left[1] = true;

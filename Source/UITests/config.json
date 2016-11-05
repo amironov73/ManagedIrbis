@@ -242,5 +242,9 @@
   {
     "class": "UITests.DragMoveTest",
     "title": "DragMove"
+  },
+  {
+    "class": "UITests.PftEditorControlTest",
+    "title": "PftEditorControl"
   }
 ]

@@ -37,8 +37,8 @@
   <Choose>
     <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
       <ItemGroup>
-        <Reference Include="MoonSharp.Interpreter, Version=1.8.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
-          <HintPath>..\packages\MoonSharp.1.8.0.0\lib\net35-client\MoonSharp.Interpreter.dll</HintPath>
+        <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\packages\MoonSharp.2.0.0.0\lib\net35-client\MoonSharp.Interpreter.dll</HintPath>
           <Private>True</Private>
         </Reference>
         <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -54,8 +54,8 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="MoonSharp.Interpreter, Version=1.8.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
-          <HintPath>..\packages\MoonSharp.1.8.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+        <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
           <Private>True</Private>
         </Reference>
         <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -67,8 +67,8 @@
     <Otherwise>
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="MoonSharp.Interpreter, Version=1.8.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
-          <HintPath>..\packages\MoonSharp.1.8.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+        <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
           <Private>True</Private>
         </Reference>
         <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -79,8 +79,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Reference Include="JetBrains.Annotations, Version=10.1.5.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.10.1.5\lib\net\JetBrains.Annotations.dll</HintPath>
+    <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -106,11 +106,12 @@
     <Compile Include="AM\CancelableEventArgsTest.cs" />
     <Compile Include="AM\Collections\CloneableCollectionTest.cs" />
     <Compile Include="AM\Collections\CloneableDictionaryTest.cs" />
+    <Compile Include="AM\Collections\DictionaryCounterInt32Test.cs" />
     <Compile Include="AM\Collections\KeyedCollectionTest.cs" />
     <Compile Include="AM\Collections\NonNullCollectionTest.cs" />
     <Compile Include="AM\Collections\CharSetTest.cs" />
     <Compile Include="AM\Collections\BitArrayUtilityTest.cs" />
-    <Compile Include="AM\Collections\DictionaryCounterTest.cs" />
+    <Compile Include="AM\Collections\DictionaryCounterDoubleTest.cs" />
     <Compile Include="AM\Collections\DictionaryUtilityTest.cs" />
     <Compile Include="AM\Collections\DoublyLinkedListTest.cs" />
     <Compile Include="AM\Collections\BidirectionalDictionaryTest.cs" />
@@ -136,7 +137,7 @@
     <Compile Include="AM\DisposableUtilityTest.cs" />
     <Compile Include="AM\DuplicateKeyExceptionTest.cs" />
     <Compile Include="AM\ExceptionEventArgsTest.cs" />
-    <Compile Include="AM\Gbl\GblFileTest.cs" />
+    <Compile Include="ManagedIrbis\Gbl\GblFileTest.cs" />
     <Compile Include="AM\Globalization\BuiltinCulturesTest.cs" />
     <Compile Include="AM\Globalization\RussianStringComparerTest.cs" />
     <Compile Include="AM\InquiryEventArgsTest.cs" />
@@ -211,6 +212,13 @@
     <Compile Include="ManagedIrbis\Fields\RevisionInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fields\ExemplarInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fst\FstFileTest.cs" />
+    <Compile Include="ManagedIrbis\Gbl\ProtocolLineTest.cs" />
+    <Compile Include="ManagedIrbis\Gbl\GblEventArgsTest.cs" />
+    <Compile Include="ManagedIrbis\Gbl\GblParameterTest.cs" />
+    <Compile Include="ManagedIrbis\Gbl\GblResultTest.cs" />
+    <Compile Include="ManagedIrbis\Gbl\GblSettingsTest.cs" />
+    <Compile Include="ManagedIrbis\Gbl\GblStatementTest.cs" />
+    <Compile Include="ManagedIrbis\Gbl\GblBuilderTest.cs" />
     <Compile Include="ManagedIrbis\ImportExport\IsoReaderTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\FileSpecificationTest.cs" />
     <Compile Include="ManagedIrbis\IrbisFormatTest.cs" />
@@ -218,6 +226,7 @@
     <Compile Include="ManagedIrbis\Marc\Schema\MarcSchemaTest.cs" />
     <Compile Include="ManagedIrbis\Menus\IrbisMenuFileTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\ClientQueryTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\FieldSpecificationTest.cs" />
     <Compile Include="ManagedIrbis\Quality\FieldDefectTest.cs" />
     <Compile Include="ManagedIrbis\Quality\RecordReportTest.cs" />
     <Compile Include="ManagedIrbis\Readers\ChairInfoTest.cs" />

@@ -14,7 +14,7 @@ namespace UnitTests.AM.Collections
         private KeyedCollection<string, string> _GetCollection1()
         {
             KeyedCollection<string, string> result
-                = new KeyedCollection<string, string>()
+                = new KeyedCollection<string, string>
                 {
                     { "one", "two" },
                     { "one", "three" },
@@ -43,7 +43,16 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestKeyedCollection_Construction()
+        public void KeyedCollection_Construction()
+        {
+            KeyedCollection<string, string> collection
+                = new KeyedCollection<string, string>();
+
+            Assert.AreEqual(0, collection.Count);
+        }
+
+        [TestMethod]
+        public void KeyedCollection_Add()
         {
             KeyedCollection<string, string> collection
                 = _GetCollection1();
@@ -56,7 +65,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestKeyedCollection_SetElement()
+        public void KeyedCollection_SetElement()
         {
             KeyedCollection<string, string> collection
                 = _GetCollection1();
@@ -67,7 +76,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestKeyedCollection_Comparer1()
+        public void KeyedCollection_Comparer1()
         {
             KeyedCollection<string, string> collection
                 = _GetCollection1();
@@ -77,7 +86,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestKeyedCollection_Comparer2()
+        public void KeyedCollection_Comparer2()
         {
             KeyedCollection<string, string> collection
                 = _GetCollection2();
@@ -88,7 +97,7 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(KeyNotFoundException))]
-        public void TestKeyedCollection_NonExistingKey1()
+        public void KeyedCollection_NonExistingKey1()
         {
             KeyedCollection<string, string> collection
                 = _GetCollection1();
@@ -98,7 +107,7 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(KeyNotFoundException))]
-        public void TestKeyedCollection_NonExistingKey2()
+        public void KeyedCollection_NonExistingKey2()
         {
             KeyedCollection<string, string> collection
                 = _GetCollection2();
@@ -107,7 +116,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestKeyedCollection_Clear()
+        public void KeyedCollection_Clear()
         {
             KeyedCollection<string, string> collection
                 = _GetCollection2();
@@ -117,7 +126,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestKeyedCollection_Comparer()
+        public void KeyedCollection_Comparer()
         {
             KeyedCollection<string, string> collection
                 = _GetCollection2();
@@ -133,7 +142,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestKeyedCollection_Contains()
+        public void KeyedCollection_Contains()
         {
             KeyedCollection<string, string> collection
                 = _GetCollection2();
@@ -144,7 +153,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestKeyedCollection_Remove()
+        public void KeyedCollection_Remove()
         {
             KeyedCollection<string, string> collection
                 = _GetCollection1();
@@ -154,7 +163,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestKeyedCollection_GetValues()
+        public void KeyedCollection_GetValues()
         {
             KeyedCollection<string, string> collection
                 = _GetCollection1();
@@ -166,7 +175,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestKeyedCollection_GetEnumerator()
+        public void KeyedCollection_GetEnumerator()
         {
             KeyedCollection<string, string> collection
                 = _GetCollection1();
@@ -185,7 +194,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestKeyedCollection_Element()
+        public void KeyedCollection_Element()
         {
             KeyedCollection<string, string>.Element element
                 = new KeyedCollection<string, string>.Element
@@ -199,7 +208,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestKeyedCollection_AddOrReplace()
+        public void KeyedCollection_AddOrReplace()
         {
             KeyedCollection<string, string> collection
                 = _GetCollection1();

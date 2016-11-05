@@ -23,8 +23,6 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Source.Mx;
-
 using MoonSharp.Interpreter;
 
 #endregion
@@ -66,7 +64,7 @@ namespace ManagedIrbis.Mx.Commands
         #region MxCommand members
 
         /// <inheritdoc/>
-        public override void Execute
+        public override bool Execute
             (
                 MxExecutive executive,
                 MxArgument[] arguments
@@ -74,9 +72,28 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            executive.WriteLine("Print");
+            if (executive.Records.Count == 0)
+            {
+                executive.WriteLine("No records");
+            }
+            else
+            {
+                foreach (MxRecord record in executive.Records)
+                {
+                    if (string.IsNullOrEmpty(record.Description))
+                    {
+                        executive.WriteLine("{0}", record.Mfn);
+                    }
+                    else
+                    {
+                        executive.WriteLine(record.Description);
+                    }
+                }
+            }
 
             OnAfterExecute();
+
+            return true;
         }
 
         #endregion

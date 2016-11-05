@@ -11,7 +11,7 @@ namespace UnitTests.AM.Collections
     public class DictionaryListTest
     {
         [TestMethod]
-        public void TestDictionaryList_Constructor()
+        public void DictionaryList_Constructor()
         {
             DictionaryList<string, int> list
                 = new DictionaryList<string, int>();
@@ -24,7 +24,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestDictionaryList_Add()
+        public void DictionaryList_Add()
         {
             DictionaryList<string, int> list
                 = new DictionaryList<string, int>();
@@ -44,7 +44,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestDictionaryList_AddRange()
+        public void DictionaryList_AddRange()
         {
             DictionaryList<string, int> list
                 = new DictionaryList<string, int>();
@@ -59,7 +59,20 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestDictionaryList_Keys()
+        public void DictionaryList_Clear()
+        {
+            DictionaryList<string, int> list
+                = new DictionaryList<string, int>();
+
+            list.AddRange("one", new[] { 1, 11 });
+            list.AddRange("two", new[] { 2 });
+            list.Clear();
+
+            Assert.AreEqual(0, list.Count);
+        }
+
+        [TestMethod]
+        public void DictionaryList_Keys()
         {
             DictionaryList<string, int> list
                 = new DictionaryList<string, int>();
@@ -74,7 +87,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestDictionaryList_Values1()
+        public void DictionaryList_Values1()
         {
             DictionaryList<string, int> list
                 = new DictionaryList<string, int>();
@@ -95,7 +108,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestDictionaryList_Values2()
+        public void DictionaryList_Values2()
         {
             DictionaryList<string, int> list
                 = new DictionaryList<string, int>();
@@ -118,7 +131,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestDictionaryList_Enumeration()
+        public void DictionaryList_Enumeration()
         {
             DictionaryList<string, int> list
                 = new DictionaryList<string, int>();

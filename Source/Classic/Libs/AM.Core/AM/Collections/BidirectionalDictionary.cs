@@ -31,7 +31,6 @@ namespace AM.Collections
 #endif
     public class BidirectionalDictionary<TKey, TValue>
         : IDictionary<TKey, TValue>
-          //ICloneable
     {
         #region Construction
 
@@ -85,7 +84,7 @@ namespace AM.Collections
         /// <param name="item">Key-value pair.</param>
         private void _Add
             (
-            KeyValuePair<TKey, TValue> item
+                KeyValuePair<TKey, TValue> item
             )
         {
             lock (_syncRoot)
@@ -100,7 +99,11 @@ namespace AM.Collections
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
-        private void _Add(TKey key, TValue value)
+        private void _Add
+            (
+                TKey key,
+                TValue value
+            )
         {
             if (_isReadOnly)
             {
@@ -135,7 +138,10 @@ namespace AM.Collections
         /// <param name="item">The item.</param>
         /// <returns><c>true</c> if the dictionary contains
         /// specified key; <c>false</c> otherwise.</returns>
-        private bool _Contains(ref KeyValuePair<TKey, TValue> item)
+        private bool _Contains
+            (
+                ref KeyValuePair<TKey, TValue> item
+            )
         {
             return ((IDictionary<TKey, TValue>)_straight).Contains(item);
         }
@@ -146,7 +152,10 @@ namespace AM.Collections
         /// <param name="key">The key.</param>
         /// <returns><c>true</c> if the dictionary contains
         /// specified key; <c>false</c> otherwise.</returns>
-        private bool _ContainsKey(TKey key)
+        private bool _ContainsKey
+            (
+                TKey key
+            )
         {
             return _straight.ContainsKey(key);
         }
@@ -159,8 +168,8 @@ namespace AM.Collections
         /// <param name="arrayIndex">Index of the array.</param>
         private void _CopyTo
             (
-            KeyValuePair<TKey, TValue>[] array,
-            int arrayIndex
+                KeyValuePair<TKey, TValue>[] array,
+                int arrayIndex
             )
         {
             lock (_syncRoot)
@@ -186,7 +195,10 @@ namespace AM.Collections
         /// </summary>
         /// <param name="key">The key.</param>
         /// <returns>Associated value.</returns>
-        private TValue _Get(TKey key)
+        private TValue _Get
+            (
+                TKey key
+            )
         {
             lock (_syncRoot)
             {
@@ -219,7 +231,10 @@ namespace AM.Collections
         /// <param name="key">The key.</param>
         /// <returns><c>true</c> if key and value was removed;
         /// <c>false</c> otherwise.</returns>
-        private bool _Remove(TKey key)
+        private bool _Remove
+            (
+                TKey key
+            )
         {
             if (_isReadOnly)
             {
@@ -235,6 +250,7 @@ namespace AM.Collections
                     Debug.Assert(straightSuccess == reverseSuccess);
                     return straightSuccess;
                 }
+
                 return false;
             }
         }
@@ -246,7 +262,10 @@ namespace AM.Collections
         /// <param name="item">The key.</param>
         /// <returns><c>true</c> if key and value was removed;
         /// <c>false</c> otherwise.</returns>
-        private bool _Remove(ref KeyValuePair<TKey, TValue> item)
+        private bool _Remove
+            (
+                ref KeyValuePair<TKey, TValue> item
+            )
         {
             if (_isReadOnly)
             {
@@ -268,7 +287,11 @@ namespace AM.Collections
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
-        private void _Set(TKey key, TValue value)
+        private void _Set
+            (
+                TKey key,
+                TValue value
+            )
         {
             if (_isReadOnly)
             {
@@ -288,7 +311,11 @@ namespace AM.Collections
         /// <param name="value">The value.</param>
         /// <returns><c>true</c> if key exists;
         /// <c>false</c> otherwise.</returns>
-        private bool _TryGetValue(TKey key, out TValue value)
+        private bool _TryGetValue
+            (
+                TKey key,
+                out TValue value
+            )
         {
             return _straight.TryGetValue(key, out value);
         }
@@ -314,10 +341,13 @@ namespace AM.Collections
         public BidirectionalDictionary<TKey, TValue> AsReadOnly()
         {
             BidirectionalDictionary<TKey, TValue> result
-                = new BidirectionalDictionary<TKey, TValue>();
-            result._straight = _straight;
-            result._reverse = _reverse;
-            result._isReadOnly = true;
+                = new BidirectionalDictionary<TKey, TValue>
+                {
+                    _straight = _straight,
+                    _reverse = _reverse,
+                    _isReadOnly = true
+                };
+
             return result;
         }
 
@@ -327,9 +357,12 @@ namespace AM.Collections
         /// </summary>
         /// <param name="value">Value to check.</param>
         /// <returns>
-        /// 	<c>true</c> if the dictionary contains value; otherwise, <c>false</c>.
+        /// <c>true</c> if the dictionary contains value; otherwise, <c>false</c>.
         /// </returns>
-        public bool ContainsValue(TValue value)
+        public bool ContainsValue
+            (
+                TValue value
+            )
         {
             return _reverse.ContainsKey(value);
         }
@@ -342,13 +375,17 @@ namespace AM.Collections
         /// <exception cref="T:System.Collections.Generic.KeyNotFoundException">
         /// Specified <paramref name="value"/> not found.
         /// </exception>
-        public TKey GetKey(TValue value)
+        public TKey GetKey
+            (
+                TValue value
+            )
         {
             TKey result;
             if (!TryGetKey(value, out result))
             {
                 throw new KeyNotFoundException();
             }
+
             return result;
         }
 
@@ -364,7 +401,11 @@ namespace AM.Collections
         /// <see cref="BidirectionalDictionary{TKey,TValue}"/> 
         /// contains an element with the specified key; otherwise, 
         /// <c>false</c>.</returns>
-        public bool TryGetKey(TValue value, out TKey key)
+        public bool TryGetKey
+            (
+                TValue value,
+                out TKey key
+            )
         {
             lock (_syncRoot)
             {
@@ -419,7 +460,11 @@ namespace AM.Collections
         /// </exception>
         ///<exception cref="T:System.ArgumentNullException">
         /// key is <c>null</c>.</exception>
-        public void Add(TKey key, TValue value)
+        public void Add
+            (
+                TKey key,
+                TValue value
+            )
         {
             _Add(key, value);
         }
@@ -438,7 +483,10 @@ namespace AM.Collections
         /// <see cref="T:System.Collections.Generic.IDictionary`2"/>.</param>
         ///<exception cref="T:System.ArgumentNullException">key is 
         /// <c>null</c>.</exception>
-        public bool ContainsKey(TKey key)
+        public bool ContainsKey
+            (
+                TKey key
+            )
         {
             return _ContainsKey(key);
         }
@@ -477,7 +525,10 @@ namespace AM.Collections
         /// is read-only.</exception>
         ///<exception cref="T:System.ArgumentNullException">key is 
         /// <c>null</c>.</exception>
-        public bool Remove(TKey key)
+        public bool Remove
+            (
+                TKey key
+            )
         {
             return _Remove(key);
         }
@@ -494,7 +545,11 @@ namespace AM.Collections
         /// <see cref="BidirectionalDictionary{TKey,TValue}"/> 
         /// contains an element with the specified key; otherwise, 
         /// <c>false</c>.</returns>
-        public bool TryGetValue(TKey key, out TValue value)
+        public bool TryGetValue
+            (
+                TKey key,
+                out TValue value
+            )
         {
             return _TryGetValue(key, out value);
         }
@@ -532,7 +587,10 @@ namespace AM.Collections
         ///<exception cref="T:System.NotSupportedException">
         /// The <see cref="T:System.Collections.Generic.ICollection`1"/>
         /// is read-only.</exception>
-        public void Add(KeyValuePair<TKey, TValue> item)
+        public void Add
+            (
+                KeyValuePair<TKey, TValue> item
+            )
         {
             _Add(item);
         }
@@ -562,7 +620,10 @@ namespace AM.Collections
         ///<param name="item">The object to locate in the 
         /// <see cref="T:System.Collections.Generic.ICollection`1"/>.
         /// </param>
-        public bool Contains(KeyValuePair<TKey, TValue> item)
+        public bool Contains
+            (
+                KeyValuePair<TKey, TValue> item
+            )
         {
             return _Contains(ref item);
         }
@@ -594,7 +655,11 @@ namespace AM.Collections
         /// <paramref name="arrayIndex"/> to the end of the destination array. 
         /// -or- Type T cannot be cast automatically to the type of the destination 
         /// array.</exception>
-        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+        public void CopyTo
+            (
+                KeyValuePair<TKey, TValue>[] array,
+                int arrayIndex
+            )
         {
             _CopyTo(array, arrayIndex);
         }
@@ -650,7 +715,10 @@ namespace AM.Collections
         ///<exception cref="T:System.NotSupportedException">The 
         /// <see cref="T:System.Collections.Generic.ICollection`1"/>
         /// is read-only.</exception>
-        public bool Remove(KeyValuePair<TKey, TValue> item)
+        public bool Remove
+            (
+                KeyValuePair<TKey, TValue> item
+            )
         {
             return _Remove(ref item);
         }
@@ -709,6 +777,7 @@ namespace AM.Collections
                     result._straight.Add(pair.Key, pair.Value);
                     result._reverse.Add(pair.Value, pair.Key);
                 }
+
                 return result;
             }
         }

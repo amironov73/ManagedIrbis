@@ -9,7 +9,7 @@ namespace UnitTests.AM.Text
     public class TextNavigatorTest
     {
         [TestMethod]
-        public void TestTextNavigator_SkipWhitespace()
+        public void TextNavigator_SkipWhitespace()
         {
             const string text = " \tABC ";
             TextNavigator navigator = new TextNavigator(text);
@@ -19,7 +19,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TestTextNavigator_ReadFrom()
+        public void TextNavigator_ReadFrom()
         {
             const string text1 = "'ABC'DEF";
             TextNavigator navigator = new TextNavigator(text1);
@@ -38,7 +38,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TestTextNavigator_ReadTo()
+        public void TextNavigator_ReadTo_Char()
         {
             const string text1 = "'ABC'DEF";
             TextNavigator navigator = new TextNavigator(text1);
@@ -54,7 +54,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TestTextNavigator_ReadUntil()
+        public void TextNavigator_ReadUntil()
         {
             const string text = "'ABC'DEF";
             TextNavigator navigator = new TextNavigator(text);
@@ -64,7 +64,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TestTextNavigator_ReadWhile()
+        public void TextNavigator_ReadWhile()
         {
             const string text1 = "314abc";
             TextNavigator navigator = new TextNavigator(text1);
@@ -74,7 +74,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TestTexNavigator_SkipWhile()
+        public void TextNavigator_SkipWhile()
         {
             const string text1 = "314abc";
             TextNavigator navigator = new TextNavigator(text1);
@@ -85,7 +85,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TestTextNavigator_ReadInteger()
+        public void TextNavigator_ReadInteger()
         {
             const string text1 = "314abc";
             TextNavigator navigator = new TextNavigator(text1);
@@ -94,6 +94,24 @@ namespace UnitTests.AM.Text
 
             actual = navigator.ReadInteger();
             Assert.AreEqual(string.Empty, actual);
+        }
+
+        [TestMethod]
+        public void TextNavigator_ReadTo_String1()
+        {
+            TextNavigator navigator = new TextNavigator("314abc>>>hello");
+            string actual = navigator.ReadTo(">>>");
+            Assert.AreEqual("314abc", actual);
+            Assert.AreEqual("hello", navigator.GetRemainingText());
+        }
+
+        [TestMethod]
+        public void TextNavigator_ReadTo_String2()
+        {
+            TextNavigator navigator = new TextNavigator("314abc>>hello");
+            string actual = navigator.ReadTo(">>>");
+            Assert.AreEqual(null, actual);
+            Assert.AreEqual("314abc>>hello", navigator.GetRemainingText());
         }
     }
 }

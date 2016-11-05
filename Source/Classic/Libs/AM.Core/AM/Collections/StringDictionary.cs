@@ -152,7 +152,7 @@ namespace AM.Collections
 
 #endregion
 
-#region IHandmadeSerializable members
+        #region IHandmadeSerializable members
 
         /// <summary>
         /// Restore the object state from the specified stream.
@@ -193,6 +193,6 @@ namespace AM.Collections
             }
         }
 
-#endregion
+        #endregion
     }
 }

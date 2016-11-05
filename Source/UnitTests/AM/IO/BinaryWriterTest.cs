@@ -12,7 +12,7 @@ namespace UnitTests.AM.IO
     public class BinaryWriterTest
     {
         [TestMethod]
-        public void TestWriteString()
+        public void BinaryWriter_WriteString()
         {
             MemoryStream stream = new MemoryStream();
             BinaryWriter writer = new BinaryWriter(stream);
@@ -31,7 +31,7 @@ namespace UnitTests.AM.IO
         }
 
         [TestMethod]
-        public void TestWritePackedInt32()
+        public void BinaryWriter_WritePackedInt32()
         {
             MemoryStream stream = new MemoryStream();
             BinaryWriter writer = new BinaryWriter(stream);
@@ -53,11 +53,10 @@ namespace UnitTests.AM.IO
                 int value = reader.ReadPackedInt32();
                 Assert.AreEqual(values[i], value);
             }
-
         }
 
         [TestMethod]
-        public void TestWritePackedInt64()
+        public void BinaryWriter_WritePackedInt64()
         {
             MemoryStream stream = new MemoryStream();
             BinaryWriter writer = new BinaryWriter(stream);
@@ -78,7 +77,6 @@ namespace UnitTests.AM.IO
                 long value = reader.ReadPackedInt64();
                 Assert.AreEqual(values[i], value);
             }
-
         }
 
         private class Dummy
@@ -104,7 +102,7 @@ namespace UnitTests.AM.IO
         }
 
         [TestMethod]
-        public void TestBinaryWriterWriteList()
+        public void BinaryWriter_WriteList()
         {
             List<Dummy> list1 = new List<Dummy>();
             for (int i = 0; i < 10; i++)

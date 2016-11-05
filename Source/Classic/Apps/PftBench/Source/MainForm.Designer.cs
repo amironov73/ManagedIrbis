@@ -32,7 +32,6 @@
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this._splitContainer1 = new System.Windows.Forms.SplitContainer();
             this._splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this._pftBox = new System.Windows.Forms.TextBox();
             this._astTabControl = new System.Windows.Forms.TabControl();
             this._astPage = new System.Windows.Forms.TabPage();
             this._pftTreeView = new IrbisUI.PftTreeView();
@@ -61,6 +60,7 @@
             this._menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._pftBox = new IrbisUI.PftEditorControl();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -111,8 +111,8 @@
             // 
             // toolStripContainer1.TopToolStripPanel
             // 
-            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this._toolStrip);
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this._menuStrip);
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this._toolStrip);
             // 
             // _splitContainer1
             // 
@@ -152,18 +152,6 @@
             this._splitContainer3.SplitterDistance = 493;
             this._splitContainer3.SplitterWidth = 5;
             this._splitContainer3.TabIndex = 1;
-            // 
-            // _pftBox
-            // 
-            this._pftBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._pftBox.Location = new System.Drawing.Point(0, 0);
-            this._pftBox.Margin = new System.Windows.Forms.Padding(4);
-            this._pftBox.Multiline = true;
-            this._pftBox.Name = "_pftBox";
-            this._pftBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this._pftBox.Size = new System.Drawing.Size(493, 203);
-            this._pftBox.TabIndex = 0;
-            this._pftBox.Text = "v200^a, \" : \"v200^e, \" / \"v200^f";
             // 
             // _astTabControl
             // 
@@ -472,8 +460,18 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(108, 26);
             this.exitToolStripMenuItem.Text = "&Exit";
+            // 
+            // _pftBox
+            // 
+            this._pftBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._pftBox.IsReadOnly = false;
+            this._pftBox.Location = new System.Drawing.Point(0, 0);
+            this._pftBox.Name = "_pftBox";
+            this._pftBox.Size = new System.Drawing.Size(493, 203);
+            this._pftBox.TabIndex = 0;
+            this._pftBox.Text = "/* My first PFT script\r\n\'Some text\' /\r\nv200^a, \" : \"v200^e, \" / \"v200^f";
             // 
             // MainForm
             // 
@@ -500,7 +498,6 @@
             ((System.ComponentModel.ISupportInitialize)(this._splitContainer1)).EndInit();
             this._splitContainer1.ResumeLayout(false);
             this._splitContainer3.Panel1.ResumeLayout(false);
-            this._splitContainer3.Panel1.PerformLayout();
             this._splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._splitContainer3)).EndInit();
             this._splitContainer3.ResumeLayout(false);
@@ -542,7 +539,6 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton _goButton;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.TextBox _pftBox;
         private System.Windows.Forms.SplitContainer _splitContainer3;
         private IrbisUI.PftTreeView _pftTreeView;
         private System.Windows.Forms.TabControl _astTabControl;
@@ -564,5 +560,6 @@
         private System.Windows.Forms.TextBox _warningBox;
         private System.Windows.Forms.WebBrowser _htmlBox;
         private System.Windows.Forms.RichTextBox _rtfBox;
+        private IrbisUI.PftEditorControl _pftBox;
     }
 }

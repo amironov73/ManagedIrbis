@@ -171,7 +171,6 @@ namespace ManagedIrbis.Gbl
             Statements.AddRange(statements);
         }
 
-
         #endregion
 
         #region Private members
@@ -329,7 +328,8 @@ namespace ManagedIrbis.Gbl
             (
                 [NotNull] IrbisConnection connection,
                 [NotNull] string database,
-                [NotNull] IEnumerable<int> mfnList            )
+                [NotNull] IEnumerable<int> mfnList
+            )
         {
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(database, "database");

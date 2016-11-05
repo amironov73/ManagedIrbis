@@ -33,12 +33,31 @@ namespace ManagedIrbis.Infrastructure.Commands
         #region Properties
 
         /// <summary>
+        /// Use Read command instead.
+        /// </summary>
+        /// <remarks>
+        /// Дело в том, что методу SearchRead ИРБИС-сервер
+        /// частенько возвращает «немодифицируемые» записи
+        /// (он банально неправильно проставляет флаги
+        /// и версию записи, а потом саботирует сохранение
+        /// изменений в них). При считывании записи методом
+        /// ReadRecord приходят гарантировано «модифицируемые»
+        /// записи.
+        /// (из переписки с пользователями)
+        /// </remarks>
+        public static bool UseReadInsteadOfFormat { get; set; }
+
+        /// <summary>
         /// Format specification (always ALL).
         /// </summary>
-        [NotNull]
         public override string FormatSpecification
         {
-            get { return IrbisFormat.All; }
+            get
+            {
+                return UseReadInsteadOfFormat
+                    ? null
+                    : IrbisFormat.All;
+            }
             set
             {
                 // Do nothing
@@ -110,23 +129,38 @@ namespace ManagedIrbis.Infrastructure.Commands
 
             if (result.ReturnCode == 0)
             {
-                Records = Found
-                    .ThrowIfNull("Found")
+                if (UseReadInsteadOfFormat)
+                {
+                    int[] mfns = FoundItem.ConvertToMfn
+                        (
+                            Found.ThrowIfNull("Found")
+                        );
+                    Records = Connection.ReadRecords
+                        (
+                            Database ?? Connection.Database,
+                            mfns
+                        );
+                }
+                else
+                {
+                    Records = Found
+                        .ThrowIfNull("Found")
 
 #if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT
 
-                    .AsParallel()
-                    .AsOrdered()
+                        .AsParallel()
+                        .AsOrdered()
 
 #endif
 
-                    .Select
-                    (
-                        // ReSharper disable ConvertClosureToMethodGroup
-                        item => _ConvertRecord(item)
-                        // ReSharper restore ConvertClosureToMethodGroup
-                    )
-                    .ToArray();
+                        .Select
+                        (
+                            // ReSharper disable ConvertClosureToMethodGroup
+                            item => _ConvertRecord(item)
+                            // ReSharper restore ConvertClosureToMethodGroup
+                        )
+                        .ToArray();
+                }
             }
 
             return result;

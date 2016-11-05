@@ -23,8 +23,6 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Source.Mx;
-
 using MoonSharp.Interpreter;
 
 #endregion
@@ -66,7 +64,7 @@ namespace ManagedIrbis.Mx.Commands
         #region MxCommand members
 
         /// <inheritdoc/>
-        public override void Execute
+        public override bool Execute
             (
                 MxExecutive executive,
                 MxArgument[] arguments
@@ -74,7 +72,26 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
+            if (arguments.Length != 0)
+            {
+                string argument = arguments[0].Text;
+                if (!string.IsNullOrEmpty(argument))
+                {
+                    executive.Client.Disconnect();
+                    executive.Client.ParseConnectionString(argument);
+                    executive.Client.Connect();
+                    executive.WriteLine
+                        (
+                            3,
+                            "Connected, current database: {0}",
+                            executive.Client.Database
+                        );
+                }
+            }
+
             OnAfterExecute();
+
+            return true;
         }
 
         #endregion

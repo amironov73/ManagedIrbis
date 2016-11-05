@@ -29,13 +29,19 @@ namespace IrbisTestRunner
     {
         static void Main(string[] args)
         {
-            if (args.Length != 1)
+            if (args.Length < 1)
             {
-                Console.WriteLine("USAGE: IrbisTestRunner <config.json>");
+                Console.WriteLine("USAGE: IrbisTestRunner <config.json> [testToRun]");
                 return;
             }
 
             TestRunner engine = null;
+            string testToRun = null;
+            if (args.Length > 1)
+            {
+                testToRun = args[1];
+            }
+
             try
             {
                 engine = new TestRunner();
@@ -64,7 +70,7 @@ namespace IrbisTestRunner
 
                 engine.CompileTests();
 
-                engine.RunTests();
+                engine.RunTests(testToRun);
             }
             catch (Exception ex)
             {

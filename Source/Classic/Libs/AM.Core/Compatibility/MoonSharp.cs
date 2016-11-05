@@ -4,7 +4,7 @@
  * State: poor
  */
 
-#if NETCORE || WINMOBILE || PocketPC
+#if WINMOBILE || PocketPC
 
 #region Using directives
 

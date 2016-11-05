@@ -22,7 +22,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-using ManagedIrbis.Source.Mx;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -35,6 +35,7 @@ namespace ManagedIrbis.Mx
     [PublicAPI]
     [MoonSharpUserData]
     public abstract class MxCommand
+        : IDisposable
     {
         #region Events
 
@@ -110,9 +111,22 @@ namespace ManagedIrbis.Mx
         #region Public methods
 
         /// <summary>
+        /// Initialize commands before using.
+        /// </summary>
+        public virtual void Initialize
+            (
+                [NotNull] MxExecutive executive
+            )
+        {
+            Code.NotNull(executive, "executive");
+
+            // Nothing to do here
+        }
+
+        /// <summary>
         /// Execute the command.
         /// </summary>
-        public virtual void Execute
+        public virtual bool Execute
             (
                 [NotNull] MxExecutive executive,
                 [NotNull] MxArgument[] arguments
@@ -126,6 +140,18 @@ namespace ManagedIrbis.Mx
             executive.WriteLine("Connect");
 
             OnAfterExecute();
+
+            return true;
+        }
+
+        #endregion
+
+        #region IDisposable members
+
+        /// <inheritdoc/>
+        public virtual void Dispose()
+        {
+            // Nothing to do here
         }
 
         #endregion

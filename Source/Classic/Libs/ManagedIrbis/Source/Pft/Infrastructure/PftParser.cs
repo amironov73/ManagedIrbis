@@ -121,7 +121,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.Break, PftTokenKind.Comma, PftTokenKind.C,
             PftTokenKind.Hash, PftTokenKind.Mfn, PftTokenKind.Mpl,
             PftTokenKind.Nl, PftTokenKind.Percent, PftTokenKind.Slash,
-            PftTokenKind.UnconditionalLiteral,
+            PftTokenKind.TripleLess, PftTokenKind.UnconditionalLiteral,
             PftTokenKind.X, PftTokenKind.Unifor,
 
             PftTokenKind.V, PftTokenKind.ConditionalLiteral,
@@ -131,9 +131,13 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenKind.Number, PftTokenKind.F,
 
+            PftTokenKind.Comment,
+
             PftTokenKind.Ref,
 
-            PftTokenKind.If
+            PftTokenKind.If,
+
+            PftTokenKind.TripleCurly
         };
 
         /// <summary>
@@ -199,6 +203,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.S, ParseS},
                 {PftTokenKind.Semicolon, ParseSemicolon},
                 {PftTokenKind.Slash, ParseSlash},
+                {PftTokenKind.TripleCurly, ParseCodeBlock},
+                {PftTokenKind.TripleLess, ParseVerbatim},
                 {PftTokenKind.UnconditionalLiteral, ParseUnconditionalLiteral},
                 {PftTokenKind.Unifor, ParseUnifor},
                 {PftTokenKind.V,ParseField},
@@ -405,6 +411,11 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 
             return result;
+        }
+
+        private PftNode ParseCodeBlock()
+        {
+            return MoveNext(new PftCodeBlock(Tokens.Current));
         }
 
         private PftNode ParseComma()
@@ -1042,6 +1053,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         private PftNode ParseVariableReference()
         {
             return MoveNext(new PftVariableReference(Tokens.Current));
+        }
+
+        private PftNode ParseVerbatim()
+        {
+            return MoveNext(new PftVerbatim(Tokens.Current));
         }
 
         private PftNode ParseX()

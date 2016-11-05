@@ -43,8 +43,8 @@
   <Choose>
     <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
       <ItemGroup>
-        <Reference Include="MoonSharp.Interpreter, Version=1.8.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
-          <HintPath>..\..\..\packages\MoonSharp.1.8.0.0\lib\net35-client\MoonSharp.Interpreter.dll</HintPath>
+        <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\MoonSharp.2.0.0.0\lib\net35-client\MoonSharp.Interpreter.dll</HintPath>
           <Private>True</Private>
         </Reference>
         <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -60,8 +60,8 @@
     <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="MoonSharp.Interpreter, Version=1.8.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
-          <HintPath>..\..\..\packages\MoonSharp.1.8.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+        <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
           <Private>True</Private>
         </Reference>
         <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -73,8 +73,8 @@
     <Otherwise>
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="MoonSharp.Interpreter, Version=1.8.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
-          <HintPath>..\..\..\packages\MoonSharp.1.8.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+        <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
           <Private>True</Private>
         </Reference>
         <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -85,8 +85,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Reference Include="JetBrains.Annotations, Version=10.1.5.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\JetBrains.Annotations.10.1.5\lib\net\JetBrains.Annotations.dll</HintPath>
+    <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -168,6 +168,7 @@
     <Compile Include="Source\Infrastructure\Commands\UpdateIniFileCommand.cs" />
     <Compile Include="Source\Infrastructure\ExecutionContext.cs" />
     <Compile Include="Source\Infrastructure\ExecutionEventArgs.cs" />
+    <Compile Include="Source\Infrastructure\SharpRunner.cs" />
     <Compile Include="Source\Infrastructure\StandardEngine.cs" />
     <Compile Include="Source\Fields\BinaryResource.cs" />
     <Compile Include="Source\Flc\FlcConstants.cs" />
@@ -249,21 +250,30 @@
     <Compile Include="Source\Menus\MenuSort.cs" />
     <Compile Include="Source\Mx\Commands\AliasCommand.cs" />
     <Compile Include="Source\Mx\Commands\ConnectCommand.cs" />
+    <Compile Include="Source\Mx\Commands\CsCommand.cs" />
+    <Compile Include="Source\Mx\Commands\CsFileCommand.cs" />
     <Compile Include="Source\Mx\Commands\DisconnectCommand.cs" />
+    <Compile Include="Source\Mx\Commands\ExitCommand.cs" />
     <Compile Include="Source\Mx\Commands\FormatCommand.cs" />
+    <Compile Include="Source\Mx\Commands\LimitCommand.cs" />
+    <Compile Include="Source\Mx\Commands\NopCommand.cs" />
     <Compile Include="Source\Mx\Commands\PrintCommand.cs" />
     <Compile Include="Source\Mx\Commands\SearchCommand.cs" />
     <Compile Include="Source\Mx\Commands\SortCommand.cs" />
+    <Compile Include="Source\Mx\Commands\StoreCommand.cs" />
     <Compile Include="Source\Mx\MxAlias.cs" />
     <Compile Include="Source\Mx\MxArgument.cs" />
     <Compile Include="Source\Mx\MxCommand.cs" />
     <Compile Include="Source\Mx\MxExecutive.cs" />
+    <Compile Include="Source\Mx\MxRecord.cs" />
+    <Compile Include="Source\Mx\MxUtility.cs" />
     <Compile Include="Source\Pft\FormatError.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftA.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftAssignment.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftBoolean.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftBreak.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftC.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftCodeBlock.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftComma.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftComment.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftComparison.cs" />
@@ -303,6 +313,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftUnifor.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftVal.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftVariableReference.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftVerbatim.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftX.cs" />
     <Compile Include="Source\Pft\Infrastructure\Diagnostics\PftNodeInfo.cs" />
     <Compile Include="Source\Pft\Infrastructure\Environment\PftConnectedEnvironment.cs" />
@@ -360,6 +371,8 @@
     <Compile Include="Source\PlatformSpecific\CdeclPluginFunction.cs" />
     <Compile Include="Source\PlatformSpecific\DllCache.cs" />
     <Compile Include="Source\PlatformSpecific\DynamicLibrary.cs" />
+    <Compile Include="Source\PlatformSpecific\MethodResult.cs" />
+    <Compile Include="Source\PlatformSpecific\MethodRunner.cs" />
     <Compile Include="Source\PlatformSpecific\ProcessRunner.cs" />
     <Compile Include="Source\PlatformSpecific\WinapiPluginFunction.cs" />
     <Compile Include="Source\Quality\QualityRule.cs" />
@@ -385,6 +398,7 @@
     <Compile Include="Source\Quality\Rules\Require903.cs" />
     <Compile Include="Source\Quality\Rules\Require910.cs" />
     <Compile Include="Source\Quality\Rules\Require920.cs" />
+    <Compile Include="Source\RawRecord.cs" />
     <Compile Include="Source\Search\FoundLine.cs" />
     <Compile Include="Source\Search\Infrastructure\ComplexLevel.cs" />
     <Compile Include="Source\Search\Infrastructure\ISearchTree.cs" />

@@ -11,7 +11,7 @@ namespace UnitTests.AM.Collections
     {
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void TestDictionaryUtilityMergeWithConflicts()
+        public void DictionaryUtility_MergeWithConflicts()
         {
             Dictionary<string, int> first = new Dictionary<string, int>
             {
@@ -38,7 +38,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestDictionaryUtilityMergeWithoutConflicts()
+        public void DictionaryUtility_MergeWithoutConflicts()
         {
             Dictionary<string, int> first = new Dictionary<string, int>
             {
@@ -66,7 +66,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestDictionaryUtilityMergeLastValues()
+        public void DictionaryUtility_MergeLastValues()
         {
             Dictionary<string, int> first = new Dictionary<string, int>
             {

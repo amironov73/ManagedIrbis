@@ -10,7 +10,7 @@ namespace UnitTests.AM.Collections
     public class ListUtilityTest
     {
         [TestMethod]
-        public void TestListUtilityIsNullOrEmpty()
+        public void ListUtility_IsNullOrEmpty()
         {
             List<int> list = null;
             Assert.IsTrue(list.IsNullOrEmpty());
@@ -23,7 +23,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestListUtilityContainsValue()
+        public void ListUtility_ContainsValue()
         {
             List<int> list = new List<int> { 1, 2, 3 };
 
@@ -41,7 +41,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestListUtilityAddDistinct()
+        public void ListUtility_AddDistinct()
         {
             List<int> list = new List<int>{1,2,3};
 
@@ -57,7 +57,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestListUtilityAddRangeDistinct()
+        public void ListUtility_AddRangeDistinct()
         {
             List<int> list = new List<int> { 1, 2, 3 };
 
@@ -69,7 +69,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void TestListUtilityIndexOf()
+        public void ListUtility_IndexOf()
         {
             List<int> list = new List<int> { 1, 2, 3 };
 
@@ -78,6 +78,14 @@ namespace UnitTests.AM.Collections
 
             predicate = i => i == 4;
             Assert.IsTrue(list.IndexOf(predicate) < 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ListUtility_ThrowIfNullOrEmpty()
+        {
+            List<int> list = new List<int>();
+            list.ThrowIfNullOrEmpty();
         }
     }
 }

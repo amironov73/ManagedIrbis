@@ -22,8 +22,8 @@
     <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
     <copyright>Copyright Alexey Mironov 2013-2016</copyright>
     <dependencies>
-      <dependency id="JetBrains.Annotations" version="10.1.5" />
-      <dependency id="MoonSharp" version="1.8.0.0" />
+      <dependency id="JetBrains.Annotations" version="10.2.1" />
+      <dependency id="MoonSharp" version="2.0.0.0" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
       <dependency id="ArsMagna.Core" version="1.6.5" />
       <dependency id="ArsMagna.Drawing" version="1.6.5" />
