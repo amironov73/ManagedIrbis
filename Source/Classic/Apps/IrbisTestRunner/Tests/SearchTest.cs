@@ -157,8 +157,32 @@ namespace IrbisTestRunner.Tests
                 .ThrowIfNull("Connection");
 
             MarcRecord[] records = connection.SearchRead("T=A$");
+            int[] mfns = records.Select(r => r.Mfn).ToArray();
 
-            Write(records.Length);
+            bool ok = true;
+
+            for (int i = 0; i < records.Length; i++)
+            {
+                MarcRecord record = connection.ReadRecord
+                    (
+                        records[i].Mfn
+                    );
+                string diagnostic = string.Format
+                    (
+                        "MFN={0}, Version={1}, Version={2}{3}",
+                        records[i].Mfn,
+                        records[i].Version,
+                        record.Version,
+                        Environment.NewLine
+                    );
+                Write(diagnostic);
+                ok = ok && records[i].Version == record.Version;
+            }
+
+            if (!ok)
+            {
+                throw new IrbisException("SearchRead -> wrong version!");
+            }
         }
 
         [TestMethod]

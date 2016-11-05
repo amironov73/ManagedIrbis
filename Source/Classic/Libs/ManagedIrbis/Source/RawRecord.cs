@@ -54,6 +54,25 @@ namespace ManagedIrbis
         public RecordStatus Status { get; set; }
 
         /// <summary>
+        /// Признак удалённой записи.
+        /// </summary>
+        public bool Deleted
+        {
+            get { return (Status & RecordStatus.LogicallyDeleted) != 0; }
+            set
+            {
+                if (value)
+                {
+                    Status |= RecordStatus.LogicallyDeleted;
+                }
+                else
+                {
+                    Status &= ~RecordStatus.LogicallyDeleted;
+                }
+            }
+        }
+
+        /// <summary>
         /// Version.
         /// </summary>
         public int Version { get; set; }
