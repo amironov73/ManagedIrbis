@@ -506,7 +506,10 @@ namespace ManagedIrbis
         /// <summary>
         /// Run the tests.
         /// </summary>
-        public void RunTests()
+        public void RunTests
+            (
+                [CanBeNull] string testToRun
+            )
         {
             Type[] testClasses = _GetTestClasses(CompiledAssembly);
 
@@ -520,7 +523,11 @@ namespace ManagedIrbis
 
                 foreach (Type testClass in testClasses)
                 {
-                    RunTests(testClass);
+                    RunTests
+                        (
+                            testClass,
+                            testToRun
+                        );
                 }
             }
             stopwatch.Stop();
@@ -562,7 +569,8 @@ namespace ManagedIrbis
         /// </summary>
         public void RunTests
             (
-                Type testClass
+                [NotNull] Type testClass,
+                [CanBeNull] string testToRun
             )
         {
             MethodInfo[] testMethods = _GetTestMethods(testClass);
@@ -571,6 +579,13 @@ namespace ManagedIrbis
                 = (AbstractTest)Activator.CreateInstance(testClass);
             testObject.Connection = Connection;
             testObject.DataPath = DataPath;
+
+            if (!string.IsNullOrEmpty(testToRun))
+            {
+                testMethods = testMethods
+                    .Where(method => method.Name == testToRun)
+                    .ToArray();
+            }
 
             foreach (MethodInfo method in testMethods)
             {

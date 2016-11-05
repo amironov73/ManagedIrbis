@@ -126,12 +126,13 @@ namespace ManagedIrbis.Infrastructure.Commands
             // Check whether no records read
             if (result.GetReturnCode() != -201)
             {
-                RawRecord = new RawRecord
-                {
-                    Database = Database ?? Connection.Database,
-                    Mfn = Mfn,
-                    Lines = result.RemainingUtfStrings().ToArray()
-                };
+                string[] lines = result
+                    .RemainingUtfStrings()
+                    .ToArray();
+
+                RawRecord = RawRecord.Parse(lines);
+                RawRecord.Mfn = Mfn;
+                RawRecord.Database = Database ?? Connection.Database;
             }
 
             return result;

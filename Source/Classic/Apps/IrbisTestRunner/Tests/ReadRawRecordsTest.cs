@@ -44,7 +44,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestReadRawRecord()
+        public void TestReadRawRecords()
         {
             IrbisConnection connection = Connection
                 .ThrowIfNull("Connection");

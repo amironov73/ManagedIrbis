@@ -561,6 +561,17 @@ namespace ManagedIrbis
             {
                 return new RawRecord[0];
             }
+            if (mfnList.Length == 1)
+            {
+                return new[] 
+                {
+                    connection.ReadRawRecord
+                       (
+                            database,
+                            mfnList[0]
+                       )
+                };
+            }
 
             List<object> arguments = new List<object>
                 (
@@ -585,17 +596,14 @@ namespace ManagedIrbis
             command.AcceptAnyResponse = true;
 
             ServerResponse response = connection.ExecuteCommand(command);
-            
+
             List<string> lines = response.RemainingUtfStrings();
             List<RawRecord> records = new List<RawRecord>();
 
-            foreach (string line in lines)
+            foreach (string line in lines.Skip(1))
             {
-                RawRecord record = new RawRecord
-                {
-                    Database = database,
-                    Lines = line.SplitLines()
-                };
+                RawRecord record = RawRecord.Parse(line);
+                record.Database = database;
                 records.Add(record);
             }
 
@@ -880,7 +888,7 @@ namespace ManagedIrbis
             command.FirstRecord = 0;
 
             connection.ExecuteCommand(command);
-            
+
             int result = command.FoundCount;
 
             return result;
@@ -912,7 +920,7 @@ namespace ManagedIrbis
             command.FormatSpecification = formatSpecification;
 
             connection.ExecuteCommand(command);
-            
+
             FoundItem[] result = command.Found
                 .ThrowIfNull("command.Found")
                 .ToArray();
@@ -975,7 +983,7 @@ namespace ManagedIrbis
             connection.ExecuteCommand(command);
             string[] result = command.Found
                 .ThrowIfNull("command.Found");
-            
+
             return result;
         }
 
@@ -1045,7 +1053,7 @@ namespace ManagedIrbis
             command.NumberOfRecords = 1;
 
             connection.ExecuteCommand(command);
-            
+
             MarcRecord result = command.Records
                 .ThrowIfNull("command.Records")
                 .GetItem(0);
@@ -1082,7 +1090,7 @@ namespace ManagedIrbis
                 (
                     CommandCode.Search,
                     database,
-                    new TextWithEncoding (expression, IrbisEncoding.Utf8),
+                    new TextWithEncoding(expression, IrbisEncoding.Utf8),
                     numberOfRecords,
                     firstRecord,
                     new TextWithEncoding(format, IrbisEncoding.Ansi),
@@ -1218,7 +1226,7 @@ namespace ManagedIrbis
                         )
                 );
             ServerResponse response = connection.ExecuteCommand(command);
-            
+
             string result = response.RemainingUtfText();
 
             return result;
@@ -1281,7 +1289,7 @@ namespace ManagedIrbis
                 );
 
             ServerResponse response = connection.ExecuteCommand(command);
-            
+
             List<string> result = response.RemainingUtfStrings();
 
             return result.ToArray();
