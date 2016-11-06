@@ -137,7 +137,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenKind.If,
 
-            PftTokenKind.TripleCurly
+            PftTokenKind.TripleCurly,
+
+            PftTokenKind.At
         };
 
         /// <summary>
@@ -182,6 +184,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             MainMap = new Dictionary<PftTokenKind, Func<PftNode>>
             {
                 {PftTokenKind.A, ParseA},
+                {PftTokenKind.At, ParseAt},
                 {PftTokenKind.Break, ParseBreak},
                 {PftTokenKind.C, ParseC},
                 {PftTokenKind.Comma, ParseComma},
@@ -329,6 +332,11 @@ namespace ManagedIrbis.Pft.Infrastructure
             Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
 
             return MoveNext(result);
+        }
+
+        private PftNode ParseAt()
+        {
+            return MoveNext(new PftInclude(Tokens.Current));
         }
 
         private PftNumeric ParseArithmetic()

@@ -22,6 +22,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         A,
 
         /// <summary>
+        /// @
+        /// </summary>
+        At,
+
+        /// <summary>
         /// and
         /// </summary>
         And,

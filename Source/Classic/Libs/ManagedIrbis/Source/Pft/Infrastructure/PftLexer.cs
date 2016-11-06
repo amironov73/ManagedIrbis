@@ -570,6 +570,15 @@ namespace ManagedIrbis.Pft.Infrastructure
                         kind = PftTokenKind.Variable;
                         break;
 
+                    case '@':
+                        value = ReadIdentifier();
+                        if (string.IsNullOrEmpty(value))
+                        {
+                            throw new PftSyntaxException(_navigator);
+                        }
+                        kind = PftTokenKind.At;
+                        break;
+
                     case 'a':
                     case 'A':
                         value = ReadIdentifier();

@@ -68,21 +68,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         private void ParseProgram
             (
-                PftContext context
+                PftContext context,
+                string fileName
             )
         {
-            string filename = context.Evaluate(Children);
-            string ext = Path.GetExtension(filename);
+            string ext = Path.GetExtension(fileName);
             if (string.IsNullOrEmpty(ext))
             {
-                filename += ".pft";
+                fileName += ".pft";
             }
             FileSpecification specification
                 = new FileSpecification
                 (
                     IrbisPath.MasterFile,
                     context.Environment.Database,
-                    filename
+                    fileName
                 );
             string source = context.Environment.ReadFile
                 (
@@ -96,6 +96,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftTokenList tokens = lexer.Tokenize(source);
             PftParser parser = new PftParser(tokens);
             Program = parser.Parse();
+        }
+
+        private void ParseProgram
+            (
+                PftContext context
+            )
+        {
+            string fileName = context.Evaluate(Children);
+            ParseProgram
+                (
+                    context,
+                    fileName
+                );
         }
 
         #endregion
@@ -116,7 +129,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (ReferenceEquals(Program, null))
             {
-                ParseProgram(context);
+                if (!string.IsNullOrEmpty(Text))
+                {
+                    ParseProgram
+                        (
+                            context,
+                            Text
+                        );
+                }
+                else
+                {
+                    ParseProgram(context);
+                }
             }
 
             if (!ReferenceEquals(Program, null))
