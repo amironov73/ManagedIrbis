@@ -22,51 +22,46 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
         #region Public methods
 
-        /// <summary>
-        /// Execute format from file.
-        /// </summary>
-        public static void ExecuteFormat
+        public static void ExecuteNestedFormat
             (
                 PftContext context,
                 PftNode node,
-                string expression
+                string fileName
             )
         {
             //
             // TODO some caching
             //
 
-            if (string.IsNullOrEmpty(expression))
+            if (!string.IsNullOrEmpty(fileName))
             {
-                return;
-            }
 
-            string fileName = expression;
-            string ext = Path.GetExtension(fileName);
-            if (string.IsNullOrEmpty(ext))
-            {
-                fileName += ".pft";
-            }
-            FileSpecification specification
-                = new FileSpecification
-                (
-                    IrbisPath.MasterFile,
-                    context.Environment.Database,
-                    fileName
-                );
-            string source = context.Environment.ReadFile
+                string ext = Path.GetExtension(fileName);
+                if (string.IsNullOrEmpty(ext))
+                {
+                    fileName += ".pft";
+                }
+                FileSpecification specification
+                    = new FileSpecification
+                    (
+                        IrbisPath.MasterFile,
+                        context.Environment.Database,
+                        fileName
+                    );
+                string source = context.Environment.ReadFile
                 (
                     specification
                 );
-            if (string.IsNullOrEmpty(source))
-            {
-                return;
+                if (string.IsNullOrEmpty(source))
+                {
+                    return;
+                }
+                PftLexer lexer = new PftLexer();
+                PftTokenList tokens = lexer.Tokenize(source);
+                PftParser parser = new PftParser(tokens);
+                PftProgram program = parser.Parse();
+                program.Execute(context);
             }
-            PftLexer lexer = new PftLexer();
-            PftTokenList tokens = lexer.Tokenize(source);
-            PftParser parser = new PftParser(tokens);
-            PftProgram program = parser.Parse();
-            program.Execute(context);
         }
 
         #endregion

@@ -195,6 +195,19 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
+        private static void Include(PftContext context, PftNode node, string expression)
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                Unifors.Unifor6.ExecuteNestedFormat
+                    (
+                        context,
+                        node,
+                        expression
+                    );
+            }
+        }
+
         private static void IOcc(PftContext context, PftNode node, string expression)
         {
             int index = context.Index;
@@ -436,6 +449,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("fatal", Fatal);
             reg.Add("getenv", GetEnv);
             reg.Add("iocc", IOcc);
+            reg.Add("include", Include);
             reg.Add("italic", Italic);
             reg.Add("len", Len);
             reg.Add("machinename", MachineName);
