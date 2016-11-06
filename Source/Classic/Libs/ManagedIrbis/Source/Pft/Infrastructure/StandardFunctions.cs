@@ -19,7 +19,7 @@ using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Ast;
 
 using MoonSharp.Interpreter;
@@ -70,6 +70,25 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (!string.IsNullOrEmpty(expression))
             {
                 context.Write(node, "<b>" + expression + "</b>");
+            }
+        }
+
+        private static void Cat(PftContext context, PftNode node, string expression)
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                FileSpecification specification
+                    = new FileSpecification
+                    (
+                        IrbisPath.MasterFile,
+                        context.Environment.Database,
+                        expression
+                    );
+                string source = context.Environment.ReadFile
+                    (
+                        specification
+                    );
+                context.Write(node, source);
             }
         }
 
@@ -440,6 +459,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             reg.Add("addField", AddField);
             reg.Add("bold", Bold);
+            reg.Add("cat", Cat);
             reg.Add("chr", Chr);
             reg.Add("commandline", CommandLine);
             reg.Add("cout", COut);
