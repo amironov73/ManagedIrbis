@@ -75,6 +75,10 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void Cat(PftContext context, PftNode node, string expression)
         {
+            //
+            // TODO: add some caching
+            //
+
             if (!string.IsNullOrEmpty(expression))
             {
                 FileSpecification specification

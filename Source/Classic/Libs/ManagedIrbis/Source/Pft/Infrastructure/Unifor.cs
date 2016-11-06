@@ -123,6 +123,7 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("+7T", UniforPlus7.SortGlobal);
             Registry.Add("+7U", UniforPlus7.AppendGlobal);
             Registry.Add("+7W", UniforPlus7.WriteGlobal);
+            Registry.Add("+8", UniforPlus8.ExecuteNativeMethod);
             Registry.Add("+90", UniforPlus9.GetIndex);
             Registry.Add("+91", UniforPlus9.GetFileName);
             Registry.Add("+92", UniforPlus9.GetDirectoryName);
