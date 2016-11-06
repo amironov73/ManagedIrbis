@@ -137,37 +137,115 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             switch (operation)
             {
                 case ":":
-                    result = PftUtility.ContainsSubString(leftValue, rightValue);
+                    result = PftUtility.ContainsSubString
+                        (
+                            leftValue,
+                            rightValue
+                        );
+                    break;
+
+                case "::":
+                    result = PftUtility.ContainsSubStringSensitive
+                        (
+                            leftValue,
+                            rightValue
+                        );
                     break;
 
                 case "=":
-                case "==":
                     result = leftValue.SameString(rightValue);
+                    break;
+
+                case "==":
+                    result = leftValue.SameStringSensitive
+                        (
+                            rightValue
+                        );
                     break;
 
                 case "!=":
                 case "<>":
-                    result = !leftValue.SameString(rightValue);
+                    result = !leftValue.SameString
+                        (
+                            rightValue
+                        );
+                    break;
+
+                case "!==":
+                    result = !leftValue.SameStringSensitive
+                        (
+                            rightValue
+                        );
                     break;
 
                 case "<":
-                    result = PftUtility.CompareStrings(leftValue, rightValue) < 0;
+                    result = PftUtility.CompareStrings
+                        (
+                            leftValue,
+                            rightValue
+                        )
+                        < 0;
                     break;
 
                 case "<=":
-                    result = PftUtility.CompareStrings(leftValue, rightValue) <= 0;
+                    result = PftUtility.CompareStrings
+                        (
+                            leftValue,
+                            rightValue
+                        )
+                        <= 0;
                     break;
 
                 case ">":
-                    result = PftUtility.CompareStrings(leftValue, rightValue) > 0;
+                    result = PftUtility.CompareStrings
+                        (
+                            leftValue,
+                            rightValue
+                        )
+                        > 0;
                     break;
 
                 case ">=":
-                    result = PftUtility.CompareStrings(leftValue, rightValue) >= 0;
+                    result = PftUtility.CompareStrings
+                        (
+                            leftValue,
+                            rightValue
+                        )
+                        >= 0;
                     break;
 
                 case "~":
-                    result = Regex.IsMatch(leftValue, rightValue);
+                    result = Regex.IsMatch
+                        (
+                            leftValue,
+                            rightValue,
+                            RegexOptions.IgnoreCase
+                        );
+                    break;
+
+                case "~~":
+                    result = Regex.IsMatch
+                        (
+                            leftValue,
+                            rightValue
+                        );
+                    break;
+
+                case "!~":
+                    result = !Regex.IsMatch
+                        (
+                            leftValue,
+                            rightValue,
+                            RegexOptions.IgnoreCase
+                        );
+                    break;
+
+                case "!~~":
+                    result = !Regex.IsMatch
+                        (
+                            leftValue,
+                            rightValue
+                        );
                     break;
 
                 default:

@@ -91,6 +91,29 @@ namespace ManagedIrbis.Pft
         }
 
         /// <summary>
+        /// Whether one string contains another.
+        /// </summary>
+        public static bool ContainsSubStringSensitive
+            (
+                [CanBeNull] string outer,
+                [CanBeNull] string inner
+            )
+        {
+            if (string.IsNullOrEmpty(inner))
+            {
+                return true;
+            }
+            if (string.IsNullOrEmpty(outer))
+            {
+                return false;
+            }
+
+            bool result = outer.Contains(inner);
+
+            return result;
+        }
+
+        /// <summary>
         /// Extract numeric value from the input text.
         /// </summary>
         public static double ExtractNumericValue

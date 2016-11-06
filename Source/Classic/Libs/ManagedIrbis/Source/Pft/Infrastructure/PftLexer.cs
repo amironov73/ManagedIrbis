@@ -350,7 +350,24 @@ namespace ManagedIrbis.Pft.Infrastructure
                         if (c2 == '=')
                         {
                             kind = PftTokenKind.NotEqual2;
+                            value = "!=";
                             ReadChar();
+                            if (PeekChar() == '=')
+                            {
+                                ReadChar();
+                                value = "!==";
+                            }
+                        }
+                        else if (c2 == '~')
+                        {
+                            kind = PftTokenKind.NotEqual2;
+                            value = "!~";
+                            ReadChar();
+                            if (PeekChar() == '~')
+                            {
+                                ReadChar();
+                                value = "!~~";
+                            }
                         }
                         else
                         {
@@ -362,6 +379,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                     case ':':
                         kind = PftTokenKind.Colon;
                         value = c.ToString();
+                        if (PeekChar() == ':')
+                        {
+                            ReadChar();
+                            value = "::";
+                        }
                         break;
 
                     case ';':
@@ -382,6 +404,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                     case '=':
                         kind = PftTokenKind.Equals;
                         value = c.ToString();
+                        if (PeekChar() == '=')
+                        {
+                            ReadChar();
+                            value = "==";
+                        }
                         break;
 
                     case '#':
@@ -474,6 +501,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                     case '~':
                         kind = PftTokenKind.Tilda;
                         value = c.ToString();
+                        if (PeekChar() == '~')
+                        {
+                            ReadChar();
+                            value = "~~";
+                        }
                         break;
 
                     case '?':
