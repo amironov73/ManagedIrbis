@@ -167,6 +167,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Environment
                 throw new IrbisException("filePath");
             }
 
+            if (!File.Exists(resultPath))
+            {
+                return null;
+            }
+
             string result = File.ReadAllText
                 (
                     resultPath,
