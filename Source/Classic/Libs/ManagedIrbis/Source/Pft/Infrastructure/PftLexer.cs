@@ -579,6 +579,17 @@ namespace ManagedIrbis.Pft.Infrastructure
                         kind = PftTokenKind.At;
                         break;
 
+                    case '\x1C':
+                    case '\u221F':
+                        value = _navigator.ReadUntil('\x1D', '\u2194');
+                        if (string.IsNullOrEmpty(value)
+                            || !ReadChar().OneOf('\x1D', '\u2194'))
+                        {
+                            throw new PftSyntaxException(_navigator);
+                        }
+                        kind = PftTokenKind.At;
+                        break;
+
                     case 'a':
                     case 'A':
                         value = ReadIdentifier();
