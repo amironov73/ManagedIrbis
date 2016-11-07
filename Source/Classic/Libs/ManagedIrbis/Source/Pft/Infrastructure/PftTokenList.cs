@@ -209,6 +209,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     return result;
                 }
+                MoveNext();
             }
 
             _position = _savePosition;

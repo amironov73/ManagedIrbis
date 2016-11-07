@@ -165,6 +165,18 @@ namespace ManagedIrbis.Pft.Infrastructure
                     );
                 handler(this, eventArgs);
             }
+
+            if (Breakpoint
+                && !ReferenceEquals(context, null)
+                && !ReferenceEquals(context.Debugger, null))
+            {
+                PftDebugEventArgs eventArgs = new PftDebugEventArgs
+                    (
+                        context,
+                        this
+                    );
+                context.Debugger.Activate(eventArgs);
+            }
         }
 
         /// <summary>

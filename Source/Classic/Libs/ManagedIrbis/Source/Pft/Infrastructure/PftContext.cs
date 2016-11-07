@@ -14,6 +14,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 using ManagedIrbis.Pft.Infrastructure.Ast;
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Environment;
 using MoonSharp.Interpreter;
 
@@ -136,6 +137,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// ”ниверсальный счетчик.
         /// </summary>
         public int UniversalCounter { get; set; }
+
+        /// <summary>
+        /// Debugger (if attached).
+        /// </summary>
+        [CanBeNull]
+        public PftDebugger Debugger { get; set; }
 
         #endregion
 
