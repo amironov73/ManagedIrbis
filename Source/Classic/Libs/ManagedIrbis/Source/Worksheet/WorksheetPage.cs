@@ -1,4 +1,4 @@
-﻿/* WssFile.cs -- вложенный рабочий лист
+﻿/* WorksheetPage.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -33,19 +33,17 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Worksheet
 {
     /// <summary>
-    /// Вложенный рабочий лист.
+    /// 
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    [DebuggerDisplay("{Name}")]
-    [XmlRoot("wss-file")]
-    public sealed class WssFile
+    public sealed class WorksheetPage
         : IHandmadeSerializable
     {
         #region Properties
 
         /// <summary>
-        /// Имя рабочего листа.
+        /// Имя страницы.
         /// </summary>
         [CanBeNull]
         [XmlAttribute("name")]
@@ -53,7 +51,7 @@ namespace ManagedIrbis.Worksheet
         public string Name { get; set; }
 
         /// <summary>
-        /// Элементы рабочего листа.
+        /// Элементы страницы.
         /// </summary>
         [NotNull]
         [XmlArray("items")]
@@ -66,9 +64,9 @@ namespace ManagedIrbis.Worksheet
         #region Construction
 
         /// <summary>
-        /// Конструктор
+        /// Constructor.
         /// </summary>
-        public WssFile()
+        public WorksheetPage()
         {
             Items = new NonNullCollection<WorksheetItem>();
         }
@@ -85,16 +83,19 @@ namespace ManagedIrbis.Worksheet
         /// Разбор потока.
         /// </summary>
         [NotNull]
-        public static WssFile ParseStream
+        public static WorksheetPage ParseStream
             (
-                [NotNull] TextReader reader
+                [NotNull] TextReader reader,
+                [NotNull] string name,
+                int count
             )
         {
             Code.NotNull(reader, "reader");
 
-            WssFile result = new WssFile();
-
-            int count = int.Parse(reader.RequireLine());
+            WorksheetPage result = new WorksheetPage
+            {
+                Name = name
+            };
 
             for (int i = 0; i < count; i++)
             {
@@ -104,53 +105,6 @@ namespace ManagedIrbis.Worksheet
 
             return result;
         }
-
-#if !WIN81
-
-        /// <summary>
-        /// Считывание из локального файла.
-        /// </summary>
-        [NotNull]
-        public static WssFile ReadLocalFile
-            (
-                [NotNull] string fileName,
-                [NotNull] Encoding encoding
-            )
-        {
-            Code.NotNullNorEmpty(fileName, "fileName");
-            Code.NotNull(encoding, "encoding");
-
-            using (StreamReader reader = new StreamReader
-                (
-                    File.OpenRead(fileName),
-                    encoding
-                ))
-            {
-                WssFile result = ParseStream(reader);
-
-                result.Name = Path.GetFileName(fileName);
-
-                return result;
-            }
-        }
-
-        /// <summary>
-        /// Считывание из локального файла.
-        /// </summary>
-        [NotNull]
-        public static WssFile ReadLocalFile
-            (
-                [NotNull] string fileName
-            )
-        {
-            return ReadLocalFile
-                (
-                    fileName,
-                    IrbisEncoding.Ansi
-                );
-        }
-
-#endif
 
         #endregion
 

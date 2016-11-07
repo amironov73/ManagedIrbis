@@ -568,6 +568,7 @@
     <Compile Include="Source\Systematization\UdkException.cs" />
     <Compile Include="Source\Search\TermLink.cs" />
     <Compile Include="Source\Worksheet\WorksheetItem.cs" />
+    <Compile Include="Source\Worksheet\WorksheetPage.cs" />
     <Compile Include="Source\Worksheet\WsFile.cs" />
     <Compile Include="Source\Worksheet\WssFile.cs" />
   </ItemGroup>
