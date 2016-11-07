@@ -23,7 +23,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Infrastructure;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -103,6 +103,30 @@ namespace ManagedIrbis.Worksheet
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Read from server.
+        /// </summary>
+        [CanBeNull]
+        public static WssFile ReadFromServer
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] FileSpecification specification
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNull(specification, "specification");
+
+            string content = connection.ReadTextFile(specification);
+            if (string.IsNullOrEmpty(content))
+            {
+                return null;
+            }
+            using (StringReader reader = new StringReader(content))
+            {
+                return ParseStream(reader);
+            }
         }
 
 #if !WIN81

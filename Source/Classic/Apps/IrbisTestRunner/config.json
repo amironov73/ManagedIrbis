@@ -64,11 +64,12 @@
     //"TextCacheTest.cs",
     //"UpdateIniFileTest.cs",
     //"UpdateUserListTest.cs",
-    "VersionTest.cs"
+    "VersionTest.cs",
     //"WriteFileTest.cs",
     //"WriteRawRecordTest.cs",
     //"WriteRawRecordsTest.cs",
     //"WriteRecordsTest.cs",
     //"WriteRecordTest.cs"
+    "WssFileTest.cs"
   ]
 }
