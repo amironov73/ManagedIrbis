@@ -39,7 +39,7 @@ namespace ManagedIrbis.Pft.Infrastructure
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class PftParser
+    public sealed partial class PftParser
     {
         #region Properties
 
@@ -337,36 +337,49 @@ namespace ManagedIrbis.Pft.Infrastructure
             return MoveNext(result);
         }
 
-        private PftNode ParseAt()
+        private PftAssignment ParseAssignment
+            (
+                [NotNull] PftAssignment result,
+                [NotNull] PftTokenList tokens
+            )
         {
-            return MoveNext(new PftInclude(Tokens.Current));
-        }
+            PftTokenList _saveList = Tokens;
+            Tokens = tokens;
 
-        private PftNumeric ParseArithmetic()
-        {
-            PftNumeric result = (PftNumeric)Get(NumericMap, NumericTokens);
-
-            if (!Tokens.IsEof)
+            try
             {
-                PftTokenKind kind = Tokens.Current.Kind;
-                if (kind == PftTokenKind.Plus
-                    || kind == PftTokenKind.Minus
-                    || kind == PftTokenKind.Star
-                    || kind == PftTokenKind.Div
-                    )
+                PftNode node;
+                try
                 {
-                    PftNumericExpression expression = new PftNumericExpression
+                    node = ParseArithmetic();
+                    result.Children.Add(node);
+                    if (!Tokens.IsEof)
                     {
-                        LeftOperand = result
-                    };
-                    expression.Operation = Tokens.Current.Text;
-                    Tokens.RequireNext();
-                    expression.RightOperand = ParseArithmetic();
-                    result = expression;
+                        throw new PftSyntaxException();
+                    }
                 }
+                catch
+                {
+                    // TODO: make a routine
+                    Tokens.Reset();
+                    while (!Tokens.IsEof)
+                    {
+                        node = ParseNext();
+                        result.Children.Add(node);
+                    }
+                }
+            }
+            finally
+            {
+                Tokens = _saveList;
             }
 
             return result;
+        }
+
+        private PftNode ParseAt()
+        {
+            return MoveNext(new PftInclude(Tokens.Current));
         }
 
         private PftNode ParseBreak()
@@ -960,52 +973,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftNode result = new PftVal(Tokens.Current);
             return ParseCall(result);
-        }
-
-        private PftAssignment ParseAssignment
-            (
-                [NotNull] PftAssignment result,
-                [NotNull] PftTokenList tokens
-            )
-        {
-            PftTokenList _saveList = Tokens;
-            Tokens = tokens;
-
-            try
-            {
-                if (LookFor(NumericGoodies, NumericLimiter))
-                {
-                    while (!Tokens.IsEof)
-                    {
-                        if (Tokens.Current.Kind == PftTokenKind.Semicolon)
-                        {
-                            Tokens.MoveNext();
-                            break;
-                        }
-                        PftNode node = ParseArithmetic();
-                        result.Children.Add(node);
-                    }
-                }
-                else
-                {
-                    while (!Tokens.IsEof)
-                    {
-                        if (Tokens.Current.Kind == PftTokenKind.Semicolon)
-                        {
-                            Tokens.MoveNext();
-                            break;
-                        }
-                        PftNode node = ParseNext();
-                        result.Children.Add(node);
-                    }
-                }
-            }
-            finally
-            {
-                Tokens = _saveList;
-            }
-
-            return result;
         }
 
         private PftNode ParseVariable()

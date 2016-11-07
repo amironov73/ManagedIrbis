@@ -163,6 +163,16 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// Move to begin of the list.
+        /// </summary>
+        public PftTokenList Reset()
+        {
+            _position = 0;
+
+            return this;
+        }
+
+        /// <summary>
         /// Require next token.
         /// </summary>
         public PftTokenList RequireNext
