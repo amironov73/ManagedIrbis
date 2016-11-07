@@ -22,6 +22,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         A,
 
         /// <summary>
+        /// abs
+        /// </summary>
+        Abs,
+
+        /// <summary>
         /// @
         /// </summary>
         At,
@@ -50,6 +55,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// c10
         /// </summary>
         C,
+
+        /// <summary>
+        /// ceil
+        /// </summary>
+        Ceil,
 
         /// <summary>
         /// :
@@ -105,6 +115,16 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// fi
         /// </summary>
         Fi,
+
+        /// <summary>
+        /// floor
+        /// </summary>
+        Floor,
+
+        /// <summary>
+        /// frac
+        /// </summary>
+        Frac,
 
         /// <summary>
         /// #
@@ -272,6 +292,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         Rmin,
 
         /// <summary>
+        /// round
+        /// </summary>
+        Round,
+
+        /// <summary>
         /// rsum
         /// </summary>
         Rsum,
@@ -287,6 +312,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         Semicolon,
 
         /// <summary>
+        /// sign
+        /// </summary>
+        Sign,
+
+        /// <summary>
         /// /
         /// </summary>
         Slash,
@@ -300,6 +330,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// then
         /// </summary>
         Then,
+
+        /// <summary>
+        /// trunc
+        /// </summary>
+        Trunc,
 
         /// <summary>
         /// ~

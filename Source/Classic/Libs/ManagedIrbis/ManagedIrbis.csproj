@@ -269,10 +269,12 @@
     <Compile Include="Source\Mx\MxUtility.cs" />
     <Compile Include="Source\Pft\FormatError.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftA.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftAbs.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftAssignment.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftBoolean.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftBreak.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftC.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftCeil.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftCodeBlock.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftComma.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftComment.cs" />
@@ -285,9 +287,11 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftConditionParenthesis.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftD.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftF.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftFrac.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftFunctionCall.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftInclude.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftL.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftMinus.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNl.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNumeric.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNumericExpression.cs" />
@@ -337,6 +341,7 @@
     <Compile Include="Source\Pft\Infrastructure\PftFieldOutputMode.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftFormatter.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.Arith.cs" />
+    <Compile Include="Source\Pft\Infrastructure\PftParser.Tables.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftProcedure.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftProcedureManager.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftProgram.cs" />

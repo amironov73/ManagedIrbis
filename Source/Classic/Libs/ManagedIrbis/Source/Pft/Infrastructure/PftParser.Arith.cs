@@ -102,8 +102,11 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
             if (token.Kind == PftTokenKind.Minus)
             {
-                // TODO implement
-                return null;
+                PftMinus minus = new PftMinus(token);
+                Tokens.RequireNext();
+                PftNumeric child = ParseValue();
+                minus.Children.Add(child);
+                return minus;
             }
 
             PftNumeric result = (PftNumeric)Get
@@ -114,5 +117,24 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             return result;
         }
+
+        private PftNumeric ParseAbs()
+        {
+            PftNumeric result = new PftAbs(Tokens.Current);
+            return result;
+        }
+
+        private PftNumeric ParseCeil()
+        {
+            PftNumeric result = new PftCeil(Tokens.Current);
+            return result;
+        }
+
+        private PftNumeric ParseFrac()
+        {
+            PftNumeric result = new PftFrac(Tokens.Current);
+            return result;
+        }
+
     }
 }

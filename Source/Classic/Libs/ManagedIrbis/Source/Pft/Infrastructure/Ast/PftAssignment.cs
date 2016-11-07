@@ -34,6 +34,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #region Properties
 
         /// <summary>
+        /// Whether is numeric or text assignment.
+        /// </summary>
+        public bool IsNumeric { get; set; }
+
+        /// <summary>
         /// Variable name.
         /// </summary>
         public string Name { get; set; }

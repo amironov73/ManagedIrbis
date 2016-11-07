@@ -22,6 +22,7 @@ delflc
 Durden
 Feig
 fias
+Frac
 getenv
 github
 Globalization
@@ -86,6 +87,7 @@ toupper
 Tranc
 transcode
 Transliterator
+trunc
 typeof
 typeparamref
 Unescape

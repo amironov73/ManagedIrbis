@@ -837,6 +837,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                         }
                         switch (value.ToLower())
                         {
+                            case "abs":
+                                kind = PftTokenKind.Abs;
+                                value = "abs";
+                                break;
+
                             case "and":
                                 kind = PftTokenKind.And;
                                 value = "and";
@@ -844,6 +849,11 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                             case "break":
                                 kind = PftTokenKind.Break;
+                                break;
+
+                            case "ceil":
+                                kind = PftTokenKind.Ceil;
+                                value = "ceil";
                                 break;
 
                             case "div":
@@ -861,6 +871,16 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                             case "fi":
                                 kind = PftTokenKind.Fi;
+                                break;
+
+                            case "floor":
+                                kind = PftTokenKind.Floor;
+                                value = "floor";
+                                break;
+
+                            case "frac":
+                                kind = PftTokenKind.Frac;
+                                value = "frac";
                                 break;
 
                             case "if":
@@ -896,12 +916,27 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 kind = PftTokenKind.Rmin;
                                 break;
 
+                            case "round":
+                                kind = PftTokenKind.Round;
+                                value = "round";
+                                break;
+
                             case "rsum":
                                 kind = PftTokenKind.Rsum;
                                 break;
 
+                            case "sign":
+                                kind = PftTokenKind.Sign;
+                                value = "sign";
+                                break;
+
                             case "then":
                                 kind = PftTokenKind.Then;
+                                break;
+
+                            case "trunc":
+                                kind = PftTokenKind.Trunc;
+                                value = "trunc";
                                 break;
 
                             case "val":
