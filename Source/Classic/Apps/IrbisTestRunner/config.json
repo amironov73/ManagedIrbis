@@ -70,6 +70,7 @@
     //"WriteRawRecordsTest.cs",
     //"WriteRecordsTest.cs",
     //"WriteRecordTest.cs"
+    "WsFileTest.cs",
     "WssFileTest.cs"
   ]
 }

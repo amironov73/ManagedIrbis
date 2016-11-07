@@ -24,6 +24,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Infrastructure;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -119,6 +121,77 @@ namespace ManagedIrbis.Worksheet
                         pairs[i].Second
                     );
                 result.Pages.Add(page);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Read from server.
+        /// </summary>
+        [CanBeNull]
+        public static WsFile ReadFromServer
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] FileSpecification specification
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNull(specification, "specification");
+
+            string content = connection.ReadTextFile(specification);
+            if (string.IsNullOrEmpty(content))
+            {
+                return null;
+            }
+
+            WsFile result;
+
+            using (StringReader reader = new StringReader(content))
+            {
+                result = ParseStream(reader);
+            }
+
+            for (int i = 0; i < result.Pages.Count; )
+            {
+                WorksheetPage page = result.Pages[i];
+                string name = page.Name.ThrowIfNull("page.Name");
+                if (name.StartsWith("@"))
+                {
+                    string extension = Path.GetExtension(specification.FileName);
+                    FileSpecification nestedSpecification = new FileSpecification
+                        (
+                            specification.Path,
+                            specification.Database,
+                            name.Substring(1) + extension
+                        );
+                    WsFile nestedFile = ReadFromServer
+                        (
+                            connection,
+                            nestedSpecification
+                        );
+                    if (ReferenceEquals(nestedFile, null))
+                    {
+                        // TODO: somehow report error
+                        i++;
+                    }
+                    else
+                    {
+                        result.Pages.RemoveAt(i);
+                        for (int j = 0; j < nestedFile.Pages.Count; j++)
+                        {
+                            result.Pages.Insert
+                                (
+                                    i + j,
+                                    nestedFile.Pages[j]
+                                );
+                        }
+                    }
+                }
+                else
+                {
+                    i++;
+                }
             }
 
             return result;
