@@ -143,9 +143,11 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
-        private PftNumeric ParseAbs()
+        private PftNumeric ParseFunction
+            (
+                PftNumeric result
+            )
         {
-            PftNumeric result = new PftAbs(Tokens.Current);
             Tokens.RequireNext(PftTokenKind.LeftParenthesis);
             Tokens.RequireNext();
             PftNumeric expression = ParseArithmetic(PftTokenKind.RightParenthesis);
@@ -154,32 +156,48 @@ namespace ManagedIrbis.Pft.Infrastructure
             Tokens.MoveNext();
 
             return result;
+        }
+
+        private PftNumeric ParseAbs()
+        {
+            PftNumeric result = new PftAbs(Tokens.Current);
+            return ParseFunction(result);
         }
 
         private PftNumeric ParseCeil()
         {
             PftNumeric result = new PftCeil(Tokens.Current);
-            Tokens.RequireNext(PftTokenKind.LeftParenthesis);
-            Tokens.RequireNext();
-            PftNumeric expression = ParseArithmetic(PftTokenKind.RightParenthesis);
-            result.Children.Add(expression);
-            Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
-            Tokens.MoveNext();
-
-            return result;
+            return ParseFunction(result);
         }
 
         private PftNumeric ParseFrac()
         {
             PftNumeric result = new PftFrac(Tokens.Current);
-            Tokens.RequireNext(PftTokenKind.LeftParenthesis);
-            Tokens.RequireNext();
-            PftNumeric expression = ParseArithmetic(PftTokenKind.RightParenthesis);
-            result.Children.Add(expression);
-            Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
-            Tokens.MoveNext();
+            return ParseFunction(result);
+        }
 
-            return result;
+        private PftNumeric ParseFloor()
+        {
+            PftNumeric result = new PftFloor(Tokens.Current);
+            return ParseFunction(result);
+        }
+
+        private PftNumeric ParseRound()
+        {
+            PftNumeric result = new PftRound(Tokens.Current);
+            return ParseFunction(result);
+        }
+
+        private PftNumeric ParseSign()
+        {
+            PftNumeric result = new PftSign(Tokens.Current);
+            return ParseFunction(result);
+        }
+
+        private PftNumeric ParseTrunc()
+        {
+            PftNumeric result = new PftTrunc(Tokens.Current);
+            return ParseFunction(result);
         }
     }
 }

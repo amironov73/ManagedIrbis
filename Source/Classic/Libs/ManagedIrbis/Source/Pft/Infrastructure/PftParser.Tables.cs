@@ -89,21 +89,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.L,
         };
 
-        private static PftTokenKind[] NumericGoodies =
-        {
-            PftTokenKind.Number, PftTokenKind.Val, PftTokenKind.Rsum,
-            PftTokenKind.Ravr, PftTokenKind.Rmax, PftTokenKind.Rmin,
-            PftTokenKind.Mfn, PftTokenKind.Plus, PftTokenKind.Minus,
-            PftTokenKind.Star, PftTokenKind.Div,
-
-            PftTokenKind.L,
-        };
-
-        private static PftTokenKind[] NumericLimiter =
-        {
-            PftTokenKind.Semicolon
-        };
-
         private static PftTokenKind[] RightHandItems =
         {
             PftTokenKind.C, PftTokenKind.Comment,
@@ -201,13 +186,17 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.Abs, ParseAbs},
                 {PftTokenKind.Ceil, ParseCeil},
                 {PftTokenKind.Frac, ParseFrac},
+                {PftTokenKind.Floor, ParseFloor},
                 {PftTokenKind.L, ParseL},
                 {PftTokenKind.Mfn,ParseMfn},
                 {PftTokenKind.Number, ParseNumber},
-                {PftTokenKind.Rsum, ParseRsum},
+                {PftTokenKind.Ravr, ParseRsum},
                 {PftTokenKind.Rmax, ParseRsum},
                 {PftTokenKind.Rmin, ParseRsum},
-                {PftTokenKind.Ravr, ParseRsum},
+                {PftTokenKind.Round, ParseRound},
+                {PftTokenKind.Rsum, ParseRsum},
+                {PftTokenKind.Sign, ParseSign},
+                {PftTokenKind.Trunc, ParseTrunc},
                 {PftTokenKind.Val, ParseVal},
                 {PftTokenKind.Variable, ParseVariableReference}
             };

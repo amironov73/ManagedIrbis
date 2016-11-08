@@ -236,20 +236,23 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
                 else if (Array.IndexOf(stop, Current.Kind) >= 0)
                 {
-                    List<PftToken> tokens = new List<PftToken>();
+                    if (level == 0)
+                    {
+                        List<PftToken> tokens = new List<PftToken>();
 
-                    for (
+                        for (
                             int position = _savePosition;
                             position < _position;
                             position++
-                       )
-                    {
-                        tokens.Add(_tokens[position]);
+                            )
+                        {
+                            tokens.Add(_tokens[position]);
+                        }
+
+                        PftTokenList result = new PftTokenList(tokens);
+
+                        return result;
                     }
-
-                    PftTokenList result = new PftTokenList(tokens);
-
-                    return result;
                 }
                 MoveNext();
             }
