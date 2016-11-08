@@ -83,6 +83,55 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Private members
 
+        // Handle direct variable-to-variable assignment
+        // Ignore IsNumeric setting
+        private bool HandleDirectAssignment
+            (
+                PftContext context
+            )
+        {
+            string name = Name.ThrowIfNull("name");
+
+            if (Children.Count == 1)
+            {
+                PftVariableReference reference = Children.First()
+                    as PftVariableReference;
+                if (!ReferenceEquals(reference, null))
+                {
+                    PftVariable donor;
+                    string donorName = reference.Name
+                        .ThrowIfNull("reference.Name");
+                    if (context.Variables.Registry.TryGetValue
+                        (
+                            donorName,
+                            out donor
+                        ))
+                    {
+                        if (donor.IsNumeric)
+                        {
+                            context.Variables.SetVariable
+                                (
+                                    name,
+                                    donor.NumericValue
+                                );
+                        }
+                        else
+                        {
+                            context.Variables.SetVariable
+                                (
+                                    name,
+                                    donor.StringValue
+                                );
+                        }
+
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         #endregion
 
         #region Public methods
@@ -99,30 +148,33 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            string name = Name.ThrowIfNull("name");
-            string stringValue = context.Evaluate(Children);
+            if (!HandleDirectAssignment(context))
+            {
+                string name = Name.ThrowIfNull("name");
+                string stringValue = context.Evaluate(Children);
 
-            if (IsNumeric)
-            {
-                PftNumeric numeric =
-                    (
-                        Children.FirstOrDefault() as PftNumeric
-                    )
-                    .ThrowIfNull("numeric");
-                double numericValue = numeric.Value;
-                context.Variables.SetVariable
-                    (
-                        name,
-                        numericValue
-                    );
-            }
-            else
-            {
-                context.Variables.SetVariable
-                    (
-                        name,
-                        stringValue
-                    );
+                if (IsNumeric)
+                {
+                    PftNumeric numeric =
+                        (
+                            Children.FirstOrDefault() as PftNumeric
+                        )
+                        .ThrowIfNull("numeric");
+                    double numericValue = numeric.Value;
+                    context.Variables.SetVariable
+                        (
+                            name,
+                            numericValue
+                        );
+                }
+                else
+                {
+                    context.Variables.SetVariable
+                        (
+                            name,
+                            stringValue
+                        );
+                }
             }
 
             OnAfterExecution(context);

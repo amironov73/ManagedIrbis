@@ -1,0 +1,1 @@
+﻿Aritmetics: direct variable assignment (string)
