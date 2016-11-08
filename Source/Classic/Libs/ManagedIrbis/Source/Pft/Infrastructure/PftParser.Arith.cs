@@ -41,6 +41,29 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        private PftNumeric ParseArithmetic
+            (
+                params PftTokenKind[] stop
+            )
+        {
+            PftTokenList newTokens = Tokens.Segment(stop);
+            if (ReferenceEquals(newTokens, null))
+            {
+                throw new PftSyntaxException(Tokens);
+            }
+
+            PftTokenList saveTokens = Tokens;
+            try
+            {
+                Tokens = newTokens;
+                return ParseArithmetic();
+            }
+            finally
+            {
+                Tokens = saveTokens;
+            }
+        }
+
         private PftNumeric ParseAddition()
         {
             PftNumeric left = ParseMultiplication();
@@ -97,8 +120,10 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             if (token.Kind == PftTokenKind.LeftParenthesis)
             {
-                // TODO implement
-                return null;
+                Tokens.RequireNext();
+                PftNumeric inner = ParseArithmetic(PftTokenKind.RightParenthesis);
+                Tokens.MoveNext();
+                return inner;
             }
             if (token.Kind == PftTokenKind.Minus)
             {
@@ -121,20 +146,40 @@ namespace ManagedIrbis.Pft.Infrastructure
         private PftNumeric ParseAbs()
         {
             PftNumeric result = new PftAbs(Tokens.Current);
+            Tokens.RequireNext(PftTokenKind.LeftParenthesis);
+            Tokens.RequireNext();
+            PftNumeric expression = ParseArithmetic(PftTokenKind.RightParenthesis);
+            result.Children.Add(expression);
+            Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
+            Tokens.MoveNext();
+
             return result;
         }
 
         private PftNumeric ParseCeil()
         {
             PftNumeric result = new PftCeil(Tokens.Current);
+            Tokens.RequireNext(PftTokenKind.LeftParenthesis);
+            Tokens.RequireNext();
+            PftNumeric expression = ParseArithmetic(PftTokenKind.RightParenthesis);
+            result.Children.Add(expression);
+            Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
+            Tokens.MoveNext();
+
             return result;
         }
 
         private PftNumeric ParseFrac()
         {
             PftNumeric result = new PftFrac(Tokens.Current);
+            Tokens.RequireNext(PftTokenKind.LeftParenthesis);
+            Tokens.RequireNext();
+            PftNumeric expression = ParseArithmetic(PftTokenKind.RightParenthesis);
+            result.Children.Add(expression);
+            Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
+            Tokens.MoveNext();
+
             return result;
         }
-
     }
 }

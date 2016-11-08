@@ -200,9 +200,41 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             int _savePosition = _position;
 
+            int level = 0;
             while (!IsEof)
             {
-                if (Array.IndexOf(stop, Current.Kind) >= 0)
+                if (Current.Kind == PftTokenKind.LeftParenthesis)
+                {
+                    level++;
+                }
+                else if (Current.Kind == PftTokenKind.RightParenthesis)
+                {
+                    if (level != 0)
+                    {
+                        level--;
+                    }
+                    else
+                    {
+                        if (Array.IndexOf(stop, Current.Kind) >= 0)
+                        {
+                            List<PftToken> tokens = new List<PftToken>();
+
+                            for (
+                                    int position = _savePosition;
+                                    position < _position;
+                                    position++
+                               )
+                            {
+                                tokens.Add(_tokens[position]);
+                            }
+
+                            PftTokenList result = new PftTokenList(tokens);
+
+                            return result;
+                        }
+                    }
+                }
+                else if (Array.IndexOf(stop, Current.Kind) >= 0)
                 {
                     List<PftToken> tokens = new List<PftToken>();
 

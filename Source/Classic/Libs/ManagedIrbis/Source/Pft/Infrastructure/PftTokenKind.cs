@@ -247,6 +247,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         Plus,
 
         /// <summary>
+        /// pow
+        /// </summary>
+        Pow,
+
+        /// <summary>
         /// ?
         /// </summary>
         Question,

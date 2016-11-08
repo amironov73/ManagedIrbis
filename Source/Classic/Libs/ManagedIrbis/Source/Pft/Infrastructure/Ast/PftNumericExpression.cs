@@ -18,7 +18,7 @@ using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -95,6 +95,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     result = leftValue * rightValue;
                     break;
 
+                case "/":
                 case "div":
                     result = leftValue / rightValue;
                     break;
@@ -147,6 +148,47 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 );
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc/>
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Name = SimplifyTypeName(GetType().Name)
+            };
+
+            if (!ReferenceEquals(LeftOperand, null))
+            {
+                PftNodeInfo leftNode = new PftNodeInfo
+                {
+                    Name = "Left"
+                };
+                result.Children.Add(leftNode);
+                leftNode.Children.Add(LeftOperand.GetNodeInfo());
+            }
+
+            if (!string.IsNullOrEmpty(Operation))
+            {
+                PftNodeInfo operationNode = new PftNodeInfo
+                {
+                    Name = "Operation",
+                    Value = Operation
+                };
+                result.Children.Add(operationNode);
+            }
+
+            if (!ReferenceEquals(RightOperand, null))
+            {
+                PftNodeInfo rightNode = new PftNodeInfo
+                {
+                    Name = "Right"
+                };
+                result.Children.Add(rightNode);
+                rightNode.Children.Add(RightOperand.GetNodeInfo());
+            }
+
+            return result;
         }
 
         /// <inheritdoc/>

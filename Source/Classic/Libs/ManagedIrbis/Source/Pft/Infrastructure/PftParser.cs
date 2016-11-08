@@ -390,7 +390,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftF result = new PftF(Tokens.Current);
             Tokens.RequireNext(PftTokenKind.LeftParenthesis);
             Tokens.RequireNext();
-            result.Argument1 = ParseArithmetic();
+            result.Argument1 = ParseArithmetic(PftTokenKind.Comma,PftTokenKind.RightParenthesis);
             if (Tokens.IsEof)
             {
                 throw new PftSyntaxException(Tokens);
@@ -751,7 +751,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Tokens.RequireNext(PftTokenKind.LeftParenthesis);
             Tokens.RequireNext();
             //result.Mfn = ParseNumber();
-            result.Mfn = ParseArithmetic();
+            result.Mfn = ParseArithmetic(PftTokenKind.Comma);
             Tokens.Current.MustBe(PftTokenKind.Comma);
             Tokens.RequireNext();
             PftNode pseudo = new PftNode();

@@ -82,6 +82,10 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.Ravr, PftTokenKind.Rmax, PftTokenKind.Rmin,
             PftTokenKind.Mfn, PftTokenKind.Variable,
 
+            PftTokenKind.Abs, PftTokenKind.Ceil, PftTokenKind.Frac,
+            PftTokenKind.Floor, PftTokenKind.Pow, PftTokenKind.Round,
+            PftTokenKind.Sign, PftTokenKind.Trunc,
+
             PftTokenKind.L,
         };
 
