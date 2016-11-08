@@ -182,6 +182,22 @@ namespace ManagedIrbis.Pft.Infrastructure
             return ParseFunction(result);
         }
 
+        private PftNumeric ParsePow()
+        {
+            PftPow result = new PftPow(Tokens.Current);
+
+            Tokens.RequireNext(PftTokenKind.LeftParenthesis);
+            Tokens.RequireNext();
+            result.X = ParseArithmetic(PftTokenKind.Comma);
+            Tokens.Current.MustBe(PftTokenKind.Comma);
+            Tokens.MoveNext();
+            result.Y = ParseArithmetic(PftTokenKind.RightParenthesis);
+            Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
+            Tokens.MoveNext();
+
+            return result;
+        }
+
         private PftNumeric ParseRound()
         {
             PftNumeric result = new PftRound(Tokens.Current);

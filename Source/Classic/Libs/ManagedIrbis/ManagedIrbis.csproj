@@ -298,6 +298,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNumericExpression.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNumericLiteral.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftP.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftPow.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftRef.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftRound.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftRsum.cs" />

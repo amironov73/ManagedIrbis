@@ -190,6 +190,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.L, ParseL},
                 {PftTokenKind.Mfn,ParseMfn},
                 {PftTokenKind.Number, ParseNumber},
+                {PftTokenKind.Pow, ParsePow},
                 {PftTokenKind.Ravr, ParseRsum},
                 {PftTokenKind.Rmax, ParseRsum},
                 {PftTokenKind.Rmin, ParseRsum},

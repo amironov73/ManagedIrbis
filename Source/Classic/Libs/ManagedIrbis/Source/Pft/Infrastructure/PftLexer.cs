@@ -900,6 +900,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "or";
                                 break;
 
+                            case "pow":
+                                kind = PftTokenKind.Pow;
+                                value = "pow";
+                                break;
+
                             case "ravr":
                                 kind = PftTokenKind.Ravr;
                                 break;
