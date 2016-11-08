@@ -71,7 +71,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 PftToken token = Tokens.Current;
                 if (token.Kind != PftTokenKind.Plus
-                    && token.Kind == PftTokenKind.Minus)
+                    && token.Kind != PftTokenKind.Minus
+                   )
                 {
                     break;
                 }
@@ -94,7 +95,10 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 PftToken token = Tokens.Current;
                 if (token.Kind != PftTokenKind.Star
-                    && token.Kind != PftTokenKind.Slash)
+                    && token.Kind != PftTokenKind.Slash
+                    && token.Kind != PftTokenKind.Percent
+                    && token.Kind != PftTokenKind.Div
+                   )
                 {
                     break;
                 }

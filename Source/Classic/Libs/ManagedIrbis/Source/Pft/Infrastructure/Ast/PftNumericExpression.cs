@@ -96,8 +96,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     break;
 
                 case "/":
-                case "div":
                     result = leftValue / rightValue;
+                    break;
+
+                case "%":
+                    // ReSharper disable once PossibleLossOfFraction
+                    result = (int)leftValue % (int)rightValue;
+                    break;
+
+                case "div":
+                    // ReSharper disable once PossibleLossOfFraction
+                    result = (int)leftValue / (int)rightValue;
                     break;
 
                 default:

@@ -481,16 +481,16 @@ namespace ManagedIrbis.Pft.Infrastructure
                         break;
 
                     case '-':
-                        if (IsInteger(PeekChar()))
-                        {
-                            kind = PftTokenKind.Number;
-                            value = c + ReadFloat();
-                        }
-                        else
-                        {
+                        //if (IsInteger(PeekChar()))
+                        //{
+                        //    kind = PftTokenKind.Number;
+                        //    value = c + ReadFloat();
+                        //}
+                        //else
+                        //{
                             kind = PftTokenKind.Minus;
                             value = c.ToString();
-                        }
+                        //}
                         break;
 
                     case '*':

@@ -16,7 +16,7 @@ using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -101,31 +101,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             string name = Name.ThrowIfNull("name");
             string stringValue = context.Evaluate(Children);
-            bool isNumeric = false;
-            if (Children.Count != 0
-                && Children[0] is PftNumeric)
-            {
-                if (Children[0] is PftVariableReference)
-                {
-                    PftVariableReference variableReference
-                        = (PftVariableReference) Children[0];
-                    PftVariable variable
-                        = context.Variables.GetExistingVariable
-                        (
-                            variableReference.Name.ThrowIfNull()
-                        )
-                        .ThrowIfNull();
-                    isNumeric = variable.IsNumeric;
-                }
-                else
-                {
-                    isNumeric = true;
-                }
-            }
 
-            if (isNumeric)
+            if (IsNumeric)
             {
-                PftNumeric numeric = Children[0] as PftNumeric;
+                PftNumeric numeric =
+                    (
+                        Children.FirstOrDefault() as PftNumeric
+                    )
+                    .ThrowIfNull("numeric");
                 double numericValue = numeric.Value;
                 context.Variables.SetVariable
                     (
@@ -143,6 +126,36 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc/>
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Name = SimplifyTypeName(GetType().Name)
+            };
+
+            PftNodeInfo name = new PftNodeInfo
+            {
+                Name = "Name",
+                Value = Name
+            };
+            result.Children.Add(name);
+
+            PftNodeInfo numeric = new PftNodeInfo
+            {
+                Name = "IsNumeric",
+                Value = IsNumeric.ToString()
+            };
+            result.Children.Add(numeric);
+
+            foreach (PftNode node in Children)
+            {
+                result.Children.Add(node.GetNodeInfo());
+            }
+
+            return result;
         }
 
         #endregion

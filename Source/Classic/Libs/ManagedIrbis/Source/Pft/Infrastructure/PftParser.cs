@@ -174,8 +174,9 @@ namespace ManagedIrbis.Pft.Infrastructure
                 [NotNull] PftTokenList tokens
             )
         {
-            PftTokenList _saveList = Tokens;
+            PftTokenList saveList = Tokens;
             Tokens = tokens;
+            int position = Tokens.SavePosition();
 
             try
             {
@@ -188,11 +189,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                     {
                         throw new PftSyntaxException();
                     }
+                    result.IsNumeric = true;
                 }
                 catch
                 {
-                    // TODO: make a routine
-                    Tokens.Reset();
+                    result.Children.Clear();
+                    Tokens.RestorePosition(position);
                     while (!Tokens.IsEof)
                     {
                         node = ParseNext();
@@ -202,7 +204,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
             finally
             {
-                Tokens = _saveList;
+                Tokens = saveList;
             }
 
             return result;

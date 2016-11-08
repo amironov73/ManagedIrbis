@@ -173,6 +173,21 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// Restore position.
+        /// </summary>
+        public PftTokenList RestorePosition
+            (
+                int position
+            )
+        {
+            Code.Nonnegative(position, "position");
+
+            _position = position;
+
+            return this;
+        }
+
+        /// <summary>
         /// Require next token.
         /// </summary>
         public PftTokenList RequireNext
@@ -187,6 +202,14 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 
             return this;
+        }
+
+        /// <summary>
+        /// Save position.
+        /// </summary>
+        public int SavePosition()
+        {
+            return _position;
         }
 
         /// <summary>
