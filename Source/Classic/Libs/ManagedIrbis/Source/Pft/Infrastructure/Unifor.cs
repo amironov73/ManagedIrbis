@@ -86,6 +86,7 @@ StringComparer.InvariantCultureIgnoreCase
         {
             Registry.Add("0", FormatAll);
             Registry.Add("3", Unifor3.PrintDate);
+            Registry.Add("4", Unifor4.FormatPreviousVersion);
             Registry.Add("6", Unifor6.ExecuteNestedFormat);
             Registry.Add("9", RemoveDoubleQuotes);
             Registry.Add("A", GetFieldRepeat);
