@@ -14,5 +14,5 @@ find ../Source/Classic/Libs/ManagedIrbis/Source/ -name "*.cs" -exec cat {} \; | 
 echo -e '\n'
 echo IrbisUI
 
-find ../Source/Classic/Libs/IrbisUI/ -name "*.cs" | wc -l
-find ../Source/Classic/Libs/IrbisUI/ -name "*.cs" -exec cat {} \; | wc -l
+find ../Source/Classic/Libs/IrbisUI/Source -name "*.cs" | wc -l
+find ../Source/Classic/Libs/IrbisUI/Source -name "*.cs" -exec cat {} \; | wc -l

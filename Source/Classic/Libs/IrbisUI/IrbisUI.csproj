@@ -109,108 +109,108 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Sources\DictionaryForm.cs">
+    <Compile Include="Source\DictionaryForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sources\DictionaryForm.Designer.cs">
+    <Compile Include="Source\DictionaryForm.Designer.cs">
       <DependentUpon>DictionaryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sources\DictionaryPanel.cs">
+    <Compile Include="Source\DictionaryPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Sources\DictionaryPanel.Designer.cs">
+    <Compile Include="Source\DictionaryPanel.Designer.cs">
       <DependentUpon>DictionaryPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sources\FoundPanel.cs">
+    <Compile Include="Source\FoundPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Sources\FoundPanel.Designer.cs">
+    <Compile Include="Source\FoundPanel.Designer.cs">
       <DependentUpon>FoundPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sources\IrbisBusyForm.cs">
+    <Compile Include="Source\IrbisBusyForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sources\IrbisBusyForm.Designer.cs">
+    <Compile Include="Source\IrbisBusyForm.Designer.cs">
       <DependentUpon>IrbisBusyForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sources\IrbisBusyManager.cs" />
-    <Compile Include="Sources\IrbisCredentialsForm.cs">
+    <Compile Include="Source\IrbisBusyManager.cs" />
+    <Compile Include="Source\IrbisCredentialsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sources\IrbisCredentialsForm.Designer.cs">
+    <Compile Include="Source\IrbisCredentialsForm.Designer.cs">
       <DependentUpon>IrbisCredentialsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sources\IrbisIdleManager.cs" />
-    <Compile Include="Sources\IrbisLoginCenter.cs" />
-    <Compile Include="Sources\IrbisLoginForm.cs">
+    <Compile Include="Source\IrbisIdleManager.cs" />
+    <Compile Include="Source\IrbisLoginCenter.cs" />
+    <Compile Include="Source\IrbisLoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sources\IrbisLoginForm.Designer.cs">
+    <Compile Include="Source\IrbisLoginForm.Designer.cs">
       <DependentUpon>IrbisLoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sources\IrbisLoginForm2.cs">
+    <Compile Include="Source\IrbisLoginForm2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sources\IrbisLoginForm2.Designer.cs">
+    <Compile Include="Source\IrbisLoginForm2.Designer.cs">
       <DependentUpon>IrbisLoginForm2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sources\MenuForm.cs">
+    <Compile Include="Source\MenuForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sources\MenuForm.Designer.cs">
+    <Compile Include="Source\MenuForm.Designer.cs">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sources\PftEditorControl.cs">
+    <Compile Include="Source\PftEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Sources\PftGlobalGrid.cs">
+    <Compile Include="Source\PftGlobalGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Sources\PftGlobalGrid.Designer.cs">
+    <Compile Include="Source\PftGlobalGrid.Designer.cs">
       <DependentUpon>PftGlobalGrid.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sources\PftSyntaxModeProvider.cs" />
-    <Compile Include="Sources\PftTokenGrid.cs">
+    <Compile Include="Source\PftSyntaxModeProvider.cs" />
+    <Compile Include="Source\PftTokenGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Sources\PftTokenGrid.Designer.cs">
+    <Compile Include="Source\PftTokenGrid.Designer.cs">
       <DependentUpon>PftTokenGrid.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sources\PftTreeView.cs">
+    <Compile Include="Source\PftTreeView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Sources\PftTreeView.Designer.cs">
+    <Compile Include="Source\PftTreeView.Designer.cs">
       <DependentUpon>PftTreeView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sources\PftVariableGrid.cs">
+    <Compile Include="Source\PftVariableGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Sources\PftVariableGrid.Designer.cs">
+    <Compile Include="Source\PftVariableGrid.Designer.cs">
       <DependentUpon>PftVariableGrid.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sources\PreviewPanel.cs">
+    <Compile Include="Source\PreviewPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Sources\PreviewPanel.Designer.cs">
+    <Compile Include="Source\PreviewPanel.Designer.cs">
       <DependentUpon>PreviewPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sources\RecordViewGrid.cs">
+    <Compile Include="Source\RecordViewGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Sources\RecordViewGrid.Designer.cs">
+    <Compile Include="Source\RecordViewGrid.Designer.cs">
       <DependentUpon>RecordViewGrid.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sources\RelatedSearchForm.cs">
+    <Compile Include="Source\RelatedSearchForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sources\RelatedSearchForm.Designer.cs">
+    <Compile Include="Source\RelatedSearchForm.Designer.cs">
       <DependentUpon>RelatedSearchForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sources\WorksheetLine.cs" />
-    <Compile Include="Sources\WssForm.cs">
+    <Compile Include="Source\WorksheetLine.cs" />
+    <Compile Include="Source\WssForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sources\WssForm.Designer.cs">
+    <Compile Include="Source\WssForm.Designer.cs">
       <DependentUpon>WssForm.cs</DependentUpon>
     </Compile>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
@@ -250,52 +250,52 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sources\DictionaryForm.resx">
+    <EmbeddedResource Include="Source\DictionaryForm.resx">
       <DependentUpon>DictionaryForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sources\DictionaryPanel.resx">
+    <EmbeddedResource Include="Source\DictionaryPanel.resx">
       <DependentUpon>DictionaryPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sources\FoundPanel.resx">
+    <EmbeddedResource Include="Source\FoundPanel.resx">
       <DependentUpon>FoundPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sources\IrbisBusyForm.resx">
+    <EmbeddedResource Include="Source\IrbisBusyForm.resx">
       <DependentUpon>IrbisBusyForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sources\IrbisCredentialsForm.resx">
+    <EmbeddedResource Include="Source\IrbisCredentialsForm.resx">
       <DependentUpon>IrbisCredentialsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sources\IrbisLoginForm.resx">
+    <EmbeddedResource Include="Source\IrbisLoginForm.resx">
       <DependentUpon>IrbisLoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sources\IrbisLoginForm2.resx">
+    <EmbeddedResource Include="Source\IrbisLoginForm2.resx">
       <DependentUpon>IrbisLoginForm2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sources\MenuForm.resx">
+    <EmbeddedResource Include="Source\MenuForm.resx">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sources\PftGlobalGrid.resx">
+    <EmbeddedResource Include="Source\PftGlobalGrid.resx">
       <DependentUpon>PftGlobalGrid.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sources\PftTokenGrid.resx">
+    <EmbeddedResource Include="Source\PftTokenGrid.resx">
       <DependentUpon>PftTokenGrid.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sources\PftTreeView.resx">
+    <EmbeddedResource Include="Source\PftTreeView.resx">
       <DependentUpon>PftTreeView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sources\PftVariableGrid.resx">
+    <EmbeddedResource Include="Source\PftVariableGrid.resx">
       <DependentUpon>PftVariableGrid.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sources\PreviewPanel.resx">
+    <EmbeddedResource Include="Source\PreviewPanel.resx">
       <DependentUpon>PreviewPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sources\RecordViewGrid.resx">
+    <EmbeddedResource Include="Source\RecordViewGrid.resx">
       <DependentUpon>RecordViewGrid.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sources\RelatedSearchForm.resx">
+    <EmbeddedResource Include="Source\RelatedSearchForm.resx">
       <DependentUpon>RelatedSearchForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sources\WssForm.resx">
+    <EmbeddedResource Include="Source\WssForm.resx">
       <DependentUpon>WssForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
