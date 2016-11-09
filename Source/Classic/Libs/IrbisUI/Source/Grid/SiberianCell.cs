@@ -47,6 +47,12 @@ namespace IrbisUI.Grid
         public SiberianColumn Column { get; internal set; }
 
         /// <summary>
+        /// Grid.
+        /// </summary>
+        [NotNull]
+        public SiberianGrid Grid { get { return Row.Grid; } }
+
+        /// <summary>
         /// Row.
         /// </summary>
         [NotNull]

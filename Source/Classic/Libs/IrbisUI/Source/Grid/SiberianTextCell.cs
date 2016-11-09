@@ -9,11 +9,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using AM;
 using AM.Collections;
 using AM.IO;
@@ -56,6 +58,39 @@ namespace IrbisUI.Grid
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region SiberianCell members
+
+        /// <inheritdoc/>
+        public override void Paint
+            (
+                PaintEventArgs args
+            )
+        {
+            Graphics graphics = args.Graphics;
+            Rectangle rectangle = args.ClipRectangle;
+
+            string text = string.Format
+                (
+                    "{0},{1}",
+                    Column.Index,
+                    Row.Index
+                );
+
+            rectangle.Inflate(-1,-1);
+
+            TextBoxRenderer.DrawTextBox
+                (
+                    graphics,
+                    rectangle,
+                    text,
+                    Grid.Font,
+                    rectangle,
+                    TextBoxState.Normal
+                );
+        }
 
         #endregion
 

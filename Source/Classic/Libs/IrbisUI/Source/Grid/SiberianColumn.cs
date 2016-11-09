@@ -10,11 +10,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using AM;
 using AM.Collections;
 using AM.IO;
@@ -40,6 +42,11 @@ namespace IrbisUI.Grid
         #region Constants
 
         /// <summary>
+        /// Default fill width.
+        /// </summary>
+        public const int DefaultFillWidth = 0;
+
+        /// <summary>
         /// Default width.
         /// </summary>
         public const int DefaultWidth = 200;
@@ -47,6 +54,33 @@ namespace IrbisUI.Grid
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Background color.
+        /// </summary>
+        public Color BackColor { get; set; }
+
+        /// <summary>
+        /// Foreground color.
+        /// </summary>
+        public Color ForeColor { get; set; }
+
+        /// <summary>
+        /// Column index.
+        /// </summary>
+        public int Index { get; internal set; }
+
+        /// <summary>
+        /// Data member (property name).
+        /// </summary>
+        [CanBeNull]
+        public string Member { get; set; }
+
+        /// <summary>
+        /// Read only column?
+        /// </summary>
+        [DefaultValue(false)]
+        public bool ReadOnly { get; set; }
 
         /// <summary>
         /// Grid.
@@ -59,6 +93,12 @@ namespace IrbisUI.Grid
         /// </summary>
         [CanBeNull]
         public string Title { get; set; }
+
+        /// <summary>
+        /// Fill width.
+        /// </summary>
+        [DefaultValue(DefaultFillWidth)]
+        public int FillWidth { get; set; }
 
         /// <summary>
         /// Width, pixels.
@@ -75,6 +115,8 @@ namespace IrbisUI.Grid
         /// </summary>
         protected SiberianColumn()
         {
+            BackColor = Color.Transparent;
+            FillWidth = DefaultFillWidth;
             Width = DefaultWidth;
         }
 

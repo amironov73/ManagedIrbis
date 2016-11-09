@@ -1,4 +1,4 @@
-﻿/* SiberianTextColumn.cs -- 
+﻿/* SiberianButtonColumn.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -35,7 +34,7 @@ namespace IrbisUI.Grid
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class SiberianTextColumn
+    public class SiberianButtonColumn
         : SiberianColumn
     {
         #region Properties
@@ -43,14 +42,6 @@ namespace IrbisUI.Grid
         #endregion
 
         #region Construction
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public SiberianTextColumn()
-        {
-            BackColor = Color.White;
-        }
 
         #endregion
 
@@ -67,16 +58,12 @@ namespace IrbisUI.Grid
         /// <inheritdoc/>
         public override SiberianCell CreateCell()
         {
-            SiberianCell result = new SiberianTextCell();
+            SiberianCell result = new SiberianButtonCell();
             result.Column = this;
 
             return result;
         }
 
-        #endregion
-
-        #region SiberianColumn members
-        
         #endregion
 
         #region Object members

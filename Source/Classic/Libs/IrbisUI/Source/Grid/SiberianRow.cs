@@ -49,6 +49,11 @@ namespace IrbisUI.Grid
         #region Properties
 
         /// <summary>
+        /// Index.
+        /// </summary>
+        public int Index { get; internal set; }
+
+        /// <summary>
         /// Data.
         /// </summary>
         [CanBeNull]

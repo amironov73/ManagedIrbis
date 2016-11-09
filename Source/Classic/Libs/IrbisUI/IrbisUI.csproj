@@ -127,6 +127,8 @@
     <Compile Include="Source\FoundPanel.Designer.cs">
       <DependentUpon>FoundPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\Grid\SiberianButtonCell.cs" />
+    <Compile Include="Source\Grid\SiberianButtonColumn.cs" />
     <Compile Include="Source\Grid\SiberianCell.cs" />
     <Compile Include="Source\Grid\SiberianColumn.cs" />
     <Compile Include="Source\Grid\SiberianGrid.cs">
