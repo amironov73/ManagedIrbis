@@ -4,7 +4,7 @@
  * Status: poor
  */
 
-#if FW4
+#if FW45
 
 #region Using directives
 
