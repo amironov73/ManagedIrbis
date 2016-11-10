@@ -4,6 +4,8 @@
  * Status: poor
  */
 
+#if FW4
+
 #region Using directives
 
 using System;
@@ -67,3 +69,6 @@ namespace AM.Services
         Task OnStopAsync(CancellationToken cancellationToken);
     }
 }
+
+#endif
+

@@ -238,9 +238,11 @@
     <Compile Include="AM\Threading\BusyState.cs" />
     <Compile Include="AM\Threading\StateGuard.cs" />
     <Compile Include="AM\Threading\StateHolder.cs" />
+    <Compile Include="AM\Threading\Tasks\IThrottle.cs" />
     <Compile Include="AM\Threading\Tasks\TaskFactoryUtility.cs" />
     <Compile Include="AM\Threading\Tasks\TaskProcessor.cs" />
     <Compile Include="AM\Threading\Tasks\TaskUtility.cs" />
+    <Compile Include="AM\Threading\Tasks\Throttle.cs" />
     <Compile Include="AM\Threading\ThreadMethod.cs" />
     <Compile Include="AM\Threading\ThreadRunner.cs" />
     <Compile Include="AM\TimeSpanUtility.cs" />
