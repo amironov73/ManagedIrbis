@@ -4,6 +4,8 @@
  * Status: poor
  */
 
+#if FW45
+
 #region Using directives
 
 using System;
@@ -45,3 +47,5 @@ namespace AM.Threading.Tasks
         Task GetNext(out TimeSpan delay);
     }
 }
+
+#endif
