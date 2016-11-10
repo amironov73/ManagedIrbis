@@ -85,6 +85,45 @@ namespace AM
             return true;
         }
 
+#endif
+
+        /// <summary>
+        /// Aggregate hashcode for some objects.
+        /// </summary>
+        /// <remarks>Borrowed from Tom DuPont:
+        /// http://www.tomdupont.net/2014/02/how-to-combine-hashcodes.html
+        /// </remarks>
+        public static int GetHashCodeAggregate<T>
+            (
+                [NotNull] this IEnumerable<T> source
+            )
+        {
+            return GetHashCodeAggregate(source, 17);
+        }
+
+        /// <summary>
+        /// Aggregate hashcode for some objects.
+        /// </summary>
+        /// <remarks>Borrowed from Tom DuPont:
+        /// http://www.tomdupont.net/2014/02/how-to-combine-hashcodes.html
+        /// </remarks>
+        public static int GetHashCodeAggregate<T>
+            (
+                [NotNull] this IEnumerable<T> source,
+                int hash
+            )
+        {
+            unchecked
+            {
+                foreach (var item in source)
+                    hash = hash * 31 + item.GetHashCode();
+            }
+
+            return hash;
+        }
+
+#if !NETCORE
+
         /// <summary>
         /// Implementation of a memberwise comparison
         /// for objects.
