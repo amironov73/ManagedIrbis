@@ -45,6 +45,41 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [NotNull]
         public NonNullCollection<PftNode> Sequence { get; private set; }
 
+        /// <summary>
+        /// Body.
+        /// </summary>
+        [NotNull]
+        public NonNullCollection<PftNode> Body { get; private set; }
+
+        /// <inheritdoc/>
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
+
+        /// <inheritdoc />
+        public override IList<PftNode> Children
+        {
+            get
+            {
+                if (ReferenceEquals(_virtualChildren, null))
+                {
+
+                    _virtualChildren = new VirtualChildren();
+                    List<PftNode> nodes = new List<PftNode>();
+                    nodes.AddRange(Sequence);
+                    nodes.AddRange(Body);
+                    _virtualChildren.SetChildren(nodes);
+                }
+
+                return _virtualChildren;
+            }
+            protected set
+            {
+                // Nothing to do here
+            }
+        }
+
         #endregion
 
         #region Construction
@@ -55,6 +90,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         public PftForEach()
         {
             Sequence = new NonNullCollection<PftNode>();
+            Body = new NonNullCollection<PftNode>();
         }
 
         /// <summary>
@@ -66,12 +102,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
             : base(token)
         {
+            Code.NotNull(token, "token");
+            token.MustBe(PftTokenKind.ForEach);
+
             Sequence = new NonNullCollection<PftNode>();
+            Body = new NonNullCollection<PftNode>();
         }
 
         #endregion
 
         #region Private members
+
+        private VirtualChildren _virtualChildren;
 
         private string[] GetSequence
             (
@@ -121,7 +163,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 context.Variables.SetVariable(name, item);
 
-                context.Execute(Children);
+                context.Execute(Body);
             }
 
             OnAfterExecution(context);
@@ -155,7 +197,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 Name = "Body"
             };
             result.Children.Add(body);
-            foreach (PftNode node in Children)
+            foreach (PftNode node in Body)
             {
                 body.Children.Add(node.GetNodeInfo());
             }

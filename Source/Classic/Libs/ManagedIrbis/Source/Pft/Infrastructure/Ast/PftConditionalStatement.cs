@@ -96,10 +96,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             (
                 PftToken token
             )
-            : this()
+            : base(token)
         {
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.If);
+
+            ElseBranch = new NonNullCollection<PftNode>();
+            ThenBranch = new NonNullCollection<PftNode>();
         }
 
         #endregion

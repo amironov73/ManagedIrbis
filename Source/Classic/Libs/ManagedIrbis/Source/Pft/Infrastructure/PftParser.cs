@@ -824,7 +824,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Tokens.Current.MustBe(PftTokenKind.End);
             ChangeContext
                 (
-                    (NonNullCollection<PftNode>)result.Children,
+                    result.Body,
                     bodyTokens
                 );
             Tokens.MoveNext();
@@ -1128,7 +1128,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Tokens.Current.MustBe(PftTokenKind.End);
             ChangeContext
                 (
-                    (NonNullCollection<PftNode>)result.Children,
+                    result.Body,
                     bodyTokens
                 );
             Tokens.MoveNext();

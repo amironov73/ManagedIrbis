@@ -11,11 +11,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM.Collections;
+
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -40,6 +44,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     {
         #region Properties
 
+        /// <inheritdoc/>
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
+
         /// <summary>
         /// Initialization.
         /// </summary>
@@ -63,6 +73,34 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         [NotNull]
         public NonNullCollection<PftNode> Body { get; private set; }
+
+        /// <inheritdoc />
+        public override IList<PftNode> Children
+        {
+            get
+            {
+                if (ReferenceEquals(_virtualChildren, null))
+                {
+
+                    _virtualChildren = new VirtualChildren();
+                    List<PftNode> nodes = new List<PftNode>();
+                    nodes.AddRange(Initialization);
+                    if (!ReferenceEquals(Condition, null))
+                    {
+                        nodes.Add(Condition);
+                    }
+                    nodes.AddRange(Loop);
+                    nodes.AddRange(Body);
+                    _virtualChildren.SetChildren(nodes);
+                }
+
+                return _virtualChildren;
+            }
+            protected set
+            {
+                // Nothing to do here
+            }
+        }
 
         #endregion
 
@@ -95,6 +133,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Private members
+
+        private VirtualChildren _virtualChildren;
 
         private bool EvaluateCondition
             (

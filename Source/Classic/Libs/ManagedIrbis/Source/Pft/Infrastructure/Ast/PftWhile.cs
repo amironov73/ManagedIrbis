@@ -12,10 +12,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM.Collections;
+
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -48,6 +52,44 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public PftCondition Condition { get; set; }
 
+        /// <summary>
+        /// Body.
+        /// </summary>
+        [NotNull]
+        public NonNullCollection<PftNode> Body { get; private set; }
+
+        /// <inheritdoc/>
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
+
+        /// <inheritdoc />
+        public override IList<PftNode> Children
+        {
+            get
+            {
+                if (ReferenceEquals(_virtualChildren, null))
+                {
+
+                    _virtualChildren = new VirtualChildren();
+                    List<PftNode> nodes = new List<PftNode>();
+                    if (!ReferenceEquals(Condition, null))
+                    {
+                        nodes.Add(Condition);
+                    }
+                    nodes.AddRange(Body);
+                    _virtualChildren.SetChildren(nodes);
+                }
+
+                return _virtualChildren;
+            }
+            protected set
+            {
+                // Nothing to do here
+            }
+        }
+
         #endregion
 
         #region Construction
@@ -57,6 +99,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftWhile()
         {
+            Body = new NonNullCollection<PftNode>();
         }
 
         /// <summary>
@@ -70,11 +113,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.While);
+
+            Body = new NonNullCollection<PftNode>();
         }
 
         #endregion
 
         #region Private members
+
+        private VirtualChildren _virtualChildren;
 
         private bool EvaluateCondition
             (
@@ -109,7 +156,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             while (EvaluateCondition(context))
             {
-                context.Execute(Children);
+                context.Execute(Body);
             }
 
             OnAfterExecution(context);
@@ -138,7 +185,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 Name = "Body"
             };
             result.Children.Add(body);
-            foreach (PftNode node in Children)
+            foreach (PftNode node in Body)
             {
                 body.Children.Add(node.GetNodeInfo());
             }
