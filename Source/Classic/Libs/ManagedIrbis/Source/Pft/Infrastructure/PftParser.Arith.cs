@@ -46,7 +46,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                 params PftTokenKind[] stop
             )
         {
-            PftTokenList newTokens = Tokens.Segment(stop);
+            PftTokenList newTokens = Tokens.Segment
+                (
+                    _parenthesisOpen,
+                    _parenthesisClose,
+                    stop
+                );
             if (ReferenceEquals(newTokens, null))
             {
                 throw new PftSyntaxException(Tokens);

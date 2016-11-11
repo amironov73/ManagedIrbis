@@ -321,8 +321,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
                 else if (stop.Contains(current))
                 {
-                    foundPosition = _position;
-                    break;
+                    if (level == 0)
+                    {
+                        foundPosition = _position;
+                        break;
+                    }
                 }
 
                 MoveNext();
