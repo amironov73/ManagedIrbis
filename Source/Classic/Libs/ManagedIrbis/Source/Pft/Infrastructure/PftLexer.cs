@@ -881,6 +881,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                             case "fi":
                                 kind = PftTokenKind.Fi;
+                                value = "fi";
                                 break;
 
                             case "floor":
@@ -900,14 +901,22 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                             case "if":
                                 kind = PftTokenKind.If;
+                                value = "if";
+                                break;
+
+                            case "in":
+                                kind = PftTokenKind.In;
+                                value = "in";
                                 break;
 
                             case "nl":
                                 kind = PftTokenKind.Nl;
+                                value = "nl";
                                 break;
 
                             case "not":
                                 kind = PftTokenKind.Not;
+                                value = "not";
                                 break;
 
                             case "or":
@@ -922,18 +931,22 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                             case "ravr":
                                 kind = PftTokenKind.Ravr;
+                                value = "ravr";
                                 break;
 
                             case "ref":
                                 kind = PftTokenKind.Ref;
+                                value = "ref";
                                 break;
 
                             case "rmax":
                                 kind = PftTokenKind.Rmax;
+                                value = "rmax";
                                 break;
 
                             case "rmin":
                                 kind = PftTokenKind.Rmin;
+                                value = "rmin";
                                 break;
 
                             case "round":
@@ -943,6 +956,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                             case "rsum":
                                 kind = PftTokenKind.Rsum;
+                                value = "rsum";
                                 break;
 
                             case "sign":

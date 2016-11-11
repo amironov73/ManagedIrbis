@@ -116,7 +116,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenKind.Ref,
 
-            PftTokenKind.If, PftTokenKind.For,
+            PftTokenKind.If, PftTokenKind.For, PftTokenKind.While,
 
             PftTokenKind.LeftParenthesis,
 
@@ -162,6 +162,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.Unifor, ParseUnifor},
                 {PftTokenKind.V,ParseField},
                 {PftTokenKind.Variable, ParseVariable},
+                {PftTokenKind.While, ParseWhile},
                 {PftTokenKind.X, ParseX}
             };
 

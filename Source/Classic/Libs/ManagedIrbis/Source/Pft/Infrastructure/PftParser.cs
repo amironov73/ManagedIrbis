@@ -663,30 +663,30 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftFor result = new PftFor(Tokens.Current);
             Tokens.RequireNext();
-            PftTokenList initList = Tokens.Segment(PftTokenKind.Semicolon)
-                .ThrowIfNull("initList");
-            initList.Add(PftTokenKind.Semicolon);
+            PftTokenList initTokens = Tokens.Segment(PftTokenKind.Semicolon)
+                .ThrowIfNull("initTokens");
+            initTokens.Add(PftTokenKind.Semicolon);
             Tokens.Current.MustBe(PftTokenKind.Semicolon);
-            ChangeContext(result.Initialization, initList);
+            ChangeContext(result.Initialization, initTokens);
             Tokens.RequireNext();
-            PftTokenList conditionList = Tokens.Segment(PftTokenKind.Semicolon)
-                .ThrowIfNull("conditionList");
+            PftTokenList conditionTokens = Tokens.Segment(PftTokenKind.Semicolon)
+                .ThrowIfNull("conditionTokens");
             Tokens.Current.MustBe(PftTokenKind.Semicolon);
             result.Condition = (PftCondition) ChangeContext
                 (
-                    conditionList,
+                    conditionTokens,
                     ParseCondition
                 );
             Tokens.RequireNext();
-            PftTokenList loopList = Tokens.Segment(PftTokenKind.Do)
-                .ThrowIfNull("loopList");
+            PftTokenList loopTokens = Tokens.Segment(PftTokenKind.Do)
+                .ThrowIfNull("loopTokens");
             Tokens.Current.MustBe(PftTokenKind.Do);
-            ChangeContext(result.Loop, loopList);
+            ChangeContext(result.Loop, loopTokens);
             Tokens.RequireNext();
-            PftTokenList bodyList = Tokens.Segment(PftTokenKind.End)
-                .ThrowIfNull("bodyList");
+            PftTokenList bodyTokens = Tokens.Segment(PftTokenKind.End)
+                .ThrowIfNull("bodyTokens");
             Tokens.Current.MustBe(PftTokenKind.End);
-            ChangeContext(result.Body, bodyList);
+            ChangeContext(result.Body, bodyTokens);
             Tokens.MoveNext();
 
             return result;
@@ -944,6 +944,32 @@ namespace ManagedIrbis.Pft.Infrastructure
         private PftNode ParseVerbatim()
         {
             return MoveNext(new PftVerbatim(Tokens.Current));
+        }
+
+        private PftNode ParseWhile()
+        {
+            PftWhile result = new PftWhile(Tokens.Current);
+            Tokens.RequireNext();
+            PftTokenList conditionTokens = Tokens.Segment(PftTokenKind.Do)
+                .ThrowIfNull("conditionTokens");
+            Tokens.Current.MustBe(PftTokenKind.Do);
+            result.Condition = (PftCondition) ChangeContext
+                (
+                    conditionTokens,
+                    ParseCondition
+                );
+            Tokens.RequireNext();
+            PftTokenList bodyTokens = Tokens.Segment(PftTokenKind.End)
+                .ThrowIfNull("bodyTokens");
+            Tokens.Current.MustBe(PftTokenKind.End);
+            ChangeContext
+                (
+                    (NonNullCollection<PftNode>)result.Children,
+                    bodyTokens
+                );
+            Tokens.MoveNext();
+
+            return result;
         }
 
         private PftNode ParseX()

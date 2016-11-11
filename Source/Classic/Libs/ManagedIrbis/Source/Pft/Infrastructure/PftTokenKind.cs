@@ -132,6 +132,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         For,
 
         /// <summary>
+        /// foreach
+        /// </summary>
+        ForEach,
+
+        /// <summary>
         /// frac
         /// </summary>
         Frac,
@@ -155,6 +160,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// if
         /// </summary>
         If,
+
+        /// <summary>
+        /// in
+        /// </summary>
+        In,
 
         /// <summary>
         /// l(format)

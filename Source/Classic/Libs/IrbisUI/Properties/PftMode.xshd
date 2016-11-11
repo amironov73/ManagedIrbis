@@ -54,8 +54,10 @@
                 <Key word = "fi" />
                 <Key word = "floor" />
                 <Key word = "for" />
+                <Key word = "foreach" />
                 <Key word = "frac" />
                 <Key word = "if" />
+                <Key word = "in" />
                 <Key word = "l" />
                 <Key word = "mdl" />
                 <Key word = "mdu" />
