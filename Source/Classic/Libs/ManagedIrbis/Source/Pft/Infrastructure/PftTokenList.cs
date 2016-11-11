@@ -232,76 +232,125 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
-        /// Get span.
+        /// Get segment (span) of the token list.
         /// </summary>
         [CanBeNull]
         public PftTokenList Segment
             (
-                params PftTokenKind[] stop
+                [NotNull] PftTokenKind[] stop
             )
         {
-            int _savePosition = _position;
+            Code.NotNull(stop, "stop");
+
+            int savePosition = _position;
+            int foundPosition = -1;
+
+            while (!IsEof)
+            {
+                PftTokenKind current = Current.Kind;
+
+                if (stop.Contains(current))
+                {
+                    foundPosition = _position;
+                    break;
+                }
+
+                MoveNext();
+            }
+
+            if (foundPosition < 0)
+            {
+                _position = savePosition;
+                return null;
+            }
+
+            List<PftToken> tokens = new List<PftToken>();
+            for (
+                    int position = savePosition;
+                    position < _position;
+                    position++
+                )
+            {
+                tokens.Add(_tokens[position]);
+            }
+
+            PftTokenList result = new PftTokenList(tokens);
+
+            return result;
+        }
+
+
+        /// <summary>
+        /// Get segment (span) of the token list.
+        /// </summary>
+        [CanBeNull]
+        public PftTokenList Segment
+            (
+                [NotNull] PftTokenKind[] open,
+                [NotNull] PftTokenKind[] close,
+                [NotNull] PftTokenKind[] stop
+            )
+        {
+            Code.NotNull(open, "open");
+            Code.NotNull(close, "close");
+            Code.NotNull(stop, "stop");
+
+            int savePosition = _position;
+            int foundPosition = -1;
 
             int level = 0;
             while (!IsEof)
             {
-                if (Current.Kind == PftTokenKind.LeftParenthesis)
+                PftTokenKind current = Current.Kind;
+
+                if (open.Contains(current))
                 {
                     level++;
                 }
-                else if (Current.Kind == PftTokenKind.RightParenthesis)
-                {
-                    if (level != 0)
-                    {
-                        level--;
-                    }
-                    else
-                    {
-                        if (Array.IndexOf(stop, Current.Kind) >= 0)
-                        {
-                            List<PftToken> tokens = new List<PftToken>();
-
-                            for (
-                                    int position = _savePosition;
-                                    position < _position;
-                                    position++
-                               )
-                            {
-                                tokens.Add(_tokens[position]);
-                            }
-
-                            PftTokenList result = new PftTokenList(tokens);
-
-                            return result;
-                        }
-                    }
-                }
-                else if (Array.IndexOf(stop, Current.Kind) >= 0)
+                else if (close.Contains(current))
                 {
                     if (level == 0)
                     {
-                        List<PftToken> tokens = new List<PftToken>();
-
-                        for (
-                            int position = _savePosition;
-                            position < _position;
-                            position++
-                            )
+                        if (stop.Contains(current))
                         {
-                            tokens.Add(_tokens[position]);
+                            foundPosition = _position;
+                            break;
                         }
-
-                        PftTokenList result = new PftTokenList(tokens);
-
-                        return result;
                     }
+                    level--;
                 }
+                else if (stop.Contains(current))
+                {
+                    foundPosition = _position;
+                    break;
+                }
+
                 MoveNext();
             }
 
-            _position = _savePosition;
+            if (level != 0)
+            {
+                throw new PftSyntaxException(this);
+            }
+            if (foundPosition < 0)
+            {
+                _position = savePosition;
+                return null;
+            }
 
-            return null;
+            List<PftToken> tokens = new List<PftToken>();
+            for (
+                    int position = savePosition;
+                    position < _position;
+                    position++
+                )
+            {
+                tokens.Add(_tokens[position]);
+            }
+
+            PftTokenList result = new PftTokenList(tokens);
+
+            return result;
         }
 
         /// <summary>

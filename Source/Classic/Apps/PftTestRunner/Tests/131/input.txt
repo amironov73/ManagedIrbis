@@ -1,0 +1,14 @@
+﻿foreach $x in v200^a, v200^e
+do
+
+	$x, ' => '
+	
+	foreach $y in (v702^a/)
+	do
+	
+		$y, ' ',
+	
+	end
+	
+	#
+end

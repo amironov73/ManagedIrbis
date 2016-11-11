@@ -74,6 +74,74 @@ namespace ManagedIrbis.Pft.Infrastructure
         #region Private members
 
         //================================================================
+        // Open and close tokens
+        //================================================================
+
+        private static PftTokenKind[] _doStop =
+        {
+            PftTokenKind.Do
+        };
+
+        private static PftTokenKind[] _elseStop =
+        {
+            PftTokenKind.Else, PftTokenKind.Fi
+        };
+
+        private static PftTokenKind[] _emptyClose = { };
+
+        private static PftTokenKind[] _emptyOpen = { };
+
+        private static PftTokenKind[] _fiStop =
+        {
+            PftTokenKind.Fi
+        };
+
+        private static PftTokenKind[] _ifClose =
+        {
+            PftTokenKind.Fi
+        };
+
+        private static PftTokenKind[] _ifOpen =
+        {
+            PftTokenKind.If
+        };
+
+        private static PftTokenKind[] _loopClose =
+        {
+            PftTokenKind.End
+        };
+
+        private static PftTokenKind[] _loopOpen =
+        {
+            PftTokenKind.For, PftTokenKind.ForEach, PftTokenKind.While
+        };
+
+        private static PftTokenKind[] _loopStop =
+        {
+            PftTokenKind.End
+        };
+
+        private static PftTokenKind[] _parenthesisClose =
+        {
+            PftTokenKind.RightParenthesis
+        };
+
+        private static PftTokenKind[] _parenthesisOpen =
+        {
+            PftTokenKind.LeftParenthesis
+        };
+
+        private static PftTokenKind[] _semicolonStop =
+        {
+            PftTokenKind.Semicolon
+        };
+
+        private static PftTokenKind[] _thenStop =
+        {
+            PftTokenKind.Then
+        };
+
+        //================================================================
         // Service variables
         //================================================================
 
@@ -398,7 +466,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftF result = new PftF(Tokens.Current);
             Tokens.RequireNext(PftTokenKind.LeftParenthesis);
             Tokens.RequireNext();
-            result.Argument1 = ParseArithmetic(PftTokenKind.Comma,PftTokenKind.RightParenthesis);
+            result.Argument1 = ParseArithmetic(PftTokenKind.Comma, PftTokenKind.RightParenthesis);
             if (Tokens.IsEof)
             {
                 throw new PftSyntaxException(Tokens);
@@ -674,27 +742,41 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftFor result = new PftFor(Tokens.Current);
             Tokens.RequireNext();
-            PftTokenList initTokens = Tokens.Segment(PftTokenKind.Semicolon)
+            PftTokenList initTokens = Tokens.Segment
+                (
+                    _semicolonStop
+                )
                 .ThrowIfNull("initTokens");
             initTokens.Add(PftTokenKind.Semicolon);
             Tokens.Current.MustBe(PftTokenKind.Semicolon);
             ChangeContext(result.Initialization, initTokens);
             Tokens.RequireNext();
-            PftTokenList conditionTokens = Tokens.Segment(PftTokenKind.Semicolon)
+            PftTokenList conditionTokens = Tokens.Segment
+                (
+                    _semicolonStop
+                )
                 .ThrowIfNull("conditionTokens");
             Tokens.Current.MustBe(PftTokenKind.Semicolon);
-            result.Condition = (PftCondition) ChangeContext
+            result.Condition = (PftCondition)ChangeContext
                 (
                     conditionTokens,
                     ParseCondition
                 );
             Tokens.RequireNext();
-            PftTokenList loopTokens = Tokens.Segment(PftTokenKind.Do)
+            PftTokenList loopTokens = Tokens.Segment
+                (
+                    _doStop
+                )
                 .ThrowIfNull("loopTokens");
             Tokens.Current.MustBe(PftTokenKind.Do);
             ChangeContext(result.Loop, loopTokens);
             Tokens.RequireNext();
-            PftTokenList bodyTokens = Tokens.Segment(PftTokenKind.End)
+            PftTokenList bodyTokens = Tokens.Segment
+                (
+                    _loopOpen,
+                    _loopClose,
+                    _loopStop
+                )
                 .ThrowIfNull("bodyTokens");
             Tokens.Current.MustBe(PftTokenKind.End);
             ChangeContext(result.Body, bodyTokens);
@@ -717,10 +799,13 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftForEach result = new PftForEach(Tokens.Current);
             Tokens.RequireNext();
-            result.Variable = (PftVariableReference) ParseVariableReference();
+            result.Variable = (PftVariableReference)ParseVariableReference();
             Tokens.Current.MustBe(PftTokenKind.In);
             Tokens.RequireNext();
-            PftTokenList sequenceTokens = Tokens.Segment(PftTokenKind.Do)
+            PftTokenList sequenceTokens = Tokens.Segment
+                (
+                    _doStop
+                )
                 .ThrowIfNull("sequenceTokens");
             Tokens.Current.MustBe(PftTokenKind.Do);
             ChangeContext
@@ -729,12 +814,17 @@ namespace ManagedIrbis.Pft.Infrastructure
                     sequenceTokens
                 );
             Tokens.RequireNext();
-            PftTokenList bodyTokens = Tokens.Segment(PftTokenKind.End)
+            PftTokenList bodyTokens = Tokens.Segment
+                (
+                    _loopOpen,
+                    _loopClose,
+                    _loopStop
+                )
                 .ThrowIfNull("bodyTokens");
             Tokens.Current.MustBe(PftTokenKind.End);
             ChangeContext
                 (
-                    (NonNullCollection<PftNode>) result.Children,
+                    (NonNullCollection<PftNode>)result.Children,
                     bodyTokens
                 );
             Tokens.MoveNext();
@@ -963,7 +1053,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                     Tokens.RequireNext(PftTokenKind.Equals);
                     Tokens.RequireNext();
 
-                    PftTokenList tokens = Tokens.Segment(PftTokenKind.Semicolon);
+                    PftTokenList tokens = Tokens.Segment
+                        (
+                            _semicolonStop
+                        );
                     if (ReferenceEquals(tokens, null))
                     {
                         throw new PftSyntaxException(Tokens);
@@ -1001,7 +1094,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         /// <example>
         /// $x=0;
-        /// while $x &lt; 10 do
+        /// while $x &lt; 10
+        /// do
         ///     $x, ') ',
         ///     'Прикольно же!'
         ///     #
@@ -1012,16 +1106,24 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftWhile result = new PftWhile(Tokens.Current);
             Tokens.RequireNext();
-            PftTokenList conditionTokens = Tokens.Segment(PftTokenKind.Do)
+            PftTokenList conditionTokens = Tokens.Segment
+                (
+                    _doStop
+                )
                 .ThrowIfNull("conditionTokens");
             Tokens.Current.MustBe(PftTokenKind.Do);
-            result.Condition = (PftCondition) ChangeContext
+            result.Condition = (PftCondition)ChangeContext
                 (
                     conditionTokens,
                     ParseCondition
                 );
             Tokens.RequireNext();
-            PftTokenList bodyTokens = Tokens.Segment(PftTokenKind.End)
+            PftTokenList bodyTokens = Tokens.Segment
+                (
+                    _loopOpen,
+                    _loopClose,
+                    _loopStop
+                )
                 .ThrowIfNull("bodyTokens");
             Tokens.Current.MustBe(PftTokenKind.End);
             ChangeContext
