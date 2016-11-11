@@ -863,10 +863,16 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                             case "do":
                                 kind = PftTokenKind.Do;
+                                value = "do";
                                 break;
 
                             case "else":
                                 kind = PftTokenKind.Else;
+                                break;
+
+                            case "end":
+                                kind = PftTokenKind.End;
+                                value = "end";
                                 break;
 
                             case "f2":

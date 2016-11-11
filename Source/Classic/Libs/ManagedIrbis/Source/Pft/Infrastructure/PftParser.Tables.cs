@@ -41,6 +41,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.Unifor, PftTokenKind.S,
 
             PftTokenKind.Identifier, PftTokenKind.Variable,
+            PftTokenKind.Number,
         };
 
         /// <summary>
@@ -115,7 +116,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenKind.Ref,
 
-            PftTokenKind.If,
+            PftTokenKind.If, PftTokenKind.For,
 
             PftTokenKind.LeftParenthesis,
 
@@ -138,6 +139,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.Comment, ParseComment},
                 {PftTokenKind.ConditionalLiteral, ParseField},
                 {PftTokenKind.F, ParseF},
+                {PftTokenKind.For, ParseFor},
                 {PftTokenKind.LeftParenthesis, ParseGroup},
                 {PftTokenKind.Hash, ParseHash},
                 {PftTokenKind.Identifier, ParseFunctionCall},

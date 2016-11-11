@@ -79,11 +79,30 @@ namespace ManagedIrbis.Pft.Infrastructure
         #region Private members
 
         private int _position;
-        private readonly PftToken[] _tokens;
+        private PftToken[] _tokens;
 
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Add a token.
+        /// </summary>
+        public void Add
+            (
+                PftTokenKind kind
+            )
+        {
+            PftToken token = new PftToken
+            {
+                Kind = kind
+            };
+            List<PftToken> tokens = new List<PftToken>(_tokens)
+            {
+                token
+            };
+            _tokens = tokens.ToArray();
+        }
 
         /// <summary>
         /// Dump token list.

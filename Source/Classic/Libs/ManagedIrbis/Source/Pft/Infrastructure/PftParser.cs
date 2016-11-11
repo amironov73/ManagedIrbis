@@ -15,9 +15,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Collections;
 using AM.IO;
 using AM.Text;
-
+using AM.Text.Tokenizer;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -308,6 +309,11 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 
             throw new PftSyntaxException(Tokens.Current);
+        }
+
+        private PftNode ParseCondition()
+        {
+            return ParseCondition(Tokens.Current);
         }
 
         private PftCondition ParseCondition
@@ -602,6 +608,88 @@ namespace ManagedIrbis.Pft.Infrastructure
             } // result is PftV
 
             DONE: return result;
+        }
+
+        private void ChangeContext
+            (
+                [NotNull] NonNullCollection<PftNode> result,
+                [NotNull] PftTokenList newTokens
+            )
+        {
+            PftTokenList saveTokens = Tokens;
+            Tokens = newTokens;
+
+            try
+            {
+                while (!Tokens.IsEof)
+                {
+                    PftNode node = ParseNext();
+                    result.Add(node);
+                }
+            }
+            finally
+            {
+                Tokens = saveTokens;
+            }
+        }
+
+        [CanBeNull]
+        private PftNode ChangeContext
+            (
+                [NotNull] PftTokenList newTokens,
+                [NotNull] Func<PftNode> function
+            )
+        {
+            PftNode result = null;
+            PftTokenList saveTokens = Tokens;
+            Tokens = newTokens;
+
+            try
+            {
+                if (!Tokens.IsEof)
+                {
+                    result = function();
+                }
+            }
+            finally
+            {
+                Tokens = saveTokens;
+            }
+
+            return result;
+        }
+
+        private PftNode ParseFor()
+        {
+            PftFor result = new PftFor(Tokens.Current);
+            Tokens.RequireNext();
+            PftTokenList initList = Tokens.Segment(PftTokenKind.Semicolon)
+                .ThrowIfNull("initList");
+            initList.Add(PftTokenKind.Semicolon);
+            Tokens.Current.MustBe(PftTokenKind.Semicolon);
+            ChangeContext(result.Initialization, initList);
+            Tokens.RequireNext();
+            PftTokenList conditionList = Tokens.Segment(PftTokenKind.Semicolon)
+                .ThrowIfNull("conditionList");
+            Tokens.Current.MustBe(PftTokenKind.Semicolon);
+            result.Condition = (PftCondition) ChangeContext
+                (
+                    conditionList,
+                    ParseCondition
+                );
+            Tokens.RequireNext();
+            PftTokenList loopList = Tokens.Segment(PftTokenKind.Do)
+                .ThrowIfNull("loopList");
+            Tokens.Current.MustBe(PftTokenKind.Do);
+            ChangeContext(result.Loop, loopList);
+            Tokens.RequireNext();
+            PftTokenList bodyList = Tokens.Segment(PftTokenKind.End)
+                .ThrowIfNull("bodyList");
+            Tokens.Current.MustBe(PftTokenKind.End);
+            ChangeContext(result.Body, bodyList);
+            Tokens.MoveNext();
+
+            return result;
         }
 
         private PftNode ParseFunctionCall()

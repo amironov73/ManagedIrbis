@@ -41,31 +41,49 @@
         <Begin>/*</Begin>
       </Span>
       <KeyWords name = "OperatorKeywords" bold="true" italic="false" color="DarkCyan">
-				<Key word = "unifor" />
-				<Key word = "uf" />
-				<Key word = "mfn" />
-				<Key word = "val" />
-				<Key word = "ref" />
-				<Key word = "umarci" />
-				<Key word = "rmax" />
-				<Key word = "rmin" />
-				<Key word = "rsum" />
-				<Key word = "ravr" />
-				<Key word = "and" />
-				<Key word = "or" />
-				<Key word = "mpl" />
-				<Key word = "mhl" />
-				<Key word = "mpu" />
-				<Key word = "mhu" />
-				<Key word = "mdl" />
-				<Key word = "mdu" />
-				<Key word = "break" />
-				<Key word = "if" />
-				<Key word = "then" />
-				<Key word = "else" />
-				<Key word = "fi" />
-				<Key word = "not" />
-			</KeyWords>
+                <Key word = "a" />
+                <Key word = "abs" />
+                <Key word = "and" />
+                <Key word = "break" />
+                <Key word = "ceil" />
+                <Key word = "div" />
+                <Key word = "do" />
+                <Key word = "end" />
+                <Key word = "f" />
+                <Key word = "f2" />
+                <Key word = "fi" />
+                <Key word = "floor" />
+                <Key word = "for" />
+                <Key word = "frac" />
+                <Key word = "if" />
+                <Key word = "l" />
+                <Key word = "mdl" />
+                <Key word = "mdu" />
+                <Key word = "mfn" />
+                <Key word = "mhl" />
+                <Key word = "mhu" />
+                <Key word = "mpl" />
+                <Key word = "mpu" />
+                <Key word = "not" />
+                <Key word = "or" />
+                <Key word = "p" />
+                <Key word = "pow" />
+                <Key word = "proc" />
+                <Key word = "ravr" />
+                <Key word = "ref" />
+                <Key word = "rmax" />
+                <Key word = "rmin" />
+                <Key word = "round" />
+                <Key word = "rsum" />
+                <Key word = "s" />
+                <Key word = "sign" />
+                <Key word = "then" />
+                <Key word = "trunc" />
+                <Key word = "uf" />
+                <Key word = "unifor" />
+                <Key word = "val" />
+                <Key word = "while" />
+	</KeyWords>
 		</RuleSet>
 	</RuleSets>
 </SyntaxDefinition>
