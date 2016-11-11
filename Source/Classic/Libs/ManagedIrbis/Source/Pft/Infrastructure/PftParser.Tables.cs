@@ -117,6 +117,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.Ref,
 
             PftTokenKind.If, PftTokenKind.For, PftTokenKind.While,
+            PftTokenKind.ForEach,
 
             PftTokenKind.LeftParenthesis,
 
@@ -140,6 +141,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.ConditionalLiteral, ParseField},
                 {PftTokenKind.F, ParseF},
                 {PftTokenKind.For, ParseFor},
+                {PftTokenKind.ForEach, ParseForEach},
                 {PftTokenKind.LeftParenthesis, ParseGroup},
                 {PftTokenKind.Hash, ParseHash},
                 {PftTokenKind.Identifier, ParseFunctionCall},

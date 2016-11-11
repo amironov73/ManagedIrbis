@@ -23,8 +23,16 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    /// For loop.
     /// </summary>
+    /// <example>
+    /// for $x=0; $x &lt; 10; $x = $x+1;
+    /// do
+    ///     $x, ') ',
+    ///     'Прикольно же!'
+    ///     #
+    /// end
+    /// </example>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftFor

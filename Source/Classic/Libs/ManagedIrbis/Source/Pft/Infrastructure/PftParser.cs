@@ -659,6 +659,17 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        /// <summary>
+        /// For loop.
+        /// </summary>
+        /// <example>
+        /// for $x=0; $x &lt; 10; $x = $x+1;
+        /// do
+        ///     $x, ') ',
+        ///     'Прикольно же!'
+        ///     #
+        /// end
+        /// </example>
         private PftNode ParseFor()
         {
             PftFor result = new PftFor(Tokens.Current);
@@ -687,6 +698,45 @@ namespace ManagedIrbis.Pft.Infrastructure
                 .ThrowIfNull("bodyTokens");
             Tokens.Current.MustBe(PftTokenKind.End);
             ChangeContext(result.Body, bodyTokens);
+            Tokens.MoveNext();
+
+            return result;
+        }
+
+        /// <summary>
+        /// ForEach loop.
+        /// </summary>
+        /// <example>
+        /// foreach $x in v200^a,v200^e,'Hello'
+        /// do
+        ///     $x
+        ///     #
+        /// end
+        /// </example>
+        private PftNode ParseForEach()
+        {
+            PftForEach result = new PftForEach(Tokens.Current);
+            Tokens.RequireNext();
+            result.Variable = (PftVariableReference) ParseVariableReference();
+            Tokens.Current.MustBe(PftTokenKind.In);
+            Tokens.RequireNext();
+            PftTokenList sequenceTokens = Tokens.Segment(PftTokenKind.Do)
+                .ThrowIfNull("sequenceTokens");
+            Tokens.Current.MustBe(PftTokenKind.Do);
+            ChangeContext
+                (
+                    result.Sequence,
+                    sequenceTokens
+                );
+            Tokens.RequireNext();
+            PftTokenList bodyTokens = Tokens.Segment(PftTokenKind.End)
+                .ThrowIfNull("bodyTokens");
+            Tokens.Current.MustBe(PftTokenKind.End);
+            ChangeContext
+                (
+                    (NonNullCollection<PftNode>) result.Children,
+                    bodyTokens
+                );
             Tokens.MoveNext();
 
             return result;
@@ -946,6 +996,18 @@ namespace ManagedIrbis.Pft.Infrastructure
             return MoveNext(new PftVerbatim(Tokens.Current));
         }
 
+        /// <summary>
+        /// While loop.
+        /// </summary>
+        /// <example>
+        /// $x=0;
+        /// while $x &lt; 10 do
+        ///     $x, ') ',
+        ///     'Прикольно же!'
+        ///     #
+        ///     $x=$x+1;
+        /// end
+        /// </example>
         private PftNode ParseWhile()
         {
             PftWhile result = new PftWhile(Tokens.Current);

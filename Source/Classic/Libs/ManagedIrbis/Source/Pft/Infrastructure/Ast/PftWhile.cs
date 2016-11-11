@@ -23,8 +23,18 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    /// While loop.
     /// </summary>
+    /// <example>
+    /// $x=0;
+    /// while $x &lt; 10
+    /// do
+    ///     $x, ') ',
+    ///     'Прикольно же!'
+    ///     #
+    ///     $x=$x+1;
+    /// end
+    /// </example>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftWhile

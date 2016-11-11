@@ -894,6 +894,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "for";
                                 break;
 
+                            case "foreach":
+                                kind = PftTokenKind.ForEach;
+                                value = "foreach";
+                                break;
+
                             case "frac":
                                 kind = PftTokenKind.Frac;
                                 value = "frac";
