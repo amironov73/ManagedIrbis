@@ -155,6 +155,30 @@ namespace ManagedIrbis.Pft.Infrastructure
             return Registry.ContainsKey(name);
         }
 
+        /// <summary>
+        /// Register the function.
+        /// </summary>
+        public void RegisterFunction
+            (
+                [NotNull] string name,
+                [NotNull] PftFunction function
+            )
+        {
+            Code.NotNullNorEmpty(name,"name");
+            Code.NotNull(function, "function");
+
+            if (name.OneOf(PftUtility.GetReservedWords()))
+            {
+                throw new PftException("Reserved word: " + name);
+            }
+            if (HaveFunction(name))
+            {
+                throw new PftException("Function already registered: " + name);
+            }
+
+            Registry.Add(name, function);
+        }
+
         #endregion
     }
 }

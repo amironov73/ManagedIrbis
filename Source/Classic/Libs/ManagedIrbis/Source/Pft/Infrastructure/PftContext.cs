@@ -199,17 +199,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Private members
 
-        // private PftFormatter _formatter;
-
         private readonly PftContext _parent;
-
-        //internal void _SetFormatter
-        //    (
-        //        PftFormatter formatter
-        //    )
-        //{
-        //    _formatter = formatter;
-        //}
 
         #endregion
 

@@ -87,6 +87,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         Div,
 
         /// <summary>
+        /// do
+        /// </summary>
+        Do,
+
+        /// <summary>
         /// else
         /// </summary>
         Else,
@@ -120,6 +125,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// floor
         /// </summary>
         Floor,
+
+        /// <summary>
+        /// for
+        /// </summary>
+        For,
 
         /// <summary>
         /// frac
@@ -252,6 +262,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         Pow,
 
         /// <summary>
+        /// proc
+        /// </summary>
+        Proc,
+
+        /// <summary>
         /// ?
         /// </summary>
         Question,
@@ -380,6 +395,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// $variable
         /// </summary>
         Variable,
+
+        /// <summary>
+        /// while
+        /// </summary>
+        While,
 
         /// <summary>
         /// x10

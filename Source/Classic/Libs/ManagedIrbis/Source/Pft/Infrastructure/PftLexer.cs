@@ -861,6 +861,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "div";
                                 break;
 
+                            case "do":
+                                kind = PftTokenKind.Do;
+                                break;
+
                             case "else":
                                 kind = PftTokenKind.Else;
                                 break;
@@ -876,6 +880,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                             case "floor":
                                 kind = PftTokenKind.Floor;
                                 value = "floor";
+                                break;
+
+                            case "for":
+                                kind = PftTokenKind.For;
+                                value = "for";
                                 break;
 
                             case "frac":
@@ -937,6 +946,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                             case "then":
                                 kind = PftTokenKind.Then;
+                                value = "then";
                                 break;
 
                             case "trunc":
@@ -946,6 +956,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                             case "val":
                                 kind = PftTokenKind.Val;
+                                value = "val";
+                                break;
+
+                            case "while":
+                                kind = PftTokenKind.While;
+                                value = "while";
                                 break;
 
                             default:

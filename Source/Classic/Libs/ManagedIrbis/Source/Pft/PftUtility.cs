@@ -206,8 +206,8 @@ namespace ManagedIrbis.Pft
             string result = FormatHeaderMode(field);
 
             if (!result.EndsWith(".")
-                &!result.EndsWith(". ")
-                &!result.EndsWith(".  "))
+                & !result.EndsWith(". ")
+                & !result.EndsWith(".  "))
             {
                 result = result + ".";
             }
@@ -372,6 +372,58 @@ namespace ManagedIrbis.Pft
                 );
 
             return result;
+        }
+
+        /// <summary>
+        /// Get array of reserved words.
+        /// </summary>
+        public static string[] GetReservedWords()
+        {
+            return new[]
+            {
+                "a",
+                "abs",
+                "and",
+                "break",
+                "ceil",
+                "div",
+                "do",
+                "end",
+                "f",
+                "f2",
+                "fi",
+                "floor",
+                "for",
+                "frac",
+                "if",
+                "l",
+                "mdl",
+                "mdu",
+                "mfn",
+                "mhl",
+                "mhu",
+                "mpl",
+                "mpu",
+                "not",
+                "or",
+                "p",
+                "pow",
+                "proc",
+                "ravr",
+                "ref",
+                "rmax",
+                "rmin",
+                "round",
+                "rsum",
+                "s",
+                "sign",
+                "then",
+                "trunc",
+                "uf",
+                "unifor",
+                "val",
+                "while"
+            };
         }
 
         /// <summary>
