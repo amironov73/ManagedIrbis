@@ -131,6 +131,11 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.LeftParenthesis
         };
 
+        private static PftTokenKind[] _parenthesisStop =
+        {
+            PftTokenKind.RightParenthesis
+        };
+
         private static PftTokenKind[] _semicolonStop =
         {
             PftTokenKind.Semicolon
@@ -466,7 +471,11 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftF result = new PftF(Tokens.Current);
             Tokens.RequireNext(PftTokenKind.LeftParenthesis);
             Tokens.RequireNext();
-            result.Argument1 = ParseArithmetic(PftTokenKind.Comma, PftTokenKind.RightParenthesis);
+            result.Argument1 = ParseArithmetic
+                (
+                    PftTokenKind.Comma,
+                    PftTokenKind.RightParenthesis
+                );
             if (Tokens.IsEof)
             {
                 throw new PftSyntaxException(Tokens);
@@ -501,6 +510,39 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 throw new PftSyntaxException(Tokens.Current);
             }
+            Tokens.MoveNext();
+
+            return result;
+        }
+
+        private PftNode ParseF2()
+        {
+            PftF2 result = new PftF2(Tokens.Current);
+            Tokens.RequireNext(PftTokenKind.LeftParenthesis);
+            Tokens.RequireNext();
+            result.Number = ParseArithmetic
+                (
+                    PftTokenKind.Comma
+                );
+            if (Tokens.IsEof
+                || Tokens.Current.Kind != PftTokenKind.Comma
+               )
+            {
+                throw new PftSyntaxException(Tokens);
+            }
+            Tokens.RequireNext();
+            PftTokenList formatTokens = Tokens.Segment
+                (
+                    _parenthesisOpen,
+                    _parenthesisClose,
+                    _parenthesisStop
+                )
+                .ThrowIfNull("formatTokens");
+            ChangeContext
+                (
+                    result.Format,
+                    formatTokens
+                );
             Tokens.MoveNext();
 
             return result;

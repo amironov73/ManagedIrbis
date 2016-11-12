@@ -110,7 +110,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenKind.Identifier, PftTokenKind.Variable,
 
-            PftTokenKind.Number, PftTokenKind.F,
+            PftTokenKind.Number, PftTokenKind.F, PftTokenKind.F2,
 
             PftTokenKind.Comment,
 
@@ -140,6 +140,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.Comment, ParseComment},
                 {PftTokenKind.ConditionalLiteral, ParseField},
                 {PftTokenKind.F, ParseF},
+                {PftTokenKind.F2, ParseF2 },
                 {PftTokenKind.For, ParseFor},
                 {PftTokenKind.ForEach, ParseForEach},
                 {PftTokenKind.LeftParenthesis, ParseGroup},
