@@ -132,7 +132,8 @@ namespace AM.Threading.Tasks
                 // Start a new task to process the queue.
                 task = _tasks[freeIndex] = Task.Run
                 (
-                    ProcessLoopAsync,
+                    // ReSharper disable once RedundantCast
+                    (Func<Task>)ProcessLoopAsync,
                     CancelSource.Token
                 );
             }
