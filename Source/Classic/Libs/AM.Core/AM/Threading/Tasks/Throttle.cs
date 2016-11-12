@@ -9,23 +9,7 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-
-using CodeJam;
-
-using JetBrains.Annotations;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
@@ -40,11 +24,7 @@ namespace AM.Threading.Tasks
     public class Throttle
         : IThrottle
     {
-        private readonly object _lock = new object();
-
-        private readonly TimeSpan _interval;
-
-        private DateTime _nextTime;
+        #region Construction
 
         /// <summary>
         /// Constructor.
@@ -58,13 +38,37 @@ namespace AM.Threading.Tasks
             _nextTime = DateTime.Now.Subtract(interval);
         }
 
+        #endregion
+
+        #region Private members
+
+        private readonly object _lock = new object();
+
+        private readonly TimeSpan _interval;
+
+        private DateTime _nextTime;
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Get next task.
+        /// </summary>
         public Task GetNext()
         {
             TimeSpan delay;
+
             return GetNext(out delay);
         }
 
-        public Task GetNext(out TimeSpan delay)
+        /// <summary>
+        /// Get next task.
+        /// </summary>
+        public Task GetNext
+            (
+                out TimeSpan delay
+            )
         {
             lock (_lock)
             {
@@ -84,6 +88,8 @@ namespace AM.Threading.Tasks
                 return Task.FromResult(true);
             }
         }
+
+        #endregion
     }
 }
 

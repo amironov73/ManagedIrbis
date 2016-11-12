@@ -31,14 +31,28 @@ using MoonSharp.Interpreter;
 
 namespace AM.Win32
 {
+    /// <summary>
+    /// Contains handle for <see cref="WindowsJob"/>.
+    /// </summary>
     public class JobObjectHandle
         : SafeHandle
     {
+        #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public JobObjectHandle()
             : base(IntPtr.Zero, true)
         {
         }
 
+        #endregion
+
+
+        #region SafeHandle members
+
+        /// <inheritdoc />
         public override bool IsInvalid
         {
             [PrePrepareMethod]
@@ -46,11 +60,14 @@ namespace AM.Win32
             get { return (handle == IntPtr.Zero); }
         }
 
+        /// <inheritdoc />
         [PrePrepareMethod]
         [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
         protected override bool ReleaseHandle()
         {
             return Kernel32.CloseHandle(handle);
         }
+
+        #endregion
     }
 }

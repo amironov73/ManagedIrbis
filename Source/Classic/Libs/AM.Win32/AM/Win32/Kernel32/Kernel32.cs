@@ -87,7 +87,22 @@ namespace AM.Win32
         [DllImport(DllName, SetLastError = true)]
         public static extern bool AllocConsole();
 
-        [DllImport("kernel32.dll", SetLastError = true)]
+        /// <summary>
+        /// Assigns a process to an existing job object.
+        /// </summary>
+        /// <param name="job">A handle to the job object
+        /// to which the process will be associated.
+        /// The CreateJobObject or OpenJobObject function
+        /// returns this handle. The handle must have
+        /// the JOB_OBJECT_ASSIGN_PROCESS access right.
+        /// </param>
+        /// <param name="process">A handle to the process
+        /// to associate with the job object.
+        /// The handle must have the PROCESS_SET_QUOTA
+        /// and PROCESS_TERMINATE access rights.</param>
+        /// <returns>If the function succeeds, the return
+        /// value is nonzero.</returns>
+        [DllImport(DllName, SetLastError = true)]
         public static extern bool AssignProcessToJobObject
             (
                 JobObjectHandle job,
@@ -543,10 +558,31 @@ namespace AM.Win32
                 IntPtr lpSecurityAttributes
             );
 
+        /// <summary>
+        /// Creates or opens a job object.
+        /// </summary>
+        /// <param name="lpJobAttributes">A pointer to
+        /// a SECURITY_ATTRIBUTES structure that specifies
+        /// the security descriptor for the job object
+        /// and determines whether child processes can
+        /// inherit the returned handle.
+        /// If lpJobAttributes is NULL, the job object
+        /// gets a default security descriptor and
+        /// the handle cannot be inherited. The ACLs
+        /// in the default security descriptor for
+        /// a job object come from the primary
+        /// or impersonation token of the creator.</param>
+        /// <param name="lpName">The name of the job.
+        /// The name is limited to MAX_PATH characters.
+        /// Name comparison is case-sensitive.
+        /// If lpName is NULL, the job is created
+        /// without a name.</param>
+        /// <returns>If the function succeeds, the return
+        /// value is a handle to the job object.</returns>
         [DllImport(DllName, CharSet = CharSet.Unicode)]
         public static extern JobObjectHandle CreateJobObject
             (
-                IntPtr a,
+                IntPtr lpJobAttributes,
                 string lpName
             );
 
@@ -2534,7 +2570,7 @@ namespace AM.Win32
             (
                 string lpAppName,
                 [MarshalAs(UnmanagedType.LPArray)]
-				byte[] lpReturnedString,
+                byte[] lpReturnedString,
                 int nSize,
                 string lpFileName
             );
@@ -2566,7 +2602,7 @@ namespace AM.Win32
         public static extern int GetPrivateProfileSectionNames
             (
                 [MarshalAs(UnmanagedType.LPArray)]
-				byte[] lpszReturnBuffer,
+                byte[] lpszReturnBuffer,
                 int nSize,
                 string lpFileName
             );
@@ -4794,13 +4830,32 @@ namespace AM.Win32
                 long ValidDataLength
             );
 
-        [DllImport(DllName)]
+        /// <summary>
+        /// Sets limits for a job object.
+        /// </summary>
+        /// <param name="hJob">A handle to the job whose
+        /// limits are being set. The CreateJobObject
+        /// or OpenJobObject function returns this handle.
+        /// The handle must have the JOB_OBJECT_SET_ATTRIBUTES
+        /// access right.</param>
+        /// <param name="infoType">The information class
+        /// for the limits to be set. </param>
+        /// <param name="lpJobObjectInfo">The limits or job
+        /// state to be set for the job. The format of this
+        /// data depends on the value of JobObjectInfoClass.
+        /// </param>
+        /// <param name="cbJobObjectInfoLength">The size of
+        /// the job information being set, in bytes.</param>
+        /// <returns>If the function succeeds, the return
+        /// value is nonzero.</returns>
+        [CLSCompliant(false)]
+        [DllImport(DllName, SetLastError = true)]
         public static extern bool SetInformationJobObject
             (
                 JobObjectHandle hJob,
                 JobObjectInfoType infoType,
                 IntPtr lpJobObjectInfo,
-                UInt32 cbJobObjectInfoLength
+                uint cbJobObjectInfoLength
             );
 
         /// <summary>

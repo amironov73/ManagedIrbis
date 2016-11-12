@@ -7,24 +7,8 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-
-using CodeJam;
-
-using JetBrains.Annotations;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
@@ -39,8 +23,7 @@ namespace AM.Win32
     public sealed class WindowsJob
         : IDisposable
     {
-        private readonly JobObjectHandle _handle;
-        private bool _disposed;
+        #region Construction
 
         /// <summary>
         /// Constructor.
@@ -70,15 +53,17 @@ namespace AM.Win32
                 Marshal.StructureToPtr(extendedInfo, extendedInfoPtr, false);
 
                 var setResult = Kernel32.SetInformationJobObject
-                    (
-                        _handle,
-                        JobObjectInfoType.ExtendedLimitInformation,
-                        extendedInfoPtr,
-                        (uint)length
-                    );
+                (
+                    _handle,
+                    JobObjectInfoType.ExtendedLimitInformation,
+                    extendedInfoPtr,
+                    (uint)length
+                );
 
                 if (setResult)
+                {
                     return;
+                }
             }
             finally
             {
@@ -93,32 +78,81 @@ namespace AM.Win32
             throw new Exception(message);
         }
 
+        /// <summary>
+        /// Destructor.
+        /// </summary>
+        ~WindowsJob()
+        {
+            Dispose(false);
+        }
+
+        #endregion
+
+        #region Private members
+
+        private readonly JobObjectHandle _handle;
+        private bool _disposed;
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Add the process to the job.
+        /// </summary>
+        public bool AddProcess
+            (
+                IntPtr processHandle
+            )
+        {
+            return Kernel32.AssignProcessToJobObject
+                (
+                    _handle,
+                    processHandle
+                );
+        }
+
+        /// <summary>
+        /// Add the process by id.
+        /// </summary>
+        public bool AddProcess
+            (
+                int processId
+            )
+        {
+            var process = Process.GetProcessById(processId);
+            return AddProcess(process.Handle);
+        }
+
+        #endregion
+
+        #region IDisposable members
+
+        /// <inheritdoc />
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        private void Dispose(bool disposing)
+        private void Dispose
+            (
+                bool disposing
+            )
         {
             if (_disposed)
+            {
                 return;
+            }
 
             if (_handle != null && !_handle.IsInvalid)
+            {
                 _handle.Dispose();
+            }
 
             _disposed = true;
         }
 
-        public bool AddProcess(IntPtr processHandle)
-        {
-            return Kernel32.AssignProcessToJobObject(_handle, processHandle);
-        }
-
-        public bool AddProcess(int processId)
-        {
-            var process = Process.GetProcessById(processId);
-            return AddProcess(process.Handle);
-        }
+        #endregion
     }
 }

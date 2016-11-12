@@ -9,24 +9,8 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-
-using CodeJam;
-
-using JetBrains.Annotations;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
@@ -41,37 +25,53 @@ namespace AM.Threading.Tasks
     public sealed class ParallelProcessor<T>
         : ProcessorBase<T>
     {
-        private readonly Func<T, CancellationToken, Task> _processHandler;
-        private readonly Action<T, Exception> _exceptionHandler;
+        #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public ParallelProcessor
-            (
-                int maxParallelization,
-                Func<T, CancellationToken, Task> processHandler,
-                Action<T, Exception> exceptionHandler = null,
-                int disposeTimeoutMs = 30000,
-                int? maxQueueSize = null
-            )
+        (
+            int maxParallelization,
+            Func<T, CancellationToken, Task> processHandler,
+            Action<T, Exception> exceptionHandler = null,
+            int disposeTimeoutMs = 30000,
+            int? maxQueueSize = null
+        )
             : base(maxParallelization, disposeTimeoutMs, maxQueueSize)
         {
             if (maxParallelization < 1)
                 throw new ArgumentException
-                    (
-                        "maxParallelization is required"
-                    );
+                (
+                    "maxParallelization is required"
+                );
 
             _processHandler = processHandler;
             _exceptionHandler = exceptionHandler;
         }
 
+        #endregion
+
+        #region Private members
+
+        private readonly Func<T, CancellationToken, Task> _processHandler;
+        private readonly Action<T, Exception> _exceptionHandler;
+
+        #endregion
+
+        #region ProcessorBase members
+
+        /// <inheritdoc/>
         protected override async Task ProcessLoopAsync()
         {
             T item;
-            while (!CancelSource.IsCancellationRequested && Queue.TryDequeue(out item))
+            while (!CancelSource.IsCancellationRequested
+                && Queue.TryDequeue(out item))
             {
                 try
                 {
-                    await _processHandler(item, CancelSource.Token).ConfigureAwait(false);
+                    await _processHandler(item, CancelSource.Token)
+                        .ConfigureAwait(false);
                 }
                 catch (TaskCanceledException)
                 {
@@ -91,6 +91,8 @@ namespace AM.Threading.Tasks
                 }
             }
         }
+
+        #endregion
     }
 }
 
