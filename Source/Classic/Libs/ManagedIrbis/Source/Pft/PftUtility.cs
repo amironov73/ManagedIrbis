@@ -91,6 +91,29 @@ namespace ManagedIrbis.Pft
         }
 
         /// <summary>
+        /// Whether one string contains another.
+        /// </summary>
+        public static bool ContainsSubStringSensitive
+            (
+                [CanBeNull] string outer,
+                [CanBeNull] string inner
+            )
+        {
+            if (string.IsNullOrEmpty(inner))
+            {
+                return true;
+            }
+            if (string.IsNullOrEmpty(outer))
+            {
+                return false;
+            }
+
+            bool result = outer.Contains(inner);
+
+            return result;
+        }
+
+        /// <summary>
         /// Extract numeric value from the input text.
         /// </summary>
         public static double ExtractNumericValue
@@ -183,8 +206,8 @@ namespace ManagedIrbis.Pft
             string result = FormatHeaderMode(field);
 
             if (!result.EndsWith(".")
-                &!result.EndsWith(". ")
-                &!result.EndsWith(".  "))
+                & !result.EndsWith(". ")
+                & !result.EndsWith(".  "))
             {
                 result = result + ".";
             }
@@ -349,6 +372,59 @@ namespace ManagedIrbis.Pft
                 );
 
             return result;
+        }
+
+        /// <summary>
+        /// Get array of reserved words.
+        /// </summary>
+        public static string[] GetReservedWords()
+        {
+            return new[]
+            {
+                "a",
+                "abs",
+                "and",
+                "break",
+                "ceil",
+                "div",
+                "do",
+                "else",
+                "end",
+                "f",
+                "f2",
+                "fi",
+                "floor",
+                "for",
+                "frac",
+                "if",
+                "l",
+                "mdl",
+                "mdu",
+                "mfn",
+                "mhl",
+                "mhu",
+                "mpl",
+                "mpu",
+                "not",
+                "or",
+                "p",
+                "pow",
+                "proc",
+                "ravr",
+                "ref",
+                "rmax",
+                "rmin",
+                "round",
+                "rsum",
+                "s",
+                "sign",
+                "then",
+                "trunc",
+                "uf",
+                "unifor",
+                "val",
+                "while"
+            };
         }
 
         /// <summary>

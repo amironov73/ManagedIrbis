@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,7 +64,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
             : base(token)
         {
-            Value = double.Parse(token.Text.ThrowIfNull("token.Text"));
+            Value = double.Parse
+                (
+                    token.Text.ThrowIfNull("token.Text"),
+                    CultureInfo.InvariantCulture
+                );
         }
 
         #endregion

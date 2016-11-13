@@ -350,7 +350,24 @@ namespace ManagedIrbis.Pft.Infrastructure
                         if (c2 == '=')
                         {
                             kind = PftTokenKind.NotEqual2;
+                            value = "!=";
                             ReadChar();
+                            if (PeekChar() == '=')
+                            {
+                                ReadChar();
+                                value = "!==";
+                            }
+                        }
+                        else if (c2 == '~')
+                        {
+                            kind = PftTokenKind.NotEqual2;
+                            value = "!~";
+                            ReadChar();
+                            if (PeekChar() == '~')
+                            {
+                                ReadChar();
+                                value = "!~~";
+                            }
                         }
                         else
                         {
@@ -362,6 +379,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                     case ':':
                         kind = PftTokenKind.Colon;
                         value = c.ToString();
+                        if (PeekChar() == ':')
+                        {
+                            ReadChar();
+                            value = "::";
+                        }
                         break;
 
                     case ';':
@@ -382,6 +404,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                     case '=':
                         kind = PftTokenKind.Equals;
                         value = c.ToString();
+                        if (PeekChar() == '=')
+                        {
+                            ReadChar();
+                            value = "==";
+                        }
                         break;
 
                     case '#':
@@ -454,16 +481,16 @@ namespace ManagedIrbis.Pft.Infrastructure
                         break;
 
                     case '-':
-                        if (IsInteger(PeekChar()))
-                        {
-                            kind = PftTokenKind.Number;
-                            value = c + ReadFloat();
-                        }
-                        else
-                        {
+                        //if (IsInteger(PeekChar()))
+                        //{
+                        //    kind = PftTokenKind.Number;
+                        //    value = c + ReadFloat();
+                        //}
+                        //else
+                        //{
                             kind = PftTokenKind.Minus;
                             value = c.ToString();
-                        }
+                        //}
                         break;
 
                     case '*':
@@ -474,6 +501,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                     case '~':
                         kind = PftTokenKind.Tilda;
                         value = c.ToString();
+                        if (PeekChar() == '~')
+                        {
+                            ReadChar();
+                            value = "~~";
+                        }
                         break;
 
                     case '?':
@@ -568,6 +600,26 @@ namespace ManagedIrbis.Pft.Infrastructure
                             throw new PftSyntaxException(_navigator);
                         }
                         kind = PftTokenKind.Variable;
+                        break;
+
+                    case '@':
+                        value = ReadIdentifier();
+                        if (string.IsNullOrEmpty(value))
+                        {
+                            throw new PftSyntaxException(_navigator);
+                        }
+                        kind = PftTokenKind.At;
+                        break;
+
+                    case '\x1C':
+                    case '\u221F':
+                        value = _navigator.ReadUntil('\x1D', '\u2194');
+                        if (string.IsNullOrEmpty(value)
+                            || !ReadChar().OneOf('\x1D', '\u2194'))
+                        {
+                            throw new PftSyntaxException(_navigator);
+                        }
+                        kind = PftTokenKind.At;
                         break;
 
                     case 'a':
@@ -785,6 +837,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                         }
                         switch (value.ToLower())
                         {
+                            case "abs":
+                                kind = PftTokenKind.Abs;
+                                value = "abs";
+                                break;
+
                             case "and":
                                 kind = PftTokenKind.And;
                                 value = "and";
@@ -794,13 +851,28 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 kind = PftTokenKind.Break;
                                 break;
 
+                            case "ceil":
+                                kind = PftTokenKind.Ceil;
+                                value = "ceil";
+                                break;
+
                             case "div":
                                 kind = PftTokenKind.Div;
                                 value = "div";
                                 break;
 
+                            case "do":
+                                kind = PftTokenKind.Do;
+                                value = "do";
+                                break;
+
                             case "else":
                                 kind = PftTokenKind.Else;
+                                break;
+
+                            case "end":
+                                kind = PftTokenKind.End;
+                                value = "end";
                                 break;
 
                             case "f2":
@@ -809,18 +881,47 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                             case "fi":
                                 kind = PftTokenKind.Fi;
+                                value = "fi";
+                                break;
+
+                            case "floor":
+                                kind = PftTokenKind.Floor;
+                                value = "floor";
+                                break;
+
+                            case "for":
+                                kind = PftTokenKind.For;
+                                value = "for";
+                                break;
+
+                            case "foreach":
+                                kind = PftTokenKind.ForEach;
+                                value = "foreach";
+                                break;
+
+                            case "frac":
+                                kind = PftTokenKind.Frac;
+                                value = "frac";
                                 break;
 
                             case "if":
                                 kind = PftTokenKind.If;
+                                value = "if";
+                                break;
+
+                            case "in":
+                                kind = PftTokenKind.In;
+                                value = "in";
                                 break;
 
                             case "nl":
                                 kind = PftTokenKind.Nl;
+                                value = "nl";
                                 break;
 
                             case "not":
                                 kind = PftTokenKind.Not;
+                                value = "not";
                                 break;
 
                             case "or":
@@ -828,32 +929,69 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "or";
                                 break;
 
+                            case "pow":
+                                kind = PftTokenKind.Pow;
+                                value = "pow";
+                                break;
+
+                            case "proc":
+                                kind = PftTokenKind.Proc;
+                                value = "proc";
+                                break;
+
                             case "ravr":
                                 kind = PftTokenKind.Ravr;
+                                value = "ravr";
                                 break;
 
                             case "ref":
                                 kind = PftTokenKind.Ref;
+                                value = "ref";
                                 break;
 
                             case "rmax":
                                 kind = PftTokenKind.Rmax;
+                                value = "rmax";
                                 break;
 
                             case "rmin":
                                 kind = PftTokenKind.Rmin;
+                                value = "rmin";
+                                break;
+
+                            case "round":
+                                kind = PftTokenKind.Round;
+                                value = "round";
                                 break;
 
                             case "rsum":
                                 kind = PftTokenKind.Rsum;
+                                value = "rsum";
+                                break;
+
+                            case "sign":
+                                kind = PftTokenKind.Sign;
+                                value = "sign";
                                 break;
 
                             case "then":
                                 kind = PftTokenKind.Then;
+                                value = "then";
+                                break;
+
+                            case "trunc":
+                                kind = PftTokenKind.Trunc;
+                                value = "trunc";
                                 break;
 
                             case "val":
                                 kind = PftTokenKind.Val;
+                                value = "val";
+                                break;
+
+                            case "while":
+                                kind = PftTokenKind.While;
+                                value = "while";
                                 break;
 
                             default:

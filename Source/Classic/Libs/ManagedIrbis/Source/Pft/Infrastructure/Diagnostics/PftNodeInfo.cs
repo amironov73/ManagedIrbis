@@ -70,6 +70,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Diagnostics
             Children = new NonNullCollection<PftNodeInfo>();
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftNodeInfo
+            (
+                [CanBeNull] PftNode node
+            )
+            : this()
+        {
+            Node = node;
+        }
+
         #endregion
 
         #region Object members

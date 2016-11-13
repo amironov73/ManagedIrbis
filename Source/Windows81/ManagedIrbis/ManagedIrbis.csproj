@@ -947,6 +947,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\WorksheetItem.cs">
       <Link>Source\Worksheet\WorksheetItem.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\WorksheetPage.cs">
+      <Link>Source\Worksheet\WorksheetPage.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\WsFile.cs">
       <Link>Source\Worksheet\WsFile.cs</Link>
     </Compile>

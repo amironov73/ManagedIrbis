@@ -121,7 +121,60 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <summary>
         /// Do the operation.
         /// </summary>
-        public bool DoOperation
+        public bool DoNumericOperation
+            (
+                [NotNull] PftContext context,
+                double leftValue,
+                [NotNull] string operation,
+                double rightValue
+            )
+        {
+            Code.NotNull(context, "context");
+            Code.NotNullNorEmpty(operation, "operation");
+
+            operation = operation.ToLowerInvariant();
+            bool result;
+            switch (operation)
+            {
+                case "<":
+                    result = leftValue < rightValue;
+                    break;
+
+                case "<=":
+                    result = leftValue <= rightValue;
+                    break;
+
+                case "=":
+                case "==":
+                    // ReSharper disable once CompareOfFloatsByEqualityOperator
+                    result = leftValue == rightValue;
+                    break;
+
+                case "!=":
+                case "<>":
+                    // ReSharper disable once CompareOfFloatsByEqualityOperator
+                    result = leftValue != rightValue;
+                    break;
+
+                case ">":
+                    result = leftValue > rightValue;
+                    break;
+
+                case ">=":
+                    result = leftValue >= rightValue;
+                    break;
+
+                default:
+                    throw new PftSyntaxException(this);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Do the operation.
+        /// </summary>
+        public bool DoStringOperation
             (
                 [NotNull] PftContext context,
                 [NotNull] string leftValue,
@@ -137,37 +190,115 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             switch (operation)
             {
                 case ":":
-                    result = PftUtility.ContainsSubString(leftValue, rightValue);
+                    result = PftUtility.ContainsSubString
+                        (
+                            leftValue,
+                            rightValue
+                        );
+                    break;
+
+                case "::":
+                    result = PftUtility.ContainsSubStringSensitive
+                        (
+                            leftValue,
+                            rightValue
+                        );
                     break;
 
                 case "=":
-                case "==":
                     result = leftValue.SameString(rightValue);
+                    break;
+
+                case "==":
+                    result = leftValue.SameStringSensitive
+                        (
+                            rightValue
+                        );
                     break;
 
                 case "!=":
                 case "<>":
-                    result = !leftValue.SameString(rightValue);
+                    result = !leftValue.SameString
+                        (
+                            rightValue
+                        );
+                    break;
+
+                case "!==":
+                    result = !leftValue.SameStringSensitive
+                        (
+                            rightValue
+                        );
                     break;
 
                 case "<":
-                    result = PftUtility.CompareStrings(leftValue, rightValue) < 0;
+                    result = PftUtility.CompareStrings
+                        (
+                            leftValue,
+                            rightValue
+                        )
+                        < 0;
                     break;
 
                 case "<=":
-                    result = PftUtility.CompareStrings(leftValue, rightValue) <= 0;
+                    result = PftUtility.CompareStrings
+                        (
+                            leftValue,
+                            rightValue
+                        )
+                        <= 0;
                     break;
 
                 case ">":
-                    result = PftUtility.CompareStrings(leftValue, rightValue) > 0;
+                    result = PftUtility.CompareStrings
+                        (
+                            leftValue,
+                            rightValue
+                        )
+                        > 0;
                     break;
 
                 case ">=":
-                    result = PftUtility.CompareStrings(leftValue, rightValue) >= 0;
+                    result = PftUtility.CompareStrings
+                        (
+                            leftValue,
+                            rightValue
+                        )
+                        >= 0;
                     break;
 
                 case "~":
-                    result = Regex.IsMatch(leftValue, rightValue);
+                    result = Regex.IsMatch
+                        (
+                            leftValue,
+                            rightValue,
+                            RegexOptions.IgnoreCase
+                        );
+                    break;
+
+                case "~~":
+                    result = Regex.IsMatch
+                        (
+                            leftValue,
+                            rightValue
+                        );
+                    break;
+
+                case "!~":
+                    result = !Regex.IsMatch
+                        (
+                            leftValue,
+                            rightValue,
+                            RegexOptions.IgnoreCase
+                        );
+                    break;
+
+                case "!~~":
+                    result = !Regex.IsMatch
+                        (
+                            leftValue,
+                            rightValue
+                        );
                     break;
 
                 default:
@@ -175,6 +306,26 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return result;
+        }
+
+        private double GetValue
+            (
+                [NotNull] PftContext context,
+                [NotNull] PftNode node
+            )
+        {
+            string stringValue = context.Evaluate(node);
+
+            PftNumeric numeric = node as PftNumeric;
+            if (ReferenceEquals(numeric, null))
+            {
+                double result;
+                double.TryParse(stringValue, out result);
+
+                return result;
+            }
+
+            return numeric.Value;
         }
 
         #endregion
@@ -189,6 +340,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
+            string operation = Operation.ThrowIfNull();
+
             if (ReferenceEquals(LeftOperand, null))
             {
                 throw new PftSyntaxException(this);
@@ -202,15 +355,31 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new PftSyntaxException(this);
             }
 
-            string leftValue = context.Evaluate(LeftOperand);
-            string rightValue = context.Evaluate(RightOperand);
-            Value = DoOperation
-                (
-                    context,
-                    leftValue,
-                    Operation.ThrowIfNull(),
-                    rightValue
-                );
+            if (LeftOperand is PftNumeric
+                || RightOperand is PftNumeric)
+            {
+                double leftValue = GetValue(context, LeftOperand);
+                double rightValue = GetValue(context, RightOperand);
+                Value = DoNumericOperation
+                    (
+                        context,
+                        leftValue,
+                        operation,
+                        rightValue
+                    );
+            }
+            else
+            {
+                string leftValue = context.Evaluate(LeftOperand);
+                string rightValue = context.Evaluate(RightOperand);
+                Value = DoStringOperation
+                    (
+                        context,
+                        leftValue,
+                        operation,
+                        rightValue
+                    );
+            }
 
             OnAfterExecution(context);
         }
@@ -255,7 +424,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             return result;
         }
-
 
         /// <inheritdoc/>
         public override void PrintDebug

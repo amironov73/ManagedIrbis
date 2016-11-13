@@ -79,11 +79,30 @@ namespace ManagedIrbis.Pft.Infrastructure
         #region Private members
 
         private int _position;
-        private readonly PftToken[] _tokens;
+        private PftToken[] _tokens;
 
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Add a token.
+        /// </summary>
+        public void Add
+            (
+                PftTokenKind kind
+            )
+        {
+            PftToken token = new PftToken
+            {
+                Kind = kind
+            };
+            List<PftToken> tokens = new List<PftToken>(_tokens)
+            {
+                token
+            };
+            _tokens = tokens.ToArray();
+        }
 
         /// <summary>
         /// Dump token list.
@@ -163,6 +182,31 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// Move to begin of the list.
+        /// </summary>
+        public PftTokenList Reset()
+        {
+            _position = 0;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Restore position.
+        /// </summary>
+        public PftTokenList RestorePosition
+            (
+                int position
+            )
+        {
+            Code.Nonnegative(position, "position");
+
+            _position = position;
+
+            return this;
+        }
+
+        /// <summary>
         /// Require next token.
         /// </summary>
         public PftTokenList RequireNext
@@ -180,40 +224,136 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
-        /// Get span.
+        /// Save position.
+        /// </summary>
+        public int SavePosition()
+        {
+            return _position;
+        }
+
+        /// <summary>
+        /// Get segment (span) of the token list.
         /// </summary>
         [CanBeNull]
         public PftTokenList Segment
             (
-                params PftTokenKind[] stop
+                [NotNull] PftTokenKind[] stop
             )
         {
-            int _savePosition = _position;
+            Code.NotNull(stop, "stop");
+
+            int savePosition = _position;
+            int foundPosition = -1;
 
             while (!IsEof)
             {
-                if (Array.IndexOf(stop, Current.Kind) >= 0)
+                PftTokenKind current = Current.Kind;
+
+                if (stop.Contains(current))
                 {
-                    List<PftToken> tokens = new List<PftToken>();
-
-                    for (
-                            int position = _savePosition;
-                            position < _position;
-                            position++
-                       )
-                    {
-                        tokens.Add(_tokens[position]);
-                    }
-
-                    PftTokenList result = new PftTokenList(tokens);
-
-                    return result;
+                    foundPosition = _position;
+                    break;
                 }
+
+                MoveNext();
             }
 
-            _position = _savePosition;
+            if (foundPosition < 0)
+            {
+                _position = savePosition;
+                return null;
+            }
 
-            return null;
+            List<PftToken> tokens = new List<PftToken>();
+            for (
+                    int position = savePosition;
+                    position < _position;
+                    position++
+                )
+            {
+                tokens.Add(_tokens[position]);
+            }
+
+            PftTokenList result = new PftTokenList(tokens);
+
+            return result;
+        }
+
+
+        /// <summary>
+        /// Get segment (span) of the token list.
+        /// </summary>
+        [CanBeNull]
+        public PftTokenList Segment
+            (
+                [NotNull] PftTokenKind[] open,
+                [NotNull] PftTokenKind[] close,
+                [NotNull] PftTokenKind[] stop
+            )
+        {
+            Code.NotNull(open, "open");
+            Code.NotNull(close, "close");
+            Code.NotNull(stop, "stop");
+
+            int savePosition = _position;
+            int foundPosition = -1;
+
+            int level = 0;
+            while (!IsEof)
+            {
+                PftTokenKind current = Current.Kind;
+
+                if (open.Contains(current))
+                {
+                    level++;
+                }
+                else if (close.Contains(current))
+                {
+                    if (level == 0)
+                    {
+                        if (stop.Contains(current))
+                        {
+                            foundPosition = _position;
+                            break;
+                        }
+                    }
+                    level--;
+                }
+                else if (stop.Contains(current))
+                {
+                    if (level == 0)
+                    {
+                        foundPosition = _position;
+                        break;
+                    }
+                }
+
+                MoveNext();
+            }
+
+            if (level != 0)
+            {
+                throw new PftSyntaxException(this);
+            }
+            if (foundPosition < 0)
+            {
+                _position = savePosition;
+                return null;
+            }
+
+            List<PftToken> tokens = new List<PftToken>();
+            for (
+                    int position = savePosition;
+                    position < _position;
+                    position++
+                )
+            {
+                tokens.Add(_tokens[position]);
+            }
+
+            PftTokenList result = new PftTokenList(tokens);
+
+            return result;
         }
 
         /// <summary>

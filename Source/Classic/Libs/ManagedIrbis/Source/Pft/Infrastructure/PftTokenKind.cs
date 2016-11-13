@@ -22,6 +22,16 @@ namespace ManagedIrbis.Pft.Infrastructure
         A,
 
         /// <summary>
+        /// abs
+        /// </summary>
+        Abs,
+
+        /// <summary>
+        /// @
+        /// </summary>
+        At,
+
+        /// <summary>
         /// and
         /// </summary>
         And,
@@ -47,6 +57,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         C,
 
         /// <summary>
+        /// ceil
+        /// </summary>
+        Ceil,
+
+        /// <summary>
         /// :
         /// </summary>
         Colon,
@@ -70,6 +85,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// div
         /// </summary>
         Div,
+
+        /// <summary>
+        /// do
+        /// </summary>
+        Do,
 
         /// <summary>
         /// else
@@ -102,6 +122,26 @@ namespace ManagedIrbis.Pft.Infrastructure
         Fi,
 
         /// <summary>
+        /// floor
+        /// </summary>
+        Floor,
+
+        /// <summary>
+        /// for
+        /// </summary>
+        For,
+
+        /// <summary>
+        /// foreach
+        /// </summary>
+        ForEach,
+
+        /// <summary>
+        /// frac
+        /// </summary>
+        Frac,
+
+        /// <summary>
         /// #
         /// </summary>
         Hash,
@@ -120,6 +160,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// if
         /// </summary>
         If,
+
+        /// <summary>
+        /// in
+        /// </summary>
+        In,
 
         /// <summary>
         /// l(format)
@@ -222,6 +267,16 @@ namespace ManagedIrbis.Pft.Infrastructure
         Plus,
 
         /// <summary>
+        /// pow
+        /// </summary>
+        Pow,
+
+        /// <summary>
+        /// proc
+        /// </summary>
+        Proc,
+
+        /// <summary>
         /// ?
         /// </summary>
         Question,
@@ -267,6 +322,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         Rmin,
 
         /// <summary>
+        /// round
+        /// </summary>
+        Round,
+
+        /// <summary>
         /// rsum
         /// </summary>
         Rsum,
@@ -282,6 +342,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         Semicolon,
 
         /// <summary>
+        /// sign
+        /// </summary>
+        Sign,
+
+        /// <summary>
         /// /
         /// </summary>
         Slash,
@@ -295,6 +360,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// then
         /// </summary>
         Then,
+
+        /// <summary>
+        /// trunc
+        /// </summary>
+        Trunc,
 
         /// <summary>
         /// ~
@@ -335,6 +405,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// $variable
         /// </summary>
         Variable,
+
+        /// <summary>
+        /// while
+        /// </summary>
+        While,
 
         /// <summary>
         /// x10

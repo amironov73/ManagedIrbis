@@ -92,6 +92,17 @@ namespace ManagedIrbis.Pft.Infrastructure
         [CanBeNull]
         public virtual string Text { get; set; }
 
+        /// <summary>
+        /// Node uses extended syntax?
+        /// </summary>
+        public virtual bool ExtendedSyntax { get { return false;} }
+
+        /// <summary>
+        /// Help for the node.
+        /// </summary>
+        [CanBeNull]
+        public virtual string Help { get { return null; } }
+
         #endregion
 
         #region Construction
@@ -164,6 +175,18 @@ namespace ManagedIrbis.Pft.Infrastructure
                         this
                     );
                 handler(this, eventArgs);
+            }
+
+            if (Breakpoint
+                && !ReferenceEquals(context, null)
+                && !ReferenceEquals(context.Debugger, null))
+            {
+                PftDebugEventArgs eventArgs = new PftDebugEventArgs
+                    (
+                        context,
+                        this
+                    );
+                context.Debugger.Activate(eventArgs);
             }
         }
 

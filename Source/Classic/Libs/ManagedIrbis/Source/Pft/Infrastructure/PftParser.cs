@@ -15,8 +15,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Collections;
 using AM.IO;
 using AM.Text;
+using AM.Text.Tokenizer;
 
 using CodeJam;
 
@@ -39,106 +41,9 @@ namespace ManagedIrbis.Pft.Infrastructure
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class PftParser
+    public sealed partial class PftParser
     {
         #region Properties
-
-        private static PftTokenKind[] ComparisonTokens =
-        {
-            PftTokenKind.Mfn, PftTokenKind.Nl,
-            PftTokenKind.UnconditionalLiteral, PftTokenKind.V,
-            PftTokenKind.Unifor, PftTokenKind.S,
-
-            PftTokenKind.Identifier, PftTokenKind.Variable,
-        };
-
-        /// <summary>
-        /// Field reference context.
-        /// </summary>
-        [NotNull]
-        private Dictionary<PftTokenKind, Func<PftNode>> FieldMap { get; set; }
-
-        private static PftTokenKind[] LeftHandItems1 =
-        {
-            PftTokenKind.ConditionalLiteral, PftTokenKind.C,
-            PftTokenKind.Comma, PftTokenKind.Comment, PftTokenKind.Hash,
-            PftTokenKind.Mpl, PftTokenKind.Nl, PftTokenKind.Percent,
-            PftTokenKind.Slash, PftTokenKind.X
-        };
-
-        private static PftTokenKind[] LeftHandItems2 =
-        {
-            PftTokenKind.C, PftTokenKind.Comma, PftTokenKind.Comment,
-            PftTokenKind.Hash, PftTokenKind.Nl, PftTokenKind.Percent,
-            PftTokenKind.Slash, PftTokenKind.X
-        };
-
-        /// <summary>
-        /// Main script context.
-        /// </summary>
-        [NotNull]
-        private Dictionary<PftTokenKind, Func<PftNode>> MainMap { get; set; }
-
-        /// <summary>
-        /// Numeric expression context.
-        /// </summary>
-        [NotNull]
-        private static Dictionary<PftTokenKind, Func<PftNode>> NumericMap { get; set; }
-
-        private static PftTokenKind[] NumericTokens =
-        {
-            PftTokenKind.Number, PftTokenKind.Val, PftTokenKind.Rsum,
-            PftTokenKind.Ravr, PftTokenKind.Rmax, PftTokenKind.Rmin,
-            PftTokenKind.Mfn, PftTokenKind.Variable,
-
-            PftTokenKind.L,
-        };
-
-        private static PftTokenKind[] NumericGoodies =
-        {
-            PftTokenKind.Number, PftTokenKind.Val, PftTokenKind.Rsum,
-            PftTokenKind.Ravr, PftTokenKind.Rmax, PftTokenKind.Rmin,
-            PftTokenKind.Mfn, PftTokenKind.Plus, PftTokenKind.Minus,
-            PftTokenKind.Star, PftTokenKind.Div,
-
-            PftTokenKind.L,
-        };
-
-        private static PftTokenKind[] NumericLimiter =
-        {
-            PftTokenKind.Semicolon
-        };
-
-        private static PftTokenKind[] RightHandItems =
-        {
-            PftTokenKind.C, PftTokenKind.Comment,
-            PftTokenKind.Hash, PftTokenKind.Nl, PftTokenKind.Percent,
-            PftTokenKind.Slash, PftTokenKind.X
-        };
-
-        private static PftTokenKind[] SimpleTokens =
-        {
-            PftTokenKind.Break, PftTokenKind.Comma, PftTokenKind.C,
-            PftTokenKind.Hash, PftTokenKind.Mfn, PftTokenKind.Mpl,
-            PftTokenKind.Nl, PftTokenKind.Percent, PftTokenKind.Slash,
-            PftTokenKind.TripleLess, PftTokenKind.UnconditionalLiteral,
-            PftTokenKind.X, PftTokenKind.Unifor,
-
-            PftTokenKind.V, PftTokenKind.ConditionalLiteral,
-            PftTokenKind.RepeatableLiteral,
-
-            PftTokenKind.Identifier, PftTokenKind.Variable,
-
-            PftTokenKind.Number, PftTokenKind.F,
-
-            PftTokenKind.Comment,
-
-            PftTokenKind.Ref,
-
-            PftTokenKind.If,
-
-            PftTokenKind.TripleCurly
-        };
 
         /// <summary>
         /// Token list.
@@ -153,6 +58,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <summary>
         /// Constructor.
         /// </summary>
+        // ReSharper disable once NotNullMemberIsNotInitialized
         public PftParser
             (
                 [NotNull] PftTokenList tokens
@@ -161,155 +67,13 @@ namespace ManagedIrbis.Pft.Infrastructure
             Code.NotNull(tokens, "tokens");
             Tokens = tokens;
 
-            procedures = new PftProcedureManager();
+            _procedures = new PftProcedureManager();
             CreateTokenMap();
         }
 
         #endregion
 
         #region Private members
-
-        //================================================================
-        // Service variables
-        //================================================================
-
-        private bool inAssignment;
-
-        private PftProcedureManager procedures;
-
-        private void CreateTokenMap()
-        {
-            MainMap = new Dictionary<PftTokenKind, Func<PftNode>>
-            {
-                {PftTokenKind.A, ParseA},
-                {PftTokenKind.Break, ParseBreak},
-                {PftTokenKind.C, ParseC},
-                {PftTokenKind.Comma, ParseComma},
-                {PftTokenKind.Comment, ParseComment},
-                {PftTokenKind.ConditionalLiteral, ParseField},
-                {PftTokenKind.F, ParseF},
-                {PftTokenKind.Hash, ParseHash},
-                {PftTokenKind.Identifier, ParseFunctionCall},
-                {PftTokenKind.If, ParseIf},
-                {PftTokenKind.L, ParseL},
-                {PftTokenKind.Mfn, ParseMfn},
-                {PftTokenKind.Mpl, ParseMpl},
-                {PftTokenKind.Nl, ParseNl},
-                {PftTokenKind.Number, ParseNumber},
-                {PftTokenKind.P,ParseP},
-                {PftTokenKind.Percent, ParsePercent},
-                {PftTokenKind.Ref, ParseRef},
-                {PftTokenKind.RepeatableLiteral, ParseField},
-                {PftTokenKind.S, ParseS},
-                {PftTokenKind.Semicolon, ParseSemicolon},
-                {PftTokenKind.Slash, ParseSlash},
-                {PftTokenKind.TripleCurly, ParseCodeBlock},
-                {PftTokenKind.TripleLess, ParseVerbatim},
-                {PftTokenKind.UnconditionalLiteral, ParseUnconditionalLiteral},
-                {PftTokenKind.Unifor, ParseUnifor},
-                {PftTokenKind.V,ParseField},
-                {PftTokenKind.Variable, ParseVariable},
-                {PftTokenKind.X, ParseX}
-            };
-
-            FieldMap = new Dictionary<PftTokenKind, Func<PftNode>>
-            {
-                {PftTokenKind.C, ParseC},
-                {PftTokenKind.Comma, ParseComma},
-                {PftTokenKind.Comment, ParseComment},
-                {PftTokenKind.ConditionalLiteral, ParseConditionalLiteral},
-                {PftTokenKind.Hash, ParseHash},
-                {PftTokenKind.Identifier, ParseFunctionCall},
-                {PftTokenKind.Mpl, ParseMpl},
-                {PftTokenKind.Nl, ParseNl},
-                {PftTokenKind.Percent, ParsePercent},
-                {PftTokenKind.RepeatableLiteral, ParseRepeatableLiteral},
-                {PftTokenKind.Semicolon, ParseSemicolon},
-                { PftTokenKind.Slash, ParseSlash},
-                {PftTokenKind.UnconditionalLiteral, ParseUnconditionalLiteral},
-                {PftTokenKind.X, ParseX}
-            };
-
-            NumericMap = new Dictionary<PftTokenKind, Func<PftNode>>
-            {
-                {PftTokenKind.L, ParseL},
-                {PftTokenKind.Mfn,ParseMfn},
-                {PftTokenKind.Number, ParseNumber},
-                {PftTokenKind.Rsum, ParseRsum},
-                {PftTokenKind.Rmax, ParseRsum},
-                {PftTokenKind.Rmin, ParseRsum},
-                {PftTokenKind.Ravr, ParseRsum},
-                {PftTokenKind.Val, ParseVal},
-                {PftTokenKind.Variable, ParseVariableReference}
-            };
-        }
-
-        /// <summary>
-        /// Create next AST node from token list.
-        /// </summary>
-        [CanBeNull]
-        public PftNode Get
-            (
-                [NotNull] Dictionary<PftTokenKind, Func<PftNode>> map,
-                [NotNull] PftTokenKind[] expectedTokens
-            )
-        {
-            PftNode result = null;
-            PftToken token = Tokens.Current;
-
-            if (Array.IndexOf(expectedTokens, token.Kind) >= 0)
-            {
-                Func<PftNode> function;
-                if (!map.TryGetValue(token.Kind, out function))
-                {
-                    throw new PftException
-                        (
-                            "don't know how to handle token "
-                            + token.Kind
-                        );
-                }
-                result = function();
-            }
-
-            return result;
-        }
-
-        private bool LookFor
-            (
-                [NotNull] PftTokenKind[] target,
-                [NotNull] PftTokenKind[] limiter
-            )
-        {
-            bool result = false;
-
-            for (int i = 0; ; i++)
-            {
-                PftTokenKind kind = Tokens.Peek(i);
-                if (kind == PftTokenKind.None)
-                {
-                    break;
-                }
-                if (Array.IndexOf(limiter, kind) >= 0)
-                {
-                    break;
-                }
-                if (Array.IndexOf(target, kind) >= 0)
-                {
-                    result = true;
-                    break;
-                }
-            }
-
-            return result;
-        }
-
-        [NotNull]
-        private T MoveNext<T>([NotNull] T node)
-            where T : PftNode
-        {
-            Tokens.MoveNext();
-            return node;
-        }
 
         //================================================================
         // Parsing
@@ -331,31 +95,51 @@ namespace ManagedIrbis.Pft.Infrastructure
             return MoveNext(result);
         }
 
-        private PftNumeric ParseArithmetic()
+        private PftAssignment ParseAssignment
+            (
+                [NotNull] PftAssignment result,
+                [NotNull] PftTokenList tokens
+            )
         {
-            PftNumeric result = (PftNumeric)Get(NumericMap, NumericTokens);
+            PftTokenList saveList = Tokens;
+            Tokens = tokens;
+            int position = Tokens.SavePosition();
 
-            if (!Tokens.IsEof)
+            try
             {
-                PftTokenKind kind = Tokens.Current.Kind;
-                if (kind == PftTokenKind.Plus
-                    || kind == PftTokenKind.Minus
-                    || kind == PftTokenKind.Star
-                    || kind == PftTokenKind.Div
-                    )
+                PftNode node;
+                try
                 {
-                    PftNumericExpression expression = new PftNumericExpression
+                    node = ParseArithmetic();
+                    result.Children.Add(node);
+                    if (!Tokens.IsEof)
                     {
-                        LeftOperand = result
-                    };
-                    expression.Operation = Tokens.Current.Text;
-                    Tokens.RequireNext();
-                    expression.RightOperand = ParseArithmetic();
-                    result = expression;
+                        throw new PftSyntaxException();
+                    }
+                    result.IsNumeric = true;
                 }
+                catch
+                {
+                    result.Children.Clear();
+                    Tokens.RestorePosition(position);
+                    while (!Tokens.IsEof)
+                    {
+                        node = ParseNext();
+                        result.Children.Add(node);
+                    }
+                }
+            }
+            finally
+            {
+                Tokens = saveList;
             }
 
             return result;
+        }
+
+        private PftNode ParseAt()
+        {
+            return MoveNext(new PftInclude(Tokens.Current));
         }
 
         private PftNode ParseBreak()
@@ -366,51 +150,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         private PftNode ParseC()
         {
             return MoveNext(new PftC(Tokens.Current));
-        }
-
-        private PftNode ParseCall(PftNode result)
-        {
-            Tokens.RequireNext();
-            return ParseCall2(result);
-        }
-
-        private PftNode ParseCall2(PftNode result)
-        {
-            PftToken token = Tokens.Current;
-            token.MustBe(PftTokenKind.LeftParenthesis);
-            Tokens.RequireNext();
-            return ParseCall3(result);
-        }
-
-        private PftNode ParseCall3(PftNode result)
-        {
-            bool ok = false;
-            while (!Tokens.IsEof)
-            {
-                PftToken token = Tokens.Current;
-
-                if (token.Kind == PftTokenKind.RightParenthesis)
-                {
-                    ok = true;
-                    Tokens.MoveNext();
-                    break;
-                }
-
-                if (token.Kind == PftTokenKind.LeftParenthesis)
-                {
-                    throw new PftSyntaxException(token);
-                }
-
-                PftNode node = ParseSimple();
-                result.Children.Add(node);
-            }
-
-            if (!ok)
-            {
-                throw new PftSyntaxException(Tokens);
-            }
-
-            return result;
         }
 
         private PftNode ParseCodeBlock()
@@ -428,117 +167,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             return MoveNext(new PftComment(Tokens.Current));
         }
 
-        private PftComparison ParseComparison()
-        {
-            PftComparison result = new PftComparison(Tokens.Current)
-            {
-                LeftOperand = ParseComparisonItem(),
-                Operation = Tokens.Current.Text
-            };
-            Tokens.RequireNext();
-            result.RightOperand = ParseComparisonItem();
-
-            return result;
-        }
-
-        private PftNode ParseComparisonItem()
-        {
-            PftNode result = Get(MainMap, ComparisonTokens);
-
-            if (!ReferenceEquals(result, null))
-            {
-                return result;
-            }
-
-            throw new PftSyntaxException(Tokens.Current);
-        }
-
-        private PftNode ParseComposite()
-        {
-            if (Tokens.Current.Kind == PftTokenKind.Variable)
-            {
-                return ParseVariable();
-            }
-            if (Tokens.Current.Kind == PftTokenKind.LeftParenthesis)
-            {
-                return ParseGroup();
-            }
-
-            return ParseSimple();
-        }
-
-        private PftCondition ParseCondition
-            (
-                [NotNull] PftToken token
-            )
-        {
-            PftCondition result;
-
-            if (token.Kind == PftTokenKind.P)
-            {
-                result = ParseP();
-            }
-            else if (token.Kind == PftTokenKind.A)
-            {
-                result = ParseA();
-            }
-            else if (token.Kind == PftTokenKind.Not)
-            {
-                PftConditionNot not = new PftConditionNot(token);
-                Tokens.RequireNext();
-                not.InnerCondition = ParseCondition(Tokens.Current);
-                result = not;
-            }
-            else if (token.Kind == PftTokenKind.LeftParenthesis)
-            {
-                PftConditionParenthesis parenthesis = new PftConditionParenthesis(token);
-                Tokens.RequireNext();
-                parenthesis.InnerCondition = ParseConditionAndOr(Tokens.Current);
-                Tokens.RequireNext(PftTokenKind.RightParenthesis);
-                result = parenthesis;
-            }
-            else
-            {
-                PftComparison comparison = ParseComparison();
-                result = comparison;
-            }
-
-            return result;
-        }
-
-        private PftCondition ParseConditionAndOr
-            (
-                [NotNull] PftToken token
-            )
-        {
-            PftCondition result = ParseCondition(token);
-
-            while (!Tokens.IsEof)
-            {
-                token = Tokens.Current;
-
-                if (token.Kind == PftTokenKind.And
-                    || token.Kind == PftTokenKind.Or)
-                {
-                    PftConditionAndOr andOr = new PftConditionAndOr(token)
-                    {
-                        LeftOperand = result,
-                        Operation = token.Text
-                    };
-                    Tokens.RequireNext();
-                    PftCondition right = ParseCondition(Tokens.Current);
-                    andOr.RightOperand = right;
-                    result = andOr;
-                }
-                else if (token.Kind == PftTokenKind.Then)
-                {
-                    break;
-                }
-            }
-
-            return result;
-        }
-
         private PftNode ParseConditionalLiteral()
         {
             return MoveNext(new PftConditionalLiteral(Tokens.Current));
@@ -549,7 +177,11 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftF result = new PftF(Tokens.Current);
             Tokens.RequireNext(PftTokenKind.LeftParenthesis);
             Tokens.RequireNext();
-            result.Argument1 = ParseArithmetic();
+            result.Argument1 = ParseArithmetic
+                (
+                    PftTokenKind.Comma,
+                    PftTokenKind.RightParenthesis
+                );
             if (Tokens.IsEof)
             {
                 throw new PftSyntaxException(Tokens);
@@ -584,6 +216,39 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 throw new PftSyntaxException(Tokens.Current);
             }
+            Tokens.MoveNext();
+
+            return result;
+        }
+
+        private PftNode ParseF2()
+        {
+            PftF2 result = new PftF2(Tokens.Current);
+            Tokens.RequireNext(PftTokenKind.LeftParenthesis);
+            Tokens.RequireNext();
+            result.Number = ParseArithmetic
+                (
+                    PftTokenKind.Comma
+                );
+            if (Tokens.IsEof
+                || Tokens.Current.Kind != PftTokenKind.Comma
+               )
+            {
+                throw new PftSyntaxException(Tokens);
+            }
+            Tokens.RequireNext();
+            PftTokenList formatTokens = Tokens.Segment
+                (
+                    _parenthesisOpen,
+                    _parenthesisClose,
+                    _parenthesisStop
+                )
+                .ThrowIfNull("formatTokens");
+            ChangeContext
+                (
+                    result.Format,
+                    formatTokens
+                );
             Tokens.MoveNext();
 
             return result;
@@ -761,6 +426,111 @@ namespace ManagedIrbis.Pft.Infrastructure
             DONE: return result;
         }
 
+        /// <summary>
+        /// For loop.
+        /// </summary>
+        /// <example>
+        /// for $x=0; $x &lt; 10; $x = $x+1;
+        /// do
+        ///     $x, ') ',
+        ///     'Прикольно же!'
+        ///     #
+        /// end
+        /// </example>
+        private PftNode ParseFor()
+        {
+            PftFor result = new PftFor(Tokens.Current);
+            Tokens.RequireNext();
+            PftTokenList initTokens = Tokens.Segment
+                (
+                    _semicolonStop
+                )
+                .ThrowIfNull("initTokens");
+            initTokens.Add(PftTokenKind.Semicolon);
+            Tokens.Current.MustBe(PftTokenKind.Semicolon);
+            ChangeContext(result.Initialization, initTokens);
+            Tokens.RequireNext();
+            PftTokenList conditionTokens = Tokens.Segment
+                (
+                    _semicolonStop
+                )
+                .ThrowIfNull("conditionTokens");
+            Tokens.Current.MustBe(PftTokenKind.Semicolon);
+            result.Condition = (PftCondition)ChangeContext
+                (
+                    conditionTokens,
+                    ParseCondition
+                );
+            Tokens.RequireNext();
+            PftTokenList loopTokens = Tokens.Segment
+                (
+                    _doStop
+                )
+                .ThrowIfNull("loopTokens");
+            Tokens.Current.MustBe(PftTokenKind.Do);
+            ChangeContext(result.Loop, loopTokens);
+            Tokens.RequireNext();
+            PftTokenList bodyTokens = Tokens.Segment
+                (
+                    _loopOpen,
+                    _loopClose,
+                    _loopStop
+                )
+                .ThrowIfNull("bodyTokens");
+            Tokens.Current.MustBe(PftTokenKind.End);
+            ChangeContext(result.Body, bodyTokens);
+            Tokens.MoveNext();
+
+            return result;
+        }
+
+        /// <summary>
+        /// ForEach loop.
+        /// </summary>
+        /// <example>
+        /// foreach $x in v200^a,v200^e,'Hello'
+        /// do
+        ///     $x
+        ///     #
+        /// end
+        /// </example>
+        private PftNode ParseForEach()
+        {
+            PftForEach result = new PftForEach(Tokens.Current);
+            Tokens.RequireNext();
+            result.Variable = (PftVariableReference)ParseVariableReference();
+            Tokens.Current.MustBe(PftTokenKind.In);
+            Tokens.RequireNext();
+            PftTokenList sequenceTokens = Tokens.Segment
+                (
+                    _doStop
+                )
+                .ThrowIfNull("sequenceTokens");
+            Tokens.Current.MustBe(PftTokenKind.Do);
+            ChangeContext
+                (
+                    result.Sequence,
+                    sequenceTokens
+                );
+            Tokens.RequireNext();
+            PftTokenList bodyTokens = Tokens.Segment
+                (
+                    _loopOpen,
+                    _loopClose,
+                    _loopStop
+                )
+                .ThrowIfNull("bodyTokens");
+            Tokens.Current.MustBe(PftTokenKind.End);
+            ChangeContext
+                (
+                    result.Body,
+                    bodyTokens
+                );
+            Tokens.MoveNext();
+
+            return result;
+        }
+
         private PftNode ParseFunctionCall()
         {
             PftFunctionCall result = new PftFunctionCall(Tokens.Current);
@@ -778,83 +548,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         private PftNode ParseHash()
         {
             return MoveNext(new PftHash(Tokens.Current));
-        }
-
-        private PftNode ParseIf()
-        {
-            PftConditionalStatement result
-                = new PftConditionalStatement(Tokens.Current);
-            Tokens.RequireNext();
-
-            PftCondition condition = ParseConditionAndOr(Tokens.Current);
-            result.Condition = condition;
-
-            Tokens.Current.MustBe(PftTokenKind.Then);
-            Tokens.RequireNext();
-
-            bool complete = false;
-            bool ok = false;
-            PftToken token;
-            while (!Tokens.IsEof)
-            {
-                token = Tokens.Current;
-
-                if (token.Kind == PftTokenKind.Fi)
-                {
-                    Tokens.MoveNext();
-                    ok = true;
-                    complete = true;
-                    break;
-                }
-
-                if (token.Kind == PftTokenKind.Else)
-                {
-                    Tokens.MoveNext();
-                    ok = true;
-                    break;
-                }
-
-                //PftNode node = ParseSimple();
-                PftNode node = ParseComposite();
-                result.ThenBranch.Add(node);
-            }
-
-            if (!complete)
-            {
-                while (!Tokens.IsEof)
-                {
-                    token = Tokens.Current;
-
-                    if (token.Kind == PftTokenKind.Fi)
-                    {
-                        Tokens.MoveNext();
-                        ok = true;
-                        complete = true;
-                        break;
-                    }
-
-                    //PftNode node = ParseSimple();
-                    PftNode node = ParseComposite();
-                    result.ElseBranch.Add(node);
-                }
-
-                if (!ok)
-                {
-                    throw new PftSyntaxException(Tokens);
-                }
-            }
-
-            if (!ok)
-            {
-                throw new PftSyntaxException(Tokens);
-            }
-
-            if (!complete)
-            {
-                throw new PftSyntaxException(Tokens);
-            }
-
-            return result;
         }
 
         private PftNode ParseL()
@@ -905,14 +598,52 @@ namespace ManagedIrbis.Pft.Infrastructure
             return MoveNext(new PftPercent(Tokens.Current));
         }
 
-        private PftProgram ParseProgram()
+        private PftNode ParseProc()
         {
-            PftProgram result = new PftProgram();
+            PftProcedureDefinition result
+                = new PftProcedureDefinition(Tokens.Current);
 
-            while (!Tokens.IsEof)
+            if (_inProcedure)
             {
-                PftNode node = ParseComposite();
-                result.Children.Add(node);
+                throw new PftSyntaxException(Tokens);
+            }
+
+            try
+            {
+                _inProcedure = true;
+
+                PftProcedure procedure = new PftProcedure();
+                result.Procedure = procedure;
+
+                Tokens.RequireNext(PftTokenKind.Identifier);
+                procedure.Name = Tokens.Current.Text;
+                Tokens.RequireNext();
+
+                _procedures.Registry.Add
+                (
+                    procedure.Name.ThrowIfNull("procedure.Name"),
+                    procedure
+                );
+
+                PftTokenList bodyList = Tokens.Segment
+                    (
+                        _loopOpen,
+                        _loopClose,
+                        _procedureStop
+                    )
+                    .ThrowIfNull("bodyList");
+                Tokens.Current.MustBe(PftTokenKind.End);
+                ChangeContext
+                (
+                    procedure.Body,
+                    bodyList
+                );
+                Tokens.MoveNext();
+
+            }
+            finally
+            {
+                _inProcedure = false;
             }
 
             return result;
@@ -925,7 +656,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Tokens.RequireNext(PftTokenKind.LeftParenthesis);
             Tokens.RequireNext();
             //result.Mfn = ParseNumber();
-            result.Mfn = ParseArithmetic();
+            result.Mfn = ParseArithmetic(PftTokenKind.Comma);
             Tokens.Current.MustBe(PftTokenKind.Comma);
             Tokens.RequireNext();
             PftNode pseudo = new PftNode();
@@ -951,19 +682,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftNode result = new PftS(Tokens.Current);
             ParseCall(result);
             return result;
-        }
-
-        [NotNull]
-        private PftNode ParseSimple()
-        {
-            PftNode result = Get(MainMap, SimpleTokens);
-
-            if (!ReferenceEquals(result, null))
-            {
-                return result;
-            }
-
-            throw new PftSyntaxException(Tokens.Current);
         }
 
         private PftNode ParseSemicolon()
@@ -997,51 +715,37 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             if (Tokens.Peek() == PftTokenKind.Equals)
             {
-                if (inAssignment)
+                if (_inAssignment)
                 {
                     throw new PftSyntaxException("nested assignment");
                 }
 
                 try
                 {
-                    inAssignment = true;
+                    _inAssignment = true;
 
                     PftAssignment result = new PftAssignment(Tokens.Current);
                     Tokens.RequireNext(PftTokenKind.Equals);
                     Tokens.RequireNext();
 
-                    if (LookFor(NumericGoodies, NumericLimiter))
+                    PftTokenList tokens = Tokens.Segment
+                        (
+                            _semicolonStop
+                        );
+                    if (ReferenceEquals(tokens, null))
                     {
-                        while (!Tokens.IsEof)
-                        {
-                            if (Tokens.Current.Kind == PftTokenKind.Semicolon)
-                            {
-                                Tokens.MoveNext();
-                                break;
-                            }
-                            PftNode node = ParseArithmetic();
-                            result.Children.Add(node);
-                        }
+                        throw new PftSyntaxException(Tokens);
                     }
-                    else
-                    {
-                        while (!Tokens.IsEof)
-                        {
-                            if (Tokens.Current.Kind == PftTokenKind.Semicolon)
-                            {
-                                Tokens.MoveNext();
-                                break;
-                            }
-                            PftNode node = ParseComposite();
-                            result.Children.Add(node);
-                        }
-                    }
+                    Tokens.Current.MustBe(PftTokenKind.Semicolon);
+                    Tokens.MoveNext();
+
+                    result = ParseAssignment(result, tokens);
 
                     return result;
                 }
                 finally
                 {
-                    inAssignment = false;
+                    _inAssignment = false;
                 }
             }
 
@@ -1060,6 +764,53 @@ namespace ManagedIrbis.Pft.Infrastructure
             return MoveNext(new PftVerbatim(Tokens.Current));
         }
 
+        /// <summary>
+        /// While loop.
+        /// </summary>
+        /// <example>
+        /// $x=0;
+        /// while $x &lt; 10
+        /// do
+        ///     $x, ') ',
+        ///     'Прикольно же!'
+        ///     #
+        ///     $x=$x+1;
+        /// end
+        /// </example>
+        private PftNode ParseWhile()
+        {
+            PftWhile result = new PftWhile(Tokens.Current);
+            Tokens.RequireNext();
+            PftTokenList conditionTokens = Tokens.Segment
+                (
+                    _doStop
+                )
+                .ThrowIfNull("conditionTokens");
+            Tokens.Current.MustBe(PftTokenKind.Do);
+            result.Condition = (PftCondition)ChangeContext
+                (
+                    conditionTokens,
+                    ParseCondition
+                );
+            Tokens.RequireNext();
+            PftTokenList bodyTokens = Tokens.Segment
+                (
+                    _loopOpen,
+                    _loopClose,
+                    _loopStop
+                )
+                .ThrowIfNull("bodyTokens");
+            Tokens.Current.MustBe(PftTokenKind.End);
+            ChangeContext
+                (
+                    result.Body,
+                    bodyTokens
+                );
+            Tokens.MoveNext();
+
+            return result;
+        }
+
         private PftNode ParseX()
         {
             return MoveNext(new PftX(Tokens.Current));
@@ -1068,6 +819,19 @@ namespace ManagedIrbis.Pft.Infrastructure
         //================================================================
         // Other routines
         //================================================================
+
+        private PftProgram ParseProgram()
+        {
+            PftProgram result = new PftProgram();
+
+            while (!Tokens.IsEof)
+            {
+                PftNode node = ParseNext();
+                result.Children.Add(node);
+            }
+
+            return result;
+        }
 
         #endregion
 
@@ -1080,7 +844,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         public PftProgram Parse()
         {
             PftProgram result = ParseProgram();
-            result.Procedures = procedures;
+            result.Procedures = _procedures;
 
             return result;
         }

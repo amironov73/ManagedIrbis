@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -111,16 +111,56 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
             else
             {
-                PftFunctionManager.ExecuteFunction
+                PftProcedure procedure = context.Procedures
+                    .FindProcedure(name);
+
+                if (!ReferenceEquals(procedure, null))
+                {
+                    procedure.Execute
+                        (
+                            context,
+                            expression
+                        );
+                }
+                else
+                {
+                    PftFunctionManager.ExecuteFunction
                     (
                         name,
                         context,
                         this,
                         expression
                     );
+                }
             }
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc/>
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Name = SimplifyTypeName(GetType().Name)
+            };
+            PftNodeInfo name = new PftNodeInfo
+            {
+                Name = "Name",
+                Value = Name
+            };
+            result.Children.Add(name);
+            PftNodeInfo arguments = new PftNodeInfo
+            {
+                Name = "Arguments"
+            };
+            arguments.Children.AddRange
+                (
+                    Children.Select(node => node.GetNodeInfo())
+                );
+            result.Children.Add(arguments);
+
+            return result;
         }
 
         /// <inheritdoc/>

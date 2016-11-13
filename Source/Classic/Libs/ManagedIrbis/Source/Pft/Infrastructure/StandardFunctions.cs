@@ -19,7 +19,7 @@ using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Ast;
 
 using MoonSharp.Interpreter;
@@ -70,6 +70,29 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (!string.IsNullOrEmpty(expression))
             {
                 context.Write(node, "<b>" + expression + "</b>");
+            }
+        }
+
+        private static void Cat(PftContext context, PftNode node, string expression)
+        {
+            //
+            // TODO: add some caching
+            //
+
+            if (!string.IsNullOrEmpty(expression))
+            {
+                FileSpecification specification
+                    = new FileSpecification
+                    (
+                        IrbisPath.MasterFile,
+                        context.Environment.Database,
+                        expression
+                    );
+                string source = context.Environment.ReadFile
+                    (
+                        specification
+                    );
+                context.Write(node, source);
             }
         }
 
@@ -192,6 +215,19 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 string result = global::System.Environment.GetEnvironmentVariable(expression);
                 context.Write(node, result);
+            }
+        }
+
+        private static void Include(PftContext context, PftNode node, string expression)
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                Unifors.Unifor6.ExecuteNestedFormat
+                    (
+                        context,
+                        node,
+                        expression
+                    );
             }
         }
 
@@ -427,6 +463,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             reg.Add("addField", AddField);
             reg.Add("bold", Bold);
+            reg.Add("cat", Cat);
             reg.Add("chr", Chr);
             reg.Add("commandline", CommandLine);
             reg.Add("cout", COut);
@@ -436,6 +473,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("fatal", Fatal);
             reg.Add("getenv", GetEnv);
             reg.Add("iocc", IOcc);
+            reg.Add("include", Include);
             reg.Add("italic", Italic);
             reg.Add("len", Len);
             reg.Add("machinename", MachineName);

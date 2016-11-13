@@ -1,4 +1,4 @@
-﻿/* ConnectionTest.cs --
+﻿/* NopTest.cs --
  * Ars Magna project, http://arsmagna.ru 
  */
 

@@ -82,9 +82,17 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             try
             {
+                context.Procedures = Procedures;
                 base.Execute(context);
             }
             catch (PftBreakException)
+            {
+                if (!ReferenceEquals(context.Parent, null))
+                {
+                    throw;
+                }
+            }
+            catch (PftExitException)
             {
                 if (!ReferenceEquals(context.Parent, null))
                 {

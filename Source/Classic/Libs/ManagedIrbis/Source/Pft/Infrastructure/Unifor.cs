@@ -86,6 +86,8 @@ StringComparer.InvariantCultureIgnoreCase
         {
             Registry.Add("0", FormatAll);
             Registry.Add("3", Unifor3.PrintDate);
+            Registry.Add("4", Unifor4.FormatPreviousVersion);
+            Registry.Add("6", Unifor6.ExecuteNestedFormat);
             Registry.Add("9", RemoveDoubleQuotes);
             Registry.Add("A", GetFieldRepeat);
             Registry.Add("E", UniforE.GetFirstWords);
@@ -122,6 +124,7 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("+7T", UniforPlus7.SortGlobal);
             Registry.Add("+7U", UniforPlus7.AppendGlobal);
             Registry.Add("+7W", UniforPlus7.WriteGlobal);
+            Registry.Add("+8", UniforPlus8.ExecuteNativeMethod);
             Registry.Add("+90", UniforPlus9.GetIndex);
             Registry.Add("+91", UniforPlus9.GetFileName);
             Registry.Add("+92", UniforPlus9.GetDirectoryName);

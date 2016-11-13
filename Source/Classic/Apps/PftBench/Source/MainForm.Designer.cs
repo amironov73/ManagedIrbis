@@ -32,6 +32,7 @@
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this._splitContainer1 = new System.Windows.Forms.SplitContainer();
             this._splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this._pftBox = new IrbisUI.PftEditorControl();
             this._astTabControl = new System.Windows.Forms.TabControl();
             this._astPage = new System.Windows.Forms.TabPage();
             this._pftTreeView = new IrbisUI.PftTreeView();
@@ -54,13 +55,12 @@
             this._htmlBox = new System.Windows.Forms.WebBrowser();
             this._warningPage = new System.Windows.Forms.TabPage();
             this._warningBox = new System.Windows.Forms.TextBox();
-            this._toolStrip = new System.Windows.Forms.ToolStrip();
-            this._parseButton = new System.Windows.Forms.ToolStripButton();
-            this._goButton = new System.Windows.Forms.ToolStripButton();
             this._menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this._pftBox = new IrbisUI.PftEditorControl();
+            this._toolStrip = new System.Windows.Forms.ToolStrip();
+            this._parseButton = new System.Windows.Forms.ToolStripButton();
+            this._goButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -87,8 +87,8 @@
             this._rtfPage.SuspendLayout();
             this._htmlPage.SuspendLayout();
             this._warningPage.SuspendLayout();
-            this._toolStrip.SuspendLayout();
             this._menuStrip.SuspendLayout();
+            this._toolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -152,6 +152,16 @@
             this._splitContainer3.SplitterDistance = 493;
             this._splitContainer3.SplitterWidth = 5;
             this._splitContainer3.TabIndex = 1;
+            // 
+            // _pftBox
+            // 
+            this._pftBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._pftBox.IsReadOnly = false;
+            this._pftBox.Location = new System.Drawing.Point(0, 0);
+            this._pftBox.Name = "_pftBox";
+            this._pftBox.Size = new System.Drawing.Size(493, 203);
+            this._pftBox.TabIndex = 0;
+            this._pftBox.Text = "/* My first PFT script\r\n\'Some text\' /\r\nv200^a, \" : \"v200^e, \" / \"v200^f";
             // 
             // _astTabControl
             // 
@@ -405,6 +415,32 @@
             this._warningBox.Size = new System.Drawing.Size(491, 355);
             this._warningBox.TabIndex = 0;
             // 
+            // _menuStrip
+            // 
+            this._menuStrip.Dock = System.Windows.Forms.DockStyle.None;
+            this._menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this._menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this._menuStrip.Location = new System.Drawing.Point(0, 0);
+            this._menuStrip.Name = "_menuStrip";
+            this._menuStrip.Size = new System.Drawing.Size(1005, 28);
+            this._menuStrip.TabIndex = 0;
+            this._menuStrip.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
+            this.fileToolStripMenuItem.Text = "&File";
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(108, 26);
+            this.exitToolStripMenuItem.Text = "&Exit";
+            // 
             // _toolStrip
             // 
             this._toolStrip.Dock = System.Windows.Forms.DockStyle.None;
@@ -436,42 +472,6 @@
             this._goButton.Size = new System.Drawing.Size(85, 24);
             this._goButton.Text = "Go! (F5)";
             this._goButton.Click += new System.EventHandler(this._goButton_Click);
-            // 
-            // _menuStrip
-            // 
-            this._menuStrip.Dock = System.Windows.Forms.DockStyle.None;
-            this._menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this._menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
-            this._menuStrip.Location = new System.Drawing.Point(0, 0);
-            this._menuStrip.Name = "_menuStrip";
-            this._menuStrip.Size = new System.Drawing.Size(1005, 28);
-            this._menuStrip.TabIndex = 0;
-            this._menuStrip.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exitToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
-            this.fileToolStripMenuItem.Text = "&File";
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(108, 26);
-            this.exitToolStripMenuItem.Text = "&Exit";
-            // 
-            // _pftBox
-            // 
-            this._pftBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._pftBox.IsReadOnly = false;
-            this._pftBox.Location = new System.Drawing.Point(0, 0);
-            this._pftBox.Name = "_pftBox";
-            this._pftBox.Size = new System.Drawing.Size(493, 203);
-            this._pftBox.TabIndex = 0;
-            this._pftBox.Text = "/* My first PFT script\r\n\'Some text\' /\r\nv200^a, \" : \"v200^e, \" / \"v200^f";
             // 
             // MainForm
             // 
@@ -519,10 +519,10 @@
             this._htmlPage.ResumeLayout(false);
             this._warningPage.ResumeLayout(false);
             this._warningPage.PerformLayout();
-            this._toolStrip.ResumeLayout(false);
-            this._toolStrip.PerformLayout();
             this._menuStrip.ResumeLayout(false);
             this._menuStrip.PerformLayout();
+            this._toolStrip.ResumeLayout(false);
+            this._toolStrip.PerformLayout();
             this.ResumeLayout(false);
 
         }

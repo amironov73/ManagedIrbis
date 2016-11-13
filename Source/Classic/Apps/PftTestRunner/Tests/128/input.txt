@@ -1,0 +1,5 @@
+﻿foreach $x in v200^a,v200^e,'Hello'
+do
+	$x
+	#
+end

@@ -12,10 +12,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 
 using MoonSharp.Interpreter;
 
@@ -32,6 +36,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         : PftNode
     {
         #region Properties
+
+        /// <summary>
+        /// Whether is numeric or text assignment.
+        /// </summary>
+        public bool IsNumeric { get; set; }
 
         /// <summary>
         /// Variable name.
@@ -78,6 +87,55 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Private members
 
+        // Handle direct variable-to-variable assignment
+        // Ignore IsNumeric setting
+        private bool HandleDirectAssignment
+            (
+                PftContext context
+            )
+        {
+            string name = Name.ThrowIfNull("name");
+
+            if (Children.Count == 1)
+            {
+                PftVariableReference reference = Children.First()
+                    as PftVariableReference;
+                if (!ReferenceEquals(reference, null))
+                {
+                    PftVariable donor;
+                    string donorName = reference.Name
+                        .ThrowIfNull("reference.Name");
+                    if (context.Variables.Registry.TryGetValue
+                        (
+                            donorName,
+                            out donor
+                        ))
+                    {
+                        if (donor.IsNumeric)
+                        {
+                            context.Variables.SetVariable
+                                (
+                                    name,
+                                    donor.NumericValue
+                                );
+                        }
+                        else
+                        {
+                            context.Variables.SetVariable
+                                (
+                                    name,
+                                    donor.StringValue
+                                );
+                        }
+
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         #endregion
 
         #region Public methods
@@ -94,50 +152,66 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            string name = Name.ThrowIfNull("name");
-            string stringValue = context.Evaluate(Children);
-            bool isNumeric = false;
-            if (Children.Count != 0
-                && Children[0] is PftNumeric)
+            if (!HandleDirectAssignment(context))
             {
-                if (Children[0] is PftVariableReference)
+                string name = Name.ThrowIfNull("name");
+                string stringValue = context.Evaluate(Children);
+
+                if (IsNumeric)
                 {
-                    PftVariableReference variableReference
-                        = (PftVariableReference) Children[0];
-                    PftVariable variable
-                        = context.Variables.GetExistingVariable
+                    PftNumeric numeric =
                         (
-                            variableReference.Name.ThrowIfNull()
+                            Children.FirstOrDefault() as PftNumeric
                         )
-                        .ThrowIfNull();
-                    isNumeric = variable.IsNumeric;
+                        .ThrowIfNull("numeric");
+                    double numericValue = numeric.Value;
+                    context.Variables.SetVariable
+                        (
+                            name,
+                            numericValue
+                        );
                 }
                 else
                 {
-                    isNumeric = true;
+                    context.Variables.SetVariable
+                        (
+                            name,
+                            stringValue
+                        );
                 }
             }
 
-            if (isNumeric)
+            OnAfterExecution(context);
+        }
+
+        /// <inheritdoc/>
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
             {
-                PftNumeric numeric = Children[0] as PftNumeric;
-                double numericValue = numeric.Value;
-                context.Variables.SetVariable
-                    (
-                        name,
-                        numericValue
-                    );
-            }
-            else
+                Name = SimplifyTypeName(GetType().Name)
+            };
+
+            PftNodeInfo name = new PftNodeInfo
             {
-                context.Variables.SetVariable
-                    (
-                        name,
-                        stringValue
-                    );
+                Name = "Name",
+                Value = Name
+            };
+            result.Children.Add(name);
+
+            PftNodeInfo numeric = new PftNodeInfo
+            {
+                Name = "IsNumeric",
+                Value = IsNumeric.ToString()
+            };
+            result.Children.Add(numeric);
+
+            foreach (PftNode node in Children)
+            {
+                result.Children.Add(node.GetNodeInfo());
             }
 
-            OnAfterExecution(context);
+            return result;
         }
 
         #endregion

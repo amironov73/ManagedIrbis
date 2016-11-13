@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
+using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Runtime;
@@ -22,7 +23,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Infrastructure;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -104,6 +105,30 @@ namespace ManagedIrbis.Worksheet
             return result;
         }
 
+        /// <summary>
+        /// Read from server.
+        /// </summary>
+        [CanBeNull]
+        public static WssFile ReadFromServer
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] FileSpecification specification
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNull(specification, "specification");
+
+            string content = connection.ReadTextFile(specification);
+            if (string.IsNullOrEmpty(content))
+            {
+                return null;
+            }
+            using (StringReader reader = new StringReader(content))
+            {
+                return ParseStream(reader);
+            }
+        }
+
 #if !WIN81
 
         /// <summary>
@@ -155,9 +180,7 @@ namespace ManagedIrbis.Worksheet
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc/>
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -167,9 +190,7 @@ namespace ManagedIrbis.Worksheet
             Items = reader.ReadNonNullCollection<WorksheetItem>();
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <inheritdoc/>
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -182,6 +203,12 @@ namespace ManagedIrbis.Worksheet
         #endregion
 
         #region Object members
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return Name.ToVisibleString();
+        }
 
         #endregion
     }

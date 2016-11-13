@@ -160,7 +160,7 @@ namespace ManagedIrbis.Worksheet
         /// </summary>
         [XmlAttribute("input-mode")]
         [JsonProperty("input-mode")]
-        public InputMode InputMode { get; set; }
+        public string InputMode { get; set; }
 
         /// <summary>
         /// Дополнительная информация для расширенных
@@ -232,15 +232,12 @@ namespace ManagedIrbis.Worksheet
             {
                 Tag = reader.RequireLine(),
                 Title = reader.RequireLine().Trim(),
-                Repeatable = ConversionUtility.ToBoolean
+                Repeatable = int.Parse
                     (
                         reader.RequireLine()
-                    ),
+                    ) != 0,
                 Help = reader.RequireLine().Trim(),
-                InputMode = (InputMode) int.Parse
-                    (
-                        reader.RequireLine()
-                    ),
+                InputMode = reader.RequireLine(),
                 InputInfo = reader.RequireLine(),
                 FormalVerification = reader.RequireLine().Trim(),
                 Hint = reader.RequireLine().Trim(),
@@ -270,7 +267,7 @@ namespace ManagedIrbis.Worksheet
             Title = reader.ReadNullableString();
             Repeatable = reader.ReadBoolean();
             Help = reader.ReadNullableString();
-            InputMode = (InputMode) reader.ReadPackedInt32();
+            InputMode = reader.ReadNullableString();
             InputInfo = reader.ReadNullableString();
             FormalVerification = reader.ReadNullableString();
             Hint = reader.ReadNullableString();
@@ -294,7 +291,7 @@ namespace ManagedIrbis.Worksheet
                 .Write(Repeatable);
             writer
                 .WriteNullable(Help)
-                .WritePackedInt32((int)InputMode);
+                .WriteNullable(InputMode);
             writer
                 .WriteNullable(InputInfo)
                 .WriteNullable(FormalVerification)

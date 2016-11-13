@@ -69,6 +69,23 @@ namespace ManagedIrbis.Pft.Infrastructure
         #region Public methods
 
         /// <summary>
+        /// Find specified procedure.
+        /// </summary>
+        [CanBeNull]
+        public PftProcedure FindProcedure
+            (
+                [NotNull] string name
+            )
+        {
+            Code.NotNullNorEmpty(name, "name");
+
+            PftProcedure result;
+            Registry.TryGetValue(name, out result);
+
+            return result;
+        }
+
+        /// <summary>
         /// Execute the procedure.
         /// </summary>
         public void Execute

@@ -111,6 +111,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -121,6 +122,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AM\Services\ConsoleWindowsService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AM\Services\IWindowsServiceTask.cs" />
     <Compile Include="AM\Win32\ACCEL.cs" />
     <Compile Include="AM\Win32\BorderFlags.cs" />
     <Compile Include="AM\Win32\BorderFlags3D.cs" />
@@ -202,6 +207,9 @@
     <Compile Include="AM\Win32\HotkeyModifiers.cs" />
     <Compile Include="AM\Win32\ICONINFO.cs" />
     <Compile Include="AM\Win32\IMAGEINFO.cs" />
+    <Compile Include="AM\Win32\Kernel32\IoCounters.cs" />
+    <Compile Include="AM\Win32\Kernel32\JobObjectExtendedLimitInformation.cs" />
+    <Compile Include="AM\Win32\Kernel32\JobObjectHandle.cs" />
     <Compile Include="AM\Win32\Kernel32\ACPowerState.cs" />
     <Compile Include="AM\Win32\Kernel32\BatteryFlags.cs" />
     <Compile Include="AM\Win32\Kernel32\BY_HANDLE_FILE_INFORMATION.cs" />
@@ -235,6 +243,8 @@
     <Compile Include="AM\Win32\Kernel32\FormatMessageFlags.cs" />
     <Compile Include="AM\Win32\Kernel32\GlobalAllocFlags.cs" />
     <Compile Include="AM\Win32\Kernel32\HeapFlags.cs" />
+    <Compile Include="AM\Win32\Kernel32\JobObjectBasicLimitInformation.cs" />
+    <Compile Include="AM\Win32\Kernel32\JobObjectInfoType.cs" />
     <Compile Include="AM\Win32\Kernel32\Kernel32.cs" />
     <Compile Include="AM\Win32\Kernel32\KernelUtility.cs" />
     <Compile Include="AM\Win32\Kernel32\LoadLibraryFlags.cs" />
@@ -361,6 +371,7 @@
     <Compile Include="AM\Win32\VirtualKeys.cs" />
     <Compile Include="AM\Win32\Win32Window.cs" />
     <Compile Include="AM\Win32\WinApiUtility.cs" />
+    <Compile Include="AM\Win32\WindowsJob.cs" />
     <Compile Include="AM\Win32\WindowsTweaker.cs" />
     <Compile Include="AM\Windows\Forms\ButtonedTextBox.cs" />
     <Compile Include="AM\Windows\Forms\FileNameBox.cs" />
@@ -410,6 +421,9 @@
   <ItemGroup>
     <None Include="ArsMagna.private.snk" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
