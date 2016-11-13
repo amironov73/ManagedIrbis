@@ -111,13 +111,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
             else
             {
-                PftFunctionManager.ExecuteFunction
+                PftProcedure procedure = context.Procedures
+                    .FindProcedure(name);
+
+                if (!ReferenceEquals(procedure, null))
+                {
+                    procedure.Execute
+                        (
+                            context,
+                            expression
+                        );
+                }
+                else
+                {
+                    PftFunctionManager.ExecuteFunction
                     (
                         name,
                         context,
                         this,
                         expression
                     );
+                }
             }
 
             OnAfterExecution(context);

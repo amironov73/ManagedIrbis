@@ -934,6 +934,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "pow";
                                 break;
 
+                            case "proc":
+                                kind = PftTokenKind.Proc;
+                                value = "proc";
+                                break;
+
                             case "ravr":
                                 kind = PftTokenKind.Ravr;
                                 value = "ravr";

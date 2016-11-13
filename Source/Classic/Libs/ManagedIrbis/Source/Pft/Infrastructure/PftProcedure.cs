@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM.Collections;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -34,8 +34,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <summary>
         /// Procedure body.
         /// </summary>
-        [CanBeNull]
-        public PftNode Body { get; set; }
+        [NotNull]
+        public NonNullCollection<PftNode> Body { get; set; }
 
         /// <summary>
         /// Procedure name.
@@ -46,6 +46,14 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftProcedure()
+        {
+            Body = new NonNullCollection<PftNode>();
+        }
 
         #endregion
 
@@ -64,6 +72,19 @@ namespace ManagedIrbis.Pft.Infrastructure
                 [CanBeNull] string argument
             )
         {
+            Code.NotNull(context, "context");
+
+            PftContext nested = context.Push();
+            try
+            {
+                nested.Output = context.Output;
+                nested.Variables.SetVariable("arg", argument);
+                nested.Execute(Body);
+            }
+            finally
+            {
+                context.Pop();
+            }
         }
 
         #endregion

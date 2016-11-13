@@ -302,6 +302,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNumericLiteral.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftP.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftPow.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftProcedureDefinition.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftRef.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftRound.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftRsum.cs" />
@@ -342,6 +343,7 @@
     <Compile Include="Source\Pft\Infrastructure\PftBreakException.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftConfig.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftContextSaver.cs" />
+    <Compile Include="Source\Pft\Infrastructure\PftExitException.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftFunction.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftFunctionManager.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftGlobal.cs" />

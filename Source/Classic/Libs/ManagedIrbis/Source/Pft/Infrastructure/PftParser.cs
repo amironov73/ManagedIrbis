@@ -67,7 +67,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Code.NotNull(tokens, "tokens");
             Tokens = tokens;
 
-            procedures = new PftProcedureManager();
+            _procedures = new PftProcedureManager();
             CreateTokenMap();
         }
 
@@ -598,6 +598,57 @@ namespace ManagedIrbis.Pft.Infrastructure
             return MoveNext(new PftPercent(Tokens.Current));
         }
 
+        private PftNode ParseProc()
+        {
+            PftProcedureDefinition result
+                = new PftProcedureDefinition(Tokens.Current);
+
+            if (_inProcedure)
+            {
+                throw new PftSyntaxException(Tokens);
+            }
+
+            try
+            {
+                _inProcedure = true;
+
+                PftProcedure procedure = new PftProcedure();
+                result.Procedure = procedure;
+
+                Tokens.RequireNext(PftTokenKind.Identifier);
+                procedure.Name = Tokens.Current.Text;
+                Tokens.RequireNext();
+
+                _procedures.Registry.Add
+                (
+                    procedure.Name.ThrowIfNull("procedure.Name"),
+                    procedure
+                );
+
+                PftTokenList bodyList = Tokens.Segment
+                    (
+                        _loopOpen,
+                        _loopClose,
+                        _procedureStop
+                    )
+                    .ThrowIfNull("bodyList");
+                Tokens.Current.MustBe(PftTokenKind.End);
+                ChangeContext
+                (
+                    procedure.Body,
+                    bodyList
+                );
+                Tokens.MoveNext();
+
+            }
+            finally
+            {
+                _inProcedure = false;
+            }
+
+            return result;
+        }
+
         private PftNode ParseRef()
         {
             PftRef result = new PftRef(Tokens.Current);
@@ -664,14 +715,14 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             if (Tokens.Peek() == PftTokenKind.Equals)
             {
-                if (inAssignment)
+                if (_inAssignment)
                 {
                     throw new PftSyntaxException("nested assignment");
                 }
 
                 try
                 {
-                    inAssignment = true;
+                    _inAssignment = true;
 
                     PftAssignment result = new PftAssignment(Tokens.Current);
                     Tokens.RequireNext(PftTokenKind.Equals);
@@ -694,7 +745,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
                 finally
                 {
-                    inAssignment = false;
+                    _inAssignment = false;
                 }
             }
 
@@ -793,7 +844,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         public PftProgram Parse()
         {
             PftProgram result = ParseProgram();
-            result.Procedures = procedures;
+            result.Procedures = _procedures;
 
             return result;
         }

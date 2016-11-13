@@ -166,7 +166,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             Output = new PftOutput(parentBuffer);
 
-            Globals = (parent == null)
+            Globals = parent == null
                 ? new PftGlobalManager()
                 : parent.Globals;
 
@@ -174,8 +174,9 @@ namespace ManagedIrbis.Pft.Infrastructure
                 ? new PftVariableManager(null)
                 : parent.Variables;
 
-            //// Процедуры в каждом контексте свои
-            //Procedures = new PftProcedureManager();
+            Procedures = parent == null
+                ? new PftProcedureManager()
+                : parent.Procedures;
 
             if (!ReferenceEquals(parent, null))
             {
@@ -184,11 +185,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                 Index = parent.Index;
             }
 
-            Record = (parent == null)
+            Record = parent == null
                 ? new MarcRecord()
                 : parent.Record;
 
-            Connection = (parent == null)
+            Connection = parent == null
                 ? new IrbisConnection()
                 : parent.Connection;
 

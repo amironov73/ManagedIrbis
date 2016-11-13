@@ -36,16 +36,6 @@ namespace ManagedIrbis.Pft.Infrastructure
     {
         // ReSharper disable InconsistentNaming
 
-        private static PftTokenKind[] ComparisonTokens =
-        {
-            PftTokenKind.Mfn, PftTokenKind.Nl,
-            PftTokenKind.UnconditionalLiteral, PftTokenKind.V,
-            PftTokenKind.Unifor, PftTokenKind.S,
-
-            PftTokenKind.Identifier, PftTokenKind.Variable,
-            PftTokenKind.Number,
-        };
-
         /// <summary>
         /// Field reference context.
         /// </summary>
@@ -128,7 +118,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenKind.TripleCurly,
 
-            PftTokenKind.At
+            PftTokenKind.At,
+
+            PftTokenKind.Proc
         };
 
         // ================================================================
@@ -159,6 +151,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.Number, ParseNumber},
                 {PftTokenKind.P,ParseP},
                 {PftTokenKind.Percent, ParsePercent},
+                {PftTokenKind.Proc, ParseProc},
                 {PftTokenKind.Ref, ParseRef},
                 {PftTokenKind.RepeatableLiteral, ParseField},
                 {PftTokenKind.S, ParseS},
@@ -275,6 +268,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         private static PftTokenKind[] _parenthesisStop =
         {
             PftTokenKind.RightParenthesis
+        };
+
+        private static PftTokenKind[] _procedureStop =
+        {
+            PftTokenKind.End
         };
 
         private static PftTokenKind[] _semicolonStop =
