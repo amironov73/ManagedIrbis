@@ -34,6 +34,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
     partial class PftParser
     {
+        // ReSharper disable InconsistentNaming
+
         private static PftTokenKind[] ComparisonTokens =
         {
             PftTokenKind.Mfn, PftTokenKind.Nl,
@@ -75,6 +77,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Numeric expression context.
         /// </summary>
         [NotNull]
+        // ReSharper disable once NotNullMemberIsNotInitialized
         private static Dictionary<PftTokenKind, Func<PftNode>> NumericMap { get; set; }
 
         private static PftTokenKind[] NumericTokens =
@@ -208,5 +211,79 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.Variable, ParseVariableReference}
             };
         }
+
+        //================================================================
+        // Open and close tokens
+        //================================================================
+
+        private static PftTokenKind[] _doStop =
+        {
+            PftTokenKind.Do
+        };
+
+        private static PftTokenKind[] _elseStop =
+        {
+            PftTokenKind.Else, PftTokenKind.Fi
+        };
+
+        private static PftTokenKind[] _emptyClose = { };
+
+        private static PftTokenKind[] _emptyOpen = { };
+
+        private static PftTokenKind[] _fiStop =
+        {
+            PftTokenKind.Fi
+        };
+
+        private static PftTokenKind[] _ifClose =
+        {
+            PftTokenKind.Fi
+        };
+
+        private static PftTokenKind[] _ifOpen =
+        {
+            PftTokenKind.If
+        };
+
+        private static PftTokenKind[] _loopClose =
+        {
+            PftTokenKind.End
+        };
+
+        private static PftTokenKind[] _loopOpen =
+        {
+            PftTokenKind.For, PftTokenKind.ForEach, PftTokenKind.While
+        };
+
+        private static PftTokenKind[] _loopStop =
+        {
+            PftTokenKind.End
+        };
+
+        private static PftTokenKind[] _parenthesisClose =
+        {
+            PftTokenKind.RightParenthesis
+        };
+
+        private static PftTokenKind[] _parenthesisOpen =
+        {
+            PftTokenKind.LeftParenthesis
+        };
+
+        private static PftTokenKind[] _parenthesisStop =
+        {
+            PftTokenKind.RightParenthesis
+        };
+
+        private static PftTokenKind[] _semicolonStop =
+        {
+            PftTokenKind.Semicolon
+        };
+
+        private static PftTokenKind[] _thenStop =
+        {
+            PftTokenKind.Then
+        };
+
     }
 }
