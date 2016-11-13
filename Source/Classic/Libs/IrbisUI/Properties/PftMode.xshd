@@ -48,6 +48,7 @@
                 <Key word = "ceil" />
                 <Key word = "div" />
                 <Key word = "do" />
+                <Key word = "else" />
                 <Key word = "end" />
                 <Key word = "f" />
                 <Key word = "f2" />

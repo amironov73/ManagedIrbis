@@ -388,6 +388,7 @@ namespace ManagedIrbis.Pft
                 "ceil",
                 "div",
                 "do",
+                "else",
                 "end",
                 "f",
                 "f2",
