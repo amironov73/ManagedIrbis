@@ -135,11 +135,5 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             return result;
         }
-
-        private PftNode ParseConditionalLiteral()
-        {
-            return MoveNext(new PftConditionalLiteral(Tokens.Current));
-        }
-
     }
 }
