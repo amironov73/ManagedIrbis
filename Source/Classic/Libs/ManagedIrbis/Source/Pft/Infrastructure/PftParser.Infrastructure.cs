@@ -151,30 +151,29 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private PftNode ParseCall3(PftNode result)
         {
-            bool ok = false;
-            while (!Tokens.IsEof)
+            PftTokenList innerTokens = Tokens.Segment
+                (
+                    _parenthesisOpen,
+                    _parenthesisClose,
+                    _parenthesisStop
+                )
+                .ThrowIfNull("innerTokens");
+
+            PftTokenList saveTokens = Tokens;
+            Tokens = innerTokens;
+
+            try
             {
-                PftToken token = Tokens.Current;
-
-                if (token.Kind == PftTokenKind.RightParenthesis)
+                while (!Tokens.IsEof)
                 {
-                    ok = true;
-                    Tokens.MoveNext();
-                    break;
+                    PftNode node = ParseNext();
+                    result.Children.Add(node);
                 }
-
-                if (token.Kind == PftTokenKind.LeftParenthesis)
-                {
-                    throw new PftSyntaxException(token);
-                }
-
-                PftNode node = ParseNext();
-                result.Children.Add(node);
             }
-
-            if (!ok)
+            finally
             {
-                throw new PftSyntaxException(Tokens);
+                Tokens = saveTokens;
+                Tokens.MoveNext();
             }
 
             return result;
