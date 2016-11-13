@@ -34,6 +34,17 @@ namespace ManagedIrbis.Pft.Infrastructure
 
     partial class PftParser
     {
+
+        private static PftTokenKind[] _comparisonStop =
+        {
+            PftTokenKind.Less, PftTokenKind.LessEqual,
+            PftTokenKind.More, PftTokenKind.MoreEqual,
+            PftTokenKind.Equals, PftTokenKind.NotEqual1,
+            PftTokenKind.NotEqual2,
+
+            PftTokenKind.Colon, PftTokenKind.Tilda
+        };
+
         private PftComparison ParseComparison()
         {
             PftComparison result = new PftComparison(Tokens.Current)
@@ -59,16 +70,10 @@ namespace ManagedIrbis.Pft.Infrastructure
             throw new PftSyntaxException(Tokens.Current);
         }
 
-        private PftNode ParseCondition()
+        private PftCondition _ParseCondition()
         {
-            return ParseCondition(Tokens.Current);
-        }
+            PftToken token = Tokens.Current;
 
-        private PftCondition ParseCondition
-            (
-                [NotNull] PftToken token
-            )
-        {
             PftCondition result;
 
             if (token.Kind == PftTokenKind.P)
@@ -83,15 +88,29 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 PftConditionNot not = new PftConditionNot(token);
                 Tokens.RequireNext();
-                not.InnerCondition = ParseCondition(Tokens.Current);
+                not.InnerCondition = ParseCondition();
                 result = not;
             }
             else if (token.Kind == PftTokenKind.LeftParenthesis)
             {
-                PftConditionParenthesis parenthesis = new PftConditionParenthesis(token);
+                PftConditionParenthesis parenthesis
+                    = new PftConditionParenthesis(token);
                 Tokens.RequireNext();
-                parenthesis.InnerCondition = ParseConditionAndOr(Tokens.Current);
-                Tokens.RequireNext(PftTokenKind.RightParenthesis);
+                PftTokenList innerTokens = Tokens.Segment
+                    (
+                        _parenthesisOpen,
+                        _parenthesisClose,
+                        _parenthesisStop
+                    )
+                    .ThrowIfNull("innerTokens");
+                parenthesis.InnerCondition
+                    = (PftCondition) ChangeContext
+                    (
+                        innerTokens,
+                        ParseCondition
+                    );
+                Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
+                Tokens.MoveNext();
                 result = parenthesis;
             }
             else
@@ -103,16 +122,13 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
-        private PftCondition ParseConditionAndOr
-            (
-                [NotNull] PftToken token
-            )
+        private PftCondition ParseCondition()
         {
-            PftCondition result = ParseCondition(token);
+            PftCondition result = _ParseCondition();
 
             while (!Tokens.IsEof)
             {
-                token = Tokens.Current;
+                PftToken token = Tokens.Current;
 
                 if (token.Kind == PftTokenKind.And
                     || token.Kind == PftTokenKind.Or)
@@ -123,15 +139,72 @@ namespace ManagedIrbis.Pft.Infrastructure
                         Operation = token.Text
                     };
                     Tokens.RequireNext();
-                    PftCondition right = ParseCondition(Tokens.Current);
+                    PftCondition right = _ParseCondition();
                     andOr.RightOperand = right;
                     result = andOr;
                 }
-                else if (token.Kind == PftTokenKind.Then)
-                {
-                    break;
-                }
             }
+
+            return result;
+        }
+
+        private PftNode ParseIf()
+        {
+            PftConditionalStatement result
+                = new PftConditionalStatement(Tokens.Current);
+            Tokens.RequireNext();
+
+            PftTokenList conditionTokens = Tokens.Segment
+                (
+                    _thenStop
+                )
+                .ThrowIfNull("conditionTokens");
+            Tokens.Current.MustBe(PftTokenKind.Then);
+
+            PftCondition condition
+                = (PftCondition) ChangeContext
+                (
+                    conditionTokens,
+                    ParseCondition
+                );
+                
+            result.Condition = condition;
+
+            Tokens.RequireNext();
+
+            PftTokenList thenTokens = Tokens.Segment
+                (
+                    _ifOpen,
+                    _ifClose,
+                    _elseStop
+                )
+                .ThrowIfNull("thenTokens");
+            ChangeContext
+                (
+                    result.ThenBranch,
+                    thenTokens
+                );
+
+            if (Tokens.Current.Kind == PftTokenKind.Else)
+            {
+                Tokens.RequireNext();
+
+                PftTokenList elseTokens = Tokens.Segment
+                    (
+                        _ifOpen,
+                        _ifClose,
+                        _fiStop
+                    )
+                    .ThrowIfNull("elseTokens");
+                ChangeContext
+                    (
+                        result.ElseBranch,
+                        elseTokens
+                    );
+            }
+
+            Tokens.Current.MustBe(PftTokenKind.Fi);
+            Tokens.MoveNext();
 
             return result;
         }

@@ -127,35 +127,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
-        //private bool LookFor
-        //    (
-        //        [NotNull] PftTokenKind[] target,
-        //        [NotNull] PftTokenKind[] limiter
-        //    )
-        //{
-        //    bool result = false;
-
-        //    for (int i = 0; ; i++)
-        //    {
-        //        PftTokenKind kind = Tokens.Peek(i);
-        //        if (kind == PftTokenKind.None)
-        //        {
-        //            break;
-        //        }
-        //        if (Array.IndexOf(limiter, kind) >= 0)
-        //        {
-        //            break;
-        //        }
-        //        if (Array.IndexOf(target, kind) >= 0)
-        //        {
-        //            result = true;
-        //            break;
-        //        }
-        //    }
-
-        //    return result;
-        //}
-
         [NotNull]
         private T MoveNext<T>([NotNull] T node)
             where T : PftNode
