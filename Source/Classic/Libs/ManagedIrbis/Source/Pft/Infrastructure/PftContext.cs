@@ -324,6 +324,20 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// Set variables.
+        /// </summary>
+        /// <param name="variables"></param>
+        public void SetVariables
+            (
+                [NotNull] PftVariableManager variables
+            )
+        {
+            Code.NotNull(variables, "variables");
+
+            Variables = variables;
+        }
+
+        /// <summary>
         /// Write text.
         /// </summary>
         [NotNull]

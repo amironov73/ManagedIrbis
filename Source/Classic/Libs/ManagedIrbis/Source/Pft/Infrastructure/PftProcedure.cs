@@ -11,7 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM.Collections;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -78,7 +80,10 @@ namespace ManagedIrbis.Pft.Infrastructure
             try
             {
                 nested.Output = context.Output;
-                nested.Variables.SetVariable("arg", argument);
+                PftVariableManager variables
+                    = new PftVariableManager(context.Variables);
+                variables.SetVariable("arg", argument);
+                nested.SetVariables(variables);
                 nested.Execute(Body);
             }
             finally

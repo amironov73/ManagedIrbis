@@ -617,11 +617,38 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 Tokens.RequireNext(PftTokenKind.Identifier);
                 procedure.Name = Tokens.Current.Text;
+                Tokens.RequireNext(PftTokenKind.Do);
                 Tokens.RequireNext();
+
+                string name = procedure.Name
+                    .ThrowIfNull("procedure.Name");
+                if (name.OneOf(PftUtility.GetReservedWords()))
+                {
+                    throw new PftSyntaxException
+                        (
+                            "reserved word: " + name
+                        );
+                }
+                if (PftFunctionManager.BuiltinFunctions.HaveFunction(name)
+                   || PftFunctionManager.UserFunctions.HaveFunction(name)
+                   )
+                {
+                    throw new PftSyntaxException
+                        (
+                            "already have function: " + name
+                        );
+                }
+                if (!ReferenceEquals(_procedures.FindProcedure(name), null))
+                {
+                    throw new PftSyntaxException
+                        (
+                            "already have procedure: " + name
+                        );
+                }
 
                 _procedures.Registry.Add
                 (
-                    procedure.Name.ThrowIfNull("procedure.Name"),
+                    name,
                     procedure
                 );
 
