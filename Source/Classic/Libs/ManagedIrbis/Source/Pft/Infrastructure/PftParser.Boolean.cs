@@ -47,12 +47,19 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private PftComparison ParseComparison()
         {
-            PftComparison result = new PftComparison(Tokens.Current)
-            {
-                LeftOperand = ParseComparisonItem(),
-                Operation = Tokens.Current.Text
-            };
+            PftComparison result = new PftComparison(Tokens.Current);
+
+            PftTokenList leftTokens = Tokens.Segment(_comparisonStop)
+                .ThrowIfNull("leftTokens");
+            result.LeftOperand = ChangeContext
+                (
+                    leftTokens,
+                    ParseComparisonItem
+                );
+
+            result.Operation = Tokens.Current.Text;
             Tokens.RequireNext();
+
             result.RightOperand = ParseComparisonItem();
 
             return result;
@@ -60,14 +67,38 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private PftNode ParseComparisonItem()
         {
-            PftNode result = Get(MainMap, ComparisonTokens);
+            int position = Tokens.SavePosition();
 
-            if (!ReferenceEquals(result, null))
+            PftNode result;
+
+            try
             {
-                return result;
+                result = ParseArithmetic();
+                if (!Tokens.IsEof)
+                {
+                    throw new PftSyntaxException();
+                }
+            }
+            catch
+            {
+                Tokens.RestorePosition(position);
+                result = ParseNext();
+
+                if (!Tokens.IsEof)
+                {
+                    PftNode node = new PftNode();
+                    node.Children.Add(result);
+                    result = node;
+
+                    while (!Tokens.IsEof)
+                    {
+                        node = ParseNext();
+                        result.Children.Add(node);
+                    }
+                }
             }
 
-            throw new PftSyntaxException(Tokens.Current);
+            return result;
         }
 
         private PftCondition _ParseCondition()

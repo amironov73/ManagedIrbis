@@ -115,6 +115,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenKind.Number, PftTokenKind.F, PftTokenKind.F2,
 
+            PftTokenKind.S,
+
             PftTokenKind.Comment,
 
             PftTokenKind.Ref,
