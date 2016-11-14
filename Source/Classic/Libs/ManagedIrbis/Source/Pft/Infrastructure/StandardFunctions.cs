@@ -328,6 +328,28 @@ namespace ManagedIrbis.Pft.Infrastructure
             context.Write(node, text);
         }
 
+        private static void Search(PftContext context, PftNode node, string expression)
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                int[] foundMfns = context.Environment.Search(expression);
+                if (foundMfns.Length != 0)
+                {
+                    string[] foundLines = foundMfns.Select
+                        (
+                            item => item.ToInvariantString()
+                        )
+                        .ToArray();
+                    string output = string.Join
+                        (
+                            global::System.Environment.NewLine,
+                            foundLines
+                        );
+                    context.Write(node, output);
+                }
+            }
+        }
+
         private static void Sort(PftContext context, PftNode node, string expression)
         {
             if (string.IsNullOrEmpty(expression))
@@ -482,6 +504,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("npost", NPost);
             reg.Add("osversion", OsVersion);
             reg.Add("size", Size);
+            reg.Add("search", Search);
             reg.Add("sort", Sort);
             reg.Add("system", System);
             reg.Add("today", Today);

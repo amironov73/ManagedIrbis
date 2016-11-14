@@ -211,6 +211,21 @@ namespace ManagedIrbis.Pft.Infrastructure
         // Open and close tokens
         //================================================================
 
+        private static PftTokenKind[] _andStop =
+        {
+            PftTokenKind.And, PftTokenKind.Or
+        };
+
+        private static PftTokenKind[] _comparisonStop =
+        {
+            PftTokenKind.Less, PftTokenKind.LessEqual,
+            PftTokenKind.More, PftTokenKind.MoreEqual,
+            PftTokenKind.Equals, PftTokenKind.NotEqual1,
+            PftTokenKind.NotEqual2,
+
+            PftTokenKind.Colon, PftTokenKind.Tilda
+        };
+
         private static PftTokenKind[] _doStop =
         {
             PftTokenKind.Do

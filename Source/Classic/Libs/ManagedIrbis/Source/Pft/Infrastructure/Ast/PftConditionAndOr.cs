@@ -16,7 +16,7 @@ using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -128,6 +128,44 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Value = left;
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc/>
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Name = "ConditionAndOr"
+            };
+
+            if (!ReferenceEquals(LeftOperand, null))
+            {
+                PftNodeInfo left = new PftNodeInfo
+                {
+                    Name = "LeftOperand"
+                };
+                result.Children.Add(left);
+                left.Children.Add(LeftOperand.GetNodeInfo());
+            }
+
+            PftNodeInfo operation = new PftNodeInfo
+            {
+                Name = "Operation",
+                Value = Operation
+            };
+            result.Children.Add(operation);
+
+            if (!ReferenceEquals(RightOperand, null))
+            {
+                PftNodeInfo right = new PftNodeInfo
+                {
+                    Name = "RightOperand"
+                };
+                result.Children.Add(right);
+                right.Children.Add(RightOperand.GetNodeInfo());
+            }
+
+            return result;
         }
 
         /// <inheritdoc/>
