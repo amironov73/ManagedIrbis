@@ -85,6 +85,7 @@ StringComparer.InvariantCultureIgnoreCase
         private static void RegisterActions()
         {
             Registry.Add("0", FormatAll);
+            Registry.Add("1", Unifor1.GetElement);
             Registry.Add("3", Unifor3.PrintDate);
             Registry.Add("4", Unifor4.FormatPreviousVersion);
             Registry.Add("6", Unifor6.ExecuteNestedFormat);
