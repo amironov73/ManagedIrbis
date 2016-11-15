@@ -158,23 +158,25 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             _parent = parent;
 
-            Environment = new PftLocalEnvironment();
+            Environment = ReferenceEquals(parent, null)
+                ? new PftLocalEnvironment()
+                : parent.Environment;
 
-            PftOutput parentBuffer = (parent == null)
+            PftOutput parentBuffer = parent == null
                 ? null
                 : parent.Output;
 
             Output = new PftOutput(parentBuffer);
 
-            Globals = parent == null
+            Globals = ReferenceEquals(parent, null)
                 ? new PftGlobalManager()
                 : parent.Globals;
 
-            Variables = (parent == null)
+            Variables = ReferenceEquals(parent, null)
                 ? new PftVariableManager(null)
                 : parent.Variables;
 
-            Procedures = parent == null
+            Procedures = ReferenceEquals(parent, null)
                 ? new PftProcedureManager()
                 : parent.Procedures;
 
@@ -185,11 +187,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                 Index = parent.Index;
             }
 
-            Record = parent == null
+            Record = ReferenceEquals(parent, null)
                 ? new MarcRecord()
                 : parent.Record;
 
-            Connection = parent == null
+            Connection = ReferenceEquals(parent, null)
                 ? new IrbisConnection()
                 : parent.Connection;
 

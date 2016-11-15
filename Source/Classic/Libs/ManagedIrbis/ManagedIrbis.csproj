@@ -356,6 +356,7 @@
     <Compile Include="Source\Pft\Infrastructure\PftFormatter.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.Arith.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.Boolean.cs" />
+    <Compile Include="Source\Pft\Infrastructure\PftParser.Field.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.Infrastructure.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.Tables.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftProcedure.cs" />
