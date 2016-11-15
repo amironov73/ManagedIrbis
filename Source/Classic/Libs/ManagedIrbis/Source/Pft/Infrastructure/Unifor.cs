@@ -94,6 +94,7 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("E", UniforE.GetFirstWords);
             Registry.Add("F", UniforE.GetLastWords);
             Registry.Add("I", GetIniFileEntry);
+            Registry.Add("J", UniforJ.GetTermCountDB);
             Registry.Add("K", GetMenuEntry);
             Registry.Add("M", UniforM.Sort);
             Registry.Add("O", UniforO.AllExemplars);

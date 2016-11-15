@@ -1,0 +1,1 @@
+﻿&unifor('J') -- get term record count for specified database
