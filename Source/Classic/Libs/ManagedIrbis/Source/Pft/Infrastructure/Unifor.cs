@@ -140,6 +140,7 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("+9F", UniforPlus9.GetCharacter);
             Registry.Add("+9G", UniforPlus9.SplitWords);
             Registry.Add("+9I", UniforPlus9.ReplaceString);
+            Registry.Add("+9S", FindSubstring);
             Registry.Add("+9V", UniforPlus9.GetVersion);
             Registry.Add("+D", GetDatabaseName);
             Registry.Add("+E", GetFieldIndex);
@@ -224,6 +225,64 @@ StringComparer.InvariantCultureIgnoreCase
                     context.OutputFlag = true;
                 }
             }
+        }
+
+        /// <summary>
+        /// Возвращает позицию первого символа найденного вхождения подстроки
+        /// в исходную строку. Считается, что символы в строке нумеруются с 1.
+        /// Если подстрока не найдена, то возвращает 0.
+        /// </summary>
+        /// <remarks>
+        /// Формат:
+        /// +9S!подстрока!исходная_строка
+        /// </remarks>
+        public static void FindSubstring
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                goto NOTFOUND;
+            }
+
+            TextNavigator navigator = new TextNavigator(expression);
+            char delimiter = navigator.ReadChar();
+            if (delimiter == '\0')
+            {
+                goto NOTFOUND;
+            }
+            string substring = navigator.ReadUntil(delimiter);
+            if (string.IsNullOrEmpty(substring)
+                || navigator.ReadChar() != delimiter)
+            {
+                goto NOTFOUND;
+            }
+            string text = navigator.GetRemainingText();
+            if (string.IsNullOrEmpty(text))
+            {
+                goto NOTFOUND;
+            }
+            int position = text.IndexOf
+                (
+                    substring,
+                    StringComparison.CurrentCultureIgnoreCase
+                );
+            if (position < 0)
+            {
+                goto NOTFOUND;
+            }
+            string output = (position + 1).ToInvariantString();
+            context.Write(node, output);
+            context.OutputFlag = true;
+
+            return;
+
+            NOTFOUND:
+            context.Write(node, "0");
+            context.OutputFlag = true;
         }
 
         /// <summary>
