@@ -25,7 +25,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
         #region Public methods
 
-        public static void GetTermCountDB
+        public static void GetTermRecordCountDB
             (
                 PftContext context,
                 PftNode node,

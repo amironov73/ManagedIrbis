@@ -91,10 +91,11 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("6", Unifor6.ExecuteNestedFormat);
             Registry.Add("9", RemoveDoubleQuotes);
             Registry.Add("A", GetFieldRepeat);
+            Registry.Add("D", UniforD.FormatDocumentDB);
             Registry.Add("E", UniforE.GetFirstWords);
             Registry.Add("F", UniforE.GetLastWords);
             Registry.Add("I", GetIniFileEntry);
-            Registry.Add("J", UniforJ.GetTermCountDB);
+            Registry.Add("J", UniforJ.GetTermRecordCountDB);
             Registry.Add("K", GetMenuEntry);
             Registry.Add("M", UniforM.Sort);
             Registry.Add("O", UniforO.AllExemplars);
