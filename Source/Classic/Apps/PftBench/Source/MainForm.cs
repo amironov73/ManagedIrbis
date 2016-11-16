@@ -44,11 +44,18 @@ namespace PftBench
         public MainForm()
         {
             InitializeComponent();
+
+            string rootPath = CM.AppSettings["rootPath"];
+            _environment = new LocalClient
+                    (
+                        rootPath
+                    );
         }
 
         private MarcRecord _record;
         private PftTokenList _tokenList;
         private PftProgram _program;
+        private AbstractClient _environment;
 
         private void Clear()
         {
@@ -87,12 +94,14 @@ namespace PftBench
                 Program = _program
             };
 
-            string rootPath = CM.AppSettings["rootPath"];
-            AbstractClient environment = new LocalClient
-                    (
-                        rootPath
-                    );
-            formatter.SetEnvironment(environment);
+            DatabaseInfo database = _databaseBox.SelectedItem 
+                as DatabaseInfo;
+            if (!ReferenceEquals(database, null))
+            {
+                _environment.Database = database.Name
+                    .ThrowIfNull("database.Name");
+            }
+            formatter.SetEnvironment(_environment);
 
             string result = formatter.Format(_record);
             _resutlBox.Text = result;
@@ -208,6 +217,81 @@ namespace PftBench
                 = _splitContainer2.Width/2;
             _splitContainer3.SplitterDistance
                 = _splitContainer3.Width/2;
+
+            DatabaseInfo[] databases = _environment.ListDatabases();
+            _databaseBox.Items.AddRange(databases);
+            if (databases.Length != 0)
+            {
+                _databaseBox.SelectedIndex = 0;
+            }
         }
+
+        private void _databaseBox_SelectedIndexChanged
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            DatabaseInfo database = _databaseBox.SelectedItem as DatabaseInfo;
+
+            if (!ReferenceEquals(database, null))
+            {
+                _environment.Database = database.Name.ThrowIfNull();
+                int maxMfn = _environment.GetMaxMfn();
+
+                _maxMfnLabel.Text = string.Format
+                    (
+                        "Max MFN={0}",
+                        maxMfn
+                    );
+            }
+        }
+
+        private void _newButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            _pftBox.Text = string.Empty;
+        }
+
+        private void _openButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            if (_openFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                string text = File.ReadAllText
+                    (
+                        _openFileDialog.FileName,
+                        IrbisEncoding.Ansi
+                    );
+                _pftBox.Text = text;
+            }
+        }
+
+        private void _saveButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            if (_saveFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                string text = _pftBox.Text;
+                string fileName = _saveFileDialog.FileName;
+
+                File.WriteAllText
+                    (
+                        fileName,
+                        text,
+                        IrbisEncoding.Ansi
+                    );
+            }
+        }
+
     }
 }

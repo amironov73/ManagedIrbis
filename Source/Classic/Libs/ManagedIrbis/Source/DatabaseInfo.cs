@@ -153,6 +153,52 @@ namespace ManagedIrbis
         #region Public methods
 
         /// <summary>
+        /// Describe the database.
+        /// </summary>
+        public string Describe()
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.AppendFormat("Name: {0}", Name);
+            result.AppendLine();
+
+            result.AppendFormat("Description: {0}", Description);
+            result.AppendLine();
+
+            result.Append("Logically deleted records: ");
+            result.AppendLine(NumericUtility.CompressRange
+                (
+                    LogicallyDeletedRecords
+                ));
+
+            result.Append("Physically deleted records: ");
+            result.AppendLine(NumericUtility.CompressRange
+                (
+                    PhysicallyDeletedRecords
+                ));
+
+            result.Append("Non-actualized records: ");
+            result.AppendLine(NumericUtility.CompressRange
+                (
+                    NonActualizedRecords
+                ));
+
+            result.Append("Locked records: ");
+            result.AppendLine(NumericUtility.CompressRange
+                (
+                    LockedRecords
+                ));
+
+            result.AppendFormat("Max MFN: {0}", MaxMfn);
+            result.AppendLine();
+
+            result.AppendFormat("Database locked: {0}", DatabaseLocked);
+            result.AppendLine();
+
+            return result.ToString();
+        }
+
+        /// <summary>
         /// Разбор ответа сервера.
         /// </summary>
         [NotNull]
@@ -273,48 +319,15 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
-            StringBuilder result = new StringBuilder();
-
-            result.AppendFormat("Name: {0}", Name);
-            result.AppendLine();
-
-            result.AppendFormat("Description: {0}", Description);
-            result.AppendLine();
-
-            result.Append("Logically deleted records: ");
-            result.AppendLine(NumericUtility.CompressRange
+            return string.Format
                 (
-                    LogicallyDeletedRecords
-                ));
-
-            result.Append("Physically deleted records: ");
-            result.AppendLine(NumericUtility.CompressRange
-                (
-                    PhysicallyDeletedRecords
-                ));
-
-            result.Append("Non-actualized records: ");
-            result.AppendLine(NumericUtility.CompressRange
-                (
-                    NonActualizedRecords
-                ));
-
-            result.Append("Locked records: ");
-            result.AppendLine(NumericUtility.CompressRange
-                (
-                    LockedRecords
-                ));
-
-            result.AppendFormat("Max MFN: {0}", MaxMfn);
-            result.AppendLine();
-
-            result.AppendFormat("Database locked: {0}", DatabaseLocked);
-            result.AppendLine();
-
-            return result.ToString();
+                    "{0} - {1}",
+                    Name,
+                    Description
+                );
         }
 
         #endregion
