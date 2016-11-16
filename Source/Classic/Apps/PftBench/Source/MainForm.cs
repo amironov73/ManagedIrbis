@@ -24,10 +24,9 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Client;
 using ManagedIrbis.ImportExport;
-using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
-using ManagedIrbis.Pft.Infrastructure.Environment;
 
 using MoonSharp.Interpreter;
 
@@ -89,8 +88,7 @@ namespace PftBench
             };
 
             string rootPath = CM.AppSettings["rootPath"];
-            PftEnvironmentAbstraction environment
-                = new PftLocalEnvironment
+            AbstractClient environment = new LocalClient
                     (
                         rootPath
                     );

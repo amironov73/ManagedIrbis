@@ -13,9 +13,11 @@ using System.Collections.Generic;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Client;
 using ManagedIrbis.Pft.Infrastructure.Ast;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
-using ManagedIrbis.Pft.Infrastructure.Environment;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -37,7 +39,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Environment.
         /// </summary>
         [NotNull]
-        public PftEnvironmentAbstraction Environment { get; private set; }
+        //public PftEnvironmentAbstraction Environment { get; private set; }
+        public AbstractClient Environment { get; private set; }
 
         /// <summary>
         /// –одительский контекст.
@@ -159,7 +162,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             _parent = parent;
 
             Environment = ReferenceEquals(parent, null)
-                ? new PftLocalEnvironment()
+                //? new PftLocalEnvironment()
+                ? new LocalClient()
                 : parent.Environment;
 
             PftOutput parentBuffer = parent == null
@@ -273,6 +277,47 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// ¬ычисление выражени€ во временной копии контекста.
+        /// </summary>
+        [NotNull]
+        public string Evaluate
+            (
+                [NotNull] PftNode node
+            )
+        {
+            Code.NotNull(node, "node");
+
+            PftContext copy = Push();
+            node.Execute(copy);
+            string result = copy.ToString();
+            Pop();
+
+            return result;
+        }
+
+        /// <summary>
+        /// ¬ычисление выражени€ во временной копии контекста.
+        /// </summary>
+        [NotNull]
+        public string Evaluate
+            (
+                [NotNull] IEnumerable<PftNode> items
+            )
+        {
+            Code.NotNull(items, "items");
+
+            PftContext copy = Push();
+            foreach (PftNode node in items)
+            {
+                node.Execute(copy);
+            }
+            string result = copy.ToString();
+            Pop();
+
+            return result;
+        }
+
+        /// <summary>
         /// Execute the nodes.
         /// </summary>
         public void Execute
@@ -287,6 +332,22 @@ namespace ManagedIrbis.Pft.Infrastructure
                     node.Execute(this);
                 }
             }
+        }
+
+        /// <summary>
+        /// Get root context.
+        /// </summary>
+        [NotNull]
+        public PftContext GetRootContext()
+        {
+            PftContext result = this;
+
+            while (!ReferenceEquals(result.Parent, null))
+            {
+                result = result.Parent;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -317,7 +378,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public void SetEnvironment
             (
-                [NotNull] PftEnvironmentAbstraction environment
+                //[NotNull] PftEnvironmentAbstraction environment
+                [NotNull] AbstractClient environment
             )
         {
             Code.NotNull(environment, "environment");
@@ -426,47 +488,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             Output.WriteLine();
 
             return this;
-        }
-
-        /// <summary>
-        /// ¬ычисление выражени€ во временной копии контекста.
-        /// </summary>
-        [NotNull]
-        public string Evaluate
-            (
-                [NotNull] PftNode node
-            )
-        {
-            Code.NotNull(node, "node");
-
-            PftContext copy = Push();
-            node.Execute(copy);
-            string result = copy.ToString();
-            Pop();
-
-            return result;
-        }
-
-        /// <summary>
-        /// ¬ычисление выражени€ во временной копии контекста.
-        /// </summary>
-        [NotNull]
-        public string Evaluate
-            (
-                [NotNull] IEnumerable<PftNode> items
-            )
-        {
-            Code.NotNull(items, "items");
-
-            PftContext copy = Push();
-            foreach (PftNode node in items)
-            {
-                node.Execute(copy);
-            }
-            string result = copy.ToString();
-            Pop();
-
-            return result;
         }
 
         #endregion

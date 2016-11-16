@@ -222,6 +222,53 @@ namespace ManagedIrbis.Client
         }
 
         /// <inheritdoc/>
+        public override MarcRecord ReadRecordVersion
+            (
+                int mfn,
+                int version
+            )
+        {
+            if (mfn <= 0)
+            {
+                return null;
+            }
+
+            MarcRecord result = null;
+            DirectReader64 reader = null;
+            try
+            {
+                reader = _GetReader();
+                if (reader != null)
+                {
+                    MarcRecord[] versions = reader.ReadAllRecordVersions(mfn);
+                    int index = version;
+                    if (version < 0)
+                    {
+                        index = versions.Length + version;
+                    }
+                    if (index >= 0 && index < versions.Length)
+                    {
+                        result = versions[index];
+                    }
+                }
+            }
+            // ReSharper disable once EmptyGeneralCatchClause
+            catch
+            {
+                // Nothing to do actually
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Dispose();
+                }
+            }
+
+            return result;
+        }
+
+        /// <inheritdoc/>
         public override int[] Search
             (
                 string expression

@@ -11,11 +11,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
-using ManagedIrbis.Pft.Infrastructure.Environment;
+
+using ManagedIrbis.Client;
 using ManagedIrbis.Pft.Infrastructure.Testing;
 
 using MoonSharp.Interpreter;
@@ -39,8 +42,10 @@ namespace PftTestRunner
             try
             {
                 string rootPath = CM.AppSettings["rootPath"];
-                PftEnvironmentAbstraction environment
-                    = new PftLocalEnvironment(rootPath);
+                //PftEnvironmentAbstraction environment
+                //    = new PftLocalEnvironment(rootPath);
+                AbstractClient environment
+                    = new LocalClient(rootPath);
 
                 PftTester tester = new PftTester(args[0]);
                 tester.SetEnvironment(environment);

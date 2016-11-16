@@ -19,7 +19,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Pft.Infrastructure.Environment;
+using ManagedIrbis.Client;
 
 using MoonSharp.Interpreter;
 
@@ -43,7 +43,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         /// Environment.
         /// </summary>
         [NotNull]
-        public PftEnvironmentAbstraction Environment { get; private set; }
+        //public PftEnvironmentAbstraction Environment { get; private set; }
+        public AbstractClient Environment { get; private set; }
 
         /// <summary>
         /// Folder name.
@@ -77,7 +78,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         {
             Code.NotNullNorEmpty(folder, "folder");
 
-            Environment = new PftLocalEnvironment();
+            //Environment = new PftLocalEnvironment();
+            Environment = new LocalClient();
             Folder = folder;
             Tests = new NonNullCollection<PftTest>();
             Results = new NonNullCollection<PftTestResult>();
@@ -179,7 +181,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         /// </summary>
         public void SetEnvironment
             (
-                [NotNull] PftEnvironmentAbstraction environment
+                //[NotNull] PftEnvironmentAbstraction environment
+                [NotNull] AbstractClient environment
             )
         {
             Code.NotNull(environment, "environment");

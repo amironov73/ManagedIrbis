@@ -332,9 +332,6 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftX.cs" />
     <Compile Include="Source\Pft\Infrastructure\Diagnostics\PftDebugger.cs" />
     <Compile Include="Source\Pft\Infrastructure\Diagnostics\PftNodeInfo.cs" />
-    <Compile Include="Source\Pft\Infrastructure\Environment\PftConnectedEnvironment.cs" />
-    <Compile Include="Source\Pft\Infrastructure\Environment\PftEnvironmentAbstraction.cs" />
-    <Compile Include="Source\Pft\Infrastructure\Environment\PftLocalEnvironment.cs" />
     <Compile Include="Source\Pft\Infrastructure\FieldSpecification.cs" />
     <Compile Include="Source\Pft\Infrastructure\FormatExit.cs" />
     <Compile Include="Source\Pft\Infrastructure\IFormatExit.cs" />

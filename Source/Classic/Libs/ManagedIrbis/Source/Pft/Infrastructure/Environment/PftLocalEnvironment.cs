@@ -265,7 +265,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Environment
             return result;
         }
 
-
         /// <inheritdoc/>
         public override int[] Search
             (

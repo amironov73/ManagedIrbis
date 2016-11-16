@@ -162,6 +162,19 @@ namespace ManagedIrbis.Client
         }
 
         /// <summary>
+        /// Read record version.
+        /// </summary>
+        [CanBeNull]
+        public virtual MarcRecord ReadRecordVersion
+            (
+                int mfn,
+                int version
+            )
+        {
+            return null;
+        }
+
+        /// <summary>
         /// Search records.
         /// </summary>
         [NotNull]
