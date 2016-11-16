@@ -225,6 +225,7 @@
     <Compile Include="Source\ClientInfo.cs" />
     <Compile Include="Source\IrbisCatalog.cs" />
     <Compile Include="Source\IrbisConstants.cs" />
+    <Compile Include="Source\IrbisLink.cs" />
     <Compile Include="Source\IrbisStopWords.cs" />
     <Compile Include="Source\IrbisText.cs" />
     <Compile Include="Source\IrbisTreeFile.cs" />
