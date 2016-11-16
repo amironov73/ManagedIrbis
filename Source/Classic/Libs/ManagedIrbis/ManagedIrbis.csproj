@@ -389,6 +389,7 @@
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforPlus7.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforPlus8.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforPlus9.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Unifors\UniforPlusAt.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforS.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforU.cs" />
     <Compile Include="Source\Pft\Infrastructure\VirtualChildren.cs" />

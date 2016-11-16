@@ -147,6 +147,7 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("+N", GetFieldCount);
             Registry.Add("+R", TrimAtLastDot);
             Registry.Add("+S", DecodeTitle);
+            Registry.Add("+@", UniforPlusAt.FormatJson);
         }
 
         #endregion
