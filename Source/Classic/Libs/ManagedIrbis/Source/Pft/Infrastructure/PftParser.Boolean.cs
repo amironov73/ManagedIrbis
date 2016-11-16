@@ -146,7 +146,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftCondition result;
 
-            PftTokenList conditionTokens = Tokens.Segment(_andStop);
+            PftTokenList conditionTokens = Tokens.Segment
+                (
+                    _parenthesisOpen,
+                    _parenthesisClose,
+                    _andStop
+                );
             if (ReferenceEquals(conditionTokens, null))
             {
                 result = _ParseCondition();
