@@ -152,6 +152,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         Frac,
 
         /// <summary>
+        /// from
+        /// </summary>
+        From,
+
+        /// <summary>
         /// #
         /// </summary>
         Hash,
@@ -267,6 +272,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         Or,
 
         /// <summary>
+        /// order
+        /// </summary>
+        Order,
+
+        /// <summary>
         /// p(v200)
         /// </summary>
         P,
@@ -352,6 +362,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         S,
 
         /// <summary>
+        /// select
+        /// </summary>
+        Select,
+
+        /// <summary>
         /// ;
         /// </summary>
         Semicolon,
@@ -420,6 +435,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// $variable
         /// </summary>
         Variable,
+
+        /// <summary>
+        /// where
+        /// </summary>
+        Where,
 
         /// <summary>
         /// while

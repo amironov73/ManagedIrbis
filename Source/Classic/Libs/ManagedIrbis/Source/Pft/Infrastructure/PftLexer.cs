@@ -917,6 +917,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "frac";
                                 break;
 
+                            case "from":
+                                kind = PftTokenKind.From;
+                                value = "from";
+                                break;
+
                             case "have":
                                 kind = PftTokenKind.Have;
                                 value = "have";
@@ -945,6 +950,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                             case "or":
                                 kind = PftTokenKind.Or;
                                 value = "or";
+                                break;
+
+                            case "order":
+                                kind = PftTokenKind.Order;
+                                value = "order";
                                 break;
 
                             case "pow":
@@ -987,6 +997,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "rsum";
                                 break;
 
+                            case "select":
+                                kind = PftTokenKind.Select;
+                                value = "select";
+                                break;
+
                             case "sign":
                                 kind = PftTokenKind.Sign;
                                 value = "sign";
@@ -1005,6 +1020,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                             case "val":
                                 kind = PftTokenKind.Val;
                                 value = "val";
+                                break;
+
+                            case "where":
+                                kind = PftTokenKind.Where;
+                                value = "where";
                                 break;
 
                             case "while":

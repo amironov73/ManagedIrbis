@@ -20,7 +20,9 @@ using System.Windows.Forms;
 using AM;
 
 using CodeJam;
-
+using ICSharpCode.TextEditor;
+using ICSharpCode.TextEditor.Document;
+using IrbisUI;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
@@ -94,7 +96,7 @@ namespace PftBench
                 Program = _program
             };
 
-            DatabaseInfo database = _databaseBox.SelectedItem 
+            DatabaseInfo database = _databaseBox.SelectedItem
                 as DatabaseInfo;
             if (!ReferenceEquals(database, null))
             {
@@ -211,12 +213,12 @@ namespace PftBench
                 EventArgs e
             )
         {
-            _splitContainer1.SplitterDistance 
-                = _splitContainer1.Height/2;
+            _splitContainer1.SplitterDistance
+                = _splitContainer1.Height / 2;
             _splitContainer2.SplitterDistance
-                = _splitContainer2.Width/2;
+                = _splitContainer2.Width / 2;
             _splitContainer3.SplitterDistance
-                = _splitContainer3.Width/2;
+                = _splitContainer3.Width / 2;
 
             DatabaseInfo[] databases = _environment.ListDatabases();
             _databaseBox.Items.AddRange(databases);
@@ -291,6 +293,40 @@ namespace PftBench
                         IrbisEncoding.Ansi
                     );
             }
+        }
+
+        private void _tokenGrid_CellDoubleClick
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            TextAreaControl _editor = _pftBox.ActiveTextAreaControl;
+
+            PftTokenGrid grid = sender as PftTokenGrid;
+            if (ReferenceEquals(grid, null))
+            {
+                return;
+            }
+
+            PftToken token = grid.SelectedToken;
+            if (ReferenceEquals(token, null))
+            {
+                return;
+            }
+
+            string text = token.Text;
+            int line = token.Line - 1, column = token.Column - 1;
+            if (line < 0
+                || string.IsNullOrEmpty(text))
+            {
+                return;
+            }
+
+            TextLocation start = new TextLocation(column, line);
+            TextLocation end = new TextLocation(column + text.Length, line);
+            _editor.SelectionManager.SetSelection(start, end);
+            _editor.Caret.Position = start;
         }
 
     }
