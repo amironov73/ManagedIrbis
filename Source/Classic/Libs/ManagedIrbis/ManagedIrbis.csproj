@@ -287,6 +287,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftConditionNot.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftConditionParenthesis.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftD.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftEmpty.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftF.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftF2.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftFloor.cs" />

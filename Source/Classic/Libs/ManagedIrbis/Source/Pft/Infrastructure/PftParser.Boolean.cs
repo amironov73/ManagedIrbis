@@ -115,6 +115,10 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 result = ParseHave();
             }
+            else if (token.Kind == PftTokenKind.Empty)
+            {
+                result = ParseEmpty();
+            }
             else if (token.Kind == PftTokenKind.LeftParenthesis)
             {
                 PftConditionParenthesis parenthesis
