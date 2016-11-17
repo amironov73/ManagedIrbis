@@ -1,0 +1,4 @@
+﻿if blank('Hello') then 'Blank' else 'Not blank' fi/
+if blank(v500) then 'Blank' else 'Not blank' fi/
+if blank(nl) then 'Blank' else 'Not blank' fi/
+if blank('  ') then 'Blank' else 'Not blank' fi/

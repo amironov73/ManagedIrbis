@@ -142,6 +142,13 @@ namespace ManagedIrbis.Pft.Infrastructure
             return MoveNext(new PftInclude(Tokens.Current));
         }
 
+        private PftBlank ParseBlank()
+        {
+            PftBlank result = new PftBlank(Tokens.Current);
+            ParseCall(result);
+            return result;
+        }
+
         private PftNode ParseBreak()
         {
             return MoveNext(new PftBreak(Tokens.Current));
