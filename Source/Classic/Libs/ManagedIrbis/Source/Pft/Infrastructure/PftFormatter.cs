@@ -169,7 +169,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Context.Procedures = Program.Procedures;
             Program.Execute(Context);
 
-            return Context.Text;
+            return Context.GetProcessedOutput();
         }
 
         /// <summary>

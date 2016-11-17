@@ -342,6 +342,7 @@
     <Compile Include="Source\Pft\Infrastructure\IndexRange.cs" />
     <Compile Include="Source\Pft\Infrastructure\IndexSpecification.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftBreakException.cs" />
+    <Compile Include="Source\Pft\Infrastructure\PftCleanup.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftConfig.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftContextSaver.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftExitException.cs" />

@@ -1,0 +1,1 @@
+﻿Unifor ('+F') -- RTF markup cleanup postprocessing

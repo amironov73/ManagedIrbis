@@ -9,7 +9,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -146,6 +146,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         [CanBeNull]
         public PftDebugger Debugger { get; set; }
+
+        /// <summary>
+        /// Post processing flags.
+        /// </summary>
+        public PftCleanup PostProcessing { get; set; }
 
         #endregion
 
@@ -332,6 +337,37 @@ namespace ManagedIrbis.Pft.Infrastructure
                     node.Execute(this);
                 }
             }
+        }
+
+        /// <summary>
+        /// Get processed output.
+        /// </summary>
+        [NotNull]
+        public string GetProcessedOutput()
+        {
+            string result = Output.Text;
+
+            if ((PostProcessing & PftCleanup.Rtf) != 0)
+            {
+                result = RichTextStripper.StripRichTextFormat(result);
+            }
+
+            if ((PostProcessing & PftCleanup.Html) != 0)
+            {
+                result = HtmlText.HtmlToPlainText(result);
+            }
+
+            if ((PostProcessing & PftCleanup.DoubleText) != 0)
+            {
+                result = IrbisText.CleanupText(result);
+            }
+
+            if (ReferenceEquals(result, null))
+            {
+                result = string.Empty;
+            }
+
+            return result;
         }
 
         /// <summary>

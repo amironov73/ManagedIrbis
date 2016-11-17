@@ -144,10 +144,12 @@ StringComparer.InvariantCultureIgnoreCase
             Registry.Add("+9V", UniforPlus9.GetVersion);
             Registry.Add("+D", GetDatabaseName);
             Registry.Add("+E", GetFieldIndex);
+            Registry.Add("+F", CleanRtf);
             Registry.Add("+N", GetFieldCount);
             Registry.Add("+R", TrimAtLastDot);
             Registry.Add("+S", DecodeTitle);
             Registry.Add("+@", UniforPlusAt.FormatJson);
+            Registry.Add("!", CleanDoubleText);
         }
 
         #endregion
@@ -184,6 +186,34 @@ StringComparer.InvariantCultureIgnoreCase
             return result;
         }
 
+        // ================================================================
+
+        /// <summary>
+        /// Post processing: cleanup double text.
+        /// </summary>
+        public static void CleanDoubleText
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            context.GetRootContext().PostProcessing |= PftCleanup.DoubleText;
+        }
+
+        /// <summary>
+        /// Post processing: cleanup RTF markup.
+        /// </summary>
+        public static void CleanRtf
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            context.GetRootContext().PostProcessing |= PftCleanup.Rtf;
+        }
+
         private static string _FirstEvaluator(Match match)
         {
             return match.Groups["first"].Value;
@@ -195,7 +225,7 @@ StringComparer.InvariantCultureIgnoreCase
         }
 
         /// <summary>
-        /// Decode title
+        /// Decode title.
         /// </summary>
         public static void DecodeTitle
             (
