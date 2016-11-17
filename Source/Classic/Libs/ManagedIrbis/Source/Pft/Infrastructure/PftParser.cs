@@ -378,6 +378,33 @@ namespace ManagedIrbis.Pft.Infrastructure
             return MoveNext(new PftHash(Tokens.Current));
         }
 
+        private PftHave ParseHave()
+        {
+            PftHave result = new PftHave(Tokens.Current);
+            Tokens.RequireNext(PftTokenKind.LeftParenthesis);
+            Tokens.RequireNext();
+            if (Tokens.Current.Kind == PftTokenKind.Variable)
+            {
+                PftVariableReference variable
+                    = (PftVariableReference) ParseVariableReference();
+                result.Variable = variable;
+            }
+            else if (Tokens.Current.Kind == PftTokenKind.Identifier)
+            {
+                result.Identifier = Tokens.Current.Text;
+                Tokens.MoveNext();
+            }
+            else
+            {
+                throw new PftSyntaxException(Tokens);
+            }
+
+            Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
+
+            return MoveNext(result);
+            
+        }
+
         private PftNode ParseL()
         {
             PftL result = new PftL(Tokens.Current);

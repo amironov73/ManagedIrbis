@@ -47,6 +47,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         Bang,
 
         /// <summary>
+        /// blank
+        /// </summary>
+        Blank,
+
+        /// <summary>
         /// break
         /// </summary>
         Break,
@@ -95,6 +100,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// else
         /// </summary>
         Else,
+
+        /// <summary>
+        /// empty
+        /// </summary>
+        Empty,
 
         /// <summary>
         /// end
@@ -150,6 +160,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// ^
         /// </summary>
         Hat,
+
+        /// <summary>
+        /// have
+        /// </summary>
+        Have,
 
         /// <summary>
         /// identifier

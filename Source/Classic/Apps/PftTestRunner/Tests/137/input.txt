@@ -1,0 +1,12 @@
+﻿proc TheProc
+do
+	/* do nothing
+end
+
+if have ($x) then 'Have X' else <<<Haven't X>>> fi/
+
+$x = 1;
+
+if have ($x) then 'Have X' else <<<Haven't X>>> fi/
+
+if have (TheProc) then 'Have TheProc' else <<<Haven't TheProc>>> fi

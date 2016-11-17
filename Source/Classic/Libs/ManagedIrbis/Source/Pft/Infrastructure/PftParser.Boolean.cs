@@ -111,6 +111,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                 not.InnerCondition = ParseCondition();
                 result = not;
             }
+            else if (token.Kind == PftTokenKind.Have)
+            {
+                result = ParseHave();
+            }
             else if (token.Kind == PftTokenKind.LeftParenthesis)
             {
                 PftConditionParenthesis parenthesis

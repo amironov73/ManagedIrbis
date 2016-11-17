@@ -847,8 +847,14 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "and";
                                 break;
 
+                            case "blank":
+                                kind = PftTokenKind.Blank;
+                                value = "blank";
+                                break;
+
                             case "break":
                                 kind = PftTokenKind.Break;
+                                value = "break";
                                 break;
 
                             case "ceil":
@@ -868,6 +874,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                             case "else":
                                 kind = PftTokenKind.Else;
+                                value = "else";
+                                break;
+
+                            case "empty":
+                                kind = PftTokenKind.Empty;
+                                value = "empty";
                                 break;
 
                             case "end":
@@ -877,6 +889,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                             case "f2":
                                 kind = PftTokenKind.F2;
+                                value = "f2";
                                 break;
 
                             case "fi":
@@ -902,6 +915,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                             case "frac":
                                 kind = PftTokenKind.Frac;
                                 value = "frac";
+                                break;
+
+                            case "have":
+                                kind = PftTokenKind.Have;
+                                value = "have";
                                 break;
 
                             case "if":

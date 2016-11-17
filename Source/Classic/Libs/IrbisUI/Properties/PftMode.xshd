@@ -44,11 +44,13 @@
                 <Key word = "a" />
                 <Key word = "abs" />
                 <Key word = "and" />
+                <Key word = "blank" />
                 <Key word = "break" />
                 <Key word = "ceil" />
                 <Key word = "div" />
                 <Key word = "do" />
                 <Key word = "else" />
+                <Key word = "empty" />
                 <Key word = "end" />
                 <Key word = "f" />
                 <Key word = "f2" />
@@ -57,6 +59,7 @@
                 <Key word = "for" />
                 <Key word = "foreach" />
                 <Key word = "frac" />
+                <Key word = "have" />
                 <Key word = "if" />
                 <Key word = "in" />
                 <Key word = "l" />
