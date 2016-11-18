@@ -124,6 +124,7 @@
     <Compile Include="Source\Direct\DirectReader64.cs" />
     <Compile Include="Source\Direct\InvertedFile32.cs" />
     <Compile Include="Source\Direct\InvertedFile64.cs" />
+    <Compile Include="Source\Direct\LocalDatabase.cs" />
     <Compile Include="Source\Direct\MstControlRecord32.cs" />
     <Compile Include="Source\Direct\MstControlRecord64.cs" />
     <Compile Include="Source\Direct\MstDictionaryEntry32.cs" />
