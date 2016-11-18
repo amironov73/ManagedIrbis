@@ -244,6 +244,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             PftNodeInfo result = new PftNodeInfo
             {
+                Node = this,
                 Name = SimplifyTypeName(GetType().Name)
             };
 
@@ -251,6 +252,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 PftNodeInfo node = new PftNodeInfo
                 {
+                    Node = Argument1,
                     Name = "Argument1"
                 };
                 result.Children.Add(node);
@@ -261,6 +263,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 PftNodeInfo node = new PftNodeInfo
                 {
+                    Node = Argument2,
                     Name = "Argument2"
                 };
                 result.Children.Add(node);
@@ -271,6 +274,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 PftNodeInfo node = new PftNodeInfo
                 {
+                    Node = Argument3,
                     Name = "Argument3"
                 };
                 result.Children.Add(node);

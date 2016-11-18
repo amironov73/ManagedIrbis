@@ -389,6 +389,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             PftNodeInfo result = new PftNodeInfo
             {
+                Node = this,
                 Name = SimplifyTypeName(GetType().Name)
             };
 
@@ -396,6 +397,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 PftNodeInfo leftNode = new PftNodeInfo
                 {
+                    Node = LeftOperand,
                     Name = "Left"
                 };
                 result.Children.Add(leftNode);
@@ -416,6 +418,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 PftNodeInfo rightNode = new PftNodeInfo
                 {
+                    Node = RightOperand,
                     Name = "Right"
                 };
                 result.Children.Add(rightNode);

@@ -55,6 +55,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             (
                 [NotNull] PftToken token
             )
+            : base(token)
         {
         }
 

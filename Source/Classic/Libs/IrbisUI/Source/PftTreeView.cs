@@ -45,6 +45,39 @@ namespace IrbisUI
     public partial class PftTreeView
         : UserControl
     {
+        #region Events
+
+        /// <summary>
+        /// Fired when current node changed.
+        /// </summary>
+        public event EventHandler CurrentNodeChanged;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Current node.
+        /// </summary>
+        [CanBeNull]
+        public PftNodeInfo CurrentNode
+        {
+            get
+            {
+                TreeNode currentNode = _tree.SelectedNode;
+                if (ReferenceEquals(currentNode, null))
+                {
+                    return null;
+                }
+
+                PftNodeInfo result = currentNode.Tag as PftNodeInfo;
+
+                return result;
+            }
+        }
+
+        #endregion
+
         #region Construction
 
         /// <summary>
@@ -53,6 +86,8 @@ namespace IrbisUI
         public PftTreeView()
         {
             InitializeComponent();
+
+            _tree.AfterSelect += _tree_AfterSelect;
         }
 
         #endregion
@@ -86,6 +121,15 @@ namespace IrbisUI
             }
 
             return result;
+        }
+
+        void _tree_AfterSelect
+            (
+                object sender,
+                TreeViewEventArgs e
+            )
+        {
+            CurrentNodeChanged.Raise(this);
         }
 
         #endregion

@@ -42,6 +42,7 @@ namespace ManagedIrbis.Pft.Infrastructure
     {
         private PftNode ParseField()
         {
+            PftToken leadToken = Tokens.Current;
             List<PftNode> leftHand = new List<PftNode>();
             PftField result = new PftV();
             PftNode node;
@@ -108,6 +109,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (!Tokens.IsEof)
             {
                 token = Tokens.Current;
+                leadToken = token;
 
                 // Orphaned?
                 if (token.Kind != PftTokenKind.V)
@@ -133,22 +135,22 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {
                     case 'v':
                     case 'V':
-                        // Already V
+                        result = new PftV(leadToken);
                         break;
 
                     case 'd':
                     case 'D':
-                        result = new PftD();
+                        result = new PftD(leadToken);
                         break;
 
                     case 'n':
                     case 'N':
-                        result = new PftN();
+                        result = new PftN(leadToken);
                         break;
 
                     case 'g':
                     case 'G':
-                        result = new PftG();
+                        result = new PftG(leadToken);
                         break;
 
                     default:

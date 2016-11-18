@@ -33,6 +33,13 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this._maxMfnLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this._splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this._splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this._astTabControl = new System.Windows.Forms.TabControl();
+            this._astPage = new System.Windows.Forms.TabPage();
+            this._tokenPage = new System.Windows.Forms.TabPage();
+            this._recordPage = new System.Windows.Forms.TabPage();
+            this._varsPage = new System.Windows.Forms.TabPage();
+            this._globalsPage = new System.Windows.Forms.TabPage();
             this._splitContainer2 = new System.Windows.Forms.SplitContainer();
             this._recordBox = new System.Windows.Forms.TextBox();
             this._outputTabControl = new System.Windows.Forms.TabControl();
@@ -58,18 +65,11 @@
             this._databaseBox = new System.Windows.Forms.ToolStripComboBox();
             this._openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this._saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this._splitContainer3 = new System.Windows.Forms.SplitContainer();
             this._pftBox = new IrbisUI.PftEditorControl();
-            this._astTabControl = new System.Windows.Forms.TabControl();
-            this._astPage = new System.Windows.Forms.TabPage();
             this._pftTreeView = new IrbisUI.PftTreeView();
-            this._tokenPage = new System.Windows.Forms.TabPage();
             this._tokenGrid = new IrbisUI.PftTokenGrid();
-            this._recordPage = new System.Windows.Forms.TabPage();
             this._recordGrid = new IrbisUI.RecordViewGrid();
-            this._varsPage = new System.Windows.Forms.TabPage();
             this._varsGrid = new IrbisUI.PftVariableGrid();
-            this._globalsPage = new System.Windows.Forms.TabPage();
             this._globalsGrid = new IrbisUI.PftGlobalGrid();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -80,6 +80,16 @@
             this._splitContainer1.Panel1.SuspendLayout();
             this._splitContainer1.Panel2.SuspendLayout();
             this._splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._splitContainer3)).BeginInit();
+            this._splitContainer3.Panel1.SuspendLayout();
+            this._splitContainer3.Panel2.SuspendLayout();
+            this._splitContainer3.SuspendLayout();
+            this._astTabControl.SuspendLayout();
+            this._astPage.SuspendLayout();
+            this._tokenPage.SuspendLayout();
+            this._recordPage.SuspendLayout();
+            this._varsPage.SuspendLayout();
+            this._globalsPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._splitContainer2)).BeginInit();
             this._splitContainer2.Panel1.SuspendLayout();
             this._splitContainer2.Panel2.SuspendLayout();
@@ -91,16 +101,6 @@
             this._warningPage.SuspendLayout();
             this._menuStrip.SuspendLayout();
             this._toolStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._splitContainer3)).BeginInit();
-            this._splitContainer3.Panel1.SuspendLayout();
-            this._splitContainer3.Panel2.SuspendLayout();
-            this._splitContainer3.SuspendLayout();
-            this._astTabControl.SuspendLayout();
-            this._astPage.SuspendLayout();
-            this._tokenPage.SuspendLayout();
-            this._recordPage.SuspendLayout();
-            this._varsPage.SuspendLayout();
-            this._globalsPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -161,6 +161,92 @@
             this._splitContainer1.Size = new System.Drawing.Size(754, 458);
             this._splitContainer1.SplitterDistance = 155;
             this._splitContainer1.TabIndex = 0;
+            // 
+            // _splitContainer3
+            // 
+            this._splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this._splitContainer3.Name = "_splitContainer3";
+            // 
+            // _splitContainer3.Panel1
+            // 
+            this._splitContainer3.Panel1.Controls.Add(this._pftBox);
+            // 
+            // _splitContainer3.Panel2
+            // 
+            this._splitContainer3.Panel2.Controls.Add(this._astTabControl);
+            this._splitContainer3.Size = new System.Drawing.Size(754, 155);
+            this._splitContainer3.SplitterDistance = 369;
+            this._splitContainer3.TabIndex = 1;
+            // 
+            // _astTabControl
+            // 
+            this._astTabControl.Controls.Add(this._astPage);
+            this._astTabControl.Controls.Add(this._tokenPage);
+            this._astTabControl.Controls.Add(this._recordPage);
+            this._astTabControl.Controls.Add(this._varsPage);
+            this._astTabControl.Controls.Add(this._globalsPage);
+            this._astTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._astTabControl.Location = new System.Drawing.Point(0, 0);
+            this._astTabControl.Name = "_astTabControl";
+            this._astTabControl.SelectedIndex = 0;
+            this._astTabControl.Size = new System.Drawing.Size(381, 155);
+            this._astTabControl.TabIndex = 1;
+            // 
+            // _astPage
+            // 
+            this._astPage.Controls.Add(this._pftTreeView);
+            this._astPage.Location = new System.Drawing.Point(4, 22);
+            this._astPage.Name = "_astPage";
+            this._astPage.Padding = new System.Windows.Forms.Padding(3);
+            this._astPage.Size = new System.Drawing.Size(373, 129);
+            this._astPage.TabIndex = 0;
+            this._astPage.Text = "AST";
+            this._astPage.UseVisualStyleBackColor = true;
+            // 
+            // _tokenPage
+            // 
+            this._tokenPage.Controls.Add(this._tokenGrid);
+            this._tokenPage.Location = new System.Drawing.Point(4, 22);
+            this._tokenPage.Name = "_tokenPage";
+            this._tokenPage.Padding = new System.Windows.Forms.Padding(3);
+            this._tokenPage.Size = new System.Drawing.Size(373, 129);
+            this._tokenPage.TabIndex = 1;
+            this._tokenPage.Text = "Tokens";
+            this._tokenPage.UseVisualStyleBackColor = true;
+            // 
+            // _recordPage
+            // 
+            this._recordPage.Controls.Add(this._recordGrid);
+            this._recordPage.Location = new System.Drawing.Point(4, 22);
+            this._recordPage.Name = "_recordPage";
+            this._recordPage.Padding = new System.Windows.Forms.Padding(3);
+            this._recordPage.Size = new System.Drawing.Size(373, 129);
+            this._recordPage.TabIndex = 2;
+            this._recordPage.Text = "Record";
+            this._recordPage.UseVisualStyleBackColor = true;
+            // 
+            // _varsPage
+            // 
+            this._varsPage.Controls.Add(this._varsGrid);
+            this._varsPage.Location = new System.Drawing.Point(4, 22);
+            this._varsPage.Name = "_varsPage";
+            this._varsPage.Padding = new System.Windows.Forms.Padding(3);
+            this._varsPage.Size = new System.Drawing.Size(373, 129);
+            this._varsPage.TabIndex = 3;
+            this._varsPage.Text = "Variables";
+            this._varsPage.UseVisualStyleBackColor = true;
+            // 
+            // _globalsPage
+            // 
+            this._globalsPage.Controls.Add(this._globalsGrid);
+            this._globalsPage.Location = new System.Drawing.Point(4, 22);
+            this._globalsPage.Name = "_globalsPage";
+            this._globalsPage.Padding = new System.Windows.Forms.Padding(3);
+            this._globalsPage.Size = new System.Drawing.Size(373, 129);
+            this._globalsPage.TabIndex = 4;
+            this._globalsPage.Text = "Globals";
+            this._globalsPage.UseVisualStyleBackColor = true;
             // 
             // _splitContainer2
             // 
@@ -414,23 +500,6 @@
             // 
             this._saveFileDialog.Filter = "PFT files|*.pft|All files|*.*";
             // 
-            // _splitContainer3
-            // 
-            this._splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._splitContainer3.Location = new System.Drawing.Point(0, 0);
-            this._splitContainer3.Name = "_splitContainer3";
-            // 
-            // _splitContainer3.Panel1
-            // 
-            this._splitContainer3.Panel1.Controls.Add(this._pftBox);
-            // 
-            // _splitContainer3.Panel2
-            // 
-            this._splitContainer3.Panel2.Controls.Add(this._astTabControl);
-            this._splitContainer3.Size = new System.Drawing.Size(754, 155);
-            this._splitContainer3.SplitterDistance = 369;
-            this._splitContainer3.TabIndex = 1;
-            // 
             // _pftBox
             // 
             this._pftBox.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -442,31 +511,6 @@
             this._pftBox.TabIndex = 0;
             this._pftBox.Text = "/* My first PFT script\r\n\'Some text\' /\r\nv200^a, \" : \"v200^e, \" / \"v200^f";
             // 
-            // _astTabControl
-            // 
-            this._astTabControl.Controls.Add(this._astPage);
-            this._astTabControl.Controls.Add(this._tokenPage);
-            this._astTabControl.Controls.Add(this._recordPage);
-            this._astTabControl.Controls.Add(this._varsPage);
-            this._astTabControl.Controls.Add(this._globalsPage);
-            this._astTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._astTabControl.Location = new System.Drawing.Point(0, 0);
-            this._astTabControl.Name = "_astTabControl";
-            this._astTabControl.SelectedIndex = 0;
-            this._astTabControl.Size = new System.Drawing.Size(381, 155);
-            this._astTabControl.TabIndex = 1;
-            // 
-            // _astPage
-            // 
-            this._astPage.Controls.Add(this._pftTreeView);
-            this._astPage.Location = new System.Drawing.Point(4, 22);
-            this._astPage.Name = "_astPage";
-            this._astPage.Padding = new System.Windows.Forms.Padding(3);
-            this._astPage.Size = new System.Drawing.Size(373, 129);
-            this._astPage.TabIndex = 0;
-            this._astPage.Text = "AST";
-            this._astPage.UseVisualStyleBackColor = true;
-            // 
             // _pftTreeView
             // 
             this._pftTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -475,17 +519,7 @@
             this._pftTreeView.Name = "_pftTreeView";
             this._pftTreeView.Size = new System.Drawing.Size(367, 123);
             this._pftTreeView.TabIndex = 0;
-            // 
-            // _tokenPage
-            // 
-            this._tokenPage.Controls.Add(this._tokenGrid);
-            this._tokenPage.Location = new System.Drawing.Point(4, 22);
-            this._tokenPage.Name = "_tokenPage";
-            this._tokenPage.Padding = new System.Windows.Forms.Padding(3);
-            this._tokenPage.Size = new System.Drawing.Size(373, 129);
-            this._tokenPage.TabIndex = 1;
-            this._tokenPage.Text = "Tokens";
-            this._tokenPage.UseVisualStyleBackColor = true;
+            this._pftTreeView.CurrentNodeChanged += new System.EventHandler(this._pftTreeView_CurrentNodeChanged);
             // 
             // _tokenGrid
             // 
@@ -497,17 +531,6 @@
             this._tokenGrid.TabIndex = 0;
             this._tokenGrid.CellDoubleClick += new System.EventHandler(this._tokenGrid_CellDoubleClick);
             // 
-            // _recordPage
-            // 
-            this._recordPage.Controls.Add(this._recordGrid);
-            this._recordPage.Location = new System.Drawing.Point(4, 22);
-            this._recordPage.Name = "_recordPage";
-            this._recordPage.Padding = new System.Windows.Forms.Padding(3);
-            this._recordPage.Size = new System.Drawing.Size(373, 129);
-            this._recordPage.TabIndex = 2;
-            this._recordPage.Text = "Record";
-            this._recordPage.UseVisualStyleBackColor = true;
-            // 
             // _recordGrid
             // 
             this._recordGrid.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -517,17 +540,6 @@
             this._recordGrid.Size = new System.Drawing.Size(367, 123);
             this._recordGrid.TabIndex = 0;
             // 
-            // _varsPage
-            // 
-            this._varsPage.Controls.Add(this._varsGrid);
-            this._varsPage.Location = new System.Drawing.Point(4, 22);
-            this._varsPage.Name = "_varsPage";
-            this._varsPage.Padding = new System.Windows.Forms.Padding(3);
-            this._varsPage.Size = new System.Drawing.Size(373, 129);
-            this._varsPage.TabIndex = 3;
-            this._varsPage.Text = "Variables";
-            this._varsPage.UseVisualStyleBackColor = true;
-            // 
             // _varsGrid
             // 
             this._varsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -536,17 +548,6 @@
             this._varsGrid.Name = "_varsGrid";
             this._varsGrid.Size = new System.Drawing.Size(367, 123);
             this._varsGrid.TabIndex = 0;
-            // 
-            // _globalsPage
-            // 
-            this._globalsPage.Controls.Add(this._globalsGrid);
-            this._globalsPage.Location = new System.Drawing.Point(4, 22);
-            this._globalsPage.Name = "_globalsPage";
-            this._globalsPage.Padding = new System.Windows.Forms.Padding(3);
-            this._globalsPage.Size = new System.Drawing.Size(373, 129);
-            this._globalsPage.TabIndex = 4;
-            this._globalsPage.Text = "Globals";
-            this._globalsPage.UseVisualStyleBackColor = true;
             // 
             // _globalsGrid
             // 
@@ -584,6 +585,16 @@
             this._splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._splitContainer1)).EndInit();
             this._splitContainer1.ResumeLayout(false);
+            this._splitContainer3.Panel1.ResumeLayout(false);
+            this._splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this._splitContainer3)).EndInit();
+            this._splitContainer3.ResumeLayout(false);
+            this._astTabControl.ResumeLayout(false);
+            this._astPage.ResumeLayout(false);
+            this._tokenPage.ResumeLayout(false);
+            this._recordPage.ResumeLayout(false);
+            this._varsPage.ResumeLayout(false);
+            this._globalsPage.ResumeLayout(false);
             this._splitContainer2.Panel1.ResumeLayout(false);
             this._splitContainer2.Panel1.PerformLayout();
             this._splitContainer2.Panel2.ResumeLayout(false);
@@ -600,16 +611,6 @@
             this._menuStrip.PerformLayout();
             this._toolStrip.ResumeLayout(false);
             this._toolStrip.PerformLayout();
-            this._splitContainer3.Panel1.ResumeLayout(false);
-            this._splitContainer3.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this._splitContainer3)).EndInit();
-            this._splitContainer3.ResumeLayout(false);
-            this._astTabControl.ResumeLayout(false);
-            this._astPage.ResumeLayout(false);
-            this._tokenPage.ResumeLayout(false);
-            this._recordPage.ResumeLayout(false);
-            this._varsPage.ResumeLayout(false);
-            this._globalsPage.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

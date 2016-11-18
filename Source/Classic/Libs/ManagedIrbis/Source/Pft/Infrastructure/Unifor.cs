@@ -8,11 +8,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 using AM;
 using AM.IO;
@@ -201,6 +199,8 @@ StringComparer.InvariantCultureIgnoreCase
             context.GetRootContext().PostProcessing |= PftCleanup.DoubleText;
         }
 
+        // ================================================================
+
         /// <summary>
         /// Post processing: cleanup RTF markup.
         /// </summary>
@@ -213,6 +213,8 @@ StringComparer.InvariantCultureIgnoreCase
         {
             context.GetRootContext().PostProcessing |= PftCleanup.Rtf;
         }
+
+        // ================================================================
 
         private static string _FirstEvaluator(Match match)
         {
@@ -257,6 +259,8 @@ StringComparer.InvariantCultureIgnoreCase
                 }
             }
         }
+
+        // ================================================================
 
         /// <summary>
         /// Возвращает позицию первого символа найденного вхождения подстроки
@@ -311,10 +315,12 @@ StringComparer.InvariantCultureIgnoreCase
 
             return;
 
-            NOTFOUND:
+        NOTFOUND:
             context.Write(node, "0");
             context.OutputFlag = true;
         }
+
+        // ================================================================
 
         /// <summary>
         /// ALL format for records
@@ -335,6 +341,8 @@ StringComparer.InvariantCultureIgnoreCase
             }
         }
 
+        // ================================================================
+
         /// <summary>
         /// Get current database name.
         /// </summary>
@@ -352,6 +360,8 @@ StringComparer.InvariantCultureIgnoreCase
                 context.OutputFlag = true;
             }
         }
+
+        // ================================================================
 
         /// <summary>
         /// Get field count.
@@ -375,6 +385,8 @@ StringComparer.InvariantCultureIgnoreCase
                 context.OutputFlag = true;
             }
         }
+
+        // ================================================================
 
         /// <summary>
         /// Get field index.
@@ -424,6 +436,8 @@ StringComparer.InvariantCultureIgnoreCase
             }
         }
 
+        // ================================================================
+
         /// <summary>
         /// Get field repeat.
         /// </summary>
@@ -461,6 +475,8 @@ StringComparer.InvariantCultureIgnoreCase
             }
         }
 
+        // ================================================================
+
         /// <summary>
         /// Get INI-file entry.
         /// </summary>
@@ -486,24 +502,23 @@ StringComparer.InvariantCultureIgnoreCase
                         && !string.IsNullOrEmpty(parameter))
                     {
                         IniFile iniFile = context.Environment.GetUserIniFile();
-                        if (!ReferenceEquals(iniFile, null))
+                        string result = iniFile.GetValue
+                            (
+                                section,
+                                parameter,
+                                defaultValue
+                            );
+                        if (!string.IsNullOrEmpty(result))
                         {
-                            string result = iniFile.GetValue
-                                (
-                                    section,
-                                    parameter,
-                                    defaultValue
-                                );
-                            if (!string.IsNullOrEmpty(result))
-                            {
-                                context.Write(node, result);
-                                context.OutputFlag = true;
-                            }
+                            context.Write(node, result);
+                            context.OutputFlag = true;
                         }
                     }
                 }
             }
         }
+
+        // ================================================================
 
         /// <summary>
         /// Get MNU-file entry.
@@ -567,6 +582,8 @@ StringComparer.InvariantCultureIgnoreCase
             }
         }
 
+        // ================================================================
+
         /// <summary>
         /// Get record status: whether the record is deleted?
         /// </summary>
@@ -589,6 +606,7 @@ StringComparer.InvariantCultureIgnoreCase
             context.OutputFlag = true;
         }
 
+        // ================================================================
 
         /// <summary>
         /// Generate random number.
@@ -623,6 +641,8 @@ StringComparer.InvariantCultureIgnoreCase
             context.OutputFlag = true;
         }
 
+        // ================================================================
+
         /// <summary>
         /// Remove text surrounded with angle brackets.
         /// </summary>
@@ -640,6 +660,8 @@ StringComparer.InvariantCultureIgnoreCase
                 context.OutputFlag = true;
             }
         }
+
+        // ================================================================
 
         /// <summary>
         /// Remove double quotes from the string.
@@ -659,6 +681,8 @@ StringComparer.InvariantCultureIgnoreCase
             }
         }
 
+        // ================================================================
+
         /// <summary>
         /// Convert the string to lower case.
         /// </summary>
@@ -676,6 +700,8 @@ StringComparer.InvariantCultureIgnoreCase
                 context.OutputFlag = true;
             }
         }
+
+        // ================================================================
 
         private static Dictionary<char, string> _transliterator
             = new Dictionary<char, string>
@@ -732,6 +758,8 @@ StringComparer.InvariantCultureIgnoreCase
             }
         }
 
+        // ================================================================
+
         /// <summary>
         /// Trim text at last dot.
         /// </summary>
@@ -756,6 +784,8 @@ StringComparer.InvariantCultureIgnoreCase
                 }
             }
         }
+
+        // ================================================================
 
         #endregion
 

@@ -112,6 +112,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public PftNode()
         {
+            // ReSharper disable once DoNotCallOverridableMethodsInConstructor
             Children = new NonNullCollection<PftNode>();
         }
 
@@ -128,6 +129,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             LineNumber = token.Line;
             Column = token.Column;
+            // ReSharper disable once DoNotCallOverridableMethodsInConstructor
             Text = token.Text;
         }
 

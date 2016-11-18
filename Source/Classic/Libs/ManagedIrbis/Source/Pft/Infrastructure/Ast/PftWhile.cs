@@ -167,6 +167,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             PftNodeInfo result = new PftNodeInfo
             {
+                Node = this,
                 Name = "While"
             };
 
@@ -174,6 +175,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 PftNodeInfo condition = new PftNodeInfo
                 {
+                    Node = Condition,
                     Name = "Condition"
                 };
                 result.Children.Add(condition);

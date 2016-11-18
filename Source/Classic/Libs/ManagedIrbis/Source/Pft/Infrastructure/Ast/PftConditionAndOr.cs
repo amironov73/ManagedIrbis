@@ -135,6 +135,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             PftNodeInfo result = new PftNodeInfo
             {
+                Node = this,
                 Name = "ConditionAndOr"
             };
 
@@ -142,6 +143,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 PftNodeInfo left = new PftNodeInfo
                 {
+                    Node = LeftOperand,
                     Name = "LeftOperand"
                 };
                 result.Children.Add(left);
@@ -159,6 +161,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 PftNodeInfo right = new PftNodeInfo
                 {
+                    Node = RightOperand,
                     Name = "RightOperand"
                 };
                 result.Children.Add(right);

@@ -29,7 +29,7 @@ using ManagedIrbis;
 using ManagedIrbis.Client;
 using ManagedIrbis.ImportExport;
 using ManagedIrbis.Pft.Infrastructure;
-
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -57,7 +57,7 @@ namespace PftBench
         private MarcRecord _record;
         private PftTokenList _tokenList;
         private PftProgram _program;
-        private AbstractClient _environment;
+        private readonly AbstractClient _environment;
 
         private void Clear()
         {
@@ -329,5 +329,37 @@ namespace PftBench
             _editor.Caret.Position = start;
         }
 
+        private void _pftTreeView_CurrentNodeChanged
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            PftNodeInfo currentNode = _pftTreeView.CurrentNode;
+            if (ReferenceEquals(currentNode, null))
+            {
+                return;
+            }
+
+            PftNode pftNode = currentNode.Node;
+            if (ReferenceEquals(pftNode, null))
+            {
+                return;
+            }
+
+            string text = pftNode.Text ?? string.Empty;
+            int line = pftNode.LineNumber - 1;
+            int column = pftNode.Column - 1;
+            if (line < 0 || column < 0)
+            {
+                return;
+            }
+
+            TextLocation start = new TextLocation(column, line);
+            TextLocation end = new TextLocation(column + text.Length, line);
+            TextAreaControl _editor = _pftBox.ActiveTextAreaControl;
+            _editor.SelectionManager.SetSelection(start, end);
+            _editor.Caret.Position = start;
+        }
     }
 }

@@ -48,6 +48,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftN
             (
+                [NotNull] PftToken token
+            )
+            : base(token)
+        {
+            Code.NotNull(token, "token");
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftN
+            (
                 [NotNull] string text
             )
         {
