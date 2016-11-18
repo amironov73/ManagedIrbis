@@ -114,6 +114,31 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         private VirtualChildren _virtualChildren;
 
+        private static bool IsNumeric
+            (
+                PftContext context,
+                PftNode node
+            )
+        {
+            PftVariableReference reference = node as PftVariableReference;
+            if (!ReferenceEquals(reference, null)
+                && !ReferenceEquals(reference.Name, null))
+            {
+                PftVariable variable
+                    = context.Variables.GetExistingVariable(reference.Name);
+                if (!ReferenceEquals(variable, null))
+                {
+                    return variable.IsNumeric;
+                }
+
+                // TODO: some heuristic?
+                return false;
+            }
+
+            return node is PftNumeric;
+        }
+
+
         #endregion
 
         #region Public methods
@@ -355,8 +380,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new PftSyntaxException(this);
             }
 
-            if (LeftOperand is PftNumeric
-                || RightOperand is PftNumeric)
+            bool leftNumeric = IsNumeric(context, LeftOperand);
+            bool rightNumeric = IsNumeric(context, RightOperand);
+
+            if (leftNumeric || rightNumeric)
             {
                 double leftValue = GetValue(context, LeftOperand);
                 double rightValue = GetValue(context, RightOperand);

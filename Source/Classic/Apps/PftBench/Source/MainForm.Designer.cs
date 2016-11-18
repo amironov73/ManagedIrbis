@@ -34,12 +34,18 @@
             this._maxMfnLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this._splitContainer1 = new System.Windows.Forms.SplitContainer();
             this._splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this._pftBox = new IrbisUI.PftEditorControl();
             this._astTabControl = new System.Windows.Forms.TabControl();
             this._astPage = new System.Windows.Forms.TabPage();
+            this._pftTreeView = new IrbisUI.PftTreeView();
             this._tokenPage = new System.Windows.Forms.TabPage();
+            this._tokenGrid = new IrbisUI.PftTokenGrid();
             this._recordPage = new System.Windows.Forms.TabPage();
+            this._recordGrid = new IrbisUI.RecordViewGrid();
             this._varsPage = new System.Windows.Forms.TabPage();
+            this._varsGrid = new IrbisUI.PftVariableGrid();
             this._globalsPage = new System.Windows.Forms.TabPage();
+            this._globalsGrid = new IrbisUI.PftGlobalGrid();
             this._splitContainer2 = new System.Windows.Forms.SplitContainer();
             this._recordBox = new System.Windows.Forms.TextBox();
             this._outputTabControl = new System.Windows.Forms.TabControl();
@@ -65,12 +71,6 @@
             this._databaseBox = new System.Windows.Forms.ToolStripComboBox();
             this._openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this._saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this._pftBox = new IrbisUI.PftEditorControl();
-            this._pftTreeView = new IrbisUI.PftTreeView();
-            this._tokenGrid = new IrbisUI.PftTokenGrid();
-            this._recordGrid = new IrbisUI.RecordViewGrid();
-            this._varsGrid = new IrbisUI.PftVariableGrid();
-            this._globalsGrid = new IrbisUI.PftGlobalGrid();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -179,6 +179,17 @@
             this._splitContainer3.SplitterDistance = 369;
             this._splitContainer3.TabIndex = 1;
             // 
+            // _pftBox
+            // 
+            this._pftBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._pftBox.IsReadOnly = false;
+            this._pftBox.Location = new System.Drawing.Point(0, 0);
+            this._pftBox.Margin = new System.Windows.Forms.Padding(2);
+            this._pftBox.Name = "_pftBox";
+            this._pftBox.Size = new System.Drawing.Size(369, 155);
+            this._pftBox.TabIndex = 0;
+            this._pftBox.Text = "/* My first PFT script\r\n\'Some text\' /\r\nv200^a, \" : \"v200^e, \" / \"v200^f";
+            // 
             // _astTabControl
             // 
             this._astTabControl.Controls.Add(this._astPage);
@@ -204,6 +215,16 @@
             this._astPage.Text = "AST";
             this._astPage.UseVisualStyleBackColor = true;
             // 
+            // _pftTreeView
+            // 
+            this._pftTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._pftTreeView.Location = new System.Drawing.Point(3, 3);
+            this._pftTreeView.Margin = new System.Windows.Forms.Padding(4);
+            this._pftTreeView.Name = "_pftTreeView";
+            this._pftTreeView.Size = new System.Drawing.Size(367, 123);
+            this._pftTreeView.TabIndex = 0;
+            this._pftTreeView.CurrentNodeChanged += new System.EventHandler(this._pftTreeView_CurrentNodeChanged);
+            // 
             // _tokenPage
             // 
             this._tokenPage.Controls.Add(this._tokenGrid);
@@ -214,6 +235,16 @@
             this._tokenPage.TabIndex = 1;
             this._tokenPage.Text = "Tokens";
             this._tokenPage.UseVisualStyleBackColor = true;
+            // 
+            // _tokenGrid
+            // 
+            this._tokenGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._tokenGrid.Location = new System.Drawing.Point(3, 3);
+            this._tokenGrid.Margin = new System.Windows.Forms.Padding(4);
+            this._tokenGrid.Name = "_tokenGrid";
+            this._tokenGrid.Size = new System.Drawing.Size(367, 123);
+            this._tokenGrid.TabIndex = 0;
+            this._tokenGrid.CellDoubleClick += new System.EventHandler(this._tokenGrid_CellDoubleClick);
             // 
             // _recordPage
             // 
@@ -226,6 +257,15 @@
             this._recordPage.Text = "Record";
             this._recordPage.UseVisualStyleBackColor = true;
             // 
+            // _recordGrid
+            // 
+            this._recordGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._recordGrid.Location = new System.Drawing.Point(3, 3);
+            this._recordGrid.Margin = new System.Windows.Forms.Padding(4);
+            this._recordGrid.Name = "_recordGrid";
+            this._recordGrid.Size = new System.Drawing.Size(367, 123);
+            this._recordGrid.TabIndex = 0;
+            // 
             // _varsPage
             // 
             this._varsPage.Controls.Add(this._varsGrid);
@@ -237,6 +277,15 @@
             this._varsPage.Text = "Variables";
             this._varsPage.UseVisualStyleBackColor = true;
             // 
+            // _varsGrid
+            // 
+            this._varsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._varsGrid.Location = new System.Drawing.Point(3, 3);
+            this._varsGrid.Margin = new System.Windows.Forms.Padding(4);
+            this._varsGrid.Name = "_varsGrid";
+            this._varsGrid.Size = new System.Drawing.Size(367, 123);
+            this._varsGrid.TabIndex = 0;
+            // 
             // _globalsPage
             // 
             this._globalsPage.Controls.Add(this._globalsGrid);
@@ -247,6 +296,15 @@
             this._globalsPage.TabIndex = 4;
             this._globalsPage.Text = "Globals";
             this._globalsPage.UseVisualStyleBackColor = true;
+            // 
+            // _globalsGrid
+            // 
+            this._globalsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._globalsGrid.Location = new System.Drawing.Point(3, 3);
+            this._globalsGrid.Margin = new System.Windows.Forms.Padding(4);
+            this._globalsGrid.Name = "_globalsGrid";
+            this._globalsGrid.Size = new System.Drawing.Size(367, 123);
+            this._globalsGrid.TabIndex = 0;
             // 
             // _splitContainer2
             // 
@@ -499,64 +557,6 @@
             // _saveFileDialog
             // 
             this._saveFileDialog.Filter = "PFT files|*.pft|All files|*.*";
-            // 
-            // _pftBox
-            // 
-            this._pftBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._pftBox.IsReadOnly = false;
-            this._pftBox.Location = new System.Drawing.Point(0, 0);
-            this._pftBox.Margin = new System.Windows.Forms.Padding(2);
-            this._pftBox.Name = "_pftBox";
-            this._pftBox.Size = new System.Drawing.Size(369, 155);
-            this._pftBox.TabIndex = 0;
-            this._pftBox.Text = "/* My first PFT script\r\n\'Some text\' /\r\nv200^a, \" : \"v200^e, \" / \"v200^f";
-            // 
-            // _pftTreeView
-            // 
-            this._pftTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._pftTreeView.Location = new System.Drawing.Point(3, 3);
-            this._pftTreeView.Margin = new System.Windows.Forms.Padding(4);
-            this._pftTreeView.Name = "_pftTreeView";
-            this._pftTreeView.Size = new System.Drawing.Size(367, 123);
-            this._pftTreeView.TabIndex = 0;
-            this._pftTreeView.CurrentNodeChanged += new System.EventHandler(this._pftTreeView_CurrentNodeChanged);
-            // 
-            // _tokenGrid
-            // 
-            this._tokenGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._tokenGrid.Location = new System.Drawing.Point(3, 3);
-            this._tokenGrid.Margin = new System.Windows.Forms.Padding(4);
-            this._tokenGrid.Name = "_tokenGrid";
-            this._tokenGrid.Size = new System.Drawing.Size(367, 123);
-            this._tokenGrid.TabIndex = 0;
-            this._tokenGrid.CellDoubleClick += new System.EventHandler(this._tokenGrid_CellDoubleClick);
-            // 
-            // _recordGrid
-            // 
-            this._recordGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._recordGrid.Location = new System.Drawing.Point(3, 3);
-            this._recordGrid.Margin = new System.Windows.Forms.Padding(4);
-            this._recordGrid.Name = "_recordGrid";
-            this._recordGrid.Size = new System.Drawing.Size(367, 123);
-            this._recordGrid.TabIndex = 0;
-            // 
-            // _varsGrid
-            // 
-            this._varsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._varsGrid.Location = new System.Drawing.Point(3, 3);
-            this._varsGrid.Margin = new System.Windows.Forms.Padding(4);
-            this._varsGrid.Name = "_varsGrid";
-            this._varsGrid.Size = new System.Drawing.Size(367, 123);
-            this._varsGrid.TabIndex = 0;
-            // 
-            // _globalsGrid
-            // 
-            this._globalsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._globalsGrid.Location = new System.Drawing.Point(3, 3);
-            this._globalsGrid.Margin = new System.Windows.Forms.Padding(4);
-            this._globalsGrid.Name = "_globalsGrid";
-            this._globalsGrid.Size = new System.Drawing.Size(367, 123);
-            this._globalsGrid.TabIndex = 0;
             // 
             // MainForm
             // 

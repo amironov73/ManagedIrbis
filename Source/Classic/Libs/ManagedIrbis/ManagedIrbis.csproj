@@ -295,6 +295,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftFor.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftForEach.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftFrac.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftFrom.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftFunctionCall.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftHave.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftInclude.cs" />

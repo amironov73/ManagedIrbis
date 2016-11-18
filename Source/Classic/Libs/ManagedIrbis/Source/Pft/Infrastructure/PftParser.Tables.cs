@@ -61,7 +61,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Main script context.
         /// </summary>
         [NotNull]
-        private Dictionary<PftTokenKind, Func<PftNode>> MainMap { get; set; }
+        private Dictionary<PftTokenKind, Func<PftNode>> MainModeMap { get; set; }
 
         /// <summary>
         /// Numeric expression context.
@@ -70,7 +70,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         // ReSharper disable once NotNullMemberIsNotInitialized
         private static Dictionary<PftTokenKind, Func<PftNode>> NumericMap { get; set; }
 
-        private static PftTokenKind[] NumericTokens =
+        private static PftTokenKind[] NumericModeItems =
         {
             PftTokenKind.Number, PftTokenKind.Val, PftTokenKind.Rsum,
             PftTokenKind.Ravr, PftTokenKind.Rmax, PftTokenKind.Rmin,
@@ -90,7 +90,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.Slash, PftTokenKind.X
         };
 
-        private static PftTokenKind[] SimpleTokens =
+        private static PftTokenKind[] MainModeItems =
         {
             PftTokenKind.Break, PftTokenKind.Comma, PftTokenKind.C,
             PftTokenKind.Hash, PftTokenKind.Mfn, PftTokenKind.Mpl,
@@ -112,7 +112,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.Ref,
 
             PftTokenKind.If, PftTokenKind.For, PftTokenKind.While,
-            PftTokenKind.ForEach,
+            PftTokenKind.ForEach, PftTokenKind.From,
 
             PftTokenKind.LeftParenthesis,
 
@@ -127,7 +127,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private void CreateTokenMap()
         {
-            MainMap = new Dictionary<PftTokenKind, Func<PftNode>>
+            MainModeMap = new Dictionary<PftTokenKind, Func<PftNode>>
             {
                 {PftTokenKind.A, ParseA},
                 {PftTokenKind.At, ParseAt},
@@ -140,6 +140,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.F2, ParseF2 },
                 {PftTokenKind.For, ParseFor},
                 {PftTokenKind.ForEach, ParseForEach},
+                {PftTokenKind.From, ParseFrom},
                 {PftTokenKind.LeftParenthesis, ParseGroup},
                 {PftTokenKind.Hash, ParseHash},
                 {PftTokenKind.Identifier, ParseFunctionCall},
@@ -270,6 +271,11 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.End
         };
 
+        private static PftTokenKind[] _orderStop =
+        {
+            PftTokenKind.Order, PftTokenKind.Semicolon
+        };
+
         private static PftTokenKind[] _parenthesisClose =
         {
             PftTokenKind.RightParenthesis
@@ -290,6 +296,11 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.End
         };
 
+        private static PftTokenKind[] _selectStop =
+        {
+            PftTokenKind.Select
+        };
+
         private static PftTokenKind[] _semicolonStop =
         {
             PftTokenKind.Semicolon
@@ -298,6 +309,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         private static PftTokenKind[] _thenStop =
         {
             PftTokenKind.Then
+        };
+
+        private static PftTokenKind[] _whereStop =
+        {
+            PftTokenKind.Where, PftTokenKind.Select
         };
 
     }

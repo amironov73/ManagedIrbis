@@ -181,7 +181,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         [NotNull]
         private PftNode ParseNext()
         {
-            PftNode result = Get(MainMap, SimpleTokens);
+            PftNode result = Get(MainModeMap, MainModeItems);
 
             if (!ReferenceEquals(result, null))
             {

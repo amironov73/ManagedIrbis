@@ -373,6 +373,77 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        /// <summary>
+        /// from ... select...
+        /// </summary>
+        /// <example>
+        /// from $x in (v300/)
+        /// where $x:'a'
+        /// select 'Comment: ', $x
+        /// order $x*2;
+        /// </example>
+        private PftNode ParseFrom()
+        {
+            PftFrom result = new PftFrom(Tokens.Current);
+
+            // Variable reference
+            Tokens.RequireNext(PftTokenKind.Variable);
+            result.Variable = (PftVariableReference) ParseVariableReference();
+
+            // In clause
+            Tokens.Current.MustBe(PftTokenKind.In);
+            Tokens.RequireNext();
+            PftTokenList sourceTokens = Tokens.Segment(_whereStop)
+                .ThrowIfNull("sourceTokens");
+            ChangeContext
+                (
+                    result.Source,
+                    sourceTokens
+                );
+
+            // Where clause (optional)
+            if (Tokens.Current.Kind == PftTokenKind.Where)
+            {
+                Tokens.RequireNext();
+                PftTokenList whereTokens = Tokens.Segment(_selectStop)
+                    .ThrowIfNull("whereTokens");
+                result.Where = (PftCondition) ChangeContext
+                    (
+                        whereTokens,
+                        ParseCondition
+                    );
+            }
+
+            // Select clause
+            Tokens.Current.MustBe(PftTokenKind.Select);
+            Tokens.RequireNext();
+            PftTokenList selectTokens = Tokens.Segment(_orderStop)
+                .ThrowIfNull("selectTokens");
+            ChangeContext
+                (
+                    result.Select,
+                    selectTokens
+                );
+
+            // Order clause (optional)
+            if (Tokens.Current.Kind == PftTokenKind.Order)
+            {
+                Tokens.RequireNext();
+                PftTokenList orderTokens = Tokens.Segment(_semicolonStop)
+                    .ThrowIfNull("orderTokens");
+                ChangeContext
+                    (
+                        result.Order,
+                        orderTokens
+                    );
+            }
+
+            Tokens.Current.MustBe(PftTokenKind.Semicolon);
+            Tokens.MoveNext();
+
+            return result;
+        }
+
         private PftNode ParseFunctionCall()
         {
             PftFunctionCall result = new PftFunctionCall(Tokens.Current);
