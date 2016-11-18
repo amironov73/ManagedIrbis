@@ -282,46 +282,58 @@ namespace ManagedIrbis.Pft.Infrastructure
         private PftNode ParseFor()
         {
             PftFor result = new PftFor(Tokens.Current);
-            Tokens.RequireNext();
-            PftTokenList initTokens = Tokens.Segment
-                (
-                    _semicolonStop
-                )
-                .ThrowIfNull("initTokens");
-            initTokens.Add(PftTokenKind.Semicolon);
-            Tokens.Current.MustBe(PftTokenKind.Semicolon);
-            ChangeContext(result.Initialization, initTokens);
-            Tokens.RequireNext();
-            PftTokenList conditionTokens = Tokens.Segment
-                (
-                    _semicolonStop
-                )
-                .ThrowIfNull("conditionTokens");
-            Tokens.Current.MustBe(PftTokenKind.Semicolon);
-            result.Condition = (PftCondition)ChangeContext
-                (
-                    conditionTokens,
-                    ParseCondition
-                );
-            Tokens.RequireNext();
-            PftTokenList loopTokens = Tokens.Segment
-                (
-                    _doStop
-                )
-                .ThrowIfNull("loopTokens");
-            Tokens.Current.MustBe(PftTokenKind.Do);
-            ChangeContext(result.Loop, loopTokens);
-            Tokens.RequireNext();
-            PftTokenList bodyTokens = Tokens.Segment
-                (
-                    _loopOpen,
-                    _loopClose,
-                    _loopStop
-                )
-                .ThrowIfNull("bodyTokens");
-            Tokens.Current.MustBe(PftTokenKind.End);
-            ChangeContext(result.Body, bodyTokens);
-            Tokens.MoveNext();
+
+            bool saveLoop = _inLoop;
+
+            try
+            {
+                _inLoop = true;
+
+                Tokens.RequireNext();
+                PftTokenList initTokens = Tokens.Segment
+                    (
+                        _semicolonStop
+                    )
+                    .ThrowIfNull("initTokens");
+                initTokens.Add(PftTokenKind.Semicolon);
+                Tokens.Current.MustBe(PftTokenKind.Semicolon);
+                ChangeContext(result.Initialization, initTokens);
+                Tokens.RequireNext();
+                PftTokenList conditionTokens = Tokens.Segment
+                    (
+                        _semicolonStop
+                    )
+                    .ThrowIfNull("conditionTokens");
+                Tokens.Current.MustBe(PftTokenKind.Semicolon);
+                result.Condition = (PftCondition) ChangeContext
+                    (
+                        conditionTokens,
+                        ParseCondition
+                    );
+                Tokens.RequireNext();
+                PftTokenList loopTokens = Tokens.Segment
+                    (
+                        _doStop
+                    )
+                    .ThrowIfNull("loopTokens");
+                Tokens.Current.MustBe(PftTokenKind.Do);
+                ChangeContext(result.Loop, loopTokens);
+                Tokens.RequireNext();
+                PftTokenList bodyTokens = Tokens.Segment
+                    (
+                        _loopOpen,
+                        _loopClose,
+                        _loopStop
+                    )
+                    .ThrowIfNull("bodyTokens");
+                Tokens.Current.MustBe(PftTokenKind.End);
+                ChangeContext(result.Body, bodyTokens);
+                Tokens.MoveNext();
+            }
+            finally
+            {
+                _inLoop = saveLoop;
+            }
 
             return result;
         }
@@ -339,36 +351,48 @@ namespace ManagedIrbis.Pft.Infrastructure
         private PftNode ParseForEach()
         {
             PftForEach result = new PftForEach(Tokens.Current);
-            Tokens.RequireNext();
-            result.Variable = (PftVariableReference)ParseVariableReference();
-            Tokens.Current.MustBe(PftTokenKind.In);
-            Tokens.RequireNext();
-            PftTokenList sequenceTokens = Tokens.Segment
-                (
-                    _doStop
-                )
-                .ThrowIfNull("sequenceTokens");
-            Tokens.Current.MustBe(PftTokenKind.Do);
-            ChangeContext
-                (
-                    result.Sequence,
-                    sequenceTokens
-                );
-            Tokens.RequireNext();
-            PftTokenList bodyTokens = Tokens.Segment
-                (
-                    _loopOpen,
-                    _loopClose,
-                    _loopStop
-                )
-                .ThrowIfNull("bodyTokens");
-            Tokens.Current.MustBe(PftTokenKind.End);
-            ChangeContext
-                (
-                    result.Body,
-                    bodyTokens
-                );
-            Tokens.MoveNext();
+
+            bool saveLoop = _inLoop;
+
+            try
+            {
+                _inLoop = true;
+
+                Tokens.RequireNext();
+                result.Variable = (PftVariableReference) ParseVariableReference();
+                Tokens.Current.MustBe(PftTokenKind.In);
+                Tokens.RequireNext();
+                PftTokenList sequenceTokens = Tokens.Segment
+                    (
+                        _doStop
+                    )
+                    .ThrowIfNull("sequenceTokens");
+                Tokens.Current.MustBe(PftTokenKind.Do);
+                ChangeContext
+                    (
+                        result.Sequence,
+                        sequenceTokens
+                    );
+                Tokens.RequireNext();
+                PftTokenList bodyTokens = Tokens.Segment
+                    (
+                        _loopOpen,
+                        _loopClose,
+                        _loopStop
+                    )
+                    .ThrowIfNull("bodyTokens");
+                Tokens.Current.MustBe(PftTokenKind.End);
+                ChangeContext
+                    (
+                        result.Body,
+                        bodyTokens
+                    );
+                Tokens.MoveNext();
+            }
+            finally
+            {
+                _inLoop = saveLoop;
+            }
 
             return result;
         }
@@ -386,60 +410,71 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftFrom result = new PftFrom(Tokens.Current);
 
-            // Variable reference
-            Tokens.RequireNext(PftTokenKind.Variable);
-            result.Variable = (PftVariableReference) ParseVariableReference();
+            bool saveLoop = _inLoop;
 
-            // In clause
-            Tokens.Current.MustBe(PftTokenKind.In);
-            Tokens.RequireNext();
-            PftTokenList sourceTokens = Tokens.Segment(_whereStop)
-                .ThrowIfNull("sourceTokens");
-            ChangeContext
-                (
-                    result.Source,
-                    sourceTokens
-                );
-
-            // Where clause (optional)
-            if (Tokens.Current.Kind == PftTokenKind.Where)
+            try
             {
-                Tokens.RequireNext();
-                PftTokenList whereTokens = Tokens.Segment(_selectStop)
-                    .ThrowIfNull("whereTokens");
-                result.Where = (PftCondition) ChangeContext
-                    (
-                        whereTokens,
-                        ParseCondition
-                    );
-            }
+                _inLoop = true;
 
-            // Select clause
-            Tokens.Current.MustBe(PftTokenKind.Select);
-            Tokens.RequireNext();
-            PftTokenList selectTokens = Tokens.Segment(_orderStop)
-                .ThrowIfNull("selectTokens");
-            ChangeContext
-                (
-                    result.Select,
-                    selectTokens
-                );
+                // Variable reference
+                Tokens.RequireNext(PftTokenKind.Variable);
+                result.Variable = (PftVariableReference) ParseVariableReference();
 
-            // Order clause (optional)
-            if (Tokens.Current.Kind == PftTokenKind.Order)
-            {
+                // In clause
+                Tokens.Current.MustBe(PftTokenKind.In);
                 Tokens.RequireNext();
-                PftTokenList orderTokens = Tokens.Segment(_semicolonStop)
-                    .ThrowIfNull("orderTokens");
+                PftTokenList sourceTokens = Tokens.Segment(_whereStop)
+                    .ThrowIfNull("sourceTokens");
                 ChangeContext
                     (
-                        result.Order,
-                        orderTokens
+                        result.Source,
+                        sourceTokens
                     );
-            }
 
-            Tokens.Current.MustBe(PftTokenKind.Semicolon);
-            Tokens.MoveNext();
+                // Where clause (optional)
+                if (Tokens.Current.Kind == PftTokenKind.Where)
+                {
+                    Tokens.RequireNext();
+                    PftTokenList whereTokens = Tokens.Segment(_selectStop)
+                        .ThrowIfNull("whereTokens");
+                    result.Where = (PftCondition) ChangeContext
+                        (
+                            whereTokens,
+                            ParseCondition
+                        );
+                }
+
+                // Select clause
+                Tokens.Current.MustBe(PftTokenKind.Select);
+                Tokens.RequireNext();
+                PftTokenList selectTokens = Tokens.Segment(_orderStop)
+                    .ThrowIfNull("selectTokens");
+                ChangeContext
+                    (
+                        result.Select,
+                        selectTokens
+                    );
+
+                // Order clause (optional)
+                if (Tokens.Current.Kind == PftTokenKind.Order)
+                {
+                    Tokens.RequireNext();
+                    PftTokenList orderTokens = Tokens.Segment(_semicolonStop)
+                        .ThrowIfNull("orderTokens");
+                    ChangeContext
+                        (
+                            result.Order,
+                            orderTokens
+                        );
+                }
+
+                Tokens.Current.MustBe(PftTokenKind.Semicolon);
+                Tokens.MoveNext();
+            }
+            finally
+            {
+                _inLoop = saveLoop;
+            }
 
             return result;
         }
@@ -453,7 +488,22 @@ namespace ManagedIrbis.Pft.Infrastructure
         private PftNode ParseGroup()
         {
             PftGroup result = new PftGroup(Tokens.Current);
-            ParseCall2(result);
+
+            if (_inGroup)
+            {
+                throw new PftSyntaxException("no nested group enabled");
+            }
+
+            try
+            {
+                _inGroup = true;
+
+                ParseCall2(result);
+            }
+            finally
+            {
+                _inGroup = false;
+            }
 
             return result;
         }
@@ -545,7 +595,15 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             if (_inProcedure)
             {
-                throw new PftSyntaxException(Tokens);
+                throw new PftSyntaxException("no nested proc allowed");
+            }
+            if (_inLoop)
+            {
+                throw new PftSyntaxException("no proc in loop allowed");
+            }
+            if (_inGroup)
+            {
+                throw new PftSyntaxException("no proc in group allowed");
             }
 
             try
@@ -747,33 +805,45 @@ namespace ManagedIrbis.Pft.Infrastructure
         private PftNode ParseWhile()
         {
             PftWhile result = new PftWhile(Tokens.Current);
-            Tokens.RequireNext();
-            PftTokenList conditionTokens = Tokens.Segment
-                (
-                    _doStop
-                )
-                .ThrowIfNull("conditionTokens");
-            Tokens.Current.MustBe(PftTokenKind.Do);
-            result.Condition = (PftCondition)ChangeContext
-                (
-                    conditionTokens,
-                    ParseCondition
-                );
-            Tokens.RequireNext();
-            PftTokenList bodyTokens = Tokens.Segment
-                (
-                    _loopOpen,
-                    _loopClose,
-                    _loopStop
-                )
-                .ThrowIfNull("bodyTokens");
-            Tokens.Current.MustBe(PftTokenKind.End);
-            ChangeContext
-                (
-                    result.Body,
-                    bodyTokens
-                );
-            Tokens.MoveNext();
+
+            bool saveLoop = _inLoop;
+
+            try
+            {
+                _inLoop = true;
+
+                Tokens.RequireNext();
+                PftTokenList conditionTokens = Tokens.Segment
+                    (
+                        _doStop
+                    )
+                    .ThrowIfNull("conditionTokens");
+                Tokens.Current.MustBe(PftTokenKind.Do);
+                result.Condition = (PftCondition) ChangeContext
+                    (
+                        conditionTokens,
+                        ParseCondition
+                    );
+                Tokens.RequireNext();
+                PftTokenList bodyTokens = Tokens.Segment
+                    (
+                        _loopOpen,
+                        _loopClose,
+                        _loopStop
+                    )
+                    .ThrowIfNull("bodyTokens");
+                Tokens.Current.MustBe(PftTokenKind.End);
+                ChangeContext
+                    (
+                        result.Body,
+                        bodyTokens
+                    );
+                Tokens.MoveNext();
+            }
+            finally
+            {
+                _inLoop = saveLoop;
+            }
 
             return result;
         }

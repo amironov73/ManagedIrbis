@@ -39,7 +39,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         // Service variables
         //================================================================
 
-        private bool _inAssignment, _inProcedure;
+        private bool _inAssignment, _inProcedure, _inLoop, _inGroup;
 
         private PftProcedureManager _procedures;
 
