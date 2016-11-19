@@ -451,8 +451,20 @@ namespace ManagedIrbis.Pft.Infrastructure
                         break;
 
                     case '[':
-                        kind = PftTokenKind.LeftSquare;
-                        value = c.ToString();
+                        c2 = PeekChar();
+                        c3 = _navigator.LookAhead(1);
+                        if (c2 == '[' && c3 == '[')
+                        {
+                            ReadChar();
+                            ReadChar();
+                            kind = PftTokenKind.EatOpen;
+                            value = "[[[";
+                        }
+                        else
+                        {
+                            kind = PftTokenKind.LeftSquare;
+                            value = c.ToString();
+                        }
                         break;
 
                     case '(':
@@ -466,8 +478,20 @@ namespace ManagedIrbis.Pft.Infrastructure
                         break;
 
                     case ']':
-                        kind = PftTokenKind.RightSquare;
-                        value = c.ToString();
+                        c2 = PeekChar();
+                        c3 = _navigator.LookAhead(1);
+                        if (c2 == ']' && c3 == ']')
+                        {
+                            ReadChar();
+                            ReadChar();
+                            kind = PftTokenKind.EatClose;
+                            value = "]]]";
+                        }
+                        else
+                        {
+                            kind = PftTokenKind.RightSquare;
+                            value = c.ToString();
+                        }
                         break;
 
                     case ')':

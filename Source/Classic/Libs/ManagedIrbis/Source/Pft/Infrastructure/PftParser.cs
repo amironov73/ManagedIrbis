@@ -202,6 +202,36 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
+        private PftNode ParseEat()
+        {
+            PftEat result = new PftEat(Tokens.Current);
+            Tokens.MoveNext();
+
+            bool ok = false;
+            while (!Tokens.IsEof)
+            {
+                if (Tokens.Current.Kind == PftTokenKind.EatClose)
+                {
+                    ok = true;
+                    Tokens.MoveNext();
+                    break;
+                }
+
+                PftNode node = ParseNext();
+                result.Children.Add(node);
+            }
+
+            if (!ok)
+            {
+                throw new PftSyntaxException(Tokens);
+            }
+
+            return result;
+        }
+
+
+        //=================================================
+
         private PftEmpty ParseEmpty()
         {
             PftEmpty result = new PftEmpty(Tokens.Current);

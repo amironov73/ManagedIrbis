@@ -120,7 +120,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenKind.At,
 
-            PftTokenKind.Proc
+            PftTokenKind.Proc,
+
+            PftTokenKind.EatOpen
         };
 
         // ================================================================
@@ -136,6 +138,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.Comma, ParseComma},
                 {PftTokenKind.Comment, ParseComment},
                 {PftTokenKind.ConditionalLiteral, ParseField},
+                {PftTokenKind.EatOpen, ParseEat},
                 {PftTokenKind.F, ParseF},
                 {PftTokenKind.F2, ParseF2 },
                 {PftTokenKind.For, ParseFor},

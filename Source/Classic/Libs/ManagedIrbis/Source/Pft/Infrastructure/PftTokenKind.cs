@@ -97,6 +97,16 @@ namespace ManagedIrbis.Pft.Infrastructure
         Do,
 
         /// <summary>
+        /// ]]]
+        /// </summary>
+        EatClose,
+
+        /// <summary>
+        /// [[[
+        /// </summary>
+        EatOpen,
+
+        /// <summary>
         /// else
         /// </summary>
         Else,

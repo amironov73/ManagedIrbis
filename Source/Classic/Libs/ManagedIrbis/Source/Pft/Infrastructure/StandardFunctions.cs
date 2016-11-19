@@ -280,7 +280,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                     }
                     else
                     {
-                        context.Record = record;
+                        PftContext ctx = context;
+                        while (!ReferenceEquals(ctx, null))
+                        {
+                            ctx.Record = record;
+                            ctx = ctx.Parent;
+                        }
                         context.Write(node, "1");
                     }
                 }

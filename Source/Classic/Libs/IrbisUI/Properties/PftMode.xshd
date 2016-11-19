@@ -36,6 +36,11 @@
 				<Begin>&#x221F;</Begin>
 				<End>&#x2194;</End>
 			</Span>
+			<Span name = "Eat" bold = "false" italic = "false" color = "Gray" stopateol = "true">
+				<Begin>[[[</Begin>
+				<End>]]]</End>
+			</Span>
+
 
       <Span name = "LineComment"  bold = "false" italic = "false" color = "Red" stopateol = "true">
         <Begin>/*</Begin>
