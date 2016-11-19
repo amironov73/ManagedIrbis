@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,6 +66,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
+        //=================================================
+
         private static void Bold(PftContext context, PftNode node, string expression)
         {
             if (!string.IsNullOrEmpty(expression))
@@ -72,6 +75,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 context.Write(node, "<b>" + expression + "</b>");
             }
         }
+
+        //=================================================
 
         private static void Cat(PftContext context, PftNode node, string expression)
         {
@@ -259,6 +264,29 @@ namespace ManagedIrbis.Pft.Infrastructure
             context.Write(node, text);
         }
 
+        private static void LoadRecord(PftContext context, PftNode node, string expression)
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                int mfn;
+                if (int.TryParse(expression, out mfn))
+                {
+                    MarcRecord record = context.Environment
+                        .ReadRecord(mfn);
+
+                    if (ReferenceEquals(record, null))
+                    {
+                        context.Write(node, "0");
+                    }
+                    else
+                    {
+                        context.Record = record;
+                        context.Write(node, "1");
+                    }
+                }
+            }
+        }
+
         private static void MachineName(PftContext context, PftNode node, string expression)
         {
             context.Write(node, global::System.Environment.MachineName);
@@ -296,7 +324,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             DateTime now = DateTime.Today;
 
             string output = string.IsNullOrEmpty(expression)
-                ? now.ToString()
+                ? now.ToString(CultureInfo.CurrentCulture)
                 : now.ToString(expression);
 
             context.Write(node, output);
@@ -498,6 +526,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("include", Include);
             reg.Add("italic", Italic);
             reg.Add("len", Len);
+            reg.Add("loadRecord", LoadRecord);
             reg.Add("machinename", MachineName);
             reg.Add("nocc", NOcc);
             reg.Add("now", Now);
