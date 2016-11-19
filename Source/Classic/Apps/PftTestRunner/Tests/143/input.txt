@@ -1,0 +1,2 @@
+﻿$y = from $x in (v692^b/) where $x:'2008' select 'Item: ', $x end;
+$y

@@ -273,7 +273,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static PftTokenKind[] _orderStop =
         {
-            PftTokenKind.Order, PftTokenKind.Semicolon
+            PftTokenKind.Order, PftTokenKind.End
         };
 
         private static PftTokenKind[] _parenthesisClose =

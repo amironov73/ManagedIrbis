@@ -95,6 +95,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             return MoveNext(result);
         }
 
+        //=================================================
+
         private PftAssignment ParseAssignment
             (
                 [NotNull] PftAssignment result,
@@ -137,10 +139,14 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        //=================================================
+
         private PftNode ParseAt()
         {
             return MoveNext(new PftInclude(Tokens.Current));
         }
+
+        //=================================================
 
         private PftBlank ParseBlank()
         {
@@ -149,35 +155,52 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        //=================================================
+
         private PftNode ParseBreak()
         {
             return MoveNext(new PftBreak(Tokens.Current));
         }
+
+        //=================================================
 
         private PftNode ParseC()
         {
             return MoveNext(new PftC(Tokens.Current));
         }
 
+        //=================================================
+
         private PftNode ParseCodeBlock()
         {
             return MoveNext(new PftCodeBlock(Tokens.Current));
         }
+
+        //=================================================
 
         private PftNode ParseComma()
         {
             return MoveNext(new PftComma(Tokens.Current));
         }
 
+        //=================================================
+
         private PftNode ParseComment()
         {
             return MoveNext(new PftComment(Tokens.Current));
         }
 
+        //=================================================
+
         private PftNode ParseConditionalLiteral()
         {
-            return MoveNext(new PftConditionalLiteral(Tokens.Current));
+            return MoveNext
+                (
+                    new PftConditionalLiteral(Tokens.Current)
+                );
         }
+
+        //=================================================
 
         private PftEmpty ParseEmpty()
         {
@@ -185,6 +208,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             ParseCall(result);
             return result;
         }
+
+        //=================================================
 
         private PftNode ParseF()
         {
@@ -235,6 +260,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        //=================================================
+
         private PftNode ParseF2()
         {
             PftF2 result = new PftF2(Tokens.Current);
@@ -267,6 +294,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             return result;
         }
+
+        //=================================================
 
         /// <summary>
         /// For loop.
@@ -338,6 +367,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        //=================================================
+
         /// <summary>
         /// ForEach loop.
         /// </summary>
@@ -397,6 +428,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        //=================================================
+
         /// <summary>
         /// from ... select...
         /// </summary>
@@ -404,7 +437,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// from $x in (v300/)
         /// where $x:'a'
         /// select 'Comment: ', $x
-        /// order $x*2;
+        /// order $x
+        /// end
         /// </example>
         private PftNode ParseFrom()
         {
@@ -447,7 +481,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                 // Select clause
                 Tokens.Current.MustBe(PftTokenKind.Select);
                 Tokens.RequireNext();
-                PftTokenList selectTokens = Tokens.Segment(_orderStop)
+                PftTokenList selectTokens = Tokens.Segment
+                    (
+                        _loopOpen,
+                        _loopClose,
+                        _orderStop
+                    )
                     .ThrowIfNull("selectTokens");
                 ChangeContext
                     (
@@ -459,7 +498,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                 if (Tokens.Current.Kind == PftTokenKind.Order)
                 {
                     Tokens.RequireNext();
-                    PftTokenList orderTokens = Tokens.Segment(_semicolonStop)
+                    PftTokenList orderTokens = Tokens.Segment
+                        (
+                            _loopOpen,
+                            _loopClose,
+                            _loopStop
+                        )
                         .ThrowIfNull("orderTokens");
                     ChangeContext
                         (
@@ -468,7 +512,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         );
                 }
 
-                Tokens.Current.MustBe(PftTokenKind.Semicolon);
+                Tokens.Current.MustBe(PftTokenKind.End);
                 Tokens.MoveNext();
             }
             finally
