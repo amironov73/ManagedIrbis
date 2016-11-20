@@ -553,11 +553,15 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        //=================================================
+
         private PftNode ParseFunctionCall()
         {
             PftFunctionCall result = new PftFunctionCall(Tokens.Current);
             return ParseCall(result);
         }
+
+        //=================================================
 
         private PftNode ParseGroup()
         {
@@ -582,10 +586,14 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        //=================================================
+
         private PftNode ParseHash()
         {
             return MoveNext(new PftHash(Tokens.Current));
         }
+
+        //=================================================
 
         private PftHave ParseHave()
         {
@@ -614,6 +622,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             
         }
 
+        //=================================================
+
         private PftNode ParseL()
         {
             PftL result = new PftL(Tokens.Current);
@@ -621,25 +631,35 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        //=================================================
+
         private PftNode ParseMfn()
         {
             return MoveNext(new PftMfn(Tokens.Current));
         }
+
+        //=================================================
 
         private PftNode ParseMpl()
         {
             return MoveNext(new PftMode(Tokens.Current));
         }
 
+        //=================================================
+
         private PftNode ParseNl()
         {
             return MoveNext(new PftNl(Tokens.Current));
         }
 
+        //=================================================
+
         private PftNumeric ParseNumber()
         {
             return MoveNext(new PftNumericLiteral(Tokens.Current));
         }
+
+        //=================================================
 
         private PftP ParseP()
         {
@@ -657,10 +677,14 @@ namespace ManagedIrbis.Pft.Infrastructure
             return MoveNext(result);
         }
 
+        //=================================================
+
         private PftNode ParsePercent()
         {
             return MoveNext(new PftPercent(Tokens.Current));
         }
+
+        //=================================================
 
         private PftNode ParseProc()
         {
@@ -748,6 +772,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        //=================================================
+
         private PftNode ParseRef()
         {
             PftRef result = new PftRef(Tokens.Current);
@@ -765,16 +791,22 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        //=================================================
+
         private PftNode ParseRepeatableLiteral()
         {
             return MoveNext(new PftRepeatableLiteral(Tokens.Current));
         }
+
+        //=================================================
 
         private PftNode ParseRsum()
         {
             PftNode result = new PftRsum(Tokens.Current);
             return ParseCall(result);
         }
+
+        //=================================================
 
         private PftNode ParseS()
         {
@@ -783,20 +815,28 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        //=================================================
+
         private PftNode ParseSemicolon()
         {
             return MoveNext(new PftSemicolon(Tokens.Current));
         }
+
+        //=================================================
 
         private PftNode ParseSlash()
         {
             return MoveNext(new PftSlash(Tokens.Current));
         }
 
+        //=================================================
+
         private PftNode ParseUnconditionalLiteral()
         {
             return MoveNext(new PftUnconditionalLiteral(Tokens.Current));
         }
+
+        //=================================================
 
         private PftNode ParseUnifor()
         {
@@ -804,11 +844,15 @@ namespace ManagedIrbis.Pft.Infrastructure
             return ParseCall(result);
         }
 
+        //=================================================
+
         private PftNode ParseVal()
         {
             PftNode result = new PftVal(Tokens.Current);
             return ParseCall(result);
         }
+
+        //=================================================
 
         private PftNode ParseVariable()
         {
@@ -853,17 +897,23 @@ namespace ManagedIrbis.Pft.Infrastructure
             return MoveNext(reference);
         }
 
+        //=================================================
+
         private PftNode ParseVariableReference()
         {
             return MoveNext(new PftVariableReference(Tokens.Current));
         }
+
+        //=================================================
 
         private PftNode ParseVerbatim()
         {
             return MoveNext(new PftVerbatim(Tokens.Current));
         }
 
-        /// <summary>
+        //=================================================
+
+            /// <summary>
         /// While loop.
         /// </summary>
         /// <example>
@@ -921,6 +971,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             return result;
         }
+
+        //=================================================
 
         private PftNode ParseX()
         {

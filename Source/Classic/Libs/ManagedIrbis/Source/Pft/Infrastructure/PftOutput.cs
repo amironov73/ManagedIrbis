@@ -109,6 +109,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
         }
 
+        //=================================================
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -138,7 +140,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                [NotNull] StringWriter writer
             )
         {
-            return (writer.GetStringBuilder().Length != 0);
+            return writer.GetStringBuilder().Length != 0;
         }
 
         #endregion
@@ -156,6 +158,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             return this;
         }
 
+        //=================================================
+
         /// <summary>
         /// Очистака потока предупреждений.
         /// </summary>
@@ -166,6 +170,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             return this;
         }
+
+        //=================================================
 
         /// <summary>
         /// Очистка потока ошибок.
@@ -178,6 +184,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             return this;
         }
 
+        //=================================================
+
         /// <summary>
         /// Временный переход к новому буферу.
         /// </summary>
@@ -188,6 +196,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             return result;
         }
+
+        //=================================================
 
         /// <summary>
         /// Возврат к старому буферу с дописыванием
@@ -215,6 +225,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             return ToString();
         }
 
+        //=================================================
+
         /// <summary>
         /// Write text.
         /// </summary>
@@ -234,6 +246,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             return this;
         }
 
+        //=================================================
+
         /// <summary>
         /// Write text.
         /// </summary>
@@ -250,6 +264,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             return this;
         }
+
+        //=================================================
 
         /// <summary>
         /// Write line.
@@ -270,6 +286,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             return this;
         }
 
+        //=================================================
+
         /// <summary>
         /// Write line.
         /// </summary>
@@ -287,6 +305,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             return this;
         }
 
+        //=================================================
+
         /// <summary>
         /// Write line.
         /// </summary>
@@ -297,6 +317,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             return this;
         }
+
+        //=================================================
 
         /// <summary>
         /// Получить (воображаемую) позицию курсора по горизонтали.
@@ -313,6 +335,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             return (builder.Length - pos);
         }
+
+        //=================================================
 
         /// <summary>
         /// Удалить последнюю строку в буфере, если она пустая.
@@ -332,6 +356,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             return this;
         }
+
+        //=================================================
 
         /// <summary>
         /// Пустая ли последняя строка в основном буфере?
@@ -367,7 +393,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Object members
 
-        /// <inhertidoc/>
+        /// <inheritdoc/>
         public override string ToString()
         {
             return Normal.ToString();
