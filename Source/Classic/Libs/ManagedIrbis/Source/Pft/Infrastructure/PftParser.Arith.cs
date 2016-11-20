@@ -146,7 +146,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftNumeric result = (PftNumeric)Get
                 (
                     NumericMap,
-                    NumericTokens
+                    NumericModeItems
                 );
 
             return result;

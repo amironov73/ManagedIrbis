@@ -451,8 +451,20 @@ namespace ManagedIrbis.Pft.Infrastructure
                         break;
 
                     case '[':
-                        kind = PftTokenKind.LeftSquare;
-                        value = c.ToString();
+                        c2 = PeekChar();
+                        c3 = _navigator.LookAhead(1);
+                        if (c2 == '[' && c3 == '[')
+                        {
+                            ReadChar();
+                            ReadChar();
+                            kind = PftTokenKind.EatOpen;
+                            value = "[[[";
+                        }
+                        else
+                        {
+                            kind = PftTokenKind.LeftSquare;
+                            value = c.ToString();
+                        }
                         break;
 
                     case '(':
@@ -466,8 +478,20 @@ namespace ManagedIrbis.Pft.Infrastructure
                         break;
 
                     case ']':
-                        kind = PftTokenKind.RightSquare;
-                        value = c.ToString();
+                        c2 = PeekChar();
+                        c3 = _navigator.LookAhead(1);
+                        if (c2 == ']' && c3 == ']')
+                        {
+                            ReadChar();
+                            ReadChar();
+                            kind = PftTokenKind.EatClose;
+                            value = "]]]";
+                        }
+                        else
+                        {
+                            kind = PftTokenKind.RightSquare;
+                            value = c.ToString();
+                        }
                         break;
 
                     case ')':
@@ -847,8 +871,14 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "and";
                                 break;
 
+                            case "blank":
+                                kind = PftTokenKind.Blank;
+                                value = "blank";
+                                break;
+
                             case "break":
                                 kind = PftTokenKind.Break;
+                                value = "break";
                                 break;
 
                             case "ceil":
@@ -868,6 +898,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                             case "else":
                                 kind = PftTokenKind.Else;
+                                value = "else";
+                                break;
+
+                            case "empty":
+                                kind = PftTokenKind.Empty;
+                                value = "empty";
                                 break;
 
                             case "end":
@@ -877,6 +913,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                             case "f2":
                                 kind = PftTokenKind.F2;
+                                value = "f2";
                                 break;
 
                             case "fi":
@@ -904,6 +941,16 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "frac";
                                 break;
 
+                            case "from":
+                                kind = PftTokenKind.From;
+                                value = "from";
+                                break;
+
+                            case "have":
+                                kind = PftTokenKind.Have;
+                                value = "have";
+                                break;
+
                             case "if":
                                 kind = PftTokenKind.If;
                                 value = "if";
@@ -927,6 +974,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                             case "or":
                                 kind = PftTokenKind.Or;
                                 value = "or";
+                                break;
+
+                            case "order":
+                                kind = PftTokenKind.Order;
+                                value = "order";
                                 break;
 
                             case "pow":
@@ -969,6 +1021,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "rsum";
                                 break;
 
+                            case "select":
+                                kind = PftTokenKind.Select;
+                                value = "select";
+                                break;
+
                             case "sign":
                                 kind = PftTokenKind.Sign;
                                 value = "sign";
@@ -987,6 +1044,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                             case "val":
                                 kind = PftTokenKind.Val;
                                 value = "val";
+                                break;
+
+                            case "where":
+                                kind = PftTokenKind.Where;
+                                value = "where";
                                 break;
 
                             case "while":

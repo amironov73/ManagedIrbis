@@ -12,8 +12,10 @@ using System.Text.RegularExpressions;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Client;
 using ManagedIrbis.Infrastructure;
-using ManagedIrbis.Pft.Infrastructure.Environment;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -167,7 +169,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Context.Procedures = Program.Procedures;
             Program.Execute(Context);
 
-            return Context.Text;
+            return Context.GetProcessedOutput();
         }
 
         /// <summary>
@@ -192,7 +194,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public void SetEnvironment
             (
-                [NotNull] PftEnvironmentAbstraction environment
+                //[NotNull] PftEnvironmentAbstraction environment
+                [NotNull] AbstractClient environment
             )
         {
             Code.NotNull(environment, "environment");

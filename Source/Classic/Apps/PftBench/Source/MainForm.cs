@@ -20,15 +20,17 @@ using System.Windows.Forms;
 using AM;
 
 using CodeJam;
-
+using ICSharpCode.TextEditor;
+using ICSharpCode.TextEditor.Document;
+using IrbisUI;
+using IrbisUI.Pft;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Client;
 using ManagedIrbis.ImportExport;
-using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
-using ManagedIrbis.Pft.Infrastructure.Environment;
-
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -45,11 +47,18 @@ namespace PftBench
         public MainForm()
         {
             InitializeComponent();
+
+            string rootPath = CM.AppSettings["rootPath"];
+            _environment = new LocalClient
+                    (
+                        rootPath
+                    );
         }
 
         private MarcRecord _record;
         private PftTokenList _tokenList;
         private PftProgram _program;
+        private readonly AbstractClient _environment;
 
         private void Clear()
         {
@@ -88,13 +97,18 @@ namespace PftBench
                 Program = _program
             };
 
-            string rootPath = CM.AppSettings["rootPath"];
-            PftEnvironmentAbstraction environment
-                = new PftLocalEnvironment
-                    (
-                        rootPath
-                    );
-            formatter.SetEnvironment(environment);
+            PftUiDebugger debugger
+                = new PftUiDebugger(formatter.Context);
+            formatter.Context.Debugger = debugger;
+
+            DatabaseInfo database = _databaseBox.SelectedItem
+                as DatabaseInfo;
+            if (!ReferenceEquals(database, null))
+            {
+                _environment.Database = database.Name
+                    .ThrowIfNull("database.Name");
+            }
+            formatter.SetEnvironment(_environment);
 
             string result = formatter.Format(_record);
             _resutlBox.Text = result;
@@ -204,12 +218,180 @@ namespace PftBench
                 EventArgs e
             )
         {
-            _splitContainer1.SplitterDistance 
-                = _splitContainer1.Height/2;
+            _splitContainer1.SplitterDistance
+                = _splitContainer1.Height / 2;
             _splitContainer2.SplitterDistance
-                = _splitContainer2.Width/2;
+                = _splitContainer2.Width / 2;
             _splitContainer3.SplitterDistance
-                = _splitContainer3.Width/2;
+                = _splitContainer3.Width / 2;
+
+            DatabaseInfo[] databases = _environment.ListDatabases();
+            _databaseBox.Items.AddRange(databases);
+            if (databases.Length != 0)
+            {
+                _databaseBox.SelectedIndex = 0;
+            }
+        }
+
+        private void _databaseBox_SelectedIndexChanged
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            DatabaseInfo database = _databaseBox.SelectedItem as DatabaseInfo;
+
+            if (!ReferenceEquals(database, null))
+            {
+                _environment.Database = database.Name.ThrowIfNull();
+                int maxMfn = _environment.GetMaxMfn();
+
+                _maxMfnLabel.Text = string.Format
+                    (
+                        "Max MFN={0}",
+                        maxMfn
+                    );
+            }
+        }
+
+        private void _newButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            _pftBox.Text = string.Empty;
+        }
+
+        private void _openButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            if (_openFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                string text = File.ReadAllText
+                    (
+                        _openFileDialog.FileName,
+                        IrbisEncoding.Ansi
+                    );
+                _pftBox.Text = text;
+            }
+        }
+
+        private void _saveButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            if (_saveFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                string text = _pftBox.Text;
+                string fileName = _saveFileDialog.FileName;
+
+                File.WriteAllText
+                    (
+                        fileName,
+                        text,
+                        IrbisEncoding.Ansi
+                    );
+            }
+        }
+
+        private void _tokenGrid_CellDoubleClick
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            TextAreaControl _editor = _pftBox.ActiveTextAreaControl;
+
+            PftTokenGrid grid = sender as PftTokenGrid;
+            if (ReferenceEquals(grid, null))
+            {
+                return;
+            }
+
+            PftToken token = grid.SelectedToken;
+            if (ReferenceEquals(token, null))
+            {
+                return;
+            }
+
+            string text = token.Text;
+            int line = token.Line - 1, column = token.Column - 1;
+            if (line < 0
+                || string.IsNullOrEmpty(text))
+            {
+                return;
+            }
+
+            TextLocation start = new TextLocation(column, line);
+            TextLocation end = new TextLocation(column + text.Length, line);
+            _editor.SelectionManager.SetSelection(start, end);
+            _editor.Caret.Position = start;
+        }
+
+        private void _pftTreeView_CurrentNodeChanged
+            (
+                object sender,
+                TreeViewEventArgs e
+            )
+        {
+            PftNodeInfo currentNode = _pftTreeView.CurrentNode;
+            if (ReferenceEquals(currentNode, null))
+            {
+                return;
+            }
+
+            PftNode pftNode = currentNode.Node;
+            if (ReferenceEquals(pftNode, null))
+            {
+                return;
+            }
+
+            string text = pftNode.Text ?? string.Empty;
+            int line = pftNode.LineNumber - 1;
+            int column = pftNode.Column - 1;
+            if (line < 0 || column < 0)
+            {
+                return;
+            }
+
+            TextLocation start = new TextLocation(column, line);
+            TextLocation end = new TextLocation(column + text.Length, line);
+            TextAreaControl editor = _pftBox.ActiveTextAreaControl;
+            editor.SelectionManager.SetSelection(start, end);
+            editor.Caret.Position = start;
+        }
+
+        private void _pftTreeView_NodeChecked
+            (
+                object sender,
+                TreeViewEventArgs e
+            )
+        {
+            TreeNode treeNode = e.Node;
+            if (ReferenceEquals(treeNode, null))
+            {
+                return;
+            }
+
+            PftNodeInfo nodeInfo = treeNode.Tag as PftNodeInfo;
+            if (ReferenceEquals(nodeInfo, null))
+            {
+                return;
+            }
+
+            PftNode node = nodeInfo.Node;
+            if (ReferenceEquals(node, null))
+            {
+                return;
+            }
+
+            node.Breakpoint = treeNode.Checked;
         }
     }
 }

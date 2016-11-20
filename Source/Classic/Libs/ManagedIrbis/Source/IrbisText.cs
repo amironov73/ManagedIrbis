@@ -5,6 +5,8 @@
 #region Using directives
 
 using System;
+using System.Text.RegularExpressions;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -47,9 +49,56 @@ namespace ManagedIrbis
 
         private static char[] _delimiters = { '\x1F' };
 
+        private static string _CleanupEvaluator
+            (
+                Match match
+            )
+        {
+            int length = match.Value.Length;
+
+            if ((length & 1) == 0)
+            {
+                return new string('.', length / 2);
+            }
+
+            return new string('.', length / 2 + 2);
+        }
+
         #endregion
 
         #region Public methods
+
+
+        /// <summary>
+        /// Cleanup the text.
+        /// </summary>
+        [CanBeNull]
+        public static string CleanupText
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            string result = Regex.Replace
+                (
+                    text,
+                    @"(\. - ){2,}",
+                    ". - "
+                );
+
+            result = Regex.Replace
+                (
+                    result,
+                    @"\.{2,}",
+                    _CleanupEvaluator
+                );
+
+            return result;
+        }
 
         /// <summary>
         /// Convert IRBIS line endings to standard.

@@ -1031,6 +1031,70 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Считывание вплоть до указанных символов
+        /// (не включая их).
+        /// </summary>
+        /// <remarks><c>null</c>, если достигнут конец текста.
+        /// </remarks>
+        [CanBeNull]
+        public string ReadUntil
+            (
+                [NotNull] char[] openChars,
+                [NotNull] char[] closeChars,
+                [NotNull] char[] stopChars
+            )
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            int savePosition = _position;
+            int level = 0;
+
+            while (true)
+            {
+                char c = PeekChar();
+
+                if (c == EOF)
+                {
+                    _position = savePosition;
+                    return null;
+                }
+
+                if (c.OneOf(openChars))
+                {
+                    level++;
+                }
+                else if (c.OneOf(closeChars))
+                {
+                    if (level == 0
+                        && c.OneOf(stopChars))
+                    {
+                        break;
+                    }
+                    level--;
+                }
+                else if (c.OneOf(stopChars))
+                {
+                    if (level == 0)
+                    {
+                        break;
+                    }
+                }
+                ReadChar();
+            }
+
+            string result = _text.Substring
+                (
+                    savePosition,
+                    _position - savePosition
+                );
+
+            return result;
+        }
+
+        /// <summary>
         /// Считывание строки, пока не будет
         /// встречен пробельный символ или конец текста.
         /// </summary>

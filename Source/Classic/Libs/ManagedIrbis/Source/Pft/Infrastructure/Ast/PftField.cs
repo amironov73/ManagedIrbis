@@ -121,6 +121,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             RightHand = new NonNullCollection<PftNode>();
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftField
+            (
+                [NotNull] PftToken token
+            )
+            : base(token)
+        {
+            Code.NotNull(token, "token");
+
+            LeftHand = new NonNullCollection<PftNode>();
+            RightHand = new NonNullCollection<PftNode>();
+        }
+
         #endregion
 
         #region Private members
@@ -439,6 +454,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             PftNodeInfo result = new PftNodeInfo
             {
+                Node = this,
                 Name = SimplifyTypeName(GetType().Name),
                 Value = Text
             };

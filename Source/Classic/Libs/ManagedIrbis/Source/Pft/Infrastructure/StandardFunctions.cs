@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,9 +17,11 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Ast;
 
@@ -65,6 +68,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
+        //=================================================
+
         private static void Bold(PftContext context, PftNode node, string expression)
         {
             if (!string.IsNullOrEmpty(expression))
@@ -72,6 +77,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 context.Write(node, "<b>" + expression + "</b>");
             }
         }
+
+        //=================================================
 
         private static void Cat(PftContext context, PftNode node, string expression)
         {
@@ -95,6 +102,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 context.Write(node, source);
             }
         }
+
+        //=================================================
 
         private static void Chr(PftContext context, PftNode node, string expression)
         {
@@ -121,6 +130,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
+        //=================================================
+
         private static void CommandLine(PftContext context, PftNode node, string expression)
         {
 #if DESKTOP
@@ -138,6 +149,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 #endif
         }
 
+        //=================================================
+
         private static void Debug(PftContext context, PftNode node, string expression)
         {
 #if CLASSIC
@@ -147,6 +160,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 #endif
         }
+
+        //=================================================
 
         private static void DelField(PftContext context, PftNode node, string expression)
         {
@@ -195,6 +210,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
+        //=================================================
+
         private static void Error(PftContext context, PftNode node, string expression)
         {
             if (!string.IsNullOrEmpty(expression))
@@ -203,11 +220,15 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
+        //=================================================
+
         private static void Fatal(PftContext context, PftNode node, string expression)
         {
             string message = expression ?? string.Empty;
             global::System.Environment.FailFast(message);
         }
+
+        //=================================================
 
         private static void GetEnv(PftContext context, PftNode node, string expression)
         {
@@ -217,6 +238,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 context.Write(node, result);
             }
         }
+
+        //=================================================
 
         private static void Include(PftContext context, PftNode node, string expression)
         {
@@ -231,6 +254,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
+        //=================================================
+
         private static void IOcc(PftContext context, PftNode node, string expression)
         {
             int index = context.Index;
@@ -242,6 +267,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             context.Write(node, text);
         }
 
+        //=================================================
+
         private static void Italic(PftContext context, PftNode node, string expression)
         {
             if (!string.IsNullOrEmpty(expression))
@@ -249,6 +276,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 context.Write(node, "<i>" + expression + "</i>");
             }
         }
+
+        //=================================================
 
         private static void Len(PftContext context, PftNode node, string expression)
         {
@@ -259,10 +288,44 @@ namespace ManagedIrbis.Pft.Infrastructure
             context.Write(node, text);
         }
 
+        //=================================================
+
+        private static void LoadRecord(PftContext context, PftNode node, string expression)
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                int mfn;
+                if (int.TryParse(expression, out mfn))
+                {
+                    MarcRecord record = context.Environment
+                        .ReadRecord(mfn);
+
+                    if (ReferenceEquals(record, null))
+                    {
+                        context.Write(node, "0");
+                    }
+                    else
+                    {
+                        PftContext ctx = context;
+                        while (!ReferenceEquals(ctx, null))
+                        {
+                            ctx.Record = record;
+                            ctx = ctx.Parent;
+                        }
+                        context.Write(node, "1");
+                    }
+                }
+            }
+        }
+
+        //=================================================
+
         private static void MachineName(PftContext context, PftNode node, string expression)
         {
             context.Write(node, global::System.Environment.MachineName);
         }
+
+        //=================================================
 
         private static void NOcc(PftContext context, PftNode node, string expression)
         {
@@ -291,16 +354,20 @@ namespace ManagedIrbis.Pft.Infrastructure
             context.Write(node, text);
         }
 
+        //=================================================
+
         private static void Now(PftContext context, PftNode node, string expression)
         {
             DateTime now = DateTime.Today;
 
             string output = string.IsNullOrEmpty(expression)
-                ? now.ToString()
+                ? now.ToString(CultureInfo.CurrentCulture)
                 : now.ToString(expression);
 
             context.Write(node, output);
         }
+
+        //=================================================
 
         private static void NPost(PftContext context, PftNode node, string expression)
         {
@@ -312,12 +379,16 @@ namespace ManagedIrbis.Pft.Infrastructure
             context.Write(node, text);
         }
 
+        //=================================================
+
         private static void OsVersion(PftContext context, PftNode node, string expression)
         {
 #if CLASSIC
             context.Write(node, global::System.Environment.OSVersion.ToString());
 #endif
         }
+
+        //=================================================
 
         private static void Size(PftContext context, PftNode node, string expression)
         {
@@ -327,6 +398,32 @@ namespace ManagedIrbis.Pft.Infrastructure
             string text = size.ToInvariantString();
             context.Write(node, text);
         }
+
+        //=================================================
+
+        private static void Search(PftContext context, PftNode node, string expression)
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                int[] foundMfns = context.Environment.Search(expression);
+                if (foundMfns.Length != 0)
+                {
+                    string[] foundLines = foundMfns.Select
+                        (
+                            item => item.ToInvariantString()
+                        )
+                        .ToArray();
+                    string output = string.Join
+                        (
+                            global::System.Environment.NewLine,
+                            foundLines
+                        );
+                    context.Write(node, output);
+                }
+            }
+        }
+
+        //=================================================
 
         private static void Sort(PftContext context, PftNode node, string expression)
         {
@@ -348,6 +445,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                     )
                 );
         }
+
+        //=================================================
 
         private static void System(PftContext context, PftNode node, string expression)
         {
@@ -388,6 +487,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
+        //=================================================
+
         private static void Today(PftContext context, PftNode node, string expression)
         {
             DateTime today = DateTime.Today;
@@ -411,6 +512,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             context.Write(node, output);
         }
 
+        //=================================================
+
         private static void ToLower(PftContext context, PftNode node, string expression)
         {
             if (!string.IsNullOrEmpty(expression))
@@ -419,6 +522,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
+        //=================================================
+
         private static void ToUpper(PftContext context, PftNode node, string expression)
         {
             if (!string.IsNullOrEmpty(expression))
@@ -426,6 +531,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 context.Write(node, expression.ToUpper());
             }
         }
+
+        //=================================================
 
         private static void Trace(PftContext context, PftNode node, string expression)
         {
@@ -437,6 +544,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 #endif
         }
 
+        //=================================================
+
         private static void Trim(PftContext context, PftNode node, string expression)
         {
             if (!string.IsNullOrEmpty(expression))
@@ -444,6 +553,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 context.Write(node, expression.Trim());
             }
         }
+
+        //=================================================
 
         private static void Warn(PftContext context, PftNode node, string expression)
         {
@@ -456,6 +567,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Public methods
+
+        //=================================================
 
         internal static void Register()
         {
@@ -476,12 +589,14 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("include", Include);
             reg.Add("italic", Italic);
             reg.Add("len", Len);
+            reg.Add("loadRecord", LoadRecord);
             reg.Add("machinename", MachineName);
             reg.Add("nocc", NOcc);
             reg.Add("now", Now);
             reg.Add("npost", NPost);
             reg.Add("osversion", OsVersion);
             reg.Add("size", Size);
+            reg.Add("search", Search);
             reg.Add("sort", Sort);
             reg.Add("system", System);
             reg.Add("today", Today);

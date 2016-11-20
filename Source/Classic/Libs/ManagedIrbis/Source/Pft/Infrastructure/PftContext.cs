@@ -9,13 +9,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Client;
 using ManagedIrbis.Pft.Infrastructure.Ast;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
-using ManagedIrbis.Pft.Infrastructure.Environment;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -37,7 +39,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Environment.
         /// </summary>
         [NotNull]
-        public PftEnvironmentAbstraction Environment { get; private set; }
+        //public PftEnvironmentAbstraction Environment { get; private set; }
+        public AbstractClient Environment { get; private set; }
 
         /// <summary>
         /// –одительский контекст.
@@ -144,6 +147,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         [CanBeNull]
         public PftDebugger Debugger { get; set; }
 
+        /// <summary>
+        /// Post processing flags.
+        /// </summary>
+        public PftCleanup PostProcessing { get; set; }
+
         #endregion
 
         #region Construction
@@ -158,23 +166,26 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             _parent = parent;
 
-            Environment = new PftLocalEnvironment();
+            Environment = ReferenceEquals(parent, null)
+                //? new PftLocalEnvironment()
+                ? new LocalClient()
+                : parent.Environment;
 
-            PftOutput parentBuffer = (parent == null)
+            PftOutput parentBuffer = parent == null
                 ? null
                 : parent.Output;
 
             Output = new PftOutput(parentBuffer);
 
-            Globals = parent == null
+            Globals = ReferenceEquals(parent, null)
                 ? new PftGlobalManager()
                 : parent.Globals;
 
-            Variables = (parent == null)
+            Variables = ReferenceEquals(parent, null)
                 ? new PftVariableManager(null)
                 : parent.Variables;
 
-            Procedures = parent == null
+            Procedures = ReferenceEquals(parent, null)
                 ? new PftProcedureManager()
                 : parent.Procedures;
 
@@ -185,11 +196,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                 Index = parent.Index;
             }
 
-            Record = parent == null
+            Record = ReferenceEquals(parent, null)
                 ? new MarcRecord()
                 : parent.Record;
 
-            Connection = parent == null
+            Connection = ReferenceEquals(parent, null)
                 ? new IrbisConnection()
                 : parent.Connection;
 
@@ -205,6 +216,27 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Activate debugger (if attached).
+        /// </summary>
+        public void ActivateDebugger
+        (
+            [NotNull] PftNode node
+        )
+        {
+            Code.NotNull(node, "node");
+
+            if (!ReferenceEquals(Debugger, null))
+            {
+                PftDebugEventArgs args = new PftDebugEventArgs
+                (
+                    this,
+                    node
+                );
+                Debugger.Activate(args);
+            }
+        }
 
         /// <summary>
         /// ѕолна€ очистка всех потоков: и основного,
@@ -271,6 +303,47 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// ¬ычисление выражени€ во временной копии контекста.
+        /// </summary>
+        [NotNull]
+        public string Evaluate
+            (
+                [NotNull] PftNode node
+            )
+        {
+            Code.NotNull(node, "node");
+
+            PftContext copy = Push();
+            node.Execute(copy);
+            string result = copy.ToString();
+            Pop();
+
+            return result;
+        }
+
+        /// <summary>
+        /// ¬ычисление выражени€ во временной копии контекста.
+        /// </summary>
+        [NotNull]
+        public string Evaluate
+            (
+                [NotNull] IEnumerable<PftNode> items
+            )
+        {
+            Code.NotNull(items, "items");
+
+            PftContext copy = Push();
+            foreach (PftNode node in items)
+            {
+                node.Execute(copy);
+            }
+            string result = copy.ToString();
+            Pop();
+
+            return result;
+        }
+
+        /// <summary>
         /// Execute the nodes.
         /// </summary>
         public void Execute
@@ -285,6 +358,53 @@ namespace ManagedIrbis.Pft.Infrastructure
                     node.Execute(this);
                 }
             }
+        }
+
+        /// <summary>
+        /// Get processed output.
+        /// </summary>
+        [NotNull]
+        public string GetProcessedOutput()
+        {
+            string result = Output.Text;
+
+            if ((PostProcessing & PftCleanup.Rtf) != 0)
+            {
+                result = RichTextStripper.StripRichTextFormat(result);
+            }
+
+            if ((PostProcessing & PftCleanup.Html) != 0)
+            {
+                result = HtmlText.HtmlToPlainText(result);
+            }
+
+            if ((PostProcessing & PftCleanup.DoubleText) != 0)
+            {
+                result = IrbisText.CleanupText(result);
+            }
+
+            if (ReferenceEquals(result, null))
+            {
+                result = string.Empty;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get root context.
+        /// </summary>
+        [NotNull]
+        public PftContext GetRootContext()
+        {
+            PftContext result = this;
+
+            while (!ReferenceEquals(result.Parent, null))
+            {
+                result = result.Parent;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -315,12 +435,27 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public void SetEnvironment
             (
-                [NotNull] PftEnvironmentAbstraction environment
+                //[NotNull] PftEnvironmentAbstraction environment
+                [NotNull] AbstractClient environment
             )
         {
             Code.NotNull(environment, "environment");
 
             Environment = environment;
+        }
+
+        /// <summary>
+        /// Set variables.
+        /// </summary>
+        /// <param name="variables"></param>
+        public void SetVariables
+            (
+                [NotNull] PftVariableManager variables
+            )
+        {
+            Code.NotNull(variables, "variables");
+
+            Variables = variables;
         }
 
         /// <summary>
@@ -410,47 +545,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             Output.WriteLine();
 
             return this;
-        }
-
-        /// <summary>
-        /// ¬ычисление выражени€ во временной копии контекста.
-        /// </summary>
-        [NotNull]
-        public string Evaluate
-            (
-                [NotNull] PftNode node
-            )
-        {
-            Code.NotNull(node, "node");
-
-            PftContext copy = Push();
-            node.Execute(copy);
-            string result = copy.ToString();
-            Pop();
-
-            return result;
-        }
-
-        /// <summary>
-        /// ¬ычисление выражени€ во временной копии контекста.
-        /// </summary>
-        [NotNull]
-        public string Evaluate
-            (
-                [NotNull] IEnumerable<PftNode> items
-            )
-        {
-            Code.NotNull(items, "items");
-
-            PftContext copy = Push();
-            foreach (PftNode node in items)
-            {
-                node.Execute(copy);
-            }
-            string result = copy.ToString();
-            Pop();
-
-            return result;
         }
 
         #endregion

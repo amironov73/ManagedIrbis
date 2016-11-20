@@ -36,6 +36,11 @@
 				<Begin>&#x221F;</Begin>
 				<End>&#x2194;</End>
 			</Span>
+			<Span name = "Eat" bold = "false" italic = "false" color = "Gray" stopateol = "true">
+				<Begin>[[[</Begin>
+				<End>]]]</End>
+			</Span>
+
 
       <Span name = "LineComment"  bold = "false" italic = "false" color = "Red" stopateol = "true">
         <Begin>/*</Begin>
@@ -44,11 +49,13 @@
                 <Key word = "a" />
                 <Key word = "abs" />
                 <Key word = "and" />
+                <Key word = "blank" />
                 <Key word = "break" />
                 <Key word = "ceil" />
                 <Key word = "div" />
                 <Key word = "do" />
                 <Key word = "else" />
+                <Key word = "empty" />
                 <Key word = "end" />
                 <Key word = "f" />
                 <Key word = "f2" />
@@ -57,6 +64,8 @@
                 <Key word = "for" />
                 <Key word = "foreach" />
                 <Key word = "frac" />
+                <Key word = "from" />
+                <Key word = "have" />
                 <Key word = "if" />
                 <Key word = "in" />
                 <Key word = "l" />
@@ -69,6 +78,7 @@
                 <Key word = "mpu" />
                 <Key word = "not" />
                 <Key word = "or" />
+                <Key word = "order" />
                 <Key word = "p" />
                 <Key word = "pow" />
                 <Key word = "proc" />
@@ -79,12 +89,14 @@
                 <Key word = "round" />
                 <Key word = "rsum" />
                 <Key word = "s" />
+                <Key word = "select" />
                 <Key word = "sign" />
                 <Key word = "then" />
                 <Key word = "trunc" />
                 <Key word = "uf" />
                 <Key word = "unifor" />
                 <Key word = "val" />
+                <Key word = "where" />
                 <Key word = "while" />
 	</KeyWords>
 		</RuleSet>

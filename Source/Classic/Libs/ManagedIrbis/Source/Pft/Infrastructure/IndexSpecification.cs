@@ -37,9 +37,15 @@ namespace ManagedIrbis.Pft.Infrastructure
         public IndexKind Kind { get; set; }
 
         /// <summary>
-        /// Index itself.
+        /// Index specified by literal.
         /// </summary>
-        public int Index { get; set; }
+        public int Literal { get; set; }
+
+        /// <summary>
+        /// Index specified by expression.
+        /// </summary>
+        [CanBeNull]
+        public string Expression { get; set; }
 
         #endregion
 

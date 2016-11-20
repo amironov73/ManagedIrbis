@@ -1,4 +1,5 @@
 ﻿proc SayHello
+do
     'Hello, ', $arg, '!'
     #
 end

@@ -174,6 +174,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             PftNodeInfo result = new PftNodeInfo
             {
+                Node = this,
                 Name = "ForEach"
             };
 

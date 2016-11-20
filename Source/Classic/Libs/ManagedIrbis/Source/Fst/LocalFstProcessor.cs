@@ -18,8 +18,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
 using ManagedIrbis.Pft.Infrastructure;
-using ManagedIrbis.Pft.Infrastructure.Environment;
 
 using MoonSharp.Interpreter;
 
@@ -39,7 +39,8 @@ namespace ManagedIrbis.Fst
         /// <summary>
         /// Environment.
         /// </summary>
-        public PftEnvironmentAbstraction Environment { get; private set; }
+        //public PftEnvironmentAbstraction Environment { get; private set; }
+        public AbstractClient Environment { get; private set; }
 
         #endregion
 
@@ -57,8 +58,13 @@ namespace ManagedIrbis.Fst
             Code.NotNullNorEmpty(rootPath, "rootPath");
             Code.NotNullNorEmpty(database, "database");
 
-            PftLocalEnvironment environment
-                = new PftLocalEnvironment(rootPath)
+            //PftLocalEnvironment environment
+            //    = new PftLocalEnvironment(rootPath)
+            //    {
+            //        Database = database
+            //    };
+            LocalClient environment
+                = new LocalClient(rootPath)
                 {
                     Database = database
                 };

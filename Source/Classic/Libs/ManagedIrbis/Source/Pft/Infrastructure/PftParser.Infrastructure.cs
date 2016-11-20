@@ -39,7 +39,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         // Service variables
         //================================================================
 
-        private bool _inAssignment, _inProcedure;
+        private bool _inAssignment, _inProcedure, _inLoop, _inGroup;
 
         private PftProcedureManager _procedures;
 
@@ -181,7 +181,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         [NotNull]
         private PftNode ParseNext()
         {
-            PftNode result = Get(MainMap, SimpleTokens);
+            PftNode result = Get(MainModeMap, MainModeItems);
 
             if (!ReferenceEquals(result, null))
             {

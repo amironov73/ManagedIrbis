@@ -34,17 +34,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
     partial class PftParser
     {
-
-        private static PftTokenKind[] _comparisonStop =
-        {
-            PftTokenKind.Less, PftTokenKind.LessEqual,
-            PftTokenKind.More, PftTokenKind.MoreEqual,
-            PftTokenKind.Equals, PftTokenKind.NotEqual1,
-            PftTokenKind.NotEqual2,
-
-            PftTokenKind.Colon, PftTokenKind.Tilda
-        };
-
         private PftComparison ParseComparison()
         {
             PftComparison result = new PftComparison(Tokens.Current);
@@ -122,6 +111,18 @@ namespace ManagedIrbis.Pft.Infrastructure
                 not.InnerCondition = ParseCondition();
                 result = not;
             }
+            else if (token.Kind == PftTokenKind.Have)
+            {
+                result = ParseHave();
+            }
+            else if (token.Kind == PftTokenKind.Empty)
+            {
+                result = ParseEmpty();
+            }
+            else if (token.Kind == PftTokenKind.Blank)
+            {
+                result = ParseBlank();
+            }
             else if (token.Kind == PftTokenKind.LeftParenthesis)
             {
                 PftConditionParenthesis parenthesis
@@ -155,7 +156,26 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private PftCondition ParseCondition()
         {
-            PftCondition result = _ParseCondition();
+            PftCondition result;
+
+            PftTokenList conditionTokens = Tokens.Segment
+                (
+                    _parenthesisOpen,
+                    _parenthesisClose,
+                    _andStop
+                );
+            if (ReferenceEquals(conditionTokens, null))
+            {
+                result = _ParseCondition();
+
+                return result;
+            }
+
+            result = (PftCondition) ChangeContext
+                (
+                    conditionTokens,
+                    _ParseCondition
+                );
 
             while (!Tokens.IsEof)
             {
@@ -170,7 +190,23 @@ namespace ManagedIrbis.Pft.Infrastructure
                         Operation = token.Text
                     };
                     Tokens.RequireNext();
-                    PftCondition right = _ParseCondition();
+
+                    PftCondition right;
+
+                    conditionTokens = Tokens.Segment(_andStop);
+                    if (ReferenceEquals(conditionTokens, null))
+                    {
+                        right = _ParseCondition();
+                    }
+                    else
+                    {
+                        right = (PftCondition) ChangeContext
+                            (
+                                conditionTokens,
+                                _ParseCondition
+                            );
+                    }
+
                     andOr.RightOperand = right;
                     result = andOr;
                 }

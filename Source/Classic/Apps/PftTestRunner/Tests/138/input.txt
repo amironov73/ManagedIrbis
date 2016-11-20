@@ -1,0 +1,2 @@
+﻿if empty('Hello') then 'Empty' else 'Not empty' fi/
+if empty(v500) then 'Empty' else 'Not empty' fi/

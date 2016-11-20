@@ -70,6 +70,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             (
                 [NotNull] PftToken token
             )
+            : base(token)
         {
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.Identifier);
@@ -142,14 +143,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             PftNodeInfo result = new PftNodeInfo
             {
+                Node = this,
                 Name = SimplifyTypeName(GetType().Name)
             };
+            
             PftNodeInfo name = new PftNodeInfo
             {
                 Name = "Name",
                 Value = Name
             };
             result.Children.Add(name);
+
             PftNodeInfo arguments = new PftNodeInfo
             {
                 Name = "Arguments"

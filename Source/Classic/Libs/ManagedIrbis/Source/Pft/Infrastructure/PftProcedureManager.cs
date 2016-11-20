@@ -69,6 +69,30 @@ namespace ManagedIrbis.Pft.Infrastructure
         #region Public methods
 
         /// <summary>
+        /// Execute the procedure.
+        /// </summary>
+        public void Execute
+            (
+                [NotNull] PftContext context,
+                [NotNull] string name,
+                [CanBeNull] string argument
+            )
+        {
+            Code.NotNull(context, "context");
+            Code.NotNullNorEmpty(name, "name");
+
+            PftProcedure procedure = FindProcedure(name);
+            if (!ReferenceEquals(procedure, null))
+            {
+                procedure.Execute
+                    (
+                        context,
+                        argument
+                    );
+            }
+        }
+
+        /// <summary>
         /// Find specified procedure.
         /// </summary>
         [CanBeNull]
@@ -86,17 +110,19 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
-        /// Execute the procedure.
+        /// Have procedure with given name?
         /// </summary>
-        public void Execute
+        public bool HaveProcedure
             (
-                [NotNull] PftContext context,
-                [NotNull] string name,
-                [CanBeNull] string argument
+                [NotNull] string name
             )
         {
-            Code.NotNull(context, "context");
             Code.NotNullNorEmpty(name, "name");
+
+            PftProcedure result;
+            Registry.TryGetValue(name, out result);
+
+            return !ReferenceEquals(result, null);
         }
 
         #endregion

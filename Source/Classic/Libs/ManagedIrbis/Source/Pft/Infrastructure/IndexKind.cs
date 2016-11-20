@@ -17,14 +17,14 @@ namespace ManagedIrbis.Pft.Infrastructure
         None,
 
         /// <summary>
-        /// Ordinary index.
+        /// Specified by literal.
         /// </summary>
-        Ordinary,
+        Literal,
 
         /// <summary>
-        /// Reverse index.
+        /// Specified by expression.
         /// </summary>
-        Reverse,
+        Expression,
 
         /// <summary>
         /// Last repeat.

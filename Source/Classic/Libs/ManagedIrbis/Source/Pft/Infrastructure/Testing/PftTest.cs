@@ -20,8 +20,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
 using ManagedIrbis.ImportExport;
-using ManagedIrbis.Pft.Infrastructure.Environment;
 
 using MoonSharp.Interpreter;
 
@@ -66,7 +66,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         /// Environment.
         /// </summary>
         [CanBeNull]
-        public PftEnvironmentAbstraction Environment { get; set; }
+        //public PftEnvironmentAbstraction Environment { get; set; }
+        public AbstractClient Environment { get; set; }
 
         /// <summary>
         /// Folder name.

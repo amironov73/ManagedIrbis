@@ -69,9 +69,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Constructor.
         /// </summary>
         public PftMfn
-        (
-            int width
-        )
+            (
+                int width
+            )
         {
             Code.Nonnegative(width, "width");
 
@@ -82,9 +82,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Constructor.
         /// </summary>
         public PftMfn
-        (
-            [NotNull] PftToken token
-        )
+            (
+                [NotNull] PftToken token
+            )
+            : base(token)
         {
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.Mfn);

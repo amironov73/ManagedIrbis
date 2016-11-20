@@ -137,6 +137,7 @@
     <Compile Include="AM\DisposableUtilityTest.cs" />
     <Compile Include="AM\DuplicateKeyExceptionTest.cs" />
     <Compile Include="AM\ExceptionEventArgsTest.cs" />
+    <Compile Include="AM\Text\RichTextStripperTest.cs" />
     <Compile Include="ManagedIrbis\Gbl\GblFileTest.cs" />
     <Compile Include="AM\Globalization\BuiltinCulturesTest.cs" />
     <Compile Include="AM\Globalization\RussianStringComparerTest.cs" />
@@ -269,6 +270,7 @@
     <Compile Include="ManagedIrbis\FieldTagTest.cs" />
     <Compile Include="ManagedIrbis\FieldValueTest.cs" />
     <Compile Include="ManagedIrbis\ConnectionSettingsTest.cs" />
+    <Compile Include="ManagedIrbis\IrbisTextTest.cs" />
     <Compile Include="ManagedIrbis\Worksheet\WsFileTest.cs" />
     <Compile Include="ManagedIrbis\Worksheet\WssFileTest.cs" />
     <Compile Include="ManagedIrbis\Worksheet\WorksheetItemTest.cs" />

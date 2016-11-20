@@ -127,6 +127,56 @@ namespace ManagedIrbis.Client
         #region AbstractClient members
 
         /// <inheritdoc/>
+        public override int GetMaxMfn()
+        {
+            int result = 0;
+
+            DirectReader64 reader = null;
+            try
+            {
+                reader = _GetReader();
+                if (reader != null)
+                {
+                    result = reader.GetMaxMfn();
+                }
+            }
+            // ReSharper disable once EmptyGeneralCatchClause
+            catch
+            {
+                // Nothing to do actually
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Dispose();
+                }
+            }
+
+            return result;
+        }
+
+        /// <inheritdoc/>
+        public override DatabaseInfo[] ListDatabases()
+        {
+            string fileName = Path.Combine
+                (
+                    DataPath,
+                    "dbnam1.mnu"
+                );
+
+            string[] lines = File.ReadAllLines
+                (
+                    fileName,
+                    IrbisEncoding.Ansi
+                );
+
+            DatabaseInfo[] result = DatabaseInfo.ParseMenu(lines);
+
+            return result;
+        }
+
+        /// <inheritdoc/>
         public override string ReadFile
             (
                 FileSpecification fileSpecification
@@ -203,6 +253,53 @@ namespace ManagedIrbis.Client
                 if (reader != null)
                 {
                     result = reader.ReadRecord(mfn);
+                }
+            }
+            // ReSharper disable once EmptyGeneralCatchClause
+            catch
+            {
+                // Nothing to do actually
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Dispose();
+                }
+            }
+
+            return result;
+        }
+
+        /// <inheritdoc/>
+        public override MarcRecord ReadRecordVersion
+            (
+                int mfn,
+                int version
+            )
+        {
+            if (mfn <= 0)
+            {
+                return null;
+            }
+
+            MarcRecord result = null;
+            DirectReader64 reader = null;
+            try
+            {
+                reader = _GetReader();
+                if (reader != null)
+                {
+                    MarcRecord[] versions = reader.ReadAllRecordVersions(mfn);
+                    int index = version;
+                    if (version < 0)
+                    {
+                        index = versions.Length + version;
+                    }
+                    if (index >= 0 && index < versions.Length)
+                    {
+                        result = versions[index];
+                    }
                 }
             }
             // ReSharper disable once EmptyGeneralCatchClause

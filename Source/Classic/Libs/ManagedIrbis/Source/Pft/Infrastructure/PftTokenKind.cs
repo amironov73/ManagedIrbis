@@ -47,6 +47,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         Bang,
 
         /// <summary>
+        /// blank
+        /// </summary>
+        Blank,
+
+        /// <summary>
         /// break
         /// </summary>
         Break,
@@ -92,9 +97,24 @@ namespace ManagedIrbis.Pft.Infrastructure
         Do,
 
         /// <summary>
+        /// ]]]
+        /// </summary>
+        EatClose,
+
+        /// <summary>
+        /// [[[
+        /// </summary>
+        EatOpen,
+
+        /// <summary>
         /// else
         /// </summary>
         Else,
+
+        /// <summary>
+        /// empty
+        /// </summary>
+        Empty,
 
         /// <summary>
         /// end
@@ -142,6 +162,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         Frac,
 
         /// <summary>
+        /// from
+        /// </summary>
+        From,
+
+        /// <summary>
         /// #
         /// </summary>
         Hash,
@@ -150,6 +175,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// ^
         /// </summary>
         Hat,
+
+        /// <summary>
+        /// have
+        /// </summary>
+        Have,
 
         /// <summary>
         /// identifier
@@ -252,6 +282,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         Or,
 
         /// <summary>
+        /// order
+        /// </summary>
+        Order,
+
+        /// <summary>
         /// p(v200)
         /// </summary>
         P,
@@ -337,6 +372,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         S,
 
         /// <summary>
+        /// select
+        /// </summary>
+        Select,
+
+        /// <summary>
         /// ;
         /// </summary>
         Semicolon,
@@ -405,6 +445,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// $variable
         /// </summary>
         Variable,
+
+        /// <summary>
+        /// where
+        /// </summary>
+        Where,
 
         /// <summary>
         /// while

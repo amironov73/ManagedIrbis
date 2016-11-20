@@ -1,0 +1,1 @@
+﻿LINQ-like construction in assignment

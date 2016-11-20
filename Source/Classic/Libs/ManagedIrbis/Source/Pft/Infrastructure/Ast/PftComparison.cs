@@ -355,8 +355,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new PftSyntaxException(this);
             }
 
-            if (LeftOperand is PftNumeric
-                || RightOperand is PftNumeric)
+            bool leftNumeric = PftUtility.IsNumeric
+                (
+                    context,
+                    LeftOperand
+                );
+            bool rightNumeric = PftUtility.IsNumeric
+                (
+                    context,
+                    RightOperand
+                );
+
+            if (leftNumeric || rightNumeric)
             {
                 double leftValue = GetValue(context, LeftOperand);
                 double rightValue = GetValue(context, RightOperand);
@@ -389,6 +399,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             PftNodeInfo result = new PftNodeInfo
             {
+                Node = this,
                 Name = SimplifyTypeName(GetType().Name)
             };
 
@@ -396,6 +407,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 PftNodeInfo leftNode = new PftNodeInfo
                 {
+                    Node = LeftOperand,
                     Name = "Left"
                 };
                 result.Children.Add(leftNode);
@@ -416,6 +428,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 PftNodeInfo rightNode = new PftNodeInfo
                 {
+                    Node = RightOperand,
                     Name = "Right"
                 };
                 result.Children.Add(rightNode);

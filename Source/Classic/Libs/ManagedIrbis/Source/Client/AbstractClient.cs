@@ -78,14 +78,31 @@ namespace ManagedIrbis.Client
         }
 
         /// <summary>
+        /// Get maximal MFN.
+        /// </summary>
+        public virtual int GetMaxMfn()
+        {
+            return 0;
+        }
+
+        /// <summary>
         /// Get user server INI-file.
         /// </summary>
-        /// <returns></returns>
+        [NotNull]
         public virtual IniFile GetUserIniFile()
         {
             IniFile result = new IniFile();
 
             return result;
+        }
+
+        /// <summary>
+        /// List databases.
+        /// </summary>
+        [NotNull]
+        public virtual DatabaseInfo[] ListDatabases()
+        {
+            return new DatabaseInfo[0];
         }
 
         /// <summary>
@@ -156,6 +173,19 @@ namespace ManagedIrbis.Client
         public virtual MarcRecord ReadRecord
             (
                 int mfn
+            )
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Read record version.
+        /// </summary>
+        [CanBeNull]
+        public virtual MarcRecord ReadRecordVersion
+            (
+                int mfn,
+                int version
             )
         {
             return null;

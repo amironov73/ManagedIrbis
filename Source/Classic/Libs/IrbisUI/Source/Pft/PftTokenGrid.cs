@@ -41,6 +41,37 @@ namespace IrbisUI
     public partial class PftTokenGrid
         : UserControl
     {
+        #region Events
+
+        /// <summary>
+        /// Cell double click.
+        /// </summary>
+        public event EventHandler CellDoubleClick;
+
+        #endregion
+
+        #region Properites
+
+        /// <summary>
+        /// Selected token.
+        /// </summary>
+        [CanBeNull]
+        public PftToken SelectedToken
+        {
+            get
+            {
+                DataGridViewRow row = _grid.CurrentRow;
+                if (ReferenceEquals(row, null))
+                {
+                    return null;
+                }
+
+                return row.DataBoundItem as PftToken;
+            }
+        }
+
+        #endregion
+
         #region Construction
 
         /// <summary>
@@ -49,6 +80,21 @@ namespace IrbisUI
         public PftTokenGrid()
         {
             InitializeComponent();
+
+            _grid.CellDoubleClick += _grid_CellDoubleClick;
+        }
+
+        #endregion
+
+        #region Private members
+
+        void _grid_CellDoubleClick
+            (
+                object sender,
+                DataGridViewCellEventArgs e
+            )
+        {
+            CellDoubleClick.Raise(this);
         }
 
         #endregion

@@ -202,6 +202,7 @@
     <Compile Include="AM\Runtime\PrefixLength.cs" />
     <Compile Include="AM\Runtime\SerializationUtility.cs" />
     <Compile Include="AM\Runtime\Singleton.cs" />
+    <Compile Include="AM\Text\HtmlText.cs" />
     <Compile Include="AM\Text\Hyphenation\EnglishHyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\Hyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\RussianHyphenator.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="AM\Text\Output\StreamOutput.cs" />
     <Compile Include="AM\Text\Output\TextOutput.cs" />
     <Compile Include="AM\Text\Output\TimestampedOutput.cs" />
+    <Compile Include="AM\Text\RichTextStripper.cs" />
     <Compile Include="AM\Text\RussianFormat.cs" />
     <Compile Include="AM\Text\StreamParser.cs" />
     <Compile Include="AM\Text\TextKind.cs" />
