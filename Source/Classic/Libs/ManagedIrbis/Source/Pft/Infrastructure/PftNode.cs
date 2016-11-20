@@ -210,6 +210,14 @@ namespace ManagedIrbis.Pft.Infrastructure
                     );
                 handler(this, eventArgs);
             }
+
+            if (Breakpoint)
+            {
+                if (!ReferenceEquals(context, null))
+                {
+                    context.ActivateDebugger(this);
+                }
+            }
         }
 
         /// <summary>

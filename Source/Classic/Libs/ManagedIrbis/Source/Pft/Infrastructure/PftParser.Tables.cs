@@ -122,7 +122,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenKind.Proc,
 
-            PftTokenKind.EatOpen
+            PftTokenKind.EatOpen,
+
+            PftTokenKind.Bang
         };
 
         // ================================================================
@@ -133,6 +135,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 {PftTokenKind.A, ParseA},
                 {PftTokenKind.At, ParseAt},
+                {PftTokenKind.Bang, ParseBang},
                 {PftTokenKind.Break, ParseBreak},
                 {PftTokenKind.C, ParseC},
                 {PftTokenKind.Comma, ParseComma},

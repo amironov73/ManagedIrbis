@@ -273,6 +273,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftA.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftAbs.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftAssignment.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftBang.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftBlank.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftBoolean.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftBreak.cs" />

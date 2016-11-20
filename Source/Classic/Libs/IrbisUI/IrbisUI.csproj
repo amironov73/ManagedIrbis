@@ -170,34 +170,41 @@
     <Compile Include="Source\MenuForm.Designer.cs">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\PftEditorControl.cs">
+    <Compile Include="Source\Pft\PftEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Source\PftGlobalGrid.cs">
+    <Compile Include="Source\Pft\PftGlobalGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Source\PftGlobalGrid.Designer.cs">
+    <Compile Include="Source\Pft\PftGlobalGrid.Designer.cs">
       <DependentUpon>PftGlobalGrid.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\PftSyntaxModeProvider.cs" />
-    <Compile Include="Source\PftTokenGrid.cs">
+    <Compile Include="Source\Pft\PftSyntaxModeProvider.cs" />
+    <Compile Include="Source\Pft\PftTokenGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Source\PftTokenGrid.Designer.cs">
+    <Compile Include="Source\Pft\PftTokenGrid.Designer.cs">
       <DependentUpon>PftTokenGrid.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\PftTreeView.cs">
+    <Compile Include="Source\Pft\PftTreeView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Source\PftTreeView.Designer.cs">
+    <Compile Include="Source\Pft\PftTreeView.Designer.cs">
       <DependentUpon>PftTreeView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\PftVariableGrid.cs">
+    <Compile Include="Source\Pft\PftVariableGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Source\PftVariableGrid.Designer.cs">
+    <Compile Include="Source\Pft\PftVariableGrid.Designer.cs">
       <DependentUpon>PftVariableGrid.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\Pft\PftDebuggerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Pft\PftDebuggerForm.Designer.cs">
+      <DependentUpon>PftDebuggerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Pft\PftUiDebugger.cs" />
     <Compile Include="Source\PreviewPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -284,17 +291,20 @@
     <EmbeddedResource Include="Source\MenuForm.resx">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\PftGlobalGrid.resx">
+    <EmbeddedResource Include="Source\Pft\PftGlobalGrid.resx">
       <DependentUpon>PftGlobalGrid.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\PftTokenGrid.resx">
+    <EmbeddedResource Include="Source\Pft\PftTokenGrid.resx">
       <DependentUpon>PftTokenGrid.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\PftTreeView.resx">
+    <EmbeddedResource Include="Source\Pft\PftTreeView.resx">
       <DependentUpon>PftTreeView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\PftVariableGrid.resx">
+    <EmbeddedResource Include="Source\Pft\PftVariableGrid.resx">
       <DependentUpon>PftVariableGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Pft\PftDebuggerForm.resx">
+      <DependentUpon>PftDebuggerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Source\PreviewPanel.resx">
       <DependentUpon>PreviewPanel.cs</DependentUpon>

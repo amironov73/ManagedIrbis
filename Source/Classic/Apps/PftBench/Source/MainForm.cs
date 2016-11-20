@@ -23,6 +23,7 @@ using CodeJam;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
 using IrbisUI;
+using IrbisUI.Pft;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
@@ -95,6 +96,10 @@ namespace PftBench
             {
                 Program = _program
             };
+
+            PftUiDebugger debugger
+                = new PftUiDebugger(formatter.Context);
+            formatter.Context.Debugger = debugger;
 
             DatabaseInfo database = _databaseBox.SelectedItem
                 as DatabaseInfo;
@@ -332,7 +337,7 @@ namespace PftBench
         private void _pftTreeView_CurrentNodeChanged
             (
                 object sender,
-                EventArgs e
+                TreeViewEventArgs e
             )
         {
             PftNodeInfo currentNode = _pftTreeView.CurrentNode;
@@ -357,9 +362,36 @@ namespace PftBench
 
             TextLocation start = new TextLocation(column, line);
             TextLocation end = new TextLocation(column + text.Length, line);
-            TextAreaControl _editor = _pftBox.ActiveTextAreaControl;
-            _editor.SelectionManager.SetSelection(start, end);
-            _editor.Caret.Position = start;
+            TextAreaControl editor = _pftBox.ActiveTextAreaControl;
+            editor.SelectionManager.SetSelection(start, end);
+            editor.Caret.Position = start;
+        }
+
+        private void _pftTreeView_NodeChecked
+            (
+                object sender,
+                TreeViewEventArgs e
+            )
+        {
+            TreeNode treeNode = e.Node;
+            if (ReferenceEquals(treeNode, null))
+            {
+                return;
+            }
+
+            PftNodeInfo nodeInfo = treeNode.Tag as PftNodeInfo;
+            if (ReferenceEquals(nodeInfo, null))
+            {
+                return;
+            }
+
+            PftNode node = nodeInfo.Node;
+            if (ReferenceEquals(node, null))
+            {
+                return;
+            }
+
+            node.Breakpoint = treeNode.Checked;
         }
     }
 }

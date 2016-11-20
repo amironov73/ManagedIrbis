@@ -218,6 +218,27 @@ namespace ManagedIrbis.Pft.Infrastructure
         #region Public methods
 
         /// <summary>
+        /// Activate debugger (if attached).
+        /// </summary>
+        public void ActivateDebugger
+        (
+            [NotNull] PftNode node
+        )
+        {
+            Code.NotNull(node, "node");
+
+            if (!ReferenceEquals(Debugger, null))
+            {
+                PftDebugEventArgs args = new PftDebugEventArgs
+                (
+                    this,
+                    node
+                );
+                Debugger.Activate(args);
+            }
+        }
+
+        /// <summary>
         /// Полная очистка всех потоков: и основного,
         /// и предупреждений, и ошибок.
         /// </summary>
