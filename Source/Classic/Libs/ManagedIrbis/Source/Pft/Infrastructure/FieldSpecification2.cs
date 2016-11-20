@@ -101,6 +101,48 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Private members
 
+        private IndexSpecification _ParseIndex
+            (
+                [NotNull] TextNavigator navigator,
+                [NotNull] string text
+            )
+        {
+            text = text.Trim();
+            if (string.IsNullOrEmpty(text))
+            {
+                throw new PftSyntaxException(navigator);
+            }
+
+            IndexSpecification result = new IndexSpecification
+            {
+                Expression = text
+            };
+
+            if (text == "*")
+            {
+                result.Kind = IndexKind.LastRepeat;
+            }
+            else if (text == "+")
+            {
+                result.Kind = IndexKind.NewRepeat;
+            }
+            else
+            {
+                int index;
+                if (int.TryParse(text, out index))
+                {
+                    result.Kind = IndexKind.Literal;
+                    result.Literal = index;
+                }
+                else
+                {
+                    result.Kind = IndexKind.Expression;
+                }
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region Public methods
@@ -193,7 +235,31 @@ namespace ManagedIrbis.Pft.Infrastructure
                 Embedded = builder.ToString();
             } // c == '@'
 
-            // TODO here parse the field repeat
+            // c still is peeked char
+            if (c == '[')
+            {
+                // parse the field repeat
+                //
+                // TODO: handle nested []
+                //
+
+                navigator.ReadChar();
+
+                string text = navigator.ReadUntil(']');
+                if (ReferenceEquals(text, null))
+                {
+                    throw new PftSyntaxException(navigator);
+                }
+
+                FieldRepeat = _ParseIndex
+                    (
+                        navigator,
+                        text
+                    );
+
+                navigator.ReadChar();
+                c = navigator.PeekChar();
+            }
 
             // c still is peeked char
 
@@ -213,8 +279,32 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 c = navigator.PeekChar();
 
-                // TODO here parse subfield repeat
+                // parse subfield repeat
 
+                if (c == '[')
+                {
+                    // parse the field repeat
+                    //
+                    // TODO: handle nested []
+                    //
+
+                    navigator.ReadChar();
+
+                    string text = navigator.ReadUntil(']');
+                    if (ReferenceEquals(text, null))
+                    {
+                        throw new PftSyntaxException(navigator);
+                    }
+
+                    SubFieldRepeat = _ParseIndex
+                        (
+                            navigator,
+                            text
+                        );
+
+                    navigator.ReadChar();
+                    c = navigator.PeekChar();
+                }
             } // c == '^'
 
             if (Command != 'v')
