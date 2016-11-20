@@ -18,6 +18,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Ast;
 
 using MoonSharp.Interpreter;
@@ -64,6 +65,8 @@ namespace ManagedIrbis.Pft
             return result;
         }
 
+        //=================================================
+
         /// <summary>
         /// Whether one string contains another.
         /// </summary>
@@ -90,6 +93,8 @@ namespace ManagedIrbis.Pft
             return result;
         }
 
+        //=================================================
+
         /// <summary>
         /// Whether one string contains another.
         /// </summary>
@@ -112,6 +117,8 @@ namespace ManagedIrbis.Pft
 
             return result;
         }
+
+        //=================================================
 
         /// <summary>
         /// Extract numeric value from the input text.
@@ -151,6 +158,8 @@ namespace ManagedIrbis.Pft
 
             return result;
         }
+
+        //=================================================
 
         /// <summary>
         /// Extract numeric values from the input text.
@@ -192,6 +201,8 @@ namespace ManagedIrbis.Pft
             return result.ToArray();
         }
 
+        //=================================================
+
         /// <summary>
         /// Format for data mode.
         /// </summary>
@@ -227,6 +238,8 @@ namespace ManagedIrbis.Pft
 
             return result;
         }
+
+        //=================================================
 
         /// <summary>
         /// Format for header mode.
@@ -283,6 +296,8 @@ namespace ManagedIrbis.Pft
             return result.ToString();
         }
 
+        //=================================================
+
         /// <summary>
         /// Format field according to specified output mode.
         /// </summary>
@@ -323,6 +338,8 @@ namespace ManagedIrbis.Pft
 
             return result;
         }
+
+        //=================================================
 
         /// <summary>
         /// Format value like function f does.
@@ -373,6 +390,8 @@ namespace ManagedIrbis.Pft
 
             return result;
         }
+
+        //=================================================
 
         /// <summary>
         /// Get array of reserved words.
@@ -430,6 +449,69 @@ namespace ManagedIrbis.Pft
             };
         }
 
+        //=================================================
+
+        /// <summary>
+        /// Whether the node collection represents
+        /// numeric or string expression.
+        /// </summary>
+        public static bool IsNumeric
+            (
+                [NotNull] PftContext context,
+                [NotNull] IList<PftNode> nodes
+            )
+        {
+            Code.NotNull(context, "context");
+            Code.NotNull(nodes, "nodes");
+
+            if (nodes.Count == 0
+                || nodes.Count > 1)
+            {
+                return true;
+            }
+
+            return IsNumeric
+                (
+                    context,
+                    nodes[0]
+                );
+        }
+
+        //=================================================
+
+        /// <summary>
+        /// Heuristics: whether given node is
+        /// text or numeric.
+        /// </summary>
+        public static bool IsNumeric
+            (
+                [NotNull] PftContext context,
+                [NotNull] PftNode node
+            )
+        {
+            Code.NotNull(context, "context");
+            Code.NotNull(node, "node");
+
+            PftVariableReference reference = node as PftVariableReference;
+            if (!ReferenceEquals(reference, null)
+                && !ReferenceEquals(reference.Name, null))
+            {
+                PftVariable variable
+                    = context.Variables.GetExistingVariable(reference.Name);
+                if (!ReferenceEquals(variable, null))
+                {
+                    return variable.IsNumeric;
+                }
+
+                // TODO: some heuristic?
+                return false;
+            }
+
+            return node is PftNumeric;
+        }
+
+        //=================================================
+
         /// <summary>
         /// Prepare text for <see cref="PftUnconditionalLiteral"/>,
         /// <see cref="PftConditionalLiteral"/>,
@@ -452,6 +534,8 @@ namespace ManagedIrbis.Pft
 
             return result;
         }
+
+        //=================================================
 
         #endregion
     }
