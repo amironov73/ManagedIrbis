@@ -1,4 +1,4 @@
-﻿/* FieldSpecification -- field/subfield specifcation.cs --
+﻿/* FieldSpecification -- field/subfield specification.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -100,6 +100,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Private members
+
+        private static char[] _openChars = { '(' };
+        private static char[] _closeChars = { ')' };
+        private static char[] _stopChars = { ')' };
 
         private IndexSpecification _ParseIndex
             (
@@ -239,13 +243,15 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (c == '[')
             {
                 // parse the field repeat
-                //
-                // TODO: handle nested []
-                //
 
                 navigator.ReadChar();
 
-                string text = navigator.ReadUntil(']');
+                string text = navigator.ReadUntil
+                    (
+                        _openChars,
+                        _closeChars,
+                        _stopChars
+                    );
                 if (ReferenceEquals(text, null))
                 {
                     throw new PftSyntaxException(navigator);
@@ -284,13 +290,15 @@ namespace ManagedIrbis.Pft.Infrastructure
                 if (c == '[')
                 {
                     // parse the field repeat
-                    //
-                    // TODO: handle nested []
-                    //
 
                     navigator.ReadChar();
 
-                    string text = navigator.ReadUntil(']');
+                    string text = navigator.ReadUntil
+                        (
+                            _openChars,
+                            _closeChars,
+                            _stopChars
+                        );
                     if (ReferenceEquals(text, null))
                     {
                         throw new PftSyntaxException(navigator);
@@ -407,7 +415,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     );
             } // c == '('
 
-DONE:
+            DONE:
             int length = navigator.Position - start;
             RawText = navigator.Substring(start, length);
 
