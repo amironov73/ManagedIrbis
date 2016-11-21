@@ -111,10 +111,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         [CanBeNull]
-        private FieldSpecification2 ReadField()
+        private FieldSpecification ReadField()
         {
             //FieldSpecification result = new FieldSpecification();
-            FieldSpecification2 result = new FieldSpecification2();
+            FieldSpecification result = new FieldSpecification();
 
             TextPosition position = _navigator.SavePosition();
             _navigator.Move(-1);
@@ -327,7 +327,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 char c2, c3;
                 string value = null;
                 string value2;
-                FieldSpecification2 field = null;
+                FieldSpecification field = null;
                 PftTokenKind kind = PftTokenKind.None;
                 switch (c)
                 {

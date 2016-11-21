@@ -339,7 +339,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftX.cs" />
     <Compile Include="Source\Pft\Infrastructure\Diagnostics\PftDebugger.cs" />
     <Compile Include="Source\Pft\Infrastructure\Diagnostics\PftNodeInfo.cs" />
-    <Compile Include="Source\Pft\Infrastructure\FieldSpecification2.cs" />
+    <Compile Include="Source\Pft\Infrastructure\FieldSpecification.cs" />
     <Compile Include="Source\Pft\Infrastructure\FormatExit.cs" />
     <Compile Include="Source\Pft\Infrastructure\IFormatExit.cs" />
     <Compile Include="Source\Pft\Infrastructure\IndexKind.cs" />

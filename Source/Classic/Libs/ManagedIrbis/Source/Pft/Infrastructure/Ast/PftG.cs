@@ -73,7 +73,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             Code.NotNullNorEmpty(text, "text");
 
-            FieldSpecification2 specification = new FieldSpecification2();
+            FieldSpecification specification = new FieldSpecification();
             if (!specification.Parse(text))
             {
                 throw new PftSyntaxException();

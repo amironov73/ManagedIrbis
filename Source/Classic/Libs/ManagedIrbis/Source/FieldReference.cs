@@ -118,6 +118,16 @@ namespace ManagedIrbis
         [CanBeNull]
         public string Tag { get; set; }
 
+        /// <summary>
+        /// Field repeat.
+        /// </summary>
+        public IndexSpecification FieldRepeat { get; set; }
+
+        /// <summary>
+        /// Subfield repeat.
+        /// </summary>
+        public IndexSpecification SubFieldRepeat { get; set; }
+
         #endregion
 
         #region Construction
@@ -172,7 +182,7 @@ namespace ManagedIrbis
         /// </summary>
         public void Apply
             (
-                [NotNull] FieldSpecification2 specification
+                [NotNull] FieldSpecification specification
             )
         {
             Code.NotNull(specification, "specification");
@@ -180,6 +190,8 @@ namespace ManagedIrbis
             Command = specification.Command;
             Embedded = specification.Embedded;
             Indent = specification.ParagraphIndent;
+            FieldRepeat = specification.FieldRepeat;
+            SubFieldRepeat = specification.SubFieldRepeat;
             Offset = specification.Offset;
             Length = specification.Length;
             SubField = specification.SubField;
@@ -220,7 +232,7 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(specification, "specification");
 
-            FieldSpecification2 fs = new FieldSpecification2();
+            FieldSpecification fs = new FieldSpecification();
             fs.Parse(specification);
             FieldReference result = new FieldReference();
             result.Apply(fs);
@@ -242,6 +254,8 @@ namespace ManagedIrbis
         {
             Code.NotNull(reader, "reader");
 
+            // TODO handle FieldRepeat and SubFieldRepeat
+
             Command = reader.ReadChar();
             Embedded = reader.ReadNullableString();
             Indent = reader.ReadPackedInt32();
@@ -258,6 +272,8 @@ namespace ManagedIrbis
             )
         {
             Code.NotNull(writer, "writer");
+
+            // TODO handle FieldRepeat and SubFieldRepeat
 
             writer.Write(Command);
             writer

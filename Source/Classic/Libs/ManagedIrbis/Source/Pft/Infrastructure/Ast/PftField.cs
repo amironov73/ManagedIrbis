@@ -222,7 +222,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public void Apply
             (
-                [NotNull] FieldSpecification2 specification
+                [NotNull] FieldSpecification specification
             )
         {
             Code.NotNull(specification, "specification");
@@ -257,6 +257,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Length = reference.Length;
             SubField = reference.SubField;
             Tag = reference.Tag;
+            FieldRepeat = reference.FieldRepeat;
+            SubFieldRepeat = reference.SubFieldRepeat;
 
             Text = reference.ToString();
         }
@@ -431,9 +433,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Convert to <see cref="FieldSpecification"/>.
         /// </summary>
         [NotNull]
-        public FieldSpecification2 ToSpecification()
+        public FieldSpecification ToSpecification()
         {
-            FieldSpecification2 result = new FieldSpecification2
+            FieldSpecification result = new FieldSpecification
             {
                 Command = Command,
                 Embedded = Embedded,

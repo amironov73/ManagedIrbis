@@ -124,38 +124,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (!ReferenceEquals(field, null))
             {
-                int index = context.Index;
-                //if (field.IndexFrom != 0)
-                //{
-                //    index = index + field.IndexFrom - 1;
-                //}
+                bool flag = field.HaveRepeat(context);
 
-                //int stop = int.MaxValue;
-                //if (field.IndexTo != 0)
-                //{
-                //    stop = field.IndexTo;
-                //}
+                if (flag && Plus)
+                {
+                    flag = IsPrefix
+                        ? !field.IsFirstRepeat(context)
+                        : !field.IsLastRepeat(context);
+                }
 
-                //if (index < stop)
-                //{
-                //    bool flag = field.HaveRepeat(context);
-
-                //    if (flag && Plus)
-                //    {
-                //        flag = IsPrefix
-                //            ? !field.IsFirstRepeat(context)
-                //            : !field.IsLastRepeat(context);
-                //    }
-
-                //    if (flag)
-                //    {
-                //        context.Write
-                //            (
-                //                this,
-                //                Text
-                //            );
-                //    }
-                //}
+                if (flag)
+                {
+                    string text = Text;
+                    if (context.UpperMode
+                        && !ReferenceEquals(text, null))
+                    {
+                        text = text.ToUpper();
+                    }
+                    context.Write(this, text);
+                }
             }
 
             OnAfterExecution(context);

@@ -122,8 +122,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                     throw new PftSyntaxException(token);
                 }
 
-                FieldSpecification2 specification
-                    = (FieldSpecification2)token.UserData;
+                FieldSpecification specification
+                    = (FieldSpecification)token.UserData;
                 if (ReferenceEquals(specification, null))
                 {
                     throw new PftSyntaxException(token);

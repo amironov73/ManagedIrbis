@@ -53,7 +53,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             Code.NotNullNorEmpty(text, "text");
 
-            FieldSpecification2 specification = new FieldSpecification2();
+            FieldSpecification specification = new FieldSpecification();
             if (!specification.Parse(text))
             {
                 throw new PftSyntaxException();
@@ -74,7 +74,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.V);
 
-            FieldSpecification2 specification = ((FieldSpecification2)token.UserData)
+            FieldSpecification specification = ((FieldSpecification)token.UserData)
                 .ThrowIfNull("token.UserData");
             Apply(specification);
         }

@@ -1,4 +1,4 @@
-﻿/* FieldSpecification.cs -- спецификация поля/подполя
+﻿/* FieldSpecification -- field/subfield specification.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -6,9 +6,12 @@
 
 #region Using directives
 
-using System.Diagnostics;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 using AM;
 using AM.Text;
@@ -24,40 +27,34 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure
 {
     /// <summary>
-    /// Спецификация поля/подполя.
+    /// Field/subfield specification.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    [DebuggerDisplay("{Command}{Tag}")]
     public sealed class FieldSpecification
     {
         #region Properties
 
         /// <summary>
-        /// Command.
+        /// Command code (must be lowercase).
         /// </summary>
         public char Command { get; set; }
 
         /// <summary>
-        /// Embedded.
+        /// Embedded field tag.
         /// </summary>
         [CanBeNull]
         public string Embedded { get; set; }
 
         /// <summary>
-        /// Отступ.
+        /// Красная строка.
         /// </summary>
-        public int Indent { get; set; }
+        public int FirstLine { get; set; }
 
         /// <summary>
-        /// Начальный номер повторения.
+        /// Общий абзацный отступ.
         /// </summary>
-        public int IndexFrom { get; set; }
-
-        /// <summary>
-        /// Конечный номер повторения.
-        /// </summary>
-        public int IndexTo { get; set; }
+        public int ParagraphIndent { get; set; }
 
         /// <summary>
         /// Смещение.
@@ -69,11 +66,20 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public int Length { get; set; }
 
+        /// <summary>
+        /// Field repeat.
+        /// </summary>
+        public IndexSpecification FieldRepeat { get; set; }
 
         /// <summary>
         /// Subfield.
         /// </summary>
         public char SubField { get; set; }
+
+        /// <summary>
+        /// Subfield repeat.
+        /// </summary>
+        public IndexSpecification SubFieldRepeat { get; set; }
 
         /// <summary>
         /// Tag.
@@ -82,10 +88,64 @@ namespace ManagedIrbis.Pft.Infrastructure
         public string Tag { get; set; }
 
         /// <summary>
-        /// Сырое представление.
+        /// Unparsed field specification.
         /// </summary>
         [CanBeNull]
-        public string Text { get; set; }
+        public string RawText { get; set; }
+
+        #endregion
+
+        #region Construction
+
+        #endregion
+
+        #region Private members
+
+        private static char[] _openChars = { '[' };
+        private static char[] _closeChars = { ']' };
+        private static char[] _stopChars = { ']' };
+
+        private IndexSpecification _ParseIndex
+            (
+                [NotNull] TextNavigator navigator,
+                [NotNull] string text
+            )
+        {
+            text = text.Trim();
+            if (string.IsNullOrEmpty(text))
+            {
+                throw new PftSyntaxException(navigator);
+            }
+
+            IndexSpecification result = new IndexSpecification
+            {
+                Expression = text
+            };
+
+            if (text == "*")
+            {
+                result.Kind = IndexKind.LastRepeat;
+            }
+            else if (text == "+")
+            {
+                result.Kind = IndexKind.NewRepeat;
+            }
+            else
+            {
+                int index;
+                if (int.TryParse(text, out index))
+                {
+                    result.Kind = IndexKind.Literal;
+                    result.Literal = index;
+                }
+                else
+                {
+                    result.Kind = IndexKind.Expression;
+                }
+            }
+
+            return result;
+        }
 
         #endregion
 
@@ -183,13 +243,41 @@ namespace ManagedIrbis.Pft.Infrastructure
                     navigator.ReadChar();
                     builder.Append(c);
                 }
-                
+
                 if (builder.Length == 0)
                 {
                     throw new PftSyntaxException(navigator);
                 }
                 Embedded = builder.ToString();
             } // c == '@'
+
+            // c still is peeked char
+            if (c == '[')
+            {
+                // parse the field repeat
+
+                navigator.ReadChar();
+
+                string text = navigator.ReadUntil
+                    (
+                        _openChars,
+                        _closeChars,
+                        _stopChars
+                    );
+                if (ReferenceEquals(text, null))
+                {
+                    throw new PftSyntaxException(navigator);
+                }
+
+                FieldRepeat = _ParseIndex
+                    (
+                        navigator,
+                        text
+                    );
+
+                navigator.ReadChar();
+                c = navigator.PeekChar();
+            }
 
             // c still is peeked char
 
@@ -208,89 +296,41 @@ namespace ManagedIrbis.Pft.Infrastructure
                 SubField = SubFieldCode.Normalize(c);
 
                 c = navigator.PeekChar();
+
+                // parse subfield repeat
+
+                if (c == '[')
+                {
+                    // parse the field repeat
+
+                    navigator.ReadChar();
+
+                    string text = navigator.ReadUntil
+                        (
+                            _openChars,
+                            _closeChars,
+                            _stopChars
+                        );
+                    if (ReferenceEquals(text, null))
+                    {
+                        throw new PftSyntaxException(navigator);
+                    }
+
+                    SubFieldRepeat = _ParseIndex
+                        (
+                            navigator,
+                            text
+                        );
+
+                    navigator.ReadChar();
+                    c = navigator.PeekChar();
+                }
             } // c == '^'
 
             if (Command != 'v')
             {
                 goto DONE;
             }
-
-            if (c == '[')
-            {
-                navigator.ReadChar();
-                navigator.SkipWhitespace();
-
-                string index;
-
-                if (navigator.PeekChar() == '.')
-                {
-                    navigator.ReadChar();
-                    if (navigator.ReadChar() != '.')
-                    {
-                        throw new PftSyntaxException(navigator);
-                    }
-                    navigator.SkipWhitespace();
-                    index = navigator.ReadInteger();
-                    if (string.IsNullOrEmpty(index))
-                    {
-                        throw new PftSyntaxException(navigator);
-                    }
-                    int indexTo = int.Parse
-                        (
-                            index,
-                            CultureInfo.InvariantCulture
-                        );
-                    IndexTo = indexTo;
-                }
-                else
-                {
-                    index = navigator.ReadInteger();
-                    if (string.IsNullOrEmpty(index))
-                    {
-                        throw new PftSyntaxException(navigator);
-                    }
-                    int indexFrom = int.Parse
-                        (
-                            index,
-                            CultureInfo.InvariantCulture
-                        );
-                    IndexFrom = indexFrom;
-                    IndexTo = indexFrom;
-                }
-
-                navigator.SkipWhitespace();
-                if (navigator.SkipChar('.'))
-                {
-                    if (navigator.ReadChar() != '.')
-                    {
-                        throw new PftSyntaxException(navigator);
-                    }
-                    navigator.SkipWhitespace();
-                    index = navigator.ReadInteger();
-                    if (string.IsNullOrEmpty(index))
-                    {
-                        IndexTo = 0;
-                    }
-                    else
-                    {
-                        int indexTo = int.Parse
-                            (
-                                index,
-                                CultureInfo.InvariantCulture
-                            );
-                        IndexTo = indexTo;
-                    }
-                }
-
-                navigator.SkipWhitespace();
-                if (navigator.ReadChar() != ']')
-                {
-                    throw new PftSyntaxException(navigator);
-                }
-
-                c = navigator.PeekChar();
-            } // c == '['
-
             // c still is peeked char
 
             if (c == '*')
@@ -380,39 +420,22 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {
                     throw new PftSyntaxException(navigator);
                 }
-                Indent = int.Parse
+                ParagraphIndent = int.Parse
                     (
                         builder.ToString(),
                         CultureInfo.InvariantCulture
                     );
             } // c == '('
 
-            // c still is peeked char
-
-            if (c == '#')
-            {
-                navigator.ReadChar();
-
-                string index = navigator.ReadInteger();
-                if (string.IsNullOrEmpty(index))
-                {
-                    throw new PftSyntaxException(navigator);
-                }
-                int indexFrom = int.Parse(index);
-                IndexFrom = indexFrom;
-                IndexTo = indexFrom;
-            }
-
             DONE:
-
             int length = navigator.Position - start;
-            Text = navigator.Substring(start, length);
+            RawText = navigator.Substring(start, length);
 
             return true;
         }
 
         /// <summary>
-        /// Parse the specification from text.
+        /// Parse short specification from text.
         /// </summary>
         public bool ParseShort
             (
@@ -496,7 +519,110 @@ namespace ManagedIrbis.Pft.Infrastructure
             } // c == '^'
 
             int length = navigator.Position - start;
-            Text = navigator.Substring(start, length);
+            RawText = navigator.Substring(start, length);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Parse specification for Unifor.
+        /// </summary>
+        public bool ParseUnifor
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+            TextNavigator navigator = new TextNavigator(text);
+            return ParseUnifor(navigator);
+        }
+
+        /// <summary>
+        /// Parse short specification for Unifor from navigator.
+        /// </summary>
+        public bool ParseUnifor
+            (
+                [NotNull] TextNavigator navigator
+            )
+        {
+            Code.NotNull(navigator, "navigator");
+
+            int start = navigator.Position;
+            TextPosition saved = navigator.SavePosition();
+            char c = navigator.ReadChar();
+            StringBuilder builder = new StringBuilder();
+
+            switch (c)
+            {
+                case 'v':
+                case 'V':
+                    Command = 'v';
+                    break;
+
+                default:
+                    navigator.RestorePosition(saved);
+                    return false;
+            } // switch
+
+            c = navigator.ReadChar();
+            if (!c.IsArabicDigit())
+            {
+                return false;
+            }
+            builder.Append(c);
+
+            while (true)
+            {
+                c = navigator.PeekChar();
+                if (!c.IsArabicDigit())
+                {
+                    break;
+                }
+                navigator.ReadChar();
+                builder.Append(c);
+            }
+            Tag = builder.ToString();
+
+            // now c is peeked char
+
+            if (c == '^')
+            {
+                navigator.ReadChar();
+                if (navigator.IsEOF)
+                {
+                    throw new PftSyntaxException(navigator);
+                }
+                c = navigator.ReadChar();
+                if (!SubFieldCode.IsValidCode(c))
+                {
+                    throw new PftSyntaxException(navigator);
+                }
+                SubField = SubFieldCode.Normalize(c);
+
+                c = navigator.PeekChar();
+            } // c == '^'
+
+            if (c == '#')
+            {
+                navigator.ReadChar();
+
+                string indexText = navigator.ReadInteger();
+                if (string.IsNullOrEmpty(indexText))
+                {
+                    throw new PftSyntaxException(navigator);
+                }
+                int indexValue = int.Parse(indexText);
+                FieldRepeat = new IndexSpecification
+                {
+                    Kind = IndexKind.Literal,
+                    Expression = indexText,
+                    Literal = indexValue
+                };
+            }
+
+            int length = navigator.Position - start;
+            RawText = navigator.Substring(start, length);
 
             return true;
         }
@@ -522,27 +648,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                 result.Append('^');
                 result.Append(SubField);
             }
-            if (IndexFrom != 0 || IndexTo != 0)
-            {
-                result.Append('[');
-                if (IndexFrom == IndexTo)
-                {
-                    result.Append(IndexFrom);
-                }
-                else
-                {
-                    if (IndexFrom != 0)
-                    {
-                        result.Append(IndexFrom);
-                    }
-                    result.Append('-');
-                    if (IndexTo != 0)
-                    {
-                        result.Append(IndexTo);
-                    }
-                }
-                result.Append(']');
-            }
             if (Offset != 0)
             {
                 result.Append('*');
@@ -553,15 +658,16 @@ namespace ManagedIrbis.Pft.Infrastructure
                 result.Append('.');
                 result.Append(Length);
             }
-            if (Indent != 0)
+            if (ParagraphIndent != 0)
             {
                 result.Append('(');
-                result.Append(Indent);
+                result.Append(ParagraphIndent);
                 result.Append(')');
             }
 
             return result.ToString();
         }
+
 
         #endregion
     }
