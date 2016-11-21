@@ -14,7 +14,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
-using AM.Text;
 
 using CodeJam;
 
@@ -52,7 +51,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <summary>
         /// Subfield code.
         /// </summary>
-        public char SubField { get; set; }
+        public char SubFieldCode { get; set; }
 
         #endregion
 
@@ -124,7 +123,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [NotNull]
-        private RecordField _ParseLine
+        private static RecordField _ParseLine
             (
                 [NotNull] string line
             )
@@ -204,14 +203,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                             Index
                         );
 
-                    if (SubField != '\0')
+                    if (SubFieldCode != SubField.NoCode)
                     {
                         List<string> list = new List<string>();
 
                         foreach (string line in lines)
                         {
                             RecordField field = _ParseLine(line);
-                            string text = field.GetFirstSubFieldValue(SubField);
+                            string text = field.GetFirstSubFieldValue(SubFieldCode);
                             list.Add(text);
                         }
 
@@ -226,7 +225,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 }
                 else
                 {
-                    if (SubField != '\0')
+                    if (SubFieldCode != SubField.NoCode)
                     {
                         string[] lines = output.SplitLines();
 
@@ -235,7 +234,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         foreach (string line in lines)
                         {
                             RecordField field = _ParseLine(line);
-                            string text = field.GetFirstSubFieldValue(SubField);
+                            string text = field.GetFirstSubFieldValue(SubFieldCode);
                             list.Add(text);
                         }
 

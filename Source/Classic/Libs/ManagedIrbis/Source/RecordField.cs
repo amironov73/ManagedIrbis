@@ -495,6 +495,27 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Assign the field from another.
+        /// </summary>
+        [NotNull]
+        public RecordField AssignFrom
+            (
+                [NotNull] RecordField source
+            )
+        {
+            Code.NotNull(source, "source");
+
+            Value = source.Value;
+            SubFields.Clear();
+            foreach (SubField subField in source.SubFields)
+            {
+                SubFields.Add(subField.Clone());
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Создание "глубокой" копии поля.
         /// </summary>
         [NotNull]

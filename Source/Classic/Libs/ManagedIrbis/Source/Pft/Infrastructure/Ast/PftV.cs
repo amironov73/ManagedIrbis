@@ -99,10 +99,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 string value = GetValue(context);
                 if (!string.IsNullOrEmpty(value))
                 {
-                    if (Indent != 0
-                        && IsFirstRepeat(context))
+                    //if (Indent != 0
+                    //    && IsFirstRepeat(context))
+                    //{
+                    //    value = new string(' ', Indent) + value;
+                    //}
+                    if (context.UpperMode)
                     {
-                        value = new string(' ', Indent) + value;
+                        value = value.ToUpper();
                     }
 
                     context.Write(this, value);

@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Collections;
 using AM.IO;
 using AM.Text;
 
@@ -40,7 +41,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
     partial class PftParser
     {
-        private PftNode ParseField()
+        private PftField ParseField()
         {
             List<PftNode> leftHand = new List<PftNode>();
             PftField result = new PftV();
@@ -211,6 +212,38 @@ namespace ManagedIrbis.Pft.Infrastructure
             } // result is PftV
 
             DONE: return result;
+        }
+
+        private PftNode ParseFieldAssignment()
+        {
+            PftToken headToken = Tokens.Current;
+            PftField field = ParseField();
+            PftNode result = field;
+
+            if (!Tokens.IsEof
+                && Tokens.Current.Kind == PftTokenKind.Equals)
+            {
+                Tokens.RequireNext();
+
+                PftFieldAssignment assignment = new PftFieldAssignment(headToken)
+                {
+                    Field = field
+                };
+
+                PftTokenList tokens = Tokens.Segment(_semicolonStop)
+                    .ThrowIfNull("tokens");
+                ChangeContext
+                    (
+                        (NonNullCollection<PftNode>) assignment.Children,
+                        tokens
+                    );
+
+                Tokens.MoveNext();
+
+                result = assignment;
+            }
+
+            return result;
         }
     }
 }

@@ -976,7 +976,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftNode reference = new PftVariableReference(firstToken)
             {
                 Index = index,
-                SubField = ParseSubField()
+                SubFieldCode = ParseSubField()
             };
 
             return MoveNext(reference);
@@ -990,7 +990,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 = new PftVariableReference(Tokens.Current)
             {
                 Index = ParseIndex(),
-                SubField = ParseSubField()
+                SubFieldCode = ParseSubField()
             };
 
             return MoveNext(result);

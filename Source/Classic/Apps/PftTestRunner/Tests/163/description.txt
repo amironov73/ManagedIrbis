@@ -1,0 +1,1 @@
+﻿Indexed field assignment inside loop (variant 2)

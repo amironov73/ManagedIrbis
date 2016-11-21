@@ -168,7 +168,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.TripleLess, ParseVerbatim},
                 {PftTokenKind.UnconditionalLiteral, ParseUnconditionalLiteral},
                 {PftTokenKind.Unifor, ParseUnifor},
-                {PftTokenKind.V,ParseField},
+                {PftTokenKind.V,ParseFieldAssignment},
                 {PftTokenKind.Variable, ParseVariable},
                 {PftTokenKind.While, ParseWhile},
                 {PftTokenKind.X, ParseX}

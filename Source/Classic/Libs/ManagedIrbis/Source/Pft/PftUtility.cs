@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -44,9 +45,150 @@ namespace ManagedIrbis.Pft
 
         #region Private members
 
+        private static string _ReadTo
+            (
+                StringReader reader,
+                char delimiter
+            )
+        {
+            StringBuilder result = new StringBuilder();
+
+            while (true)
+            {
+                int next = reader.Read();
+                if (next < 0)
+                {
+                    break;
+                }
+                char c = (char)next;
+                if (c == delimiter)
+                {
+                    break;
+                }
+                result.Append(c);
+            }
+
+            return result.ToString();
+        }
+
+        [NotNull]
+        private static RecordField _ParseLine
+            (
+                [NotNull] string line
+            )
+        {
+            Code.NotNull(line, "line");
+
+            StringReader reader = new StringReader(line);
+            RecordField result = new RecordField
+            {
+                Value = _ReadTo(reader, '^')
+            };
+
+            while (true)
+            {
+                int next = reader.Read();
+                if (next < 0)
+                {
+                    break;
+                }
+
+                char code = char.ToLower((char)next);
+                string text = _ReadTo(reader, '^');
+                SubField subField = new SubField
+                {
+                    Code = code,
+                    Value = text
+                };
+                result.SubFields.Add(subField);
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Assign field.
+        /// </summary>
+        public static void AssignField
+            (
+                [NotNull] PftContext context,
+                [NotNull] string tag,
+                IndexSpecification index,
+                [CanBeNull] string value
+            )
+        {
+            Code.NotNull(context, "context");
+            Code.NotNullNorEmpty(tag, "tag");
+
+            tag = FieldTag.Normalize(tag);
+
+            MarcRecord record = context.Record;
+            if (ReferenceEquals(record, null))
+            {
+                return;
+            }
+
+            RecordField[] fields = record.Fields.GetField(tag);
+            string[] lines = value.SplitLines()
+                .NonEmptyLines()
+                .ToArray();
+            List<RecordField> newFields = new List<RecordField>();
+            foreach (string line in lines)
+            {
+                RecordField field = ParseField(line);
+                field.Tag = tag;
+                newFields.Add(field);
+            }
+
+            if (index.Kind == IndexKind.None)
+            {
+                foreach (RecordField field in fields)
+                {
+                    record.Fields.Remove(field);
+                }
+
+                record.Fields.AddRange(newFields);
+            }
+            else
+            {
+                int i = index.ComputeValue(context, fields);
+
+                if (newFields.Count == 0)
+                {
+                    if (i >= 0 && i < fields.Length)
+                    {
+                        record.Fields.Remove(fields[i]);
+                    }
+                }
+                else
+                {
+                    if (i >= fields.Length)
+                    {
+                        record.Fields.AddRange(newFields);
+                    }
+                    else
+                    {
+                        int position = record.Fields.IndexOf(fields[i]);
+                        fields[i].AssignFrom(newFields[0]);
+
+                        for (int j = 1; j < newFields.Count; j++)
+                        {
+                            record.Fields.Insert
+                                (
+                                    position + j,
+                                    newFields[j]
+                                );
+                        }
+                    }
+                }
+            }
+        }
+        
+        //=================================================
 
         /// <summary>
         /// Compare two strings.
@@ -542,6 +684,22 @@ namespace ManagedIrbis.Pft
             }
 
             return node is PftNumeric;
+        }
+
+        //=================================================
+
+        /// <summary>
+        /// Parse field.
+        /// </summary>
+        [NotNull]
+        public static RecordField ParseField
+            (
+                [NotNull] string line
+            )
+        {
+            Code.NotNullNorEmpty(line, "line");
+
+            return _ParseLine(line);
         }
 
         //=================================================

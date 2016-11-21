@@ -1,0 +1,1 @@
+﻿Indexed field assignment -- insert fields (variant 1)
