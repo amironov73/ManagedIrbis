@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -92,15 +92,61 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             string value = context.Evaluate(Children);
-            PftUtility.AssignField
-                (
-                    context,
-                    tag,
-                    field.FieldRepeat,
-                    value
-                );
+            if (field.SubField == SubField.NoCode)
+            {
+                PftUtility.AssignField
+                    (
+                        context,
+                        tag,
+                        field.FieldRepeat,
+                        value
+                    );
+            }
+            else
+            {
+                PftUtility.AssignSubField
+                    (
+                        context,
+                        tag,
+                        field.FieldRepeat,
+                        field.SubField,
+                        field.SubFieldRepeat,
+                        value
+                    );
+            }
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc/>
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Node = this,
+                Name = "FieldAssignment"
+            };
+
+            if (!ReferenceEquals(Field, null))
+            {
+                result.Children.Add(Field.GetNodeInfo());
+            }
+
+            if (Children.Count != 0)
+            {
+                PftNodeInfo body = new PftNodeInfo
+                {
+                    Name = "Body"
+                };
+                result.Children.Add(body);
+
+                foreach (PftNode node in Children)
+                {
+                    body.Children.Add(node.GetNodeInfo());
+                }
+            }
+
+            return result;
         }
 
         #endregion

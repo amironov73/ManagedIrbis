@@ -187,7 +187,98 @@ namespace ManagedIrbis.Pft
                 }
             }
         }
-        
+
+        /// <summary>
+        /// Assign subfield.
+        /// </summary>
+        public static void AssignSubField
+            (
+                [NotNull] PftContext context,
+                [NotNull] string tag,
+                IndexSpecification fieldIndex,
+                char code,
+                IndexSpecification subfieldIndex,
+                [CanBeNull] string value
+            )
+        {
+            Code.NotNull(context, "context");
+            Code.NotNullNorEmpty(tag, "tag");
+
+            tag = FieldTag.Normalize(tag);
+            code = SubFieldCode.Normalize(code);
+
+            MarcRecord record = context.Record;
+            if (ReferenceEquals(record, null))
+            {
+                return;
+            }
+
+            RecordField[] fields = record.Fields.GetField(tag);
+            if (fieldIndex.Kind != IndexKind.None)
+            {
+                int i = fieldIndex.ComputeValue(context, fields);
+
+                RecordField field = fields.GetOccurrence(i);
+                if (ReferenceEquals(field, null))
+                {
+                    return;
+                }
+
+                fields = new[] {field};
+            }
+
+            string[] lines = value.SplitLines()
+                .NonEmptyLines()
+                .ToArray();
+            List<SubField> newSubFields = new List<SubField>();
+            foreach (string line in lines)
+            {
+                SubField subField = new SubField(code, line);
+                newSubFields.Add(subField);
+            }
+
+            foreach (RecordField field in fields)
+            {
+                SubField[] subFields = field.GetSubField(code);
+
+                if (subfieldIndex.Kind == IndexKind.None)
+                {
+                    foreach (SubField subField in subFields)
+                    {
+                        field.SubFields.Remove(subField);
+                    }
+
+                    foreach (SubField subField in newSubFields)
+                    {
+                        field.SubFields.Add(subField.Clone());
+                    }
+                }
+                else
+                {
+                    int i = subfieldIndex.ComputeValue(context, subFields);
+
+                    if (i >= subFields.Length)
+                    {
+                        field.SubFields.AddRange(newSubFields);
+                    }
+                    else
+                    {
+                        int position = field.SubFields.IndexOf(subFields[i]);
+                        field.SubFields[i].Value = newSubFields[0].Value;
+
+                        for (int j = 1; j < newSubFields.Count; j++)
+                        {
+                            field.SubFields.Insert
+                                (
+                                    position + j,
+                                    newSubFields[j]
+                                );
+                        }
+                    }
+                }
+            }
+        }
+
         //=================================================
 
         /// <summary>
