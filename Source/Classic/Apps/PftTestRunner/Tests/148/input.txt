@@ -1,0 +1,11 @@
+﻿$x=sort(search('A=A$'));
+
+for $i = 1; $i <= size($x); $i = $i + 1;
+do
+	$x[$i], ') '
+	[[[loadRecord($x[$i]) ]]]
+	@brief,
+	
+	#
+	#
+end
