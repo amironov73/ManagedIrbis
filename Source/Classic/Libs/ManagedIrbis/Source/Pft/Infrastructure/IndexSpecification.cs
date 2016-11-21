@@ -18,8 +18,12 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+#if CLASSIC || NETCORE
+
 using ManagedIrbis.Pft.Infrastructure.Ast;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
+#endif
 
 using MoonSharp.Interpreter;
 
@@ -52,11 +56,15 @@ namespace ManagedIrbis.Pft.Infrastructure
         [CanBeNull]
         public string Expression { get; set; }
 
+#if CLASSIC || NETCORE
+
         /// <summary>
         /// Compiled <see cref="Expression"/>.
         /// </summary>
         [CanBeNull]
         public PftNumeric Program { get; set; }
+
+#endif
 
         #endregion
 
@@ -65,6 +73,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Private members
+
+#if CLASSIC || NETCORE
 
         private PftNumeric CompileProgram()
         {
@@ -83,6 +93,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             return Program;
         }
+
+#endif
 
         #endregion
 
@@ -118,14 +130,22 @@ namespace ManagedIrbis.Pft.Infrastructure
                     break;
 
                 case IndexKind.Expression:
+
+#if CLASSIC || NETCORE
+
                     PftNumeric program = CompileProgram();
                     context.Evaluate(program);
                     result = ((int)program.Value) - 1;
+
+#endif
+
                     break;
             }
 
             return result;
         }
+
+#if CLASSIC || NETCORE
 
         /// <summary>
         /// Get node info for debugger visualization.
@@ -152,6 +172,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             return result;
         }
+
+#endif
 
         #endregion
 

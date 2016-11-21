@@ -728,6 +728,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\IndexSpecification.cs">
       <Link>Source\Pft\Infrastructure\IndexSpecification.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\IndexKind.cs">
+      <Link>Source\Pft\Infrastructure\IndexKind.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pooling\IrbisConnectionPool.cs">
       <Link>Source\Pooling\IrbisConnectionPool.cs</Link>
     </Compile>

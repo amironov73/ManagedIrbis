@@ -666,6 +666,12 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ParFile.cs">
       <Link>Source\ParFile.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\IndexSpecification.cs">
+      <Link>Source\Pft\Infrastructure\IndexSpecification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\IndexKind.cs">
+      <Link>Source\Pft\Infrastructure\IndexKind.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pooling\IrbisConnectionPool.cs">
       <Link>Source\Pooling\IrbisConnectionPool.cs</Link>
     </Compile>
@@ -905,9 +911,6 @@
     </Compile>
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="\\localhost\C%24\%40GMT-2016.11.14-15.00.37\Projects\ManagedClient.45\Source\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\IndexSpecification.cs">
-      <Link>Source\Pft\Infrastructure\IndexSpecification.cs</Link>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GBL protocol.docx">
