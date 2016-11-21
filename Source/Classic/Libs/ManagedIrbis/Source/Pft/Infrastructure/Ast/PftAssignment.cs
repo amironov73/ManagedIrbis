@@ -47,6 +47,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Index.
+        /// </summary>
+        public IndexSpecification Index { get; set; }
+
         #endregion
 
         #region Construction
@@ -94,6 +99,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftContext context
             )
         {
+            //
+            // TODO handle indexing
+            //
+
             string name = Name.ThrowIfNull("name");
 
             if (Children.Count == 1)
@@ -175,7 +184,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 {
                     context.Variables.SetVariable
                         (
+                            context,
                             name,
+                            Index,
                             stringValue
                         );
                 }
@@ -199,6 +210,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 Value = Name
             };
             result.Children.Add(name);
+
+            if (Index.Kind != IndexKind.None)
+            {
+                result.Children.Add(Index.GetNodeInfo());
+            }
 
             PftNodeInfo numeric = new PftNodeInfo
             {

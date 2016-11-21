@@ -1,0 +1,1 @@
+﻿Variable indexing in assignment support

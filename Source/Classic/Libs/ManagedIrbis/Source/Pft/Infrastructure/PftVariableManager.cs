@@ -11,8 +11,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+
+using AM;
+
 using CodeJam;
+
 using JetBrains.Annotations;
+
+using ManagedIrbis.Pft.Infrastructure.Ast;
 
 using MoonSharp.Interpreter;
 
@@ -202,8 +208,51 @@ namespace ManagedIrbis.Pft.Infrastructure
         [NotNull]
         public PftVariable SetVariable
             (
+                [NotNull] PftContext context,
                 [NotNull] string name,
-                [CanBeNull] double value
+                IndexSpecification index,
+                [CanBeNull] string value
+            )
+        {
+            Code.NotNullNorEmpty(name, "name");
+
+            PftVariable result = GetOrCreateVariable(name, false);
+            result.IsNumeric = false;
+
+            if (index.Kind == IndexKind.None)
+            {
+                result.StringValue = value;
+            }
+            else
+            {
+                string text = result.StringValue ?? string.Empty;
+                string[] lines = text.SplitLines();
+                lines = PftUtility.SetArrayItem
+                    (
+                        context,
+                        lines,
+                        index,
+                        value
+                    );
+
+                result.StringValue = String.Join
+                    (
+                        Environment.NewLine,
+                        lines
+                    );
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Set the variable value.
+        /// </summary>
+        [NotNull]
+        public PftVariable SetVariable
+            (
+                [NotNull] string name,
+                double value
             )
         {
             Code.NotNullNorEmpty(name, "name");

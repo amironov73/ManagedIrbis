@@ -14,6 +14,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
+using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -533,6 +535,66 @@ namespace ManagedIrbis.Pft
             }
 
             return result;
+        }
+
+        //=================================================
+
+        /// <summary>
+        /// Set array index according to specification
+        /// </summary>
+        [NotNull]
+        public static T[] SetArrayItem<T>
+            (
+                [NotNull] PftContext context,
+                [NotNull] T[] array,
+                IndexSpecification index,
+                [CanBeNull] T value
+            )
+        {
+            Code.NotNull(context, "context");
+            Code.NotNull(array, "array");
+
+            if (index.Kind == IndexKind.None)
+            {
+                array = new[] { value };
+            }
+            else
+            {
+                int i = 0;
+
+                switch (index.Kind)
+                {
+                    case IndexKind.Literal:
+                        i = index.Literal - 1;
+                        break;
+
+                    case IndexKind.LastRepeat:
+                        i = array.Length - 1;
+                        break;
+
+                    case IndexKind.NewRepeat:
+                        i = array.Length;
+                        break;
+
+                    case IndexKind.Expression:
+                        PftNumeric program = index.Program
+                            .ThrowIfNull("index.Program");
+                        context.Evaluate(program);
+                        i = ((int)program.Value) - 1;
+                        break;
+                }
+
+                if (i >= 0)
+                {
+                    if (i >= array.Length)
+                    {
+                        Array.Resize(ref array, i + 1);
+                    }
+                    array[i] = value;
+                }
+            }
+
+            return array;
         }
 
         //=================================================

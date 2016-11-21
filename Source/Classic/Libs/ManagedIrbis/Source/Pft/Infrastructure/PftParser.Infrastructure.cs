@@ -178,6 +178,58 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        private IndexSpecification ParseIndex()
+        {
+            IndexSpecification result = new IndexSpecification
+            {
+                Kind = IndexKind.None,
+            };
+
+            if (Tokens.Peek() == PftTokenKind.LeftSquare)
+            {
+                Tokens.MoveNext();
+                Tokens.MoveNext();
+
+                PftTokenList indexTokens = Tokens.Segment
+                    (
+                        _squareOpen,
+                        _squareClose,
+                        _squareStop
+                    )
+                    .ThrowIfNull("indexTokens");
+
+                string expression = indexTokens.ToText();
+
+                result.Kind = IndexKind.Expression;
+                result.Expression = expression;
+
+                if (expression == "+")
+                {
+                    result.Kind = IndexKind.NewRepeat;
+                }
+                else if (expression == "*")
+                {
+                    result.Kind = IndexKind.LastRepeat;
+                }
+                else
+                {
+                    result.Program = (PftNumeric)ChangeContext
+                        (
+                            indexTokens,
+                            ParseArithmetic
+                        );
+                    PftNumericLiteral literal = result.Program as PftNumericLiteral;
+                    if (!ReferenceEquals(literal, null))
+                    {
+                        result.Kind = IndexKind.Literal;
+                        result.Literal = (int)literal.Value;
+                    }
+                }
+            }
+
+            return result;
+        }
+
         [NotNull]
         private PftNode ParseNext()
         {

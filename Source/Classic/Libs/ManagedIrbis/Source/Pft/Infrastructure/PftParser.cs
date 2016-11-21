@@ -930,6 +930,10 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private PftNode ParseVariable()
         {
+            PftToken firstToken = Tokens.Current;
+
+            IndexSpecification index = ParseIndex();
+
             if (Tokens.Peek() == PftTokenKind.Equals)
             {
                 if (_inAssignment)
@@ -941,7 +945,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {
                     _inAssignment = true;
 
-                    PftAssignment result = new PftAssignment(Tokens.Current);
+                    PftAssignment result = new PftAssignment(firstToken)
+                    {
+                        Index = index
+                    };
                     Tokens.RequireNext(PftTokenKind.Equals);
                     Tokens.RequireNext();
 
@@ -966,63 +973,23 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
             }
 
-            PftNode reference = ParseVariableReference();
+            PftNode reference = new PftVariableReference(firstToken)
+            {
+                Index = index
+            };
 
-            return reference;
+            return MoveNext(reference);
         }
 
         //=================================================
 
         private PftNode ParseVariableReference()
         {
-            PftVariableReference result = new PftVariableReference(Tokens.Current);
-
-            if (Tokens.Peek() == PftTokenKind.LeftSquare)
+            PftVariableReference result
+                = new PftVariableReference(Tokens.Current)
             {
-                Tokens.MoveNext();
-                Tokens.MoveNext();
-
-                PftTokenList indexTokens = Tokens.Segment
-                    (
-                        _squareOpen,
-                        _squareClose,
-                        _squareStop
-                    )
-                    .ThrowIfNull("indexTokens");
-
-                string expression = indexTokens.ToText();
-
-                IndexSpecification index = new IndexSpecification
-                {
-                    Kind = IndexKind.Expression,
-                    Expression = expression
-                };
-
-                if (expression == "+")
-                {
-                    index.Kind = IndexKind.NewRepeat;
-                }
-                else if (expression == "*")
-                {
-                    index.Kind = IndexKind.LastRepeat;
-                }
-                else
-                {
-                    index.Program = (PftNumeric) ChangeContext
-                        (
-                            indexTokens,
-                            ParseArithmetic
-                        );
-                    PftNumericLiteral literal = index.Program as PftNumericLiteral;
-                    if (!ReferenceEquals(literal, null))
-                    {
-                        index.Kind = IndexKind.Literal;
-                        index.Literal = (int) literal.Value;
-                    }
-                }
-
-                result.Index = index;
-            }
+                Index = ParseIndex()
+            };
 
             return MoveNext(result);
         }
