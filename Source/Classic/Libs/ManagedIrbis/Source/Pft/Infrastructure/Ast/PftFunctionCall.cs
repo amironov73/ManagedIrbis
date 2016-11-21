@@ -12,7 +12,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
+using AM.Collections;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -39,6 +40,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public string Name { get; set; }
 
+        [NotNull]
+        public NonNullCollection<PftNode> Arguments { get; private set; }
+
         #endregion
 
         #region Construction
@@ -48,6 +52,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftFunctionCall()
         {
+            Arguments = new NonNullCollection<PftNode>();
         }
 
         /// <summary>
@@ -61,6 +66,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNullNorEmpty(name, "name");
 
             Name = name;
+            Arguments = new NonNullCollection<PftNode>();
         }
 
         /// <summary>
@@ -76,6 +82,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             token.MustBe(PftTokenKind.Identifier);
 
             Name = token.Text;
+            Arguments = new NonNullCollection<PftNode>();
         }
 
         #endregion
@@ -104,11 +111,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new PftSyntaxException(this);
             }
 
-            string expression = context.Evaluate(Children);
+            string [] arguments = new string[Arguments.Count];
+
+            for (int i = 0; i < Arguments.Count; i++)
+            {
+                arguments[i] = context.Evaluate(Arguments[i]);
+            }
+
             PftFunction function = context.Functions.FindFunction(name);
             if (!ReferenceEquals(function, null))
             {
-                function(context, this, expression);
+                function(context, this, arguments);
             }
             else
             {
@@ -117,6 +130,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 if (!ReferenceEquals(procedure, null))
                 {
+                    string expression = arguments.GetOccurrence(0);
                     procedure.Execute
                         (
                             context,
@@ -130,7 +144,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         name,
                         context,
                         this,
-                        expression
+                        arguments
                     );
                 }
             }
@@ -146,7 +160,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 Node = this,
                 Name = SimplifyTypeName(GetType().Name)
             };
-            
+
             PftNodeInfo name = new PftNodeInfo
             {
                 Name = "Name",

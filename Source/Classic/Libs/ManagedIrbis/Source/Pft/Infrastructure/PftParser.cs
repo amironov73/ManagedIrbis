@@ -562,10 +562,77 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
+        private void _HandleArguments
+            (
+                [NotNull] PftFunctionCall call,
+                [NotNull] PftTokenList tokens
+            )
+        {
+            PftTokenList saveTokens = Tokens;
+            Tokens = tokens;
+
+            try
+            {
+                PftNode superNode = new PftNode();
+                while (!Tokens.IsEof)
+                {
+                    PftNode node = ParseNext();
+                    superNode.Children.Add(node);
+                }
+
+                if (superNode.Children.Count == 1)
+                {
+                    superNode = superNode.Children[0];
+                }
+
+                call.Arguments.Add(superNode);
+            }
+            finally
+            {
+                Tokens = saveTokens;
+                Tokens.MoveNext();
+            }
+        }
+
         private PftNode ParseFunctionCall()
         {
             PftFunctionCall result = new PftFunctionCall(Tokens.Current);
-            return ParseCall(result);
+            
+            Tokens.RequireNext();
+
+            PftToken token = Tokens.Current;
+            token.MustBe(PftTokenKind.LeftParenthesis);
+            Tokens.RequireNext();
+            
+            PftTokenList innerTokens = Tokens.Segment
+                (
+                    _parenthesisOpen,
+                    _parenthesisClose,
+                    _parenthesisStop
+                )
+                .ThrowIfNull("innerTokens");
+
+            if (innerTokens.IsEof)
+            {
+                Tokens.MoveNext();
+            }
+            else
+            {
+                while (!innerTokens.IsEof)
+                {
+                    PftTokenList argumentTokens = innerTokens.Segment(_semicolonStop);
+                    if (ReferenceEquals(argumentTokens, null))
+                    {
+                        _HandleArguments(result, innerTokens);
+                    }
+                    else
+                    {
+                        _HandleArguments(result, argumentTokens);
+                    }
+                }
+            }
+
+            return result;
         }
 
         //=================================================

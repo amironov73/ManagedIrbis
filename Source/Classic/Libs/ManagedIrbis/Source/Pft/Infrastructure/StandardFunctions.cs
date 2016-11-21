@@ -39,8 +39,9 @@ namespace ManagedIrbis.Pft.Infrastructure
         // STANDARD BUILTIN FUNCTIONS
         //================================================================
 
-        private static void AddField(PftContext context, PftNode node, string expression)
+        private static void AddField(PftContext context, PftNode node, string[] arguments)
         {
+            string expression = arguments.GetOccurrence(0);
             if (!string.IsNullOrEmpty(expression)
                 && !ReferenceEquals(context.Record, null))
             {
@@ -70,8 +71,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void Bold(PftContext context, PftNode node, string expression)
+        private static void Bold(PftContext context, PftNode node, string[] arguments)
         {
+            string expression = arguments.GetOccurrence(0);
             if (!string.IsNullOrEmpty(expression))
             {
                 context.Write(node, "<b>" + expression + "</b>");
@@ -80,12 +82,13 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void Cat(PftContext context, PftNode node, string expression)
+        private static void Cat(PftContext context, PftNode node, string[] arguments)
         {
             //
             // TODO: add some caching
             //
 
+            string expression = arguments.GetOccurrence(0);
             if (!string.IsNullOrEmpty(expression))
             {
                 FileSpecification specification
@@ -105,12 +108,13 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void Chr(PftContext context, PftNode node, string expression)
+        private static void Chr(PftContext context, PftNode node, string[] arguments)
         {
             int code;
             char c;
 
-            PftNumeric numeric = node.Children.FirstOrDefault() as PftNumeric;
+            PftFunctionCall call = (PftFunctionCall) node;
+            PftNumeric numeric = call.Arguments[0] as PftNumeric;
             if (!ReferenceEquals(numeric, null))
             {
                 code = (int)numeric.Value;
@@ -119,6 +123,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
             else
             {
+                string expression = arguments.GetOccurrence(0);
                 if (!string.IsNullOrEmpty(expression))
                 {
                     if (int.TryParse(expression, out code))
@@ -132,16 +137,17 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void CommandLine(PftContext context, PftNode node, string expression)
+        private static void CommandLine(PftContext context, PftNode node, string[] arguments)
         {
 #if DESKTOP
             context.Write(node, global::System.Environment.CommandLine);
 #endif
         }
 
-        private static void COut(PftContext context, PftNode node, string expression)
+        private static void COut(PftContext context, PftNode node, string[] arguments)
         {
 #if DESKTOP || NETCORE
+            string expression = arguments.GetOccurrence(0);
             if (!string.IsNullOrEmpty(expression))
             {
                 Console.Write(expression);
@@ -151,9 +157,10 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void Debug(PftContext context, PftNode node, string expression)
+        private static void Debug(PftContext context, PftNode node, string[] arguments)
         {
 #if CLASSIC
+            string expression = arguments.GetOccurrence(0);
             if (!string.IsNullOrEmpty(expression))
             {
                 global::System.Diagnostics.Debug.WriteLine(expression);
@@ -163,10 +170,11 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void DelField(PftContext context, PftNode node, string expression)
+        private static void DelField(PftContext context, PftNode node, string[] arguments)
         {
             MarcRecord record = context.Record;
 
+            string expression = arguments.GetOccurrence(0);
             if (!string.IsNullOrEmpty(expression)
                 && !ReferenceEquals(record, null))
             {
@@ -212,8 +220,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void Error(PftContext context, PftNode node, string expression)
+        private static void Error(PftContext context, PftNode node, string[] arguments)
         {
+            string expression = arguments.GetOccurrence(0);
             if (!string.IsNullOrEmpty(expression))
             {
                 context.Output.Error.WriteLine(expression);
@@ -222,16 +231,18 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void Fatal(PftContext context, PftNode node, string expression)
+        private static void Fatal(PftContext context, PftNode node, string[] arguments)
         {
+            string expression = arguments.GetOccurrence(0);
             string message = expression ?? string.Empty;
             global::System.Environment.FailFast(message);
         }
 
         //=================================================
 
-        private static void GetEnv(PftContext context, PftNode node, string expression)
+        private static void GetEnv(PftContext context, PftNode node, string[] arguments)
         {
+            string expression = arguments.GetOccurrence(0);
             if (!string.IsNullOrEmpty(expression))
             {
                 string result = global::System.Environment.GetEnvironmentVariable(expression);
@@ -241,8 +252,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void Include(PftContext context, PftNode node, string expression)
+        private static void Include(PftContext context, PftNode node, string[] arguments)
         {
+            string expression = arguments.GetOccurrence(0);
             if (!string.IsNullOrEmpty(expression))
             {
                 Unifors.Unifor6.ExecuteNestedFormat
@@ -256,7 +268,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void IOcc(PftContext context, PftNode node, string expression)
+        private static void IOcc(PftContext context, PftNode node, string[] arguments)
         {
             int index = context.Index;
             if (!ReferenceEquals(context.CurrentGroup, null))
@@ -269,8 +281,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void Italic(PftContext context, PftNode node, string expression)
+        private static void Italic(PftContext context, PftNode node, string[] arguments)
         {
+            string expression = arguments.GetOccurrence(0);
             if (!string.IsNullOrEmpty(expression))
             {
                 context.Write(node, "<i>" + expression + "</i>");
@@ -279,8 +292,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void Len(PftContext context, PftNode node, string expression)
+        private static void Len(PftContext context, PftNode node, string[] arguments)
         {
+            string expression = arguments.GetOccurrence(0);
             int size = string.IsNullOrEmpty(expression)
                 ? 0
                 : expression.Length;
@@ -290,8 +304,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void LoadRecord(PftContext context, PftNode node, string expression)
+        private static void LoadRecord(PftContext context, PftNode node, string[] arguments)
         {
+            string expression = arguments.GetOccurrence(0);
             if (!string.IsNullOrEmpty(expression))
             {
                 int mfn;
@@ -320,14 +335,14 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void MachineName(PftContext context, PftNode node, string expression)
+        private static void MachineName(PftContext context, PftNode node, string[] arguments)
         {
             context.Write(node, global::System.Environment.MachineName);
         }
 
         //=================================================
 
-        private static void NOcc(PftContext context, PftNode node, string expression)
+        private static void NOcc(PftContext context, PftNode node, string[] arguments)
         {
             if (ReferenceEquals(context.CurrentGroup, null)
                 || ReferenceEquals(context.Record, null))
@@ -356,10 +371,11 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void Now(PftContext context, PftNode node, string expression)
+        private static void Now(PftContext context, PftNode node, string[] arguments)
         {
             DateTime now = DateTime.Today;
 
+            string expression = arguments.GetOccurrence(0);
             string output = string.IsNullOrEmpty(expression)
                 ? now.ToString(CultureInfo.CurrentCulture)
                 : now.ToString(expression);
@@ -369,19 +385,23 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void NPost(PftContext context, PftNode node, string expression)
+        private static void NPost(PftContext context, PftNode node, string[] arguments)
         {
-            FieldSpecification specification = new FieldSpecification();
-            specification.Parse(expression);
-            MarcRecord record = context.Record;
-            int count = record.Fields.GetField(specification.Tag).Length;
-            string text = count.ToInvariantString();
-            context.Write(node, text);
+            string expression = arguments.GetOccurrence(0);
+            if (!string.IsNullOrEmpty(expression))
+            {
+                FieldSpecification specification = new FieldSpecification();
+                specification.Parse(expression);
+                MarcRecord record = context.Record;
+                int count = record.Fields.GetField(specification.Tag).Length;
+                string text = count.ToInvariantString();
+                context.Write(node, text);
+            }
         }
 
         //=================================================
 
-        private static void OsVersion(PftContext context, PftNode node, string expression)
+        private static void OsVersion(PftContext context, PftNode node, string[] arguments)
         {
 #if CLASSIC
             context.Write(node, global::System.Environment.OSVersion.ToString());
@@ -390,8 +410,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void Size(PftContext context, PftNode node, string expression)
+        private static void Size(PftContext context, PftNode node, string[] arguments)
         {
+            string expression = arguments.GetOccurrence(0);
             int size = string.IsNullOrEmpty(expression)
                 ? 0
                 : expression.SplitLines().Length;
@@ -401,8 +422,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void Search(PftContext context, PftNode node, string expression)
+        private static void Search(PftContext context, PftNode node, string[] arguments)
         {
+            string expression = arguments.GetOccurrence(0);
             if (!string.IsNullOrEmpty(expression))
             {
                 int[] foundMfns = context.Environment.Search(expression);
@@ -425,8 +447,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void Sort(PftContext context, PftNode node, string expression)
+        private static void Sort(PftContext context, PftNode node, string[] arguments)
         {
+            string expression = arguments.GetOccurrence(0);
             if (string.IsNullOrEmpty(expression))
             {
                 return;
@@ -448,8 +471,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void System(PftContext context, PftNode node, string expression)
+        private static void System(PftContext context, PftNode node, string[] arguments)
         {
+            string expression = arguments.GetOccurrence(0);
             if (!string.IsNullOrEmpty(expression))
             {
 
@@ -489,12 +513,13 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void Today(PftContext context, PftNode node, string expression)
+        private static void Today(PftContext context, PftNode node, string[] arguments)
         {
             DateTime today = DateTime.Today;
 
 #if CLASSIC
 
+            string expression = arguments.GetOccurrence(0);
             string output = string.IsNullOrEmpty(expression)
                 ? today.ToShortDateString()
                 : today.ToString(expression);
@@ -503,6 +528,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             // TODO Implement properly
 
+            string expression = arguments.GetOccurrence(0);
             string output = string.IsNullOrEmpty(expression)
                 ? today.ToString()
                 : today.ToString(expression);
@@ -514,8 +540,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void ToLower(PftContext context, PftNode node, string expression)
+        private static void ToLower(PftContext context, PftNode node, string[] arguments)
         {
+            string expression = arguments.GetOccurrence(0);
             if (!string.IsNullOrEmpty(expression))
             {
                 context.Write(node, expression.ToLower());
@@ -524,8 +551,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void ToUpper(PftContext context, PftNode node, string expression)
+        private static void ToUpper(PftContext context, PftNode node, string[] arguments)
         {
+            string expression = arguments.GetOccurrence(0);
             if (!string.IsNullOrEmpty(expression))
             {
                 context.Write(node, expression.ToUpper());
@@ -534,9 +562,10 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void Trace(PftContext context, PftNode node, string expression)
+        private static void Trace(PftContext context, PftNode node, string[] arguments)
         {
 #if CLASSIC
+            string expression = arguments.GetOccurrence(0);
             if (!string.IsNullOrEmpty(expression))
             {
                 global::System.Diagnostics.Trace.WriteLine(expression);
@@ -546,8 +575,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void Trim(PftContext context, PftNode node, string expression)
+        private static void Trim(PftContext context, PftNode node, string[] arguments)
         {
+            string expression = arguments.GetOccurrence(0);
             if (!string.IsNullOrEmpty(expression))
             {
                 context.Write(node, expression.Trim());
@@ -556,8 +586,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void Warn(PftContext context, PftNode node, string expression)
+        private static void Warn(PftContext context, PftNode node, string[] arguments)
         {
+            string expression = arguments.GetOccurrence(0);
             if (!string.IsNullOrEmpty(expression))
             {
                 context.Output.Warning.WriteLine(expression);

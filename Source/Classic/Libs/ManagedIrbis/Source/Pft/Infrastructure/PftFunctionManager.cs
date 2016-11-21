@@ -94,7 +94,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 [NotNull] string name,
                 [NotNull] PftContext context,
                 [NotNull] PftNode node,
-                [CanBeNull] string expression
+                [CanBeNull] string[] arguments
             )
         {
             Code.NotNullNorEmpty(name, "name");
@@ -122,7 +122,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
             }
 
-            function(context, node, expression);
+            function(context, node, arguments);
         }
 
         /// <summary>

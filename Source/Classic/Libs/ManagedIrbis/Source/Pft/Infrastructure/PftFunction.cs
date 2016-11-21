@@ -30,6 +30,6 @@ namespace ManagedIrbis.Pft.Infrastructure
     (
         [NotNull] PftContext context,
         [NotNull] PftNode node,
-        [CanBeNull] string expression
+        [CanBeNull] string[] arguments
     );
 }
