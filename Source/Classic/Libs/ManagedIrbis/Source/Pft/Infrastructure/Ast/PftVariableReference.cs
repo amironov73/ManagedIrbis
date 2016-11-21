@@ -8,16 +8,20 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 using AM;
 using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -44,6 +48,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Index.
         /// </summary>
         public IndexSpecification Index { get; set; }
+
+        /// <summary>
+        /// Subfield code.
+        /// </summary>
+        public char SubField { get; set; }
 
         #endregion
 
@@ -87,6 +96,67 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Private members
+
+        private static string _ReadTo
+            (
+                StringReader reader,
+                char delimiter
+            )
+        {
+            StringBuilder result = new StringBuilder();
+
+            while (true)
+            {
+                int next = reader.Read();
+                if (next < 0)
+                {
+                    break;
+                }
+                char c = (char)next;
+                if (c == delimiter)
+                {
+                    break;
+                }
+                result.Append(c);
+            }
+
+            return result.ToString();
+        }
+
+        [NotNull]
+        private RecordField _ParseLine
+            (
+                [NotNull] string line
+            )
+        {
+            Code.NotNull(line, "line");
+
+            StringReader reader = new StringReader(line);
+            RecordField result = new RecordField
+            {
+                Value = _ReadTo(reader, '^')
+            };
+
+            while (true)
+            {
+                int next = reader.Read();
+                if (next < 0)
+                {
+                    break;
+                }
+
+                char code = char.ToLower((char)next);
+                string text = _ReadTo(reader, '^');
+                SubField subField = new SubField
+                {
+                    Code = code,
+                    Value = text
+                };
+                result.SubFields.Add(subField);
+            }
+
+            return result;
+        }
 
         #endregion
 
@@ -134,11 +204,48 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                             Index
                         );
 
+                    if (SubField != '\0')
+                    {
+                        List<string> list = new List<string>();
+
+                        foreach (string line in lines)
+                        {
+                            RecordField field = _ParseLine(line);
+                            string text = field.GetFirstSubFieldValue(SubField);
+                            list.Add(text);
+                        }
+
+                        lines = list.ToArray();
+                    }
+
                     output = string.Join
                         (
                             Environment.NewLine,
                             lines
                         );
+                }
+                else
+                {
+                    if (SubField != '\0')
+                    {
+                        string[] lines = output.SplitLines();
+
+                        List<string> list = new List<string>();
+
+                        foreach (string line in lines)
+                        {
+                            RecordField field = _ParseLine(line);
+                            string text = field.GetFirstSubFieldValue(SubField);
+                            list.Add(text);
+                        }
+
+                        lines = list.ToArray();
+                        output = string.Join
+                            (
+                                Environment.NewLine,
+                                lines
+                            );
+                    }
                 }
 
                 context.Write(this, output);

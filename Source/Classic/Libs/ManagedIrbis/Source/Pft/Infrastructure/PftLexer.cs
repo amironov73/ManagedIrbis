@@ -636,6 +636,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                         kind = PftTokenKind.At;
                         break;
 
+                    case '^':
+                        kind = PftTokenKind.Hat;
+                        value = "^";
+                        break;
+
                     case '\x1C':
                     case '\u221F':
                         value = _navigator.ReadUntil('\x1D', '\u2194');
@@ -656,6 +661,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                             goto default;
                         }
                         kind = PftTokenKind.A;
+                        value = "a";
                         break;
 
                     case 'c':

@@ -327,10 +327,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
             } // c == '^'
 
-            if (Command != 'v')
+            if (Command != 'v'
+                && Command != 'g')
             {
                 goto DONE;
             }
+
             // c still is peeked char
 
             if (c == '*')

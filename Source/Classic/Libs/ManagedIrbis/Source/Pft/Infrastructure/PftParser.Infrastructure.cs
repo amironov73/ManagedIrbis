@@ -230,6 +230,22 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        private char ParseSubField()
+        {
+            if (Tokens.Peek() == PftTokenKind.Hat)
+            {
+                Tokens.RequireNext();
+                Tokens.RequireNext();
+
+                string text = Tokens.Current.Text
+                    .ThrowIfNull("Tokens.Current.Text");
+
+                return text[0];
+            }
+
+            return '\0';
+        }
+
         [NotNull]
         private PftNode ParseNext()
         {
