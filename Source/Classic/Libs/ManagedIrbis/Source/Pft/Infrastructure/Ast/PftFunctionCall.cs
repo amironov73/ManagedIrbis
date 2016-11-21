@@ -12,12 +12,16 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
 using AM.Collections;
+
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -40,6 +44,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public string Name { get; set; }
 
+        /// <summary>
+        /// Array of arguments.
+        /// </summary>
         [NotNull]
         public NonNullCollection<PftNode> Arguments { get; private set; }
 

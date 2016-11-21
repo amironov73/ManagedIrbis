@@ -966,16 +966,65 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
             }
 
-            PftNode reference = new PftVariableReference(Tokens.Current);
+            PftNode reference = ParseVariableReference();
 
-            return MoveNext(reference);
+            return reference;
         }
 
         //=================================================
 
         private PftNode ParseVariableReference()
         {
-            return MoveNext(new PftVariableReference(Tokens.Current));
+            PftVariableReference result = new PftVariableReference(Tokens.Current);
+
+            if (Tokens.Peek() == PftTokenKind.LeftSquare)
+            {
+                Tokens.MoveNext();
+                Tokens.MoveNext();
+
+                PftTokenList indexTokens = Tokens.Segment
+                    (
+                        _squareOpen,
+                        _squareClose,
+                        _squareStop
+                    )
+                    .ThrowIfNull("indexTokens");
+
+                string expression = indexTokens.ToText();
+
+                IndexSpecification index = new IndexSpecification
+                {
+                    Kind = IndexKind.Expression,
+                    Expression = expression
+                };
+
+                if (expression == "+")
+                {
+                    index.Kind = IndexKind.NewRepeat;
+                }
+                else if (expression == "*")
+                {
+                    index.Kind = IndexKind.LastRepeat;
+                }
+                else
+                {
+                    index.Program = (PftNumeric) ChangeContext
+                        (
+                            indexTokens,
+                            ParseArithmetic
+                        );
+                    PftNumericLiteral literal = index.Program as PftNumericLiteral;
+                    if (!ReferenceEquals(literal, null))
+                    {
+                        index.Kind = IndexKind.Literal;
+                        index.Literal = (int) literal.Value;
+                    }
+                }
+
+                result.Index = index;
+            }
+
+            return MoveNext(result);
         }
 
         //=================================================

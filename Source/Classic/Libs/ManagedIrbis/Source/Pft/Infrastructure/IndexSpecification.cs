@@ -15,7 +15,8 @@ using System.Threading.Tasks;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Ast;
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -47,6 +48,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         [CanBeNull]
         public string Expression { get; set; }
 
+        /// <summary>
+        /// Compiled <see cref="Expression"/>.
+        /// </summary>
+        [CanBeNull]
+        public PftNumeric Program { get; set; }
+
         #endregion
 
         #region Construction
@@ -58,6 +65,32 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Get node info for debugger visualization.
+        /// </summary>
+        [NotNull]
+        public PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Name = "Index"
+            };
+            PftNodeInfo kind = new PftNodeInfo
+            {
+                Name = "Kind",
+                Value = Kind.ToString()
+            };
+            result.Children.Add(kind);
+            PftNodeInfo expression = new PftNodeInfo
+            {
+                Name = "Expression",
+                Value = Expression
+            };
+            result.Children.Add(expression);
+
+            return result;
+        }
 
         #endregion
     }

@@ -365,6 +365,21 @@ namespace ManagedIrbis.Pft.Infrastructure
             return _tokens;
         }
 
+        /// <summary>
+        /// Convert token list to text.
+        /// </summary>
+        public string ToText()
+        {
+            StringBuilder result = new StringBuilder();
+
+            foreach (PftToken token in _tokens)
+            {
+                result.Append(token.Text);
+            }
+
+            return result.ToString();
+        }
+
         #endregion
 
         #region Object members

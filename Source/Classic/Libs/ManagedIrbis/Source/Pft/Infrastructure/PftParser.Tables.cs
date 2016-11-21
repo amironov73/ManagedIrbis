@@ -312,6 +312,21 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.Semicolon
         };
 
+        private static PftTokenKind[] _squareClose =
+        {
+            PftTokenKind.RightSquare
+        };
+
+        private static PftTokenKind[] _squareOpen =
+        {
+            PftTokenKind.LeftSquare
+        };
+
+        private static PftTokenKind[] _squareStop =
+        {
+            PftTokenKind.RightSquare
+        };
+
         private static PftTokenKind[] _thenStop =
         {
             PftTokenKind.Then

@@ -13,11 +13,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
-
+using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -39,6 +39,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         [CanBeNull]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Index.
+        /// </summary>
+        public IndexSpecification Index { get; set; }
 
         #endregion
 
@@ -116,10 +121,55 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
             else
             {
-                context.Write(this, variable.StringValue);
+                string output = variable.StringValue;
+
+                if (Index.Kind != IndexKind.None)
+                {
+                    string[] lines = output.SplitLines();
+                    int index = 0;
+
+                    switch (Index.Kind)
+                    {
+                        case IndexKind.Literal:
+                            index = Index.Literal - 1;
+                            break;
+
+                        case IndexKind.LastRepeat:
+                            index = lines.Length - 1;
+                            break;
+
+                        case IndexKind.NewRepeat:
+                            index = lines.Length;
+                            break;
+
+                        case IndexKind.Expression:
+                            PftNumeric program = Index.Program
+                                .ThrowIfNull("Index.Program");
+                            context.Evaluate(program);
+                            index = ((int)program.Value) - 1;
+                            break;
+                    }
+
+                    output = lines.GetOccurrence(index);
+                }
+
+                context.Write(this, output);
             }
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc/>
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = base.GetNodeInfo();
+
+            if (Index.Kind != IndexKind.None)
+            {
+                result.Children.Add(Index.GetNodeInfo());
+            }
+
+            return result;
         }
 
         #endregion
