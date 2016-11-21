@@ -12,11 +12,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Ast;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -62,9 +66,66 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Private members
 
+        private PftNumeric CompileProgram()
+        {
+            if (!ReferenceEquals(Program, null))
+            {
+                return Program;
+            }
+
+            string expression = Expression
+                .ThrowIfNull("Expression");
+
+            PftLexer lexer = new PftLexer();
+            PftTokenList tokens = lexer.Tokenize(expression);
+            PftParser parser = new PftParser(tokens);
+            Program = parser.ParseArithmetic();
+
+            return Program;
+        }
+
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Compute value of the index.
+        /// </summary>
+        public int ComputeValue<T>
+            (
+                [NotNull] PftContext context,
+                [NotNull] T[] array
+            )
+        {
+            int result = 0;
+
+            switch (Kind)
+            {
+                case IndexKind.None:
+                    result = 0;
+                    break;
+
+                case IndexKind.Literal:
+                    result = Literal - 1;
+                    break;
+
+                case IndexKind.LastRepeat:
+                    result = array.Length - 1;
+                    break;
+
+                case IndexKind.NewRepeat:
+                    result = array.Length;
+                    break;
+
+                case IndexKind.Expression:
+                    PftNumeric program = CompileProgram();
+                    context.Evaluate(program);
+                    result = ((int)program.Value) - 1;
+                    break;
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Get node info for debugger visualization.

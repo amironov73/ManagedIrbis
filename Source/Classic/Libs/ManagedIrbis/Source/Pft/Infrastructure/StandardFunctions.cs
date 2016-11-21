@@ -390,7 +390,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             string expression = arguments.GetOccurrence(0);
             if (!string.IsNullOrEmpty(expression))
             {
-                FieldSpecification specification = new FieldSpecification();
+                FieldSpecification2 specification = new FieldSpecification2();
                 specification.Parse(expression);
                 MarcRecord record = context.Record;
                 int count = record.Fields.GetField(specification.Tag).Length;

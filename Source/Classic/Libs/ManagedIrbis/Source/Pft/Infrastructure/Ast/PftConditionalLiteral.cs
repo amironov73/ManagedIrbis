@@ -119,10 +119,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                     if (field.CanOutput(value))
                     {
+                        string text = Text;
+                        if (context.UpperMode
+                            && !ReferenceEquals(text, null))
+                        {
+                            text = text.ToUpper();
+                        }
+
                         context.Write
                         (
                             this,
-                            Text
+                            text
                         );
                     }
                 }

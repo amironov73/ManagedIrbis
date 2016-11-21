@@ -73,7 +73,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             Code.NotNullNorEmpty(text, "text");
 
-            FieldSpecification specification = new FieldSpecification();
+            FieldSpecification2 specification = new FieldSpecification2();
             if (!specification.Parse(text))
             {
                 throw new PftSyntaxException();
@@ -147,11 +147,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             _fields = context.Globals.Get(Number);
             int result = _fields.Length;
 
-            if (IndexTo != 0
-                && IndexTo <= result)
-            {
-                result = IndexTo - 1;
-            }
+            //if (IndexTo != 0
+            //    && IndexTo <= result)
+            //{
+            //    result = IndexTo - 1;
+            //}
 
             return result;
         }
@@ -172,18 +172,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             int index = context.Index;
-            if (IndexFrom != 0)
-            {
-                index = index + IndexFrom - 1;
-            }
+            //if (IndexFrom != 0)
+            //{
+            //    index = index + IndexFrom - 1;
+            //}
 
-            if (IndexTo != 0)
-            {
-                if (index >= IndexTo)
-                {
-                    return null;
-                }
-            }
+            //if (IndexTo != 0)
+            //{
+            //    if (index >= IndexTo)
+            //    {
+            //        return null;
+            //    }
+            //}
 
             RecordField field = _fields.GetOccurrence(index);
             if (field == null)

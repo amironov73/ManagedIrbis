@@ -97,16 +97,6 @@ namespace ManagedIrbis
         public int Indent { get; set; }
 
         /// <summary>
-        /// Начальный номер повторения.
-        /// </summary>
-        public int IndexFrom { get; set; }
-
-        /// <summary>
-        /// Конечный номер повторения.
-        /// </summary>
-        public int IndexTo { get; set; }
-
-        /// <summary>
         /// Смещение.
         /// </summary>
         public int Offset { get; set; }
@@ -182,16 +172,14 @@ namespace ManagedIrbis
         /// </summary>
         public void Apply
             (
-                [NotNull] FieldSpecification specification
+                [NotNull] FieldSpecification2 specification
             )
         {
             Code.NotNull(specification, "specification");
 
             Command = specification.Command;
             Embedded = specification.Embedded;
-            Indent = specification.Indent;
-            IndexFrom = specification.IndexFrom;
-            IndexTo = specification.IndexTo;
+            Indent = specification.ParagraphIndent;
             Offset = specification.Offset;
             Length = specification.Length;
             SubField = specification.SubField;
@@ -232,7 +220,7 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(specification, "specification");
 
-            FieldSpecification fs = new FieldSpecification();
+            FieldSpecification2 fs = new FieldSpecification2();
             fs.Parse(specification);
             FieldReference result = new FieldReference();
             result.Apply(fs);
@@ -257,8 +245,6 @@ namespace ManagedIrbis
             Command = reader.ReadChar();
             Embedded = reader.ReadNullableString();
             Indent = reader.ReadPackedInt32();
-            IndexFrom = reader.ReadPackedInt32();
-            IndexTo = reader.ReadPackedInt32();
             Length = reader.ReadPackedInt32();
             Offset = reader.ReadPackedInt32();
             SubField = reader.ReadChar();
@@ -277,8 +263,6 @@ namespace ManagedIrbis
             writer
                 .WriteNullable(Embedded)
                 .WritePackedInt32(Indent)
-                .WritePackedInt32(IndexFrom)
-                .WritePackedInt32(IndexTo)
                 .WritePackedInt32(Length)
                 .WritePackedInt32(Offset)
                 .Write(SubField);

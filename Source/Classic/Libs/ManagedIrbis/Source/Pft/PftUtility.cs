@@ -396,6 +396,38 @@ namespace ManagedIrbis.Pft
         //=================================================
 
         /// <summary>
+        /// Get array item according to specification
+        /// </summary>
+        [NotNull]
+        public static T[] GetArrayItem<T>
+            (
+                [NotNull] PftContext context,
+                [NotNull] T[] array,
+                IndexSpecification index
+            )
+        {
+            Code.NotNull(context, "context");
+            Code.NotNull(array, "array");
+
+            if (index.Kind == IndexKind.None)
+            {
+                return array;
+            }
+
+            int i = index.ComputeValue(context, array);
+
+            if (i >= 0
+                && i < array.Length)
+            {
+                return new[] { array[i] };
+            }
+
+            return new T[0];
+        }
+
+        //=================================================
+
+        /// <summary>
         /// Get array of reserved words.
         /// </summary>
         public static string[] GetReservedWords()
@@ -540,7 +572,7 @@ namespace ManagedIrbis.Pft
         //=================================================
 
         /// <summary>
-        /// Set array index according to specification
+        /// Set array item according to index specification
         /// </summary>
         [NotNull]
         public static T[] SetArrayItem<T>
@@ -560,29 +592,7 @@ namespace ManagedIrbis.Pft
             }
             else
             {
-                int i = 0;
-
-                switch (index.Kind)
-                {
-                    case IndexKind.Literal:
-                        i = index.Literal - 1;
-                        break;
-
-                    case IndexKind.LastRepeat:
-                        i = array.Length - 1;
-                        break;
-
-                    case IndexKind.NewRepeat:
-                        i = array.Length;
-                        break;
-
-                    case IndexKind.Expression:
-                        PftNumeric program = index.Program
-                            .ThrowIfNull("index.Program");
-                        context.Evaluate(program);
-                        i = ((int)program.Value) - 1;
-                        break;
-                }
+                int i = index.ComputeValue(context, array);
 
                 if (i >= 0)
                 {

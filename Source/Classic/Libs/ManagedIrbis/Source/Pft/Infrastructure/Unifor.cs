@@ -453,7 +453,7 @@ StringComparer.InvariantCultureIgnoreCase
                 MarcRecord record = context.Record;
                 if (!ReferenceEquals(record, null))
                 {
-                    FieldSpecification specification = new FieldSpecification();
+                    FieldSpecification2 specification = new FieldSpecification2();
                     if (specification.Parse(expression))
                     {
                         FieldReference reference = new FieldReference();

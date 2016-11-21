@@ -125,37 +125,37 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             if (!ReferenceEquals(field, null))
             {
                 int index = context.Index;
-                if (field.IndexFrom != 0)
-                {
-                    index = index + field.IndexFrom - 1;
-                }
+                //if (field.IndexFrom != 0)
+                //{
+                //    index = index + field.IndexFrom - 1;
+                //}
 
-                int stop = int.MaxValue;
-                if (field.IndexTo != 0)
-                {
-                    stop = field.IndexTo;
-                }
+                //int stop = int.MaxValue;
+                //if (field.IndexTo != 0)
+                //{
+                //    stop = field.IndexTo;
+                //}
 
-                if (index < stop)
-                {
-                    bool flag = field.HaveRepeat(context);
+                //if (index < stop)
+                //{
+                //    bool flag = field.HaveRepeat(context);
 
-                    if (flag && Plus)
-                    {
-                        flag = IsPrefix
-                            ? !field.IsFirstRepeat(context)
-                            : !field.IsLastRepeat(context);
-                    }
+                //    if (flag && Plus)
+                //    {
+                //        flag = IsPrefix
+                //            ? !field.IsFirstRepeat(context)
+                //            : !field.IsLastRepeat(context);
+                //    }
 
-                    if (flag)
-                    {
-                        context.Write
-                            (
-                                this,
-                                Text
-                            );
-                    }
-                }
+                //    if (flag)
+                //    {
+                //        context.Write
+                //            (
+                //                this,
+                //                Text
+                //            );
+                //    }
+                //}
             }
 
             OnAfterExecution(context);

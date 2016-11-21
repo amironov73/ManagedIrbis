@@ -34,7 +34,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
     partial class PftParser
     {
-        private PftNumeric ParseArithmetic()
+        internal PftNumeric ParseArithmetic()
         {
             PftNumeric result = ParseAddition();
 

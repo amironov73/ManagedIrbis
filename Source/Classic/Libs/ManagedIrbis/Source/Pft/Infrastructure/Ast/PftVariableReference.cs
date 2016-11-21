@@ -126,31 +126,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 if (Index.Kind != IndexKind.None)
                 {
                     string[] lines = output.SplitLines();
-                    int index = 0;
 
-                    switch (Index.Kind)
-                    {
-                        case IndexKind.Literal:
-                            index = Index.Literal - 1;
-                            break;
+                    lines = PftUtility.GetArrayItem
+                        (
+                            context,
+                            lines,
+                            Index
+                        );
 
-                        case IndexKind.LastRepeat:
-                            index = lines.Length - 1;
-                            break;
-
-                        case IndexKind.NewRepeat:
-                            index = lines.Length;
-                            break;
-
-                        case IndexKind.Expression:
-                            PftNumeric program = Index.Program
-                                .ThrowIfNull("Index.Program");
-                            context.Evaluate(program);
-                            index = ((int)program.Value) - 1;
-                            break;
-                    }
-
-                    output = lines.GetOccurrence(index);
+                    output = string.Join
+                        (
+                            Environment.NewLine,
+                            lines
+                        );
                 }
 
                 context.Write(this, output);

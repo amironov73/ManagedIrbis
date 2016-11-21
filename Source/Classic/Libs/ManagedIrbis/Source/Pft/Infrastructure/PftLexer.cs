@@ -111,9 +111,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         [CanBeNull]
-        private FieldSpecification ReadField()
+        private FieldSpecification2 ReadField()
         {
-            FieldSpecification result = new FieldSpecification();
+            //FieldSpecification result = new FieldSpecification();
+            FieldSpecification2 result = new FieldSpecification2();
 
             TextPosition position = _navigator.SavePosition();
             _navigator.Move(-1);
@@ -326,7 +327,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 char c2, c3;
                 string value = null;
                 string value2;
-                FieldSpecification field = null;
+                FieldSpecification2 field = null;
                 PftTokenKind kind = PftTokenKind.None;
                 switch (c)
                 {
@@ -681,7 +682,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         {
                             goto default;
                         }
-                        value = field.Text;
+                        value = field.RawText;
                         kind = PftTokenKind.V;
                         break;
 
@@ -703,7 +704,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         {
                             goto default;
                         }
-                        value = field.Text;
+                        value = field.RawText;
                         kind = PftTokenKind.V;
                         break;
 
@@ -780,7 +781,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         {
                             goto default;
                         }
-                        value = field.Text;
+                        value = field.RawText;
                         kind = PftTokenKind.V;
                         break;
 
@@ -813,7 +814,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         {
                             goto default;
                         }
-                        value = field.Text;
+                        value = field.RawText;
                         kind = PftTokenKind.V;
                         break;
 

@@ -53,7 +53,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             Code.NotNullNorEmpty(text, "text");
 
-            FieldSpecification specification = new FieldSpecification();
+            FieldSpecification2 specification = new FieldSpecification2();
             if (!specification.Parse(text))
             {
                 throw new PftSyntaxException();
@@ -74,7 +74,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.V);
 
-            FieldSpecification specification = ((FieldSpecification)token.UserData)
+            FieldSpecification2 specification = ((FieldSpecification2)token.UserData)
                 .ThrowIfNull("token.UserData");
             Apply(specification);
         }
@@ -142,11 +142,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             int result = record.Fields.GetField(Tag).Length;
-            if (IndexTo != 0
-                && IndexTo <= result)
-            {
-                result = IndexTo - 1;
-            }
+            //if (IndexTo != 0
+            //    && IndexTo <= result)
+            //{
+            //    result = IndexTo - 1;
+            //}
 
             return result;
         }

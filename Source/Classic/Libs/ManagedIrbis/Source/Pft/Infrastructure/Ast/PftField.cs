@@ -13,12 +13,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM;
 using AM.Collections;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -73,16 +76,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         public int Indent { get; set; }
 
         /// <summary>
-        /// Начальный номер повторения.
-        /// </summary>
-        public int IndexFrom { get; set; }
-
-        /// <summary>
-        /// Конечный номер повторения.
-        /// </summary>
-        public int IndexTo { get; set; }
-
-        /// <summary>
         /// Смещение.
         /// </summary>
         public int Offset { get; set; }
@@ -107,6 +100,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Repeat count.
         /// </summary>
         public int RepeatCount { get; set; }
+
+        /// <summary>
+        /// Field repeat specification.
+        /// </summary>
+        public IndexSpecification FieldRepeat { get; set; }
+
+        /// <summary>
+        /// Subfield repeat specification.
+        /// </summary>
+        public IndexSpecification SubFieldRepeat { get; set; }
 
         #endregion
 
@@ -219,20 +222,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public void Apply
             (
-                [NotNull] FieldSpecification specification
+                [NotNull] FieldSpecification2 specification
             )
         {
             Code.NotNull(specification, "specification");
 
             Command = specification.Command;
             Embedded = specification.Embedded;
-            Indent = specification.Indent;
-            IndexFrom = specification.IndexFrom;
-            IndexTo = specification.IndexTo;
+            Indent = specification.ParagraphIndent;
             Offset = specification.Offset;
             Length = specification.Length;
             SubField = specification.SubField;
             Tag = specification.Tag;
+            FieldRepeat = specification.FieldRepeat;
+            SubFieldRepeat = specification.SubFieldRepeat;
 
             Text = specification.ToString();
         }
@@ -250,8 +253,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Command = reference.Command;
             Embedded = reference.Embedded;
             Indent = reference.Indent;
-            IndexFrom = reference.IndexFrom;
-            IndexTo = reference.IndexTo;
             Offset = reference.Offset;
             Length = reference.Length;
             SubField = reference.SubField;
@@ -290,26 +291,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             int index = context.Index;
-            if (IndexFrom != 0)
-            {
-                index = index + IndexFrom - 1;
-            }
 
-            if (IndexTo != 0)
-            {
-                if (index >= IndexTo)
-                {
-                    return null;
-                }
-            }
+            RecordField[] fields = PftUtility.GetArrayItem
+                (
+                    context,
+                    record.Fields.GetField(Tag),
+                    FieldRepeat
+                );
 
-            RecordField field = record.Fields.GetField(Tag, index);
+            RecordField field = fields.GetOccurrence(index);
             if (field == null)
             {
                 return null;
             }
 
-            string result;
+            string result = null;
 
             if (SubField == NoSubField)
             {
@@ -322,10 +318,29 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             else if (SubField == '*')
             {
                 result = field.Value;
+                if (ReferenceEquals(result, null))
+                {
+                    SubField firstField = field.SubFields.FirstOrDefault();
+                    if (!ReferenceEquals(firstField, null))
+                    {
+                        result = firstField.Value;
+                    }
+                }
             }
             else
             {
-                result = field.GetFirstSubFieldValue(SubField);
+                SubField[] subFields = field.GetSubField(SubField);
+                subFields = PftUtility.GetArrayItem
+                    (
+                        context,
+                        subFields,
+                        SubFieldRepeat
+                    );
+                SubField subField = subFields.GetOccurrence(0);
+                if (!ReferenceEquals(subField, null))
+                {
+                    result = subField.Value;
+                }
             }
 
             result = LimitText(result);
@@ -416,15 +431,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Convert to <see cref="FieldSpecification"/>.
         /// </summary>
         [NotNull]
-        public FieldSpecification ToSpecification()
+        public FieldSpecification2 ToSpecification()
         {
-            FieldSpecification result = new FieldSpecification
+            FieldSpecification2 result = new FieldSpecification2
             {
                 Command = Command,
                 Embedded = Embedded,
-                Indent = Indent,
-                IndexFrom = IndexFrom,
-                IndexTo = IndexTo,
+                ParagraphIndent = Indent,
+                FieldRepeat = FieldRepeat,
+                SubFieldRepeat = SubFieldRepeat,
                 Offset = Offset,
                 Length = Length,
                 SubField = SubField,
@@ -441,7 +456,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <inheritdoc />
         public override void Execute
             (
-            PftContext context
+                PftContext context
             )
         {
             OnBeforeExecution(context);
@@ -458,6 +473,26 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 Name = SimplifyTypeName(GetType().Name),
                 Value = Text
             };
+
+            if (FieldRepeat.Kind != IndexKind.None)
+            {
+                PftNodeInfo index = new PftNodeInfo
+                {
+                    Name = "FieldIndex",
+                    Value = FieldRepeat.Expression
+                };
+                result.Children.Add(index);
+            }
+
+            if (SubFieldRepeat.Kind != IndexKind.None)
+            {
+                PftNodeInfo index = new PftNodeInfo
+                {
+                    Name = "SubFieldIndex",
+                    Value = SubFieldRepeat.Expression
+                };
+                result.Children.Add(index);
+            }
 
             if (LeftHand.Count != 0)
             {

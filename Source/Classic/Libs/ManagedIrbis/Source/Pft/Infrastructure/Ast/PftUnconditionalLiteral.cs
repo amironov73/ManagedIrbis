@@ -104,10 +104,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
+            string text = Text;
+            if (context.UpperMode
+                && !ReferenceEquals(text, null))
+            {
+                text = text.ToUpper();
+            }
+
             context.Write
                 (
                     this,
-                    Text
+                    text
                 );
 
             OnAfterExecution(context);
