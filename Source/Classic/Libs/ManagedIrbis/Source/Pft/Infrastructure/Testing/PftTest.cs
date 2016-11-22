@@ -193,7 +193,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 PftParser parser = new PftParser(tokenList);
                 PftProgram program = parser.Parse();
                 writer = new StringWriter();
-                program.PrintDebug(writer, 0);
                 result.Ast = writer.ToString()
                     .DosToUnix()
                     .ThrowIfNull("ast");

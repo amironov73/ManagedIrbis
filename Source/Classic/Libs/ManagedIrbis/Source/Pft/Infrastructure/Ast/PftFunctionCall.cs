@@ -188,25 +188,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
-        /// <inheritdoc/>
-        public override void PrintDebug
-            (
-                TextWriter writer,
-                int level
-            )
-        {
-            for (int i = 0; i < level; i++)
-            {
-                writer.Write("| ");
-            }
-            writer.WriteLine("Function: " + Name);
-
-            foreach (PftNode child in Children)
-            {
-                child.PrintDebug(writer, level + 1);
-            }
-        }
-
         #endregion
     }
 }

@@ -198,51 +198,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
-        /// <inheritdoc/>
-        public override void PrintDebug
-            (
-                TextWriter writer,
-                int level
-            )
-        {
-            for (int i = 0; i < level; i++)
-            {
-                writer.Write("| ");
-            }
-            writer.WriteLine("ConditionalStatement");
-
-            for (int i = 0; i <= level; i++)
-            {
-                writer.Write("| ");
-            }
-            writer.WriteLine("Condition:");
-
-            if (!ReferenceEquals(Condition, null))
-            {
-                Condition.PrintDebug(writer, level + 2);
-            }
-
-            for (int i = 0; i <= level; i++)
-            {
-                writer.Write("| ");
-            }
-            writer.WriteLine("Then:");
-            foreach (PftNode node in ThenBranch)
-            {
-                node.PrintDebug(writer, level + 2);
-            }
-
-            for (int i = 0; i <= level; i++)
-            {
-                writer.Write("| ");
-            }
-            writer.WriteLine("Else:");
-            foreach (PftNode node in ElseBranch)
-            {
-                node.PrintDebug(writer, level + 2);
-            }
-        }
-
         #endregion
     }
 }

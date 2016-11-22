@@ -525,24 +525,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
-        /// <inheritdoc/>
-        public override void PrintDebug
-            (
-                TextWriter writer,
-                int level
-            )
-        {
-            base.PrintDebug(writer, level);
-            foreach (PftNode node in LeftHand)
-            {
-                node.PrintDebug(writer, level + 1);
-            }
-            foreach (PftNode node in RightHand)
-            {
-                node.PrintDebug(writer, level + 1);
-            }
-        }
-
         /// <inheritdoc />
         public override void Write
             (

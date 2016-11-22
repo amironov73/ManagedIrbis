@@ -1,4 +1,4 @@
-﻿/* PftAst.cs --
+﻿/* PftNode.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -367,36 +367,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 
             return this;
-        }
-
-        /// <summary>
-        /// Отладочный вывод "ступеньками" или "деревом".
-        /// </summary>
-        public virtual void PrintDebug
-            (
-                [NotNull] TextWriter writer,
-                int level
-            )
-        {
-            Code.NotNull(writer, "writer");
-            Code.Nonnegative(level, "level");
-
-            for (int i = 0; i < level; i++)
-            {
-                writer.Write("| ");
-            }
-
-            writer.WriteLine
-                (
-                    "{0}: {1}",
-                    SimplifyTypeName(GetType().Name),
-                    Text
-                );
-
-            foreach (PftNode child in Children)
-            {
-                child.PrintDebug(writer, level + 1);
-            }
         }
 
         /// <summary>
