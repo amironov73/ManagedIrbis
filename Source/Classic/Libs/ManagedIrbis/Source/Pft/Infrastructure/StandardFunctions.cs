@@ -410,6 +410,25 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
+        private static void Replace(PftContext context, PftNode node, string[] arguments)
+        {
+            string text = arguments.GetOccurrence(0);
+            string oldValue = arguments.GetOccurrence(1);
+            string newValue = arguments.GetOccurrence(2);
+
+            if (ReferenceEquals(text, null)
+                || ReferenceEquals(oldValue, null)
+                || ReferenceEquals(newValue, null))
+            {
+                return;
+            }
+
+            string output = text.Replace(oldValue, newValue);
+            context.Write(node, output);
+        }
+
+        //=================================================
+
         private static void Size(PftContext context, PftNode node, string[] arguments)
         {
             string expression = arguments.GetOccurrence(0);
@@ -626,6 +645,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("now", Now);
             reg.Add("npost", NPost);
             reg.Add("osversion", OsVersion);
+            reg.Add("replace", Replace);
             reg.Add("size", Size);
             reg.Add("search", Search);
             reg.Add("sort", Sort);

@@ -371,7 +371,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     )
                     .ThrowIfNull("conditionTokens");
                 Tokens.Current.MustBe(PftTokenKind.Semicolon);
-                result.Condition = (PftCondition) ChangeContext
+                result.Condition = (PftCondition)ChangeContext
                     (
                         conditionTokens,
                         ParseCondition
@@ -427,7 +427,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 _inLoop = true;
 
                 Tokens.RequireNext();
-                result.Variable = (PftVariableReference) ParseVariableReference();
+                result.Variable = (PftVariableReference)ParseVariableReference();
                 Tokens.Current.MustBe(PftTokenKind.In);
                 Tokens.RequireNext();
                 PftTokenList sequenceTokens = Tokens.Segment
@@ -489,7 +489,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 // Variable reference
                 Tokens.RequireNext(PftTokenKind.Variable);
-                result.Variable = (PftVariableReference) ParseVariableReference();
+                result.Variable = (PftVariableReference)ParseVariableReference();
 
                 // In clause
                 Tokens.Current.MustBe(PftTokenKind.In);
@@ -508,7 +508,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     Tokens.RequireNext();
                     PftTokenList whereTokens = Tokens.Segment(_selectStop)
                         .ThrowIfNull("whereTokens");
-                    result.Where = (PftCondition) ChangeContext
+                    result.Where = (PftCondition)ChangeContext
                         (
                             whereTokens,
                             ParseCondition
@@ -590,20 +590,19 @@ namespace ManagedIrbis.Pft.Infrastructure
             finally
             {
                 Tokens = saveTokens;
-                Tokens.MoveNext();
             }
         }
 
         private PftNode ParseFunctionCall()
         {
             PftFunctionCall result = new PftFunctionCall(Tokens.Current);
-            
+
             Tokens.RequireNext();
 
             PftToken token = Tokens.Current;
             token.MustBe(PftTokenKind.LeftParenthesis);
             Tokens.RequireNext();
-            
+
             PftTokenList innerTokens = Tokens.Segment
                 (
                     _parenthesisOpen,
@@ -624,11 +623,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                     if (ReferenceEquals(argumentTokens, null))
                     {
                         _HandleArguments(result, innerTokens);
+                        Tokens.MoveNext();
+                        break;
                     }
-                    else
-                    {
-                        _HandleArguments(result, argumentTokens);
-                    }
+                    _HandleArguments(result, argumentTokens);
+                    innerTokens.MoveNext();
                 }
             }
 
@@ -677,7 +676,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (Tokens.Current.Kind == PftTokenKind.Variable)
             {
                 PftVariableReference variable
-                    = (PftVariableReference) ParseVariableReference();
+                    = (PftVariableReference)ParseVariableReference();
                 result.Variable = variable;
             }
             else if (Tokens.Current.Kind == PftTokenKind.Identifier)
@@ -693,7 +692,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
 
             return MoveNext(result);
-            
+
         }
 
         //=================================================
@@ -1005,7 +1004,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-            /// <summary>
+        /// <summary>
         /// While loop.
         /// </summary>
         /// <example>
@@ -1035,7 +1034,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     )
                     .ThrowIfNull("conditionTokens");
                 Tokens.Current.MustBe(PftTokenKind.Do);
-                result.Condition = (PftCondition) ChangeContext
+                result.Condition = (PftCondition)ChangeContext
                     (
                         conditionTokens,
                         ParseCondition

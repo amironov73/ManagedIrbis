@@ -1,0 +1,3 @@
+﻿replace('Happy New Year!';'New Year';'Birthday')
+#
+'Hello!'
