@@ -403,6 +403,7 @@
     <Compile Include="Source\Pft\PftNotConnectedException.cs" />
     <Compile Include="Source\Pft\PftSemanticException.cs" />
     <Compile Include="Source\Pft\PftSyntaxException.cs" />
+    <Compile Include="Source\Pft\PftTextSeparator.cs" />
     <Compile Include="Source\Pft\PftUtility.cs" />
     <Compile Include="Source\Pft\Infrastructure\ProgramCache.cs" />
     <Compile Include="Source\PlatformSpecific\CdeclPluginFunction.cs" />

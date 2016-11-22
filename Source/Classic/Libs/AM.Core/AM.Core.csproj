@@ -218,6 +218,7 @@
     <Compile Include="AM\Text\TextKind.cs" />
     <Compile Include="AM\Text\TextNavigator.cs" />
     <Compile Include="AM\Text\TextPosition.cs" />
+    <Compile Include="AM\Text\TextSeparator.cs" />
     <Compile Include="AM\Text\TextUtility.cs" />
     <Compile Include="AM\Text\Tokenizer\StringTokenizer.cs" />
     <Compile Include="AM\Text\Tokenizer\Token.cs" />
