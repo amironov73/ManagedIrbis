@@ -953,6 +953,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     PftTokenList tokens = Tokens.Segment
                         (
+                            _parenthesisOpen,
+                            _parenthesisClose,
                             _semicolonStop
                         );
                     if (ReferenceEquals(tokens, null))

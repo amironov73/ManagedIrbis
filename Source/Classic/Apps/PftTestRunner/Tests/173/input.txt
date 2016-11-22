@@ -1,0 +1,2 @@
+﻿$x = split('first!second!third!';'!');
+$x[2]

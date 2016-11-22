@@ -1,0 +1,1 @@
+﻿split('first!second!third!';'!')

@@ -429,18 +429,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
-        private static void Size(PftContext context, PftNode node, string[] arguments)
-        {
-            string expression = arguments.GetOccurrence(0);
-            int size = string.IsNullOrEmpty(expression)
-                ? 0
-                : expression.SplitLines().Length;
-            string text = size.ToInvariantString();
-            context.Write(node, text);
-        }
-
-        //=================================================
-
         private static void Search(PftContext context, PftNode node, string[] arguments)
         {
             string expression = arguments.GetOccurrence(0);
@@ -466,6 +454,19 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
+        private static void Size(PftContext context, PftNode node, string[] arguments)
+        {
+            string expression = arguments.GetOccurrence(0);
+            int size = string.IsNullOrEmpty(expression)
+                ? 0
+                : expression.SplitLines().Length;
+            string text = size.ToInvariantString();
+            context.Write(node, text);
+        }
+
+
+        //=================================================
+
         private static void Sort(PftContext context, PftNode node, string[] arguments)
         {
             string expression = arguments.GetOccurrence(0);
@@ -486,6 +487,24 @@ namespace ManagedIrbis.Pft.Infrastructure
                         lines
                     )
                 );
+        }
+
+        //=================================================
+
+        private static void Split(PftContext context, PftNode node, string[] arguments)
+        {
+            string text = arguments.GetOccurrence(0);
+            string separator = arguments.GetOccurrence(1);
+
+            if (ReferenceEquals(text, null)
+                || ReferenceEquals(separator, null))
+            {
+                return;
+            }
+
+            string[] lines = text.Split(new[] {separator}, StringSplitOptions.None);
+            string output = string.Join(Environment.NewLine, lines);
+            context.Write(node, output);
         }
 
         //=================================================
@@ -649,6 +668,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("size", Size);
             reg.Add("search", Search);
             reg.Add("sort", Sort);
+            reg.Add("split", Split);
             reg.Add("system", System);
             reg.Add("today", Today);
             reg.Add("tolower", ToLower);

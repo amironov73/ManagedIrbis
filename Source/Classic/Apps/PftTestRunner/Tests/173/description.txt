@@ -1,0 +1,1 @@
+﻿split() function in assignment
