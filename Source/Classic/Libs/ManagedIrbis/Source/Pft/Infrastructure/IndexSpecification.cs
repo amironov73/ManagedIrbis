@@ -100,6 +100,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Public methods
 
+#if CLASSIC || NETCORE
+
         /// <summary>
         /// Compute value of the index.
         /// </summary>
@@ -131,21 +133,15 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 case IndexKind.Expression:
 
-#if CLASSIC || NETCORE
-
                     PftNumeric program = CompileProgram();
                     context.Evaluate(program);
                     result = ((int)program.Value) - 1;
-
-#endif
 
                     break;
             }
 
             return result;
         }
-
-#if CLASSIC || NETCORE
 
         /// <summary>
         /// Get node info for debugger visualization.
