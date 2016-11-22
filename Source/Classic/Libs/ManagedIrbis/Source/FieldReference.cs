@@ -20,9 +20,10 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure;
+
 #if CLASSIC || NETCORE
 
-using ManagedIrbis.Pft.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Ast;
 
 #endif
