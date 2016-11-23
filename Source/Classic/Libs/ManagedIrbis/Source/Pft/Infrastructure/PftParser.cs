@@ -578,12 +578,19 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 if (ReferenceEquals(superNode, null))
                 {
-                    superNode = new PftNode();
-                    Tokens.RestorePosition(savePosition);
-                    while (!Tokens.IsEof)
+                    try
                     {
-                        PftNode node = ParseNext();
-                        superNode.Children.Add(node);
+                        superNode = ParseCondition();
+                    }
+                    catch
+                    {
+                        superNode = new PftNode();
+                        Tokens.RestorePosition(savePosition);
+                        while (!Tokens.IsEof)
+                        {
+                            PftNode node = ParseNext();
+                            superNode.Children.Add(node);
+                        }
                     }
                 }
 

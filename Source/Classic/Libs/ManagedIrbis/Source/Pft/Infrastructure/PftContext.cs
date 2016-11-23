@@ -416,6 +416,52 @@ namespace ManagedIrbis.Pft.Infrastructure
         //=================================================
 
         /// <summary>
+        /// Get boolean argument value.
+        /// </summary>
+        [CanBeNull]
+        public bool? GetBooleanArgument
+            (
+                [NotNull] PftNode[] arguments,
+                int index
+            )
+        {
+            Code.NotNull(arguments, "arguments");
+
+            PftNode node = arguments.GetOccurrence(index);
+            if (ReferenceEquals(node, null))
+            {
+                return null;
+            }
+
+            bool? result = null;
+
+            PftCondition condition = node as PftCondition;
+            if (ReferenceEquals(condition, null))
+            {
+                string text = GetStringArgument(arguments, index);
+                bool boolVal;
+                if (bool.TryParse(text, out boolVal))
+                {
+                    result = boolVal;
+                }
+                int intVal;
+                if (int.TryParse(text, out intVal))
+                {
+                    result = intVal != 0;
+                }
+            }
+            else
+            {
+                Evaluate(condition);
+                result = condition.Value;
+            }
+
+            return result;
+        }
+
+        //=================================================
+
+        /// <summary>
         /// Get numeric argument value.
         /// </summary>
         [CanBeNull]
