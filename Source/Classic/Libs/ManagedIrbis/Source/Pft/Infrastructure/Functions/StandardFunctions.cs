@@ -438,6 +438,34 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
+        private static void PadRight(PftContext context, PftNode node, PftNode[] arguments)
+        {
+            string text = context.GetStringArgument(arguments, 0);
+            double? width = context.GetNumericArgument(arguments, 1);
+            string padding = context.GetStringArgument(arguments, 2);
+
+            if (ReferenceEquals(text, null)
+                || !width.HasValue)
+            {
+                return;
+            }
+
+            char pad = ' ';
+            if (!string.IsNullOrEmpty(padding))
+            {
+                pad = padding[0];
+            }
+
+            string output = text.PadRight
+                (
+                    (int)width.Value,
+                    pad
+                );
+            context.Write(node, output);
+        }
+
+        //=================================================
+
         private static void Replace(PftContext context, PftNode node, PftNode[] arguments)
         {
             string text = context.GetStringArgument(arguments, 0);
@@ -716,6 +744,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("nPost", NPost);
             reg.Add("osVersion", OsVersion);
             reg.Add("padLeft", PadLeft);
+            reg.Add("padRight", PadRight);
             reg.Add("replace", Replace);
             reg.Add("size", Size);
             reg.Add("search", Search);

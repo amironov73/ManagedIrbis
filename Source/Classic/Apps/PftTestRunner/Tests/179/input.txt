@@ -1,0 +1,2 @@
+﻿padRight('Hello';30;'=')/
+padRight('Hello';30)
