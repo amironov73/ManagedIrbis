@@ -11,12 +11,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
 using AM.Collections;
+
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -159,11 +163,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .ThrowIfNull("variable.Name");
 
             string[] items = GetSequence(context);
-            foreach (string item in items)
+            try
             {
-                context.Variables.SetVariable(name, item);
+                foreach (string item in items)
+                {
+                    context.Variables.SetVariable(name, item);
 
-                context.Execute(Body);
+                    context.Execute(Body);
+                }
+            }
+            catch (PftBreakException)
+            {
+                // Nothing to do here
             }
 
             OnAfterExecution(context);

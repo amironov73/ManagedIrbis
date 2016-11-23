@@ -154,9 +154,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            while (EvaluateCondition(context))
+            try
             {
-                context.Execute(Body);
+                while (EvaluateCondition(context))
+                {
+                    context.Execute(Body);
+                }
+            }
+            catch (PftBreakException)
+            {
+                // Nothing to do here
             }
 
             OnAfterExecution(context);

@@ -1,0 +1,5 @@
+﻿for $x = 1; $x <= 10; $x = $x + 1;
+do
+	if $x == 5 then break fi
+	$x, ') ', #
+end

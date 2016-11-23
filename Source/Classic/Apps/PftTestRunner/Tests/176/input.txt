@@ -1,0 +1,5 @@
+﻿foreach $x in (v692^g,/)
+do
+	$x, #
+	if $x:'2010' then break fi
+end

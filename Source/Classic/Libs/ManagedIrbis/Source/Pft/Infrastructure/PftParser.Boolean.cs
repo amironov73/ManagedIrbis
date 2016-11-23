@@ -123,6 +123,14 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 result = ParseBlank();
             }
+            else if (token.Kind == PftTokenKind.True)
+            {
+                result = ParseTrue();
+            }
+            else if (token.Kind == PftTokenKind.False)
+            {
+                result = ParseFalse();
+            }
             else if (token.Kind == PftTokenKind.LeftParenthesis)
             {
                 PftConditionParenthesis parenthesis
@@ -215,6 +223,15 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        //=================================================
+
+        private PftCondition ParseFalse()
+        {
+            return MoveNext(new PftFalse(Tokens.Current));
+        }
+
+        //=================================================
+
         private PftNode ParseIf()
         {
             PftConditionalStatement result
@@ -274,6 +291,13 @@ namespace ManagedIrbis.Pft.Infrastructure
             Tokens.MoveNext();
 
             return result;
+        }
+
+        //=================================================
+
+        private PftCondition ParseTrue()
+        {
+            return MoveNext(new PftTrue(Tokens.Current));
         }
     }
 }

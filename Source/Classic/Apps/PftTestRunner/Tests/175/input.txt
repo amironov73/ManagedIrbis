@@ -1,0 +1,7 @@
+﻿$x = 1;
+while true
+do
+	$x, ' => Waste time!', #
+	$x = $x + 1;
+	if $x == 10 then break fi
+end

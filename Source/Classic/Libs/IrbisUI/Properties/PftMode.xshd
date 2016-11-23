@@ -59,6 +59,7 @@
                 <Key word = "end" />
                 <Key word = "f" />
                 <Key word = "f2" />
+                <Key word = "false" />
                 <Key word = "fi" />
                 <Key word = "floor" />
                 <Key word = "for" />
@@ -92,6 +93,7 @@
                 <Key word = "select" />
                 <Key word = "sign" />
                 <Key word = "then" />
+                <Key word = "true" />
                 <Key word = "trunc" />
                 <Key word = "uf" />
                 <Key word = "unifor" />

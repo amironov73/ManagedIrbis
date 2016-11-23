@@ -137,6 +137,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         F2,
 
         /// <summary>
+        /// false
+        /// </summary>
+        False,
+
+        /// <summary>
         /// fi
         /// </summary>
         Fi,
@@ -400,6 +405,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// then
         /// </summary>
         Then,
+
+        /// <summary>
+        /// true
+        /// </summary>
+        True,
 
         /// <summary>
         /// trunc

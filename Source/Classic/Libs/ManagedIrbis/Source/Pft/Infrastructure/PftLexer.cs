@@ -923,6 +923,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "f2";
                                 break;
 
+                            case "false":
+                                kind = PftTokenKind.False;
+                                value = "false";
+                                break;
+
                             case "fi":
                                 kind = PftTokenKind.Fi;
                                 value = "fi";
@@ -1041,6 +1046,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                             case "then":
                                 kind = PftTokenKind.Then;
                                 value = "then";
+                                break;
+
+                            case "true":
+                                kind = PftTokenKind.True;
+                                value = "true";
                                 break;
 
                             case "trunc":

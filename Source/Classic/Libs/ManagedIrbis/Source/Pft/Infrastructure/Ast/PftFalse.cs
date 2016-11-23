@@ -1,18 +1,10 @@
-﻿/* PftBoolean.cs --
+﻿/* PftFalse.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
 
 #region Using directives
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -27,15 +19,26 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public abstract class PftBoolean
-        : PftNode
+    public sealed class PftFalse
+        : PftCondition
     {
         #region Properties
 
-        /// <summary>
-        /// Boolean value.
-        /// </summary>
-        public virtual bool Value { get; set; }
+        /// <inheritdoc/>
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
+
+        /// <inheritdoc/>
+        public override bool Value
+        {
+            get { return false; }
+            set
+            {
+                // Nothing to do here
+            }
+        }
 
         #endregion
 
@@ -44,14 +47,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <summary>
         /// Constructor.
         /// </summary>
-        protected PftBoolean()
+        public PftFalse()
         {
         }
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        protected PftBoolean
+        public PftFalse
             (
                 [NotNull] PftToken token
             )
@@ -79,7 +82,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            base.Execute(context);
+            // Nothing to do here
 
             OnAfterExecution(context);
         }
