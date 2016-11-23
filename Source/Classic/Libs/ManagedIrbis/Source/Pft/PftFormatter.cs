@@ -1,4 +1,4 @@
-﻿/* PftFormatter.cs --
+﻿/* PftFormatter.cs -- local PFT script interpreter
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -7,29 +7,26 @@
 #region Using directives
 
 using System;
-using System.Text.RegularExpressions;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis.Client;
-using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Pft.Infrastructure;
 
 using MoonSharp.Interpreter;
 
-using Newtonsoft.Json;
-
 #endregion
 
-namespace ManagedIrbis.Pft.Infrastructure
+namespace ManagedIrbis.Pft
 {
     /// <summary>
-    /// Локальный форматтер: интерпретатор PFT-скриптов.
+    /// Local PFT script interpreter.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class PftFormatter
+    public class PftFormatter
         : IDisposable
     {
         #region Events
@@ -86,6 +83,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 new PftContext(null)
             )
         {
+            _ownContext = true;
         }
 
         /// <summary>
@@ -99,35 +97,14 @@ namespace ManagedIrbis.Pft.Infrastructure
             Code.NotNull(context, "context");
 
             Context = context;
-            //Context._SetFormatter(this);
+            _ownContext = false;
         }
 
         #endregion
 
         #region Private members
 
-        private string _InlineEvaluator
-            (
-                [NotNull] Match match
-            )
-        {
-            string formatName = match.Value;
-            formatName = formatName
-                .Substring
-                (
-                    1,
-                    formatName.Length - 2
-                );
-            CheckConnection();
-            FileSpecification specification = new FileSpecification
-                (
-                    IrbisPath.MasterFile,
-                    formatName
-                );
-            string result = Context.Connection.ReadTextFile(specification);
-
-            return result;
-        }
+        private bool _ownContext;
 
         #endregion
 
@@ -152,7 +129,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Format the record.
         /// </summary>
         [NotNull]
-        public string Format
+        public virtual string Format
             (
                 [NotNull] MarcRecord record
             )
@@ -173,20 +150,19 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
-        /// Resolve inline format.
+        /// Parse the program.
         /// </summary>
-        public string ResolveInline
+        public virtual void ParseProgram
             (
-                string input
+                [NotNull] string text
             )
         {
-            string result = Regex.Replace
-                (
-                    input,
-                    "\x1C.*?\x1D",
-                    _InlineEvaluator
-                );
-            return result;
+            Code.NotNull(text, "text");
+
+            PftLexer lexer = new PftLexer();
+            PftTokenList tokens = lexer.Tokenize(text);
+            PftParser parser = new PftParser(tokens);
+            Program = parser.Parse();
         }
 
         /// <summary>
@@ -210,7 +186,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <inheritdoc/>
         public void Dispose()
         {
-            // TODO Do something?
+            if (_ownContext)
+            {
+                Context.Dispose();
+            }
         }
 
         #endregion

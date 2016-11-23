@@ -32,6 +32,7 @@ namespace ManagedIrbis.Pft.Infrastructure
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftContext
+        : IDisposable
     {
         #region Properties
 
@@ -545,6 +546,16 @@ namespace ManagedIrbis.Pft.Infrastructure
             Output.WriteLine();
 
             return this;
+        }
+
+        #endregion
+
+        #region IDisposable members
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            Environment.Dispose();
         }
 
         #endregion

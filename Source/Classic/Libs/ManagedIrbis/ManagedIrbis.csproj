@@ -361,7 +361,7 @@
     <Compile Include="Source\Pft\Infrastructure\PftContext.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftDebugEventArgs.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftFieldOutputMode.cs" />
-    <Compile Include="Source\Pft\Infrastructure\PftFormatter.cs" />
+    <Compile Include="Source\Pft\PftFormatter.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.Arith.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.Boolean.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.Field.cs" />
@@ -402,6 +402,7 @@
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforU.cs" />
     <Compile Include="Source\Pft\Infrastructure\VirtualChildren.cs" />
     <Compile Include="Source\Pft\PftException.cs" />
+    <Compile Include="Source\Pft\PftHtmlFormatter.cs" />
     <Compile Include="Source\Pft\PftNotConnectedException.cs" />
     <Compile Include="Source\Pft\PftSemanticException.cs" />
     <Compile Include="Source\Pft\PftSyntaxException.cs" />

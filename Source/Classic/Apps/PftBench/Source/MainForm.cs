@@ -20,17 +20,22 @@ using System.Windows.Forms;
 using AM;
 
 using CodeJam;
+
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
+
 using IrbisUI;
 using IrbisUI.Pft;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Client;
 using ManagedIrbis.ImportExport;
+using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -90,6 +95,19 @@ namespace PftBench
             _pftTreeView.SetNodes(_program);
         }
 
+        private void ParseHtml()
+        {
+            string recordText = _recordBox.Text;
+            StringReader reader = new StringReader(recordText);
+            _record = PlainText.ReadRecord(reader);
+            _recordGrid.SetRecord(_record);
+
+            PftHtmlFormatter formatter = new PftHtmlFormatter();
+            formatter.ParseProgram(_pftBox.Text);
+            _program = formatter.Program;
+            _pftTreeView.SetNodes(_program);
+        }
+
         private void Run()
         {
             PftFormatter formatter = new PftFormatter
@@ -129,11 +147,19 @@ namespace PftBench
                     Application.DoEvents();
                 }
             }
-            if (!ReferenceEquals(_htmlBox.Document, null))
+            //if (!ReferenceEquals(_htmlBox.Document, null))
+            //{
+                //_htmlBox.Document.Write(result);
+            //}
+            try
             {
-                _htmlBox.Document.Write(result);
+                _htmlBox.DocumentText = result;
             }
-            //_htmlBox.DocumentText = result;
+            // ReSharper disable once EmptyGeneralCatchClause
+            catch
+            {
+                // Nothing to do
+            }
 
             _recordGrid.SetRecord(_record);
 
@@ -392,6 +418,21 @@ namespace PftBench
             }
 
             node.Breakpoint = treeNode.Checked;
+        }
+
+        private void _goHtmlButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Clear();
+                ParseHtml();
+                Run();
+                _outputTabControl.SelectTab(_htmlPage);
+            }
+            catch (Exception exception)
+            {
+                _resutlBox.Text = exception.ToString();
+            }
         }
     }
 }
