@@ -147,13 +147,16 @@ namespace PftBench
                     Application.DoEvents();
                 }
             }
-            //if (!ReferenceEquals(_htmlBox.Document, null))
-            //{
-                //_htmlBox.Document.Write(result);
-            //}
+            if (!ReferenceEquals(_htmlBox.Document, null))
+            {
+                _htmlBox.Document.Write(result);
+            }
             try
             {
-                _htmlBox.DocumentText = result;
+                _htmlBox.DocumentText = 
+                    "<html>" 
+                    + result
+                    + "</html>";
             }
             // ReSharper disable once EmptyGeneralCatchClause
             catch

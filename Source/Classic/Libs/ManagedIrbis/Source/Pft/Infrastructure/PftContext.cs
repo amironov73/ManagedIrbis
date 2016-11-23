@@ -9,6 +9,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AM;
 using AM.Text;
 using CodeJam;
 
@@ -392,6 +393,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        //=================================================
+
         /// <summary>
         /// Get root context.
         /// </summary>
@@ -407,6 +410,33 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             return result;
         }
+
+        //=================================================
+
+        /// <summary>
+        /// Get string argument value.
+        /// </summary>
+        [CanBeNull]
+        public string GetStringArgument
+            (
+                [NotNull] PftNode[] arguments,
+                int index
+            )
+        {
+            Code.NotNull(arguments, "arguments");
+
+            PftNode node = arguments.GetOccurrence(index);
+            if (ReferenceEquals(node, null))
+            {
+                return null;
+            }
+
+            string result = Evaluate(node);
+
+            return result;
+        }
+
+        //=================================================
 
         /// <summary>
         /// Временное переключение контекста (например,

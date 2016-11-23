@@ -94,12 +94,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                 [NotNull] string name,
                 [NotNull] PftContext context,
                 [NotNull] PftNode node,
-                [CanBeNull] string[] arguments
+                [NotNull] PftNode[] arguments
             )
         {
             Code.NotNullNorEmpty(name, "name");
             Code.NotNull(context, "context");
             Code.NotNull(node, "node");
+            Code.NotNull(arguments, "arguments");
 
             PftFunction function;
             if (!UserFunctions.Registry.TryGetValue

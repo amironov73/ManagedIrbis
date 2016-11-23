@@ -344,6 +344,8 @@
     <Compile Include="Source\Pft\Infrastructure\Diagnostics\PftNodeInfo.cs" />
     <Compile Include="Source\Pft\Infrastructure\FieldSpecification.cs" />
     <Compile Include="Source\Pft\Infrastructure\FormatExit.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Functions\FunctionDescriptor.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Functions\FunctionParameter.cs" />
     <Compile Include="Source\Pft\Infrastructure\IFormatExit.cs" />
     <Compile Include="Source\Pft\Infrastructure\IndexKind.cs" />
     <Compile Include="Source\Pft\Infrastructure\IndexSpecification.cs" />
@@ -352,8 +354,8 @@
     <Compile Include="Source\Pft\Infrastructure\PftConfig.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftContextSaver.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftExitException.cs" />
-    <Compile Include="Source\Pft\Infrastructure\PftFunction.cs" />
-    <Compile Include="Source\Pft\Infrastructure\PftFunctionManager.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Functions\PftFunction.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Functions\PftFunctionManager.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftGlobal.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftGlobalManager.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftLexer.cs" />
@@ -373,7 +375,7 @@
     <Compile Include="Source\Pft\Infrastructure\PftOutput.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftVariableManager.cs" />
-    <Compile Include="Source\Pft\Infrastructure\StandardFunctions.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Functions\StandardFunctions.cs" />
     <Compile Include="Source\Pft\Infrastructure\Testing\PftTest.cs" />
     <Compile Include="Source\Pft\Infrastructure\Testing\PftTester.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftToken.cs" />

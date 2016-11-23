@@ -118,12 +118,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new PftSyntaxException(this);
             }
 
-            string [] arguments = new string[Arguments.Count];
-
-            for (int i = 0; i < Arguments.Count; i++)
-            {
-                arguments[i] = context.Evaluate(Arguments[i]);
-            }
+            PftNode[] arguments = Arguments.ToArray();
 
             PftFunction function = context.Functions.FindFunction(name);
             if (!ReferenceEquals(function, null))
@@ -137,7 +132,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 if (!ReferenceEquals(procedure, null))
                 {
-                    string expression = arguments.GetOccurrence(0);
+                    string expression = context.GetStringArgument(arguments, 0);
                     procedure.Execute
                         (
                             context,
