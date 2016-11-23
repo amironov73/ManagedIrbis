@@ -9,8 +9,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using AM;
 using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -406,6 +408,47 @@ namespace ManagedIrbis.Pft.Infrastructure
             while (!ReferenceEquals(result.Parent, null))
             {
                 result = result.Parent;
+            }
+
+            return result;
+        }
+
+        //=================================================
+
+        /// <summary>
+        /// Get numeric argument value.
+        /// </summary>
+        [CanBeNull]
+        public double? GetNumericArgument
+            (
+                [NotNull] PftNode[] arguments,
+                int index
+            )
+        {
+            Code.NotNull(arguments, "arguments");
+
+            PftNode node = arguments.GetOccurrence(index);
+            if (ReferenceEquals(node, null))
+            {
+                return null;
+            }
+
+            double? result = null;
+
+            PftNumeric numeric = node as PftNumeric;
+            if (ReferenceEquals(numeric, null))
+            {
+                string text = GetStringArgument(arguments, index);
+                double val;
+                if (double.TryParse(text, out val))
+                {
+                    result = val;
+                }
+            }
+            else
+            {
+                Evaluate(numeric);
+                result = numeric.Value;
             }
 
             return result;

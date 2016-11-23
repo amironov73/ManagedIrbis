@@ -570,14 +570,21 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftTokenList saveTokens = Tokens;
             Tokens = tokens;
+            int savePosition = Tokens.SavePosition();
 
             try
             {
-                PftNode superNode = new PftNode();
-                while (!Tokens.IsEof)
+                PftNode superNode = ParseArithmetic();
+
+                if (ReferenceEquals(superNode, null))
                 {
-                    PftNode node = ParseNext();
-                    superNode.Children.Add(node);
+                    superNode = new PftNode();
+                    Tokens.RestorePosition(savePosition);
+                    while (!Tokens.IsEof)
+                    {
+                        PftNode node = ParseNext();
+                        superNode.Children.Add(node);
+                    }
                 }
 
                 if (superNode.Children.Count == 1)
@@ -619,7 +626,12 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 while (!innerTokens.IsEof)
                 {
-                    PftTokenList argumentTokens = innerTokens.Segment(_semicolonStop);
+                    PftTokenList argumentTokens = innerTokens.Segment
+                        (
+                            _parenthesisOpen,
+                            _parenthesisClose,
+                            _semicolonStop
+                        );
                     if (ReferenceEquals(argumentTokens, null))
                     {
                         _HandleArguments(result, innerTokens);

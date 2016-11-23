@@ -176,7 +176,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             };
             arguments.Children.AddRange
                 (
-                    Children.Select(node => node.GetNodeInfo())
+                    Arguments.Select(node => node.GetNodeInfo())
                 );
             result.Children.Add(arguments);
 

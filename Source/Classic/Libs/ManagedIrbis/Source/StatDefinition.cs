@@ -15,7 +15,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis
 {
     /// <summary>
-    /// Parameters for Stat command.
+    /// Signature for Stat command.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]

@@ -63,7 +63,7 @@ namespace ManagedIrbis.Gbl
         }
 
             /// <summary>
-        /// Parameters.
+        /// Signature.
         /// </summary>
         [NotNull]
         [XmlElement("parameter")]

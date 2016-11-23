@@ -509,6 +509,29 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
+        private static void Substring(PftContext context, PftNode node, PftNode[] arguments)
+        {
+            string text = context.GetStringArgument(arguments, 0);
+            double? offset = context.GetNumericArgument(arguments, 1);
+            double? length = context.GetNumericArgument(arguments, 2);
+
+            if (ReferenceEquals(text, null)
+                || !offset.HasValue
+                || !length.HasValue)
+            {
+                return;
+            }
+
+            string output = text.SafeSubstring
+                (
+                    (int) offset.Value,
+                    (int) length.Value
+                );
+            context.Write(node, output);
+        }
+
+        //=================================================
+
         private static void System(PftContext context, PftNode node, PftNode[] arguments)
         {
             string expression = context.GetStringArgument(arguments, 0);
@@ -566,7 +589,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             // TODO Implement properly
 
-            string expression = arguments.GetOccurrence(0);
+            string expression = context.GetStringArgument(arguments, 0);
             string output = string.IsNullOrEmpty(expression)
                 ? today.ToString()
                 : today.ToString(expression);
@@ -669,6 +692,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("search", Search);
             reg.Add("sort", Sort);
             reg.Add("split", Split);
+            reg.Add("substring", Substring);
             reg.Add("system", System);
             reg.Add("today", Today);
             reg.Add("tolower", ToLower);

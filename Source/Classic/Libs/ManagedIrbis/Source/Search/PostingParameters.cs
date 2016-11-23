@@ -30,7 +30,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Search
 {
     /// <summary>
-    /// Parameters for <see cref="ReadPostingsCommand"/>.
+    /// Signature for <see cref="ReadPostingsCommand"/>.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
