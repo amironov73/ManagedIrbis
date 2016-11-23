@@ -6,14 +6,8 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using AM;
 using AM.Collections;
 
 using CodeJam;
@@ -120,10 +114,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             PftNode[] arguments = Arguments.ToArray();
 
-            PftFunction function = context.Functions.FindFunction(name);
-            if (!ReferenceEquals(function, null))
+            FunctionDescriptor descriptor = context.Functions.FindFunction(name);
+            if (!ReferenceEquals(descriptor, null))
             {
-                function(context, this, arguments);
+                descriptor.Function
+                    (
+                        context,
+                        this,
+                        arguments
+                    );
             }
             else
             {

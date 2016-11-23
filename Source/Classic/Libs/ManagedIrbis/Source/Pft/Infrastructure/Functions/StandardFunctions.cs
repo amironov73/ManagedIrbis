@@ -720,7 +720,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         internal static void Register()
         {
-            var reg = PftFunctionManager.BuiltinFunctions.Registry;
+            var reg = PftFunctionManager.BuiltinFunctions;
 
             reg.Add("addField", AddField);
             reg.Add("bold", Bold);

@@ -8,10 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 
@@ -38,7 +34,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Function registry.
         /// </summary>
         [NotNull]
-        public Dictionary<string, PftFunction> Registry { get; private set; }
+        public Dictionary<string, FunctionDescriptor> Registry { get; private set; }
 
         /// <summary>
         /// Builtin functions.
@@ -72,7 +68,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public PftFunctionManager()
         {
-            Registry = new Dictionary<string, PftFunction>
+            Registry = new Dictionary<string, FunctionDescriptor>
                 (
                     StringComparer.CurrentCultureIgnoreCase
                 );
@@ -85,6 +81,29 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Quick add the function.
+        /// </summary>
+        [NotNull]
+        public PftFunctionManager Add
+            (
+                [NotNull] string name,
+                [NotNull] PftFunction function
+            )
+        {
+            Code.NotNullNorEmpty(name, "name");
+
+            FunctionDescriptor descriptor = new FunctionDescriptor
+            {
+                Name = name,
+                Function = function
+            };
+
+            Registry.Add(name, descriptor);
+
+            return this;
+        }
 
         /// <summary>
         /// Execute specified function.
@@ -102,17 +121,17 @@ namespace ManagedIrbis.Pft.Infrastructure
             Code.NotNull(node, "node");
             Code.NotNull(arguments, "arguments");
 
-            PftFunction function;
+            FunctionDescriptor descriptor;
             if (!UserFunctions.Registry.TryGetValue
                 (
                     name,
-                    out function
+                    out descriptor
                 ))
             {
                 if (!BuiltinFunctions.Registry.TryGetValue
                     (
                         name,
-                        out function
+                        out descriptor
                     ))
                 {
                     throw new PftSemanticException
@@ -123,21 +142,26 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
             }
 
-            function(context, node, arguments);
+            descriptor.Function
+                (
+                    context,
+                    node,
+                    arguments
+                );
         }
 
         /// <summary>
         /// Find specified function.
         /// </summary>
         [CanBeNull]
-        public PftFunction FindFunction
+        public FunctionDescriptor FindFunction
             (
                 [NotNull] string name
             )
         {
             Code.NotNullNorEmpty(name, "name");
 
-            PftFunction result;
+            FunctionDescriptor result;
             Registry.TryGetValue(name, out result);
 
             return result;
@@ -177,7 +201,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 throw new PftException("Function already registered: " + name);
             }
 
-            Registry.Add(name, function);
+            Add(name, function);
         }
 
         #endregion
