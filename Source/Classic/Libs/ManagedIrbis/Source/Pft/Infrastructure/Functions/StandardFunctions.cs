@@ -1,4 +1,4 @@
-﻿/* PftFunctionManager.cs --
+﻿/* StandardFunctions.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -31,7 +31,7 @@ using MoonSharp.Interpreter;
 
 namespace ManagedIrbis.Pft.Infrastructure
 {
-    static class StandardFunctions
+    static partial class StandardFunctions
     {
         #region Private members
 
@@ -580,8 +580,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             string output = text.SafeSubstring
                 (
-                    (int) offset.Value,
-                    (int) length.Value
+                    (int)offset.Value,
+                    (int)length.Value
                 );
             context.Write(node, output);
         }
@@ -758,6 +758,18 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("trace", Trace);
             reg.Add("trim", Trim);
             reg.Add("warn", Warn);
+
+            // ===================
+
+            reg.Add("close", Close);
+            reg.Add("isOpen", IsOpen);
+            reg.Add("openAppend", OpenAppend);
+            reg.Add("openRead", OpenRead);
+            reg.Add("openWrite", OpenWrite);
+            reg.Add("readAll", ReadAll);
+            reg.Add("readLine", ReadLine);
+            reg.Add("write", Write);
+            reg.Add("writeLine", WriteLine);
         }
 
         #endregion

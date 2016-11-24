@@ -1,0 +1,4 @@
+﻿$x=OpenRead('hello.txt');
+$y=ReadLine($x);
+$y
+Close($x)

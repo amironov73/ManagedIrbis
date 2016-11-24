@@ -1,0 +1,1 @@
+﻿OpenRead(), ReadLine() and Close() functions

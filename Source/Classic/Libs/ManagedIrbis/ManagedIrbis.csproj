@@ -344,8 +344,10 @@
     <Compile Include="Source\Pft\Infrastructure\Diagnostics\PftNodeInfo.cs" />
     <Compile Include="Source\Pft\Infrastructure\FieldSpecification.cs" />
     <Compile Include="Source\Pft\Infrastructure\FormatExit.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Functions\FileObject.cs" />
     <Compile Include="Source\Pft\Infrastructure\Functions\FunctionDescriptor.cs" />
     <Compile Include="Source\Pft\Infrastructure\Functions\FunctionParameter.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Functions\StandardFunctions.Files.cs" />
     <Compile Include="Source\Pft\Infrastructure\IFormatExit.cs" />
     <Compile Include="Source\Pft\Infrastructure\IndexKind.cs" />
     <Compile Include="Source\Pft\Infrastructure\IndexSpecification.cs" />
