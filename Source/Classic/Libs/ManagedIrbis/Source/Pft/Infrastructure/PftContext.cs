@@ -20,6 +20,7 @@ using JetBrains.Annotations;
 using ManagedIrbis.Client;
 using ManagedIrbis.Pft.Infrastructure.Ast;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -45,6 +46,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         [NotNull]
         //public PftEnvironmentAbstraction Environment { get; private set; }
         public AbstractClient Environment { get; private set; }
+
+        /// <summary>
+        /// Text driver.
+        /// </summary>
+        [NotNull]
+        public TextDriver Driver { get; private set; }
 
         /// <summary>
         /// Родительский контекст.
@@ -171,15 +178,18 @@ namespace ManagedIrbis.Pft.Infrastructure
             _parent = parent;
 
             Environment = ReferenceEquals(parent, null)
-                //? new PftLocalEnvironment()
                 ? new LocalClient()
                 : parent.Environment;
 
-            PftOutput parentBuffer = parent == null
+            PftOutput parentBuffer = ReferenceEquals(parent, null)
                 ? null
                 : parent.Output;
 
             Output = new PftOutput(parentBuffer);
+
+            Driver = ReferenceEquals(parent, null)
+                ? new PlainTextDriver(Output)
+                : parent.Driver;
 
             Globals = ReferenceEquals(parent, null)
                 ? new PftGlobalManager()

@@ -363,6 +363,9 @@
     <Compile Include="Source\Pft\Infrastructure\PftContext.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftDebugEventArgs.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftFieldOutputMode.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Text\HtmlDriver.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Text\PlainTextDriver.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Text\TextDriver.cs" />
     <Compile Include="Source\Pft\PftFormatter.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.Arith.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.Boolean.cs" />
