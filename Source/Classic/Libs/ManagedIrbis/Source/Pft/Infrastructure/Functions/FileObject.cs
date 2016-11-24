@@ -48,13 +48,37 @@ namespace ManagedIrbis.Pft.Infrastructure
             WriteMode = writeMode;
             AppendMode = appendMode;
 
+            FileStream stream;
+
             if (writeMode)
             {
-                _writer = new StreamWriter(fileName, appendMode);
+                stream = new FileStream
+                    (
+                        fileName,
+                        appendMode
+                        ? FileMode.Append
+                        : FileMode.Create
+                    );
+
+                _writer = new StreamWriter
+                    (
+                        stream,
+                        IrbisEncoding.Utf8
+                    );
             }
             else
             {
-                _reader = new StreamReader(fileName);
+                stream = new FileStream
+                    (
+                        fileName,
+                        FileMode.Open
+                    );
+
+                _reader = new StreamReader
+                    (
+                        stream,
+                        IrbisEncoding.Utf8
+                    );
             }
         }
 
