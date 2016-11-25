@@ -8,10 +8,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Text;
@@ -21,8 +19,6 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -113,7 +109,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         [CanBeNull]
         private FieldSpecification ReadField()
         {
-            //FieldSpecification result = new FieldSpecification();
             FieldSpecification result = new FieldSpecification();
 
             TextPosition position = _navigator.SavePosition();
@@ -236,7 +231,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {
                     result.Append(c);
                     ReadChar();
-                    c = PeekChar();
+                    PeekChar();
                 }
 
                 while (true)
@@ -326,9 +321,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 char c = ReadChar();
                 char c2, c3;
                 string value = null;
-                string value2;
                 FieldSpecification field = null;
-                PftTokenKind kind = PftTokenKind.None;
+                PftTokenKind kind;
                 switch (c)
                 {
                     case '\'':
@@ -732,7 +726,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         {
                             goto default;
                         }
-                        value2 = value.ToLower();
+                        string value2 = value.ToLower();
                         if (value2.Length == 2)
                         {
                             if (value2 == "fn")

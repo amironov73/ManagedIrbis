@@ -65,11 +65,14 @@
                 <Key word = "for" />
                 <Key word = "foreach" />
                 <Key word = "frac" />
-                <Key word = "from" />
+                <Key word = "global" />		
+                <Key word = "have" />
+                <Key word = "l" />
                 <Key word = "have" />
                 <Key word = "if" />
                 <Key word = "in" />
                 <Key word = "l" />
+                <Key word = "local" />
                 <Key word = "mdl" />
                 <Key word = "mdu" />
                 <Key word = "mfn" />

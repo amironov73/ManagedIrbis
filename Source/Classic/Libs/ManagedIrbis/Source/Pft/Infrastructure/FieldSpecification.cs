@@ -226,12 +226,17 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
             Tag = builder.ToString();
 
+            navigator.SkipWhitespace();
+            c = navigator.PeekChar();
+
             // now c is peeked char
 
             if (c == '@')
             {
                 builder.Length = 0;
                 navigator.ReadChar();
+
+                navigator.SkipWhitespace();
 
                 while (true)
                 {
@@ -251,12 +256,15 @@ namespace ManagedIrbis.Pft.Infrastructure
                 Embedded = builder.ToString();
             } // c == '@'
 
-            // c still is peeked char
+            navigator.SkipWhitespace();
+            c = navigator.PeekChar();
+
             if (c == '[')
             {
                 // parse the field repeat
 
                 navigator.ReadChar();
+                navigator.SkipWhitespace();
 
                 string text = navigator.ReadUntil
                     (
@@ -276,10 +284,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                     );
 
                 navigator.ReadChar();
-                c = navigator.PeekChar();
             }
 
-            // c still is peeked char
+            navigator.SkipWhitespace();
+            c = navigator.PeekChar();
 
             if (c == '^')
             {
@@ -295,15 +303,15 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
                 SubField = SubFieldCode.Normalize(c);
 
+                navigator.SkipWhitespace();
                 c = navigator.PeekChar();
 
                 // parse subfield repeat
 
                 if (c == '[')
                 {
-                    // parse the field repeat
-
                     navigator.ReadChar();
+                    navigator.SkipWhitespace();
 
                     string text = navigator.ReadUntil
                         (
@@ -323,7 +331,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                         );
 
                     navigator.ReadChar();
-                    c = navigator.PeekChar();
                 }
             } // c == '^'
 
@@ -333,11 +340,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                 goto DONE;
             }
 
-            // c still is peeked char
+            navigator.SkipWhitespace();
+            c = navigator.PeekChar();
 
             if (c == '*')
             {
                 navigator.ReadChar();
+                navigator.SkipWhitespace();
                 builder.Length = 0;
 
                 while (true)
@@ -363,9 +372,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                     );
             } // c == '*'
 
+            navigator.SkipWhitespace();
+            c = navigator.PeekChar();
+
             if (c == '.')
             {
                 navigator.ReadChar();
+                navigator.SkipWhitespace();
                 builder.Length = 0;
 
                 while (true)
@@ -396,9 +409,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
             } // c == '.'
 
+            navigator.SkipWhitespace();
+            c = navigator.PeekChar();
+
             if (c == '(')
             {
                 navigator.ReadChar();
+                navigator.SkipWhitespace();
                 builder.Length = 0;
 
                 while (true)
@@ -407,7 +424,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                     if (c == ')')
                     {
                         navigator.ReadChar();
-                        c = navigator.PeekChar();
                         break;
                     }
                     if (!c.IsArabicDigit())

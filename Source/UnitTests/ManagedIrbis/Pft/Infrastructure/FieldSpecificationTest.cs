@@ -44,6 +44,23 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
+        public void FieldSpecification_Parse1a()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(true, specification.Parse("v200 \r\n^a"));
+            Assert.AreEqual('v', specification.Command);
+            Assert.AreEqual(null, specification.Embedded);
+            Assert.AreEqual(0, specification.ParagraphIndent);
+            Assert.AreEqual(IndexKind.None, specification.FieldRepeat.Kind);
+            Assert.AreEqual(IndexKind.None, specification.SubFieldRepeat.Kind);
+            Assert.AreEqual(0, specification.Offset);
+            Assert.AreEqual(0, specification.Length);
+            Assert.AreEqual('a', specification.SubField);
+            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual("v200 \r\n^a", specification.RawText);
+        }
+
+        [TestMethod]
         public void FieldSpecification_Parse2()
         {
             FieldSpecification specification = new FieldSpecification();
@@ -61,11 +78,52 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
+        public void FieldSpecification_Parse2a()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(true, specification.Parse("v200\r\n"));
+            Assert.AreEqual('v', specification.Command);
+            Assert.AreEqual(null, specification.Embedded);
+            Assert.AreEqual(0, specification.ParagraphIndent);
+            Assert.AreEqual(IndexKind.None, specification.FieldRepeat.Kind);
+            Assert.AreEqual(IndexKind.None, specification.SubFieldRepeat.Kind);
+            Assert.AreEqual(0, specification.Offset);
+            Assert.AreEqual(0, specification.Length);
+            Assert.AreEqual('\0', specification.SubField);
+            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual("v200\r\n", specification.RawText);
+        }
+
+        [TestMethod]
         public void FieldSpecification_Parse3()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(false, specification.Parse("200^a"));
         }
+
+        [TestMethod]
+        public void FieldSpecification_Parse3a()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(false, specification.Parse("va^a"));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftSyntaxException))]
+        public void FieldSpecification_Parse3b_Exception()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(false, specification.Parse("v200@^a"));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftSyntaxException))]
+        public void FieldSpecification_Parse3c_Exception()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(false, specification.Parse("v200^я"));
+        }
+
 
         [TestMethod]
         public void FieldSpecification_Parse4()
@@ -82,6 +140,23 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual('\0', specification.SubField);
             Assert.AreEqual("461", specification.Tag);
             Assert.AreEqual("v461@200", specification.RawText);
+        }
+
+        [TestMethod]
+        public void FieldSpecification_Parse4a()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(true, specification.Parse("v461 @ 200"));
+            Assert.AreEqual('v', specification.Command);
+            Assert.AreEqual("200", specification.Embedded);
+            Assert.AreEqual(0, specification.ParagraphIndent);
+            Assert.AreEqual(IndexKind.None, specification.FieldRepeat.Kind);
+            Assert.AreEqual(IndexKind.None, specification.SubFieldRepeat.Kind);
+            Assert.AreEqual(0, specification.Offset);
+            Assert.AreEqual(0, specification.Length);
+            Assert.AreEqual('\0', specification.SubField);
+            Assert.AreEqual("461", specification.Tag);
+            Assert.AreEqual("v461 @ 200", specification.RawText);
         }
 
         [TestMethod]
@@ -104,6 +179,60 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
+        public void FieldSpecification_Parse5a()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(true, specification.Parse("v200 [ 2 ] ^a [ 3 ]"));
+            Assert.AreEqual('v', specification.Command);
+            Assert.AreEqual(null, specification.Embedded);
+            Assert.AreEqual(0, specification.ParagraphIndent);
+            Assert.AreEqual(IndexKind.Literal, specification.FieldRepeat.Kind);
+            Assert.AreEqual(2, specification.FieldRepeat.Literal);
+            Assert.AreEqual(IndexKind.Literal, specification.SubFieldRepeat.Kind);
+            Assert.AreEqual(3, specification.SubFieldRepeat.Literal);
+            Assert.AreEqual(0, specification.Offset);
+            Assert.AreEqual(0, specification.Length);
+            Assert.AreEqual('a', specification.SubField);
+            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual("v200 [ 2 ] ^a [ 3 ]", specification.RawText);
+        }
+
+        [TestMethod]
+        public void FieldSpecification_Parse5b()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(true, specification.Parse("v200[2]^a[3] "));
+            Assert.AreEqual('v', specification.Command);
+            Assert.AreEqual(null, specification.Embedded);
+            Assert.AreEqual(0, specification.ParagraphIndent);
+            Assert.AreEqual(IndexKind.Literal, specification.FieldRepeat.Kind);
+            Assert.AreEqual(2, specification.FieldRepeat.Literal);
+            Assert.AreEqual(IndexKind.Literal, specification.SubFieldRepeat.Kind);
+            Assert.AreEqual(3, specification.SubFieldRepeat.Literal);
+            Assert.AreEqual(0, specification.Offset);
+            Assert.AreEqual(0, specification.Length);
+            Assert.AreEqual('a', specification.SubField);
+            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual("v200[2]^a[3] ", specification.RawText);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftSyntaxException))]
+        public void FieldSpecification_Parse5c_Exception()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(false, specification.Parse("v200[2"));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftSyntaxException))]
+        public void FieldSpecification_Parse5d_Exception()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(false, specification.Parse("v200^a[2"));
+        }
+
+        [TestMethod]
         public void FieldSpecification_Parse6()
         {
             FieldSpecification specification = new FieldSpecification();
@@ -120,6 +249,63 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual('a', specification.SubField);
             Assert.AreEqual("200", specification.Tag);
             Assert.AreEqual("v200^a[2]", specification.RawText);
+        }
+
+        [TestMethod]
+        public void FieldSpecification_Parse6a()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(true, specification.Parse("d200^a[2]"));
+            Assert.AreEqual('d', specification.Command);
+            Assert.AreEqual(null, specification.Embedded);
+            Assert.AreEqual(0, specification.ParagraphIndent);
+            Assert.AreEqual(IndexKind.None, specification.FieldRepeat.Kind);
+            Assert.AreEqual(IndexKind.Literal, specification.SubFieldRepeat.Kind);
+            Assert.AreEqual(2, specification.SubFieldRepeat.Literal);
+            Assert.AreEqual(0, specification.FieldRepeat.Literal);
+            Assert.AreEqual(0, specification.Offset);
+            Assert.AreEqual(0, specification.Length);
+            Assert.AreEqual('a', specification.SubField);
+            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual("d200^a[2]", specification.RawText);
+        }
+
+        [TestMethod]
+        public void FieldSpecification_Parse6b()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(true, specification.Parse("n200^a[2]"));
+            Assert.AreEqual('n', specification.Command);
+            Assert.AreEqual(null, specification.Embedded);
+            Assert.AreEqual(0, specification.ParagraphIndent);
+            Assert.AreEqual(IndexKind.None, specification.FieldRepeat.Kind);
+            Assert.AreEqual(IndexKind.Literal, specification.SubFieldRepeat.Kind);
+            Assert.AreEqual(2, specification.SubFieldRepeat.Literal);
+            Assert.AreEqual(0, specification.FieldRepeat.Literal);
+            Assert.AreEqual(0, specification.Offset);
+            Assert.AreEqual(0, specification.Length);
+            Assert.AreEqual('a', specification.SubField);
+            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual("n200^a[2]", specification.RawText);
+        }
+
+        [TestMethod]
+        public void FieldSpecification_Parse6c()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(true, specification.Parse("g200^a[2]"));
+            Assert.AreEqual('g', specification.Command);
+            Assert.AreEqual(null, specification.Embedded);
+            Assert.AreEqual(0, specification.ParagraphIndent);
+            Assert.AreEqual(IndexKind.None, specification.FieldRepeat.Kind);
+            Assert.AreEqual(IndexKind.Literal, specification.SubFieldRepeat.Kind);
+            Assert.AreEqual(2, specification.SubFieldRepeat.Literal);
+            Assert.AreEqual(0, specification.FieldRepeat.Literal);
+            Assert.AreEqual(0, specification.Offset);
+            Assert.AreEqual(0, specification.Length);
+            Assert.AreEqual('a', specification.SubField);
+            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual("g200^a[2]", specification.RawText);
         }
 
         [TestMethod]
@@ -174,6 +360,31 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
+        public void FieldSpecification_Parse9a()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(true, specification.Parse("v200^a * 5"));
+            Assert.AreEqual('v', specification.Command);
+            Assert.AreEqual(null, specification.Embedded);
+            Assert.AreEqual(0, specification.ParagraphIndent);
+            Assert.AreEqual(IndexKind.None, specification.FieldRepeat.Kind);
+            Assert.AreEqual(IndexKind.None, specification.SubFieldRepeat.Kind);
+            Assert.AreEqual(5, specification.Offset);
+            Assert.AreEqual(0, specification.Length);
+            Assert.AreEqual('a', specification.SubField);
+            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual("v200^a * 5", specification.RawText);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftSyntaxException))]
+        public void FieldSpecification_Parse9b_Exception()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(false, specification.Parse("v200^a*"));
+        }
+
+        [TestMethod]
         public void FieldSpecification_Parse10()
         {
             FieldSpecification specification = new FieldSpecification();
@@ -188,6 +399,31 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual('a', specification.SubField);
             Assert.AreEqual("200", specification.Tag);
             Assert.AreEqual("v200^a.5", specification.RawText);
+        }
+
+        [TestMethod]
+        public void FieldSpecification_Parse10a()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(true, specification.Parse("v200^a . 5"));
+            Assert.AreEqual('v', specification.Command);
+            Assert.AreEqual(null, specification.Embedded);
+            Assert.AreEqual(0, specification.ParagraphIndent);
+            Assert.AreEqual(IndexKind.None, specification.FieldRepeat.Kind);
+            Assert.AreEqual(IndexKind.None, specification.SubFieldRepeat.Kind);
+            Assert.AreEqual(0, specification.Offset);
+            Assert.AreEqual(5, specification.Length);
+            Assert.AreEqual('a', specification.SubField);
+            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual("v200^a . 5", specification.RawText);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftSyntaxException))]
+        public void FieldSpecification_Parse10b_Exception()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(false, specification.Parse("v200^a.c"));
         }
 
         [TestMethod]
@@ -208,6 +444,23 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
+        public void FieldSpecification_Parse11a()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(true, specification.Parse("v200^a * 5 . 5"));
+            Assert.AreEqual('v', specification.Command);
+            Assert.AreEqual(null, specification.Embedded);
+            Assert.AreEqual(0, specification.ParagraphIndent);
+            Assert.AreEqual(IndexKind.None, specification.FieldRepeat.Kind);
+            Assert.AreEqual(IndexKind.None, specification.SubFieldRepeat.Kind);
+            Assert.AreEqual(5, specification.Offset);
+            Assert.AreEqual(5, specification.Length);
+            Assert.AreEqual('a', specification.SubField);
+            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual("v200^a * 5 . 5", specification.RawText);
+        }
+
+        [TestMethod]
         public void FieldSpecification_Parse12()
         {
             FieldSpecification specification = new FieldSpecification();
@@ -222,6 +475,39 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual('a', specification.SubField);
             Assert.AreEqual("200", specification.Tag);
             Assert.AreEqual("v200^a(10)", specification.RawText);
+        }
+
+        [TestMethod]
+        public void FieldSpecification_Parse12a()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(true, specification.Parse("v200^a ( 10)"));
+            Assert.AreEqual('v', specification.Command);
+            Assert.AreEqual(null, specification.Embedded);
+            Assert.AreEqual(10, specification.ParagraphIndent);
+            Assert.AreEqual(IndexKind.None, specification.FieldRepeat.Kind);
+            Assert.AreEqual(IndexKind.None, specification.SubFieldRepeat.Kind);
+            Assert.AreEqual(0, specification.Offset);
+            Assert.AreEqual(0, specification.Length);
+            Assert.AreEqual('a', specification.SubField);
+            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual("v200^a ( 10)", specification.RawText);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftSyntaxException))]
+        public void FieldSpecification_Parse12b_Exception()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(false, specification.Parse("v200^a()"));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftSyntaxException))]
+        public void FieldSpecification_Parse12c_Exception()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(false, specification.Parse("v200^a(x)"));
         }
 
         [TestMethod]
@@ -241,6 +527,25 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual('a', specification.SubField);
             Assert.AreEqual("461", specification.Tag);
             Assert.AreEqual("v461@200[2]^a[3]*4.5(6)", specification.RawText);
+        }
+
+        [TestMethod]
+        public void FieldSpecification_Parse14a()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(true, specification.Parse("v461 @ 200 [ 2 ] ^a [ 3 ] * 4 . 5 ( 6)"));
+            Assert.AreEqual('v', specification.Command);
+            Assert.AreEqual("200", specification.Embedded);
+            Assert.AreEqual(6, specification.ParagraphIndent);
+            Assert.AreEqual(IndexKind.Literal, specification.FieldRepeat.Kind);
+            Assert.AreEqual(IndexKind.Literal, specification.SubFieldRepeat.Kind);
+            Assert.AreEqual(2, specification.FieldRepeat.Literal);
+            Assert.AreEqual(3, specification.SubFieldRepeat.Literal);
+            Assert.AreEqual(4, specification.Offset);
+            Assert.AreEqual(5, specification.Length);
+            Assert.AreEqual('a', specification.SubField);
+            Assert.AreEqual("461", specification.Tag);
+            Assert.AreEqual("v461 @ 200 [ 2 ] ^a [ 3 ] * 4 . 5 ( 6)", specification.RawText);
         }
 
         [TestMethod]
