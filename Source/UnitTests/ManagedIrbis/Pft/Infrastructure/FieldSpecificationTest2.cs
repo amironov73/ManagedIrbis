@@ -118,5 +118,89 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(false, specification.ParseUnifor("v200^a#"));
         }
+
+        [TestMethod]
+        public void FieldSpecification_ToString1()
+        {
+            FieldSpecification specification = new FieldSpecification
+            {
+                Command = 'v',
+                Tag = "200",
+                SubField = 'a'
+            };
+            string actual = specification.ToString();
+            Assert.AreEqual("v200^a", actual);
+        }
+
+        [TestMethod]
+        public void FieldSpecification_ToString2()
+        {
+            FieldSpecification specification = new FieldSpecification
+            {
+                Command = 'v',
+                Tag = "200",
+                SubField = 'a',
+                Embedded = "461"
+            };
+            string actual = specification.ToString();
+            Assert.AreEqual("v200@461^a", actual);
+        }
+
+        [TestMethod]
+        public void FieldSpecification_ToString3()
+        {
+            FieldSpecification specification = new FieldSpecification
+            {
+                Command = 'v',
+                Tag = "200",
+                SubField = 'a',
+                Offset = 10
+            };
+            string actual = specification.ToString();
+            Assert.AreEqual("v200^a*10", actual);
+        }
+
+        [TestMethod]
+        public void FieldSpecification_ToString4()
+        {
+            FieldSpecification specification = new FieldSpecification
+            {
+                Command = 'v',
+                Tag = "200",
+                SubField = 'a',
+                Length = 5
+            };
+            string actual = specification.ToString();
+            Assert.AreEqual("v200^a.5", actual);
+        }
+
+        [TestMethod]
+        public void FieldSpecification_ToString5()
+        {
+            FieldSpecification specification = new FieldSpecification
+            {
+                Command = 'v',
+                Tag = "200",
+                SubField = 'a',
+                Offset = 10,
+                Length = 5
+            };
+            string actual = specification.ToString();
+            Assert.AreEqual("v200^a*10.5", actual);
+        }
+
+        [TestMethod]
+        public void FieldSpecification_ToString6()
+        {
+            FieldSpecification specification = new FieldSpecification
+            {
+                Command = 'v',
+                Tag = "200",
+                SubField = 'a',
+                ParagraphIndent = 10
+            };
+            string actual = specification.ToString();
+            Assert.AreEqual("v200^a(10)", actual);
+        }
     }
 }
