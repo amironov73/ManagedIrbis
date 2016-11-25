@@ -172,6 +172,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         From,
 
         /// <summary>
+        /// global
+        /// </summary>
+        Global,
+
+        /// <summary>
         /// #
         /// </summary>
         Hash,
@@ -230,6 +235,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// (
         /// </summary>
         LeftParenthesis,
+
+        /// <summary>
+        /// local
+        /// </summary>
+        Local,
 
         /// <summary>
         /// mfn

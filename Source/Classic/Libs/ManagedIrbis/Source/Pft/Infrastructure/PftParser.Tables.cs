@@ -111,8 +111,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenKind.Ref,
 
-            PftTokenKind.If, PftTokenKind.For, PftTokenKind.While,
-            PftTokenKind.ForEach, PftTokenKind.From,
+            PftTokenKind.If, PftTokenKind.For,
+            PftTokenKind.While, PftTokenKind.ForEach,
+            PftTokenKind.From, PftTokenKind.Local,
 
             PftTokenKind.LeftParenthesis,
 
@@ -152,6 +153,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.Identifier, ParseFunctionCall},
                 {PftTokenKind.If, ParseIf},
                 {PftTokenKind.L, ParseL},
+                {PftTokenKind.Local, ParseLocal},
                 {PftTokenKind.Mfn, ParseMfn},
                 {PftTokenKind.Mpl, ParseMpl},
                 {PftTokenKind.Nl, ParseNl},
@@ -269,7 +271,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static PftTokenKind[] _loopOpen =
         {
-            PftTokenKind.For, PftTokenKind.ForEach, PftTokenKind.While
+            PftTokenKind.For, PftTokenKind.ForEach,
+            PftTokenKind.Local, PftTokenKind.While
         };
 
         private static PftTokenKind[] _loopStop =

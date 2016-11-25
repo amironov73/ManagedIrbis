@@ -725,6 +725,53 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
+        private PftNode ParseLocal()
+        {
+            PftLocal result = new PftLocal(Tokens.Current);
+
+            Tokens.MoveNext();
+            PftTokenList localTokens = Tokens.Segment(_doStop)
+                .ThrowIfNull("localTokens");
+            Tokens.MoveNext();
+
+            PftTokenList bodyTokens = Tokens.Segment
+                (
+                    _loopOpen,
+                    _loopClose,
+                    _loopStop
+                )
+                .ThrowIfNull("bodyTokens");
+
+            while (!localTokens.IsEof)
+            {
+                PftToken token = localTokens.Current;
+                switch (token.Kind)
+                {
+                    case PftTokenKind.Variable:
+                        result.Names.Add(token.Text);
+                        break;
+
+                    case PftTokenKind.Comma:
+                        break;
+
+                    default:
+                        throw new PftSyntaxException(token);
+                }
+
+                localTokens.MoveNext();
+            }
+
+            ChangeContext
+                (
+                    (NonNullCollection<PftNode>) result.Children,
+                    bodyTokens
+                );
+
+            return MoveNext(result);
+        }
+
+        //=================================================
+
         private PftNode ParseMfn()
         {
             return MoveNext(new PftMfn(Tokens.Current));

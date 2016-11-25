@@ -952,6 +952,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "from";
                                 break;
 
+                            case "global":
+                                kind = PftTokenKind.Global;
+                                value = "global";
+                                break;
+
                             case "have":
                                 kind = PftTokenKind.Have;
                                 value = "have";
@@ -965,6 +970,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                             case "in":
                                 kind = PftTokenKind.In;
                                 value = "in";
+                                break;
+
+                            case "local":
+                                kind = PftTokenKind.Local;
+                                value = "local";
                                 break;
 
                             case "nl":

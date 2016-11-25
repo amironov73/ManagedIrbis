@@ -305,6 +305,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftHave.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftInclude.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftL.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftLocal.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftMinus.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNl.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNumeric.cs" />

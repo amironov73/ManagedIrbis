@@ -1,0 +1,10 @@
+﻿$x = 'outer';
+
+local $x, $y
+do
+	$x = 'inner';
+	$y = 'another';
+	$x # $y #
+end
+
+$x
