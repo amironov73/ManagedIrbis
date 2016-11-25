@@ -517,7 +517,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
             Tag = builder.ToString();
 
-            // now c is peeked char
+            navigator.SkipWhitespace();
+            c = navigator.PeekChar();
 
             if (c == '^')
             {
