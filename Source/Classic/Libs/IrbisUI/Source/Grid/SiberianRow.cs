@@ -10,11 +10,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using AM;
 using AM.Collections;
 using AM.IO;
@@ -106,6 +108,16 @@ namespace IrbisUI.Grid
                 PaintEventArgs args
             )
         {
+            Graphics graphics = args.Graphics;
+            Rectangle clip = args.ClipRectangle;
+
+            if (this == Grid.CurrentRow)
+            {
+                using (Brush brush = new SolidBrush(Color.DarkBlue))
+                {
+                    graphics.FillRectangle(brush, clip);
+                }
+            }
         }
 
         #endregion

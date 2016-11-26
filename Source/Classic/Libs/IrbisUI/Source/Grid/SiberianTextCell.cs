@@ -79,16 +79,26 @@ namespace IrbisUI.Grid
                     Row.Index
                 );
 
-            rectangle.Inflate(-1,-1);
+            Color foreColor = Color.Black;
+            if (Row == Grid.CurrentRow)
+            {
+                foreColor = Color.White;
+            }
 
-            TextBoxRenderer.DrawTextBox
+            TextFormatFlags flags 
+                = TextFormatFlags.TextBoxControl
+                | TextFormatFlags.EndEllipsis
+                | TextFormatFlags.NoPrefix
+                | TextFormatFlags.VerticalCenter;
+
+            TextRenderer.DrawText
                 (
                     graphics,
-                    rectangle,
                     text,
                     Grid.Font,
                     rectangle,
-                    TextBoxState.Normal
+                    foreColor,
+                    flags
                 );
         }
 

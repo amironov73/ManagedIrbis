@@ -53,6 +53,24 @@ namespace IrbisUI.Grid
         [NotNull]
         public NonNullCollection<SiberianRow> Rows { get; private set; }
 
+        /// <summary>
+        /// Current column.
+        /// </summary>
+        [CanBeNull]
+        public SiberianColumn CurrentColumn { get; private set; }
+
+        /// <summary>
+        /// Current row.
+        /// </summary>
+        [CanBeNull]
+        public SiberianRow CurrentRow { get; private set; }
+
+        /// <summary>
+        /// Current cell.
+        /// </summary>
+        [CanBeNull]
+        public SiberianCell CurrentCell { get; private set; }
+
         #endregion
 
         #region Construction
@@ -93,6 +111,11 @@ namespace IrbisUI.Grid
                 Index = Columns.Count
             };
 
+            if (ReferenceEquals(CurrentColumn, null))
+            {
+                CurrentColumn = result;
+            }
+
             foreach (SiberianRow row in Rows)
             {
                 SiberianCell cell = result.CreateCell();
@@ -101,6 +124,19 @@ namespace IrbisUI.Grid
             }
 
             Columns.Add(result);
+
+            if (ReferenceEquals(CurrentCell, null))
+            {
+                if (!ReferenceEquals(CurrentRow, null))
+                {
+                    CurrentCell = GetCell
+                    (
+                        CurrentColumn.Index,
+                        CurrentRow.Index
+                    );
+                }
+            }
+
             Invalidate();
 
             return result;
@@ -122,6 +158,11 @@ namespace IrbisUI.Grid
                 Grid = this
             };
 
+            if (ReferenceEquals(CurrentRow, null))
+            {
+                CurrentRow = result;
+            }
+
             foreach (SiberianColumn column in Columns)
             {
                 SiberianCell cell = column.CreateCell();
@@ -130,6 +171,19 @@ namespace IrbisUI.Grid
             }
 
             Rows.Add(result);
+
+            if (ReferenceEquals(CurrentCell, null))
+            {
+                if (!ReferenceEquals(CurrentColumn, null))
+                {
+                    CurrentCell = GetCell
+                    (
+                        CurrentColumn.Index,
+                        CurrentRow.Index
+                    );
+                }
+            }
+
             Invalidate();
 
             return result;
@@ -180,6 +234,8 @@ namespace IrbisUI.Grid
 
             int x = 0;
             int y = ClientSize.Height;
+            int index;
+            PaintEventArgs args;
 
             using (Brush brush = new SolidBrush(ForeColor))
             using (Pen pen = new Pen(brush))
@@ -192,14 +248,28 @@ namespace IrbisUI.Grid
 
                 x = ClientSize.Width;
                 y = 0;
+                index = 0;
                 foreach (SiberianRow row in Rows)
                 {
+                    args = new PaintEventArgs
+                        (
+                            graphics,
+                            new Rectangle
+                            (
+                                0,
+                                y,
+                                x,
+                                y + row.Height
+                            )
+                        );
+                    row.Paint(args);
+
                     graphics.DrawLine(pen, 0, y, x, y);
                     y += row.Height;
                 }
 
                 x = 0;
-                int index = 0;
+                index = 0;
                 foreach (SiberianColumn column in Columns)
                 {
                     int dx = column.Width;
@@ -209,7 +279,7 @@ namespace IrbisUI.Grid
                     {
                         int dy = row.Height;
 
-                        PaintEventArgs args = new PaintEventArgs
+                        args = new PaintEventArgs
                             (
                                 graphics,
                                 new Rectangle
