@@ -131,9 +131,8 @@
     <Compile Include="Source\Grid\SiberianButtonColumn.cs" />
     <Compile Include="Source\Grid\SiberianCell.cs" />
     <Compile Include="Source\Grid\SiberianColumn.cs" />
-    <Compile Include="Source\Grid\SiberianGrid.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Source\Grid\SiberianGrid.Control.cs" />
+    <Compile Include="Source\Grid\SiberianGrid.cs" />
     <Compile Include="Source\Grid\SiberianRow.cs" />
     <Compile Include="Source\Grid\SiberianTextCell.cs" />
     <Compile Include="Source\Grid\SiberianTextColumn.cs" />

@@ -113,6 +113,7 @@ namespace IrbisUI.Grid
         /// <summary>
         /// Constructor.
         /// </summary>
+        // ReSharper disable once NotNullMemberIsNotInitialized
         protected SiberianColumn()
         {
             BackColor = Color.Transparent;
@@ -133,6 +134,21 @@ namespace IrbisUI.Grid
         /// </summary>
         [NotNull]
         public abstract SiberianCell CreateCell();
+
+        /// <summary>
+        /// Create editor for the cell.
+        /// </summary>
+        [CanBeNull]
+        public virtual Control CreateEditor
+            (
+                [NotNull] SiberianCell cell,
+                bool edit
+            )
+        {
+            Code.NotNull(cell, "cell");
+
+            return null;
+        }
 
         /// <summary>
         /// Draw the column.

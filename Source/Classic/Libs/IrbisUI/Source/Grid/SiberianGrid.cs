@@ -36,7 +36,7 @@ namespace IrbisUI.Grid
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class SiberianGrid
+    public partial class SiberianGrid
         : Control
     {
         #region Properties
@@ -71,6 +71,12 @@ namespace IrbisUI.Grid
         [CanBeNull]
         public SiberianCell CurrentCell { get; private set; }
 
+        /// <summary>
+        /// Current editor (if any).
+        /// </summary>
+        [CanBeNull]
+        public Control Editor { get; internal set; }
+
         #endregion
 
         #region Construction
@@ -104,6 +110,23 @@ namespace IrbisUI.Grid
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Close current editor.
+        /// </summary>
+        public void CloseEditor
+            (
+                bool accept
+            )
+        {
+            if (ReferenceEquals(CurrentCell, null))
+            {
+                return;
+            }
+
+            CurrentCell.CloseEditor(accept);
+            Invalidate();
+        }
 
         /// <summary>
         /// Create column of specified type.
@@ -147,6 +170,39 @@ namespace IrbisUI.Grid
             Invalidate();
 
             return result;
+        }
+
+        /// <summary>
+        /// Create editor for current cell.
+        /// </summary>
+        [CanBeNull]
+        public Control CreateEditor
+            (
+                bool edit
+            )
+        {
+            if (!ReferenceEquals(Editor, null))
+            {
+                return Editor;
+            }
+
+            if (ReferenceEquals(CurrentCell, null))
+            {
+                return null;
+            }
+            if (ReferenceEquals(CurrentColumn, null)
+                || CurrentColumn.ReadOnly)
+            {
+                return null;
+            }
+
+            Editor = CurrentColumn.CreateEditor
+                (
+                    CurrentCell,
+                    edit
+                );
+
+            return Editor;
         }
 
         /// <summary>
@@ -216,6 +272,43 @@ namespace IrbisUI.Grid
         }
 
         /// <summary>
+        /// Get cell rectangle.
+        /// </summary>
+        public Rectangle GetCellRectangle
+            (
+                [NotNull] SiberianCell cell
+            )
+        {
+            Code.NotNull(cell, "cell");
+
+            int column = cell.Column.Index;
+            int x = 0;
+            for (int i = 0; i < column; i++)
+            {
+                x += Columns[i].Width;
+            }
+
+            int row = cell.Row.Index;
+            int y = 0;
+            for (int i = 0; i < row; i++)
+            {
+                y += Rows[i].Height;
+            }
+            int width = cell.Column.Width;
+            int height = cell.Row.Height;
+
+            Rectangle result = new Rectangle
+                (
+                    x,
+                    y,
+                    width,
+                    height
+                );
+
+            return result;
+        }
+
+        /// <summary>
         /// Go to specified cell.
         /// </summary>
         [CanBeNull]
@@ -225,6 +318,9 @@ namespace IrbisUI.Grid
                 int row
             )
         {
+            CloseEditor(true);
+
+
             if (column >= Columns.Count)
             {
                 column = Columns.Count - 1;
@@ -256,12 +352,45 @@ namespace IrbisUI.Grid
         }
 
         /// <summary>
+        /// Move one column left.
+        /// </summary>
+        [CanBeNull]
+        public SiberianCell MoveOneColumnLeft()
+        {
+            SiberianCell result = MoveRelative(-1, 0);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Move one column right.
+        /// </summary>
+        [CanBeNull]
+        public SiberianCell MoveOneColumnRight()
+        {
+            SiberianCell result = MoveRelative(1, 0);
+
+            return result;
+        }
+
+        /// <summary>
         /// Move one row down.
         /// </summary>
         [CanBeNull]
         public SiberianCell MoveOneLineDown()
         {
             SiberianCell result = MoveRelative(0, 1);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Move one row down.
+        /// </summary>
+        [CanBeNull]
+        public SiberianCell MoveOneLineUp()
+        {
+            SiberianCell result = MoveRelative(0, -1);
 
             return result;
         }
@@ -288,162 +417,6 @@ namespace IrbisUI.Grid
             SiberianCell result = Goto(column, row);
 
             return result;
-        }
-
-        /// <summary>
-        /// Move one row down.
-        /// </summary>
-        [CanBeNull]
-        public SiberianCell MoveOneLineUp()
-        {
-            SiberianCell result = MoveRelative(0, -1);
-
-            return result;
-        }
-
-        #endregion
-
-        #region Control members
-
-        private const int WS_VSCROLL = 0x00200000;
-        private const int WS_HSCROLL = 0x00100000;
-
-        /// <inheritdoc />
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams result = base.CreateParams;
-
-                result.Style |= WS_VSCROLL;
-
-                return result;
-            }
-        }
-
-        /// <inheritdoc />
-        protected override Size DefaultSize
-        {
-            get { return new Size(640, 375); }
-        }
-
-
-        /// <inheritdoc />
-        protected override bool IsInputKey
-            (
-                Keys keyData
-            )
-        {
-            // Enable all the keys.
-            return true;
-        }
-
-        /// <inheritdoc/>
-        protected override void OnKeyDown
-            (
-                KeyEventArgs e
-            )
-        {
-            base.OnKeyDown(e);
-
-            if (e.Modifiers == 0)
-            {
-                e.Handled = true;
-
-                switch (e.KeyCode)
-                {
-                    case Keys.Up:
-                        MoveOneLineUp();
-                        break;
-
-                    case Keys.Down:
-                        MoveOneLineDown();
-                        break;
-                }
-            }
-
-        }
-
-        /// <inheritdoc/>
-        protected override void OnPaint
-            (
-                PaintEventArgs paintEvent
-            )
-        {
-            Graphics graphics = paintEvent.Graphics;
-            Rectangle clip = paintEvent.ClipRectangle;
-
-            using (Brush brush = new SolidBrush(BackColor))
-            {
-                graphics.FillRectangle(brush, clip);
-            }
-
-            int x = 0;
-            int y = ClientSize.Height;
-            int index;
-            PaintEventArgs args;
-
-            using (Brush brush = new SolidBrush(ForeColor))
-            using (Pen pen = new Pen(brush))
-            {
-                foreach (SiberianColumn column in Columns)
-                {
-                    x += column.Width;
-                    graphics.DrawLine(pen, x, 0, x, y);
-                }
-
-                x = ClientSize.Width;
-                y = 0;
-                index = 0;
-                foreach (SiberianRow row in Rows)
-                {
-                    args = new PaintEventArgs
-                        (
-                            graphics,
-                            new Rectangle
-                            (
-                                0,
-                                y,
-                                x,
-                                row.Height
-                            )
-                        );
-                    row.Paint(args);
-
-                    graphics.DrawLine(pen, 0, y, x, y);
-                    y += row.Height;
-                }
-
-                x = 0;
-                index = 0;
-                foreach (SiberianColumn column in Columns)
-                {
-                    int dx = column.Width;
-
-                    y = 0;
-                    foreach (SiberianRow row in Rows)
-                    {
-                        int dy = row.Height;
-
-                        args = new PaintEventArgs
-                            (
-                                graphics,
-                                new Rectangle
-                                    (
-                                        x + 1,
-                                        y + 1,
-                                        dx - 2,
-                                        dy - 2
-                                    )
-                            );
-                        SiberianCell cell = row.Cells[index];
-                        cell.Paint(args);
-                        y += dy;
-                    }
-                    index++;
-                    x += dx;
-                }
-            }
         }
 
         #endregion

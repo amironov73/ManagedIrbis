@@ -78,6 +78,23 @@ namespace IrbisUI.Grid
         #region Public methods
 
         /// <summary>
+        /// Close editor.
+        /// </summary>
+        public virtual void CloseEditor
+            (
+                bool accept
+            )
+        {
+            if (!ReferenceEquals(Grid.Editor, null))
+            {
+                Grid.Editor.Dispose();
+                Grid.Editor = null;
+
+                Grid.Invalidate();
+            }
+        }
+
+        /// <summary>
         /// Draw the cell.
         /// </summary>
         public virtual void Paint

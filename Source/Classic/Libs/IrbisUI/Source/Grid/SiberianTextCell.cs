@@ -63,6 +63,23 @@ namespace IrbisUI.Grid
 
         #region SiberianCell members
 
+        /// <inheritdoc />
+        public override void CloseEditor
+            (
+                bool accept
+            )
+        {
+            if (!ReferenceEquals(Grid.Editor, null))
+            {
+                if (accept)
+                {
+                    Text = Grid.Editor.Text;
+                }
+            }
+
+            base.CloseEditor(accept);
+        }
+
         /// <inheritdoc/>
         public override void Paint
             (
@@ -72,17 +89,26 @@ namespace IrbisUI.Grid
             Graphics graphics = args.Graphics;
             Rectangle rectangle = args.ClipRectangle;
 
-            string text = string.Format
-                (
-                    "{0},{1}",
-                    Column.Index,
-                    Row.Index
-                );
+            //string text = string.Format
+            //    (
+            //        "{0},{1}",
+            //        Column.Index,
+            //        Row.Index
+            //    );
 
             Color foreColor = Color.Black;
-            if (Row == Grid.CurrentRow)
+            if (ReferenceEquals(Row, Grid.CurrentRow))
             {
                 foreColor = Color.White;
+            }
+
+            if (ReferenceEquals(this, Grid.CurrentCell))
+            {
+                Color backColor = Color.Blue;
+                using (Brush brush = new SolidBrush(backColor))
+                {
+                    graphics.FillRectangle(brush, rectangle);
+                }
             }
 
             TextFormatFlags flags 
@@ -94,7 +120,7 @@ namespace IrbisUI.Grid
             TextRenderer.DrawText
                 (
                     graphics,
-                    text,
+                    Text,
                     Grid.Font,
                     rectangle,
                     foreColor,
