@@ -51,10 +51,15 @@ namespace SiberianGrider
             _thirdColumn = (SiberianTextColumn) _grid
                 .CreateColumn<SiberianTextColumn>();
 
+            _firstColumn.ReadOnly = true;
+            _secondColumn.ReadOnly = true;
+
             for (int i = 0; i < 7; i++)
             {
                 _grid.CreateRow(null);
             }
+
+            _grid.Goto(2, 0);
         }
     }
 }

@@ -102,11 +102,29 @@ namespace IrbisUI.Grid
                         break;
 
                     case Keys.Enter:
-                        CreateEditor(true);
+                        CreateEditor(true, null);
                         break;
                 }
             }
+        }
 
+        /// <inheritdoc />
+        protected override void OnKeyPress
+            (
+                KeyPressEventArgs e
+            )
+        {
+            base.OnKeyPress(e);
+
+            if (!char.IsControl(e.KeyChar))
+            {
+                CreateEditor
+                    (
+                        false,
+                        e.KeyChar.ToString()
+                    );
+                e.Handled = true;
+            }
         }
 
         /// <inheritdoc/>

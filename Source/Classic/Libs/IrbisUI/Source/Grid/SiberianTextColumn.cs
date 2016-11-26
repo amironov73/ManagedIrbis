@@ -103,7 +103,8 @@ namespace IrbisUI.Grid
         public override Control CreateEditor
             (
                 SiberianCell cell,
-                bool edit
+                bool edit,
+                object state
             )
         {
             Code.NotNull(cell, "cell");
@@ -119,13 +120,21 @@ namespace IrbisUI.Grid
                 Location = rectangle.Location,
                 Size = rectangle.Size,
                 Font = Grid.Font,
-                //BorderStyle = BorderStyle.None
+                BorderStyle = BorderStyle.FixedSingle
             };
             result.KeyDown += Editor_KeyDown;
 
             if (edit)
             {
                 result.Text = textCell.Text;
+            }
+            else
+            {
+                if (!ReferenceEquals(state, null))
+                {
+                    result.Text = state.ToString();
+                    result.SelectionStart = result.TextLength;
+                }
             }
 
             result.Parent = Grid;

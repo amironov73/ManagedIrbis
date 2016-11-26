@@ -178,7 +178,8 @@ namespace IrbisUI.Grid
         [CanBeNull]
         public Control CreateEditor
             (
-                bool edit
+                bool edit,
+                object state
             )
         {
             if (!ReferenceEquals(Editor, null))
@@ -199,7 +200,8 @@ namespace IrbisUI.Grid
             Editor = CurrentColumn.CreateEditor
                 (
                     CurrentCell,
-                    edit
+                    edit,
+                    state
                 );
 
             return Editor;
@@ -357,7 +359,32 @@ namespace IrbisUI.Grid
         [CanBeNull]
         public SiberianCell MoveOneColumnLeft()
         {
-            SiberianCell result = MoveRelative(-1, 0);
+            if (ReferenceEquals(CurrentColumn, null))
+            {
+                return CurrentCell;
+            }
+
+            int index = CurrentColumn.Index;
+            int newIndex = index - 1;
+
+            for (; newIndex >= 0; newIndex--)
+            {
+                if (!Columns[newIndex].ReadOnly)
+                {
+                    break;
+                }
+            }
+
+            if (newIndex < 0)
+            {
+                return CurrentCell;
+            }
+
+            SiberianCell result = MoveRelative
+                (
+                    newIndex - index,
+                    0
+                );
 
             return result;
         }

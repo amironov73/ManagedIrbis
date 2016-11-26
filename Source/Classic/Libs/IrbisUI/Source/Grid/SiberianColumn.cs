@@ -142,7 +142,8 @@ namespace IrbisUI.Grid
         public virtual Control CreateEditor
             (
                 [NotNull] SiberianCell cell,
-                bool edit
+                bool edit,
+                object state
             )
         {
             Code.NotNull(cell, "cell");
