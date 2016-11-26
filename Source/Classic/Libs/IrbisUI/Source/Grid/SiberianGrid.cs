@@ -86,6 +86,13 @@ namespace IrbisUI.Grid
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
             DoubleBuffered = true;
 
+            SetStyle(ControlStyles.ResizeRedraw, true);
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.Selectable, true);
+            SetStyle(ControlStyles.StandardClick, true);
+            SetStyle(ControlStyles.StandardDoubleClick, true);
+            SetStyle(ControlStyles.UserMouse, true);
+
             BackColor = Color.DarkGray;
             ForeColor = Color.Black;
         }
@@ -208,14 +215,153 @@ namespace IrbisUI.Grid
             return null;
         }
 
+        /// <summary>
+        /// Go to specified cell.
+        /// </summary>
+        [CanBeNull]
+        public SiberianCell Goto
+            (
+                int column,
+                int row
+            )
+        {
+            if (column >= Columns.Count)
+            {
+                column = Columns.Count - 1;
+            }
+            if (column < 0)
+            {
+                column = 0;
+            }
+            if (row >= Rows.Count)
+            {
+                row = Rows.Count - 1;
+            }
+            if (row < 0)
+            {
+                row = 0;
+            }
+
+            SiberianCell result = GetCell(column, row);
+
+            if (!ReferenceEquals(result, null))
+            {
+                CurrentRow = result.Row;
+                CurrentColumn = result.Column;
+                CurrentCell = result;
+                Invalidate();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Move one row down.
+        /// </summary>
+        [CanBeNull]
+        public SiberianCell MoveOneLineDown()
+        {
+            SiberianCell result = MoveRelative(0, 1);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Relative movement.
+        /// </summary>
+        [CanBeNull]
+        public SiberianCell MoveRelative
+            (
+                int columnDelta,
+                int rowDelta
+            )
+        {
+            SiberianCell current = CurrentCell;
+            if (ReferenceEquals(current, null))
+            {
+                return null;
+            }
+
+            int column = current.Column.Index + columnDelta;
+            int row = current.Row.Index + rowDelta;
+
+            SiberianCell result = Goto(column, row);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Move one row down.
+        /// </summary>
+        [CanBeNull]
+        public SiberianCell MoveOneLineUp()
+        {
+            SiberianCell result = MoveRelative(0, -1);
+
+            return result;
+        }
+
         #endregion
 
         #region Control members
+
+        private const int WS_VSCROLL = 0x00200000;
+        private const int WS_HSCROLL = 0x00100000;
+
+        /// <inheritdoc />
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams result = base.CreateParams;
+
+                result.Style |= WS_VSCROLL;
+
+                return result;
+            }
+        }
 
         /// <inheritdoc />
         protected override Size DefaultSize
         {
             get { return new Size(640, 375); }
+        }
+
+
+        /// <inheritdoc />
+        protected override bool IsInputKey
+            (
+                Keys keyData
+            )
+        {
+            // Enable all the keys.
+            return true;
+        }
+
+        /// <inheritdoc/>
+        protected override void OnKeyDown
+            (
+                KeyEventArgs e
+            )
+        {
+            base.OnKeyDown(e);
+
+            if (e.Modifiers == 0)
+            {
+                e.Handled = true;
+
+                switch (e.KeyCode)
+                {
+                    case Keys.Up:
+                        MoveOneLineUp();
+                        break;
+
+                    case Keys.Down:
+                        MoveOneLineDown();
+                        break;
+                }
+            }
+
         }
 
         /// <inheritdoc/>
@@ -259,7 +405,7 @@ namespace IrbisUI.Grid
                                 0,
                                 y,
                                 x,
-                                y + row.Height
+                                row.Height
                             )
                         );
                     row.Paint(args);

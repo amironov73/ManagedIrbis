@@ -111,7 +111,7 @@ namespace IrbisUI.Grid
             Graphics graphics = args.Graphics;
             Rectangle clip = args.ClipRectangle;
 
-            if (this == Grid.CurrentRow)
+            if (ReferenceEquals(this, Grid.CurrentRow))
             {
                 using (Brush brush = new SolidBrush(Color.DarkBlue))
                 {
