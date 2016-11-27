@@ -19,6 +19,7 @@ using System.Windows.Forms;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Mathematics;
 using AM.Runtime;
 
 using CodeJam;
@@ -97,6 +98,24 @@ namespace IrbisUI.Grid
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
             DoubleBuffered = true;
 
+            _horizontalScroll = new HScrollBar
+            {
+                AutoSize = false,
+                Dock = DockStyle.Bottom,
+                SmallChange = 1
+            };
+            Controls.Add(_horizontalScroll);
+            _horizontalScroll.Scroll += _horizontalScroll_Scroll;
+
+            _verticalScroll = new VScrollBar
+            {
+                AutoSize = false,
+                Dock = DockStyle.Right,
+                SmallChange = 1
+            };
+            Controls.Add(_verticalScroll);
+            _verticalScroll.Scroll += _verticalScroll_Scroll;
+
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.Selectable, true);
@@ -111,6 +130,103 @@ namespace IrbisUI.Grid
         #endregion
 
         #region Private members
+
+        private readonly ScrollBar _horizontalScroll;
+        private readonly ScrollBar _verticalScroll;
+
+        private int _DoScroll
+            (
+                ScrollBar scrollBar,
+                ScrollEventType scrollType,
+                int value
+            )
+        {
+            switch (scrollType)
+            {
+                case ScrollEventType.First:
+                    value = scrollBar.Minimum;
+                    break;
+
+                case ScrollEventType.LargeDecrement:
+                    value -= scrollBar.LargeChange;
+                    break;
+
+                case ScrollEventType.LargeIncrement:
+                    value += scrollBar.LargeChange;
+                    break;
+
+                case ScrollEventType.Last:
+                    value = scrollBar.Maximum;
+                    break;
+
+                case ScrollEventType.SmallDecrement:
+                    value -= scrollBar.SmallChange;
+                    break;
+
+                case ScrollEventType.SmallIncrement:
+                    value += scrollBar.SmallChange;
+                    break;
+            }
+
+            value = Math.Max(value, scrollBar.Minimum);
+            value = Math.Min(value, scrollBar.Maximum);
+
+            return value;
+        }
+
+        private void _horizontalScroll_Scroll
+            (
+                object sender,
+                ScrollEventArgs e
+            )
+        {
+            if (ReferenceEquals(CurrentRow, null))
+            {
+                return;
+            }
+
+            int value = _DoScroll
+                (
+                    _horizontalScroll,
+                    e.Type,
+                    e.OldValue
+                );
+
+            e.NewValue = value;
+
+            Goto
+                (
+                    value,
+                    CurrentRow.Index
+                );
+        }
+
+        private void _verticalScroll_Scroll
+            (
+                object sender,
+                ScrollEventArgs e
+            )
+        {
+            if (ReferenceEquals(CurrentColumn, null))
+            {
+                return;
+            }
+
+            int value = _DoScroll
+                (
+                    _verticalScroll,
+                    e.Type,
+                    e.OldValue
+                );
+
+            e.NewValue = value;
+
+            Goto
+                (
+                    CurrentColumn.Index,
+                    value
+                );
+        }
 
         #endregion
 
@@ -159,6 +275,9 @@ namespace IrbisUI.Grid
             }
 
             Columns.Add(result);
+
+            _horizontalScroll.Maximum = Columns.Count;
+            _horizontalScroll.Value = CurrentColumn.Index;
 
             if (ReferenceEquals(CurrentCell, null))
             {
@@ -244,6 +363,9 @@ namespace IrbisUI.Grid
             }
 
             Rows.Add(result);
+
+            _verticalScroll.Maximum = Rows.Count;
+            _verticalScroll.Value = CurrentRow.Index;
 
             if (ReferenceEquals(CurrentCell, null))
             {
@@ -355,6 +477,13 @@ namespace IrbisUI.Grid
                 CurrentRow = result.Row;
                 CurrentColumn = result.Column;
                 CurrentCell = result;
+
+                _horizontalScroll.Maximum = Columns.Count;
+                _horizontalScroll.Value = CurrentColumn.Index;
+
+                _verticalScroll.Maximum = Rows.Count;
+                _verticalScroll.Value = CurrentRow.Index;
+
                 Invalidate();
             }
 

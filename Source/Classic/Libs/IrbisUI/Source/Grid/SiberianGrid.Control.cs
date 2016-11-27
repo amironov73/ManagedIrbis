@@ -37,22 +37,22 @@ namespace IrbisUI.Grid
         #region Control members
 
         // ReSharper disable InconsistentNaming
-        private const int WS_VSCROLL = 0x00200000;
-        private const int WS_HSCROLL = 0x00100000;
+        //private const int WS_VSCROLL = 0x00200000;
+        //private const int WS_HSCROLL = 0x00100000;
         // ReSharper restore InconsistentNaming
 
-        /// <inheritdoc />
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams result = base.CreateParams;
+        ///// <inheritdoc />
+        //protected override CreateParams CreateParams
+        //{
+        //    get
+        //    {
+        //        CreateParams result = base.CreateParams;
 
-                result.Style |= WS_VSCROLL;
+        //        result.Style |= WS_VSCROLL;
 
-                return result;
-            }
-        }
+        //        return result;
+        //    }
+        //}
 
         /// <inheritdoc />
         protected override Size DefaultSize
