@@ -146,6 +146,27 @@ namespace IrbisUI.Grid
             int index;
             PaintEventArgs args;
 
+            x = 0;
+            foreach (SiberianColumn column in Columns)
+            {
+                clip = new Rectangle
+                    (
+                        x,
+                        0,
+                        column.Width,
+                        y
+                    );
+                args = new PaintEventArgs
+                    (
+                        graphics,
+                        clip
+                    );
+                column.Paint(args);
+
+                x += column.Width;
+            }
+
+
             using (Brush brush = new SolidBrush(ForeColor))
             using (Pen pen = new Pen(brush))
             {

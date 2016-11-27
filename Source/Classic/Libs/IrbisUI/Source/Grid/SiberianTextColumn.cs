@@ -12,12 +12,15 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Reflection;
 using AM.Runtime;
 
 using CodeJam;
@@ -49,7 +52,7 @@ namespace IrbisUI.Grid
         /// </summary>
         public SiberianTextColumn()
         {
-            BackColor = Color.White;
+            //BackColor = Color.White;
         }
 
         #endregion
@@ -142,6 +145,57 @@ namespace IrbisUI.Grid
             result.Focus();
 
             return result;
+        }
+
+        /// <inheritdoc />
+        public override void GetData
+            (
+                object theObject,
+                SiberianCell cell
+            )
+        {
+            SiberianTextCell textCell = (SiberianTextCell) cell;
+
+            if (!string.IsNullOrEmpty(Member)
+                && !ReferenceEquals(theObject, null))
+            {
+                Type type = theObject.GetType();
+                MemberInfo memberInfo = type.GetMember(Member)
+                    .First();
+                PropertyOrField property = new PropertyOrField
+                    (
+                        memberInfo
+                    );
+
+                object value = property.GetValue(theObject);
+                textCell.Text = ReferenceEquals(value, null)
+                    ? null
+                    : value.ToString();
+            }
+        }
+
+        /// <inheritdoc />
+        public override void PutData
+            (
+                object theObject,
+                SiberianCell cell
+            )
+        {
+            SiberianTextCell textCell = (SiberianTextCell)cell;
+
+            if (!string.IsNullOrEmpty(Member)
+                && !ReferenceEquals(theObject, null))
+            {
+                Type type = theObject.GetType();
+                MemberInfo memberInfo = type.GetMember(Member)
+                    .First();
+                PropertyOrField property = new PropertyOrField
+                    (
+                        memberInfo
+                    );
+
+                property.SetValue(theObject, textCell.Text);
+            }
         }
 
         #endregion

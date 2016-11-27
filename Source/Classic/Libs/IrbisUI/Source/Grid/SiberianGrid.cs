@@ -72,6 +72,11 @@ namespace IrbisUI.Grid
         public SiberianCell CurrentCell { get; private set; }
 
         /// <summary>
+        /// Whether the whole grid itself is read-only.
+        /// </summary>
+        public bool ReadOnly { get; private set; }
+
+        /// <summary>
         /// Current editor (if any).
         /// </summary>
         [CanBeNull]
@@ -186,7 +191,10 @@ namespace IrbisUI.Grid
             {
                 return Editor;
             }
-
+            if (ReadOnly)
+            {
+                return null;
+            }
             if (ReferenceEquals(CurrentCell, null))
             {
                 return null;

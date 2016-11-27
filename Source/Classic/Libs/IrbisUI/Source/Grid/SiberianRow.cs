@@ -101,6 +101,22 @@ namespace IrbisUI.Grid
         #region Public methods
 
         /// <summary>
+        /// Get data from the bound object
+        /// and put it to the cells.
+        /// </summary>
+        public virtual void GetData()
+        {
+            foreach (SiberianCell cell in Cells)
+            {
+                cell.Column.GetData
+                    (
+                        Data,
+                        cell
+                    );
+            }
+        }
+
+        /// <summary>
         /// Draw the column.
         /// </summary>
         public virtual void Paint
@@ -118,6 +134,24 @@ namespace IrbisUI.Grid
                     graphics.FillRectangle(brush, clip);
                 }
             }
+        }
+
+        /// <summary>
+        /// Get data from the cells
+        /// and put it to the bound object.
+        /// </summary>
+        public virtual void PutData()
+        {
+            foreach (SiberianCell cell in Cells)
+            {
+                cell.Column.PutData
+                    (
+                        Data,
+                        cell
+                    );
+            }
+
+            Grid.Invalidate();
         }
 
         #endregion

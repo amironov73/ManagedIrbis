@@ -45,7 +45,11 @@ namespace IrbisUI.Grid
         /// Text.
         /// </summary>
         [CanBeNull]
-        public string Text { get; set; }
+        public string Text
+        {
+            get { return _text; }
+            set { _SetText(value); }
+        }
 
         #endregion
 
@@ -54,6 +58,17 @@ namespace IrbisUI.Grid
         #endregion
 
         #region Private members
+
+        private string _text;
+
+        private void _SetText
+            (
+                string text
+            )
+        {
+            _text = text;
+            Column.PutData(Row.Data, this);
+        }
 
         #endregion
 
@@ -88,13 +103,6 @@ namespace IrbisUI.Grid
         {
             Graphics graphics = args.Graphics;
             Rectangle rectangle = args.ClipRectangle;
-
-            //string text = string.Format
-            //    (
-            //        "{0},{1}",
-            //        Column.Index,
-            //        Row.Index
-            //    );
 
             Color foreColor = Color.Black;
             if (ReferenceEquals(Row, Grid.CurrentRow))

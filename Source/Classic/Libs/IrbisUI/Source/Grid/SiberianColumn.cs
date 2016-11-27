@@ -152,6 +152,20 @@ namespace IrbisUI.Grid
         }
 
         /// <summary>
+        /// Get data from the object and put it to the cell.
+        /// </summary>
+        public virtual void GetData
+            (
+                [CanBeNull] object theObject,
+                [NotNull] SiberianCell cell
+            )
+        {
+            Code.NotNull(cell, "cell");
+
+            // Nothing to do here
+        }
+
+        /// <summary>
         /// Draw the column.
         /// </summary>
         public virtual void Paint
@@ -159,6 +173,33 @@ namespace IrbisUI.Grid
                 PaintEventArgs args
             )
         {
+            Graphics graphics = args.Graphics;
+            Rectangle rectangle = args.ClipRectangle;
+
+            if (BackColor != Color.Transparent
+                && BackColor != Color.Empty)
+            {
+                using (Brush brush = new SolidBrush(BackColor))
+                {
+                    graphics.FillRectangle
+                    (
+                        brush,
+                        rectangle
+                    );
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get data from the cell and put it to the object.
+        /// </summary>
+        public virtual void PutData
+            (
+                [CanBeNull] object theObject,
+                [NotNull] SiberianCell cell
+            )
+        {
+            Code.NotNull(cell, "cell");
         }
 
         #endregion
