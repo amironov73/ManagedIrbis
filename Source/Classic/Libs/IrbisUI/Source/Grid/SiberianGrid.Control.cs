@@ -302,6 +302,17 @@ namespace IrbisUI.Grid
             }
         }
 
+        /// <inheritdoc />
+        protected override void OnResize
+            (
+                EventArgs e
+            )
+        {
+            base.OnResize(e);
+
+            AutoSizeColumns();
+        }
+
         #endregion
     }
 }

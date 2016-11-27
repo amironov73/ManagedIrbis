@@ -85,7 +85,7 @@ namespace IrbisUI.Grid
         /// <summary>
         /// Grid.
         /// </summary>
-        [NotNull]
+        [CanBeNull]
         public SiberianGrid Grid { get; internal set; }
 
         /// <summary>
@@ -98,13 +98,35 @@ namespace IrbisUI.Grid
         /// Fill width.
         /// </summary>
         [DefaultValue(DefaultFillWidth)]
-        public int FillWidth { get; set; }
+        public int FillWidth
+        {
+            get { return _fillWidth; }
+            set
+            {
+                _fillWidth = value;
+                if (!ReferenceEquals(Grid, null))
+                {
+                    Grid.AutoSizeColumns();
+                }
+            }
+        }
 
         /// <summary>
         /// Width, pixels.
         /// </summary>
         [DefaultValue(DefaultWidth)]
-        public int Width { get; set; }
+        public int Width
+        {
+            get { return _width; }
+            set
+            {
+                _width = value;
+                if (!ReferenceEquals(Grid, null))
+                {
+                    Grid.AutoSizeColumns();
+                }
+            }
+        }
 
         #endregion
 
@@ -124,6 +146,10 @@ namespace IrbisUI.Grid
         #endregion
 
         #region Private members
+
+        private int _fillWidth;
+
+        private int _width;
 
         #endregion
 

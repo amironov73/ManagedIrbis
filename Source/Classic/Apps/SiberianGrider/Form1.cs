@@ -61,6 +61,7 @@ namespace SiberianGrider
 
 
             _thirdColumn.Title = "Value";
+            _thirdColumn.FillWidth = 100;
             _thirdColumn.Member = "Value";
 
             for (int i = 0; i < 7; i++)

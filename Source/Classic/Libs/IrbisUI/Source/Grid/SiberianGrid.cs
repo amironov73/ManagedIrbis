@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -58,18 +59,21 @@ namespace IrbisUI.Grid
         /// Current column.
         /// </summary>
         [CanBeNull]
+        [Browsable(false)]
         public SiberianColumn CurrentColumn { get; private set; }
 
         /// <summary>
         /// Current row.
         /// </summary>
         [CanBeNull]
+        [Browsable(false)]
         public SiberianRow CurrentRow { get; private set; }
 
         /// <summary>
         /// Current cell.
         /// </summary>
         [CanBeNull]
+        [Browsable(false)]
         public SiberianCell CurrentCell { get; private set; }
 
         /// <summary>
@@ -81,6 +85,7 @@ namespace IrbisUI.Grid
         /// Current editor (if any).
         /// </summary>
         [CanBeNull]
+        [Browsable(false)]
         public Control Editor { get; internal set; }
 
         /// <summary>
@@ -141,6 +146,48 @@ namespace IrbisUI.Grid
 
         private readonly ScrollBar _horizontalScroll;
         private readonly ScrollBar _verticalScroll;
+
+        private bool _autoSizeWatch;
+
+        internal void AutoSizeColumns()
+        {
+            if (_autoSizeWatch)
+            {
+                return;
+            }
+
+            try
+            {
+                _autoSizeWatch = true;
+
+                SiberianColumn[] fixedColumns = Columns
+                    .Where(column => column.FillWidth <= 0)
+                    .ToArray();
+                SiberianColumn[] needResize = Columns
+                    .Where(column => column.FillWidth > 0)
+                    .ToArray();
+
+                if (needResize.Length != 0)
+                {
+                    int fixedSum = fixedColumns
+                        .Sum(column => column.Width);
+                    int fillSum = needResize
+                        .Sum(column => column.FillWidth);
+
+                    int remaining = ClientSize.Width - 1 - fixedSum;
+
+                    foreach (SiberianColumn column in needResize)
+                    {
+                        column.Width
+                            = remaining*column.FillWidth/fillSum;
+                    }
+                }
+            }
+            finally
+            {
+                _autoSizeWatch = false;
+            }
+        }
 
         private int _DoScroll
             (
@@ -299,6 +346,7 @@ namespace IrbisUI.Grid
                 }
             }
 
+            AutoSizeColumns();
             Invalidate();
 
             return result;
