@@ -36,24 +36,6 @@ namespace IrbisUI.Grid
     {
         #region Control members
 
-        // ReSharper disable InconsistentNaming
-        //private const int WS_VSCROLL = 0x00200000;
-        //private const int WS_HSCROLL = 0x00100000;
-        // ReSharper restore InconsistentNaming
-
-        ///// <inheritdoc />
-        //protected override CreateParams CreateParams
-        //{
-        //    get
-        //    {
-        //        CreateParams result = base.CreateParams;
-
-        //        result.Style |= WS_VSCROLL;
-
-        //        return result;
-        //    }
-        //}
-
         /// <inheritdoc />
         protected override Size DefaultSize
         {
@@ -223,12 +205,28 @@ namespace IrbisUI.Grid
             x = 0;
             foreach (SiberianColumn column in Columns)
             {
+                int height = HeaderHeight;
+
                 clip = new Rectangle
                     (
                         x,
                         0,
                         column.Width,
-                        y
+                        height
+                    );
+                args = new PaintEventArgs
+                    (
+                        graphics,
+                        clip
+                    );
+                column.PaintHeader(args);
+
+                clip = new Rectangle
+                    (
+                        x,
+                        height,
+                        column.Width,
+                        y - height
                     );
                 args = new PaintEventArgs
                     (
@@ -251,7 +249,7 @@ namespace IrbisUI.Grid
                 }
 
                 x = ClientSize.Width;
-                y = 0;
+                y = HeaderHeight;
                 index = 0;
                 foreach (SiberianRow row in Rows)
                 {
@@ -278,7 +276,7 @@ namespace IrbisUI.Grid
                 {
                     int dx = column.Width;
 
-                    y = 0;
+                    y = HeaderHeight;
                     foreach (SiberianRow row in Rows)
                     {
                         int dy = row.Height;

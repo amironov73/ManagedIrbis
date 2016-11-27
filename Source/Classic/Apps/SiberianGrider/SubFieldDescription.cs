@@ -58,7 +58,12 @@ namespace SiberianGrider
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"{nameof(Title)}: {Title}, {nameof(Value)}: {Value}";
+            return string.Format
+                (
+                    "Title: {0}, Value: {1}", 
+                    Title, 
+                    Value
+                );
         }
 
         #endregion

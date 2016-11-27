@@ -191,6 +191,39 @@ namespace IrbisUI.Grid
         }
 
         /// <summary>
+        /// Draw the column header.
+        /// </summary>
+        public virtual void PaintHeader
+            (
+                PaintEventArgs args
+            )
+        {
+            Graphics graphics = args.Graphics;
+            Rectangle rectangle = args.ClipRectangle;
+
+            using (Brush brush = new SolidBrush(Color.LightSalmon))
+            {
+                graphics.FillRectangle(brush, rectangle);
+
+                TextFormatFlags flags 
+                    = TextFormatFlags.Left
+                    | TextFormatFlags.NoPrefix
+                    | TextFormatFlags.VerticalCenter
+                    | TextFormatFlags.EndEllipsis;
+
+                TextRenderer.DrawText
+                    (
+                        graphics,
+                        Title,
+                        Grid.Font,
+                        rectangle,
+                        ForeColor,
+                        flags
+                    );
+            }
+        }
+
+        /// <summary>
         /// Get data from the cell and put it to the object.
         /// </summary>
         public virtual void PutData

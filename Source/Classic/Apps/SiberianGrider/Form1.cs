@@ -51,11 +51,16 @@ namespace SiberianGrider
             _thirdColumn = (SiberianTextColumn) _grid
                 .CreateColumn<SiberianTextColumn>();
 
+            _firstColumn.Title = "Title";
             _firstColumn.ReadOnly = true;
             _firstColumn.BackColor = Color.DarkViolet;
             _firstColumn.Member = "Title";
+
             _secondColumn.ReadOnly = true;
             _secondColumn.BackColor = Color.DarkGreen;
+
+
+            _thirdColumn.Title = "Value";
             _thirdColumn.Member = "Value";
 
             for (int i = 0; i < 7; i++)

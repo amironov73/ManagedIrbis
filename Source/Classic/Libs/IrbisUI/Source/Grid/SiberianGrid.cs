@@ -83,6 +83,11 @@ namespace IrbisUI.Grid
         [CanBeNull]
         public Control Editor { get; internal set; }
 
+        /// <summary>
+        /// Header height.
+        /// </summary>
+        public int HeaderHeight { get; set; }
+
         #endregion
 
         #region Construction
@@ -126,6 +131,8 @@ namespace IrbisUI.Grid
 
             BackColor = Color.DarkGray;
             ForeColor = Color.Black;
+
+            HeaderHeight = SiberianRow.DefaultHeight;
         }
 
         #endregion
@@ -447,7 +454,7 @@ namespace IrbisUI.Grid
                 int y
             )
         {
-            int top = 0;
+            int top = HeaderHeight;
             foreach (SiberianRow row in Rows)
             {
                 int bottom = top + row.Height;
@@ -499,7 +506,7 @@ namespace IrbisUI.Grid
             }
 
             int row = cell.Row.Index;
-            int y = 0;
+            int y = HeaderHeight;
             for (int i = 0; i < row; i++)
             {
                 y += Rows[i].Height;
