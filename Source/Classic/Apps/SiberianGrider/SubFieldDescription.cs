@@ -52,5 +52,15 @@ namespace SiberianGrider
         #region Public methods
 
         #endregion
+
+        #region Object members
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"{nameof(Title)}: {Title}, {nameof(Value)}: {Value}";
+        }
+
+        #endregion
     }
 }

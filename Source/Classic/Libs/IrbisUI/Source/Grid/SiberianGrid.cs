@@ -92,10 +92,11 @@ namespace IrbisUI.Grid
         /// </summary>
         public SiberianGrid()
         {
+            // ReSharper disable DoNotCallOverridableMethodsInConstructor
+
             Columns = new NonNullCollection<SiberianColumn>();
             Rows = new NonNullCollection<SiberianRow>();
 
-            // ReSharper disable DoNotCallOverridableMethodsInConstructor
             DoubleBuffered = true;
 
             _horizontalScroll = new HScrollBar
@@ -383,6 +384,83 @@ namespace IrbisUI.Grid
 
             return result;
         }
+
+        /// <summary>
+        /// Find cell under given mouse position.
+        /// </summary>
+        [CanBeNull]
+        public SiberianCell FindCell
+            (
+                int x,
+                int y
+            )
+        {
+            SiberianColumn column = FindColumn(x, y);
+            SiberianRow row = FindRow(x, y);
+
+            if (!ReferenceEquals(column, null)
+                && !ReferenceEquals(row, null))
+            {
+                SiberianCell result = GetCell
+                    (
+                        column.Index,
+                        row.Index
+                    );
+
+                return result;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Find column under given mouse position.
+        /// </summary>
+        [CanBeNull]
+        public SiberianColumn FindColumn
+            (
+                int x,
+                int y
+            )
+        {
+            int left = 0;
+            foreach (SiberianColumn column in Columns)
+            {
+                int right = left + column.Width;
+                if (x >= left && x <= right)
+                {
+                    return column;
+                }
+                left = right;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Find row under given mouse position.
+        /// </summary>
+        [CanBeNull]
+        public SiberianRow FindRow
+            (
+                int x,
+                int y
+            )
+        {
+            int top = 0;
+            foreach (SiberianRow row in Rows)
+            {
+                int bottom = top + row.Height;
+                if (y >= top && y <= bottom)
+                {
+                    return row;
+                }
+                top = bottom;
+            }
+
+            return null;
+        }
+
 
         /// <summary>
         /// Get cell for given column and row.

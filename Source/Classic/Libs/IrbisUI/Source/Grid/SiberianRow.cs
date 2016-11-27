@@ -117,6 +117,23 @@ namespace IrbisUI.Grid
         }
 
         /// <summary>
+        /// Get first editable cell in the row.
+        /// </summary>
+        [CanBeNull]
+        public SiberianCell GetFirstEditableCell()
+        {
+            foreach (SiberianCell cell in Cells)
+            {
+                if (!cell.Column.ReadOnly)
+                {
+                    return cell;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Draw the column.
         /// </summary>
         public virtual void Paint
@@ -157,6 +174,17 @@ namespace IrbisUI.Grid
         #endregion
 
         #region Object members
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return string.Format
+                (
+                    "Index: {0}, Data: {1}",
+                    Index,
+                    Data
+                );
+        }
 
         #endregion
     }

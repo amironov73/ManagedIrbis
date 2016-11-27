@@ -127,6 +127,80 @@ namespace IrbisUI.Grid
             }
         }
 
+        /// <inheritdoc />
+        protected override void OnMouseClick
+            (
+                MouseEventArgs e
+            )
+        {
+            CloseEditor(false);
+            base.OnMouseClick(e);
+
+            if (e.Button == MouseButtons.Left)
+            {
+                SiberianCell cell = FindCell(e.X, e.Y);
+
+                if (!ReferenceEquals(cell, null))
+                {
+                    if (cell.Column.ReadOnly)
+                    {
+                        cell = cell.Row.GetFirstEditableCell();
+                        if (!ReferenceEquals(cell, null))
+                        {
+                            Goto
+                            (
+                                cell.Column.Index,
+                                cell.Row.Index
+                            );
+                        }
+                    }
+                    else
+                    {
+                        Goto
+                            (
+                                cell.Column.Index,
+                                cell.Row.Index
+                            );
+                    }
+                }
+                else
+                {
+                    SiberianRow row = FindRow(e.X, e.Y);
+                    if (!ReferenceEquals(row, null)
+                        && !ReferenceEquals(CurrentColumn, null))
+                    {
+                        Goto
+                            (
+                                CurrentColumn.Index,
+                                row.Index
+                            );
+                    }
+                }
+            }
+        }
+
+        /// <inheritdoc />
+        protected override void OnMouseDoubleClick
+            (
+                MouseEventArgs e
+            )
+        {
+            CloseEditor(false);
+            base.OnMouseDoubleClick(e);
+
+            if (e.Button == MouseButtons.Left)
+            {
+                SiberianCell cell = FindCell(e.X, e.Y);
+                if (!ReferenceEquals(cell, null))
+                {
+                    if (ReferenceEquals(cell, CurrentCell))
+                    {
+                        CreateEditor(true, null);
+                    }
+                }
+            }
+        }
+
         /// <inheritdoc/>
         protected override void OnPaint
             (
