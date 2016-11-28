@@ -217,6 +217,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         LeftCurly,
 
         /// <summary>
+        /// (
+        /// </summary>
+        LeftParenthesis,
+
+        /// <summary>
         /// [
         /// </summary>
         LeftSquare,
@@ -230,11 +235,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// &lt;=
         /// </summary>
         LessEqual,
-
-        /// <summary>
-        /// (
-        /// </summary>
-        LeftParenthesis,
 
         /// <summary>
         /// local

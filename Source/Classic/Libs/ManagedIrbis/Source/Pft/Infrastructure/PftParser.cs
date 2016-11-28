@@ -786,6 +786,32 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
+        private PftNode ParseNested()
+        {
+            PftNested result = new PftNested(Tokens.Current);
+            Tokens.MoveNext();
+
+            PftTokenList tokens = Tokens.Segment
+                (
+                    _curlyOpen,
+                    _curlyClose,
+                    _curlyStop
+                )
+                .ThrowIfNull("tokens");
+
+            ChangeContext
+                (
+                    (NonNullCollection<PftNode>)result.Children,
+                    tokens
+                );
+
+            Tokens.MoveNext();
+
+            return result;
+        }
+
+        //=================================================
+
         private PftNode ParseNl()
         {
             return MoveNext(new PftNl(Tokens.Current));

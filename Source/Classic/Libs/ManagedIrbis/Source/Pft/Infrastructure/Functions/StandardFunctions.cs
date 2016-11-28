@@ -306,20 +306,21 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void LoadRecord(PftContext context, PftNode node, PftNode[] arguments)
         {
-            string expression = context.GetStringArgument(arguments, 0);
-            if (!string.IsNullOrEmpty(expression))
+            double? number = context.GetNumericArgument(arguments, 0);
+            double? level = context.GetNumericArgument(arguments, 1);
+            if (number != null)
             {
-                int mfn;
-                if (int.TryParse(expression, out mfn))
-                {
-                    MarcRecord record = context.Environment
-                        .ReadRecord(mfn);
+                int mfn = (int)number;
+                MarcRecord record = context.Environment
+                    .ReadRecord(mfn);
 
-                    if (ReferenceEquals(record, null))
-                    {
-                        context.Write(node, "0");
-                    }
-                    else
+                if (ReferenceEquals(record, null))
+                {
+                    context.Write(node, "0");
+                }
+                else
+                {
+                    if (level == null)
                     {
                         PftContext ctx = context;
                         while (!ReferenceEquals(ctx, null))
@@ -327,8 +328,22 @@ namespace ManagedIrbis.Pft.Infrastructure
                             ctx.Record = record;
                             ctx = ctx.Parent;
                         }
-                        context.Write(node, "1");
                     }
+                    else
+                    {
+                        int limit = (int)level.Value;
+                        int count = 0;
+                        PftContext ctx = context;
+                        while (!ReferenceEquals(ctx, null)
+                            && count < limit)
+                        {
+                            ctx.Record = record;
+                            ctx = ctx.Parent;
+                            count++;
+                        }
+
+                    }
+                    context.Write(node, "1");
                 }
             }
         }

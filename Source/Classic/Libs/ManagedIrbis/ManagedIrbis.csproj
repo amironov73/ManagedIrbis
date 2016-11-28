@@ -307,6 +307,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftL.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftLocal.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftMinus.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftNested.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNl.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNumeric.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNumericExpression.cs" />

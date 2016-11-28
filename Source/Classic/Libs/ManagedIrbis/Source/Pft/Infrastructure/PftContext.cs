@@ -69,6 +69,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         public MarcRecord Record { get; set; }
 
         /// <summary>
+        /// Alternative record (for nested context).
+        /// </summary>
+        public MarcRecord AlternativeRecord { get; set; }
+
+        /// <summary>
         /// Выходной буфер, в котором накапливается результат
         /// форматирования, а также ошибки и предупреждения.
         /// </summary>

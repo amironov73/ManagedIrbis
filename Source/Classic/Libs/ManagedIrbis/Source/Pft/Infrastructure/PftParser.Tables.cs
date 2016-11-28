@@ -117,6 +117,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenKind.LeftParenthesis,
 
+            PftTokenKind.LeftCurly,
+
             PftTokenKind.TripleCurly,
 
             PftTokenKind.At,
@@ -148,6 +150,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.For, ParseFor},
                 {PftTokenKind.ForEach, ParseForEach},
                 {PftTokenKind.From, ParseFrom},
+                {PftTokenKind.LeftCurly, ParseNested},
                 {PftTokenKind.LeftParenthesis, ParseGroup},
                 {PftTokenKind.Hash, ParseHash},
                 {PftTokenKind.Identifier, ParseFunctionCall},
@@ -235,6 +238,21 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.Colon, PftTokenKind.Tilda
         };
 
+        private static PftTokenKind[] _curlyClose =
+        {
+            PftTokenKind.RightCurly
+        };
+
+        private static PftTokenKind[] _curlyOpen =
+        {
+            PftTokenKind.LeftCurly
+        };
+
+        private static PftTokenKind[] _curlyStop =
+        {
+            PftTokenKind.RightCurly
+        };
+
         private static PftTokenKind[] _doStop =
         {
             PftTokenKind.Do
@@ -266,13 +284,14 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static PftTokenKind[] _loopClose =
         {
-            PftTokenKind.End
+            PftTokenKind.End, PftTokenKind.RightCurly
         };
 
         private static PftTokenKind[] _loopOpen =
         {
             PftTokenKind.For, PftTokenKind.ForEach,
-            PftTokenKind.Local, PftTokenKind.While
+            PftTokenKind.Local, PftTokenKind.While,
+            PftTokenKind.LeftCurly
         };
 
         private static PftTokenKind[] _loopStop =
@@ -287,12 +306,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static PftTokenKind[] _parenthesisClose =
         {
-            PftTokenKind.RightParenthesis
+            PftTokenKind.RightParenthesis, PftTokenKind.RightCurly
         };
 
         private static PftTokenKind[] _parenthesisOpen =
         {
-            PftTokenKind.LeftParenthesis
+            PftTokenKind.LeftParenthesis, PftTokenKind.LeftCurly
         };
 
         private static PftTokenKind[] _parenthesisStop =
