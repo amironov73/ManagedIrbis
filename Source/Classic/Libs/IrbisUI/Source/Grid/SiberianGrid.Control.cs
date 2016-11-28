@@ -83,8 +83,16 @@ namespace IrbisUI.Grid
                         MoveOneColumnRight();
                         break;
 
+                    case Keys.PageUp:
+                        MoveOnePageUp();
+                        break;
+
+                    case Keys.PageDown:
+                        MoveOnePageDown();
+                        break;
+
                     case Keys.Enter:
-                        CreateEditor(true, null);
+                        OpenEditor(true, null);
                         break;
                 }
             }
@@ -100,7 +108,7 @@ namespace IrbisUI.Grid
 
             if (!char.IsControl(e.KeyChar))
             {
-                CreateEditor
+                OpenEditor
                     (
                         false,
                         e.KeyChar.ToString()
@@ -177,10 +185,25 @@ namespace IrbisUI.Grid
                 {
                     if (ReferenceEquals(cell, CurrentCell))
                     {
-                        CreateEditor(true, null);
+                        OpenEditor(true, null);
                     }
                 }
             }
+        }
+
+        /// <inheritdoc/>
+        protected override void OnMouseWheel
+            (
+                MouseEventArgs e
+            )
+        {
+            base.OnMouseWheel(e);
+
+            MoveRelative
+                (
+                    0,
+                    - e.Delta / 10
+                );
         }
 
         /// <inheritdoc/>
@@ -199,12 +222,11 @@ namespace IrbisUI.Grid
 
             int x = 0;
             int y = ClientSize.Height;
-            int index;
             PaintEventArgs args;
 
-            x = 0;
-            foreach (SiberianColumn column in Columns)
+            for (int columnIndex = _leftColumn; columnIndex < Columns.Count; columnIndex++)
             {
+                SiberianColumn column = Columns[columnIndex];
                 int height = HeaderHeight;
 
                 clip = new Rectangle
@@ -238,21 +260,22 @@ namespace IrbisUI.Grid
                 x += column.Width;
             }
 
-
+            x = 0;
             using (Brush brush = new SolidBrush(ForeColor))
             using (Pen pen = new Pen(brush))
             {
-                foreach (SiberianColumn column in Columns)
+                for (int columnIndex = _leftColumn; columnIndex < Columns.Count; columnIndex++)
                 {
+                    SiberianColumn column = Columns[columnIndex];
                     x += column.Width;
                     graphics.DrawLine(pen, x, 0, x, y);
                 }
 
                 x = ClientSize.Width;
                 y = HeaderHeight;
-                index = 0;
-                foreach (SiberianRow row in Rows)
+                for (int rowIndex = _topRow; rowIndex < Rows.Count; rowIndex++)
                 {
+                    SiberianRow row = Rows[rowIndex];
                     args = new PaintEventArgs
                         (
                             graphics,
@@ -268,17 +291,23 @@ namespace IrbisUI.Grid
 
                     graphics.DrawLine(pen, 0, y, x, y);
                     y += row.Height;
+
+                    if (y >= ClientSize.Height)
+                    {
+                        break;
+                    }
                 }
 
                 x = 0;
-                index = 0;
-                foreach (SiberianColumn column in Columns)
+                for (int columnIndex = _leftColumn; columnIndex < Columns.Count; columnIndex++)
                 {
+                    SiberianColumn column = Columns[columnIndex];
                     int dx = column.Width;
 
                     y = HeaderHeight;
-                    foreach (SiberianRow row in Rows)
+                    for (int rowIndex = _topRow; rowIndex < Rows.Count; rowIndex++)
                     {
+                        SiberianRow row = Rows[rowIndex];
                         int dy = row.Height;
 
                         args = new PaintEventArgs
@@ -292,11 +321,10 @@ namespace IrbisUI.Grid
                                         dy - 2
                                     )
                             );
-                        SiberianCell cell = row.Cells[index];
+                        SiberianCell cell = row.Cells[columnIndex];
                         cell.Paint(args);
                         y += dy;
                     }
-                    index++;
                     x += dx;
                 }
             }

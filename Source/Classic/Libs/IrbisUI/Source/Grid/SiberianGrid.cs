@@ -147,6 +147,9 @@ namespace IrbisUI.Grid
         private readonly ScrollBar _horizontalScroll;
         private readonly ScrollBar _verticalScroll;
 
+        private int _leftColumn;
+        private int _topRow;
+
         private bool _autoSizeWatch;
 
         internal void AutoSizeColumns()
@@ -178,8 +181,11 @@ namespace IrbisUI.Grid
 
                     foreach (SiberianColumn column in needResize)
                     {
-                        column.Width
-                            = remaining*column.FillWidth/fillSum;
+                        column.Width = Math.Max
+                            (
+                                100,
+                                remaining*column.FillWidth/fillSum
+                            );
                     }
                 }
             }
@@ -192,41 +198,50 @@ namespace IrbisUI.Grid
         private int _DoScroll
             (
                 ScrollBar scrollBar,
-                ScrollEventType scrollType,
-                int value
+                ScrollEventArgs args
             )
         {
-            switch (scrollType)
+            int result = args.OldValue;
+
+            switch (args.Type)
             {
                 case ScrollEventType.First:
-                    value = scrollBar.Minimum;
+                    result = scrollBar.Minimum;
                     break;
 
                 case ScrollEventType.LargeDecrement:
-                    value -= scrollBar.LargeChange;
+                    result -= scrollBar.LargeChange;
                     break;
 
                 case ScrollEventType.LargeIncrement:
-                    value += scrollBar.LargeChange;
+                    result += scrollBar.LargeChange;
                     break;
 
                 case ScrollEventType.Last:
-                    value = scrollBar.Maximum;
+                    result = scrollBar.Maximum;
                     break;
 
                 case ScrollEventType.SmallDecrement:
-                    value -= scrollBar.SmallChange;
+                    result -= scrollBar.SmallChange;
                     break;
 
                 case ScrollEventType.SmallIncrement:
-                    value += scrollBar.SmallChange;
+                    result += scrollBar.SmallChange;
+                    break;
+
+                case ScrollEventType.EndScroll:
+                    result = args.NewValue;
+                    break;
+
+                case ScrollEventType.ThumbTrack:
+                    result = args.NewValue;
                     break;
             }
 
-            value = Math.Max(value, scrollBar.Minimum);
-            value = Math.Min(value, scrollBar.Maximum);
+            result = Math.Max(result, scrollBar.Minimum);
+            result = Math.Min(result, scrollBar.Maximum);
 
-            return value;
+            return result;
         }
 
         private void _horizontalScroll_Scroll
@@ -243,8 +258,7 @@ namespace IrbisUI.Grid
             int value = _DoScroll
                 (
                     _horizontalScroll,
-                    e.Type,
-                    e.OldValue
+                    e
                 );
 
             e.NewValue = value;
@@ -270,8 +284,7 @@ namespace IrbisUI.Grid
             int value = _DoScroll
                 (
                     _verticalScroll,
-                    e.Type,
-                    e.OldValue
+                    e
                 );
 
             e.NewValue = value;
@@ -353,10 +366,10 @@ namespace IrbisUI.Grid
         }
 
         /// <summary>
-        /// Create editor for current cell.
+        /// Open editor for current cell.
         /// </summary>
         [CanBeNull]
-        public Control CreateEditor
+        public Control OpenEditor
             (
                 bool edit,
                 object state
@@ -479,8 +492,10 @@ namespace IrbisUI.Grid
             )
         {
             int left = 0;
-            foreach (SiberianColumn column in Columns)
+            
+            for (int columnIndex = _leftColumn; columnIndex < Columns.Count; columnIndex++)
             {
+                SiberianColumn column = Columns[columnIndex];
                 int right = left + column.Width;
                 if (x >= left && x <= right)
                 {
@@ -503,8 +518,9 @@ namespace IrbisUI.Grid
             )
         {
             int top = HeaderHeight;
-            foreach (SiberianRow row in Rows)
+            for (int rowIndex = _topRow; rowIndex < Rows.Count; rowIndex++)
             {
+                SiberianRow row = Rows[rowIndex];
                 int bottom = top + row.Height;
                 if (y >= top && y <= bottom)
                 {
@@ -548,14 +564,14 @@ namespace IrbisUI.Grid
 
             int column = cell.Column.Index;
             int x = 0;
-            for (int i = 0; i < column; i++)
+            for (int i = _leftColumn; i < column; i++)
             {
                 x += Columns[i].Width;
             }
 
             int row = cell.Row.Index;
             int y = HeaderHeight;
-            for (int i = 0; i < row; i++)
+            for (int i = _topRow; i < row; i++)
             {
                 y += Rows[i].Height;
             }
@@ -616,6 +632,69 @@ namespace IrbisUI.Grid
 
                 _verticalScroll.Maximum = Rows.Count;
                 _verticalScroll.Value = CurrentRow.Index;
+
+                if (CurrentColumn.Index < _leftColumn)
+                {
+                    _leftColumn = CurrentColumn.Index;
+                }
+
+                if (CurrentRow.Index < _topRow)
+                {
+                    _topRow = CurrentRow.Index;
+                }
+
+                // Adjust left column
+                while (Columns.Count != 0)
+                {
+                    int x = 0;
+
+                    for (int i = _leftColumn; i < CurrentColumn.Index; i++)
+                    {
+                        x += Columns[i].Width;
+                    }
+                    x += Columns[CurrentColumn.Index].Width;
+
+                    if (x < ClientSize.Width)
+                    {
+                        break;
+                    }
+
+                    _leftColumn++;
+                    if (_leftColumn >= Columns.Count)
+                    {
+                        _leftColumn = Math.Max(0, Columns.Count - 1);
+                        break;
+                    }
+                }
+
+                // Adjust top row
+                while (Rows.Count != 0)
+                {
+                    int y = HeaderHeight;
+
+                    for (int i = _topRow; i < CurrentRow.Index; i++)
+                    {
+                        y += Rows[i].Height;
+                    }
+                    y += Rows[CurrentRow.Index].Height;
+
+                    if (y < ClientSize.Height)
+                    {
+                        break;
+                    }
+
+                    _topRow++;
+                    if (_topRow >= Rows.Count)
+                    {
+                        _topRow = Math.Max(0, Rows.Count - 1);
+                        break;
+                    }
+                }
+
+                int visibleRows = (ClientSize.Height - HeaderHeight) 
+                    / SiberianRow.DefaultHeight;
+                visibleRows = Math.Max(visibleRows, 1);
+                _verticalScroll.LargeChange = visibleRows;
 
                 Invalidate();
             }
@@ -688,6 +767,28 @@ namespace IrbisUI.Grid
         public SiberianCell MoveOneLineUp()
         {
             SiberianCell result = MoveRelative(0, -1);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Move one page down.
+        /// </summary>
+        [CanBeNull]
+        public SiberianCell MoveOnePageDown()
+        {
+            SiberianCell result = MoveRelative(0, _verticalScroll.LargeChange);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Move one page up.
+        /// </summary>
+        [CanBeNull]
+        public SiberianCell MoveOnePageUp()
+        {
+            SiberianCell result = MoveRelative(0, -_verticalScroll.LargeChange);
 
             return result;
         }

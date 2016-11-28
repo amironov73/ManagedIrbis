@@ -65,6 +65,11 @@ namespace IrbisUI.Grid
                 KeyEventArgs args
             )
         {
+            if (ReferenceEquals(Grid, null))
+            {
+                return;
+            }
+
             if (args.Modifiers == 0)
             {
                 switch (args.KeyCode)
@@ -80,6 +85,14 @@ namespace IrbisUI.Grid
                     case Keys.Down:
                     case Keys.Enter:
                         Grid.MoveOneLineDown();
+                        break;
+
+                    case Keys.PageUp:
+                        Grid.MoveOnePageUp();
+                        break;
+
+                    case Keys.PageDown:
+                        Grid.MoveOnePageDown();
                         break;
                 }
             }

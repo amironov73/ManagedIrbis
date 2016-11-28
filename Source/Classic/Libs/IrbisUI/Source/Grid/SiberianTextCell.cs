@@ -140,6 +140,23 @@ namespace IrbisUI.Grid
 
         #region Object members
 
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            // ReSharper disable ConditionIsAlwaysTrueOrFalse
+            int row = ReferenceEquals(Row, null) ? -1 : Row.Index,
+                column = ReferenceEquals(Column, null) ? -1 : Column.Index;
+            // ReSharper restore ConditionIsAlwaysTrueOrFalse
+
+            return string.Format
+                (
+                    "TextCell [{0}, {1}]: {2}",
+                    column,
+                    row,
+                    Text
+                );
+        }
+
         #endregion
     }
 }

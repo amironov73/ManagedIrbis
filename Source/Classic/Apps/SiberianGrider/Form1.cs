@@ -36,6 +36,8 @@ namespace SiberianGrider
         private SiberianTextColumn _firstColumn;
         private SiberianButtonColumn _secondColumn;
         private SiberianTextColumn _thirdColumn;
+        private SiberianTextColumn _fourthColumn;
+        private SiberianTextColumn _fifthColumn;
 
         private void Form1_Load
             (
@@ -47,8 +49,11 @@ namespace SiberianGrider
                 .CreateColumn<SiberianTextColumn>();
             _secondColumn = (SiberianButtonColumn) _grid
                 .CreateColumn<SiberianButtonColumn>();
-            _secondColumn.Width = 20;
             _thirdColumn = (SiberianTextColumn) _grid
+                .CreateColumn<SiberianTextColumn>();
+            _fourthColumn = (SiberianTextColumn) _grid
+                .CreateColumn<SiberianTextColumn>();
+            _fifthColumn = (SiberianTextColumn) _grid
                 .CreateColumn<SiberianTextColumn>();
 
             _firstColumn.Title = "Title";
@@ -58,13 +63,19 @@ namespace SiberianGrider
 
             _secondColumn.ReadOnly = true;
             _secondColumn.BackColor = Color.DarkGreen;
-
+            _secondColumn.Width = 20;
 
             _thirdColumn.Title = "Value";
             _thirdColumn.FillWidth = 100;
             _thirdColumn.Member = "Value";
 
-            for (int i = 0; i < 7; i++)
+            _fourthColumn.Title = "Appendix1";
+            _fourthColumn.FillWidth = 100;
+
+            _fifthColumn.Title = "Appendix2";
+            _fifthColumn.FillWidth = 100;
+
+            for (int i = 0; i < 70; i++)
             {
                 SubFieldDescription description
                     = new SubFieldDescription
