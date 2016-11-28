@@ -224,7 +224,7 @@ namespace ManagedIrbis.Pft
                     return;
                 }
 
-                fields = new[] {field};
+                fields = new[] { field };
             }
 
             string[] lines = value.SplitLines()
@@ -237,6 +237,7 @@ namespace ManagedIrbis.Pft
                 newSubFields.Add(subField);
             }
 
+            int current = 0;
             foreach (RecordField field in fields)
             {
                 SubField[] subFields = field.GetSubField(code);
@@ -248,10 +249,15 @@ namespace ManagedIrbis.Pft
                         field.SubFields.Remove(subField);
                     }
 
-                    foreach (SubField subField in newSubFields)
+                    if (current < newSubFields.Count)
                     {
-                        field.SubFields.Add(subField.Clone());
+                        SubField newSubField = newSubFields[current];
+                        if (!ReferenceEquals(newSubField, null))
+                        {
+                            field.SubFields.Add(newSubField);
+                        }
                     }
+                    current++;
                 }
                 else
                 {
@@ -796,17 +802,21 @@ namespace ManagedIrbis.Pft
                     fieldIndex
                 );
 
-            SubField[] subFields = fields.GetSubField(code);
-            subFields = GetArrayItem
+            string[] result = fields
+                .Select
+                (
+                    subField => subField
+                        .GetFirstSubFieldValue(code)
+                                ?? string.Empty
+                )
+                .ToArray();
+
+            result = GetArrayItem
                 (
                     context,
-                    subFields,
+                    result,
                     subfieldIndex
                 );
-
-            string[] result = subFields
-                .Select(subField => subField.Value)
-                .ToArray();
 
             return result;
         }

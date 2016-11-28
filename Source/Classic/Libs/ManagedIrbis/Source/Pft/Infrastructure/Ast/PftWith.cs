@@ -123,11 +123,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             foreach (FieldSpecification field in Fields)
             {
                 string tag = field.Tag.ThrowIfNull("field.Tag");
-                string[] lines = PftUtility.GetFieldValue
+                string[] lines = field.SubField == SubField.NoCode
+                    ? PftUtility.GetFieldValue
+                        (
+                            context,
+                            tag,
+                            field.FieldRepeat
+                        )
+                    : PftUtility.GetSubFieldValue
                     (
                         context,
                         tag,
-                        field.FieldRepeat
+                        field.FieldRepeat,
+                        field.SubField,
+                        field.SubFieldRepeat
                     );
 
                 List<string> lines2 = new List<string>();
@@ -165,13 +174,28 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                             lines2.ToArray()
                         );
 
-                    PftUtility.AssignField
-                        (
-                            context,
-                            tag,
-                            field.FieldRepeat,
-                            value
-                        );
+                    if (field.SubField == SubField.NoCode)
+                    {
+                        PftUtility.AssignField
+                            (
+                                context,
+                                tag,
+                                field.FieldRepeat,
+                                value
+                            );
+                    }
+                    else
+                    {
+                        PftUtility.AssignSubField
+                            (
+                                context,
+                                tag,
+                                field.FieldRepeat,
+                                field.SubField,
+                                field.SubFieldRepeat,
+                                value
+                            );
+                    }
                 }
             }
 
