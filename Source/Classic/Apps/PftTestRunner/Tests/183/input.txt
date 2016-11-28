@@ -1,0 +1,8 @@
+﻿$i = 1;
+with $x in v692, v910
+do
+	$x = '^zNewSubField', $i, $x;
+	$i = $i + 1;
+end
+(v692,/)
+(v910,/)

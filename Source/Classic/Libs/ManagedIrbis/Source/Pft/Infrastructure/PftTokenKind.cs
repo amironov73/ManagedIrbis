@@ -477,6 +477,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         While,
 
         /// <summary>
+        /// with
+        /// </summary>
+        With,
+
+        /// <summary>
         /// x10
         /// </summary>
         X

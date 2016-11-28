@@ -1077,6 +1077,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "while";
                                 break;
 
+                            case "with":
+                                kind = PftTokenKind.With;
+                                value = "with";
+                                break;
+
                             default:
                                 kind = PftTokenKind.Identifier;
                                 break;

@@ -114,6 +114,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.If, PftTokenKind.For,
             PftTokenKind.While, PftTokenKind.ForEach,
             PftTokenKind.From, PftTokenKind.Local,
+            PftTokenKind.With,
 
             PftTokenKind.LeftParenthesis,
 
@@ -176,6 +177,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.V,ParseFieldAssignment},
                 {PftTokenKind.Variable, ParseVariable},
                 {PftTokenKind.While, ParseWhile},
+                {PftTokenKind.With, ParseWith},
                 {PftTokenKind.X, ParseX}
             };
 
@@ -291,7 +293,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftTokenKind.For, PftTokenKind.ForEach,
             PftTokenKind.Local, PftTokenKind.While,
-            PftTokenKind.LeftCurly
+            PftTokenKind.With, PftTokenKind.LeftCurly
         };
 
         private static PftTokenKind[] _loopStop =

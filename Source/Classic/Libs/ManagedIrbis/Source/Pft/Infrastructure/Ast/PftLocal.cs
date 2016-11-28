@@ -86,7 +86,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftContext localContext = context.Push();
             localContext.Output = context.Output;
             PftVariableManager localManager
-                = new PftVariableManager(null);
+                = new PftVariableManager(context.Variables);
             localContext.SetVariables(localManager);
 
             foreach (string name in Names)

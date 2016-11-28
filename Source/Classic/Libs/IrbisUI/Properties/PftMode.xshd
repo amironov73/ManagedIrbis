@@ -103,6 +103,7 @@
                 <Key word = "val" />
                 <Key word = "where" />
                 <Key word = "while" />
+                <Key word = "with" />
 	</KeyWords>
 		</RuleSet>
 	</RuleSets>

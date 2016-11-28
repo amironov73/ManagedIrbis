@@ -763,7 +763,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             ChangeContext
                 (
-                    (NonNullCollection<PftNode>) result.Children,
+                    (NonNullCollection<PftNode>)result.Children,
                     bodyTokens
                 );
 
@@ -789,7 +789,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         private PftNode ParseNested()
         {
             PftNested result = new PftNested(Tokens.Current);
-            Tokens.MoveNext();
+            Tokens.RequireNext();
 
             PftTokenList tokens = Tokens.Segment
                 (
@@ -1156,6 +1156,73 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             return result;
         }
+
+        //=================================================
+
+        private PftNode ParseWith()
+        {
+            PftWith result = new PftWith(Tokens.Current);
+            Tokens.RequireNext(PftTokenKind.Variable);
+
+            result.Variable = new PftVariableReference(Tokens.Current);
+            Tokens.RequireNext(PftTokenKind.In);
+            Tokens.RequireNext();
+
+            PftTokenList fieldTokens = Tokens.Segment
+                (
+                    _doStop
+                )
+                .ThrowIfNull("fieldTokens");
+            Tokens.Current.MustBe(PftTokenKind.Do);
+            Tokens.RequireNext();
+            PftTokenList bodyTokens = Tokens.Segment
+                (
+                    _loopOpen,
+                    _loopClose,
+                    _loopStop
+                )
+                .ThrowIfNull("bodyTokens");
+
+            while (!fieldTokens.IsEof)
+            {
+                PftToken token = fieldTokens.Current;
+                switch (token.Kind)
+                {
+                    case PftTokenKind.V:
+                        FieldSpecification specification = new FieldSpecification();
+                        if (!specification.ParseShort
+                            (
+                                token.Text
+                                    .ThrowIfNull("token.Text")
+                            ))
+                        {
+                            throw new PftSyntaxException(token);
+                        }
+                        result.Fields.Add(specification);
+                        break;
+
+                    case PftTokenKind.Comma:
+                        break;
+
+                    default:
+                        throw new PftSyntaxException(token);
+                }
+
+                fieldTokens.MoveNext();
+            }
+
+            ChangeContext
+                (
+                    (NonNullCollection<PftNode>)result.Children,
+                    bodyTokens
+                );
+
+            Tokens.MoveNext();
+
+            return result;
+        }
+
+
 
         //=================================================
 

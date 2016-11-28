@@ -661,6 +661,46 @@ namespace ManagedIrbis.Pft
         //=================================================
 
         /// <summary>
+        /// Get value of the field.
+        /// </summary>
+        [NotNull]
+        public static string[] GetFieldValue
+            (
+                [NotNull] PftContext context,
+                [NotNull] string tag,
+                IndexSpecification index
+            )
+        {
+            Code.NotNull(context, "context");
+            Code.NotNullNorEmpty(tag, "tag");
+
+            tag = FieldTag.Normalize(tag);
+
+            MarcRecord record = context.Record;
+            if (ReferenceEquals(record, null))
+            {
+                return new string[0];
+            }
+
+            RecordField[] fields = record.Fields.GetField(tag);
+            string[] result = fields.Select
+                (
+                    field => field.ToText()
+                ).ToArray();
+
+            result = GetArrayItem
+                (
+                    context,
+                    result,
+                    index
+                );
+
+            return result;
+        }
+
+        //=================================================
+
+        /// <summary>
         /// Get array of reserved words.
         /// </summary>
         public static string[] GetReservedWords()
@@ -716,8 +756,59 @@ namespace ManagedIrbis.Pft
                 "uf",
                 "unifor",
                 "val",
-                "while"
+                "while",
+                "with"
             };
+        }
+
+        //=================================================
+
+        /// <summary>
+        /// Get value of the subfield.
+        /// </summary>
+        [NotNull]
+        public static string[] GetSubFieldValue
+            (
+                [NotNull] PftContext context,
+                [NotNull] string tag,
+                IndexSpecification fieldIndex,
+                char code,
+                IndexSpecification subfieldIndex
+            )
+        {
+            Code.NotNull(context, "context");
+            Code.NotNullNorEmpty(tag, "tag");
+
+            tag = FieldTag.Normalize(tag);
+            code = SubFieldCode.Normalize(code);
+
+            MarcRecord record = context.Record;
+            if (ReferenceEquals(record, null))
+            {
+                return new string[0];
+            }
+
+            RecordField[] fields = record.Fields.GetField(tag);
+            fields = GetArrayItem
+                (
+                    context,
+                    fields,
+                    fieldIndex
+                );
+
+            SubField[] subFields = fields.GetSubField(code);
+            subFields = GetArrayItem
+                (
+                    context,
+                    subFields,
+                    subfieldIndex
+                );
+
+            string[] result = subFields
+                .Select(subField => subField.Value)
+                .ToArray();
+
+            return result;
         }
 
         //=================================================
