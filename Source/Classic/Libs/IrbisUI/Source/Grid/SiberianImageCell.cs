@@ -1,4 +1,4 @@
-﻿/* SiberianTextCell.cs -- 
+﻿/* SiberianImageCell.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -37,10 +37,19 @@ namespace IrbisUI.Grid
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class SiberianTextCell
+    public class SiberianImageCell
         : SiberianCell
     {
         #region Properties
+
+        /// <summary>
+        /// Picture.
+        /// </summary>
+        public Image Picture
+        {
+            get { return _picture; }
+            set { _SetPicture(value); }
+        }
 
         /// <summary>
         /// Text.
@@ -60,7 +69,19 @@ namespace IrbisUI.Grid
 
         #region Private members
 
+        private Image _picture;
+
         private string _text;
+
+        private void _SetPicture
+            (
+                Image picture
+            )
+        {
+            _picture = picture;
+            Column.PutData(Row.Data, this);
+            Grid.Invalidate();
+        }
 
         private void _SetText
             (
@@ -68,7 +89,7 @@ namespace IrbisUI.Grid
             )
         {
             _text = text;
-            Column.PutData(Row.Data, this);
+            Grid.Invalidate();
         }
 
         #endregion
@@ -89,7 +110,7 @@ namespace IrbisUI.Grid
             {
                 if (accept)
                 {
-                    Text = Grid.Editor.Text;
+                    // Image = ....
                 }
             }
 
@@ -104,6 +125,13 @@ namespace IrbisUI.Grid
         {
             Graphics graphics = args.Graphics;
             Rectangle rectangle = args.ClipRectangle;
+            Rectangle textRectangle = new Rectangle
+                (
+                    rectangle.Left + 20,
+                    rectangle.Y,
+                    rectangle.Width - 20,
+                    rectangle.Height
+                );
 
             Color foreColor = Color.Black;
             if (ReferenceEquals(Row, Grid.CurrentRow))
@@ -131,7 +159,7 @@ namespace IrbisUI.Grid
                     graphics,
                     Text,
                     Grid.Font,
-                    rectangle,
+                    textRectangle,
                     foreColor,
                     flags
                 );
@@ -141,23 +169,7 @@ namespace IrbisUI.Grid
 
         #region Object members
 
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            // ReSharper disable ConditionIsAlwaysTrueOrFalse
-            int row = ReferenceEquals(Row, null) ? -1 : Row.Index,
-                column = ReferenceEquals(Column, null) ? -1 : Column.Index;
-            // ReSharper restore ConditionIsAlwaysTrueOrFalse
-
-            return string.Format
-                (
-                    "TextCell [{0}, {1}]: {2}",
-                    column,
-                    row,
-                    Text
-                );
-        }
-
         #endregion
+
     }
 }

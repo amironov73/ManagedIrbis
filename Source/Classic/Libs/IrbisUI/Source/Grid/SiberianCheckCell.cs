@@ -133,12 +133,6 @@ namespace IrbisUI.Grid
                     rectangle.Height
                 );
 
-            //Color foreColor = Color.Black;
-            //if (ReferenceEquals(Row, Grid.CurrentRow))
-            //{
-            //    foreColor = Color.White;
-            //}
-
             if (ReferenceEquals(this, Grid.CurrentCell))
             {
                 Color backColor = Color.Blue;
