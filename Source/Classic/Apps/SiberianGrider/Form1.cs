@@ -37,7 +37,7 @@ namespace SiberianGrider
         private SiberianButtonColumn _secondColumn;
         private SiberianTextColumn _thirdColumn;
         private SiberianTextColumn _fourthColumn;
-        private SiberianTextColumn _fifthColumn;
+        private SiberianCheckColumn _fifthColumn;
 
         private void Form1_Load
             (
@@ -53,8 +53,8 @@ namespace SiberianGrider
                 .CreateColumn<SiberianTextColumn>();
             _fourthColumn = (SiberianTextColumn) _grid
                 .CreateColumn<SiberianTextColumn>();
-            _fifthColumn = (SiberianTextColumn) _grid
-                .CreateColumn<SiberianTextColumn>();
+            _fifthColumn = (SiberianCheckColumn) _grid
+                .CreateColumn<SiberianCheckColumn>();
 
             _firstColumn.Title = "Title";
             _firstColumn.ReadOnly = true;
@@ -73,7 +73,8 @@ namespace SiberianGrider
             _fourthColumn.FillWidth = 100;
 
             _fifthColumn.Title = "Appendix2";
-            _fifthColumn.FillWidth = 100;
+            _fifthColumn.FillWidth = 30;
+            _fifthColumn.Member = "Check";
 
             for (int i = 0; i < 70; i++)
             {

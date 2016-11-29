@@ -39,6 +39,11 @@ namespace SiberianGrider
         [CanBeNull]
         public string Value { get; set; }
 
+        /// <summary>
+        /// Check.
+        /// </summary>
+        public bool Check { get; set; }
+
         #endregion
 
         #region Construction

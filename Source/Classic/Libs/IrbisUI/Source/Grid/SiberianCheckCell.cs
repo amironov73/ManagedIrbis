@@ -1,4 +1,4 @@
-﻿/* SiberianTextCell.cs -- 
+﻿/* SiberianCheckCell.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -37,10 +37,19 @@ namespace IrbisUI.Grid
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class SiberianTextCell
+    public class SiberianCheckCell
         : SiberianCell
     {
         #region Properties
+
+        /// <summary>
+        /// State.
+        /// </summary>
+        public bool State
+        {
+            get { return _state; }
+            set { _SetState(value); }
+        }
 
         /// <summary>
         /// Text.
@@ -60,7 +69,19 @@ namespace IrbisUI.Grid
 
         #region Private members
 
+        private bool _state;
+
         private string _text;
+
+        private void _SetState
+            (
+                bool state
+            )
+        {
+            _state = state;
+            Column.PutData(Row.Data, this);
+            Grid.Invalidate();
+        }
 
         private void _SetText
             (
@@ -68,7 +89,7 @@ namespace IrbisUI.Grid
             )
         {
             _text = text;
-            Column.PutData(Row.Data, this);
+            Grid.Invalidate();
         }
 
         #endregion
@@ -89,7 +110,7 @@ namespace IrbisUI.Grid
             {
                 if (accept)
                 {
-                    Text = Grid.Editor.Text;
+                    // State = ....
                 }
             }
 
@@ -104,12 +125,19 @@ namespace IrbisUI.Grid
         {
             Graphics graphics = args.Graphics;
             Rectangle rectangle = args.ClipRectangle;
+            Rectangle textRectangle = new Rectangle
+                (
+                    rectangle.Left + 20,
+                    rectangle.Y,
+                    rectangle.Width - 20,
+                    rectangle.Height
+                );
 
-            Color foreColor = Color.Black;
-            if (ReferenceEquals(Row, Grid.CurrentRow))
-            {
-                foreColor = Color.White;
-            }
+            //Color foreColor = Color.Black;
+            //if (ReferenceEquals(Row, Grid.CurrentRow))
+            //{
+            //    foreColor = Color.White;
+            //}
 
             if (ReferenceEquals(this, Grid.CurrentCell))
             {
@@ -120,20 +148,32 @@ namespace IrbisUI.Grid
                 }
             }
 
-            TextFormatFlags flags 
+            TextFormatFlags flags
                 = TextFormatFlags.TextBoxControl
                 | TextFormatFlags.EndEllipsis
                 | TextFormatFlags.NoPrefix
                 | TextFormatFlags.VerticalCenter;
 
-            TextRenderer.DrawText
+            CheckBoxState state = State
+                ? CheckBoxState.CheckedNormal
+                : CheckBoxState.UncheckedNormal;
+
+            Point point = new Point
+                (
+                    rectangle.X + 2,
+                    rectangle.Y + 2
+                );
+
+            CheckBoxRenderer.DrawCheckBox
                 (
                     graphics,
+                    point,
+                    textRectangle,
                     Text,
                     Grid.Font,
-                    rectangle,
-                    foreColor,
-                    flags
+                    flags,
+                    false,
+                    state
                 );
         }
 
@@ -141,23 +181,7 @@ namespace IrbisUI.Grid
 
         #region Object members
 
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            // ReSharper disable ConditionIsAlwaysTrueOrFalse
-            int row = ReferenceEquals(Row, null) ? -1 : Row.Index,
-                column = ReferenceEquals(Column, null) ? -1 : Column.Index;
-            // ReSharper restore ConditionIsAlwaysTrueOrFalse
-
-            return string.Format
-                (
-                    "TextCell [{0}, {1}]: {2}",
-                    column,
-                    row,
-                    Text
-                );
-        }
-
         #endregion
+
     }
 }
