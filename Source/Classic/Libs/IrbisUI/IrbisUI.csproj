@@ -133,6 +133,8 @@
     <Compile Include="Source\Grid\SiberianCheckCell.cs" />
     <Compile Include="Source\Grid\SiberianCheckColumn.cs" />
     <Compile Include="Source\Grid\SiberianColumn.cs" />
+    <Compile Include="Source\Grid\SiberianDateCell.cs" />
+    <Compile Include="Source\Grid\SiberianDateColumn.cs" />
     <Compile Include="Source\Grid\SiberianGrid.Control.cs" />
     <Compile Include="Source\Grid\SiberianGrid.cs" />
     <Compile Include="Source\Grid\SiberianImageCell.cs" />
