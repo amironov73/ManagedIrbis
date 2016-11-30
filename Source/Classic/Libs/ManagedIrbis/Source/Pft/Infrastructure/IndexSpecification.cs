@@ -131,6 +131,14 @@ namespace ManagedIrbis.Pft.Infrastructure
                     result = array.Length;
                     break;
 
+                case IndexKind.CurrentRepeat:
+                    result = context.Index;
+                    break;
+
+                case IndexKind.AllRepeats:
+                    result = 0;
+                    break;
+
                 case IndexKind.Expression:
 
                     PftNumeric program = CompileProgram();

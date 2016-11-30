@@ -19,21 +19,49 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <summary>
         /// Specified by literal.
         /// </summary>
+        /// <remarks>
+        /// E. g.: 3
+        /// </remarks>
         Literal,
 
         /// <summary>
         /// Specified by expression.
         /// </summary>
+        /// <remarks>
+        /// E. g.: $x + 1
+        /// </remarks>
         Expression,
 
         /// <summary>
         /// Last repeat.
         /// </summary>
+        /// <remarks>
+        /// *
+        /// </remarks>
         LastRepeat,
 
         /// <summary>
         /// New repeat.
         /// </summary>
-        NewRepeat
+        /// <remarks>
+        /// +
+        /// </remarks>
+        NewRepeat,
+
+        /// <summary>
+        /// Current repeat.
+        /// </summary>
+        /// <remarks>
+        /// .
+        /// </remarks>
+        CurrentRepeat,
+
+        /// <summary>
+        /// All repeats.
+        /// </summary>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        AllRepeats
     }
 }

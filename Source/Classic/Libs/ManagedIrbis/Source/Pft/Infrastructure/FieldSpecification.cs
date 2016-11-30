@@ -6,12 +6,8 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Text;
@@ -129,6 +125,14 @@ namespace ManagedIrbis.Pft.Infrastructure
             else if (text == "+")
             {
                 result.Kind = IndexKind.NewRepeat;
+            }
+            else if (text == "-")
+            {
+                result.Kind = IndexKind.AllRepeats;
+            }
+            else if (text == ".")
+            {
+                result.Kind = IndexKind.CurrentRepeat;
             }
             else
             {
