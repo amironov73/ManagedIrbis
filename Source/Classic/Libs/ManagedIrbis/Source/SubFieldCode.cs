@@ -1,4 +1,7 @@
-﻿/* SubFieldCode.cs -- subfield code related routines
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* SubFieldCode.cs -- subfield code related routines
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: good

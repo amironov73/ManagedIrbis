@@ -1,4 +1,7 @@
-﻿/* PftParser.Arith.cs --
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* PftParser.Arith.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -34,6 +37,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
     partial class PftParser
     {
+
         internal PftNumeric ParseArithmetic()
         {
             PftNumeric result = ParseAddition();

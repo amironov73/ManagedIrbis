@@ -1,4 +1,7 @@
-﻿/* RecordCache.cs -- cache of records
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* RecordCache.cs -- cache of records
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor

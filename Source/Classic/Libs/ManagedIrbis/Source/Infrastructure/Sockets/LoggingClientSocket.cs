@@ -1,4 +1,7 @@
-﻿/* LoggingClientSocket.cs -- logging socket for debug
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* LoggingClientSocket.cs -- logging socket for debug
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor

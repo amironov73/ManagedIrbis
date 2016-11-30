@@ -1,4 +1,7 @@
-﻿/* DirectReader64.cs -- direct reading IRBIS64 databases
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* DirectReader64.cs -- direct reading IRBIS64 databases
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor

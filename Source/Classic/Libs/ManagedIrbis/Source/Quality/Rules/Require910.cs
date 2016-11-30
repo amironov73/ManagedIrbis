@@ -1,4 +1,7 @@
-﻿/* Require910.cs -- сведения об экземплярах
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* Require910.cs -- сведения об экземплярах
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor

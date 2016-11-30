@@ -1,4 +1,7 @@
-﻿/* PftSlash.cs -- переход на новую строку
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* PftSlash.cs -- переход на новую строку
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor

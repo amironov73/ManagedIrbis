@@ -1,4 +1,7 @@
-﻿/* UserInfo.cs -- информация о зарегистрированном пользователе
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* UserInfo.cs -- информация о зарегистрированном пользователе
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor

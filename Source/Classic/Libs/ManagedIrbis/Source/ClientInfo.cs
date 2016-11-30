@@ -1,4 +1,7 @@
-﻿/* ClientInfo.cs -- информация о клиенте, подключенном к серверу ИРБИС
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* ClientInfo.cs -- информация о клиенте, подключенном к серверу ИРБИС
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor

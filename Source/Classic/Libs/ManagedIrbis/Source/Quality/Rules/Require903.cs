@@ -1,4 +1,7 @@
-﻿/* Require903.cs -- шифр документа в базе
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* Require903.cs -- шифр документа в базе
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor

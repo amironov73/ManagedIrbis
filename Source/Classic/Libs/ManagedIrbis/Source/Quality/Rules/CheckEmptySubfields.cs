@@ -1,9 +1,11 @@
-﻿/* CheckEmptySubfields.cs -- обнаружение пустых подполей
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* CheckEmptySubfields.cs -- обнаружение пустых подполей
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
-
 
 #region Using directives
 

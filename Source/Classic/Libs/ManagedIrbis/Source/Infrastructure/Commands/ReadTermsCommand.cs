@@ -1,4 +1,7 @@
-﻿/* ReadTermsCommand.cs -- read terms from the search index
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* ReadTermsCommand.cs -- read terms from the search index
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
