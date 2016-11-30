@@ -51,6 +51,11 @@ namespace IrbisUI.Grid
         /// </summary>
         public const int DefaultWidth = 200;
 
+        /// <summary>
+        /// Default minimal width.
+        /// </summary>
+        public const int DefaultMinWidth = 100;
+
         #endregion
 
         #region Properties
@@ -120,13 +125,19 @@ namespace IrbisUI.Grid
             get { return _width; }
             set
             {
-                _width = value;
+                _width = Math.Max(value, MinWidth);
                 if (!ReferenceEquals(Grid, null))
                 {
                     Grid.AutoSizeColumns();
                 }
             }
         }
+
+        /// <summary>
+        /// Minimal width of the column, pixels.
+        /// </summary>
+        [DefaultValue(DefaultMinWidth)]
+        public int MinWidth { get; set; }
 
         #endregion
 
@@ -141,6 +152,7 @@ namespace IrbisUI.Grid
             BackColor = Color.Transparent;
             FillWidth = DefaultFillWidth;
             Width = DefaultWidth;
+            MinWidth = DefaultMinWidth;
         }
 
         #endregion

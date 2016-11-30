@@ -177,15 +177,25 @@ namespace IrbisUI.Grid
                     int fillSum = needResize
                         .Sum(column => column.FillWidth);
 
-                    int remaining = ClientSize.Width - 1 - fixedSum;
-
-                    foreach (SiberianColumn column in needResize)
+                    if (fillSum > SiberianColumn.DefaultMinWidth)
                     {
-                        column.Width = Math.Max
-                            (
-                                100,
-                                remaining*column.FillWidth/fillSum
-                            );
+                        int remaining = ClientSize.Width - 1 - fixedSum;
+
+                        foreach (SiberianColumn column in needResize)
+                        {
+                            column.Width = Math.Max
+                                (
+                                    column.MinWidth,
+                                    remaining*column.FillWidth/fillSum
+                                );
+                        }
+                    }
+                    else
+                    {
+                        foreach (SiberianColumn column in needResize)
+                        {
+                            column.Width = SiberianColumn.DefaultMinWidth;
+                        }
                     }
                 }
             }
