@@ -88,8 +88,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             if (!context.Output.PrecededByEmptyLine())
             {
                 context.WriteLine(this);
-                context._eatNextNewLine = true;
             }
+            context._eatNextNewLine = true;
 
             OnAfterExecution(context);
         }

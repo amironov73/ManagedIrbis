@@ -1,4 +1,7 @@
-﻿/* IReadOnly -- common interface for object that can be read-only.
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* IReadOnly -- common interface for object that can be read-only.
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor

@@ -1,4 +1,7 @@
-﻿/* BitArrayUtility.cs -- helper methods for BitArray class
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* BitArrayUtility.cs -- helper methods for BitArray class
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor

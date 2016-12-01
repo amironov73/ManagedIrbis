@@ -1,4 +1,7 @@
-﻿/* CompressionUtility.cs -- useful routines that simplifies data compression 
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* CompressionUtility.cs -- useful routines that simplifies data compression 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor

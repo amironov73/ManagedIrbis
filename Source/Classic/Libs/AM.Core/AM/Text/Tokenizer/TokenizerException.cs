@@ -1,4 +1,7 @@
-﻿/* TokenizerException.cs -- exception for StringTokenizer
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* TokenizerException.cs -- exception for StringTokenizer
  * Ars Magna project, http://arsmagna.ru 
  * -------------------------------------------------------
  * Status: poor

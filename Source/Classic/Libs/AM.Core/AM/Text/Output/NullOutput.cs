@@ -1,4 +1,7 @@
-﻿/* NullOutput.cs -- пустой объект вывода
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* NullOutput.cs -- пустой объект вывода
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
