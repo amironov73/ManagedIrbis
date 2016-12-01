@@ -1,0 +1,1 @@
+﻿Single hash operator (must give single empty line)

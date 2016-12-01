@@ -103,7 +103,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            context.WriteLine(this);
+            if (!context._eatNextNewLine)
+            {
+                context.WriteLine(this);
+            }
+            context._eatNextNewLine = false;
 
             OnAfterExecution(context);
         }

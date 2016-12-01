@@ -1,4 +1,4 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+п»ї// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 /* PftParser.cs --
@@ -9,33 +9,18 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM;
-using AM.IO;
 using AM.Text;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure
 {
     /// <summary>
-    /// Выходные потоки форматтера.
+    /// Р’С‹С…РѕРґРЅС‹Рµ РїРѕС‚РѕРєРё С„РѕСЂРјР°С‚С‚РµСЂР°.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -44,59 +29,59 @@ namespace ManagedIrbis.Pft.Infrastructure
         #region Properties
 
         /// <summary>
-        /// Родительский буфер. Может быть <c>null</c>.
+        /// Р РѕРґРёС‚РµР»СЊСЃРєРёР№ Р±СѓС„РµСЂ. РњРѕР¶РµС‚ Р±С‹С‚СЊ <c>null</c>.
         /// </summary>
         [CanBeNull]
         public PftOutput Parent { get { return _parent; } }
 
         /// <summary>
-        /// Основной (обычный) поток.
+        /// РћСЃРЅРѕРІРЅРѕР№ (РѕР±С‹С‡РЅС‹Р№) РїРѕС‚РѕРє.
         /// </summary>
         [NotNull]
-        public TextWriter Normal { get { return _normal; } }
+        public TextBuffer Normal { get { return _normal; } }
 
         /// <summary>
-        /// Поток предупреждений.
+        /// РџРѕС‚РѕРє РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№.
         /// </summary>
         [NotNull]
-        public TextWriter Warning { get { return _warning; } }
+        public TextBuffer Warning { get { return _warning; } }
 
         /// <summary>
-        /// Поток ошибок.
+        /// РџРѕС‚РѕРє РѕС€РёР±РѕРє.
         /// </summary>
         [NotNull]
-        public TextWriter Error { get { return _error; } }
+        public TextBuffer Error { get { return _error; } }
 
         /// <summary>
-        /// Накопленный текст основного потока.
+        /// РќР°РєРѕРїР»РµРЅРЅС‹Р№ С‚РµРєСЃС‚ РѕСЃРЅРѕРІРЅРѕРіРѕ РїРѕС‚РѕРєР°.
         /// </summary>
         [NotNull]
         public string Text { get { return Normal.ToString(); } }
 
         /// <summary>
-        /// Накопленный текст потока предупреждений.
+        /// РќР°РєРѕРїР»РµРЅРЅС‹Р№ С‚РµРєСЃС‚ РїРѕС‚РѕРєР° РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№.
         /// </summary>
         [NotNull]
         public string WarningText { get { return Warning.ToString(); } }
 
         /// <summary>
-        /// Накопленный текст потока ошибок.
+        /// РќР°РєРѕРїР»РµРЅРЅС‹Р№ С‚РµРєСЃС‚ РїРѕС‚РѕРєР° РѕС€РёР±РѕРє.
         /// </summary>
         [NotNull]
         public string ErrorText { get { return Error.ToString(); } }
 
         /// <summary>
-        /// Накоплен ли текст в основном потоке?
+        /// РќР°РєРѕРїР»РµРЅ Р»Рё С‚РµРєСЃС‚ РІ РѕСЃРЅРѕРІРЅРѕРј РїРѕС‚РѕРєРµ?
         /// </summary>
         public bool HaveText { get { return _HaveText(_normal); } }
 
         /// <summary>
-        /// Были ли предупреждения?
+        /// Р‘С‹Р»Рё Р»Рё РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ?
         /// </summary>
         public bool HaveWarning { get { return _HaveText(_warning); } }
 
         /// <summary>
-        /// Были ли ошибки?
+        /// Р‘С‹Р»Рё Р»Рё РѕС€РёР±РєРё?
         /// </summary>
         public bool HaveError { get { return _HaveText(_error); } }
 
@@ -123,9 +108,9 @@ namespace ManagedIrbis.Pft.Infrastructure
             )
         {
             _parent = parent;
-            _normal = new StringWriter();
-            _warning = new StringWriter();
-            _error = new StringWriter();
+            _normal = new TextBuffer();
+            _warning = new TextBuffer();
+            _error = new TextBuffer();
         }
 
         #endregion
@@ -134,16 +119,16 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private readonly PftOutput _parent;
 
-        private readonly StringWriter _normal;
-        private readonly StringWriter _warning;
-        private readonly StringWriter _error;
+        private readonly TextBuffer _normal;
+        private readonly TextBuffer _warning;
+        private readonly TextBuffer _error;
 
         private static bool _HaveText
             (
-               [NotNull] StringWriter writer
+               [NotNull] TextBuffer writer
             )
         {
-            return writer.GetStringBuilder().Length != 0;
+            return writer.Length != 0;
         }
 
         #endregion
@@ -151,12 +136,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         #region Public methods
 
         /// <summary>
-        /// Очистка основного потока.
+        /// РћС‡РёСЃС‚РєР° РѕСЃРЅРѕРІРЅРѕРіРѕ РїРѕС‚РѕРєР°.
         /// </summary>
         [NotNull]
         public PftOutput ClearText()
         {
-            _normal.GetStringBuilder().Length = 0;
+            _normal.Clear();
 
             return this;
         }
@@ -164,12 +149,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         //=================================================
 
         /// <summary>
-        /// Очистака потока предупреждений.
+        /// РћС‡РёСЃС‚Р°РєР° РїРѕС‚РѕРєР° РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№.
         /// </summary>
         [NotNull]
         public PftOutput ClearWarning()
         {
-            _warning.GetStringBuilder().Length = 0;
+            _warning.Clear();
 
             return this;
         }
@@ -177,12 +162,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         //=================================================
 
         /// <summary>
-        /// Очистка потока ошибок.
+        /// РћС‡РёСЃС‚РєР° РїРѕС‚РѕРєР° РѕС€РёР±РѕРє.
         /// </summary>
         [NotNull]
         public PftOutput ClearError()
         {
-            _error.GetStringBuilder().Length = 0;
+            _error.Clear();
 
             return this;
         }
@@ -190,7 +175,41 @@ namespace ManagedIrbis.Pft.Infrastructure
         //=================================================
 
         /// <summary>
-        /// Временный переход к новому буферу.
+        /// РџРѕР»СѓС‡РёС‚СЊ (РІРѕРѕР±СЂР°Р¶Р°РµРјСѓСЋ) РїРѕР·РёС†РёСЋ РєСѓСЂСЃРѕСЂР° РїРѕ РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё.
+        /// </summary>
+        public int GetCaretPosition()
+        {
+            return _normal.Column;
+        }
+
+        //=================================================
+
+        /// <summary>
+        /// РџСѓСЃС‚Р°СЏ Р»Рё РїРѕСЃР»РµРґРЅСЏСЏ СЃС‚СЂРѕРєР° РІ РѕСЃРЅРѕРІРЅРѕРј Р±СѓС„РµСЂРµ?
+        /// </summary>
+        public bool HaveEmptyLine()
+        {
+            bool result = _normal.Column == 1;
+
+            return result;
+        }
+
+        //=================================================
+
+        /// <summary>
+        /// РџСЂРµРґРІР°СЂСЏРµС‚СЃСЏ СЏРІРЅС‹Рј РїРµСЂРµРІРѕРґРѕРј СЃС‚СЂРѕРєРё?
+        /// </summary>
+        public bool PrecededByEmptyLine()
+        {
+            bool result = _normal.PrecededByEmptyLine();
+
+            return result;
+        }
+
+        //=================================================
+
+        /// <summary>
+        /// Р’СЂРµРјРµРЅРЅС‹Р№ РїРµСЂРµС…РѕРґ Рє РЅРѕРІРѕРјСѓ Р±СѓС„РµСЂСѓ.
         /// </summary>
         [NotNull]
         public PftOutput Push()
@@ -203,9 +222,9 @@ namespace ManagedIrbis.Pft.Infrastructure
         //=================================================
 
         /// <summary>
-        /// Возврат к старому буферу с дописыванием
-        /// в конец текста, накопленного в новом
-        /// веременном буфере.
+        /// Р’РѕР·РІСЂР°С‚ Рє СЃС‚Р°СЂРѕРјСѓ Р±СѓС„РµСЂСѓ СЃ РґРѕРїРёСЃС‹РІР°РЅРёРµРј
+        /// РІ РєРѕРЅРµС† С‚РµРєСЃС‚Р°, РЅР°РєРѕРїР»РµРЅРЅРѕРіРѕ РІ РЅРѕРІРѕРј
+        /// РІРµСЂРµРјРµРЅРЅРѕРј Р±СѓС„РµСЂРµ.
         /// </summary>
         [NotNull]
         public string Pop()
@@ -229,6 +248,16 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         //=================================================
+
+        /// <summary>
+        /// РЈРґР°Р»РёС‚СЊ РїРѕСЃР»РµРґРЅСЋСЋ СЃС‚СЂРѕРєСѓ РІ Р±СѓС„РµСЂРµ, РµСЃР»Рё РѕРЅР° РїСѓСЃС‚Р°СЏ.
+        /// </summary>
+        public PftOutput RemoveEmptyLines()
+        {
+            _normal.RemoveEmptyLines();
+
+            return this;
+        }
 
         /// <summary>
         /// Write text.
@@ -322,75 +351,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         //=================================================
-
-        /// <summary>
-        /// Получить (воображаемую) позицию курсора по горизонтали.
-        /// </summary>
-        public int GetCaretPosition()
-        {
-            StringBuilder builder = _normal.GetStringBuilder();
-            int pos;
-            for (pos = builder.Length - 1; pos >= 0; pos--)
-            {
-                if (builder[pos] == '\n')
-                    break;
-            }
-
-            return (builder.Length - pos);
-        }
-
-        //=================================================
-
-        /// <summary>
-        /// Удалить последнюю строку в буфере, если она пустая.
-        /// </summary>
-        public PftOutput RemoveEmptyLine()
-        {
-            StringBuilder builder = _normal.GetStringBuilder();
-            int pos;
-            for (pos = builder.Length - 1; pos >= 0; pos--)
-            {
-                if (!char.IsWhiteSpace(builder[pos]))
-                {
-                    break;
-                }
-                builder.Length = pos;
-            }
-
-            return this;
-        }
-
-        //=================================================
-
-        /// <summary>
-        /// Пустая ли последняя строка в основном буфере?
-        /// </summary>
-        public bool HaveEmptyLine()
-        {
-            StringBuilder builder = _normal.GetStringBuilder();
-
-            if (builder.Length == 0)
-            {
-                return false;
-            }
-
-            bool result = true;
-            int pos;
-            for (pos = builder.Length - 1; pos >= 0; pos--)
-            {
-                char c = builder[pos];
-                if (c == '\n')
-                {
-                    break;
-                }
-                if (!char.IsWhiteSpace(c))
-                {
-                    result = false;
-                    break;
-                }
-            }
-            return result;
-        }
 
         #endregion
 

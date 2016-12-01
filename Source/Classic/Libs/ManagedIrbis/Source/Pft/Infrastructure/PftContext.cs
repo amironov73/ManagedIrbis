@@ -235,6 +235,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private readonly PftContext _parent;
 
+        internal bool _eatNextNewLine;
+
         #endregion
 
         #region Public methods
@@ -612,6 +614,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 Output.Write(format, arg);
             }
+            _eatNextNewLine = false;
 
             return this;
         }
@@ -630,6 +633,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 Output.Write(value);
             }
+            _eatNextNewLine = false;
 
             return this;
         }

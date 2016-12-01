@@ -103,6 +103,101 @@ namespace AM.Text
         #region Public methods
 
         /// <summary>
+        /// Delete last char (if present).
+        /// </summary>
+        public bool Backspace()
+        {
+            if (_length == 0)
+            {
+                return false;
+            }
+
+            _length--;
+            return true;
+        }
+
+        /// <summary>
+        /// Clear all text in the buffer.
+        /// </summary>
+        [NotNull]
+        public TextBuffer Clear()
+        {
+            _length = 0;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Get last char.
+        /// </summary>
+        public char GetLastChar ()
+        {
+            if (_length == 0)
+            {
+                return '\0';
+            }
+
+            char result = _array[_length - 1];
+
+            return result;
+        }
+
+        /// <summary>
+        /// Предваряется явным переводом строки?
+        /// </summary>
+        public bool PrecededByEmptyLine()
+        {
+            char[] newLine = Environment.NewLine.ToCharArray();
+            int len = newLine.Length;
+
+            if (_length < len)
+            {
+                return false;
+            }
+
+            bool result = ArrayUtility.Coincide
+                (
+                    _array,
+                    _length - len,
+                    newLine,
+                    0,
+                    len
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Remove sequential empty lines.
+        /// </summary>
+        [NotNull]
+        public TextBuffer RemoveEmptyLines()
+        {
+            char[] newLine = Environment.NewLine.ToCharArray();
+            int len = newLine.Length;
+            int len2 = len*2;
+
+            while (_length > len2)
+            {
+                if (!ArrayUtility.Coincide
+                    (
+                        _array,
+                        _length - len2,
+                        newLine,
+                        0,
+                        len2
+                    ))
+                {
+                    break;
+                }
+
+                _length -= len;
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Write the character.
         /// </summary>
         [NotNull]
@@ -156,6 +251,8 @@ namespace AM.Text
                 {
                     _column++;
                 }
+                _array[_length] = c;
+                _length++;
             }
 
             return this;

@@ -84,7 +84,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            context.Output.RemoveEmptyLine();
+            context.Output.RemoveEmptyLines();
+            if (!context.Output.PrecededByEmptyLine())
+            {
+                context.WriteLine(this);
+                context._eatNextNewLine = true;
+            }
 
             OnAfterExecution(context);
         }

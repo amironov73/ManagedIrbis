@@ -1,0 +1,1 @@
+﻿Single percent operator (must give single empty line)
