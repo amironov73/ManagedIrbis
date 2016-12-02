@@ -246,5 +246,9 @@
   {
     "class": "UITests.PftEditorControlTest",
     "title": "PftEditorControl"
+  },
+  {
+    "class": "UITests.TextBoxWithButtonTest",
+    "title": "TextBoxWithButton"
   }
 ]

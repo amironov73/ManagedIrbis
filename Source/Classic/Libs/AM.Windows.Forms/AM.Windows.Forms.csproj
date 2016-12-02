@@ -238,6 +238,10 @@
     </Compile>
     <Compile Include="AM\Windows\Forms\TextBoxOutput.cs" />
     <Compile Include="AM\Windows\Forms\TextBoxTraceListener.cs" />
+    <Compile Include="AM\Windows\Forms\TextBoxWithButton.cs" />
+    <Compile Include="AM\Windows\Forms\TextBoxWithButton.Designer.cs">
+      <DependentUpon>TextBoxWithButton.cs</DependentUpon>
+    </Compile>
     <Compile Include="AM\Windows\Forms\TextBoxWriter.cs" />
     <Compile Include="AM\Windows\Forms\Thermometer.cs" />
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripCheckBox.cs" />
@@ -298,6 +302,9 @@
     <None Include="Images\rightArrow.png" />
     <None Include="Images\leftArrow.png" />
     <None Include="Images\downArrow.png" />
+    <EmbeddedResource Include="AM\Windows\Forms\TextBoxWithButton.resx">
+      <DependentUpon>TextBoxWithButton.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Images\ConsoleControl.bmp" />
     <EmbeddedResource Include="Images\Triangle.bmp" />
     <EmbeddedResource Include="Images\RainbowControl.bmp" />
