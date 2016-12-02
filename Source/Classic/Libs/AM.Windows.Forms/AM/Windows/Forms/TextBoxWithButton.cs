@@ -56,11 +56,28 @@ namespace AM.Windows.Forms
         public Button Button { get { return _button; } }
 
         /// <summary>
+        /// Selection start.
+        /// </summary>
+        public int SelectionStart
+        {
+            get { return TextBox.SelectionStart; }
+            set { TextBox.SelectionStart = value; }
+        }
+
+        /// <summary>
         /// Text box.
         /// </summary>
         [NotNull]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TextBox TextBox { get { return _textBox; } }
+
+        /// <summary>
+        /// Text length.
+        /// </summary>
+        public int TextLength
+        {
+            get { return TextBox.TextLength; }
+        }
 
         #endregion
 

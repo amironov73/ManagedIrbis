@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SiberianButtonCell.cs -- 
+/* SiberianTagColumn.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -17,8 +17,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 
 using AM;
 using AM.Collections;
@@ -40,20 +38,24 @@ namespace IrbisUI.Grid
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class SiberianButtonCell
-        : SiberianCell
+    public class SiberianTagColumn
+        : SiberianColumn
     {
         #region Properties
-
-        /// <summary>
-        /// Text.
-        /// </summary>
-        [CanBeNull]
-        public string Text { get; set; }
 
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public SiberianTagColumn()
+        {
+            ReadOnly = true;
+            BackColor = Color.LightGray;
+            ForeColor = Color.Black;
+        }
 
         #endregion
 
@@ -65,24 +67,15 @@ namespace IrbisUI.Grid
 
         #endregion
 
-        #region SiberianCell members
+        #region SiberianColumn members
 
         /// <inheritdoc/>
-        public override void Paint
-            (
-                PaintEventArgs args
-            )
+        public override SiberianCell CreateCell()
         {
-            Graphics graphics = args.Graphics;
-            Rectangle rectangle = args.ClipRectangle;
+            SiberianCell result = new SiberianTagCell();
+            result.Column = this;
 
-            ButtonRenderer.DrawButton
-                (
-                    graphics,
-                    rectangle,
-                    false,
-                    PushButtonState.Default
-                );
+            return result;
         }
 
         #endregion

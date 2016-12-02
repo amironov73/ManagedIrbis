@@ -1,4 +1,7 @@
-﻿/* SiberianCell.cs -- 
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* SiberianCell.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -38,6 +41,15 @@ namespace IrbisUI.Grid
 
     public class SiberianCell
     {
+        #region Events
+
+        /// <summary>
+        /// Fired on click.
+        /// </summary>
+        public event EventHandler<SiberianClickEventArgs> Click;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -73,6 +85,14 @@ namespace IrbisUI.Grid
 
         #region Private members
 
+        protected internal virtual void HandleClick
+            (
+                [NotNull] SiberianClickEventArgs eventArgs
+            )
+        {
+            Click.Raise(this, eventArgs);
+        }
+
         #endregion
 
         #region Public methods
@@ -92,6 +112,17 @@ namespace IrbisUI.Grid
 
                 Grid.Invalidate();
             }
+        }
+
+        /// <summary>
+        /// Handles click on the cell.
+        /// </summary>
+        public virtual void OnClick
+            (
+                [NotNull] SiberianClickEventArgs eventArgs
+            )
+        {
+            // Nothing to do here?
         }
 
         /// <summary>

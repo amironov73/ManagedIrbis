@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SiberianTextCell.cs -- 
+/* SiberianTagCell.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -18,7 +18,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 
 using AM;
 using AM.Collections;
@@ -40,20 +39,16 @@ namespace IrbisUI.Grid
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class SiberianTextCell
+    public class SiberianTagCell
         : SiberianCell
     {
         #region Properties
 
         /// <summary>
-        /// Text.
+        /// Field.
         /// </summary>
         [CanBeNull]
-        public string Text
-        {
-            get { return _text; }
-            set { _SetText(value); }
-        }
+        public SiberianField Field { get; set; }
 
         #endregion
 
@@ -63,24 +58,9 @@ namespace IrbisUI.Grid
 
         #region Private members
 
-        private string _text;
-
-        private void _SetText
-            (
-                string text
-            )
-        {
-            _text = text;
-            Column.PutData(Row.Data, this);
-        }
-
         #endregion
 
         #region Public methods
-
-        #endregion
-
-        #region SiberianCell members
 
         /// <inheritdoc />
         public override void CloseEditor
@@ -92,7 +72,7 @@ namespace IrbisUI.Grid
             {
                 if (accept)
                 {
-                    Text = Grid.Editor.Text;
+                    // State = ....
                 }
             }
 
@@ -123,21 +103,33 @@ namespace IrbisUI.Grid
                 }
             }
 
-            TextFormatFlags flags
-                = TextFormatFlags.TextBoxControl
-                | TextFormatFlags.EndEllipsis
-                | TextFormatFlags.NoPrefix
-                | TextFormatFlags.VerticalCenter;
+            SiberianField field = (SiberianField)Row.Data;
 
-            TextRenderer.DrawText
-                (
-                    graphics,
-                    Text,
-                    Grid.Font,
-                    rectangle,
-                    foreColor,
-                    flags
-                );
+            if (!ReferenceEquals(field, null))
+            {
+                string text = string.Format
+                    (
+                        "{0}: {1}",
+                        field.Tag,
+                        field.Title
+                    );
+
+                TextFormatFlags flags
+                    = TextFormatFlags.TextBoxControl
+                      | TextFormatFlags.EndEllipsis
+                      | TextFormatFlags.NoPrefix
+                      | TextFormatFlags.VerticalCenter;
+
+                TextRenderer.DrawText
+                    (
+                        graphics,
+                        text,
+                        Grid.Font,
+                        rectangle,
+                        foreColor,
+                        flags
+                    );
+            }
         }
 
         #endregion
@@ -152,12 +144,26 @@ namespace IrbisUI.Grid
                 column = ReferenceEquals(Column, null) ? -1 : Column.Index;
             // ReSharper restore ConditionIsAlwaysTrueOrFalse
 
+            SiberianField field = (SiberianField)Row.Data;
+            string text = string.Empty;
+            if (!ReferenceEquals(field, null))
+            {
+                text = string.Format
+                    (
+                        "{0}/{1}: {2} ({3})",
+                        field.Tag,
+                        field.Repeat,
+                        field.Value,
+                        field.OriginalValue
+                    );
+            }
+
             return string.Format
                 (
-                    "TextCell [{0}, {1}]: {2}",
+                    "TagCell [{0}, {1}]: {2}",
                     column,
                     row,
-                    Text
+                    text
                 );
         }
 

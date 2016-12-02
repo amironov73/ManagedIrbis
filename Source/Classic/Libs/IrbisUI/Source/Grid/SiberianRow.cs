@@ -48,6 +48,15 @@ namespace IrbisUI.Grid
 
         #endregion
 
+        #region Events
+
+        /// <summary>
+        /// Fired on click.
+        /// </summary>
+        public event EventHandler<SiberianClickEventArgs> Click;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -96,6 +105,14 @@ namespace IrbisUI.Grid
 
         #region Private members
 
+        protected internal void HandleClick
+            (
+                [NotNull] SiberianClickEventArgs eventArgs
+            )
+        {
+             Click.Raise(this, eventArgs);
+        }
+
         #endregion
 
         #region Public methods
@@ -131,6 +148,17 @@ namespace IrbisUI.Grid
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Handles click on the row.
+        /// </summary>
+        public virtual void OnClick
+            (
+                [NotNull] SiberianClickEventArgs eventArgs
+            )
+        {
+            // Nothing to do here?
         }
 
         /// <summary>

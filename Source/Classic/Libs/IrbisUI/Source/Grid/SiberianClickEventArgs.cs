@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SiberianButtonCell.cs -- 
+/* SiberianClickEventArgs.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -12,13 +12,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 
 using AM;
 using AM.Collections;
@@ -40,16 +37,34 @@ namespace IrbisUI.Grid
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class SiberianButtonCell
-        : SiberianCell
+    public sealed class SiberianClickEventArgs
+        : CancelableEventArgs
     {
         #region Properties
 
         /// <summary>
-        /// Text.
+        /// Cell.
         /// </summary>
         [CanBeNull]
-        public string Text { get; set; }
+        public SiberianCell Cell { get; internal set; }
+
+        /// <summary>
+        /// Column.
+        /// </summary>
+        [CanBeNull]
+        public SiberianColumn Column { get; internal set; }
+
+        /// <summary>
+        /// Grid.
+        /// </summary>
+        [NotNull]
+        public SiberianGrid Grid { get; internal set; }
+
+        /// <summary>
+        /// Row.
+        /// </summary>
+        [CanBeNull]
+        public SiberianRow Row { get; internal set; }
 
         #endregion
 
@@ -62,28 +77,6 @@ namespace IrbisUI.Grid
         #endregion
 
         #region Public methods
-
-        #endregion
-
-        #region SiberianCell members
-
-        /// <inheritdoc/>
-        public override void Paint
-            (
-                PaintEventArgs args
-            )
-        {
-            Graphics graphics = args.Graphics;
-            Rectangle rectangle = args.ClipRectangle;
-
-            ButtonRenderer.DrawButton
-                (
-                    graphics,
-                    rectangle,
-                    false,
-                    PushButtonState.Default
-                );
-        }
 
         #endregion
 

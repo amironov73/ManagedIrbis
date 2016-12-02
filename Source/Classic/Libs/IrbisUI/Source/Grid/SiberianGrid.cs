@@ -41,6 +41,15 @@ namespace IrbisUI.Grid
     public partial class SiberianGrid
         : Control
     {
+        #region Events
+
+        /// <summary>
+        /// Fired on click.
+        /// </summary>
+        public event EventHandler<SiberianClickEventArgs> GridClick;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -93,6 +102,11 @@ namespace IrbisUI.Grid
         /// </summary>
         public int HeaderHeight { get; set; }
 
+        /// <summary>
+        /// Line color.
+        /// </summary>
+        public Color LineColor { get; set; }
+
         #endregion
 
         #region Construction
@@ -135,6 +149,7 @@ namespace IrbisUI.Grid
             SetStyle(ControlStyles.UserMouse, true);
 
             BackColor = Color.DarkGray;
+            LineColor = Color.Gray;
             ForeColor = Color.Black;
 
             HeaderHeight = SiberianRow.DefaultHeight;
@@ -159,6 +174,8 @@ namespace IrbisUI.Grid
                 return;
             }
 
+            Size usableSize = UsableSize;
+
             try
             {
                 _autoSizeWatch = true;
@@ -177,25 +194,15 @@ namespace IrbisUI.Grid
                     int fillSum = needResize
                         .Sum(column => column.FillWidth);
 
-                    if (fillSum > SiberianColumn.DefaultMinWidth)
-                    {
-                        int remaining = ClientSize.Width - 1 - fixedSum;
+                    int remaining = usableSize.Width - 1 - fixedSum;
 
-                        foreach (SiberianColumn column in needResize)
-                        {
-                            column.Width = Math.Max
-                                (
-                                    column.MinWidth,
-                                    remaining*column.FillWidth/fillSum
-                                );
-                        }
-                    }
-                    else
+                    foreach (SiberianColumn column in needResize)
                     {
-                        foreach (SiberianColumn column in needResize)
-                        {
-                            column.Width = SiberianColumn.DefaultMinWidth;
-                        }
+                        column.Width = Math.Max
+                            (
+                                column.MinWidth,
+                                remaining * column.FillWidth / fillSum
+                            );
                     }
                 }
             }
@@ -304,6 +311,33 @@ namespace IrbisUI.Grid
                     CurrentColumn.Index,
                     value
                 );
+        }
+
+        /// <summary>
+        /// Usable size.
+        /// </summary>
+        public Size UsableSize
+        {
+            get
+            {
+                Size result = ClientSize;
+
+                result.Width -= _verticalScroll.Width;
+                result.Height -= _horizontalScroll.Height;
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Create row.
+        /// </summary>
+        [NotNull]
+        protected virtual SiberianRow CreateRow()
+        {
+            SiberianRow result = new SiberianRow();
+
+            return result;
         }
 
         #endregion
@@ -422,12 +456,10 @@ namespace IrbisUI.Grid
                 object data
             )
         {
-            SiberianRow result = new SiberianRow
-            {
-                Data = data,
-                Index = Rows.Count,
-                Grid = this
-            };
+            SiberianRow result = CreateRow();
+            result.Data = data;
+            result.Index = Rows.Count;
+            result.Grid = this;
 
             if (ReferenceEquals(CurrentRow, null))
             {
@@ -502,7 +534,7 @@ namespace IrbisUI.Grid
             )
         {
             int left = 0;
-            
+
             for (int columnIndex = _leftColumn; columnIndex < Columns.Count; columnIndex++)
             {
                 SiberianColumn column = Columns[columnIndex];
@@ -611,7 +643,6 @@ namespace IrbisUI.Grid
         {
             CloseEditor(true);
 
-
             if (column >= Columns.Count)
             {
                 column = Columns.Count - 1;
@@ -633,6 +664,8 @@ namespace IrbisUI.Grid
 
             if (!ReferenceEquals(result, null))
             {
+                Size usableSize = UsableSize;
+
                 CurrentRow = result.Row;
                 CurrentColumn = result.Column;
                 CurrentCell = result;
@@ -664,7 +697,7 @@ namespace IrbisUI.Grid
                     }
                     x += Columns[CurrentColumn.Index].Width;
 
-                    if (x < ClientSize.Width)
+                    if (x < usableSize.Width)
                     {
                         break;
                     }
@@ -688,7 +721,7 @@ namespace IrbisUI.Grid
                     }
                     y += Rows[CurrentRow.Index].Height;
 
-                    if (y < ClientSize.Height)
+                    if (y < usableSize.Height)
                     {
                         break;
                     }
@@ -701,7 +734,7 @@ namespace IrbisUI.Grid
                     }
                 }
 
-                int visibleRows = (ClientSize.Height - HeaderHeight) 
+                int visibleRows = (usableSize.Height - HeaderHeight)
                     / SiberianRow.DefaultHeight;
                 visibleRows = Math.Max(visibleRows, 1);
                 _verticalScroll.LargeChange = visibleRows;
@@ -825,6 +858,56 @@ namespace IrbisUI.Grid
             SiberianCell result = Goto(column, row);
 
             return result;
+        }
+
+        /// <summary>
+        /// Handles click on the cell.
+        /// </summary>
+        public virtual void OnClick
+            (
+                [NotNull] SiberianClickEventArgs eventArgs
+            )
+        {
+            GridClick.Raise(this, eventArgs);
+
+            SiberianCell cell = eventArgs.Cell;
+            if (!ReferenceEquals(cell, null))
+            {
+                cell.HandleClick(eventArgs);
+
+                if (cell.Column.ReadOnly)
+                {
+                    cell = cell.Row.GetFirstEditableCell();
+                    if (!ReferenceEquals(cell, null))
+                    {
+                        Goto
+                            (
+                                cell.Column.Index,
+                                cell.Row.Index
+                            );
+                    }
+                }
+                else
+                {
+                    Goto
+                        (
+                            cell.Column.Index,
+                            cell.Row.Index
+                        );
+                }
+            }
+
+            SiberianColumn column = eventArgs.Column;
+            if (!ReferenceEquals(column, null))
+            {
+                column.HandleClick(eventArgs);
+            }
+
+            SiberianRow row = eventArgs.Row;
+            if (!ReferenceEquals(row, null))
+            {
+                row.HandleClick(eventArgs);
+            }
         }
 
         #endregion

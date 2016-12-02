@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SiberianTextCell.cs -- 
+/* SiberianFieldCell.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -40,20 +40,10 @@ namespace IrbisUI.Grid
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class SiberianTextCell
+    public class SiberianFieldCell
         : SiberianCell
     {
         #region Properties
-
-        /// <summary>
-        /// Text.
-        /// </summary>
-        [CanBeNull]
-        public string Text
-        {
-            get { return _text; }
-            set { _SetText(value); }
-        }
 
         #endregion
 
@@ -62,17 +52,6 @@ namespace IrbisUI.Grid
         #endregion
 
         #region Private members
-
-        private string _text;
-
-        private void _SetText
-            (
-                string text
-            )
-        {
-            _text = text;
-            Column.PutData(Row.Data, this);
-        }
 
         #endregion
 
@@ -92,7 +71,11 @@ namespace IrbisUI.Grid
             {
                 if (accept)
                 {
-                    Text = Grid.Editor.Text;
+                    SiberianField field = (SiberianField)Row.Data;
+                    if (!ReferenceEquals(field, null))
+                    {
+                        field.Value = Grid.Editor.Text;
+                    }
                 }
             }
 
@@ -123,21 +106,32 @@ namespace IrbisUI.Grid
                 }
             }
 
-            TextFormatFlags flags
-                = TextFormatFlags.TextBoxControl
-                | TextFormatFlags.EndEllipsis
-                | TextFormatFlags.NoPrefix
-                | TextFormatFlags.VerticalCenter;
+            SiberianField field = (SiberianField) Row.Data;
 
-            TextRenderer.DrawText
-                (
-                    graphics,
-                    Text,
-                    Grid.Font,
-                    rectangle,
-                    foreColor,
-                    flags
-                );
+            if (!ReferenceEquals(field, null))
+            {
+                string text = field.Value;
+
+                if (!string.IsNullOrEmpty(text))
+                {
+
+                    TextFormatFlags flags
+                        = TextFormatFlags.TextBoxControl
+                          | TextFormatFlags.EndEllipsis
+                          | TextFormatFlags.NoPrefix
+                          | TextFormatFlags.VerticalCenter;
+
+                    TextRenderer.DrawText
+                        (
+                            graphics,
+                            text,
+                            Grid.Font,
+                            rectangle,
+                            foreColor,
+                            flags
+                        );
+                }
+            }
         }
 
         #endregion
@@ -152,12 +146,26 @@ namespace IrbisUI.Grid
                 column = ReferenceEquals(Column, null) ? -1 : Column.Index;
             // ReSharper restore ConditionIsAlwaysTrueOrFalse
 
+            SiberianField field = (SiberianField)Row.Data;
+            string text = string.Empty;
+            if (!ReferenceEquals(field, null))
+            {
+                text = string.Format
+                    (
+                        "{0}/{1}: {2} ({3})",
+                        field.Tag,
+                        field.Repeat,
+                        field.Value,
+                        field.OriginalValue
+                    );
+            }
+
             return string.Format
                 (
-                    "TextCell [{0}, {1}]: {2}",
+                    "FieldCell [{0}, {1}]: {2}",
                     column,
                     row,
-                    Text
+                    text
                 );
         }
 

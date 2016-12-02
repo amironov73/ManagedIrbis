@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SiberianTextColumn.cs -- 
+/* SiberianFieldColumn.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -15,7 +15,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,8 +22,8 @@ using System.Windows.Forms;
 using AM;
 using AM.Collections;
 using AM.IO;
-using AM.Reflection;
 using AM.Runtime;
+using AM.Windows.Forms;
 
 using CodeJam;
 
@@ -41,7 +40,7 @@ namespace IrbisUI.Grid
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class SiberianTextColumn
+    public class SiberianFieldColumn
         : SiberianColumn
     {
         #region Properties
@@ -53,9 +52,9 @@ namespace IrbisUI.Grid
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SiberianTextColumn()
+        public SiberianFieldColumn()
         {
-            //BackColor = Color.White;
+            BackColor = Color.White;
         }
 
         #endregion
@@ -112,7 +111,7 @@ namespace IrbisUI.Grid
         /// <inheritdoc/>
         public override SiberianCell CreateCell()
         {
-            SiberianCell result = new SiberianTextCell();
+            SiberianCell result = new SiberianFieldCell();
             result.Column = this;
 
             return result;
@@ -128,12 +127,20 @@ namespace IrbisUI.Grid
         {
             Code.NotNull(cell, "cell");
 
-            SiberianTextCell textCell = (SiberianTextCell)cell;
+            SiberianFieldCell fieldCell = (SiberianFieldCell)cell;
+
+            SiberianField field = (SiberianField) fieldCell.Row.Data;
+            if (ReferenceEquals(field, null))
+            {
+                return null;
+            }
+
+            string text = field.Value;
 
             Rectangle rectangle = Grid.GetCellRectangle(cell);
-            rectangle.Inflate(-1,-1);
+            rectangle.Inflate(-1, -1);
 
-            TextBox result = new TextBox
+            TextBoxWithButton result = new TextBoxWithButton
             {
                 AutoSize = false,
                 Location = rectangle.Location,
@@ -141,11 +148,11 @@ namespace IrbisUI.Grid
                 Font = Grid.Font,
                 BorderStyle = BorderStyle.FixedSingle
             };
-            result.KeyDown += Editor_KeyDown;
+            result.TextBox.KeyDown += Editor_KeyDown;
 
             if (edit)
             {
-                result.Text = textCell.Text;
+                result.Text = text;
             }
             else
             {
@@ -161,57 +168,6 @@ namespace IrbisUI.Grid
             result.Focus();
 
             return result;
-        }
-
-        /// <inheritdoc />
-        public override void GetData
-            (
-                object theObject,
-                SiberianCell cell
-            )
-        {
-            SiberianTextCell textCell = (SiberianTextCell) cell;
-
-            if (!string.IsNullOrEmpty(Member)
-                && !ReferenceEquals(theObject, null))
-            {
-                Type type = theObject.GetType();
-                MemberInfo memberInfo = type.GetMember(Member)
-                    .First();
-                PropertyOrField property = new PropertyOrField
-                    (
-                        memberInfo
-                    );
-
-                object value = property.GetValue(theObject);
-                textCell.Text = ReferenceEquals(value, null)
-                    ? null
-                    : value.ToString();
-            }
-        }
-
-        /// <inheritdoc />
-        public override void PutData
-            (
-                object theObject,
-                SiberianCell cell
-            )
-        {
-            SiberianTextCell textCell = (SiberianTextCell)cell;
-
-            if (!string.IsNullOrEmpty(Member)
-                && !ReferenceEquals(theObject, null))
-            {
-                Type type = theObject.GetType();
-                MemberInfo memberInfo = type.GetMember(Member)
-                    .First();
-                PropertyOrField property = new PropertyOrField
-                    (
-                        memberInfo
-                    );
-
-                property.SetValue(theObject, textCell.Text);
-            }
         }
 
         #endregion

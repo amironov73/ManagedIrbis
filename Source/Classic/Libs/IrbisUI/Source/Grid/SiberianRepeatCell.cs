@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SiberianTextCell.cs -- 
+/* SiberianRepeatCell.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -40,20 +40,10 @@ namespace IrbisUI.Grid
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class SiberianTextCell
+    public class SiberianRepeatCell
         : SiberianCell
     {
         #region Properties
-
-        /// <summary>
-        /// Text.
-        /// </summary>
-        [CanBeNull]
-        public string Text
-        {
-            get { return _text; }
-            set { _SetText(value); }
-        }
 
         #endregion
 
@@ -63,17 +53,6 @@ namespace IrbisUI.Grid
 
         #region Private members
 
-        private string _text;
-
-        private void _SetText
-            (
-                string text
-            )
-        {
-            _text = text;
-            Column.PutData(Row.Data, this);
-        }
-
         #endregion
 
         #region Public methods
@@ -82,21 +61,24 @@ namespace IrbisUI.Grid
 
         #region SiberianCell members
 
-        /// <inheritdoc />
-        public override void CloseEditor
+        /// <inheritdoc/>
+        protected internal override void HandleClick
             (
-                bool accept
+                SiberianClickEventArgs eventArgs
             )
         {
-            if (!ReferenceEquals(Grid.Editor, null))
+            base.HandleClick(eventArgs);
+
+            SiberianRow row = eventArgs.Row;
+            if (!ReferenceEquals(row, null))
             {
-                if (accept)
+                SiberianField field = (SiberianField) row.Data;
+                if (!ReferenceEquals(field, null)
+                    && field.Repeatable)
                 {
-                    Text = Grid.Editor.Text;
+                    MessageBox.Show("Make repeat");
                 }
             }
-
-            base.CloseEditor(accept);
         }
 
         /// <inheritdoc/>
@@ -123,21 +105,44 @@ namespace IrbisUI.Grid
                 }
             }
 
-            TextFormatFlags flags
-                = TextFormatFlags.TextBoxControl
-                | TextFormatFlags.EndEllipsis
-                | TextFormatFlags.NoPrefix
-                | TextFormatFlags.VerticalCenter;
+            SiberianField field = (SiberianField)Row.Data;
 
-            TextRenderer.DrawText
-                (
-                    graphics,
-                    Text,
-                    Grid.Font,
-                    rectangle,
-                    foreColor,
-                    flags
-                );
+            if (!ReferenceEquals(field, null)
+                && field.Repeatable)
+            {
+                string text = string.Format
+                    (
+                        "{0}",
+                        field.Repeat
+                    );
+
+                TextFormatFlags flags
+                    = TextFormatFlags.TextBoxControl
+                      | TextFormatFlags.EndEllipsis
+                      | TextFormatFlags.NoPrefix
+                      | TextFormatFlags.VerticalCenter;
+
+                ButtonRenderer.DrawButton
+                    (
+                        graphics,
+                        rectangle,
+                        text,
+                        Grid.Font,
+                        flags,
+                        false,
+                        PushButtonState.Normal
+                    );
+
+                //TextRenderer.DrawText
+                //    (
+                //        graphics,
+                //        text,
+                //        Grid.Font,
+                //        rectangle,
+                //        foreColor,
+                //        flags
+                //    );
+            }
         }
 
         #endregion
@@ -152,12 +157,24 @@ namespace IrbisUI.Grid
                 column = ReferenceEquals(Column, null) ? -1 : Column.Index;
             // ReSharper restore ConditionIsAlwaysTrueOrFalse
 
+            SiberianField field = (SiberianField)Row.Data;
+            string text = string.Empty;
+            if (!ReferenceEquals(field, null))
+            {
+                text = string.Format
+                    (
+                        "{0}/{1}",
+                        field.Tag,
+                        field.Repeat
+                    );
+            }
+
             return string.Format
                 (
-                    "TextCell [{0}, {1}]: {2}",
+                    "RepeatCell [{0}, {1}]: {2}",
                     column,
                     row,
-                    Text
+                    text
                 );
         }
 

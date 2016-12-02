@@ -1,4 +1,7 @@
-﻿/* SiberianColumn.cs -- 
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* SiberianColumn.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -16,6 +19,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 using AM;
 using AM.Collections;
@@ -55,6 +59,15 @@ namespace IrbisUI.Grid
         /// Default minimal width.
         /// </summary>
         public const int DefaultMinWidth = 100;
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// Fired on click.
+        /// </summary>
+        public event EventHandler<SiberianClickEventArgs> Click;
 
         #endregion
 
@@ -139,6 +152,16 @@ namespace IrbisUI.Grid
         [DefaultValue(DefaultMinWidth)]
         public int MinWidth { get; set; }
 
+        /// <summary>
+        /// Header back color.
+        /// </summary>
+        public Color HeaderBackColor { get; set; }
+
+        /// <summary>
+        /// Header fore color.
+        /// </summary>
+        public Color HeaderForeColor { get; set; }
+
         #endregion
 
         #region Construction
@@ -153,6 +176,8 @@ namespace IrbisUI.Grid
             FillWidth = DefaultFillWidth;
             Width = DefaultWidth;
             MinWidth = DefaultMinWidth;
+            HeaderBackColor = Color.LightGray;
+            HeaderForeColor = Color.DarkBlue;
         }
 
         #endregion
@@ -162,6 +187,14 @@ namespace IrbisUI.Grid
         private int _fillWidth;
 
         private int _width;
+
+        protected internal void HandleClick
+            (
+                [NotNull] SiberianClickEventArgs eventArgs
+            )
+        {
+            Click.Raise(this, eventArgs);
+        }
 
         #endregion
 
@@ -229,6 +262,17 @@ namespace IrbisUI.Grid
         }
 
         /// <summary>
+        /// Handles click on the column.
+        /// </summary>
+        public virtual void OnClick
+            (
+                [NotNull] SiberianClickEventArgs eventArgs
+            )
+        {
+            Click.Raise(this, eventArgs);
+        }
+
+        /// <summary>
         /// Draw the column header.
         /// </summary>
         public virtual void PaintHeader
@@ -239,23 +283,39 @@ namespace IrbisUI.Grid
             Graphics graphics = args.Graphics;
             Rectangle rectangle = args.ClipRectangle;
 
-            using (Brush brush = new SolidBrush(Color.LightSalmon))
+            using (Brush brush = new SolidBrush(HeaderBackColor))
             {
                 graphics.FillRectangle(brush, rectangle);
+            }
 
+            using (Font headerFont = new Font(Grid.Font, FontStyle.Bold))
+            {
                 TextFormatFlags flags 
                     = TextFormatFlags.Left
                     | TextFormatFlags.NoPrefix
                     | TextFormatFlags.VerticalCenter
                     | TextFormatFlags.EndEllipsis;
 
+                //ButtonRenderer.DrawButton
+                //    (
+                //        graphics,
+                //        rectangle,
+                //        Title,
+                //        headerFont,
+                //        flags,
+                //        false,
+                //        PushButtonState.Normal
+                //    );
+
+                rectangle.Inflate(-2, 0);
+
                 TextRenderer.DrawText
                     (
                         graphics,
                         Title,
-                        Grid.Font,
+                        headerFont,
                         rectangle,
-                        ForeColor,
+                        HeaderForeColor,
                         flags
                     );
             }

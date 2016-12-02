@@ -132,27 +132,16 @@ namespace IrbisUI.Grid
 
                 if (!ReferenceEquals(cell, null))
                 {
-                    if (cell.Column.ReadOnly)
+                    SiberianClickEventArgs eventArgs = new SiberianClickEventArgs
                     {
-                        cell = cell.Row.GetFirstEditableCell();
-                        if (!ReferenceEquals(cell, null))
-                        {
-                            Goto
-                            (
-                                cell.Column.Index,
-                                cell.Row.Index
-                            );
-                        }
-                    }
-                    else
-                    {
-                        Goto
-                            (
-                                cell.Column.Index,
-                                cell.Row.Index
-                            );
-                    }
-                }
+                        Grid = this,
+                        Row = cell.Row,
+                        Column = cell.Column,
+                        Cell = cell
+                    };
+
+                    OnClick(eventArgs);
+               }
                 else
                 {
                     SiberianRow row = FindRow(e.X, e.Y);
@@ -169,27 +158,27 @@ namespace IrbisUI.Grid
             }
         }
 
-        /// <inheritdoc />
-        protected override void OnMouseDoubleClick
-            (
-                MouseEventArgs e
-            )
-        {
-            CloseEditor(false);
-            base.OnMouseDoubleClick(e);
+        ///// <inheritdoc />
+        //protected override void OnMouseDoubleClick
+        //    (
+        //        MouseEventArgs e
+        //    )
+        //{
+        //    CloseEditor(false);
+        //    base.OnMouseDoubleClick(e);
 
-            if (e.Button == MouseButtons.Left)
-            {
-                SiberianCell cell = FindCell(e.X, e.Y);
-                if (!ReferenceEquals(cell, null))
-                {
-                    if (ReferenceEquals(cell, CurrentCell))
-                    {
-                        OpenEditor(true, null);
-                    }
-                }
-            }
-        }
+        //    if (e.Button == MouseButtons.Left)
+        //    {
+        //        SiberianCell cell = FindCell(e.X, e.Y);
+        //        if (!ReferenceEquals(cell, null))
+        //        {
+        //            if (ReferenceEquals(cell, CurrentCell))
+        //            {
+        //                OpenEditor(true, null);
+        //            }
+        //        }
+        //    }
+        //}
 
         /// <inheritdoc/>
         protected override void OnMouseWheel
@@ -220,10 +209,13 @@ namespace IrbisUI.Grid
                 graphics.FillRectangle(brush, clip);
             }
 
+            Size usableSize = UsableSize;
+
             int x = 0;
-            int y = ClientSize.Height;
+            int y = usableSize.Height;
             PaintEventArgs args;
 
+            // Рисуем заголовки колонок
             for (int columnIndex = _leftColumn; columnIndex < Columns.Count; columnIndex++)
             {
                 SiberianColumn column = Columns[columnIndex];
@@ -261,9 +253,14 @@ namespace IrbisUI.Grid
             }
 
             x = 0;
-            using (Brush brush = new SolidBrush(ForeColor))
-            using (Pen pen = new Pen(brush))
+            using (Brush lineBrush = new SolidBrush(LineColor))
+            using (Pen pen = new Pen(lineBrush))
             {
+                // Рисуем линию, отделяющую заголовки от содержимого колонок
+                int x2 = usableSize.Width;
+                graphics.DrawLine(pen, 0, HeaderHeight, x2, HeaderHeight);
+
+                // Рисуем вертикальные разделители между колонками
                 for (int columnIndex = _leftColumn; columnIndex < Columns.Count; columnIndex++)
                 {
                     SiberianColumn column = Columns[columnIndex];
@@ -271,7 +268,8 @@ namespace IrbisUI.Grid
                     graphics.DrawLine(pen, x, 0, x, y);
                 }
 
-                x = ClientSize.Width;
+                // Рисуем горизонтальные разделители между строками
+                x = usableSize.Width;
                 y = HeaderHeight;
                 for (int rowIndex = _topRow; rowIndex < Rows.Count; rowIndex++)
                 {
@@ -292,12 +290,13 @@ namespace IrbisUI.Grid
                     graphics.DrawLine(pen, 0, y, x, y);
                     y += row.Height;
 
-                    if (y >= ClientSize.Height)
+                    if (y >= usableSize.Height)
                     {
                         break;
                     }
                 }
 
+                // Рисуем ячейки
                 x = 0;
                 for (int columnIndex = _leftColumn; columnIndex < Columns.Count; columnIndex++)
                 {
@@ -339,6 +338,7 @@ namespace IrbisUI.Grid
             base.OnResize(e);
 
             AutoSizeColumns();
+            MoveRelative(0, 0);
         }
 
         #endregion

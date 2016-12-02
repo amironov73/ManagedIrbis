@@ -22,7 +22,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Worksheet;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -100,6 +100,29 @@ namespace IrbisUI.Grid
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Create <see cref="SiberianField"/> from
+        /// <see cref="WorksheetItem"/>.
+        /// </summary>
+        /// <returns></returns>
+        [NotNull]
+        public static SiberianField FromWorksheetItem
+            (
+                [NotNull] WorksheetItem item
+            )
+        {
+            Code.NotNull(item, "item");
+
+            SiberianField result = new SiberianField
+            {
+                Tag = item.Tag,
+                Title = item.Title,
+                Repeatable = item.Repeatable
+            };
+
+            return result;
+        }
 
         #endregion
 
