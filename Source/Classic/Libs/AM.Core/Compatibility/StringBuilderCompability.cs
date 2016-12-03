@@ -1,4 +1,7 @@
-﻿/* StringBuilderCompatibility.cs -- compatibility with StringBuilder
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* StringBuilderCompatibility.cs -- compatibility with StringBuilder
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * State: poor
@@ -23,7 +26,7 @@ namespace Compatibility
     [PublicAPI]
     public static class StringBuilderCompatibility
     {
-        #region Public methods
+#region Public methods
 
         /// <summary>
         /// Removes all characters from the given
@@ -40,7 +43,7 @@ namespace Compatibility
             return builder;
         }
 
-        #endregion
+#endregion
     }
 
 }

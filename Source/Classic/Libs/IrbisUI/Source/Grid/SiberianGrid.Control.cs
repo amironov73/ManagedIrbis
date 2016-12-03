@@ -147,7 +147,7 @@ namespace IrbisUI.Grid
                }
                 else
                 {
-                    SiberianRow row = FindRow(e.X, e.Y);
+                    SiberianRow row = FindRow(e.Y);
                     if (!ReferenceEquals(row, null)
                         && !ReferenceEquals(CurrentColumn, null))
                     {

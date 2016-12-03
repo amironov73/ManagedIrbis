@@ -34,6 +34,7 @@ namespace AM.Diagnostics
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class ConsoleProcessRunner
+        : IDisposable
     {
         #region Properties
 
@@ -42,10 +43,8 @@ namespace AM.Diagnostics
         /// </summary>
         public IConsoleOutputReceiver Receiver
         {
-            get
-            {
-                return _receiver;
-            }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -67,7 +66,6 @@ namespace AM.Diagnostics
         /// Initializes a new instance of the
         /// <see cref="ConsoleProcessRunner"/> class.
         /// </summary>
-        /// <param name="receiver">The receiver.</param>
         public ConsoleProcessRunner
             (
                 [NotNull] IConsoleOutputReceiver receiver
@@ -75,14 +73,12 @@ namespace AM.Diagnostics
         {
             Code.NotNull(receiver, "receiver");
 
-            _receiver = receiver;
+            Receiver = receiver;
         }
 
         #endregion
 
         #region Private members
-
-        private readonly IConsoleOutputReceiver _receiver;
 
         private Process _runningProcess;
 
@@ -182,6 +178,19 @@ namespace AM.Diagnostics
             {
                 RunningProcess.OutputDataReceived -= _OutputDataReceived;
                 RunningProcess.Exited -= _ProcessExited;
+            }
+        }
+
+        #endregion
+
+        #region IDisposable
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            if (!ReferenceEquals(_runningProcess, null))
+            {
+                _runningProcess.Dispose();
             }
         }
 

@@ -9,25 +9,9 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM;
-
-using CodeJam;
 
 using JetBrains.Annotations;
-
-using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -53,9 +37,15 @@ namespace AM.ComponentModel
                 string str
             )
         {
-            if (PropertyChanged != null)
+            PropertyChangedEventHandler handler = PropertyChanged;
+
+            if (!ReferenceEquals(handler, null))
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(str));
+                handler
+                    (
+                        this,
+                        new PropertyChangedEventArgs(str)
+                    );
             }
         }
     }

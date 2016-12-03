@@ -253,6 +253,10 @@ namespace IrbisUI.Grid
                     result = args.NewValue;
                     break;
 
+                case ScrollEventType.ThumbPosition:
+                    result = args.NewValue;
+                    break;
+
                 case ScrollEventType.ThumbTrack:
                     result = args.NewValue;
                     break;
@@ -508,8 +512,8 @@ namespace IrbisUI.Grid
                 int y
             )
         {
-            SiberianColumn column = FindColumn(x, y);
-            SiberianRow row = FindRow(x, y);
+            SiberianColumn column = FindColumn(x);
+            SiberianRow row = FindRow(y);
 
             if (!ReferenceEquals(column, null)
                 && !ReferenceEquals(row, null))
@@ -532,13 +536,16 @@ namespace IrbisUI.Grid
         [CanBeNull]
         public SiberianColumn FindColumn
             (
-                int x,
-                int y
+                int x
             )
         {
             int left = 0;
 
-            for (int columnIndex = _leftColumn; columnIndex < Columns.Count; columnIndex++)
+            for (
+                    int columnIndex = _leftColumn;
+                    columnIndex < Columns.Count;
+                    columnIndex++
+                )
             {
                 SiberianColumn column = Columns[columnIndex];
                 int right = left + column.Width;
@@ -558,12 +565,15 @@ namespace IrbisUI.Grid
         [CanBeNull]
         public SiberianRow FindRow
             (
-                int x,
                 int y
             )
         {
             int top = HeaderHeight;
-            for (int rowIndex = _topRow; rowIndex < Rows.Count; rowIndex++)
+            for (
+                    int rowIndex = _topRow;
+                    rowIndex < Rows.Count;
+                    rowIndex++
+                )
             {
                 SiberianRow row = Rows[rowIndex];
                 int bottom = top + row.Height;

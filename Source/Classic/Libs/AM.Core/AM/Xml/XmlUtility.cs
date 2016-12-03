@@ -43,9 +43,9 @@ namespace AM.Xml
 
         private static void _CreateSerializers()
         {
-            lock (typeof(XmlUtility))
+            lock (typeof(XmlUtility)) //-V3090
             {
-                if (_serializers == null)
+                if (ReferenceEquals(_serializers, null))
                 {
                     _serializers = new Dictionary<string, XmlSerializer>();
                 }
@@ -61,9 +61,12 @@ namespace AM.Xml
         /// </summary>
         public static void ClearCache()
         {
-            if (_serializers != null)
+            if (!ReferenceEquals(_serializers, null))
             {
-                _serializers.Clear();
+                lock (_serializers)
+                {
+                    _serializers.Clear();
+                }
             }
         }
 
@@ -98,23 +101,32 @@ namespace AM.Xml
         /// <returns></returns>
         public static T Deserialize<T>
             (
-                string fileName
+                [NotNull] string fileName
             )
         {
             Code.FileExists(fileName, "fileName");
 
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            return (T)Deserialize(fileName, serializer);
+            XmlSerializer serializer = new XmlSerializer
+                (
+                    typeof(T)
+                );
+
+            return (T)Deserialize
+                (
+                    fileName,
+                    serializer
+                );
         }
 
 #endif
 
         /// <summary>
-        /// Deserializes the string.
+        /// Deserialize the string.
         /// </summary>
-        /// <param name="xml">The XML.</param>
-        /// <returns></returns>
-        public static T DeserializeString<T>(string xml)
+        public static T DeserializeString<T>
+            (
+                [NotNull] string xml
+            )
         {
             Code.NotNullNorEmpty(xml, "xml");
 

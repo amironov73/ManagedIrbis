@@ -1,4 +1,7 @@
-﻿/* System.cs -- temporary solution for .NET Core compatibility
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* System.cs -- temporary solution for .NET Core compatibility
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor

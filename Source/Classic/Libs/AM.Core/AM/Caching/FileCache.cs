@@ -48,10 +48,7 @@ namespace AM.Caching
         /// Path to store items.
         /// </summary>
         [NotNull]
-        public string CachePath
-        {
-            get { return _cachePath; }
-        }
+        public string CachePath { get; private set; }
 
         /// <summary>
         /// Use compression.
@@ -94,7 +91,8 @@ namespace AM.Caching
         {
             Code.NotNullNorEmpty(cachePath, "cachePath");
 
-            _cachePath = cachePath;
+            CachePath = cachePath;
+            UseCompression = useCompression;
             if (!Directory.Exists(cachePath))
             {
                 Directory.CreateDirectory(cachePath);
@@ -105,8 +103,6 @@ namespace AM.Caching
         #endregion
 
         #region Private members
-
-        private readonly string _cachePath;
 
         private readonly ConcurrentDictionary<TKey, string> _dictionary;
 
