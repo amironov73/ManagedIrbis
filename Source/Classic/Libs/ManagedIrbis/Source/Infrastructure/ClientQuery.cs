@@ -62,6 +62,7 @@ namespace ManagedIrbis.Infrastructure
         /// <summary>
         /// Client identifier.
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         public int ClientID { get; set; }
 
         /// <summary>
@@ -87,7 +88,7 @@ namespace ManagedIrbis.Infrastructure
         /// <remarks>List can be empty.</remarks>
         [NotNull]
         [ItemCanBeNull]
-        public List<object> Arguments { get { return _arguments; } }
+        public List<object> Arguments { get; private set; }
 
         #endregion
 
@@ -98,17 +99,12 @@ namespace ManagedIrbis.Infrastructure
         /// </summary>
         public ClientQuery()
         {
-            _arguments = new List<object>();
+            Arguments = new List<object>();
         }
 
         #endregion
 
         #region Private members
-
-        /// <summary>
-        /// Command arguments.
-        /// </summary>
-        private readonly List<object> _arguments;
 
         #endregion
 
@@ -269,7 +265,7 @@ namespace ManagedIrbis.Infrastructure
             }
 
             byte[] preResult = result.ToArray();
-            result = new MemoryStream();
+            result = new MemoryStream(); //-V3114
             int length = preResult.Length;
             result
                 .EncodeInt32(length)

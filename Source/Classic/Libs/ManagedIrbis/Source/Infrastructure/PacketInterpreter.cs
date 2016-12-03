@@ -45,7 +45,7 @@ namespace ManagedIrbis.Infrastructure
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class PacketInterpreter
+    public sealed class PacketInterpreter //-V3072
     {
         #region Properties
 

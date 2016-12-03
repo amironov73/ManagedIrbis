@@ -149,14 +149,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 case "=":
                 case "==":
+                    // Original PFT behavior: exact number comparison
                     // ReSharper disable once CompareOfFloatsByEqualityOperator
-                    result = leftValue == rightValue;
+                    result = leftValue == rightValue; //-V3024
                     break;
 
                 case "!=":
                 case "<>":
+                    // Original PFT behavior: exact number comparison
                     // ReSharper disable once CompareOfFloatsByEqualityOperator
-                    result = leftValue != rightValue;
+                    result = leftValue != rightValue; //-V3024
                     break;
 
                 case ">":

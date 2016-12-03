@@ -1836,7 +1836,11 @@ namespace ManagedIrbis
                 ExecuteCommand(command);
             }
 
-            _iniFile = null;
+            if (!ReferenceEquals(_iniFile, null))
+            {
+                _iniFile.Dispose();
+                _iniFile = null;
+            }
         }
 
         #endregion

@@ -89,7 +89,7 @@ namespace ManagedIrbis
                 return new byte[0];
             }
 
-            MemoryStream stream = new MemoryStream();
+            MemoryStream stream = new MemoryStream(); //-V3114
 
             for (int i = 0; i < text.Length; i++)
             {

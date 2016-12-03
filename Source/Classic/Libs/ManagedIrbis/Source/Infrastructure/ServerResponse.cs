@@ -34,7 +34,7 @@ namespace ManagedIrbis.Infrastructure
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class ServerResponse
+    public sealed class ServerResponse //-V3072
         : IVerifiable
     {
         #region Constants
