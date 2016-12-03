@@ -320,3 +320,7 @@ Source/Classic/Apps/IrbisTestRunner/Results/*.json
 
 # Temporary files
 Temp
+
+# Coverity scan working files
+cov-int
+cov-int.*
