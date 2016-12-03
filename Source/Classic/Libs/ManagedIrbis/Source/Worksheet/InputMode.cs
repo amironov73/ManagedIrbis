@@ -9,6 +9,12 @@
 
 namespace ManagedIrbis.Worksheet
 {
+    //
+    // See more info at:
+    //
+    // http://sntnarciss.ru/irbis/spravka/pril008050100.htm
+    //
+
     /// <summary>
     /// Режимы ввода
     /// </summary>
@@ -89,6 +95,16 @@ namespace ManagedIrbis.Worksheet
         /// <summary>
         /// Ввод с помощью режима (функции) пользователя.
         /// </summary>
-        ExternalDll = 14
+        ExternalDll = 14,
+
+        /// <summary>
+        /// Ввод с помощью динамического справочника.
+        /// </summary>
+        DynamicMenu = 15,
+
+        /// <summary>
+        /// Ввод с помощью файловых ресурсов системы ИРБИС.
+        /// </summary>
+        ServerResource = 16
     }
 }

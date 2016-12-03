@@ -1,4 +1,7 @@
-﻿/* DictionaryType.cs -- type of search dictionary
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* DictionaryType.cs -- type of search dictionary
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor

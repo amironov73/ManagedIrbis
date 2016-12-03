@@ -1,4 +1,7 @@
-﻿/* FoundPanel.cs -- список найденных документов
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* FoundPanel.cs -- список найденных документов
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor

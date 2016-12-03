@@ -1,4 +1,7 @@
-﻿/* SearchQueryLexer.cs --
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* SearchQueryLexer.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -139,10 +142,11 @@ namespace ManagedIrbis.Search.Infrastructure
                         break;
                 }
 
-                if (kind == SearchTokenKind.None)
-                {
-                    throw new SearchSyntaxException();
-                }
+                // expression is always false
+                //if (kind == SearchTokenKind.None)
+                //{
+                //    throw new SearchSyntaxException();
+                //}
 
                 SearchToken token = new SearchToken(kind, position, value);
 

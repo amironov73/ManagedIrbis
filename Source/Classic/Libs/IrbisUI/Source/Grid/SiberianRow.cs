@@ -1,4 +1,7 @@
-﻿/* SiberianRow.cs -- 
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* SiberianRow.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -105,6 +108,9 @@ namespace IrbisUI.Grid
 
         #region Private members
 
+        /// <summary>
+        /// Handle <see cref="Click"/> event.
+        /// </summary>
         protected internal void HandleClick
             (
                 [NotNull] SiberianClickEventArgs eventArgs

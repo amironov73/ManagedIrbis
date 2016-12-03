@@ -307,30 +307,24 @@ namespace ManagedIrbis.Batch
         #region IEnumerable members
 
         /// <summary>
-        /// Get enumrator.
+        /// Get enumerator.
         /// </summary>
         public IEnumerator<string> GetEnumerator()
         {
             foreach (int[] package in _packages)
             {
-                string[] records = null;
-                //try
-                //{
-                records = Connection.FormatRecords
+                string[] records = Connection.FormatRecords
                     (
                         Database,
                         Format,
                         package
                     );
-                RecordsFormatted += records.Length;
-                BatchRead.Raise(this);
-                //}
-                //catch (Exception ex)
-                //{
-                //    _OnException(ex);
-                //}
-                if (records != null)
+
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+                if (!ReferenceEquals(records, null))
                 {
+                    RecordsFormatted += records.Length;
+                    BatchRead.Raise(this);
                     foreach (string record in records)
                     {
                         yield return record;

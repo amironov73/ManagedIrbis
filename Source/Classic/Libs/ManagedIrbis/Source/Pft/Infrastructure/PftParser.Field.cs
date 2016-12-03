@@ -36,18 +36,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 {
     using Ast;
 
-    //
-    // 
-    //
-    //
-    //
-
     partial class PftParser
     {
         private PftField ParseField()
         {
             List<PftNode> leftHand = new List<PftNode>();
-            PftField result = new PftV();
+            PftField result;
             PftNode node;
             PftRepeatableLiteral literal;
             PftToken token;
@@ -108,62 +102,62 @@ namespace ManagedIrbis.Pft.Infrastructure
                 goto DONE;
             }
 
+            //
             // Parse field itself
-            if (!Tokens.IsEof)
+            //
+
+            token = Tokens.Current;
+            //PftToken leadToken = token;
+
+            // Orphaned?
+            if (token.Kind != PftTokenKind.V)
             {
-                token = Tokens.Current;
-                //PftToken leadToken = token;
-
-                // Orphaned?
-                if (token.Kind != PftTokenKind.V)
-                {
-                    result = new PftOrphan();
-                    result.LeftHand.AddRange(leftHand);
-                    goto DONE;
-                }
-                if (string.IsNullOrEmpty(token.Text))
-                {
-                    throw new PftSyntaxException(token);
-                }
-
-                FieldSpecification specification
-                    = (FieldSpecification)token.UserData;
-                if (ReferenceEquals(specification, null))
-                {
-                    throw new PftSyntaxException(token);
-                }
-
-                // Check for command code
-                switch (specification.Command)
-                {
-                    case 'v':
-                    case 'V':
-                        result = new PftV(token);
-                        break;
-
-                    case 'd':
-                    case 'D':
-                        result = new PftD(token);
-                        break;
-
-                    case 'n':
-                    case 'N':
-                        result = new PftN(token);
-                        break;
-
-                    case 'g':
-                    case 'G':
-                        result = new PftG(token);
-                        break;
-
-                    default:
-                        throw new PftSyntaxException(token);
-                }
-
+                result = new PftOrphan();
                 result.LeftHand.AddRange(leftHand);
-                result.Apply(specification);
-                Tokens.MoveNext();
-            } // Tokens.IsEof
+                goto DONE;
+            }
+            if (string.IsNullOrEmpty(token.Text))
+            {
+                throw new PftSyntaxException(token);
+            }
+
+            FieldSpecification specification
+                = (FieldSpecification)token.UserData;
+            if (ReferenceEquals(specification, null))
+            {
+                throw new PftSyntaxException(token);
+            }
+
+            // Check for command code
+            switch (specification.Command)
+            {
+                case 'v':
+                case 'V':
+                    result = new PftV(token);
+                    break;
+
+                case 'd':
+                case 'D':
+                    result = new PftD(token);
+                    break;
+
+                case 'n':
+                case 'N':
+                    result = new PftN(token);
+                    break;
+
+                case 'g':
+                case 'G':
+                    result = new PftG(token);
+                    break;
+
+                default:
+                    throw new PftSyntaxException(token);
+            }
+
+            result.LeftHand.AddRange(leftHand);
+            result.Apply(specification);
+            Tokens.MoveNext();
 
             // Gather right hand (for V command only)
             if (result is PftV)
@@ -237,7 +231,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     .ThrowIfNull("tokens");
                 ChangeContext
                     (
-                        (NonNullCollection<PftNode>) assignment.Children,
+                        (NonNullCollection<PftNode>)assignment.Children,
                         tokens
                     );
 

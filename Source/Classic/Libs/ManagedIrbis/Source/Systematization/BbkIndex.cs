@@ -437,13 +437,14 @@ namespace ManagedIrbis.Systematization
                                 "Два разделителя подряд"
                             );
                     }
-                    if (count > 3)
-                    {
-                        throw new BbkException
-                            (
-                                "Слишком длинная группа"
-                            );
-                    }
+                    // expression count > 3 is always false
+                    //if (count > 3)
+                    //{
+                    //    throw new BbkException
+                    //        (
+                    //            "Слишком длинная группа"
+                    //        );
+                    //}
                     count = 0;
                 }
                 else

@@ -188,6 +188,9 @@ namespace IrbisUI.Grid
 
         private int _width;
 
+        /// <summary>
+        /// Handle <see cref="Click"/> event.
+        /// </summary>
         protected internal void HandleClick
             (
                 [NotNull] SiberianClickEventArgs eventArgs

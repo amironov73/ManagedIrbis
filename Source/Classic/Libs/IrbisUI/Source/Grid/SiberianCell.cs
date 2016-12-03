@@ -85,6 +85,9 @@ namespace IrbisUI.Grid
 
         #region Private members
 
+        /// <summary>
+        /// Handle <see cref="Click"/> event.
+        /// </summary>
         protected internal virtual void HandleClick
             (
                 [NotNull] SiberianClickEventArgs eventArgs

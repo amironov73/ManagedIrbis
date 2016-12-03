@@ -160,8 +160,8 @@ namespace ManagedIrbis
         {
             get
             {
-                return !Value.SameString(NoValue)
-                    && !string.IsNullOrEmpty(Value);
+                return !string.IsNullOrEmpty(Value)
+                    && !Value.SameString(NoValue);
             }
         }
 
