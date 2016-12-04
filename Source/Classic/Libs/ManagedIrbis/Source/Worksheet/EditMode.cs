@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* InputMode.cs -- input mode constants
+/* EditMode.cs -- field/subfield edit mode constants
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -16,9 +16,9 @@ namespace ManagedIrbis.Worksheet
     //
 
     /// <summary>
-    /// Режимы ввода
+    /// Field/subfield edit mode.
     /// </summary>
-    public enum InputMode
+    public enum EditMode
     {
         /// <summary>
         /// Ввод без дополнительной обработки.

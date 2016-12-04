@@ -121,7 +121,7 @@ namespace ManagedIrbis.Worksheet
     [PublicAPI]
     [XmlRoot("line")]
     [MoonSharpUserData]
-    [DebuggerDisplay("{Tag} {Title} [{Repeatable}][{InputMode}]")]
+    [DebuggerDisplay("{Tag} {Title} [{Repeatable}][{EditMode}]")]
     public sealed class WorksheetItem
         : IHandmadeSerializable
     {
@@ -163,7 +163,7 @@ namespace ManagedIrbis.Worksheet
         /// </summary>
         [XmlAttribute("input-mode")]
         [JsonProperty("input-mode")]
-        public string InputMode { get; set; }
+        public string EditMode { get; set; }
 
         /// <summary>
         /// Дополнительная информация для расширенных
@@ -240,7 +240,7 @@ namespace ManagedIrbis.Worksheet
                         reader.RequireLine()
                     ) != 0,
                 Help = reader.RequireLine().Trim(),
-                InputMode = reader.RequireLine(),
+                EditMode = reader.RequireLine(),
                 InputInfo = reader.RequireLine(),
                 FormalVerification = reader.RequireLine().Trim(),
                 Hint = reader.RequireLine().Trim(),
@@ -270,7 +270,7 @@ namespace ManagedIrbis.Worksheet
             Title = reader.ReadNullableString();
             Repeatable = reader.ReadBoolean();
             Help = reader.ReadNullableString();
-            InputMode = reader.ReadNullableString();
+            EditMode = reader.ReadNullableString();
             InputInfo = reader.ReadNullableString();
             FormalVerification = reader.ReadNullableString();
             Hint = reader.ReadNullableString();
@@ -294,7 +294,7 @@ namespace ManagedIrbis.Worksheet
                 .Write(Repeatable);
             writer
                 .WriteNullable(Help)
-                .WriteNullable(InputMode);
+                .WriteNullable(EditMode);
             writer
                 .WriteNullable(InputInfo)
                 .WriteNullable(FormalVerification)
@@ -316,7 +316,7 @@ namespace ManagedIrbis.Worksheet
                     Tag,
                     Title,
                     Repeatable,
-                    InputMode
+                    EditMode
                 );
         }
 

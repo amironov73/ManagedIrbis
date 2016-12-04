@@ -26,7 +26,7 @@ namespace UnitTests.ManagedIrbis.Worksheet
             Assert.AreEqual(first.Help, second.Help);
             Assert.AreEqual(first.Hint, second.Hint);
             Assert.AreEqual(first.InputInfo, second.InputInfo);
-            Assert.AreEqual(first.InputMode, second.InputMode);
+            Assert.AreEqual(first.EditMode, second.EditMode);
             Assert.AreEqual(first.Repeatable, second.Repeatable);
             Assert.AreEqual(first.Reserved, second.Reserved);
             Assert.AreEqual(first.Tag, second.Tag);
