@@ -150,6 +150,7 @@
     <Compile Include="Source\Grid\SiberianImageColumn.cs" />
     <Compile Include="Source\Grid\SiberianIntegerCell.cs" />
     <Compile Include="Source\Grid\SiberianIntegerColumn.cs" />
+    <Compile Include="Source\Grid\SiberianPalette.cs" />
     <Compile Include="Source\Grid\SiberianRepeatCell.cs" />
     <Compile Include="Source\Grid\SiberianRepeatColumn.cs" />
     <Compile Include="Source\Grid\SiberianRow.cs" />
