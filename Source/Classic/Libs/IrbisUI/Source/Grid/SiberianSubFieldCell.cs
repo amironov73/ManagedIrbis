@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SiberianTagCell.cs -- 
+/* SiberianSubFieldCell.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -11,18 +11,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
 
 using CodeJam;
 
@@ -39,16 +32,10 @@ namespace IrbisUI.Grid
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class SiberianTagCell
+    public class SiberianSubFieldCell
         : SiberianCell
     {
         #region Properties
-
-        /// <summary>
-        /// Field.
-        /// </summary>
-        [CanBeNull]
-        public SiberianField Field { get; set; }
 
         #endregion
 
@@ -61,6 +48,32 @@ namespace IrbisUI.Grid
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region SiberianCell members
+
+        /// <inheritdoc />
+        public override void CloseEditor
+            (
+                bool accept
+            )
+        {
+            if (!ReferenceEquals(Grid.Editor, null))
+            {
+                if (accept)
+                {
+                    SiberianSubField subField 
+                        = (SiberianSubField)Row.Data;
+                    if (!ReferenceEquals(subField, null))
+                    {
+                        subField.Value = Grid.Editor.Text;
+                    }
+                }
+            }
+
+            base.CloseEditor(accept);
+        }
 
         /// <inheritdoc/>
         public override void Paint
@@ -86,32 +99,31 @@ namespace IrbisUI.Grid
                 }
             }
 
-            SiberianField field = (SiberianField)Row.Data;
+            SiberianSubField subField = (SiberianSubField)Row.Data;
 
-            if (!ReferenceEquals(field, null))
+            if (!ReferenceEquals(subField, null))
             {
-                string text = string.Format
-                    (
-                        "{0}: {1}",
-                        field.Tag,
-                        field.Title
-                    );
+                string text = subField.Value;
 
-                TextFormatFlags flags
-                    = TextFormatFlags.TextBoxControl
-                      | TextFormatFlags.EndEllipsis
-                      | TextFormatFlags.NoPrefix
-                      | TextFormatFlags.VerticalCenter;
+                if (!string.IsNullOrEmpty(text))
+                {
 
-                TextRenderer.DrawText
-                    (
-                        graphics,
-                        text,
-                        Grid.Font,
-                        rectangle,
-                        foreColor,
-                        flags
-                    );
+                    TextFormatFlags flags
+                        = TextFormatFlags.TextBoxControl
+                          | TextFormatFlags.EndEllipsis
+                          | TextFormatFlags.NoPrefix
+                          | TextFormatFlags.VerticalCenter;
+
+                    TextRenderer.DrawText
+                        (
+                            graphics,
+                            text,
+                            Grid.Font,
+                            rectangle,
+                            foreColor,
+                            flags
+                        );
+                }
             }
         }
 
@@ -127,23 +139,22 @@ namespace IrbisUI.Grid
                 column = ReferenceEquals(Column, null) ? -1 : Column.Index;
             // ReSharper restore ConditionIsAlwaysTrueOrFalse
 
-            SiberianField field = (SiberianField)Row.Data;
+            SiberianSubField subField = (SiberianSubField)Row.Data;
             string text = string.Empty;
-            if (!ReferenceEquals(field, null))
+            if (!ReferenceEquals(subField, null))
             {
                 text = string.Format
                     (
-                        "{0}/{1}: {2} ({3})",
-                        field.Tag,
-                        field.Repeat,
-                        field.Value,
-                        field.OriginalValue
+                        "{0}: {1} ({2})",
+                        subField.Code,
+                        subField.Value,
+                        subField.OriginalValue
                     );
             }
 
             return string.Format
                 (
-                    "TagCell [{0}, {1}]: {2}",
+                    "SubFieldCell [{0}, {1}]: {2}",
                     column,
                     row,
                     text

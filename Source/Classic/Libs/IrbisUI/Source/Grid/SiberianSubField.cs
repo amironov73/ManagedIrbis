@@ -26,6 +26,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Worksheet;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -86,6 +88,28 @@ namespace IrbisUI.Grid
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Create <see cref="SiberianSubField"/> from
+        /// <see cref="WorksheetItem"/>.
+        /// </summary>
+        [NotNull]
+        public static SiberianSubField FromWorksheetItem
+            (
+                [NotNull] WorksheetItem item
+            )
+        {
+            CodeJam.Code.NotNull(item, "item");
+
+            SiberianSubField result = new SiberianSubField
+            {
+                Code = item.Tag[0],
+                Title = item.Title
+            };
+
+            return result;
+        }
+
 
         #endregion
 

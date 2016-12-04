@@ -18,20 +18,20 @@ using ManagedIrbis.Worksheet;
 
 namespace SiberianGrider
 {
-    public partial class Form2
+    public partial class Form3 
         : Form
     {
-        public SiberianFieldGrid Grid { get; set; }
+        public SiberianSubFieldGrid Grid { get; set; }
 
         public MarcRecord Record { get; set; }
 
-        public WsFile Worksheet { get; set; }
+        public WssFile Worksheet { get; set; }
 
-        public Form2()
+        public Form3()
         {
             InitializeComponent();
 
-            Grid = new SiberianFieldGrid
+            Grid = new SiberianSubFieldGrid
             {
                 Dock = DockStyle.Fill
             };
@@ -43,17 +43,19 @@ namespace SiberianGrider
                     IrbisEncoding.Utf8
                 )
                 .ThrowIfNull("Record");
-            Worksheet = WsFile.ReadLocalFile
+            Worksheet = WssFile.ReadLocalFile
                 (
-                    "PAZK31.WS",
+                    "692.WSS",
                     IrbisEncoding.Ansi
                 );
 
-            WorksheetPage page = Worksheet.Pages[1];
+            RecordField field = Record.Fields
+                .GetFirstField("692");
+
             Grid.Load
                 (
-                    page,
-                    Record
+                    Worksheet,
+                    field
                 );
         }
     }

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SiberianFieldColumn.cs -- 
+/* .cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -29,7 +29,7 @@ namespace IrbisUI.Grid
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class SiberianFieldColumn
+    public class SiberianSubFieldColumn
         : SiberianColumn
     {
         #region Properties
@@ -41,7 +41,7 @@ namespace IrbisUI.Grid
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SiberianFieldColumn()
+        public SiberianSubFieldColumn()
         {
             BackColor = Color.White;
         }
@@ -49,7 +49,6 @@ namespace IrbisUI.Grid
         #endregion
 
         #region Private members
-
         private void Editor_KeyDown
             (
                 object sender,
@@ -100,7 +99,7 @@ namespace IrbisUI.Grid
         /// <inheritdoc/>
         public override SiberianCell CreateCell()
         {
-            SiberianCell result = new SiberianFieldCell();
+            SiberianCell result = new SiberianSubFieldCell();
             result.Column = this;
 
             return result;
@@ -116,15 +115,15 @@ namespace IrbisUI.Grid
         {
             Code.NotNull(cell, "cell");
 
-            SiberianFieldCell fieldCell = (SiberianFieldCell)cell;
+            SiberianSubFieldCell subFieldCell = (SiberianSubFieldCell)cell;
 
-            SiberianField field = (SiberianField) fieldCell.Row.Data;
-            if (ReferenceEquals(field, null))
+            SiberianSubField subField = (SiberianSubField)subFieldCell.Row.Data;
+            if (ReferenceEquals(subField, null))
             {
                 return null;
             }
 
-            string text = field.Value;
+            string text = subField.Value;
 
             Rectangle rectangle = Grid.GetCellRectangle(cell);
             rectangle.Inflate(-1, -1);

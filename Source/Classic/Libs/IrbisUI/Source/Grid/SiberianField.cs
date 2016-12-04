@@ -108,7 +108,6 @@ namespace IrbisUI.Grid
         /// Create <see cref="SiberianField"/> from
         /// <see cref="WorksheetItem"/>.
         /// </summary>
-        /// <returns></returns>
         [NotNull]
         public static SiberianField FromWorksheetItem
             (

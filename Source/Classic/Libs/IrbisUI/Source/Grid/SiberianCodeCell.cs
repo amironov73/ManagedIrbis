@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SiberianTagCell.cs -- 
+/* SiberianCodeCell.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -9,22 +9,8 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -39,7 +25,7 @@ namespace IrbisUI.Grid
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class SiberianTagCell
+    public class SiberianCodeCell
         : SiberianCell
     {
         #region Properties
@@ -86,15 +72,15 @@ namespace IrbisUI.Grid
                 }
             }
 
-            SiberianField field = (SiberianField)Row.Data;
+            SiberianSubField subField = (SiberianSubField)Row.Data;
 
-            if (!ReferenceEquals(field, null))
+            if (!ReferenceEquals(subField, null))
             {
                 string text = string.Format
                     (
                         "{0}: {1}",
-                        field.Tag,
-                        field.Title
+                        subField.Code,
+                        subField.Title
                     );
 
                 TextFormatFlags flags
@@ -127,23 +113,22 @@ namespace IrbisUI.Grid
                 column = ReferenceEquals(Column, null) ? -1 : Column.Index;
             // ReSharper restore ConditionIsAlwaysTrueOrFalse
 
-            SiberianField field = (SiberianField)Row.Data;
+            SiberianSubField subField = (SiberianSubField)Row.Data;
             string text = string.Empty;
-            if (!ReferenceEquals(field, null))
+            if (!ReferenceEquals(subField, null))
             {
                 text = string.Format
                     (
-                        "{0}/{1}: {2} ({3})",
-                        field.Tag,
-                        field.Repeat,
-                        field.Value,
-                        field.OriginalValue
+                        "{0}: {1} ({2})",
+                        subField.Code,
+                        subField.Value,
+                        subField.OriginalValue
                     );
             }
 
             return string.Format
                 (
-                    "TagCell [{0}, {1}]: {2}",
+                    "CodeCell [{0}, {1}]: {2}",
                     column,
                     row,
                     text

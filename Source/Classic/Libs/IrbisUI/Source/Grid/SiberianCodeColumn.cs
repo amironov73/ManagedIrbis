@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SiberianTagColumn.cs -- 
+/* SiberianCodeColumn.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -9,7 +9,14 @@
 
 #region Using directives
 
+using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -24,7 +31,7 @@ namespace IrbisUI.Grid
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class SiberianTagColumn
+    public class SiberianCodeColumn
         : SiberianColumn
     {
         #region Properties
@@ -36,7 +43,7 @@ namespace IrbisUI.Grid
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SiberianTagColumn()
+        public SiberianCodeColumn()
         {
             ReadOnly = true;
             BackColor = Color.LightGray;
@@ -58,7 +65,7 @@ namespace IrbisUI.Grid
         /// <inheritdoc/>
         public override SiberianCell CreateCell()
         {
-            SiberianCell result = new SiberianTagCell();
+            SiberianCell result = new SiberianCodeCell();
             result.Column = this;
 
             return result;

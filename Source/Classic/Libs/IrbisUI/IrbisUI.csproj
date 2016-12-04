@@ -133,6 +133,8 @@
     <Compile Include="Source\Grid\SiberianCheckCell.cs" />
     <Compile Include="Source\Grid\SiberianCheckColumn.cs" />
     <Compile Include="Source\Grid\SiberianClickEventArgs.cs" />
+    <Compile Include="Source\Grid\SiberianCodeCell.cs" />
+    <Compile Include="Source\Grid\SiberianCodeColumn.cs" />
     <Compile Include="Source\Grid\SiberianColumn.cs" />
     <Compile Include="Source\Grid\SiberianDateCell.cs" />
     <Compile Include="Source\Grid\SiberianDateColumn.cs" />
@@ -152,6 +154,9 @@
     <Compile Include="Source\Grid\SiberianRepeatColumn.cs" />
     <Compile Include="Source\Grid\SiberianRow.cs" />
     <Compile Include="Source\Grid\SiberianSubField.cs" />
+    <Compile Include="Source\Grid\SiberianSubFieldCell.cs" />
+    <Compile Include="Source\Grid\SiberianSubFieldColumn.cs" />
+    <Compile Include="Source\Grid\SiberianSubFieldGrid.cs" />
     <Compile Include="Source\Grid\SiberianTab.cs" />
     <Compile Include="Source\Grid\SiberianTagCell.cs" />
     <Compile Include="Source\Grid\SiberianTagColumn.cs" />
