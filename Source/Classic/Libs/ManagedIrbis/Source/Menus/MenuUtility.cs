@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* IrbisMenuUtility.cs -- MNU file extended handling.
+/* MenuUtility.cs -- MNU file extended handling.
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -34,7 +34,7 @@ namespace ManagedIrbis.Menus
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public static class IrbisMenuUtility
+    public static class MenuUtility
     {
         #region Public methods
 

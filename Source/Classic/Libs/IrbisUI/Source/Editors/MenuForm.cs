@@ -24,7 +24,7 @@ using AM.IO;
 using AM.Runtime;
 
 using CodeJam;
-
+using IrbisUI.Grid;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Menus;
@@ -56,10 +56,14 @@ namespace IrbisUI
         {
             get
             {
-                DataGridViewRow currentRow = _grid.CurrentRow;
-                MenuEntry result = currentRow == null
-                    ? null
-                    : (MenuEntry)currentRow.DataBoundItem;
+                SiberianRow row = _grid.CurrentRow;
+
+                if (ReferenceEquals(row, null))
+                {
+                    return null;
+                }
+
+                MenuEntry result = (MenuEntry) row.Data;
 
                 return result;
             }
@@ -82,10 +86,7 @@ namespace IrbisUI
         {
             InitializeComponent();
 
-            _grid.AutoGenerateColumns = false;
-
             Entries = new MenuEntry[0];
-            _grid.DataSource = Entries;
             _grid.Focus();
         }
 
@@ -102,13 +103,13 @@ namespace IrbisUI
         /// </summary>
         public void SetEntries
             (
-                [NotNull] IEnumerable<MenuEntry> entries
+                [NotNull] MenuEntry[] entries
             )
         {
             Code.NotNull(entries, "entries");
 
-            Entries = entries.ToArray();
-            _grid.DataSource = Entries;
+            Entries = entries;
+            _grid.Load(entries);
         }
 
         #endregion

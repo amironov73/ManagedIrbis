@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SiberianTagCell.cs -- 
+/* SiberianMenuCodeCell.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -14,6 +14,8 @@ using System.Windows.Forms;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Menus;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -25,7 +27,7 @@ namespace IrbisUI.Grid
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class SiberianTagCell
+    public class SiberianMenuCodeCell
         : SiberianCell
     {
         #region Properties
@@ -70,17 +72,10 @@ namespace IrbisUI.Grid
                 }
             }
 
-            SiberianField field = (SiberianField)Row.Data;
+            MenuEntry entry = (MenuEntry)Row.Data;
 
-            if (!ReferenceEquals(field, null))
+            if (!ReferenceEquals(entry, null))
             {
-                string text = string.Format
-                    (
-                        "{0}: {1}",
-                        field.Tag,
-                        field.Title
-                    );
-
                 TextFormatFlags flags
                     = TextFormatFlags.TextBoxControl
                       | TextFormatFlags.EndEllipsis
@@ -90,7 +85,7 @@ namespace IrbisUI.Grid
                 TextRenderer.DrawText
                     (
                         graphics,
-                        text,
+                        entry.Code,
                         Grid.Font,
                         rectangle,
                         foreColor,
@@ -111,23 +106,16 @@ namespace IrbisUI.Grid
                 column = ReferenceEquals(Column, null) ? -1 : Column.Index;
             // ReSharper restore ConditionIsAlwaysTrueOrFalse
 
-            SiberianField field = (SiberianField)Row.Data;
+            MenuEntry entry = (MenuEntry)Row.Data;
             string text = string.Empty;
-            if (!ReferenceEquals(field, null))
+            if (!ReferenceEquals(entry, null))
             {
-                text = string.Format
-                    (
-                        "{0}/{1}: {2} ({3})",
-                        field.Tag,
-                        field.Repeat,
-                        field.Value,
-                        field.OriginalValue
-                    );
+                text = entry.Code;
             }
 
             return string.Format
                 (
-                    "TagCell [{0}, {1}]: {2}",
+                    "MenuCodeCell [{0}, {1}]: {2}",
                     column,
                     row,
                     text

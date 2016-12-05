@@ -127,6 +127,7 @@
     <Compile Include="Source\FoundPanel.Designer.cs">
       <DependentUpon>FoundPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\Grid\SiberianMenuCodeCell.cs" />
     <Compile Include="Source\Grid\SiberianButtonCell.cs" />
     <Compile Include="Source\Grid\SiberianButtonColumn.cs" />
     <Compile Include="Source\Grid\SiberianCell.cs" />
@@ -150,6 +151,10 @@
     <Compile Include="Source\Grid\SiberianImageColumn.cs" />
     <Compile Include="Source\Grid\SiberianIntegerCell.cs" />
     <Compile Include="Source\Grid\SiberianIntegerColumn.cs" />
+    <Compile Include="Source\Grid\SiberianMenuCodeColumn.cs" />
+    <Compile Include="Source\Grid\SiberianMenuCommentCell.cs" />
+    <Compile Include="Source\Grid\SiberianMenuCommentColumn.cs" />
+    <Compile Include="Source\Grid\SiberianMenuGrid.cs" />
     <Compile Include="Source\Grid\SiberianPalette.cs" />
     <Compile Include="Source\Grid\SiberianRepeatCell.cs" />
     <Compile Include="Source\Grid\SiberianRepeatColumn.cs" />
@@ -190,10 +195,10 @@
     <Compile Include="Source\IrbisLoginForm2.Designer.cs">
       <DependentUpon>IrbisLoginForm2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\MenuForm.cs">
+    <Compile Include="Source\Editors\MenuForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\MenuForm.Designer.cs">
+    <Compile Include="Source\Editors\MenuForm.Designer.cs">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Pft\PftEditorControl.cs">
@@ -287,7 +292,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />
-    <Folder Include="Source\Editors\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -315,7 +319,7 @@
     <EmbeddedResource Include="Source\IrbisLoginForm2.resx">
       <DependentUpon>IrbisLoginForm2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\MenuForm.resx">
+    <EmbeddedResource Include="Source\Editors\MenuForm.resx">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Source\Pft\PftGlobalGrid.resx">

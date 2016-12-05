@@ -495,7 +495,7 @@
     <Compile Include="Source\Marc\Schema\SchemaUtility.cs" />
     <Compile Include="Source\Marc\Schema\SubFieldSchema.cs" />
     <Compile Include="Source\Menus\MenuFile.cs" />
-    <Compile Include="Source\Menus\IrbisMenuUtility.cs" />
+    <Compile Include="Source\Menus\MenuUtility.cs" />
     <Compile Include="Source\Infrastructure\Commands\AbstractCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\ConnectCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\CreateDatabaseCommand.cs" />
