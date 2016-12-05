@@ -121,6 +121,7 @@
     <Compile Include="Source\DictionaryPanel.Designer.cs">
       <DependentUpon>DictionaryPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\Editors\MenuEditor.cs" />
     <Compile Include="Source\FoundPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>

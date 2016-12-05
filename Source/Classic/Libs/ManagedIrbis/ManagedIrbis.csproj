@@ -250,6 +250,7 @@
     <Compile Include="Source\Menus\MenuConverter.cs" />
     <Compile Include="Source\Menus\MenuEntry.cs" />
     <Compile Include="Source\Menus\MenuSort.cs" />
+    <Compile Include="Source\Menus\MenuSpecification.cs" />
     <Compile Include="Source\Mx\Commands\AliasCommand.cs" />
     <Compile Include="Source\Mx\Commands\ConnectCommand.cs" />
     <Compile Include="Source\Mx\Commands\CsCommand.cs" />
@@ -617,7 +618,9 @@
     <Compile Include="Source\Systematization\BbkRange.cs" />
     <Compile Include="Source\Systematization\UdkException.cs" />
     <Compile Include="Source\Search\TermLink.cs" />
+    <Compile Include="Source\Worksheet\FieldEditorRepository.cs" />
     <Compile Include="Source\Worksheet\IMarcEditor.cs" />
+    <Compile Include="Source\Worksheet\SubFieldEditorRepository.cs" />
     <Compile Include="Source\Worksheet\WorksheetItem.cs" />
     <Compile Include="Source\Worksheet\WorksheetPage.cs" />
     <Compile Include="Source\Worksheet\WsFile.cs" />
