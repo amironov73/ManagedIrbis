@@ -101,6 +101,8 @@ namespace ManagedIrbis.Server
 
         #region Private members
 
+#if DESKTOP
+
         private void _HandleClient
             (
                 IAsyncResult asyncResult
@@ -113,6 +115,22 @@ namespace ManagedIrbis.Server
             Workers.Add(worker);
             worker.Task.Start();
         }
+
+#elif NETCORE
+
+        private void _HandleClient
+            (
+                Task<TcpClient> task
+            )
+        {
+            TcpClient client = task.Result;
+            IrbisServerSocket socket = new IrbisServerSocket(client);
+            IrbisServerWorker worker = new IrbisServerWorker(this, socket);
+            Workers.Add(worker);
+            worker.Task.Start();
+        }
+
+#endif
 
         #endregion
 
@@ -132,6 +150,8 @@ namespace ManagedIrbis.Server
                     break;
                 }
 
+#if DESKTOP
+
                 IAsyncResult socketResult = Listener.BeginAcceptTcpClient
                     (
                         _HandleClient,
@@ -149,6 +169,14 @@ namespace ManagedIrbis.Server
                 {
                     break;
                 }
+
+#elif NETCORE
+
+                Task<TcpClient> task = Listener.AcceptTcpClientAsync();
+                task.ContinueWith (_HandleClient);
+
+#endif
+
             }
         }
 
