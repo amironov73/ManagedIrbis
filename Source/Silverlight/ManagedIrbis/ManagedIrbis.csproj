@@ -647,8 +647,8 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Marc\Schema\SubFieldSchema.cs">
       <Link>Source\Marc\Schema\SubFieldSchema.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Menus\IrbisMenuUtility.cs">
-      <Link>Source\Menus\IrbisMenuUtility.cs</Link>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Menus\MenuUtility.cs">
+      <Link>Source\Menus\MenuUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Menus\MenuConverter.cs">
       <Link>Source\Menus\MenuConverter.cs</Link>
