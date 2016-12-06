@@ -81,7 +81,15 @@ namespace ManagedIrbis.Server
         /// <inheritdoc/>
         public void Dispose()
         {
+#if NETCORE
+
+            Client.Dispose();
+
+#else
+
             Client.Close();
+
+#endif
         }
 
         #endregion
