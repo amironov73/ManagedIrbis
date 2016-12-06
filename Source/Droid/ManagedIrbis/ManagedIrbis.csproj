@@ -894,8 +894,8 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\UserInfo.cs">
       <Link>Source\UserInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\InputMode.cs">
-      <Link>Source\Worksheet\InputMode.cs</Link>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\EditMode.cs">
+      <Link>Source\Worksheet\EditMode.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\WorksheetItem.cs">
       <Link>Source\Worksheet\WorksheetItem.cs</Link>
