@@ -28,7 +28,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
-
+using ManagedIrbis.Search;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -192,6 +192,18 @@ namespace ManagedIrbis.Client
             )
         {
             return null;
+        }
+
+        /// <summary>
+        /// Read terms.
+        /// </summary>
+        [NotNull]
+        public virtual TermInfo[] ReadTerms
+            (
+                [NotNull] TermParameters parameters
+            )
+        {
+            return new TermInfo[0];
         }
 
         /// <summary>

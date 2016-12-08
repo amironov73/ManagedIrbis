@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using AM.Windows.Forms;
+
 namespace SiberianGrider
 {
     static class Program
@@ -14,9 +16,16 @@ namespace SiberianGrider
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form3());
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new Form4());
+            }
+            catch (Exception exception)
+            {
+                ExceptionBox.Show(exception);
+            }
         }
     }
 }

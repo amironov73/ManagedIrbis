@@ -167,6 +167,11 @@
     <Compile Include="Source\Grid\SiberianTab.cs" />
     <Compile Include="Source\Grid\SiberianTagCell.cs" />
     <Compile Include="Source\Grid\SiberianTagColumn.cs" />
+    <Compile Include="Source\Grid\SiberianTermCountCell.cs" />
+    <Compile Include="Source\Grid\SiberianTermCountColumn.cs" />
+    <Compile Include="Source\Grid\SiberianTermGrid.cs" />
+    <Compile Include="Source\Grid\SiberianTermTextCell.cs" />
+    <Compile Include="Source\Grid\SiberianTermTextColumn.cs" />
     <Compile Include="Source\Grid\SiberianTextCell.cs" />
     <Compile Include="Source\Grid\SiberianTextColumn.cs" />
     <Compile Include="Source\IrbisBusyForm.cs">

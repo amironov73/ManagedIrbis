@@ -45,7 +45,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestReadTerms_Forward()
+        public void ReadTerms_Forward()
         {
             IrbisConnection connection
                 = Connection.ThrowIfNull("Connection");
@@ -75,7 +75,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestReadTerms_Backward()
+        public void ReadTerms_Backward()
         {
             IrbisConnection connection
                 = Connection.ThrowIfNull("Connection");
@@ -105,7 +105,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestReadTerms_Format()
+        public void ReadTerms_Format()
         {
             IrbisConnection connection
                 = Connection.ThrowIfNull("Connection");
