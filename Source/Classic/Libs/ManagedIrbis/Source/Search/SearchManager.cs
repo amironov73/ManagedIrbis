@@ -161,13 +161,14 @@ namespace ManagedIrbis.Search
 
                 foreach (FoundLine line in result)
                 {
-                    if (string.IsNullOrEmpty(line.Description))
+                    string description = line.Description;
+                    if (string.IsNullOrEmpty(description))
                     {
                         continue;
                     }
-                    if (line.Description.StartsWith(prefix))
+                    if (description.StartsWith(prefix))
                     {
-                        line.Description = line.Description
+                        line.Description = description
                             .Substring(prefixLength);
                     }
                 }

@@ -372,7 +372,7 @@ namespace IrbisUI.Grid
         /// Create column of specified type.
         /// </summary>
         [NotNull]
-        public SiberianColumn CreateColumn<T>()
+        public T CreateColumn<T>()
             where T : SiberianColumn, new()
         {
             T result = new T

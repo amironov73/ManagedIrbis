@@ -27,6 +27,16 @@ namespace ManagedIrbis.Search
         #region Properties
 
         /// <summary>
+        /// Whether the line is materialized?
+        /// </summary>
+        public bool Materialized { get; set; }
+
+        /// <summary>
+        /// Serial number.
+        /// </summary>
+        public int SerialNumber { get; set; }
+
+        /// <summary>
         /// MFN.
         /// </summary>
         public int Mfn { get; set; }
