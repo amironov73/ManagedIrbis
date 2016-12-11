@@ -1,4 +1,7 @@
-﻿/* CalendarColumn.cs -- column of DataGridViewCalendarCell's
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* CalendarColumn.cs -- column of DataGridViewCalendarCell's
    Ars Magna project, http://library.istu.edu/am */
 
 #region Using directives

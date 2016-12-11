@@ -147,7 +147,7 @@
     <Compile Include="AM\Windows\Forms\DragMoveProvider.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="AM\Windows\Forms\DragMoveProvider.designer.cs">
+    <Compile Include="AM\Windows\Forms\DragMoveProvider.Designer.cs">
       <DependentUpon>DragMoveProvider.cs</DependentUpon>
     </Compile>
     <Compile Include="AM\Windows\Forms\DragMoveUtility.cs" />

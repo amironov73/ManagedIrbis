@@ -1,4 +1,7 @@
-﻿/* JogControl.cs --
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* JogControl.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -65,10 +68,9 @@ namespace AM.Windows.Forms
                 {
                     _angle -= 360;
                 }
-                if (AngleChanged != null)
-                {
-                    AngleChanged(this, EventArgs.Empty);
-                }
+
+                AngleChanged.Raise(this, EventArgs.Empty);
+
                 Invalidate();
             }
         }
@@ -216,9 +218,9 @@ namespace AM.Windows.Forms
         {
             if (Capture)
             {
-                float x = e.X - Width / 2;
-                float y = e.Y - Height / 2;
-                if (x == 0)
+                float x = e.X - (float)Width / 2;
+                float y = e.Y - (float)Height / 2;
+                if (x == 0) //-V3024
                 {
                 }
                 else

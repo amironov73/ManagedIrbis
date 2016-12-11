@@ -1,4 +1,7 @@
-﻿/* RainbowControl.cs -- 
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* RainbowControl.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -89,12 +92,12 @@ namespace AM.Windows.Forms
             {
                 return;
             }
-            if (Items[0].Position != 0f)
+            if (Items[0].Position != 0f) //-v3024
             {
                 Items[0].Position = 0f;
             }
             RainbowItem last = Items[Items.Count - 1];
-            if (last.Position != 1f)
+            if (last.Position != 1f) //-v3024
             {
                 last.Position = 1f;
             }

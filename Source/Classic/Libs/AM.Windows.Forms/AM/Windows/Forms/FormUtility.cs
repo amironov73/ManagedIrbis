@@ -1,4 +1,7 @@
-﻿/* FormUtility.cs -- extension methods for System.Windows.Forms
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* FormUtility.cs -- extension methods for System.Windows.Forms
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
