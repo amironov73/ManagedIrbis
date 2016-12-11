@@ -10,8 +10,6 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -36,33 +34,33 @@ namespace AM.Windows.Forms
     public class RainbowControl
         : Control
     {
-        private RainbowItemList _items = new RainbowItemList();
-
         ///<summary>
         /// 
         ///</summary>
-        public RainbowItemList Items
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return _items;
-            }
-        }
+        [NotNull]
+        public RainbowItemList Items { get; private set; }
 
         //private Panel panel1;
         private Bitmap _triangle;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RainbowControl"/> class.
+        /// Initializes a new instance of the
+        /// <see cref="RainbowControl"/> class.
         /// </summary>
         public RainbowControl()
         {
             const float delta = 1.0f / 6.0f;
+
+            // ReSharper disable VirtualMemberCallInConstructor
             DoubleBuffered = true;
+            // ReSharper restore VirtualMemberCallInConstructor
+
+            Items = new RainbowItemList();
+
             ResizeRedraw = true;
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.UserPaint, true);
+            
             //InitializeComponent ();
             Items.Add(Color.Red, delta * 0f);
             Items.Add(Color.Orange, delta * 1f);
@@ -74,40 +72,61 @@ namespace AM.Windows.Forms
             using (Stream stream = Assembly.GetExecutingAssembly()
                 .GetManifestResourceStream("AM.Windows.Forms.Images.Triangle.bmp"))
             {
-                _triangle = (Bitmap)Image.FromStream(stream);
-                _triangle.MakeTransparent(_triangle.GetPixel(0, 0));
+                if (!ReferenceEquals(stream, null))
+                {
+                    _triangle = (Bitmap) Image.FromStream(stream);
+                    _triangle.MakeTransparent(_triangle.GetPixel(0, 0));
+                }
             }
         }
 
         private int _ItemPos(RainbowItem item)
         {
-            return ((int)(Width * item.Position) - _triangle.Width / 2);
+            return (int)(Width * item.Position) - _triangle.Width / 2;
         }
 
         /// <inheritdoc />
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint
+            (
+                PaintEventArgs e
+            )
         {
             Graphics g = e.Graphics;
             if (Items.Count < 2)
             {
                 return;
             }
+
+            // ReSharper disable CompareOfFloatsByEqualityOperator
             if (Items[0].Position != 0f) //-v3024
+            // ReSharper restore CompareOfFloatsByEqualityOperator
             {
                 Items[0].Position = 0f;
             }
+
             RainbowItem last = Items[Items.Count - 1];
+            // ReSharper disable CompareOfFloatsByEqualityOperator
             if (last.Position != 1f) //-v3024
+            // ReSharper restore CompareOfFloatsByEqualityOperator
             {
                 last.Position = 1f;
             }
+
             Rectangle r = ClientRectangle;
             r.Height -= _triangle.Height;
-            using (LinearGradientBrush brush = new LinearGradientBrush(
-                r, Items[0].Color, Items[Items.Count - 1].Color, 0f))
+            using (LinearGradientBrush brush = new LinearGradientBrush
+                (
+                    r,
+                    Items[0].Color,
+                    Items[Items.Count - 1].Color,
+                    0f
+                ))
             {
-                ColorBlend blend = new ColorBlend(Items.Count);
-                blend.Colors = new Color[Items.Count];
+                ColorBlend blend = new ColorBlend(Items.Count)
+                {
+                    Colors = new Color[Items.Count]
+                };
+
                 for (int i = 0; i < Items.Count; i++)
                 {
                     blend.Colors[i] = Items[i].Color;
@@ -127,8 +146,14 @@ namespace AM.Windows.Forms
             }
             if (_drawMouse)
             {
-                g.DrawLine(Pens.LightGray, _mousePos, 0, _mousePos,
-                    Height);
+                g.DrawLine
+                    (
+                        Pens.LightGray,
+                        _mousePos,
+                        0,
+                        _mousePos,
+                        Height
+                    );
             }
             base.OnPaint(e);
         }
@@ -137,7 +162,10 @@ namespace AM.Windows.Forms
         private int _startX, _minX, _maxX;
 
         /// <inheritdoc />
-        protected override void OnMouseDown(MouseEventArgs e)
+        protected override void OnMouseDown
+            (
+                MouseEventArgs e
+            )
         {
             bool moving = false;
             int previousIndex = 0;
@@ -146,9 +174,9 @@ namespace AM.Windows.Forms
             {
                 RainbowItem item = Items[index];
                 int pos = _ItemPos(item);
-                if ((e.X >= pos) && (e.X <= (pos + _triangle.Width)))
+                if ((e.X >= pos) && (e.X <= pos + _triangle.Width))
                 {
-                    if ((index > 0) && (index < (Items.Count - 1)))
+                    if ((index > 0) && (index < Items.Count - 1))
                     {
                         Capture = true;
                         _moving = item;
@@ -181,7 +209,10 @@ namespace AM.Windows.Forms
         }
 
         /// <inheritdoc />
-        protected override void OnMouseUp(MouseEventArgs e)
+        protected override void OnMouseUp
+            (
+                MouseEventArgs e
+            )
         {
             Capture = false;
             _moving = null;
@@ -192,14 +223,20 @@ namespace AM.Windows.Forms
         private bool _drawMouse;
 
         /// <inheritdoc />
-        protected override void OnMouseEnter(EventArgs e)
+        protected override void OnMouseEnter
+            (
+                EventArgs e
+            )
         {
             _drawMouse = true;
             base.OnMouseEnter(e);
         }
 
         /// <inheritdoc />
-        protected override void OnMouseLeave(EventArgs e)
+        protected override void OnMouseLeave
+            (
+                EventArgs e
+            )
         {
             _drawMouse = false;
             Invalidate();
@@ -207,7 +244,10 @@ namespace AM.Windows.Forms
         }
 
         /// <inheritdoc />
-        protected override void OnMouseMove(MouseEventArgs e)
+        protected override void OnMouseMove
+            (
+                MouseEventArgs e
+            )
         {
             if (Capture)
             {
@@ -236,16 +276,21 @@ namespace AM.Windows.Forms
         }
 
         /// <inheritdoc />
-        protected override void OnMouseDoubleClick(MouseEventArgs mea)
+        protected override void OnMouseDoubleClick
+            (
+                MouseEventArgs mea
+            )
         {
             foreach (RainbowItem item in Items)
             {
                 int pos = _ItemPos(item);
-                if ((mea.X >= pos) && (mea.X <= (pos + _triangle.Width)))
+                if ((mea.X >= pos) && (mea.X <= pos + _triangle.Width))
                 {
-                    ColorDialog dialog = new ColorDialog();
-                    dialog.FullOpen = true;
-                    dialog.Color = item.Color;
+                    ColorDialog dialog = new ColorDialog
+                    {
+                        FullOpen = true,
+                        Color = item.Color
+                    };
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
                         item.Color = dialog.Color;

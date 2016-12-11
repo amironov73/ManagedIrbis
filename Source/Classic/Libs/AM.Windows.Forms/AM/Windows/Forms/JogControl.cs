@@ -220,7 +220,10 @@ namespace AM.Windows.Forms
             {
                 float x = e.X - (float)Width / 2;
                 float y = e.Y - (float)Height / 2;
+                
+                // ReSharper disable CompareOfFloatsByEqualityOperator
                 if (x == 0) //-V3024
+                // ReSharper restore CompareOfFloatsByEqualityOperator
                 {
                 }
                 else
