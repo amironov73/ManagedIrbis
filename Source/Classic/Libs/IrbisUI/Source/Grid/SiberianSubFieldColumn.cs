@@ -43,7 +43,7 @@ namespace IrbisUI.Grid
         /// </summary>
         public SiberianSubFieldColumn()
         {
-            BackColor = Color.White;
+            Palette.BackColor = Color.White;
         }
 
         #endregion

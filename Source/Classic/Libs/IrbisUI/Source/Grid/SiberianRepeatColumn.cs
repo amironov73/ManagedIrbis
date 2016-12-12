@@ -56,7 +56,8 @@ namespace IrbisUI.Grid
             MinWidth = 30;
             Width = 30;
             ReadOnly = true;
-            BackColor = Color.DarkGray;
+
+            Palette.BackColor = Color.DarkGray;
         }
 
         #endregion

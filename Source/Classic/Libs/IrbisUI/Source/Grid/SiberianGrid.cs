@@ -55,6 +55,30 @@ namespace IrbisUI.Grid
 
         #region Properties
 
+        /// <inheritdoc/>
+        public override Color BackColor
+        {
+            get { return Palette.BackColor; }
+            set
+            {
+                Palette.BackColor = value;
+                OnBackColorChanged(EventArgs.Empty);
+                Invalidate();
+            }
+        }
+
+        /// <inheritdoc/>
+        public override Color ForeColor
+        {
+            get { return Palette.ForeColor; }
+            set
+            {
+                Palette.ForeColor = value;
+                OnForeColorChanged(EventArgs.Empty);
+                Invalidate();
+            }
+        }
+
         /// <summary>
         /// Columns.
         /// </summary>
@@ -106,9 +130,10 @@ namespace IrbisUI.Grid
         public int HeaderHeight { get; set; }
 
         /// <summary>
-        /// Line color.
+        /// Palette.
         /// </summary>
-        public Color LineColor { get; set; }
+        [NotNull]
+        public SiberianPalette Palette { get; set; }
 
         #endregion
 
@@ -120,6 +145,8 @@ namespace IrbisUI.Grid
         public SiberianGrid()
         {
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
+
+            Palette = SiberianPalette.DefaultPalette.Clone();
 
             Columns = new NonNullCollection<SiberianColumn>();
             Rows = new NonNullCollection<SiberianRow>();
@@ -152,7 +179,7 @@ namespace IrbisUI.Grid
             SetStyle(ControlStyles.UserMouse, true);
 
             BackColor = Color.DarkGray;
-            LineColor = Color.Gray;
+            Palette.LineColor = Color.Gray;
             ForeColor = Color.Black;
 
             HeaderHeight = SiberianRow.DefaultHeight;

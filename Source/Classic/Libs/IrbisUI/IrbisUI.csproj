@@ -165,6 +165,7 @@
     <Compile Include="Source\Grid\SiberianMenuCommentCell.cs" />
     <Compile Include="Source\Grid\SiberianMenuCommentColumn.cs" />
     <Compile Include="Source\Grid\SiberianMenuGrid.cs" />
+    <Compile Include="Source\Grid\SiberianOptions.cs" />
     <Compile Include="Source\Grid\SiberianPalette.cs" />
     <Compile Include="Source\Grid\SiberianRepeatCell.cs" />
     <Compile Include="Source\Grid\SiberianRepeatColumn.cs" />

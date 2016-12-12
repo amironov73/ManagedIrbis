@@ -39,7 +39,8 @@ namespace IrbisUI.Grid
         public SiberianFoundDescriptionColumn()
         {
             ReadOnly = true;
-            BackColor = Color.White;
+
+            Palette.BackColor = Color.White;
         }
 
         #endregion

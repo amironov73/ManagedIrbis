@@ -45,7 +45,6 @@ namespace IrbisUI.Grid
             get { return new Size(640, 375); }
         }
 
-
         /// <inheritdoc />
         protected override bool IsInputKey
             (
@@ -256,7 +255,7 @@ namespace IrbisUI.Grid
             }
 
             x = 0;
-            using (Brush lineBrush = new SolidBrush(LineColor))
+            using (Brush lineBrush = new SolidBrush(Palette.LineColor))
             using (Pen pen = new Pen(lineBrush))
             {
                 // Рисуем линию, отделяющую заголовки от содержимого колонок

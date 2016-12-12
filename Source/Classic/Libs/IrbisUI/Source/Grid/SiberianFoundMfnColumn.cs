@@ -47,7 +47,8 @@ namespace IrbisUI.Grid
         public SiberianFoundMfnColumn()
         {
             ReadOnly = true;
-            BackColor = Color.LightGray;
+
+            Palette.BackColor = Color.LightGray;
         }
 
         #endregion

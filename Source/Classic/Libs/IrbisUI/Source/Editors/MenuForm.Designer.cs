@@ -76,7 +76,6 @@
             this._grid.Dock = System.Windows.Forms.DockStyle.Fill;
             this._grid.ForeColor = System.Drawing.Color.Black;
             this._grid.HeaderHeight = 26;
-            this._grid.LineColor = System.Drawing.Color.Gray;
             this._grid.Location = new System.Drawing.Point(0, 0);
             this._grid.Name = "_grid";
             this._grid.Size = new System.Drawing.Size(468, 253);

@@ -100,17 +100,56 @@ namespace IrbisUI.Grid
         [JsonProperty("selected-fore-color")]
         public Color SelectedForeColor { get; set; }
 
+        /// <summary>
+        /// Default palette.
+        /// </summary>
+        [NotNull]
+        public static SiberianPalette DefaultPalette { get { return _defaultPalette; } }
+
         #endregion
 
         #region Construction
+
+        static SiberianPalette()
+        {
+            _defaultPalette = new SiberianPalette
+            {
+                Name = "Default",
+                
+                BackColor = Color.White,
+                ForeColor = Color.Black,
+
+                HeaderBackColor = Color.LightGray,
+                HeaderForeColor = Color.Black,
+
+                LineColor = Color.Gray,
+
+                DisabledBackColor = Color.White,
+                DisabledForeColor = Color.DarkGray,
+
+                SelectedBackColor = Color.Blue,
+                SelectedForeColor = Color.White
+            };
+        }
 
         #endregion
 
         #region Private members
 
+        private static readonly SiberianPalette _defaultPalette;
+
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Clone the palette.
+        /// </summary>
+        [NotNull]
+        public SiberianPalette Clone()
+        {
+            return (SiberianPalette) MemberwiseClone();
+        }
 
         #endregion
 

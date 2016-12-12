@@ -53,8 +53,9 @@ namespace IrbisUI.Grid
         public SiberianTermTextColumn()
         {
             ReadOnly = true;
-            BackColor = Color.White;
-            ForeColor = Color.Black;
+
+            Palette.BackColor = Color.White;
+            Palette.ForeColor = Color.Black;
         }
 
         #endregion
