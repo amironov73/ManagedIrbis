@@ -170,6 +170,7 @@ namespace IrbisUI.Grid
             };
             Controls.Add(_verticalScroll);
             _verticalScroll.Scroll += _verticalScroll_Scroll;
+            _toolTip = new ToolTip();
 
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
@@ -196,6 +197,9 @@ namespace IrbisUI.Grid
         private int _topRow;
 
         private bool _autoSizeWatch;
+
+        private readonly ToolTip _toolTip;
+        private string _previousToolTipText;
 
         internal void AutoSizeColumns()
         {

@@ -94,6 +94,23 @@ namespace IrbisUI.Grid
             }
         }
 
+        protected internal override void HandleToolTip
+            (
+                SiberianToolTipEventArgs eventArgs
+            )
+        {
+            base.HandleToolTip(eventArgs);
+
+            if (string.IsNullOrEmpty(eventArgs.ToolTipText))
+            {
+                FoundLine found = (FoundLine)Row.Data;
+                if (!ReferenceEquals(found, null))
+                {
+                    eventArgs.ToolTipText = found.Description;
+                }
+            }
+        }
+
         #endregion
 
         #region Object members

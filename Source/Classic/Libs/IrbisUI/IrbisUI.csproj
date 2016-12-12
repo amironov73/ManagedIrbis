@@ -184,6 +184,7 @@
     <Compile Include="Source\Grid\SiberianTermTextColumn.cs" />
     <Compile Include="Source\Grid\SiberianTextCell.cs" />
     <Compile Include="Source\Grid\SiberianTextColumn.cs" />
+    <Compile Include="Source\Grid\SiberianToolTipEventArgs.cs" />
     <Compile Include="Source\IrbisBusyForm.cs">
       <SubType>Form</SubType>
     </Compile>

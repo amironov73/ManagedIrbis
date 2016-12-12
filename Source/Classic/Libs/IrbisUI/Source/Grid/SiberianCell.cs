@@ -48,6 +48,11 @@ namespace IrbisUI.Grid
         /// </summary>
         public event EventHandler<SiberianClickEventArgs> Click;
 
+        /// <summary>
+        /// Fired when tooltip needed.
+        /// </summary>
+        public event EventHandler<SiberianToolTipEventArgs> ToolTip;
+
         #endregion
 
         #region Properties
@@ -94,6 +99,14 @@ namespace IrbisUI.Grid
             )
         {
             Click.Raise(this, eventArgs);
+        }
+
+        protected internal virtual void HandleToolTip
+            (
+                [NotNull] SiberianToolTipEventArgs eventArgs
+            )
+        {
+            ToolTip.Raise();
         }
 
         #endregion

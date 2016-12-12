@@ -56,6 +56,19 @@ namespace IrbisUI.Grid
         }
 
         /// <inheritdoc/>
+        protected override void Dispose
+            (
+                bool disposing
+            )
+        {
+            base.Dispose(disposing);
+
+            _horizontalScroll.Dispose();
+            _verticalScroll.Dispose();
+            _toolTip.Dispose();
+        }
+
+        /// <inheritdoc/>
         protected override void OnKeyDown
             (
                 KeyEventArgs e
@@ -181,6 +194,34 @@ namespace IrbisUI.Grid
         //        }
         //    }
         //}
+
+        /// <inheritdoc/>
+        protected override void OnMouseMove
+            (
+                MouseEventArgs e
+            )
+        {
+            base.OnMouseMove(e);
+
+            SiberianCell cell = FindCell(e.X, e.Y);
+            if (!ReferenceEquals(cell, null))
+            {
+                SiberianToolTipEventArgs eventArgs = new SiberianToolTipEventArgs
+                {
+                    Grid = this,
+                    X = e.X,
+                    Y = e.Y
+                };
+
+                cell.HandleToolTip(eventArgs);
+
+                if (eventArgs.ToolTipText != _previousToolTipText)
+                {
+                    _previousToolTipText = eventArgs.ToolTipText;
+                    _toolTip.SetToolTip(this, _previousToolTipText);
+                }
+            }
+        }
 
         /// <inheritdoc/>
         protected override void OnMouseWheel
