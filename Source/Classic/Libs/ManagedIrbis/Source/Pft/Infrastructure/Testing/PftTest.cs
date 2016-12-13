@@ -161,7 +161,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     result.Description = description;
                 }
 
-                string recordFile = GetFullName(RecordFileName);
+                string recordFile = GetFullName(RecordFileName)
+                    .ThrowIfNull("GetFullName");
                 MarcRecord record = PlainText.ReadOneRecord
                     (
                         recordFile,
@@ -206,7 +207,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 string expected = null;
                 if (File.Exists(expectedFile))
                 {
-                    expected= File.ReadAllText
+                    expected = File.ReadAllText
                         (
                             expectedFile,
                             IrbisEncoding.Utf8
@@ -216,14 +217,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     result.Expected = expected;
                 }
 
-                PftFormatter formatter = new PftFormatter
+                string output;
+                using (PftFormatter formatter = new PftFormatter
                 {
                     Program = program
-                };
-                formatter.SetEnvironment(Environment);
-                string output = formatter.Format(record)
-                    .DosToUnix()
-                    .ThrowIfNull("output");
+                })
+                {
+                    formatter.SetEnvironment(Environment);
+                    output = formatter.Format(record)
+                        .DosToUnix()
+                        .ThrowIfNull("output");
+                }
                 result.Output = output;
                 Console.WriteLine(output);
 

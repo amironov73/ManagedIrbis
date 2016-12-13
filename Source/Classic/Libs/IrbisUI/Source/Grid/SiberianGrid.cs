@@ -140,6 +140,22 @@ namespace IrbisUI.Grid
         [NotNull]
         public SiberianPalette Palette { get; set; }
 
+        /// <summary>
+        /// Usable size of the control.
+        /// </summary>
+        public Size UsableSize
+        {
+            get
+            {
+                Size result = ClientSize;
+
+                result.Width -= _verticalScroll.Width;
+                result.Height -= _horizontalScroll.Height;
+
+                return result;
+            }
+        }
+
         #endregion
 
         #region Construction
@@ -395,22 +411,6 @@ namespace IrbisUI.Grid
         }
 
         /// <summary>
-        /// Usable size.
-        /// </summary>
-        public Size UsableSize
-        {
-            get
-            {
-                Size result = ClientSize;
-
-                result.Width -= _verticalScroll.Width;
-                result.Height -= _horizontalScroll.Height;
-
-                return result;
-            }
-        }
-
-        /// <summary>
         /// Create row.
         /// </summary>
         [NotNull]
@@ -440,6 +440,20 @@ namespace IrbisUI.Grid
 
             CurrentCell.CloseEditor(accept);
             Invalidate();
+        }
+
+        /// <summary>
+        /// Get count of visible rows.
+        /// </summary>
+        public int CountVisibleRows()
+        {
+            Size usableSize = UsableSize;
+
+            int result = (usableSize.Height - HeaderHeight)
+                / SiberianRow.DefaultHeight;
+            result = Math.Max(result, 1);
+
+            return result;
         }
 
         /// <summary>
@@ -834,9 +848,7 @@ namespace IrbisUI.Grid
                     }
                 }
 
-                int visibleRows = (usableSize.Height - HeaderHeight)
-                    / SiberianRow.DefaultHeight;
-                visibleRows = Math.Max(visibleRows, 1);
+                int visibleRows = CountVisibleRows();
                 _verticalScroll.LargeChange = visibleRows;
 
                 Invalidate();
