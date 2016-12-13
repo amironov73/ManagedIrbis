@@ -24,16 +24,36 @@ namespace IrbisUI.Grid
         /// <summary>
         /// Editable.
         /// </summary>
-        Editable = 0x01,
+        Editable = 0x0001,
 
         /// <summary>
         /// Selectable.
         /// </summary>
-        Selectable = 0x02,
+        Selectable = 0x0002,
 
         /// <summary>
         /// Resizeable.
         /// </summary>
-        Resizeable = 0x04
+        Resizeable = 0x0004,
+
+        /// <summary>
+        /// Can grow horizontally.
+        /// </summary>
+        CanGrowHorizontally = 0x0008,
+
+        /// <summary>
+        /// Can shrink horizontally.
+        /// </summary>
+        CanShrinkHorizontally = 0x0010,
+
+        /// <summary>
+        /// Can grow vertically.
+        /// </summary>
+        CanGrowVertically = 0x0020,
+
+        /// <summary>
+        /// Can shrink vertically.
+        /// </summary>
+        CanShrinkVertically = 0x0040
     }
 }

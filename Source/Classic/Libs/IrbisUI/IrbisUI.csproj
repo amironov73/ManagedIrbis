@@ -128,6 +128,7 @@
     <Compile Include="Source\FoundPanel.Designer.cs">
       <DependentUpon>FoundPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\Grid\SiberianDimensions.cs" />
     <Compile Include="Source\Grid\SiberianFoundCheckCell.cs" />
     <Compile Include="Source\Grid\SiberianFoundCheckColumn.cs" />
     <Compile Include="Source\Grid\SiberianFoundDescriptionCell.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="Source\Grid\SiberianFoundIconColumn.cs" />
     <Compile Include="Source\Grid\SiberianFoundMfnCell.cs" />
     <Compile Include="Source\Grid\SiberianFoundMfnColumn.cs" />
+    <Compile Include="Source\Grid\SiberianMeasureEventArgs.cs" />
     <Compile Include="Source\Grid\SiberianMenuCodeCell.cs" />
     <Compile Include="Source\Grid\SiberianButtonCell.cs" />
     <Compile Include="Source\Grid\SiberianButtonColumn.cs" />
@@ -185,6 +187,7 @@
     <Compile Include="Source\Grid\SiberianTextCell.cs" />
     <Compile Include="Source\Grid\SiberianTextColumn.cs" />
     <Compile Include="Source\Grid\SiberianToolTipEventArgs.cs" />
+    <Compile Include="Source\Grid\SiberianUtility.cs" />
     <Compile Include="Source\IrbisBusyForm.cs">
       <SubType>Form</SubType>
     </Compile>

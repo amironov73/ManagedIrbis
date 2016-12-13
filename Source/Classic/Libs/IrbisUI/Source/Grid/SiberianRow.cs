@@ -157,6 +157,30 @@ namespace IrbisUI.Grid
         }
 
         /// <summary>
+        /// Measure cells.
+        /// </summary>
+        public virtual void MeasureCells()
+        {
+            int height = Height;
+
+            foreach (SiberianCell cell in Cells)
+            {
+                SiberianDimensions dimensions = new SiberianDimensions
+                {
+                    Width = cell.Column.Width,
+                    Height = height
+                };
+
+                cell.MeasureContent(dimensions);
+            }
+
+            if (height > Height)
+            {
+                Height = height;
+            }
+        }
+
+        /// <summary>
         /// Handles click on the row.
         /// </summary>
         public virtual void OnClick
