@@ -12,6 +12,8 @@
 using System.Drawing;
 using System.Windows.Forms;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis.Search;
@@ -94,11 +96,14 @@ namespace IrbisUI.Grid
             }
         }
 
+        /// <inheritdoc/>
         protected internal override void HandleToolTip
             (
                 SiberianToolTipEventArgs eventArgs
             )
         {
+            Code.NotNull(eventArgs, "eventArgs");
+
             base.HandleToolTip(eventArgs);
 
             if (string.IsNullOrEmpty(eventArgs.ToolTipText))

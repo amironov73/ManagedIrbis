@@ -51,6 +51,11 @@ namespace IrbisUI.Grid
         /// </summary>
         public event EventHandler<SiberianClickEventArgs> GridClick;
 
+        /// <summary>
+        /// Fired on navigation.
+        /// </summary>
+        public event EventHandler<SiberianNavigationEventArgs> Navigation;
+
         #endregion
 
         #region Properties
@@ -349,6 +354,44 @@ namespace IrbisUI.Grid
                     CurrentColumn.Index,
                     value
                 );
+        }
+
+        protected internal virtual bool HandleNavigation
+            (
+                ref int column,
+                ref int row
+            )
+        {
+            int oldColumn = ReferenceEquals(CurrentColumn, null)
+                ? -1
+                : CurrentColumn.Index;
+            int oldRow = ReferenceEquals(CurrentRow, null)
+                ? -1
+                : CurrentRow.Index;
+
+            EventHandler<SiberianNavigationEventArgs> handler = Navigation;
+            if (!ReferenceEquals(handler, null))
+            {
+                SiberianNavigationEventArgs eventArgs = new SiberianNavigationEventArgs
+                {
+                    OldColumn = oldColumn,
+                    OldRow = oldRow,
+                    NewColumn = column,
+                    NewRow = row
+                };
+
+                handler(this, eventArgs);
+
+                column = eventArgs.NewColumn;
+                row = eventArgs.NewRow;
+
+                if (eventArgs.Cancel)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -687,6 +730,19 @@ namespace IrbisUI.Grid
         {
             CloseEditor(true);
 
+            SiberianCell result;
+
+            if (!HandleNavigation
+                (
+                    ref column,
+                    ref row
+                ))
+            {
+                result = GetCell(column, row);
+
+                return result;
+            }
+
             if (column >= Columns.Count)
             {
                 column = Columns.Count - 1;
@@ -704,7 +760,7 @@ namespace IrbisUI.Grid
                 row = 0;
             }
 
-            SiberianCell result = GetCell(column, row);
+            result = GetCell(column, row);
 
             if (!ReferenceEquals(result, null))
             {
