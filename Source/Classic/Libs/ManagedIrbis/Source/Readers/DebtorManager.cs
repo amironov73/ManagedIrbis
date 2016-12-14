@@ -95,6 +95,9 @@ namespace ManagedIrbis.Readers
         {
             // TODO implement
 
+            //ReaderManager manager = new ReaderManager(Connection);
+            //ReaderInfo[] readers = manager.GetAllReaders("RDR");
+
             return new DebtorInfo[0];
         }
 

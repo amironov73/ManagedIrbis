@@ -109,7 +109,6 @@ namespace ManagedIrbis.Batch
             Connection = connection;
             Database = database;
             BatchSize = batchSize;
-            //_syncRoot = new object();
 
             _packages = range.Slice(batchSize).ToArray();
             TotalRecords = _packages.Sum(p => p.Length);
@@ -287,9 +286,7 @@ namespace ManagedIrbis.Batch
 
         #region IEnumerable members
 
-        /// <summary>
-        /// Get enumerator.
-        /// </summary>
+        /// <inheritdoc/>
         public IEnumerator<MarcRecord> GetEnumerator()
         {
             foreach (int[] package in _packages)
