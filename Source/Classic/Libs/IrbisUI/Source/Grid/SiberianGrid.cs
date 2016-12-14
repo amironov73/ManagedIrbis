@@ -149,12 +149,24 @@ namespace IrbisUI.Grid
             {
                 Size result = ClientSize;
 
-                result.Width -= _verticalScroll.Width;
-                result.Height -= _horizontalScroll.Height;
+                if (!ReferenceEquals(_verticalScroll, null))
+                {
+                    result.Width -= _verticalScroll.Width;
+                }
+
+                if (!ReferenceEquals(_horizontalScroll, null))
+                {
+                    result.Height -= _horizontalScroll.Height;
+                }
 
                 return result;
             }
         }
+
+        /// <summary>
+        /// Count of visible rows.
+        /// </summary>
+        public int VisibleRows { get { return _visibleRows; } }
 
         #endregion
 
@@ -172,25 +184,10 @@ namespace IrbisUI.Grid
             Columns = new NonNullCollection<SiberianColumn>();
             Rows = new NonNullCollection<SiberianRow>();
 
+            CreateScrollBars();
+
             DoubleBuffered = true;
 
-            _horizontalScroll = new HScrollBar
-            {
-                AutoSize = false,
-                Dock = DockStyle.Bottom,
-                SmallChange = 1
-            };
-            Controls.Add(_horizontalScroll);
-            _horizontalScroll.Scroll += _horizontalScroll_Scroll;
-
-            _verticalScroll = new VScrollBar
-            {
-                AutoSize = false,
-                Dock = DockStyle.Right,
-                SmallChange = 1
-            };
-            Controls.Add(_verticalScroll);
-            _verticalScroll.Scroll += _verticalScroll_Scroll;
             _toolTip = new ToolTip();
 
             SetStyle(ControlStyles.ResizeRedraw, true);
@@ -211,8 +208,8 @@ namespace IrbisUI.Grid
 
         #region Private members
 
-        private readonly ScrollBar _horizontalScroll;
-        private readonly ScrollBar _verticalScroll;
+        private ScrollBar _horizontalScroll;
+        private ScrollBar _verticalScroll;
 
         private int _leftColumn;
         private int _topRow;
@@ -221,6 +218,8 @@ namespace IrbisUI.Grid
 
         private readonly ToolTip _toolTip;
         private string _previousToolTipText;
+
+        private int _visibleRows;
 
         internal void AutoSizeColumns()
         {
@@ -267,6 +266,41 @@ namespace IrbisUI.Grid
             }
         }
 
+        /// <summary>
+        /// Create row.
+        /// </summary>
+        [NotNull]
+        protected virtual SiberianRow CreateRow()
+        {
+            SiberianRow result = new SiberianRow();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Create scroll bars.
+        /// </summary>
+        protected virtual void CreateScrollBars()
+        {
+            _horizontalScroll = new HScrollBar
+            {
+                AutoSize = false,
+                Dock = DockStyle.Bottom,
+                SmallChange = 1
+            };
+            Controls.Add(_horizontalScroll);
+            _horizontalScroll.Scroll += _horizontalScroll_Scroll;
+
+            _verticalScroll = new VScrollBar
+            {
+                AutoSize = false,
+                Dock = DockStyle.Right,
+                SmallChange = 1
+            };
+            Controls.Add(_verticalScroll);
+            _verticalScroll.Scroll += _verticalScroll_Scroll;
+        }
+
         private int _DoScroll
             (
                 ScrollBar scrollBar,
@@ -275,47 +309,50 @@ namespace IrbisUI.Grid
         {
             int result = args.OldValue;
 
-            switch (args.Type)
+            if (!ReferenceEquals(scrollBar, null))
             {
-                case ScrollEventType.First:
-                    result = scrollBar.Minimum;
-                    break;
+                switch (args.Type)
+                {
+                    case ScrollEventType.First:
+                        result = scrollBar.Minimum;
+                        break;
 
-                case ScrollEventType.LargeDecrement:
-                    result -= scrollBar.LargeChange;
-                    break;
+                    case ScrollEventType.LargeDecrement:
+                        result -= scrollBar.LargeChange;
+                        break;
 
-                case ScrollEventType.LargeIncrement:
-                    result += scrollBar.LargeChange;
-                    break;
+                    case ScrollEventType.LargeIncrement:
+                        result += scrollBar.LargeChange;
+                        break;
 
-                case ScrollEventType.Last:
-                    result = scrollBar.Maximum;
-                    break;
+                    case ScrollEventType.Last:
+                        result = scrollBar.Maximum;
+                        break;
 
-                case ScrollEventType.SmallDecrement:
-                    result -= scrollBar.SmallChange;
-                    break;
+                    case ScrollEventType.SmallDecrement:
+                        result -= scrollBar.SmallChange;
+                        break;
 
-                case ScrollEventType.SmallIncrement:
-                    result += scrollBar.SmallChange;
-                    break;
+                    case ScrollEventType.SmallIncrement:
+                        result += scrollBar.SmallChange;
+                        break;
 
-                case ScrollEventType.EndScroll:
-                    result = args.NewValue;
-                    break;
+                    case ScrollEventType.EndScroll:
+                        result = args.NewValue;
+                        break;
 
-                case ScrollEventType.ThumbPosition:
-                    result = args.NewValue;
-                    break;
+                    case ScrollEventType.ThumbPosition:
+                        result = args.NewValue;
+                        break;
 
-                case ScrollEventType.ThumbTrack:
-                    result = args.NewValue;
-                    break;
+                    case ScrollEventType.ThumbTrack:
+                        result = args.NewValue;
+                        break;
+                }
+
+                result = Math.Max(result, scrollBar.Minimum);
+                result = Math.Min(result, scrollBar.Maximum);
             }
-
-            result = Math.Max(result, scrollBar.Minimum);
-            result = Math.Min(result, scrollBar.Maximum);
 
             return result;
         }
@@ -410,17 +447,6 @@ namespace IrbisUI.Grid
             return true;
         }
 
-        /// <summary>
-        /// Create row.
-        /// </summary>
-        [NotNull]
-        protected virtual SiberianRow CreateRow()
-        {
-            SiberianRow result = new SiberianRow();
-
-            return result;
-        }
-
         #endregion
 
         #region Public methods
@@ -483,8 +509,11 @@ namespace IrbisUI.Grid
 
             Columns.Add(result);
 
-            _horizontalScroll.Maximum = Columns.Count;
-            _horizontalScroll.Value = CurrentColumn.Index;
+            if (!ReferenceEquals(_horizontalScroll, null))
+            {
+                _horizontalScroll.Maximum = Columns.Count;
+                _horizontalScroll.Value = CurrentColumn.Index;
+            }
 
             if (ReferenceEquals(CurrentCell, null))
             {
@@ -570,8 +599,11 @@ namespace IrbisUI.Grid
 
             Rows.Add(result);
 
-            _verticalScroll.Maximum = Rows.Count;
-            _verticalScroll.Value = CurrentRow.Index;
+            if (!ReferenceEquals(_verticalScroll, null))
+            {
+                _verticalScroll.Maximum = Rows.Count;
+                _verticalScroll.Value = CurrentRow.Index;
+            }
 
             if (ReferenceEquals(CurrentCell, null))
             {
@@ -784,11 +816,17 @@ namespace IrbisUI.Grid
                 CurrentColumn = result.Column;
                 CurrentCell = result;
 
-                _horizontalScroll.Maximum = Columns.Count;
-                _horizontalScroll.Value = CurrentColumn.Index;
+                if (!ReferenceEquals(_horizontalScroll, null))
+                {
+                    _horizontalScroll.Maximum = Columns.Count;
+                    _horizontalScroll.Value = CurrentColumn.Index;
+                }
 
-                _verticalScroll.Maximum = Rows.Count;
-                _verticalScroll.Value = CurrentRow.Index;
+                if (!ReferenceEquals(_verticalScroll, null))
+                {
+                    _verticalScroll.Maximum = Rows.Count;
+                    _verticalScroll.Value = CurrentRow.Index;
+                }
 
                 if (CurrentColumn.Index < _leftColumn)
                 {
@@ -848,8 +886,11 @@ namespace IrbisUI.Grid
                     }
                 }
 
-                int visibleRows = CountVisibleRows();
-                _verticalScroll.LargeChange = visibleRows;
+                _visibleRows = CountVisibleRows();
+                if (!ReferenceEquals(_verticalScroll, null))
+                {
+                    _verticalScroll.LargeChange = _visibleRows;
+                }
 
                 Invalidate();
             }
@@ -932,7 +973,11 @@ namespace IrbisUI.Grid
         [CanBeNull]
         public SiberianCell MoveOnePageDown()
         {
-            SiberianCell result = MoveRelative(0, _verticalScroll.LargeChange);
+            int delta = ReferenceEquals(_verticalScroll, null)
+                ? 10
+                : _verticalScroll.LargeChange;
+
+            SiberianCell result = MoveRelative(0, delta);
 
             return result;
         }
@@ -943,7 +988,11 @@ namespace IrbisUI.Grid
         [CanBeNull]
         public SiberianCell MoveOnePageUp()
         {
-            SiberianCell result = MoveRelative(0, -_verticalScroll.LargeChange);
+            int delta = ReferenceEquals(_verticalScroll, null)
+                ? 10
+                : _verticalScroll.LargeChange;
+
+            SiberianCell result = MoveRelative(0, delta);
 
             return result;
         }

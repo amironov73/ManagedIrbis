@@ -63,9 +63,20 @@ namespace IrbisUI.Grid
         {
             base.Dispose(disposing);
 
-            _horizontalScroll.Dispose();
-            _verticalScroll.Dispose();
-            _toolTip.Dispose();
+            if (!ReferenceEquals(_horizontalScroll, null))
+            {
+                _horizontalScroll.Dispose();
+            }
+
+            if (!ReferenceEquals(_verticalScroll, null))
+            {
+                _verticalScroll.Dispose();
+            }
+
+            if (!ReferenceEquals(_toolTip, null))
+            {
+                _toolTip.Dispose();
+            }
         }
 
         /// <inheritdoc/>
