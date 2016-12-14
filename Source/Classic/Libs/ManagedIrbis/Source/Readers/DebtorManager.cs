@@ -15,6 +15,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
+using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -93,12 +95,50 @@ namespace ManagedIrbis.Readers
         /// </summary>
         public DebtorInfo[] GetDebtors()
         {
-            // TODO implement
+            ReaderManager manager = new ReaderManager(Connection);
+            ReaderInfo[] readers = manager.GetAllReaders("RDR");
+            List<DebtorInfo> result = new List<DebtorInfo>(readers.Length);
+            string fromDate = null;
+            if (FromDate.HasValue)
+            {
+                fromDate = IrbisDate.ConvertDateToString(FromDate.Value);
+            }
+            foreach (ReaderInfo reader in readers)
+            {
+                VisitInfo[] debt = ToDate.HasValue
+                    ? reader.Visits.GetDebt(ToDate.Value)
+                    : reader.Visits.GetDebt();
 
-            //ReaderManager manager = new ReaderManager(Connection);
-            //ReaderInfo[] readers = manager.GetAllReaders("RDR");
+                if (FromDate.HasValue)
+                {
+                    debt = debt.Where
+                        (
+                            loan => loan.DateExpectedString.SafeCompare(fromDate) >= 0
+                        )
+                        .ToArray();
+                }
 
-            return new DebtorInfo[0];
+                if (!string.IsNullOrEmpty(Department))
+                {
+                    debt = debt.Where
+                        (
+                            loan => loan.Department.SameString(Department)
+                        )
+                        .ToArray();
+                }
+
+                if (debt.Length != 0)
+                {
+                    DebtorInfo debtor = DebtorInfo.FromReader
+                        (
+                            reader,
+                            debt
+                        );
+                    result.Add(debtor);
+                }
+            }
+
+            return result.ToArray();
         }
 
         #endregion

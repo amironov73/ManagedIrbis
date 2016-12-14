@@ -163,7 +163,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [XmlArrayItem("exemplar")]
         [JsonProperty("exemplars")]
-        public ExemplarInfo[] Exemplars { get; set; }
+        public VisitInfo[] Debt { get; set; }
 
         #endregion
 
@@ -183,14 +183,33 @@ namespace ManagedIrbis.Readers
         [NotNull]
         public static DebtorInfo FromReader
             (
-                [NotNull] ReaderInfo reader
+                [NotNull] ReaderInfo reader,
+                [NotNull] VisitInfo[] debt
             )
         {
             Code.NotNull(reader, "reader");
 
-            DebtorInfo result = new DebtorInfo();
-
-            // TODO Implement
+            string address = null;
+            if (!ReferenceEquals(reader.Address, null))
+            {
+                address = reader.Address.ToString();
+            }
+            DebtorInfo result = new DebtorInfo
+            {
+                Name = reader.FullName,
+                DateOfBirth = reader.DateOfBirth,
+                Ticket = reader.Ticket,
+                Gender = reader.Gender,
+                Category = reader.Category,
+                Address = address,
+                WorkPlace = reader.WorkPlace,
+                Email = reader.Email,
+                HomePhone = reader.HomePhone,
+                Age = reader.Age,
+                Remarks = reader.Remarks,
+                Mfn = reader.Mfn,
+                Debt = debt
+            };
 
             return result;
         }
@@ -220,7 +239,7 @@ namespace ManagedIrbis.Readers
             Remarks = reader.ReadNullableString();
             Mfn = reader.ReadPackedInt32();
             Description = reader.ReadNullableString();
-            Exemplars = reader.ReadArray<ExemplarInfo>();
+            Debt = reader.ReadArray<VisitInfo>();
         }
 
         /// <inheritdoc />
@@ -244,7 +263,7 @@ namespace ManagedIrbis.Readers
                 .WritePackedInt32(Mfn)
                 .WriteNullable(Description);
 
-            Exemplars.SaveToStream(writer);
+            Debt.SaveToStream(writer);
         }
 
         #endregion
