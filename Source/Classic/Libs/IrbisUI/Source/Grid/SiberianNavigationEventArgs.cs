@@ -38,6 +38,7 @@ namespace IrbisUI.Grid
     [PublicAPI]
     [MoonSharpUserData]
     public class SiberianNavigationEventArgs
+        : EventArgs
     {
         #region Properties
 
