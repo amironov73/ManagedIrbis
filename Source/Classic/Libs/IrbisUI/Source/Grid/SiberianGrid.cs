@@ -409,6 +409,9 @@ namespace IrbisUI.Grid
                 );
         }
 
+        /// <summary>
+        /// Handle navigation (can cancel).
+        /// </summary>
         protected internal virtual bool HandleNavigation
             (
                 ref int column,
