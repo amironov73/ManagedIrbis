@@ -117,6 +117,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AM\AOT\Spelling\AffixEntry.cs" />
+    <Compile Include="AM\AOT\Spelling\AffixRule.cs" />
+    <Compile Include="AM\AOT\Spelling\AffixUtility.cs" />
     <Compile Include="AM\AOT\Stemming\MystemAnalysis.cs" />
     <Compile Include="AM\AOT\Stemming\MystemResult.cs" />
     <Compile Include="AM\AOT\Stemming\MystemRunner.cs" />
