@@ -107,13 +107,15 @@ namespace ManagedIrbis.Search
             {
                 return new SearchScenario[0];
             }
-            StringReader reader = new StringReader(text);
-            IniFile iniFile = new IniFile();
-            iniFile.Read(reader);
-            SearchScenario[] result
-                = SearchScenario.ParseIniFile(iniFile);
+            using (StringReader reader = new StringReader(text))
+            {
+                IniFile iniFile = new IniFile();
+                iniFile.Read(reader);
+                SearchScenario[] result
+                    = SearchScenario.ParseIniFile(iniFile);
 
-            return result;
+                return result;
+            }
         }
 
         /// <summary>
@@ -161,13 +163,14 @@ namespace ManagedIrbis.Search
 
                 foreach (FoundLine line in result)
                 {
-                    if (string.IsNullOrEmpty(line.Description))
+                    string description = line.Description;
+                    if (string.IsNullOrEmpty(description))
                     {
                         continue;
                     }
-                    if (line.Description.StartsWith(prefix))
+                    if (description.StartsWith(prefix))
                     {
-                        line.Description = line.Description
+                        line.Description = description
                             .Substring(prefixLength);
                     }
                 }

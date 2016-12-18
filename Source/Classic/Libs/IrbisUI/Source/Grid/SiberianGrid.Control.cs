@@ -45,7 +45,6 @@ namespace IrbisUI.Grid
             get { return new Size(640, 375); }
         }
 
-
         /// <inheritdoc />
         protected override bool IsInputKey
             (
@@ -54,6 +53,30 @@ namespace IrbisUI.Grid
         {
             // Enable all the keys.
             return true;
+        }
+
+        /// <inheritdoc/>
+        protected override void Dispose
+            (
+                bool disposing
+            )
+        {
+            base.Dispose(disposing);
+
+            if (!ReferenceEquals(_horizontalScroll, null))
+            {
+                _horizontalScroll.Dispose();
+            }
+
+            if (!ReferenceEquals(_verticalScroll, null))
+            {
+                _verticalScroll.Dispose();
+            }
+
+            if (!ReferenceEquals(_toolTip, null))
+            {
+                _toolTip.Dispose();
+            }
         }
 
         /// <inheritdoc/>
@@ -184,6 +207,34 @@ namespace IrbisUI.Grid
         //}
 
         /// <inheritdoc/>
+        protected override void OnMouseMove
+            (
+                MouseEventArgs e
+            )
+        {
+            base.OnMouseMove(e);
+
+            SiberianCell cell = FindCell(e.X, e.Y);
+            if (!ReferenceEquals(cell, null))
+            {
+                SiberianToolTipEventArgs eventArgs = new SiberianToolTipEventArgs
+                {
+                    Grid = this,
+                    X = e.X,
+                    Y = e.Y
+                };
+
+                cell.HandleToolTip(eventArgs);
+
+                if (eventArgs.ToolTipText != _previousToolTipText)
+                {
+                    _previousToolTipText = eventArgs.ToolTipText;
+                    _toolTip.SetToolTip(this, _previousToolTipText);
+                }
+            }
+        }
+
+        /// <inheritdoc/>
         protected override void OnMouseWheel
             (
                 MouseEventArgs e
@@ -256,7 +307,7 @@ namespace IrbisUI.Grid
             }
 
             x = 0;
-            using (Brush lineBrush = new SolidBrush(LineColor))
+            using (Brush lineBrush = new SolidBrush(Palette.LineColor))
             using (Pen pen = new Pen(lineBrush))
             {
                 // Рисуем линию, отделяющую заголовки от содержимого колонок

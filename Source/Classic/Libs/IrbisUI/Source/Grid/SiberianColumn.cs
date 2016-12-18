@@ -74,16 +74,6 @@ namespace IrbisUI.Grid
         #region Properties
 
         /// <summary>
-        /// Background color.
-        /// </summary>
-        public Color BackColor { get; set; }
-
-        /// <summary>
-        /// Foreground color.
-        /// </summary>
-        public Color ForeColor { get; set; }
-
-        /// <summary>
         /// Column index.
         /// </summary>
         public int Index { get; internal set; }
@@ -153,14 +143,14 @@ namespace IrbisUI.Grid
         public int MinWidth { get; set; }
 
         /// <summary>
-        /// Header back color.
+        /// Options.
         /// </summary>
-        public Color HeaderBackColor { get; set; }
+        public SiberianOptions Options { get; set; }
 
         /// <summary>
-        /// Header fore color.
+        /// Palette.
         /// </summary>
-        public Color HeaderForeColor { get; set; }
+        public SiberianPalette Palette { get; set; }
 
         #endregion
 
@@ -172,12 +162,11 @@ namespace IrbisUI.Grid
         // ReSharper disable once NotNullMemberIsNotInitialized
         protected SiberianColumn()
         {
-            BackColor = Color.Transparent;
             FillWidth = DefaultFillWidth;
             Width = DefaultWidth;
             MinWidth = DefaultMinWidth;
-            HeaderBackColor = Color.LightGray;
-            HeaderForeColor = Color.DarkBlue;
+
+            Palette = SiberianPalette.DefaultPalette.Clone();
         }
 
         #endregion
@@ -250,10 +239,10 @@ namespace IrbisUI.Grid
             Graphics graphics = args.Graphics;
             Rectangle rectangle = args.ClipRectangle;
 
-            if (BackColor != Color.Transparent
-                && BackColor != Color.Empty)
+            if (Palette.BackColor != Color.Transparent
+                && Palette.BackColor != Color.Empty)
             {
-                using (Brush brush = new SolidBrush(BackColor))
+                using (Brush brush = new SolidBrush(Palette.BackColor))
                 {
                     graphics.FillRectangle
                     (
@@ -286,7 +275,7 @@ namespace IrbisUI.Grid
             Graphics graphics = args.Graphics;
             Rectangle rectangle = args.ClipRectangle;
 
-            using (Brush brush = new SolidBrush(HeaderBackColor))
+            using (Brush brush = new SolidBrush(Palette.HeaderBackColor))
             {
                 graphics.FillRectangle(brush, rectangle);
             }
@@ -318,7 +307,7 @@ namespace IrbisUI.Grid
                         Title,
                         headerFont,
                         rectangle,
-                        HeaderForeColor,
+                        Palette.HeaderForeColor,
                         flags
                     );
             }

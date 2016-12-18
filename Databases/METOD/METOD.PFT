@@ -1,0 +1,22 @@
+'{',
+'{\fs18 Методическое решение ИОГУНБ}\par\par',
+'\qc{\fs24\b',v100^a,'}\par\par'
+if p(v100^b) and p(v100^c) then '\qrПринято {\ul ',v100^b,'}\par\qrна {\ul ', v100^c, '}\par\ql\par' fi,
+"\ql Статус: {\ul "v100^e"}\par\par",
+"\ql Субъекты: {\ul "v100^f"}\par\par",
+"\ql "v100^d"\par\par",
+"{\b Примечания:} "v100^z"\par\par",
+if p(v150) then '{\bНапример:}\par'
+(v150,'\par ')
+'\par'
+fi,
+if p(v200) then '{\bАвтор(ы):} '
+( v200^a+|, | ),
+'\par\par',
+fi,
+if p(v300) then '{\bИзменения и дополнения:}\par\par',
+( v300^a": ", v300^c, '\par ' )
+fi
+( v400, /, '\par' ),
+'\par\par '
+'}'

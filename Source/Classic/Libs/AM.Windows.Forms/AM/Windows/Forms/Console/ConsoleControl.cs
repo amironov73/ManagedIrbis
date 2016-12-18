@@ -1,4 +1,7 @@
-﻿/* ConsoleControl.cs --
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* ConsoleControl.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -1168,9 +1171,14 @@ namespace AM.Windows.Forms
                 bool disposing
             )
         {
-            if (_cursorTimer != null)
+            if (!ReferenceEquals(_cursorTimer, null))
             {
                 _cursorTimer.Dispose();
+            }
+
+            if (!ReferenceEquals(_italicFont, null))
+            {
+                _italicFont.Dispose();
             }
 
             base.Dispose(disposing);

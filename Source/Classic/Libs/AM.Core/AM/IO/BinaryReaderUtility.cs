@@ -431,6 +431,30 @@ namespace AM.IO
         }
 
         /// <summary>
+        /// Read nullable array of strings.
+        /// </summary>
+        [CanBeNull]
+        public static string[] ReadNullableStringArray
+            (
+                [NotNull] this BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            if (reader.ReadBoolean())
+            {
+                int count = reader.ReadPackedInt32();
+                string[] result = new string[count];
+                for (int i = 0; i < count; i++)
+                {
+                    result[i] = reader.ReadString();
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Read 32-bit integer in packed format.
         /// </summary>
         /// <remarks>Borrowed from

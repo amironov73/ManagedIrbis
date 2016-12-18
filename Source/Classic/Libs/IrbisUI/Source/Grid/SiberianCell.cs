@@ -48,6 +48,16 @@ namespace IrbisUI.Grid
         /// </summary>
         public event EventHandler<SiberianClickEventArgs> Click;
 
+        /// <summary>
+        /// Measure content.
+        /// </summary>
+        public event EventHandler<SiberianMeasureEventArgs> Measure;
+
+        /// <summary>
+        /// Fired when tooltip needed.
+        /// </summary>
+        public event EventHandler<SiberianToolTipEventArgs> ToolTip;
+
         #endregion
 
         #region Properties
@@ -94,6 +104,37 @@ namespace IrbisUI.Grid
             )
         {
             Click.Raise(this, eventArgs);
+        }
+
+        /// <summary>
+        /// Get tooltip for the cell.
+        /// </summary>
+        protected internal virtual void HandleToolTip
+            (
+                [NotNull] SiberianToolTipEventArgs eventArgs
+            )
+        {
+            ToolTip.Raise();
+        }
+
+        /// <summary>
+        /// Measure content of the cell.
+        /// </summary>
+        protected internal virtual void MeasureContent
+            (
+                [NotNull] SiberianDimensions dimensions
+            )
+        {
+            Code.NotNull(dimensions, "dimensions");
+
+            EventHandler<SiberianMeasureEventArgs> handler = Measure;
+            if (!ReferenceEquals(handler, null))
+            {
+                SiberianMeasureEventArgs eventArgs
+                    = new SiberianMeasureEventArgs(dimensions);
+
+                handler(this, eventArgs);
+            }
         }
 
         #endregion

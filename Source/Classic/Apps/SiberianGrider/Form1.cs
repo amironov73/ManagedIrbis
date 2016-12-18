@@ -58,11 +58,11 @@ namespace SiberianGrider
 
             _firstColumn.Title = "Title";
             _firstColumn.ReadOnly = true;
-            _firstColumn.BackColor = Color.DarkViolet;
+            _firstColumn.Palette.BackColor = Color.DarkViolet;
             _firstColumn.Member = "Title";
 
             _secondColumn.ReadOnly = true;
-            _secondColumn.BackColor = Color.DarkGreen;
+            _secondColumn.Palette.BackColor = Color.DarkGreen;
             _secondColumn.Width = 20;
 
             _thirdColumn.Title = "Value";

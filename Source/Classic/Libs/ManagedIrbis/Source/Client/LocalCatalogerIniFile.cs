@@ -61,7 +61,13 @@ namespace ManagedIrbis.Client
         [NotNull]
         public IniFile.Section MainSection
         {
-            get { return Ini.GetSection(Main).ThrowIfNull(); }
+            get 
+            {
+                return Ini
+                    .ThrowIfNull("Ini")
+                    .GetSection(Main)
+                    .ThrowIfNull("Main"); 
+            }
         }
 
         /// <summary>
@@ -78,7 +84,7 @@ namespace ManagedIrbis.Client
         [NotNull]
         public string ServerIP
         {
-            get { return MainSection["ServerIP"]; }
+            get { return MainSection["ServerIP"].ThrowIfNull("ServerIP"); }
         }
 
         /// <summary>
@@ -90,7 +96,7 @@ namespace ManagedIrbis.Client
             {
                 int result = Convert.ToInt32
                     (
-                        MainSection["ServerPort"]
+                        MainSection["ServerPort"].ThrowIfNull("ServerPort")
                     );
 
                 return result;

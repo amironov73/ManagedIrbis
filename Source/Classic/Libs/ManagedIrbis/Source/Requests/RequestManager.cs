@@ -12,6 +12,7 @@
 #region Using directives
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -21,6 +22,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Batch;
 using ManagedIrbis.Readers;
 
 using MoonSharp.Interpreter;
@@ -57,171 +59,14 @@ namespace ManagedIrbis.Requests
         public IrbisConnection Connection { get; private set; }
 
         /// <summary>
-        /// Host name.
+        /// Reader database name.
         /// </summary>
-        [NotNull]
-        public string Host
-        {
-            get
-            {
-                return _GetSetting
-                    (
-                        "host",
-                        "127.0.0.1"
-                    );
-            }
-        }
-
-        /// <summary>
-        /// Port number.
-        /// </summary>
-        public int Port
-        {
-            get
-            {
-                return int.Parse(_GetSetting
-                    (
-                        "port",
-                        "6666"
-                    ));
-            }
-        }
+        public NonNullValue<string> ReaderDatabase { get; set; }
 
         /// <summary>
         /// Request database name.
         /// </summary>
-        [NotNull]
-        public string RequestDatabase
-        {
-            get
-            {
-                return _GetSetting
-                    (
-                        "request-db",
-                        "RQST"
-                    );
-            }
-        }
-
-        /// <summary>
-        /// Catalog database name.
-        /// </summary>
-        [NotNull]
-        public string CatalogDatabase
-        {
-            get
-            {
-                return _GetSetting
-                    (
-                        "catalog-db",
-                        "IBIS"
-                    );
-            }
-        }
-
-        /// <summary>
-        /// Reader database name.
-        /// </summary>
-        [NotNull]
-        public string ReaderDatabase
-        {
-            get
-            {
-                return _GetSetting
-                    (
-                        "reader-db",
-                        "RDR"
-                    );
-            }
-        }
-
-        /// <summary>
-        /// User login.
-        /// </summary>
-        [NotNull]
-        public string Login
-        {
-            get
-            {
-                return _GetSetting
-                    (
-                        "login",
-                        "1"
-                    );
-            }
-        }
-
-        /// <summary>
-        /// User password.
-        /// </summary>
-        [NotNull]
-        public string Password
-        {
-            get
-            {
-                return _GetSetting
-                    (
-                        "password",
-                        "1"
-                    );
-            }
-        }
-
-        /// <summary>
-        /// Filter specification.
-        /// </summary>
-        [NotNull]
-        public string FilterSpecification
-        {
-            get
-            {
-                return _GetSetting
-                    (
-                        "my",
-                        "*"
-                    );
-            }
-        }
-
-        /// <summary>
-        /// Places.
-        /// </summary>
-        [NotNull]
-        public string[] Places { get; set; }
-
-        #endregion
-
-        #region Private members
-
-        private string _GetSetting
-            (
-                string name,
-                string defaultValue
-            )
-        {
-            string result = CM.AppSettings[name];
-            if (string.IsNullOrEmpty(result))
-            {
-                result = defaultValue;
-            }
-
-            return result;
-        }
-
-        private IrbisConnection _CreateClient()
-        {
-            IrbisConnection result = new IrbisConnection
-                {
-                    Host = Host,
-                    Port = Port,
-                    Database = RequestDatabase,
-                    Username = Login,
-                    Password = Password
-                };
-            result.Connect();
-
-            return result;
-        }
+        public NonNullValue<string> RequestDatabase { get; set; }
 
         #endregion
 
@@ -230,30 +75,56 @@ namespace ManagedIrbis.Requests
         /// <summary>
         /// Constructor.
         /// </summary>
-        public RequestManager()
+        public RequestManager
+            (
+                [NotNull] IrbisConnection connection
+            )
         {
-            Connection = _CreateClient();
-            Places = _GetSetting("place", "*").Split(',', ';');
+            Code.NotNull(connection, "connection");
+
+            Connection = connection;
+            ReaderDatabase = "IBIS";
+            RequestDatabase = "RQST";
         }
+
+        #endregion
+
+        #region Private members
 
         #endregion
 
         #region Public methods
 
         /// <summary>
-        /// Получение списка новых заказов.
+        /// Получение списка заказов согласно указанному условию.
         /// </summary>
         [NotNull]
-        public BookRequest[] GetRequests()
+        public BookRequest[] GetRequests
+            (
+                [NotNull] string searchCriteria
+            )
         {
-            int[] found = Connection.Search("I=0");
+            Code.NotNullNorEmpty(searchCriteria, "searchCriteria");
 
-            return found
-                .Select(mfn => Connection.ReadRecord(mfn))
-                .Where(record => record != null)
-                .Select(record => BookRequest.Parse(record))
-                .Where(request => request != null)
+            IEnumerable<MarcRecord> found = BatchRecordReader.Search
+                (
+                    Connection,
+                    RequestDatabase,
+                    searchCriteria,
+                    500
+                );
+
+            // ReSharper disable ConvertClosureToMethodGroup
+            BookRequest[] result = found
+                .Select
+                (
+                    record => BookRequest.Parse(record)
+                )
+                .NonNullItems()
                 .ToArray();
+            // ReSharper restore ConvertClosureToMethodGroup
+
+            return result;
         }
 
         /// <summary>
@@ -266,11 +137,18 @@ namespace ManagedIrbis.Requests
         {
             Code.NotNull(request, "request");
 
-            if (!ReferenceEquals(request.BookCode, null))
+            string database = request.Database;
+            string bookCode = request.BookCode;
+            if (!string.IsNullOrEmpty(database)
+                && !string.IsNullOrEmpty(bookCode))
             {
-                MarcRecord record = ReadCatalog(request.BookCode);
+                MarcRecord record = ReadCatalog
+                    (
+                        database,
+                        bookCode
+                    );
                 request.BookRecord = record;
-                request.FreeNumbers = ExtractInventoryNumbers(record);
+                //request.FreeNumbers = ExtractInventoryNumbers(record);
                 //request.Reader = ReadReader(request.ReaderID);
                 request.MyNumbers = FilterMyNumbers(request.FreeNumbers);
             }
@@ -282,12 +160,13 @@ namespace ManagedIrbis.Requests
         [CanBeNull]
         public MarcRecord ReadCatalog
             (
+                [NotNull] string catalogDatabase,
                 [NotNull] string bookCode
             )
         {
             try
             {
-                Connection.PushDatabase(CatalogDatabase);
+                Connection.PushDatabase(catalogDatabase);
                 int[] found = Connection.Search
                     (
                         "\"I={0}\"",
@@ -322,56 +201,56 @@ namespace ManagedIrbis.Requests
             }
         }
 
-        /// <summary>
-        /// Determine, whether is our place?
-        /// </summary>
-        public bool IsOurPlace
-            (
-                [NotNull] RecordField field
-            )
-        {
-            if (Places.Contains("*"))
-            {
-                return true;
-            }
+        ///// <summary>
+        ///// Determine, whether is our place?
+        ///// </summary>
+        //public bool IsOurPlace
+        //    (
+        //        [NotNull] RecordField field
+        //    )
+        //{
+        //    if (Places.Contains("*"))
+        //    {
+        //        return true;
+        //    }
 
-            string place = field.GetFirstSubFieldValue('D');
+        //    string place = field.GetFirstSubFieldValue('D');
 
-            return Places.Any(p => string.Compare(p, place,
-                StringComparison.OrdinalIgnoreCase) == 0);
-        }
+        //    return Places.Any(p => string.Compare(p, place,
+        //        StringComparison.OrdinalIgnoreCase) == 0);
+        //}
 
-        /// <summary>
-        /// Extract inventory numbers.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public string[] ExtractInventoryNumbers
-            (
-                [CanBeNull] MarcRecord record
-            )
-        {
-            if (record == null)
-            {
-                return new string[0];
-            }
+        ///// <summary>
+        ///// Extract inventory numbers.
+        ///// </summary>
+        //[NotNull]
+        //[ItemNotNull]
+        //public string[] ExtractInventoryNumbers
+        //    (
+        //        [CanBeNull] MarcRecord record
+        //    )
+        //{
+        //    if (record == null)
+        //    {
+        //        return new string[0];
+        //    }
 
-            RecordField[] allFields = record.Fields
-                .GetField("910", "A", "0");
+        //    RecordField[] allFields = record.Fields
+        //        .GetField("910", "A", "0");
 
-            RecordField[] ourFields = allFields
-                .Where(IsOurPlace)
-                .ToArray();
+        //    RecordField[] ourFields = allFields
+        //        .Where(IsOurPlace)
+        //        .ToArray();
 
-            if (allFields.Length > ourFields.Length)
-            {
-                return new string[0];
-            }
+        //    if (allFields.Length > ourFields.Length)
+        //    {
+        //        return new string[0];
+        //    }
 
-            return ourFields
-                .GetSubField('B')
-                .GetSubFieldValue();
-        }
+        //    return ourFields
+        //        .GetSubField('B')
+        //        .GetSubFieldValue();
+        //}
 
         /// <summary>
         /// Загрузка сведений о читателе.
@@ -389,7 +268,7 @@ namespace ManagedIrbis.Requests
                 Connection.PushDatabase(ReaderDatabase);
                 int[] found = Connection.Search
                     (
-                        "I={0}",
+                        "\"I={0}\"",
                         readerID
                     );
                 if (found.Length == 0)

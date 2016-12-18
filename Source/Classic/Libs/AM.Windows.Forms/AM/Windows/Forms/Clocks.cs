@@ -1,4 +1,7 @@
-﻿/* Clocks.cs -- simple analog clock control
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* Clocks.cs -- simple analog clock control
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -137,7 +140,7 @@ namespace AM.Windows.Forms
             double cX = xx0;
             double cY = xy0;
             g.TranslateTransform(xx0, xy0);
-            double radius = r.Height / 2 - 4;
+            double radius = (double)r.Height / 2 - 4;
             r = new Rectangle(-xx0, -xy0, r.Width, r.Height);
             Rectangle r2 = r;
             int dr = -r.Width / 30;
@@ -171,7 +174,7 @@ namespace AM.Windows.Forms
                 g.DrawEllipse(Pens.Gray, r2);
             }
 
-            double fontHeight = r.Height / 14;
+            double fontHeight = (double)r.Height / 14;
             if (fontHeight >= 5)
             {
                 StringFormat format = new StringFormat();

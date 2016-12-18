@@ -118,7 +118,7 @@ namespace UnitTests.ManagedIrbis.Menus
             string text = "[{'code':'a','comment':'Comment for a'},{'code':'b','comment':'Comment for b'},{'code':'c','comment':'Comment for c'}]"
                 .Replace("'", "\"");
 
-            MenuFile second = IrbisMenuUtility.FromJson(text);
+            MenuFile second = MenuUtility.FromJson(text);
             MenuFile first = _GetMenu();
 
             _CompareMenu(first,second);
@@ -134,7 +134,7 @@ namespace UnitTests.ManagedIrbis.Menus
                 );
 
             MenuFile first = _GetMenu();
-            MenuFile second = IrbisMenuUtility
+            MenuFile second = MenuUtility
                 .ParseLocalJsonFile(fileName);
 
             _CompareMenu(first, second);

@@ -11,8 +11,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+
+using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Batch;
 
 #endregion
 
@@ -40,10 +45,7 @@ namespace ManagedIrbis.Readers
         /// Клиент, общающийся с сервером.
         /// </summary>
         [NotNull]
-        public IrbisConnection Client
-        {
-            get { return _client; }
-        }
+        public IrbisConnection Connection { get; private set; }
 
         #endregion
 
@@ -52,26 +54,19 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Initializes a new instance of the <see cref="ReaderManager"/> class.
         /// </summary>
-        /// <param name="client">The client.</param>
-        /// <exception cref="System.ArgumentNullException">client</exception>
         public ReaderManager
             (
-                [NotNull] IrbisConnection client
+                [NotNull] IrbisConnection connection
             )
         {
-            if (ReferenceEquals(client, null))
-            {
-                throw new ArgumentNullException("client");
-            }
+            Code.NotNull(connection, "connection");
 
-            _client = client;
+            Connection = connection;
         }
 
         #endregion
 
         #region Private members
-
-        private readonly IrbisConnection _client;
 
         #endregion
 
@@ -80,19 +75,27 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Получение массива всех (не удалённых) читателей из базы данных.
         /// </summary>
-        /// <returns></returns>
         [NotNull]
         [ItemNotNull]
-        public ReaderInfo[] GetAllReaders()
+        public ReaderInfo[] GetAllReaders
+            (
+                [NotNull] string database
+            )
         {
-            throw new NotImplementedException();
-#if NOTDEF
+            Code.NotNullNorEmpty(database, "database");
+
             List<ReaderInfo> result = new List<ReaderInfo> 
                 (
-                    Client.GetMaxMfn() + 1
+                    Connection.GetMaxMfn() + 1
                 );
-            BatchRecordReader batch = new BatchRecordReader(Client);
-            foreach (IrbisRecord record in batch)
+
+            IEnumerable<MarcRecord> batch = BatchRecordReader.WholeDatabase
+                (
+                    Connection,
+                    database,
+                    500
+                );
+            foreach (MarcRecord record in batch)
             {
                 if (!ReferenceEquals(record, null))
                 {
@@ -102,26 +105,20 @@ namespace ManagedIrbis.Readers
             }
 
             return result.ToArray();
-#endif
         }
 
         /// <summary>
         /// Получение записи читателя по его идентификатору.
         /// </summary>
-        /// <param name="ticket"></param>
-        /// <returns></returns>
         [CanBeNull]
         public ReaderInfo GetReader
             (
                 [NotNull] string ticket
             )
         {
-            if (string.IsNullOrEmpty(ticket))
-            {
-                throw new ArgumentNullException("ticket");
-            }
+            Code.NotNullNorEmpty(ticket, "ticket");
 
-            MarcRecord record = Client.SearchReadOneRecord
+            MarcRecord record = Connection.SearchReadOneRecord
                 (
                     "{0}{1}",
                     ReaderIdentifier,
@@ -131,8 +128,38 @@ namespace ManagedIrbis.Readers
             {
                 return null;
             }
+
             ReaderInfo result = ReaderInfo.Parse(record);
+
             return result;
+        }
+
+        /// <summary>
+        /// Merge readers (i. e. from some databases).
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public ReaderInfo[] MergeReaders
+            (
+                [NotNull] ReaderInfo[] readers
+            )
+        {
+            var grouped = readers
+                .Where(r => !string.IsNullOrEmpty(r.Ticket))
+                .GroupBy(r => r.Ticket);
+
+            List<ReaderInfo> result = new List<ReaderInfo>(readers.Length);
+
+            foreach (var grp in grouped)
+            {
+                ReaderInfo first = grp.First();
+                first.Visits = grp
+                    .SelectMany(r => r.Visits)
+                    .ToArray();
+                result.Add(first);
+            }
+
+            return result.ToArray();
         }
 
         #endregion

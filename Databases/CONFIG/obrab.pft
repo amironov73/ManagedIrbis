@@ -1,0 +1,5 @@
+'</>', '<b>Книги, находящиеся в обработке:</b><p>',
+'<table border=0>',
+'<tr align=left valign=top><th>С номера</th><th>по номер</th><th>Партия</th><th>Примечания</th></tr>'
+(if p(v100^a) then '<tr align=left valign=top>', '<td><b>', v100^a, '</b></td>', '<td>', v100^b, '</td>', '<td><b>'v100^c'</b></td>', '<td>'v100^d'</td>', '</tr>'  fi)
+'</table>'

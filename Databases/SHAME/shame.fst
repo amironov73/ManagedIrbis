@@ -1,0 +1,9 @@
+100 0 'STATUS=',v100
+101 0 if v100:'NEW' then 'NEW=', v101^d.8, fi
+101 0 if v100:'NEW' then 'NEW=', v101^d.6, fi
+101 0 if v100:'BAD' then 'BAD=', v101^d.8, fi
+101 0 if v100:'BAD' then 'BAD=', v101^d.6, fi
+101 0 if v100:'FIX' then 'FIX=', v101^d.8, fi
+101 0 if v100:'FIX' then 'FIX=', v101^d.6, fi
+101 0 if v100:'GOOD' then 'GOOD=', v101^d.8, fi
+101 0 if v100:'GOOD' then 'GOOD=', v101^d.6, fi

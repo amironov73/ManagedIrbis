@@ -504,13 +504,16 @@ StringComparer.InvariantCultureIgnoreCase
                     if (!string.IsNullOrEmpty(section)
                         && !string.IsNullOrEmpty(parameter))
                     {
-                        IniFile iniFile = context.Environment.GetUserIniFile();
-                        string result = iniFile.GetValue
-                            (
-                                section,
-                                parameter,
-                                defaultValue
-                            );
+                        string result;
+                        using (IniFile iniFile = context.Environment.GetUserIniFile())
+                        {
+                            result = iniFile.GetValue
+                                (
+                                    section,
+                                    parameter,
+                                    defaultValue
+                                );
+                        }
                         if (!string.IsNullOrEmpty(result))
                         {
                             context.Write(node, result);

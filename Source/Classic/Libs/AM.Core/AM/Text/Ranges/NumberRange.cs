@@ -246,6 +246,7 @@ namespace AM.Text.Ranges
                 NumberRange other
             )
         {
+            // coverity[SWAPPED_ARGUMENTS] 
             return new NumberRange
                 (
                     Stop,

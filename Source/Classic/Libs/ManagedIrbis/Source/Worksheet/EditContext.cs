@@ -11,6 +11,8 @@
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -25,6 +27,12 @@ namespace ManagedIrbis.Worksheet
     public sealed class EditContext
     {
         #region Properties
+
+        /// <summary>
+        /// Client.
+        /// </summary>
+        [CanBeNull]
+        public AbstractClient Client { get; set; }
 
         /// <summary>
         /// Record to be edited.

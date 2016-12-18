@@ -54,17 +54,19 @@ namespace ManagedIrbis
                 [CanBeNull] string value
             )
         {
-            bool result = true;
-
             if (!string.IsNullOrEmpty(value))
             {
-                if (value.IndexOf(SubField.Delimiter) >= 0)
+                foreach (char c in value)
                 {
-                    result = false;
+                    if (c == SubField.Delimiter
+                        || c < ' ')
+                    {
+                        return false;
+                    }
                 }
             }
 
-            return result;
+            return true;
         }
 
         /// <summary>

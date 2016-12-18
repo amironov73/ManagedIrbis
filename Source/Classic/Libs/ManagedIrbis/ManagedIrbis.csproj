@@ -250,6 +250,9 @@
     <Compile Include="Source\Menus\MenuConverter.cs" />
     <Compile Include="Source\Menus\MenuEntry.cs" />
     <Compile Include="Source\Menus\MenuSort.cs" />
+    <Compile Include="Source\Menus\MenuSpecification.cs" />
+    <Compile Include="Source\Morphology\SynonymEngine.cs" />
+    <Compile Include="Source\Morphology\SynonymEntry.cs" />
     <Compile Include="Source\Mx\Commands\AliasCommand.cs" />
     <Compile Include="Source\Mx\Commands\ConnectCommand.cs" />
     <Compile Include="Source\Mx\Commands\CsCommand.cs" />
@@ -481,7 +484,12 @@
     <Compile Include="Source\Search\TermInfoEx.cs" />
     <Compile Include="Source\Search\TermParameters.cs" />
     <Compile Include="Source\ServerStat.cs" />
+    <Compile Include="Source\Server\Commands\ServerCommand.cs" />
+    <Compile Include="Source\Server\IrbisServerSocket.cs" />
+    <Compile Include="Source\Server\IrbisServerWorker.cs" />
+    <Compile Include="Source\Server\ServerContext.cs" />
     <Compile Include="Source\Server\ServerIniFile.cs" />
+    <Compile Include="Source\Server\IrbisSocketServer.cs" />
     <Compile Include="Source\StatDefinition.cs" />
     <Compile Include="Source\TableDefinition.cs" />
     <Compile Include="Source\UserInfo.cs" />
@@ -495,7 +503,7 @@
     <Compile Include="Source\Marc\Schema\SchemaUtility.cs" />
     <Compile Include="Source\Marc\Schema\SubFieldSchema.cs" />
     <Compile Include="Source\Menus\MenuFile.cs" />
-    <Compile Include="Source\Menus\IrbisMenuUtility.cs" />
+    <Compile Include="Source\Menus\MenuUtility.cs" />
     <Compile Include="Source\Infrastructure\Commands\AbstractCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\ConnectCommand.cs" />
     <Compile Include="Source\Infrastructure\Commands\CreateDatabaseCommand.cs" />
@@ -617,7 +625,9 @@
     <Compile Include="Source\Systematization\BbkRange.cs" />
     <Compile Include="Source\Systematization\UdkException.cs" />
     <Compile Include="Source\Search\TermLink.cs" />
+    <Compile Include="Source\Worksheet\FieldEditorRepository.cs" />
     <Compile Include="Source\Worksheet\IMarcEditor.cs" />
+    <Compile Include="Source\Worksheet\SubFieldEditorRepository.cs" />
     <Compile Include="Source\Worksheet\WorksheetItem.cs" />
     <Compile Include="Source\Worksheet\WorksheetPage.cs" />
     <Compile Include="Source\Worksheet\WsFile.cs" />

@@ -105,6 +105,11 @@ namespace ManagedIrbis.Worksheet
         /// <summary>
         /// Ввод с помощью файловых ресурсов системы ИРБИС.
         /// </summary>
-        ServerResource = 16
+        ServerResource = 16,
+
+        /// <summary>
+        /// Table mode (F3).
+        /// </summary>
+        TableMode = 1024,
     }
 }

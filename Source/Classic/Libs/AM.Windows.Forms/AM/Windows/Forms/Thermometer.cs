@@ -1,4 +1,7 @@
-﻿/* Thermometer.cs -- 
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* Thermometer.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -72,10 +75,7 @@ namespace AM.Windows.Forms
             {
                 _currentTemperature = value;
                 _SetTemperatures();
-                if (CurrentTemperatureChanged != null)
-                {
-                    CurrentTemperatureChanged(this, EventArgs.Empty);
-                }
+                CurrentTemperatureChanged.Raise(this);
             }
         }
 
@@ -99,10 +99,7 @@ namespace AM.Windows.Forms
             {
                 _minimalTemperature = value;
                 _SetTemperatures();
-                if (MinimalTemperatureChanged != null)
-                {
-                    MinimalTemperatureChanged(this, EventArgs.Empty);
-                }
+                MinimalTemperatureChanged.Raise(this);
             }
         }
 
@@ -126,10 +123,7 @@ namespace AM.Windows.Forms
             {
                 _maximalTemperature = value;
                 _SetTemperatures();
-                if (MaximalTemperatureChanged != null)
-                {
-                    MaximalTemperatureChanged(this, EventArgs.Empty);
-                }
+                MaximalTemperatureChanged.Raise(this);
             }
         }
 

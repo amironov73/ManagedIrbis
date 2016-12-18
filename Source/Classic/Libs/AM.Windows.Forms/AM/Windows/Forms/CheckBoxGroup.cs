@@ -1,4 +1,7 @@
-﻿/* CheckBoxGroup.cs -- 
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* CheckBoxGroup.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -173,9 +176,11 @@ namespace AM.Windows.Forms
                 if (_current != value)
                 {
                     _current = value;
-                    if (CurrentChanged != null)
+
+                    CurrentChangedHandler handler = CurrentChanged;
+                    if (!ReferenceEquals(handler, null))
                     {
-                        CurrentChanged(this, _current);
+                        handler(this, _current);
                     }
                 }
             }
@@ -247,9 +252,11 @@ namespace AM.Windows.Forms
                 if (_current != curpos)
                 {
                     _current = curpos;
-                    if (CurrentChanged != null)
+
+                    CurrentChangedHandler handler = CurrentChanged;
+                    if (!ReferenceEquals(handler, null))
                     {
-                        CurrentChanged(this, _current);
+                        handler(this, _current);
                     }
                 }
             }
@@ -337,9 +344,11 @@ namespace AM.Windows.Forms
             if (curpos != _current)
             {
                 _current = curpos;
-                if (CurrentChanged != null)
+
+                CurrentChangedHandler handler = CurrentChanged;
+                if (!ReferenceEquals(handler, null))
                 {
-                    CurrentChanged(this, _current);
+                    handler(this, _current);
                 }
             }
         }
@@ -371,9 +380,11 @@ namespace AM.Windows.Forms
             if (newcurrent != _current)
             {
                 _current = newcurrent;
-                if (CurrentChanged != null)
+
+                CurrentChangedHandler handler = CurrentChanged;
+                if (!ReferenceEquals(handler, null))
                 {
-                    CurrentChanged(this, _current);
+                    handler(this, _current);
                 }
             }
         }

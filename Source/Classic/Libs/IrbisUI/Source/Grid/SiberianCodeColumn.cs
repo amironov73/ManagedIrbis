@@ -46,8 +46,9 @@ namespace IrbisUI.Grid
         public SiberianCodeColumn()
         {
             ReadOnly = true;
-            BackColor = Color.LightGray;
-            ForeColor = Color.Black;
+
+            Palette.BackColor = Color.LightGray;
+            Palette.ForeColor = Color.Black;
         }
 
         #endregion

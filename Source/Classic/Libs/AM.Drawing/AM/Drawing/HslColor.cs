@@ -1,4 +1,7 @@
-﻿/* HslColor.cs -- color in HSL colorspace.
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* HslColor.cs -- color in HSL colorspace.
  * Ars Magna project, http://arsmagna.ru 
  * -------------------------------------------------------
  * Status: poor
@@ -142,14 +145,20 @@ namespace AM.Drawing
         /// <c>true</c> if obj and this instance are the same type 
         /// and represent the same value; otherwise, <c>false</c>.
         /// </returns>
-        public override bool Equals(object obj)
+        public override bool Equals
+            (
+                object obj
+            )
         {
             if (!(obj is HslColor))
             {
-                return false;
+                return false; 
             }
             HslColor other = (HslColor)obj;
-            return ((H == other.H) && (L == other.L) && (S == other.S));
+
+            // ReSharper disable CompareOfFloatsByEqualityOperator
+            return (H == other.H) && (L == other.L) && (S == other.S); //-V3024
+            // ReSharper restore CompareOfFloatsByEqualityOperator
         }
 
         /// <summary>

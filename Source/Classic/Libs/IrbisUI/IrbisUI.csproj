@@ -121,12 +121,25 @@
     <Compile Include="Source\DictionaryPanel.Designer.cs">
       <DependentUpon>DictionaryPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\Editors\MenuEditor.cs" />
     <Compile Include="Source\FoundPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Source\FoundPanel.Designer.cs">
       <DependentUpon>FoundPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\Grid\SiberianDimensions.cs" />
+    <Compile Include="Source\Grid\SiberianFoundCheckCell.cs" />
+    <Compile Include="Source\Grid\SiberianFoundCheckColumn.cs" />
+    <Compile Include="Source\Grid\SiberianFoundDescriptionCell.cs" />
+    <Compile Include="Source\Grid\SiberianFoundDescriptionColumn.cs" />
+    <Compile Include="Source\Grid\SiberianFoundGrid.cs" />
+    <Compile Include="Source\Grid\SiberianFoundIconCell.cs" />
+    <Compile Include="Source\Grid\SiberianFoundIconColumn.cs" />
+    <Compile Include="Source\Grid\SiberianFoundMfnCell.cs" />
+    <Compile Include="Source\Grid\SiberianFoundMfnColumn.cs" />
+    <Compile Include="Source\Grid\SiberianMeasureEventArgs.cs" />
+    <Compile Include="Source\Grid\SiberianMenuCodeCell.cs" />
     <Compile Include="Source\Grid\SiberianButtonCell.cs" />
     <Compile Include="Source\Grid\SiberianButtonColumn.cs" />
     <Compile Include="Source\Grid\SiberianCell.cs" />
@@ -150,6 +163,12 @@
     <Compile Include="Source\Grid\SiberianImageColumn.cs" />
     <Compile Include="Source\Grid\SiberianIntegerCell.cs" />
     <Compile Include="Source\Grid\SiberianIntegerColumn.cs" />
+    <Compile Include="Source\Grid\SiberianMenuCodeColumn.cs" />
+    <Compile Include="Source\Grid\SiberianMenuCommentCell.cs" />
+    <Compile Include="Source\Grid\SiberianMenuCommentColumn.cs" />
+    <Compile Include="Source\Grid\SiberianMenuGrid.cs" />
+    <Compile Include="Source\Grid\SiberianNavigationEventArgs.cs" />
+    <Compile Include="Source\Grid\SiberianOptions.cs" />
     <Compile Include="Source\Grid\SiberianPalette.cs" />
     <Compile Include="Source\Grid\SiberianRepeatCell.cs" />
     <Compile Include="Source\Grid\SiberianRepeatColumn.cs" />
@@ -161,8 +180,15 @@
     <Compile Include="Source\Grid\SiberianTab.cs" />
     <Compile Include="Source\Grid\SiberianTagCell.cs" />
     <Compile Include="Source\Grid\SiberianTagColumn.cs" />
+    <Compile Include="Source\Grid\SiberianTermCountCell.cs" />
+    <Compile Include="Source\Grid\SiberianTermCountColumn.cs" />
+    <Compile Include="Source\Grid\SiberianTermGrid.cs" />
+    <Compile Include="Source\Grid\SiberianTermTextCell.cs" />
+    <Compile Include="Source\Grid\SiberianTermTextColumn.cs" />
     <Compile Include="Source\Grid\SiberianTextCell.cs" />
     <Compile Include="Source\Grid\SiberianTextColumn.cs" />
+    <Compile Include="Source\Grid\SiberianToolTipEventArgs.cs" />
+    <Compile Include="Source\Grid\SiberianUtility.cs" />
     <Compile Include="Source\IrbisBusyForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -190,10 +216,10 @@
     <Compile Include="Source\IrbisLoginForm2.Designer.cs">
       <DependentUpon>IrbisLoginForm2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\MenuForm.cs">
+    <Compile Include="Source\Editors\MenuForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\MenuForm.Designer.cs">
+    <Compile Include="Source\Editors\MenuForm.Designer.cs">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Pft\PftEditorControl.cs">
@@ -287,7 +313,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />
-    <Folder Include="Source\Editors\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -315,7 +340,7 @@
     <EmbeddedResource Include="Source\IrbisLoginForm2.resx">
       <DependentUpon>IrbisLoginForm2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\MenuForm.resx">
+    <EmbeddedResource Include="Source\Editors\MenuForm.resx">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Source\Pft\PftGlobalGrid.resx">

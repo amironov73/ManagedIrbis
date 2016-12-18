@@ -1,4 +1,7 @@
-﻿/* Meter.cs -- 
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* Meter.cs -- 
  * Ars Magna project, http://arsmagna.ru 
  * -------------------------------------------------------
  * Status: poor
@@ -161,18 +164,14 @@ namespace AM.Windows.Forms
             using (Brush grayBrush = new SolidBrush(Color.Gray))
             {
                 Size size = ClientSize;
-                g.TranslateTransform(size.Width / 2, size.Height);
+                g.TranslateTransform((float)size.Width / 2, size.Height);
                 g.ScaleTransform(-size.Width / 2000f, -size.Height / 1000f);
                 g.FillEllipse(lightBrush, -900, -900, 1800, 1800);
                 g.DrawLine(grayPen, -1000, 20, 1000, 20);
                 using (new GraphicsStateSaver(g))
                 {
                     int delta = 5;
-                    StringFormat fmt = new StringFormat
-                    {
-                        Alignment = StringAlignment.Center,
-                        LineAlignment = StringAlignment.Near
-                    };
+
                     g.RotateTransform(-90f);
                     for (int angle = 0; angle < 180; angle += delta)
                     {
@@ -189,7 +188,8 @@ namespace AM.Windows.Forms
                 }
                 using (new GraphicsStateSaver(g))
                 {
-                    float angle = (Value - MinimalValue) / (MaximalValue - MinimalValue) * 180f;
+                    float angle = (Value - MinimalValue) 
+                        / (MaximalValue - MinimalValue) * 180f;
                     g.RotateTransform(angle - 90f);
                     g.DrawLine(redPen, 0, 0, 0, 750);
                 }
@@ -202,12 +202,13 @@ namespace AM.Windows.Forms
 
         private void _Set(MouseEventArgs e)
         {
-            float x = Width / 2 - e.X;
+            float x = (float)Width / 2 - e.X;
             float y = Height - e.Y;
             float angle = (float)(Math.Atan2(y, x) * 180f / Math.PI);
             if ((angle >= 0f) && (angle <= 180f))
             {
-                Value = MinimalValue + (MaximalValue - MinimalValue) * angle / 180f;
+                Value = MinimalValue 
+                    + (MaximalValue - MinimalValue) * angle / 180f;
             }
         }
 

@@ -1,4 +1,7 @@
-﻿/* PaintUtility.cs -- general painting routines 
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* PaintUtility.cs -- general painting routines 
  * Ars Magna project, http://arsmagna.ru 
  * -------------------------------------------------------
  * Status: poor
@@ -12,6 +15,10 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
 #endregion
 
 namespace AM.Drawing
@@ -19,6 +26,8 @@ namespace AM.Drawing
     /// <summary>
     /// General painting routines.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public static class PaintUtility
     {
         #region Private members
@@ -74,8 +83,8 @@ namespace AM.Drawing
         /// </remarks>
         public static Bitmap BlendImages
             (
-                Bitmap bitmap1,
-                Bitmap bitmap2,
+                [NotNull] Bitmap bitmap1,
+                [NotNull] Bitmap bitmap2,
                 float amount
             )
         {
@@ -126,54 +135,48 @@ namespace AM.Drawing
         /// <summary>
         /// Рисует трехмерную "коробку".
         /// </summary>
-        /// <param name="g"></param>
-        /// <param name="rect"></param>
-        /// <param name="size"></param>
-        /// <param name="mainBrush"></param>
-        /// <param name="auxBrush"></param>
-        /// <param name="pen"></param>
         public static void DrawBox3D
             (
-                Graphics g,
+                [NotNull] Graphics g,
                 Rectangle rect,
                 Size size,
-                Brush mainBrush,
-                Brush auxBrush,
-                Pen pen
+                [CanBeNull] Brush mainBrush,
+                [CanBeNull] Brush auxBrush,
+                [CanBeNull] Pen pen
             )
         {
-            if (mainBrush != null)
+            if (!ReferenceEquals(mainBrush, null))
             {
                 g.FillRectangle(mainBrush, rect);
             }
             Point[] top = Points
                 (
-                rect.Left,
-                rect.Top,
-                rect.Left + size.Width,
-                rect.Top - size.Height,
-                rect.Right + size.Width,
-                rect.Top - size.Height,
-                rect.Right,
-                rect.Top
+                    rect.Left,
+                    rect.Top,
+                    rect.Left + size.Width,
+                    rect.Top - size.Height,
+                    rect.Right + size.Width,
+                    rect.Top - size.Height,
+                    rect.Right,
+                    rect.Top
                 );
             Point[] right = Points
                 (
-                rect.Right,
-                rect.Top,
-                rect.Right + size.Width,
-                rect.Top - size.Height,
-                rect.Right + size.Width,
-                rect.Bottom - size.Height,
-                rect.Right,
-                rect.Bottom
+                    rect.Right,
+                    rect.Top,
+                    rect.Right + size.Width,
+                    rect.Top - size.Height,
+                    rect.Right + size.Width,
+                    rect.Bottom - size.Height,
+                    rect.Right,
+                    rect.Bottom
                 );
-            if (auxBrush != null)
+            if (!ReferenceEquals(auxBrush, null))
             {
                 g.FillPolygon(auxBrush, top);
                 g.FillPolygon(auxBrush, right);
             }
-            if (pen != null)
+            if (!ReferenceEquals(pen, null))
             {
                 g.DrawRectangle(pen, rect);
                 g.DrawPolygon(pen, top);
@@ -184,45 +187,43 @@ namespace AM.Drawing
         /// <summary>
         /// Рисует конус.
         /// </summary>
-        /// <param name="g"></param>
-        /// <param name="rect"></param>
-        /// <param name="cap"></param>
-        /// <param name="brush"></param>
-        /// <param name="pen"></param>
         public static void DrawCone
             (
-                Graphics g,
+                [NotNull] Graphics g,
                 Rectangle rect,
                 int cap,
-                Brush brush,
-                Pen pen
+                [CanBeNull] Brush brush,
+                [CanBeNull] Pen pen
             )
         {
             using (GraphicsPath path = new GraphicsPath())
             {
                 path.AddLines(Points
-                                    (
-                                    rect.Left,
-                                    rect.Bottom,
-                                    rect.Left + rect.Width / 2,
-                                    rect.Top,
-                                    rect.Right,
-                                    rect.Bottom
-                                    ));
-                path.AddArc(rect.Left,
-                              rect.Bottom - cap,
-                              rect.Width,
-                              cap * 2,
-                              0,
-                              180);
-                if (brush != null)
+                    (
+                        rect.Left,
+                        rect.Bottom,
+                        rect.Left + rect.Width / 2,
+                        rect.Top,
+                        rect.Right,
+                        rect.Bottom
+                    ));
+                path.AddArc
+                    (
+                        rect.Left,
+                        rect.Bottom - cap,
+                        rect.Width,
+                        cap * 2,
+                        0,
+                        180
+                    );
+                if (!ReferenceEquals(brush, null))
                 {
                     using (Region region = new Region(path))
                     {
                         g.FillRegion(brush, region);
                     }
                 }
-                if (pen != null)
+                if (!ReferenceEquals(pen, null))
                 {
                     g.DrawPath(pen, path);
                 }
@@ -232,24 +233,20 @@ namespace AM.Drawing
         /// <summary>
         /// Закрашивает и обводит замкнутую кривую линию.
         /// </summary>
-        /// <param name="g"></param>
-        /// <param name="brush"></param>
-        /// <param name="pen"></param>
-        /// <param name="points"></param>
         public static void DrawClosedCurve
             (
-                Graphics g,
-                Brush brush,
-                Pen pen,
+                [NotNull] Graphics g,
+                [CanBeNull] Brush brush,
+                [CanBeNull] Pen pen,
                 params int[] points
             )
         {
             Point[] pts = Points(points);
-            if (brush != null)
+            if (!ReferenceEquals(brush, null))
             {
                 g.FillClosedCurve(brush, pts);
             }
-            if (pen != null)
+            if (!ReferenceEquals(pen, null))
             {
                 g.DrawClosedCurve(pen, pts);
             }
@@ -258,61 +255,61 @@ namespace AM.Drawing
         /// <summary>
         /// Рисует цилиндр.
         /// </summary>
-        /// <param name="g"></param>
-        /// <param name="rect"></param>
-        /// <param name="cap"></param>
-        /// <param name="mainBrush"></param>
-        /// <param name="auxBrush"></param>
-        /// <param name="pen"></param>
         public static void DrawCylinder
             (
-                Graphics g,
+                [NotNull] Graphics g,
                 Rectangle rect,
                 int cap,
-                Brush mainBrush,
-                Brush auxBrush,
-                Pen pen
+                [CanBeNull] Brush mainBrush,
+                [CanBeNull] Brush auxBrush,
+                [CanBeNull] Pen pen
             )
         {
-            Rectangle capRect = new Rectangle(rect.Left,
-                                                rect.Top - cap,
-                                                rect.Width,
-                                                cap * 2);
+            Rectangle capRect = new Rectangle
+                (
+                    rect.Left,
+                    rect.Top - cap,
+                    rect.Width,
+                    cap * 2
+                );
             using (GraphicsPath path = new GraphicsPath())
             {
                 path.AddLines(Points
-                                    (
-                                    rect.Left,
-                                    rect.Bottom,
-                                    rect.Left,
-                                    rect.Top,
-                                    rect.Right,
-                                    rect.Top,
-                                    rect.Right,
-                                    rect.Bottom
-                                    ));
-                path.AddArc(rect.Left,
-                              rect.Bottom - cap,
-                              rect.Width,
-                              cap * 2,
-                              0,
-                              180);
-                if (mainBrush != null)
+                    (
+                        rect.Left,
+                        rect.Bottom,
+                        rect.Left,
+                        rect.Top,
+                        rect.Right,
+                        rect.Top,
+                        rect.Right,
+                        rect.Bottom
+                    ));
+                path.AddArc
+                    (
+                        rect.Left,
+                        rect.Bottom - cap,
+                        rect.Width,
+                        cap * 2,
+                        0,
+                        180
+                    );
+                if (!ReferenceEquals(mainBrush, null))
                 {
                     using (Region region = new Region(path))
                     {
                         g.FillRegion(mainBrush, region);
                     }
                 }
-                if (pen != null)
+                if (!ReferenceEquals(pen, null))
                 {
                     g.DrawPath(pen, path);
                 }
-                if (auxBrush != null)
+                if (!ReferenceEquals(auxBrush, null))
                 {
                     g.FillEllipse(auxBrush, capRect);
                 }
-                if (pen != null)
+                if (!ReferenceEquals(pen, null))
                 {
                     g.DrawEllipse(pen, capRect);
                 }
@@ -322,11 +319,6 @@ namespace AM.Drawing
         /// <summary>
         /// Рисование цилиндрика.
         /// </summary>
-        /// <param name="g"></param>
-        /// <param name="rectangle"></param>
-        /// <param name="capHeight"></param>
-        /// <param name="color"></param>
-        /// <param name="pen"></param>
         public static void DrawCylinder3D
             (
                 Graphics g,
@@ -342,21 +334,23 @@ namespace AM.Drawing
                 using (Brush capBrush = new SolidBrush(
                     ColorUtility.Darken(color, 0.3f)))
                 {
-                    ColorBlend blend = new ColorBlend();
-                    blend.Colors = new Color[]
+                    ColorBlend blend = new ColorBlend
+                    {
+                        Colors = new[]
                         {
                             color,
-                            ColorUtility.Lighten ( color, 0.8f ),
+                            ColorUtility.Lighten(color, 0.8f),
                             color,
-                            ColorUtility.Darken ( color, 0.6f )
-                        };
-                    blend.Positions = new float[]
+                            ColorUtility.Darken(color, 0.6f)
+                        },
+                        Positions = new[]
                         {
                             0f,
                             0.15f,
                             0.50f,
                             1f
-                        };
+                        }
+                    };
                     mainBrush.InterpolationColors = blend;
                     DrawCylinder
                         (
@@ -374,29 +368,29 @@ namespace AM.Drawing
         /// <summary>
         /// Рисование с учетом гаммы.
         /// </summary>
-        /// <param name="g"></param>
-        /// <param name="image"></param>
-        /// <param name="rectangle"></param>
-        /// <param name="gamma">От 1.0f до 5.0f.</param>
         public static void DrawImageWithGamma
             (
-                Graphics g,
-                Image image,
+                [NotNull] Graphics g,
+                [NotNull] Image image,
                 Rectangle rectangle,
                 float gamma
             )
         {
-            using (ImageAttributes attrs = new ImageAttributes())
+            using (ImageAttributes attributes
+                = new ImageAttributes())
             {
-                attrs.SetGamma(gamma);
-                g.DrawImage(image,
-                              rectangle,
-                              0,
-                              0,
-                              image.Width,
-                              image.Height,
-                              GraphicsUnit.Pixel,
-                              attrs);
+                attributes.SetGamma(gamma);
+                g.DrawImage
+                    (
+                        image,
+                        rectangle,
+                        0,
+                        0,
+                        image.Width,
+                        image.Height,
+                        GraphicsUnit.Pixel,
+                        attributes
+                    );
             }
         }
 
@@ -405,8 +399,8 @@ namespace AM.Drawing
         /// </summary>
         public static void DrawLines
             (
-                Graphics g,
-                Pen pen,
+                [NotNull] Graphics g,
+                [NotNull] Pen pen,
                 params int[] points
             )
         {
@@ -418,20 +412,20 @@ namespace AM.Drawing
         /// </summary>
         public static void DrawPolygon
             (
-                Graphics g,
-                Brush brush,
-                Pen pen,
+                [NotNull] Graphics g,
+                [CanBeNull] Brush brush,
+                [CanBeNull] Pen pen,
                 params int[] points
             )
         {
-            Point[] pts = Points(points);
-            if (brush != null)
+            Point[] arrayOfPoints = Points(points);
+            if (!ReferenceEquals(brush, null))
             {
-                g.FillPolygon(brush, pts);
+                g.FillPolygon(brush, arrayOfPoints);
             }
-            if (pen != null)
+            if (!ReferenceEquals(pen, null))
             {
-                g.DrawPolygon(pen, pts);
+                g.DrawPolygon(pen, arrayOfPoints);
             }
         }
 
@@ -506,32 +500,35 @@ namespace AM.Drawing
         /// <summary>
         /// Полупрозрачное рисование.
         /// </summary>
-        /// <param name="g"></param>
-        /// <param name="image"></param>
-        /// <param name="rectangle"></param>
-        /// <param name="amount">От 0.0f до 1.0f.</param>
         public static void DrawSemitransparentImage
             (
-                Graphics g,
-                Image image,
+                [NotNull] Graphics g,
+                [NotNull] Image image,
                 Rectangle rectangle,
                 float amount
             )
         {
             ColorMatrix m = _Blend(amount);
-            using (ImageAttributes attrs = new ImageAttributes())
+            using (ImageAttributes attributes
+                = new ImageAttributes())
             {
-                attrs.SetColorMatrix(m,
-                                       ColorMatrixFlag.Default,
-                                       ColorAdjustType.Bitmap);
-                g.DrawImage(image,
-                              rectangle,
-                              0,
-                              0,
-                              image.Width,
-                              image.Height,
-                              GraphicsUnit.Pixel,
-                              attrs);
+                attributes.SetColorMatrix
+                    (
+                        m,
+                        ColorMatrixFlag.Default,
+                        ColorAdjustType.Bitmap
+                    );
+                g.DrawImage
+                    (
+                        image,
+                        rectangle,
+                        0,
+                        0,
+                        image.Width,
+                        image.Height,
+                        GraphicsUnit.Pixel,
+                        attributes
+                    );
             }
         }
 
@@ -711,6 +708,7 @@ namespace AM.Drawing
             {
                 angle += 360f;
             }
+
             return angle;
         }
 
@@ -803,11 +801,15 @@ namespace AM.Drawing
         /// </summary>
         public static void UniformCoordinateSystem
             (
-                Graphics g,
+                [NotNull]Graphics g,
                 Size size
             )
         {
-            g.TranslateTransform(size.Width / 2, size.Height / 2);
+            g.TranslateTransform
+                (
+                    (float)size.Width / 2,
+                    (float)size.Height / 2
+                );
             float inches = Math.Min(size.Width / g.DpiX, size.Height / g.DpiY);
             g.ScaleTransform(inches * g.DpiX / 2000, inches * g.DpiY / 2000);
         }
@@ -831,19 +833,21 @@ namespace AM.Drawing
                 {
                     Color lightColor = ColorUtility.Lighten(color, 0.8f);
                     Color darkColor = ColorUtility.Darken(color, 0.6f);
-                    ColorBlend blend = new ColorBlend();
-                    blend.Colors = new Color[]
+                    ColorBlend blend = new ColorBlend
+                    {
+                        Colors = new[]
                         {
                             darkColor,
                             color,
                             lightColor
-                        };
-                    blend.Positions = new float[]
+                        },
+                        Positions = new[]
                         {
                             0f,
                             0.25f,
                             1f
-                        };
+                        }
+                    };
                     brush.InterpolationColors = blend;
                     brush.CenterPoint = new PointF
                         (
@@ -861,13 +865,13 @@ namespace AM.Drawing
         /// </summary>
         public static void DrawPieSlice
             (
-                Graphics g,
+                [NotNull] Graphics g,
                 Rectangle rectangle,
                 float startAngle,
                 float sweepAngle,
                 int height,
                 Color color,
-                Pen pen
+                [NotNull] Pen pen
             )
         {
             // Мы не хотим морочиться с отрицательными углами.
@@ -903,21 +907,23 @@ namespace AM.Drawing
                         {
                             using (GraphicsPath arcPath = new GraphicsPath())
                             {
-                                ColorBlend blend = new ColorBlend(3);
-                                blend.Colors = new Color[]
+                                ColorBlend blend = new ColorBlend(3)
+                                {
+                                    Colors = new[]
                                     {
                                         color,
                                         lighterColor,
                                         color,
                                         darkerColor
-                                    };
-                                blend.Positions = new float[]
+                                    },
+                                    Positions = new[]
                                     {
                                         0f,
                                         0.15f,
                                         0.50f,
                                         1f
-                                    };
+                                    }
+                                };
                                 borderBrush.InterpolationColors = blend;
 
                                 arcPath.AddPie(rectangle, startAngle, sweepAngle);
@@ -980,11 +986,14 @@ namespace AM.Drawing
                                 }
                                 float angle2 = Math.Min(endAngle, 180f);
                                 if ((angle1 <= 180)
-                                     || (angle1 <= 180))
+                                     || (angle2 <= 180)
+                                    )
                                 {
                                     using (GraphicsPath path = new GraphicsPath())
                                     {
-                                        if (angle2 == endAngle)
+                                        // ReSharper disable CompareOfFloatsByEqualityOperator
+                                        if (angle2 == endAngle) //-V3024
+                                        // ReSharper restore CompareOfFloatsByEqualityOperator
                                         {
                                             path.AddLine(topEnd, bottomEnd);
                                         }

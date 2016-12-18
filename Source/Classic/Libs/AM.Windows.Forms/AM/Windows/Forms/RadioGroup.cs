@@ -1,4 +1,7 @@
-﻿/* RadioGroup.cs -- Group of radio-buttons.
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* RadioGroup.cs -- Group of radio-buttons.
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -11,7 +14,9 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+
 using AM.Collections;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -173,9 +178,11 @@ namespace AM.Windows.Forms
                 if (_current != value)
                 {
                     _current = value;
-                    if (CurrentChanged != null)
+
+                    CurrentChangedHandler handler = CurrentChanged;
+                    if (!ReferenceEquals(handler, null))
                     {
-                        CurrentChanged(this, _current);
+                        handler(this, _current);
                     }
                 }
             }
@@ -263,9 +270,11 @@ namespace AM.Windows.Forms
             if (currentPosition != _current)
             {
                 _current = currentPosition;
-                if (CurrentChanged != null)
+
+                CurrentChangedHandler handler = CurrentChanged;
+                if (!ReferenceEquals(handler, null))
                 {
-                    CurrentChanged(this, _current);
+                    handler(this, _current);
                 }
             }
         }
@@ -297,9 +306,11 @@ namespace AM.Windows.Forms
             if (newCurrent != _current)
             {
                 _current = newCurrent;
-                if (CurrentChanged != null)
+
+                CurrentChangedHandler handler = CurrentChanged;
+                if (!ReferenceEquals(handler, null))
                 {
-                    CurrentChanged(this, _current);
+                    handler(this, _current);
                 }
             }
         }

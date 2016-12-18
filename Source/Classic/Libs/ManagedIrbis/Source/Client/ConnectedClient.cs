@@ -26,6 +26,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Search;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -144,7 +146,20 @@ namespace ManagedIrbis.Client
             Connection.ParseConnectionString(connectionString);
         }
 
-        /// <inhertidoc/>
+        /// <inheritdoc/>
+        public override TermInfo[] ReadTerms
+            (
+                TermParameters parameters
+            )
+        {
+            Code.NotNull(parameters, "parameters");
+
+            TermInfo[] result = Connection.ReadTerms(parameters);
+
+            return result;
+        }
+
+        /// <inheritdoc/>
         public override int[] Search
             (
                 string expression

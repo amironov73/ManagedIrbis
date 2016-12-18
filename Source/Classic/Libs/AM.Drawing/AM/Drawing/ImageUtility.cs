@@ -1,4 +1,7 @@
-﻿/* ImageUtility.cs -- image manipulation helpers
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* ImageUtility.cs -- image manipulation helpers
  * -------------------------------------------------------
  * Status: poor
  */

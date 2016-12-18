@@ -1,4 +1,7 @@
-﻿/* GraphicsStateSaver.cs -- simple holder of graphics context state.
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* GraphicsStateSaver.cs -- simple holder of graphics context state.
  * Ars Magna project, http://arsmagna.ru 
  * -------------------------------------------------------
  * Status: poor
@@ -32,8 +35,10 @@ namespace AM.Drawing
         /// Initializes a new instance of the 
         /// <see cref="T:GraphicsStateSaver"/> class.
         /// </summary>
-        /// <param name="graphics">The graphics.</param>
-        public GraphicsStateSaver(Graphics graphics)
+        public GraphicsStateSaver
+            (
+                [NotNull] Graphics graphics
+            )
         {
             Code.NotNull(graphics, "graphics");
 
@@ -60,7 +65,7 @@ namespace AM.Drawing
         /// Object of <see cref="T:System.Drawing.Graphics"/> type
         /// which state have been saved.
         /// </summary>
-        private Graphics _graphics;
+        private readonly Graphics _graphics;
 
         /// <summary>
         /// Saved state itself.
@@ -72,15 +77,15 @@ namespace AM.Drawing
         /// </summary>
         /// <param name="disposing">if set to <c>true</c> 
         /// [disposing].</param>
-        private void Dispose(bool disposing)
+        private void Dispose
+            (
+                bool disposing
+            )
         {
-            lock (this)
+            if (_state != null)
             {
-                if (_state != null)
-                {
-                    _graphics.Restore(_state);
-                    _state = null;
-                }
+                _graphics.Restore(_state);
+                _state = null;
             }
         }
 

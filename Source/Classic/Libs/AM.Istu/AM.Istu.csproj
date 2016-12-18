@@ -109,6 +109,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AM\Istu\IstuDepartment.cs" />
+    <Compile Include="AM\Istu\IstuReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -133,9 +135,7 @@
       <Name>ManagedIrbis</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AM\Istu\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="ArsMagna.private.snk" />
     <None Include="packages.config" />

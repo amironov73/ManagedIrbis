@@ -62,9 +62,7 @@ namespace ManagedIrbis.Menus
 
         #region IHandmadeSerializable
 
-        /// <summary>
-        /// Restore object state from given stream.
-        /// </summary>
+        /// <inheritdoc/>
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -76,9 +74,7 @@ namespace ManagedIrbis.Menus
             // ReSharper restore AssignNullToNotNullAttribute
         }
 
-        /// <summary>
-        /// Save object state to the stream.
-        /// </summary>
+        /// <inheritdoc/>
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -105,12 +101,7 @@ namespace ManagedIrbis.Menus
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc/>
         public override string ToString()
         {
             return string.Format

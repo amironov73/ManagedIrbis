@@ -1,4 +1,7 @@
-﻿/* CollapsibleGroupBox.cs -- 
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* CollapsibleGroupBox.cs -- 
  * Ars Magna project, http://arsmagna.ru 
  * -------------------------------------------------------
  * Status: poor
@@ -117,10 +120,8 @@ namespace AM.Windows.Forms
                 }
             }
             _collapsed = coll;
-            if (Collapse != null)
-            {
-                Collapse(this, EventArgs.Empty);
-            }
+
+            Collapse.Raise(this, EventArgs.Empty);
         }
 
         private void _MouseDoubleClick(object sender, MouseEventArgs e)
