@@ -141,7 +141,7 @@ namespace ManagedIrbis.Infrastructure
             CommandCode = RequireAnsiString();
             ClientID = RequireInt32();
             CommandNumber = RequireInt32();
-            AnswerSize = RequireInt32();
+            AnswerSize = GetInt32(0); // RequireInt32();
 
             // 6 пустых строк
             RequireAnsiString();
