@@ -12,7 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -36,6 +36,15 @@ namespace ManagedIrbis.Readers
         /// </summary>
         // TODO: брать индекс из настроек клиента
         public const string ReaderIdentifier = "RI=";
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// Fired on batch read.
+        /// </summary>
+        public event EventHandler BatchRead;
 
         #endregion
 
@@ -68,6 +77,15 @@ namespace ManagedIrbis.Readers
 
         #region Private members
 
+        private void HandleBatchRead
+            (
+                object sender,
+                EventArgs eventArgs
+            )
+        {
+            BatchRead.Raise(sender, eventArgs);
+        }
+
         #endregion
 
         #region Public methods
@@ -95,6 +113,13 @@ namespace ManagedIrbis.Readers
                     database,
                     500
                 );
+
+            BatchRecordReader batch2 = batch as BatchRecordReader;
+            if (!ReferenceEquals(batch2, null))
+            {
+                batch2.BatchRead += HandleBatchRead;
+            }
+
             foreach (MarcRecord record in batch)
             {
                 if (!ReferenceEquals(record, null))
@@ -102,6 +127,11 @@ namespace ManagedIrbis.Readers
                     ReaderInfo reader = ReaderInfo.Parse(record);
                     result.Add(reader);
                 }
+            }
+
+            if (!ReferenceEquals(batch2, null))
+            {
+                batch2.BatchRead -= HandleBatchRead;
             }
 
             return result.ToArray();

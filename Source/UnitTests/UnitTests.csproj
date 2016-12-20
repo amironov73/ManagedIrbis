@@ -228,6 +228,7 @@
     <Compile Include="ManagedIrbis\Marc\Schema\MarcSchemaTest.cs" />
     <Compile Include="ManagedIrbis\Menus\IrbisMenuFileTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\ClientQueryTest.cs" />
+    <Compile Include="ManagedIrbis\Morphology\WordShortenerTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\FieldSpecificationTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\FieldSpecificationTest2.cs" />
     <Compile Include="ManagedIrbis\Quality\FieldDefectTest.cs" />

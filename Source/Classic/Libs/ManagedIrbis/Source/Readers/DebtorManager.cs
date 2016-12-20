@@ -39,6 +39,15 @@ namespace ManagedIrbis.Readers
 #endif
     public sealed class DebtorManager
     {
+        #region Events
+
+        /// <summary>
+        /// Fired on batch read.
+        /// </summary>
+        public event EventHandler BatchRead;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -86,6 +95,15 @@ namespace ManagedIrbis.Readers
 
         #region Private members
 
+        private void HandleBatchRead
+            (
+                object sender,
+                EventArgs eventArgs
+            )
+        {
+            BatchRead.Raise(sender, eventArgs);
+        }
+
         #endregion
 
         #region Public methods
@@ -96,6 +114,8 @@ namespace ManagedIrbis.Readers
         public DebtorInfo[] GetDebtors()
         {
             ReaderManager manager = new ReaderManager(Connection);
+            manager.BatchRead += HandleBatchRead;
+
             ReaderInfo[] readers = manager.GetAllReaders("RDR");
             List<DebtorInfo> result = new List<DebtorInfo>(readers.Length);
             string fromDate = null;
@@ -137,6 +157,8 @@ namespace ManagedIrbis.Readers
                     result.Add(debtor);
                 }
             }
+
+            manager.BatchRead -= HandleBatchRead;
 
             return result.ToArray();
         }

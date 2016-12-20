@@ -253,6 +253,7 @@
     <Compile Include="Source\Menus\MenuSpecification.cs" />
     <Compile Include="Source\Morphology\SynonymEngine.cs" />
     <Compile Include="Source\Morphology\SynonymEntry.cs" />
+    <Compile Include="Source\Morphology\WordShortener.cs" />
     <Compile Include="Source\Mx\Commands\AliasCommand.cs" />
     <Compile Include="Source\Mx\Commands\ConnectCommand.cs" />
     <Compile Include="Source\Mx\Commands\CsCommand.cs" />
