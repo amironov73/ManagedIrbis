@@ -1,0 +1,5 @@
+﻿foreach $x in tags('2$')
+do
+	$x, ': ',
+	v[$x][1], #
+end

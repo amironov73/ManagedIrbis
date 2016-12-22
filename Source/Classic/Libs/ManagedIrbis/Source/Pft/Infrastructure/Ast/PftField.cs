@@ -99,6 +99,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public string Tag { get; set; }
 
+        public string TagSpecification { get; set; }
+
         /// <summary>
         /// Repeat count.
         /// </summary>
@@ -145,6 +147,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Private members
+
+        private PftNumeric _tagProgram;
 
         /// <summary>
         /// Extract substring in safe manner.
@@ -237,6 +241,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Length = specification.Length;
             SubField = specification.SubField;
             Tag = specification.Tag;
+            TagSpecification = specification.TagSpecification;
             FieldRepeat = specification.FieldRepeat;
             SubFieldRepeat = specification.SubFieldRepeat;
 
@@ -278,6 +283,41 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         /// <summary>
+        /// Evaluate tag specification (if any).
+        /// </summary>
+        [CanBeNull]
+        public string EvaluateTagSpecification
+            (
+                [NotNull] PftContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            if (!string.IsNullOrEmpty(TagSpecification))
+            {
+                if (ReferenceEquals(_tagProgram, null))
+                {
+                    PftLexer lexer = new PftLexer();
+                    PftTokenList tokens = lexer.Tokenize(TagSpecification);
+                    PftParser parser = new PftParser(tokens);
+                    _tagProgram = parser.ParseArithmetic();
+                }
+                string textValue = context.Evaluate(_tagProgram);
+                int integerValue = (int) _tagProgram.Value;
+                if (integerValue != 0)
+                {
+                    Tag = integerValue.ToInvariantString();
+                }
+                else
+                {
+                    Tag = textValue;
+                }
+            }
+
+            return Tag;
+        }
+
+        /// <summary>
         /// Get value.
         /// </summary>
         [CanBeNull]
@@ -290,10 +330,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             MarcRecord record = context.Record;
             if (record == null
-                || string.IsNullOrEmpty(Tag))
+                || (string.IsNullOrEmpty(Tag)
+                    && string.IsNullOrEmpty(TagSpecification)
+                   )
+               )
             {
                 return null;
             }
+
+            EvaluateTagSpecification(context);
 
             int index = context.Index;
 
@@ -478,6 +523,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 Name = SimplifyTypeName(GetType().Name),
                 Value = Text
             };
+
+            if (!string.IsNullOrEmpty(TagSpecification))
+            {
+                PftNodeInfo spec= new PftNodeInfo
+                {
+                    Name = "TagSpec",
+                    Value = TagSpecification
+                };
+                result.Children.Add(spec);
+            }
 
             if (FieldRepeat.Kind != IndexKind.None)
             {

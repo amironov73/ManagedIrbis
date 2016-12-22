@@ -112,7 +112,6 @@ namespace ManagedIrbis
         /// </summary>
         public int Length { get; set; }
 
-
         /// <summary>
         /// Subfield.
         /// </summary>
@@ -123,6 +122,12 @@ namespace ManagedIrbis
         /// </summary>
         [CanBeNull]
         public string Tag { get; set; }
+
+        /// <summary>
+        /// Tag specification.
+        /// </summary>
+        [CanBeNull]
+        public string TagSpecification { get; set; }
 
         /// <summary>
         /// Field repeat.
@@ -202,6 +207,7 @@ namespace ManagedIrbis
             Length = specification.Length;
             SubField = specification.SubField;
             Tag = specification.Tag;
+            TagSpecification = specification.TagSpecification;
         }
 
         /// <summary>
@@ -269,6 +275,7 @@ namespace ManagedIrbis
             Offset = reader.ReadPackedInt32();
             SubField = reader.ReadChar();
             Tag = reader.ReadNullableString();
+            TagSpecification = reader.ReadNullableString();
         }
 
         /// <inheritdoc/>
@@ -289,6 +296,7 @@ namespace ManagedIrbis
                 .WritePackedInt32(Offset)
                 .Write(SubField);
             writer.WriteNullable(Tag);
+            writer.WriteNullable(TagSpecification);
         }
 
         #endregion

@@ -202,5 +202,42 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             string actual = specification.ToString();
             Assert.AreEqual("v200^a(10)", actual);
         }
+
+        [TestMethod]
+        public void FieldSpecification_Parse_TagSpecification1()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(true, specification.Parse("v[200]^a"));
+            Assert.AreEqual('v', specification.Command);
+            Assert.AreEqual(null, specification.Embedded);
+            Assert.AreEqual(0, specification.ParagraphIndent);
+            Assert.AreEqual(IndexKind.None, specification.FieldRepeat.Kind);
+            Assert.AreEqual(IndexKind.None, specification.SubFieldRepeat.Kind);
+            Assert.AreEqual(0, specification.Offset);
+            Assert.AreEqual(0, specification.Length);
+            Assert.AreEqual('a', specification.SubField);
+            Assert.AreEqual(null, specification.Tag);
+            Assert.AreEqual("200", specification.TagSpecification);
+            Assert.AreEqual("v[200]^a", specification.RawText);
+        }
+
+        [TestMethod]
+        public void FieldSpecification_Parse_TagSpecification2()
+        {
+            FieldSpecification specification = new FieldSpecification();
+            Assert.AreEqual(true, specification.Parse("v[$x + 2]^a"));
+            Assert.AreEqual('v', specification.Command);
+            Assert.AreEqual(null, specification.Embedded);
+            Assert.AreEqual(0, specification.ParagraphIndent);
+            Assert.AreEqual(IndexKind.None, specification.FieldRepeat.Kind);
+            Assert.AreEqual(IndexKind.None, specification.SubFieldRepeat.Kind);
+            Assert.AreEqual(0, specification.Offset);
+            Assert.AreEqual(0, specification.Length);
+            Assert.AreEqual('a', specification.SubField);
+            Assert.AreEqual(null, specification.Tag);
+            Assert.AreEqual("$x + 2", specification.TagSpecification);
+            Assert.AreEqual("v[$x + 2]^a", specification.RawText);
+        }
+
     }
 }

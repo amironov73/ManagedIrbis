@@ -1,0 +1,1 @@
+﻿Indirect tag referencing, simple test

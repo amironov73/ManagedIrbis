@@ -87,6 +87,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         public string Tag { get; set; }
 
         /// <summary>
+        /// Tag specification.
+        /// </summary>
+        [CanBeNull]
+        public string TagSpecification { get; set; }
+
+        /// <summary>
         /// Unparsed field specification.
         /// </summary>
         [CanBeNull]
@@ -215,23 +221,50 @@ namespace ManagedIrbis.Pft.Infrastructure
             } // switch
 
             c = navigator.ReadChar();
-            if (!c.IsArabicDigit())
-            {
-                return false;
-            }
-            builder.Append(c);
 
-            while (true)
+            if (c == '[')
             {
-                c = navigator.PeekChar();
+                string text = navigator.ReadUntil
+                    (
+                        _openChars,
+                        _closeChars,
+                        _stopChars
+                    );
+                if (ReferenceEquals(text, null))
+                {
+                    throw new PftSyntaxException(navigator);
+                }
+
+                text = text.Trim();
+                if (string.IsNullOrEmpty(text))
+                {
+                    throw new PftSyntaxException(navigator);
+                }
+
+                TagSpecification = text;
+
+                navigator.ReadChar();
+            }
+            else
+            {
                 if (!c.IsArabicDigit())
                 {
-                    break;
+                    return false;
                 }
-                navigator.ReadChar();
                 builder.Append(c);
+
+                while (true)
+                {
+                    c = navigator.PeekChar();
+                    if (!c.IsArabicDigit())
+                    {
+                        break;
+                    }
+                    navigator.ReadChar();
+                    builder.Append(c);
+                }
+                Tag = builder.ToString();
             }
-            Tag = builder.ToString();
 
             navigator.SkipWhitespace();
             c = navigator.PeekChar();

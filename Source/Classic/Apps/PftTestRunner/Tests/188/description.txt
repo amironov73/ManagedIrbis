@@ -1,0 +1,1 @@
+﻿Indirect tag referencing, foreach test

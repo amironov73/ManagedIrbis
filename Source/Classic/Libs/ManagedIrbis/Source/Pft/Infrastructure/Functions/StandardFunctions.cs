@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using AM;
@@ -648,6 +649,42 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
+        private static void Tags(PftContext context, PftNode node, PftNode[] arguments)
+        {
+            MarcRecord record = context.Record;
+            if (!ReferenceEquals(record, null))
+            {
+                string[] tags = record.Fields.Select
+                    (
+                        field => field.Tag
+                    )
+                    .Distinct()
+                    .ToArray();
+
+                tags = NumberText.Sort(tags).ToArray();
+
+                string expression = context.GetStringArgument(arguments, 0);
+                if (!string.IsNullOrEmpty(expression))
+                {
+                    Regex regex = new Regex(expression);
+                    tags = tags.Where
+                        (
+                            tag => regex.IsMatch(tag)
+                        )
+                        .ToArray();
+                }
+
+                string output = string.Join
+                    (
+                        Environment.NewLine,
+                        tags
+                    );
+                context.Write(node, output);
+            }
+        }
+
+        //=================================================
+
         private static void Today(PftContext context, PftNode node, PftNode[] arguments)
         {
             DateTime today = DateTime.Today;
@@ -770,6 +807,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("split", Split);
             reg.Add("substring", Substring);
             reg.Add("system", System);
+            reg.Add("tags", Tags);
             reg.Add("today", Today);
             reg.Add("tolower", ToLower);
             reg.Add("toupper", ToUpper);

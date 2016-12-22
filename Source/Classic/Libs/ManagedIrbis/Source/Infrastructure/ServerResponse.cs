@@ -396,7 +396,7 @@ namespace ManagedIrbis.Infrastructure
         [CanBeNull]
         public MarcRecord GetRecord
             (
-            [NotNull] MarcRecord record
+                [NotNull] MarcRecord record
             )
         {
             Code.NotNull(record, "record");
