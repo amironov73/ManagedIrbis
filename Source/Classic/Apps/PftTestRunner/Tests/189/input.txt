@@ -1,0 +1,5 @@
+﻿foreach $x in 'a', 'e', 'f'
+do
+	$x, ': ',
+	v200^[$x], #
+end

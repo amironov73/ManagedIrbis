@@ -93,14 +93,30 @@ namespace ManagedIrbis.Pft.Infrastructure
         public string TagSpecification { get; set; }
 
         /// <summary>
+        /// Subfield specification.
+        /// </summary>
+        [CanBeNull]
+        public string SubFieldSpecification { get; set; }
+
+        /// <summary>
         /// Unparsed field specification.
         /// </summary>
         [CanBeNull]
         public string RawText { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public static bool ParseSubFieldSpecification { get; set; }
+
         #endregion
 
         #region Construction
+
+        static FieldSpecification()
+        {
+            ParseSubFieldSpecification = true;
+        }
 
         #endregion
 
@@ -336,12 +352,38 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {
                     throw new PftSyntaxException(navigator);
                 }
+                
                 c = navigator.ReadChar();
-                if (!SubFieldCode.IsValidCode(c))
+
+                if (c == '['
+                    & ParseSubFieldSpecification)
                 {
-                    throw new PftSyntaxException(navigator);
+                    string text = navigator.ReadUntil
+                        (
+                            _openChars,
+                            _closeChars,
+                            _stopChars
+                        );
+                    if (ReferenceEquals(text, null))
+                    {
+                        SubField = c;
+                    }
+                    else
+                    {
+                        SubFieldSpecification = text;
+
+                        navigator.ReadChar();
+                    }
                 }
-                SubField = SubFieldCode.Normalize(c);
+                else
+                {
+
+                    if (!SubFieldCode.IsValidCode(c))
+                    {
+                        throw new PftSyntaxException(navigator);
+                    }
+                    SubField = SubFieldCode.Normalize(c);
+                }
 
                 navigator.SkipWhitespace();
                 c = navigator.PeekChar();

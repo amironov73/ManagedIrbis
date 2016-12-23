@@ -1,0 +1,1 @@
+﻿Indirect subfield referencing, foreach test

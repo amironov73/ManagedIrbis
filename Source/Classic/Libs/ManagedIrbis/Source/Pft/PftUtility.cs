@@ -695,7 +695,8 @@ namespace ManagedIrbis.Pft
             string[] result = fields.Select
                 (
                     field => field.ToText()
-                ).ToArray();
+                )
+                .ToArray();
 
             result = GetArrayItem
                 (
@@ -706,6 +707,65 @@ namespace ManagedIrbis.Pft
 
             return result;
         }
+
+        //=================================================
+
+        /// <summary>
+        /// Get value of the field.
+        /// </summary>
+        [CanBeNull]
+        public static string GetFieldValue
+            (
+                [NotNull] PftContext context,
+                [NotNull] RecordField field,
+                char subFieldCode,
+                IndexSpecification subFieldRepeat
+            )
+        {
+            Code.NotNull(context, "context");
+            Code.NotNull(field, "field");
+
+            string result = null;
+
+            if (subFieldCode == SubField.NoCode)
+            {
+                result = field.FormatField
+                    (
+                        context.FieldOutputMode,
+                        context.UpperMode
+                    );
+            }
+            else if (subFieldCode == '*')
+            {
+                result = field.Value;
+                if (ReferenceEquals(result, null))
+                {
+                    SubField firstField = field.SubFields.FirstOrDefault();
+                    if (!ReferenceEquals(firstField, null))
+                    {
+                        result = firstField.Value;
+                    }
+                }
+            }
+            else
+            {
+                SubField[] subFields = field.GetSubField(subFieldCode);
+                subFields = GetArrayItem
+                    (
+                        context,
+                        subFields,
+                        subFieldRepeat
+                    );
+                SubField subField = subFields.GetOccurrence(0);
+                if (!ReferenceEquals(subField, null))
+                {
+                    result = subField.Value;
+                }
+            }
+
+            return result;
+        }
+
 
         //=================================================
 

@@ -139,6 +139,12 @@ namespace ManagedIrbis
         /// </summary>
         public IndexSpecification SubFieldRepeat { get; set; }
 
+        /// <summary>
+        /// Subfield specification.
+        /// </summary>
+        [CanBeNull]
+        public string SubFieldSpecification { get; set; }
+
         #endregion
 
         #region Construction
@@ -208,6 +214,7 @@ namespace ManagedIrbis
             SubField = specification.SubField;
             Tag = specification.Tag;
             TagSpecification = specification.TagSpecification;
+            SubFieldSpecification = specification.SubFieldSpecification;
         }
 
         /// <summary>

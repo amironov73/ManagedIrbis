@@ -99,6 +99,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public string Tag { get; set; }
 
+        /// <summary>
+        /// Tag specification.
+        /// </summary>
+        [CanBeNull]
         public string TagSpecification { get; set; }
 
         /// <summary>
@@ -115,6 +119,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Subfield repeat specification.
         /// </summary>
         public IndexSpecification SubFieldRepeat { get; set; }
+
+        /// <summary>
+        /// Subfield specification.
+        /// </summary>
+        [CanBeNull]
+        public string SubFieldSpecification { get; set; }
 
         #endregion
 
@@ -149,6 +159,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #region Private members
 
         private PftNumeric _tagProgram;
+        private PftNode _subFieldProgram;
 
         /// <summary>
         /// Extract substring in safe manner.
@@ -200,7 +211,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw;
             }
 
-            string result = string.Empty;
+            string result;
 
             try
             {
@@ -244,6 +255,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             TagSpecification = specification.TagSpecification;
             FieldRepeat = specification.FieldRepeat;
             SubFieldRepeat = specification.SubFieldRepeat;
+            SubFieldSpecification = specification.SubFieldSpecification;
 
             Text = specification.ToString();
         }
@@ -265,8 +277,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Length = reference.Length;
             SubField = reference.SubField;
             Tag = reference.Tag;
+            TagSpecification = reference.TagSpecification;
             FieldRepeat = reference.FieldRepeat;
             SubFieldRepeat = reference.SubFieldRepeat;
+            SubFieldSpecification = reference.SubFieldSpecification;
 
             Text = reference.ToString();
         }
@@ -293,15 +307,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             Code.NotNull(context, "context");
 
-            if (!string.IsNullOrEmpty(TagSpecification))
+            string tagSpecification = TagSpecification;
+            if (!string.IsNullOrEmpty(tagSpecification))
             {
                 if (ReferenceEquals(_tagProgram, null))
                 {
                     PftLexer lexer = new PftLexer();
-                    PftTokenList tokens = lexer.Tokenize(TagSpecification);
+                    PftTokenList tokens = lexer.Tokenize(tagSpecification);
                     PftParser parser = new PftParser(tokens);
                     _tagProgram = parser.ParseArithmetic();
                 }
+
                 string textValue = context.Evaluate(_tagProgram);
                 int integerValue = (int) _tagProgram.Value;
                 if (integerValue != 0)
@@ -311,6 +327,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 else
                 {
                     Tag = textValue;
+                }
+            }
+
+            string subFieldSpecification = SubFieldSpecification;
+            if (!string.IsNullOrEmpty(subFieldSpecification))
+            {
+                if (ReferenceEquals(_subFieldProgram, null))
+                {
+                    PftLexer lexer = new PftLexer();
+                    PftTokenList tokens = lexer.Tokenize(subFieldSpecification);
+                    PftParser parser = new PftParser(tokens);
+                    _subFieldProgram = parser.Parse();
+                }
+
+                string value = context.Evaluate(_subFieldProgram);
+                if (!string.IsNullOrEmpty(value))
+                {
+                    SubField = value[0];
                 }
             }
 
@@ -355,43 +389,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 return null;
             }
 
-            string result = null;
-
-            if (SubField == NoSubField)
-            {
-                result = field.FormatField
-                    (
-                        context.FieldOutputMode,
-                        context.UpperMode
-                    );
-            }
-            else if (SubField == '*')
-            {
-                result = field.Value;
-                if (ReferenceEquals(result, null))
-                {
-                    SubField firstField = field.SubFields.FirstOrDefault();
-                    if (!ReferenceEquals(firstField, null))
-                    {
-                        result = firstField.Value;
-                    }
-                }
-            }
-            else
-            {
-                SubField[] subFields = field.GetSubField(SubField);
-                subFields = PftUtility.GetArrayItem
-                    (
-                        context,
-                        subFields,
-                        SubFieldRepeat
-                    );
-                SubField subField = subFields.GetOccurrence(0);
-                if (!ReferenceEquals(subField, null))
-                {
-                    result = subField.Value;
-                }
-            }
+            string result = PftUtility.GetFieldValue
+                (
+                    context,
+                    field,
+                    SubField,
+                    SubFieldRepeat
+                );
 
             result = LimitText(result);
 
