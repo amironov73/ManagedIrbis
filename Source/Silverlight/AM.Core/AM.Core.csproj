@@ -86,6 +86,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\AutoDisposeAttribute.cs">
       <Link>AM\AutoDisposeAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\BinaryAttachment.cs">
+      <Link>AM\BinaryAttachment.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Caching\AbstractCache.cs">
       <Link>AM\Caching\AbstractCache.cs</Link>
     </Compile>
@@ -241,6 +244,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Globalization\UICultureSaver.cs">
       <Link>AM\Globalization\UICultureSaver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IAttachmentContainer.cs">
+      <Link>AM\IAttachmentContainer.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\InquiryEventArgs.cs">
       <Link>AM\InquiryEventArgs.cs</Link>
