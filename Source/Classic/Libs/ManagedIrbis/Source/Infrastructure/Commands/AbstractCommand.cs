@@ -45,10 +45,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// Connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection
-        {
-            get { return _connection; }
-        }
+        public IrbisConnection Connection { get; private set; }
 
         /// <summary>
         /// Good return codes.
@@ -85,14 +82,12 @@ namespace ManagedIrbis.Infrastructure.Commands
         {
             Code.NotNull(connection, "connection");
 
-            _connection = connection;
+            Connection = connection;
         }
 
         #endregion
 
         #region Private members
-
-        private readonly IrbisConnection _connection;
 
         #endregion
 

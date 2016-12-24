@@ -101,6 +101,7 @@
     <Compile Include="AM\ArrayUtility.cs" />
     <Compile Include="AM\ArsMagnaException.cs" />
     <Compile Include="AM\AutoDisposeAttribute.cs" />
+    <Compile Include="AM\BinaryAttachment.cs" />
     <Compile Include="AM\Caching\AbstractCache.cs" />
     <Compile Include="AM\Caching\FileCache.cs" />
     <Compile Include="AM\Caching\MemoryCache.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="AM\DuplicateKeyException.cs" />
     <Compile Include="AM\ExceptionEventArgs.cs" />
     <Compile Include="AM\FuncUtility.cs" />
+    <Compile Include="AM\IAttachmentContainer.cs" />
     <Compile Include="AM\InquiryEventArgs.cs" />
     <Compile Include="AM\IO\BinaryReaderUtility.cs" />
     <Compile Include="AM\IO\BinaryWriterUtility.cs" />

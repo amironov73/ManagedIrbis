@@ -18,7 +18,6 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Infrastructure.Commands;
 
 using MoonSharp.Interpreter;
@@ -156,6 +155,30 @@ namespace ManagedIrbis.Infrastructure
                 [NotNull] ExecutionContext context
             )
         {
+            ArsMagnaException exception = context.Exception as ArsMagnaException;
+            if (!ReferenceEquals(exception, null))
+            {
+                if (!ReferenceEquals(Connection.RawClientRequest, null))
+                {
+                    BinaryAttachment request = new BinaryAttachment
+                        (
+                            "request",
+                            Connection.RawClientRequest
+                        );
+                    exception.Attach(request);
+                }
+
+                if (!ReferenceEquals(Connection.RawServerResponse, null))
+                {
+                    BinaryAttachment response = new BinaryAttachment
+                        (
+                            "response",
+                            Connection.RawServerResponse
+                        );
+                    exception.Attach(response);
+                }
+            }
+
             EventHandler<ExecutionEventArgs> handler = ExceptionOccurs;
 
             if (!ReferenceEquals(handler, null))
@@ -241,16 +264,9 @@ namespace ManagedIrbis.Infrastructure
 
             OnBeforeExecute(context);
 
-            ServerResponse result;
-
-            if (ReferenceEquals(NestedEngine, null))
-            {
-                result = StandardExecution(context);
-            }
-            else
-            {
-                result = NestedEngine.ExecuteCommand(context);
-            }
+            var result = ReferenceEquals(NestedEngine, null) 
+                ? StandardExecution(context) 
+                : NestedEngine.ExecuteCommand(context);
 
             context.Response = result;
 

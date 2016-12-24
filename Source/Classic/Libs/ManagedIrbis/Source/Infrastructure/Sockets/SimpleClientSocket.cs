@@ -68,7 +68,7 @@ namespace ManagedIrbis.Infrastructure
 
         #endregion
 
-#region Private members
+        #region Private members
 
 #if !WIN81
 
@@ -145,7 +145,7 @@ namespace ManagedIrbis.Infrastructure
 
 #endif
 
-#endregion
+        #endregion
 
         #region AbstractClientSocket members
 
@@ -166,6 +166,8 @@ namespace ManagedIrbis.Infrastructure
             )
         {
             Code.NotNull(request, "request");
+
+            Connection.RawClientRequest = request;
 
 #if SILVERLIGHT
 
@@ -197,6 +199,8 @@ namespace ManagedIrbis.Infrastructure
                         );
 
                     byte[] result = stream.ReadToEnd();
+
+                    Connection.RawServerResponse = result;
 
                     return result;
                 }

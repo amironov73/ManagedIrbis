@@ -12,7 +12,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
@@ -25,7 +24,6 @@ using AM.Threading;
 using CodeJam;
 
 using JetBrains.Annotations;
-using ManagedIrbis.Batch;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Gbl;
 using ManagedIrbis.Infrastructure.Commands;
@@ -324,6 +322,18 @@ namespace ManagedIrbis
 
         private IniFile _iniFile;
 
+        /// <summary>
+        /// Raw last client query.
+        /// </summary>
+        [CanBeNull]
+        internal byte[] RawClientRequest { get; set; }
+
+        /// <summary>
+        /// Raw last server response.
+        /// </summary>
+        [CanBeNull]
+        internal byte[] RawServerResponse { get; set; }
+
         internal void ThrowIfConnected()
         {
             if (Connected)
@@ -594,6 +604,9 @@ namespace ManagedIrbis
         {
             Code.NotNull(command, "command");
 
+            RawClientRequest = null;
+            RawServerResponse = null;
+
             ExecutionContext context = new ExecutionContext
                 (
                     this,
@@ -601,6 +614,9 @@ namespace ManagedIrbis
                 );
             ServerResponse result
                 = Executive.ExecuteCommand(context);
+
+            RawClientRequest = null;
+            RawServerResponse = null;
 
             return result;
         }
