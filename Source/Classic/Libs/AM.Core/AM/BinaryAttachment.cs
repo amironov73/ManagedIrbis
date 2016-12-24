@@ -81,6 +81,19 @@ namespace AM
 
         #region Public methods
 
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            string result = string.Format
+                (
+                    "{0}: {1} bytes",
+                    Name,
+                    Content.Length
+                );
+
+            return result;
+        }
+
         #endregion
     }
 }

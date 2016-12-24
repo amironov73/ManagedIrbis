@@ -68,10 +68,12 @@ namespace AM.Windows.Forms
 
         private Exception _exception;
 
+        private BinaryAttachment[] _attachments;
+
         private void _abortButton_Click
             (
-            object sender,
-            EventArgs e
+                object sender,
+                EventArgs e
             )
         {
             Application.Exit();
@@ -79,8 +81,8 @@ namespace AM.Windows.Forms
 
         private void _closeButton_Click
             (
-            object sender,
-            EventArgs e
+                object sender,
+                EventArgs e
             )
         {
             DialogResult = DialogResult.OK;
@@ -88,8 +90,8 @@ namespace AM.Windows.Forms
 
         private void _copyButton_Click
             (
-            object sender,
-            EventArgs e
+                object sender,
+                EventArgs e
             )
         {
             Clipboard.SetText(_textBox.Text);
@@ -97,8 +99,8 @@ namespace AM.Windows.Forms
 
         private void _printButton_Click
             (
-            object sender,
-            EventArgs e
+                object sender,
+                EventArgs e
             )
         {
             using (PlainTextPrinter printer
@@ -111,8 +113,8 @@ namespace AM.Windows.Forms
 
         private void _saveButton_Click
             (
-            object sender,
-            EventArgs e
+                object sender,
+                EventArgs e
             )
         {
             if (_saveFileDialog.ShowDialog(this)
@@ -125,6 +127,19 @@ namespace AM.Windows.Forms
                     );
             }
 
+        }
+
+        private void _attachmentsButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            using (AttachmentBox box 
+                = new AttachmentBox(_attachments))
+            {
+                box.ShowDialog(this);
+            }
         }
 
         #endregion
@@ -147,6 +162,18 @@ namespace AM.Windows.Forms
                 box._typeLabel.Text = exception.GetType().ToString();
                 box._messageLabel.Text = exception.Message;
                 box._textBox.Text = exception.ToString();
+
+                IAttachmentContainer container
+                    = exception as IAttachmentContainer;
+                if (!ReferenceEquals(container, null))
+                {
+                    box._attachments = container.ListAttachments();
+                    if (box._attachments.Length != 0)
+                    {
+                        box._attachmentsButton.Enabled = true;
+                    }
+                }
+
                 box.ShowDialog(parent);
             }
         }

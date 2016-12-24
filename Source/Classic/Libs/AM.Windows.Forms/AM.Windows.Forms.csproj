@@ -102,6 +102,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AM\Windows\Forms\ApplicationUtility.cs" />
+    <Compile Include="AM\Windows\Forms\AttachmentBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\AttachmentBox.Designer.cs">
+      <DependentUpon>AttachmentBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="AM\Windows\Forms\BindingListSource.cs" />
     <Compile Include="AM\Windows\Forms\BorderInfo.cs" />
     <Compile Include="AM\Windows\Forms\BorderInfoControl.cs">
@@ -302,6 +308,9 @@
     <None Include="Images\rightArrow.png" />
     <None Include="Images\leftArrow.png" />
     <None Include="Images\downArrow.png" />
+    <EmbeddedResource Include="AM\Windows\Forms\AttachmentBox.resx">
+      <DependentUpon>AttachmentBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AM\Windows\Forms\TextBoxWithButton.resx">
       <DependentUpon>TextBoxWithButton.cs</DependentUpon>
     </EmbeddedResource>

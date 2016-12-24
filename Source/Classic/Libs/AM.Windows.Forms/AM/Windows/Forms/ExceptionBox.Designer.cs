@@ -41,12 +41,13 @@ namespace AM.Windows.Forms
             this._abortButton = new System.Windows.Forms.Button();
             this._typeLabel = new System.Windows.Forms.Label();
             this._messageLabel = new System.Windows.Forms.Label();
+            this._attachmentsButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // _textBox
             // 
-            resources.ApplyResources(this._textBox, "_textBox");
             this._textBox.BackColor = System.Drawing.SystemColors.Window;
+            resources.ApplyResources(this._textBox, "_textBox");
             this._textBox.Name = "_textBox";
             this._textBox.ReadOnly = true;
             // 
@@ -101,6 +102,13 @@ namespace AM.Windows.Forms
             resources.ApplyResources(this._messageLabel, "_messageLabel");
             this._messageLabel.Name = "_messageLabel";
             // 
+            // _attachmentsButton
+            // 
+            resources.ApplyResources(this._attachmentsButton, "_attachmentsButton");
+            this._attachmentsButton.Name = "_attachmentsButton";
+            this._attachmentsButton.UseVisualStyleBackColor = true;
+            this._attachmentsButton.Click += new System.EventHandler(this._attachmentsButton_Click);
+            // 
             // ExceptionBox
             // 
             resources.ApplyResources(this, "$this");
@@ -112,6 +120,7 @@ namespace AM.Windows.Forms
             this.Controls.Add(this._copyButton);
             this.Controls.Add(this._closeButton);
             this.Controls.Add(this._saveButton);
+            this.Controls.Add(this._attachmentsButton);
             this.Controls.Add(this._printButton);
             this.Controls.Add(this._textBox);
             this.Name = "ExceptionBox";
@@ -132,5 +141,6 @@ namespace AM.Windows.Forms
         private System.Windows.Forms.Button _abortButton;
         private System.Windows.Forms.Label _typeLabel;
         private System.Windows.Forms.Label _messageLabel;
+        private System.Windows.Forms.Button _attachmentsButton;
     }
 }

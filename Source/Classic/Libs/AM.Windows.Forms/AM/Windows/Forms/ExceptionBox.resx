@@ -117,61 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;_textBox.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;_printButton.Name" xml:space="preserve">
-    <value>_printButton</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="_saveButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>316, 302</value>
+  <data name="_textBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 83</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="_messageLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="_abortButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>469, 302</value>
-  </data>
-  <data name="_printButton.Text" xml:space="preserve">
-    <value>Print text</value>
-  </data>
-  <data name="_abortButton.Text" xml:space="preserve">
-    <value>Abort the program</value>
-  </data>
-  <data name="_typeLabel.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 7.8pt, style=Bold</value>
-  </data>
-  <data name="&gt;&gt;_copyButton.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>ExceptionBox</value>
-  </data>
-  <data name="&gt;&gt;_abortButton.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="_saveButton.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
   <data name="_textBox.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;_closeButton.Name" xml:space="preserve">
-    <value>_closeButton</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="_textBox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
+  <data name="_textBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>784, 213</value>
   </data>
   <data name="_textBox.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
-  </data>
-  <data name="_messageLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 32</value>
-  </data>
-  <data name="&gt;&gt;_saveButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="_closeButton.Text" xml:space="preserve">
-    <value>Close the window</value>
   </data>
   <data name="&gt;&gt;_textBox.Name" xml:space="preserve">
     <value>_textBox</value>
@@ -179,102 +141,239 @@
   <data name="&gt;&gt;_textBox.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="_abortButton.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="_typeLabel.Text" xml:space="preserve">
-    <value>Exception type</value>
-  </data>
-  <data name="_copyButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 39</value>
-  </data>
-  <data name="_typeLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="_printButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>160, 302</value>
-  </data>
-  <data name="&gt;&gt;_printButton.Parent" xml:space="preserve">
+  <data name="&gt;&gt;_textBox.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="_messageLabel.Text" xml:space="preserve">
-    <value>Exception message</value>
-  </data>
-  <data name="_saveButton.Text" xml:space="preserve">
-    <value>Save to file</value>
-  </data>
-  <data name="_printButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 39</value>
-  </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>8, 16</value>
-  </data>
-  <data name="_textBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>784, 213</value>
-  </data>
-  <data name="&gt;&gt;_saveButton.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="_copyButton.Text" xml:space="preserve">
-    <value>Copy to clipboard</value>
-  </data>
-  <data name="&gt;&gt;_messageLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="_textBox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
-    <value>Vertical</value>
-  </data>
-  <data name="&gt;&gt;_typeLabel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="_closeButton.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+  <data name="&gt;&gt;_textBox.ZOrder" xml:space="preserve">
+    <value>8</value>
   </data>
   <data name="_printButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
+  <data name="_printButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>263, 302</value>
+  </data>
+  <data name="_printButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>86, 39</value>
+  </data>
   <data name="_printButton.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;_saveButton.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="_printButton.Text" xml:space="preserve">
+    <value>Print text</value>
   </data>
-  <data name="_abortButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 39</value>
-  </data>
-  <data name="&gt;&gt;_messageLabel.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;_messageLabel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;_printButton.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;_closeButton.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;_printButton.Name" xml:space="preserve">
+    <value>_printButton</value>
   </data>
   <data name="&gt;&gt;_printButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="_closeButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
+  <data name="&gt;&gt;_printButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;_printButton.ZOrder" xml:space="preserve">
+    <value>7</value>
   </data>
   <data name="_saveButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
-  <data name="&gt;&gt;_typeLabel.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="_saveButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>355, 302</value>
   </data>
-  <data name="&gt;&gt;_abortButton.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="_saveButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>108, 39</value>
+  </data>
+  <data name="_saveButton.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="_saveButton.Text" xml:space="preserve">
+    <value>Save to file</value>
+  </data>
+  <data name="&gt;&gt;_saveButton.Name" xml:space="preserve">
+    <value>_saveButton</value>
+  </data>
+  <data name="&gt;&gt;_saveButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_saveButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;_saveButton.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="_closeButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="_closeButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>622, 302</value>
   </data>
   <data name="_closeButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>147, 39</value>
   </data>
-  <data name="&gt;&gt;_saveFileDialog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SaveFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="_closeButton.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="_closeButton.Text" xml:space="preserve">
+    <value>Close the window</value>
+  </data>
+  <data name="&gt;&gt;_closeButton.Name" xml:space="preserve">
+    <value>_closeButton</value>
+  </data>
+  <data name="&gt;&gt;_closeButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_closeButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;_closeButton.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="_copyButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 302</value>
+  </data>
+  <data name="_copyButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 39</value>
+  </data>
+  <data name="_copyButton.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="_copyButton.Text" xml:space="preserve">
+    <value>Copy to clipboard</value>
+  </data>
+  <data name="&gt;&gt;_copyButton.Name" xml:space="preserve">
+    <value>_copyButton</value>
+  </data>
+  <data name="&gt;&gt;_copyButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_copyButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;_copyButton.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <metadata name="_saveFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="_saveFileDialog.Filter" xml:space="preserve">
+    <value>Text files|*.txt|All files|*.*</value>
+  </data>
+  <data name="_abortButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>469, 302</value>
+  </data>
+  <data name="_abortButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 39</value>
+  </data>
+  <data name="_abortButton.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="_abortButton.Text" xml:space="preserve">
+    <value>Abort the program</value>
+  </data>
+  <data name="&gt;&gt;_abortButton.Name" xml:space="preserve">
+    <value>_abortButton</value>
+  </data>
+  <data name="&gt;&gt;_abortButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_abortButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;_abortButton.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="_typeLabel.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 7.8pt, style=Bold</value>
+  </data>
+  <data name="_typeLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 9</value>
+  </data>
+  <data name="_typeLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>757, 23</value>
+  </data>
+  <data name="_typeLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="_typeLabel.Text" xml:space="preserve">
+    <value>Exception type</value>
+  </data>
+  <data name="&gt;&gt;_typeLabel.Name" xml:space="preserve">
+    <value>_typeLabel</value>
+  </data>
+  <data name="&gt;&gt;_typeLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_typeLabel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;_typeLabel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="_messageLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 32</value>
+  </data>
+  <data name="_messageLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>758, 37</value>
+  </data>
+  <data name="_messageLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="_messageLabel.Text" xml:space="preserve">
+    <value>Exception message</value>
+  </data>
+  <data name="&gt;&gt;_messageLabel.Name" xml:space="preserve">
+    <value>_messageLabel</value>
+  </data>
+  <data name="&gt;&gt;_messageLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_messageLabel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;_messageLabel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="_attachmentsButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="_attachmentsButton.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="_attachmentsButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="_attachmentsButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>160, 302</value>
+  </data>
+  <data name="_attachmentsButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 39</value>
+  </data>
+  <data name="_attachmentsButton.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="_attachmentsButton.Text" xml:space="preserve">
+    <value>Attachments</value>
+  </data>
+  <data name="&gt;&gt;_attachmentsButton.Name" xml:space="preserve">
+    <value>_attachmentsButton</value>
+  </data>
+  <data name="&gt;&gt;_attachmentsButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_attachmentsButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;_attachmentsButton.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>8, 16</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>782, 353</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -573,85 +672,19 @@
         AACAAQAA4AcAAPAPAAD8PwAA//8AAA==
 </value>
   </data>
-  <data name="_saveButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 39</value>
-  </data>
-  <data name="_typeLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>757, 23</value>
-  </data>
-  <data name="&gt;&gt;_closeButton.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;_copyButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;_closeButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;_textBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="_textBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 83</value>
-  </data>
-  <data name="_typeLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 9</value>
-  </data>
-  <data name="_copyButton.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="_saveFileDialog.Filter" xml:space="preserve">
-    <value>Text files|*.txt|All files|*.*</value>
-  </data>
-  <data name="_messageLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>758, 37</value>
-  </data>
-  <data name="&gt;&gt;_saveButton.Name" xml:space="preserve">
-    <value>_saveButton</value>
-  </data>
-  <data name="&gt;&gt;_typeLabel.Name" xml:space="preserve">
-    <value>_typeLabel</value>
-  </data>
-  <data name="&gt;&gt;_copyButton.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Exception occurred</value>
-  </data>
-  <data name="_closeButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>622, 302</value>
-  </data>
-  <data name="_copyButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 302</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>782, 353</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>AM.Windows.Forms.ModalForm, AM.Windows.Forms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6d1a05bf134decdf</value>
-  </data>
-  <data name="&gt;&gt;_typeLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;_copyButton.Name" xml:space="preserve">
-    <value>_copyButton</value>
-  </data>
-  <data name="&gt;&gt;_messageLabel.Name" xml:space="preserve">
-    <value>_messageLabel</value>
-  </data>
-  <data name="&gt;&gt;_abortButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;_abortButton.Name" xml:space="preserve">
-    <value>_abortButton</value>
   </data>
   <data name="&gt;&gt;_saveFileDialog.Name" xml:space="preserve">
     <value>_saveFileDialog</value>
   </data>
-  <metadata name="_saveFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
+  <data name="&gt;&gt;_saveFileDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SaveFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>ExceptionBox</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>AM.Windows.Forms.ModalForm, AM.Windows.Forms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6d1a05bf134decdf</value>
+  </data>
 </root>
