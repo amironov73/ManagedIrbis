@@ -826,6 +826,13 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("readLine", ReadLine);
             reg.Add("write", Write);
             reg.Add("writeLine", WriteLine);
+
+            // ===================
+
+            reg.Add("call", CallObject);
+            reg.Add("createObject", CreateObject);
+            reg.Add("closeObject", CloseObject);
+            reg.Add("openObject", OpenObject);
         }
 
         #endregion
