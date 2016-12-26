@@ -61,6 +61,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FstTestRunner", "Classic\Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiberianGrider", "Classic\Apps\SiberianGrider\SiberianGrider.csproj", "{AFABF0B3-AB8E-4521-9E9C-329D865E88F1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmarks", "Benchmarks", "{8EA7C732-C1B4-4E1A-B0F7-53D3E18F564A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NopBenchmark", "Benchmarks\NopBenchmark\NopBenchmark.csproj", "{D129596A-42D4-4C98-8315-0AF63F760E9E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -175,6 +179,10 @@ Global
 		{AFABF0B3-AB8E-4521-9E9C-329D865E88F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFABF0B3-AB8E-4521-9E9C-329D865E88F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFABF0B3-AB8E-4521-9E9C-329D865E88F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D129596A-42D4-4C98-8315-0AF63F760E9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D129596A-42D4-4C98-8315-0AF63F760E9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D129596A-42D4-4C98-8315-0AF63F760E9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D129596A-42D4-4C98-8315-0AF63F760E9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -205,5 +213,6 @@ Global
 		{010E1BBD-BE45-4810-92D1-BF40EAC746DF} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{A67AE778-8F3A-49B0-B68E-DD199E1AACC8} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{AFABF0B3-AB8E-4521-9E9C-329D865E88F1} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{D129596A-42D4-4C98-8315-0AF63F760E9E} = {8EA7C732-C1B4-4E1A-B0F7-53D3E18F564A}
 	EndGlobalSection
 EndGlobal
