@@ -154,6 +154,12 @@ namespace ManagedIrbis
         [JsonIgnore]
         public object UserData { get; set; }
 
+        /// <summary>
+        /// Whether the record was modified?
+        /// </summary>
+        [JsonIgnore]
+        public bool Modified { get; set; }
+
         #endregion
 
         #region Construction

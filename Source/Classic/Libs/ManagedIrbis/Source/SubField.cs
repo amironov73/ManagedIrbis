@@ -119,11 +119,7 @@ namespace ManagedIrbis
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        public object UserData
-        {
-            get { return _userData; }
-            set { _userData = value; }
-        }
+        public object UserData { get; set; }
 
         /// <summary>
         /// Ссылка на поле, владеющее
@@ -222,8 +218,13 @@ namespace ManagedIrbis
 
         private string _value;
 
-        //[NonSerialized]
-        private object _userData;
+        internal void SetModified()
+        {
+            if (!ReferenceEquals(Field, null))
+            {
+                Field.SetModified();
+            }
+        }
 
         #endregion
 
@@ -284,6 +285,7 @@ namespace ManagedIrbis
             if (SubFieldCode.Verify(code))
             {
                 _code = code;
+                SetModified();
             }
         }
 
@@ -300,6 +302,7 @@ namespace ManagedIrbis
             if (SubFieldValue.Verify(value))
             {
                 _value = value;
+                SetModified();
             }
         }
 

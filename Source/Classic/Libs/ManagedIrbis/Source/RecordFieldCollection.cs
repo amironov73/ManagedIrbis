@@ -98,6 +98,14 @@ namespace ManagedIrbis
             return this;
         }
 
+        internal void SetModified()
+        {
+            if (!ReferenceEquals(Record, null))
+            {
+                Record.Modified = true;
+            }
+        }
+
         // ReSharper restore InconsistentNaming
 
         #endregion
@@ -197,6 +205,8 @@ namespace ManagedIrbis
                 field.Record = null;
             }
 
+            SetModified();
+
             base.ClearItems();
         }
 
@@ -217,6 +227,8 @@ namespace ManagedIrbis
             item.Record = Record;
 
             base.InsertItem(index, item);
+
+            SetModified();
 
             _RenumberFields();
         }
@@ -245,6 +257,8 @@ namespace ManagedIrbis
 
             base.RemoveItem(index);
 
+            SetModified();
+
             _RenumberFields();
         }
 
@@ -267,6 +281,8 @@ namespace ManagedIrbis
             item.Record = Record;
 
             base.SetItem(index, item);
+
+            SetModified();
 
             _RenumberFields();
         }

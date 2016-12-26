@@ -12,7 +12,7 @@ namespace UnitTests.ManagedIrbis
     public class MarcRecordTest
     {
         [TestMethod]
-        public void TestMarcRecord_Construction()
+        public void MarcRecord_Construction()
         {
             MarcRecord record = new MarcRecord();
 
@@ -49,7 +49,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestMarcRecord_Serialization()
+        public void MarcRecord_Serialization()
         {
             MarcRecord record = new MarcRecord();
             _TestSerialization(record);
@@ -90,7 +90,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestMarcRecord_FM()
+        public void MarcRecord_FM()
         {
             MarcRecord record = _GetRecord();
 
@@ -99,7 +99,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestMarcRecord_FMA()
+        public void MarcRecord_FMA()
         {
             MarcRecord record = _GetRecord();
 
@@ -115,8 +115,41 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
+        public void MarcRecord_Modified1()
+        {
+            MarcRecord record = _GetRecord();
+            record.Modified = false;
+
+            Assert.IsFalse(record.Modified);
+            record.Fields[0].SubFields[1].Value = "О. О.";
+            Assert.IsTrue(record.Modified);
+        }
+
+        [TestMethod]
+        public void MarcRecord_Modified2()
+        {
+            MarcRecord record = _GetRecord();
+            record.Modified = false;
+
+            Assert.IsFalse(record.Modified);
+            record.Fields.Add(new RecordField("300", "Четвертое примечание"));
+            Assert.IsTrue(record.Modified);
+        }
+
+        [TestMethod]
+        public void MarcRecord_Modified3()
+        {
+            MarcRecord record = _GetRecord();
+            record.Modified = false;
+
+            Assert.IsFalse(record.Modified);
+            record.Fields.RemoveAt(record.Fields.Count - 1);
+            Assert.IsTrue(record.Modified);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
-        public void TestIrbisRecord_ReadOnly()
+        public void MarcRecord_ReadOnly()
         {
             MarcRecord record = _GetRecord().AsReadOnly();
 
@@ -137,7 +170,7 @@ namespace UnitTests.ManagedIrbis
         //}
 
         [TestMethod]
-        public void TestMarcRecord_Renumbering()
+        public void MarcRecord_Renumbering()
         {
             MarcRecord record = _GetRecord();
 
@@ -164,7 +197,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestMarcRecord_Verify()
+        public void MarcRecord_Verify()
         {
             MarcRecord record = _GetRecord();
 

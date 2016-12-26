@@ -89,6 +89,14 @@ namespace ManagedIrbis
 
         // ReSharper restore InconsistentNaming
 
+        internal void SetModified()
+        {
+            if (!ReferenceEquals(Field, null))
+            {
+                Field.SetModified();
+            }
+        }
+
         #endregion
 
         #region Public methods
@@ -185,6 +193,8 @@ namespace ManagedIrbis
                 subField.Field = null;
             }
 
+            SetModified();
+
             base.ClearItems();
         }
 
@@ -207,6 +217,8 @@ namespace ManagedIrbis
             Code.NotNull(item, "item");
 
             item.Field = Field;
+
+            SetModified();
 
             base.InsertItem(index, item);
         }
@@ -231,6 +243,8 @@ namespace ManagedIrbis
                 {
                     subField.Field = null;
                 }
+
+                SetModified();
             }
 
             base.RemoveItem(index);
@@ -254,6 +268,8 @@ namespace ManagedIrbis
             Code.NotNull(item, "item");
 
             item.Field = Field;
+
+            SetModified();
 
             base.SetItem(index, item);
         }

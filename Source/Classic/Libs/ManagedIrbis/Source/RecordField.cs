@@ -165,7 +165,7 @@ namespace ManagedIrbis
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        public MarcRecord Record;
+        public MarcRecord Record { get; set; }
 
         /// <summary>
         /// Field path
@@ -198,10 +198,9 @@ namespace ManagedIrbis
             [DebuggerStepThrough]
             get
             {
-                return StringUtility.SafeStarts(Tag, "00");
+                return Tag.SafeStarts("00");
             }
         }
-
 
         #endregion
 
@@ -360,6 +359,14 @@ namespace ManagedIrbis
                 }
             }
             value.Length = 0;
+        }
+
+        internal void SetModified()
+        {
+            if (!ReferenceEquals(Record, null))
+            {
+                Record.Modified = true;
+            }
         }
 
         #endregion
