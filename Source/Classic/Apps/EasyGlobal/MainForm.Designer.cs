@@ -30,17 +30,19 @@ namespace EasyGlobal
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this._dbBox = new System.Windows.Forms.ComboBox();
             this._searchBox = new System.Windows.Forms.TextBox();
             this._sequentialBox = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this._programBox = new System.Windows.Forms.TextBox();
             this._console = new AM.Windows.Forms.ConsoleControl();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this._goButton = new System.Windows.Forms.Button();
+            this._timer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // _dbBox
@@ -58,6 +60,7 @@ namespace EasyGlobal
             this._searchBox.Name = "_searchBox";
             this._searchBox.Size = new System.Drawing.Size(384, 20);
             this._searchBox.TabIndex = 1;
+            this._searchBox.Text = "\"K=бетон$\"";
             // 
             // _sequentialBox
             // 
@@ -66,15 +69,16 @@ namespace EasyGlobal
             this._sequentialBox.Size = new System.Drawing.Size(472, 20);
             this._sequentialBox.TabIndex = 2;
             // 
-            // textBox3
+            // _programBox
             // 
-            this.textBox3.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox3.Location = new System.Drawing.Point(12, 135);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox3.Size = new System.Drawing.Size(640, 105);
-            this.textBox3.TabIndex = 3;
+            this._programBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this._programBox.Location = new System.Drawing.Point(12, 135);
+            this._programBox.Multiline = true;
+            this._programBox.Name = "_programBox";
+            this._programBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this._programBox.Size = new System.Drawing.Size(640, 105);
+            this._programBox.TabIndex = 3;
+            this._programBox.Text = "\'[\', mfn, \'] \' v200^a, \" : \"v200^e, \" / \"v200^f, /";
             // 
             // _console
             // 
@@ -131,6 +135,12 @@ namespace EasyGlobal
             this._goButton.TabIndex = 9;
             this._goButton.Text = "Запуск!";
             this._goButton.UseVisualStyleBackColor = true;
+            this._goButton.Click += new System.EventHandler(this._goButton_Click);
+            // 
+            // _timer
+            // 
+            this._timer.Interval = 10000;
+            this._timer.Tick += new System.EventHandler(this._timer_Tick);
             // 
             // MainForm
             // 
@@ -142,7 +152,7 @@ namespace EasyGlobal
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this._programBox);
             this.Controls.Add(this._sequentialBox);
             this.Controls.Add(this._searchBox);
             this.Controls.Add(this._dbBox);
@@ -152,6 +162,7 @@ namespace EasyGlobal
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "EasyGlobal";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -163,13 +174,14 @@ namespace EasyGlobal
         private System.Windows.Forms.ComboBox _dbBox;
         private System.Windows.Forms.TextBox _searchBox;
         private System.Windows.Forms.TextBox _sequentialBox;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox _programBox;
         private AM.Windows.Forms.ConsoleControl _console;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button _goButton;
+        private System.Windows.Forms.Timer _timer;
     }
 }
 

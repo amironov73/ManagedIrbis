@@ -9,7 +9,6 @@
 
 #region Using directives
 
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
@@ -82,7 +81,6 @@ namespace ManagedIrbis
         /// </remarks>
         [XmlAttribute("code")]
         [JsonProperty("code")]
-        [CanBeNull]
         public string CodeString
         {
             get
