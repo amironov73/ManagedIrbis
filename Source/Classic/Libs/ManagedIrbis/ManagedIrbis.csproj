@@ -106,6 +106,9 @@
     <Compile Include="Source\Batch\BatchRecordFormatter.cs" />
     <Compile Include="Source\Batch\BatchRecordReader.cs" />
     <Compile Include="Source\Batch\BatchRecordWriter.cs" />
+    <Compile Include="Source\Biblio\BiblioChapter.cs" />
+    <Compile Include="Source\Biblio\BiblioDocument.cs" />
+    <Compile Include="Source\Biblio\BiblioProcessor.cs" />
     <Compile Include="Source\BibTex\BibTex.cs" />
     <Compile Include="Source\Caching\IrbisCache.cs" />
     <Compile Include="Source\Caching\MenuCache.cs" />

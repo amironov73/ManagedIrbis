@@ -19,7 +19,10 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.ImportExport;
+using ManagedIrbis.Pft;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -338,8 +341,10 @@ namespace ManagedIrbis
         {
             Code.NotNull(format, "format");
 
-            FieldReference reference = FieldReference.Parse(format);
-            string result = reference.Format(this);
+            // TODO Some caching?
+            PftFormatter formatter = new PftFormatter();
+            formatter.ParseProgram(format);
+            string result = formatter.Format(this);
 
             return result;
         }
@@ -358,6 +363,7 @@ namespace ManagedIrbis
             ThrowIfReadOnly();
 
             _database = newDatabase;
+            Modified = true;
 
             return this;
         }
@@ -375,6 +381,7 @@ namespace ManagedIrbis
             Code.Nonnegative(newMfn, "newMfn");
 
             _mfn = newMfn;
+            Modified = true;
 
             return this;
         }
@@ -391,6 +398,7 @@ namespace ManagedIrbis
             ThrowIfReadOnly();
 
             _status = newStatus;
+            Modified = true;
 
             return this;
         }
@@ -408,6 +416,7 @@ namespace ManagedIrbis
             Code.Nonnegative(newVersion, "newVersion");
 
             _version = newVersion;
+            Modified = true;
 
             return this;
         }

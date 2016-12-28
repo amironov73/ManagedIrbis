@@ -309,6 +309,8 @@ namespace ManagedIrbis.ImportExport
                 }
             }
 
+            record.Modified = false;
+
             return record;
         }
 
@@ -348,6 +350,8 @@ namespace ManagedIrbis.ImportExport
                 }
             }
 
+            record.Modified = false;
+
             return record;
         }
 
@@ -385,6 +389,8 @@ namespace ManagedIrbis.ImportExport
                     record.Fields.Add(field);
                 }
             }
+
+            record.Modified = false;
 
             return record;
         }
@@ -427,6 +433,8 @@ namespace ManagedIrbis.ImportExport
                 }
             }
 
+            record.Modified = false;
+
             return record;
         }
 
@@ -466,6 +474,8 @@ namespace ManagedIrbis.ImportExport
                 }
             }
 
+            record.Modified = false;
+
             return record;
         }
 
@@ -499,6 +509,8 @@ namespace ManagedIrbis.ImportExport
                     record.Fields.Add(field);
                 }
             }
+
+            record.Modified = false;
 
             return record;
         }
