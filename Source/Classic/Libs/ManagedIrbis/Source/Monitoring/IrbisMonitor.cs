@@ -15,7 +15,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
+//using System.Threading;
 using System.Threading.Tasks;
 
 using AM;
@@ -109,7 +109,7 @@ namespace ManagedIrbis.Monitoring
 
         private int _interval;
 
-        private Thread _workerThread;
+        private Task _workerTask;
 
         private void _MonitoringRoutine()
         {
@@ -122,7 +122,8 @@ namespace ManagedIrbis.Monitoring
                     break;
                 }
 
-                Thread.Sleep(Interval);
+                Task.Delay(Interval).Wait();
+                //Thread.Sleep(Interval);
             }
         }
 
@@ -169,12 +170,13 @@ namespace ManagedIrbis.Monitoring
             }
 
             Active = true;
-            _workerThread = new Thread(_MonitoringRoutine)
-            {
-                Name = "IrbisMonitor",
-                IsBackground = true
-            };
-            _workerThread.Start();
+            _workerTask = new Task(_MonitoringRoutine);
+            //_workerThread = new Thread(_MonitoringRoutine)
+            //{
+            //    Name = "IrbisMonitor",
+            //    IsBackground = true
+            //};
+            _workerTask.Start();
         }
 
         /// <summary>
@@ -189,10 +191,10 @@ namespace ManagedIrbis.Monitoring
 
             Active = false;
 
-            if (!ReferenceEquals(_workerThread, null))
+            if (!ReferenceEquals(_workerTask, null))
             {
-                _workerThread.Join();
-                _workerThread = null;
+                //_workerTask.Wait();
+                _workerTask = null;
             }
         }
 
