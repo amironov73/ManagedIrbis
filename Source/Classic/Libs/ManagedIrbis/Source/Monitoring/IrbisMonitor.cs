@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if NETCORE || FW45
+
 #region Using directives
 
 using System;
@@ -15,7 +17,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-//using System.Threading;
 using System.Threading.Tasks;
 
 using AM;
@@ -123,7 +124,7 @@ namespace ManagedIrbis.Monitoring
                 }
 
                 Task.Delay(Interval).Wait();
-                //Thread.Sleep(Interval);
+
             }
         }
 
@@ -205,3 +206,5 @@ namespace ManagedIrbis.Monitoring
         #endregion
     }
 }
+
+#endif
