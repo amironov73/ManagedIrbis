@@ -254,6 +254,11 @@
     <Compile Include="Source\Menus\MenuEntry.cs" />
     <Compile Include="Source\Menus\MenuSort.cs" />
     <Compile Include="Source\Menus\MenuSpecification.cs" />
+    <Compile Include="Source\Monitoring\IrbisMonitor.cs" />
+    <Compile Include="Source\Monitoring\MonitoringData.cs" />
+    <Compile Include="Source\Monitoring\MonitoringSink.cs" />
+    <Compile Include="Source\Monitoring\NullMonitoringSink.cs" />
+    <Compile Include="Source\Monitoring\TextMonitoringSink.cs" />
     <Compile Include="Source\Morphology\SynonymEngine.cs" />
     <Compile Include="Source\Morphology\SynonymEntry.cs" />
     <Compile Include="Source\Morphology\WordShortener.cs" />
