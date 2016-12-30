@@ -58,7 +58,7 @@ namespace ManagedIrbis.Monitoring
         /// Database name.
         /// </summary>
         [NotNull]
-        public string Database { get; private set; }
+        public NonEmptyStringCollection Databases { get; private set; }
 
         /// <summary>
         /// Interval between measuring.
@@ -92,14 +92,18 @@ namespace ManagedIrbis.Monitoring
         public IrbisMonitor
             (
                 [NotNull] IrbisConnection connection,
-                [NotNull] string database
+                [NotNull] IEnumerable<string> databases
             )
         {
             Code.NotNull(connection, "connection");
-            Code.NotNullNorEmpty(database, "database");
+            Code.NotNull(databases, "databases");
 
             Connection = connection;
-            Database = database;
+            Databases = new NonEmptyStringCollection();
+            foreach (string database in databases)
+            {
+                Databases.Add(database);
+            }
             _interval = 1000;
             Sink = new NullMonitoringSink();
         }
@@ -147,15 +151,23 @@ namespace ManagedIrbis.Monitoring
             result.Clients = serverStat.RunningClients.Length;
             result.Commands = serverStat.TotalCommandCount;
 
-            DatabaseInfo databaseInfo = Connection.GetDatabaseInfo(Database);
-            if (!ReferenceEquals(databaseInfo.LogicallyDeletedRecords, null))
+            List<DatabaseData> list = new List<DatabaseData>(Databases.Count);
+            foreach (string database in Databases)
             {
-                result.DeletedRecords = databaseInfo.LogicallyDeletedRecords.Length;
+                DatabaseInfo databaseInfo = Connection.GetDatabaseInfo(database);
+                DatabaseData data = new DatabaseData();
+                if (!ReferenceEquals(databaseInfo.LogicallyDeletedRecords, null))
+                {
+                    data.DeletedRecords = databaseInfo.LogicallyDeletedRecords.Length;
+                }
+                if (!ReferenceEquals(databaseInfo.LockedRecords, null))
+                {
+                    data.LockedRecords = databaseInfo.LockedRecords;
+                }
+                list.Add(data);
             }
-            if (!ReferenceEquals(databaseInfo.LockedRecords, null))
-            {
-                result.LockedRecords = databaseInfo.LockedRecords.Length;
-            }
+
+            result.Databases = list.ToArray();
 
             return result;
         }

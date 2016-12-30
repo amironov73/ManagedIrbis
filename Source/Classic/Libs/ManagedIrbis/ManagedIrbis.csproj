@@ -254,6 +254,7 @@
     <Compile Include="Source\Menus\MenuEntry.cs" />
     <Compile Include="Source\Menus\MenuSort.cs" />
     <Compile Include="Source\Menus\MenuSpecification.cs" />
+    <Compile Include="Source\Monitoring\DatabaseData.cs" />
     <Compile Include="Source\Monitoring\IrbisMonitor.cs" />
     <Compile Include="Source\Monitoring\MonitoringData.cs" />
     <Compile Include="Source\Monitoring\MonitoringSink.cs" />

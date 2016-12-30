@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* MonitoringData.cs -- 
+/* DatabaseData.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -39,34 +39,28 @@ namespace ManagedIrbis.Monitoring
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class MonitoringData
+    public sealed class DatabaseData
     {
         #region Properties
 
         /// <summary>
-        /// Moment of time.
-        /// </summary>
-        [JsonProperty("moment")]
-        public DateTime Moment { get; set; }
-
-        /// <summary>
-        /// Number of running clients.
-        /// </summary>
-        [JsonProperty("clients")]
-        public int Clients { get; set; }
-
-        /// <summary>
-        /// Command count.
-        /// </summary>
-        [JsonProperty("commands")]
-        public int Commands { get; set; }
-
-        /// <summary>
-        /// Data for databases.
+        /// Database name.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("databases")]
-        public DatabaseData[] Databases { get; set; }
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Number of deleted records.
+        /// </summary>
+        [JsonProperty("deletedRecords")]
+        public int DeletedRecords { get; set; }
+
+        /// <summary>
+        /// Number of locked records.
+        /// </summary>
+        [CanBeNull]
+        [JsonProperty("lockedRecords")]
+        public int[] LockedRecords { get; set; }
 
         #endregion
 

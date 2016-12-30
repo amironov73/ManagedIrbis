@@ -52,12 +52,16 @@ class Program
                 connection.ParseConnectionString(connectionString);
                 connection.Connect();
 
-                string database = CM.AppSettings["database"];
+                string[] databases = CM.AppSettings["databases"].Split
+                    (
+                        new []{' ', ',', ';'},
+                        StringSplitOptions.RemoveEmptyEntries
+                    );
 
                 monitor = new IrbisMonitor
                     (
                         connection,
-                        database
+                        databases
                     );
 
                 TextMonitoringSink sink = new TextMonitoringSink(Console.Out);
