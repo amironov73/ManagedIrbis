@@ -433,7 +433,7 @@ namespace ManagedIrbis
             return string.Format
                 (
                     "^{0}{1}",
-                    Code,
+                    SubFieldCode.Normalize(Code),
                     Value
                 );
         }
