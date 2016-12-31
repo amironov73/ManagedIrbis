@@ -11,7 +11,7 @@ namespace UnitTests.ManagedIrbis.Infrastructure
     public class FileSpecificationTest
     {
         [TestMethod]
-        public void TestFileSpecification_Construction()
+        public void FileSpecification_Construction()
         {
             FileSpecification specification = new FileSpecification();
             Assert.AreEqual(false, specification.BinaryFile);
@@ -46,7 +46,7 @@ namespace UnitTests.ManagedIrbis.Infrastructure
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void TestFileSpecification_Construction_Exception()
+        public void FileSpecification_Construction_Exception()
         {
             FileSpecification specification = new FileSpecification
                 (
@@ -56,7 +56,7 @@ namespace UnitTests.ManagedIrbis.Infrastructure
         }
 
         [TestMethod]
-        public void TestFileSpecification_ToString()
+        public void FileSpecification_ToString()
         {
             FileSpecification specification = new FileSpecification();
             Assert.AreEqual
@@ -97,7 +97,7 @@ namespace UnitTests.ManagedIrbis.Infrastructure
         }
 
         [TestMethod]
-        public void TestFileSpecification_Equals()
+        public void FileSpecification_Equals()
         {
             FileSpecification first = new FileSpecification
                 (
@@ -153,7 +153,7 @@ namespace UnitTests.ManagedIrbis.Infrastructure
         }
 
         [TestMethod]
-        public void TestFileSpecification_Serialization()
+        public void FileSpecification_Serialization()
         {
             FileSpecification specification = new FileSpecification();
             _TestSerialization(specification);
@@ -175,7 +175,7 @@ namespace UnitTests.ManagedIrbis.Infrastructure
         }
 
         [TestMethod]
-        public void TestFileSpecification_Verify()
+        public void FileSpecification_Verify()
         {
             FileSpecification specification = new FileSpecification();
             Assert.IsFalse(specification.Verify(false));
@@ -204,7 +204,7 @@ namespace UnitTests.ManagedIrbis.Infrastructure
         }
 
         [TestMethod]
-        public void TestFileSpecification_GetHashCode()
+        public void FileSpecification_GetHashCode()
         {
             FileSpecification first = new FileSpecification
                 (

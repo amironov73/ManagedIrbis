@@ -12,7 +12,7 @@ namespace UnitTests
     public class SubFieldCollectionTest
     {
         [TestMethod]
-        public void TestSubFieldCollectionConstruction()
+        public void SubFieldCollection_Constructor()
         {
             SubFieldCollection collection =
                 new SubFieldCollection
@@ -57,7 +57,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubFieldCollectionSerialization()
+        public void SubFieldCollection_Serialization()
         {
             _TestSerialization();
 
@@ -71,7 +71,7 @@ namespace UnitTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestSubFieldCollectionNotNull()
+        public void SubFieldCollection_NotNull()
         {
             SubFieldCollection collection =
                 new SubFieldCollection
@@ -85,7 +85,7 @@ namespace UnitTests
 
         [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
-        public void TestSubFieldCollectionReadOnly()
+        public void SubFieldCollection_ReadOnly()
         {
             RecordField field = new RecordField().AsReadOnly();
             field.SubFields.Add(new SubField());
@@ -104,7 +104,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubFieldCollectionToJson()
+        public void SubFieldCollection_ToJson()
         {
             SubFieldCollection collection = _GetCollection();
 
@@ -129,7 +129,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubFieldCollectionFromJson()
+        public void SubFieldCollection_FromJson()
         {
             const string text = @"["
 +@"  {"
@@ -158,7 +158,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubFieldCollectionAssign()
+        public void SubFieldCollection_Assign()
         {
             SubFieldCollection source = _GetCollection();
             SubFieldCollection target = new SubFieldCollection();
@@ -181,7 +181,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubFieldCollectionAssignClone()
+        public void SubFieldCollection_AssignClone()
         {
             SubFieldCollection source = _GetCollection();
             SubFieldCollection target = new SubFieldCollection();

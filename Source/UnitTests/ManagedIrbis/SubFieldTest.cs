@@ -13,7 +13,7 @@ namespace UnitTests
     public class SubFieldTest
     {
         [TestMethod]
-        public void TestSubField_Constructor()
+        public void SubField_Constructor()
         {
             SubField subField = new SubField();
             Assert.AreEqual(SubField.NoCode, subField.Code);
@@ -25,13 +25,13 @@ namespace UnitTests
             Assert.AreEqual('A', subField.Code);
             Assert.AreEqual("A", subField.CodeString);
             Assert.AreEqual("The value", subField.Value);
-            Assert.AreEqual("^AThe value", subField.ToString());
+            Assert.AreEqual("^aThe value", subField.ToString());
 
             SubField clone = subField.Clone();
             Assert.AreEqual(subField.Code, clone.Code);
             Assert.AreEqual(subField.CodeString, clone.CodeString);
             Assert.AreEqual(subField.Value, clone.Value);
-            Assert.AreEqual("^AThe value", clone.ToString());
+            Assert.AreEqual("^aThe value", clone.ToString());
             Assert.AreEqual(0, SubField.Compare(subField, clone));
 
             subField.SetValue("New value");
@@ -63,7 +63,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubField_Serialization()
+        public void SubField_Serialization()
         {
             _TestSerialization(new SubField[0]);
             _TestSerialization(new SubField());
@@ -74,7 +74,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubField_SetValue1()
+        public void SubField_SetValue1()
         {
             SubField subField = new SubField('a')
             {
@@ -87,7 +87,7 @@ namespace UnitTests
 
         [TestMethod]
         [ExpectedException(typeof(VerificationException))]
-        public void TestSubField_SetValue_Exception()
+        public void SubField_SetValue_Exception()
         {
             bool save = SubFieldValue.ThrowOnVerify;
             SubFieldValue.ThrowOnVerify = true;
@@ -107,7 +107,7 @@ namespace UnitTests
 
         [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
-        public void TestSubField_ReadOnly()
+        public void SubField_ReadOnly()
         {
             SubField subField = new SubField('a', "Value", true, null);
             Assert.AreEqual("Value", subField.Value);
@@ -116,7 +116,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubField_ToJObject()
+        public void SubField_ToJObject()
         {
             SubField subField = new SubField('a', "Value");
 
@@ -126,7 +126,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubField_ToJson()
+        public void SubField_ToJson()
         {
             SubField subField = new SubField('a', "Value");
 
@@ -140,7 +140,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubField_FromJObject()
+        public void SubField_FromJObject()
         {
             JObject jObject = new JObject
                 (
@@ -154,7 +154,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubField_FromJson()
+        public void SubField_FromJson()
         {
             const string text = @"{"
 +@"  ""code"": ""a"","
@@ -168,7 +168,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubField_ToXml()
+        public void SubField_ToXml()
         {
             SubField subField = new SubField('a', "Value");
             string actual = subField.ToXml()
@@ -180,7 +180,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestSubField_FromXml()
+        public void SubField_FromXml()
         {
             const string text = @"<?xml version=""1.0"" encoding=""utf-16""?>"
 +@"<subfield xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" code=""a"" value=""Value"" />";
