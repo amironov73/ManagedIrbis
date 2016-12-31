@@ -9,15 +9,10 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
-using AM.IO;
-using AM.Runtime;
 
 using CodeJam;
 
@@ -146,6 +141,8 @@ namespace ManagedIrbis
                         line,
                         record
                     );
+
+                // coverity[NULL_RETURNS]
                 result.Add(record.ThrowIfNull("record"));
             }
 

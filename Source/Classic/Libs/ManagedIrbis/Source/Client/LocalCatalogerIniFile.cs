@@ -10,11 +10,6 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.IO;
@@ -84,19 +79,26 @@ namespace ManagedIrbis.Client
         [NotNull]
         public string ServerIP
         {
-            get { return MainSection["ServerIP"].ThrowIfNull("ServerIP"); }
+            get
+            {
+                // coverity[NULL_RETURNS]
+                return MainSection["ServerIP"]
+                    .ThrowIfNull("ServerIP");
+            }
         }
 
         /// <summary>
-        /// Номер порта ИРБИС сервера.
+        /// Port number of the IRBIS server.
         /// </summary>
         public int ServerPort
         {
             get
             {
+                // coverity[NULL_RETURNS]
                 int result = Convert.ToInt32
                     (
-                        MainSection["ServerPort"].ThrowIfNull("ServerPort")
+                        MainSection["ServerPort"]
+                            .ThrowIfNull("ServerPort")
                     );
 
                 return result;

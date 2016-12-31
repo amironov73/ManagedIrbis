@@ -220,7 +220,7 @@ namespace ManagedIrbis
         public MarcRecord Clone()
         {
             MarcRecord result = new MarcRecord(this);
-            
+
             return result;
         }
 
@@ -236,7 +236,7 @@ namespace ManagedIrbis
             Code.NotNull(record1, "record1");
             Code.NotNull(record2, "record2");
 
-            int result = (int) record1.Status - (int) record2.Status;
+            int result = (int)record1.Status - (int)record2.Status;
             if (result != 0)
             {
                 return result;
@@ -331,22 +331,29 @@ namespace ManagedIrbis
 #if CLASSIC || NETCORE
 
         /// <summary>
-        /// Простейшее форматирование поля/подполя.
+        /// Internal formatting the record/field/subfield.
         /// </summary>
+        /// <remarks>
+        /// Do not use external resources!
+        /// </remarks>
         [CanBeNull]
         public string FR
-            (
-                [NotNull] string format
-            )
+        (
+            [NotNull] string format
+        )
         {
             Code.NotNull(format, "format");
 
             // TODO Some caching?
-            PftFormatter formatter = new PftFormatter();
-            formatter.ParseProgram(format);
-            string result = formatter.Format(this);
 
-            return result;
+            using (PftFormatter formatter = new PftFormatter())
+            {
+                formatter.ParseProgram(format);
+
+                string result = formatter.Format(this);
+
+                return result;
+            }
         }
 
 #endif
@@ -469,7 +476,7 @@ namespace ManagedIrbis
 
             Database = reader.ReadNullableString();
             Mfn = reader.ReadPackedInt32();
-            Status = (RecordStatus) reader.ReadByte();
+            Status = (RecordStatus)reader.ReadByte();
             Version = reader.ReadPackedInt32();
             Fields.RestoreFromStream(reader);
             Description = reader.ReadNullableString();
@@ -489,7 +496,7 @@ namespace ManagedIrbis
 
             writer.WriteNullable(Database);
             writer.WritePackedInt32(Mfn);
-            writer.Write((byte) Status);
+            writer.Write((byte)Status);
             writer.WritePackedInt32(Version);
             Fields.SaveToStream(writer);
             writer.WriteNullable(Description);

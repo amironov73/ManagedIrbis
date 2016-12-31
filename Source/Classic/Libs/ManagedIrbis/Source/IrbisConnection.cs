@@ -1308,8 +1308,12 @@ namespace ManagedIrbis
             Code.NotNullNorEmpty(state, "state");
 
             ConnectionSettings settings
-                = ConnectionSettings.Decrypt(state);
+                = ConnectionSettings.Decrypt(state)
+                .ThrowIfNull("state");
+
             IrbisConnection result = new IrbisConnection();
+            
+            // coverity[NULL_RETURNS]
             settings.ApplyToConnection(result);
 
             return result;
