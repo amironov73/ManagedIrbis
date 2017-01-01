@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
 using System.Xml.Serialization;
 
 using AM;
@@ -213,12 +212,12 @@ namespace ManagedIrbis.Search
             )
         {
             IniFile.Section section = iniFile["SEARCH"];
-            if (section == null)
+            if (ReferenceEquals(section, null))
             {
                 return new SearchScenario[0];
             }
 
-            int count = section.GetValue<int>("ItemNumb", 0);
+            int count = section.GetValue("ItemNumb", 0);
             if (count == 0)
             {
                 return new SearchScenario[0];
@@ -231,8 +230,10 @@ namespace ManagedIrbis.Search
             {
                 SearchScenario scenario = new SearchScenario
                 {
+                    // coverity[var_deref_model]
                     Name = section.GetValue("ItemName" + i, null)
                             .ThrowIfNull("Name"),
+
                     Prefix = section.GetValue("ItemPref"+i,string.Empty),
                     DictionaryType = (DictionaryType) section
                         .GetValue("ItemDictionType"+i,0),
@@ -244,7 +245,10 @@ namespace ManagedIrbis.Search
                     MenuName = section.GetValue("ItemMenu"+i, null),
                     ModByDicAuto = section.GetValue("ItemModByDicAuto"+i,null),
                     Correction = section.GetValue("ModByDic"+i, null),
-                    Truncation = Convert.ToBoolean(section.GetValue("ItemTranc"+i, 0))
+                    Truncation = Convert.ToBoolean
+                        (
+                            section.GetValue("ItemTranc"+i, 0)
+                        )
                 };
 
                 result.Add(scenario);
