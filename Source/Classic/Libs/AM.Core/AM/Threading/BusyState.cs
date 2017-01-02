@@ -64,7 +64,11 @@ namespace AM.Threading
         /// </summary>
         public WaitHandle WaitHandle
         {
-            get { return _waitHandle; }
+            get
+            {
+                // coverity[missing_lock]
+                return _waitHandle;
+            }
         }
 
         #endregion

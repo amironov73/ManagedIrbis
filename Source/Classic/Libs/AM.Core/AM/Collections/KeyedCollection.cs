@@ -108,7 +108,11 @@ namespace AM.Collections
         /// </summary>
         public IEqualityComparer<TKey> Comparer
         {
-            get { return _comparer; }
+            get
+            {
+                // coverity[missing_lock]
+                return _comparer;
+            }
         }
 
         /// <summary>

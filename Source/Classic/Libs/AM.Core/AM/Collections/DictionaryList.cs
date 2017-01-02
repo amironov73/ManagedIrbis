@@ -9,19 +9,14 @@
 
 #region Using directives
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -42,7 +37,13 @@ namespace AM.Collections
         /// </summary>
         public int Count
         {
-            get { return _dictionary.Count; }
+            get
+            {
+                lock (_syncRoot)
+                {
+                    return _dictionary.Count;
+                }
+            }
         }
 
         /// <summary>
@@ -53,9 +54,13 @@ namespace AM.Collections
         {
             get
             {
-                List<TKey> result = new List<TKey>(_dictionary.Keys);
+                lock (_syncRoot)
+                {
+                    List<TKey> result 
+                        = new List<TKey>(_dictionary.Keys);
 
-                return result.ToArray();
+                    return result.ToArray();
+                }
             }
         }
 
@@ -67,11 +72,14 @@ namespace AM.Collections
         {
             get
             {
-                List<TValue> result = GetValues(key);
+                lock (_syncRoot)
+                {
+                    List<TValue> result = GetValues(key);
 
-                return (ReferenceEquals(result, null))
-                    ? new TValue[0]
-                    : result.ToArray();
+                    return (ReferenceEquals(result, null))
+                        ? new TValue[0]
+                        : result.ToArray();
+                }
             }
         }
 

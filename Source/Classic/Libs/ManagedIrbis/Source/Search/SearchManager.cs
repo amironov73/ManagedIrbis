@@ -108,8 +108,8 @@ namespace ManagedIrbis.Search
                 return new SearchScenario[0];
             }
             using (StringReader reader = new StringReader(text))
+            using (IniFile iniFile = new IniFile())
             {
-                IniFile iniFile = new IniFile();
                 iniFile.Read(reader);
                 SearchScenario[] result
                     = SearchScenario.ParseIniFile(iniFile);

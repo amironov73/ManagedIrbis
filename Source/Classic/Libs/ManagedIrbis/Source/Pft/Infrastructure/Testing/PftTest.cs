@@ -163,13 +163,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
 
                 string recordFile = GetFullName(RecordFileName)
                     .ThrowIfNull("GetFullName");
+
+                // coverity[dereference]
                 MarcRecord record = PlainText.ReadOneRecord
                     (
                         recordFile,
                         IrbisEncoding.Utf8
                     )
                     .ThrowIfNull("record");
-                //result.Record = record;
 
                 string pftFile = GetFullName(InputFileName);
                 string input = File.ReadAllText

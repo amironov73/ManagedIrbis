@@ -98,7 +98,7 @@ namespace ManagedIrbis.Direct
             unchecked
             {
                 int blockNumber = (mfn - 1) / XrfBlockCapacity;
-                int blockOffset = ((mfn - 1) % XrfBlockCapacity) * 4;
+                long blockOffset = (mfn - 1) % XrfBlockCapacity * 4;
                 long result = blockNumber * XrfBlockSize + blockOffset + 4;
                 
                 return result;

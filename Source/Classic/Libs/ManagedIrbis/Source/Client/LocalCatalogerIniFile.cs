@@ -81,7 +81,7 @@ namespace ManagedIrbis.Client
         {
             get
             {
-                // coverity[NULL_RETURNS]
+                // coverity[dereference]
                 return MainSection["ServerIP"]
                     .ThrowIfNull("ServerIP");
             }
@@ -94,7 +94,7 @@ namespace ManagedIrbis.Client
         {
             get
             {
-                // coverity[NULL_RETURNS]
+                // coverity[dereference]
                 int result = Convert.ToInt32
                     (
                         MainSection["ServerPort"]

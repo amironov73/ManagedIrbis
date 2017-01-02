@@ -343,15 +343,18 @@ namespace AM.Collections
         /// <returns>Read-only shallow copy of the dictionary.</returns>
         public BidirectionalDictionary<TKey, TValue> AsReadOnly()
         {
-            BidirectionalDictionary<TKey, TValue> result
-                = new BidirectionalDictionary<TKey, TValue>
-                {
-                    _straight = _straight,
-                    _reverse = _reverse,
-                    _isReadOnly = true
-                };
+            lock (_syncRoot)
+            {
+                BidirectionalDictionary<TKey, TValue> result
+                    = new BidirectionalDictionary<TKey, TValue>
+                    {
+                        _straight = _straight,
+                        _reverse = _reverse,
+                        _isReadOnly = true
+                    };
 
-            return result;
+                return result;
+            }
         }
 
         /// <summary>
@@ -367,7 +370,10 @@ namespace AM.Collections
                 TValue value
             )
         {
-            return _reverse.ContainsKey(value);
+            lock (_syncRoot)
+            {
+                return _reverse.ContainsKey(value);
+            }
         }
 
         /// <summary>
