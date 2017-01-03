@@ -146,7 +146,11 @@ namespace AM.Collections
                 ref KeyValuePair<TKey, TValue> item
             )
         {
-            return ((IDictionary<TKey, TValue>)_straight).Contains(item);
+            lock (_syncRoot)
+            {
+                return ((IDictionary<TKey, TValue>) _straight)
+                    .Contains(item);
+            }
         }
 
         /// <summary>
@@ -160,7 +164,10 @@ namespace AM.Collections
                 TKey key
             )
         {
-            return _straight.ContainsKey(key);
+            lock (_syncRoot)
+            {
+                return _straight.ContainsKey(key);
+            }
         }
 
         /// <summary>
@@ -177,7 +184,12 @@ namespace AM.Collections
         {
             lock (_syncRoot)
             {
-                ((IDictionary<TKey, TValue>)_straight).CopyTo(array, arrayIndex);
+                ((IDictionary<TKey, TValue>)_straight)
+                    .CopyTo
+                    (
+                        array,
+                        arrayIndex
+                    );
             }
         }
 
@@ -215,7 +227,10 @@ namespace AM.Collections
         /// <returns>The enumerator for the dictionary</returns>
         private IEnumerator<KeyValuePair<TKey, TValue>> _GetEnumerator()
         {
-            return _straight.GetEnumerator();
+            lock (_syncRoot)
+            {
+                return _straight.GetEnumerator();
+            }
         }
 
         /// <summary>
@@ -224,7 +239,10 @@ namespace AM.Collections
         /// <returns></returns>
         private ICollection<TKey> _Keys()
         {
-            return _straight.Keys;
+            lock (_syncRoot)
+            {
+                return _straight.Keys;
+            }
         }
 
         /// <summary>
@@ -320,7 +338,14 @@ namespace AM.Collections
                 out TValue value
             )
         {
-            return _straight.TryGetValue(key, out value);
+            lock (_syncRoot)
+            {
+                return _straight.TryGetValue
+                    (
+                        key, 
+                        out value
+                    );
+            }
         }
 
         /// <summary>
@@ -329,7 +354,10 @@ namespace AM.Collections
         /// <returns>Collection of associated values.</returns>
         private ICollection<TValue> _Values()
         {
-            return _straight.Values;
+            lock (_syncRoot)
+            {
+                return _straight.Values;
+            }
         }
 
         #endregion

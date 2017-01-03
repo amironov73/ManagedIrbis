@@ -10,11 +10,7 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Text;
@@ -157,20 +153,34 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 string descriptionFile = GetFullName(DescriptionFileName);
                 if (File.Exists(descriptionFile))
                 {
-                    string description = File.ReadAllText(descriptionFile);
+                    string description 
+                        = File.ReadAllText(descriptionFile);
                     result.Description = description;
                 }
 
-                string recordFile = GetFullName(RecordFileName)
-                    .ThrowIfNull("GetFullName");
+                string recordFile = GetFullName(RecordFileName);
 
-                // coverity[dereference]
+                if (ReferenceEquals(recordFile, null))
+                {
+                    throw new IrbisException
+                        (
+                            "GetFullName returns null"
+                        );
+                }
+
                 MarcRecord record = PlainText.ReadOneRecord
                     (
                         recordFile,
                         IrbisEncoding.Utf8
-                    )
-                    .ThrowIfNull("record");
+                    );
+
+                if (ReferenceEquals(record, null))
+                {
+                    throw new IrbisException
+                        (
+                            "ReadOneRecord returns null"
+                        );
+                }
 
                 string pftFile = GetFullName(InputFileName);
                 string input = File.ReadAllText
@@ -218,13 +228,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     result.Expected = expected;
                 }
 
+                AbstractClient environment = Environment;
+                if (ReferenceEquals(environment, null))
+                {
+                    throw new IrbisException
+                        (
+                            "Environment is null"
+                        );
+                }
+
                 string output;
                 using (PftFormatter formatter = new PftFormatter
                 {
                     Program = program
                 })
                 {
-                    formatter.SetEnvironment(Environment);
+                    formatter.SetEnvironment(environment);
                     output = formatter.Format(record)
                         .DosToUnix()
                         .ThrowIfNull("output");

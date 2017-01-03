@@ -198,7 +198,7 @@ namespace ManagedIrbis.Search
         [NotNull]
         public SearchScenario Clone()
         {
-            return (SearchScenario) MemberwiseClone();
+            return (SearchScenario)MemberwiseClone();
         }
 
         /// <summary>
@@ -228,26 +228,83 @@ namespace ManagedIrbis.Search
 
             for (int i = 0; i < count; i++)
             {
+
+                string name = section.GetValue
+                    (
+                        "ItemName" + i,
+                        null
+                    );
+                if (string.IsNullOrEmpty(name))
+                {
+                    throw new IrbisException
+                        (
+                            "Item name is null"
+                        );
+                }
+
                 SearchScenario scenario = new SearchScenario
                 {
-                    // coverity[var_deref_model]
-                    Name = section.GetValue("ItemName" + i, null)
-                            .ThrowIfNull("Name"),
+                    Name = name,
 
-                    Prefix = section.GetValue("ItemPref"+i,string.Empty),
-                    DictionaryType = (DictionaryType) section
-                        .GetValue("ItemDictionType"+i,0),
-                    Advance = section.GetValue("ItemAdv"+i, null),
-                    Format = section.GetValue("ItemPft"+i,null),
-                    Hint = section.GetValue("ItemHint"+i,null),
-                    Logic = (SearchLogicType) section
-                        .GetValue("ItemLogic"+i,0),
-                    MenuName = section.GetValue("ItemMenu"+i, null),
-                    ModByDicAuto = section.GetValue("ItemModByDicAuto"+i,null),
-                    Correction = section.GetValue("ModByDic"+i, null),
+                    Prefix = section.GetValue
+                        (
+                            "ItemPref" + i,
+                            string.Empty
+                        ),
+
+                    DictionaryType = (DictionaryType)section
+                        .GetValue
+                        (
+                            "ItemDictionType" + i,
+                            0
+                        ),
+
+                    Advance = section.GetValue
+                        (
+                            "ItemAdv" + i, 
+                            null
+                        ),
+
+                    Format = section.GetValue
+                        (
+                            "ItemPft" + i, 
+                            null
+                        ),
+
+                    Hint = section.GetValue
+                        (
+                            "ItemHint" + i,
+                            null
+                        ),
+
+                    Logic = (SearchLogicType)section
+                        .GetValue
+                        (
+                            "ItemLogic" + i, 
+                            0
+                        ),
+
+                    MenuName = section.GetValue
+                        (
+                            "ItemMenu" + i,
+                            null
+                        ),
+
+                    ModByDicAuto = section.GetValue
+                        (
+                            "ItemModByDicAuto" + i,
+                            null
+                        ),
+
+                    Correction = section.GetValue
+                        (
+                            "ModByDic" + i,
+                            null
+                        ),
+
                     Truncation = Convert.ToBoolean
                         (
-                            section.GetValue("ItemTranc"+i, 0)
+                            section.GetValue("ItemTranc" + i, 0)
                         )
                 };
 
@@ -271,13 +328,13 @@ namespace ManagedIrbis.Search
 
             Name = reader.ReadNullableString();
             Prefix = reader.ReadNullableString();
-            DictionaryType = (DictionaryType) reader.ReadPackedInt32();
+            DictionaryType = (DictionaryType)reader.ReadPackedInt32();
             MenuName = reader.ReadNullableString();
             OldFormat = reader.ReadNullableString();
             Correction = reader.ReadNullableString();
             Hint = reader.ReadNullableString();
             ModByDicAuto = reader.ReadNullableString();
-            Logic = (SearchLogicType) reader.ReadPackedInt32();
+            Logic = (SearchLogicType)reader.ReadPackedInt32();
             Advance = reader.ReadNullableString();
             Format = reader.ReadNullableString();
             Truncation = reader.ReadBoolean();
@@ -294,7 +351,7 @@ namespace ManagedIrbis.Search
             writer
                 .WriteNullable(Name)
                 .WriteNullable(Prefix)
-                .WritePackedInt32((int) DictionaryType)
+                .WritePackedInt32((int)DictionaryType)
                 .WriteNullable(MenuName)
                 .WriteNullable(OldFormat)
                 .WriteNullable(Correction)

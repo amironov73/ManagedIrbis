@@ -56,12 +56,21 @@ namespace ManagedIrbis.Client
         [NotNull]
         public IniFile.Section MainSection
         {
-            get 
+            get
             {
-                return Ini
-                    .ThrowIfNull("Ini")
-                    .GetSection(Main)
-                    .ThrowIfNull("Main"); 
+                IniFile ini = Ini;
+                if (ReferenceEquals(ini, null))
+                {
+                    throw new IrbisException("INI file is null");
+                }
+
+                IniFile.Section result = ini.GetSection(Main);
+                if (ReferenceEquals(result, null))
+                {
+                    throw new IrbisException("Main section is null");
+                }
+
+                return result; 
             }
         }
 
