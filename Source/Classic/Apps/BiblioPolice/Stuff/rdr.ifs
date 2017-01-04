@@ -1,0 +1,1 @@
+2025,2025 0 if p(v2025) then 'DOLG=', v2025 else 'DOLG=0' fi

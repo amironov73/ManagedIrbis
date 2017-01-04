@@ -105,6 +105,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -137,6 +138,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="ArsMagna.private.snk" />
+    <None Include="Docs\BiblioPolice.docx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -146,6 +148,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Stuff\2025.mnu" />
+    <None Include="Stuff\2026.wss" />
+    <None Include="Stuff\2026c.mnu" />
+    <None Include="Stuff\rdr.fst" />
+    <None Include="Stuff\rdr.ifs" />
+    <None Include="Stuff\user.ws" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -162,6 +170,10 @@
     <ProjectReference Include="..\..\Libs\AM.Windows.Forms\AM.Windows.Forms.csproj">
       <Project>{c06e1d15-0d0d-44b3-bf74-1b2c616f9ee5}</Project>
       <Name>AM.Windows.Forms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libs\IrbisUI\IrbisUI.csproj">
+      <Project>{aeebb65d-1023-4ac2-a280-4639e085cdb5}</Project>
+      <Name>IrbisUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Libs\ManagedIrbis\ManagedIrbis.csproj">
       <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
@@ -188,6 +200,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
