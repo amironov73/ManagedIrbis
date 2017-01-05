@@ -47,7 +47,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this._logBox);
             this.splitContainer1.Size = new System.Drawing.Size(782, 553);
-            this.splitContainer1.SplitterDistance = 378;
+            this.splitContainer1.SplitterDistance = 297;
             this.splitContainer1.TabIndex = 0;
             // 
             // _logBox
@@ -59,7 +59,7 @@
             this._logBox.Name = "_logBox";
             this._logBox.ReadOnly = true;
             this._logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this._logBox.Size = new System.Drawing.Size(782, 171);
+            this._logBox.Size = new System.Drawing.Size(782, 252);
             this._logBox.TabIndex = 0;
             // 
             // MainForm
@@ -69,7 +69,7 @@
             this.ClientSize = new System.Drawing.Size(782, 553);
             this.Controls.Add(this.splitContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "MainForm";
             this.Text = "Biblio Police";

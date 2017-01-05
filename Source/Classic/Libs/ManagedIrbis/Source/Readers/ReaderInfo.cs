@@ -431,6 +431,12 @@ namespace ManagedIrbis.Readers
         }
 
         /// <summary>
+        /// Reader status.
+        /// </summary>
+        [CanBeNull]
+        public string Status { get; set; }
+
+        /// <summary>
         /// Расформатированное описание.
         /// Не соответствует никакому полю.
         /// </summary>
@@ -539,7 +545,8 @@ namespace ManagedIrbis.Readers
 
                             .ToArray(),
 
-                    Profiles = IriProfile.ParseRecord(record)
+                    Profiles = IriProfile.ParseRecord(record),
+                    Status = record.FM("2015") ?? "0"
                 };
 
             foreach (ReaderRegistration registration in result.Registrations)
