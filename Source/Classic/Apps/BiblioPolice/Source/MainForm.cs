@@ -7,6 +7,7 @@
 #region Using directives
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,6 +18,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 using System.Windows.Forms;
 
 using AM;
@@ -54,7 +56,7 @@ namespace BiblioPolice
         /// Readers.
         /// </summary>
         [NotNull]
-        public NonNullCollection<ReaderInfo> Readers
+        public BlockingCollection<ReaderInfo> Readers
         {
             get;
             private set;
@@ -65,6 +67,16 @@ namespace BiblioPolice
         /// </summary>
         [NotNull]
         public DictionaryList<string, ReaderInfo> ReadersByStatus
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// New readers with overdue loans.
+        /// </summary>
+        [NotNull]
+        public BlockingCollection<ReaderInfo> Candidates
         {
             get;
             private set;
@@ -85,12 +97,11 @@ namespace BiblioPolice
         /// </summary>
         public MainForm()
         {
-            _syncRoot = new object();
-
             InitializeComponent();
 
             Log = new TextBoxOutput(_logBox);
-            Readers = new NonNullCollection<ReaderInfo>();
+            Readers = new BlockingCollection<ReaderInfo>();
+            Candidates = new BlockingCollection<ReaderInfo>();
             ReadersByStatus 
                 = new DictionaryList<string, ReaderInfo>();
             Connection = new IrbisConnection();
@@ -100,7 +111,7 @@ namespace BiblioPolice
 
         #region Private members
 
-        private readonly object _syncRoot;
+        private string _deadline;
 
         private void MainForm_FormClosed
             (
@@ -113,8 +124,6 @@ namespace BiblioPolice
 
         private void LoadReaders()
         {
-            Readers.Clear();
-
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             WriteLine("Начало загрузки читателей");
@@ -131,11 +140,19 @@ namespace BiblioPolice
                 batch.BatchRead += Batch_BatchRead;
             }
 
-            Parallel.ForEach
+            ActionBlock<MarcRecord> parseBlock 
+                = new ActionBlock<MarcRecord>
                 (
-                    records,
-                    ParseAndAddReader
+                    record => ParseAndAddReader(record)
                 );
+
+            foreach (MarcRecord record in records)
+            {
+                parseBlock.Post(record);
+            }
+            parseBlock.Complete();
+            parseBlock.Completion.Wait();
+            Readers.CompleteAdding();
 
             WriteLine("Окончание загрузки читателей");
             stopwatch.Stop();
@@ -144,6 +161,7 @@ namespace BiblioPolice
                     "Загрузка заняла: {0}", 
                     stopwatch.Elapsed.ToAutoString()
                 );
+            WriteLine("Загружено: {0}", Readers.Count);
 
             WriteDelimiter();
             WriteLine("Распределение читателей");
@@ -158,6 +176,49 @@ namespace BiblioPolice
                     );
             }
             WriteDelimiter();
+
+            _deadline = IrbisDate.ConvertDateToString
+                (
+                    DateTime.Today.AddMonths(-2)
+                );
+            ActionBlock<ReaderInfo> analyzeBlock
+                = new ActionBlock<ReaderInfo>
+                (
+                    reader => AnalyzeReader(reader)
+                );
+
+            foreach (ReaderInfo reader in ReadersByStatus["0"])
+            {
+                analyzeBlock.Post(reader);
+            }
+            analyzeBlock.Complete();
+            analyzeBlock.Completion.Wait();
+
+            WriteLine("Candidates: {0}", Candidates.Count);
+        }
+
+        private void AnalyzeReader
+            (
+                ReaderInfo reader
+            )
+        {
+            VisitInfo[] overdue =
+            reader.Visits.Where
+                (
+                    visit => !visit.IsVisit
+                             && !visit.IsReturned
+                             && string.CompareOrdinal
+                             (
+                                visit.DateExpectedString,
+                                _deadline
+                             ) < 0
+                )
+                .ToArray();
+
+            if (overdue.Length != 0)
+            {
+                Candidates.Add(reader);
+            }
         }
 
         private void ParseAndAddReader
@@ -172,11 +233,8 @@ namespace BiblioPolice
                 reader.Status = "0";
                 status = "0";
             }
-            lock (_syncRoot)
-            {
-                Readers.Add(reader);
-                ReadersByStatus.Add(status, reader);
-            }
+            Readers.Add(reader);
+            ReadersByStatus.Add(status, reader);
         }
 
         private void Batch_BatchRead
