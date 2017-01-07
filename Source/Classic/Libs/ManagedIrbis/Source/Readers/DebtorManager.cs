@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 
 using AM;
 
@@ -22,8 +21,6 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -95,6 +92,8 @@ namespace ManagedIrbis.Readers
 
         #region Private members
 
+        private string _fromDate, _toDate;
+
         private void HandleBatchRead
             (
                 object sender,
@@ -109,8 +108,66 @@ namespace ManagedIrbis.Readers
         #region Public methods
 
         /// <summary>
+        /// Get debt from the reader
+        /// </summary>
+        [NotNull]
+        public VisitInfo[] GetDebt
+            (
+                [NotNull] ReaderInfo reader
+            )
+        {
+            VisitInfo[] result = reader.Visits.GetDebt
+                (
+                    _fromDate, 
+                    _toDate
+                );
+
+            if (!string.IsNullOrEmpty(Department))
+            {
+                result = result.Where
+                    (
+                        item => item.Department.SameString
+                            (
+                                Department
+                            )
+                    )
+                    .ToArray();
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Get debtor from the reader.
+        /// </summary>
+        /// <returns><c>null</c> if reader is not debtor.
+        /// </returns>
+        [CanBeNull]
+        public DebtorInfo GetDebtor
+            (
+                [NotNull] ReaderInfo reader
+            )
+        {
+            VisitInfo[] debt = GetDebt(reader);
+
+            if (debt.Length == 0)
+            {
+                return null;
+            }
+
+            DebtorInfo result = DebtorInfo.FromReader
+                (
+                    reader,
+                    debt
+                );
+
+            return result;
+        }
+
+        /// <summary>
         /// Получение списка задолжников.
         /// </summary>
+        [NotNull]
         public DebtorInfo[] GetDebtors()
         {
             ReaderManager manager = new ReaderManager(Connection);
@@ -133,7 +190,8 @@ namespace ManagedIrbis.Readers
                 {
                     debt = debt.Where
                         (
-                            loan => loan.DateExpectedString.SafeCompare(fromDate) >= 0
+                            loan => loan.DateExpectedString
+                                .SafeCompare(fromDate) >= 0
                         )
                         .ToArray();
                 }
@@ -142,7 +200,10 @@ namespace ManagedIrbis.Readers
                 {
                     debt = debt.Where
                         (
-                            loan => loan.Department.SameString(Department)
+                            loan => loan.Department.SameString
+                                (
+                                    Department
+                                )
                         )
                         .ToArray();
                 }
@@ -161,6 +222,26 @@ namespace ManagedIrbis.Readers
             manager.BatchRead -= HandleBatchRead;
 
             return result.ToArray();
+        }
+
+        /// <summary>
+        /// Setup <see cref="FromDate"/> and
+        /// <see cref="ToDate"/>.
+        /// </summary>
+        /// <returns><c>true</c> on success,
+        /// <c>false</c> otherwise.</returns>
+        public bool SetupDates()
+        {
+            if (!FromDate.HasValue
+                || !ToDate.HasValue)
+            {
+                return false;
+            }
+
+            _fromDate = IrbisDate.ConvertDateToString(FromDate.Value);
+            _toDate = IrbisDate.ConvertDateToString(ToDate.Value);
+
+            return true;
         }
 
         #endregion

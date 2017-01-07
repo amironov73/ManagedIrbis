@@ -76,7 +76,7 @@ namespace BiblioPolice
         /// New readers with overdue loans.
         /// </summary>
         [NotNull]
-        public BlockingCollection<ReaderInfo> Candidates
+        public BlockingCollection<DebtorInfo> Candidates
         {
             get;
             private set;
@@ -101,7 +101,7 @@ namespace BiblioPolice
 
             Log = new TextBoxOutput(_logBox);
             Readers = new BlockingCollection<ReaderInfo>();
-            Candidates = new BlockingCollection<ReaderInfo>();
+            Candidates = new BlockingCollection<DebtorInfo>();
             ReadersByStatus 
                 = new DictionaryList<string, ReaderInfo>();
             Connection = new IrbisConnection();
@@ -111,7 +111,7 @@ namespace BiblioPolice
 
         #region Private members
 
-        private string _deadline;
+        private DebtorManager _debtorManager;
 
         private void MainForm_FormClosed
             (
@@ -128,40 +128,22 @@ namespace BiblioPolice
             stopwatch.Start();
             WriteLine("Начало загрузки читателей");
 
-            IEnumerable<MarcRecord> records = BatchRecordReader.WholeDatabase
+            IEnumerable<MarcRecord> records 
+                = BatchRecordReader.WholeDatabase
                 (
                     Connection,
                     Connection.Database,
-                    500
+                    1000
                 );
-            BatchRecordReader batch = records as BatchRecordReader;
+            BatchRecordReader batch 
+                = records as BatchRecordReader;
             if (!ReferenceEquals(batch, null))
             {
                 batch.BatchRead += Batch_BatchRead;
             }
 
-            ActionBlock<MarcRecord> parseBlock 
-                = new ActionBlock<MarcRecord>
-                (
-                    record => ParseAndAddReader(record)
-                );
-
-            foreach (MarcRecord record in records)
-            {
-                parseBlock.Post(record);
-            }
-            parseBlock.Complete();
-            parseBlock.Completion.Wait();
+            records.ProcessData(ParseAndAddReader);
             Readers.CompleteAdding();
-
-            WriteLine("Окончание загрузки читателей");
-            stopwatch.Stop();
-            WriteLine
-                (
-                    "Загрузка заняла: {0}", 
-                    stopwatch.Elapsed.ToAutoString()
-                );
-            WriteLine("Загружено: {0}", Readers.Count);
 
             WriteDelimiter();
             WriteLine("Распределение читателей");
@@ -177,47 +159,45 @@ namespace BiblioPolice
             }
             WriteDelimiter();
 
-            _deadline = IrbisDate.ConvertDateToString
+            DateTime today = DateTime.Today;
+
+            _debtorManager
+                = new DebtorManager(Connection)
+                {
+                    FromDate = today.AddYears(-1),
+                    ToDate = today.AddMonths(-1)
+                };
+            _debtorManager.SetupDates();
+
+            ReadersByStatus["0"].ProcessData(AnalyzeCandidate);
+            Candidates.CompleteAdding();
+
+            WriteLine
                 (
-                    DateTime.Today.AddMonths(-2)
-                );
-            ActionBlock<ReaderInfo> analyzeBlock
-                = new ActionBlock<ReaderInfo>
-                (
-                    reader => AnalyzeReader(reader)
+                    "Кандидатов в должники: {0}", 
+                    Candidates.Count
                 );
 
-            foreach (ReaderInfo reader in ReadersByStatus["0"])
-            {
-                analyzeBlock.Post(reader);
-            }
-            analyzeBlock.Complete();
-            analyzeBlock.Completion.Wait();
-
-            WriteLine("Candidates: {0}", Candidates.Count);
+            WriteLine("Окончание загрузки читателей");
+            stopwatch.Stop();
+            WriteLine
+                (
+                    "Загрузка заняла: {0}",
+                    stopwatch.Elapsed.ToAutoString()
+                );
+            WriteLine("Загружено: {0}", Readers.Count);
+            WriteDelimiter();
         }
 
-        private void AnalyzeReader
+        private void AnalyzeCandidate
             (
-                ReaderInfo reader
+                [NotNull] ReaderInfo reader
             )
         {
-            VisitInfo[] overdue =
-            reader.Visits.Where
-                (
-                    visit => !visit.IsVisit
-                             && !visit.IsReturned
-                             && string.CompareOrdinal
-                             (
-                                visit.DateExpectedString,
-                                _deadline
-                             ) < 0
-                )
-                .ToArray();
-
-            if (overdue.Length != 0)
+            DebtorInfo debtor = _debtorManager.GetDebtor(reader);
+            if (!ReferenceEquals(debtor, null))
             {
-                Candidates.Add(reader);
+                Candidates.Add(debtor);
             }
         }
 

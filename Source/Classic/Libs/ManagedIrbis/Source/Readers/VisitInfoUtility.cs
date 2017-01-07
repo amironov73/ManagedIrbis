@@ -107,6 +107,58 @@ namespace ManagedIrbis.Readers
         }
 
         /// <summary>
+        /// Get debt loans for given date.
+        /// </summary>
+        [NotNull]
+        public static VisitInfo[] GetDebt
+            (
+                [NotNull] this IEnumerable<VisitInfo> visits,
+                string deadline
+            )
+        {
+            Code.NotNull(visits, "visits");
+
+            VisitInfo[] result = visits.Where
+                (
+                    loan => !loan.IsReturned
+                            && deadline.SafeCompare(loan.DateExpectedString) <= 0
+                )
+                .ToArray();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get debt loans for given date.
+        /// </summary>
+        [NotNull]
+        public static VisitInfo[] GetDebt
+            (
+                [NotNull] this IEnumerable<VisitInfo> visits,
+                [NotNull] string fromDeadline,
+                [NotNull] string toDeadline
+            )
+        {
+            Code.NotNull(visits, "visits");
+
+            VisitInfo[] result = visits.Where
+                (
+                    loan =>
+                    {
+                        string date = loan.DateExpectedString;
+
+                        return !loan.IsVisit
+                            && !loan.IsReturned
+                            && date.SafeCompare(fromDeadline) >= 0
+                            && date.SafeCompare(toDeadline) <= 0;
+                    }
+                )
+                .ToArray();
+
+            return result;
+        }
+
+        /// <summary>
         /// Get loans (not pure visits).
         /// </summary>
         [NotNull]
