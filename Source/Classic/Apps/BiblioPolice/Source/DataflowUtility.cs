@@ -40,9 +40,9 @@ namespace BiblioPolice
             ExecutionDataflowBlockOptions result
                 = new ExecutionDataflowBlockOptions
                 {
-                    MaxDegreeOfParallelism =
+                    MaxDegreeOfParallelism = 4,
                     //EnvironmentUtility.OptimalParallelism
-                    4
+                    SingleProducerConstrained = true
                 };
 
             return result;

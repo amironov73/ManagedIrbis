@@ -76,7 +76,7 @@ namespace BiblioPolice
         /// New readers with overdue loans.
         /// </summary>
         [NotNull]
-        public BlockingCollection<DebtorInfo> Candidates
+        public BlockingCollection<DebtorInfo> Debtors
         {
             get;
             private set;
@@ -101,7 +101,7 @@ namespace BiblioPolice
 
             Log = new TextBoxOutput(_logBox);
             Readers = new BlockingCollection<ReaderInfo>();
-            Candidates = new BlockingCollection<DebtorInfo>();
+            Debtors = new BlockingCollection<DebtorInfo>();
             ReadersByStatus 
                 = new DictionaryList<string, ReaderInfo>();
             Connection = new IrbisConnection();
@@ -170,12 +170,71 @@ namespace BiblioPolice
             _debtorManager.SetupDates();
 
             ReadersByStatus["0"].ProcessData(AnalyzeCandidate);
-            Candidates.CompleteAdding();
+            Debtors.CompleteAdding();
 
             WriteLine
                 (
                     "Кандидатов в должники: {0}", 
-                    Candidates.Count
+                    Debtors.Count
+                );
+
+            WriteLine("Окончание загрузки читателей");
+            stopwatch.Stop();
+            WriteLine
+                (
+                    "Загрузка заняла: {0}",
+                    stopwatch.Elapsed.ToAutoString()
+                );
+            WriteLine("Загружено: {0}", Readers.Count);
+            WriteDelimiter();
+        }
+
+        private void LoadReaders2()
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            WriteDelimiter();
+            WriteLine("Начало загрузки читателей");
+
+            DataflowBatchReader batchReader
+                = new DataflowBatchReader
+                (
+                    Connection,
+                    "RDR",
+                    Log
+                );
+
+            batchReader.LoadReaders();
+
+            Readers = batchReader.Readers;
+            Debtors = batchReader.Debtors;
+
+            WriteDelimiter();
+
+            foreach (ReaderInfo reader in Readers)
+            {
+                string status = reader.Status ?? "0";
+                ReadersByStatus.Add(status, reader);
+            }
+
+            WriteLine("Распределение читателей");
+            string[] keys = ReadersByStatus.Keys;
+            foreach (string key in keys)
+            {
+                WriteLine
+                    (
+                        "Статус {0}: {1} читателей",
+                        key,
+                        ReadersByStatus[key].Length
+                    );
+            }
+            WriteDelimiter();
+
+            WriteLine
+                (
+                    "Кандидатов в должники: {0}",
+                    Debtors.Count
                 );
 
             WriteLine("Окончание загрузки читателей");
@@ -197,7 +256,7 @@ namespace BiblioPolice
             DebtorInfo debtor = _debtorManager.GetDebtor(reader);
             if (!ReferenceEquals(debtor, null))
             {
-                Candidates.Add(debtor);
+                Debtors.Add(debtor);
             }
         }
 
@@ -244,7 +303,8 @@ namespace BiblioPolice
             this.ShowVersionInfoInTitle();
             Log.PrintSystemInformation();
 
-            string connectionString = CM.AppSettings["connectionString"];
+            string connectionString 
+                = CM.AppSettings["connectionString"];
             Connection.ParseConnectionString(connectionString);
             Connection.Connect();
             WriteLine("Подключено к серверу");
@@ -257,7 +317,7 @@ namespace BiblioPolice
                     count
                 );
 
-            Task.Factory.StartNew(LoadReaders);
+            Task.Factory.StartNew(LoadReaders2);
         }
 
         #endregion
@@ -266,10 +326,7 @@ namespace BiblioPolice
 
         public void WriteDelimiter()
         {
-            this.InvokeIfRequired
-                (
-                    () => Log.WriteLine(new string('=', 60))
-                );
+            Log.WriteLine(new string('=', 60));
         }
 
         public void WriteLine
@@ -280,10 +337,7 @@ namespace BiblioPolice
         {
             Code.NotNull(format, "format");
 
-            this.InvokeIfRequired
-                (
-                    () => Log.WriteLine(format, args)
-                );
+            Log.WriteLine(format, args);
         }
 
         #endregion

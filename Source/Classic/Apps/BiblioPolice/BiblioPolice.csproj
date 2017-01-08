@@ -134,6 +134,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataflowBatchReader.cs" />
     <Compile Include="Source\DataflowUtility.cs" />
     <Compile Include="Source\MainForm.cs">
       <SubType>Form</SubType>
