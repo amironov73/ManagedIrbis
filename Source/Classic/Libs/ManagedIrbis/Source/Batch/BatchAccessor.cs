@@ -166,6 +166,11 @@ namespace ManagedIrbis.Batch
 
 #if FW4
 
+            _records = new BlockingCollection<MarcRecord>
+                (
+                    array.Length
+                );
+
             int[][] slices = array.Slice(1000).ToArray();
 
             foreach (int[] slice in slices)
@@ -193,6 +198,8 @@ namespace ManagedIrbis.Batch
                         line => _ParseRecord (line, database)
                     );
             }
+
+            _records.CompleteAdding();
 
             return _records.ToArray();
 
