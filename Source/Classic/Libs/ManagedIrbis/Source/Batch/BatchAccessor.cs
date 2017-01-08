@@ -29,11 +29,19 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Gbl;
+using ManagedIrbis.ImportExport;
 using ManagedIrbis.Infrastructure.Commands;
 using ManagedIrbis.Infrastructure.Sockets;
 using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
+
+#if FW4
+
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
+
+#endif
 
 #endregion
 
@@ -74,6 +82,42 @@ namespace ManagedIrbis.Batch
         #endregion
 
         #region Private members
+
+#if FW4
+
+        private BlockingCollection<MarcRecord> _records;
+
+        private void _ParseRecord
+            (
+                [NotNull] string line,
+                [NotNull] string database
+            )
+        {
+            if (!string.IsNullOrEmpty(line))
+            {
+                MarcRecord result = new MarcRecord
+                {
+                    HostName = Connection.Host,
+                    Database = database
+                };
+
+                result = ProtocolText.ParseResponseForAllFormat
+                (
+                    line,
+                    result
+                );
+
+                if (!ReferenceEquals(result, null))
+                {
+                    if (!result.Deleted)
+                    {
+                        _records.Add(result);
+                    }
+                }
+            }
+        }
+
+#endif
 
         #endregion
 
@@ -120,16 +164,50 @@ namespace ManagedIrbis.Batch
                 return new[] { record };
             }
 
-            if (array.Length > IrbisConstants.MaxPostings)
+#if FW4
+
+            int[][] slices = array.Slice(1000).ToArray();
+
+            foreach (int[] slice in slices)
             {
-                throw new ArgumentException();
+                FormatCommand command
+                    = Connection.CommandFactory.GetFormatCommand();
+                command.Database = database;
+                command.FormatSpecification = IrbisFormat.All;
+                command.MfnList.AddRange(slice);
+
+                Connection.ExecuteCommand(command);
+
+                string[] lines = command.FormatResult
+                    .ThrowIfNullOrEmpty("command.FormatResult");
+
+                Debug.Assert
+                    (
+                        lines.Length == slice.Length,
+                        "some records not retrieved"
+                    );
+
+                Parallel.ForEach
+                    (
+                        lines,
+                        line => _ParseRecord (line, database)
+                    );
             }
+
+            return _records.ToArray();
+
+#else
 
             FormatCommand command 
                 = Connection.CommandFactory.GetFormatCommand();
             command.Database = database;
             command.FormatSpecification = IrbisFormat.All;
             command.MfnList.AddRange(array);
+
+            if (array.Length > IrbisConstants.MaxPostings)
+            {
+                throw new ArgumentException();
+            }
 
             Connection.ExecuteCommand(command);
 
@@ -147,6 +225,9 @@ namespace ManagedIrbis.Batch
                 );
 
             return result;
+
+
+#endif
         }
 
         #endregion
