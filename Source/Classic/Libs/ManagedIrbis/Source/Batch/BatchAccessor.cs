@@ -11,28 +11,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 
 using AM;
 using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-using AM.Threading;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Infrastructure;
-using ManagedIrbis.Gbl;
 using ManagedIrbis.ImportExport;
 using ManagedIrbis.Infrastructure.Commands;
-using ManagedIrbis.Infrastructure.Sockets;
-using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
 
@@ -117,6 +107,40 @@ namespace ManagedIrbis.Batch
             }
         }
 
+        private void _ParseRecord<T>
+            (
+                [NotNull] string line,
+                [NotNull] string database,
+                [NotNull] Func<MarcRecord,T> func,
+                [NotNull] BlockingCollection<T> collection
+            )
+        {
+            if (!string.IsNullOrEmpty(line))
+            {
+                MarcRecord record = new MarcRecord
+                {
+                    HostName = Connection.Host,
+                    Database = database
+                };
+
+                record = ProtocolText.ParseResponseForAllFormat
+                (
+                    line,
+                    record
+                );
+
+                if (!ReferenceEquals(record, null))
+                {
+                    if (!record.Deleted)
+                    {
+                        T result = func(record);
+
+                        collection.Add(result);
+                    }
+                }
+            }
+        }
+
 #endif
 
         #endregion
@@ -175,28 +199,48 @@ namespace ManagedIrbis.Batch
 
             foreach (int[] slice in slices)
             {
-                FormatCommand command
-                    = Connection.CommandFactory.GetFormatCommand();
-                command.Database = database;
-                command.FormatSpecification = IrbisFormat.All;
-                command.MfnList.AddRange(slice);
+                if (slice.Length == 1)
+                {
+                    MarcRecord record = Connection.ReadRecord
+                    (
+                        database,
+                        slice[0],
+                        false,
+                        null
+                    );
 
-                Connection.ExecuteCommand(command);
+                    _records.Add(record);
+                }
+                else
+                {
+                    FormatCommand command
+                        = Connection.CommandFactory
+                        .GetFormatCommand();
+                    command.Database = database;
+                    command.FormatSpecification 
+                        = IrbisFormat.All;
+                    command.MfnList.AddRange(slice);
 
-                string[] lines = command.FormatResult
-                    .ThrowIfNullOrEmpty("command.FormatResult");
+                    Connection.ExecuteCommand(command);
 
-                Debug.Assert
+                    string[] lines = command.FormatResult
+                        .ThrowIfNullOrEmpty
+                        (
+                            "command.FormatResult"
+                        );
+
+                    Debug.Assert
                     (
                         lines.Length == slice.Length,
                         "some records not retrieved"
                     );
 
-                Parallel.ForEach
+                    Parallel.ForEach
                     (
                         lines,
-                        line => _ParseRecord (line, database)
+                        line => _ParseRecord(line, database)
                     );
+                }
             }
 
             _records.CompleteAdding();
@@ -233,9 +277,159 @@ namespace ManagedIrbis.Batch
 
             return result;
 
+#endif
+        }
+
+        /// <summary>
+        /// Read and transform multiple records.
+        /// </summary>
+        [NotNull]
+        public T[] ReadRecords<T>
+            (
+                [CanBeNull] string database,
+                [NotNull] IEnumerable<int> mfnList,
+                [NotNull] Func<MarcRecord,T> func
+            )
+        {
+            Code.NotNull(mfnList, "mfnList");
+
+            if (string.IsNullOrEmpty(database))
+            {
+                database = Connection.Database;
+            }
+
+            database.ThrowIfNull("database");
+
+            int[] array = mfnList.ToArray();
+
+            if (array.Length == 0)
+            {
+                return new T[0];
+            }
+
+            if (array.Length == 1)
+            {
+                int mfn = array[0];
+
+                MarcRecord record = Connection.ReadRecord
+                    (
+                        database,
+                        mfn,
+                        false,
+                        null
+                    );
+
+                T result1 = func(record);
+
+                return new[] { result1 };
+            }
+
+#if FW4
+
+            BlockingCollection<T> collection = new BlockingCollection<T>
+                (
+                    array.Length
+                );
+
+            int[][] slices = array.Slice(1000).ToArray();
+
+            foreach (int[] slice in slices)
+            {
+                if (slice.Length == 1)
+                {
+                    MarcRecord record = Connection.ReadRecord
+                    (
+                        database,
+                        slice[0],
+                        false,
+                        null
+                    );
+
+                    _records.Add(record);
+                }
+                else
+                {
+                    FormatCommand command
+                        = Connection.CommandFactory
+                        .GetFormatCommand();
+                    command.Database = database;
+                    command.FormatSpecification
+                        = IrbisFormat.All;
+                    command.MfnList.AddRange(slice);
+
+                    Connection.ExecuteCommand(command);
+
+                    string[] lines = command.FormatResult
+                        .ThrowIfNullOrEmpty
+                        (
+                            "command.FormatResult"
+                        );
+
+                    Debug.Assert
+                    (
+                        lines.Length == slice.Length,
+                        "some records not retrieved"
+                    );
+
+                    Parallel.ForEach
+                    (
+                        lines,
+                        line => _ParseRecord
+                            (
+                                line,
+                                database,
+                                func,
+                                collection
+                            )
+                    );
+                }
+            }
+
+            collection.CompleteAdding();
+
+            return collection.ToArray();
+
+#else
+
+            FormatCommand command 
+                = Connection.CommandFactory.GetFormatCommand();
+            command.Database = database;
+            command.FormatSpecification = IrbisFormat.All;
+            command.MfnList.AddRange(array);
+
+            if (array.Length > IrbisConstants.MaxPostings)
+            {
+                throw new ArgumentException();
+            }
+
+            Connection.ExecuteCommand(command);
+
+            MarcRecord[] records = MarcRecordUtility.ParseAllFormat
+                (
+                    database,
+                    Connection,
+                    command.FormatResult
+                        .ThrowIfNullOrEmpty("command.FormatResult")
+                );
+            Debug.Assert
+                (
+                    command.MfnList.Count == result.Length,
+                    "some records not retrieved"
+                );
+
+            T[] result = records.Select
+                (
+                    // ReSharper disable ConvertClosureToMethodGroup
+                    record => func(record)
+                    // ReSharper restore ConvertClosureToMethodGroup
+                )
+                .ToArray();
+
+            return result;
 
 #endif
         }
+
 
         #endregion
     }
