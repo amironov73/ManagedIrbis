@@ -20,7 +20,9 @@ using AM.Collections;
 using AM.Text;
 
 #if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT && !ANDROID && !UAP && !WIN81
+
 using AM.Configuration;
+
 #endif
 
 using CodeJam;
@@ -37,6 +39,12 @@ using ManagedIrbis.Search;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
+
+#if FW4
+
+using System.Collections.Concurrent;
+
+#endif
 
 #endregion
 
@@ -564,6 +572,7 @@ namespace ManagedIrbis
             {
                 return new RawRecord[0];
             }
+
             if (mfnList.Length == 1)
             {
                 return new[] 
@@ -601,9 +610,31 @@ namespace ManagedIrbis
             ServerResponse response = connection.ExecuteCommand(command);
 
             List<string> lines = response.RemainingUtfStrings();
+            lines = lines.GetRange(1, lines.Count - 1);
+
+#if FW4
+
+            BlockingCollection<RawRecord> records
+                = new BlockingCollection<RawRecord>(lines.Count);
+
+            Parallel.ForEach
+                (
+                    lines,
+                    line =>
+                    {
+                        RawRecord record = RawRecord.Parse(line);
+                        record.Database = database;
+                        records.Add(record);
+                    }
+                );
+
+            return records.ToArray();
+
+#else
+
             List<RawRecord> records = new List<RawRecord>();
 
-            foreach (string line in lines.Skip(1))
+            foreach (string line in lines)
             {
                 RawRecord record = RawRecord.Parse(line);
                 record.Database = database;
@@ -611,6 +642,8 @@ namespace ManagedIrbis
             }
 
             return records.ToArray();
+
+#endif
         }
 
         // ========================================================
@@ -1209,8 +1242,6 @@ namespace ManagedIrbis
                 bool actualize
             )
         {
-            // TODO Create WriteRawRecordCommand
-
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(database, "database");
             Code.NotNullNorEmpty(record, "record");
@@ -1250,8 +1281,6 @@ namespace ManagedIrbis
                 bool actualize
             )
         {
-            // TODO Create WriteRawRecordsCommand
-
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(database, "database");
             Code.NotNull(records, "records");
