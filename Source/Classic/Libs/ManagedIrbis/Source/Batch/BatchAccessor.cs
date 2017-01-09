@@ -413,7 +413,7 @@ namespace ManagedIrbis.Batch
                 );
             Debug.Assert
                 (
-                    command.MfnList.Count == result.Length,
+                    command.MfnList.Count == records.Length,
                     "some records not retrieved"
                 );
 
