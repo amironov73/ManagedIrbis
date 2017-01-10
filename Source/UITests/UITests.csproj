@@ -186,6 +186,7 @@
     <Compile Include="Sources\Tests\EnumComboBoxTest.cs" />
     <Compile Include="Sources\Tests\EnumListBoxTest.cs" />
     <Compile Include="Sources\Tests\ExceptionBoxTest.cs" />
+    <Compile Include="Sources\Tests\FieldPainterTest.cs" />
     <Compile Include="Sources\Tests\FileNameBoxTest.cs" />
     <Compile Include="Sources\Tests\FolderNameBoxTest.cs" />
     <Compile Include="Sources\Tests\FontComboBoxTest.cs" />

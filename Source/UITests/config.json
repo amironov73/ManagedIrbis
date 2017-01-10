@@ -250,5 +250,9 @@
   {
     "class": "UITests.TextBoxWithButtonTest",
     "title": "TextBoxWithButton"
+  },
+  {
+    "class": "UITests.FieldPainterTest",
+    "title": "FieldPainter"
   }
 ]

@@ -122,6 +122,7 @@
       <DependentUpon>DictionaryPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Editors\MenuEditor.cs" />
+    <Compile Include="Source\FieldPainter.cs" />
     <Compile Include="Source\FoundPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
