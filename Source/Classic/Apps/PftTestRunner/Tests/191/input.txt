@@ -1,0 +1,1 @@
+﻿remove('Hello Twice New Year!';5;6)

@@ -272,6 +272,39 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
+        private static void Insert(PftContext context, PftNode node, PftNode[] arguments)
+        {
+            string text = context.GetStringArgument(arguments, 0);
+            double? index = context.GetNumericArgument(arguments, 1);
+            string value = context.GetStringArgument(arguments, 2);
+
+            if (!ReferenceEquals(text, null)
+                && index.HasValue
+                && !ReferenceEquals(value, null)
+               )
+            {
+                string result;
+                int offset = (int) index.Value;
+
+                if (offset <= 0)
+                {
+                    result = value + text;
+                }
+                else if (offset >= text.Length)
+                {
+                    result = text + value;
+                }
+                else
+                {
+                    result = text.Insert(offset, value);
+                }
+
+                context.Write(node, result);
+            }
+        }
+
+        //=================================================
+
         private static void IOcc(PftContext context, PftNode node, PftNode[] arguments)
         {
             int index = context.Index;
@@ -356,7 +389,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void MachineName(PftContext context, PftNode node, PftNode[] arguments)
         {
-            context.Write(node, global::System.Environment.MachineName);
+            context.Write(node, Environment.MachineName);
         }
 
         //=================================================
@@ -481,6 +514,34 @@ namespace ManagedIrbis.Pft.Infrastructure
                     pad
                 );
             context.Write(node, output);
+        }
+
+        //=================================================
+
+        private static void Remove(PftContext context, PftNode node, PftNode[] arguments)
+        {
+            string text = context.GetStringArgument(arguments, 0);
+            double? index = context.GetNumericArgument(arguments, 1);
+            double? count = context.GetNumericArgument(arguments, 2);
+
+            if (!ReferenceEquals(text, null)
+                && index.HasValue
+                && count.HasValue
+               )
+            {
+                int length = text.Length;
+                int offset = (int) index.Value;
+                int c = (int) count.Value;
+
+                if (offset >= 0
+                    && c >= 0
+                    && offset + c < length
+                   )
+                {
+                    string result = text.Remove(offset, c);
+                    context.Write(node, result);
+                }
+            }
         }
 
         //=================================================
@@ -790,6 +851,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("getenv", GetEnv);
             reg.Add("iocc", IOcc);
             reg.Add("include", Include);
+            reg.Add("insert", Insert);
             reg.Add("italic", Italic);
             reg.Add("len", Len);
             reg.Add("loadRecord", LoadRecord);
@@ -800,6 +862,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("osVersion", OsVersion);
             reg.Add("padLeft", PadLeft);
             reg.Add("padRight", PadRight);
+            reg.Add("remove", Remove);
             reg.Add("replace", Replace);
             reg.Add("size", Size);
             reg.Add("search", Search);
