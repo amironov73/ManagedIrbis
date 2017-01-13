@@ -13,7 +13,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Text;
-
+using AM;
 using AM.Text;
 
 using CodeJam;
@@ -57,7 +57,7 @@ namespace ManagedIrbis.Infrastructure
 
             for (int i = 0; i < length; i++)
             {
-                writer.Write(" {0:X2}", bytes[offset+i]);
+                writer.Write(" {0:X2}", bytes[offset + i]);
                 if (i == 7)
                 {
                     writer.Write(" ");
@@ -122,7 +122,7 @@ namespace ManagedIrbis.Infrastructure
             Code.NotNull(bytes, "bytes");
             Code.NotNull(writer, "writer");
 
-            for (int offset = 0; offset < bytes.Length; offset+= 16)
+            for (int offset = 0; offset < bytes.Length; offset += 16)
             {
                 _DumpBytes(bytes, offset, writer);
             }
@@ -168,7 +168,7 @@ namespace ManagedIrbis.Infrastructure
             }
             else if (anyObject is bool)
             {
-                return stream.EncodeBoolean((bool) anyObject);
+                return stream.EncodeBoolean((bool)anyObject);
             }
             else if (anyObject is byte)
             {
@@ -177,39 +177,39 @@ namespace ManagedIrbis.Infrastructure
             }
             else if (anyObject is byte[])
             {
-                return stream.EncodeBytes((byte[]) anyObject);
+                return stream.EncodeBytes((byte[])anyObject);
             }
             else if (anyObject is int)
             {
-                return stream.EncodeInt32((int) anyObject);
+                return stream.EncodeInt32((int)anyObject);
             }
             else if (anyObject is MarcRecord)
             {
-                return stream.EncodeRecord((MarcRecord) anyObject);
+                return stream.EncodeRecord((MarcRecord)anyObject);
             }
             else if (anyObject is string)
             {
-                return stream.EncodeString((string) anyObject);
+                return stream.EncodeString((string)anyObject);
             }
             else if (anyObject is TextWithEncoding)
             {
                 return stream.EncodeTextWithEncoding
                     (
-                        (TextWithEncoding) anyObject
+                        (TextWithEncoding)anyObject
                     );
             }
             else if (anyObject is FileSpecification)
             {
                 return stream.EncodeFileSpecification
                     (
-                        (FileSpecification) anyObject
+                        (FileSpecification)anyObject
                     );
             }
             else if (anyObject is RecordReference)
             {
                 return stream.EncodeRecordReference
                     (
-                        (RecordReference) anyObject
+                        (RecordReference)anyObject
                     );
             }
             else
@@ -232,8 +232,8 @@ namespace ManagedIrbis.Infrastructure
                 bool value
             )
         {
-            byte b = (byte) (value ? '1' : '0');
-            
+            byte b = (byte)(value ? '1' : '0');
+
             stream.WriteByte(b);
 
             return stream;
@@ -406,10 +406,10 @@ namespace ManagedIrbis.Infrastructure
             if (!string.IsNullOrEmpty(text))
             {
                 byte[] bytes = IrbisEncoding.Ansi.GetBytes(text);
-                
+
                 stream.Write(bytes, 0, bytes.Length);
             }
-            
+
             return stream;
         }
 
@@ -445,6 +445,41 @@ namespace ManagedIrbis.Infrastructure
             stream.WriteByte((byte)workstation);
 
             return stream;
+        }
+
+        /// <summary>
+        /// Throw <see cref="IrbisNetworkException"/>
+        /// if the record is empty.
+        /// </summary>
+        public static void ThrowIfEmptyRecord
+            (
+                [NotNull] MarcRecord record,
+                [NotNull] ServerResponse response
+            )
+        {
+            Code.NotNull(record, "record");
+            Code.NotNull(response, "response");
+
+            if (record.Fields.Count == 0)
+            {
+                byte[] bytes = response.GetAnswerCopy();
+                string dump = DumpBytes(bytes);
+                string message = string.Format
+                    (
+                        "Empty record in ReadRecordCommand:{0}{1}",
+                        Environment.NewLine,
+                        dump
+                    );
+
+                IrbisNetworkException exception = new IrbisNetworkException(message);
+                BinaryAttachment attachment = new BinaryAttachment
+                    (
+                        "response",
+                        bytes
+                    );
+                exception.Attach(attachment);
+                throw exception;
+            }
         }
 
         #endregion

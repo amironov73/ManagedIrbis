@@ -9,6 +9,9 @@
 
 #region Using directives
 
+using System;
+using System.Text;
+
 using AM;
 
 using JetBrains.Annotations;
@@ -30,6 +33,12 @@ namespace ManagedIrbis.Infrastructure.Commands
         : AbstractCommand
     {
         #region Properties
+
+        /// <summary>
+        /// Throw <see cref="IrbisNetworkException"/>
+        /// when empty record received/decoded.
+        /// </summary>
+        public static bool ThrowOnEmptyRecord { get; set; }
 
         /// <summary>
         /// Database name.
@@ -67,6 +76,14 @@ namespace ManagedIrbis.Infrastructure.Commands
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Static constructor.
+        /// </summary>
+        static ReadRecordCommand()
+        {
+            ThrowOnEmptyRecord = true;
+        }
 
         /// <summary>
         /// Constructor.
@@ -142,6 +159,16 @@ namespace ManagedIrbis.Infrastructure.Commands
                         record
                     );
                 record.Verify(true);
+
+                if (ThrowOnEmptyRecord)
+                {
+                    IrbisNetworkUtility.ThrowIfEmptyRecord
+                        (
+                            record,
+                            result
+                        );
+                }
+
                 Record = record;
             }
 

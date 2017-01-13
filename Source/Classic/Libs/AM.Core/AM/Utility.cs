@@ -13,6 +13,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
 
 using CodeJam;
 
@@ -36,6 +37,45 @@ namespace AM
         #endregion
 
         #region Public methods
+
+        // =========================================================
+
+        /// <summary>
+        /// Шестнадцатиричный дамп массива байт.
+        /// </summary>
+        public static string DumpBytes
+            (
+                byte[] buffer
+            )
+        {
+            StringBuilder result = new StringBuilder(buffer.Length * 5);
+
+            int offset;
+
+            for (offset = 0; offset < buffer.Length; offset += 16)
+            {
+                result.AppendFormat
+                    (
+                        "{0:X6}:",
+                        offset
+                    );
+
+                int run = Math.Min(buffer.Length - offset, 16);
+
+                for (int i = 0; i < run; i++)
+                {
+                    result.AppendFormat
+                        (
+                            " {0:X2}",
+                            buffer[offset + i]
+                        );
+                }
+
+                result.AppendLine();
+            }
+
+            return result.ToString();
+        }
 
         // =========================================================
 

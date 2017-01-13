@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-
+using System.Text;
 using AM;
 using AM.Collections;
 
@@ -22,6 +22,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.ImportExport;
+using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Infrastructure.Commands;
 
 using MoonSharp.Interpreter;
@@ -47,6 +48,12 @@ namespace ManagedIrbis.Batch
         #region Properties
 
         /// <summary>
+        /// Throw <see cref="IrbisNetworkException"/>
+        /// when empty record received/decoded.
+        /// </summary>
+        public static bool ThrowOnEmptyRecord { get; set; }
+
+        /// <summary>
         /// Connection.
         /// </summary>
         [NotNull]
@@ -55,6 +62,14 @@ namespace ManagedIrbis.Batch
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Static constructor.
+        /// </summary>
+        static BatchAccessor()
+        {
+            ThrowOnEmptyRecord = true;
+        }
 
         /// <summary>
         /// Constructor.
@@ -72,6 +87,44 @@ namespace ManagedIrbis.Batch
         #endregion
 
         #region Private members
+
+        /// <summary>
+        /// Throw <see cref="IrbisNetworkException"/>
+        /// if the record is empty.
+        /// </summary>
+        public static void ThrowIfEmptyRecord
+            (
+                [NotNull] MarcRecord record,
+                [NotNull] string line
+            )
+        {
+            Code.NotNull(record, "record");
+            Code.NotNull(line, "line");
+
+            if (ThrowOnEmptyRecord
+                && record.Fields.Count == 0
+               )
+            {
+                byte[] bytes = Encoding.UTF8.GetBytes(line);
+                string dump = IrbisNetworkUtility.DumpBytes(bytes);
+                string message = string.Format
+                    (
+                        "Empty record in BatchAccessor:{0}{1}",
+                        Environment.NewLine,
+                        dump
+                    );
+
+                IrbisNetworkException exception = new IrbisNetworkException(message);
+                BinaryAttachment attachment = new BinaryAttachment
+                    (
+                        "response",
+                        bytes
+                    );
+                exception.Attach(attachment);
+                throw exception;
+            }
+        }
+
 
 #if FW4
 
@@ -99,6 +152,12 @@ namespace ManagedIrbis.Batch
 
                 if (!ReferenceEquals(result, null))
                 {
+                    ThrowIfEmptyRecord
+                        (
+                            result,
+                            line
+                        );
+
                     if (!result.Deleted)
                     {
                         _records.Add(result);
