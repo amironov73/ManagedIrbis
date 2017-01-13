@@ -202,6 +202,9 @@ namespace ManagedIrbis.Magazines
                 Cumulation = MagazineCumulation.Parse(record),
                 SeriesNumber = record.FM("923",'h'),
                 SeriesTitle = record.FM("923", 'i'),
+                MagazineType = record.FM("110", 't'),
+                MagazineKind = record.FM("110", 'b'),
+                Periodicity = record.FM("110", 'x'),
                 Mfn = record.Mfn
             };
 

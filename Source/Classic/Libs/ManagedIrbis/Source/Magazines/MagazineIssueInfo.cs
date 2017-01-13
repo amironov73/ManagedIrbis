@@ -136,6 +136,11 @@ namespace ManagedIrbis.Magazines
         public ExemplarInfo[] Exemplars { get; set; }
 
         /// <summary>
+        /// Loan count.
+        /// </summary>
+        public int LoanCount { get; set; }
+
+        /// <summary>
         /// Произвольные пользовательские данные.
         /// </summary>
         [CanBeNull]
@@ -213,6 +218,10 @@ namespace ManagedIrbis.Magazines
 
                         .ToArray()
             };
+
+            int count;
+            int.TryParse(record.FM("999"), out count);
+            result.LoanCount = count;
 
             return result;
         }

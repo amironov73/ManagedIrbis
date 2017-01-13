@@ -170,6 +170,12 @@ namespace ManagedIrbis.Magazines
 
 #if !WINMOBILE && !PocketPC
 
+#if FW4
+
+                .AsParallel()
+
+#endif
+
                 .Select(MagazineIssueInfo.Parse)
 
 #else
