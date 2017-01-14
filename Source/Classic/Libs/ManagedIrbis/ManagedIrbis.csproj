@@ -488,6 +488,7 @@
     <Compile Include="Source\Search\Infrastructure\SearchTokenKind.cs" />
     <Compile Include="Source\Search\Infrastructure\SearchTokenList.cs" />
     <Compile Include="Source\Search\Infrastructure\SearchLevel0.cs" />
+    <Compile Include="Source\Search\KeywordPermutator.cs" />
     <Compile Include="Source\Search\PostingParameters.cs" />
     <Compile Include="Source\Search\SearchException.cs" />
     <Compile Include="Source\Search\SearchManager.cs" />

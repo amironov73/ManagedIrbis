@@ -27,14 +27,14 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestIrbisAlphabetTableParseLocalFile()
+        public void IrbisAlphabetTable_ParseLocalFile()
         {
             IrbisAlphabetTable table = _GetTable();
             Assert.AreEqual(182, table.Characters.Length);
         }
 
         [TestMethod]
-        public void TestIrbisAlphabetTableSplitText()
+        public void IrbisAlphabetTable_SplitWords()
         {
             IrbisAlphabetTable table = _GetTable();
             const string text = "Hello, world! Съешь ещё(этих)мягких "
@@ -55,7 +55,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestIrbisAlphabetTableToSourceCode()
+        public void IrbisAlphabetTable_ToSourceCode()
         {
             IrbisAlphabetTable table = _GetTable();
             StringWriter writer = new StringWriter();

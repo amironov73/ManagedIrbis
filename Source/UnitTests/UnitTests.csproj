@@ -224,6 +224,8 @@
     <Compile Include="ManagedIrbis\ImportExport\IsoReaderTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\FileSpecificationTest.cs" />
     <Compile Include="ManagedIrbis\IrbisFormatTest.cs" />
+    <Compile Include="ManagedIrbis\IrbisUpperCaseTableTest.cs" />
+    <Compile Include="ManagedIrbis\Search\KeywordPermutatorTest.cs" />
     <Compile Include="ManagedIrbis\Mapping\SubFieldMapperTest.cs" />
     <Compile Include="ManagedIrbis\Marc\Schema\MarcSchemaTest.cs" />
     <Compile Include="ManagedIrbis\Menus\IrbisMenuFileTest.cs" />

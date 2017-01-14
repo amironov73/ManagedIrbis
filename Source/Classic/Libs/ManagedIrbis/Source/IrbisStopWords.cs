@@ -21,6 +21,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Infrastructure;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -85,7 +87,18 @@ namespace ManagedIrbis
             )
         {
             FileName = fileName;
-            _dictionary = new Dictionary<string, object>();
+            _dictionary = new Dictionary<string, object>
+                (
+#if NETCORE || UAP || WIN81
+
+                    StringComparer.OrdinalIgnoreCase
+
+#else
+
+                    StringComparer.InvariantCultureIgnoreCase
+
+#endif
+                );
         }
 
         #endregion
@@ -97,6 +110,71 @@ namespace ManagedIrbis
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Load stopword list from server.
+        /// </summary>
+        [NotNull]
+        public static IrbisStopWords FromServer
+            (
+                [NotNull] IrbisConnection connection
+            )
+        {
+            Code.NotNull(connection, "connection");
+
+            string database = connection.Database
+                .ThrowIfNull("database not set");
+            string fileName = database + ".stw";
+
+            return FromServer
+                (
+                    connection,
+                    database,
+                    fileName
+                );
+        }
+
+        /// <summary>
+        /// Load stopword list from server.
+        /// </summary>
+        [NotNull]
+        public static IrbisStopWords FromServer
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] string database,
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            FileSpecification specification
+                = new FileSpecification
+                    (
+                        IrbisPath.MasterFile,
+                        database,
+                        fileName
+                    );
+
+            string text = connection.ReadTextFile
+                (
+                    specification
+                );
+
+            if (string.IsNullOrEmpty(text))
+            {
+                text = string.Empty;
+            }
+
+            IrbisStopWords result = ParseText
+                (
+                    fileName,
+                    text
+                );
+
+            return result;
+        }
 
         /// <summary>
         /// Is given word is stopword?
