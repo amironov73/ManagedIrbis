@@ -59,6 +59,8 @@ namespace ManagedIrbis
             Code.NotNull(encoding, "encoding");
             Code.NotNull(table, "table");
 
+#if !SILVERLIGHT && !WIN81
+
             if (!encoding.IsSingleByte)
             {
                 throw new IrbisException
@@ -66,6 +68,8 @@ namespace ManagedIrbis
                         "Must be single-byte encoding"
                     );
             }
+
+#endif
 
             if (table.Length != 256)
             {

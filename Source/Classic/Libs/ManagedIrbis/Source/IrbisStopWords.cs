@@ -262,7 +262,7 @@ namespace ManagedIrbis
             string[] lines = File.ReadAllLines
                 (
                     fileName,
-                    Encoding.GetEncoding(0)
+                    IrbisEncoding.Ansi
                 );
 
             return ParseLines
