@@ -201,19 +201,6 @@ namespace ManagedIrbis
         }
 
         /// <summary>
-        /// Converts specified character to uppercase.
-        /// </summary>
-        public char ToUpper
-            (
-                char c
-            )
-        {
-            string text = new string(c, 1);
-
-            return ToUpper(text)[0];
-        }
-
-        /// <summary>
         /// Формируем исходный код с определением таблицы.
         /// </summary>
         public void ToSourceCode
@@ -247,6 +234,19 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Converts specified character to uppercase.
+        /// </summary>
+        public char ToUpper
+            (
+                char c
+            )
+        {
+            string text = new string(c, 1);
+
+            return ToUpper(text)[0];
+        }
+
+        /// <summary>
         /// Converts specified string to uppercase.
         /// </summary>
         [NotNull]
@@ -263,7 +263,12 @@ namespace ManagedIrbis
                 bytes[i] = _table[bytes[i]];
             }
 
-            string result = _encoding.GetString(bytes);
+            string result = _encoding.GetString
+                (
+                    bytes,
+                    0,
+                    bytes.Length
+                );
 
             return result;
         }
