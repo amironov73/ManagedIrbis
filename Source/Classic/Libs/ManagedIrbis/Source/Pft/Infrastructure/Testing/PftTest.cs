@@ -229,7 +229,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 }
 
                 AbstractClient environment = Environment;
-                if (ReferenceEquals(environment, null))
+                if (ReferenceEquals(environment, null)) //-V3022
                 {
                     throw new IrbisException
                         (

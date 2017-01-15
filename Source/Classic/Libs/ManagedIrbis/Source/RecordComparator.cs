@@ -31,7 +31,7 @@ namespace ManagedIrbis
     {
         #region Nested classes
 
-        class OneField
+        class OneField //-V3126
             : IEquatable<OneField>
         {
             #region Properties

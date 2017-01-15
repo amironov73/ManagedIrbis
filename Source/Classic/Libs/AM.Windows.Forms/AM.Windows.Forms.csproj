@@ -161,6 +161,9 @@
     <Compile Include="AM\Windows\Forms\EnumComboBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumListBox.cs" />
     <Compile Include="AM\Windows\Forms\EnumTypeConverter.cs" />
+    <Compile Include="AM\Windows\Forms\EventedTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="AM\Windows\Forms\ExceptionBox.cs">
       <SubType>Form</SubType>
     </Compile>

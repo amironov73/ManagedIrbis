@@ -254,5 +254,9 @@
   {
     "class": "UITests.FieldPainterTest",
     "title": "FieldPainter"
+  },
+  {
+    "class": "UITests.EventedTextBoxTest",
+    "title": "EventedTextBox"
   }
 ]
