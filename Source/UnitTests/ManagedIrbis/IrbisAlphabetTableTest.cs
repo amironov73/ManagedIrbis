@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using AM.IO;
 using AM.Runtime;
 
 using ManagedIrbis;
@@ -55,6 +56,24 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
+        public void IrbisAlphabetTable_TrimText()
+        {
+            IrbisAlphabetTable table = _GetTable();
+
+            Assert.AreEqual("", table.TrimText(""));
+            Assert.AreEqual("", table.TrimText("!?!"));
+
+            Assert.AreEqual("Hello", table.TrimText("Hello"));
+            Assert.AreEqual("Hello", table.TrimText("(Hello)"));
+
+            Assert.AreEqual("Привет", table.TrimText("Привет"));
+            Assert.AreEqual("Привет", table.TrimText("(Привет)"));
+
+            Assert.AreEqual("Happy New Year", table.TrimText("Happy New Year"));
+            Assert.AreEqual("Happy New Year", table.TrimText("Happy New Year!"));
+        }
+
+        [TestMethod]
         public void IrbisAlphabetTable_ToSourceCode()
         {
             IrbisAlphabetTable table = _GetTable();
@@ -62,6 +81,32 @@ namespace UnitTests.ManagedIrbis
             table.ToSourceCode(writer);
             string sourceCode = writer.ToString();
             Assert.IsNotNull(sourceCode);
+        }
+
+        [TestMethod]
+        public void IrbisAlphabetTable_Serialize()
+        {
+            IrbisAlphabetTable table1 = _GetTable();
+
+            byte[] bytes = table1.SaveToMemory();
+
+            IrbisAlphabetTable table2 = bytes
+                .RestoreObjectFromMemory<IrbisAlphabetTable>();
+
+            Assert.AreEqual
+                (
+                    table1.Characters.Length,
+                    table2.Characters.Length
+                );
+
+            for (int i = 0; i < table1.Characters.Length; i++)
+            {
+                Assert.AreEqual
+                    (
+                        table1.Characters[i],
+                        table2.Characters[i]
+                    );
+            }
         }
     }
 }
