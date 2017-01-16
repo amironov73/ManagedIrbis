@@ -11,13 +11,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
@@ -29,8 +25,6 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -46,7 +40,8 @@ namespace ManagedIrbis.Pft.Infrastructure
     public class PftNode
         : IHandmadeSerializable,
         ITreeSerialize,
-        IVerifiable
+        IVerifiable,
+        ICloneable
     {
         #region Events
 
@@ -98,7 +93,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <summary>
         /// Node uses extended syntax?
         /// </summary>
-        public virtual bool ExtendedSyntax { get { return false;} }
+        public virtual bool ExtendedSyntax { get { return false; } }
 
         /// <summary>
         /// Help for the node.
@@ -139,29 +134,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Private members
-
-        /// <summary>
-        /// Change child.
-        /// </summary>
-        [CanBeNull]
-        protected T ChangeChild<T>
-            (
-                [CanBeNull] T fromItem,
-                [CanBeNull] T toItem
-            )
-            where T : PftNode
-        {
-            if (!ReferenceEquals(fromItem, null))
-            {
-                Children.Remove(fromItem);
-            }
-            if (!ReferenceEquals(toItem, null))
-            {
-                Children.Add(toItem);
-            }
-
-            return toItem;
-        }
 
         /// <summary>
         /// After execution.
@@ -509,6 +481,25 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (!result && throwOnError)
             {
                 throw new ArgumentException();
+            }
+
+            return result;
+        }
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public virtual object Clone()
+        {
+            PftNode result = (PftNode) MemberwiseClone();
+
+            NonNullCollection<PftNode> children 
+                = Children as NonNullCollection<PftNode>;
+            if (!ReferenceEquals(children, null))
+            {
+                result.Children = children.CloneNodes();
             }
 
             return result;

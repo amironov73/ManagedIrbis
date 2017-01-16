@@ -74,6 +74,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public override object Clone()
+        {
+            PftA result = (PftA) base.Clone();
+
+            if (!ReferenceEquals(Field, null))
+            {
+                result.Field = (PftField) Field.Clone();
+            }
+
+            return result;
+        }
+
+        #endregion
+
         #region PftNode members
 
         /// <inheritdoc />

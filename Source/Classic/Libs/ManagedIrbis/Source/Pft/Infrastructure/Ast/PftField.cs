@@ -12,9 +12,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
@@ -126,6 +123,29 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public string SubFieldSpecification { get; set; }
 
+        /// <inheritdoc />
+        public override IList<PftNode> Children
+        {
+            get
+            {
+                if (ReferenceEquals(_virtualChildren, null))
+                {
+
+                    _virtualChildren = new VirtualChildren();
+                    List<PftNode> nodes = new List<PftNode>();
+                    nodes.AddRange(LeftHand);
+                    nodes.AddRange(RightHand);
+                    _virtualChildren.SetChildren(nodes);
+                }
+
+                return _virtualChildren;
+            }
+            protected set
+            {
+                // Nothing to do here
+            }
+        }
+
         #endregion
 
         #region Construction
@@ -158,7 +178,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Private members
 
+        private VirtualChildren _virtualChildren;
+
         private PftNumeric _tagProgram;
+
         private PftNode _subFieldProgram;
 
         /// <summary>
@@ -499,6 +522,34 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 SubField = SubField,
                 Tag = Tag
             };
+
+            return result;
+        }
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public override object Clone()
+        {
+            PftField result = (PftField) base.Clone();
+
+            result._virtualChildren = null;
+
+            result.LeftHand = LeftHand.CloneNodes().ThrowIfNull();
+            result.RightHand = RightHand.CloneNodes().ThrowIfNull();
+
+            if (!ReferenceEquals(_tagProgram, null))
+            {
+                result._tagProgram = (PftNumeric) _tagProgram.Clone();
+            }
+
+            if (!ReferenceEquals(_subFieldProgram, null))
+            {
+                result._subFieldProgram 
+                    = (PftNode) _subFieldProgram.Clone();
+            }
 
             return result;
         }

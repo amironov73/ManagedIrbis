@@ -9,11 +9,8 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
@@ -147,6 +144,28 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public override object Clone()
+        {
+            PftForEach result = (PftForEach) base.Clone();
+
+            result._virtualChildren = null;
+
+            result.Sequence = Sequence.CloneNodes().ThrowIfNull();
+            result.Body = Body.CloneNodes().ThrowIfNull();
+
+            if (!ReferenceEquals(Variable, null))
+            {
+                result.Variable = (PftVariableReference) Variable.Clone();
+            }
+
+            return result;
+        }
 
         #endregion
 

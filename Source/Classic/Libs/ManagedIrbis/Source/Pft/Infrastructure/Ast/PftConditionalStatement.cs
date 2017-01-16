@@ -9,16 +9,17 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-using System.IO;
 
+using AM;
 using AM.Collections;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -62,10 +63,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 {
 
                     _virtualChildren = new VirtualChildren();
-                    List<PftNode> nodes = new List<PftNode>
+                    List<PftNode> nodes = new List<PftNode>();
+                    if (!ReferenceEquals(Condition, null))
                     {
-                        Condition
-                    };
+                        nodes.Add(Condition);
+                    }
                     nodes.AddRange(ThenBranch);
                     nodes.AddRange(ElseBranch);
                     _virtualChildren.SetChildren(nodes);
@@ -117,6 +119,29 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public override object Clone()
+        {
+            PftConditionalStatement result
+                = (PftConditionalStatement) base.Clone();
+
+            result._virtualChildren = null;
+
+            if (!ReferenceEquals(Condition, null))
+            {
+                result.Condition = (PftCondition) Condition.Clone();
+            }
+
+            result.ElseBranch = ElseBranch.CloneNodes().ThrowIfNull();
+            result.ThenBranch = ThenBranch.CloneNodes().ThrowIfNull();
+
+            return result;
+        }
 
         #endregion
 

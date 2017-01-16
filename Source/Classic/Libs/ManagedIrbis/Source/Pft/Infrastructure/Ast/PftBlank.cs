@@ -66,7 +66,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public static bool IsBlank
             (
-                string text
+                [CanBeNull] string text
             )
         {
             if (string.IsNullOrEmpty(text))

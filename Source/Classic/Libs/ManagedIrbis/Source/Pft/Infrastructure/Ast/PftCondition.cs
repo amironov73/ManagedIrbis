@@ -75,7 +75,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftContext context
             )
         {
-            throw new PftException("Execute() must be overriden!");
+            throw new PftException("Execute() must be overridden!");
         }
 
         #endregion

@@ -154,6 +154,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
+        /// <inheritdoc />
+        public override object Clone()
+        {
+            PftAssignment result = (PftAssignment)base.Clone();
+
+            result.Index = (IndexSpecification) Index.Clone();
+
+            return result;
+        }
+
         #region PftNode members
 
         /// <inheritdoc />

@@ -9,16 +9,10 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CodeJam;
-
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -40,6 +34,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         [CanBeNull]
         public PftField Field { get; set; }
+
+        // TODO Fix Children, add Field to virtual children
 
         #endregion
 
@@ -70,6 +66,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public override object Clone()
+        {
+            PftFieldAssignment result
+                = (PftFieldAssignment) base.Clone();
+
+            if (!ReferenceEquals(Field, null))
+            {
+                result.Field = (PftField) Field.Clone();
+            }
+
+            return result;
+        }
 
         #endregion
 

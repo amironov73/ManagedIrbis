@@ -9,17 +9,12 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -188,6 +183,35 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc/>
+        public override object Clone()
+        {
+            PftF result = (PftF) base.Clone();
+
+            result._virtualChildren = null;
+
+            if (!ReferenceEquals(Argument1, null))
+            {
+                result.Argument1 = (PftNumeric) Argument1.Clone();
+            }
+
+            if (!ReferenceEquals(Argument2, null))
+            {
+                result.Argument2 = (PftNumeric)Argument2.Clone();
+            }
+
+            if (!ReferenceEquals(Argument3, null))
+            {
+                result.Argument3 = (PftNumeric)Argument3.Clone();
+            }
+
+            return result;
+        }
 
         #endregion
 

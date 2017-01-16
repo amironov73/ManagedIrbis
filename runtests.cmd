@@ -1,7 +1,7 @@
 @echo off
 
-cd Source\Apps\IrbisTestRunner\bin\Debug
+cd Source\Classic\Apps\IrbisTestRunner\bin\Debug
 
 IrbisTestRunner.exe config.json
 
-cd ..\..\..\..\..
+cd ..\..\..\..\..\..

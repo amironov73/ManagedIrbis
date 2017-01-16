@@ -40,6 +40,7 @@ namespace ManagedIrbis.Pft.Infrastructure
     [PublicAPI]
     [MoonSharpUserData]
     public struct IndexSpecification
+        : ICloneable
     {
         #region Properties
 
@@ -181,6 +182,27 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
 #endif
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public object Clone()
+        {
+            IndexSpecification result
+                = (IndexSpecification) MemberwiseClone();
+
+#if CLASSIC || NETCORE
+
+            if (!ReferenceEquals(Program, null))
+            {
+                result.Program = (PftNumeric) Program.Clone();
+            }
+#endif
+
+            return result;
+        }
 
         #endregion
 

@@ -15,6 +15,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AM;
 using AM.Collections;
 using CodeJam;
 
@@ -143,6 +144,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             context.Write(node, output);
+        }
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public override object Clone()
+        {
+            PftF2 result = (PftF2) base.Clone();
+
+            result._virtualChildren = null;
+
+            result.Format = Format.CloneNodes().ThrowIfNull();
+
+            if (!ReferenceEquals(Number, null))
+            {
+                result.Number = (PftNumeric) Number.Clone();
+            }
+
+            return result;
         }
 
         #endregion

@@ -135,7 +135,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            if (context.CurrentField != null)
+            if (!ReferenceEquals(context.CurrentField, null))
             {
                 if (context.CurrentField.IsFirstRepeat(context))
                 {

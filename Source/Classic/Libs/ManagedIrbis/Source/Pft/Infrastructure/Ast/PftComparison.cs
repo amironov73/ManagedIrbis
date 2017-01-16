@@ -9,13 +9,8 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 using AM;
 
@@ -68,7 +63,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 {
 
                     _virtualChildren = new VirtualChildren();
-                    PftNode operationNode = new PftNode()
+                    PftNode operationNode = new PftNode
                     {
                         Text = Operation
                     };
@@ -331,6 +326,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return numeric.Value;
+        }
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public override object Clone()
+        {
+            PftComparison result = (PftComparison)base.Clone();
+
+            result._virtualChildren = null;
+
+            if (!ReferenceEquals(LeftOperand, null))
+            {
+                result.LeftOperand = (PftNode) LeftOperand.Clone();
+            }
+
+            if (!ReferenceEquals(RightOperand, null))
+            {
+                result.RightOperand = (PftNode) RightOperand.Clone();
+            }
+
+            return result;
         }
 
         #endregion

@@ -9,15 +9,10 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
+using AM;
 using AM.Collections;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -139,7 +134,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         private VirtualChildren _virtualChildren;
 
-        private bool EvaluateCondition
+        private bool _EvaluateCondition
             (
                 [NotNull] PftContext context
             )
@@ -160,6 +155,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
+        #region ICloneable members
+
+        /// <inheritdoc/>
+        public override object Clone()
+        {
+            PftFor result = (PftFor) base.Clone();
+
+            result._virtualChildren = null;
+
+            result.Initialization 
+                = Initialization.CloneNodes().ThrowIfNull();
+            result.Loop = Loop.CloneNodes().ThrowIfNull();
+            result.Body = Body.CloneNodes().ThrowIfNull();
+
+            if (!ReferenceEquals(Condition, null))
+            {
+                result.Condition = (PftCondition) Condition.Clone();
+            }
+
+            return result;
+        }
+
+        #endregion
+
         #region PftNode members
 
         /// <inheritdoc />
@@ -175,7 +194,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             try
             {
 
-                while (EvaluateCondition(context))
+                while (_EvaluateCondition(context))
                 {
                     context.Execute(Body);
                     context.Execute(Loop);

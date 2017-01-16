@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using System.Diagnostics;
 using System.IO;
 
@@ -33,7 +34,8 @@ namespace ManagedIrbis.Pft.Infrastructure
     [MoonSharpUserData]
     [DebuggerDisplay("{Kind} {Text} {Line} {Column}")]
     public sealed class PftToken
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        ICloneable
     {
         #region Properties
 
@@ -148,6 +150,16 @@ namespace ManagedIrbis.Pft.Infrastructure
                 .WritePackedInt32((int) Kind)
                 .WritePackedInt32(Line)
                 .WriteNullable(Text);
+        }
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public object Clone()
+        {
+            return MemberwiseClone();
         }
 
         #endregion

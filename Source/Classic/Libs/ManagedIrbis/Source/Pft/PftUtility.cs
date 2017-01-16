@@ -19,7 +19,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using AM;
-
+using AM.Collections;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -113,6 +113,8 @@ namespace ManagedIrbis.Pft
 
         #region Public methods
 
+        //=================================================
+
         /// <summary>
         /// Assign field.
         /// </summary>
@@ -190,6 +192,8 @@ namespace ManagedIrbis.Pft
                 }
             }
         }
+
+        //=================================================
 
         /// <summary>
         /// Assign subfield.
@@ -286,6 +290,33 @@ namespace ManagedIrbis.Pft
                     }
                 }
             }
+        }
+
+        //=================================================
+
+        /// <summary>
+        /// Clone nodes.
+        /// </summary>
+        [CanBeNull]
+        public static NonNullCollection<PftNode> CloneNodes
+            (
+                [CanBeNull] this NonNullCollection<PftNode> nodes
+            )
+        {
+            NonNullCollection<PftNode> result = null;
+
+            if (!ReferenceEquals(nodes, null))
+            {
+                result = new NonNullCollection<PftNode>();
+
+                foreach (PftNode child1 in nodes)
+                {
+                    PftNode child2 = (PftNode)child1.Clone();
+                    result.Add(child2);
+                }
+            }
+
+            return result;
         }
 
         //=================================================
