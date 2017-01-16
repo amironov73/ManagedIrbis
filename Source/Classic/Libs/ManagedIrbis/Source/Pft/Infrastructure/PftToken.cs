@@ -34,8 +34,10 @@ namespace ManagedIrbis.Pft.Infrastructure
     [MoonSharpUserData]
     [DebuggerDisplay("{Kind} {Text} {Line} {Column}")]
     public sealed class PftToken
-        : IHandmadeSerializable,
-        ICloneable
+        : IHandmadeSerializable
+#if !NETCORE
+        , ICloneable
+#endif
     {
         #region Properties
 
