@@ -9,8 +9,9 @@
 
 #region Using directives
 
+using System.Collections.Generic;
 using System.Linq;
-
+using AM;
 using AM.Collections;
 
 using CodeJam;
@@ -46,6 +47,34 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         [NotNull]
         public NonNullCollection<PftNode> Arguments { get; private set; }
+
+        /// <inheritdoc/>
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
+
+        /// <inheritdoc />
+        public override IList<PftNode> Children
+        {
+            get
+            {
+                if (ReferenceEquals(_virtualChildren, null))
+                {
+
+                    _virtualChildren = new VirtualChildren();
+                    List<PftNode> nodes = new List<PftNode>();
+                    nodes.AddRange(Arguments);
+                    _virtualChildren.SetChildren(nodes);
+                }
+
+                return _virtualChildren;
+            }
+            protected set
+            {
+                // Nothing to do here
+            }
+        }
 
         #endregion
 
@@ -93,9 +122,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Private members
 
+        private VirtualChildren _virtualChildren;
+
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public override object Clone()
+        {
+            PftFunctionCall result = (PftFunctionCall) base.Clone();
+
+            result._virtualChildren = null;
+
+            result.Arguments = Arguments.CloneNodes().ThrowIfNull();
+
+            return result;
+        }
 
         #endregion
 

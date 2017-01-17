@@ -310,6 +310,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public override object Clone()
+        {
+            PftG result = (PftG) base.Clone();
+
+            result._fields = (RecordField[]) _fields.Clone();
+            for (int i = 0; i < _fields.Length; i++)
+            {
+                result._fields[i] = _fields[i].Clone();
+            }
+
+            return result;
+        }
+
+        #endregion
+
         #region Object members
 
         /// <inheritdoc/>
