@@ -223,6 +223,12 @@
     <Compile Include="Source\Editors\MenuForm.Designer.cs">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\MagazineListBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\MagazineListBox.Designer.cs">
+      <DependentUpon>MagazineListBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Source\Pft\PftEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -343,6 +349,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Source\Editors\MenuForm.resx">
       <DependentUpon>MenuForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\MagazineListBox.resx">
+      <DependentUpon>MagazineListBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Source\Pft\PftGlobalGrid.resx">
       <DependentUpon>PftGlobalGrid.cs</DependentUpon>

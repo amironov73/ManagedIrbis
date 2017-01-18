@@ -54,7 +54,9 @@ namespace ManagedIrbis
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class IrbisAlphabetTable
+#if !SILVERLIGHT && !WIN81
         : IHandmadeSerializable
+#endif
     {
         #region Constants
 
@@ -517,6 +519,8 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
+#if !SILVERLIGHT && !WIN81
+
         /// <inheritdoc />
         public void RestoreFromStream
             (
@@ -541,6 +545,8 @@ namespace ManagedIrbis
             writer.Write(_encoding.CodePage);
             writer.WriteArray(_table);
         }
+
+#endif
 
         #endregion
     }
