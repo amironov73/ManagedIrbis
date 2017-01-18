@@ -44,6 +44,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public PftProgram Program { get; set; }
 
+        /// <inheritdoc />
+        public override IList<PftNode> Children
+        {
+            get
+            {
+                if (ReferenceEquals(_virtualChildren, null))
+                {
+                    _virtualChildren = new VirtualChildren();
+                    List<PftNode> nodes = new List<PftNode>();
+                    if (!ReferenceEquals(Program, null))
+                    {
+                        _virtualChildren.Add(Program);
+                    }
+                    _virtualChildren.SetChildren(nodes);
+                }
+
+                return _virtualChildren;
+            }
+            protected set
+            {
+                // Nothing to do here
+            }
+        }
+
         #endregion
 
         #region Construction
@@ -70,6 +94,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Private members
+
+        private VirtualChildren _virtualChildren;
 
         private void ParseProgram
             (
@@ -119,6 +145,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public override object Clone()
+        {
+            PftInclude result = (PftInclude) base.Clone();
+
+            if (!ReferenceEquals(Program, null))
+            {
+                result.Program = (PftProgram) Program.Clone();
+            }
+
+            return result;
+        }
 
         #endregion
 

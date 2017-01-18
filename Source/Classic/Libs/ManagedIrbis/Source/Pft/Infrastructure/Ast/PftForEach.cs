@@ -68,7 +68,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 if (ReferenceEquals(_virtualChildren, null))
                 {
-
                     _virtualChildren = new VirtualChildren();
                     List<PftNode> nodes = new List<PftNode>();
                     nodes.AddRange(Sequence);

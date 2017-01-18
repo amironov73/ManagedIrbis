@@ -12,9 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 
@@ -163,6 +161,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc/>
+        public override object Clone()
+        {
+            PftVariableReference result = (PftVariableReference) base.Clone();
+
+            result.Index = (IndexSpecification) Index.Clone();
+
+            return result;
+        }
 
         #endregion
 

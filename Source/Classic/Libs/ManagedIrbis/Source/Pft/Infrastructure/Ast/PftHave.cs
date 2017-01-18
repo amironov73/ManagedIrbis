@@ -75,6 +75,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public override object Clone()
+        {
+            PftHave result = (PftHave) base.Clone();
+
+            if (!ReferenceEquals(Variable, null))
+            {
+                result.Variable = (PftVariableReference) Variable.Clone();
+            }
+
+            return result;
+        }
+
+        #endregion
+
         #region PftNode members
 
         /// <inheritdoc />
@@ -108,7 +125,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 {
                     Value = context.Functions.HaveFunction(name)
                         || context.Procedures.HaveProcedure(name);
-
                 }
             }
 

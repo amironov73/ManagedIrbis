@@ -158,6 +158,5 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         #endregion
-
     }
 }

@@ -9,19 +9,16 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -56,6 +53,34 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public PftNumeric RightOperand { get; set; }
 
+        /// <inheritdoc />
+        public override IList<PftNode> Children
+        {
+            get
+            {
+                if (ReferenceEquals(_virtualChildren, null))
+                {
+                    _virtualChildren = new VirtualChildren();
+                    List<PftNode> nodes = new List<PftNode>();
+                    if (!ReferenceEquals(LeftOperand, null))
+                    {
+                        nodes.Add(LeftOperand);
+                    }
+                    if (!ReferenceEquals(RightOperand, null))
+                    {
+                        nodes.Add(RightOperand);
+                    }
+                    _virtualChildren.SetChildren(nodes);
+                }
+
+                return _virtualChildren;
+            }
+            protected set
+            {
+                // Nothing to do here
+            }
+        }
+
         #endregion
 
         #region Construction
@@ -82,6 +107,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Private members
+
+        private VirtualChildren _virtualChildren;
 
         #endregion
 
@@ -138,6 +165,28 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public override object Clone()
+        {
+            PftNumericExpression result = (PftNumericExpression) base.Clone();
+
+            if (!ReferenceEquals(LeftOperand, null))
+            {
+                result.LeftOperand = (PftNumeric) LeftOperand.Clone();
+            }
+
+            if (!ReferenceEquals(RightOperand, null))
+            {
+                result.RightOperand = (PftNumeric) RightOperand.Clone();
+            }
+
+            return result;
+        }
 
         #endregion
 
