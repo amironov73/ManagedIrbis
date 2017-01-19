@@ -42,6 +42,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public PftField Field { get; set; }
 
+        /// <inheritdoc />
+        public override IList<PftNode> Children
+        {
+            get
+            {
+                if (ReferenceEquals(_virtualChildren, null))
+                {
+                    _virtualChildren = new VirtualChildren();
+                    List<PftNode> nodes = new List<PftNode>();
+                    if (!ReferenceEquals(Field, null))
+                    {
+                        nodes.Add(Field);
+                    }
+                    _virtualChildren.SetChildren(nodes);
+                }
+
+                return _virtualChildren;
+            }
+            protected set
+            {
+                // Nothing to do here
+            }
+        }
+
         #endregion
 
         #region Construction
@@ -68,9 +92,28 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Private members
 
+        private VirtualChildren _virtualChildren;
+
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region ICloneable members
+
+        // <inheritdoc />
+        public override object Clone()
+        {
+            PftP result = (PftP) base.Clone();
+
+            if (!ReferenceEquals(Field, null))
+            {
+                result.Field = (PftField) Field.Clone();
+            }
+
+            return result;
+        }
 
         #endregion
 
