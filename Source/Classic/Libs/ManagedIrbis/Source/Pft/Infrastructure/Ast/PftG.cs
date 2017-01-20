@@ -9,12 +9,7 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 
@@ -150,12 +145,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             _fields = context.Globals.Get(Number);
             int result = _fields.Length;
 
-            //if (IndexTo != 0
-            //    && IndexTo <= result)
-            //{
-            //    result = IndexTo - 1;
-            //}
-
             return result;
         }
 
@@ -175,18 +164,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             int index = context.Index;
-            //if (IndexFrom != 0)
-            //{
-            //    index = index + IndexFrom - 1;
-            //}
-
-            //if (IndexTo != 0)
-            //{
-            //    if (index >= IndexTo)
-            //    {
-            //        return null;
-            //    }
-            //}
 
             RecordField field = _fields.GetOccurrence(index);
             if (field == null)
@@ -223,7 +200,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public override bool HaveRepeat
             (
-                [NotNull] PftContext context
+                PftContext context
             )
         {
             Code.NotNull(context, "context");
@@ -244,10 +221,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             return context.Index >= (_count - 1);
         }
-
-        #endregion
-
-        #region PftNode members
 
         /// <inheritdoc />
         public override void Execute
@@ -317,11 +290,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             PftG result = (PftG) base.Clone();
 
-            result._fields = (RecordField[]) _fields.Clone();
-            for (int i = 0; i < _fields.Length; i++)
-            {
-                result._fields[i] = _fields[i].Clone();
-            }
+            result._fields = null;
+
+            //if (!ReferenceEquals(_fields, null))
+            //{
+            //    result._fields = (RecordField[]) _fields.Clone();
+            //    for (int i = 0; i < _fields.Length; i++)
+            //    {
+            //        result._fields[i] = _fields[i].Clone();
+            //    }
+            //}
 
             return result;
         }

@@ -149,11 +149,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             int result = record.Fields.GetField(Tag).Length;
-            //if (IndexTo != 0
-            //    && IndexTo <= result)
-            //{
-            //    result = IndexTo - 1;
-            //}
 
             return result;
         }

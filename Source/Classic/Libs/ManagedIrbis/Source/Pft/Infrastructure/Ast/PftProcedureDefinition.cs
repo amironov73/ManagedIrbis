@@ -9,16 +9,12 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AM;
-using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -40,6 +36,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         [CanBeNull]
         public PftProcedure Procedure { get; set; }
+
+        /// <inheritdoc />
+        public override IList<PftNode> Children
+        {
+            get
+            {
+                if (ReferenceEquals(_virtualChildren, null))
+                {
+                    _virtualChildren = new VirtualChildren();
+                    List<PftNode> nodes = new List<PftNode>();
+                    if (!ReferenceEquals(Procedure, null))
+                    {
+                        nodes.AddRange(Procedure.Body);
+                    }
+                    _virtualChildren.SetChildren(nodes);
+                }
+
+                return _virtualChildren;
+            }
+            protected set
+            {
+                // Nothing to do here
+            }
+        }
 
         #endregion
 
@@ -67,9 +87,28 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Private members
 
+        private VirtualChildren _virtualChildren;
+
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public override object Clone()
+        {
+            PftProcedureDefinition result = (PftProcedureDefinition) base.Clone();
+
+            if (!ReferenceEquals(Procedure, null))
+            {
+                result.Procedure = (PftProcedure) Procedure.Clone();
+            }
+
+            return result;
+        }
 
         #endregion
 
@@ -82,6 +121,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             OnBeforeExecution(context);
+
+            // Do something?
 
             OnAfterExecution(context);
         }

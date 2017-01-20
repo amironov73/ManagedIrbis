@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using AM.Collections;
 
 using CodeJam;
@@ -144,6 +144,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public override object Clone()
+        {
+            PftWhile result = (PftWhile) base.Clone();
+
+            result._virtualChildren = null;
+
+            if (!ReferenceEquals(Condition, null))
+            {
+                result.Condition = (PftCondition) Condition.Clone();
+            }
+
+            result.Body = Body.CloneNodes().ThrowIfNull();
+
+            return result;
+        }
 
         #endregion
 

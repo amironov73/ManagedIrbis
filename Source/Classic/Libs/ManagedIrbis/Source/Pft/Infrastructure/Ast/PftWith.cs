@@ -50,6 +50,37 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [NotNull]
         public NonNullCollection<FieldSpecification> Fields { get; private set; }
 
+        /// <inheritdoc/>
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
+
+        /// <inheritdoc />
+        public override IList<PftNode> Children
+        {
+            get
+            {
+                if (ReferenceEquals(_virtualChildren, null))
+                {
+
+                    _virtualChildren = new VirtualChildren();
+                    List<PftNode> nodes = new List<PftNode>();
+                    if (!ReferenceEquals(Variable, null))
+                    {
+                        nodes.Add(Variable);
+                    }
+                    _virtualChildren.SetChildren(nodes);
+                }
+
+                return _virtualChildren;
+            }
+            protected set
+            {
+                // Nothing to do here
+            }
+        }
+
         #endregion
 
         #region Construction
@@ -81,9 +112,36 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Private members
 
+        private VirtualChildren _virtualChildren;
+
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public override object Clone()
+        {
+            PftWith result = (PftWith) base.Clone();
+
+            result._virtualChildren = null;
+
+            if (!ReferenceEquals(Variable, null))
+            {
+                result.Variable = (PftVariableReference) Variable.Clone();
+            }
+
+            result.Fields = new NonNullCollection<FieldSpecification>();
+            foreach (FieldSpecification field in Fields)
+            {
+                //result.Fields.Add(field.Clone());
+            }
+
+            return result;
+        }
 
         #endregion
 

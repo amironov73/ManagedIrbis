@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using AM.Collections;
 
 using CodeJam;
@@ -33,6 +33,7 @@ namespace ManagedIrbis.Pft.Infrastructure
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftProcedure
+        : ICloneable
     {
         #region Properties
 
@@ -93,6 +94,20 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 context.Pop();
             }
+        }
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public object Clone()
+        {
+            PftProcedure result = (PftProcedure) MemberwiseClone();
+
+            result.Body = Body.CloneNodes().ThrowIfNull();
+
+            return result;
         }
 
         #endregion

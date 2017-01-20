@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using System.Globalization;
 using System.Text;
 
@@ -31,6 +32,9 @@ namespace ManagedIrbis.Pft.Infrastructure
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class FieldSpecification
+#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81
+ : ICloneable
+#endif
     {
         #region Properties
 
@@ -616,7 +620,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
                 SubField = SubFieldCode.Normalize(c);
 
-                c = navigator.PeekChar();
+                /* c = */ navigator.PeekChar();
             } // c == '^'
 
             int length = navigator.Position - start;
@@ -730,6 +734,23 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #endregion
 
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public object Clone()
+        {
+            FieldSpecification result
+                = (FieldSpecification) MemberwiseClone();
+
+            result.FieldRepeat = (IndexSpecification) FieldRepeat.Clone();
+            result.SubFieldRepeat
+                = (IndexSpecification) SubFieldRepeat.Clone();
+
+            return result;
+        }
+
+        #endregion
+
         #region Object members
 
         /// <inheritdoc/>
@@ -768,7 +789,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             return result.ToString();
         }
-
 
         #endregion
     }

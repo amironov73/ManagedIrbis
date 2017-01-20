@@ -9,12 +9,8 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using AM;
 using AM.Collections;
 
 using CodeJam;
@@ -58,10 +54,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 {
 
                     _virtualChildren = new VirtualChildren();
-                    List<PftNode> nodes = new List<PftNode>()
+                    List<PftNode> nodes = new List<PftNode>();
+                    if (!ReferenceEquals(Mfn, null))
                     {
-                        Mfn
-                    };
+                        nodes.Add(Mfn);
+                    }
                     nodes.AddRange(Format);
                     _virtualChildren.SetChildren(nodes);
                 }
@@ -113,6 +110,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
+        #region ICloneable members
+
+        /// <inheritdoc/>
+        public override object Clone()
+        {
+            PftRef result = (PftRef)base.Clone();
+
+            if (!ReferenceEquals(Mfn, null))
+            {
+                result.Mfn = (PftNumeric)Mfn.Clone();
+            }
+
+            result.Format = Format.CloneNodes().ThrowIfNull();
+
+            return result;
+        }
+
+        #endregion
+
         #region PftNode members
 
         /// <inheritdoc />
@@ -126,7 +142,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             if (!ReferenceEquals(Mfn, null))
             {
                 context.Evaluate(Mfn);
-                int mfn = (int) Mfn.Value;
+                int mfn = (int)Mfn.Value;
                 MarcRecord record = context.Environment.ReadRecord(mfn);
                 if (!ReferenceEquals(record, null))
                 {
