@@ -33,7 +33,7 @@ namespace ManagedIrbis.Pft.Infrastructure
     [MoonSharpUserData]
     public sealed class FieldSpecification
 #if !NETCORE && !SILVERLIGHT && !UAP && !WIN81
- : ICloneable
+        : ICloneable
 #endif
     {
         #region Properties
