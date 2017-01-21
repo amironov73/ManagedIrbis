@@ -110,6 +110,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
@@ -122,9 +123,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AM\Services\ConsoleWindowsService.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="AM\Services\ConsoleWindowsService.cs" />
     <Compile Include="AM\Services\IWindowsServiceTask.cs" />
     <Compile Include="AM\Win32\ACCEL.cs" />
     <Compile Include="AM\Win32\BorderFlags.cs" />
@@ -289,6 +288,7 @@
     <Compile Include="AM\Win32\Powrprof\Powrprof.cs" />
     <Compile Include="AM\Win32\RECTL.cs" />
     <Compile Include="AM\Win32\SafeLibraryHandle.cs" />
+    <Compile Include="AM\Win32\ServiceInstallerUtility.cs" />
     <Compile Include="AM\Win32\SIZE.cs" />
     <Compile Include="AM\Win32\SIZEL.cs" />
     <Compile Include="AM\Win32\SMALL_RECT.cs" />
