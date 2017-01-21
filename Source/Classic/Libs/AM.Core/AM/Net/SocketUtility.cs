@@ -10,6 +10,7 @@
 #region Using directives
 
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -24,8 +25,6 @@ using MoonSharp.Interpreter;
 
 namespace AM.Net
 {
-#if NOTDEF
-
     /// <summary>
     /// 
     /// </summary>
@@ -38,6 +37,8 @@ namespace AM.Net
         #endregion
 
         #region Public methods
+
+#if NOTDEF
 
         ///// <summary>
         ///// Gets IP address from hostname.
@@ -308,8 +309,39 @@ namespace AM.Net
                 );
         }
 
+#endif
+
+        /// <summary>
+        /// Read from the socket as many data as possible.
+        /// </summary>
+        [NotNull]
+        public static byte[] ReceiveAll
+            (
+                [NotNull] this Socket socket
+            )
+        {
+            Code.NotNull(socket, "socket");
+
+            MemoryStream result = new MemoryStream();
+            byte[] buffer = new byte[50 * 1024];
+
+
+            while (true)
+            {
+                int readed = socket.Receive(buffer);
+
+                if (readed <= 0)
+                {
+                    break;
+                }
+
+                result.Write(buffer, 0, readed);
+            }
+
+            return result.ToArray();
+        }
+
         #endregion
     }
 
-#endif
 }

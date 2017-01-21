@@ -1454,7 +1454,7 @@ namespace AM.IO
 
             while (true)
             {
-                byte[] buffer = new byte[10 * 1024];
+                byte[] buffer = new byte[50 * 1024];
                 int read = stream.Read(buffer, 0, buffer.Length);
                 if (read <= 0)
                 {

@@ -24,7 +24,7 @@ using System.Net.Sockets;
 
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using AM.IO;
 using AM.Threading;
 
@@ -134,6 +134,71 @@ namespace ManagedIrbis.Infrastructure.Sockets
 #endif
 
 #endif
+
+        private static byte[] _SmartRead
+            (
+                [NotNull] NetworkStream stream
+            )
+        {
+            byte[] head = new byte[10 * 1024];
+            byte[] body, result;
+
+            int readed1 = stream.Read(head, 0, head.Length);
+            if (readed1 == 0)
+            {
+                throw new IrbisNetworkException("Empty response");
+            }
+
+            // Ожидаемый ответ сервера:
+            //
+            // Команда
+            // Идентификатор клиента
+            // Порядковый номер
+            // Длина ответа
+            // Прочие данные
+
+            ByteNavigator navigator = new ByteNavigator(head);
+            navigator.SkipLine();
+            navigator.SkipLine();
+            navigator.SkipLine();
+
+            string text = navigator.ReadLine();
+            if (ReferenceEquals(text, null))
+            {
+                return head;
+            }
+
+            int length;
+            if (!int.TryParse(text, out length))
+            {
+                if (readed1 < head.Length)
+                {
+                    return head.GetSpan(0, readed1);
+                }
+                body = stream.ReadToEnd();
+
+                result = ArrayUtility.Merge(head, body);
+
+                return result;
+            }
+
+            int remaining = length + text.Length - readed1;
+            if (remaining <= 0)
+            {
+                return head.GetSpan(0, readed1);
+            }
+
+            body = new byte[remaining];
+            int readed2 = stream.Read(body, 0, remaining);
+            if (readed2 != remaining)
+            {
+                throw new IrbisNetworkException();
+            }
+
+            result = ArrayUtility.Merge(head, body);
+
+            return result;
+        }
 
         #endregion
 

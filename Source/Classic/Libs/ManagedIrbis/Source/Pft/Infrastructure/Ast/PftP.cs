@@ -102,7 +102,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region ICloneable members
 
-        // <inheritdoc />
+        /// <inheritdoc />
         public override object Clone()
         {
             PftP result = (PftP) base.Clone();

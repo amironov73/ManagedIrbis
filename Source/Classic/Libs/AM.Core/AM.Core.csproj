@@ -161,6 +161,7 @@
     <Compile Include="AM\InquiryEventArgs.cs" />
     <Compile Include="AM\IO\BinaryReaderUtility.cs" />
     <Compile Include="AM\IO\BinaryWriterUtility.cs" />
+    <Compile Include="AM\IO\ByteNavigator.cs" />
     <Compile Include="AM\IO\CompressionUtility.cs" />
     <Compile Include="AM\IO\DirectoryUtility.cs" />
     <Compile Include="AM\IO\DumpUtility.cs" />
