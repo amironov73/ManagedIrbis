@@ -84,7 +84,16 @@ namespace AM.IO
 
             _data = data;
             Length = data.Length;
+
+#if SILVERLIGHT || WIN81
+
+            Encoding = Encoding.GetEncoding("windows-1251");
+
+#else
+
             Encoding = Encoding.GetEncoding(0);
+
+#endif
         }
 
         /// <summary>
@@ -106,7 +115,16 @@ namespace AM.IO
 
             _data = data;
             Length = length;
+
+#if SILVERLIGHT || WIN81
+
+            Encoding = Encoding.GetEncoding("windows-1251");
+
+#else
+
             Encoding = Encoding.GetEncoding(0);
+
+#endif
         }
 
         /// <summary>
@@ -408,6 +426,7 @@ namespace AM.IO
             //    }
 
             //    bytes[count] = _data[Position];
+            //    count++;
             //    Position++;
 
             //    decoder.Convert(bytes, 0, count, chars, 0, 1, 

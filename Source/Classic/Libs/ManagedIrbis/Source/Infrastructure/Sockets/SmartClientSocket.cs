@@ -135,6 +135,8 @@ namespace ManagedIrbis.Infrastructure.Sockets
 
 #endif
 
+#if !SILVERLIGHT && !WIN81
+
         private static byte[] _SmartRead
             (
                 [NotNull] NetworkStream stream
@@ -199,6 +201,8 @@ namespace ManagedIrbis.Infrastructure.Sockets
 
             return result;
         }
+
+#endif
 
         #endregion
 

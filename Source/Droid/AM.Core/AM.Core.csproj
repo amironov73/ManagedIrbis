@@ -237,6 +237,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\BinaryWriterUtility.cs">
       <Link>AM\IO\BinaryWriterUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\ByteNavigator.cs">
+      <Link>AM\IO\ByteNavigator.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\CompressionUtility.cs">
       <Link>AM\IO\CompressionUtility.cs</Link>
     </Compile>
