@@ -138,7 +138,7 @@ namespace ManagedIrbis.Infrastructure.Commands
                 throw new IrbisException("File is null");
             }
             File.BinaryFile = true;
-            result.Add(File.ToString());
+            result.AddAnsi(File.ToString());
 
             return result;
         }

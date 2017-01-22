@@ -33,6 +33,7 @@ using Windows.Networking.Sockets;
 #endif
 
 using AM.IO;
+using AM.Net;
 using AM.Threading;
 
 using CodeJam;
@@ -189,16 +190,22 @@ namespace ManagedIrbis.Infrastructure
             {
                 using (TcpClient client = _GetTcpClient())
                 {
-                    NetworkStream stream = client.GetStream();
+                    Socket socket = client.Client;
 
-                    stream.Write
-                        (
-                            request,
-                            0,
-                            request.Length
-                        );
+                    socket.Send(request);
 
-                    byte[] result = stream.ReadToEnd();
+                    byte[] result = socket.ReceiveToEnd();
+
+                    //NetworkStream stream = client.GetStream();
+
+                    //stream.Write
+                    //    (
+                    //        request,
+                    //        0,
+                    //        request.Length
+                    //    );
+
+                    //byte[] result = stream.ReadToEnd();
 
                     Connection.RawServerResponse = result;
 

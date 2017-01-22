@@ -13,6 +13,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using CodeJam;
@@ -312,10 +313,46 @@ namespace AM.Net
 #endif
 
         /// <summary>
+        /// Receive specified amount of data from the socket.
+        /// </summary>
+        [NotNull]
+        public static byte[] ReceiveExact
+            (
+                [NotNull] this Socket socket,
+                int dataLength
+            )
+        {
+            Code.NotNull(socket, "socket");
+            Code.Nonnegative(dataLength, "dataLength");
+
+            MemoryStream result = new MemoryStream(dataLength);
+            byte[] buffer = new byte[32 * 1024];
+
+            while (dataLength > 0)
+            {
+                int readed = socket.Receive(buffer);
+
+                if (readed <= 0)
+                {
+                    throw new ArsMagnaException
+                        (
+                            "Socket reading error"
+                        );
+                }
+
+                result.Write(buffer, 0, readed);
+
+                dataLength -= readed;
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
         /// Read from the socket as many data as possible.
         /// </summary>
         [NotNull]
-        public static byte[] ReceiveAll
+        public static byte[] ReceiveToEnd
             (
                 [NotNull] this Socket socket
             )
@@ -323,14 +360,21 @@ namespace AM.Net
             Code.NotNull(socket, "socket");
 
             MemoryStream result = new MemoryStream();
-            byte[] buffer = new byte[50 * 1024];
-
+            byte[] buffer = new byte[32 * 1024];
 
             while (true)
             {
                 int readed = socket.Receive(buffer);
 
-                if (readed <= 0)
+                if (readed < 0)
+                {
+                    throw new ArsMagnaException
+                        (
+                            "Socket reading error"
+                        );
+                }
+
+                if (readed == 0)
                 {
                     break;
                 }
