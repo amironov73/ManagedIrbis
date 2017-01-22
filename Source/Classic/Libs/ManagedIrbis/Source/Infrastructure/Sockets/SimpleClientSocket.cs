@@ -33,7 +33,13 @@ using Windows.Networking.Sockets;
 #endif
 
 using AM.IO;
+
+#if !SILVERLIGHT && !UAP && !WIN81
+
 using AM.Net;
+
+#endif
+
 using AM.Threading;
 
 using CodeJam;
