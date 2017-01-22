@@ -98,8 +98,9 @@ namespace ManagedIrbis.Readers
 
             VisitInfo[] result = visits.Where
                 (
-                    loan => !loan.IsReturned
-                            && date.SafeCompare(loan.DateExpectedString) <= 0
+                    loan => !loan.IsVisit
+                            && !loan.IsReturned
+                            && date.SafeCompare(loan.DateExpectedString) >= 0
                 )
                 .ToArray();
 
@@ -120,8 +121,9 @@ namespace ManagedIrbis.Readers
 
             VisitInfo[] result = visits.Where
                 (
-                    loan => !loan.IsReturned
-                            && deadline.SafeCompare(loan.DateExpectedString) <= 0
+                    loan => !loan.IsVisit
+                            && !loan.IsReturned
+                            && deadline.SafeCompare(loan.DateExpectedString) >= 0
                 )
                 .ToArray();
 

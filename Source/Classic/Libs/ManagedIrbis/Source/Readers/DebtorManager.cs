@@ -186,7 +186,7 @@ namespace ManagedIrbis.Readers
                     ? reader.Visits.GetDebt(ToDate.Value)
                     : reader.Visits.GetDebt();
 
-                if (FromDate.HasValue)
+                if (!string.IsNullOrEmpty(fromDate))
                 {
                     debt = debt.Where
                         (
