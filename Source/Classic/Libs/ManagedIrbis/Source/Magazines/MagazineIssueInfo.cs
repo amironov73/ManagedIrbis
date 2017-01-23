@@ -9,11 +9,11 @@
 
 #region Using directives
 
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+
 using AM;
 using AM.IO;
 using AM.Runtime;
@@ -22,7 +22,9 @@ using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Fields;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -99,6 +101,27 @@ namespace ManagedIrbis.Magazines
         [XmlAttribute("number")]
         [JsonProperty("number")]
         public string Number { get; set; }
+
+        /// <summary>
+        /// Номер для нужд сортировки. Поля нет.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        public string NumberForSorting
+        {
+            get
+            {
+                string result = Number;
+
+                if (!string.IsNullOrEmpty(result))
+                {
+                    result = result.Trim();
+                }
+
+                return result;
+            }
+        }
 
         /// <summary>
         /// Дополнение к номеру. Поле 931^c.

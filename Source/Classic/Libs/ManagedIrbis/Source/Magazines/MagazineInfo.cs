@@ -13,7 +13,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
-
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -39,6 +39,16 @@ namespace ManagedIrbis.Magazines
         : IHandmadeSerializable
     {
         #region Constants
+
+        /// <summary>
+        /// Code for magazine kind.
+        /// </summary>
+        public const string MagazineKindCode = "a";
+
+        /// <summary>
+        /// Code for newspaper kind.
+        /// </summary>
+        public const string NewspaperKindCode = "c";
 
         #endregion
 
@@ -136,6 +146,10 @@ namespace ManagedIrbis.Magazines
         /// <summary>
         /// Вид издания. Поле 110^b
         /// </summary>
+        /// <remarks>
+        /// Журнал = 'a'
+        /// Газета = 'c'
+        /// </remarks>
         [CanBeNull]
         [XmlAttribute("magazine-kind")]
         [JsonProperty("magazine-kind")]
@@ -163,6 +177,14 @@ namespace ManagedIrbis.Magazines
         [XmlElement("mfn")]
         [JsonProperty("mfn")]
         public int Mfn { get; set; }
+
+        /// <summary>
+        /// Is newspapaper?
+        /// </summary>
+        public bool IsNewspaper
+        {
+            get { return MagazineKind.SameString(NewspaperKindCode); }
+        }
 
         /// <summary>
         /// Произвольные пользовательские данные.

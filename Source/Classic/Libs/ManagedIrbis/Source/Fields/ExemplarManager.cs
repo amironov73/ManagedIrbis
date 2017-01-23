@@ -12,7 +12,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -22,8 +21,6 @@ using AM.Runtime;
 using AM.Text.Output;
 
 using JetBrains.Annotations;
-
-using AM.IO;
 
 using ManagedIrbis.Readers;
 
@@ -428,9 +425,9 @@ namespace ManagedIrbis.Fields
             ChairInfo[] result = ChairInfo.Read
                 (
                     Client,
-                    "mhr.mnu"
+                    "mhr.mnu",
+                    false
                 )
-                .Where(item => item.Code != "*")
                 .ToArray();
 
             return result;

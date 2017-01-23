@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -44,6 +45,11 @@ namespace ManagedIrbis.Readers
         /// Имя меню с кафедрами по умолчанию.
         /// </summary>
         public const string ChairMenu = "kv.mnu";
+
+        /// <summary>
+        /// Имя меню с местами хранения по умолчанию.
+        /// </summary>
+        public const string PlacesMenu = "mhr.mnu";
 
         #endregion
 
@@ -107,13 +113,12 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Разбор текста меню-файла.
         /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
         [NotNull]
         [ItemNotNull]
         public static ChairInfo[] Parse
             (
-                [NotNull] string text
+                [NotNull] string text,
+                bool addAllItem
             )
         {
             if (string.IsNullOrEmpty(text))
@@ -140,7 +145,9 @@ namespace ManagedIrbis.Readers
                 result.Add(item);
             }
 
-            result.Add
+            if (addAllItem)
+            {
+                result.Add
                 (
                     new ChairInfo
                         {
@@ -148,6 +155,7 @@ namespace ManagedIrbis.Readers
                             Title = "Все подразделения"
                         }
                 );
+            }
 
             return result
                 .OrderBy(item => item.Code)
@@ -157,15 +165,13 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Загрузка с сервера.
         /// </summary>
-        /// <param name="client"></param>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
         [NotNull]
         [ItemNotNull]
         public static ChairInfo[] Read
             (
                 [NotNull] IrbisConnection client,
-                [NotNull] string fileName
+                [NotNull] string fileName,
+                bool addAllItem
             )
         {
             if (ReferenceEquals(client, null))
@@ -188,7 +194,7 @@ namespace ManagedIrbis.Readers
                 throw new IrbisException();
             }
 
-            ChairInfo[] result = Parse(chairText);
+            ChairInfo[] result = Parse(chairText, addAllItem);
 
             return result;
         }
@@ -208,15 +214,16 @@ namespace ManagedIrbis.Readers
             return Read
                 (
                     client,
-                    ChairMenu
+                    ChairMenu,
+                    true
                 );
         }
 
+        #endregion
+
         #region IHandmadeSerializable
 
-        /// <summary>
-        /// Сохранение в поток.
-        /// </summary>
+        /// <inheritdoc />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -226,25 +233,7 @@ namespace ManagedIrbis.Readers
             writer.WriteNullable(Title);
         }
 
-#if !WIN81
-
-        /// <summary>
-        /// Сохранение в файл.
-        /// </summary>
-        public static void SaveToFile
-            (
-                [NotNull] string fileName,
-                [NotNull][ItemNotNull] ChairInfo[] chairs
-            )
-        {
-            chairs.SaveToFile(fileName);
-        }
-
-#endif
-
-        /// <summary>
-        /// Считывание из потока.
-        /// </summary>
+        /// <inheritdoc />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -254,43 +243,18 @@ namespace ManagedIrbis.Readers
             Title = reader.ReadNullableString();
         }
 
-#if !WIN81
-
-        /// <summary>
-        /// Считывание из файла.
-        /// </summary>
-        [CanBeNull]
-        [ItemNotNull]
-        public static ChairInfo[] ReadChairsFromFile
-            (
-                [NotNull] string fileName
-            )
-        {
-            ChairInfo[] result = SerializationUtility
-                .RestoreArrayFromFile<ChairInfo>
-                (
-                    fileName
-                );
-
-            return result;
-        }
-
-#endif
-
-        #endregion
-
         #endregion
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc />
         public override string ToString()
         {
+            if (string.IsNullOrEmpty(Title))
+            {
+                return Code.ToVisibleString();
+            }
+
             return string.Format
                 (
                     "{0} - {1}",
