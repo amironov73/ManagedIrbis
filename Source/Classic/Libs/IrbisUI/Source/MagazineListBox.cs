@@ -76,7 +76,7 @@ namespace IrbisUI
             InitializeComponent();
 
             _textBox.DelayedTextChanged += _textBox_DelayedTextChanged;
-            _textBox.PreviewKeyDown += _textBox_PreviewKeyDown;
+            _textBox.KeyDown += _textBox_KeyDown;
             _listBox.SelectedIndexChanged += _listBox_SelectedIndexChanged;
         }
 
@@ -116,10 +116,10 @@ namespace IrbisUI
             }
         }
 
-        void _textBox_PreviewKeyDown
+        private void _textBox_KeyDown
             (
                 object sender,
-                PreviewKeyDownEventArgs e
+                KeyEventArgs e
             )
         {
             if (e.KeyData == Keys.Up)
@@ -128,15 +128,16 @@ namespace IrbisUI
                 {
                     _listBox.SelectedIndex--;
                 }
-                e.IsInputKey = false;
+                e.Handled = true;
             }
-            else if (e.KeyData == Keys.Down)
+
+            if (e.KeyData == Keys.Down)
             {
                 if (_listBox.SelectedIndex < (_listBox.Items.Count - 1))
                 {
                     _listBox.SelectedIndex++;
                 }
-                e.IsInputKey = false;
+                e.Handled = true;
             }
         }
 
