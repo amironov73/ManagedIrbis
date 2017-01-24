@@ -110,6 +110,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Source\ChairComboBox.cs" />
+    <Compile Include="Source\DatabaseComboBox.cs" />
     <Compile Include="Source\DictionaryForm.cs">
       <SubType>Form</SubType>
     </Compile>

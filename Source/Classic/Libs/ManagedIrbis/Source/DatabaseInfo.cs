@@ -325,6 +325,11 @@ namespace ManagedIrbis
         /// <inheritdoc/>
         public override string ToString()
         {
+            if (string.IsNullOrEmpty(Description))
+            {
+                return Name.ToVisibleString();
+            }
+
             return string.Format
                 (
                     "{0} - {1}",
