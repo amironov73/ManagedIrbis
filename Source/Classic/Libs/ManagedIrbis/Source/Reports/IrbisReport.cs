@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Band.cs -- 
+/* IrbisReport.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -40,41 +40,43 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class ReportBand
+    public class IrbisReport
     {
         #region Properties
 
         /// <summary>
-        /// Cells.
-        /// </summary>
-        [NotNull]
-        [XmlArray("cells")]
-        [JsonProperty("cells")]
-        public CellCollection Cells { get; private set; }
-
-        /// <summary>
-        /// Parent band.
-        /// </summary>
-        [XmlIgnore]
-        [JsonIgnore]
-        public ReportBand Parent { get; internal set; }
-
-        /// <summary>
-        /// Sort expression.
+        /// Details band.
         /// </summary>
         [CanBeNull]
-        public string SortExpression { get; set; }
+        [XmlElement("details")]
+        [JsonProperty("details")]
+        public ReportBand Details { get; set; }
+
+        /// <summary>
+        /// Footer band.
+        /// </summary>
+        [CanBeNull]
+        [XmlElement("footer")]
+        [JsonProperty("footer")]
+        public ReportBand Footer { get; set; }
+
+        /// <summary>
+        /// Header band.
+        /// </summary>
+        [CanBeNull]
+        [XmlElement("header")]
+        [JsonProperty("header")]
+        public ReportBand Header { get; set; }
 
         #endregion
 
         #region Construction
 
         /// <summary>
-        /// Construction.
+        /// Constructor.
         /// </summary>
-        public ReportBand()
+        public IrbisReport()
         {
-            Cells = new CellCollection();
         }
 
         #endregion

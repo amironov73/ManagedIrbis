@@ -47,8 +47,8 @@ namespace ManagedIrbis.Reports
         /// <summary>
         /// Report.
         /// </summary>
-        [NotNull]
-        public Report Report { get; internal set; }
+        [CanBeNull]
+        public IrbisReport Report { get; internal set; }
 
         /// <summary>
         /// Band.
@@ -81,6 +81,14 @@ namespace ManagedIrbis.Reports
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Clone the cell.
+        /// </summary>
+        public virtual ReportCell Clone()
+        {
+            return (ReportCell) MemberwiseClone();
+        }
 
         /// <summary>
         /// Render the cell.

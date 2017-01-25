@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* RecordFieldCollection.cs -- коллекция полей записи
+/* CellCollection.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -14,11 +14,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 using AM;
-using AM.Collections;
-using AM.IO;
 using AM.Runtime;
 
 using CodeJam;
@@ -29,20 +26,17 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedIrbis
+namespace ManagedIrbis.Reports
 {
     /// <summary>
-    /// Коллекция полей записи.
-    /// Отличается тем, что принципиально
-    /// не принимает значения <c>null</c>.
+    /// 
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    [ClassInterface(ClassInterfaceType.None)]
-    public sealed class RecordFieldCollection
-        : Collection<RecordField>,
+    public sealed class CellCollection
+        : Collection<ReportCell>,
         IHandmadeSerializable,
-        IReadOnly<RecordFieldCollection>
+        IReadOnly<CellCollection>
     {
         #region Properties
 
@@ -50,7 +44,7 @@ namespace ManagedIrbis
         /// Record.
         /// </summary>
         [CanBeNull]
-        public MarcRecord Record { get { return _record; } }
+        public IrbisReport Report { get { return _report; } }
 
         #endregion
 
@@ -60,51 +54,23 @@ namespace ManagedIrbis
 
         #region Private members
 
-        private MarcRecord _record;
+        private IrbisReport _report;
 
         // ReSharper disable InconsistentNaming
 
-        internal void _RenumberFields()
-        {
-            DictionaryCounterInt32<string> seen
-                = new DictionaryCounterInt32<string>();
-
-            foreach (RecordField field in this)
-            {
-                string tag = field.Tag;
-                if (string.IsNullOrEmpty(tag))
-                {
-                    field.Repeat = 0;
-                }
-                else
-                {
-                    tag = FieldTag.Normalize(tag);
-                    field.Repeat = seen.Increment(tag);
-                }
-            }
-        }
-
-        internal RecordFieldCollection _SetRecord
+        internal CellCollection _SetReport
             (
-                MarcRecord newRecord
+                IrbisReport report
             )
         {
-            _record = newRecord;
+            _report = report;
 
-            foreach (RecordField field in this)
+            foreach (ReportCell cell in this)
             {
-                field.Record = newRecord;
+                cell.Report = report;
             }
 
             return this;
-        }
-
-        internal void SetModified()
-        {
-            if (!ReferenceEquals(Record, null))
-            {
-                Record.Modified = true;
-            }
         }
 
         // ReSharper restore InconsistentNaming
@@ -118,15 +84,15 @@ namespace ManagedIrbis
         /// </summary>
         public void AddRange
             (
-                [NotNull] IEnumerable<RecordField> fields
+                [NotNull] IEnumerable<ReportCell> cells
             )
         {
             ThrowIfReadOnly();
-            Code.NotNull(fields, "fields");
-            
-            foreach (RecordField field in fields)
+            Code.NotNull(cells, "cells");
+
+            foreach (ReportCell cell in cells)
             {
-                Add(field);
+                Add(cell);
             }
         }
 
@@ -134,17 +100,17 @@ namespace ManagedIrbis
         /// Создание клона коллекции.
         /// </summary>
         [NotNull]
-        public RecordFieldCollection Clone()
+        public CellCollection Clone()
         {
-            RecordFieldCollection result = new RecordFieldCollection
+            CellCollection result = new CellCollection
             {
-                _record = Record
+                _report = Report
             };
 
-            foreach (RecordField field in this)
+            foreach (ReportCell cell in this)
             {
-                RecordField clone = field.Clone();
-                clone.Record = Record;
+                ReportCell clone = cell.Clone();
+                clone.Report = Report;
                 result.Add(clone);
             }
 
@@ -155,16 +121,16 @@ namespace ManagedIrbis
         /// Find first occurrence of the field with given predicate.
         /// </summary>
         [CanBeNull]
-        public RecordField Find
+        public ReportCell Find
             (
-                [NotNull] Predicate<RecordField> predicate
+                [NotNull] Predicate<ReportCell> predicate
             )
         {
             Code.NotNull(predicate, "predicate");
 
             return this.FirstOrDefault
                 (
-                    field => predicate(field)
+                    cell => predicate(cell)
                 );
         }
 
@@ -174,16 +140,16 @@ namespace ManagedIrbis
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public RecordField[] FindAll
+        public ReportCell[] FindAll
             (
-                [NotNull] Predicate<RecordField> predicate
+                [NotNull] Predicate<ReportCell> predicate
             )
         {
             Code.NotNull(predicate, "predicate");
 
             return this.Where
                 (
-                    field => predicate(field)
+                    cell => predicate(cell)
                 )
                 .ToArray();
         }
@@ -200,12 +166,10 @@ namespace ManagedIrbis
         {
             ThrowIfReadOnly();
 
-            foreach (RecordField field in this)
+            foreach (ReportCell cell in this)
             {
-                field.Record = null;
+                cell.Report = null;
             }
-
-            SetModified();
 
             base.ClearItems();
         }
@@ -218,19 +182,15 @@ namespace ManagedIrbis
         protected override void InsertItem
             (
                 int index,
-                [NotNull] RecordField item
+                [NotNull] ReportCell item
             )
         {
             ThrowIfReadOnly();
             Code.NotNull(item, "item");
 
-            item.Record = Record;
+            item.Report = Report;
 
             base.InsertItem(index, item);
-
-            SetModified();
-
-            _RenumberFields();
         }
 
         /// <summary>
@@ -248,18 +208,14 @@ namespace ManagedIrbis
 
             if ((index >= 0) && (index < Count))
             {
-                RecordField field = this[index];
-                if (field != null)
+                ReportCell cell  = this[index];
+                if (!ReferenceEquals(cell, null))
                 {
-                    field.Record = null;
+                    cell.Report = null;
                 }
             }
 
             base.RemoveItem(index);
-
-            SetModified();
-
-            _RenumberFields();
         }
 
         /// <summary>
@@ -272,19 +228,15 @@ namespace ManagedIrbis
         protected override void SetItem
             (
                 int index,
-                [NotNull] RecordField item
+                [NotNull] ReportCell item
             )
         {
             ThrowIfReadOnly();
             Code.NotNull(item, "item");
 
-            item.Record = Record;
+            item.Report = Report;
 
             base.SetItem(index, item);
-
-            SetModified();
-
-            _RenumberFields();
         }
 
         #endregion
@@ -303,8 +255,8 @@ namespace ManagedIrbis
             Code.NotNull(reader, "reader");
 
             ClearItems();
-            RecordField[] array = reader.ReadArray<RecordField>();
-            AddRange(array);
+            //RecordField[] array = reader.ReadArray<RecordField>();
+            //AddRange(array);
         }
 
         /// <summary>
@@ -317,7 +269,7 @@ namespace ManagedIrbis
         {
             Code.NotNull(writer, "writer");
 
-            writer.WriteArray(this.ToArray());
+            //writer.WriteArray(this.ToArray());
         }
 
         #endregion
@@ -335,9 +287,9 @@ namespace ManagedIrbis
         /// <summary>
         /// Create read-only clone of the collection.
         /// </summary>
-        public RecordFieldCollection AsReadOnly()
+        public CellCollection AsReadOnly()
         {
-            RecordFieldCollection result = Clone();
+            CellCollection result = Clone();
             result.SetReadOnly();
 
             return result;
@@ -349,10 +301,6 @@ namespace ManagedIrbis
         public void SetReadOnly()
         {
             _readOnly = true;
-            foreach (RecordField field in this)
-            {
-                field.SetReadOnly();
-            }
         }
 
         /// <summary>

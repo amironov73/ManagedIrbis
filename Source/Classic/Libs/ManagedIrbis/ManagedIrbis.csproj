@@ -469,9 +469,11 @@
     <Compile Include="Source\RawRecord.cs" />
     <Compile Include="Source\RecordComparator.cs" />
     <Compile Include="Source\RecordDifferenceResult.cs" />
+    <Compile Include="Source\Reports\CellCollection.cs" />
+    <Compile Include="Source\Reports\GroupBand.cs" />
     <Compile Include="Source\Reports\ReportCell.cs" />
     <Compile Include="Source\Reports\IReportRenderer.cs" />
-    <Compile Include="Source\Reports\Report.cs" />
+    <Compile Include="Source\Reports\IrbisReport.cs" />
     <Compile Include="Source\Reports\ReportContext.cs" />
     <Compile Include="Source\Search\FoundLine.cs" />
     <Compile Include="Source\Search\Infrastructure\ComplexLevel.cs" />
