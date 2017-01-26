@@ -87,6 +87,20 @@ namespace ManagedIrbis.Reports
 
         #region Public methods
 
+        /// <summary>
+        /// Render the report.
+        /// </summary>
+        [NotNull]
+        public string Render
+            (
+                [NotNull] ReportContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            return string.Empty;
+        }
+
         #endregion
 
         #region Object members

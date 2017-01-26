@@ -103,6 +103,25 @@ namespace ManagedIrbis.Client
             Connection.Dispose();
         }
 
+        /// <inheritdoc />
+        public override string FormatRecord
+            (
+                MarcRecord record,
+                string format
+            )
+        {
+            Code.NotNull(record, "record");
+            Code.NotNull(format, "format");
+
+            string result = Connection.FormatRecord
+                (
+                    format,
+                    record
+                );
+
+            return result;
+        }
+
         /// <inheritdoc/>
         public override string[] FormatRecords
             (

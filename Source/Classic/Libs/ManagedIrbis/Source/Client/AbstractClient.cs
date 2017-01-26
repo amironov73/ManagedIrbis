@@ -69,6 +69,19 @@ namespace ManagedIrbis.Client
         #region Public methods
 
         /// <summary>
+        /// Format given record.
+        /// </summary>
+        [CanBeNull]
+        public virtual string FormatRecord
+            (
+                [NotNull] MarcRecord record,
+                string format
+            )
+        {
+            return string.Empty;
+        }
+
+        /// <summary>
         /// Format records.
         /// </summary>
         public virtual string[] FormatRecords
