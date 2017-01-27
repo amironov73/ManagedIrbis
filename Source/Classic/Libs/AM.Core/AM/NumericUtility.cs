@@ -102,12 +102,16 @@ namespace AM
             {
                 return first.ToInvariantString();
             }
-            if (first == (last - 1))
+            if (first == last - 1)
             {
-                return (first.ToInvariantString() + ", " + last.ToInvariantString());
+                return first.ToInvariantString() 
+                    + ", " 
+                    + last.ToInvariantString();
             }
 
-            return (first.ToInvariantString() + "-" + last.ToInvariantString());
+            return first.ToInvariantString() 
+                + "-" 
+                + last.ToInvariantString();
         }
 
         /// <summary>
@@ -120,7 +124,7 @@ namespace AM
                 this string text
             )
         {
-            return (text.SafeToInt32() > 0);
+            return text.SafeToInt32() > 0;
         }
 
         /// <summary>
@@ -286,12 +290,35 @@ namespace AM
         /// </summary>
         /// <param name="value">Число для преобразования.</param>
         /// <returns>Строковое представление числа.</returns>
+        [NotNull]
         public static string ToInvariantString
             (
                 this double value
             )
         {
-            return value.ToString(CultureInfo.InvariantCulture);
+            return value.ToString
+                (
+                    CultureInfo.InvariantCulture
+                );
+        }
+
+        /// <summary>
+        /// Convert double to string using InvariantCulture.
+        /// </summary>
+        [NotNull]
+        public static string ToInvariantString
+            (
+                this double value,
+                [NotNull] string format
+            )
+        {
+            Code.NotNullNorEmpty(format, "format");
+
+            return value.ToString
+                (
+                    format,
+                    CultureInfo.InvariantCulture
+                );
         }
 
         /// <summary>
@@ -300,12 +327,35 @@ namespace AM
         /// </summary>
         /// <param name="value">Число для преобразования.</param>
         /// <returns>Строковое представление числа.</returns>
+        [NotNull]
         public static string ToInvariantString
             (
                 this decimal value
             )
         {
-            return value.ToString(CultureInfo.InvariantCulture);
+            return value.ToString
+                (
+                    CultureInfo.InvariantCulture
+                );
+        }
+
+        /// <summary>
+        /// Convert decimal value to string using InvariantCulture.
+        /// </summary>
+        [NotNull]
+        public static string ToInvariantString
+            (
+                this decimal value,
+                [NotNull] string format
+            )
+        {
+            Code.NotNullNorEmpty(format, "format");
+
+            return value.ToString
+                (
+                    format,
+                    CultureInfo.InvariantCulture
+                );
         }
 
         /// <summary>
@@ -319,7 +369,10 @@ namespace AM
                 this long value
             )
         {
-            return value.ToString(CultureInfo.InvariantCulture);
+            return value.ToString
+                (
+                    CultureInfo.InvariantCulture
+                );
         }
 
         /// <summary>
@@ -338,17 +391,127 @@ namespace AM
         }
 
         /// <summary>
+        /// Try parse decimal value in standard manner.
+        /// </summary>
+        public static bool TryParseDecimal
+            (
+                [NotNull] string text,
+                out decimal value
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+            bool result = decimal.TryParse
+                (
+                    text,
+                    NumberStyles.Any,
+                    CultureInfo.InvariantCulture,
+                    out value
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Try parse double precision value in standard manner.
+        /// </summary>
+        public static bool TryParseDouble
+            (
+                [NotNull] string text,
+                out double value
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+            bool result = double.TryParse
+                (
+                    text,
+                    NumberStyles.Any,
+                    CultureInfo.InvariantCulture,
+                    out value
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Try parse single precision value in standard manner.
+        /// </summary>
+        public static bool TryParseFloat
+            (
+                [NotNull] string text,
+                out float value
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+            bool result = float.TryParse
+                (
+                    text,
+                    NumberStyles.Any,
+                    CultureInfo.InvariantCulture,
+                    out value
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Try parse integer in standard manner.
+        /// </summary>
+        public static bool TryParseInt16
+            (
+                [NotNull] string text,
+                out short value
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+            bool result = short.TryParse
+                (
+                    text,
+                    NumberStyles.Any,
+                    CultureInfo.InvariantCulture,
+                    out value
+                );
+
+            return result;
+        }
+
+        /// <summary>
         /// Try parse integer in standard manner.
         /// </summary>
         public static bool TryParseInt32
             (
-            [NotNull] string text,
-            out int value
+                [NotNull] string text,
+                out int value
             )
         {
             Code.NotNullNorEmpty(text, "text");
 
             bool result = int.TryParse
+                (
+                    text,
+                    NumberStyles.Any,
+                    CultureInfo.InvariantCulture,
+                    out value
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Try parse integer in standard manner.
+        /// </summary>
+        public static bool TryParseInt64
+            (
+                [NotNull] string text,
+                out long value
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+            bool result = long.TryParse
                 (
                     text,
                     NumberStyles.Any,
