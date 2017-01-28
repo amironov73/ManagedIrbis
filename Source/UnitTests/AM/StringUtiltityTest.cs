@@ -839,5 +839,61 @@ namespace UnitTests.AM
                     "ArsMagna".Wrap("[", "]")
                 );
         }
+
+        [TestMethod]
+        public void StringUtility_ReplaceControlCharacters()
+        {
+            Assert.AreEqual
+                (
+                    null,
+                    StringUtility.ReplaceControlCharacters(null)
+                );
+            Assert.AreEqual
+                (
+                    string.Empty,
+                    StringUtility.ReplaceControlCharacters(string.Empty)
+                );
+            Assert.AreEqual
+                (
+                    " ",
+                    StringUtility.ReplaceControlCharacters(" ")
+                );
+            Assert.AreEqual
+                (
+                    "a",
+                    StringUtility.ReplaceControlCharacters("a")
+                );
+            Assert.AreEqual
+                (
+                    " ",
+                    StringUtility.ReplaceControlCharacters("\r")
+                );
+            Assert.AreEqual
+                (
+                    " ",
+                    StringUtility.ReplaceControlCharacters("\n")
+                );
+            Assert.AreEqual
+                (
+                    "  ",
+                    StringUtility.ReplaceControlCharacters("\r\n")
+                );
+            Assert.AreEqual
+                (
+                    "Hello, World!",
+                    StringUtility.ReplaceControlCharacters("Hello, World!")
+                );
+            Assert.AreEqual
+                (
+                    "Hello, World!",
+                    StringUtility.ReplaceControlCharacters("Hello,\nWorld!")
+                );
+            Assert.AreEqual
+                (
+                    "Hello, World!",
+                    StringUtility.ReplaceControlCharacters("Hello,\tWorld!")
+                );
+
+        }
     }
 }

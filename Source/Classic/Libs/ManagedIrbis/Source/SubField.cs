@@ -299,6 +299,12 @@ namespace ManagedIrbis
 
             if (SubFieldValue.Verify(value))
             {
+                value = StringUtility
+                    .ReplaceControlCharacters(value);
+                if (!string.IsNullOrEmpty(value))
+                {
+                    value = value.Trim();
+                }
                 _value = value;
                 SetModified();
             }

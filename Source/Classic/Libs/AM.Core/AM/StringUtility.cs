@@ -20,7 +20,6 @@ using System.Text.RegularExpressions;
 using CodeJam;
 
 using JetBrains.Annotations;
-//using Microsoft.SqlServer.Server;
 
 #endregion
 
@@ -43,10 +42,47 @@ namespace AM
                                        + "_";
 
         private static readonly Random _random = new Random();
+        private static readonly char[] _quotes = { '\'', '"', '[', ']' };
 
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Conditionally concatenates strings.
+        /// </summary>
+        /// <param name="to">Destination string.</param>
+        /// <param name="what">Tail.</param>
+        /// <returns>Resulting string.</returns>
+        public static string CCat
+            (
+                [NotNull] this string to,
+                string what
+            )
+        {
+            return to.EndsWith(what)
+                ? to
+                : string.Concat(to, what);
+        }
+
+        /// <summary>
+        /// Conditionally concatenates strings.
+        /// </summary>
+        /// <param name="to">Destination string.</param>
+        /// <param name="end">Existing tail.</param>
+        /// <param name="what">Tail to concat.</param>
+        /// <returns>Resulting string.</returns>
+        public static string CCat
+            (
+                [NotNull] this string to,
+                string end,
+                string what
+            )
+        {
+            return to.EndsWith(end)
+                ? to
+                : string.Concat(to, what);
+        }
 
         /// <summary>
         /// Changes the encoding of given string from one to other.
@@ -84,6 +120,47 @@ namespace AM
 #endif
 
             return result;
+        }
+
+        /// <summary>
+        /// Сравнивает две строки с точностью до регистра символов.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool CompareNoCase
+            (
+                string left,
+                string right
+            )
+        {
+            //return (string.Compare
+            //            (left,
+            //              right,
+            //              true,
+            //              _InvariantCulture) == 0);
+
+            return CultureInfo.InvariantCulture.CompareInfo.Compare
+                   (
+                       left,
+                       right,
+                       CompareOptions.IgnoreCase
+                   ) == 0;
+        }
+
+        /// <summary>
+        /// Сравнивает два символа с точностью до регистра.
+        /// </summary>
+        public static bool CompareNoCase
+            (
+                char left,
+                char right
+            )
+        {
+            //return (char.ToUpper(left, _InvariantCulture)
+            //         == char.ToUpper(right, _InvariantCulture));
+            return (char.ToUpper(left)
+                    == char.ToUpper(right));
         }
 
         /// <summary>
@@ -134,6 +211,72 @@ namespace AM
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Определяет, состоит ли строка только из цифр.
+        /// </summary>
+        public static bool ConsistOfDigits
+            (
+                string value,
+                int from,
+                int to
+            )
+        {
+            if (string.IsNullOrEmpty(value)
+                || @from >= value.Length)
+            {
+                return false;
+            }
+            to = Math.Min(to, value.Length);
+            for (int i = @from; i < to; i++)
+            {
+                if (!char.IsDigit(value[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Определяет, состоит ли строка только из цифр.
+        /// </summary>
+        public static bool ConsistOfDigits
+            (
+                string value
+            )
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return false;
+            }
+
+            return value.All(char.IsDigit);
+        }
+
+        /// <summary>
+        /// Содержит ли строка любой из перечисленных символов.
+        /// </summary>
+        public static bool ContainsAnySymbol
+            (
+                [CanBeNull] this string text,
+                params char[] symbols
+            )
+        {
+            if (!string.IsNullOrEmpty(text))
+            {
+                foreach (char c in text)
+                {
+                    if (symbols.Contains(c))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -205,6 +348,50 @@ namespace AM
             return result.ToArray();
         }
 
+        private static int HexToInt
+            (
+                char h
+            )
+        {
+            return h >= '0' && h <= '9' 
+                ? h - '0' 
+                : h >= 'a' && h <= 'f'
+                    ? h - 'a' + 10 
+                    : h >= 'A' && h <= 'F'
+                        ? h - 'A' + 10 
+                        : -1;
+        }
+
+        private static char IntToHex
+            (
+                int n
+            )
+        {
+            if (n <= 9)
+            {
+                return (char)(n + '0');
+            }
+
+            return (char)(n - 10 + 'A');
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static string IfEmpty
+            (
+                this string first,
+                params string[] others
+            )
+        {
+            if (!string.IsNullOrEmpty(first))
+            {
+                return first;
+            }
+            return others
+                .FirstOrDefault(s => !string.IsNullOrEmpty(s));
+        }
+
         /// <summary>
         /// Check whether string is blank (consist of spaces) or empty.
         /// </summary>
@@ -215,8 +402,49 @@ namespace AM
                 [CanBeNull] this string value
             )
         {
-            return (string.IsNullOrEmpty(value)
-                     || (value.Trim().Length == 0));
+            return string.IsNullOrEmpty(value)
+                   || value.Trim().Length == 0;
+        }
+
+        /// <summary>
+        /// Проверяет, можно ли трактовать строку как десятичное число.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool IsDecimal
+            (
+                [NotNull] string value
+            )
+        {
+            Code.NotNull(value, "value");
+
+#if WINMOBILE || PocketPC
+
+            try
+            {
+                decimal.Parse(value);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
+
+#else
+
+            decimal temp;
+
+            return decimal.TryParse
+            (
+                value,
+                NumberStyles.AllowDecimalPoint
+                | NumberStyles.AllowLeadingSign,
+                CultureInfo.InvariantCulture,
+                out temp
+            );
+
+#endif
         }
 
         /// <summary>
@@ -310,6 +538,49 @@ namespace AM
         }
 
         /// <summary>
+        /// Проверяет, можно ли трактовать строку как число с плавающей 
+        /// точкой (двойной точности).
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool IsNumeric
+            (
+                [NotNull] string value
+            )
+        {
+            Code.NotNull(value, "value");
+
+#if WINMOBILE || PocketPC
+
+            try
+            {
+                double.Parse(value);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
+
+#else
+
+            double temp;
+
+            return double.TryParse
+            (
+                value,
+                NumberStyles.AllowDecimalPoint
+                | NumberStyles.AllowExponent
+                | NumberStyles.AllowLeadingSign,
+                CultureInfo.InvariantCulture,
+                out temp
+            );
+
+#endif
+        }
+
+        /// <summary>
         /// Checks whether one can convert given string to 16-bit 
         /// signed integer value.
         /// </summary>
@@ -393,7 +664,6 @@ namespace AM
         /// Creates random string with given length.
         /// </summary>
         /// <param name="length">Desired length of string</param>
-        /// <returns></returns>
         public static string Random
             (
                 int length
@@ -413,42 +683,6 @@ namespace AM
             return result.ToString();
         }
 
-
-        /// <summary>
-        /// Conditionally concatenates strings.
-        /// </summary>
-        /// <param name="to">Destination string.</param>
-        /// <param name="what">Tail.</param>
-        /// <returns>Resulting string.</returns>
-        public static string CCat
-            (
-                [NotNull] this string to,
-                string what
-            )
-        {
-            return to.EndsWith(what)
-                    ? to
-                    : string.Concat(to, what);
-        }
-
-        /// <summary>
-        /// Conditionally concatenates strings.
-        /// </summary>
-        /// <param name="to">Destination string.</param>
-        /// <param name="end">Existing tail.</param>
-        /// <param name="what">Tail to concat.</param>
-        /// <returns>Resulting string.</returns>
-        public static string CCat
-            (
-                [NotNull] this string to,
-                string end,
-                string what
-            )
-        {
-            return to.EndsWith(end)
-                    ? to
-                    : string.Concat(to, what);
-        }
 
         /// <summary>
         /// Builds an array is regex matches.
@@ -515,6 +749,43 @@ namespace AM
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Сравнивает строки с точностью до регистра.
+        /// </summary>
+        /// <param name="one">Первая строка.</param>
+        /// <param name="two">Вторая строка.</param>
+        /// <returns>Строки совпадают с точностью до регистра.</returns>
+        public static bool SameString
+            (
+                this string one,
+                string two
+            )
+        {
+            return string.Compare
+                   (
+                       one,
+                       two,
+                       StringComparison.OrdinalIgnoreCase
+                   ) == 0;
+        }
+
+        /// <summary>
+        /// Сравнивает строки.
+        /// </summary>
+        public static bool SameStringSensitive
+            (
+                this string one,
+                string two
+            )
+        {
+            return string.Compare
+                   (
+                       one,
+                       two,
+                       StringComparison.Ordinal
+                   ) == 0;
         }
 
         #region Sparce
@@ -666,6 +937,55 @@ namespace AM
         #endregion
 
         /// <summary>
+        /// Разбивает строку по указанному разделителю.
+        /// </summary>
+        public static string[] SplitFirst
+            (
+                [NotNull] this string line,
+                char delimiter
+            )
+        {
+            int index = line.IndexOf(delimiter);
+            string[] result = (index < 0)
+                ? new[] { line }
+                : new[]
+                {
+                    line.Substring(0, index),
+                    line.Substring(index + 1)
+                };
+
+            return result;
+        }
+
+        /// <summary>
+        /// Превращает строку в видимую.
+        /// Пример: "(null)".
+        /// </summary>
+        [NotNull]
+        public static string ToVisibleString
+            (
+                [CanBeNull] this string text
+            )
+        {
+            if (ReferenceEquals(text, null))
+            {
+                return "(null)";
+            }
+            if (string.IsNullOrEmpty(text))
+            {
+                return "(empty)";
+            }
+#if FW40
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return "(whitespace)";
+            }
+#endif
+
+            return text;
+        }
+
+        /// <summary>
         /// Преобразует строку, содержащую escape-последовательности, 
         /// к нормальному виду.
         /// </summary>
@@ -758,194 +1078,6 @@ namespace AM
             return sb.ToString();
         }
 
-        /// <summary>
-        /// Определяет, состоит ли строка только из цифр.
-        /// </summary>
-        public static bool ConsistOfDigits
-            (
-                string value,
-                int from,
-                int to
-            )
-        {
-            if (string.IsNullOrEmpty(value)
-                 || (from >= value.Length))
-            {
-                return false;
-            }
-            to = Math.Min(to, value.Length);
-            for (int i = from; i < to; i++)
-            {
-                if (!char.IsDigit(value[i]))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Определяет, состоит ли строка только из цифр.
-        /// </summary>
-        public static bool ConsistOfDigits
-            (
-                string value
-            )
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                return false;
-            }
-            return value.All(char.IsDigit);
-        }
-
-
-        /// <summary>
-        /// Проверяет, можно ли трактовать строку как десятичное число.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static bool IsDecimal
-            (
-                [NotNull] string value
-            )
-        {
-            Code.NotNull(value, "value");
-
-#if WINMOBILE || PocketPC
-
-            try
-            {
-                decimal.Parse(value);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-            return true;
-
-#else
-
-            decimal temp;
-
-            return decimal.TryParse
-                (
-                    value,
-                    NumberStyles.AllowDecimalPoint
-                    | NumberStyles.AllowLeadingSign,
-                    CultureInfo.InvariantCulture,
-                    out temp
-                );
-
-#endif
-        }
-
-        /// <summary>
-        /// Проверяет, можно ли трактовать строку как число с плавающей 
-        /// точкой (двойной точности).
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static bool IsNumeric
-            (
-                [NotNull] string value
-            )
-        {
-            Code.NotNull(value, "value");
-
-#if WINMOBILE || PocketPC
-
-            try
-            {
-                double.Parse(value);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-            return true;
-
-#else
-
-            double temp;
-
-            return double.TryParse
-                (
-                    value,
-                    NumberStyles.AllowDecimalPoint
-                    | NumberStyles.AllowExponent
-                    | NumberStyles.AllowLeadingSign,
-                    CultureInfo.InvariantCulture,
-                    out temp
-                );
-
-#endif
-        }
-
-        /// <summary>
-        /// Сравнивает две строки с точностью до регистра символов.
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool CompareNoCase
-            (
-                string left,
-                string right
-            )
-        {
-            //return (string.Compare
-            //            (left,
-            //              right,
-            //              true,
-            //              _InvariantCulture) == 0);
-
-            return CultureInfo.InvariantCulture.CompareInfo.Compare
-                (
-                    left,
-                    right,
-                    CompareOptions.IgnoreCase
-                ) == 0;
-        }
-
-        /// <summary>
-        /// Сравнивает два символа с точностью до регистра.
-        /// </summary>
-        public static bool CompareNoCase
-            (
-                char left,
-                char right
-            )
-        {
-            //return (char.ToUpper(left, _InvariantCulture)
-            //         == char.ToUpper(right, _InvariantCulture));
-            return (char.ToUpper(left)
-                     == char.ToUpper(right));
-        }
-
-
-        /// <summary>
-        /// Ifs the empty.
-        /// </summary>
-        /// <param name="first">The first.</param>
-        /// <param name="others">The others.</param>
-        /// <returns></returns>
-        public static string IfEmpty
-            (
-                this string first,
-                params string[] others
-            )
-        {
-            if (!string.IsNullOrEmpty(first))
-            {
-                return first;
-            }
-            return others
-                .FirstOrDefault(s => !string.IsNullOrEmpty(s));
-        }
 
         /// <summary>
         /// Converts empty string to <c>null</c>.
@@ -974,8 +1106,6 @@ namespace AM
                        ? '\0'
                        : text[text.Length - 1];
         }
-
-        private static readonly char[] _quotes = { '\'', '"', '[', ']' };
 
         /// <summary>
         /// Trims matching open and close quotes from the string.
@@ -1047,64 +1177,6 @@ namespace AM
             }
 
             return text;
-        }
-
-        /// <summary>
-        /// Разбивает строку по указанному разделителю.
-        /// </summary>
-        public static string[] SplitFirst
-            (
-                [NotNull] this string line,
-                char delimiter
-            )
-        {
-            int index = line.IndexOf(delimiter);
-            string[] result = (index < 0)
-                ? new[] { line }
-                : new[]
-                {
-                    line.Substring(0, index),
-                    line.Substring(index + 1)
-                };
-
-            return result;
-        }
-
-        /// <summary>
-        /// Сравнивает строки с точностью до регистра.
-        /// </summary>
-        /// <param name="one">Первая строка.</param>
-        /// <param name="two">Вторая строка.</param>
-        /// <returns>Строки совпадают с точностью до регистра.</returns>
-        public static bool SameString
-            (
-                this string one,
-                string two
-            )
-        {
-            return string.Compare
-                (
-                    one,
-                    two,
-                    StringComparison.OrdinalIgnoreCase
-                ) == 0;
-        }
-
-        /// <summary>
-        /// Сравнивает строки.
-        /// </summary>
-        public static bool SameStringSensitive
-            (
-                this string one,
-                string two
-            )
-        {
-            return string.Compare
-                (
-                    one,
-                    two,
-                    StringComparison.Ordinal
-                ) == 0;
         }
 
         /// <summary>
@@ -1406,29 +1478,6 @@ namespace AM
         }
 
         /// <summary>
-        /// Содержит ли строка любой из перечисленных символов.
-        /// </summary>
-        public static bool ContainsAnySymbol
-            (
-                [CanBeNull] this string text,
-                params char[] symbols
-            )
-        {
-            if (!string.IsNullOrEmpty(text))
-            {
-                foreach (char c in text)
-                {
-                    if (symbols.Contains(c))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
         /// Строка содержит пробельные символы?
         /// </summary>
         /// <param name="text"></param>
@@ -1442,34 +1491,6 @@ namespace AM
                 (
                     ' ', '\t', '\r', '\n'
                 );
-        }
-
-        /// <summary>
-        /// Превращает строку в видимую.
-        /// Пример: "(null)".
-        /// </summary>
-        [NotNull]
-        public static string ToVisibleString
-            (
-                [CanBeNull] this string text
-            )
-        {
-            if (ReferenceEquals(text, null))
-            {
-                return "(null)";
-            }
-            if (string.IsNullOrEmpty(text))
-            {
-                return "(empty)";
-            }
-#if FW40
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                return "(whitespace)";
-            }
-#endif
-
-            return text;
         }
 
         /// <summary>
@@ -1685,30 +1706,6 @@ namespace AM
 
         // ===============================================================
 
-        private static int HexToInt
-            (
-                char h
-            )
-        {
-            return (h >= '0' && h <= '9') ? h - '0' :
-            (h >= 'a' && h <= 'f') ? h - 'a' + 10 :
-            (h >= 'A' && h <= 'F') ? h - 'A' + 10 :
-            -1;
-        }
-
-        private static char IntToHex
-            (
-                int n
-            )
-        {
-            if (n <= 9)
-            {
-                return (char)(n + '0');
-            }
-
-            return (char)(n - 10 + 'A');
-        }
-
         /// <summary>
         /// Decode string.
         /// </summary>
@@ -1808,6 +1805,61 @@ namespace AM
             }
 
             return result.ToString();
+        }
+
+        /// <summary>
+        /// Replace control characters in the text.
+        /// </summary>
+        [CanBeNull]
+        public static string ReplaceControlCharacters
+            (
+                [CanBeNull] string text,
+                char substitute
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            bool needReplace = false;
+            foreach (char c in text)
+            {
+                if (c < ' ')
+                {
+                    needReplace = true;
+                    break;
+                }
+            }
+
+            if (!needReplace)
+            {
+                return text;
+            }
+
+            StringBuilder result = new StringBuilder(text.Length);
+
+            foreach (char c in text)
+            {
+                result.Append
+                    (
+                        c < ' ' ? substitute : c
+                    );
+            }
+
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Replace control characters in the text.
+        /// </summary>
+        [CanBeNull]
+        public static string ReplaceControlCharacters
+            (
+                [CanBeNull] string text
+            )
+        {
+            return ReplaceControlCharacters(text, ' ');
         }
 
         #endregion

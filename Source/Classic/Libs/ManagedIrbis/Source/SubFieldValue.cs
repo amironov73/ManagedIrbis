@@ -58,8 +58,7 @@ namespace ManagedIrbis
             {
                 foreach (char c in value)
                 {
-                    if (c == SubField.Delimiter
-                        || c < ' ')
+                    if (c == SubField.Delimiter)
                     {
                         return false;
                     }

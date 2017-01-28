@@ -913,6 +913,12 @@ namespace ManagedIrbis
                 }
                 else
                 {
+                    value = StringUtility
+                        .ReplaceControlCharacters(value);
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        value = value.Trim();
+                    }
                     _value = value;
                 }
             }
