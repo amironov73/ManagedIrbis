@@ -24,6 +24,7 @@ using AM.Threading;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Gbl;
 using ManagedIrbis.Infrastructure.Commands;
@@ -1482,7 +1483,6 @@ namespace ManagedIrbis
 
 #endif
         }
-
 
         // =========================================================
 

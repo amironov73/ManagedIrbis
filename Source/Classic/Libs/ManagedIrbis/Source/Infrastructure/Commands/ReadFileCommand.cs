@@ -127,7 +127,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             foreach (FileSpecification fileName in Files)
             {
                 string item = fileName.ToString();
-                result.Arguments.Add(item);
+                result.Arguments.AddAnsi(item);
             }
 
             return result;

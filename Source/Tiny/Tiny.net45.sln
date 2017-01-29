@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroClient.net45", "Libs\TinyClient.net45\TinyClient.net45.csproj", "{F25FE9ED-3FEF-4190-9BA9-4989F53CDCA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroTestRunner.net45", "Tests\TinyTestRunner.net45\TinyTestRunner.net45.csproj", "{421040C7-134C-4E58-8492-395516F3BA3E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F25FE9ED-3FEF-4190-9BA9-4989F53CDCA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F25FE9ED-3FEF-4190-9BA9-4989F53CDCA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F25FE9ED-3FEF-4190-9BA9-4989F53CDCA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F25FE9ED-3FEF-4190-9BA9-4989F53CDCA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{421040C7-134C-4E58-8492-395516F3BA3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{421040C7-134C-4E58-8492-395516F3BA3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{421040C7-134C-4E58-8492-395516F3BA3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{421040C7-134C-4E58-8492-395516F3BA3E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
