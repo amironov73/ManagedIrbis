@@ -216,8 +216,7 @@ namespace ManagedIrbis
                                 (
                                     subField.Value,
                                     textRegex
-                                )
-                              
+                                )                              
                     )
                 .ToArray();
         }
