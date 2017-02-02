@@ -217,8 +217,8 @@ namespace ManagedIrbis.Infrastructure.Commands
                 );
 
             result
-                .Add(database)
-                .Add(StartTerm)
+                .AddAnsi(database)
+                .AddUtf8(StartTerm)
                 .Add(NumberOfTerms)
                 .AddAnsi(preparedFormat);
 

@@ -135,6 +135,10 @@ namespace ManagedIrbis.Infrastructure.Commands
             if (itemCount == 1)
             {
                 string line = response.RemainingUtfText();
+                if (!string.IsNullOrEmpty(line))
+                {
+                    line = line.Trim();
+                }
                 result.Add(line);
             }
             else
@@ -158,6 +162,10 @@ namespace ManagedIrbis.Infrastructure.Commands
                     }
 
                     line = IrbisText.IrbisToWindows(line);
+                    if (!string.IsNullOrEmpty(line))
+                    {
+                        line = line.Trim();
+                    }
                     result.Add(line);
                 }
             }

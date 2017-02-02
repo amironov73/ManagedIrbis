@@ -27,6 +27,8 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
+using Newtonsoft.Json;
+
 #endregion
 
 namespace ManagedIrbis
@@ -50,6 +52,7 @@ namespace ManagedIrbis
         /// Record.
         /// </summary>
         [CanBeNull]
+        [JsonIgnore]
         public MarcRecord Record { get { return _record; } }
 
         #endregion
