@@ -64,6 +64,25 @@ namespace RestfulIrbis
             return result;
         }
 
+        public static DatabaseInfo[] ToDatabaseInfo
+            (
+                DatabaseInfoLite[] source
+            )
+        {
+            DatabaseInfo[] result = new DatabaseInfo[source.Length];
+
+            for (int i = 0; i < source.Length; i++)
+            {
+                result[i] = new DatabaseInfo
+                {
+                    Name = source[i].Name,
+                    Description = source[i].Description
+                };
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region Object members
