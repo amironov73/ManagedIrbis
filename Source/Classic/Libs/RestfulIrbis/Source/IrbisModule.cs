@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using ManagedIrbis;
 using ManagedIrbis.Search;
 
@@ -38,7 +38,7 @@ namespace RestfulIrbis
         public IrbisModule()
         {
             Get["/"] = parameters => Response.AsText("Hello! This is RestfulIrbis!");
-            Get["/format/{database}/{mfn}/{format*}"] = _Format;
+            Get["/format/{database}/{mfns}/{format*}"] = _FormatMany;
             Get["/list"] = _ListDatabases;
             Get["/max/{database}"] = _MaxMfn;
             Get["/read/{database}/{mfn}"] = _Read;
@@ -56,20 +56,53 @@ namespace RestfulIrbis
             string connectionString = CM.AppSettings["connectionString"];
             IrbisConnection connection = new IrbisConnection(connectionString);
 
+            Console.WriteLine("Connected");
+            connection.Disposing += (sender, args) => Console.WriteLine("Disconnected");
+
             return connection;
         }
 
-        public Response _Format
+        //public Response _Format
+        //    (
+        //        dynamic parameters
+        //    )
+        //{
+        //    Console.WriteLine("CALLED: format");
+
+        //    using (IrbisConnection connection = GetConnection())
+        //    {
+        //        connection.Database = parameters.database;
+        //        int mfn = parameters.mfn;
+        //        string format = parameters.format;
+        //        string text = connection.FormatRecord(format, mfn);
+
+        //        return Response.AsJson(text);
+        //    }
+        //}
+
+        public Response _FormatMany
             (
                 dynamic parameters
             )
         {
+            Console.WriteLine("CALLED: format");
+
             using (IrbisConnection connection = GetConnection())
             {
-                connection.Database = parameters.database;
-                int mfn = parameters.mfn;
+                string database = parameters.database;
+                string many = parameters.mfns.ToString().Trim();
+                int[] mfns = many.Split
+                    (
+                        new []{',', ' ', ';'}, 
+                        StringSplitOptions.RemoveEmptyEntries
+                    )
+                    .Select
+                    (
+                        one => NumericUtility.ParseInt32(one)
+                    )
+                    .ToArray();
                 string format = parameters.format;
-                string text = connection.FormatRecord(format, mfn);
+                string[] text = connection.FormatRecords(database, format, mfns);
 
                 return Response.AsJson(text);
             }
@@ -80,6 +113,8 @@ namespace RestfulIrbis
                 dynamic parameters
             )
         {
+            Console.WriteLine("CALLED: list");
+
             using (IrbisConnection connection = GetConnection())
             {
                 DatabaseInfoLite[] databases = DatabaseInfoLite.FromDatabaseInfo
@@ -96,6 +131,8 @@ namespace RestfulIrbis
                 dynamic parameters
             )
         {
+            Console.WriteLine("CALLED: max");
+
             using (IrbisConnection connection = GetConnection())
             {
                 connection.Database = parameters.database;
@@ -110,6 +147,8 @@ namespace RestfulIrbis
                 dynamic parameters
             )
         {
+            Console.WriteLine("CALLED: read");
+
             using (IrbisConnection connection = GetConnection())
             {
                 connection.Database = parameters.database;
@@ -125,6 +164,8 @@ namespace RestfulIrbis
                 dynamic parameters
             )
         {
+            Console.WriteLine("CALLED: terms");
+
             using (IrbisConnection connection = GetConnection())
             {
                 TermParameters tp = new TermParameters
@@ -144,6 +185,8 @@ namespace RestfulIrbis
                 dynamic parameters
             )
         {
+            Console.WriteLine("CALLED: search");
+
             using (IrbisConnection connection = GetConnection())
             {
                 connection.Database = parameters.database;
@@ -158,6 +201,8 @@ namespace RestfulIrbis
                 dynamic parameters
             )
         {
+            Console.WriteLine("CALLED: version");
+
             using (IrbisConnection connection = GetConnection())
             {
                 IrbisVersion version = connection.GetServerVersion();

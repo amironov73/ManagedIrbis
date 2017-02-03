@@ -22,6 +22,13 @@ namespace RestfulClient
                 {
                     Console.WriteLine(database);
                 }
+
+                int[] mfns = {1, 2, 3};
+                string[] formatted = client.FormatRecords(mfns, "@brief");
+                foreach (string s in formatted)
+                {
+                    Console.WriteLine(s);
+                }
             }
             catch (Exception exception)
             {

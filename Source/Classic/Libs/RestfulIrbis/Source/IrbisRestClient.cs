@@ -20,6 +20,7 @@ using AM;
 using Newtonsoft.Json;
 
 using ManagedIrbis;
+using ManagedIrbis.Client;
 
 using RestSharp;
 
@@ -31,15 +32,15 @@ namespace RestfulIrbis
     /// 
     /// </summary>
     public class IrbisRestClient
+        : AbstractClient
     {
         #region Properties
-
-        public string Database { get; set; }
 
         #endregion
 
         #region Construction
 
+        // ReSharper disable DoNotCallOverridableMethodsInConstructor
         public IrbisRestClient
             (
                 string url
@@ -56,6 +57,7 @@ namespace RestfulIrbis
             //Get["/terms/{database}/{count}/{term*}"] = _Terms;
             //Get["/version"] = _ServerVersion;
         }
+        // ReSharper restore DoNotCallOverridableMethodsInConstructor
 
         #endregion
 
@@ -67,10 +69,13 @@ namespace RestfulIrbis
 
         #region Public methods
 
+        /// <summary>
+        /// Format record by MFN.
+        /// </summary>
         public string FormatRecord
             (
-                string format,
-                int mfn
+                int mfn,
+                string format
             )
         {
             RestRequest request 
@@ -85,7 +90,34 @@ namespace RestfulIrbis
             return result;
         }
 
-        public DatabaseInfo[] ListDatabases()
+        /// <inheritdoc/>
+        public override string[] FormatRecords
+            (
+                int[] mfns,
+                string format
+            )
+        {
+            RestRequest request
+                = new RestRequest("/format/{database}/{mfns}/{format}");
+            request.AddUrlSegment("database", Database);
+            request.AddUrlSegment
+                (
+                    "mfns", 
+                    StringUtility.Join(",", mfns)
+                );
+            request.AddUrlSegment("format", format);
+
+            IRestResponse response = _client.Execute(request);
+            string[] result = JsonConvert.DeserializeObject<string[]>
+                (
+                    response.Content
+                );
+
+            return result;
+        }
+
+        /// <inheritdoc/>
+        public override DatabaseInfo[] ListDatabases()
         {
             RestRequest request = new RestRequest("/list");
             IRestResponse response = _client.Execute(request);
