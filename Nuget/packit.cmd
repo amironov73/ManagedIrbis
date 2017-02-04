@@ -17,6 +17,7 @@ CALL :BUILD IrbisUI            no   no no    no  no
 CALL :BUILD AM.Suggestions     no   no no    no  no
 CALL :BUILD AM.AOT             no   no no    no  no
 CALL :BUILD AM.Ocr             no   no no    no  no
+CALL :BUILD RestfulIrbis       no   no no    no  no
 
 GOTO :END
 
