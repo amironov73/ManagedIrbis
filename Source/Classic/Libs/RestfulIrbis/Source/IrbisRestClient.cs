@@ -7,20 +7,23 @@
  * Status: poor
  */
 
+#if FW4
+
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using AM;
+
+using CodeJam;
+
+using JetBrains.Annotations;
 
 using Newtonsoft.Json;
 
 using ManagedIrbis;
+
 using ManagedIrbis.Client;
+using ManagedIrbis.Search;
+using MoonSharp.Interpreter;
 
 using RestSharp;
 
@@ -29,8 +32,10 @@ using RestSharp;
 namespace RestfulIrbis
 {
     /// <summary>
-    /// 
+    /// Client for <seealso cref="IrbisModule"/>.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public class IrbisRestClient
         : AbstractClient
     {
@@ -40,20 +45,20 @@ namespace RestfulIrbis
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         // ReSharper disable DoNotCallOverridableMethodsInConstructor
         public IrbisRestClient
             (
-                string url
+                [NotNull] string url
             )
         {
+            Code.NotNullNorEmpty(url, "url");
+
             _client = new RestClient(url);
             Database = "IBIS";
 
-            //Get["/format/{database}/{mfn}/{format*}"] = _Format;
-            //Get["/list"] = _ListDatabases;
-            //Get["/max/{database}"] = _MaxMfn;
-            //Get["/read/{database}/{mfn}"] = _Read;
-            //Get["/search/{database}/{expression*}"] = _Search;
             //Get["/terms/{database}/{count}/{term*}"] = _Terms;
             //Get["/version"] = _ServerVersion;
         }
@@ -75,17 +80,29 @@ namespace RestfulIrbis
         public string FormatRecord
             (
                 int mfn,
-                string format
+                [NotNull] string format
             )
         {
-            RestRequest request 
-                = new RestRequest("/format/{database}/{mfn}/{format}");
+            Code.Positive(mfn, "mfn");
+            Code.NotNullNorEmpty(format, "format");
+
+            RestRequest request = new RestRequest
+                (
+                    "/format/{database}/{mfn}/{format}"
+                );
             request.AddUrlSegment("database", Database);
-            request.AddUrlSegment("mfn", mfn.ToInvariantString());
+            request.AddUrlSegment
+                (
+                    "mfn",
+                    mfn.ToInvariantString()
+                );
             request.AddUrlSegment("format", format);
 
             IRestResponse response = _client.Execute(request);
-            string result = response.Content;
+            string result = JsonConvert.DeserializeObject<string>
+                (
+                    response.Content
+                );
 
             return result;
         }
@@ -97,12 +114,14 @@ namespace RestfulIrbis
                 string format
             )
         {
-            RestRequest request
-                = new RestRequest("/format/{database}/{mfns}/{format}");
+            RestRequest request = new RestRequest
+                (
+                    "/format/{database}/{mfns}/{format}"
+                );
             request.AddUrlSegment("database", Database);
             request.AddUrlSegment
                 (
-                    "mfns", 
+                    "mfns",
                     StringUtility.Join(",", mfns)
                 );
             request.AddUrlSegment("format", format);
@@ -117,15 +136,116 @@ namespace RestfulIrbis
         }
 
         /// <inheritdoc/>
+        public override int GetMaxMfn()
+        {
+            RestRequest request
+                = new RestRequest("/max/{database}");
+            request.AddUrlSegment("database", Database);
+
+            IRestResponse response = _client.Execute(request);
+            int result = JsonConvert.DeserializeObject<int>
+                (
+                    response.Content
+                );
+
+            return result;
+        }
+
+        /// <inheritdoc/>
         public override DatabaseInfo[] ListDatabases()
         {
             RestRequest request = new RestRequest("/list");
+
             IRestResponse response = _client.Execute(request);
             string content = response.Content;
-            DatabaseInfoLite[] databases 
+            DatabaseInfoLite[] databases
                 = JsonConvert.DeserializeObject<DatabaseInfoLite[]>(content);
             DatabaseInfo[] result
                 = DatabaseInfoLite.ToDatabaseInfo(databases);
+
+            return result;
+        }
+
+        /// <inheritdoc/>
+        public override MarcRecord ReadRecord
+            (
+                int mfn
+            )
+        {
+            Code.Positive(mfn, "mfn");
+
+            RestRequest request
+                = new RestRequest("/max/{database}/{mfn}");
+            request.AddUrlSegment("database", Database);
+            request.AddUrlSegment
+                (
+                    "mfn",
+                    mfn.ToInvariantString()
+                );
+
+            IRestResponse response = _client.Execute(request);
+            MarcRecord result
+                = JsonConvert.DeserializeObject<MarcRecord>
+                (
+                    response.Content
+                );
+
+            return result;
+        }
+
+        /// <inheritdoc/>
+        public override TermInfo[] ReadTerms
+            (
+                TermParameters parameters
+            )
+        {
+            Code.NotNull(parameters, "parameters");
+
+            string database = parameters.Database;
+            if (string.IsNullOrEmpty(database))
+            {
+                database = Database;
+            }
+
+            RestRequest request
+                = new RestRequest("/terms/{database}/{count}/{term*}");
+            request.AddUrlSegment("database", database);
+            request.AddUrlSegment
+                (
+                    "count",
+                    parameters.NumberOfTerms.ToInvariantString()
+                );
+            request.AddUrlSegment("term", parameters.StartTerm);
+
+            IRestResponse response = _client.Execute(request);
+            TermInfo[] result
+                = JsonConvert.DeserializeObject<TermInfo[]>
+                (
+                    response.Content
+                );
+
+            return result;
+        }
+
+        /// <inheritdoc/>
+        public override int[] Search
+            (
+                string expression
+            )
+        {
+            Code.NotNullNorEmpty(expression, "expression");
+
+            RestRequest request
+                = new RestRequest("/search/{database}/{expression*}");
+            request.AddUrlSegment("database", Database);
+            request.AddUrlSegment("expression", expression);
+
+            IRestResponse response = _client.Execute(request);
+            int[] result
+                = JsonConvert.DeserializeObject<int[]>
+                (
+                    response.Content
+                );
 
             return result;
         }
@@ -137,3 +257,5 @@ namespace RestfulIrbis
         #endregion
     }
 }
+
+#endif

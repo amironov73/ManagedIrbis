@@ -7,16 +7,22 @@
  * Status: poor
  */
 
+#if FW4
+
 #region Using directives
 
 using System;
-using System.Collections.Generic;
+
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using AM;
+
+using JetBrains.Annotations;
+
 using ManagedIrbis;
 using ManagedIrbis.Search;
+
+using MoonSharp.Interpreter;
 
 using Nancy;
 
@@ -26,6 +32,12 @@ using CM=System.Configuration.ConfigurationManager;
 
 namespace RestfulIrbis
 {
+    /// <summary>
+    /// NancyFX module for IRBIS REST server.
+    /// </summary>
+    [PublicAPI]
+    [CLSCompliant(false)]
+    [MoonSharpUserData]
     public class IrbisModule
         : NancyModule
     {
@@ -35,22 +47,31 @@ namespace RestfulIrbis
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public IrbisModule()
         {
-            Get["/"] = parameters => Response.AsText("Hello! This is RestfulIrbis!");
-            Get["/format/{database}/{mfns}/{format*}"] = _FormatMany;
-            Get["/list"] = _ListDatabases;
-            Get["/max/{database}"] = _MaxMfn;
-            Get["/read/{database}/{mfn}"] = _Read;
-            Get["/search/{database}/{expression*}"] = _Search;
-            Get["/terms/{database}/{count}/{term*}"] = _Terms;
-            Get["/version"] = _ServerVersion;
+            Get["/"] = parameters => Response.AsText
+                (
+                    "Hello! This is RestfulIrbis!"
+                );
+            Get["/format/{database}/{mfns}/{format*}"] = FormatRecords;
+            Get["/list"] = ListDatabases;
+            Get["/max/{database}"] = GetMaxMfn;
+            Get["/read/{database}/{mfn}"] = ReadRecord;
+            Get["/search/{database}/{expression*}"] = SearchRecords;
+            Get["/terms/{database}/{count}/{term*}"] = ReadTerms;
+            Get["/version"] = GetServerVersion;
         }
 
         #endregion
 
         #region Private members
 
+        /// <summary>
+        /// Get connection.
+        /// </summary>
         protected virtual IrbisConnection GetConnection()
         {
             string connectionString = CM.AppSettings["connectionString"];
@@ -62,25 +83,10 @@ namespace RestfulIrbis
             return connection;
         }
 
-        //public Response _Format
-        //    (
-        //        dynamic parameters
-        //    )
-        //{
-        //    Console.WriteLine("CALLED: format");
-
-        //    using (IrbisConnection connection = GetConnection())
-        //    {
-        //        connection.Database = parameters.database;
-        //        int mfn = parameters.mfn;
-        //        string format = parameters.format;
-        //        string text = connection.FormatRecord(format, mfn);
-
-        //        return Response.AsJson(text);
-        //    }
-        //}
-
-        public Response _FormatMany
+        /// <summary>
+        /// Format records.
+        /// </summary>
+        protected virtual Response FormatRecords
             (
                 dynamic parameters
             )
@@ -98,17 +104,25 @@ namespace RestfulIrbis
                     )
                     .Select
                     (
-                        one => NumericUtility.ParseInt32(one)
+                        NumericUtility.ParseInt32
                     )
                     .ToArray();
                 string format = parameters.format;
-                string[] text = connection.FormatRecords(database, format, mfns);
+                string[] text = connection.FormatRecords
+                    (
+                        database, 
+                        format, 
+                        mfns
+                    );
 
                 return Response.AsJson(text);
             }
         }
 
-        private Response _ListDatabases
+        /// <summary>
+        /// List database.
+        /// </summary>
+        protected virtual Response ListDatabases
             (
                 dynamic parameters
             )
@@ -117,7 +131,8 @@ namespace RestfulIrbis
 
             using (IrbisConnection connection = GetConnection())
             {
-                DatabaseInfoLite[] databases = DatabaseInfoLite.FromDatabaseInfo
+                DatabaseInfoLite[] databases 
+                    = DatabaseInfoLite.FromDatabaseInfo
                     (
                         connection.ListDatabases("dbnam3.mnu")
                     );
@@ -126,7 +141,10 @@ namespace RestfulIrbis
             }
         }
 
-        private Response _MaxMfn
+        /// <summary>
+        /// Get max MFN for specified database.
+        /// </summary>
+        protected virtual Response GetMaxMfn
             (
                 dynamic parameters
             )
@@ -142,7 +160,10 @@ namespace RestfulIrbis
             }
         }
 
-        public Response _Read
+        /// <summary>
+        /// Read specified record.
+        /// </summary>
+        protected virtual Response ReadRecord
             (
                 dynamic parameters
             )
@@ -159,7 +180,10 @@ namespace RestfulIrbis
             }
         }
 
-        public Response _Terms
+        /// <summary>
+        /// Read terms.
+        /// </summary>
+        protected virtual Response ReadTerms
             (
                 dynamic parameters
             )
@@ -180,7 +204,10 @@ namespace RestfulIrbis
             }
         }
 
-        public Response _Search
+        /// <summary>
+        /// Search records.
+        /// </summary>
+        protected virtual Response SearchRecords
             (
                 dynamic parameters
             )
@@ -196,7 +223,10 @@ namespace RestfulIrbis
             }
         }
 
-        public Response _ServerVersion
+        /// <summary>
+        /// Get server version.
+        /// </summary>
+        protected virtual Response GetServerVersion
             (
                 dynamic parameters
             )
@@ -222,3 +252,5 @@ namespace RestfulIrbis
         #endregion
     }
 }
+
+#endif
