@@ -742,7 +742,7 @@ namespace AM.IO
 
         #endregion
 
-#region Public methods
+        #region Public methods
 
         /// <summary>
         /// Clear the INI-file.
@@ -1199,9 +1199,9 @@ namespace AM.IO
             }
         }
 
-#endregion
+        #endregion
 
-#region IHandmadeSerializable
+        #region IHandmadeSerializable
 
         /// <inheritdoc />
         public void RestoreFromStream
@@ -1257,9 +1257,9 @@ namespace AM.IO
             }
         }
 
-#endregion
+        #endregion
 
-#region IEnumerable<Section> members
+        #region IEnumerable<Section> members
 
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -1272,9 +1272,9 @@ namespace AM.IO
             return _sections.GetEnumerator();
         }
 
-#endregion
+        #endregion
 
-#region IDisposable members
+        #region IDisposable members
 
         /// <inheritdoc />
         public void Dispose()
@@ -1291,6 +1291,6 @@ namespace AM.IO
 #endif
         }
 
-#endregion
+        #endregion
     }
 }

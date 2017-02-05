@@ -11,12 +11,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
+using AM.IO;
 using AM.Text;
 
 #if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT && !ANDROID && !UAP && !WIN81
@@ -438,6 +440,43 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <summary>
+        /// Read INI-file from server.
+        /// </summary>
+        [NotNull]
+        public static IniFile ReadIniFile
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            FileSpecification fileSpecification 
+                = new FileSpecification
+                (
+                    IrbisPath.MasterFile,
+                    connection.Database,
+                    fileName
+                );
+            string text = connection
+                .ReadTextFile(fileSpecification)
+                .ThrowIfNull("text");
+            IniFile result = new IniFile
+            {
+                FileName = fileName
+            };
+            using (TextReader reader = new StringReader(text))
+            {
+                result.Read(reader);
+            }
+
+            return result;
+        }
+
+        // ========================================================
+
+        /// <summary>
         /// Read menu from server.
         /// </summary>
         [NotNull]
@@ -667,6 +706,36 @@ namespace ManagedIrbis
                 (
                     database,
                     mfnList
+                );
+
+            return result;
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Read search scenario from server.
+        /// </summary>
+        [NotNull]
+        public static SearchScenario[] ReadSearchScenario
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            IniFile iniFile = ReadIniFile
+                (
+                    connection,
+                    fileName
+                );
+
+            SearchScenario[] result
+                = SearchScenario.ParseIniFile
+                (
+                    iniFile
                 );
 
             return result;
