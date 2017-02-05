@@ -147,10 +147,12 @@ namespace ManagedIrbis
         {
             Code.NotNull(connection, "connection");
 
+            // ReSharper disable ConvertClosureToMethodGroup
             Task<int> result = Task.Factory.StartNew
                 (
-                    connection.GetMaxMfn
+                    () => connection.GetMaxMfn()
                 );
+            // ReSharper restore ConvertClosureToMethodGroup
 
             return result;
         }
