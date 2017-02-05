@@ -61,10 +61,12 @@ namespace ManagedIrbis
         {
             Code.NotNull(connection, "connection");
 
+            // ReSharper disable ConvertClosureToMethodGroup
             Task<IniFile> result = Task.Factory.StartNew
                 (
-                    connection.Connect
+                    () => connection.Connect()
                 );
+            // ReSharper restore ConvertClosureToMethodGroup
 
             return result;
         }
@@ -175,6 +177,67 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Empty operation.
+        /// </summary>
+        [NotNull]
+        public static Task NoOpAsync
+            (
+                [NotNull] this IrbisConnection connection
+            )
+        {
+            Code.NotNull(connection, "connection");
+
+            Task result = Task.Factory.StartNew
+            (
+                connection.NoOp
+            );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Read INI-file.
+        /// </summary>
+        [NotNull]
+        public static Task<IniFile> ReadIniFileAsync
+            (
+                [NotNull] this IrbisConnection connection, 
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            Task<IniFile> result = Task.Factory.StartNew
+            (
+                () => connection.ReadIniFile(fileName)
+            );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Read menu.
+        /// </summary>
+        [NotNull]
+        public static Task<MenuFile> ReadMenuAsync
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string menuName
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(menuName, "menuName");
+
+            Task<MenuFile> result = Task.Factory.StartNew
+            (
+                () => connection.ReadMenu(menuName)
+            );
+
+            return result;
+        }
+
+        /// <summary>
         /// Read terms.
         /// </summary>
         [NotNull]
@@ -205,48 +268,6 @@ namespace ManagedIrbis
         }
 
         /// <summary>
-        /// Read menu.
-        /// </summary>
-        [NotNull]
-        public static Task<MenuFile> ReadMenuAsync
-            (
-                [NotNull] this IrbisConnection connection,
-                [NotNull] string menuName
-            )
-        {
-            Code.NotNull(connection, "connection");
-            Code.NotNullNorEmpty(menuName, "menuName");
-
-            Task<MenuFile> result = Task.Factory.StartNew
-                (
-                    () => connection.ReadMenu(menuName)
-                );
-
-            return result;
-        }
-
-        /// <summary>
-        /// Read INI-file.
-        /// </summary>
-        [NotNull]
-        public static Task<IniFile> ReadIniFileAsync
-            (
-                [NotNull] this IrbisConnection connection, 
-                [NotNull] string fileName
-            )
-        {
-            Code.NotNull(connection, "connection");
-            Code.NotNullNorEmpty(fileName, "fileName");
-
-            Task<IniFile> result = Task.Factory.StartNew
-                (
-                    () => connection.ReadIniFile(fileName)
-                );
-
-            return result;
-        }
-
-        /// <summary>
         /// Read search scenario from given file.
         /// </summary>
         [NotNull]
@@ -262,25 +283,6 @@ namespace ManagedIrbis
             Task<SearchScenario[]> result = Task.Factory.StartNew
                 (
                     () => connection.ReadSearchScenario(fileName)
-                );
-
-            return result;
-        }
-
-        /// <summary>
-        /// Empty operation.
-        /// </summary>
-        [NotNull]
-        public static Task NoOpAsync
-            (
-                [NotNull] this IrbisConnection connection
-            )
-        {
-            Code.NotNull(connection, "connection");
-
-            Task result = Task.Factory.StartNew
-                (
-                    connection.NoOp
                 );
 
             return result;
