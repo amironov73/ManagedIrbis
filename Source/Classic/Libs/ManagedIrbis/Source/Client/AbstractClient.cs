@@ -208,6 +208,15 @@ namespace ManagedIrbis.Client
         }
 
         /// <summary>
+        /// Read search scenarios for the database.
+        /// </summary>
+        [CanBeNull]
+        public virtual SearchScenario[] ReadSearchScenarios()
+        {
+            return new SearchScenario[0];
+        }
+
+        /// <summary>
         /// Read terms.
         /// </summary>
         [NotNull]

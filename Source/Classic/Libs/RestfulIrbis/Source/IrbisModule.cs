@@ -7,6 +7,7 @@
  * Status: poor
  */
 
+using AM.IO;
 #if FW4
 
 #region Using directives
@@ -60,14 +61,24 @@ namespace RestfulIrbis
             Get["/list"] = ListDatabases;
             Get["/max/{database}"] = GetMaxMfn;
             Get["/read/{database}/{mfn}"] = ReadRecord;
+            Get["/scenario/{database}"] = Scenario;
             Get["/search/{database}/{expression*}"] = SearchRecords;
             Get["/terms/{database}/{count}/{term*}"] = ReadTerms;
             Get["/version"] = GetServerVersion;
+
+            After.AddItemToEndOfPipeline
+                (
+                    ctx => ctx.Response.WithHeader("Access-Control-Allow-Origin", "*")
+                            .WithHeader("Access-Control-Allow-Methods", "POST,GET")
+                            .WithHeader("Access-Control-Allow-Headers", "Accept, Origin, Content-type")
+                );
         }
 
         #endregion
 
         #region Private members
+
+        private IniFile _iniFile;
 
         /// <summary>
         /// Get connection.
@@ -75,7 +86,9 @@ namespace RestfulIrbis
         protected virtual IrbisConnection GetConnection()
         {
             string connectionString = CM.AppSettings["connectionString"];
-            IrbisConnection connection = new IrbisConnection(connectionString);
+            IrbisConnection connection = new IrbisConnection();
+            connection.ParseConnectionString(connectionString);
+            _iniFile = connection.Connect();
 
             Console.WriteLine("Connected");
             connection.Disposing += (sender, args) => Console.WriteLine("Disconnected");
@@ -131,11 +144,14 @@ namespace RestfulIrbis
 
             using (IrbisConnection connection = GetConnection())
             {
-                DatabaseInfoLite[] databases 
-                    = DatabaseInfoLite.FromDatabaseInfo
-                    (
-                        connection.ListDatabases("dbnam3.mnu")
-                    );
+                //DatabaseInfoLite[] databases
+                //    = DatabaseInfoLite.FromDatabaseInfo
+                //    (
+                //        connection.ListDatabases("dbnam3.mnu")
+                //    );
+                DatabaseInfo[] databases = connection.ListDatabases("dbnam3.mnu");
+
+                //Context.Trace.TraceLog.WriteLog(s => s.AppendLine("ListDatabases"));
 
                 return Response.AsJson(databases);
             }
@@ -201,6 +217,25 @@ namespace RestfulIrbis
                 TermInfo[] terms = connection.ReadTerms(tp);
 
                 return Response.AsJson(terms);
+            }
+        }
+
+        /// <summary>
+        /// Search scenario.
+        /// </summary>
+        protected virtual Response Scenario
+            (
+                dynamic parameters
+            )
+        {
+            Console.WriteLine("CALLED: scenario");
+
+            using (IrbisConnection connection = GetConnection())
+            {
+                connection.Database = parameters.database;
+                SearchScenario[] scenario = SearchScenario.ParseIniFile(_iniFile);
+
+                return Response.AsJson(scenario);
             }
         }
 

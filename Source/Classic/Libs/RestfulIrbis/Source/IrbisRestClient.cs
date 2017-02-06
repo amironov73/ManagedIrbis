@@ -195,6 +195,23 @@ namespace RestfulIrbis
         }
 
         /// <inheritdoc/>
+        public override SearchScenario[] ReadSearchScenarios()
+        {
+            RestRequest request
+                = new RestRequest("/scenario/{database}");
+            request.AddUrlSegment("database", Database);
+
+            IRestResponse response = _client.Execute(request);
+            SearchScenario[] result
+                = JsonConvert.DeserializeObject<SearchScenario[]>
+                (
+                    response.Content
+                );
+
+            return result;
+        }
+
+        /// <inheritdoc/>
         public override TermInfo[] ReadTerms
             (
                 TermParameters parameters
