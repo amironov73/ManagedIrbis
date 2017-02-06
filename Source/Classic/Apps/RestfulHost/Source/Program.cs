@@ -18,6 +18,8 @@ using System.Threading.Tasks;
 using Nancy;
 using Nancy.Hosting.Self;
 
+using CM=System.Configuration.ConfigurationManager;
+
 #endregion
 
 namespace RestfulHost
@@ -26,13 +28,24 @@ namespace RestfulHost
     {
         static void Main(string[] args)
         {
-            Uri uri = new Uri("http://localhost:1234");
-
-            using (NancyHost host = new NancyHost(uri))
+            try
             {
-                host.Start();
-                Console.WriteLine("Running on {0}", uri);
-                Console.ReadLine();
+                string publishUri = CM.AppSettings["publishUri"];
+                Uri uri = new Uri(publishUri);
+
+                using (NancyHost host = new NancyHost(uri))
+                {
+                    host.Start();
+                    Console.WriteLine("Running on {0}", uri);
+                    Console.WriteLine("Press ENTER to stop");
+                    Console.ReadLine();
+                    host.Stop();
+                    Console.WriteLine("Stopped");
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
             }
         }
     }

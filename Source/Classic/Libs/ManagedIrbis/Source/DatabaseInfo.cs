@@ -273,6 +273,62 @@ namespace ManagedIrbis
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Should serialize <see cref="MaxMfn"/>?
+        /// </summary>
+        public bool ShouldSerializeMaxMfn()
+        {
+            return MaxMfn != 0;
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="LogicallyDeletedRecords"/>?
+        /// </summary>
+        public bool ShouldSerializeLogicallyDeletedRecords()
+        {
+            return !ReferenceEquals(LogicallyDeletedRecords, null);
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="PhysicallyDeletedRecords"/>?
+        /// </summary>
+        public bool ShouldSerializePhysicallyDeletedRecords()
+        {
+            return !ReferenceEquals(PhysicallyDeletedRecords, null);
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="NonActualizedRecords"/>?
+        /// </summary>
+        public bool ShouldSerializeNonActualizedRecords()
+        {
+            return !ReferenceEquals(NonActualizedRecords, null);
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="LockedRecords"/>?
+        /// </summary>
+        public bool ShouldSerializeLockedRecords()
+        {
+            return !ReferenceEquals(LockedRecords, null);
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="DatabaseLocked"/>?
+        /// </summary>
+        public bool ShouldSerializeDatabaseLocked()
+        {
+            return DatabaseLocked;
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="ReadOnly"/>?
+        /// </summary>
+        public bool ShouldSerializeReadOnly()
+        {
+            return ReadOnly;
+        }
+
         #endregion
 
         #region IHandmadeSerializable membrs

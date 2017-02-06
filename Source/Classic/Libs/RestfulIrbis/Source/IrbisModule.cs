@@ -144,14 +144,17 @@ namespace RestfulIrbis
 
             using (IrbisConnection connection = GetConnection())
             {
-                //DatabaseInfoLite[] databases
-                //    = DatabaseInfoLite.FromDatabaseInfo
-                //    (
-                //        connection.ListDatabases("dbnam3.mnu")
-                //    );
-                DatabaseInfo[] databases = connection.ListDatabases("dbnam3.mnu");
+                string dbname = CM.AppSettings["dbname"];
+                if (string.IsNullOrEmpty(dbname))
+                {
+                    dbname = _iniFile["MAIN", "DBNNAMECAT"];
+                }
+                if (string.IsNullOrEmpty(dbname))
+                {
+                    dbname = "dbnam3.mnu";
+                }
 
-                //Context.Trace.TraceLog.WriteLog(s => s.AppendLine("ListDatabases"));
+                DatabaseInfo[] databases = connection.ListDatabases(dbname);
 
                 return Response.AsJson(databases);
             }

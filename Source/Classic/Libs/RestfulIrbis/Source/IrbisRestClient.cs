@@ -159,10 +159,8 @@ namespace RestfulIrbis
 
             IRestResponse response = _client.Execute(request);
             string content = response.Content;
-            DatabaseInfoLite[] databases
-                = JsonConvert.DeserializeObject<DatabaseInfoLite[]>(content);
             DatabaseInfo[] result
-                = DatabaseInfoLite.ToDatabaseInfo(databases);
+                = JsonConvert.DeserializeObject<DatabaseInfo[]>(content);
 
             return result;
         }
