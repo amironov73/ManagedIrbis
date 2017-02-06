@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IRBIS64 REST client example</title>
+    <link href="css/jquery-ui.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/underscore.js"></script>
+    <script src="js/backbone.js"></script>
+    <script>
+        var serviceUrl = "http://localhost:1234/";
+
+        function clearList(list) {
+            for (i = list.options.length - 1; i >= 0; i--) {
+                list.remove(i);
+            }
+        }
+
+        function databaseChanged() {
+            var len = $("#databaseInfo");
+            var name = getCurrentDatabase();
+            var count = "0";
+
+            $.ajax({
+                url: serviceUrl + "max/" + name
+            }).then(function (data) {
+                count = data;
+                len.text(name + ": max MFN = " + count);
+                loadScenario();
+            });
+        }
+
+        function formatRecords(mfns) {
+            var dbName = getCurrentDatabase();
+            var recordList = getRecordList();
+
+            clearList(recordList);
+
+            if (mfns.length == 0) {
+                var el = document.createElement("option");
+                el.value = "No records";
+                el.textContent = "No records";
+                recordList.appendChild(el);
+            }
+            else {
+                var text = "";
+                var i;
+                for (i = 0; i < mfns.length; i++) {
+                    if (i != 0) {
+                        text = text + ",";
+                    }
+                    text = text + mfns[i];
+                }
+
+                $.ajax({
+                    url: serviceUrl + "format/" + dbName + "/" + text + "/@brief"
+                }).then(function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        var el = document.createElement("option");
+                        el.value = data[i];
+                        el.textContent = data[i];
+                        recordList.appendChild(el);
+                    }
+                });
+            }
+        }
+
+        function getCurrentDatabase() {
+            var select = $("#databaseList");
+            return select[0].value;
+        }
+
+        function getPrefix() {
+            return getScenarioList().value;
+        }
+
+        function getRecordList() {
+            return document.getElementById("recordList");
+        }
+
+        function getScenarioList() {
+            return document.getElementById("scenario");
+        }
+
+        function getStartTerm() {
+            return document.getElementById("startTerm");
+        }
+
+        function getSelectedTerm() {
+            return getTermList().value;
+        }
+
+        function getTermList() {
+            return document.getElementById("termList");
+        }
+
+        function loadDatabases() {
+            $.ajax({
+                        url: serviceUrl + "list"
+                    })
+                    .then(function (data) {
+                        var select = document.getElementById("databaseList");
+                        for (i = 0; i < data.length; i++) {
+                            var el = document.createElement("option");
+                            el.value = data[i].name;
+                            el.textContent = data[i].name + " - " + data[i].description;
+                            select.appendChild(el);
+                        }
+                    })
+                    .done(function () {
+                        databaseChanged();
+                        loadScenario();
+                    });
+        }
+
+        function loadScenario() {
+            var dbName = getCurrentDatabase();
+            var scenario = getScenarioList();
+
+            clearList(scenario);
+
+            $.ajax({
+                url: serviceUrl + "scenario/" + dbName
+            }).then(function (data) {
+                for (i = 0; i < data.length; i++) {
+                    var el = document.createElement("option");
+                    el.value = data[i].prefix;
+                    el.textContent = data[i].name;
+                    scenario.appendChild(el);
+                }
+                loadTerms();
+            });
+        }
+
+        function loadTerms() {
+            var dbName = getCurrentDatabase();
+            var prefix = getPrefix();
+            var termList = getTermList();
+            var startTerm = getStartTerm();
+            var termText = startTerm.value;
+
+            clearList(termList);
+
+            $.ajax({
+                url: serviceUrl + "terms/" + dbName + "/10/" + prefix + termText
+            }).then(function (data) {
+                for (i = 0; i < data.length; i++) {
+                    var el = document.createElement("option");
+                    el.value = data[i].text;
+                    el.textContent = data[i].text;
+                    termList.appendChild(el);
+                }
+            });
+        }
+
+        function scenarioChanged() {
+            loadTerms();
+        }
+
+        function searchRecords() {
+            var dbName = getCurrentDatabase();
+            var text = getSelectedTerm();
+            var recordList = getRecordList();
+
+            var actualUrl = serviceUrl + "search/" + dbName + "/" + '"' + text + '"';
+
+            clearList(recordList);
+
+            $.ajax({
+                url: actualUrl
+            }).then(function (data1) {
+                formatRecords(data1);
+            });
+        }
+
+        function termChanged() {
+            loadTerms();
+        }
+
+        function termSelected() {
+            searchRecords();
+        }
+
+        $(document).ready(function () {
+            loadDatabases();
+        });
+
+    </script>
+</head>
+<body>
+<h1>IRBIS64 REST client example</h1>
+<hr/>
+<form>
+    <label for="databaseList">Базы данных</label>
+    <br/>
+    <select id="databaseList" onchange="databaseChanged()" class="searchControls"></select>
+    <br/>
+    <div id="databaseInfo" style="background-color: #cceeee" class="searchControls"></div>
+    <br/>
+    <label for="scenario">Поиск по</label>
+    <br/>
+    <select id="scenario" onchange="scenarioChanged()" class="searchControls"></select>
+    <br/>
+    <label for="startTerm">Ключ</label>
+    <br/>
+    <input id="startTerm" onchange="termChanged()" class="searchControls">
+    <br/>
+    <label for="termList">Поисковые термины</label>
+    <br/>
+    <select id="termList" size="10" onchange="termSelected()" class="searchControls"></select>
+    <br/>
+    <label for="recordList">Найденные записи</label>
+    <br/>
+    <select id="recordList" size="10" class="searchControls">
+        <option>No records</option>
+    </select>
+    <br/>
+</form>
+</body>
+</html>
