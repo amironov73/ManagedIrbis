@@ -7,47 +7,65 @@
     <link href="css/style.css" rel="stylesheet">
     <script src="js/jquery.js"></script>
     <script src="js/jquery-ui.js"></script>
+    <script src="js/blockui.js"></script>
     <script src="js/underscore.js"></script>
     <script src="js/backbone.js"></script>
+    <script src="js/irbis.js"></script>
     <script>
-        var serviceUrl = "http://localhost:1234/";
-
-        function clearList(list) {
-            for (i = list.options.length - 1; i >= 0; i--) {
-                list.remove(i);
+        function databaseChanged()
+        {
+            if (irbisBusy)
+            {
+                return;
             }
-        }
 
-        function databaseChanged() {
-            var len = $("#databaseInfo");
+            irbisBusy = true;
+            var infoPanel = $("#databaseInfo");
             var name = getCurrentDatabase();
             var count = "0";
 
             $.ajax({
                 url: serviceUrl + "max/" + name
-            }).then(function (data) {
+            }).then(function (data)
+            {
                 count = data;
-                len.text(name + ": max MFN = " + count);
+            })
+            .always(function ()
+            {
+                irbisBusy = false;
+                infoPanel.text(name + ": max MFN = " + count);
                 loadScenario();
             });
         }
 
-        function formatRecords(mfns) {
+        function formatRecords(mfns)
+        {
+            if (irbisBusy)
+            {
+                return;
+            }
+
+            irbisBusy = true;
             var dbName = getCurrentDatabase();
             var recordList = getRecordList();
 
             clearList(recordList);
 
-            if (mfns.length == 0) {
-                var el = document.createElement("option");
-                el.value = "No records";
-                el.textContent = "No records";
-                recordList.appendChild(el);
+            if (mfns.length == 0)
+            {
+                addOption(recordList, "No records", "No records");
+                irbisBusy = false;
             }
-            else {
+            else
+            {
                 var text = "";
-                var i;
-                for (i = 0; i < mfns.length; i++) {
+                var i, limit = mfns.length;
+                if (limit > 10)
+                {
+                    limit = 10;
+                }
+                for (i = 0; i < limit; i++)
+                {
                     if (i != 0) {
                         text = text + ",";
                     }
@@ -56,134 +74,211 @@
 
                 $.ajax({
                     url: serviceUrl + "format/" + dbName + "/" + text + "/@brief"
-                }).then(function (data) {
-                    for (i = 0; i < data.length; i++) {
-                        var el = document.createElement("option");
-                        el.value = data[i];
-                        el.textContent = data[i];
-                        recordList.appendChild(el);
+                }).then(function (data)
+                {
+                    for (i = 0; i < data.length; i++)
+                    {
+                        addOption(recordList, data[i], data[i]);
                     }
+                })
+                .always(function ()
+                {
+                    irbisBusy = false;
                 });
             }
         }
 
-        function getCurrentDatabase() {
+        function getCurrentDatabase()
+        {
             var select = $("#databaseList");
             return select[0].value;
         }
 
-        function getPrefix() {
+        function getPrefix()
+        {
             return getScenarioList().value;
         }
 
-        function getRecordList() {
+        function getRecordList()
+        {
             return document.getElementById("recordList");
         }
 
-        function getScenarioList() {
+        function getScenarioList()
+        {
             return document.getElementById("scenario");
         }
 
-        function getStartTerm() {
+        function getStartTerm()
+        {
             return document.getElementById("startTerm");
         }
 
-        function getSelectedTerm() {
+        function getSelectedTerm()
+        {
             return getTermList().value;
         }
 
-        function getTermList() {
+        function getTermList()
+        {
             return document.getElementById("termList");
         }
 
-        function loadDatabases() {
+        function loadDatabases()
+        {
+            if (irbisBusy)
+            {
+                return;
+            }
+
+            irbisBusy = true;
+            //$.blockUI();
+
             $.ajax({
-                        url: serviceUrl + "list"
-                    })
-                    .then(function (data) {
-                        var select = document.getElementById("databaseList");
-                        for (i = 0; i < data.length; i++) {
-                            var el = document.createElement("option");
-                            el.value = data[i].name;
-                            el.textContent = data[i].name + " - " + data[i].description;
-                            select.appendChild(el);
-                        }
-                    })
-                    .done(function () {
-                        databaseChanged();
-                        loadScenario();
-                    });
+                url: serviceUrl + "list"
+            })
+            .then(function (data)
+            {
+                var select = document.getElementById("databaseList");
+                for (i = 0; i < data.length; i++)
+                {
+                    addOption(select, data[i].name, data[i].name + " - " + data[i].description);
+                }
+            })
+            .always(function ()
+            {
+                irbisBusy = false;
+                //$.unblockUI();
+                databaseChanged();
+                loadScenario();
+            });
         }
 
-        function loadScenario() {
+        function loadScenario()
+        {
+            if (irbisBusy)
+            {
+                return;
+            }
+
+            irbisBusy = true;
             var dbName = getCurrentDatabase();
             var scenario = getScenarioList();
 
+            //$.blockUI();
             clearList(scenario);
 
             $.ajax({
                 url: serviceUrl + "scenario/" + dbName
-            }).then(function (data) {
-                for (i = 0; i < data.length; i++) {
+            })
+            .then(function (data)
+            {
+                for (i = 0; i < data.length; i++)
+                {
                     var el = document.createElement("option");
                     el.value = data[i].prefix;
                     el.textContent = data[i].name;
                     scenario.appendChild(el);
                 }
+            })
+            .always(function ()
+            {
+                irbisBusy = false;
+                //$.unblockUI();
                 loadTerms();
             });
         }
 
-        function loadTerms() {
+        function loadTerms()
+        {
+            if (irbisBusy)
+            {
+                return;
+            }
+
+            irbisBusy = true;
             var dbName = getCurrentDatabase();
             var prefix = getPrefix();
             var termList = getTermList();
             var startTerm = getStartTerm();
             var termText = startTerm.value;
 
+            console.log("load terms: prefix='" + prefix + "', startTerm='" + termText + "'");
+
+            //$.blockUI();
             clearList(termList);
 
-            $.ajax({
+            $.ajax
+            ({
                 url: serviceUrl + "terms/" + dbName + "/10/" + prefix + termText
-            }).then(function (data) {
-                for (i = 0; i < data.length; i++) {
-                    var el = document.createElement("option");
-                    el.value = data[i].text;
-                    el.textContent = data[i].text;
-                    termList.appendChild(el);
+            })
+            .then(function (data)
+            {
+                for (i = 0; i < data.length; i++)
+                {
+                    var text = data[i].text;
+                    addOption(termList, text, trimPrefix(prefix,text));
                 }
+            })
+            .always(function ()
+            {
+                irbisBusy = false;
+                //$.unblockUI();
             });
         }
 
-        function scenarioChanged() {
+        function scenarioChanged()
+        {
             loadTerms();
         }
 
-        function searchRecords() {
+        function searchRecords()
+        {
+            if (irbisBusy)
+            {
+                return;
+            }
+
+            irbisBusy = true;
             var dbName = getCurrentDatabase();
             var text = getSelectedTerm();
             var recordList = getRecordList();
 
-            var actualUrl = serviceUrl + "search/" + dbName + "/" + '"' + text + '"';
+            console.log("search: dbName='" + dbName + "', text='" + text + "'");
 
             clearList(recordList);
 
             $.ajax({
-                url: actualUrl
-            }).then(function (data1) {
+                url: serviceUrl + "search/" + dbName + "/" + '"' + text + '"'
+            }).then(function (data1)
+            {
+                console.log("found: " + data1.length);
+                irbisBusy = false;
                 formatRecords(data1);
+            })
+            .always(function ()
+            {
+                irbisBusy = false;
             });
         }
 
-        function termChanged() {
+        function termChanged()
+        {
             loadTerms();
         }
 
-        function termSelected() {
+        function termSelected()
+        {
             searchRecords();
         }
 
-        $(document).ready(function () {
+        function trimPrefix(prefix, text)
+        {
+            return text.substring(prefix.length);
+        }
+
+        $(document).ready(function ()
+        {
             loadDatabases();
         });
 
@@ -205,7 +300,7 @@
     <br/>
     <label for="startTerm">Ключ</label>
     <br/>
-    <input id="startTerm" onchange="termChanged()" class="searchControls">
+    <input id="startTerm" onchange="termChanged()" oninput="termChanged()" class="searchControls">
     <br/>
     <label for="termList">Поисковые термины</label>
     <br/>
