@@ -279,6 +279,19 @@
 
         $(document).ready(function ()
         {
+            var indicator = $("#busyIndicator");
+
+            $.ajaxSetup({
+                beforeSend:function()
+                {
+                    indicator.show();
+                },
+                complete:function()
+                {
+                    indicator.hide();
+                }
+            });
+
             loadDatabases();
         });
 
@@ -287,7 +300,10 @@
 <body>
 <h1>IRBIS64 REST client example</h1>
 <hr/>
-<form>
+<div id="busyIndicator" style="display: none; width: 150px; height: 1em; position: absolute; left: 0; top: 0; background-color: yellow; color: red; z-index: 100; border: 1px solid;text-align: center; font-weight: bold;">
+    LOADING DATA...
+</div>
+<form onsubmit="termSelected();return false;" action="#none">
     <label for="databaseList">Базы данных</label>
     <br/>
     <select id="databaseList" onchange="databaseChanged()" class="searchControls"></select>
