@@ -7,7 +7,6 @@
  * Status: poor
  */
 
-using Nancy.IO;
 #if FW4
 
 #region Using directives
@@ -30,6 +29,7 @@ using ManagedIrbis.Search;
 using MoonSharp.Interpreter;
 
 using Nancy;
+using Nancy.IO;
 
 using Newtonsoft.Json;
 
@@ -63,6 +63,7 @@ namespace RestfulIrbis
         /// <summary>
         /// Convert the request body to object of given type.
         /// </summary>
+        [CLSCompliant(false)]
         public static T ConvertRequestBody<T>
             (
                 [NotNull] Request request
