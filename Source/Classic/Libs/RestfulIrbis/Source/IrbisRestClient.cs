@@ -115,17 +115,43 @@ namespace RestfulIrbis
                 string format
             )
         {
-            RestRequest request = new RestRequest
-                (
-                    "/format/{database}/{mfns}/{format}"
-                );
-            request.AddUrlSegment("database", Database);
-            request.AddUrlSegment
-                (
-                    "mfns",
-                    StringUtility.Join(",", mfns)
-                );
-            request.AddUrlSegment("format", format);
+            RestRequest request;
+
+            Method method = Method.GET;
+            if (mfns.Length > 10)
+            {
+                method = Method.POST;
+                request = new RestRequest
+                    (
+                        "/format/{database}/{format}",
+                        method
+                    );
+
+                request.AddUrlSegment("database", Database);
+                request.AddUrlSegment("format", format);
+                request.AddHeader("content-type", "application/json");
+                request.AddParameter
+                    (
+                        "application/json", 
+                        JsonConvert.SerializeObject(mfns),
+                        ParameterType.RequestBody
+                    );
+            }
+            else
+            {
+                request = new RestRequest
+                    (
+                        "/format/{database}/{mfns}/{format}",
+                        method
+                    );
+                request.AddUrlSegment("database", Database);
+                request.AddUrlSegment
+                    (
+                        "mfns",
+                        StringUtility.Join(",", mfns)
+                    );
+                request.AddUrlSegment("format", format);
+            }
 
             IRestResponse response = _client.Execute(request);
             string[] result = JsonConvert.DeserializeObject<string[]>

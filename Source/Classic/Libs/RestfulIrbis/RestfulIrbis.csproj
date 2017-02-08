@@ -139,6 +139,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\IrbisModule.cs" />
     <Compile Include="Source\IrbisRestClient.cs" />
+    <Compile Include="Source\RestUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -44,10 +44,6 @@ namespace IrbisCeptor
                     break;
                 }
                 result.Write(buffer, 0, read);
-                if (read < buffer.Length)
-                {
-                    break;
-                }
             }
 
             return result.ToArray();
@@ -117,10 +113,10 @@ namespace IrbisCeptor
                             )
                     );
 
-                byte[] buffer2 = new byte[BufferSize];
-                int readed2 = upStream.Read(buffer2, 0, buffer2.Length);
-                //byte[] buffer2 = ReadToEnd (upStream, 100 * 1024);
-                //int readed2 = buffer2.Length;
+                //byte[] buffer2 = new byte[BufferSize];
+                //int readed2 = upStream.Read(buffer2, 0, buffer2.Length);
+                byte[] buffer2 = ReadToEnd (upStream, 100 * 1024);
+                int readed2 = buffer2.Length;
                 Console.WriteLine("Readed upstream {0}", readed2);
 
                 downStream.Write(buffer2, 0, readed2);

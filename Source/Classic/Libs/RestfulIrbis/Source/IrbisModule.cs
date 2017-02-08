@@ -7,16 +7,17 @@
  * Status: poor
  */
 
-using AM.IO;
 #if FW4
 
 #region Using directives
 
 using System;
-
+using System.IO;
+using System.Text;
 using System.Linq;
 
 using AM;
+using AM.IO;
 
 using JetBrains.Annotations;
 
@@ -26,6 +27,8 @@ using ManagedIrbis.Search;
 using MoonSharp.Interpreter;
 
 using Nancy;
+
+using Newtonsoft.Json;
 
 using CM=System.Configuration.ConfigurationManager;
 
@@ -57,7 +60,8 @@ namespace RestfulIrbis
                 (
                     "Hello! This is RestfulIrbis!"
                 );
-            Get["/format/{database}/{mfns}/{format*}"] = FormatRecords;
+            Get["/format/{database}/{mfns}/{format*}"] = FormatRecordsGet;
+            Post["/format/{database}/{format*}"] = FormatRecordsPost;
             Get["/list"] = ListDatabases;
             Get["/max/{database}"] = GetMaxMfn;
             Get["/read/{database}/{mfn}"] = ReadRecord;
@@ -97,14 +101,14 @@ namespace RestfulIrbis
         }
 
         /// <summary>
-        /// Format records.
+        /// Format records (GET).
         /// </summary>
-        protected virtual Response FormatRecords
+        protected virtual Response FormatRecordsGet
             (
                 dynamic parameters
             )
         {
-            Console.WriteLine("CALLED: format");
+            Console.WriteLine("CALLED: format GET");
 
             using (IrbisConnection connection = GetConnection())
             {
@@ -125,6 +129,33 @@ namespace RestfulIrbis
                     (
                         database, 
                         format, 
+                        mfns
+                    );
+
+                return Response.AsJson(text);
+            }
+        }
+
+        /// <summary>
+        /// Format records (POST).
+        /// </summary>
+        protected virtual Response FormatRecordsPost
+            (
+                dynamic parameters
+            )
+        {
+            Console.WriteLine("CALLED: format POST");
+
+            using (IrbisConnection connection = GetConnection())
+            {
+                string database = parameters.database;
+                string format = parameters.format;
+
+                int[] mfns = RestUtility.ConvertRequestBody<int[]>(Request);
+                string[] text = connection.FormatRecords
+                    (
+                        database,
+                        format,
                         mfns
                     );
 
