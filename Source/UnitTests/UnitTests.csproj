@@ -276,6 +276,7 @@
     <Compile Include="ManagedIrbis\FieldValueTest.cs" />
     <Compile Include="ManagedIrbis\ConnectionSettingsTest.cs" />
     <Compile Include="ManagedIrbis\IrbisTextTest.cs" />
+    <Compile Include="ManagedIrbis\IrbisLinkTest.cs" />
     <Compile Include="ManagedIrbis\Worksheet\WsFileTest.cs" />
     <Compile Include="ManagedIrbis\Worksheet\WssFileTest.cs" />
     <Compile Include="ManagedIrbis\Worksheet\WorksheetItemTest.cs" />
