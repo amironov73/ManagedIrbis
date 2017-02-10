@@ -197,7 +197,6 @@
     <Compile Include="AM\TimeSpanUtilityTest.cs" />
     <Compile Include="AM\CharUtilityTest.cs" />
     <Compile Include="AM\NonNullValueTest.cs" />
-    <Compile Include="AM\ConnectionStringParserTest.cs" />
     <Compile Include="AM\ReferenceTest.cs" />
     <Compile Include="AM\ConversionUtilityTest.cs" />
     <Compile Include="AM\FuncUtilityTest.cs" />

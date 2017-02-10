@@ -20,7 +20,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
+using Newtonsoft.Json.Linq;
 using RestSharp;
 using RestSharp.Authenticators;
 
@@ -120,39 +120,77 @@ namespace RestfulIrbis.OsmiCards
         /// <summary>
         /// Запросить информацию по карте.
         /// </summary>
-        public string GetCardInfo
+        public JObject GetCardInfo
             (
-                string cardNumber
+                [NotNull] string cardNumber
             )
         {
-            return null;
+            Code.NotNullNorEmpty(cardNumber, "cardNumber");
+
+            RestRequest request = new RestRequest
+                (
+                    "/passes/{number}",
+                    Method.GET
+                );
+            request.AddUrlSegment("number", cardNumber);
+            IRestResponse response = Connection.Execute(request);
+            JObject result = JObject.Parse(response.Content);
+
+            return result;
         }
 
         /// <summary>
         /// Запросить ссылку на загрузку карты.
         /// </summary>
-        public string GetCardLink
+        public JObject GetCardLink
             (
-                string cardNumber
+                [NotNull] string cardNumber
             )
         {
-            return null;
+            Code.NotNullNorEmpty(cardNumber, "cardNumber");
+
+            RestRequest request = new RestRequest
+                (
+                    "/passes/{number}/link",
+                    Method.GET
+                );
+            request.AddUrlSegment("number", cardNumber);
+            IRestResponse response = Connection.Execute(request);
+            JObject result = JObject.Parse(response.Content);
+
+            return result;
         }
 
         /// <summary>
         /// Запросить список карт.
         /// </summary>
-        public string[] GetCardList()
+        public JObject GetCardList()
         {
-            return null;
+            RestRequest request = new RestRequest
+                (
+                    "/passes",
+                    Method.GET
+                );
+            IRestResponse response = Connection.Execute(request);
+            JObject result = JObject.Parse(response.Content);
+
+            return result;
         }
 
         /// <summary>
         /// Запросить общие параметры сервиса.
         /// </summary>
-        public string GetDefaults()
+        public JObject GetDefaults()
         {
-            return null;
+            RestRequest request = new RestRequest
+                (
+                    "/defaults/all",
+                    Method.GET
+                );
+            IRestResponse response = Connection.Execute(request);
+            JObject result = JObject.Parse(response.Content);
+
+            return result;
         }
 
         /// <summary>
@@ -166,28 +204,55 @@ namespace RestfulIrbis.OsmiCards
         /// <summary>
         /// Запросить информацию о шаблоне.
         /// </summary>
-        public string GetTemplateInfo
+        public JObject GetTemplateInfo
             (
-                string templateName
+                [NotNull] string templateName
             )
         {
-            return null;
+            Code.NotNullNorEmpty(templateName, "templateName");
+
+            RestRequest request = new RestRequest
+                (
+                    "/templates/{name}",
+                    Method.GET
+                );
+            request.AddUrlSegment("name", templateName);
+            IRestResponse response = Connection.Execute(request);
+            JObject result = JObject.Parse(response.Content);
+
+            return result;
         }
 
         /// <summary>
         /// Запросить список доступных шаблонов.
         /// </summary>
-        public string[] GetTemplateList()
+        public JObject GetTemplateList()
         {
-            return null;
+            RestRequest request = new RestRequest
+                (
+                    "/templates",
+                    Method.GET
+                );
+            IRestResponse response = Connection.Execute(request);
+            JObject result = JObject.Parse(response.Content);
+
+            return result;
         }
 
         /// <summary>
         /// Проверить подключение к сервису.
         /// </summary>
-        public string Ping()
+        public JObject Ping()
         {
-            return null;
+            RestRequest request = new RestRequest
+                (
+                    "ping",
+                    Method.GET
+                );
+            IRestResponse response = Connection.Execute(request);
+            JObject result = JObject.Parse(response.Content);
+
+            return result;
         }
 
         /// <summary>
