@@ -140,6 +140,7 @@
     <Compile Include="Source\DigestAuthenticator.cs" />
     <Compile Include="Source\IrbisModule.cs" />
     <Compile Include="Source\IrbisRestClient.cs" />
+    <Compile Include="Source\OsmiCards\OsmiCardsClient.cs" />
     <Compile Include="Source\RestUtility.cs" />
   </ItemGroup>
   <ItemGroup>
