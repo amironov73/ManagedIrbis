@@ -220,9 +220,6 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ComparableObject.cs">
       <Link>AM\ComparableObject.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ConnectionStringParser.cs">
-      <Link>AM\ConnectionStringParser.cs</Link>
-    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ConsoleUtility.cs">
       <Link>AM\ConsoleUtility.cs</Link>
     </Compile>
