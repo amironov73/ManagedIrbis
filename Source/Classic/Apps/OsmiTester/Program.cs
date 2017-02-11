@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using Newtonsoft.Json.Linq;
 
 using RestfulIrbis;
@@ -53,8 +53,15 @@ namespace OsmiTester
 
                 Console.WriteLine();
                 Console.WriteLine("TEMPLATE LIST:");
-                JObject templates = client.GetTemplateList();
-                Console.WriteLine(templates);
+                string[] templates = client.GetTemplateList();
+                Console.WriteLine
+                    (
+                        StringUtility.Join
+                        (
+                            ", ",
+                            templates
+                        )
+                    );
 
                 Console.WriteLine();
                 Console.WriteLine("TEMPLATE INFO:");
@@ -63,12 +70,19 @@ namespace OsmiTester
 
                 Console.WriteLine();
                 Console.WriteLine("CARD LIST:");
-                JObject cards = client.GetCardList();
-                Console.WriteLine(cards);
+                string[] cards = client.GetCardList();
+                Console.WriteLine
+                    (
+                        StringUtility.Join
+                        (
+                            ", ",
+                            cards
+                        )
+                    );
 
                 Console.WriteLine();
                 Console.WriteLine("CARD INFO:");
-                JObject card = client.GetCardInfo("4433AD69");
+                OsmiCard card = client.GetCardInfo("4433AD69");
                 Console.WriteLine(card);
 
                 Console.WriteLine();

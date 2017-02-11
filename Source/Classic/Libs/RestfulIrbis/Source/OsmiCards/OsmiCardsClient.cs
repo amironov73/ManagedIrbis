@@ -120,7 +120,7 @@ namespace RestfulIrbis.OsmiCards
         /// <summary>
         /// Запросить информацию по карте.
         /// </summary>
-        public JObject GetCardInfo
+        public OsmiCard GetCardInfo
             (
                 [NotNull] string cardNumber
             )
@@ -134,7 +134,8 @@ namespace RestfulIrbis.OsmiCards
                 );
             request.AddUrlSegment("number", cardNumber);
             IRestResponse response = Connection.Execute(request);
-            JObject result = JObject.Parse(response.Content);
+            JObject jObject = JObject.Parse(response.Content);
+            OsmiCard result = OsmiCard.FromJObject(jObject);
 
             return result;
         }
@@ -164,7 +165,7 @@ namespace RestfulIrbis.OsmiCards
         /// <summary>
         /// Запросить список карт.
         /// </summary>
-        public JObject GetCardList()
+        public string[] GetCardList()
         {
             RestRequest request = new RestRequest
                 (
@@ -174,7 +175,7 @@ namespace RestfulIrbis.OsmiCards
             IRestResponse response = Connection.Execute(request);
             JObject result = JObject.Parse(response.Content);
 
-            return result;
+            return result["cards"].Values<string>().ToArray();
         }
 
         /// <summary>
@@ -226,7 +227,7 @@ namespace RestfulIrbis.OsmiCards
         /// <summary>
         /// Запросить список доступных шаблонов.
         /// </summary>
-        public JObject GetTemplateList()
+        public string[] GetTemplateList()
         {
             RestRequest request = new RestRequest
                 (
@@ -236,7 +237,7 @@ namespace RestfulIrbis.OsmiCards
             IRestResponse response = Connection.Execute(request);
             JObject result = JObject.Parse(response.Content);
 
-            return result;
+            return result["templates"].Values<string>().ToArray();
         }
 
         /// <summary>
