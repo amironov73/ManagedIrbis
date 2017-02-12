@@ -129,7 +129,7 @@ namespace RestfulIrbis
 
                 request.AddUrlSegment("database", Database);
                 request.AddUrlSegment("format", format);
-                request.AddHeader("content-type", "application/json");
+                request.AddHeader("Content-Type", "application/json");
                 request.AddParameter
                     (
                         "application/json", 

@@ -20,9 +20,10 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
 using Newtonsoft.Json.Linq;
+
 using RestSharp;
-using RestSharp.Authenticators;
 
 #endregion
 
@@ -53,19 +54,19 @@ namespace RestfulIrbis.OsmiCards
         public OsmiCardsClient
             (
                 [NotNull] string baseUrl,
-                [NotNull] string apiID,
+                [NotNull] string apiId,
                 [NotNull] string apiKey
             )
         {
             Code.NotNullNorEmpty(baseUrl, "baseUrl");
-            Code.NotNullNorEmpty(apiID, "apiID");
+            Code.NotNullNorEmpty(apiId, "apiId");
             Code.NotNullNorEmpty(apiKey, "apiKey");
 
             Connection = new RestClient(baseUrl)
             {
                 Authenticator = new DigestAuthenticator
                     (
-                        apiID,
+                        apiId,
                         apiKey
                     )
             };
@@ -143,7 +144,7 @@ namespace RestfulIrbis.OsmiCards
         /// <summary>
         /// Запросить ссылку на загрузку карты.
         /// </summary>
-        public JObject GetCardLink
+        public string GetCardLink
             (
                 [NotNull] string cardNumber
             )
@@ -159,7 +160,7 @@ namespace RestfulIrbis.OsmiCards
             IRestResponse response = Connection.Execute(request);
             JObject result = JObject.Parse(response.Content);
 
-            return result;
+            return result["link"].Value<string>();
         }
 
         /// <summary>
@@ -195,11 +196,35 @@ namespace RestfulIrbis.OsmiCards
         }
 
         /// <summary>
+        /// Запросить список доступных графических файлов.
+        /// </summary>
+        public OsmiImage[] GetImages()
+        {
+            RestRequest request = new RestRequest
+                (
+                    "/images",
+                    Method.GET
+                );
+            IRestResponse response = Connection.Execute(request);
+            JObject result = JObject.Parse(response.Content);
+
+            return result["images"].ToObject<OsmiImage[]>();
+        }
+
+        /// <summary>
         /// Запросить общую статистику.
         /// </summary>
-        public string GetStat()
+        public JObject GetStat()
         {
-            return null;
+            RestRequest request = new RestRequest
+                (
+                    "/stats/general",
+                    Method.GET
+                );
+            IRestResponse response = Connection.Execute(request);
+            JObject result = JObject.Parse(response.Content);
+
+            return result;
         }
 
         /// <summary>
@@ -294,6 +319,41 @@ namespace RestfulIrbis.OsmiCards
                 string phoneNumber
             )
         {
+        }
+
+        /// <summary>
+        /// Отправить push-сообщение на указанные карты.
+        /// </summary>
+        public void SendPushMessage
+            (
+                [NotNull] string[] cardNumbers,
+                [NotNull] string messageText
+            )
+        {
+            Code.NotNull(cardNumbers, "cardNumbers");
+            Code.NotNullNorEmpty(messageText, "messageText");
+
+            RestRequest request = new RestRequest
+                (
+                    "/marketing/pushmessage",
+                    Method.POST
+                )
+            {
+                RequestFormat = DataFormat.Json
+            };
+
+            JObject obj = new JObject();
+            obj.Add("serials", new JArray(cardNumbers));
+            obj.Add("message", messageText);
+            request.AddParameter
+                (
+                    "application/json; charset=utf-8", 
+                    obj.ToString(), 
+                    ParameterType.RequestBody
+                );
+
+            /* IRestResponse response = */
+            Connection.Execute(request);
         }
 
         /// <summary>

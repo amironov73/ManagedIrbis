@@ -142,6 +142,7 @@
     <Compile Include="Source\IrbisRestClient.cs" />
     <Compile Include="Source\OsmiCards\OsmiCard.cs" />
     <Compile Include="Source\OsmiCards\OsmiCardsClient.cs" />
+    <Compile Include="Source\OsmiCards\OsmiImage.cs" />
     <Compile Include="Source\OsmiCards\OsmiTemplate.cs" />
     <Compile Include="Source\OsmiCards\OsmiValue.cs" />
     <Compile Include="Source\RestUtility.cs" />

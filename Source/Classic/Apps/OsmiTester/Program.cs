@@ -87,8 +87,20 @@ namespace OsmiTester
 
                 Console.WriteLine();
                 Console.WriteLine("GET CARD LINK:");
-                JObject link = client.GetCardLink("4433AD69");
+                string link = client.GetCardLink("4433AD69");
                 Console.WriteLine(link);
+
+                Console.WriteLine();
+                Console.WriteLine("GET IMAGES");
+                OsmiImage[] images = client.GetImages();
+                Console.WriteLine
+                    (
+                        StringUtility.Join
+                            (
+                                ", ",
+                                images
+                            )
+                    );
             }
             catch (Exception exception)
             {
