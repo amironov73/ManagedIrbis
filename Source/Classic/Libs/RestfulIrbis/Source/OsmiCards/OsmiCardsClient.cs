@@ -92,9 +92,60 @@ namespace RestfulIrbis.OsmiCards
         /// </summary>
         public void CreateCard
             (
-                string card
+                [NotNull] string cardNumber,
+                [NotNull] string template
             )
         {
+            Code.NotNullNorEmpty(cardNumber, "cardNumber");
+            Code.NotNullNorEmpty(template, "template");
+
+            RestRequest request = new RestRequest
+                (
+                    "/passes/{number}/{template}",
+                    Method.POST
+                )
+            {
+                RequestFormat = DataFormat.Json
+            };
+            request.AddUrlSegment("number", cardNumber);
+            request.AddUrlSegment("template", template);
+
+            Connection.Execute(request);
+        }
+
+        /// <summary>
+        /// Создать новую карту.
+        /// </summary>
+        public void CreateCard
+            (
+                [NotNull] string cardNumber,
+                [NotNull] string template,
+                [NotNull] string jsonText
+            )
+        {
+            Code.NotNullNorEmpty(cardNumber, "cardNumber");
+            Code.NotNullNorEmpty(template, "template");
+            Code.NotNullNorEmpty(jsonText, "jsonText");
+
+            RestRequest request = new RestRequest
+                (
+                    "/passes/{number}/{template}",
+                    Method.POST
+                )
+            {
+                RequestFormat = DataFormat.Json
+            };
+            request.AddUrlSegment("number", cardNumber);
+            request.AddUrlSegment("template", template);
+            request.AddQueryParameter("withValues", "true");
+            request.AddParameter
+                (
+                    "application/json; charset=utf-8",
+                    jsonText,
+                    ParameterType.RequestBody
+                );
+
+            Connection.Execute(request);
         }
 
         /// <summary>
@@ -112,10 +163,26 @@ namespace RestfulIrbis.OsmiCards
         /// </summary>
         public void DeleteCard
             (
-                string card,
+                [NotNull] string cardNumber,
                 bool push
             )
         {
+            Code.NotNullNorEmpty(cardNumber, "cardNumber");
+
+            string url = "/passes/{number}";
+            if (push)
+            {
+                url += "/push";
+            }
+
+            RestRequest request = new RestRequest
+                (
+                    url,
+                    Method.DELETE
+                );
+            request.AddUrlSegment("number", cardNumber);
+
+            Connection.Execute(request);
         }
 
         /// <summary>
@@ -284,9 +351,37 @@ namespace RestfulIrbis.OsmiCards
         /// <summary>
         /// Текстовый поиск по содержимому полей карт.
         /// </summary>
-        public string[] SearchCards()
+        public string[] SearchCards
+            (
+                [NotNull] string text
+            )
         {
-            return null;
+            RestRequest request = new RestRequest
+                (
+                    "/search/passes",
+                    Method.POST
+                );
+
+            JObject requestJObject = new JObject
+            {
+                {"text", text}
+            };
+            request.AddParameter
+                (
+                    "application/json; charset=utf-8",
+                    requestJObject.ToString(),
+                    ParameterType.RequestBody
+                );
+
+            IRestResponse response = Connection.Execute(request);
+            JArray responseArray = JArray.Parse(response.Content);
+            List<string> result = new List<string>();
+            foreach (JObject element in responseArray.Children())
+            {
+                result.Add(element["serial"].Value<string>());
+            }
+
+            return result.ToArray();
         }
 
         /// <summary>
@@ -316,9 +411,18 @@ namespace RestfulIrbis.OsmiCards
         /// </summary>
         public void SendPinCode
             (
-                string phoneNumber
+                [NotNull] string phoneNumber
             )
         {
+            Code.NotNullNorEmpty(phoneNumber, "phoneNumber");
+
+            RestRequest request = new RestRequest
+                (
+                    "/activation/sendpin/{phone}",
+                    Method.POST
+                );
+
+            Connection.Execute(request);
         }
 
         /// <summary>
@@ -361,11 +465,29 @@ namespace RestfulIrbis.OsmiCards
         /// </summary>
         public void SetCardTemplate
             (
-                string cardName,
-                string template,
+                [NotNull] string cardNumber,
+                [NotNull] string template,
                 bool push
             )
         {
+            Code.NotNullNorEmpty(cardNumber, "cardNumber");
+            Code.NotNullNorEmpty(template, "template");
+
+            string url = "/passes/move/{number}/{template}";
+            if (push)
+            {
+                url += "/push";
+            }
+
+            RestRequest request = new RestRequest
+                (
+                    url,
+                    Method.PUT
+                );
+            request.AddUrlSegment("number", cardNumber);
+            request.AddUrlSegment("template", template);
+
+            Connection.Execute(request);
         }
 
         /// <summary>
@@ -383,10 +505,37 @@ namespace RestfulIrbis.OsmiCards
         /// </summary>
         public void UpdateCard
             (
-                string card,
+                [NotNull] string cardNumber,
+                [NotNull] string jsonText,
                 bool push
             )
         {
+            Code.NotNullNorEmpty(cardNumber, "cardNumber");
+            Code.NotNullNorEmpty(jsonText, "jsonText");
+
+            string url = "/passes/{number}";
+            if (push)
+            {
+                url += "/push";
+            }
+
+            RestRequest request = new RestRequest
+                (
+                    url,
+                    Method.PUT
+                )
+            {
+                RequestFormat = DataFormat.Json
+            };
+            request.AddUrlSegment("number", cardNumber);
+            request.AddParameter
+                (
+                    "application/json; charset=utf-8",
+                    jsonText,
+                    ParameterType.RequestBody
+                );
+
+            Connection.Execute(request);
         }
 
         /// <summary>
