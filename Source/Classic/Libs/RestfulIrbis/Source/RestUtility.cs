@@ -33,6 +33,8 @@ using Nancy.IO;
 
 using Newtonsoft.Json;
 
+using RestSharp;
+
 using CM=System.Configuration.ConfigurationManager;
 
 #endregion
@@ -81,6 +83,27 @@ namespace RestfulIrbis
             body.Seek(0, SeekOrigin.Begin);
 
             return result;
+        }
+
+        /// <summary>
+        /// Set request body to the specified JSON text.
+        /// </summary>
+        public static void SetJsonRequestBody
+            (
+                [NotNull] IRestRequest request,
+                [NotNull] string jsonText
+            )
+        {
+            Code.NotNull(request, "request");
+            Code.NotNullNorEmpty(jsonText, "jsonText");
+
+            request.RequestFormat = DataFormat.Json;
+            request.AddParameter
+                (
+                    "application/json; charset=utf-8",
+                    jsonText,
+                    ParameterType.RequestBody
+                );
         }
 
         #endregion

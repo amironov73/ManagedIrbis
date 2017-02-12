@@ -127,12 +127,12 @@ namespace RestfulIrbis
                         method
                     );
 
+                request.RequestFormat = DataFormat.Json;
                 request.AddUrlSegment("database", Database);
                 request.AddUrlSegment("format", format);
-                request.AddHeader("Content-Type", "application/json");
                 request.AddParameter
                     (
-                        "application/json", 
+                        "application/json; charset=utf-8", 
                         JsonConvert.SerializeObject(mfns),
                         ParameterType.RequestBody
                     );
