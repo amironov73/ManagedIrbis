@@ -19,6 +19,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Readers;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json.Linq;
@@ -203,6 +205,11 @@ namespace RestfulIrbis.OsmiCards
             request.AddUrlSegment("number", cardNumber);
             IRestResponse response = Connection.Execute(request);
             JObject jObject = JObject.Parse(response.Content);
+
+            //Console.WriteLine();
+            //Console.WriteLine(jObject);
+            //Console.WriteLine();
+
             OsmiCard result = OsmiCard.FromJObject(jObject);
 
             return result;
@@ -389,10 +396,23 @@ namespace RestfulIrbis.OsmiCards
         /// </summary>
         public void SendCardMail
             (
-                string cardNumber,
-                string message
+                [NotNull] string cardNumber,
+                [NotNull] string email
             )
         {
+            Code.NotNullNorEmpty(cardNumber, "cardNumber");
+            Code.NotNullNorEmpty(email, "email");
+
+            RestRequest request = new RestRequest
+                (
+                    "/passes/{number}/email/{email}",
+                    Method.GET
+                );
+            request.AddUrlSegment("number", cardNumber);
+            request.AddUrlSegment("email", email);
+
+            /* IRestResponse response = */
+            Connection.Execute(request);
         }
 
         /// <summary>
@@ -400,10 +420,23 @@ namespace RestfulIrbis.OsmiCards
         /// </summary>
         public void SendCardSms
             (
-                string cardNumber,
-                string message
+                [NotNull] string cardNumber,
+                [NotNull] string phoneNumber
             )
         {
+            Code.NotNullNorEmpty(cardNumber, "cardNumber");
+            Code.NotNullNorEmpty(phoneNumber, "phoneNumber");
+
+            RestRequest request = new RestRequest
+                (
+                    "/passes/{number}/sms/{phone}",
+                    Method.GET
+                );
+            request.AddUrlSegment("number", cardNumber);
+            request.AddUrlSegment("phone", phoneNumber);
+
+            /* IRestResponse response = */
+            Connection.Execute(request);
         }
 
         /// <summary>
@@ -422,6 +455,7 @@ namespace RestfulIrbis.OsmiCards
                     Method.POST
                 );
 
+            /* IRestResponse response = */
             Connection.Execute(request);
         }
 

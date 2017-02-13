@@ -57,6 +57,8 @@ namespace OsmiRegistration
         /// </summary>
         public static AbstractOutput Output { get; set; }
 
+        public static JObject Template { get; set; }
+
         #endregion
 
         #region Private members
@@ -103,8 +105,9 @@ namespace OsmiRegistration
                 connection.NoOp();
             }
 
-            WriteLine("Pinging OSMI-server");
-            Client.Ping();
+            WriteLine("Reading OSMI template");
+            string templateName = CM.AppSettings["template"];
+            Template = Client.GetTemplateInfo(templateName);
 
             return true;
         }

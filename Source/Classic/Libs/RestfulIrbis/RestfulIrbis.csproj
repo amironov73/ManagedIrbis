@@ -120,6 +120,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -144,6 +145,7 @@
     <Compile Include="Source\OsmiCards\OsmiCardsClient.cs" />
     <Compile Include="Source\OsmiCards\OsmiImage.cs" />
     <Compile Include="Source\OsmiCards\OsmiTemplate.cs" />
+    <Compile Include="Source\OsmiCards\OsmiUtility.cs" />
     <Compile Include="Source\OsmiCards\OsmiValue.cs" />
     <Compile Include="Source\RestUtility.cs" />
   </ItemGroup>
