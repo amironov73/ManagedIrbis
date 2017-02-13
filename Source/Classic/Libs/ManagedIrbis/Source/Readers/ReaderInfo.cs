@@ -524,7 +524,7 @@ namespace ManagedIrbis.Readers
 
                             .ToArray(),
                     
-                        EnabledPlaces = record.FM("56"),
+                    EnabledPlaces = record.FM("56"),
                     DisabledPlaces = record.FM("57"),
                     Rights = record.FM("29"),
                     Remarks = record.FM("33"),
@@ -568,6 +568,8 @@ namespace ManagedIrbis.Readers
                 fullName = fullName + " " + result.Patronymic;
             }
             result.FullName = fullName;
+
+            result.Mfn = record.Mfn;
 
             return result;
         }

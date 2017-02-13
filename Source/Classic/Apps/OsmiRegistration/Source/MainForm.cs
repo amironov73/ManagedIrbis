@@ -19,6 +19,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using AM;
+using AM.Windows.Forms;
+
+using ManagedIrbis.Readers;
+
+using Newtonsoft.Json.Linq;
+
+
 #endregion
 
 namespace OsmiRegistration
@@ -40,6 +48,11 @@ namespace OsmiRegistration
 
         #region Private members
 
+        private void _Clear()
+        {
+            _browser.Navigate("about:blank");
+        }
+
         private void MainForm_FormClosing
             (
                 object sender, 
@@ -55,12 +68,215 @@ namespace OsmiRegistration
                 EventArgs e
             )
         {
+            _browser.Navigate("about:blank");
+            while (_browser.IsBusy)
+            {
+                Application.DoEvents();
+            }
+            Application.DoEvents();
+
+            this.ShowVersionInfoInTitle();
+            _logBox.Output.PrintSystemInformation();
+
             ControlCenter.Initialize();
             ControlCenter.Output = _logBox.Output;
 
             ControlCenter.Ping();
 
-            ControlCenter.WriteLine("Ready to work");
+            ControlCenter.WriteLine("Ready");
+            ControlCenter.WriteLine(string.Empty);
+        }
+
+        private ReaderInfo _PrepareReader()
+        {
+            _Clear();
+
+            string ticket = _ticketBox.Text.Trim();
+            if (string.IsNullOrEmpty(ticket))
+            {
+                MessageBox.Show("Не задан читательский!");
+                return null;
+            }
+
+            ReaderInfo reader = ControlCenter.GetReader(ticket);
+            if (ReferenceEquals(reader, null))
+            {
+                MessageBox.Show("Не найден читатель с указанным билетом!");
+                return null;
+            }
+
+            string description = ControlCenter.FormatReader(reader);
+            bool chk = ControlCenter.CheckReader(reader);
+            bool exist = ControlCenter.CardExists(ticket);
+
+            _browser.DocumentText = "<html>"
+                + (exist ?
+                    "<p><b><font color='red'>Карта уже существует!</font></b></p>"
+                    : string.Empty
+                  )
+                + description
+                + "</html>";
+
+            if (!chk)
+            {
+                return null;
+            }
+
+            return reader;
+        }
+
+        private void _searchButton_Click
+            (
+                object sender, 
+                EventArgs e
+            )
+        {
+            try
+            {
+                _PrepareReader();
+            }
+            catch (Exception exception)
+            {
+                ExceptionBox.Show(this, exception);
+            }
+        }
+
+        private void _createButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            try
+            {
+                ReaderInfo reader = _PrepareReader();
+                if (ReferenceEquals(reader, null))
+                {
+                    return;
+                }
+
+                string ticket = reader.Ticket.ThrowIfNull();
+                if (ControlCenter.CardExists(ticket))
+                {
+                    MessageBox.Show("Карта уже существует");
+                    return;
+                }
+
+                JObject card = ControlCenter.BuildCard(reader);
+                ControlCenter.CreateCard
+                    (
+                        ticket,
+                        card
+                    );
+            }
+            catch (Exception exception)
+            {
+                ExceptionBox.Show(this, exception);
+            }
+        }
+
+        private void _sendEmailButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            try
+            {
+                ReaderInfo reader = _PrepareReader();
+                if (ReferenceEquals(reader, null))
+                {
+                    return;
+                }
+
+                string ticket = reader.Ticket.ThrowIfNull();
+                if (!ControlCenter.CardExists(ticket))
+                {
+                    MessageBox.Show("Карты не существует");
+                    return;
+                }
+
+                ControlCenter.SendEmail(reader);
+            }
+            catch (Exception exception)
+            {
+                ExceptionBox.Show(this, exception);
+            }
+        }
+
+        private void _sendSmsButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            try
+            {
+                ReaderInfo reader = _PrepareReader();
+                if (ReferenceEquals(reader, null))
+                {
+                    return;
+                }
+
+                string ticket = reader.Ticket.ThrowIfNull();
+                if (!ControlCenter.CardExists(ticket))
+                {
+                    MessageBox.Show("Карты не существует");
+                    return;
+                }
+
+                string phoneNumber = reader.HomePhone;
+                if (string.IsNullOrEmpty(phoneNumber))
+                {
+                    MessageBox.Show("Не задан телефон!");
+                    return;
+                }
+
+                ControlCenter.SendSms(reader);
+            }
+            catch (Exception exception)
+            {
+                ExceptionBox.Show(this, exception);
+            }
+        }
+
+        private void _deleteButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            try
+            {
+                ReaderInfo reader = _PrepareReader();
+                if (ReferenceEquals(reader, null))
+                {
+                    return;
+                }
+
+                string ticket = reader.Ticket.ThrowIfNull();
+                if (!ControlCenter.CardExists(ticket))
+                {
+                    MessageBox.Show("Карты не существует");
+                    return;
+                }
+
+                ControlCenter.DeleteCard(reader);
+            }
+            catch (Exception exception)
+            {
+                ExceptionBox.Show(this, exception);
+            }
+        }
+
+        private void _clearButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            _ticketBox.Clear();
+            _Clear();
         }
 
         #endregion
