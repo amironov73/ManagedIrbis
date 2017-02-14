@@ -317,6 +317,22 @@ namespace AM
         }
 
         /// <summary>
+        /// Get case-insensitive string comparer.
+        /// </summary>
+        public static IEqualityComparer<string> GetCaseInsensitiveComparer()
+        {
+#if NETCORE || UAP || WIN81
+
+            return StringComparer.OrdinalIgnoreCase;
+
+#else
+
+            return StringComparer.InvariantCultureIgnoreCase;
+
+#endif
+        }
+
+        /// <summary>
         /// Get positions of the symbol.
         /// </summary>
         [NotNull]
