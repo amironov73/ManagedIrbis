@@ -317,6 +317,18 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Json\JsonUtility.cs">
       <Link>AM\Json\JsonUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Logging\IAmLogger.cs">
+      <Link>AM\Logging\IAmLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Logging\Log.cs">
+      <Link>AM\Logging\Log.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Logging\NullLogger.cs">
+      <Link>AM\Logging\NullLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Logging\TeeLogger.cs">
+      <Link>AM\Logging\TeeLogger.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\MessageEventArgs.cs">
       <Link>AM\MessageEventArgs.cs</Link>
     </Compile>
