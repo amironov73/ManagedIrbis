@@ -83,6 +83,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OsmiTester", "Classic\Apps\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OsmiRegistration", "Classic\Apps\OsmiRegistration\OsmiRegistration.csproj", "{B356FF37-DBBE-411F-B40D-7F4852DBF425}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Logging.NLog", "Classic\Libs\AM.Logging.NLog\AM.Logging.NLog.csproj", "{E16FB812-B0AF-4145-B8D2-9D6E783204F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -237,6 +239,10 @@ Global
 		{B356FF37-DBBE-411F-B40D-7F4852DBF425}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B356FF37-DBBE-411F-B40D-7F4852DBF425}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B356FF37-DBBE-411F-B40D-7F4852DBF425}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E16FB812-B0AF-4145-B8D2-9D6E783204F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E16FB812-B0AF-4145-B8D2-9D6E783204F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E16FB812-B0AF-4145-B8D2-9D6E783204F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E16FB812-B0AF-4145-B8D2-9D6E783204F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -277,5 +283,6 @@ Global
 		{6067A2CF-9D3B-410E-8015-F86C53C740AC} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{DB427950-7869-48D9-9765-45B434183996} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{B356FF37-DBBE-411F-B40D-7F4852DBF425} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{E16FB812-B0AF-4145-B8D2-9D6E783204F7} = {7233A430-352D-4BF2-B349-B3767E8E3EDE}
 	EndGlobalSection
 EndGlobal
