@@ -9,17 +9,12 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using CodeJam;
 
 using JetBrains.Annotations;
-
-using ManagedIrbis.Readers;
 
 using MoonSharp.Interpreter;
 
@@ -82,12 +77,24 @@ namespace RestfulIrbis.OsmiCards
 
         #region Public methods
 
+        // =========================================================
+
         /// <summary>
         /// Проверить ранее выданный PIN-код.
         /// </summary>
         public void CheckPinCode()
         {
+            RestRequest request = new RestRequest
+                (
+                    "/activation/checkpin",
+                    Method.POST
+                );
+
+            /* IRestResponse response = */
+            Connection.Execute(request);
         }
+
+        // =========================================================
 
         /// <summary>
         /// Создать новую карту.
@@ -112,8 +119,11 @@ namespace RestfulIrbis.OsmiCards
             request.AddUrlSegment("number", cardNumber);
             request.AddUrlSegment("template", template);
 
+            /* IRestResponse response = */
             Connection.Execute(request);
         }
+
+        // =========================================================
 
         /// <summary>
         /// Создать новую карту.
@@ -147,18 +157,46 @@ namespace RestfulIrbis.OsmiCards
                     ParameterType.RequestBody
                 );
 
+            /* IRestResponse response = */
             Connection.Execute(request);
         }
+
+        // =========================================================
 
         /// <summary>
         /// Создать новый шаблон.
         /// </summary>
         public void CreateTemplate
             (
-                string template
+                [NotNull] string templateName,
+                [NotNull] string jsonText
             )
         {
+            Code.NotNullNorEmpty(templateName, "templateName");
+            Code.NotNullNorEmpty(jsonText, "jsonText");
+
+            RestRequest request = new RestRequest
+                (
+                    "/templates/{template}",
+                    Method.POST
+                )
+            {
+                RequestFormat = DataFormat.Json
+            };
+            request.AddUrlSegment("template", templateName);
+
+            request.AddParameter
+                (
+                    "application/json; charset=utf-8",
+                    jsonText,
+                    ParameterType.RequestBody
+                );
+
+            /* IRestResponse response = */
+            Connection.Execute(request);
         }
+
+        // =========================================================
 
         /// <summary>
         /// Удалить карту.
@@ -187,6 +225,8 @@ namespace RestfulIrbis.OsmiCards
             Connection.Execute(request);
         }
 
+        // =========================================================
+
         /// <summary>
         /// Запросить информацию по карте.
         /// </summary>
@@ -206,14 +246,12 @@ namespace RestfulIrbis.OsmiCards
             IRestResponse response = Connection.Execute(request);
             JObject jObject = JObject.Parse(response.Content);
 
-            //Console.WriteLine();
-            //Console.WriteLine(jObject);
-            //Console.WriteLine();
-
             OsmiCard result = OsmiCard.FromJObject(jObject);
 
             return result;
         }
+
+        // =========================================================
 
         /// <summary>
         /// Запросить ссылку на загрузку карты.
@@ -237,6 +275,8 @@ namespace RestfulIrbis.OsmiCards
             return result["link"].Value<string>();
         }
 
+        // =========================================================
+
         /// <summary>
         /// Запросить список карт.
         /// </summary>
@@ -252,6 +292,8 @@ namespace RestfulIrbis.OsmiCards
 
             return result["cards"].Values<string>().ToArray();
         }
+
+        // =========================================================
 
         /// <summary>
         /// Запросить общие параметры сервиса.
@@ -269,6 +311,8 @@ namespace RestfulIrbis.OsmiCards
             return result;
         }
 
+        // =========================================================
+
         /// <summary>
         /// Запросить список доступных графических файлов.
         /// </summary>
@@ -285,6 +329,8 @@ namespace RestfulIrbis.OsmiCards
             return result["images"].ToObject<OsmiImage[]>();
         }
 
+        // =========================================================
+
         /// <summary>
         /// Запросить общую статистику.
         /// </summary>
@@ -300,6 +346,8 @@ namespace RestfulIrbis.OsmiCards
 
             return result;
         }
+
+        // =========================================================
 
         /// <summary>
         /// Запросить информацию о шаблоне.
@@ -323,6 +371,8 @@ namespace RestfulIrbis.OsmiCards
             return result;
         }
 
+        // =========================================================
+
         /// <summary>
         /// Запросить список доступных шаблонов.
         /// </summary>
@@ -339,6 +389,8 @@ namespace RestfulIrbis.OsmiCards
             return result["templates"].Values<string>().ToArray();
         }
 
+        // =========================================================
+
         /// <summary>
         /// Проверить подключение к сервису.
         /// </summary>
@@ -354,6 +406,8 @@ namespace RestfulIrbis.OsmiCards
 
             return result;
         }
+
+        // =========================================================
 
         /// <summary>
         /// Текстовый поиск по содержимому полей карт.
@@ -383,13 +437,16 @@ namespace RestfulIrbis.OsmiCards
             IRestResponse response = Connection.Execute(request);
             JArray responseArray = JArray.Parse(response.Content);
             List<string> result = new List<string>();
-            foreach (JObject element in responseArray.Children())
+            foreach (JObject element in responseArray
+                .Children<JObject>())
             {
                 result.Add(element["serial"].Value<string>());
             }
 
             return result.ToArray();
         }
+
+        // =========================================================
 
         /// <summary>
         /// Отправить ссылку на загрузку карты по email.
@@ -415,6 +472,8 @@ namespace RestfulIrbis.OsmiCards
             Connection.Execute(request);
         }
 
+        // =========================================================
+
         /// <summary>
         /// Отправить ссылку на загрузку карты по СМС.
         /// </summary>
@@ -439,6 +498,8 @@ namespace RestfulIrbis.OsmiCards
             Connection.Execute(request);
         }
 
+        // =========================================================
+
         /// <summary>
         /// Отправить PIN-код по СМС.
         /// </summary>
@@ -458,6 +519,8 @@ namespace RestfulIrbis.OsmiCards
             /* IRestResponse response = */
             Connection.Execute(request);
         }
+
+        // =========================================================
 
         /// <summary>
         /// Отправить push-сообщение на указанные карты.
@@ -481,7 +544,10 @@ namespace RestfulIrbis.OsmiCards
             };
 
             JObject obj = new JObject();
-            obj.Add("serials", new JArray(cardNumbers));
+            object[] serials = cardNumbers
+                .Cast<object>()
+                .ToArray();
+            obj.Add("serials", new JArray(serials));
             obj.Add("message", messageText);
             request.AddParameter
                 (
@@ -493,6 +559,8 @@ namespace RestfulIrbis.OsmiCards
             /* IRestResponse response = */
             Connection.Execute(request);
         }
+
+        // =========================================================
 
         /// <summary>
         /// Переместить карту на другой шаблон.
@@ -521,18 +589,39 @@ namespace RestfulIrbis.OsmiCards
             request.AddUrlSegment("number", cardNumber);
             request.AddUrlSegment("template", template);
 
+            /* IRestResponse response = */
             Connection.Execute(request);
         }
+
+        // =========================================================
 
         /// <summary>
         /// Изменить общие параметры сервиса.
         /// </summary>
         public void SetDefaults
             (
-                string newSettings
+                [NotNull] string newSettings
             )
         {
+            Code.NotNullNorEmpty(newSettings, "newSettings");
+
+            RestRequest request = new RestRequest
+                (
+                    "/defaults",
+                    Method.PUT
+                );
+            request.AddParameter
+                (
+                    "application/json; charset=utf-8",
+                    newSettings,
+                    ParameterType.RequestBody
+                );
+
+            /* IRestResponse response = */
+            Connection.Execute(request);
         }
+
+        // =========================================================
 
         /// <summary>
         /// Обновить значения карты.
@@ -569,19 +658,52 @@ namespace RestfulIrbis.OsmiCards
                     ParameterType.RequestBody
                 );
 
+            /* IRestResponse response = */
             Connection.Execute(request);
         }
+
+        // =========================================================
 
         /// <summary>
         /// Обновить значения шаблона.
         /// </summary>
         public void UpdateTemplate
             (
-                string template,
+                [NotNull] string templateName,
+                [NotNull] string jsonText,
                 bool push
             )
         {
+            Code.NotNullNorEmpty(templateName, "templateName");
+            Code.NotNullNorEmpty(jsonText, "jsonText");
+
+            string url = "/templates/{template}";
+            if (push)
+            {
+                url += "/push";
+            }
+
+            RestRequest request = new RestRequest
+                (
+                    url,
+                    Method.PUT
+                )
+            {
+                RequestFormat = DataFormat.Json
+            };
+            request.AddUrlSegment("template", templateName);
+            request.AddParameter
+                (
+                    "application/json; charset=utf-8",
+                    jsonText,
+                    ParameterType.RequestBody
+                );
+
+            /* IRestResponse response = */
+            Connection.Execute(request);
         }
+
+        // =========================================================
 
         #endregion
 
