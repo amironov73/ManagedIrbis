@@ -13,15 +13,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 using AM;
+using AM.Collections;
 
 using CodeJam;
 
 using JetBrains.Annotations;
-
-using ManagedIrbis.Pft.Infrastructure.Ast;
 
 using MoonSharp.Interpreter;
 
@@ -48,7 +46,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Registry.
         /// </summary>
         [NotNull]
-        public Dictionary<string, PftVariable> Registry { get; private set; }
+        public CaseInsensitiveDictionary<PftVariable> Registry
+        {
+            get; private set;
+        }
 
         #endregion
 
@@ -64,18 +65,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Parent = parent;
 
-            Registry = new Dictionary<string, PftVariable>
-                (
-#if NETCORE || UAP || WIN81
-
-                    StringComparer.OrdinalIgnoreCase
-
-#else
-
-                    StringComparer.InvariantCultureIgnoreCase
-
-#endif
-                );
+            Registry = new CaseInsensitiveDictionary<PftVariable>();
         }
 
         #endregion

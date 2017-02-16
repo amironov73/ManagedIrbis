@@ -10,11 +10,10 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using AM;
+using AM.Collections;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -63,7 +62,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Registry.
         /// </summary>
         [NotNull]
-        public static Dictionary<string, Action<PftContext, PftNode, string>> Registry { get; private set; }
+        public static CaseInsensitiveDictionary<Action<PftContext, PftNode, string>> Registry { get; private set; }
 
         /// <summary>
         /// Throw exception on unknown key.
@@ -78,18 +77,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             ThrowOnUnknown = false;
 
-            Registry = new Dictionary<string, Action<PftContext, PftNode, string>>
-                (
-#if NETCORE || UAP || WIN81
-
-                    StringComparer.OrdinalIgnoreCase
-
-#else
-
-StringComparer.InvariantCultureIgnoreCase
-
-#endif
-);
+            Registry = new CaseInsensitiveDictionary<Action<PftContext, PftNode, string>>();
 
             RegisterActions();
         }

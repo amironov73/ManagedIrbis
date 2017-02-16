@@ -10,12 +10,11 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 using AM;
+using AM.Collections;
 
 using CodeJam;
 
@@ -87,25 +86,14 @@ namespace ManagedIrbis
             )
         {
             FileName = fileName;
-            _dictionary = new Dictionary<string, object>
-                (
-#if NETCORE || UAP || WIN81
-
-                    StringComparer.OrdinalIgnoreCase
-
-#else
-
-                    StringComparer.InvariantCultureIgnoreCase
-
-#endif
-                );
+            _dictionary = new CaseInsensitiveDictionary<object>();
         }
 
         #endregion
 
         #region Private members
 
-        private readonly Dictionary<string, object> _dictionary;
+        private readonly CaseInsensitiveDictionary<object> _dictionary;
 
         #endregion
 

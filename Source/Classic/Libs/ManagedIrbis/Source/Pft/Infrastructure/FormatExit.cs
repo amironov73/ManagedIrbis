@@ -9,11 +9,7 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AM.Collections;
 
 using CodeJam;
 
@@ -38,7 +34,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Registry.
         /// </summary>
         [NotNull]
-        public static Dictionary<string, IFormatExit> Registry { get; private set; }
+        public static CaseInsensitiveDictionary<IFormatExit> Registry
+        {
+            get; private set;
+        }
 
         #endregion
 
@@ -46,18 +45,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         static FormatExit()
         {
-            Registry = new Dictionary<string, IFormatExit>
-                (
-#if NETCORE || UAP || WIN81
-
-                    StringComparer.OrdinalIgnoreCase
-
-#else
-
-                    StringComparer.InvariantCultureIgnoreCase
-
-#endif
-                );
+            Registry = new CaseInsensitiveDictionary<IFormatExit>();
 
             Unifor unifor = new Unifor();
             Registry.Add("unifor", unifor);

@@ -9,11 +9,10 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using AM;
 
 using CodeJam;
 
@@ -95,15 +94,7 @@ namespace ManagedIrbis.Search
             };
 
             IEqualityComparer<string> comparer =
-#if NETCORE || UAP || WIN81
-
-                StringComparer.OrdinalIgnoreCase;
-
-#else
-
-                StringComparer.InvariantCultureIgnoreCase;
-
-#endif
+                StringUtility.GetCaseInsensitiveComparer();
 
             string[] words = AlphabetTable
                 .SplitWords(text)

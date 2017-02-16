@@ -9,11 +9,7 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AM.Collections;
 
 using CodeJam;
 
@@ -38,7 +34,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Registry.
         /// </summary>
         [NotNull]
-        public Dictionary<string, PftProcedure> Registry { get; private set; }
+        public CaseInsensitiveDictionary<PftProcedure> Registry
+        {
+            get; private set;
+        }
 
         #endregion
 
@@ -49,18 +48,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public PftProcedureManager()
         {
-            Registry = new Dictionary<string, PftProcedure>
-                (
-#if NETCORE || UAP || WIN81
-
-                    StringComparer.OrdinalIgnoreCase
-
-#else
-
-                    StringComparer.InvariantCultureIgnoreCase
-
-#endif
-                );
+            Registry = new CaseInsensitiveDictionary<PftProcedure>();
         }
 
         #endregion
