@@ -17,6 +17,8 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
+using AM.IO;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -86,7 +88,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
 
         #region Private members
 
-        private int _counter;
+        private static int _counter;
 
         private void _DumpGeneralInfo
             (
@@ -159,6 +161,45 @@ namespace ManagedIrbis.Infrastructure.Sockets
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Set start value for packet counter.
+        /// </summary>
+        public static void SetCounter
+            (
+                int startValue
+            )
+        {
+            Code.Nonnegative(startValue, "startValue");
+
+            _counter = startValue;
+        }
+
+        /// <summary>
+        /// Do some setup before using.
+        /// </summary>
+        public static void Setup
+            (
+                [NotNull] string debugPath,
+                bool clearDirectory
+            )
+        {
+            Code.NotNullNorEmpty(debugPath, "debugPath");
+
+            if (!Directory.Exists(debugPath))
+            {
+                Directory.CreateDirectory(debugPath);
+            }
+
+            if (clearDirectory)
+            {
+                DirectoryUtility.ClearDirectory(debugPath);
+            }
+            else
+            {
+                _counter = Directory.GetFiles(debugPath).Length;
+            }
+        }
 
         #endregion
 

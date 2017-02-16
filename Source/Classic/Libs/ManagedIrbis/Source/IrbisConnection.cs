@@ -1511,8 +1511,6 @@ namespace ManagedIrbis
                     loggingPath
                 );
 
-            DirectoryUtility.ClearDirectory(loggingPath);
-
             SetSocket(newSocket);
 
 #endif
