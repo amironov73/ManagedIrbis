@@ -45,7 +45,7 @@ namespace ManagedIrbis
         /// <summary>
         /// UTF8 encoding.
         /// </summary>
-        public static Encoding Utf8 { get { return Encoding.UTF8; } }
+        public static Encoding Utf8 { get { return _utf8; } }
 
         #endregion
 
@@ -75,6 +75,12 @@ namespace ManagedIrbis
 
 #endif
             ;
+
+        private static Encoding _utf8 = new UTF8Encoding
+            (
+                false,
+                true
+            );
 
         #endregion
 

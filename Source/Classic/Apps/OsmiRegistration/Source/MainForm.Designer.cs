@@ -47,7 +47,7 @@
             this._logBox.BackColor = System.Drawing.SystemColors.Window;
             this._logBox.Dock = System.Windows.Forms.DockStyle.Bottom;
             this._logBox.Location = new System.Drawing.Point(0, 236);
-            this._logBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._logBox.Margin = new System.Windows.Forms.Padding(2);
             this._logBox.Multiline = true;
             this._logBox.Name = "_logBox";
             this._logBox.ReadOnly = true;
@@ -59,7 +59,7 @@
             // 
             this._busyStripe.Dock = System.Windows.Forms.DockStyle.Bottom;
             this._busyStripe.Location = new System.Drawing.Point(0, 223);
-            this._busyStripe.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._busyStripe.Margin = new System.Windows.Forms.Padding(2);
             this._busyStripe.Moving = false;
             this._busyStripe.Name = "_busyStripe";
             this._busyStripe.Size = new System.Drawing.Size(584, 13);
@@ -130,6 +130,7 @@
             // _sendSmsButton
             // 
             this._sendSmsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._sendSmsButton.Enabled = false;
             this._sendSmsButton.Location = new System.Drawing.Point(390, 121);
             this._sendSmsButton.Name = "_sendSmsButton";
             this._sendSmsButton.Size = new System.Drawing.Size(182, 23);
@@ -141,6 +142,7 @@
             // _deleteButton
             // 
             this._deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._deleteButton.Enabled = false;
             this._deleteButton.Location = new System.Drawing.Point(390, 150);
             this._deleteButton.Name = "_deleteButton";
             this._deleteButton.Size = new System.Drawing.Size(182, 23);
@@ -177,7 +179,7 @@
             this.Controls.Add(this._busyStripe);
             this.Controls.Add(this._logBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MinimumSize = new System.Drawing.Size(600, 480);
             this.Name = "MainForm";
             this.Text = "Работа с картами OSMI";

@@ -222,6 +222,7 @@ namespace RestfulIrbis.OsmiCards
                 );
             request.AddUrlSegment("number", cardNumber);
 
+            /* IRestResponse response = */
             Connection.Execute(request);
         }
 
