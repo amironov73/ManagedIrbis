@@ -149,6 +149,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\BitArrayUtility.cs">
       <Link>AM\Collections\BitArrayUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\CaseInsensitiveDictionary.cs">
+      <Link>AM\Collections\CaseInsensitiveDictionary.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\CharSet.cs">
       <Link>AM\Collections\CharSet.cs</Link>
     </Compile>
