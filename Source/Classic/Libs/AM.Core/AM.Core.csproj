@@ -145,6 +145,8 @@
     <Compile Include="AM\ComparableObject.cs" />
     <Compile Include="AM\ComponentModel\NotifyProperty.cs" />
     <Compile Include="AM\ComponentModel\PropertyChangedUtility.cs" />
+    <Compile Include="AM\ConsoleIO\ConsoleInput.cs" />
+    <Compile Include="AM\ConsoleIO\InputHistory.cs" />
     <Compile Include="AM\ConsoleUtility.cs" />
     <Compile Include="AM\Data\DataColumnInfo.cs" />
     <Compile Include="AM\Data\DataSetInfo.cs" />
