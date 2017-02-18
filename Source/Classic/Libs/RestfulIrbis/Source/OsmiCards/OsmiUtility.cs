@@ -113,9 +113,6 @@ namespace RestfulIrbis.OsmiCards
                     UrlEncode(ticket)
                 );
 
-            //block = (JObject)result["general"];
-            //block["serialNo"] = ticket;
-
             block = (JObject)result["barcode"];
             block.Property("messageType").Remove();
             block.Property("signatureType").Remove();

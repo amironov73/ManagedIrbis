@@ -78,13 +78,26 @@ namespace ManagedIrbis
 
         private static Encoding _utf8 = new UTF8Encoding
             (
-                false,
-                true
+                false, // don't emit UTF-8 prefix
+                true   // throw on invalid bytes
             );
 
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Relax UTF-8 decoder, do not throw exceptions
+        /// on invalid bytes.
+        /// </summary>
+        public static void RelaxUtf8()
+        {
+            _utf8 = new UTF8Encoding
+                (
+                    false, // don't emit UTF-8 prefix,
+                    false  // don't throw on invalid bytes
+                );
+        }
 
         /// <summary>
         /// Override default single-byte encoding.

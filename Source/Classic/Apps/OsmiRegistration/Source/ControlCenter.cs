@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -48,6 +49,11 @@ namespace OsmiRegistration
         /// OSMICards client.
         /// </summary>
         public static OsmiCardsClient Client { get; set; }
+
+        /// <summary>
+        /// Configuration.
+        /// </summary>
+        public static JObject Configuration { get; set; }
 
         /// <summary>
         /// Connection string for IRBIS-server.
@@ -247,6 +253,11 @@ namespace OsmiRegistration
         /// </summary>
         public static void Initialize()
         {
+            Configuration = JObject.Parse
+                (
+                    File.ReadAllText("osmi.json")
+                );
+
             ConnectionString = CM.AppSettings["connectionString"];
 
             string baseUri = CM.AppSettings["baseUri"];

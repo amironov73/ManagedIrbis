@@ -1,0 +1,22 @@
+﻿{
+  "labels": [
+    {
+      "label": "Читатель",
+      "value": "v10, \"\"v11, \" \"v12"
+    },
+    {
+      "label": "Ваш личный кабинет",
+      "value": "'<a href=\"http://i.irklib.ru/cgi/irbis64r_61/cgiirbis_64.exe?C21COM=F&I21DBN=RDR_SIMPLE&P21DBN=IBIS&Z21FAMILY=', v10, '&Z21ID=', v30, '\">Вход в личный кабинет</a>"
+    },
+    {
+      "label": "Поиск и заказ книг",
+      "value": "'<a href=\"http://i.irklib.ru/cgi/irbis64r_61/cgiirbis_64.exe?C21COM=F&I21DBN=IBIS_SIMPLE&P21DBN=IBIS&Z21FAMILY=', v10, '&Z21ID=', v30, '\">Электронный каталог</a>"
+    }
+  ],
+  
+  "barcode": 
+  {
+    "message": "v30",
+    "signature": "v30"
+  }
+}
