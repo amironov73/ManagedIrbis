@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if FW4
+
 #region Using directives
 
 using System.Collections.Generic;
@@ -677,3 +679,5 @@ namespace RestfulIrbis.OsmiCards
         #endregion
     }
 }
+
+#endif
