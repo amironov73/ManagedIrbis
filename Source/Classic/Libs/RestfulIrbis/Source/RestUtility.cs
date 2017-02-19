@@ -68,7 +68,7 @@ namespace RestfulIrbis
         [CLSCompliant(false)]
         public static T ConvertRequestBody<T>
             (
-                [NotNull] Request request
+                [NotNull] this Request request
             )
         {
             Code.NotNull(request, "request");
@@ -90,7 +90,7 @@ namespace RestfulIrbis
         /// </summary>
         public static void SetJsonRequestBody
             (
-                [NotNull] IRestRequest request,
+                [NotNull] this IRestRequest request,
                 [NotNull] string jsonText
             )
         {

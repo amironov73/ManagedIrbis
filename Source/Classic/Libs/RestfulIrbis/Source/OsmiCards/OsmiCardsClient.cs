@@ -143,19 +143,11 @@ namespace RestfulIrbis.OsmiCards
                 (
                     "/passes/{number}/{template}",
                     Method.POST
-                )
-            {
-                RequestFormat = DataFormat.Json
-            };
+                );
             request.AddUrlSegment("number", cardNumber);
             request.AddUrlSegment("template", template);
             request.AddQueryParameter("withValues", "true");
-            request.AddParameter
-                (
-                    "application/json; charset=utf-8",
-                    jsonText,
-                    ParameterType.RequestBody
-                );
+            request.SetJsonRequestBody(jsonText);
 
             /* IRestResponse response = */
             Connection.Execute(request);
@@ -179,18 +171,9 @@ namespace RestfulIrbis.OsmiCards
                 (
                     "/templates/{template}",
                     Method.POST
-                )
-            {
-                RequestFormat = DataFormat.Json
-            };
-            request.AddUrlSegment("template", templateName);
-
-            request.AddParameter
-                (
-                    "application/json; charset=utf-8",
-                    jsonText,
-                    ParameterType.RequestBody
                 );
+            request.AddUrlSegment("template", templateName);
+            request.SetJsonRequestBody(jsonText);
 
             /* IRestResponse response = */
             Connection.Execute(request);
@@ -271,6 +254,7 @@ namespace RestfulIrbis.OsmiCards
                 );
             request.AddUrlSegment("number", cardNumber);
             IRestResponse response = Connection.Execute(request);
+
             JObject result = JObject.Parse(response.Content);
 
             return result["link"].Value<string>();
@@ -289,6 +273,7 @@ namespace RestfulIrbis.OsmiCards
                     Method.GET
                 );
             IRestResponse response = Connection.Execute(request);
+
             JObject result = JObject.Parse(response.Content);
 
             return result["cards"].Values<string>().ToArray();
@@ -307,6 +292,7 @@ namespace RestfulIrbis.OsmiCards
                     Method.GET
                 );
             IRestResponse response = Connection.Execute(request);
+
             JObject result = JObject.Parse(response.Content);
 
             return result;
@@ -325,6 +311,7 @@ namespace RestfulIrbis.OsmiCards
                     Method.GET
                 );
             IRestResponse response = Connection.Execute(request);
+
             JObject result = JObject.Parse(response.Content);
 
             return result["images"].ToObject<OsmiImage[]>();
@@ -343,6 +330,7 @@ namespace RestfulIrbis.OsmiCards
                     Method.GET
                 );
             IRestResponse response = Connection.Execute(request);
+
             JObject result = JObject.Parse(response.Content);
 
             return result;
@@ -367,6 +355,7 @@ namespace RestfulIrbis.OsmiCards
                 );
             request.AddUrlSegment("name", templateName);
             IRestResponse response = Connection.Execute(request);
+
             JObject result = JObject.Parse(response.Content);
 
             return result;
@@ -385,6 +374,7 @@ namespace RestfulIrbis.OsmiCards
                     Method.GET
                 );
             IRestResponse response = Connection.Execute(request);
+
             JObject result = JObject.Parse(response.Content);
 
             return result["templates"].Values<string>().ToArray();
@@ -403,6 +393,7 @@ namespace RestfulIrbis.OsmiCards
                     Method.GET
                 );
             IRestResponse response = Connection.Execute(request);
+
             JObject result = JObject.Parse(response.Content);
 
             return result;
@@ -428,15 +419,14 @@ namespace RestfulIrbis.OsmiCards
             {
                 {"text", text}
             };
-            request.AddParameter
+            request.SetJsonRequestBody
                 (
-                    "application/json; charset=utf-8",
-                    requestJObject.ToString(),
-                    ParameterType.RequestBody
+                    requestJObject.ToString()
                 );
 
             IRestResponse response = Connection.Execute(request);
             JArray responseArray = JArray.Parse(response.Content);
+
             List<string> result = new List<string>();
             foreach (JObject element in responseArray
                 .Children<JObject>())
@@ -539,10 +529,7 @@ namespace RestfulIrbis.OsmiCards
                 (
                     "/marketing/pushmessage",
                     Method.POST
-                )
-            {
-                RequestFormat = DataFormat.Json
-            };
+                );
 
             JObject obj = new JObject();
             object[] serials = cardNumbers
@@ -550,11 +537,9 @@ namespace RestfulIrbis.OsmiCards
                 .ToArray();
             obj.Add("serials", new JArray(serials));
             obj.Add("message", messageText);
-            request.AddParameter
+            request.SetJsonRequestBody
                 (
-                    "application/json; charset=utf-8", 
-                    obj.ToString(), 
-                    ParameterType.RequestBody
+                    obj.ToString()
                 );
 
             /* IRestResponse response = */
@@ -611,12 +596,7 @@ namespace RestfulIrbis.OsmiCards
                     "/defaults",
                     Method.PUT
                 );
-            request.AddParameter
-                (
-                    "application/json; charset=utf-8",
-                    newSettings,
-                    ParameterType.RequestBody
-                );
+            request.SetJsonRequestBody(newSettings);
 
             /* IRestResponse response = */
             Connection.Execute(request);
@@ -647,17 +627,9 @@ namespace RestfulIrbis.OsmiCards
                 (
                     url,
                     Method.PUT
-                )
-            {
-                RequestFormat = DataFormat.Json
-            };
-            request.AddUrlSegment("number", cardNumber);
-            request.AddParameter
-                (
-                    "application/json; charset=utf-8",
-                    jsonText,
-                    ParameterType.RequestBody
                 );
+            request.AddUrlSegment("number", cardNumber);
+            request.SetJsonRequestBody(jsonText);
 
             /* IRestResponse response = */
             Connection.Execute(request);
@@ -688,17 +660,9 @@ namespace RestfulIrbis.OsmiCards
                 (
                     url,
                     Method.PUT
-                )
-            {
-                RequestFormat = DataFormat.Json
-            };
-            request.AddUrlSegment("template", templateName);
-            request.AddParameter
-                (
-                    "application/json; charset=utf-8",
-                    jsonText,
-                    ParameterType.RequestBody
                 );
+            request.AddUrlSegment("template", templateName);
+            request.SetJsonRequestBody(jsonText);
 
             /* IRestResponse response = */
             Connection.Execute(request);

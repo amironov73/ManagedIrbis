@@ -54,6 +54,38 @@ namespace AM.ConsoleIO
         [CanBeNull]
         public static string ReadLine()
         {
+            StringBuilder result = new StringBuilder();
+
+            while (true)
+            {
+                int ch = Console.Read();
+                if (ch < 0)
+                {
+                    break;
+                }
+
+                if (ch == '\r')
+                {
+                    if (Console.In.Peek() == '\n')
+                    {
+                        Console.Read();
+                    }
+                    return result.ToString();
+                }
+
+                if (ch == '\n')
+                {
+                    return result.ToString();
+                }
+
+                result.Append((char) ch);
+            }
+
+            if (result.Length != 0)
+            {
+                return result.ToString();
+            }
+
             return null;
         }
 
