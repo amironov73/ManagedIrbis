@@ -11,6 +11,7 @@
 
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -86,6 +87,24 @@ namespace ManagedIrbis.Requests
         public string RequestDate { get; set; }
 
         /// <summary>
+        /// Дата выполнения заказа.
+        /// </summary>
+        [CanBeNull]
+        [Field("41")]
+        [XmlAttribute("fulfillmentDate")]
+        [JsonProperty("fulfillmentDate")]
+        public string FulfillmentDate { get; set; }
+
+        /// <summary>
+        /// Дата бронирования.
+        /// </summary>
+        [CanBeNull]
+        [Field("43")]
+        [XmlAttribute("reservationDate")]
+        [JsonProperty("reservationDate")]
+        public string ReservationDate { get; set; }
+
+        /// <summary>
         /// Идентификатор читателя.
         /// Поле 30.
         /// </summary>
@@ -124,7 +143,7 @@ namespace ManagedIrbis.Requests
         /// Подполе B: дата.
         /// </summary>
         [CanBeNull]
-        [Field("44^b")]
+        [Field("44")]
         [XmlAttribute("rejectInfo")]
         [JsonProperty("rejectInfo")]
         public string RejectInfo { get; set; }
@@ -150,6 +169,21 @@ namespace ManagedIrbis.Requests
         [XmlAttribute("responsiblePerson")]
         [JsonProperty("responsiblePerson")]
         public string ResponsiblePerson { get; set; }
+
+        /// <summary>
+        /// Сведения о заказе можно удалять,
+        /// т. к. он либо выполнен, либо отказан.
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        public bool CanBeDeleted
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(FulfillmentDate)
+                       || !string.IsNullOrEmpty(RejectInfo);
+            }
+        }
 
         /// <summary>
         /// Библиографическая запись о книге.
@@ -233,14 +267,23 @@ namespace ManagedIrbis.Requests
                     BookDescription = record.FM("201"),
                     BookCode = record.FM("903"),
                     RequestDate = record.FM("40"),
+                    FulfillmentDate = record.FM("41"),
+                    ReservationDate = record.FM("43"),
                     ReaderID = record.FM("30"),
                     ReaderDescription = record.FM("31"),
                     Database = record.FM("1"),
-                    RejectInfo = record.FM("44"),
                     Department = record.FM("102"),
                     ResponsiblePerson = record.FM("50"),
                     RequestRecord = record
                 };
+
+            RecordField field44 = record.Fields
+                .GetField("44")
+                .FirstOrDefault();
+            if (!ReferenceEquals(field44, null))
+            {
+                result.RejectInfo = field44.ToText();
+            }
 
             return result;
         }
@@ -259,6 +302,8 @@ namespace ManagedIrbis.Requests
             _AddField(result, "201", BookDescription);
             _AddField(result, "903", BookCode);
             _AddField(result, "40", RequestDate);
+            _AddField(result, "41", FulfillmentDate);
+            _AddField(result, "43", ReservationDate);
             _AddField(result, "30", ReaderID);
             _AddField(result, "31", ReaderDescription);
             _AddField(result, "1", Database);
