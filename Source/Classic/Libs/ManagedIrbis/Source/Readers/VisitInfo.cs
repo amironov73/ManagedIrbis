@@ -257,6 +257,14 @@ namespace ManagedIrbis.Readers
         }
 
         /// <summary>
+        /// Поле, в котором хранится посещение/выдача.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        public RecordField Field { get; set; }
+
+        /// <summary>
         /// Ссылка на читателя, сделавшего посещение.
         /// </summary>
         [CanBeNull]
@@ -311,7 +319,8 @@ namespace ManagedIrbis.Readers
                 Description = FM(field, 'c'),
                 Responsible = FM(field, 'i'),
                 TimeIn = FM(field, '1'),
-                TimeOut = FM(field, '2')
+                TimeOut = FM(field, '2'),
+                Field = field
             };
 
             return result;
