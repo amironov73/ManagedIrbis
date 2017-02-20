@@ -47,9 +47,12 @@
   <ItemGroup>
     <Compile Include="Source\Bits.cs" />
     <Compile Include="Source\CM.cs" />
+    <Compile Include="Source\HeaderParser.cs" />
     <Compile Include="Source\IrbisProxy.cs" />
     <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\RequestInfo.cs" />
+    <Compile Include="Source\ResponseInfo.cs" />
     <Compile Include="Source\ServiceInstallerUtility.cs" />
     <Compile Include="Source\TransactionInfo.cs" />
   </ItemGroup>
