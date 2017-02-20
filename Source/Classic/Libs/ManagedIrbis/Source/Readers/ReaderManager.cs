@@ -138,6 +138,47 @@ namespace ManagedIrbis.Readers
         }
 
         /// <summary>
+        /// Получение массива всех (не удалённых) читателей из базы данных.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public ReaderInfo[] GetReaders
+            (
+                [NotNull] string database,
+                [NotNull] IEnumerable<int> mfns
+            )
+        {
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNull(mfns, "mfns");
+
+            List<ReaderInfo> result = new List<ReaderInfo>();
+
+            IEnumerable<MarcRecord> batch = new BatchRecordReader
+                (
+                    Connection,
+                    database,
+                    500,
+                    mfns
+                );
+
+            BatchRecordReader batch2 = batch as BatchRecordReader;
+            batch2.BatchRead += HandleBatchRead;
+
+            foreach (MarcRecord record in batch)
+            {
+                if (!ReferenceEquals(record, null))
+                {
+                    ReaderInfo reader = ReaderInfo.Parse(record);
+                    result.Add(reader);
+                }
+            }
+
+            batch2.BatchRead -= HandleBatchRead;
+
+            return result.ToArray();
+        }
+
+        /// <summary>
         /// Получение записи читателя по его идентификатору.
         /// </summary>
         [CanBeNull]

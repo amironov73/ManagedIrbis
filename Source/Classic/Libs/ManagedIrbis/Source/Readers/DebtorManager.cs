@@ -54,6 +54,12 @@ namespace ManagedIrbis.Readers
         public IrbisConnection Connection { get; private set; }
 
         /// <summary>
+        /// Database name.
+        /// </summary>
+        [CanBeNull]
+        public string Database { get; set; }
+
+        /// <summary>
         /// Кафедра обслуживания.
         /// </summary>
         [CanBeNull]
@@ -85,6 +91,7 @@ namespace ManagedIrbis.Readers
         {
             Code.NotNull(connection, "connection");
 
+            Database = "RDR";
             Connection = connection;
         }
 
@@ -170,10 +177,81 @@ namespace ManagedIrbis.Readers
         [NotNull]
         public DebtorInfo[] GetDebtors()
         {
+            SetupDates();
+
             ReaderManager manager = new ReaderManager(Connection);
             manager.BatchRead += HandleBatchRead;
 
-            ReaderInfo[] readers = manager.GetAllReaders("RDR");
+            string database = Database.ThrowIfNull("Database");
+            ReaderInfo[] readers = manager.GetAllReaders(database);
+            List<DebtorInfo> result = new List<DebtorInfo>(readers.Length);
+            string fromDate = null;
+            if (FromDate.HasValue)
+            {
+                fromDate = IrbisDate.ConvertDateToString(FromDate.Value);
+            }
+            foreach (ReaderInfo reader in readers)
+            {
+                VisitInfo[] debt = ToDate.HasValue
+                    ? reader.Visits.GetDebt(ToDate.Value)
+                    : reader.Visits.GetDebt();
+
+                if (!string.IsNullOrEmpty(fromDate))
+                {
+                    debt = debt.Where
+                        (
+                            loan => loan.DateExpectedString
+                                .SafeCompare(fromDate) >= 0
+                        )
+                        .ToArray();
+                }
+
+                if (!string.IsNullOrEmpty(Department))
+                {
+                    debt = debt.Where
+                        (
+                            loan => loan.Department.SameString
+                                (
+                                    Department
+                                )
+                        )
+                        .ToArray();
+                }
+
+                if (debt.Length != 0)
+                {
+                    DebtorInfo debtor = DebtorInfo.FromReader
+                        (
+                            reader,
+                            debt
+                        );
+                    result.Add(debtor);
+                }
+            }
+
+            manager.BatchRead -= HandleBatchRead;
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Получение списка задолжников.
+        /// </summary>
+        [NotNull]
+        public DebtorInfo[] GetDebtors
+            (
+                [NotNull] IEnumerable<int> mfns
+            )
+        {
+            Code.NotNull(mfns, "mfns");
+
+            SetupDates();
+
+            ReaderManager manager = new ReaderManager(Connection);
+            manager.BatchRead += HandleBatchRead;
+
+            string database = Database.ThrowIfNull("Database");
+            ReaderInfo[] readers = manager.GetReaders(database, mfns);
             List<DebtorInfo> result = new List<DebtorInfo>(readers.Length);
             string fromDate = null;
             if (FromDate.HasValue)
