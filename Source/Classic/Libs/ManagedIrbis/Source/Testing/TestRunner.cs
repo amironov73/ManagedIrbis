@@ -454,7 +454,12 @@ namespace ManagedIrbis
             TestContext[] tests = _contextList
                 .OrderBy(test => test.Name)
                 .ToArray();
-            
+
+            if (tests.Length == 0)
+            {
+                return;
+            }
+
             WriteLine
                 (
                     tableColor,

@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using AM;
@@ -39,8 +38,6 @@ using ManagedIrbis.Infrastructure.Sockets;
 using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #if FW4
 
@@ -921,15 +918,16 @@ namespace ManagedIrbis
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(minimalVersion, "minimalVersion");
 
-            IrbisVersion actualVersion
-                = connection.GetServerVersion();
+            IrbisVersion actualVersion = connection.ServerVersion
+                ?? connection.GetServerVersion();
             bool result = string.CompareOrdinal
                 (
                     actualVersion.Version,
                     "64." + minimalVersion
                 ) >= 0;
 
-            if (!result
+            if (
+                 !result
                  && throwException
                 )
             {

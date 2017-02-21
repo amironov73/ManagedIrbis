@@ -38,7 +38,7 @@ namespace AM.IO
     [PublicAPI]
     [MoonSharpUserData]
 #if !WINMOBILE && !PocketPC
-    [DebuggerDisplay("{FileName}")]
+    [DebuggerDisplay("Name={FileName}")]
 #endif
 #if !SILVERLIGHT && !UAP && !WIN81
     // ReSharper disable once RedundantNameQualifier

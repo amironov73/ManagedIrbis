@@ -9,7 +9,6 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -22,7 +21,9 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Infrastructure;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;

@@ -78,6 +78,12 @@ namespace ManagedIrbis.Infrastructure
         public int AnswerSize { get; set; }
 
         /// <summary>
+        /// Server version.
+        /// </summary>
+        [CanBeNull]
+        public string ServerVersion { get; set; }
+
+        /// <summary>
         /// Код возврата.
         /// </summary>
         public int ReturnCode
@@ -142,9 +148,9 @@ namespace ManagedIrbis.Infrastructure
             ClientID = RequireInt32();
             CommandNumber = RequireInt32();
             AnswerSize = GetInt32(0); // RequireInt32();
+            ServerVersion = RequireAnsiString();
 
-            // 6 пустых строк
-            RequireAnsiString();
+            // 5 пустых строк
             RequireAnsiString();
             RequireAnsiString();
             RequireAnsiString();

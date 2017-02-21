@@ -9,14 +9,6 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using AM;
 
 using CodeJam;
@@ -24,8 +16,6 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -84,7 +74,14 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// User name. If not specified,
         /// connection name used.
         /// </summary>
+        [CanBeNull]
         public string Username { get; set; }
+
+        /// <summary>
+        /// Server version.
+        /// </summary>
+        [CanBeNull]
+        public string ServerVersion { get; set; }
 
         /// <summary>
         /// Doesn't require connection.
@@ -180,6 +177,8 @@ namespace ManagedIrbis.Infrastructure.Commands
             {
                 Configuration = result.RemainingAnsiText();
             }
+
+            ServerVersion = result.ServerVersion;
 
             return result;
         }

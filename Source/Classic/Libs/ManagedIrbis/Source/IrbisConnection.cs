@@ -216,6 +216,12 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Server version.
+        /// </summary>
+        [CanBeNull]
+        public IrbisVersion ServerVersion { get; internal set; }
+
+        /// <summary>
         /// Статус подключения к серверу.
         /// </summary>
         /// <value>Устанавливается в true при успешном выполнении
@@ -459,6 +465,14 @@ namespace ManagedIrbis
                 StringReader reader = new StringReader(iniText);
                 result.Read(reader);
                 _iniFile = result;
+
+                if (!string.IsNullOrEmpty(command.ServerVersion))
+                {
+                    ServerVersion = new IrbisVersion
+                    {
+                        Version = command.ServerVersion
+                    };
+                }
 
                 return result;
             }
@@ -850,6 +864,8 @@ namespace ManagedIrbis
 
             IrbisVersion result = command.Result
                 .ThrowIfNull("command.Result");
+
+            ServerVersion = result;
 
             return result;
         }
