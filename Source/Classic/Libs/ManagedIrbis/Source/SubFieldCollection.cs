@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
@@ -72,6 +73,7 @@ namespace ManagedIrbis
 
         private RecordField _field;
 
+        [ExcludeFromCodeCoverage]
         internal SubFieldCollection _SetField
             (
                 RecordField newField
@@ -180,10 +182,7 @@ namespace ManagedIrbis
 
         #region Collection<T> members
 
-        /// <summary>
-        /// Removes all elements from the
-        /// <see cref="T:System.Collections.ObjectModel.Collection`1" />.
-        /// </summary>
+        /// <inheritdoc />
         protected override void ClearItems()
         {
             ThrowIfReadOnly();
@@ -198,15 +197,7 @@ namespace ManagedIrbis
             base.ClearItems();
         }
 
-        /// <summary>
-        /// Inserts an element into the
-        /// <see cref="T:System.Collections.ObjectModel.Collection`1" />
-        /// at the specified index.
-        /// </summary>
-        /// <param name="index">The zero-based index at which
-        /// <paramref name="item" /> should be inserted.</param>
-        /// <param name="item">The object to insert. The value can't
-        /// be <c>null</c>.</param>
+        /// <inheritdoc />
         protected override void InsertItem
             (
                 int index,
@@ -223,12 +214,7 @@ namespace ManagedIrbis
             base.InsertItem(index, item);
         }
 
-        /// <summary>
-        /// Removes the element at the specified index of the
-        /// <see cref="T:System.Collections.ObjectModel.Collection`1" />.
-        /// </summary>
-        /// <param name="index">The zero-based index of the element
-        /// to remove.</param>
+        /// <inheritdoc />
         protected override void RemoveItem
             (
                 int index
@@ -250,14 +236,7 @@ namespace ManagedIrbis
             base.RemoveItem(index);
         }
 
-        /// <summary>
-        /// Replaces the element at the specified index.
-        /// </summary>
-        /// <param name="index">The zero-based index of the
-        /// element to replace.</param>
-        /// <param name="item">The new value for the element
-        /// at the specified index. The value can't be <c>null</c>.
-        /// </param>
+        /// <inheritdoc />
         protected override void SetItem
             (
                 int index,
@@ -278,9 +257,7 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore the object state from the given stream.
-        /// </summary>
+        /// <inheritdoc />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -294,9 +271,7 @@ namespace ManagedIrbis
             AddRange(array);
         }
 
-        /// <summary>
-        /// Save the object state to the given stream.
-        /// </summary>
+        /// <inheritdoc />
         public void SaveToStream
             (
                 BinaryWriter writer

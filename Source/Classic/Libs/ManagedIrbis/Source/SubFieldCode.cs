@@ -10,7 +10,7 @@
 #region Using directives
 
 using System;
-
+using System.Diagnostics.CodeAnalysis;
 using AM.Collections;
 
 using JetBrains.Annotations;
@@ -47,6 +47,9 @@ namespace ManagedIrbis
         /// <summary>
         /// Throw exception on verification error.
         /// </summary>
+        #if FW4
+        [ExcludeFromCodeCoverage]
+        #endif
         public static bool ThrowOnVerification { get; set; }
 
         /// <summary>
@@ -69,6 +72,7 @@ namespace ManagedIrbis
         {
             _validCodes = new CharSet();
             _validCodes.AddRange(DefaultFirstCode, DefaultLastCode);
+            _validCodes.Remove('^');
         }
 
         #endregion

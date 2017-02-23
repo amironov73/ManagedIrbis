@@ -43,5 +43,12 @@ namespace UnitTests.ManagedIrbis
             Assert.IsFalse(SubFieldCode.Verify('\0'));
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void TestSubFieldCode_Verify_Exception()
+        {
+            Assert.IsFalse(SubFieldCode.Verify('^', true));
+        }
+
     }
 }

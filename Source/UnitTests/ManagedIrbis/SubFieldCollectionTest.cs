@@ -12,7 +12,7 @@ namespace UnitTests
     public class SubFieldCollectionTest
     {
         [TestMethod]
-        public void SubFieldCollection_Constructor()
+        public void SubFieldCollection_Constructor1()
         {
             SubFieldCollection collection =
                 new SubFieldCollection
@@ -57,7 +57,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubFieldCollection_Serialization()
+        public void SubFieldCollection_Serialization1()
         {
             _TestSerialization();
 
@@ -71,7 +71,7 @@ namespace UnitTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void SubFieldCollection_NotNull()
+        public void SubFieldCollection_NotNull1()
         {
             SubFieldCollection collection =
                 new SubFieldCollection
@@ -85,10 +85,19 @@ namespace UnitTests
 
         [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
-        public void SubFieldCollection_ReadOnly()
+        public void SubFieldCollection_ReadOnly1()
         {
             RecordField field = new RecordField().AsReadOnly();
             field.SubFields.Add(new SubField());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ReadOnlyException))]
+        public void SubFieldCollection_ReadOnly2()
+        {
+            SubFieldCollection collection = new SubFieldCollection();
+            collection.SetReadOnly();            
+            collection.Add(new SubField());
         }
 
         private SubFieldCollection _GetCollection()
@@ -104,7 +113,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubFieldCollection_ToJson()
+        public void SubFieldCollection_ToJson1()
         {
             SubFieldCollection collection = _GetCollection();
 
@@ -129,7 +138,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubFieldCollection_FromJson()
+        public void SubFieldCollection_FromJson1()
         {
             const string text = @"["
 +@"  {"
@@ -158,7 +167,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubFieldCollection_Assign()
+        public void SubFieldCollection_Assign1()
         {
             SubFieldCollection source = _GetCollection();
             SubFieldCollection target = new SubFieldCollection();
@@ -181,7 +190,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubFieldCollection_AssignClone()
+        public void SubFieldCollection_AssignClone1()
         {
             SubFieldCollection source = _GetCollection();
             SubFieldCollection target = new SubFieldCollection();
@@ -201,6 +210,160 @@ namespace UnitTests
                         )
                     );
             }
+        }
+
+        [TestMethod]
+        public void SubFieldCollection_SetField1()
+        {
+            RecordField field = new RecordField("200");
+            SubField subFieldA = new SubField('a', "Title1");
+            field.SubFields.Add(subFieldA);
+            SubField subFieldE = new SubField('e', "Subtitle");
+            field.SubFields.Add(subFieldE);
+            field.SetSubField('a', "Title2");
+            Assert.AreEqual("Title2", subFieldA.Value);
+            Assert.AreEqual("Subtitle", subFieldE.Value);
+        }
+
+        [TestMethod]
+        public void SubFieldCollection_Clone1()
+        {
+            SubFieldCollection collection = new SubFieldCollection();
+            SubField subFieldA = new SubField('a', "Title1");
+            collection.Add(subFieldA);
+            SubField subFieldE = new SubField('e', "Subtitle");
+            collection.Add(subFieldE);
+
+            SubFieldCollection clone = collection.Clone();
+            Assert.AreEqual(collection.Count, clone.Count);
+        }
+
+        [TestMethod]
+        public void SubFieldCollection_Find1()
+        {
+            SubFieldCollection collection = new SubFieldCollection();
+            SubField subFieldA = new SubField('a', "Title1");
+            collection.Add(subFieldA);
+            SubField subFieldE = new SubField('e', "Subtitle");
+            collection.Add(subFieldE);
+
+            SubField found = collection.Find
+                (
+                    x => x.Value.SameString("Subtitle")
+                );
+            Assert.AreEqual(subFieldE, found);
+
+            found = collection.Find
+                (
+                    x => x.Value.SameString("Notitle")
+                );
+            Assert.IsNull(found);
+        }
+
+        [TestMethod]
+        public void SubFieldCollection_FindAll1()
+        {
+            SubFieldCollection collection = new SubFieldCollection();
+            SubField subFieldA = new SubField('a', "Title1");
+            collection.Add(subFieldA);
+            SubField subFieldE = new SubField('e', "Subtitle");
+            collection.Add(subFieldE);
+
+            SubField[] found = collection.FindAll
+                (
+                    x => x.Value.SameString("Subtitle")
+                );
+            Assert.AreEqual(1, found.Length);
+
+            found = collection.FindAll
+                (
+                    x => x.Value.SameString("Notitle")
+                );
+            Assert.AreEqual(0, found.Length);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ReadOnlyException))]
+        public void SubFieldCollection_SetReadOnly1()
+        {
+            SubFieldCollection collection = new SubFieldCollection();
+            SubField subFieldA = new SubField('a', "Title1");
+            collection.Add(subFieldA);
+            SubField subFieldE = new SubField('e', "Subtitle");
+            collection.Add(subFieldE);
+
+            collection.SetReadOnly();
+
+            subFieldA.Value = "New value";
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ReadOnlyException))]
+        public void SubFieldCollection_AsReadOnly1()
+        {
+            SubFieldCollection collection = new SubFieldCollection();
+            SubField subFieldA = new SubField('a', "Title1");
+            collection.Add(subFieldA);
+            SubField subFieldE = new SubField('e', "Subtitle");
+            collection.Add(subFieldE);
+
+            collection = collection.AsReadOnly();
+            collection.Add(new SubField());
+        }
+
+        [TestMethod]
+        public void SubFieldCollection_ClearItems1()
+        {
+            SubFieldCollection collection = _GetCollection();
+            collection.Clear();
+            Assert.AreEqual(0, collection.Count);
+        }
+
+        [TestMethod]
+        public void SubFieldCollection_InsertItem1()
+        {
+            SubFieldCollection collection = _GetCollection();
+            Assert.AreEqual(3, collection.Count);
+            SubField subField = new SubField('d', "Subfield D");
+            collection.Insert(1, subField);
+            Assert.AreEqual(subField, collection[1]);
+            Assert.AreEqual(4, collection.Count);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void SubFieldCollection_InsertItem_Exception()
+        {
+            SubFieldCollection collection = _GetCollection();
+            collection.Insert(1, null);
+        }
+
+        [TestMethod]
+        public void SubFieldCollection_RemoveItem1()
+        {
+            SubFieldCollection collection = _GetCollection();
+            Assert.AreEqual(3, collection.Count);
+            collection.Remove(collection[1]);
+            Assert.AreEqual(2, collection.Count);
+        }
+
+        [TestMethod]
+        public void SubFieldCollection_SetItem1()
+        {
+            SubFieldCollection collection = _GetCollection();
+            Assert.AreEqual(3, collection.Count);
+            SubField subField = new SubField('d', "Subfield D");
+            collection[1] = subField;
+            Assert.AreEqual(3, collection.Count);
+            Assert.AreEqual(subField, collection[1]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void SubFieldCollection_SetItem_Exception()
+        {
+            SubFieldCollection collection = _GetCollection();
+            collection[1] = null;
         }
     }
 }
