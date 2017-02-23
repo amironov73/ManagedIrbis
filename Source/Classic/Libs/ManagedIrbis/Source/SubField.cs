@@ -112,6 +112,13 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Whether the subfield is modified?
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        public bool Modified { get; internal set; }
+
+        /// <summary>
         /// Произвольные пользовательские данные.
         /// </summary>
         [CanBeNull]
@@ -139,6 +146,11 @@ namespace ManagedIrbis
         {
             get
             {
+                if (Code == NoCode)
+                {
+                    return string.Empty;
+                }
+
                 string result = "^" + Code;
 
                 if (!ReferenceEquals(Field, null))
@@ -172,6 +184,7 @@ namespace ManagedIrbis
         {
             _readOnly = false;
             Code = code;
+            NotModified();
         }
 
         /// <summary>
@@ -186,6 +199,7 @@ namespace ManagedIrbis
             _readOnly = false;
             Code = code;
             Value = value;
+            NotModified();
         }
 
         /// <summary>
@@ -202,6 +216,7 @@ namespace ManagedIrbis
             Code = code;
             Value = value;
             Field = field;
+            NotModified();
             if (readOnly)
             {
                 SetReadOnly();
@@ -218,6 +233,7 @@ namespace ManagedIrbis
 
         internal void SetModified()
         {
+            Modified = true;
             if (!ReferenceEquals(Field, null))
             {
                 Field.SetModified();
@@ -268,6 +284,18 @@ namespace ManagedIrbis
                 );
 
             return result;
+        }
+
+        /// <summary>
+        /// Mark the subfield as unmodified.
+        /// </summary>
+        /// <returns>Self.</returns>
+        [NotNull]
+        public SubField NotModified()
+        {
+            Modified = false;
+
+            return this;
         }
 
         /// <summary>
@@ -348,7 +376,6 @@ namespace ManagedIrbis
         #region IReadOnly<T> members
 
         // ReSharper disable InconsistentNaming
-        //[NonSerialized]
         internal bool _readOnly;
         // ReSharper restore InconsistentNaming
 
@@ -393,9 +420,7 @@ namespace ManagedIrbis
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc />
         public bool Verify
             (
                 bool throwOnError
@@ -426,14 +451,7 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="System.String" />
-        /// that represents this instance.
-        /// </returns>
+        /// <inheritdoc />
         public override string ToString()
         {
             return string.Format

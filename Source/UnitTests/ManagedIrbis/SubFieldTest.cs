@@ -83,7 +83,25 @@ namespace UnitTests
             Assert.AreEqual("Right Value", subField.Value);
         }
 
+        [TestMethod]
+        public void SubField_SetValue2()
+        {
+            SubField subField = new SubField('a')
+            {
+                Value = "  Right Value  "
+            };
+            Assert.AreEqual("Right Value", subField.Value);
+        }
 
+        [TestMethod]
+        public void SubField_SetValue3()
+        {
+            SubField subField = new SubField('a')
+            {
+                Value = "Right\nValue"
+            };
+            Assert.AreEqual("Right Value", subField.Value);
+        }
 
         [TestMethod]
         [ExpectedException(typeof(VerificationException))]
@@ -114,6 +132,18 @@ namespace UnitTests
             subField.Value = "New value";
             Assert.AreEqual("Value", subField.Value);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ReadOnlyException))]
+        public void SubField_AsReadOnly()
+        {
+            SubField subField = new SubField('a', "Value")
+                .AsReadOnly();
+            Assert.AreEqual("Value", subField.Value);
+            subField.Value = "New value";
+            Assert.AreEqual("Value", subField.Value);
+        }
+
 
         [TestMethod]
         public void SubField_ToJObject()
@@ -189,6 +219,122 @@ namespace UnitTests
 
             Assert.AreEqual('a', subField.Code);
             Assert.AreEqual("Value", subField.Value);
+        }
+
+        [TestMethod]
+        public void SubField_Field1()
+        {
+            SubField subField = new SubField('a', "Title");
+            Assert.IsNull(subField.Field);
+
+            RecordField field = new RecordField("200");
+            field.SubFields.Add(subField);
+            Assert.AreEqual(field, subField.Field);
+        }
+
+        [TestMethod]
+        public void SubField_Path1()
+        {
+            SubField subField = new SubField();
+            Assert.AreEqual(string.Empty, subField.Path);
+
+            subField = new SubField('a', "Title");
+            Assert.AreEqual("^a", subField.Path);
+
+            RecordField field = new RecordField("200");
+            field.SubFields.Add(subField);
+            Assert.AreEqual("200/0^a", subField.Path);
+        }
+
+        [TestMethod]
+        public void SubField_Verify1()
+        {
+            SubField subField = new SubField();
+            Assert.IsFalse(subField.Verify(false));
+
+            subField = new SubField('a');
+            Assert.IsTrue(subField.Verify(false));
+
+            subField = new SubField('a', "Title");
+            Assert.IsTrue(subField.Verify(false));
+        }
+
+        [TestMethod]
+        public void SubField_Compare1()
+        {
+            SubField subField1 = new SubField('a');
+            SubField subField2 = new SubField('b');
+            Assert.IsTrue
+                (
+                    SubField.Compare(subField1, subField2) < 0
+                );
+
+            subField1 = new SubField('a', "Title1");
+            subField2 = new SubField('a', "Title2");
+            Assert.IsTrue
+                (
+                    SubField.Compare(subField1, subField2) < 0
+                );
+
+            subField1 = new SubField('a', "Title");
+            subField2 = new SubField('a', "Title");
+            Assert.IsTrue
+                (
+                    SubField.Compare(subField1, subField2) == 0
+                );
+        }
+
+        [TestMethod]
+        public void SubField_SetModified1()
+        {
+            SubField subField = new SubField('a', "Title1");
+            Assert.IsFalse(subField.Modified);
+            subField.Value = "Title2";
+            Assert.IsTrue(subField.Modified);
+            subField.NotModified();
+            Assert.IsFalse(subField.Modified);
+        }
+
+        [TestMethod]
+        public void SubField_SetModified2()
+        {
+            RecordField field = new RecordField("200");
+            Assert.IsFalse(field.Modified);
+            SubField subField = new SubField('a', "Title1");
+            Assert.IsFalse(subField.Modified);
+            field.SubFields.Add(subField);
+            field.NotModified();
+            subField.Value = "Title2";
+            Assert.IsTrue(subField.Modified);
+            Assert.IsTrue(field.Modified);
+            subField.NotModified();
+            Assert.IsFalse(subField.Modified);
+        }
+
+        [TestMethod]
+        public void SubField_UserData()
+        {
+            SubField subField = new SubField();
+            Assert.IsNull(subField.UserData);
+
+            subField.UserData = "User data";
+            Assert.AreEqual("User data", subField.UserData);
+        }
+
+        [TestMethod]
+        public void SubField_ToString1()
+        {
+            SubField subField = new SubField();
+            Assert.AreEqual("^\0", subField.ToString());
+
+            subField = new SubField('a');
+            Assert.AreEqual("^a", subField.ToString());
+
+            subField = new SubField('A');
+            Assert.AreEqual("^a", subField.ToString());
+
+            subField = new SubField('a', "Title");
+            Assert.AreEqual("^aTitle", subField.ToString());
         }
     }
 }

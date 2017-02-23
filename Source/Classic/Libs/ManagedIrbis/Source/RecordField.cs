@@ -149,6 +149,13 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Whether the field is modified?
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        public bool Modified { get; internal set; }
+
+        /// <summary>
         /// Произвольные пользовательские данные.
         /// </summary>
         [CanBeNull]
@@ -363,6 +370,7 @@ namespace ManagedIrbis
 
         internal void SetModified()
         {
+            Modified = true;
             if (!ReferenceEquals(Record, null))
             {
                 Record.Modified = true;
@@ -748,6 +756,18 @@ namespace ManagedIrbis
                     sub => sub.Code.OneOf(codes)
                 )
                 != null;
+        }
+
+        /// <summary>
+        /// Mark the field as unmodified.
+        /// </summary>
+        /// <returns>Self.</returns>
+        [NotNull]
+        public RecordField NotModified()
+        {
+            Modified = false;
+
+            return this;
         }
 
         /// <summary>
