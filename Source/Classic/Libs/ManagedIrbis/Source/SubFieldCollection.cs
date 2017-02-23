@@ -13,10 +13,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+
+#if FW4
+using System.Diagnostics.CodeAnalysis;
+#endif
 
 using AM;
 using AM.IO;
@@ -73,7 +76,9 @@ namespace ManagedIrbis
 
         private RecordField _field;
 
+#if FW4
         [ExcludeFromCodeCoverage]
+#endif
         internal SubFieldCollection _SetField
             (
                 RecordField newField

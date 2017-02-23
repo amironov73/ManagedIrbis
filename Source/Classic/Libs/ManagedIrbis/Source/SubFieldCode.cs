@@ -10,7 +10,11 @@
 #region Using directives
 
 using System;
+
+#if FW4
 using System.Diagnostics.CodeAnalysis;
+#endif
+
 using AM.Collections;
 
 using JetBrains.Annotations;
@@ -79,7 +83,9 @@ namespace ManagedIrbis
 
         #region Private members
 
+        // ReSharper disable InconsistentNaming
         private static readonly CharSet _validCodes;
+        // ReSharper restore InconsistentNaming
 
         #endregion
 
@@ -104,7 +110,7 @@ namespace ManagedIrbis
                 char code
             )
         {
-            return Char.ToLowerInvariant(code);
+            return char.ToLowerInvariant(code);
         }
 
         /// <summary>
