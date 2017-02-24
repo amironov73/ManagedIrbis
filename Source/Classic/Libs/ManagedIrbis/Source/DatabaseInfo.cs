@@ -16,6 +16,10 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
+#if FW4
+using System.Diagnostics.CodeAnalysis;
+#endif
+
 using AM;
 using AM.IO;
 using AM.Runtime;
@@ -133,7 +137,10 @@ namespace ManagedIrbis
 
         #region Private members
 
-        private static int[] _ParseLine(string text)
+        private static int[] _ParseLine
+            (
+                string text
+            )
         {
             if (string.IsNullOrEmpty(text))
             {
@@ -162,40 +169,67 @@ namespace ManagedIrbis
         {
             StringBuilder result = new StringBuilder();
 
-            result.AppendFormat("Name: {0}", Name);
+            result.AppendFormat
+                (
+                    "Name: {0}", 
+                    Name.ToVisibleString()
+                );
             result.AppendLine();
 
-            result.AppendFormat("Description: {0}", Description);
+            result.AppendFormat
+                (
+                    "Description: {0}", 
+                    Description.ToVisibleString()
+                );
             result.AppendLine();
 
-            result.Append("Logically deleted records: ");
-            result.AppendLine(NumericUtility.CompressRange
-                (
-                    LogicallyDeletedRecords
-                ));
+            if (!ReferenceEquals(LogicallyDeletedRecords, null))
+            {
+                result.Append("Logically deleted records: ");
+                result.AppendLine(NumericUtility.CompressRange
+                    (
+                        LogicallyDeletedRecords
+                    ));
+            }
 
-            result.Append("Physically deleted records: ");
-            result.AppendLine(NumericUtility.CompressRange
-                (
-                    PhysicallyDeletedRecords
-                ));
+            if (!ReferenceEquals(PhysicallyDeletedRecords, null))
+            {
+                result.Append("Physically deleted records: ");
+                result.AppendLine(NumericUtility.CompressRange
+                    (
+                        PhysicallyDeletedRecords
+                    ));
+            }
 
-            result.Append("Non-actualized records: ");
-            result.AppendLine(NumericUtility.CompressRange
-                (
-                    NonActualizedRecords
-                ));
+            if (!ReferenceEquals(NonActualizedRecords, null))
+            {
+                result.Append("Non-actualized records: ");
+                result.AppendLine(NumericUtility.CompressRange
+                    (
+                        NonActualizedRecords
+                    ));
+            }
 
-            result.Append("Locked records: ");
-            result.AppendLine(NumericUtility.CompressRange
-                (
-                    LockedRecords
-                ));
+            if (!ReferenceEquals(LockedRecords, null))
+            {
+                result.Append("Locked records: ");
+                result.AppendLine(NumericUtility.CompressRange
+                    (
+                        LockedRecords
+                    ));
+            }
 
             result.AppendFormat("Max MFN: {0}", MaxMfn);
             result.AppendLine();
 
-            result.AppendFormat("Database locked: {0}", DatabaseLocked);
+            result.AppendFormat("Read-only: {0}", ReadOnly);
+            result.AppendLine();
+
+            result.AppendFormat
+                (
+                    "Database locked: {0}", 
+                    DatabaseLocked
+                );
             result.AppendLine();
 
             return result.ToString();
@@ -276,6 +310,9 @@ namespace ManagedIrbis
         /// <summary>
         /// Should serialize <see cref="MaxMfn"/>?
         /// </summary>
+        #if FW4
+        [ExcludeFromCodeCoverage]
+        #endif
         public bool ShouldSerializeMaxMfn()
         {
             return MaxMfn != 0;
@@ -284,6 +321,9 @@ namespace ManagedIrbis
         /// <summary>
         /// Should serialize <see cref="LogicallyDeletedRecords"/>?
         /// </summary>
+        #if FW4
+        [ExcludeFromCodeCoverage]
+        #endif
         public bool ShouldSerializeLogicallyDeletedRecords()
         {
             return !ReferenceEquals(LogicallyDeletedRecords, null);
@@ -292,6 +332,9 @@ namespace ManagedIrbis
         /// <summary>
         /// Should serialize <see cref="PhysicallyDeletedRecords"/>?
         /// </summary>
+        #if FW4
+        [ExcludeFromCodeCoverage]
+        #endif
         public bool ShouldSerializePhysicallyDeletedRecords()
         {
             return !ReferenceEquals(PhysicallyDeletedRecords, null);
@@ -300,6 +343,9 @@ namespace ManagedIrbis
         /// <summary>
         /// Should serialize <see cref="NonActualizedRecords"/>?
         /// </summary>
+        #if FW4
+        [ExcludeFromCodeCoverage]
+        #endif
         public bool ShouldSerializeNonActualizedRecords()
         {
             return !ReferenceEquals(NonActualizedRecords, null);
@@ -308,6 +354,9 @@ namespace ManagedIrbis
         /// <summary>
         /// Should serialize <see cref="LockedRecords"/>?
         /// </summary>
+        #if FW4
+        [ExcludeFromCodeCoverage]
+        #endif
         public bool ShouldSerializeLockedRecords()
         {
             return !ReferenceEquals(LockedRecords, null);
@@ -316,6 +365,9 @@ namespace ManagedIrbis
         /// <summary>
         /// Should serialize <see cref="DatabaseLocked"/>?
         /// </summary>
+        #if FW4
+        [ExcludeFromCodeCoverage]
+        #endif
         public bool ShouldSerializeDatabaseLocked()
         {
             return DatabaseLocked;
@@ -324,6 +376,9 @@ namespace ManagedIrbis
         /// <summary>
         /// Should serialize <see cref="ReadOnly"/>?
         /// </summary>
+        #if FW4
+        [ExcludeFromCodeCoverage]
+        #endif
         public bool ShouldSerializeReadOnly()
         {
             return ReadOnly;
