@@ -38,7 +38,7 @@ build:
 after_build:
 - cmd: compile.cmd
 - cmd: compilecore.cmd
-- cmd: compiledroid.cmd
+# - cmd: compiledroid.cmd
 # - cmd: compilesl.cmd
 # - cmd: compileuap.cmd
 # - cmd: compilewin81.cmd
