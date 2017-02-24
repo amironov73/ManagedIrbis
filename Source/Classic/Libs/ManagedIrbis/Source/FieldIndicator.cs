@@ -14,6 +14,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
 
+#if FW4
+using System.Diagnostics.CodeAnalysis;
+#endif
+
 using AM;
 using AM.Runtime;
 
@@ -70,15 +74,7 @@ namespace ManagedIrbis
         {
             #region JsonConverter members
 
-            /// <summary>
-            /// Writes the JSON representation of the object.
-            /// </summary>
-            /// <param name="writer">The
-            /// <see cref="T:Newtonsoft.Json.JsonWriter" />
-            /// to write to.</param>
-            /// <param name="value">The value.</param>
-            /// <param name="serializer">The calling serializer.
-            /// </param>
+            /// <inheritdoc />
             public override void WriteJson
                 (
                     JsonWriter writer,
@@ -92,18 +88,7 @@ namespace ManagedIrbis
                 token.WriteTo(writer);
             }
 
-            /// <summary>
-            /// Reads the JSON representation of the object.
-            /// </summary>
-            /// <param name="reader">The
-            /// <see cref="T:Newtonsoft.Json.JsonReader" />
-            /// to read from.</param>
-            /// <param name="objectType">Type of the object.</param>
-            /// <param name="existingValue">The existing value
-            /// of object being read.</param>
-            /// <param name="serializer">The calling serializer.
-            /// </param>
-            /// <returns>The object value.</returns>
+            /// <inheritdoc />
             public override object ReadJson
                 (
                     JsonReader reader,
@@ -114,19 +99,19 @@ namespace ManagedIrbis
             {
                 JToken token = JToken.Load(reader);
                 FieldIndicator indicator = (FieldIndicator) existingValue;
+                if (ReferenceEquals(indicator, null))
+                {
+                    indicator = new FieldIndicator();
+                }
                 indicator.Value = token.ToString();
 
                 return indicator;
             }
 
-            /// <summary>
-            /// Determines whether this instance can convert
-            /// the specified object type.
-            /// </summary>
-            /// <param name="objectType">Type of the object.</param>
-            /// <returns><c>true</c> if this instance can convert
-            /// the specified object type; otherwise, <c>false</c>.
-            /// </returns>
+            /// <inheritdoc />
+            #if FW4
+            [ExcludeFromCodeCoverage]
+            #endif
             public override bool CanConvert
                 (
                     Type objectType
