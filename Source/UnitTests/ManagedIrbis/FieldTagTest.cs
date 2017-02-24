@@ -1,4 +1,5 @@
 ﻿using System;
+using AM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis;
@@ -9,7 +10,7 @@ namespace UnitTests.ManagedIrbis
     public class FieldTagTest
     {
         [TestMethod]
-        public void TestFieldTag_IsValidTag()
+        public void FieldTag_IsValidTag_1()
         {
             Assert.IsFalse(FieldTag.IsValidTag(null));
             Assert.IsFalse(FieldTag.IsValidTag(string.Empty));
@@ -36,7 +37,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestFieldTag_Normalize()
+        public void FieldTag_Normalize_1()
         {
             _TestNormalize(null, null);
             _TestNormalize(string.Empty, string.Empty);
@@ -52,7 +53,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestFieldTag_Verify()
+        public void FieldTag_Verify_1()
         {
             Assert.IsFalse(FieldTag.Verify(null));
             Assert.IsFalse(FieldTag.Verify(string.Empty));
@@ -65,6 +66,13 @@ namespace UnitTests.ManagedIrbis
             Assert.IsFalse(FieldTag.Verify("0A"));
             Assert.IsFalse(FieldTag.Verify("Ф"));
             Assert.IsFalse(FieldTag.Verify("0Ф"));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(VerificationException))]
+        public void FieldTag_Verify_Exception_1()
+        {
+            FieldTag.Verify("Ф", true);
         }
     }
 }

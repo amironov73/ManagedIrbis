@@ -9,13 +9,8 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 using AM;
 using AM.IO;
@@ -71,6 +66,7 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [DebuggerDisplay("{Tag}")]
     public sealed class FieldReference
         : IHandmadeSerializable,
         IVerifiable

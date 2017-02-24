@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using AM;
 using AM.Runtime;
 
 using ManagedIrbis;
@@ -10,10 +11,55 @@ namespace UnitTests.ManagedIrbis
     [TestClass]
     public class FieldReferenceTest
     {
+        [TestMethod]
+        public void FieldReference_Constructor_1()
+        {
+            FieldReference reference = new FieldReference();
+            Assert.AreEqual('\0', reference.Command);
+            Assert.IsNull(reference.Embedded);
+            Assert.AreEqual(0, reference.Indent);
+            Assert.AreEqual(0, reference.Offset);
+            Assert.AreEqual(0, reference.Length);
+            Assert.AreEqual(FieldReference.NoCode, reference.SubField);
+            Assert.IsNull(reference.Tag);
+            Assert.IsNull(reference.TagSpecification);
+            Assert.IsNull(reference.SubFieldSpecification);
+        }
+
+        [TestMethod]
+        public void FieldReference_Constructor_2()
+        {
+            FieldReference reference = new FieldReference("200");
+            Assert.AreEqual('\0', reference.Command);
+            Assert.IsNull(reference.Embedded);
+            Assert.AreEqual(0, reference.Indent);
+            Assert.AreEqual(0, reference.Offset);
+            Assert.AreEqual(0, reference.Length);
+            Assert.AreEqual(FieldReference.NoCode, reference.SubField);
+            Assert.AreEqual("200", reference.Tag);
+            Assert.IsNull(reference.TagSpecification);
+            Assert.IsNull(reference.SubFieldSpecification);
+        }
+
+        [TestMethod]
+        public void FieldReference_Constructor_3()
+        {
+            FieldReference reference = new FieldReference("200", 'a');
+            Assert.AreEqual('\0', reference.Command);
+            Assert.IsNull(reference.Embedded);
+            Assert.AreEqual(0, reference.Indent);
+            Assert.AreEqual(0, reference.Offset);
+            Assert.AreEqual(0, reference.Length);
+            Assert.AreEqual('a', reference.SubField);
+            Assert.AreEqual("200", reference.Tag);
+            Assert.IsNull(reference.TagSpecification);
+            Assert.IsNull(reference.SubFieldSpecification);
+        }
+
         private void _TestSerialization
-            (
-                FieldReference first
-            )
+        (
+            FieldReference first
+        )
         {
             byte[] bytes = first.SaveToMemory();
 
@@ -22,59 +68,27 @@ namespace UnitTests.ManagedIrbis
                 .RestoreObjectFromMemory<FieldReference>();
 
             Assert.AreEqual(first.Command, second.Command);
-            Assert.AreEqual(first.ConditionalPrefix, second.ConditionalPrefix);
-            Assert.AreEqual(first.ConditionalSuffix, second.ConditionalSuffix);
-            Assert.AreEqual(first.EmbeddedTag, second.EmbeddedTag);
-            Assert.AreEqual(first.FieldTag, second.FieldTag);
-            Assert.AreEqual(first.Length, second.Length);
-            Assert.AreEqual(first.IndexFrom, second.IndexFrom);
-            Assert.AreEqual(first.IndexTo, second.IndexTo);
+            Assert.AreEqual(first.Embedded, second.Embedded);
+            Assert.AreEqual(first.Indent, second.Indent);
             Assert.AreEqual(first.Offset, second.Offset);
-            Assert.AreEqual(first.PlusPrefix, second.PlusPrefix);
-            Assert.AreEqual(first.PlusSuffix, second.PlusSuffix);
-            Assert.AreEqual(first.RepeatablePrefix, second.RepeatablePrefix);
-            Assert.AreEqual(first.RepeatableSuffix, second.RepeatableSuffix);
+            Assert.AreEqual(first.Length, second.Length);
             Assert.AreEqual(first.SubField, second.SubField);
+            Assert.AreEqual(first.Tag, second.Tag);
+            Assert.AreEqual(first.TagSpecification, second.TagSpecification);
+            Assert.AreEqual(first.FieldRepeat, second.FieldRepeat);
+            Assert.AreEqual(first.SubFieldRepeat, second.SubFieldRepeat);
+            Assert.AreEqual(first.SubFieldSpecification, second.SubFieldSpecification);
         }
 
         [TestMethod]
-        public void TestFieldReferenceSerialization()
+        public void FieldReference_Serialization_1()
         {
             FieldReference reference = new FieldReference();
             _TestSerialization(reference);
 
-            reference.FieldTag = "200";
+            reference.Tag = "200";
             reference.SubField = 'a';
             _TestSerialization(reference);
-        }
-
-        [TestMethod]
-        public void TestFieldReferenceToSourceCode()
-        {
-            FieldReference reference = new FieldReference("200", 'a');
-            Assert.AreEqual("v200^a", reference.ToSourceCode());
-
-            reference.RepeatableSuffix = ",";
-            reference.PlusSuffix = true;
-            Assert.AreEqual("v200^a+|,|", reference.ToSourceCode());
-
-            reference = new FieldReference("200", 'a')
-            {
-                IndexFrom = 2
-            };
-            Assert.AreEqual("v200^a[2-]", reference.ToSourceCode());
-            reference.IndexTo = 2;
-            Assert.AreEqual("v200^a[2]", reference.ToSourceCode());
-            reference.IndexTo = 3;
-            Assert.AreEqual("v200^a[2-3]", reference.ToSourceCode());
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(IrbisException))]
-        public void TestFieldReferenceToSourceCodeException()
-        {
-            FieldReference reference = new FieldReference();
-            reference.ToSourceCode();
         }
 
         private MarcRecord _GetRecord()
@@ -108,166 +122,75 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestFieldReferenceFormatSingle1()
+        public void FieldReference_Format_1()
         {
             MarcRecord record = _GetRecord();
             FieldReference reference = new FieldReference("200", 'a');
 
-            string actual = reference.FormatSingle(record);
-            Assert.AreEqual(record.FM(reference.FieldTag, reference.SubField),
-                actual);
+            string actual = reference.Format(record);
+            Assert.AreEqual
+            (
+                record.FM
+                (
+                    reference.Tag.ThrowIfNull(),
+                    reference.SubField
+                ),
+                actual
+            );
         }
 
         [TestMethod]
-        public void TestFieldReferenceParse1()
+        public void FieldReference_Parse_1()
         {
             FieldReference reference = FieldReference.Parse("v200");
-            Assert.AreEqual(FieldReference.Verb.V, reference.Command);
-            Assert.AreEqual("200", reference.FieldTag);
+            Assert.AreEqual('v', reference.Command);
+            Assert.AreEqual("200", reference.Tag);
             Assert.AreEqual(FieldReference.NoCode, reference.SubField);
-            Assert.IsNull(reference.ConditionalPrefix);
-            Assert.IsNull(reference.ConditionalSuffix);
-            Assert.IsNull(reference.RepeatablePrefix);
-            Assert.IsNull(reference.RepeatableSuffix);
             Assert.AreEqual(0, reference.Offset);
             Assert.AreEqual(0, reference.Length);
-            Assert.AreEqual(0, reference.IndexFrom);
-            Assert.AreEqual(0, reference.IndexTo);
 
             reference = FieldReference.Parse("v200^a");
-            Assert.AreEqual(FieldReference.Verb.V, reference.Command);
-            Assert.AreEqual("200", reference.FieldTag);
+            Assert.AreEqual('v', reference.Command);
+            Assert.AreEqual("200", reference.Tag);
             Assert.AreEqual('a', reference.SubField);
-            Assert.IsNull(reference.ConditionalPrefix);
-            Assert.IsNull(reference.ConditionalSuffix);
-            Assert.IsNull(reference.RepeatablePrefix);
-            Assert.IsNull(reference.RepeatableSuffix);
             Assert.AreEqual(0, reference.Offset);
             Assert.AreEqual(0, reference.Length);
-            Assert.AreEqual(0, reference.IndexFrom);
-            Assert.AreEqual(0, reference.IndexTo);
-
-            reference = FieldReference.Parse("v200^a|, |");
-            Assert.AreEqual(FieldReference.Verb.V, reference.Command);
-            Assert.AreEqual("200", reference.FieldTag);
-            Assert.AreEqual('a', reference.SubField);
-            Assert.IsNull(reference.ConditionalPrefix);
-            Assert.IsNull(reference.ConditionalSuffix);
-            Assert.IsNull(reference.RepeatablePrefix);
-            Assert.AreEqual(", ", reference.RepeatableSuffix);
-            Assert.AreEqual(0, reference.Offset);
-            Assert.AreEqual(0, reference.Length);
-            Assert.AreEqual(0, reference.IndexFrom);
-            Assert.AreEqual(0, reference.IndexTo);
-
-            reference = FieldReference.Parse("v200^a|, |\"!\"");
-            Assert.AreEqual(FieldReference.Verb.V, reference.Command);
-            Assert.AreEqual("200", reference.FieldTag);
-            Assert.AreEqual('a', reference.SubField);
-            Assert.IsNull(reference.ConditionalPrefix);
-            Assert.AreEqual("!", reference.ConditionalSuffix);
-            Assert.IsNull(reference.RepeatablePrefix);
-            Assert.AreEqual(", ", reference.RepeatableSuffix);
-            Assert.AreEqual(0, reference.Offset);
-            Assert.AreEqual(0, reference.Length);
-            Assert.AreEqual(0, reference.IndexFrom);
-            Assert.AreEqual(0, reference.IndexTo);
-
-            reference = FieldReference.Parse("v200^a[5]");
-            Assert.AreEqual(FieldReference.Verb.V, reference.Command);
-            Assert.AreEqual("200", reference.FieldTag);
-            Assert.AreEqual('a', reference.SubField);
-            Assert.IsNull(reference.ConditionalPrefix);
-            Assert.IsNull(reference.ConditionalSuffix);
-            Assert.IsNull(reference.RepeatablePrefix);
-            Assert.IsNull(reference.RepeatableSuffix);
-            Assert.AreEqual(0, reference.Offset);
-            Assert.AreEqual(0, reference.Length);
-            Assert.AreEqual(5, reference.IndexFrom);
-            Assert.AreEqual(5, reference.IndexTo);
-
-            reference = FieldReference.Parse("v200^a[5-7]");
-            Assert.AreEqual(FieldReference.Verb.V, reference.Command);
-            Assert.AreEqual("200", reference.FieldTag);
-            Assert.AreEqual('a', reference.SubField);
-            Assert.IsNull(reference.ConditionalPrefix);
-            Assert.IsNull(reference.ConditionalSuffix);
-            Assert.IsNull(reference.RepeatablePrefix);
-            Assert.IsNull(reference.RepeatableSuffix);
-            Assert.AreEqual(0, reference.Offset);
-            Assert.AreEqual(0, reference.Length);
-            Assert.AreEqual(5, reference.IndexFrom);
-            Assert.AreEqual(7, reference.IndexTo);
 
             reference = FieldReference.Parse("v200^a*5.7");
-            Assert.AreEqual(FieldReference.Verb.V, reference.Command);
-            Assert.AreEqual("200", reference.FieldTag);
+            Assert.AreEqual('v', reference.Command);
+            Assert.AreEqual("200", reference.Tag);
             Assert.AreEqual('a', reference.SubField);
-            Assert.IsNull(reference.ConditionalPrefix);
-            Assert.IsNull(reference.ConditionalSuffix);
-            Assert.IsNull(reference.RepeatablePrefix);
-            Assert.IsNull(reference.RepeatableSuffix);
             Assert.AreEqual(5, reference.Offset);
             Assert.AreEqual(7, reference.Length);
-            Assert.AreEqual(0, reference.IndexFrom);
-            Assert.AreEqual(0, reference.IndexTo);
         }
 
         private void _TestParse
-            (
-                string expected
-            )
+        (
+            string expected
+        )
         {
             FieldReference reference = FieldReference.Parse(expected);
-            string actual = reference.ToSourceCode();
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual("200", reference.Tag);
         }
 
         [TestMethod]
-        public void TestFieldReferenceParse2()
+        public void FieldReference_Parse_2()
         {
             _TestParse("v200");
             _TestParse("v200^a");
             _TestParse("v200[1]");
-            _TestParse("v200[1-2]");
             _TestParse("v200*5");
             _TestParse("v200.2");
-            _TestParse("|a|v200");
-            _TestParse("v200|b|");
-            _TestParse("\"?\"v200");
-            _TestParse("\"q\"|w|+v200");
-        }
-
-        private void _TestParse
-            (
-                string format,
-                string expected
-            )
-        {
-            FieldReference reference = FieldReference.Parse(format);
-            MarcRecord record = _GetRecord();
-            string actual = reference.FormatSingle(record);
-            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void TestFieldReferenceFormatSingle2()
+        public void FieldReference_Verify_1()
         {
-            _TestParse("v200^a", "Заглавие");
-            _TestParse("v300[1]", "Первое примечание");
-        }
+            FieldReference reference = new FieldReference();
+            Assert.IsFalse(reference.Verify(false));
 
-        [TestMethod]
-        public void TestFieldReferenceFormatSingle3()
-        {
-            _TestParse("v300#1", "Первое примечание");
-        }
-
-        [TestMethod]
-        public void TestFieldReferenceFormatSingle4()
-        {
-            _TestParse("\"Present\"d300", "Present");
-            _TestParse("\"Absent\"n301", "Absent");
+            reference = new FieldReference("200", 'a');
+            Assert.IsTrue(reference.Verify(false));
         }
     }
 }

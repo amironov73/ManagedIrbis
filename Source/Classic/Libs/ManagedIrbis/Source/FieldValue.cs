@@ -10,13 +10,11 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+#if FW4
+using System.Diagnostics.CodeAnalysis;
+#endif
+
 using AM;
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -42,6 +40,9 @@ namespace ManagedIrbis
         /// <summary>
         /// Throw exception on verification error.
         /// </summary>
+        #if FW4
+        [ExcludeFromCodeCoverage]
+        #endif
         public static bool ThrowOnVerify { get; set; }
 
         #endregion
@@ -89,10 +90,8 @@ namespace ManagedIrbis
                 return value;
             }
 
-            //string result = value.Trim();
-            //return result;
-
-            return value;
+            string result = value.Trim();
+            return result;
         }
 
         /// <summary>

@@ -10,6 +10,10 @@
 
 #region Using directives
 
+#if FW4
+using System.Diagnostics.CodeAnalysis;
+#endif
+
 using AM;
 using AM.Collections;
 
@@ -37,6 +41,9 @@ namespace ManagedIrbis
         /// <summary>
         /// Бросать исключения при валидации?
         /// </summary>
+        #if FW4
+        [ExcludeFromCodeCoverage]
+        #endif
         public static bool ThrowOnValidate { get; set; }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using System;
+using AM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis;
@@ -9,7 +10,7 @@ namespace UnitTests.ManagedIrbis
     public class FieldValueTest
     {
         [TestMethod]
-        public void TestFieldValue_IsValidValue()
+        public void FieldValue_IsValidValue_1()
         {
             Assert.IsTrue(FieldValue.IsValidValue(null));
             Assert.IsTrue(FieldValue.IsValidValue(string.Empty));
@@ -21,7 +22,14 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestFieldValue_Verify()
+        public void FieldValue_Normalize_1()
+        {
+            Assert.AreEqual(string.Empty, FieldValue.Normalize(string.Empty));
+            Assert.AreEqual("Test", FieldValue.Normalize(" Test "));
+        }
+
+        [TestMethod]
+        public void FieldValue_Verify_1()
         {
             Assert.IsTrue(FieldValue.Verify(null));
             Assert.IsTrue(FieldValue.Verify(string.Empty));
@@ -30,6 +38,13 @@ namespace UnitTests.ManagedIrbis
             Assert.IsTrue(FieldValue.Verify("У попа была собака"));
             Assert.IsFalse(FieldValue.Verify("У попа ^была собака"));
             Assert.IsFalse(FieldValue.Verify("^"));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(VerificationException))]
+        public void FieldValue_Verify_Exception_1()
+        {
+            FieldValue.Verify("У попа ^была собака", true);
         }
     }
 }
