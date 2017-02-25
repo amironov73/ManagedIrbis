@@ -13,7 +13,7 @@ namespace UnitTests.ManagedIrbis
         : Common.CommonUnitTest
     {
         [TestMethod]
-        public void TestIrbisTreeFileConstruction()
+        public void IrbisTreeFile_Constructor_1()
         {
             IrbisTreeFile tree = new IrbisTreeFile();
 
@@ -37,7 +37,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestIrbisTreeFileParseLocalFile1()
+        public void IrbisTreeFile_ParseLocalFile_1()
         {
             string fileName = Path.Combine
                 (
@@ -62,7 +62,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestIrbisTreeFileParseLocalFile2()
+        public void IrbisTreeFile_ParseLocalFile_2()
         {
             string fileName = Path.Combine
                 (
@@ -90,7 +90,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestIrbisTreeFileSave()
+        public void IrbisTreeFile_Save1()
         {
             var tree1 = _CreateTree();
 
@@ -151,14 +151,14 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestIrbisTreeFileSerialization()
+        public void IrbisTreeFile_Serialization_1()
         {
             IrbisTreeFile tree = new IrbisTreeFile();
             _TestSerialization(tree);
         }
 
         [TestMethod]
-        public void TestIrbisTreeFileVerify()
+        public void IrbisTreeFile_Verify_1()
         {
             IrbisTreeFile tree = _CreateTree();
             

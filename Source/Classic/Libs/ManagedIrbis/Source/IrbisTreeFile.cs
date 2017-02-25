@@ -591,9 +591,7 @@ DONE:
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore object state from specified stream.
-        /// </summary>
+        /// <inheritdoc />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -603,9 +601,7 @@ DONE:
             reader.ReadCollection(Roots);
         }
 
-        /// <summary>
-        /// Save object state to specified stream.
-        /// </summary>
+        /// <inheritdoc />
         public void SaveToStream
             (
                 BinaryWriter writer
