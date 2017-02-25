@@ -67,7 +67,7 @@ namespace ManagedIrbis
     // Для БД электронного каталога (IBIS) предлагаются два
     // оптимизационных файла:
     // PFTW.OPT – включает RTF-форматы;
-    // 	PFTW_H.OPT – включает HTML-форматы.
+    // PFTW_H.OPT – включает HTML-форматы.
 
     // В исходном состоянии системы в качестве оптимизированного
     // определены HTML-форматы (т.е. PFTOPT=PFTW_H.OPT).
@@ -173,7 +173,7 @@ namespace ManagedIrbis
                 {
                     return null;
                 }
-                char[] separator = {' '};
+                char[] separator = { ' ' };
 
 #if !WINMOBILE && !PocketPC
 
@@ -209,9 +209,7 @@ namespace ManagedIrbis
 
             #region IHandmadeSerializable
 
-            /// <summary>
-            /// Просим объект восстановить свое состояние из потока.
-            /// </summary>
+            /// <inheritdoc />
             public void RestoreFromStream
                 (
                     BinaryReader reader
@@ -221,9 +219,7 @@ namespace ManagedIrbis
                 Value = reader.ReadString();
             }
 
-            /// <summary>
-            /// Просим объект сохранить себя в потоке.
-            /// </summary>
+            /// <inheritdoc />
             public void SaveToStream
                 (
                     BinaryWriter writer
@@ -237,12 +233,7 @@ namespace ManagedIrbis
 
             #region Object members
 
-            /// <summary>
-            /// Returns a <see cref="System.String" />
-            /// that represents this instance.
-            /// </summary>
-            /// <returns>A <see cref="System.String" />
-            /// that represents this instance.</returns>
+            /// <inheritdoc />
             public override string ToString()
             {
                 return string.Format
@@ -350,66 +341,53 @@ namespace ManagedIrbis
                 return false;
             }
 
-            //CharEnumerator leftEnumerator = left.GetEnumerator();
-            //CharEnumerator rightEnumerator = right.GetEnumerator();
             IEnumerator leftEnumerator = left.ToCharArray().GetEnumerator();
             IEnumerator rightEnumerator = right.ToCharArray().GetEnumerator();
 
-//            try
-//            {
-                while (true)
+            while (true)
+            {
+                char leftChar;
+                bool leftNext = leftEnumerator.MoveNext();
+                bool rightNext = rightEnumerator.MoveNext();
+
+                if (leftNext && !rightNext)
                 {
-                    char leftChar;
-                    bool leftNext = leftEnumerator.MoveNext();
-                    bool rightNext = rightEnumerator.MoveNext();
-
-                    if (leftNext && !rightNext)
+                    leftChar = (char)leftEnumerator.Current;
+                    if (leftChar == Wildcard)
                     {
-                        leftChar = (char) leftEnumerator.Current;
-                        if (leftChar == Wildcard)
+                        while (leftEnumerator.MoveNext())
                         {
-                            while (leftEnumerator.MoveNext())
+                            leftChar = (char)leftEnumerator.Current;
+                            if (leftChar != Wildcard)
                             {
-                                leftChar = (char) leftEnumerator.Current;
-                                if (leftChar != Wildcard)
-                                {
-                                    return false;
-                                }
+                                return false;
                             }
-                            return true;
                         }
-                    }
-
-                    if (leftNext != rightNext)
-                    {
-                        return false;
-                    }
-                    if (!leftNext)
-                    {
                         return true;
                     }
-
-                    leftChar = (char) leftEnumerator.Current;
-                    char rightChar = (char) rightEnumerator.Current;
-                    if (!CompareChar(leftChar, rightChar))
-                    {
-                        return false;
-                    }
                 }
-//            }
-            //finally
-            //{
-            //    // Not supported in .NET Core
-            //    leftEnumerator.Dispose();
-            //    rightEnumerator.Dispose();
-            //}
+
+                if (leftNext != rightNext)
+                {
+                    return false;
+                }
+                if (!leftNext)
+                {
+                    return true;
+                }
+
+                leftChar = (char)leftEnumerator.Current;
+                char rightChar = (char)rightEnumerator.Current;
+                if (!CompareChar(leftChar, rightChar))
+                {
+                    return false;
+                }
+            }
         }
 
         /// <summary>
         /// Получаем рабочий лист для указанной записи.
         /// </summary>
-        /// <param name="record"></param>
-        /// <returns></returns>
         [CanBeNull]
         public string GetWorksheet
             (
@@ -431,7 +409,7 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(filePath, "filePath");
 
-            using (StreamReader reader 
+            using (StreamReader reader
                 = new StreamReader
                     (
                         File.OpenRead(filePath),
@@ -456,8 +434,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Разбор текста.
         /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
+        [NotNull]
         public static IrbisOpt ParseText
             (
                 [NotNull] TextReader reader
@@ -517,7 +494,7 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            using (StreamWriter writer 
+            using (StreamWriter writer
                 = new StreamWriter
                     (
                         File.Create(fileName),
@@ -546,8 +523,8 @@ namespace ManagedIrbis
             {
                 writer.WriteLine
                     (
-                        "{0} {1}", 
-                        item.Key.PadRight(WorksheetLength), 
+                        "{0} {1}",
+                        item.Key.PadRight(WorksheetLength),
                         item.Value
                     );
             }
@@ -644,9 +621,7 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable
 
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -657,9 +632,7 @@ namespace ManagedIrbis
             WorksheetTag = reader.ReadString();
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <inheritdoc />
         public void SaveToStream
             (
                 BinaryWriter writer
