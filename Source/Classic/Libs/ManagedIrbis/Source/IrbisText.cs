@@ -148,10 +148,6 @@ namespace ManagedIrbis
             }
 
             text = IrbisToWindows(text);
-            if (string.IsNullOrEmpty(text))
-            {
-                return new string[0];
-            }
 
             string[] result = text.Split
                 (

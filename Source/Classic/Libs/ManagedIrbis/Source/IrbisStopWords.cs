@@ -73,6 +73,7 @@ namespace ManagedIrbis
         /// </summary>
         public IrbisStopWords()
         {
+            _dictionary = new CaseInsensitiveDictionary<object>();
         }
 
         /// <summary>

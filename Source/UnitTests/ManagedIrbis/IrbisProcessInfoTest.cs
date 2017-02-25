@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AM.Runtime;
 
 using ManagedIrbis;
+using ManagedIrbis.Infrastructure;
 
 namespace UnitTests.ManagedIrbis
 {
@@ -11,7 +12,7 @@ namespace UnitTests.ManagedIrbis
     public class IrbisProcessInfoTest
     {
         [TestMethod]
-        public void TestIrbisProcessInfoConstructor()
+        public void IrbisProcessInfo_Constructor_1()
         {
             IrbisProcessInfo info = new IrbisProcessInfo();
             Assert.AreEqual(null, info.ClientID);
@@ -49,7 +50,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestIrbisProcessInfoSerialization()
+        public void IrbisProcessInfo_Serialization_1()
         {
             IrbisProcessInfo info = new IrbisProcessInfo();
             _TestSerialization(info);

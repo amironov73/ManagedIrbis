@@ -19,7 +19,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestIrbisQueryPrepareQuery()
+        public void IrbisQuery_PrepareQuery()
         {
             _TestQuery("", "");
             _TestQuery(" ", " ");

@@ -9,9 +9,6 @@
 
 #region Using directives
 
-using System;
-using System.Diagnostics;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -32,7 +29,10 @@ namespace ManagedIrbis
         /// <summary>
         /// Запрещенные символы.
         /// </summary>
-        public static char[] ForbiddenCharacters = { '\r', '\n', '\t' };
+        public static char[] ForbiddenCharacters =
+        {
+            '\r', '\n', '\t'
+        };
 
         #endregion
 
@@ -52,6 +52,7 @@ namespace ManagedIrbis
             {
                 return text;
             }
+
             return text
                 .Replace('\r', ' ')
                 .Replace('\n', ' ')
