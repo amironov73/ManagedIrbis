@@ -9,7 +9,7 @@ namespace UnitTests.ManagedIrbis
     public class IrbisLinkTest
     {
         [TestMethod]
-        public void IrbisLink_Constructor()
+        public void IrbisLink_Constructor_1()
         {
             IrbisLink link = new IrbisLink();
 
@@ -20,11 +20,11 @@ namespace UnitTests.ManagedIrbis
             Assert.IsNull(link.Key);
             Assert.IsNull(link.Path);
             Assert.IsNotNull(link.Parameters);
-            Assert.AreEqual(0,link.Parameters.Count);
+            Assert.AreEqual(0, link.Parameters.Count);
         }
 
         [TestMethod]
-        public void IrbisLink_Parse1()
+        public void IrbisLink_Parse_1()
         {
             IrbisLink link = IrbisLink.Parse("IRBIS:1,,IBIS,FULLW0_WN,@6");
             Assert.AreEqual("1", link.Command);
@@ -34,7 +34,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void IrbisLink_Parse2()
+        public void IrbisLink_Parse_2()
         {
             IrbisLink link = IrbisLink.Parse("IRBIS:?C21COM=1&I21DBN=IBIS&PFTNAME=FULLW0_WN&KEY=@6");
             Assert.AreEqual("1", link.Command);
@@ -44,7 +44,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void IrbisLink_Parse3()
+        public void IrbisLink_Parse_3()
         {
             IrbisLink link = IrbisLink.Parse("IRBIS:1,,IBIS,,@6?PFTNAME=FULLW0_WN");
             Assert.AreEqual("1", link.Command);
@@ -54,13 +54,49 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void IrbisLink_ParseForImage1()
+        public void IrbisLink_Parse_4()
+        {
+            IrbisLink link = IrbisLink.Parse("IRBIS:3,10,IBIS,brief.pft");
+            Assert.AreEqual("3", link.Command);
+            Assert.AreEqual("10", link.Path);
+            Assert.AreEqual("IBIS", link.Database);
+            Assert.AreEqual("brief.pft", link.FileName);
+        }
+
+        [TestMethod]
+        public void IrbisLink_Parse_5()
+        {
+            IrbisLink link = IrbisLink.Parse("IRBIS:3,10,IBIS,brief.pft?WRONG");
+            Assert.AreEqual(0, link.Parameters.Count);
+        }
+
+        [TestMethod]
+        public void IrbisLink_ParseForImage_1()
         {
             IrbisLink link = IrbisLink.ParseForImage("IRBIS:10,,textfolder.gif");
             Assert.AreEqual("3", link.Command);
             Assert.AreEqual("10", link.Path);
             Assert.IsNull(link.Database);
             Assert.AreEqual("textfolder.gif", link.FileName);
+        }
+
+        [TestMethod]
+        public void IrbisLink_ParseForImage_2()
+        {
+            IrbisLink link = IrbisLink.ParseForImage("IRBIS:10?FILENAME=textfolder.gif");
+            Assert.AreEqual("3", link.Command);
+            Assert.AreEqual("10", link.Path);
+            Assert.IsNull(link.Database);
+            Assert.AreEqual("textfolder.gif", link.FileName);
+        }
+
+        [TestMethod]
+        public void IrbisLink_ToString()
+        {
+            IrbisLink link = IrbisLink.Parse("IRBIS:3,10,IBIS,brief.pft");
+            const string expected = "Command: 3";
+            string actual = link.ToString();
+            Assert.AreEqual(expected, actual);
         }
     }
 }

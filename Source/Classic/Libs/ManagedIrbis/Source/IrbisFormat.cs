@@ -24,7 +24,7 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class IrbisFormat
+    public static class IrbisFormat
     {
         #region Constants
 
@@ -106,7 +106,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Verify format string.
         /// </summary>
-        public bool VerifyFormat
+        public static bool VerifyFormat
             (
                 [CanBeNull] string text,
                 bool throwOnError

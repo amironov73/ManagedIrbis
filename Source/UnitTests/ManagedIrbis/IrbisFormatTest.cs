@@ -1,4 +1,5 @@
 ﻿using System;
+using AM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis;
@@ -19,7 +20,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestIrbisFormat_PrepareFormat()
+        public void IrbisFormat_PrepareFormat_1()
         {
             _TestFormat("", "");
             _TestFormat(" ", " ");
@@ -30,6 +31,25 @@ namespace UnitTests.ManagedIrbis
                     "v100/*comment\r\nv200",
                     "v100  v200"
                 );
+        }
+
+        [TestMethod]
+        public void IrbisFormat_VerifyFormat_1()
+        {
+            Assert.IsFalse(IrbisFormat.VerifyFormat(null, false));
+        }
+
+        [TestMethod]
+        public void IrbisFormat_VerifyFormat_2()
+        {
+            Assert.IsTrue(IrbisFormat.VerifyFormat("v200^a", false));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(VerificationException))]
+        public void IrbisFormat_VerifyFormat_Exception_1()
+        {
+            IrbisFormat.VerifyFormat(null, true);
         }
     }
 }
