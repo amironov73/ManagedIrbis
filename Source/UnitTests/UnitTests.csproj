@@ -258,7 +258,6 @@
     <Compile Include="ManagedIrbis\RecordFieldTest.cs" />
     <Compile Include="ManagedIrbis\MarcRecordTest.cs" />
     <Compile Include="ManagedIrbis\FieldIndicatorTest.cs" />
-    <Compile Include="ManagedIrbis\IrbisDatabaseInfoTest.cs" />
     <Compile Include="ManagedIrbis\IrbisProcessInfoTest.cs" />
     <Compile Include="ManagedIrbis\IrbisVersionTest.cs" />
     <Compile Include="ManagedIrbis\IrbisConnectionTest.cs" />

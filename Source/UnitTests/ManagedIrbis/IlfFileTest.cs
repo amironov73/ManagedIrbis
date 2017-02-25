@@ -11,7 +11,7 @@ namespace UnitTests.ManagedIrbis
         : Common.CommonUnitTest
     {
         [TestMethod]
-        public void TestIlfFileReadLocalFile()
+        public void IlfFile_ReadLocalFile_1()
         {
             string fileName = Path.Combine
                 (

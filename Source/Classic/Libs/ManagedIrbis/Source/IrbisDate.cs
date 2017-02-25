@@ -244,12 +244,7 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc />
         public override string ToString()
         {
             return Text;
