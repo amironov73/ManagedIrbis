@@ -70,10 +70,10 @@ namespace ManagedIrbis
                     OneField other
                 )
             {
-                if (ReferenceEquals(other, null))
-                {
-                    return false;
-                }
+                //if (ReferenceEquals(other, null))
+                //{
+                //    return false;
+                //}
 
                 return string.CompareOrdinal(Tag, other.Tag) == 0
                        && string.CompareOrdinal(Text, other.Text) == 0;
