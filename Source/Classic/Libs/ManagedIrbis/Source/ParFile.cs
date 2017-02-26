@@ -194,6 +194,36 @@ namespace ManagedIrbis
 
         #region Construction
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public ParFile()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public ParFile
+            (
+                [NotNull] string mstPath
+            )
+        {
+            Code.NotNullNorEmpty(mstPath, "mstPath");
+
+            MstPath = mstPath;
+            XrfPath = mstPath;
+            CntPath = mstPath;
+            L01Path = mstPath;
+            L02Path = mstPath;
+            N01Path = mstPath;
+            N02Path = mstPath;
+            IfpPath = mstPath;
+            AnyPath = mstPath;
+            PftPath = mstPath;
+            ExtPath = mstPath;
+        }
+
         #endregion
 
         #region Private members
@@ -241,15 +271,8 @@ namespace ManagedIrbis
                 {
                     throw new FormatException();
                 }
-                string key = parts[0];
-                string value = parts[1];
-                if (string.IsNullOrEmpty(key)
-                    || string.IsNullOrEmpty(value))
-                {
-                    throw new FormatException();
-                }
-                key = key.Trim();
-                value = value.Trim();
+                string key = parts[0].Trim();
+                string value = parts[1].Trim();
                 if (string.IsNullOrEmpty(key)
                     || string.IsNullOrEmpty(value))
                 {
