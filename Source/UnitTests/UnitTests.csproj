@@ -229,6 +229,7 @@
     <Compile Include="ManagedIrbis\IrbisFormatTest.cs" />
     <Compile Include="ManagedIrbis\IrbisStopWordsTest.cs" />
     <Compile Include="ManagedIrbis\IrbisUpperCaseTableTest.cs" />
+    <Compile Include="ManagedIrbis\RawRecordTest.cs" />
     <Compile Include="ManagedIrbis\Search\KeywordPermutatorTest.cs" />
     <Compile Include="ManagedIrbis\Mapping\SubFieldMapperTest.cs" />
     <Compile Include="ManagedIrbis\Marc\Schema\MarcSchemaTest.cs" />
