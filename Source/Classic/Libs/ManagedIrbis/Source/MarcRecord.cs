@@ -12,6 +12,10 @@
 using System.Diagnostics;
 using System.IO;
 
+#if FW4
+using System.Diagnostics.CodeAnalysis;
+#endif
+
 using AM;
 using AM.IO;
 using AM.Runtime;
@@ -50,6 +54,7 @@ namespace ManagedIrbis
         /// Hostname of IRBIS-server.
         /// </summary>
         [CanBeNull]
+        [JsonProperty("hostname")]
         public string HostName { get; set; }
 
         /// <summary>
@@ -236,12 +241,12 @@ namespace ManagedIrbis
             Code.NotNull(record1, "record1");
             Code.NotNull(record2, "record2");
 
-            int result = (int)record1.Status - (int)record2.Status;
-            if (result != 0)
-            {
-                return result;
-            }
-            result = record1.Fields.Count - record2.Fields.Count;
+            //int result = (int)record1.Status - (int)record2.Status;
+            //if (result != 0)
+            //{
+            //    return result;
+            //}
+            int result = record1.Fields.Count - record2.Fields.Count;
             if (result != 0)
             {
                 return result;
@@ -431,6 +436,9 @@ namespace ManagedIrbis
         /// <summary>
         /// For Newtonsoft.Json.
         /// </summary>
+        #if FW4
+        [ExcludeFromCodeCoverage]
+        #endif
         public bool ShouldSerializeDatabase()
         {
             return !string.IsNullOrEmpty(Database);
@@ -439,6 +447,21 @@ namespace ManagedIrbis
         /// <summary>
         /// For Newtonsoft.Json.
         /// </summary>
+        #if FW4
+        [ExcludeFromCodeCoverage]
+        #endif
+        public bool ShouldSerializeHostName()
+        {
+            return !string.IsNullOrEmpty(HostName);
+        }
+
+
+        /// <summary>
+        /// For Newtonsoft.Json.
+        /// </summary>
+#if FW4
+        [ExcludeFromCodeCoverage]
+        #endif
         public bool ShouldSerializeMfn()
         {
             return Mfn != 0;
@@ -447,6 +470,9 @@ namespace ManagedIrbis
         /// <summary>
         /// For Newtonsoft.Json.
         /// </summary>
+        #if FW4
+        [ExcludeFromCodeCoverage]
+        #endif
         public bool ShouldSerializeStatus()
         {
             return Status != 0;
@@ -455,6 +481,9 @@ namespace ManagedIrbis
         /// <summary>
         /// For Newtonsoft.Json.
         /// </summary>
+        #if FW4
+        [ExcludeFromCodeCoverage]
+        #endif
         public bool ShouldSerializeVersion()
         {
             return Version != 0;
