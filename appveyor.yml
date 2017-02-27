@@ -40,8 +40,8 @@ after_build:
 - cmd: compilecore.cmd
 - cmd: compiledroid.cmd
 - cmd: compileuap.cmd
-# - cmd: compilesl.cmd
-# - cmd: compilewin81.cmd
+- cmd: compilesl.cmd
+- cmd: compilewin81.cmd
 - cmd: cd Nuget
 - cmd: packit.cmd
 
