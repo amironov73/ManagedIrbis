@@ -1,4 +1,5 @@
 abcdefghijklmnopqrstuvwxyz
+actab
 Alexey
 Alloc
 arsmagna
@@ -52,6 +53,7 @@ jfif
 jpeg
 Json
 kladr
+lctab
 Lexer
 Localizable
 Magna
@@ -113,6 +115,8 @@ Transliterator
 trunc
 typeof
 typeparamref
+Uatab
+uctab
 umarci
 Unescape
 Unifor
