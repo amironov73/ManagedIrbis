@@ -9,8 +9,6 @@
 
 #region Using directives
 
-using System;
-
 using ManagedIrbis.Mapping;
 
 #endregion

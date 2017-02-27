@@ -238,7 +238,7 @@ namespace ManagedIrbis
             (
                 [NotNull] RecordField other
             )
-            : this ()
+            : this()
         {
             _indicator1 = other.Indicator1.Clone();
             _indicator2 = other.Indicator2.Clone();
@@ -254,7 +254,7 @@ namespace ManagedIrbis
             (
                 [CanBeNull] string tag
             )
-            : this ()
+            : this()
         {
             Tag = tag;
         }
@@ -267,7 +267,7 @@ namespace ManagedIrbis
                 [CanBeNull] string tag,
                 [CanBeNull] string value
             )
-            : this ()
+            : this()
         {
             Tag = tag;
             Value = value;
@@ -283,7 +283,7 @@ namespace ManagedIrbis
                 bool readOnly,
                 [CanBeNull] MarcRecord record
             )
-            : this ()
+            : this()
         {
             Tag = tag;
             Value = value;
@@ -302,7 +302,7 @@ namespace ManagedIrbis
                 [CanBeNull] string tag,
                 [ItemNotNull] params SubField[] subFields
             )
-            : this ()
+            : this()
         {
             Tag = tag;
             SubFields.AddRange(subFields);
@@ -375,6 +375,29 @@ namespace ManagedIrbis
             {
                 Record.Modified = true;
             }
+        }
+
+        /// <summary>
+        /// Sets the sub fields.
+        /// </summary>
+        /// <param name="encodedText">The encoded text.</param>
+        /// <returns>RecordField.</returns>
+        internal RecordField SetSubFields
+            (
+                [NotNull] string encodedText
+            )
+        {
+            RecordField parsed = Parse(Tag, encodedText);
+            if (!string.IsNullOrEmpty(parsed.Value))
+            {
+                Value = parsed.Value;
+            }
+            foreach (SubField subField in parsed.SubFields)
+            {
+                SubFields.Add(subField);
+            }
+
+            return this;
         }
 
         #endregion
@@ -834,6 +857,99 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Парсинг строкового представления поля.
+        /// </summary>
+        [CanBeNull]
+        public static RecordField Parse
+            (
+                [CanBeNull] string line
+            )
+        {
+            if (string.IsNullOrEmpty(line))
+            {
+                return null;
+            }
+
+            string[] parts = line.SplitFirst('#');
+            string tag = parts[0];
+            string body = parts[1];
+
+            return Parse
+                (
+                    tag,
+                    body
+                );
+        }
+
+        /// <summary>
+        /// Парсинг текстового представления поля
+        /// </summary>
+        [NotNull]
+        public static RecordField Parse
+            (
+                [NotNull] string tag,
+                [NotNull] string body
+            )
+        {
+            RecordField result = new RecordField(tag);
+
+            int first = body.IndexOf(Delimiter);
+            if (first != 0)
+            {
+                if (first < 0)
+                {
+                    result.Value = body;
+                    body = string.Empty;
+                }
+                else
+                {
+                    result.Value = body.Substring
+                        (
+                            0,
+                            first
+                        );
+                    body = body.Substring(first);
+                }
+            }
+
+            var code = SubField.NoCode;
+            var value = new StringBuilder();
+            foreach (char c in body)
+            {
+                if (c == Delimiter)
+                {
+                    _AddSubField
+                        (
+                            result,
+                            code,
+                            value
+                        );
+                    code = SubField.NoCode;
+                }
+                else
+                {
+                    if (code == SubField.NoCode)
+                    {
+                        code = c;
+                    }
+                    else
+                    {
+                        value.Append(c);
+                    }
+                }
+            }
+
+            _AddSubField
+                (
+                    result,
+                    code,
+                    value
+                );
+
+            return result;
+        }
+
+        /// <summary>
         /// Удаляет все повторения подполей
         /// с указанным кодом.
         /// </summary>
@@ -929,7 +1045,7 @@ namespace ManagedIrbis
                                 "value"
                             );
                     }
-                    //SetSubFields(value);
+                    SetSubFields(value);
                 }
                 else
                 {
