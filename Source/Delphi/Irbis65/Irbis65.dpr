@@ -15,12 +15,34 @@ uses
   Classes;
 
 {$R *.res}
+{$WARN UNSAFE_CODE OFF}
+{$WARN UNSAFE_TYPE OFF}
 
 //
 // http://wiki.elnit.org/index.php/IRBIS64.dll
 //
 
+// функция инициализации Space вызывается первой!!!!!!
 function IrbisInit: integer; external 'IRBIS64.dll';
+
+// скрыто выполняет все закрытия файлов и освобождение памяти
+// irbisclosemst, irbiscloseterm
+function IrbisClose
+  (
+    space: integer
+  ): integer; external 'IRBIS64.dll';
+
+procedure IrbisDLLVersion
+  (
+    buffer: Pchar;
+    bufsize: integer
+  ); external 'IRBIS64.dll';
+
+// создание 5 файлов новой БД
+function IrbisInitNewDB
+  (
+    path: PChar
+  ):integer; external 'IRBIS64.dll';
 
 function irbis_uatab_init
   (
@@ -67,25 +89,24 @@ function Irbis_Format
     FmtExitDLL : PChar
   ): integer; external 'IRBIS64.dll';
 
+// открывает мастер файл на чтение-запись
+// database - полный путь на мастер файл БЕЗ РАСШИРЕНИЯ!!!
 function IrbisInitMst
   (
     space: integer;
     database: Pchar;
-    aNumberShelfs: integer
+    numberShelfs: integer
   ): integer; external 'IRBIS64.dll';
 
+// открывает инверсный файл на чтение-запись
+// database - полный путь на инверсный файл БЕЗ РАСШИРЕНИЯ!!!
 function IrbisInitTerm
-(
+  (
     space: integer;
-    line: Pchar
+    database: Pchar
   ): integer;external 'IRBIS64.dll';
 
 function IrbisMaxMfn
-  (
-    space: integer
-  ): integer; external 'IRBIS64.dll';
-
-function IrbisClose
   (
     space: integer
   ): integer; external 'IRBIS64.dll';
@@ -109,6 +130,85 @@ function IrbisMfn
   ): integer; external 'IRBIS64.dll';
 
 function IrbisNFields
+  (
+    space,
+    shelf: integer
+  ): integer; external 'IRBIS64.dll';
+
+// чтение копии с шагом назад step без блокировки
+function IrbisReadVersion
+  (
+    space,
+    mfn: integer
+  ):integer; external 'IRBIS64.dll';
+
+// откат до старой копии step шагов
+function IrbisRecordBack
+  (
+    space,
+    shelf,
+    mfn,
+    step:integer
+  ): integer; external 'IRBIS64.dll';
+
+function IrbisRecLock0
+  (
+    space,
+    shelf,
+    mfn: integer
+  ): integer; external 'IRBIS64.dll';
+
+function IrbisRecUnLock0
+  (
+    space,
+    mfn:integer
+  ): integer; external 'IRBIS64.dll';
+
+function IrbisRecUpdate0
+  (
+    space,
+    shelf,
+    keepLock:integer
+  ): integer; external 'IRBIS64.dll';
+
+function IrbisRecIfUpdate0
+  (
+    space,
+    shelf,
+    mfn:integer
+  ): integer; external 'IRBIS64.dll';
+
+function IrbisIsDBLocked
+  (
+    space: integer
+  ): integer; external 'IRBIS64.dll';
+
+// запись заблокирована? - без чтения!!!!!!!! только проверка флага в XRF
+function IrbisIsRealyLocked
+  (
+    space,
+    mfn: integer
+  ): integer; external 'IRBIS64.dll';
+
+function IrbisIsRealyActualized
+  (
+    space,
+    mfn: integer
+  ): integer; external 'IRBIS64.dll';
+
+function IrbisIsLocked
+  (
+    space,
+    shelf: integer
+  ): integer; external 'IRBIS64.dll';
+
+function IrbisIsDeleted
+  (
+    space,
+    shelf: integer
+  ): integer; external 'IRBIS64.dll';
+
+function IrbisIsActualized
   (
     space,
     shelf: integer

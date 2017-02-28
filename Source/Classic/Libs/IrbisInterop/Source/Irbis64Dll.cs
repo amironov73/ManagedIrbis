@@ -23,110 +23,47 @@ namespace IrbisInterop
     /// <summary>
     /// 
     /// </summary>
-    public static class Irbis64Dll
+    public sealed class Irbis64Dll
+        : IDisposable
     {
-        #region Constants
+        #region Properties
 
         /// <summary>
-        /// Name for DLL.
+        /// Shelf number.
         /// </summary>
-        public const string DllName = "irbis65.dll";
+        public int Shelf { get; set; }
+
+        #endregion
+
+        #region Construction
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public Irbis64Dll()
+        {
+            _space = Irbis65Dll.IrbisInit();
+        }
+
+        #endregion
+
+        #region Private members
+
+        private IntPtr _space;
 
         #endregion
 
         #region Public methods
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [DllImport(DllName, EntryPoint = "Irbisinit65")]
-        public static extern IntPtr IrbisInit();
+        #endregion
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [DllImport(DllName, EntryPoint = "Irbis_uatab_init65")]
-        public static extern int IrbisUatabInit
-            (
-                string uctab,
-                string lctab,
-                string actab,
-                string aExecDir,
-                string aDataPath
-            );
+        #region IDisposable members
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [DllImport(DllName, EntryPoint = "Irbisclose65")]
-        public static extern void IrbisClose
-            (
-                IntPtr space
-            );
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [DllImport(DllName, EntryPoint = "Irbisclosemst65")]
-        public static extern void IrbisCloseMST
-            (
-                IntPtr space
-            );
-
-        [DllImport(DllName, EntryPoint = "Irbisnewrec65")]
-        public static extern int IrbisNewRec
-            (
-                IntPtr space,
-                int shelf
-            );
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [DllImport(DllName, EntryPoint = "Irbisfldadd65")]
-        public static extern int IrbisFldAdd
-            (
-                IntPtr space, 
-                int shelf, 
-                int met, 
-                int nf, 
-                string pole
-            );
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [DllImport(DllName, EntryPoint = "Irbis_InitPFT65")]
-        public static extern int IrbisInitPFT
-            (
-                IntPtr space,
-                string line
-            );
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [DllImport(DllName, EntryPoint = "Irbis_Format65")]
-        public static extern int IrbisFormat
-            (
-                IntPtr space,
-                int shelf,
-                int alt_shelf, 
-                int trm_shelf,
-                int lwLn,
-                string fmtExitDLL
-            );
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [DllImport(DllName, EntryPoint = "Irbisinitmst65")]
-        public static extern int IrbisInitMST
-            (
-                IntPtr space,
-                string dataBase,
-                int aNumberShelfs
-            );
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            Irbis65Dll.IrbisClose(_space);
+        }
 
         #endregion
     }
