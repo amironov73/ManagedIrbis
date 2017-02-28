@@ -1,0 +1,93 @@
+Microsoft (R) COFF/PE Dumper Version 12.00.21005.1
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file IRBIS64.dll
+
+File Type: DLL
+
+  Section contains the following exports for IRBIS64.dll
+
+    00000000 characteristics
+           0 time date stamp Thu Jan 01 09:00:00 1970
+        0.00 version
+           1 ordinal base
+          64 number of functions
+          64 number of names
+
+    ordinal hint RVA      name
+
+         10    0 0009E60C InsertTerm
+         19    1 00092F10 IrbisDBEmptyTime
+          9    2 000A0BF8 IrbisDLLVersion
+         13    3 0009D18C IrbisFindPosting
+         63    4 0005A234 IrbisFreeIrbisSearch
+         54    5 000942A8 IrbisInitInvContext
+         55    6 0009426C IrbisInitUACTAB
+         37    7 00099634 IrbisIsActualized
+         39    8 000990C8 IrbisIsDBLocked
+         36    9 00099580 IrbisIsDeleted
+         38    A 000993C0 IrbisIsLocked
+         35    B 00099474 IrbisIsRealyLocked
+         40    C 00093200 IrbisLockDBTime
+         34    D 0009607C IrbisNotActList
+         51    E 0009673C IrbisReadVersion
+         47    F 00064BC4 IrbisRecIfUpdate0
+         42   10 000936B8 IrbisRecIfUpdateFullTextTime
+         43   11 00093534 IrbisRecIfUpdateTime
+         50   12 00098A30 IrbisRecLock0
+         46   13 0009383C IrbisRecLockTime
+         49   14 00096F00 IrbisRecUnLock0
+         45   15 000939C0 IrbisRecUnLockTime
+         48   16 00097C48 IrbisRecUpdate0
+         44   17 00093378 IrbisRecUpdateTime
+         53   18 00096C64 IrbisRecord
+         52   19 0009648C IrbisRecordBack
+         64   1A 000595D0 IrbisSearch_Range
+         41   1B 00093088 IrbisUnLockDBTime
+          7   1C 00091B04 Irbis_Format
+          8   1D 00089828 Irbis_InitPFT
+         22   1E 0009ADD0 Irbischangemfn
+         60   1F 000947E4 Irbisclose
+         58   20 00095060 Irbisclosemst
+         56   21 00095E80 Irbiscloseterm
+         30   22 00099C20 Irbisfield
+         31   23 000999EC Irbisfieldn
+         18   24 0009B84C Irbisfind
+         29   25 0009A05C Irbisfldadd
+         24   26 0009AE7C Irbisfldempty
+         28   27 0009A670 Irbisfldrep
+         25   28 0009B124 Irbisfldtag
+         62   29 000945B4 Irbisinit
+         61   2A 00097190 IrbisinitNewDB
+         59   2B 00094BAC Irbisinitmst
+         11   2C 0009BFD0 Irbisinitpost
+         57   2D 00095620 Irbisinitterm
+         20   2E 00099224 Irbismaxmfn
+         21   2F 00099184 Irbismfn
+         23   30 00099AFC Irbisnewrec
+         27   31 0009AF94 Irbisnfields
+         26   32 0009B034 Irbisnocc
+         16   33 0009C838 Irbisnposts
+         14   34 0009C334 Irbisnxtpost
+         17   35 0009B8AC Irbisnxtterm
+         15   36 0009C6FC Irbisposting
+         12   37 0009BC40 Irbisprevterm
+         33   38 000997CC Irbisrecdel
+         32   39 000996E8 Irbisrecundelete
+          5   3A 000886E4 UMARCI
+          6   3B 0007BA00 UNIFOR
+          2   3C 00067E6C irbis_MainIni_Init
+          3   3D 00091E28 irbis_init_DepositPath
+          1   3E 00067ABC irbis_set_options
+          4   3F 00091E94 irbis_uatab_init
+
+  Summary
+
+        1000 .edata
+        3000 .idata
+        9000 .reloc
+        6000 .rsrc
+        2000 BSS
+       AD000 CODE
+        5000 DATA
