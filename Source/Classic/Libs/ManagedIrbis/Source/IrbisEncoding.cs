@@ -12,11 +12,15 @@
 using System;
 using System.Text;
 
+using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+using CM=System.Configuration.ConfigurationManager;
 
 #endregion
 
@@ -85,6 +89,59 @@ namespace ManagedIrbis
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Get encoding by name.
+        /// </summary>
+        [NotNull]
+        public static Encoding ByName
+            (
+                [CanBeNull] string name
+            )
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return Utf8;
+            }
+
+            if (name.SameString("Ansi"))
+            {
+                return Ansi;
+            }
+            if (name.SameString("Dos")
+                || name.SameString("MsDos")
+                || name.SameString("Oem"))
+            {
+                return Oem;
+            }
+            if (name.SameString("Utf")
+                || name.SameString("Utf8")
+                || name.SameString("Utf-8"))
+            {
+                return Utf8;
+            }
+
+            Encoding result = Encoding.GetEncoding(name);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get encoding from config file.
+        /// </summary>
+        [NotNull]
+        public static Encoding FromConfig
+            (
+                [NotNull] string key
+            )
+        {
+            Code.NotNullNorEmpty(key, "key");
+
+            string name = CM.AppSettings[key];
+            Encoding result = ByName(name);
+
+            return result;
+        }
 
         /// <summary>
         /// Relax UTF-8 decoder, do not throw exceptions
