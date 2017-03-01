@@ -32,9 +32,14 @@ namespace ManagedIrbis.Requests
         public const string Fulfilled = "I=1";
 
         /// <summary>
+        /// Забронированные.
+        /// </summary>
+        public const string Reserved = "I=2";
+
+        /// <summary>
         /// Отказы.
         /// </summary>
-        public const string Refused = "I=2";
+        public const string Refused = "I=3";
 
         /// <summary>
         /// Идентификатор читателя.

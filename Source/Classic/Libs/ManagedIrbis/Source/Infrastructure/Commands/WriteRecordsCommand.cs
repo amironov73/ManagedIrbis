@@ -190,7 +190,8 @@ namespace ManagedIrbis.Infrastructure.Commands
 
             foreach (RecordReference reference in References)
             {
-                reference.Verify(throwOnError);
+                // TODO fix reference.Verify for WriteRecordCommand
+                // reference.Verify(throwOnError);
                 verifier.NotNull(reference.Record, "record");
             }
 

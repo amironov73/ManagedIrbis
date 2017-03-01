@@ -52,6 +52,14 @@ namespace ManagedIrbis.Batch
 #endif
         public event EventHandler<ExceptionEventArgs<Exception>> Exception;
 
+        /// <summary>
+        /// Raised when all data read.
+        /// </summary>
+#if !WINMOBILE && !PocketPC
+        [CanBeNull]
+#endif
+        public event EventHandler ReadComplete;
+
         #endregion
 
         #region Properties
@@ -193,6 +201,38 @@ namespace ManagedIrbis.Batch
             return result;
         }
 
+        /// <summary>
+        /// Read interval of records
+        /// </summary>
+        [NotNull]
+        public static IEnumerable<MarcRecord> Interval
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] string database,
+                int firstMfn,
+                int lastMfn,
+                int batchSize,
+                [CanBeNull] Action<BatchRecordReader> action
+            )
+        {
+            BatchRecordReader result = (BatchRecordReader) Interval
+                (
+                    connection,
+                    database,
+                    firstMfn,
+                    lastMfn,
+                    batchSize
+                );
+
+            if (!ReferenceEquals(action, null))
+            {
+                EventHandler batchHandler = (sender, args) => action(result);
+                result.BatchRead += batchHandler;
+            }
+
+            return result;
+        }
+
             /// <summary>
         /// Считывает все записи сразу.
         /// </summary>
@@ -248,6 +288,36 @@ namespace ManagedIrbis.Batch
         }
 
         /// <summary>
+        /// Search and read records.
+        /// </summary>
+        [NotNull]
+        public static IEnumerable<MarcRecord> Search
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] string database,
+                [NotNull] string searchExpression,
+                int batchSize,
+                [CanBeNull] Action<BatchRecordReader> action
+            )
+        {
+            BatchRecordReader result = (BatchRecordReader) Search
+                (
+                    connection,
+                    database,
+                    searchExpression,
+                    batchSize
+                );
+
+            if (!ReferenceEquals(action, null))
+            {
+                EventHandler batchHandler = (sender, args) => action(result);
+                result.BatchRead += batchHandler;
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Read whole database
         /// </summary>
         [NotNull]
@@ -278,6 +348,34 @@ namespace ManagedIrbis.Batch
                     batchSize,
                     Enumerable.Range(1, maxMfn)
                 );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Read whole database
+        /// </summary>
+        [NotNull]
+        public static IEnumerable<MarcRecord> WholeDatabase
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] string database,
+                int batchSize,
+                [CanBeNull] Action<BatchRecordReader> action
+            )
+        {
+            BatchRecordReader result = (BatchRecordReader) WholeDatabase
+                (
+                    connection,
+                    database,
+                    batchSize
+                );
+
+            if (!ReferenceEquals(action, null))
+            {
+                EventHandler batchHandler = (sender, args) => action(result);
+                result.BatchRead += batchHandler;
+            }
 
             return result;
         }
@@ -317,6 +415,8 @@ namespace ManagedIrbis.Batch
                     }
                 }
             }
+
+            ReadComplete.Raise(this);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
