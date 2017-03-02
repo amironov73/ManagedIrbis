@@ -126,6 +126,8 @@ namespace ManagedIrbis
             return result;
         }
 
+#if !NETCORE
+
         /// <summary>
         /// Get encoding from config file.
         /// </summary>
@@ -142,6 +144,8 @@ namespace ManagedIrbis
 
             return result;
         }
+
+#endif
 
         /// <summary>
         /// Relax UTF-8 decoder, do not throw exceptions
