@@ -20,7 +20,7 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
-#if !NETCORE
+#if CLASSIC
 
 using CM=System.Configuration.ConfigurationManager;
 
@@ -130,7 +130,7 @@ namespace ManagedIrbis
             return result;
         }
 
-#if !NETCORE
+#if CLASSIC
 
         /// <summary>
         /// Get encoding from config file.
