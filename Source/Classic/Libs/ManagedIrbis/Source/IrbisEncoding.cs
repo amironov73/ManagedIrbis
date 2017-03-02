@@ -20,7 +20,11 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
+#if !NETCORE
+
 using CM=System.Configuration.ConfigurationManager;
+
+#endif
 
 #endregion
 
