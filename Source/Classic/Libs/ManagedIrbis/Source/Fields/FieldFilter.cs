@@ -60,6 +60,21 @@ namespace ManagedIrbis.Fields
         /// </summary>
         public FieldFilter
             (
+                [NotNull] string format
+            )
+            : this
+                (
+                    new LocalClient(),
+                    format
+                )
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public FieldFilter
+            (
                 [NotNull] AbstractClient client,
                 [NotNull] string format
             )
@@ -83,6 +98,54 @@ namespace ManagedIrbis.Fields
         #region Public methods
 
         /// <summary>
+        /// Whether all fields satisfy the condition.
+        /// </summary>
+        public bool AllFields
+            (
+                [NotNull] IEnumerable<RecordField> fields
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            bool result = false;
+
+            foreach (RecordField field in fields)
+            {
+                result = CheckField(field);
+                if (!result)
+                {
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Whether any field satisfy the condition.
+        /// </summary>
+        public bool AnyField
+            (
+                [NotNull] IEnumerable<RecordField> fields
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            bool result = false;
+
+            foreach (RecordField field in fields)
+            {
+                result = CheckField(field);
+                if (result)
+                {
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Check the field.
         /// </summary>
         public bool CheckField
@@ -96,6 +159,7 @@ namespace ManagedIrbis.Fields
             RecordField copy = field.Clone();
             record.Fields.Add(copy);
 
+            Formatter.Context.AlternativeRecord = field.Record;
             string text = Formatter.Format(record);
             bool result = text.SameString("1");
 
@@ -108,23 +172,71 @@ namespace ManagedIrbis.Fields
         [NotNull]
         public RecordField[] FilterFields
             (
-                [NotNull] MarcRecord record
+                [NotNull] IEnumerable<RecordField> fields
             )
         {
-            Code.NotNull(record, "record");
+            Code.NotNull(fields, "fields");
 
-            List<RecordField> fields 
-                = new List<RecordField>(record.Fields.Count);
+            List<RecordField> result = new List<RecordField>();
 
-            foreach (RecordField field in record.Fields)
+            foreach (RecordField field in fields)
             {
                 if (CheckField(field))
                 {
-                    fields.Add(field);
+                    result.Add(field);
                 }
             }
 
-            return fields.ToArray();
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Find first satisfying field.
+        /// </summary>
+        [CanBeNull]
+        public RecordField First
+            (
+                [NotNull] IEnumerable<RecordField> fields
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            RecordField result = null;
+
+            foreach (RecordField field in fields)
+            {
+                if (CheckField(field))
+                {
+                    result = field;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Find last satisfying field.
+        /// </summary>
+        [CanBeNull]
+        public RecordField Last
+            (
+                [NotNull] IEnumerable<RecordField> fields
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            RecordField result = null;
+
+            foreach (RecordField field in fields)
+            {
+                if (CheckField(field))
+                {
+                    result = field;
+                }
+            }
+
+            return result;
         }
 
         /// <summary>

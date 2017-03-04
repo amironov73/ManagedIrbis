@@ -14,6 +14,7 @@ using System.IO;
 
 #if FW4
 using System.Diagnostics.CodeAnalysis;
+using System.ComponentModel;
 #endif
 
 using AM;
@@ -277,7 +278,9 @@ namespace ManagedIrbis
         /// <param name="tag">Метка поля.</param>
         /// <returns>Значение поля или <c>null</c>.</returns>
         [CanBeNull]
+        // ReSharper disable InconsistentNaming
         public string FM
+        // ReSharper restore InconsistentNaming
             (
                 [NotNull] string tag
             )
@@ -292,7 +295,9 @@ namespace ManagedIrbis
         /// </summary>
         [NotNull]
         [ItemNotNull]
+        // ReSharper disable InconsistentNaming
         public string[] FMA
+        // ReSharper restore InconsistentNaming
             (
                 [NotNull] string tag
             )
@@ -306,7 +311,9 @@ namespace ManagedIrbis
         /// Текст первого подполя с указанным тегом и кодом.
         /// </summary>
         [CanBeNull]
+        // ReSharper disable InconsistentNaming
         public string FM
+        // ReSharper restore InconsistentNaming
             (
                 [NotNull] string tag,
                 char code
@@ -322,7 +329,9 @@ namespace ManagedIrbis
         /// </summary>
         [NotNull]
         [ItemNotNull]
+        // ReSharper disable InconsistentNaming
         public string[] FMA
+        // ReSharper restore InconsistentNaming
             (
                 [NotNull] string tag,
                 char code
@@ -438,6 +447,7 @@ namespace ManagedIrbis
         /// </summary>
         #if FW4
         [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         #endif
         public bool ShouldSerializeDatabase()
         {
@@ -449,6 +459,7 @@ namespace ManagedIrbis
         /// </summary>
         #if FW4
         [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         #endif
         public bool ShouldSerializeHostName()
         {
@@ -459,8 +470,9 @@ namespace ManagedIrbis
         /// <summary>
         /// For Newtonsoft.Json.
         /// </summary>
-#if FW4
+        #if FW4
         [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         #endif
         public bool ShouldSerializeMfn()
         {
@@ -472,6 +484,7 @@ namespace ManagedIrbis
         /// </summary>
         #if FW4
         [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         #endif
         public bool ShouldSerializeStatus()
         {
@@ -483,6 +496,7 @@ namespace ManagedIrbis
         /// </summary>
         #if FW4
         [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         #endif
         public bool ShouldSerializeVersion()
         {
@@ -537,8 +551,9 @@ namespace ManagedIrbis
 
         #region IReadOnly<T> members
 
-        //[NonSerialized]
+        // ReSharper disable InconsistentNaming
         internal bool _readOnly;
+        // ReSharper restore InconsistentNaming
 
         /// <summary>
         /// Whether the record read-only?

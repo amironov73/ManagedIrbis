@@ -16,6 +16,11 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
+#if FW4
+using System.Diagnostics.CodeAnalysis;
+using System.ComponentModel;
+#endif
+
 using AM;
 using AM.IO;
 using AM.Runtime;
@@ -240,6 +245,7 @@ namespace ManagedIrbis
             )
             : this()
         {
+            Tag = other.Tag;
             _indicator1 = other.Indicator1.Clone();
             _indicator2 = other.Indicator2.Clone();
             _value = other.Value;
@@ -387,7 +393,11 @@ namespace ManagedIrbis
                 [NotNull] string encodedText
             )
         {
-            RecordField parsed = Parse(Tag, encodedText);
+            RecordField parsed = Parse
+                (
+                    Tag.ThrowIfNull(), 
+                    encodedText
+                );
             if (!string.IsNullOrEmpty(parsed.Value))
             {
                 Value = parsed.Value;

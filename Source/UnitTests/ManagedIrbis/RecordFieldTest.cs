@@ -13,7 +13,7 @@ namespace UnitTests.ManagedIrbis
     public class RecordFieldTest
     {
         [TestMethod]
-        public void TestRecordFieldConstruction1()
+        public void RecordField_Constructor_1()
         {
             RecordField field = new RecordField();
             Assert.AreEqual(RecordField.NoTag, field.Tag);
@@ -22,14 +22,14 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestRecordFieldConstruction2()
+        public void RecordField_Constructor_2()
         {
             RecordField field = new RecordField();
             Assert.AreEqual(field, field.SubFields.Field);
         }
 
         [TestMethod]
-        public void TestRecordFieldAddSubField()
+        public void RecordField_AddSubField_1()
         {
             RecordField field = new RecordField();
             field.AddSubField('a', "Value");
@@ -58,7 +58,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestRecordFieldSerialization()
+        public void RecordField_Serialization_1()
         {
             _TestSerialization
                 (
@@ -94,7 +94,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestRecordFieldToString()
+        public void RecordField_ToString_1()
         {
             RecordField field = _GetField();
 
@@ -113,7 +113,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestRecordFieldToText()
+        public void RecordField_ToText_1()
         {
             RecordField field = _GetField();
 
@@ -127,7 +127,7 @@ namespace UnitTests.ManagedIrbis
 
         [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
-        public void TestRecordFieldReadOnly1()
+        public void RecordField_ReadOnly_1()
         {
             RecordField field = _GetField().AsReadOnly();
             Assert.IsTrue(field.ReadOnly);
@@ -136,7 +136,7 @@ namespace UnitTests.ManagedIrbis
 
         [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
-        public void TestRecordFieldReadOnly2()
+        public void RecordField_ReadOnly_2()
         {
             RecordField field = _GetField().AsReadOnly();
             Assert.IsTrue(field.ReadOnly);
@@ -145,7 +145,7 @@ namespace UnitTests.ManagedIrbis
 
         [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
-        public void TestRecordFieldReadOnly3()
+        public void RecordField_ReadOnly_3()
         {
             RecordField field = _GetField().AsReadOnly();
             Assert.IsTrue(field.ReadOnly);
@@ -154,7 +154,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestRecordFieldToJObject()
+        public void RecordField_ToJObject_1()
         {
             RecordField field = _GetField();
 
@@ -165,7 +165,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestRecordFieldToJson()
+        public void RecordField_ToJson_1()
         {
             RecordField field = _GetField();
 
@@ -178,7 +178,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestRecordFieldFromJObject()
+        public void RecordField_FromJObject_1()
         {
             JObject jObject = JObject.Parse(@"{""tag"": ""200"","
 +@"""subfields"": []}");
@@ -189,11 +189,10 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestRecordFieldFromJson()
+        public void RecordField_FromJson_1()
         {
             string text = "{'tag':'200', 'indicator1':'1', 'value':'Значение','subfields':[{'code':'a','value':'Заглавие'},{'code':'e','value':'подзаголовочные'},{'code':'f','value':'об ответственности'}]}"
                 .Replace("'", "\"");
-
 
             RecordField field = RecordFieldUtility.FromJson(text);
 
@@ -202,7 +201,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestRecordFieldToXml()
+        public void RecordField_ToXml_1()
         {
             RecordField field = _GetField();
 
@@ -219,7 +218,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestRecordFieldFromXml()
+        public void RecordField_FromXml_1()
         {
             const string text = @"<?xml version=""1.0"" encoding=""utf-16""?>"
 +@"<field xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" tag=""200"" value=""Значение"">"
@@ -231,6 +230,23 @@ namespace UnitTests.ManagedIrbis
 
             Assert.AreEqual("200", field.Tag);
             Assert.AreEqual(3, field.SubFields.Count);
+        }
+
+        [TestMethod]
+        public void RecordField_Clone_1()
+        {
+            RecordField source = _GetField();
+            RecordField target = source.Clone();
+
+            Assert.AreEqual
+                (
+                    0,
+                    RecordField.Compare
+                    (
+                        source,
+                        target
+                    )
+                );
         }
     }
 }

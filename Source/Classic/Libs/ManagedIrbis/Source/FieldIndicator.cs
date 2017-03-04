@@ -16,6 +16,7 @@ using System.Xml.Serialization;
 
 #if FW4
 using System.Diagnostics.CodeAnalysis;
+using System.ComponentModel;
 #endif
 
 using AM;
@@ -206,8 +207,9 @@ namespace ManagedIrbis
 
         private string _value;
 
-        //[NonSerialized]
+        // ReSharper disable InconsistentNaming
         internal RecordField _field;
+        // ReSharper restore InconsistentNaming
 
         #endregion
 
@@ -264,9 +266,7 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore the object state from the given stream.
-        /// </summary>
+        /// <inheritdoc />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -279,9 +279,7 @@ namespace ManagedIrbis
             SetValue(value);
         }
 
-        /// <summary>
-        /// Save the object state to the given stream.
-        /// </summary>
+        /// <inheritdoc />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -296,8 +294,9 @@ namespace ManagedIrbis
 
         #region IReadOnly<T> members
 
-        //[NonSerialized]
+        // ReSharper disable InconsistentNaming
         internal bool _readOnly;
+        // ReSharper restore InconsistentNaming
 
         /// <summary>
         /// Whether the indicator is read-only?
@@ -331,12 +330,7 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc />
         public override string ToString()
         {
             return ToText();
