@@ -156,6 +156,16 @@ namespace ManagedIrbis.Pft.Infrastructure
                 Tokens.MoveNext();
                 result = parenthesis;
             }
+            else if (token.Kind == PftTokenKind.All)
+            {
+                PftAll all = ParseAll();
+                result = all;
+            }
+            else if (token.Kind == PftTokenKind.Any)
+            {
+                PftAny any = ParseAny();
+                result = any;
+            }
             else
             {
                 PftComparison comparison = ParseComparison();

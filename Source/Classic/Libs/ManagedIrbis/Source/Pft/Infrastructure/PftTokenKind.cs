@@ -30,6 +30,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         Abs,
 
         /// <summary>
+        /// all
+        /// </summary>
+        All,
+
+        /// <summary>
         /// @
         /// </summary>
         At,
@@ -38,6 +43,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// and
         /// </summary>
         And,
+
+        /// <summary>
+        /// any
+        /// </summary>
+        Any,
 
         /// <summary>
         /// \
@@ -150,6 +160,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         Fi,
 
         /// <summary>
+        /// first
+        /// </summary>
+        First,
+
+        /// <summary>
         /// floor
         /// </summary>
         Floor,
@@ -213,6 +228,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// l(format)
         /// </summary>
         L,
+
+        /// <summary>
+        /// last
+        /// </summary>
+        Last,
 
         /// <summary>
         /// {

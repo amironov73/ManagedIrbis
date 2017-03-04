@@ -100,6 +100,64 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
+        private PftAll ParseAll()
+        {
+            PftAll result = new PftAll(Tokens.Current);
+            Tokens.RequireNext(PftTokenKind.LeftParenthesis);
+            Tokens.MoveNext();
+
+            PftTokenList conditionTokens = Tokens.Segment
+                (
+                    _parenthesisOpen,
+                    _parenthesisClose,
+                    _parenthesisStop
+                )
+                .ThrowIfNull("conditionTokens");
+            Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
+
+            PftCondition condition
+                = (PftCondition)ChangeContext
+                (
+                    conditionTokens,
+                    ParseCondition
+                );
+
+            result.InnerCondition = condition;
+
+            return MoveNext(result);
+        }
+
+        //=================================================
+
+        private PftAny ParseAny()
+        {
+            PftAny result = new PftAny(Tokens.Current);
+            Tokens.RequireNext(PftTokenKind.LeftParenthesis);
+            Tokens.MoveNext();
+
+            PftTokenList conditionTokens = Tokens.Segment
+                (
+                    _parenthesisOpen,
+                    _parenthesisClose,
+                    _parenthesisStop
+                )
+                .ThrowIfNull("conditionTokens");
+            Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
+
+            PftCondition condition
+                = (PftCondition)ChangeContext
+                (
+                    conditionTokens,
+                    ParseCondition
+                );
+
+            result.InnerCondition = condition;
+
+            return MoveNext(result);
+        }
+
+        //=================================================
+
         private PftAssignment ParseAssignment
             (
                 [NotNull] PftAssignment result,

@@ -131,7 +131,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenKind.EatOpen,
 
-            PftTokenKind.Bang
+            PftTokenKind.Bang,
         };
 
         // ================================================================

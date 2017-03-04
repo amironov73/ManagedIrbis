@@ -870,9 +870,19 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "abs";
                                 break;
 
+                            case "all":
+                                kind = PftTokenKind.All;
+                                value = "all";
+                                break;
+
                             case "and":
                                 kind = PftTokenKind.And;
                                 value = "and";
+                                break;
+
+                            case "any":
+                                kind = PftTokenKind.Any;
+                                value = "any";
                                 break;
 
                             case "blank":
@@ -930,6 +940,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "fi";
                                 break;
 
+                            case "first":
+                                kind = PftTokenKind.First;
+                                value = "first";
+                                break;
+
                             case "floor":
                                 kind = PftTokenKind.Floor;
                                 value = "floor";
@@ -973,6 +988,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                             case "in":
                                 kind = PftTokenKind.In;
                                 value = "in";
+                                break;
+
+                            case "last":
+                                kind = PftTokenKind.Last;
+                                value = "last";
                                 break;
 
                             case "local":

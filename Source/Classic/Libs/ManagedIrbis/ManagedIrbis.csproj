@@ -287,6 +287,8 @@
     <Compile Include="Source\Pft\FormatError.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftA.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftAbs.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftAll.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftAny.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftAssignment.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftBang.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftBlank.cs" />
