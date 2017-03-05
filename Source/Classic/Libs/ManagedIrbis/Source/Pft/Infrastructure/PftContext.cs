@@ -227,15 +227,23 @@ namespace ManagedIrbis.Pft.Infrastructure
                 : parent.Connection;
 
             Functions = new PftFunctionManager();
+
+            _vMonitor = ReferenceEquals(parent, null)
+                ? null
+                : parent._vMonitor;
         }
 
         #endregion
 
         #region Private members
 
+        // ReSharper disable InconsistentNaming
         private readonly PftContext _parent;
 
         internal bool _eatNextNewLine;
+
+        internal VMonitor _vMonitor;
+        // ReSharper restore InconsistentNaming
 
         #endregion
 

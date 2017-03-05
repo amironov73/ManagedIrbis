@@ -21,6 +21,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -98,6 +100,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             try
             {
                 context.CurrentGroup = group;
+                context._vMonitor = new VMonitor();
 
                 OnBeforeExecution(context);
 
@@ -109,11 +112,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         context.Index++
                     )
                 {
-                    context.OutputFlag = false;
+                    context._vMonitor.Output = false;
 
                     condition.Execute(context);
 
-                    if (!context.OutputFlag)
+                    if (!context._vMonitor.Output)
                     {
                         break;
                     }
@@ -132,7 +135,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             finally
             {
                 context.CurrentGroup = null;
+                context._vMonitor = null;
             }
+        }
+
+        /// <inheritdoc />
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Node = this,
+                Name = SimplifyTypeName(GetType().Name)
+            };
+
+            if (!ReferenceEquals(InnerCondition, null))
+            {
+                result.Children.Add(InnerCondition.GetNodeInfo());
+            }
+
+            return result;
         }
 
         #endregion

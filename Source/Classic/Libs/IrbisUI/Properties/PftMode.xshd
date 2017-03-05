@@ -48,7 +48,9 @@
       <KeyWords name = "OperatorKeywords" bold="true" italic="false" color="DarkCyan">
                 <Key word = "a" />
                 <Key word = "abs" />
+                <Key word = "all" />
                 <Key word = "and" />
+                <Key word = "any" />
                 <Key word = "blank" />
                 <Key word = "break" />
                 <Key word = "ceil" />
@@ -61,6 +63,7 @@
                 <Key word = "f2" />
                 <Key word = "false" />
                 <Key word = "fi" />
+                <Key word = "first" />
                 <Key word = "floor" />
                 <Key word = "for" />
                 <Key word = "foreach" />
@@ -72,6 +75,7 @@
                 <Key word = "if" />
                 <Key word = "in" />
                 <Key word = "l" />
+                <Key word = "last" />
                 <Key word = "local" />
                 <Key word = "mdl" />
                 <Key word = "mdu" />

@@ -117,6 +117,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 if (HaveRepeat(context))
                 {
                     context.OutputFlag = true;
+
+                    if (!ReferenceEquals(context._vMonitor, null))
+                    {
+                        context._vMonitor.Output = true;
+                    }
                 }
 
                 context.Execute(RightHand);

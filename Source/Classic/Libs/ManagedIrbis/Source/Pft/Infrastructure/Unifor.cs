@@ -460,6 +460,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                         {
                             context.Write(node, result);
                             context.OutputFlag = true;
+
+                            if (!ReferenceEquals(context._vMonitor, null))
+                            {
+                                context._vMonitor.Output = true;
+                            }
                         }
                     }
                 }
