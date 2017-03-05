@@ -83,6 +83,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.Floor, PftTokenKind.Pow, PftTokenKind.Round,
             PftTokenKind.Sign, PftTokenKind.Trunc,
 
+            PftTokenKind.First, PftTokenKind.Last,
+
             PftTokenKind.L,
         };
 
@@ -206,9 +208,11 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 {PftTokenKind.Abs, ParseAbs},
                 {PftTokenKind.Ceil, ParseCeil},
+                {PftTokenKind.First, ParseFirst},
                 {PftTokenKind.Frac, ParseFrac},
                 {PftTokenKind.Floor, ParseFloor},
                 {PftTokenKind.L, ParseL},
+                {PftTokenKind.Last, ParseLast},
                 {PftTokenKind.Mfn,ParseMfn},
                 {PftTokenKind.Number, ParseNumber},
                 {PftTokenKind.Pow, ParsePow},

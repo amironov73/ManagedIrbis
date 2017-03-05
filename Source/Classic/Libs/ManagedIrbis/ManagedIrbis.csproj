@@ -313,6 +313,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftF2.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftFalse.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftFieldAssignment.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftFirst.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftFloor.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftFor.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftForEach.cs" />
@@ -322,6 +323,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftHave.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftInclude.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftL.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftLast.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftLocal.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftMinus.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNested.cs" />

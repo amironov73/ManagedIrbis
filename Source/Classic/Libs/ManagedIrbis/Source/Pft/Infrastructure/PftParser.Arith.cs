@@ -183,6 +183,33 @@ namespace ManagedIrbis.Pft.Infrastructure
             return ParseFunction(result);
         }
 
+        private PftNumeric ParseFirst()
+        {
+            PftFirst result = new PftFirst(Tokens.Current);
+            Tokens.RequireNext(PftTokenKind.LeftParenthesis);
+            Tokens.MoveNext();
+
+            PftTokenList conditionTokens = Tokens.Segment
+                (
+                    _parenthesisOpen,
+                    _parenthesisClose,
+                    _parenthesisStop
+                )
+                .ThrowIfNull("conditionTokens");
+            Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
+
+            PftCondition condition
+                = (PftCondition)ChangeContext
+                (
+                    conditionTokens,
+                    ParseCondition
+                );
+
+            result.InnerCondition = condition;
+
+            return MoveNext(result);
+        }
+
         private PftNumeric ParseFrac()
         {
             PftNumeric result = new PftFrac(Tokens.Current);
@@ -193,6 +220,33 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftNumeric result = new PftFloor(Tokens.Current);
             return ParseFunction(result);
+        }
+
+        private PftNumeric ParseLast()
+        {
+            PftLast result = new PftLast(Tokens.Current);
+            Tokens.RequireNext(PftTokenKind.LeftParenthesis);
+            Tokens.MoveNext();
+
+            PftTokenList conditionTokens = Tokens.Segment
+                (
+                    _parenthesisOpen,
+                    _parenthesisClose,
+                    _parenthesisStop
+                )
+                .ThrowIfNull("conditionTokens");
+            Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
+
+            PftCondition condition
+                = (PftCondition)ChangeContext
+                (
+                    conditionTokens,
+                    ParseCondition
+                );
+
+            result.InnerCondition = condition;
+
+            return MoveNext(result);
         }
 
         private PftNumeric ParsePow()

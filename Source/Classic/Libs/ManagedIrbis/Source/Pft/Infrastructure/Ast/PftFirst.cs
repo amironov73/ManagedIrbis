@@ -1,0 +1,159 @@
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* PftFirst.cs --
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
+ */
+
+#region Using directives
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using AM;
+
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
+using MoonSharp.Interpreter;
+
+#endregion
+
+namespace ManagedIrbis.Pft.Infrastructure.Ast
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
+    public sealed class PftFirst
+        : PftNumeric
+    {
+        #region Properties
+
+        /// <summary>
+        /// Condition
+        /// </summary>
+        [CanBeNull]
+        public PftCondition InnerCondition { get; set; }
+
+        #endregion
+
+        #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftFirst()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftFirst
+            (
+                [NotNull] PftToken token
+            )
+            : base(token)
+        {
+            Code.NotNull(token, "token");
+            token.MustBe(PftTokenKind.First);
+        }
+
+        #endregion
+
+        #region Private members
+
+        #endregion
+
+        #region Public methods
+
+        #endregion
+
+        #region PftNode members
+
+        /// <inheritdoc />
+        public override void Execute
+            (
+                PftContext context
+            )
+        {
+            if (context.CurrentGroup != null)
+            {
+                throw new PftSemanticException("Nested group");
+            }
+
+            PftCondition condition = InnerCondition
+                .ThrowIfNull("Condition");
+
+            PftGroup group = new PftGroup();
+
+            try
+            {
+                context.CurrentGroup = group;
+                context._vMonitor = new VMonitor();
+
+                OnBeforeExecution(context);
+
+                Value = 0;
+
+                for (
+                        context.Index = 0;
+                        context.Index < PftConfig.MaxRepeat;
+                        context.Index++
+                    )
+                {
+                    context._vMonitor.Output = false;
+
+                    condition.Execute(context);
+
+                    if (!context._vMonitor.Output)
+                    {
+                        break;
+                    }
+
+                    if (condition.Value)
+                    {
+                        Value = context.Index + 1;
+                        break;
+                    }
+                }
+
+                OnAfterExecution(context);
+            }
+            finally
+            {
+                context.CurrentGroup = null;
+                context._vMonitor = null;
+            }
+        }
+
+        /// <inheritdoc />
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Node = this,
+                Name = SimplifyTypeName(GetType().Name)
+            };
+
+            if (!ReferenceEquals(InnerCondition, null))
+            {
+                result.Children.Add(InnerCondition.GetNodeInfo());
+            }
+
+            return result;
+        }
+
+        #endregion
+    }
+}
