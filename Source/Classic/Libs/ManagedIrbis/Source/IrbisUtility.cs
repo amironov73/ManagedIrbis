@@ -10,14 +10,9 @@
 #region Using directives
 
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text;
-//using AM.Configuration;
-using AM.Runtime;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -89,32 +84,33 @@ namespace ManagedIrbis
                 return new byte[0];
             }
 
-            MemoryStream stream = new MemoryStream(); //-V3114
-
-            for (int i = 0; i < text.Length; i++)
+            using (MemoryStream stream = new MemoryStream())
             {
-                char c = text[i];
-                if (c != '%')
+                for (int i = 0; i < text.Length; i++)
                 {
-                    stream.WriteByte((byte)c);
-                }
-                else
-                {
-                    if (i >= (text.Length - 2))
+                    char c = text[i];
+                    if (c != '%')
                     {
-                        throw new FormatException("text");
+                        stream.WriteByte((byte) c);
                     }
-                    byte b = byte.Parse
-                        (
-                            text.Substring(i + 1, 2),
-                            NumberStyles.HexNumber
-                        );
-                    stream.WriteByte(b);
-                    i += 2;
+                    else
+                    {
+                        if (i >= (text.Length - 2))
+                        {
+                            throw new FormatException("text");
+                        }
+                        byte b = byte.Parse
+                            (
+                                text.Substring(i + 1, 2),
+                                NumberStyles.HexNumber
+                            );
+                        stream.WriteByte(b);
+                        i += 2;
+                    }
                 }
-            }
 
-            return stream.ToArray();
+                return stream.ToArray();
+            }
         }
 
         #endregion

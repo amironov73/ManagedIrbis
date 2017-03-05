@@ -14,6 +14,13 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 
+#if FW4
+
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+
+#endif
+
 using AM.IO;
 using AM.Runtime;
 
@@ -110,6 +117,10 @@ namespace ManagedIrbis.Fields
                 [NotNull] RecordField field
             )
         {
+            Code.NotNull (field, "field");
+
+            // TODO: support for unknown subfields
+
             RevisionInfo result = new RevisionInfo
                 {
                     Date = field.GetFirstSubFieldValue('a'),
@@ -152,7 +163,7 @@ namespace ManagedIrbis.Fields
         }
 
         /// <summary>
-        /// Разбор записи.
+        /// Parse the record.
         /// </summary>
         [NotNull]
         [ItemNotNull]
@@ -166,6 +177,42 @@ namespace ManagedIrbis.Fields
                     record,
                     Tag
                 );
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="Date"/> field?
+        /// </summary>
+#if FW4
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+#endif
+        public bool ShouldSerializeDate()
+        {
+            return !ReferenceEquals(Date, null);
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="Name"/> field?
+        /// </summary>
+#if FW4
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+#endif
+        public bool ShouldSerializeName()
+        {
+            return !ReferenceEquals(Name, null);
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="Stage"/> field?
+        /// </summary>
+#if FW4
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+#endif
+        public bool ShouldSerializeStage()
+        {
+            return !ReferenceEquals(Stage, null);
         }
 
         /// <summary>
