@@ -18,6 +18,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
+#if FW4
+
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+
+#endif
+
 using AM;
 using AM.IO;
 using AM.Runtime;
@@ -188,6 +195,10 @@ namespace ManagedIrbis.Fields
                 [NotNull] RecordField field
             )
         {
+            Code.NotNull (field, "field");
+
+            // TODO: support for unknown subfields
+
             TitleInfo result = new TitleInfo
             {
                 VolumeNumber = field.GetFirstSubFieldValue('v'),
@@ -248,6 +259,90 @@ namespace ManagedIrbis.Fields
                     record,
                     Tag
                 );
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="FirstResponsibility"/> field?
+        /// </summary>
+#if FW4
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+#endif
+        public bool ShouldSerializeFirstResponsibility()
+        {
+            return !ReferenceEquals(FirstResponsibility, null);
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="General"/> field?
+        /// </summary>
+#if FW4
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+#endif
+        public bool ShouldSerializeGeneral()
+        {
+            return !ReferenceEquals(General, null);
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="OtherResponsibility"/> field?
+        /// </summary>
+#if FW4
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+#endif
+        public bool ShouldSerializeOtherResponsibility()
+        {
+            return !ReferenceEquals(OtherResponsibility, null);
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="Title"/> field?
+        /// </summary>
+#if FW4
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+#endif
+        public bool ShouldSerializeTitle()
+        {
+            return !ReferenceEquals(Title, null);
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="Specific"/> field?
+        /// </summary>
+#if FW4
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+#endif
+        public bool ShouldSerializeSpecific()
+        {
+            return !ReferenceEquals(Specific, null);
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="Subtitle"/> field?
+        /// </summary>
+#if FW4
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+#endif
+        public bool ShouldSerializeSubtitle()
+        {
+            return !ReferenceEquals(Subtitle, null);
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="VolumeNumber"/> field?
+        /// </summary>
+#if FW4
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+#endif
+        public bool ShouldSerializeVolumeNumber()
+        {
+            return !ReferenceEquals(VolumeNumber, null);
         }
 
         /// <summary>
@@ -321,9 +416,9 @@ namespace ManagedIrbis.Fields
             return string.Format
                 (
                     "Volume: {0}, Title: {1}, Subtitle: {2}",
-                    VolumeNumber,
-                    Title,
-                    Subtitle
+                    VolumeNumber.ToVisibleString(),
+                    Title.ToVisibleString(),
+                    Subtitle.ToVisibleString()
                 );
         }
 

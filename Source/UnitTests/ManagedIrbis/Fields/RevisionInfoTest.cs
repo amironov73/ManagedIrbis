@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;
+
 using ManagedIrbis;
 using ManagedIrbis.Fields;
 
