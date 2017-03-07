@@ -45,6 +45,33 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public PftCondition InnerCondition { get; set; }
 
+        /// <inheritdoc />
+        public override IList<PftNode> Children
+        {
+            get
+            {
+                if (ReferenceEquals(_virtualChildren, null))
+                {
+
+                    _virtualChildren = new VirtualChildren();
+                    if (!ReferenceEquals(InnerCondition, null))
+                    {
+                        List<PftNode> nodes = new List<PftNode>
+                        {
+                            InnerCondition
+                        };
+                        _virtualChildren.SetChildren(nodes);
+                    }
+                }
+
+                return _virtualChildren;
+            }
+            protected set
+            {
+                // Nothing to do here
+            }
+        }
+
         #endregion
 
         #region Construction
@@ -72,6 +99,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Private members
+
+        private VirtualChildren _virtualChildren;
 
         #endregion
 

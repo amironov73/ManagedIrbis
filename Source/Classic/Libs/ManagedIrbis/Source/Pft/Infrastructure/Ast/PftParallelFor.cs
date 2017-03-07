@@ -15,6 +15,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM.Collections;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -34,6 +36,64 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         : PftNode
     {
         #region Properties
+
+        /// <inheritdoc/>
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
+
+        /// <summary>
+        /// Initialization.
+        /// </summary>
+        [NotNull]
+        public NonNullCollection<PftNode> Initialization { get; private set; }
+
+        /// <summary>
+        /// Condition.
+        /// </summary>
+        [CanBeNull]
+        public PftCondition Condition { get; set; }
+
+        /// <summary>
+        /// Loop statements.
+        /// </summary>
+        [NotNull]
+        public NonNullCollection<PftNode> Loop { get; private set; }
+
+        /// <summary>
+        /// Body.
+        /// </summary>
+        [NotNull]
+        public NonNullCollection<PftNode> Body { get; private set; }
+
+        /// <inheritdoc />
+        public override IList<PftNode> Children
+        {
+            get
+            {
+                if (ReferenceEquals(_virtualChildren, null))
+                {
+
+                    _virtualChildren = new VirtualChildren();
+                    List<PftNode> nodes = new List<PftNode>();
+                    nodes.AddRange(Initialization);
+                    if (!ReferenceEquals(Condition, null))
+                    {
+                        nodes.Add(Condition);
+                    }
+                    nodes.AddRange(Loop);
+                    nodes.AddRange(Body);
+                    _virtualChildren.SetChildren(nodes);
+                }
+
+                return _virtualChildren;
+            }
+            protected set
+            {
+                // Nothing to do here
+            }
+        }
 
         #endregion
 
@@ -62,6 +122,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region Private members
+
+        private VirtualChildren _virtualChildren;
 
         #endregion
 
