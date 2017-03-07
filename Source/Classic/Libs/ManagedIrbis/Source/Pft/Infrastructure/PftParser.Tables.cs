@@ -33,8 +33,6 @@ using Newtonsoft.Json;
 
 namespace ManagedIrbis.Pft.Infrastructure
 {
-    using Ast;
-
     partial class PftParser
     {
         // ReSharper disable InconsistentNaming
@@ -134,6 +132,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.EatOpen,
 
             PftTokenKind.Bang,
+
+            PftTokenKind.Parallel,
         };
 
         // ================================================================
@@ -168,6 +168,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.Nl, ParseNl},
                 {PftTokenKind.Number, ParseNumber},
                 {PftTokenKind.P,ParseP},
+                {PftTokenKind.Parallel, ParseParallel},
                 {PftTokenKind.Percent, ParsePercent},
                 {PftTokenKind.Proc, ParseProc},
                 {PftTokenKind.Ref, ParseRef},

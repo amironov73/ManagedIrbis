@@ -1020,6 +1020,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "order";
                                 break;
 
+                            case "parallel":
+                                kind = PftTokenKind.Parallel;
+                                value = "parallel";
+                                break;
+
                             case "pow":
                                 kind = PftTokenKind.Pow;
                                 value = "pow";

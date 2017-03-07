@@ -332,6 +332,10 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNumericExpression.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftNumericLiteral.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftP.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftParallelFor.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftParallelForEach.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftParallelGroup.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftParallelWith.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftPow.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftProcedureDefinition.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftRef.cs" />
@@ -671,6 +675,7 @@
     <None Include="ArsMagna.private.snk" />
     <None Include="packages.config" />
     <None Include="Source\Gbl\GBL protocol.docx" />
+    <Compile Include="Source\Pft\Infrastructure\PftParser.Parallel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AM.Core\AM.Core.csproj">

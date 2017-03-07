@@ -330,6 +330,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         P,
 
         /// <summary>
+        /// parallel
+        /// </summary>
+        Parallel,
+
+        /// <summary>
         /// %
         /// </summary>
         Percent,
