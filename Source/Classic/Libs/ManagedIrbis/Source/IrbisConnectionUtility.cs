@@ -181,6 +181,8 @@ namespace ManagedIrbis
 
         // =========================================================
 
+#if CLASSIC || NETCORE
+
         /// <summary>
         /// Sequential search.
         /// </summary>
@@ -212,36 +214,40 @@ namespace ManagedIrbis
                 return records;
             }
 
-            AbstractClient client = new ConnectedClient(connection);
-            PftFormatter formatter = new PftFormatter();
-            formatter.SetEnvironment(client);
-            string specification 
-                = parameters.FilterSpecification.ThrowIfNull();
-
-            if (!specification.StartsWith("if"))
+            using (AbstractClient client = new ConnectedClient(connection))
+            using (PftFormatter formatter = new PftFormatter())
             {
-                specification = string.Format
-                    (
-                        "if {0} then '1' else '0'",
-                        specification
-                    );
-            }
+                formatter.SetEnvironment(client);
+                string specification
+                    = parameters.FilterSpecification.ThrowIfNull();
 
-            formatter.ParseProgram(specification);
-
-            List<MarcRecord> result = new List<MarcRecord>(records.Length);
-
-            foreach (MarcRecord record in records)
-            {
-                string text = formatter.Format(record);
-                if (text.SameString("1"))
+                if (!specification.StartsWith("if"))
                 {
-                    result.Add(record);
+                    specification = string.Format
+                        (
+                            "if {0} then '1' else '0'",
+                            specification
+                        );
                 }
-            }
 
-            return result.ToArray();
+                formatter.ParseProgram(specification);
+
+                List<MarcRecord> result = new List<MarcRecord>(records.Length);
+
+                foreach (MarcRecord record in records)
+                {
+                    string text = formatter.Format(record);
+                    if (text.SameString("1"))
+                    {
+                        result.Add(record);
+                    }
+                }
+
+                return result.ToArray();
+            }
         }
+
+#endif
 
         // ========================================================
 
