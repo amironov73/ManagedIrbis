@@ -19,7 +19,8 @@ using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Text;
-
+using ManagedIrbis.Client;
+using ManagedIrbis.Pft;
 #if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT && !ANDROID && !UAP && !WIN81
 
 using AM.Configuration;
@@ -176,6 +177,70 @@ namespace ManagedIrbis
             ServerResponse result = connection.ExecuteCommand(command);
 
             return result;
+        }
+
+        // =========================================================
+
+        /// <summary>
+        /// Sequential search.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord[] ExtendedSearch
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] SearchParameters parameters
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNull(parameters, "parameters");
+
+            if (string.IsNullOrEmpty(parameters.FormatSpecification))
+            {
+                parameters.FormatSpecification = IrbisFormat.All;
+            }
+
+            SearchReadCommand command 
+                = connection.CommandFactory.GetSearchReadCommand();
+            command.ApplyParameters(parameters);
+
+            connection.ExecuteCommand(command);
+
+            MarcRecord[] records = command.Records.ThrowIfNull("Records");
+
+            if (!string.IsNullOrEmpty(parameters.FilterSpecification))
+            {
+                return records;
+            }
+
+            AbstractClient client = new ConnectedClient(connection);
+            PftFormatter formatter = new PftFormatter();
+            formatter.SetEnvironment(client);
+            string specification 
+                = parameters.FilterSpecification.ThrowIfNull();
+
+            if (!specification.StartsWith("if"))
+            {
+                specification = string.Format
+                    (
+                        "if {0} then '1' else '0'",
+                        specification
+                    );
+            }
+
+            formatter.ParseProgram(specification);
+
+            List<MarcRecord> result = new List<MarcRecord>(records.Length);
+
+            foreach (MarcRecord record in records)
+            {
+                string text = formatter.Format(record);
+                if (text.SameString("1"))
+                {
+                    result.Add(record);
+                }
+            }
+
+            return result.ToArray();
         }
 
         // ========================================================

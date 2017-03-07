@@ -9,12 +9,7 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using AM;
@@ -108,6 +103,14 @@ namespace ManagedIrbis.Search
         public string SequentialSpecification { get; set; }
 
         /// <summary>
+        /// Specification for local filter.
+        /// </summary>
+        [CanBeNull]
+        [XmlAttribute("filter")]
+        [JsonProperty("filter")]
+        public string FilterSpecification { get; set; }
+
+        /// <summary>
         /// Use UTF8 encoding for
         /// <see cref="FormatSpecification"/>?
         /// </summary>
@@ -158,6 +161,7 @@ namespace ManagedIrbis.Search
             NumberOfRecords = reader.ReadPackedInt32();
             SearchExpression = reader.ReadNullableString();
             SequentialSpecification = reader.ReadNullableString();
+            FilterSpecification = reader.ReadNullableString();
             UtfFormat = reader.ReadBoolean();
         }
 
@@ -178,6 +182,7 @@ namespace ManagedIrbis.Search
                 .WritePackedInt32(NumberOfRecords)
                 .WriteNullable(SearchExpression)
                 .WriteNullable(SequentialSpecification)
+                .WriteNullable(FilterSpecification)
                 .Write(UtfFormat);
         }
 

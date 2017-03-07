@@ -191,6 +191,25 @@ namespace ManagedIrbis.Fields
         }
 
         /// <summary>
+        /// Filter records by field specification.
+        /// </summary>
+        public IEnumerable<MarcRecord> FilterRecords
+            (
+                [NotNull] IEnumerable<MarcRecord> records
+            )
+        {
+            Code.NotNull(records, "records");
+
+            foreach (MarcRecord record in records)
+            {
+                if (AnyField(record.Fields))
+                {
+                    yield return record;
+                }
+            }
+        }
+
+            /// <summary>
         /// Find first satisfying field.
         /// </summary>
         [CanBeNull]

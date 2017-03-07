@@ -78,14 +78,17 @@ namespace MaliciousDebtors
                     int row = 0;
 
                     worksheet.Columns[0].Width = 200;
+                    worksheet.Columns[2].Width = 200;
 
-                    worksheet.Cells[row, 0].Value = "Краткое описание";
-                    worksheet.Cells[row, 1].Value = "Год";
-                    worksheet.Cells[row, 2].Value = "Номер";
-                    worksheet.Cells[row, 3].Value = "Цена";
-                    worksheet.Cells[row, 4].Value = "Хранение";
-                    worksheet.Cells[row, 5].Value = "Дата";
-                    worksheet.Cells[row, 6].Value = "Отдел";
+                    worksheet.Cells[row, 0].Value = "ФИО";
+                    worksheet.Cells[row, 1].Value = "Билет";
+                    worksheet.Cells[row, 2].Value = "Краткое описание";
+                    worksheet.Cells[row, 3].Value = "Год";
+                    worksheet.Cells[row, 4].Value = "Номер";
+                    worksheet.Cells[row, 5].Value = "Цена";
+                    worksheet.Cells[row, 6].Value = "Хранение";
+                    worksheet.Cells[row, 7].Value = "Дата";
+                    worksheet.Cells[row, 8].Value = "Отдел";
 
                     row++;
 
@@ -150,13 +153,15 @@ namespace MaliciousDebtors
                             }
                         }
 
-                        worksheet.Cells[row, 0].Value = description;
-                        worksheet.Cells[row, 1].Value = year;
-                        worksheet.Cells[row, 2].Value = inventory;
-                        worksheet.Cells[row, 3].Value = price;
-                        worksheet.Cells[row, 4].Value = debt.Sigla;
-                        worksheet.Cells[row, 5].Value = debt.DateExpectedString;
-                        worksheet.Cells[row, 6].Value = debt.Department;
+                        worksheet.Cells[row, 0].Value = debt.Reader.FullName;
+                        worksheet.Cells[row, 1].Value = debt.Reader.Ticket;
+                        worksheet.Cells[row, 2].Value = description;
+                        worksheet.Cells[row, 3].Value = year;
+                        worksheet.Cells[row, 4].Value = inventory;
+                        worksheet.Cells[row, 5].Value = price;
+                        worksheet.Cells[row, 6].Value = debt.Sigla;
+                        worksheet.Cells[row, 7].Value = debt.DateExpectedString;
+                        worksheet.Cells[row, 8].Value = debt.Department;
 
                         for (int j = 0; j <= 6; j++)
                         {
