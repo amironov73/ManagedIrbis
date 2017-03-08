@@ -1,24 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using DevExpress.Spreadsheet;
 
 using AM;
 using AM.Configuration;
 
+using CodeJam;
+
+using JetBrains.Annotations;
+
 using ManagedIrbis;
+using ManagedIrbis.Fields;
 using ManagedIrbis.Readers;
 
 namespace MaliciousDebtors
 {
     class Program
     {
+        //
+        // Общие настройки
+        //
+
+        // Наименование библиотеки
+        private const string LibraryName = "ИОГУНБ";
+
+        // Формат для биб. описания
+        private const string FormatName = "@brief";
+
+        // Имя результирующего файла
+        private const string OutputFile = "Debtors.xlsx";
+
         private static void Main()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             try
             {
                 string connectionString = ConfigurationUtility
@@ -46,10 +65,14 @@ namespace MaliciousDebtors
                     {
                         Console.Write(".");
                     };
-                    DebtorInfo[] debtors = manager.GetDebtors();
+                    DebtorInfo[] debtors = manager.GetDebtors
+                        (
+                            connection.Search("RB=$")
+                        );
                     debtors = debtors.Where
                         (
-                            debtor => !debtor.WorkPlace.SafeContains("ИОГУНБ")
+                            debtor => !debtor.WorkPlace
+                            .SafeContains(LibraryName)
                         )
                         .ToArray();
                     Console.WriteLine();
@@ -76,9 +99,6 @@ namespace MaliciousDebtors
                     Worksheet worksheet = workbook.Worksheets[0];
 
                     int row = 0;
-
-                    worksheet.Columns[0].Width = 200;
-                    worksheet.Columns[2].Width = 200;
 
                     worksheet.Cells[row, 0].Value = "ФИО";
                     worksheet.Cells[row, 1].Value = "Билет";
@@ -114,7 +134,8 @@ namespace MaliciousDebtors
                             if (databases.FirstOrDefault
                                 (
                                     db => db.Name.SameString(database)
-                                ) == null)
+                                )
+                                == null)
                             {
                                 continue;
                             }
@@ -122,29 +143,21 @@ namespace MaliciousDebtors
                             try
                             {
                                 connection.Database = database;
-                                int[] found = connection.Search
-                                (
-                                    "\"I={0}\"",
-                                    index
-                                );
-                                if (found.Length == 1)
+                                MarcRecord record
+                                    = connection.SearchReadOneRecord
+                                    (
+                                        "\"I={0}\"",
+                                        index
+                                    );
+                                if (!ReferenceEquals(record, null))
                                 {
-                                    int mfn = found[0];
                                     description = connection.FormatRecord
                                     (
-                                        "@sbrief",
-                                        mfn
+                                        FormatName,
+                                        record.Mfn
                                     );
-                                    year = connection.FormatRecord
-                                    (
-                                        "&uf('Av210^d#1'),v934",
-                                        mfn
-                                    );
-                                    price = connection.FormatRecord
-                                    (
-                                        "if p(v10^d) then v10^d else &uf('Av910^e#1') fi",
-                                        mfn
-                                    );
+                                    year = GetYear(record);
+                                    price = GetPrice(debt, record);
                                 }
                             }
                             catch (Exception ex)
@@ -176,14 +189,81 @@ namespace MaliciousDebtors
                         row++;
                     }
 
-                    workbook.SaveDocument("Debtors.xlsx");
+                    workbook.SaveDocument(OutputFile);
+
+                    Console.WriteLine("All done");
+
+                    stopwatch.Stop();
+                    TimeSpan elapsed = stopwatch.Elapsed;
+                    Console.WriteLine("Elapsed: {0}", elapsed);
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
             }
+        }
 
+        private static string GetYear
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            string result = record.FM("210", 'd')
+                ?? record.FM("934");
+
+            return result;
+        }
+
+        private static string GetPrice
+            (
+                [NotNull] VisitInfo debt,
+                [NotNull] MarcRecord bookRecord
+            )
+        {
+            Code.NotNull(debt, "debt");
+
+            string inventory = debt.Inventory;
+            string barcode = debt.Barcode;
+
+            RecordField[] fields = bookRecord.Fields
+                .GetField("910");
+
+            string result = null;
+
+            foreach (RecordField field in fields)
+            {
+                ExemplarInfo exemplar = ExemplarInfo.Parse(field);
+
+                if (!string.IsNullOrEmpty(inventory))
+                {
+                    if (exemplar.Number.SameString(inventory))
+                    {
+                        if (!string.IsNullOrEmpty(barcode))
+                        {
+                            if (exemplar.Barcode.SameString(barcode))
+                            {
+                                result = exemplar.Price;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            result = exemplar.Price;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (string.IsNullOrEmpty(result))
+            {
+                result = bookRecord.FM("10", 'd');
+            }
+
+            return result;
         }
     }
 }
