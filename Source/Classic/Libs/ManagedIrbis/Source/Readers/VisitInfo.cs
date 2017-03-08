@@ -15,6 +15,7 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -22,6 +23,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Fields;
 using ManagedIrbis.Mapping;
 
 using MoonSharp.Interpreter;
@@ -257,6 +259,22 @@ namespace ManagedIrbis.Readers
         }
 
         /// <summary>
+        /// Год издания книги.
+        /// </summary>
+        [CanBeNull]
+        [XmlAttribute("year")]
+        [JsonProperty("year")]
+        public string Year { get; set; }
+
+        /// <summary>
+        /// Цена книги.
+        /// </summary>
+        [CanBeNull]
+        [XmlAttribute("price")]
+        [JsonProperty("price")]
+        public string Price { get; set; }
+
+        /// <summary>
         /// Поле, в котором хранится посещение/выдача.
         /// </summary>
         [CanBeNull]
@@ -289,6 +307,76 @@ namespace ManagedIrbis.Readers
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Get price for the book.
+        /// </summary>
+        [CanBeNull]
+        public static string GetBookPrice
+            (
+                [NotNull] VisitInfo debt,
+                [NotNull] MarcRecord bookRecord
+            )
+        {
+            Code.NotNull(debt, "debt");
+
+            string inventory = debt.Inventory;
+            string barcode = debt.Barcode;
+
+            RecordField[] fields = bookRecord.Fields
+                .GetField("910");
+
+            string result = null;
+
+            foreach (RecordField field in fields)
+            {
+                ExemplarInfo exemplar = ExemplarInfo.Parse(field);
+
+                if (!string.IsNullOrEmpty(inventory))
+                {
+                    if (exemplar.Number.SameString(inventory))
+                    {
+                        if (!string.IsNullOrEmpty(barcode))
+                        {
+                            if (exemplar.Barcode.SameString(barcode))
+                            {
+                                result = exemplar.Price;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            result = exemplar.Price;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (string.IsNullOrEmpty(result))
+            {
+                result = bookRecord.FM("10", 'd');
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get year of the book.
+        /// </summary>
+        [CanBeNull]
+        public static string GetBookYear
+            (
+                [NotNull] MarcRecord bookRecord
+            )
+        {
+            Code.NotNull(bookRecord, "bookRecord");
+
+            string result = bookRecord.FM("210", 'd')
+                ?? bookRecord.FM("934");
+
+            return result;
+        }
 
         /// <summary>
         /// Parses the specified field.
