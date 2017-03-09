@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using AM;
 using AM.Collections;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
@@ -123,6 +125,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
             : base(token)
         {
+            Code.NotNull(token, "token");
+            token.MustBe(PftTokenKind.For);
+
             Initialization = new NonNullCollection<PftNode>();
             Loop = new NonNullCollection<PftNode>();
             Body = new NonNullCollection<PftNode>();
@@ -155,30 +160,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region ICloneable members
-
-        /// <inheritdoc/>
-        public override object Clone()
-        {
-            PftFor result = (PftFor) base.Clone();
-
-            result._virtualChildren = null;
-
-            result.Initialization 
-                = Initialization.CloneNodes().ThrowIfNull();
-            result.Loop = Loop.CloneNodes().ThrowIfNull();
-            result.Body = Body.CloneNodes().ThrowIfNull();
-
-            if (!ReferenceEquals(Condition, null))
-            {
-                result.Condition = (PftCondition) Condition.Clone();
-            }
-
-            return result;
-        }
-
-        #endregion
-
         #region PftNode members
 
         /// <inheritdoc />
@@ -193,7 +174,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             try
             {
-
                 while (_EvaluateCondition(context))
                 {
                     context.Execute(Body);
@@ -268,5 +248,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc/>
+        public override object Clone()
+        {
+            PftFor result = (PftFor)base.Clone();
+
+            result._virtualChildren = null;
+
+            result.Initialization
+                = Initialization.CloneNodes().ThrowIfNull();
+            result.Loop = Loop.CloneNodes().ThrowIfNull();
+            result.Body = Body.CloneNodes().ThrowIfNull();
+
+            if (!ReferenceEquals(Condition, null))
+            {
+                result.Condition = (PftCondition)Condition.Clone();
+            }
+
+            return result;
+        }
+
+        #endregion
+
     }
 }

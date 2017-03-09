@@ -9,11 +9,8 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
@@ -22,6 +19,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -29,7 +28,11 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    /// parallel foreach $x in (v692^g,/)
+    /// do
+    ///     $x, #
+    ///     if $x:'2010' then break fi
+    /// end
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -93,6 +96,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftParallelForEach()
         {
+            Sequence = new NonNullCollection<PftNode>();
+            Body = new NonNullCollection<PftNode>();
         }
 
         /// <summary>
@@ -106,6 +111,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.Parallel);
+
+            Sequence = new NonNullCollection<PftNode>();
+            Body = new NonNullCollection<PftNode>();
         }
 
         #endregion
@@ -113,6 +121,28 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #region Private members
 
         private VirtualChildren _virtualChildren;
+
+        private string[] GetSequence
+            (
+                [NotNull] PftContext context
+            )
+        {
+            List<string> result = new List<string>();
+
+            foreach (PftNode node in Sequence)
+            {
+                string text = context.Evaluate(node);
+                if (!string.IsNullOrEmpty(text))
+                {
+                    string[] lines = text.SplitLines()
+                        .NonEmptyLines()
+                        .ToArray();
+                    result.AddRange(lines);
+                }
+            }
+
+            return result.ToArray();
+        }
 
         #endregion
 
@@ -130,9 +160,64 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            base.Execute(context);
+            PftVariableReference variable = Variable
+                .ThrowIfNull("variable");
+            string name = variable.Name
+                .ThrowIfNull("variable.Name");
+
+            string[] items = GetSequence(context);
+            try
+            {
+                foreach (string item in items)
+                {
+                    context.Variables.SetVariable(name, item);
+
+                    context.Execute(Body);
+                }
+            }
+            catch (PftBreakException)
+            {
+                // Nothing to do here
+            }
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc/>
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Node = this,
+                Name = "ParallelForEach"
+            };
+
+            if (!ReferenceEquals(Variable, null))
+            {
+                result.Children.Add(Variable.GetNodeInfo());
+            }
+
+            PftNodeInfo sequence = new PftNodeInfo
+            {
+                Name = "Sequence"
+            };
+            result.Children.Add(sequence);
+            foreach (PftNode node in Sequence)
+            {
+                sequence.Children.Add(node.GetNodeInfo());
+            }
+
+            PftNodeInfo body = new PftNodeInfo
+            {
+                Name = "Body"
+            };
+            result.Children.Add(body);
+            foreach (PftNode node in Body)
+            {
+                body.Children.Add(node.GetNodeInfo());
+            }
+
+            return result;
         }
 
         #endregion

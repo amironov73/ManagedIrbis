@@ -28,7 +28,11 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    /// foreach $x in (v692^g,/)
+    /// do
+    ///     $x, #
+    ///     if $x:'2010' then break fi
+    /// end
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -146,28 +150,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region ICloneable members
-
-        /// <inheritdoc />
-        public override object Clone()
-        {
-            PftForEach result = (PftForEach) base.Clone();
-
-            result._virtualChildren = null;
-
-            result.Sequence = Sequence.CloneNodes().ThrowIfNull();
-            result.Body = Body.CloneNodes().ThrowIfNull();
-
-            if (!ReferenceEquals(Variable, null))
-            {
-                result.Variable = (PftVariableReference) Variable.Clone();
-            }
-
-            return result;
-        }
-
-        #endregion
-
         #region PftNode members
 
         /// <inheritdoc />
@@ -239,5 +221,28 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public override object Clone()
+        {
+            PftForEach result = (PftForEach)base.Clone();
+
+            result._virtualChildren = null;
+
+            result.Sequence = Sequence.CloneNodes().ThrowIfNull();
+            result.Body = Body.CloneNodes().ThrowIfNull();
+
+            if (!ReferenceEquals(Variable, null))
+            {
+                result.Variable = (PftVariableReference)Variable.Clone();
+            }
+
+            return result;
+        }
+
+        #endregion
+
     }
 }

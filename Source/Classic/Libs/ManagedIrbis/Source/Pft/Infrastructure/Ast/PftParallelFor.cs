@@ -9,11 +9,7 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
@@ -22,6 +18,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -29,8 +27,16 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    /// Parallel for loop.
     /// </summary>
+    /// <example>
+    /// parallel for $x=0; $x &lt; 10; $x = $x+1;
+    /// do
+    ///     $x, ') ',
+    ///     'Прикольно же!'
+    ///     #
+    /// end
+    /// </example>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftParallelFor
@@ -105,6 +111,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftParallelFor()
         {
+            Initialization = new NonNullCollection<PftNode>();
+            Loop = new NonNullCollection<PftNode>();
+            Body = new NonNullCollection<PftNode>();
         }
 
         /// <summary>
@@ -118,6 +127,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.Parallel);
+
+            Initialization = new NonNullCollection<PftNode>();
+            Loop = new NonNullCollection<PftNode>();
+            Body = new NonNullCollection<PftNode>();
         }
 
         #endregion
@@ -125,6 +138,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #region Private members
 
         private VirtualChildren _virtualChildren;
+
+        private bool _EvaluateCondition
+            (
+                [NotNull] PftContext context
+            )
+        {
+            if (ReferenceEquals(Condition, null))
+            {
+                return true;
+            }
+
+            Condition.Execute(context);
+
+            return Condition.Value;
+        }
 
         #endregion
 
@@ -142,9 +170,81 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            base.Execute(context);
+            context.Execute(Initialization);
+
+            try
+            {
+                while (_EvaluateCondition(context))
+                {
+                    context.Execute(Body);
+                    context.Execute(Loop);
+                }
+            }
+            catch (PftBreakException)
+            {
+                // Nothing to do here
+            }
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc/>
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Node = this,
+                Name = "ParallelFor"
+            };
+
+            if (Initialization.Count != 0)
+            {
+                PftNodeInfo init = new PftNodeInfo
+                {
+                    Name = "Init"
+                };
+                result.Children.Add(init);
+                foreach (PftNode node in Initialization)
+                {
+                    init.Children.Add(node.GetNodeInfo());
+                }
+            }
+
+            if (!ReferenceEquals(Condition, null))
+            {
+                PftNodeInfo condition = new PftNodeInfo
+                {
+                    Node = Condition,
+                    Name = "Condition"
+                };
+                result.Children.Add(condition);
+                condition.Children.Add(Condition.GetNodeInfo());
+            }
+
+            if (Loop.Count != 0)
+            {
+                PftNodeInfo loop = new PftNodeInfo
+                {
+                    Name = "Loop"
+                };
+                result.Children.Add(loop);
+                foreach (PftNode node in Loop)
+                {
+                    loop.Children.Add(node.GetNodeInfo());
+                }
+            }
+
+            PftNodeInfo body = new PftNodeInfo
+            {
+                Name = "Body"
+            };
+            result.Children.Add(body);
+            foreach (PftNode node in Body)
+            {
+                body.Children.Add(node.GetNodeInfo());
+            }
+
+            return result;
         }
 
         #endregion
