@@ -115,6 +115,58 @@ namespace ManagedIrbis.Readers
         #region Public methods
 
         /// <summary>
+        /// Fill additional fields.
+        /// </summary>
+        [NotNull]
+        public VisitInfo FillInfo
+            (
+                [NotNull] VisitInfo debt,
+                [CanBeNull] string format
+            )
+        {
+            Code.NotNull(debt, "debt");
+
+            string database = debt.Database.ThrowIfNull
+                (
+                    "Database not specified"
+                );
+            string index = debt.Index.ThrowIfNull
+                (
+                    "Index not specified"
+                );
+
+            Connection.PushDatabase(database);
+            MarcRecord bookRecord = Connection.SearchReadOneRecord
+                (
+                    "\"I={0}\"",
+                    index
+                );
+            Connection.PopDatabase();
+
+            if (!ReferenceEquals(bookRecord, null))
+            {
+                if (!string.IsNullOrEmpty(format))
+                {
+                    string description = Connection.FormatRecord
+                        (
+                            database,
+                            format,
+                            bookRecord.Mfn
+                        );
+                    if (!string.IsNullOrEmpty(description))
+                    {
+                        debt.Description = description;
+                    }
+                }
+
+                debt.Price = debt.GetBookPrice(bookRecord);
+                debt.Year = VisitInfo.GetBookYear(bookRecord);
+            }
+
+            return debt;
+        }
+
+        /// <summary>
         /// Get debt from the reader
         /// </summary>
         [NotNull]

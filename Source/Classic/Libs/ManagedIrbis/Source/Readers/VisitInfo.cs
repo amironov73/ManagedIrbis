@@ -312,16 +312,12 @@ namespace ManagedIrbis.Readers
         /// Get price for the book.
         /// </summary>
         [CanBeNull]
-        public static string GetBookPrice
+        public string GetBookPrice
             (
-                [NotNull] VisitInfo debt,
                 [NotNull] MarcRecord bookRecord
             )
         {
-            Code.NotNull(debt, "debt");
-
-            string inventory = debt.Inventory;
-            string barcode = debt.Barcode;
+            Code.NotNull(bookRecord, "bookRecord");
 
             RecordField[] fields = bookRecord.Fields
                 .GetField("910");
@@ -332,13 +328,13 @@ namespace ManagedIrbis.Readers
             {
                 ExemplarInfo exemplar = ExemplarInfo.Parse(field);
 
-                if (!string.IsNullOrEmpty(inventory))
+                if (!string.IsNullOrEmpty(Inventory))
                 {
-                    if (exemplar.Number.SameString(inventory))
+                    if (exemplar.Number.SameString(Inventory))
                     {
-                        if (!string.IsNullOrEmpty(barcode))
+                        if (!string.IsNullOrEmpty(Barcode))
                         {
-                            if (exemplar.Barcode.SameString(barcode))
+                            if (exemplar.Barcode.SameString(Barcode))
                             {
                                 result = exemplar.Price;
                                 break;
@@ -443,11 +439,9 @@ namespace ManagedIrbis.Readers
 
         #endregion
 
-        #region Ручная сериализация
+        #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Сохранение в поток.
-        /// </summary>
+        /// <inheritdoc />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -468,6 +462,8 @@ namespace ManagedIrbis.Readers
             writer.WriteNullable(Responsible);
             writer.WriteNullable(TimeIn);
             writer.WriteNullable(TimeOut);
+            writer.WriteNullable(Year);
+            writer.WriteNullable(Price);
         }
 
         /// <summary>
@@ -502,9 +498,7 @@ namespace ManagedIrbis.Readers
 
 #endif
 
-        /// <summary>
-        /// Считывание из потока.
-        /// </summary>
+        /// <inheritdoc />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -525,6 +519,8 @@ namespace ManagedIrbis.Readers
             Responsible = reader.ReadNullableString();
             TimeIn = reader.ReadNullableString();
             TimeOut = reader.ReadNullableString();
+            Year = reader.ReadNullableString();
+            Price = reader.ReadNullableString();
         }
 
 #if !SILVERLIGHT && !WIN81

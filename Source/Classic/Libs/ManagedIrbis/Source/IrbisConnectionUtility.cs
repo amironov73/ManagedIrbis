@@ -252,6 +252,40 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <summary>
+        /// Format specified record.
+        /// </summary>
+        public static string FormatRecord
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string database,
+                [NotNull] string format,
+                int mfn
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNull(format, "format");
+            Code.Positive(mfn, "mfn");
+
+            FormatCommand command = connection.CommandFactory
+                .GetFormatCommand();
+            command.Database = database;
+            command.FormatSpecification = format;
+            command.UtfFormat = true;
+            command.MfnList.Add(mfn);
+
+            connection.ExecuteCommand(command);
+
+            string result = command.FormatResult
+                .ThrowIfNullOrEmpty("command.FormatResult")
+                [0];
+
+            return result;
+        }
+
+        // ========================================================
+
+        /// <summary>
         /// Format specified record using UTF8 encoding.
         /// </summary>
         public static string FormatUtf8
@@ -278,7 +312,6 @@ namespace ManagedIrbis
                 [0];
 
             return result;
-
         }
 
         /// <summary>
