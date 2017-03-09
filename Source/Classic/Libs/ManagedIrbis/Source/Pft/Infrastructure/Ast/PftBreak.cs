@@ -79,11 +79,26 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            //context.BreakFlag = true;
-            throw new PftBreakException(this);
+            if (!ReferenceEquals(context.CurrentGroup, null))
+            {
+                // Мы внутри группы
 
-            // Never get here
-            // OnAfterExecution(context);
+                if (PftConfig.BreakImmediate)
+                {
+                    throw new PftBreakException(this);
+                }
+
+                context.BreakFlag = true;
+            }
+            else
+            {
+                // Это не группа, а оператор for
+                // или что-нибудь в этом роде
+
+                throw new PftBreakException(this);
+            }
+
+            OnAfterExecution(context);
         }
 
         #endregion

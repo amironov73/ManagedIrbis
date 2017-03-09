@@ -120,10 +120,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public bool OutputFlag { get; internal set; }
 
-        ///// <summary>
-        ///// ‘лаг, устанавливаетс€ при срабатывании оператора break.
-        ///// </summary>
-        //public bool BreakFlag { get; internal set; }
+        /// <summary>
+        /// ‘лаг, устанавливаетс€ при срабатывании оператора break.
+        /// </summary>
+        public bool BreakFlag { get; internal set; }
 
         /// <summary>
         /// “екущее обрабатываемое поле записи, если есть.
@@ -313,9 +313,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 action(this);
 
-                if (!OutputFlag
-                    // || BreakFlag
-                    )
+                if (!OutputFlag || BreakFlag)
                 {
                     break;
                 }

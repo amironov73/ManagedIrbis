@@ -48,6 +48,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         #region Properties
 
         /// <summary>
+        /// Немедленный выход из группы по break.
+        /// </summary>
+        public static bool BreakImmediate { get; set; }
+
+        /// <summary>
         /// Максимальное число повторений группы.
         /// </summary>
         public static int MaxRepeat { get; set; }

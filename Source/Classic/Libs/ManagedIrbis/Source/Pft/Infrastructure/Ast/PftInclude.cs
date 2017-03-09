@@ -55,7 +55,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     List<PftNode> nodes = new List<PftNode>();
                     if (!ReferenceEquals(Program, null))
                     {
-                        _virtualChildren.Add(Program);
+                        nodes.Add(Program);
                     }
                     _virtualChildren.SetChildren(nodes);
                 }

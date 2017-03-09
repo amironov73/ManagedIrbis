@@ -89,8 +89,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Private members
 
-        private RecordField[] _fields;
-
         private int _count;
 
         private void _Execute
@@ -108,7 +106,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 if (!string.IsNullOrEmpty(value))
                 {
                     if (Indent != 0
-                        && IsFirstRepeat(context))
+                        && IsFirstRepeat(context)
+                       )
                     {
                         value = new string(' ', Indent) + value;
                     }
@@ -147,8 +146,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             Code.NotNull(context, "context");
 
-            _fields = context.Globals.Get(Number);
-            int result = _fields.Length;
+            int result = context.Globals.Get(Number).Length;
 
             return result;
         }
@@ -170,7 +168,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             int index = context.Index;
 
-            RecordField field = _fields.GetOccurrence(index);
+            RecordField field = context.Globals.Get(Number).GetOccurrence(index);
             if (field == null)
             {
                 return null;
@@ -284,29 +282,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 node.Write(writer);
             }
-        }
-
-        #endregion
-
-        #region ICloneable members
-
-        /// <inheritdoc />
-        public override object Clone()
-        {
-            PftG result = (PftG) base.Clone();
-
-            result._fields = null;
-
-            //if (!ReferenceEquals(_fields, null))
-            //{
-            //    result._fields = (RecordField[]) _fields.Clone();
-            //    for (int i = 0; i < _fields.Length; i++)
-            //    {
-            //        result._fields[i] = _fields[i].Clone();
-            //    }
-            //}
-
-            return result;
         }
 
         #endregion

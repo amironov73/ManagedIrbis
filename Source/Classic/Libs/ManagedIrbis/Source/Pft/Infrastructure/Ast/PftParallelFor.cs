@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM;
 using AM.Collections;
 
 using CodeJam;
@@ -144,6 +145,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             base.Execute(context);
 
             OnAfterExecution(context);
+        }
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc/>
+        public override object Clone()
+        {
+            PftParallelFor result = (PftParallelFor) base.Clone();
+
+            result._virtualChildren = null;
+
+            result.Initialization 
+                = Initialization.CloneNodes().ThrowIfNull();
+            result.Loop = Loop.CloneNodes().ThrowIfNull();
+            result.Body = Body.CloneNodes().ThrowIfNull();
+
+            if (!ReferenceEquals(Condition, null))
+            {
+                result.Condition = (PftCondition) Condition.Clone();
+            }
+
+            return result;
         }
 
         #endregion

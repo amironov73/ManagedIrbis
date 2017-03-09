@@ -177,7 +177,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-
         #region PftNode members
 
         /// <inheritdoc />

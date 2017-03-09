@@ -145,7 +145,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                     condition.Execute(context);
 
-                    if (!context._vMonitor.Output)
+                    if (!context._vMonitor.Output
+                        || context.BreakFlag
+                       )
                     {
                         break;
                     }
@@ -178,6 +180,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             if (!ReferenceEquals(InnerCondition, null))
             {
                 result.Children.Add(InnerCondition.GetNodeInfo());
+            }
+
+            return result;
+        }
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public override object Clone()
+        {
+            PftFirst result = (PftFirst)base.Clone();
+
+            if (!ReferenceEquals(InnerCondition, null))
+            {
+                result.InnerCondition = (PftCondition)InnerCondition.Clone();
             }
 
             return result;

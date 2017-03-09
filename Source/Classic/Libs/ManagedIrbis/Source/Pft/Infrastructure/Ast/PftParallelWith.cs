@@ -132,5 +132,33 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc />
+        public override object Clone()
+        {
+            PftParallelWith result = (PftParallelWith)base.Clone();
+
+            result._virtualChildren = null;
+
+            if (!ReferenceEquals(Variable, null))
+            {
+                result.Variable = (PftVariableReference)Variable.Clone();
+            }
+
+            result.Fields = new NonNullCollection<FieldSpecification>();
+            foreach (FieldSpecification field in Fields)
+            {
+                result.Fields.Add
+                    (
+                        (FieldSpecification)field.Clone()
+                    );
+            }
+
+            return result;
+        }
+
+        #endregion
     }
 }

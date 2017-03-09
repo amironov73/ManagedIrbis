@@ -137,7 +137,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             result.Fields = new NonNullCollection<FieldSpecification>();
             foreach (FieldSpecification field in Fields)
             {
-                //result.Fields.Add(field.Clone());
+                result.Fields.Add
+                    (
+                        (FieldSpecification) field.Clone()
+                    );
             }
 
             return result;

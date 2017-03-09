@@ -511,7 +511,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
