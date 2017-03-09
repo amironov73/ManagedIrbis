@@ -34,7 +34,7 @@
     <ApplicationIcon>original.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>ArsMagna.private.snk</AssemblyOriginatorKeyFile>
@@ -108,6 +108,10 @@
       <HintPath>..\..\..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -117,6 +121,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AM\AOT\Distributional\ModelName.cs" />
+    <Compile Include="AM\AOT\Distributional\RusVectoresClient.cs" />
+    <Compile Include="AM\AOT\Distributional\WordInfo.cs" />
     <Compile Include="AM\AOT\Spelling\AffixEntry.cs" />
     <Compile Include="AM\AOT\Spelling\AffixRule.cs" />
     <Compile Include="AM\AOT\Spelling\AffixUtility.cs" />
