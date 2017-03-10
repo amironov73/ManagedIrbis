@@ -93,6 +93,23 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftParallelGroup result = new PftParallelGroup(Tokens.Current);
 
+            if (_inGroup)
+            {
+                throw new PftSyntaxException("no nested group enabled");
+            }
+
+            try
+            {
+                _inGroup = true;
+
+                Tokens.RequireNext();
+                ParseCall2(result);
+            }
+            finally
+            {
+                _inGroup = false;
+            }
+
             return result;
         }
 

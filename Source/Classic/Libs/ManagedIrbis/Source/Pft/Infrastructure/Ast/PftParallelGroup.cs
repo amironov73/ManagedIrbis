@@ -9,7 +9,6 @@
 
 #region Using directives
 
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,85 +32,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     public sealed class PftParallelGroup
         : PftNode
     {
-        #region NestedClasses
-
-        class Iteration
-            : IDisposable
-        {
-            #region Properties
-
-            private NonNullCollection<PftNode> Nodes { get; set; }
-
-            private PftContext Context { get; set; }
-
-            public int Index { get; private set; }
-
-            public Task Task { get; private set; }
-
-            public Exception Exception { get; private set; }
-
-            public string Result { get { return Context.Text; } }
-
-            #endregion
-
-            #region Construction
-
-            public Iteration
-                (
-                    [NotNull] PftContext context,
-                    [NotNull] NonNullCollection<PftNode> nodes,
-                    int index
-                )
-            {
-                Context = context.Push();
-                Nodes = nodes.CloneNodes();
-                Index = index;
-                Exception = null;
-
-                Task = new Task(_Run);
-                Task.Start();
-            }
-
-            #endregion
-
-            #region Private members
-
-            private void _Run()
-            {
-                try
-                {
-                    Context.Index = Index;
-
-                    Context.Execute(Nodes);
-                }
-                catch (Exception exception)
-                {
-                    Exception = exception;
-                }
-            }
-
-            #endregion
-
-            #region Public methods
-
-            #endregion
-
-            #region IDisposable members
-
-            public void Dispose()
-            {
-                Context.Pop();
-            }
-
-            #endregion
-
-            #region Object members
-
-            #endregion
-        }
-
-        #endregion
-
         #region Properties
 
         #endregion
@@ -176,26 +96,29 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         (
                             context,
                             affectedFields
-                        );
+                        )
+                        + 1;
 
-                    Iteration[] iterations = new Iteration[repeatCount];
-                    for (int i = 0; i < repeatCount; i++)
+                    PftIteration[] allIterations = new PftIteration[repeatCount];
+                    for (int index = 0; index < repeatCount; index++)
                     {
-                        Iteration iteration = new Iteration
+                        PftIteration iteration = new PftIteration
                             (
                                 context,
                                 (NonNullCollection<PftNode>)Children,
-                                i
+                                index,
+                                (iter,data) => iter.Context.Execute(iter.Nodes),
+                                this
                             );
-                        iterations[i] = iteration;
+                        allIterations[index] = iteration;
                     }
 
-                    Task[] tasks = iterations
+                    Task[] tasks = allIterations
                         .Select(iter => iter.Task)
                         .ToArray();
                     Task.WaitAll(tasks);
 
-                    foreach (Iteration iteration in iterations)
+                    foreach (PftIteration iteration in allIterations)
                     {
                         if (!ReferenceEquals(iteration.Exception, null))
                         {
