@@ -70,5 +70,12 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             _TestAffectedFields("g1", new string[0]);
             _TestAffectedFields("g1, v200", new[] { "200" });
         }
+
+        [TestMethod]
+        public void PftNode_GetAffectedFields_5()
+        {
+            _TestAffectedFields("\"no\"", new string[0]);
+            _TestAffectedFields("\"no\", \"yes\"v200^a", new[] { "200" });
+        }
     }
 }
