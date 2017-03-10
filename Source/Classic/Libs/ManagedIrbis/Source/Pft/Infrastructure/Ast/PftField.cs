@@ -342,7 +342,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 }
 
                 string textValue = context.Evaluate(_tagProgram);
-                int integerValue = (int) _tagProgram.Value;
+                int integerValue = (int)_tagProgram.Value;
                 if (integerValue != 0)
                 {
                     Tag = integerValue.ToInvariantString();
@@ -372,6 +372,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return Tag;
+        }
+
+        /// <inheritdoc />
+        public override string[] GetAffectedFields()
+        {
+            return new[] { Tag };
         }
 
         /// <summary>
@@ -533,7 +539,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <inheritdoc />
         public override object Clone()
         {
-            PftField result = (PftField) base.Clone();
+            PftField result = (PftField)base.Clone();
 
             result._virtualChildren = null;
 
@@ -542,13 +548,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (!ReferenceEquals(_tagProgram, null))
             {
-                result._tagProgram = (PftNumeric) _tagProgram.Clone();
+                result._tagProgram = (PftNumeric)_tagProgram.Clone();
             }
 
             if (!ReferenceEquals(_subFieldProgram, null))
             {
-                result._subFieldProgram 
-                    = (PftNode) _subFieldProgram.Clone();
+                result._subFieldProgram
+                    = (PftNode)_subFieldProgram.Clone();
             }
 
             return result;
@@ -581,7 +587,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (!string.IsNullOrEmpty(TagSpecification))
             {
-                PftNodeInfo spec= new PftNodeInfo
+                PftNodeInfo spec = new PftNodeInfo
                 {
                     Name = "TagSpec",
                     Value = TagSpecification

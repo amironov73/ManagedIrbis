@@ -266,6 +266,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         /// <inheritdoc />
+        public override string[] GetAffectedFields()
+        {
+            return new string[0];
+        }
+
+        /// <inheritdoc />
         public override void Write
             (
                 StreamWriter writer

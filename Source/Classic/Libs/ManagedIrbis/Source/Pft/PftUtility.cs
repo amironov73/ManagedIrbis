@@ -701,6 +701,34 @@ namespace ManagedIrbis.Pft
         //=================================================
 
         /// <summary>
+        /// Get count of the fields.
+        /// </summary>
+        public static int GetFieldCount
+            (
+                [NotNull] PftContext context,
+                params string[] tags
+            )
+        {
+            Code.NotNull(context, "context");
+
+            int result = 0;
+
+            MarcRecord record = context.Record;
+            if (!ReferenceEquals(record, null))
+            {
+                foreach (string tag in tags)
+                {
+                    int count = record.Fields.GetFieldCount(tag);
+                    result = Math.Max(count, result);
+                }
+            }
+
+            return result;
+        }
+
+        //=================================================
+
+        /// <summary>
         /// Get value of the field.
         /// </summary>
         [NotNull]
@@ -809,6 +837,8 @@ namespace ManagedIrbis.Pft
             {
                 "a",
                 "abs",
+                "all",
+                "any",
                 "and",
                 "blank",
                 "break",
@@ -822,6 +852,7 @@ namespace ManagedIrbis.Pft
                 "f2",
                 "false",
                 "fi",
+                "first",
                 "floor",
                 "for",
                 "frac",
@@ -829,6 +860,7 @@ namespace ManagedIrbis.Pft
                 "have",
                 "if",
                 "l",
+                "last",
                 "local",
                 "mdl",
                 "mdu",
@@ -840,6 +872,7 @@ namespace ManagedIrbis.Pft
                 "not",
                 "or",
                 "p",
+                "parallel",
                 "pow",
                 "proc",
                 "ravr",

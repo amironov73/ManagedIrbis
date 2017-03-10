@@ -47,7 +47,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Environment.
         /// </summary>
         [NotNull]
-        //public PftEnvironmentAbstraction Environment { get; private set; }
         public AbstractClient Environment { get; private set; }
 
         /// <summary>
@@ -228,6 +227,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                 : parent.Connection;
 
             Functions = new PftFunctionManager();
+
+            Debugger = ReferenceEquals(parent, null)
+                ? null
+                : parent.Debugger;
 
             _vMonitor = ReferenceEquals(parent, null)
                 ? null
@@ -586,7 +589,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public void SetEnvironment
             (
-                //[NotNull] PftEnvironmentAbstraction environment
                 [NotNull] AbstractClient environment
             )
         {
@@ -616,8 +618,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         [StringFormatMethod("format")]
         public PftContext Write
             (
-                PftNode node,
-                string format,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string format,
                 params object[] arg
             )
         {
@@ -636,8 +638,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         [NotNull]
         public PftContext Write
             (
-                PftNode node,
-                string value
+                [CanBeNull] PftNode node,
+                [CanBeNull] string value
             )
         {
             if (!string.IsNullOrEmpty(value))
@@ -653,10 +655,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Write line.
         /// </summary>
         [NotNull]
+        [StringFormatMethod("format")]
         public PftContext WriteLine
             (
-                PftNode node,
-                string format,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string format,
                 params object[] arg
             )
         {
@@ -674,8 +677,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         [NotNull]
         public PftContext WriteLine
             (
-                PftNode node,
-                string value
+                [CanBeNull] PftNode node,
+                [CanBeNull] string value
             )
         {
             if (!string.IsNullOrEmpty(value))
@@ -692,7 +695,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         [NotNull]
         public PftContext WriteLine
             (
-                PftNode node
+                [CanBeNull] PftNode node
             )
         {
             Output.WriteLine();

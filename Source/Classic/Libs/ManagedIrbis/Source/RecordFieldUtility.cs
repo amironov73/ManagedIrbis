@@ -128,6 +128,31 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Количество повторений поля.
+        /// </summary>
+        public static int GetFieldCount
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [NotNull] string tag
+            )
+        {
+            Code.NotNull(fields, "fields");
+            Code.NotNullNorEmpty(tag, "tag");
+
+            int result = 0;
+
+            foreach (RecordField field in fields)
+            {
+                if (field.Tag.SameString(tag))
+                {
+                    result++;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Фильтрация полей.
         /// </summary>
         [NotNull]
