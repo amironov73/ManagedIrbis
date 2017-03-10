@@ -108,7 +108,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                                 (NonNullCollection<PftNode>)Children,
                                 index,
                                 (iter,data) => iter.Context.Execute(iter.Nodes),
-                                this
+                                this,
+                                true
                             );
                         allIterations[index] = iteration;
                     }

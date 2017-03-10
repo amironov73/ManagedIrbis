@@ -10,6 +10,8 @@
 #region Using directives
 
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
@@ -174,11 +176,49 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             try
             {
+                List<PftIteration> allIterations 
+                    = new List<PftIteration>();
+
                 while (_EvaluateCondition(context))
                 {
-                    context.Execute(Body);
+                    PftIteration iteration = new PftIteration
+                        (
+                            context,
+                            Body,
+                            0,
+                            (iter, data) => iter.Context.Execute(iter.Nodes),
+                            this,
+                            false
+                        );
+                    allIterations.Add(iteration);
+
+                    // TODO : fix this!
                     context.Execute(Loop);
                 }
+
+                Task[] tasks = allIterations
+                    .Select(iter => iter.Task)
+                    .ToArray();
+                Task.WaitAll(tasks);
+
+                foreach (PftIteration iteration in allIterations)
+                {
+                    if (!ReferenceEquals(iteration.Exception, null))
+                    {
+                        throw new IrbisException
+                            (
+                                "Exception in parallel for",
+                                iteration.Exception
+                            );
+                    }
+
+                    context.Write
+                        (
+                            this,
+                            iteration.Result
+                        );
+                }
+
             }
             catch (PftBreakException)
             {

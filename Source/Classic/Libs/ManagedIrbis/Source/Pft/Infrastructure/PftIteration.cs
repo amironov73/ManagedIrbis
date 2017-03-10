@@ -72,14 +72,18 @@ namespace ManagedIrbis.Pft.Infrastructure
                 [NotNull] NonNullCollection<PftNode> nodes,
                 int index,
                 [NotNull] Action<PftIteration, object> action,
-                [NotNull] object data
+                [NotNull] object data,
+                bool withGroup
             )
         {
             Context = context.Push();
             Nodes = nodes.CloneNodes();
             Index = index;
-            Group = new PftGroup();
-            Context.CurrentGroup = Group;
+            if (withGroup)
+            {
+                Group = new PftGroup();
+                Context.CurrentGroup = Group;
+            }
             Context.Index = Index;
             Exception = null;
             _Action = action;
@@ -97,8 +101,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             try
             {
-                Context.Index = Index;
-
                 _Action(this, Data);
             }
             catch (Exception exception)
