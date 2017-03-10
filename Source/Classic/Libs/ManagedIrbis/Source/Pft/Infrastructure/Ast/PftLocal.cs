@@ -101,28 +101,31 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            PftContext localContext = context.Push();
-            localContext.Output = context.Output;
-            PftVariableManager localManager
-                = new PftVariableManager(context.Variables);
-            localContext.SetVariables(localManager);
-
-            foreach (string name in Names)
+            using (PftContextGuard guard = new PftContextGuard(context))
             {
-                PftVariable variable = new PftVariable
-                    (
-                        name,
-                        false
-                    );
+                PftContext localContext = guard.ChildContext;
+                localContext.Output = context.Output;
+                PftVariableManager localManager
+                    = new PftVariableManager(context.Variables);
+                localContext.SetVariables(localManager);
 
-                localManager.Registry.Add
-                    (
-                        name,
-                        variable
-                    );
+                foreach (string name in Names)
+                {
+                    PftVariable variable = new PftVariable
+                        (
+                            name,
+                            false
+                        );
+
+                    localManager.Registry.Add
+                        (
+                            name,
+                            variable
+                        );
+                }
+
+                localContext.Execute(Children);
             }
-
-            localContext.Execute(Children);
 
             OnAfterExecution(context);
         }

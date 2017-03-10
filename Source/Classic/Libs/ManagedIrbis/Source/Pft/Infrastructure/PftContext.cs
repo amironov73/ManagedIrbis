@@ -86,6 +86,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Накопленный текст в основном потоке выходного буфера,
         /// т. е. собственно результат расформатирования записи.
         /// </summary>
+        [NotNull]
         public string Text { get { return Output.ToString(); } }
 
         #region Режим вывода
@@ -343,12 +344,14 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Code.NotNull(node, "node");
 
-            PftContext copy = Push();
-            node.Execute(copy);
-            string result = copy.ToString();
-            Pop();
+            using (PftContextGuard guard = new PftContextGuard(this))
+            {
+                PftContext copy = guard.ChildContext;
+                node.Execute(copy);
+                string result = copy.ToString();
 
-            return result;
+                return result;
+            }
         }
 
         /// <summary>
@@ -362,15 +365,17 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Code.NotNull(items, "items");
 
-            PftContext copy = Push();
-            foreach (PftNode node in items)
+            using (PftContextGuard guard = new PftContextGuard(this))
             {
-                node.Execute(copy);
-            }
-            string result = copy.ToString();
-            Pop();
+                PftContext copy = guard.ChildContext;
+                foreach (PftNode node in items)
+                {
+                    node.Execute(copy);
+                }
+                string result = copy.ToString();
 
-            return result;
+                return result;
+            }
         }
 
         /// <summary>
@@ -572,7 +577,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             if (!ReferenceEquals(Parent, null))
             {
-                // Nothing to do?
+                Parent.BreakFlag = BreakFlag;
             }
         }
 

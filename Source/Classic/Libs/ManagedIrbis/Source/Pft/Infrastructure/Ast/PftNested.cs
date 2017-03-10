@@ -73,15 +73,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            PftContext copy = context.Push();
-            copy.Output = context.Output;
-            MarcRecord temp = copy.Record;
-            copy.Record = copy.AlternativeRecord;
-            copy.AlternativeRecord = temp;
-
-            copy.Execute(Children);
-
-            context.Pop();
+            using (PftContextGuard guard = new PftContextGuard(context))
+            {
+                PftContext copy = guard.ChildContext;
+                copy.Output = context.Output;
+                MarcRecord temp = copy.Record;
+                copy.Record = copy.AlternativeRecord;
+                copy.AlternativeRecord = temp;
+                copy.Execute(Children);
+            }
 
             OnAfterExecution(context);
         }

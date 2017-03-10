@@ -230,36 +230,37 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new PftException("Argument1 is null");
             }
 
-            PftContext clone = context.Push();
-            Argument1.Execute(clone);
-            context.Pop();
-            double value = Argument1.Value;
-
-            int minWidth = -1;
-            if (!ReferenceEquals(Argument2, null))
+            using (PftContextGuard guard = new PftContextGuard(context))
             {
-                clone = context.Push();
-                Argument2.Execute(clone);
-                context.Pop();
-                minWidth = (int) Argument2.Value;
-            }
+                PftContext clone = guard.ChildContext;
+                Argument1.Execute(clone);
 
-            int decimalPoints = -1;
-            if (!ReferenceEquals(Argument3, null))
-            {
-                clone = context.Push();
-                Argument3.Execute(clone);
-                context.Pop();
-                decimalPoints = (int) Argument3.Value;
-            }
+                double value = Argument1.Value;
 
-            string result = PftUtility.FormatLikeF
-                (
-                    value,
-                    minWidth,
-                    decimalPoints
-                );
-            context.Write(this, result);
+                int minWidth = -1;
+                if (!ReferenceEquals(Argument2, null))
+                {
+                    clone = guard.PushAgain();
+                    Argument2.Execute(clone);
+                    minWidth = (int) Argument2.Value;
+                }
+
+                int decimalPoints = -1;
+                if (!ReferenceEquals(Argument3, null))
+                {
+                    clone = guard.PushAgain();
+                    Argument3.Execute(clone);
+                    decimalPoints = (int) Argument3.Value;
+                }
+
+                string result = PftUtility.FormatLikeF
+                    (
+                        value,
+                        minWidth,
+                        decimalPoints
+                    );
+                context.Write(this, result);
+            }
 
             // Doesn't touch context.OutputFlag
 

@@ -83,19 +83,15 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Code.NotNull(context, "context");
 
-            PftContext nested = context.Push();
-            try
+            using (PftContextGuard guard = new PftContextGuard(context))
             {
+                PftContext nested = guard.ChildContext;
                 nested.Output = context.Output;
                 PftVariableManager variables
                     = new PftVariableManager(context.Variables);
                 variables.SetVariable("arg", argument);
                 nested.SetVariables(variables);
                 nested.Execute(Body);
-            }
-            finally
-            {
-                context.Pop();
             }
         }
 

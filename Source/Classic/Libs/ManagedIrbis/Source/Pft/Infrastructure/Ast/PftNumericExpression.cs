@@ -213,19 +213,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new PftSyntaxException(this);
             }
 
-            PftContext clone = context.Push();
-            clone.Evaluate(LeftOperand);
-            double leftValue = LeftOperand.Value;
-            clone.Evaluate(RightOperand);
-            context.Pop();
-            double rightValue = RightOperand.Value;
-            Value = DoOperation
-                (
-                    context,
-                    leftValue,
-                    Operation.ThrowIfNull(),
-                    rightValue
-                );
+            using (PftContextGuard guard = new PftContextGuard(context))
+            {
+                PftContext clone = guard.ChildContext;
+                clone.Evaluate(LeftOperand);
+                double leftValue = LeftOperand.Value;
+                clone.Evaluate(RightOperand);
+                double rightValue = RightOperand.Value;
+                Value = DoOperation
+                    (
+                        context,
+                        leftValue,
+                        Operation.ThrowIfNull(),
+                        rightValue
+                    );
+            }
 
             OnAfterExecution(context);
         }

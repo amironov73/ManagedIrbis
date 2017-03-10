@@ -88,7 +88,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     return;
                 }
-                found = new[] {mfn};
+                found = new[] { mfn };
             }
             else
             {
@@ -140,23 +140,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 PftParser parser = new PftParser(tokens);
                 PftProgram program = parser.Parse();
 
-                PftContext copy = context.Push();
-                copy.Output = context.Output;
-                try
+                using (PftContextGuard guard 
+                    = new PftContextGuard(context))
                 {
+                    PftContext copy = guard.ChildContext;
+                    copy.Output = context.Output;
                     foreach (int mfn in found)
                     {
-                        MarcRecord record = copy.Environment.ReadRecord(mfn);
+                        MarcRecord record 
+                            = copy.Environment.ReadRecord(mfn);
                         if (!ReferenceEquals(record, null))
                         {
                             copy.Record = record;
                             program.Execute(copy);
                         }
                     }
-                }
-                finally
-                {
-                    context.Pop();
                 }
             }
         }

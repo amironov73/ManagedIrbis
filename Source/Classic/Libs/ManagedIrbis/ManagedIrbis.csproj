@@ -382,6 +382,7 @@
     <Compile Include="Source\Pft\Infrastructure\PftBreakException.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftCleanup.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftConfig.cs" />
+    <Compile Include="Source\Pft\Infrastructure\PftContextGuard.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftContextSaver.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftExitException.cs" />
     <Compile Include="Source\Pft\Infrastructure\Functions\PftFunction.cs" />

@@ -97,18 +97,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     }
 
                     record = context.Environment.ReadRecordVersion(mfn, version);
-                    PftContext nestedContext = context.Push();
-                    nestedContext.Record = record;
 
-                    PftLexer lexer = new PftLexer();
-                    PftTokenList tokens = lexer.Tokenize(format);
-                    PftParser parser = new PftParser(tokens);
-                    PftProgram program = parser.Parse();
-                    program.Execute(nestedContext);
+                    using (PftContextGuard guard = new PftContextGuard(context))
+                    {
+                        PftContext nestedContext = guard.ChildContext;
+                        nestedContext.Record = record;
 
-                    string output = nestedContext.Text;
-                    context.Pop();
-                    context.Write(node, output);
+                        PftLexer lexer = new PftLexer();
+                        PftTokenList tokens = lexer.Tokenize(format);
+                        PftParser parser = new PftParser(tokens);
+                        PftProgram program = parser.Parse();
+                        program.Execute(nestedContext);
+
+                        string output = nestedContext.Text;
+                        context.Write(node, output);
+                    }
                 }
             }
         }

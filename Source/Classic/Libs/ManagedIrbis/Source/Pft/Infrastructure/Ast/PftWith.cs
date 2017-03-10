@@ -166,101 +166,104 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             string name = Variable.Name
                 .ThrowIfNull("Variable.Name");
 
-            PftContext localContext = context.Push();
-            localContext.Output = context.Output;
+            using (PftContextGuard guard = new PftContextGuard(context))
+            {
+                PftContext localContext = guard.ChildContext;
+                localContext.Output = context.Output;
 
-            PftVariableManager localManager
-                = new PftVariableManager(context.Variables);
-            
-            localContext.SetVariables(localManager);
-            
-            PftVariable variable = new PftVariable
-                (
+                PftVariableManager localManager
+                    = new PftVariableManager(context.Variables);
+
+                localContext.SetVariables(localManager);
+
+                PftVariable variable = new PftVariable
+                    (
                     name,
                     false
-                );
-            
-            localManager.Registry.Add
-                (
-                    name,
-                    variable
-                );
-
-            foreach (FieldSpecification field in Fields)
-            {
-                string tag = field.Tag.ThrowIfNull("field.Tag");
-                string[] lines = field.SubField == SubField.NoCode
-                    ? PftUtility.GetFieldValue
-                        (
-                            context,
-                            tag,
-                            field.FieldRepeat
-                        )
-                    : PftUtility.GetSubFieldValue
-                    (
-                        context,
-                        tag,
-                        field.FieldRepeat,
-                        field.SubField,
-                        field.SubFieldRepeat
                     );
 
-                List<string> lines2 = new List<string>();
-                foreach (string line in lines)
+                localManager.Registry.Add
+                    (
+                        name,
+                        variable
+                    );
+
+                foreach (FieldSpecification field in Fields)
                 {
-                    variable.StringValue = line;
-
-                    localContext.Execute(Children);
-
-                    string value = variable.StringValue;
-                    if (!string.IsNullOrEmpty(value))
-                    {
-                        lines2.Add(value);
-                    }
-                }
-
-                bool flag = lines2.Count != lines.Length;
-                if (!flag)
-                {
-                    for (int i = 0; i < lines.Length; i++)
-                    {
-                        if (lines[i] != lines2[i])
-                        {
-                            flag = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (flag)
-                {
-                    string value = string.Join
-                        (
-                            Environment.NewLine,
-                            lines2.ToArray()
-                        );
-
-                    if (field.SubField == SubField.NoCode)
-                    {
-                        PftUtility.AssignField
+                    string tag = field.Tag.ThrowIfNull("field.Tag");
+                    string[] lines = field.SubField == SubField.NoCode
+                        ? PftUtility.GetFieldValue
                             (
                                 context,
                                 tag,
-                                field.FieldRepeat,
-                                value
-                            );
-                    }
-                    else
-                    {
-                        PftUtility.AssignSubField
+                                field.FieldRepeat
+                            )
+                        : PftUtility.GetSubFieldValue
                             (
                                 context,
                                 tag,
                                 field.FieldRepeat,
                                 field.SubField,
-                                field.SubFieldRepeat,
-                                value
+                                field.SubFieldRepeat
                             );
+
+                    List<string> lines2 = new List<string>();
+                    foreach (string line in lines)
+                    {
+                        variable.StringValue = line;
+
+                        localContext.Execute(Children);
+
+                        string value = variable.StringValue;
+                        if (!string.IsNullOrEmpty(value))
+                        {
+                            lines2.Add(value);
+                        }
+                    }
+
+                    bool flag = lines2.Count != lines.Length;
+                    if (!flag)
+                    {
+                        for (int i = 0; i < lines.Length; i++)
+                        {
+                            if (lines[i] != lines2[i])
+                            {
+                                flag = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (flag)
+                    {
+                        string value = string.Join
+                            (
+                                Environment.NewLine,
+                                lines2.ToArray()
+                            );
+
+                        if (field.SubField == SubField.NoCode)
+                        {
+                            PftUtility.AssignField
+                                (
+                                    context,
+                                    tag,
+                                    field.FieldRepeat,
+                                    value
+                                );
+                        }
+                        else
+                        {
+                            PftUtility.AssignSubField
+                                (
+                                    context,
+                                    tag,
+                                    field.FieldRepeat,
+                                    field.SubField,
+                                    field.SubFieldRepeat,
+                                    value
+                                );
+                        }
                     }
                 }
             }

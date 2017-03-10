@@ -76,14 +76,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftContext context
             )
         {
-            PftContext subContext = context.Push();
+            string expression;
 
-            foreach (PftNode node in Children)
+            using (PftContextGuard guard = new PftContextGuard(context))
             {
-                node.Execute(subContext);
+                PftContext subContext = guard.ChildContext;
+
+                foreach (PftNode node in Children)
+                {
+                    node.Execute(subContext);
+                }
+
+                expression = subContext.Text;
             }
-            
-            string expression = subContext.Text;
 
             FormatExit.Execute
                 (
