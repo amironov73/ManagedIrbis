@@ -11,8 +11,10 @@ SET NUGET=..\..\Nuget\nuget.exe
 
 "%MSBUILD%" AM.Core\AM.Core.csproj           /target:ReBuild /property:Configuration=Debug   /property:OutputPath=%OUTPUT%\DebugDroid /p:DefineConstants="DEBUG;ANDROID" %PARAMS%
 "%MSBUILD%" ManagedIrbis\ManagedIrbis.csproj /target:ReBuild /property:Configuration=Debug   /property:OutputPath=%OUTPUT%\DebugDroid /p:DefineConstants="DEBUG;ANDROID" %PARAMS%
+"%MSBUILD%" RestfulIrbis\RestfulIrbis.csproj /target:ReBuild /property:Configuration=Debug   /property:OutputPath=%OUTPUT%\DebugDroid /p:DefineConstants="DEBUG;ANDROID" %PARAMS%
 
 "%MSBUILD%" AM.Core\AM.Core.csproj           /target:ReBuild /property:Configuration=Release /property:OutputPath=%OUTPUT%\ReleaseDroid /p:DefineConstants="ANDROID"     %PARAMS%
 "%MSBUILD%" ManagedIrbis\ManagedIrbis.csproj /target:ReBuild /property:Configuration=Release /property:OutputPath=%OUTPUT%\ReleaseDroid /p:DefineConstants="ANDROID"     %PARAMS%
+"%MSBUILD%" RestfulIrbis\RestfulIrbis.csproj /target:ReBuild /property:Configuration=Release /property:OutputPath=%OUTPUT%\ReleaseDroid /p:DefineConstants="ANDROID"     %PARAMS%
 
 cd ..\..

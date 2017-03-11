@@ -28,7 +28,7 @@ using Newtonsoft.Json.Linq;
 
 using RestSharp;
 
-#if !ANDROID && !UAP
+#if !ANDROID && !UAP && !NETCORE
 
 using System.Web;
 
@@ -78,7 +78,7 @@ namespace RestfulIrbis.OsmiCards
 
         #region Public methods
 
-#if !ANDROID && !UAP
+#if !ANDROID && !UAP && !NETCORE
 
         /// <summary>
         /// Build card for reader.

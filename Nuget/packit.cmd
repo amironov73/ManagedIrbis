@@ -17,7 +17,7 @@ CALL :BUILD IrbisUI            no   no no    no  no
 CALL :BUILD AM.Suggestions     no   no no    no  no
 CALL :BUILD AM.AOT             no   no no    no  no
 CALL :BUILD AM.Ocr             no   no no    no  no
-CALL :BUILD RestfulIrbis       no   no droid no  no
+CALL :BUILD RestfulIrbis       core no droid uap no
 
 GOTO :END
 

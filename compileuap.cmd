@@ -11,8 +11,10 @@ SET NUGET=..\..\Nuget\nuget.exe
 
 "%MSBUILD%" AM.Core\AM.Core.csproj           /target:ReBuild /property:Configuration=Debug   /property:OutputPath=%OUTPUT%\DebugUniversal /p:DefineConstants="DEBUG;UAP" %PARAMS%
 "%MSBUILD%" ManagedIrbis\ManagedIrbis.csproj /target:ReBuild /property:Configuration=Debug   /property:OutputPath=%OUTPUT%\DebugUniversal /p:DefineConstants="DEBUG;UAP" %PARAMS%
+"%MSBUILD%" RestfulIrbis\RestfulIrbis.csproj /target:ReBuild /property:Configuration=Debug   /property:OutputPath=%OUTPUT%\DebugUniversal /p:DefineConstants="DEBUG;UAP" %PARAMS%
 
 "%MSBUILD%" AM.Core\AM.Core.csproj           /target:ReBuild /property:Configuration=Release /property:OutputPath=%OUTPUT%\ReleaseUniversal /p:DefineConstants="UAP"     %PARAMS%
 "%MSBUILD%" ManagedIrbis\ManagedIrbis.csproj /target:ReBuild /property:Configuration=Release /property:OutputPath=%OUTPUT%\ReleaseUniversal /p:DefineConstants="UAP"     %PARAMS%
+"%MSBUILD%" RestfulIrbis\RestfulIrbis.csproj /target:ReBuild /property:Configuration=Release /property:OutputPath=%OUTPUT%\ReleaseUniversal /p:DefineConstants="UAP"     %PARAMS%
 
 cd ..\..
