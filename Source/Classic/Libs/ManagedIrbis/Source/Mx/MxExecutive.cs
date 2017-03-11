@@ -321,6 +321,8 @@ namespace ManagedIrbis.Mx
             return true;
         }
 
+#if !ANDROID
+
         /// <summary>
         /// REPL
         /// </summary>
@@ -338,6 +340,8 @@ namespace ManagedIrbis.Mx
                 ExecuteLine(line);
             }
         }
+
+#endif
 
         /// <summary>
         /// Write to console.
@@ -379,9 +383,9 @@ namespace ManagedIrbis.Mx
             }
         }
 
-        #endregion
+#endregion
 
-        #region IDisposable members
+#region IDisposable members
 
         /// <inheritdoc/>
         public void Dispose()
@@ -391,10 +395,10 @@ namespace ManagedIrbis.Mx
             Client.Dispose();
         }
 
-        #endregion
+#endregion
 
-        #region Object members
+#region Object members
 
-        #endregion
+#endregion
     }
 }
