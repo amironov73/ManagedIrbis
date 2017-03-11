@@ -10,12 +10,11 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Web;
+
 using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -29,7 +28,13 @@ using Newtonsoft.Json.Linq;
 
 using RestSharp;
 
+#if !ANDROID
+
+using System.Web;
+
 using CM=System.Configuration.ConfigurationManager;
+
+#endif
 
 #endregion
 
@@ -72,6 +77,8 @@ namespace RestfulIrbis.OsmiCards
         #endregion
 
         #region Public methods
+
+#if !ANDROID
 
         /// <summary>
         /// Build card for reader.
@@ -132,6 +139,8 @@ namespace RestfulIrbis.OsmiCards
         {
             return HttpUtility.UrlEncode(text, Encoding.UTF8);
         }
+
+#endif
 
         #endregion
 

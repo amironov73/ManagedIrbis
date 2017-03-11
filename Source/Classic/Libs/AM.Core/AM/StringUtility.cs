@@ -1039,10 +1039,12 @@ namespace AM
                 if (index != -1)
                 {
                     byte[] bytes = new byte[value.Length - index];
-                    int byteCount = 0;
-                    char ch;
 
 #if CLASSIC
+
+                    int byteCount = 0;
+                    char ch;
+                    
                     do
                     {
                         // Not supported in .NET Core
