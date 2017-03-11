@@ -2,7 +2,7 @@
   "dependencies": {
     "FubarCoder.RestSharp.Portable": "3.3.0",
     "JetBrains.Annotations": "10.2.1",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "MoonSharp": "2.0.0",
     "Newtonsoft.Json": "9.0.1"
   },

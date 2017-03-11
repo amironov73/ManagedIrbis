@@ -2,7 +2,7 @@
   "version": "1.0.0-*",
   "dependencies": {
     "JetBrains.Annotations": "10.2.1",
-    "NETStandard.Library": "1.6.1",
+    "NETStandard.Library": "1.6.0",
     "MoonSharp": "2.0.0",
     "Newtonsoft.Json": "9.0.1"
   },
