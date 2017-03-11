@@ -33,7 +33,7 @@ using RestSharp;
 namespace RestfulIrbis
 {
     /// <summary>
-    /// Client for <seealso cref="IrbisModule"/>.
+    /// Client for IrbisModule.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]

@@ -28,7 +28,7 @@ using Newtonsoft.Json.Linq;
 
 using RestSharp;
 
-#if !ANDROID
+#if !ANDROID && !UAP
 
 using System.Web;
 
@@ -68,7 +68,7 @@ namespace RestfulIrbis.OsmiCards
 
             if (ReferenceEquals(result, null))
             {
-                throw new ApplicationException("Block not found: " + label);
+                throw new Exception("Block not found: " + label);
             }
 
             return result;
@@ -78,7 +78,7 @@ namespace RestfulIrbis.OsmiCards
 
         #region Public methods
 
-#if !ANDROID
+#if !ANDROID && !UAP
 
         /// <summary>
         /// Build card for reader.
