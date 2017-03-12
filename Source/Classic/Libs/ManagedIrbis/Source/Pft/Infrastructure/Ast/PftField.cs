@@ -249,7 +249,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 Debug.WriteLine(exception);
 
-#if !UAP
+#if !UAP && !WIN81
 
                 Console.WriteLine(exception);
 
@@ -541,7 +541,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-#region ICloneable members
+        #region ICloneable members
 
         /// <inheritdoc />
         public override object Clone()
@@ -567,9 +567,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
-#endregion
+        #endregion
 
-#region PftNode members
+        #region PftNode members
 
         /// <inheritdoc />
         public override void Execute
@@ -665,6 +665,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
         }
 
-#endregion
+        #endregion
     }
 }

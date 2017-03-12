@@ -246,12 +246,16 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void GetEnv(PftContext context, PftNode node, PftNode[] arguments)
         {
+#if !WIN81
+
             string expression = context.GetStringArgument(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
             {
                 string result = global::System.Environment.GetEnvironmentVariable(expression);
                 context.Write(node, result);
             }
+
+#endif
         }
 
         //=================================================
@@ -389,7 +393,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void MachineName(PftContext context, PftNode node, PftNode[] arguments)
         {
-#if UAP
+#if UAP || WIN81
 
             context.WriteLine(node, "UniversalApplication");
 
@@ -888,6 +892,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             // ===================
 
+#if !WIN81
+
             reg.Add("close", Close);
             reg.Add("isOpen", IsOpen);
             reg.Add("openAppend", OpenAppend);
@@ -897,6 +903,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("readLine", ReadLine);
             reg.Add("write", Write);
             reg.Add("writeLine", WriteLine);
+
+#endif
 
             // ===================
 

@@ -60,6 +60,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Code.NotNullNorEmpty(className, "className");
 
+#if WIN81
+
+            throw new NotImplementedException();
+
+#else
+
             Type type = Type.GetType(className, true, true);
             string name = Guid.NewGuid().ToString("N");
             OuterObject result 
@@ -69,6 +75,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             RegisterObject(result);
 
             return result;
+
+#endif
         }
 
         /// <summary>

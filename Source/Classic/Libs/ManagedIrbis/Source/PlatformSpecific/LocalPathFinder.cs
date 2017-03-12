@@ -111,7 +111,9 @@ namespace ManagedIrbis.PlatformSpecific
 
         #endregion
 
-        #region PathFinder members
+#region PathFinder members
+
+#if !WIN81
 
         /// <inheritdoc/>
         public override string FindFile
@@ -164,6 +166,8 @@ namespace ManagedIrbis.PlatformSpecific
 
             return null;
         }
+
+#endif
 
         #endregion
     }

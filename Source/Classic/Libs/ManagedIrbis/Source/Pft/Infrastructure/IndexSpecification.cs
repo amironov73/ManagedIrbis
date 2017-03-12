@@ -21,7 +21,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-#if CLASSIC || NETCORE || ANDROID || UAP
+#if CLASSIC || NETCORE || ANDROID || UAP || WIN81
 
 using ManagedIrbis.Pft.Infrastructure.Ast;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
@@ -62,7 +62,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         [CanBeNull]
         public string Expression { get; set; }
 
-#if CLASSIC || NETCORE || ANDROID || UAP
+#if CLASSIC || NETCORE || ANDROID || UAP || WIN81
 
         /// <summary>
         /// Compiled <see cref="Expression"/>.
@@ -80,7 +80,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Private members
 
-#if CLASSIC || NETCORE || ANDROID || UAP
+#if CLASSIC || NETCORE || ANDROID || UAP || WIN81
 
         private PftNumeric CompileProgram()
         {
@@ -106,7 +106,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Public methods
 
-#if CLASSIC || NETCORE || ANDROID || UAP
+#if CLASSIC || NETCORE || ANDROID || UAP || WIN81
 
         /// <summary>
         /// Compute value of the index.

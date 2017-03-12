@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if !WIN81
+
 #region Using directives
 
 using System;
@@ -303,3 +305,5 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         #endregion
     }
 }
+
+#endif

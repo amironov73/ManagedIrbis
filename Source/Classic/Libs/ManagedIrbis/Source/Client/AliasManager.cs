@@ -84,6 +84,8 @@ namespace ManagedIrbis.Client
             return this;
         }
 
+#if !WIN81
+
         /// <summary>
         /// Read file and create <see cref="AliasManager"/>.
         /// </summary>
@@ -126,6 +128,8 @@ namespace ManagedIrbis.Client
             }
         }
 
+#endif
+
         /// <summary>
         /// Get alias value if exists.
         /// </summary>
@@ -158,6 +162,8 @@ namespace ManagedIrbis.Client
             return result;
         }
 
+#if !WIN81
+
         /// <summary>
         /// Save aliases to file.
         /// </summary>
@@ -182,6 +188,8 @@ namespace ManagedIrbis.Client
             }
 
         }
+
+#endif
 
         /// <summary>
         /// Add new or modify existing alias.

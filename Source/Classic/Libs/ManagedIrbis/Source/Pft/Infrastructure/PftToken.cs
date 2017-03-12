@@ -35,7 +35,7 @@ namespace ManagedIrbis.Pft.Infrastructure
     [DebuggerDisplay("{Kind} {Text} {Line} {Column}")]
     public sealed class PftToken
         : IHandmadeSerializable
-#if !NETCORE && !UAP
+#if !NETCORE && !UAP && !WIN81
         , ICloneable
 #endif
     {

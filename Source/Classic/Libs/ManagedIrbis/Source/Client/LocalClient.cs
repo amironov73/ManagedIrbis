@@ -84,7 +84,9 @@ namespace ManagedIrbis.Client
 
         #endregion
 
-        #region Private members
+#region Private members
+
+#if !WIN81
 
         private MstFile64 _GetMst()
         {
@@ -121,6 +123,8 @@ namespace ManagedIrbis.Client
             return result;
         }
 
+#endif
+
         #endregion
 
         #region Public methods
@@ -133,6 +137,8 @@ namespace ManagedIrbis.Client
         public override int GetMaxMfn()
         {
             int result = 0;
+
+#if !WIN81
 
             DirectReader64 reader = null;
             try
@@ -156,12 +162,20 @@ namespace ManagedIrbis.Client
                 }
             }
 
+#endif
+
             return result;
         }
 
         /// <inheritdoc/>
         public override DatabaseInfo[] ListDatabases()
         {
+#if WIN81
+
+            return new DatabaseInfo[0];
+
+#else
+
             string fileName = Path.Combine
                 (
                     DataPath,
@@ -177,6 +191,8 @@ namespace ManagedIrbis.Client
             DatabaseInfo[] result = DatabaseInfo.ParseMenu(lines);
 
             return result;
+
+#endif
         }
 
         /// <inheritdoc/>
@@ -186,6 +202,12 @@ namespace ManagedIrbis.Client
             )
         {
             Code.NotNull(fileSpecification, "fileSpecification");
+
+#if WIN81
+
+            return string.Empty;
+
+#else
 
             string fileName = fileSpecification.FileName;
             if (string.IsNullOrEmpty(fileName))
@@ -235,6 +257,8 @@ namespace ManagedIrbis.Client
                 );
 
             return result;
+
+#endif
         }
 
         /// <inheritdoc/>
@@ -249,6 +273,9 @@ namespace ManagedIrbis.Client
             }
 
             MarcRecord result = null;
+
+#if !WIN81
+
             DirectReader64 reader = null;
             try
             {
@@ -271,6 +298,8 @@ namespace ManagedIrbis.Client
                 }
             }
 
+#endif
+
             return result;
         }
 
@@ -287,6 +316,9 @@ namespace ManagedIrbis.Client
             }
 
             MarcRecord result = null;
+
+#if !WIN81
+
             DirectReader64 reader = null;
             try
             {
@@ -318,6 +350,8 @@ namespace ManagedIrbis.Client
                 }
             }
 
+#endif
+
             return result;
         }
 
@@ -328,6 +362,8 @@ namespace ManagedIrbis.Client
             )
         {
             int[] result = new int[0];
+
+#if !WIN81
 
             if (string.IsNullOrEmpty(expression))
             {
@@ -355,6 +391,8 @@ namespace ManagedIrbis.Client
                     reader.Dispose();
                 }
             }
+
+#endif
 
             return result;
         }

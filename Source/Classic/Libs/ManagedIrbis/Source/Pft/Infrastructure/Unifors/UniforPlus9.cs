@@ -75,6 +75,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 string expression
             )
         {
+#if !WIN81
+
             if (!string.IsNullOrEmpty(expression))
             {
                 string output = Path.GetDirectoryName(expression);
@@ -88,6 +90,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     context.OutputFlag = true;
                 }
             }
+
+#endif
         }
 
         /// <summary>
