@@ -780,11 +780,524 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ParFile.cs">
       <Link>Source\ParFile.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\FormatError.cs">
+      <Link>Source\Pft\FormatError.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftA.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftA.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftAbs.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftAbs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftAll.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftAll.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftAny.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftAny.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftAssignment.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftAssignment.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftBang.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftBang.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftBlank.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftBlank.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftBoolean.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftBoolean.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftBreak.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftBreak.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftC.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftC.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftCeil.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftCeil.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftCodeBlock.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftCodeBlock.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftComma.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftComma.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftComment.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftComment.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftComparison.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftComparison.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftCondition.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftConditionalLiteral.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftConditionalLiteral.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftConditionalStatement.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftConditionalStatement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftConditionAndOr.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftConditionAndOr.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftConditionNot.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftConditionNot.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftConditionParenthesis.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftConditionParenthesis.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftD.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftD.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftEat.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftEat.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftEmpty.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftEmpty.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftF.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftF.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftF2.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftF2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftFalse.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftFalse.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftField.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftField.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftFieldAssignment.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftFieldAssignment.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftFirst.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftFirst.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftFloor.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftFloor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftFor.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftFor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftForEach.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftForEach.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftFrac.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftFrac.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftFrom.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftFrom.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftFunctionCall.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftFunctionCall.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftG.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftG.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftGroup.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftGroup.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftHash.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftHash.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftHave.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftHave.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftInclude.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftInclude.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftL.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftL.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftLast.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftLast.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftLocal.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftLocal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftMfn.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftMfn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftMinus.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftMinus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftMode.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftN.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftN.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftNested.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftNested.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftNl.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftNl.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftNumeric.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftNumeric.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftNumericExpression.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftNumericExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftNumericLiteral.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftNumericLiteral.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftOrphan.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftOrphan.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftP.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftP.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftParallelFor.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftParallelFor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftParallelForEach.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftParallelForEach.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftParallelGroup.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftParallelGroup.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftParallelWith.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftParallelWith.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftPercent.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftPercent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftPow.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftPow.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftProcedureDefinition.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftProcedureDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftRef.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftRef.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftRepeatableLiteral.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftRepeatableLiteral.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftRound.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftRound.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftRsum.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftRsum.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftS.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftS.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftSemicolon.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftSemicolon.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftSign.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftSign.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftSlash.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftSlash.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftTrue.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftTrue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftTrunc.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftTrunc.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftUnconditionalLiteral.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftUnconditionalLiteral.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftUnifor.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftUnifor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftV.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftV.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftVal.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftVal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftVariableReference.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftVariableReference.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftVerbatim.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftVerbatim.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftWhile.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftWhile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftWith.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftWith.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftX.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftX.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Diagnostics\PftDebugger.cs">
+      <Link>Source\Pft\Infrastructure\Diagnostics\PftDebugger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Diagnostics\PftNodeInfo.cs">
+      <Link>Source\Pft\Infrastructure\Diagnostics\PftNodeInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\FieldSpecification.cs">
+      <Link>Source\Pft\Infrastructure\FieldSpecification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\FormatExit.cs">
+      <Link>Source\Pft\Infrastructure\FormatExit.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Functions\FileObject.cs">
+      <Link>Source\Pft\Infrastructure\Functions\FileObject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Functions\FunctionDescriptor.cs">
+      <Link>Source\Pft\Infrastructure\Functions\FunctionDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Functions\FunctionParameter.cs">
+      <Link>Source\Pft\Infrastructure\Functions\FunctionParameter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Functions\OuterObject.cs">
+      <Link>Source\Pft\Infrastructure\Functions\OuterObject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Functions\PftFunction.cs">
+      <Link>Source\Pft\Infrastructure\Functions\PftFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Functions\PftFunctionManager.cs">
+      <Link>Source\Pft\Infrastructure\Functions\PftFunctionManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Functions\StandardFunctions.cs">
+      <Link>Source\Pft\Infrastructure\Functions\StandardFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Functions\StandardFunctions.Files.cs">
+      <Link>Source\Pft\Infrastructure\Functions\StandardFunctions.Files.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Functions\StandardFunctions.Objects.cs">
+      <Link>Source\Pft\Infrastructure\Functions\StandardFunctions.Objects.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\IFormatExit.cs">
+      <Link>Source\Pft\Infrastructure\IFormatExit.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\IndexSpecification.cs">
       <Link>Source\Pft\Infrastructure\IndexSpecification.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\IndexKind.cs">
       <Link>Source\Pft\Infrastructure\IndexKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftBreakException.cs">
+      <Link>Source\Pft\Infrastructure\PftBreakException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftCleanup.cs">
+      <Link>Source\Pft\Infrastructure\PftCleanup.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftConfig.cs">
+      <Link>Source\Pft\Infrastructure\PftConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftContext.cs">
+      <Link>Source\Pft\Infrastructure\PftContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftContextGuard.cs">
+      <Link>Source\Pft\Infrastructure\PftContextGuard.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftContextSaver.cs">
+      <Link>Source\Pft\Infrastructure\PftContextSaver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftDebugEventArgs.cs">
+      <Link>Source\Pft\Infrastructure\PftDebugEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftExitException.cs">
+      <Link>Source\Pft\Infrastructure\PftExitException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftFieldOutputMode.cs">
+      <Link>Source\Pft\Infrastructure\PftFieldOutputMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftGlobal.cs">
+      <Link>Source\Pft\Infrastructure\PftGlobal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftGlobalManager.cs">
+      <Link>Source\Pft\Infrastructure\PftGlobalManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftIteration.cs">
+      <Link>Source\Pft\Infrastructure\PftIteration.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftLexer.cs">
+      <Link>Source\Pft\Infrastructure\PftLexer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftNode.cs">
+      <Link>Source\Pft\Infrastructure\PftNode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftOutput.cs">
+      <Link>Source\Pft\Infrastructure\PftOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.Arith.cs">
+      <Link>Source\Pft\Infrastructure\PftParser.Arith.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.Boolean.cs">
+      <Link>Source\Pft\Infrastructure\PftParser.Boolean.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.cs">
+      <Link>Source\Pft\Infrastructure\PftParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.Field.cs">
+      <Link>Source\Pft\Infrastructure\PftParser.Field.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.Infrastructure.cs">
+      <Link>Source\Pft\Infrastructure\PftParser.Infrastructure.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.Parallel.cs">
+      <Link>Source\Pft\Infrastructure\PftParser.Parallel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.Tables.cs">
+      <Link>Source\Pft\Infrastructure\PftParser.Tables.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftProcedure.cs">
+      <Link>Source\Pft\Infrastructure\PftProcedure.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftProcedureManager.cs">
+      <Link>Source\Pft\Infrastructure\PftProcedureManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftProgram.cs">
+      <Link>Source\Pft\Infrastructure\PftProgram.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftToken.cs">
+      <Link>Source\Pft\Infrastructure\PftToken.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftTokenKind.cs">
+      <Link>Source\Pft\Infrastructure\PftTokenKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftTokenList.cs">
+      <Link>Source\Pft\Infrastructure\PftTokenList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftVariable.cs">
+      <Link>Source\Pft\Infrastructure\PftVariable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftVariableManager.cs">
+      <Link>Source\Pft\Infrastructure\PftVariableManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\ProgramCache.cs">
+      <Link>Source\Pft\Infrastructure\ProgramCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Testing\PftTest.cs">
+      <Link>Source\Pft\Infrastructure\Testing\PftTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Testing\PftTester.cs">
+      <Link>Source\Pft\Infrastructure\Testing\PftTester.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Testing\PftTestResult.cs">
+      <Link>Source\Pft\Infrastructure\Testing\PftTestResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Text\HtmlDriver.cs">
+      <Link>Source\Pft\Infrastructure\Text\HtmlDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Text\PlainTextDriver.cs">
+      <Link>Source\Pft\Infrastructure\Text\PlainTextDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Text\TextDriver.cs">
+      <Link>Source\Pft\Infrastructure\Text\TextDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Umarci.cs">
+      <Link>Source\Pft\Infrastructure\Umarci.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifor.cs">
+      <Link>Source\Pft\Infrastructure\Unifor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor1.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\Unifor1.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor3.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\Unifor3.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor4.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\Unifor4.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor6.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\Unifor6.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforD.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforD.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforE.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforE.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforJ.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforJ.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforM.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforM.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforO.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforO.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus2.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus3.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus3.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus7.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus7.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus8.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus8.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus9.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus9.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusAt.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlusAt.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforS.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforS.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforU.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforU.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\VirtualChildren.cs">
+      <Link>Source\Pft\Infrastructure\VirtualChildren.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\VMonitor.cs">
+      <Link>Source\Pft\Infrastructure\VMonitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\PftException.cs">
+      <Link>Source\Pft\PftException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\PftFormatter.cs">
+      <Link>Source\Pft\PftFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\PftHtmlFormatter.cs">
+      <Link>Source\Pft\PftHtmlFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\PftNotConnectedException.cs">
+      <Link>Source\Pft\PftNotConnectedException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\PftSemanticException.cs">
+      <Link>Source\Pft\PftSemanticException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\PftSyntaxException.cs">
+      <Link>Source\Pft\PftSyntaxException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\PftTextSeparator.cs">
+      <Link>Source\Pft\PftTextSeparator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\PftUtility.cs">
+      <Link>Source\Pft\PftUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\PlatformSpecific\CdeclPluginFunction.cs">
+      <Link>Source\PlatformSpecific\CdeclPluginFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\PlatformSpecific\DllCache.cs">
+      <Link>Source\PlatformSpecific\DllCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\PlatformSpecific\DynamicLibrary.cs">
+      <Link>Source\PlatformSpecific\DynamicLibrary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\PlatformSpecific\LocalPathFinder.cs">
+      <Link>Source\PlatformSpecific\LocalPathFinder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\PlatformSpecific\MethodResult.cs">
+      <Link>Source\PlatformSpecific\MethodResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\PlatformSpecific\MethodRunner.cs">
+      <Link>Source\PlatformSpecific\MethodRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\PlatformSpecific\PathFinder.cs">
+      <Link>Source\PlatformSpecific\PathFinder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\PlatformSpecific\ProcessRunner.cs">
+      <Link>Source\PlatformSpecific\ProcessRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\PlatformSpecific\WinapiPluginFunction.cs">
+      <Link>Source\PlatformSpecific\WinapiPluginFunction.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pooling\IrbisConnectionPool.cs">
       <Link>Source\Pooling\IrbisConnectionPool.cs</Link>

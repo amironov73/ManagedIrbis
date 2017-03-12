@@ -22,7 +22,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure;
 
-#if CLASSIC || NETCORE
+#if CLASSIC || NETCORE || ANDROID
 
 using ManagedIrbis.Pft.Infrastructure.Ast;
 
@@ -188,7 +188,7 @@ namespace ManagedIrbis
 
         #region Public methods
 
-#if CLASSIC || NETCORE
+#if CLASSIC || NETCORE || ANDROID
 
         /// <summary>
         /// Apply the specification.

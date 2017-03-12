@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if FW4
+#if FW4 || NETCORE || ANDROID
 
 #region Using directives
 

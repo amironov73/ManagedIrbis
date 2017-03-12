@@ -131,17 +131,34 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
             PftTestResult result = null;
 
             string name = Path.GetFileName(test.Folder);
+
+#if CLASSIC || NETCORE
+
             ConsoleColor foreColor = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Cyan;
+
+#endif
+
             Console.Write("{0}: ", name);
+
+#if CLASSIC || NETCORE
+
             Console.ForegroundColor = foreColor;
+
+#endif
 
             try
             {
                 result = test.Run(name);
+
+#if CLASSIC || NETCORE
+
                 Console.ForegroundColor = result.Failed
                     ? ConsoleColor.Red
                     : ConsoleColor.Green;
+
+#endif
+
                 Console.WriteLine();
                 Console.WriteLine
                     (
@@ -149,7 +166,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                         ? "FAIL"
                         : "OK"
                     );
+
+#if CLASSIC || NETCORE
+
                 Console.ForegroundColor = foreColor;
+
+#endif
+
                 Console.WriteLine(new string('=', 70));
                 Console.WriteLine();
             }

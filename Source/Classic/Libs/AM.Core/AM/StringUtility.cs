@@ -1040,7 +1040,7 @@ namespace AM
                 {
                     byte[] bytes = new byte[value.Length - index];
 
-#if CLASSIC
+#if CLASSIC || ANDROID
 
                     int byteCount = 0;
                     char ch;
