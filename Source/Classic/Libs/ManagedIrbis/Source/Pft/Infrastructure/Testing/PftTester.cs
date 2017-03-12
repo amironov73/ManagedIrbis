@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -139,7 +140,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
 
 #endif
 
+#if !UAP
+
             Console.Write("{0}: ", name);
+
+#endif
 
 #if CLASSIC || NETCORE
 
@@ -159,6 +164,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
 
 #endif
 
+#if !UAP
+
                 Console.WriteLine();
                 Console.WriteLine
                     (
@@ -167,21 +174,37 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                         : "OK"
                     );
 
+#endif
+
 #if CLASSIC || NETCORE
 
                 Console.ForegroundColor = foreColor;
 
 #endif
 
+#if !UAP
+
                 Console.WriteLine(new string('=', 70));
                 Console.WriteLine();
+
+#endif
             }
             catch (Exception exception)
             {
+                Debug.WriteLine(exception);
+
+#if !UAP
+
                 Console.WriteLine(exception);
+
+#endif
             }
 
+#if !UAP
+
             Console.WriteLine();
+
+#endif
 
             return result;
         }

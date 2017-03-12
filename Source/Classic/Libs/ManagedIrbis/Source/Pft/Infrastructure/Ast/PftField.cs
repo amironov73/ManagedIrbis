@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 using AM;
@@ -229,7 +230,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception);
+                Debug.WriteLine(exception);
 
                 throw;
             }
@@ -246,7 +247,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
             catch (Exception exception)
             {
+                Debug.WriteLine(exception);
+
+#if !UAP
+
                 Console.WriteLine(exception);
+
+#endif
 
                 throw;
             }
@@ -534,7 +541,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region ICloneable members
+#region ICloneable members
 
         /// <inheritdoc />
         public override object Clone()
@@ -560,9 +567,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
-        #endregion
+#endregion
 
-        #region PftNode members
+#region PftNode members
 
         /// <inheritdoc />
         public override void Execute
@@ -658,6 +665,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
         }
 
-        #endregion
+#endregion
     }
 }

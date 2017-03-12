@@ -192,8 +192,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     .ThrowIfNull("input");
                 result.Input = input;
 
+#if !UAP
+
                 Console.WriteLine(input);
                 Console.WriteLine();
+
+#endif
 
                 PftLexer lexer = new PftLexer();
                 PftTokenList tokenList = lexer.Tokenize(input);
@@ -202,8 +206,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 result.Tokens = writer.ToString()
                     .DosToUnix()
                     .ThrowIfNull("tokens");
+
+#if !UAP
+
                 Console.WriteLine(result.Tokens);
                 Console.WriteLine();
+
+#endif
 
                 PftParser parser = new PftParser(tokenList);
                 PftProgram program = parser.Parse();
@@ -211,8 +220,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 result.Ast = writer.ToString()
                     .DosToUnix()
                     .ThrowIfNull("ast");
+
+#if !UAP
+
                 Console.WriteLine(result.Ast);
                 Console.WriteLine();
+
+#endif
 
                 string expectedFile = GetFullName(ExpectedFileName);
                 string expected = null;
@@ -249,7 +263,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                         .ThrowIfNull("output");
                 }
                 result.Output = output;
+
+#if !UAP
+
                 Console.WriteLine(output);
+
+#endif
 
                 if (expected != null)
                 {
@@ -257,11 +276,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     {
                         result.Failed = true;
 
+#if !UAP
+
                         Console.WriteLine();
                         Console.WriteLine("!!! FAILED !!!");
                         Console.WriteLine();
                         Console.WriteLine(expected);
                         Console.WriteLine();
+
+#endif
                     }
                 }
             }

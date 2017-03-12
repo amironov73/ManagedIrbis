@@ -389,7 +389,15 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void MachineName(PftContext context, PftNode node, PftNode[] arguments)
         {
+#if UAP
+
+            context.WriteLine(node, "UniversalApplication");
+
+#else
+
             context.Write(node, Environment.MachineName);
+
+#endif
         }
 
         //=================================================

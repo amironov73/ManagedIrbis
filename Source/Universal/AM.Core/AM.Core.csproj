@@ -446,6 +446,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\EncodingUtility.cs">
       <Link>AM\Text\EncodingUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\HtmlText.cs">
+      <Link>AM\Text\HtmlText.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Hyphenation\EnglishHyphenator.cs">
       <Link>AM\Text\Hyphenation\EnglishHyphenator.cs</Link>
     </Compile>
@@ -500,11 +503,17 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Ranges\NumberRangeCollection.cs">
       <Link>AM\Text\Ranges\NumberRangeCollection.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\RichTextStripper.cs">
+      <Link>AM\Text\RichTextStripper.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\RussianFormat.cs">
       <Link>AM\Text\RussianFormat.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\StreamParser.cs">
       <Link>AM\Text\StreamParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\TextBuffer.cs">
+      <Link>AM\Text\TextBuffer.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\TextKind.cs">
       <Link>AM\Text\TextKind.cs</Link>
@@ -514,6 +523,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\TextPosition.cs">
       <Link>AM\Text\TextPosition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\TextSeparator.cs">
+      <Link>AM\Text\TextSeparator.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\TextUtility.cs">
       <Link>AM\Text\TextUtility.cs</Link>
