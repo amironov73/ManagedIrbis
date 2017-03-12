@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if FW4 || NETCORE || ANDROID
+#if FW4 || ANDROID
 
 #region Using directives
 
@@ -100,6 +100,7 @@ namespace RestfulIrbis
             request.AddUrlSegment("format", format);
 
             IRestResponse response = _client.Execute(request);
+
             string result = JsonConvert.DeserializeObject<string>
                 (
                     response.Content
@@ -292,11 +293,11 @@ namespace RestfulIrbis
             return result;
         }
 
-        #endregion
+#endregion
 
-        #region Object members
+#region Object members
 
-        #endregion
+#endregion
     }
 }
 
