@@ -12,7 +12,7 @@ namespace PopularBooks
 {
     class Program
     {
-        const string ConnectionString = "host=192.168.3.2;port=6666;user=miron;password=miron;db=IBIS;";
+        const string ConnectionString = "host=127.0.0.1;port=6666;user=1;password=1;db=IBIS;";
 
         private static IrbisConnection Connection;
 
