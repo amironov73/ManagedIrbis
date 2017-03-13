@@ -15,7 +15,9 @@ using System.Diagnostics;
 
 namespace ManagedIrbis.Pft.Infrastructure
 {
+#if !PocketPC
     [DebuggerDisplay("{Output}")]
+#endif
     internal sealed class VMonitor
     {
         #region Properties

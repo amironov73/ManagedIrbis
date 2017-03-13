@@ -11,6 +11,7 @@
 
 using System.Text.RegularExpressions;
 
+using AM;
 using AM.Text;
 
 using JetBrains.Annotations;
@@ -109,7 +110,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 if (!string.IsNullOrEmpty(countText))
                 {
                     int wordCount;
-                    if (int.TryParse(countText, out wordCount))
+                    if (NumericUtility.TryParseInt32(countText, out wordCount))
                     {
                         string text = navigator.GetRemainingText();
                         string output = GetFirstWords(text, wordCount);
@@ -137,7 +138,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 if (!string.IsNullOrEmpty(countText))
                 {
                     int wordCount;
-                    if (int.TryParse(countText, out wordCount))
+                    if (NumericUtility.TryParseInt32(countText, out wordCount))
                     {
                         string text = navigator.GetRemainingText();
                         string output = GetLastWords(text, wordCount);

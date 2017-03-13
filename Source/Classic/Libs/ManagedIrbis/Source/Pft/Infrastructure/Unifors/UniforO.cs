@@ -66,7 +66,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     case ExemplarStatus.BiblioNet:
                         string amountText = exemplar.Amount;
                         int amount;
-                        if (int.TryParse(amountText, out amount))
+                        if (NumericUtility.TryParseInt32(amountText, out amount))
                         {
                             counter.Augment(place, amount);
                         }
@@ -140,11 +140,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     case ExemplarStatus.BiblioNet:
                         string amountText = exemplar.Amount;
                         int amount;
-                        if (int.TryParse(amountText, out amount))
+                        if (NumericUtility.TryParseInt32(amountText, out amount))
                         {
                             string onHandText = exemplar.OnHand;
                             int onHand;
-                            if (int.TryParse(onHandText, out onHand))
+                            if (NumericUtility.TryParseInt32(onHandText, out onHand))
                             {
                                 amount -= onHand;
                             }

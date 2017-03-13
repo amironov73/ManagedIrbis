@@ -22,7 +22,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure;
 
-#if CLASSIC || NETCORE || ANDROID || UAP || WIN81
+#if CLASSIC || NETCORE || ANDROID || UAP || WIN81 || PocketPC || WINMOBILE
 
 using ManagedIrbis.Pft.Infrastructure.Ast;
 
@@ -66,7 +66,9 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !PocketPC
     [DebuggerDisplay("{Tag}")]
+#endif
     public sealed class FieldReference
         : IHandmadeSerializable,
         IVerifiable
@@ -188,7 +190,7 @@ namespace ManagedIrbis
 
         #region Public methods
 
-#if CLASSIC || NETCORE || ANDROID || UAP || WIN81
+#if CLASSIC || NETCORE || ANDROID || UAP || WIN81 || PocketPC || WINMOBILE
 
         /// <summary>
         /// Apply the specification.

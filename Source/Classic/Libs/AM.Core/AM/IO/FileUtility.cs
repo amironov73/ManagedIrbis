@@ -14,6 +14,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 
 using CodeJam;
 
@@ -293,6 +294,43 @@ namespace AM.IO
 
             // TODO diagnostics
             throw new ArsMagnaException();
+        }
+
+        /// <summary>
+        /// Read all text from the text
+        /// </summary>
+        /// <remarks>
+        /// For compatibility with WinMobile.
+        /// </remarks>
+        [NotNull]
+        public static string ReadAllText
+            (
+                [NotNull] string fileName,
+                [NotNull] Encoding encoding
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+#if PocketPC || WINMOBILE
+
+            using (StreamReader reader = new StreamReader
+                (
+                    fileName,
+                    encoding
+                ))
+            {
+                return reader.ReadToEnd();
+            }
+
+#else
+
+            return File.ReadAllText
+                (
+                    fileName,
+                    encoding
+                );
+
+#endif
         }
 
         /// <summary>

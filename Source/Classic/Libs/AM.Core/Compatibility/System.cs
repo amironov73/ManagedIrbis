@@ -13,7 +13,18 @@ using System;
 
 namespace System
 {
+#if PocketPC
+
+    /// <summary>
+    /// Generic data converter.
+    /// </summary>
+    public delegate TOutput Converter<TInput, TOutput> (TInput input);
+
+#else
+
     public delegate TOutput Converter<in TInput, out TOutput> (TInput input);
+
+#endif
 
     ///// <summary>
     ///// 

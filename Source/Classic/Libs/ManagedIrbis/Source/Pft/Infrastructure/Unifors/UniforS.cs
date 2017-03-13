@@ -79,7 +79,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 TextNavigator navigator = new TextNavigator(expression);
                 string text = navigator.ReadInteger();
                 int delta;
-                if (int.TryParse(text, out delta))
+                if (NumericUtility.TryParseInt32(text, out delta))
                 {
                     context.UniversalCounter += delta;
                 }

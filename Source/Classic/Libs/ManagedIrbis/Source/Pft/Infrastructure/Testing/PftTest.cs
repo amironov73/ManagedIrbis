@@ -7,6 +7,7 @@
  * Status: poor
  */
 
+using AM.IO;
 #if !WIN81
 
 #region Using directives
@@ -155,8 +156,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 string descriptionFile = GetFullName(DescriptionFileName);
                 if (File.Exists(descriptionFile))
                 {
-                    string description 
-                        = File.ReadAllText(descriptionFile);
+                    string description = FileUtility.ReadAllText
+                        (
+                            descriptionFile,
+                            IrbisEncoding.Utf8
+                        );
                     result.Description = description;
                 }
 
@@ -185,7 +189,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 }
 
                 string pftFile = GetFullName(InputFileName);
-                string input = File.ReadAllText
+                string input = FileUtility.ReadAllText
                     (
                         pftFile,
                         IrbisEncoding.Utf8
@@ -234,7 +238,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 string expected = null;
                 if (File.Exists(expectedFile))
                 {
-                    expected = File.ReadAllText
+                    expected = FileUtility.ReadAllText
                         (
                             expectedFile,
                             IrbisEncoding.Utf8

@@ -421,6 +421,17 @@ namespace ManagedIrbis.Pft
 
             string value = match.Value;
             double result;
+
+#if PocketPC
+
+            NumericUtility.TryParseDouble
+                (
+                    value,
+                    out result
+                );
+
+#else
+
             double.TryParse
                 (
                     value,
@@ -431,6 +442,8 @@ namespace ManagedIrbis.Pft
                     CultureInfo.InvariantCulture,
                     out result
                 );
+
+#endif
 
             return result;
         }
@@ -459,6 +472,20 @@ namespace ManagedIrbis.Pft
             foreach (Match match in matches)
             {
                 double value;
+
+#if PocketPC
+
+                if (NumericUtility.TryParseDouble
+                    (
+                        match.Value,
+                        out value
+                    ))
+                {
+                    result.Add(value);
+                }
+
+#else
+
                 if (double.TryParse
                     (
                         match.Value,
@@ -472,6 +499,8 @@ namespace ManagedIrbis.Pft
                 {
                     result.Add(value);
                 }
+
+#endif
             }
 
             return result.ToArray();

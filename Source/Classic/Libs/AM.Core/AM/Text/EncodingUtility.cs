@@ -223,7 +223,7 @@ namespace AM.Text
 
             byte[] bytes = toEncoding.GetBytes(text);
 
-#if SILVERLIGHT || WIN81
+#if SILVERLIGHT || WIN81 || PocketPC
 
             string result = fromEncoding.GetString(bytes, 0, bytes.Length);
 

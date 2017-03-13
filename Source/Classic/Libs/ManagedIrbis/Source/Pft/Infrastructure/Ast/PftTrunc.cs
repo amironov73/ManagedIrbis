@@ -83,7 +83,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             if (!ReferenceEquals(child, null))
             {
                 child.Execute(context);
+
+#if PocketPC || WINMOBILE
+
+                Value = (int) child.Value;
+
+#else
+
                 Value = Math.Truncate(child.Value);
+
+#endif
             }
 
             OnAfterExecution(context);

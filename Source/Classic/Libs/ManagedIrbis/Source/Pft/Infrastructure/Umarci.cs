@@ -178,7 +178,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 return;
             }
             int repeat;
-            if (!int.TryParse(parts[2], out repeat))
+            if (!NumericUtility.TryParseInt32(parts[2], out repeat))
             {
                 return;
             }
@@ -318,7 +318,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 
             int index;
-            if (!int.TryParse(indexText, out index))
+            if (!NumericUtility.TryParseInt32(indexText, out index))
             {
                 return;
             }

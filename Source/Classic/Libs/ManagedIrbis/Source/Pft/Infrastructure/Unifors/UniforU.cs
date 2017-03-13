@@ -54,7 +54,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             if (!string.IsNullOrEmpty(expression))
             {
+#if PocketPC
+
+                string[] parts = expression.Split(new[] { ',' });
+
+#else
+
                 string[] parts = expression.Split(new[] { ',' }, 2);
+
+#endif
+
                 if (parts.Length == 2)
                 {
                     string issue = parts[0];

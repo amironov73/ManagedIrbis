@@ -38,11 +38,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             if (!string.IsNullOrEmpty(expression))
             {
+#if PocketPC
+
+                string[] parts = expression.Split(new[] { '#' });
+
+#else
+
                 string[] parts = expression.Split(new[] { '#' }, 2);
+
+#endif
+
                 if (parts.Length == 2)
                 {
                     int index;
-                    if (int.TryParse(parts[0], out index))
+                    if (NumericUtility.TryParseInt32(parts[0], out index))
                     {
                         context.Globals.Append(index, parts[1]);
                     }
@@ -93,7 +102,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             if (!string.IsNullOrEmpty(expression))
             {
                 int index;
-                if (int.TryParse(expression, out index))
+                if (NumericUtility.TryParseInt32(expression, out index))
                 {
                     RecordField[] fields = context.Globals.Get(index);
                     List<RecordField> result = new List<RecordField>();
@@ -130,8 +139,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     return;
                 }
                 int firstIndex, secondIndex;
-                if (!int.TryParse(parts[0], out firstIndex)
-                    || !int.TryParse(parts[1], out secondIndex))
+                if (!NumericUtility.TryParseInt32(parts[0], out firstIndex)
+                    || !NumericUtility.TryParseInt32(parts[1], out secondIndex))
                 {
                     return;
                 }
@@ -155,14 +164,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             if (!string.IsNullOrEmpty(expression))
             {
+#if PocketPC
+
+                string[] parts = expression.Split(new[] { '#' });
+
+#else
+
                 string[] parts = expression.Split(new []{'#'}, 2);
+
+#endif
+
                 string indexText = parts[0];
                 bool haveRepeat = !ReferenceEquals(context.CurrentGroup, null);
                 int repeat = context.Index;
                 if (parts.Length == 2)
                 {
                     string repeatText = parts[1];
-                    if (!int.TryParse(repeatText, out repeat))
+                    if (!NumericUtility.TryParseInt32(repeatText, out repeat))
                     {
                         return;
                     }
@@ -170,7 +188,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     repeat--;
                 }
                 int index;
-                if (int.TryParse(indexText, out index))
+                if (NumericUtility.TryParseInt32(indexText, out index))
                 {
                     RecordField[] fields = context.Globals.Get(index);
 
@@ -225,7 +243,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             if (!string.IsNullOrEmpty(expression))
             {
                 int index;
-                if (int.TryParse(expression, out index))
+                if (NumericUtility.TryParseInt32(expression, out index))
                 {
                     RecordField[] fields = context.Globals.Get(index);
                     Array.Sort
@@ -264,8 +282,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     return;
                 }
                 int firstIndex, secondIndex;
-                if (!int.TryParse(parts[0], out firstIndex)
-                    || !int.TryParse(parts[1], out secondIndex))
+                if (!NumericUtility.TryParseInt32(parts[0], out firstIndex)
+                    || !NumericUtility.TryParseInt32(parts[1], out secondIndex))
                 {
                     return;
                 }
@@ -301,8 +319,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     return;
                 }
                 int firstIndex, secondIndex;
-                if (!int.TryParse(parts[0], out firstIndex)
-                    || !int.TryParse(parts[1], out secondIndex))
+                if (!NumericUtility.TryParseInt32(parts[0], out firstIndex)
+                    || !NumericUtility.TryParseInt32(parts[1], out secondIndex))
                 {
                     return;
                 }
@@ -329,11 +347,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             if (!string.IsNullOrEmpty(expression))
             {
+#if PocketPC
+
+                string[] parts = expression.Split(new[] { '#' });
+
+#else
+
                 string[] parts = expression.Split(new[] {'#'}, 2);
+
+#endif
+
                 if (parts.Length == 2)
                 {
                     int index;
-                    if (int.TryParse(parts[0], out index))
+                    if (NumericUtility.TryParseInt32(parts[0], out index))
                     {
                         context.Globals.Add(index, parts[1]);
                     }

@@ -188,6 +188,26 @@ namespace ManagedIrbis.Infrastructure
 
             throw new NotImplementedException();
 
+#elif PocketPC || WINMOBILE
+
+            _ResolveHostAddress(Connection.Host);
+
+            using (new BusyGuard(Busy))
+            {
+                using (TcpClient client = _GetTcpClient())
+                {
+                    Socket socket = client.Client;
+
+                    socket.Send(request);
+
+                    byte[] result = socket.ReceiveToEnd();
+
+                    Connection.RawServerResponse = result;
+
+                    return result;
+                }
+            }
+
 #else
 
             _ResolveHostAddress(Connection.Host);

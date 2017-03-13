@@ -243,7 +243,7 @@ namespace ManagedIrbis.Magazines
             };
 
             int count;
-            int.TryParse(record.FM("999"), out count);
+            NumericUtility.TryParseInt32(record.FM("999"), out count);
             result.LoanCount = count;
 
             return result;

@@ -1768,7 +1768,7 @@ namespace AM
                 bytes.Add((byte)ch);
             }
 
-#if SILVERLIGHT || WIN81
+#if SILVERLIGHT || WIN81 || PocketPC
 
             byte[] array = bytes.ToArray();
             string result = encoding.GetString(array, 0, array.Length);
@@ -1878,6 +1878,91 @@ namespace AM
             )
         {
             return ReplaceControlCharacters(text, ' ');
+        }
+
+        /// <summary>
+        /// Split the string.
+        /// </summary>
+        /// <remarks>For compatibility with WinMobile
+        /// </remarks>
+        [NotNull]
+        public static string[] SplitString
+            (
+                [NotNull] string text,
+                [NotNull] string separator
+            )
+        {
+            Code.NotNull(text, "text");
+            Code.NotNullNorEmpty(separator, "separator");
+
+            List<string> result = new List<string>();
+
+            int separatorLength = separator.Length;
+
+            while (true)
+            {
+                int position = text.IndexOf(separator);
+                if (position < 0)
+                {
+                    result.Add(text);
+                    break;
+                }
+                string prefix = text.Substring(0, position);
+                result.Add(prefix);
+                text = text.Substring
+                    (
+                        position + separatorLength, 
+                        text.Length - position - separatorLength
+                    );
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Split the string.
+        /// </summary>
+        /// <remarks>For compatibility with WinMobile
+        /// </remarks>
+        [NotNull]
+        public static string[] SplitString
+            (
+                [NotNull] string text,
+                [NotNull] string[] separators
+            )
+        {
+            Code.NotNull(text, "text");
+            Code.NotNull(separators, "separators");
+
+            List<string> result = new List<string>();
+
+            while (true)
+            {
+                foreach (string separator in separators)
+                {
+                    int position = text.IndexOf(separator);
+                    if (position >= 0)
+                    {
+                        int separatorLength = separator.Length;
+
+                        string prefix = text.Substring(0, position);
+                        result.Add(prefix);
+                        text = text.Substring
+                            (
+                                position + separatorLength,
+                                text.Length - position - separatorLength
+                            );
+                        goto DONE;
+                    }
+                }
+
+                result.Add(text);
+                break;
+
+            DONE:;
+            }
+
+            return result.ToArray();
         }
 
         #endregion

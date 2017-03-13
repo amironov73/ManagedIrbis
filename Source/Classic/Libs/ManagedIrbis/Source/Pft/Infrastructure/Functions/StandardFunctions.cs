@@ -49,7 +49,16 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (!string.IsNullOrEmpty(expression)
                 && !ReferenceEquals(context.Record, null))
             {
+#if PocketPC
+
+                string[] parts = expression.Split(new[] { '#' });
+
+#else
+
                 string[] parts = expression.Split(new[] { '#' }, 2);
+
+#endif
+
                 if (parts.Length == 2)
                 {
                     string tag = parts[0];
@@ -130,7 +139,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 string expression = context.GetStringArgument(arguments, 0);
                 if (!string.IsNullOrEmpty(expression))
                 {
-                    if (int.TryParse(expression, out code))
+                    if (NumericUtility.TryParseInt32(expression, out code))
                     {
                         c = (char)code;
                         context.Write(node, c.ToString());
@@ -183,7 +192,17 @@ namespace ManagedIrbis.Pft.Infrastructure
                 && !ReferenceEquals(record, null))
             {
                 int repeat = -1;
+
+#if PocketPC
+
+                string[] parts = expression.Split(new[] { '#' });
+
+#else
+
                 string[] parts = expression.Split(new[] { '#' }, 2);
+
+#endif
+
                 string tag = parts[0];
                 RecordField[] fields = record.Fields.GetField(tag);
 
@@ -196,7 +215,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     }
                     else
                     {
-                        if (!int.TryParse(repeatText, out repeat))
+                        if (!NumericUtility.TryParseInt32(repeatText, out repeat))
                         {
                             return;
                         }
@@ -239,7 +258,16 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             string expression = context.GetStringArgument(arguments, 0);
             string message = expression ?? string.Empty;
+
+#if PocketPC
+
+            throw new Exception(message);
+
+#else
+
             global::System.Environment.FailFast(message);
+
+#endif
         }
 
         //=================================================
@@ -251,8 +279,12 @@ namespace ManagedIrbis.Pft.Infrastructure
             string expression = context.GetStringArgument(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
             {
+#if !PocketPC
+
                 string result = global::System.Environment.GetEnvironmentVariable(expression);
                 context.Write(node, result);
+
+#endif
             }
 
 #endif
@@ -393,7 +425,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void MachineName(PftContext context, PftNode node, PftNode[] arguments)
         {
-#if UAP || WIN81
+#if UAP || WIN81 || PocketPC
 
             context.WriteLine(node, "UniversalApplication");
 
@@ -650,7 +682,16 @@ namespace ManagedIrbis.Pft.Infrastructure
                 return;
             }
 
+#if PocketPC
+
+            string[] lines = StringUtility.SplitString(text, separator);
+
+#else
+
             string[] lines = text.Split(new[] { separator }, StringSplitOptions.None);
+
+#endif
+
             string output = string.Join(Environment.NewLine, lines);
             context.Write(node, output);
         }

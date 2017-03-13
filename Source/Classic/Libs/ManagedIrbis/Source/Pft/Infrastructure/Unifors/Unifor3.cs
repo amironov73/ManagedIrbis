@@ -65,7 +65,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 return null;
             }
-            if (!Int32.TryParse(expression.Substring(1), out index))
+            if (!NumericUtility.TryParseInt32(expression.Substring(1), out index))
             {
                 return null;
             }
@@ -90,7 +90,28 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
 
             string dateString = expression.Substring(1, 8);
+
             DateTime date;
+
+#if PocketPC
+
+            try
+            {
+                date = DateTime.ParseExact
+                    (
+                        dateString,
+                        "yyyyMMdd",
+                        null,
+                        DateTimeStyles.None
+                    );
+            }
+            catch
+            {
+                return null;
+            }
+
+#else
+
             if (!DateTime.TryParseExact
                 (
                     dateString,
@@ -102,9 +123,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 return null;
             }
+
+#endif
+
             string deltaString = expression.Substring(10);
             int delta;
-            if (!Int32.TryParse(deltaString, out delta))
+            if (!NumericUtility.TryParseInt32(deltaString, out delta))
             {
                 return null;
             }

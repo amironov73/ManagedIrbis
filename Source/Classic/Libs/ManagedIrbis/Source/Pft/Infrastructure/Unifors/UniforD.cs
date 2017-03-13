@@ -84,7 +84,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 navigator.ReadChar();
                 int mfn;
                 string mfnText = navigator.ReadInteger();
-                if (int.TryParse(mfnText, out mfn))
+                if (NumericUtility.TryParseInt32(mfnText, out mfn))
                 {
                     return;
                 }

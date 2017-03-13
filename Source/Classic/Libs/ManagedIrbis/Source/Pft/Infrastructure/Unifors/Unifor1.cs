@@ -79,7 +79,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     return;
                 }
-                if (!int.TryParse(indexText, out index))
+                if (!NumericUtility.TryParseInt32(indexText, out index))
                 {
                     return;
                 }
@@ -123,7 +123,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 navigator.ReadChar();
                 string offsetText = navigator.ReadInteger();
-                if (!int.TryParse(offsetText, out offset))
+                if (!NumericUtility.TryParseInt32(offsetText, out offset))
                 {
                     return;
                 }
@@ -132,7 +132,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 navigator.ReadChar();
                 string lengthText = navigator.ReadInteger();
-                if (!int.TryParse(lengthText, out length))
+                if (!NumericUtility.TryParseInt32(lengthText, out length))
                 {
                     return;
                 }
@@ -149,7 +149,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 else
                 {
                     string repeatText = navigator.ReadInteger();
-                    if (!int.TryParse(repeatText, out repeat))
+                    if (!NumericUtility.TryParseInt32(repeatText, out repeat))
                     {
                         return;
                     }

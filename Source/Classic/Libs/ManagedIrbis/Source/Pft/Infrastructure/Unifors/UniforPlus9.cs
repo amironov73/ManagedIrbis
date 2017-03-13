@@ -56,7 +56,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             if (!string.IsNullOrEmpty(expression))
             {
                 int code;
-                if (int.TryParse(expression, out code))
+                if (NumericUtility.TryParseInt32(expression, out code))
                 {
                     string output = ((char)code).ToString();
                     context.Write(node, output);
@@ -337,7 +337,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             if (!string.IsNullOrEmpty(expression))
             {
                 string text;
+
+#if PocketPC
+
+                string[] parts = expression.Split(new[]{'#'});
+
+#else
+
                 string[] parts = expression.Split(new[]{'#'}, 2);
+
+#endif
+
                 if (parts.Length == 2)
                 {
                     string prefix = parts[0];
@@ -352,13 +362,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     {
                         navigator.ReadChar();
                         temp = navigator.ReadInteger();
-                        int.TryParse(temp, out offset);
+                        NumericUtility.TryParseInt32(temp, out offset);
                     }
                     if (navigator.PeekChar() == '.')
                     {
                         navigator.ReadChar();
                         temp = navigator.ReadInteger();
-                        int.TryParse(temp, out length);
+                        NumericUtility.TryParseInt32(temp, out length);
                     }
 
                     if (direction != '0')
@@ -391,7 +401,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             if (!string.IsNullOrEmpty(expression))
             {
+#if PocketPC
+
+                string output = expression.ToUpper();
+
+#else
+
                 string output = expression.ToUpperInvariant();
+
+#endif
+
                 context.Write(node, output);
                 context.OutputFlag = true;
             }

@@ -37,7 +37,9 @@ namespace ManagedIrbis.Pft.Infrastructure
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !PocketPC
     [DebuggerDisplay("{ChildContext}")]
+#endif
     public sealed class PftContextGuard
         : IDisposable
     {

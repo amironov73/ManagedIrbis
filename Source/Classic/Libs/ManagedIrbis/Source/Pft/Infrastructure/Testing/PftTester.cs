@@ -107,8 +107,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
             string[] directories = Directory.GetDirectories
                 (
                     Folder,
-                    "*",
-                    SearchOption.AllDirectories
+                    "*"
+
+#if !PocketPC && !WINMOBILE
+
+                    , SearchOption.AllDirectories
+
+#endif
                 );
 
             foreach (string subDir in directories)
@@ -251,6 +256,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if !PocketPC && !WINMOBILE
+
             using (StreamWriter writer = new StreamWriter
                 (
                     new FileStream
@@ -265,6 +272,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 string text = array.ToString(Formatting.Indented);
                 writer.Write(text);
             }
+
+#endif
         }
 
         #endregion

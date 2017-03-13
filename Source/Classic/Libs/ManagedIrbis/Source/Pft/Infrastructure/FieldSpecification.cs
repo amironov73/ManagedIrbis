@@ -166,7 +166,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             else
             {
                 int index;
-                if (int.TryParse(text, out index))
+                if (NumericUtility.TryParseInt32(text, out index))
                 {
                     result.Kind = IndexKind.Literal;
                     result.Literal = index;

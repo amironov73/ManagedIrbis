@@ -13,8 +13,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+
 using AM;
+
 using ManagedIrbis.Infrastructure;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -124,6 +127,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 string expression
             )
         {
+#if !PocketPC && !WINMOBILE
+
             MarcRecord record = context.Record;
             if (ReferenceEquals(record, null))
             {
@@ -179,6 +184,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             string output = builder + obj.ToString(Formatting.Indented);
             context.Write(node, output);
             context.OutputFlag = true;
+
+#endif
         }
 
         #endregion

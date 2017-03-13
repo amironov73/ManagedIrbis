@@ -149,11 +149,19 @@ namespace ManagedIrbis
 
             text = IrbisToWindows(text);
 
+#if PocketPC || WINMOBILE
+
+            string[] result = text.Split(_delimiters);
+
+#else
+
             string[] result = text.Split
                 (
                     _delimiters,
                     StringSplitOptions.None
                 );
+
+#endif
 
             return result;
         }

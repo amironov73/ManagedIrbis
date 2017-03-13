@@ -481,7 +481,15 @@ namespace AM.Text
                             }
                             outList.Add
                                 (
+#if PocketPC
+
+                                    new string((char)c,1)
+
+#else
+
                                     char.ConvertFromUtf32(c)
+
+#endif
                                 );
                             curskip = ucskip;
                         }
@@ -501,7 +509,15 @@ namespace AM.Text
                                 );
                             outList.Add
                                 (
+#if PocketPC
+
+                                    new string((char)c, 1)
+
+#else
+
                                     char.ConvertFromUtf32(c)
+
+#endif
                                 );
                         }
                     }

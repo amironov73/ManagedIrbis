@@ -128,7 +128,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(context, "context");
             Code.NotNullNorEmpty(operation, "operation");
 
+#if PocketPC || WINMOBILE
+
+            operation = operation.ToLower();
+
+#else
+
             operation = operation.ToLowerInvariant();
+
+#endif
+
             double result;
             switch (operation)
             {

@@ -65,6 +65,12 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ArsMagnaException.cs">
       <Link>AM\ArsMagnaException.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\BinaryAttachment.cs">
+      <Link>AM\BinaryAttachment.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\BooleanUtility.cs">
+      <Link>AM\BooleanUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Caching\AbstractCache.cs">
       <Link>AM\Caching\AbstractCache.cs</Link>
     </Compile>
@@ -91,6 +97,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\BitArrayUtility.cs">
       <Link>AM\Collections\BitArrayUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\CaseInsensitiveDictionary.cs">
+      <Link>AM\Collections\CaseInsensitiveDictionary.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\CharSet.cs">
       <Link>AM\Collections\CharSet.cs</Link>
@@ -203,6 +212,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\FuncUtility.cs">
       <Link>AM\FuncUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IAttachmentContainer.cs">
+      <Link>AM\IAttachmentContainer.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\InquiryEventArgs.cs">
       <Link>AM\InquiryEventArgs.cs</Link>
     </Compile>
@@ -211,6 +223,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\BinaryWriterUtility.cs">
       <Link>AM\IO\BinaryWriterUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\ByteNavigator.cs">
+      <Link>AM\IO\ByteNavigator.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\CompressionUtility.cs">
       <Link>AM\IO\CompressionUtility.cs</Link>
@@ -274,6 +289,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\MessageEventHandler.cs">
       <Link>AM\MessageEventHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Net\SocketUtility.cs">
+      <Link>AM\Net\SocketUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\NonNullValue.cs">
       <Link>AM\NonNullValue.cs</Link>
@@ -350,6 +368,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\EncodingUtility.cs">
       <Link>AM\Text\EncodingUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\HtmlText.cs">
+      <Link>AM\Text\HtmlText.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Hyphenation\EnglishHyphenator.cs">
       <Link>AM\Text\Hyphenation\EnglishHyphenator.cs</Link>
     </Compile>
@@ -404,11 +425,17 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Ranges\NumberRangeCollection.cs">
       <Link>AM\Text\Ranges\NumberRangeCollection.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\RichTextStripper.cs">
+      <Link>AM\Text\RichTextStripper.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\RussianFormat.cs">
       <Link>AM\Runtime\RussianFormat.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\StreamParser.cs">
       <Link>AM\Text\StreamParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\TextBuffer.cs">
+      <Link>AM\Text\TextBuffer.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\TextKind.cs">
       <Link>AM\Text\TextKind.cs</Link>
@@ -418,6 +445,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\TextPosition.cs">
       <Link>AM\Text\TextPosition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\TextSeparator.cs">
+      <Link>AM\Text\TextSeparator.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\TextUtility.cs">
       <Link>AM\Text\TextUtility.cs</Link>

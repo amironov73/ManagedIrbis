@@ -170,7 +170,7 @@ namespace ManagedIrbis.Client
         /// <inheritdoc/>
         public override DatabaseInfo[] ListDatabases()
         {
-#if WIN81
+#if WIN81 || PocketPC || WINMOBILE
 
             return new DatabaseInfo[0];
 
@@ -203,7 +203,7 @@ namespace ManagedIrbis.Client
         {
             Code.NotNull(fileSpecification, "fileSpecification");
 
-#if WIN81
+#if WIN81 || PocketPC || WINMOBILE
 
             return string.Empty;
 

@@ -171,7 +171,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
             }
 
             int length;
-            if (!int.TryParse(text, out length))
+            if (!NumericUtility.TryParseInt32(text, out length))
             {
                 if (readed1 < head.Length)
                 {

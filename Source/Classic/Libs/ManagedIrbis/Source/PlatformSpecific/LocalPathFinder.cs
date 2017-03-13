@@ -127,11 +127,23 @@ namespace ManagedIrbis.PlatformSpecific
 
             string extension = Path.GetExtension(path);
             bool haveExtension = !string.IsNullOrEmpty(extension);
+
+#if PocketPC || WINMOBILE
+
+            string[] elements = StringUtility.SplitString
+                (
+                    path,
+                    Separators
+                );
+#else
+
             string[] elements = path.Split
                 (
                     Separators,
                     StringSplitOptions.RemoveEmptyEntries
                 );
+
+#endif
 
             foreach (string element in elements)
             {

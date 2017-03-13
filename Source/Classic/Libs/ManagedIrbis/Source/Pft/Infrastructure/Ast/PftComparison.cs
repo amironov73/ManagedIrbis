@@ -130,7 +130,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(context, "context");
             Code.NotNullNorEmpty(operation, "operation");
 
+#if PocketPC || WINMOBILE
+
+            operation = operation.ToLower();
+
+#else
+
             operation = operation.ToLowerInvariant();
+
+#endif
+
             bool result;
             switch (operation)
             {
@@ -185,7 +194,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(context, "context");
             Code.NotNullNorEmpty(operation, "operation");
 
+#if PocketPC || WINMOBILE
+
+            operation = operation.ToLower();
+
+#else
+
             operation = operation.ToLowerInvariant();
+
+#endif
+
             bool result;
             switch (operation)
             {
@@ -320,7 +338,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             if (ReferenceEquals(numeric, null))
             {
                 double result;
-                double.TryParse(stringValue, out result);
+                NumericUtility.TryParseDouble(stringValue, out result);
 
                 return result;
             }

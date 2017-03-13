@@ -474,12 +474,12 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 string text = GetStringArgument(arguments, index);
                 bool boolVal;
-                if (bool.TryParse(text, out boolVal))
+                if (BooleanUtility.TryParse(text, out boolVal))
                 {
                     result = boolVal;
                 }
                 int intVal;
-                if (int.TryParse(text, out intVal))
+                if (NumericUtility.TryParseInt32(text, out intVal))
                 {
                     result = intVal != 0;
                 }
@@ -520,7 +520,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 string text = GetStringArgument(arguments, index);
                 double val;
-                if (double.TryParse(text, out val))
+                if (NumericUtility.TryParseDouble(text, out val))
                 {
                     result = val;
                 }

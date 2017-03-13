@@ -102,6 +102,7 @@
     <Compile Include="AM\ArsMagnaException.cs" />
     <Compile Include="AM\AutoDisposeAttribute.cs" />
     <Compile Include="AM\BinaryAttachment.cs" />
+    <Compile Include="AM\BooleanUtility.cs" />
     <Compile Include="AM\Caching\AbstractCache.cs" />
     <Compile Include="AM\Caching\FileCache.cs" />
     <Compile Include="AM\Caching\MemoryCache.cs" />

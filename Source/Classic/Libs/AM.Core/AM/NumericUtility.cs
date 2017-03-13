@@ -395,11 +395,35 @@ namespace AM
         /// </summary>
         public static bool TryParseDecimal
             (
-                [NotNull] string text,
+                [CanBeNull] string text,
                 out decimal value
             )
         {
             Code.NotNullNorEmpty(text, "text");
+
+#if WINMOBILE || PocketPC
+
+            bool result = false;
+
+            try
+            {
+                value = decimal.Parse
+                    (
+                        text,
+                        NumberStyles.Any,
+                        CultureInfo.InvariantCulture
+                    );
+
+                result = true;
+            }
+            catch
+            {
+                value = 0;
+            }
+
+            return result;
+
+#else
 
             bool result = decimal.TryParse
                 (
@@ -410,6 +434,8 @@ namespace AM
                 );
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -417,11 +443,35 @@ namespace AM
         /// </summary>
         public static bool TryParseDouble
             (
-                [NotNull] string text,
+                [CanBeNull] string text,
                 out double value
             )
         {
             Code.NotNullNorEmpty(text, "text");
+
+#if WINMOBILE || PocketPC
+
+            bool result = false;
+
+            try
+            {
+                value = double.Parse
+                    (
+                        text,
+                        NumberStyles.Any,
+                        CultureInfo.InvariantCulture
+                    );
+
+                result = true;
+            }
+            catch
+            {
+                value = 0;
+            }
+
+            return result;
+
+#else
 
             bool result = double.TryParse
                 (
@@ -432,6 +482,8 @@ namespace AM
                 );
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -439,11 +491,35 @@ namespace AM
         /// </summary>
         public static bool TryParseFloat
             (
-                [NotNull] string text,
+                [CanBeNull] string text,
                 out float value
             )
         {
             Code.NotNullNorEmpty(text, "text");
+
+#if WINMOBILE || PocketPC
+
+            bool result = false;
+
+            try
+            {
+                value = float.Parse
+                    (
+                        text,
+                        NumberStyles.Any,
+                        CultureInfo.InvariantCulture
+                    );
+
+                result = true;
+            }
+            catch
+            {
+                value = 0;
+            }
+
+            return result;
+
+#else
 
             bool result = float.TryParse
                 (
@@ -454,6 +530,8 @@ namespace AM
                 );
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -461,11 +539,35 @@ namespace AM
         /// </summary>
         public static bool TryParseInt16
             (
-                [NotNull] string text,
+                [CanBeNull] string text,
                 out short value
             )
         {
             Code.NotNullNorEmpty(text, "text");
+
+#if WINMOBILE || PocketPC
+
+            bool result = false;
+
+            try
+            {
+                value = short.Parse
+                    (
+                        text,
+                        NumberStyles.Any,
+                        CultureInfo.InvariantCulture
+                    );
+
+                result = true;
+            }
+            catch
+            {
+                value = 0;
+            }
+
+            return result;
+
+#else
 
             bool result = short.TryParse
                 (
@@ -476,6 +578,8 @@ namespace AM
                 );
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -483,11 +587,35 @@ namespace AM
         /// </summary>
         public static bool TryParseInt32
             (
-                [NotNull] string text,
+                [CanBeNull] string text,
                 out int value
             )
         {
             Code.NotNullNorEmpty(text, "text");
+
+#if WINMOBILE || PocketPC
+
+            bool result = false;
+
+            try
+            {
+                value = int.Parse
+                    (
+                        text,
+                        NumberStyles.Any,
+                        CultureInfo.InvariantCulture
+                    );
+
+                result = true;
+            }
+            catch
+            {
+                value = 0;
+            }
+
+            return result;
+
+#else
 
             bool result = int.TryParse
                 (
@@ -498,6 +626,8 @@ namespace AM
                 );
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -505,11 +635,35 @@ namespace AM
         /// </summary>
         public static bool TryParseInt64
             (
-                [NotNull] string text,
+                [CanBeNull] string text,
                 out long value
             )
         {
             Code.NotNullNorEmpty(text, "text");
+
+#if WINMOBILE || PocketPC
+
+            bool result = false;
+
+            try
+            {
+                value = long.Parse
+                    (
+                        text,
+                        NumberStyles.Any,
+                        CultureInfo.InvariantCulture
+                    );
+
+                result = true;
+            }
+            catch
+            {
+                value = 0;
+            }
+
+            return result;
+
+#else
 
             bool result = long.TryParse
                 (
@@ -520,6 +674,8 @@ namespace AM
                 );
 
             return result;
+
+#endif
         }
 
         #endregion

@@ -22,8 +22,30 @@ namespace System.Threading.Tasks
     /// <summary>
     ///
     /// </summary>
-    public sealed class DummyClass
+    public sealed class Task
     {
+        public Task()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task(Action action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Start()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void WaitAll
+            (
+                Task[] tasks
+            )
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

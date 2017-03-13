@@ -414,7 +414,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
                 else
                 {
-                    if (!int.TryParse(occText, out occ))
+                    if (!NumericUtility.TryParseInt32(occText, out occ))
                     {
                         return;
                     }
@@ -490,7 +490,16 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             if (!string.IsNullOrEmpty(expression))
             {
+#if PocketPC || WINMOBILE
+
+                string[] parts = expression.Split(new[] { ',' });
+
+#else
+
                 string[] parts = expression.Split(new[] { ',' }, 3);
+
+#endif
+
                 if (parts.Length >= 2)
                 {
                     string section = parts[0];
@@ -625,7 +634,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             int length = 6;
             if (!string.IsNullOrEmpty(expression))
             {
-                int.TryParse(expression, out length);
+                NumericUtility.TryParseInt32(expression, out length);
             }
             if (length <= 0 || length > 9)
             {
@@ -699,7 +708,16 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             if (!string.IsNullOrEmpty(expression))
             {
+#if PocketPC || WINMOBILE
+
+                string output = expression.ToLower();
+
+#else
+
                 string output = expression.ToLowerInvariant();
+
+#endif
+
                 context.Write(node, output);
                 context.OutputFlag = true;
             }
