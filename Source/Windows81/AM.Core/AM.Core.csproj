@@ -115,6 +115,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\BinaryAttachment.cs">
       <Link>AM\BinaryAttachment.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\BooleanUtility.cs">
+      <Link>AM\BooleanUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Caching\AbstractCache.cs">
       <Link>AM\Caching\AbstractCache.cs</Link>
     </Compile>
