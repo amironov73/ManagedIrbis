@@ -93,6 +93,33 @@ namespace ManagedIrbis
                 );
         }
 
+        // ========================================================
+
+        /// <summary>
+        /// Delete specified file on the server.
+        /// </summary>
+        /// <remarks>
+        /// <para>Accepts wildcards.</para>
+        /// <para>Requires server version 2010.1 or newer.</para>
+        /// </remarks>
+        public static void DeleteAnyFile
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNull(fileName, "fileName");
+
+            connection.RequireServerVersion("2010.1", true);
+
+            connection.FormatRecord
+                (
+                    "&uf('+9K" + fileName + "')",
+                    1
+                );
+        }
+
         // =========================================================
 
         /// <summary>
@@ -383,7 +410,7 @@ namespace ManagedIrbis
             return result;
         }
 
-#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT && !ANDROID && !UAP && !WIN81
+#if CLASSIC
 
         // ========================================================
 
@@ -541,6 +568,116 @@ namespace ManagedIrbis
         }
 
         // ========================================================
+
+        /// <summary>
+        /// Read any binary file from the server.
+        /// </summary>
+        /// <remarks>
+        /// Works with version 2010.1 and newer.
+        /// </remarks>
+        [CanBeNull]
+        public static byte[] ReadAnyBinaryFile
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string serverPath
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(serverPath, "serverPath");
+
+            connection.RequireServerVersion("2010.1", true);
+
+            string text = connection.FormatRecord
+                (
+                    "&uf('+9J" + serverPath + "')",
+                    1
+                );
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return null;
+            }
+
+            RecordField field = RecordField.Parse("1", text);
+            text = field.GetFirstSubFieldValue('b');
+            byte[] result = IrbisUtility.DecodePercentString(text);
+
+            return result;
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Read (almost) any text file from the server.
+        /// </summary>
+        /// <remarks>
+        /// Works with version 2010.1 and newer.
+        /// </remarks>
+        [CanBeNull]
+        public static string ReadAnyTextFile
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string serverPath,
+                [NotNull] Encoding encoding
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(serverPath, "serverPath");
+            Code.NotNull(encoding, "encoding");
+
+            connection.RequireServerVersion("2010.1", true);
+
+            string result = connection.FormatRecord
+                (
+                    "&uf('+9J" + serverPath + "')",
+                    1
+                );
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                RecordField field = RecordField.Parse("1", result);
+                result = field.GetFirstSubFieldValue('b');
+                byte[] bytes = IrbisUtility.DecodePercentString(result);
+                result = encoding.GetString(bytes);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Read (almost) any text file from the server.
+        /// </summary>
+        /// <remarks>
+        /// Uses ANSI encoding.
+        /// </remarks>
+        [CanBeNull]
+        public static string ReadAnyTextFile
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] string serverPath
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(serverPath, "serverPath");
+
+            connection.RequireServerVersion("2010.1", true);
+
+            string result = connection.FormatRecord
+                (
+                    "&uf('+9J" + serverPath + "')",
+                    1
+                );
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                RecordField field = RecordField.Parse("1", result);
+                result = field.GetFirstSubFieldValue('b');
+                byte[] bytes = IrbisUtility.DecodePercentString(result);
+                result = IrbisEncoding.Ansi.GetString(bytes);
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Read INI-file from server.
@@ -918,110 +1055,6 @@ namespace ManagedIrbis
         }
 
         // ========================================================
-
-        /// <summary>
-        /// Read any binary file from the server.
-        /// </summary>
-        /// <remarks>
-        /// Works with version 2010.1 and newer.
-        /// </remarks>
-        [CanBeNull]
-        public static byte[] ReadAnyBinaryFile
-            (
-                [NotNull] this IrbisConnection connection,
-                [NotNull] string serverPath
-            )
-        {
-            Code.NotNull(connection, "connection");
-            Code.NotNullNorEmpty(serverPath, "serverPath");
-
-            string text = connection.FormatRecord
-                (
-                    "&uf('+9J" + serverPath + "')",
-                    1
-                );
-
-            if (string.IsNullOrEmpty(text))
-            {
-                return null;
-            }
-
-            RecordField field = RecordField.Parse("1", text);
-            text = field.GetFirstSubFieldValue('b');
-            byte[] result = IrbisUtility.DecodePercentString(text);
-
-            return result;
-        }
-
-        // ========================================================
-
-        /// <summary>
-        /// Read (almost) any text file from the server.
-        /// </summary>
-        /// <remarks>
-        /// Works with version 2010.1 and newer.
-        /// </remarks>
-        [CanBeNull]
-        public static string ReadAnyTextFile
-            (
-                [NotNull] this IrbisConnection connection,
-                [NotNull] string serverPath,
-                [NotNull] Encoding encoding
-            )
-        {
-            Code.NotNull(connection, "connection");
-            Code.NotNullNorEmpty(serverPath, "serverPath");
-            Code.NotNull(encoding, "encoding");
-
-            string result = connection.FormatRecord
-                (
-                    "&uf('+9J" + serverPath + "')",
-                    1
-                );
-
-            if (!string.IsNullOrEmpty(result))
-            {
-                RecordField field = RecordField.Parse("1", result);
-                result = field.GetFirstSubFieldValue('b');
-                byte[] bytes = IrbisUtility.DecodePercentString(result);
-                result = encoding.GetString(bytes);
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Read (almost) any text file from the server.
-        /// </summary>
-        /// <remarks>
-        /// Uses ANSI encoding.
-        /// </remarks>
-        [CanBeNull]
-        public static string ReadAnyTextFile
-            (
-                [NotNull] this IrbisConnection connection,
-                [NotNull] string serverPath
-            )
-        {
-            Code.NotNull(connection, "connection");
-            Code.NotNullNorEmpty(serverPath, "serverPath");
-
-            string result = connection.FormatRecord
-                (
-                    "&uf('+9J" + serverPath + "')",
-                    1
-                );
-
-            if (!string.IsNullOrEmpty(result))
-            {
-                RecordField field = RecordField.Parse("1", result);
-                result = field.GetFirstSubFieldValue('b');
-                byte[] bytes = IrbisUtility.DecodePercentString(result);
-                result = IrbisEncoding.Ansi.GetString(bytes);
-            }
-
-            return result;
-        }
 
         // ========================================================
 
