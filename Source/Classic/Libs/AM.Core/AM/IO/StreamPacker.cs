@@ -374,7 +374,7 @@ namespace AM.IO
 
             string result;
 
-#if WINMOBILE || PocketPC || SILVERLIGHT || WIN81
+#if WINMOBILE || PocketPC || SILVERLIGHT || WIN81 || PORTABLE
 
             result = encoding.GetString(bytes, 0, bytes.Length);
 #else

@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
 #region
 

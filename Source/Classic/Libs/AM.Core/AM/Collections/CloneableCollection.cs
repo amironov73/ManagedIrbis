@@ -31,7 +31,7 @@ namespace AM.Collections
 #endif
     public class CloneableCollection<T>
         : Collection<T>
-#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81
+#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
         , ICloneable
 #endif
     {

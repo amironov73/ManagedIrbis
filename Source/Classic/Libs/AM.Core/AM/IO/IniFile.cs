@@ -40,7 +40,7 @@ namespace AM.IO
 #if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Name={FileName}")]
 #endif
-#if !SILVERLIGHT && !UAP && !WIN81
+#if !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
     // ReSharper disable once RedundantNameQualifier
     [System.ComponentModel.DesignerCategory("Code")]
 #endif
@@ -663,7 +663,7 @@ namespace AM.IO
             _sections = new NonNullCollection<Section>();
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Constructor.
@@ -933,7 +933,7 @@ namespace AM.IO
             return this;
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Reread from the file.
@@ -1078,7 +1078,7 @@ namespace AM.IO
             Modified = false;
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Save the INI-file to specified file.
@@ -1237,7 +1237,7 @@ namespace AM.IO
 
             writer.WriteNullable(FileName);
 
-#if WINMOBILE || PocketPC || SILVERLIGHT || WIN81
+#if WINMOBILE || PocketPC || SILVERLIGHT || WIN81 || PORTABLE
 
             string encodingName = null;
 #else
@@ -1279,7 +1279,7 @@ namespace AM.IO
         /// <inheritdoc />
         public void Dispose()
         {
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
             if (Writable
                 && Modified

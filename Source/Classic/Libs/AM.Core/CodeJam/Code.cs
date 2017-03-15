@@ -55,7 +55,7 @@ namespace CodeJam
             }
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Checks whether specified files exists.

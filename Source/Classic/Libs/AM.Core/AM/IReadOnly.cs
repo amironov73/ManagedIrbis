@@ -9,7 +9,7 @@
 
 #region Using directives
 
-#if !SILVERLIGHT && !WIN81
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
 using System.Data;
 

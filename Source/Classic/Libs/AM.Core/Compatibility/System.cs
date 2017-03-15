@@ -7,13 +7,13 @@
  * Status: poor
  */
 
-#if NETCORE || WINMOBILE || PocketPC
+#if NETCORE || WINMOBILE || PocketPC || PORTABLE
 
 using System;
 
 namespace System
 {
-#if PocketPC
+#if PocketPC || WINMOBILE
 
     /// <summary>
     /// Generic data converter.
@@ -22,6 +22,9 @@ namespace System
 
 #else
 
+    /// <summary>
+    /// Generic data converter.
+    /// </summary>
     public delegate TOutput Converter<in TInput, out TOutput> (TInput input);
 
 #endif

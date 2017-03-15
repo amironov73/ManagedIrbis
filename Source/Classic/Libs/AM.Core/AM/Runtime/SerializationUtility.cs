@@ -71,7 +71,7 @@ namespace AM.Runtime
             return result;
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Считывание массива из файла.
@@ -93,7 +93,7 @@ namespace AM.Runtime
 
 #endif
 
-#if !SILVERLIGHT && !WIN81
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Считывание массива из файла.
@@ -189,7 +189,7 @@ namespace AM.Runtime
             return result;
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Считывание объекта из файла.
@@ -213,7 +213,7 @@ namespace AM.Runtime
 
 #endif
 
-#if !SILVERLIGHT && !WIN81
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Считывание объекта из файла.
@@ -328,7 +328,7 @@ namespace AM.Runtime
             }
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Сохранение в файл объекта,
@@ -353,7 +353,7 @@ namespace AM.Runtime
 
 #endif
 
-#if !SILVERLIGHT && !WIN81
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Сохранение в файл объекта,
@@ -383,7 +383,7 @@ namespace AM.Runtime
 
 #endif
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Сохранение в файл массива объектов,
@@ -468,7 +468,7 @@ namespace AM.Runtime
             return result;
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Сохранение в файл массива объектов

@@ -179,7 +179,7 @@ namespace AM.Threading.Tasks
         /// </summary>
         public void WaitForCompletion()
         {
-#if NETCORE
+#if NETCORE || PORTABLE
             SpinWait.SpinUntil(() => _queue.IsCompleted);
 #else
             while (!_queue.IsCompleted)

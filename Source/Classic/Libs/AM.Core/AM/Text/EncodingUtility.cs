@@ -73,7 +73,7 @@ namespace AM.Text
             get
             {
 
-#if !SILVERLIGHT && !WIN81
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
                 if (_windows1251 == null)
                 {
@@ -153,7 +153,7 @@ namespace AM.Text
             //            )
             //    );
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81 && !PORTABLE
 
             known.Add
                 (
@@ -223,7 +223,7 @@ namespace AM.Text
 
             byte[] bytes = toEncoding.GetBytes(text);
 
-#if SILVERLIGHT || WIN81 || PocketPC
+#if SILVERLIGHT || WIN81 || PocketPC || PORTABLE
 
             string result = fromEncoding.GetString(bytes, 0, bytes.Length);
 
@@ -288,7 +288,7 @@ namespace AM.Text
             return DetermineTextEncoding(textWithPreamble);
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Determines the text file encoding.

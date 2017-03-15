@@ -81,7 +81,7 @@ namespace AM.Text
                 bool ansi
             )
         {
-#if !SILVERLIGHT && !WIN81
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
             Text = text;
             Encoding = ansi
@@ -131,7 +131,7 @@ namespace AM.Text
                 return new byte[0];
             }
 
-#if !SILVERLIGHT && !WIN81
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
             Encoding encoding = Encoding 
                 ?? Encoding.GetEncoding(0);

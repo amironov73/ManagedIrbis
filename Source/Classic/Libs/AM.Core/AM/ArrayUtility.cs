@@ -74,7 +74,7 @@ namespace AM
             return result;
         }
 
-#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81
+#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Clone the array.

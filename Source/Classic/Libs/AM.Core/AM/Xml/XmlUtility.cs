@@ -18,7 +18,7 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Serialization;
 
-#if !ANDROID && !UAP && !WIN81
+#if !ANDROID && !UAP && !WIN81 && !PORTABLE
 
 using AM.Reflection;
 
@@ -70,7 +70,7 @@ namespace AM.Xml
             }
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Deserialize object from file.
@@ -135,7 +135,7 @@ namespace AM.Xml
             return (T)serializer.Deserialize(reader);
         }
 
-#if !ANDROID && !UAP && !WIN81
+#if !ANDROID && !UAP && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Get serializer for tagged classes.
@@ -209,7 +209,7 @@ namespace AM.Xml
 //    }
 //}
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Serialize object to file.
@@ -251,7 +251,7 @@ namespace AM.Xml
 
 #endif
 
-#if !UAP && !WIN81
+#if !UAP && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Dumps the specified reader.

@@ -12,7 +12,7 @@
 using System;
 using System.Threading;
 
-#if NETCORE || FW45 || UAP
+#if NETCORE || FW45 || UAP || PORTABLE
 
 using System.Threading.Tasks;
 
@@ -91,7 +91,7 @@ namespace AM
         {
             if (DelayInterval > 0)
             {
-#if NETCORE || FW45 || UAP
+#if NETCORE || FW45 || UAP || PORTABLE
 
                 Task.Delay(DelayInterval).Wait();
 

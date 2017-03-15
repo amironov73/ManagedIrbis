@@ -53,7 +53,7 @@ namespace AM.Text.Output
             }
         }
 
-#if !UAP && !WIN81
+#if !UAP && !WIN81 && !PORTABLE
 
         /// <summary>
         /// 

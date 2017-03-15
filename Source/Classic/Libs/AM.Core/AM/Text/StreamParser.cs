@@ -150,7 +150,7 @@ namespace AM.Text
 
         #region Public methods
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Construct the <see cref="StreamParser"/>

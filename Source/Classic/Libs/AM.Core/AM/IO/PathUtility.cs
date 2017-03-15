@@ -34,8 +34,16 @@ namespace AM.IO
     {
         #region Private members
 
+#if PORTABLE
+
+        private static string _backslash = "\\";
+
+#else
+
         private static string _backslash
             = new string(Path.DirectorySeparatorChar, 1);
+
+#endif
 
         #endregion
 
@@ -122,16 +130,28 @@ namespace AM.IO
         {
             Code.NotNull(path, "path");
 
+#if PORTABLE
+
+            string result = path.Replace
+                (
+                    '/',
+                    '\\'
+                );
+
+#else
+
             string result = path.Replace
                 (
                     Path.AltDirectorySeparatorChar,
                     Path.DirectorySeparatorChar
                 );
 
+#endif
+
             return result;
         }
 
-#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT && !UAP
+#if CLASSIC
 
         /// <summary>
         /// Maps the path relative to the executable name.

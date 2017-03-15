@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if !NETCORE
+#if !NETCORE && !PORTABLE
 
 using System;
 using System.Collections.Generic;

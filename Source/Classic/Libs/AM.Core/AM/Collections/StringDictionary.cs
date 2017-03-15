@@ -81,7 +81,7 @@ namespace AM.Collections
             return result;
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Loads <see cref="StringDictionary"/> from the specified file.
@@ -130,7 +130,7 @@ namespace AM.Collections
             writer.WriteLine(EndOfDictionary);
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Saves the <see cref="StringDictionary"/> to specified file.

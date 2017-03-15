@@ -300,13 +300,17 @@ namespace AM.IO
         /// and file handles) associated with the current stream.
         /// </summary>
         public
-#if !NETCORE && !UAP && !WIN81
+#if !NETCORE && !UAP && !WIN81 && !PORTABLE
             override 
 #endif
             void Close()
         {
 
-#if !NETCORE && !UAP && !WIN81
+#if PORTABLE
+
+            Dispose();
+
+#elif !NETCORE && !UAP && !WIN81
 
             base.Close();
 

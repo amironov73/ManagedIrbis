@@ -105,7 +105,7 @@ namespace AM.IO
                 (
                     stream,
 
-#if !SILVERLIGHT && !WIN81
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
                     Encoding.GetEncoding(0)
 
@@ -119,7 +119,7 @@ namespace AM.IO
             Dump(writer, data);
         }
 
-#if !UAP && !WIN81
+#if !UAP && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Dump the array of data to console output.

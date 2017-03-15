@@ -42,7 +42,7 @@ namespace AM.IO
         {
         }
 
-#if !NETCORE && !UAP && !WIN81
+#if !NETCORE && !UAP && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Constructor.
@@ -81,7 +81,7 @@ namespace AM.IO
         {
         }
 
-#if !NETCORE && !UAP && !WIN81
+#if !NETCORE && !UAP && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Constructor.
@@ -122,7 +122,7 @@ namespace AM.IO
         {
         }
 
-#if !NETCORE && !UAP && !WIN81
+#if !NETCORE && !UAP && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Constructor.
@@ -173,7 +173,7 @@ namespace AM.IO
         /// associated with the reader.
         /// </summary>
         public
-#if !NETCORE && !UAP && !WIN81
+#if !NETCORE && !UAP && !WIN81 && !PORTABLE
             override
 #endif
             void Close()

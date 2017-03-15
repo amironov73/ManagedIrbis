@@ -110,7 +110,7 @@ namespace AM
 
             byte[] bytes = fromEncoding.GetBytes(value);
 
-#if WINMOBILE || PocketPC || SILVERLIGHT || WIN81
+#if WINMOBILE || PocketPC || SILVERLIGHT || WIN81 || PORTABLE
 
             string result = toEncoding.GetString(bytes, 0, bytes.Length);
 #else
@@ -253,7 +253,23 @@ namespace AM
                 return false;
             }
 
+#if PORTABLE
+
+            foreach (char c in value)
+            {
+                if (!char.IsDigit(c))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+
+#else
+
             return value.All(char.IsDigit);
+
+#endif
         }
 
         /// <summary>
@@ -270,6 +286,32 @@ namespace AM
                 foreach (char c in text)
                 {
                     if (symbols.Contains(c))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the text contains specified character.
+        /// </summary>
+        /// <remarks>
+        /// For portable library.
+        /// </remarks>
+        public static bool ContainsCharacter
+            (
+                [CanBeNull] this string text,
+                char symbol
+            )
+        {
+            if (!string.IsNullOrEmpty(text))
+            {
+                foreach (char c in text)
+                {
+                    if (c == symbol)
                     {
                         return true;
                     }
@@ -321,7 +363,7 @@ namespace AM
         /// </summary>
         public static IEqualityComparer<string> GetCaseInsensitiveComparer()
         {
-#if NETCORE || UAP || WIN81
+#if NETCORE || UAP || WIN81 || PORTABLE
 
             return StringComparer.OrdinalIgnoreCase;
 
@@ -1295,7 +1337,7 @@ namespace AM
                 (
                     s1,
                     s2,
-#if NETCORE || UAP || WIN81
+#if NETCORE || UAP || WIN81 || PORTABLE
 
                     StringComparison.OrdinalIgnoreCase
 
@@ -1768,7 +1810,7 @@ namespace AM
                 bytes.Add((byte)ch);
             }
 
-#if SILVERLIGHT || WIN81 || PocketPC
+#if SILVERLIGHT || WIN81 || PocketPC || PORTABLE
 
             byte[] array = bytes.ToArray();
             string result = encoding.GetString(array, 0, array.Length);

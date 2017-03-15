@@ -98,7 +98,7 @@ namespace AM.CommandLine
                 return text;
             }
 
-            if (text.Contains(' '))
+            if (text.ContainsCharacter(' '))
             {
                 text = CommandLineSettings.ArgumentDelimiter
                        + text

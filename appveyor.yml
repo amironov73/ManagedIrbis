@@ -42,6 +42,7 @@ after_build:
 - cmd: compileuap.cmd
 - cmd: compilesl.cmd
 - cmd: compilewin81.cmd
+- cmd: compilepcl.cmd
 - cmd: cd Nuget
 - cmd: packit.cmd
 

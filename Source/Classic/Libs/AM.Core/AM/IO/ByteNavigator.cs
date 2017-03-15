@@ -85,7 +85,7 @@ namespace AM.IO
             _data = data;
             Length = data.Length;
 
-#if SILVERLIGHT || WIN81
+#if SILVERLIGHT || WIN81 || PORTABLE
 
             Encoding = Encoding.GetEncoding("windows-1251");
 
@@ -116,7 +116,7 @@ namespace AM.IO
             _data = data;
             Length = length;
 
-#if SILVERLIGHT || WIN81
+#if SILVERLIGHT || WIN81 || PORTABLE
 
             Encoding = Encoding.GetEncoding("windows-1251");
 
@@ -212,7 +212,7 @@ namespace AM.IO
         }
 
 
-#if !WINMOBILE && !PocketPC && !WIN81
+#if !WINMOBILE && !PocketPC && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Навигатор по двоичному файлу.

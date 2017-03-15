@@ -52,7 +52,7 @@ namespace AM
                     return true;
                 }
 
-#if !NETCORE && !WIN81
+#if !NETCORE && !WIN81 && !PORTABLE
 
                 if (targetType.IsAssignableFrom(sourceType))
                 {
@@ -61,7 +61,7 @@ namespace AM
 
 #endif
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
                 IConvertible convertible = value as IConvertible;
                 if (convertible != null)
@@ -111,7 +111,7 @@ namespace AM
                 return (T)(object)value.ToString();
             }
 
-#if !NETCORE && !WIN81
+#if !NETCORE && !WIN81 && !PORTABLE
 
             if (targetType.IsAssignableFrom(sourceType))
             {
@@ -120,7 +120,7 @@ namespace AM
 
 #endif
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81 && !PORTABLE
 
             IConvertible convertible = value as IConvertible;
             if (convertible != null)

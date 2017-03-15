@@ -197,7 +197,7 @@ namespace AM
                 return false;
             }
 
-#if !UAP && !WIN81
+#if !UAP && !WIN81 && !PORTABLE
 
             if (type.IsValueType)
             {
@@ -206,7 +206,7 @@ namespace AM
 
 #endif
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
             if (type == type.GetMethod("Equals").DeclaringType)
             {
@@ -225,7 +225,7 @@ namespace AM
                     );
             }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
             // compare each property
             foreach (PropertyInfo info in type.GetProperties
@@ -303,7 +303,7 @@ namespace AM
                 return false;
             }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
             PropertyInfo[] properties = type.GetProperties
             (

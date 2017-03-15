@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT && !UAP && !WIN81
+#if CLASSIC
 
 #region Using directives
 
