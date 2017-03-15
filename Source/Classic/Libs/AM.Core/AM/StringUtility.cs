@@ -17,6 +17,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
+using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -109,15 +111,11 @@ namespace AM
             }
 
             byte[] bytes = fromEncoding.GetBytes(value);
-
-#if WINMOBILE || PocketPC || SILVERLIGHT || WIN81 || PORTABLE
-
-            string result = toEncoding.GetString(bytes, 0, bytes.Length);
-#else
-
-            string result = toEncoding.GetString(bytes);
-
-#endif
+            string result = EncodingUtility.GetString
+                (
+                    toEncoding,
+                    bytes
+                );
 
             return result;
         }
@@ -1810,16 +1808,11 @@ namespace AM
                 bytes.Add((byte)ch);
             }
 
-#if SILVERLIGHT || WIN81 || PocketPC || PORTABLE
-
-            byte[] array = bytes.ToArray();
-            string result = encoding.GetString(array, 0, array.Length);
-
-#else
-
-            string result = encoding.GetString(bytes.ToArray());
-
-#endif
+            string result = EncodingUtility.GetString
+                (
+                    encoding,
+                    bytes.ToArray()
+                );
 
             return result;
         }

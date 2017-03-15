@@ -13,6 +13,8 @@ using System;
 using System.IO;
 using System.Text;
 
+using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -453,18 +455,11 @@ namespace AM.IO
             int count = ReadInt32(stream);
             byte[] bytes = _Read(stream, count);
 
-            // ReSharper disable once JoinDeclarationAndInitializer
-            string result;
-
-#if WINMOBILE || PocketPC || SILVERLIGHT || WIN81 || PORTABLE
-
-            result = encoding.GetString(bytes, 0, count);
-
-#else
-
-            result = encoding.GetString(bytes);
-
-#endif
+            string result = EncodingUtility.GetString
+                (
+                    encoding,
+                    bytes
+                );
 
             return result;
         }

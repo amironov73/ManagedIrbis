@@ -13,6 +13,8 @@ using System;
 using System.IO;
 using System.Text;
 
+using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -371,19 +373,13 @@ namespace AM.IO
                 encoding = Encoding.UTF8;
             }
             byte[] bytes = UnpackBytes(stream);
+            string result = EncodingUtility.GetString
+                (
+                    encoding,
+                    bytes
+                );
 
-            string result;
-
-#if WINMOBILE || PocketPC || SILVERLIGHT || WIN81 || PORTABLE
-
-            result = encoding.GetString(bytes, 0, bytes.Length);
-#else
-
-            result = encoding.GetString(bytes);
-
-#endif
             return result;
-
         }
 
         /// <summary>

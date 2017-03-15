@@ -243,22 +243,18 @@ namespace AM.Text
         {
             Code.NotNull(fromEncoding, "fromEncoding");
             Code.NotNull(toEncoding, "toEncoding");
+
             if (string.IsNullOrEmpty(text))
             {
                 return text;
             }
 
             byte[] bytes = toEncoding.GetBytes(text);
-
-#if SILVERLIGHT || WIN81 || PocketPC || PORTABLE
-
-            string result = fromEncoding.GetString(bytes, 0, bytes.Length);
-
-#else
-
-            string result = fromEncoding.GetString(bytes);
-
-#endif
+            string result = GetString
+                (
+                    fromEncoding,
+                    bytes
+                );
 
             return result;
         }
@@ -303,15 +299,17 @@ namespace AM.Text
         /// <summary>
         /// Determine text encoding.
         /// </summary>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        public static Encoding DetermineTextEncoding(Stream stream)
+        public static Encoding DetermineTextEncoding
+            (
+                [NotNull] Stream stream
+            )
         {
             byte[] textWithPreamble = StreamUtility.ReadAsMuchAsPossible
                 (
                     stream,
                     MaxPreambleLength
                 );
+
             return DetermineTextEncoding(textWithPreamble);
         }
 
@@ -320,9 +318,10 @@ namespace AM.Text
         /// <summary>
         /// Determines the text file encoding.
         /// </summary>
-        /// <param name="fileName">Name of the file.</param>
-        /// <returns></returns>
-        public static Encoding DetermineTextEncoding(string fileName)
+        public static Encoding DetermineTextEncoding
+            (
+                string fileName
+            )
         {
             using (FileStream stream = File.OpenRead(fileName))
             {
@@ -341,18 +340,19 @@ namespace AM.Text
         [NotNull]
         public static string GetString
             (
-                [NotNull] this Encoding encoding,
+                [NotNull] Encoding encoding,
                 [NotNull] byte[] bytes
             )
         {
             Code.NotNull(encoding, "encoding");
             Code.NotNull(bytes, "bytes");
 
+            // ReSharper disable JoinDeclarationAndInitializer
             string result;
 
 #if WINMOBILE || PocketPC || SILVERLIGHT || WIN81 || PORTABLE
 
-            result = encoding.GetString(bytes, 0, count);
+            result = encoding.GetString(bytes, 0, bytes.Length);
 
 #else
 
@@ -361,6 +361,7 @@ namespace AM.Text
 #endif
 
             return result;
+            // ReSharper restore JoinDeclarationAndInitializer
         }
 
         #endregion
