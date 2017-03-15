@@ -452,6 +452,13 @@ namespace ManagedIrbis.Readers
         [JsonProperty("mfn")]
         public int Mfn { get; set; }
 
+        /// <summary>
+        /// Flag for the reader info.
+        /// </summary>
+        [XmlAttribute("marked")]
+        [JsonProperty("marked")]
+        public bool Marked { get; set; }
+
         #endregion
 
         #region Private members

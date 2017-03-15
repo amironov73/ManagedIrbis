@@ -16,7 +16,9 @@ using System.IO;
 using System.Text;
 
 using AM.IO;
+
 using CodeJam;
+
 using JetBrains.Annotations;
 
 #endregion
@@ -49,6 +51,29 @@ namespace AM.Text
 
         #region Properties
 
+        /// <summary>
+        /// Default encoding.
+        /// </summary>
+        /// <remarks>
+        /// Reduce if/else preprocessing.
+        /// </remarks>
+        [NotNull]
+        public static Encoding DefaultEncoding
+        {
+            get
+            {
+#if SILVERLIGHT || WIN81 || PORTABLE
+
+                return Windows1251;
+
+#else
+
+                return Encoding.GetEncoding(0);
+
+#endif
+            }
+        }
+
         private static int _maxPreambleLength;
 
         /// <summary>
@@ -67,6 +92,7 @@ namespace AM.Text
         /// <summary>
         /// Gets the Windows-1251 (cyrillic) <see cref="Encoding"/>.
         /// </summary>
+        [NotNull]
         public static Encoding Windows1251
         {
             [DebuggerStepThrough]
@@ -75,13 +101,14 @@ namespace AM.Text
 
 #if !SILVERLIGHT && !WIN81 && !PORTABLE
 
-                if (_windows1251 == null)
+                if (ReferenceEquals(_windows1251, null))
                 {
                     _windows1251 = Encoding.GetEncoding(1251);
                 }
 
 #else
-                if (_windows1251 == null)
+
+                if (ReferenceEquals(_windows1251, null))
                 {
                     _windows1251 = Encoding.GetEncoding("windows-1251");
                 }
@@ -304,6 +331,37 @@ namespace AM.Text
         }
 
 #endif
+
+        /// <summary>
+        /// Get string from bytes.
+        /// </summary>
+        /// <remarks>
+        /// Reduce if/else preprocessing.
+        /// </remarks>
+        [NotNull]
+        public static string GetString
+            (
+                [NotNull] this Encoding encoding,
+                [NotNull] byte[] bytes
+            )
+        {
+            Code.NotNull(encoding, "encoding");
+            Code.NotNull(bytes, "bytes");
+
+            string result;
+
+#if WINMOBILE || PocketPC || SILVERLIGHT || WIN81 || PORTABLE
+
+            result = encoding.GetString(bytes, 0, count);
+
+#else
+
+            result = encoding.GetString(bytes);
+
+#endif
+
+            return result;
+        }
 
         #endregion
     }

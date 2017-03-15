@@ -111,12 +111,55 @@ namespace AM
         }
 
         /// <summary>
+        /// Get max or default value for the sequence.
+        /// </summary>
+        public static T MaxOrDefault<T>
+            (
+                [NotNull] this IEnumerable<T> sequence,
+                T defaultValue
+            )
+        {
+            Code.NotNull(sequence, "sequence");
+
+            T[] array = sequence.ToArray();
+            if (array.Length == 0)
+            {
+                return defaultValue;
+            }
+
+            T result = array.Max();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get max or default value for the sequence.
+        /// </summary>
+        public static U MaxOrDefault<T,U>
+            (
+                [NotNull] this IEnumerable<T> sequence,
+                [NotNull] Func<T,U> selector,
+                U defaultValue
+            )
+        {
+            Code.NotNull(sequence, "sequence");
+            Code.NotNull(selector, "selector");
+
+            T[] array = sequence.ToArray();
+            if (array.Length == 0)
+            {
+                return defaultValue;
+            }
+
+            U result = array.Max(selector);
+
+            return result;
+        }
+
+        /// <summary>
         /// Отбирает из последовательности только
         /// ненулевые элементы.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="sequence"></param>
-        /// <returns></returns>
         [NotNull]
         [ItemNotNull]
         public static IEnumerable<T> NonNullItems<T>

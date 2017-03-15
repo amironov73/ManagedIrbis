@@ -12,7 +12,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -210,27 +212,39 @@ namespace ManagedIrbis.Readers
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public ReaderInfo[] MergeReaders
+        public static List<ReaderInfo> MergeReaders
             (
-                [NotNull] ReaderInfo[] readers
+                [NotNull] IEnumerable<ReaderInfo> readers
             )
         {
+            Code.NotNull(readers, "readers");
+
             var grouped = readers
                 .Where(r => !string.IsNullOrEmpty(r.Ticket))
                 .GroupBy(r => r.Ticket);
 
-            List<ReaderInfo> result = new List<ReaderInfo>(readers.Length);
+            List<ReaderInfo> result = new List<ReaderInfo>();
 
             foreach (var grp in grouped)
             {
                 ReaderInfo first = grp.First();
                 first.Visits = grp
                     .SelectMany(r => r.Visits)
+                    .OrderBy(v => v.DateGivenString)
                     .ToArray();
+                first.Registrations = grp
+                    .SelectMany(r => r.Registrations)
+                    .OrderBy(r => r.DateString)
+                    .ToArray();
+                first.Enrollment = grp
+                    .SelectMany(r => r.Enrollment)
+                    .OrderBy(r => r.DateString)
+                    .ToArray();
+                first.Marked = grp.Any(r => r.Marked);
                 result.Add(first);
             }
 
-            return result.ToArray();
+            return result;
         }
 
         #endregion

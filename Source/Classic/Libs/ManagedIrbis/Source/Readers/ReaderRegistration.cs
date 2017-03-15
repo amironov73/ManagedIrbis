@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -232,6 +233,21 @@ namespace ManagedIrbis.Readers
             writer.WriteNullable(Chair);
             writer.WriteNullable(OrderNumber);
             writer.WriteNullable(Reason);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return string.Format
+                (
+                    "{0} - {1}",
+                    DateString.ToVisibleString(),
+                    Chair.ToVisibleString()
+                );
         }
 
         #endregion

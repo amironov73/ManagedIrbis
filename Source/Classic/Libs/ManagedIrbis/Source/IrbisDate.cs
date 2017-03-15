@@ -13,6 +13,7 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Text.RegularExpressions;
 
 using AM.Runtime;
 
@@ -137,6 +138,15 @@ namespace ManagedIrbis
             DateTime result;
 
 #if !WINMOBILE && !PocketPC
+
+            if (date.Length > 8)
+            {
+                Match match = Regex.Match(date, @"\d{8}");
+                if (match.Success)
+                {
+                    date = match.Value;
+                }
+            }
 
             DateTime.TryParseExact
                 (
