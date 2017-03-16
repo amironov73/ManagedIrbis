@@ -638,7 +638,11 @@ namespace ManagedIrbis
                 RecordField field = RecordField.Parse("1", result);
                 result = field.GetFirstSubFieldValue('b');
                 byte[] bytes = IrbisUtility.DecodePercentString(result);
-                result = encoding.GetString(bytes);
+                result = EncodingUtility.GetString
+                    (
+                        encoding,
+                        bytes
+                    );
             }
 
             return result;
@@ -673,7 +677,11 @@ namespace ManagedIrbis
                 RecordField field = RecordField.Parse("1", result);
                 result = field.GetFirstSubFieldValue('b');
                 byte[] bytes = IrbisUtility.DecodePercentString(result);
-                result = IrbisEncoding.Ansi.GetString(bytes);
+                result = EncodingUtility.GetString
+                    (
+                        IrbisEncoding.Ansi,
+                        bytes
+                    );
             }
 
             return result;
