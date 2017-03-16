@@ -354,6 +354,13 @@ namespace ManagedIrbis.Fields
         public string OrderingData { get; set; }
 
         /// <summary>
+        /// Флаг.
+        /// </summary>
+        [XmlAttribute("marked")]
+        [JsonProperty("marked")]
+        public bool Marked { get; set; }
+
+        /// <summary>
         /// Произвольные пользовательские данные.
         /// </summary>
         [CanBeNull]

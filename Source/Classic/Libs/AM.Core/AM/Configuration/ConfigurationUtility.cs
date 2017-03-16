@@ -16,6 +16,8 @@ using System.Globalization;
 
 using AM.Runtime;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -312,9 +314,6 @@ namespace AM.Configuration
         /// <summary>
         /// Get string value from application configuration.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
         [CanBeNull]
         public static string GetString
             (
@@ -322,12 +321,39 @@ namespace AM.Configuration
                 [CanBeNull] string defaultValue = null
             )
         {
+            Code.NotNullNorEmpty(key, "key");
+
             string s = CM.AppSettings[key];
             if (!string.IsNullOrEmpty(s))
             {
                 defaultValue = s;
             }
+
             return defaultValue;
+        }
+
+        /// <summary>
+        /// Get string value from application configuration.
+        /// </summary>
+        [NotNull]
+        public static string RequireString
+            (
+                [NotNull] string key
+            )
+        {
+            Code.NotNullNorEmpty(key, "key");
+
+            string result = GetString(key);
+
+            if (ReferenceEquals(result, null))
+            {
+                throw new ArgumentNullException
+                    (
+                        "configuration key '" + key + "' not set"
+                    );
+            }
+
+            return result;
         }
 
         /// <summary>
