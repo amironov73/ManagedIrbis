@@ -21,12 +21,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-#if CLASSIC || NETCORE || ANDROID || UAP || WIN81 || PocketPC
-
 using ManagedIrbis.Pft.Infrastructure.Ast;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
-
-#endif
 
 using MoonSharp.Interpreter;
 
@@ -40,7 +36,7 @@ namespace ManagedIrbis.Pft.Infrastructure
     [PublicAPI]
     [MoonSharpUserData]
     public struct IndexSpecification
-#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81
+#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
         : ICloneable
 #endif
     {
@@ -62,15 +58,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         [CanBeNull]
         public string Expression { get; set; }
 
-#if CLASSIC || NETCORE || ANDROID || UAP || WIN81 || PocketPC
-
         /// <summary>
         /// Compiled <see cref="Expression"/>.
         /// </summary>
         [CanBeNull]
         public PftNumeric Program { get; set; }
-
-#endif
 
         #endregion
 
@@ -79,8 +71,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Private members
-
-#if CLASSIC || NETCORE || ANDROID || UAP || WIN81 || PocketPC
 
         private PftNumeric CompileProgram()
         {
@@ -100,13 +90,9 @@ namespace ManagedIrbis.Pft.Infrastructure
             return Program;
         }
 
-#endif
-
         #endregion
 
         #region Public methods
-
-#if CLASSIC || NETCORE || ANDROID || UAP || WIN81 || PocketPC
 
         /// <summary>
         /// Compute value of the index.
@@ -182,8 +168,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             return result;
         }
-
-#endif
 
         #endregion
 

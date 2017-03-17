@@ -134,7 +134,7 @@ namespace ManagedIrbis.Worksheet
             }
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Считывание из локального файла.

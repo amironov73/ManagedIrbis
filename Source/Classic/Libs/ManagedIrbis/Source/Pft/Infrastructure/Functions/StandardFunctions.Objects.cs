@@ -60,7 +60,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Code.NotNullNorEmpty(className, "className");
 
-#if WIN81 || PocketPC || WINMOBILE
+#if WIN81 || PocketPC || WINMOBILE || PORTABLE
 
             throw new NotImplementedException();
 

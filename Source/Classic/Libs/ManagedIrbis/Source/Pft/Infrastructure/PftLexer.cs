@@ -89,7 +89,26 @@ namespace ManagedIrbis.Pft.Infrastructure
                 string s
             )
         {
-            return s.All(IsIdentifier);
+#if PORTABLE
+
+            bool result = false;
+
+            foreach (char c in s)
+            {
+                if (!IsInteger(c))
+                {
+                    return false;
+                }
+                result = true;
+            }
+
+            return result;
+
+#else
+
+            return s.All(c => IsInteger (c));
+
+#endif
         }
 
         private int Line { get { return _navigator.Line; } }

@@ -304,7 +304,7 @@ namespace ManagedIrbis
             return result;
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Разбор файла.
@@ -389,7 +389,7 @@ namespace ManagedIrbis
             return result;
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Запись в файл

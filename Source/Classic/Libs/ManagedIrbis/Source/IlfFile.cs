@@ -65,8 +65,8 @@ namespace ManagedIrbis
     public sealed class IlfFile
         :
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
-        
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !PORTABLE
+
         IHandmadeSerializable,
 
 #endif
@@ -366,6 +366,12 @@ namespace ManagedIrbis
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
+#if PORTABLE
+
+            throw new NotImplementedException();
+
+#else
+
             IlfFile result = new IlfFile();
 
             using (Stream stream = File.OpenRead(fileName))
@@ -439,6 +445,8 @@ namespace ManagedIrbis
             }
 
             return result;
+
+#endif
         }
 
         #endregion

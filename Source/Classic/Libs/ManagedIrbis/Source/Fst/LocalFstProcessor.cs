@@ -93,6 +93,12 @@ namespace ManagedIrbis.Fst
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if PORTABLE
+
+            throw new NotImplementedException();
+
+#else
+
             string content = File.ReadAllText
                 (
                     fileName,
@@ -110,6 +116,8 @@ namespace ManagedIrbis.Fst
             }
 
             return result;
+
+#endif
         }
 
         /// <summary>

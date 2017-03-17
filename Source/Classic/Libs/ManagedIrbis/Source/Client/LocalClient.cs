@@ -86,7 +86,7 @@ namespace ManagedIrbis.Client
 
 #region Private members
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         private MstFile64 _GetMst()
         {
@@ -138,7 +138,7 @@ namespace ManagedIrbis.Client
         {
             int result = 0;
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
             DirectReader64 reader = null;
             try
@@ -170,7 +170,7 @@ namespace ManagedIrbis.Client
         /// <inheritdoc/>
         public override DatabaseInfo[] ListDatabases()
         {
-#if WIN81 || PocketPC || WINMOBILE
+#if WIN81 || PocketPC || WINMOBILE || PORTABLE
 
             return new DatabaseInfo[0];
 
@@ -203,7 +203,7 @@ namespace ManagedIrbis.Client
         {
             Code.NotNull(fileSpecification, "fileSpecification");
 
-#if WIN81 || PocketPC || WINMOBILE
+#if WIN81 || PocketPC || WINMOBILE || PORTABLE
 
             return string.Empty;
 
@@ -274,7 +274,7 @@ namespace ManagedIrbis.Client
 
             MarcRecord result = null;
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
             DirectReader64 reader = null;
             try
@@ -317,7 +317,7 @@ namespace ManagedIrbis.Client
 
             MarcRecord result = null;
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
             DirectReader64 reader = null;
             try
@@ -363,7 +363,7 @@ namespace ManagedIrbis.Client
         {
             int[] result = new int[0];
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
             if (string.IsNullOrEmpty(expression))
             {

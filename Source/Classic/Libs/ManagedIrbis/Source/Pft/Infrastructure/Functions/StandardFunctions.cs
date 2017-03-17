@@ -259,7 +259,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             string expression = context.GetStringArgument(arguments, 0);
             string message = expression ?? string.Empty;
 
-#if PocketPC
+#if PocketPC || WINMOBILE
 
             throw new Exception(message);
 
@@ -274,12 +274,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void GetEnv(PftContext context, PftNode node, PftNode[] arguments)
         {
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
             string expression = context.GetStringArgument(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
             {
-#if !PocketPC
+#if !PocketPC || WINMOBILE
 
                 string result = global::System.Environment.GetEnvironmentVariable(expression);
                 context.Write(node, result);
@@ -425,9 +425,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void MachineName(PftContext context, PftNode node, PftNode[] arguments)
         {
-#if UAP || WIN81 || PocketPC
+#if UAP || WIN81 || PocketPC || PORTABLE
 
-            context.WriteLine(node, "UniversalApplication");
+            context.WriteLine(node, "ManagedIrbis");
 
 #else
 
@@ -933,7 +933,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             // ===================
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
             reg.Add("close", Close);
             reg.Add("isOpen", IsOpen);

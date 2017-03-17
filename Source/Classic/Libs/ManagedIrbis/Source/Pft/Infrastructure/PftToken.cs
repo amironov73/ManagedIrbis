@@ -37,7 +37,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 #endif
     public sealed class PftToken
         : IHandmadeSerializable
-#if !NETCORE && !UAP && !WIN81
+#if !NETCORE && !UAP && !WIN81 && !PORTABLE
         , ICloneable
 #endif
     {

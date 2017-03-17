@@ -22,11 +22,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure;
 
-#if CLASSIC || NETCORE || ANDROID || UAP || WIN81 || PocketPC || WINMOBILE
-
 using ManagedIrbis.Pft.Infrastructure.Ast;
-
-#endif
 
 using MoonSharp.Interpreter;
 
@@ -190,8 +186,6 @@ namespace ManagedIrbis
 
         #region Public methods
 
-#if CLASSIC || NETCORE || ANDROID || UAP || WIN81 || PocketPC || WINMOBILE
-
         /// <summary>
         /// Apply the specification.
         /// </summary>
@@ -256,8 +250,6 @@ namespace ManagedIrbis
 
             return result;
         }
-
-#endif
 
         #endregion
 

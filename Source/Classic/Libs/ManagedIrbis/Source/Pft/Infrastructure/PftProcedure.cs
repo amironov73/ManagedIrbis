@@ -34,7 +34,7 @@ namespace ManagedIrbis.Pft.Infrastructure
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftProcedure
-#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81
+#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
         : ICloneable
 #endif
     {

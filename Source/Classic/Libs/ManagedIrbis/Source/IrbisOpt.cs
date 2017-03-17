@@ -397,7 +397,7 @@ namespace ManagedIrbis
             return record.FM(WorksheetTag);
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Загружаем из OPT-файла.
@@ -482,7 +482,7 @@ namespace ManagedIrbis
             throw new IrbisException("Can't select worksheet");
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Создание OPT-файла по описанию.

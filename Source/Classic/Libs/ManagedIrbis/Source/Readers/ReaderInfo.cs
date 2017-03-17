@@ -581,7 +581,7 @@ namespace ManagedIrbis.Readers
             return result;
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Считывание из файла.

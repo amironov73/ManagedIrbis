@@ -492,7 +492,7 @@ DONE:
             return result;
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Read local file.
@@ -539,7 +539,7 @@ DONE:
                 );
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Save to local file.

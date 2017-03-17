@@ -31,7 +31,7 @@ using MoonSharp.Interpreter;
 
 using CM=OpenNETCF.Configuration.ConfigurationSettings;
 
-#else
+#elif !PORTABLE
 
 using CM = System.Configuration.ConfigurationManager;
 

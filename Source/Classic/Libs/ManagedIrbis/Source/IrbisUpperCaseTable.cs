@@ -59,7 +59,7 @@ namespace ManagedIrbis
             Code.NotNull(encoding, "encoding");
             Code.NotNull(table, "table");
 
-#if !SILVERLIGHT && !WIN81 && !PocketPC
+#if !SILVERLIGHT && !WIN81 && !PocketPC && !PORTABLE
 
             if (!encoding.IsSingleByte)
             {
@@ -137,7 +137,7 @@ namespace ManagedIrbis
             return result;
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Парсим локальный файл.
@@ -273,8 +273,7 @@ namespace ManagedIrbis
             return result;
         }
 
-
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Записываемся в файл.

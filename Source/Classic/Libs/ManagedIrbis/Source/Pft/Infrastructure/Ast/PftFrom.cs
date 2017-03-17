@@ -238,7 +238,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                             buffer.Add(value);
                         }
 
-#if WIN81
+#if WIN81 || PORTABLE
 
                         // TODO: implement!
 

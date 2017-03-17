@@ -163,7 +163,7 @@ namespace ManagedIrbis.Client
             return result;
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Load from specified file.

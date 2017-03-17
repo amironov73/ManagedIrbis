@@ -113,7 +113,7 @@ namespace ManagedIrbis.PlatformSpecific
 
 #region PathFinder members
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <inheritdoc/>
         public override string FindFile

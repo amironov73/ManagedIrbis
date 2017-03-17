@@ -86,7 +86,7 @@ namespace ManagedIrbis.Client
             return this;
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Read file and create <see cref="AliasManager"/>.
@@ -164,7 +164,7 @@ namespace ManagedIrbis.Client
             return result;
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Save aliases to file.

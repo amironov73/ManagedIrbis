@@ -101,7 +101,7 @@ namespace ManagedIrbis.Gbl
 
         #region Public methods
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Parse local file.

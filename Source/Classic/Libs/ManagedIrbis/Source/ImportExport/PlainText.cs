@@ -200,7 +200,7 @@ namespace ManagedIrbis.ImportExport
             return result;
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Read one record from local file.

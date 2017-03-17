@@ -249,7 +249,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 Debug.WriteLine(exception);
 
-#if !UAP && !WIN81
+#if !UAP && !WIN81 && !PORTABLE
 
                 Console.WriteLine(exception);
 

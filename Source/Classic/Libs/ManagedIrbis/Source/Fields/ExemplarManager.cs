@@ -50,7 +50,7 @@ namespace ManagedIrbis.Fields
         [NotNull]
         public string Format { get; set; }
 
-#if WIN81
+#if WIN81 || PORTABLE
 
         /// <summary>
         /// List of exemplars.
@@ -420,7 +420,7 @@ namespace ManagedIrbis.Fields
             return result;
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Load from file.
@@ -539,7 +539,7 @@ namespace ManagedIrbis.Fields
 #endif
         }
 
-#if !SILVERLIGHT && !WIN81
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Save to the file.

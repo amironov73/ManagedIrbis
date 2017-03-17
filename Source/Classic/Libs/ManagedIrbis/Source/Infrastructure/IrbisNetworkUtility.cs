@@ -76,7 +76,7 @@ namespace ManagedIrbis.Infrastructure
 
             Encoding encoding;
 
-#if SILVERLIGHT || WIN81
+#if SILVERLIGHT || WIN81 || PORTABLE
 
             encoding = Encoding.GetEncoding("windows-1251");
 

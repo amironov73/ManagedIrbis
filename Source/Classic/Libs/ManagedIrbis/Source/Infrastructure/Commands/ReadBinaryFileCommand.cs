@@ -158,7 +158,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             byte[] buffer = result.RawAnswer;
             Encoding encoding;
 
-#if SILVERLIGHT || WIN81
+#if SILVERLIGHT || WIN81 || PORTABLE
 
             encoding = Encoding.GetEncoding("windows-1251");
 

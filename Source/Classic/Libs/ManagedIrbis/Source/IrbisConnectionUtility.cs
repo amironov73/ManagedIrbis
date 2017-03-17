@@ -1001,7 +1001,7 @@ namespace ManagedIrbis
         {
             Code.NotNull(connection, "connection");
 
-#if !WINMOBILE && !PocketPC && !WIN81
+#if !WINMOBILE && !PocketPC && !WIN81 && !PORTABLE
 
             LoggingClientSocket oldSocket = connection.Socket
                 as LoggingClientSocket;
@@ -1119,7 +1119,7 @@ namespace ManagedIrbis
 
         // ========================================================
 
-#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81
+#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Require minimal client version.

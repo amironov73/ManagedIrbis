@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
 #region Using directives
 
@@ -17,8 +17,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+
 using AM;
 using AM.IO;
+using AM.Text;
 
 using CodeJam;
 
@@ -169,14 +171,11 @@ namespace ManagedIrbis.Direct
                 byte[] buffer = stream.ReadBytes(item.Length)
                     .ThrowIfNull("buffer");
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
-
-                string text = _encoding.GetString(buffer);
-
-#else
-                string text = _encoding.GetString(buffer, 0, buffer.Length);
-
-#endif
+                string text = EncodingUtility.GetString
+                    (
+                        _encoding,
+                        buffer
+                    );
 
                 item.Text = text;
             }

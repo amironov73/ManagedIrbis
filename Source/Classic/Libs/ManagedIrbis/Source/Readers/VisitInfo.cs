@@ -482,7 +482,7 @@ namespace ManagedIrbis.Readers
             }
         }
 
-#if !SILVERLIGHT && !WIN81
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Сохранение в файл.
@@ -523,7 +523,7 @@ namespace ManagedIrbis.Readers
             Price = reader.ReadNullableString();
         }
 
-#if !SILVERLIGHT && !WIN81
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Считывание из файла.

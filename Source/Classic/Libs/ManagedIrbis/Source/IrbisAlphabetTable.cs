@@ -54,7 +54,7 @@ namespace ManagedIrbis
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class IrbisAlphabetTable
-#if !SILVERLIGHT && !WIN81
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
         : IHandmadeSerializable
 #endif
     {
@@ -287,7 +287,7 @@ namespace ManagedIrbis
             return Array.BinarySearch(_characters, c) >= 0;
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Парсим локальный файл.
@@ -459,7 +459,7 @@ namespace ManagedIrbis
             return builder.ToString();
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Записываемся в файл.
@@ -519,7 +519,7 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-#if !SILVERLIGHT && !WIN81
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         /// <inheritdoc />
         public void RestoreFromStream

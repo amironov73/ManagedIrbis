@@ -17,7 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
-
+using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -117,16 +117,11 @@ namespace ManagedIrbis.Infrastructure
 
             byte[] bytes = memory.ToArray();
 
-
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81
-
-            string result = IrbisEncoding.Ansi.GetString (bytes);
-
-#else
-
-            string result = IrbisEncoding.Ansi.GetString(bytes, 0, bytes.Length);
-
-#endif
+            string result = EncodingUtility.GetString
+                (
+                    IrbisEncoding.Ansi,
+                    bytes
+                );
 
             return result;
         }

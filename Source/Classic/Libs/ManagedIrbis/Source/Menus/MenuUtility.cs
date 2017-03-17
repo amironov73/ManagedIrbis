@@ -169,7 +169,7 @@ namespace ManagedIrbis.Menus
             return result;
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Saves the menu to local JSON file.

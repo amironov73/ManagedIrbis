@@ -125,15 +125,15 @@ namespace ManagedIrbis.Quality
             {
                 return new RecordField[0];
             }
-            if (oneSpec.Contains('x'))
+            if (oneSpec.Contains("x"))
             {
                 oneSpec = oneSpec.Replace("x", "[0-9]");
             }
-            if (oneSpec.Contains('X'))
+            if (oneSpec.Contains("X"))
             {
                 oneSpec = oneSpec.Replace("X", "[0-9]");
             }
-            return oneSpec.Contains('[')
+            return oneSpec.Contains("[")
                 ? fields.GetFieldRegex(oneSpec)
                 : fields.GetField(oneSpec);
         }

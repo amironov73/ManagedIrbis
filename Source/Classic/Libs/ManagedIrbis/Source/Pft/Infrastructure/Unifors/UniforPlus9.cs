@@ -75,7 +75,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 string expression
             )
         {
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
             if (!string.IsNullOrEmpty(expression))
             {

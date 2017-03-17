@@ -16,7 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
 using System.Net.Sockets;
 
@@ -24,6 +24,7 @@ using System.Net.Sockets;
 
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
 using AM.IO;
 using AM.Threading;
@@ -67,7 +68,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
 
         #region Private members
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         private IPAddress _address;
 
@@ -101,7 +102,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
             }
         }
 
-#if !SILVERLIGHT && !UAP
+#if !SILVERLIGHT && !UAP && !PORTABLE
 
         private TcpClient _GetTcpClient()
         {
@@ -135,7 +136,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
 
 #endif
 
-#if !SILVERLIGHT && !WIN81
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         private static byte[] _SmartRead
             (
@@ -239,6 +240,10 @@ namespace ManagedIrbis.Infrastructure.Sockets
             throw new NotImplementedException();
 
 #elif WIN81
+
+            throw new NotImplementedException();
+
+#elif PORTABLE
 
             throw new NotImplementedException();
 

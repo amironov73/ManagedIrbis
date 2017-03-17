@@ -82,7 +82,7 @@ namespace ManagedIrbis.Infrastructure
         {
             Code.NotNull(response, "response");
 
-#if !WINMOBILE && !PocketPC && !WIN81
+#if !WINMOBILE && !PocketPC && !WIN81 && !PORTABLE
 
             string filePath = Path.Combine
                 (
@@ -112,7 +112,7 @@ namespace ManagedIrbis.Infrastructure
 
 #else
 
-#if !WINMOBILE && !PocketPC && !UAP && !WIN81
+#if !WINMOBILE && !PocketPC && !UAP && !WIN81 && !PORTABLE
 
             Debugger.Log
                 (

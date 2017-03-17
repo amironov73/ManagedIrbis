@@ -16,7 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
 using System.Net.Sockets;
 
@@ -34,7 +34,7 @@ using Windows.Networking.Sockets;
 
 using AM.IO;
 
-#if !SILVERLIGHT && !UAP && !WIN81
+#if !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
 
 using AM.Net;
 
@@ -77,7 +77,7 @@ namespace ManagedIrbis.Infrastructure
 
         #region Private members
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         private IPAddress _address;
 
@@ -207,6 +207,10 @@ namespace ManagedIrbis.Infrastructure
                     return result;
                 }
             }
+
+#elif PORTABLE
+
+            throw new NotImplementedException();
 
 #else
 

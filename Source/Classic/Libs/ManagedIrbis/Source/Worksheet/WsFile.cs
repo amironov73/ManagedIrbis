@@ -200,7 +200,7 @@ namespace ManagedIrbis.Worksheet
             return result;
         }
 
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Fixup nested worksheets for local file.

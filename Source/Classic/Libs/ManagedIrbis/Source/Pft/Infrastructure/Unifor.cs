@@ -762,8 +762,9 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 StringBuilder result = new StringBuilder();
 
-                foreach (char c in expression.Skip(1))
+                for (int index = 1; index < expression.Length; index++ )
                 {
+                    char c = expression[index];
                     string s;
                     if (_transliterator.TryGetValue(c, out s))
                     {

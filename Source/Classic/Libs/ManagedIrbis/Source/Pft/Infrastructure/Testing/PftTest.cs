@@ -7,8 +7,7 @@
  * Status: poor
  */
 
-using AM.IO;
-#if !WIN81
+#if !WIN81 && !PORTABLE
 
 #region Using directives
 
@@ -16,6 +15,7 @@ using System;
 using System.IO;
 
 using AM;
+using AM.IO;
 using AM.Text;
 
 using CodeJam;

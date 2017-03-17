@@ -14,9 +14,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+
+#if !PORTABLE
+
+using System.Security.Cryptography;
+
+#endif
 
 using AM;
 using AM.Collections;

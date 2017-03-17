@@ -147,6 +147,8 @@ namespace ManagedIrbis.Quality
             return result;
         }
 
+#if !PORTABLE
+
         /// <summary>
         /// 
         /// </summary>
@@ -178,7 +180,9 @@ namespace ManagedIrbis.Quality
             return result;
         }
 
-#if !NETCORE
+#endif
+
+#if !NETCORE && !PORTABLE
 
         /// <summary>
         /// Регистрируем все правила из указанной сборки.
