@@ -32,12 +32,12 @@ namespace ManagedIrbis.Pft.Infrastructure
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !PocketPC
+#if !PocketPC && !WINMOBILE
     [DebuggerDisplay("{Kind} {Text} {Line} {Column}")]
 #endif
     public sealed class PftToken
         : IHandmadeSerializable
-#if !NETCORE && !UAP && !WIN81 && !PORTABLE
+#if !NETCORE && !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT
         , ICloneable
 #endif
     {

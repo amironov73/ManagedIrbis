@@ -38,7 +38,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             if (!string.IsNullOrEmpty(expression))
             {
-#if PocketPC
+#if PocketPC || WINMOBILE || SILVERLIGHT
 
                 string[] parts = expression.Split(new[] { '#' });
 
@@ -164,7 +164,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             if (!string.IsNullOrEmpty(expression))
             {
-#if PocketPC
+#if PocketPC || WINMOBILE || SILVERLIGHT
 
                 string[] parts = expression.Split(new[] { '#' });
 
@@ -347,7 +347,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             if (!string.IsNullOrEmpty(expression))
             {
-#if PocketPC
+#if PocketPC || WINMOBILE || SILVERLIGHT
 
                 string[] parts = expression.Split(new[] { '#' });
 

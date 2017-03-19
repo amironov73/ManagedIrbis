@@ -338,7 +338,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 string text;
 
-#if PocketPC
+#if PocketPC || WINMOBILE || SILVERLIGHT
 
                 string[] parts = expression.Split(new[]{'#'});
 

@@ -84,7 +84,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 child.Execute(context);
 
-#if PocketPC || WINMOBILE
+#if PocketPC || WINMOBILE || SILVERLIGHT
 
                 Value = (int) child.Value;
 

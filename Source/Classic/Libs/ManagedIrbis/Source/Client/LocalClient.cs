@@ -167,10 +167,10 @@ namespace ManagedIrbis.Client
             return result;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override DatabaseInfo[] ListDatabases()
         {
-#if WIN81 || PocketPC || WINMOBILE || PORTABLE
+#if WIN81 || PocketPC || WINMOBILE || PORTABLE || SILVERLIGHT
 
             return new DatabaseInfo[0];
 

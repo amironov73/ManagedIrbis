@@ -490,7 +490,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             if (!string.IsNullOrEmpty(expression))
             {
-#if PocketPC || WINMOBILE
+#if PocketPC || WINMOBILE || SILVERLIGHT
 
                 string[] parts = expression.Split(new[] { ',' });
 

@@ -481,7 +481,7 @@ namespace AM.Text
                             }
                             outList.Add
                                 (
-#if PocketPC
+#if PocketPC ||WINMOBILE || SILVERLIGHT
 
                                     new string((char)c,1)
 
@@ -509,7 +509,7 @@ namespace AM.Text
                                 );
                             outList.Add
                                 (
-#if PocketPC
+#if PocketPC || WINMOBILE || SILVERLIGHT
 
                                     new string((char)c, 1)
 

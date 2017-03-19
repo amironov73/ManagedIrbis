@@ -41,7 +41,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         : IHandmadeSerializable,
         ITreeSerialize,
         IVerifiable
-#if !NETCORE && !UAP && !WIN81 && !PORTABLE
+#if !NETCORE && !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT
         , ICloneable
 #endif
     {

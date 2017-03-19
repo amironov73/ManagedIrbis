@@ -49,7 +49,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (!string.IsNullOrEmpty(expression)
                 && !ReferenceEquals(context.Record, null))
             {
-#if PocketPC
+#if PocketPC || WINMOBILE || SILVERLIGHT
 
                 string[] parts = expression.Split(new[] { '#' });
 
@@ -193,7 +193,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 int repeat = -1;
 
-#if PocketPC
+#if PocketPC || WINMOBILE || SILVERLIGHT
 
                 string[] parts = expression.Split(new[] { '#' });
 
@@ -259,7 +259,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             string expression = context.GetStringArgument(arguments, 0);
             string message = expression ?? string.Empty;
 
-#if PocketPC || WINMOBILE
+#if PocketPC || WINMOBILE || SILVERLIGHT
 
             throw new Exception(message);
 
@@ -274,17 +274,13 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void GetEnv(PftContext context, PftNode node, PftNode[] arguments)
         {
-#if !WIN81 && !PORTABLE
+#if !WIN81 && !PORTABLE && !PocketPC && !WINMOBILE && !SILVERLIGHT
 
             string expression = context.GetStringArgument(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
             {
-#if !PocketPC || WINMOBILE
-
                 string result = global::System.Environment.GetEnvironmentVariable(expression);
                 context.Write(node, result);
-
-#endif
             }
 
 #endif
@@ -425,7 +421,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void MachineName(PftContext context, PftNode node, PftNode[] arguments)
         {
-#if UAP || WIN81 || PocketPC || PORTABLE
+#if UAP || WIN81 || PocketPC || PORTABLE || SILVERLIGHT
 
             context.WriteLine(node, "ManagedIrbis");
 
