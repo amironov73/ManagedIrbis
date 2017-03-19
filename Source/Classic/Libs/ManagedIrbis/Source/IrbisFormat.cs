@@ -91,7 +91,7 @@ namespace ManagedIrbis
             text = Regex.Replace
                 (
                     text,
-                    "/[*].*?[\r\n]",
+                    @"/[*].*?[\r\n]",
                     " "
                 )
                 .Replace('\r', ' ')
