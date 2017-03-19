@@ -1,7 +1,10 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* AssemblyInfo.cs
+/* AssemblyInfo.cs -- general information about assembly
+ * Ars Magna project, http://arsmagna.ru 
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -17,11 +20,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("IrbisUI")]
-[assembly: AssemblyDescription("IRBIS64 user interface")]
+[assembly: AssemblyDescription("IRBIS64 fully managed user interface for ArsMagna project")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("IrbisUI")]
-[assembly: AssemblyCopyright("Copyright © Alexey Mironov 2011-2016")]
+[assembly: AssemblyCopyright("Copyright © Alexey Mironov 2006-2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -43,7 +46,7 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.5.19.90")]
-[assembly: AssemblyFileVersion("1.5.19.90")]
+[assembly: AssemblyVersion("1.6.6.1300")]
+[assembly: AssemblyFileVersion("1.6.6.1300")]
 
 [assembly: CLSCompliant(true)]
