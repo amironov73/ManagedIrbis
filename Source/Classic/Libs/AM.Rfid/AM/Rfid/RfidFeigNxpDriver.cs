@@ -471,8 +471,8 @@ namespace AM.Rfid
         public byte[] Read
             (
                 string uid,
-                uint firstBlock,
-                uint blockCount
+                int firstBlock,
+                int blockCount
             )
         {
             if (string.IsNullOrEmpty(uid))
@@ -489,8 +489,8 @@ namespace AM.Rfid
             uint blockSize;
             int returnCode = tag.ReadMultipleBlocks
                 (
-                    firstBlock, 
-                    blockCount, 
+                    (uint)firstBlock, 
+                    (uint)blockCount, 
                     out blockSize, 
                     out result
                 );
@@ -541,6 +541,7 @@ namespace AM.Rfid
         /// <summary>
         /// Select.
         /// </summary>
+        [CLSCompliant(false)]
         public HandlerType Select
             (
                 string uid
@@ -698,9 +699,9 @@ namespace AM.Rfid
         public RfidFeigNxpDriver Write
             (
                 string uid,
-                uint firstBlock,
-                uint blockCount,
-                uint blockSize,
+                int firstBlock,
+                int blockCount,
+                int blockSize,
                 byte[] data
             )
         {
@@ -720,9 +721,9 @@ namespace AM.Rfid
             HandlerType tag = tags[uid];
             int returnCode = tag.WriteMultipleBlocks
                 (
-                    firstBlock,
-                    blockCount,
-                    blockSize,
+                    (uint)firstBlock,
+                    (uint)blockCount,
+                    (uint)blockSize,
                     data
                 );
             _CheckReturnCode(returnCode);
@@ -736,7 +737,7 @@ namespace AM.Rfid
         public RfidFeigNxpDriver Write
             (
                 string uid,
-                uint firstBlock,
+                int firstBlock,
                 string text
             )
         {
@@ -750,11 +751,11 @@ namespace AM.Rfid
             }
 
             Encoding encoding = Encoding.Default;
-            uint length = (uint) encoding.GetByteCount(text);
+            int length = encoding.GetByteCount(text);
             length = ((length + 3)/4)*4;
             byte[] data = new byte[length];
             encoding.GetBytes(text, 0, text.Length, data, 0);
-            uint blockCount = length/4;
+            int blockCount = length/4;
             
             return Write
                 (
@@ -772,7 +773,7 @@ namespace AM.Rfid
         public RfidFeigNxpDriver WriteUtf8
             (
                 string uid,
-                uint firstBlock,
+                int firstBlock,
                 string text
             )
         {
@@ -786,11 +787,11 @@ namespace AM.Rfid
             }
 
             Encoding encoding = Encoding.UTF8;
-            uint length = (uint)encoding.GetByteCount(text);
+            int length = encoding.GetByteCount(text);
             length = ((length + 3) / 4) * 4;
             byte[] data = new byte[length];
             encoding.GetBytes(text, 0, text.Length, data, 0);
-            uint blockCount = length / 4;
+            int blockCount = length / 4;
 
             return Write
                 (

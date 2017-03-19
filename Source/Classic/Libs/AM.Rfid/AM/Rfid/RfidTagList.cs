@@ -29,6 +29,7 @@ namespace AM.Rfid
         /// <summary>
         /// Handlers.
         /// </summary>
+        [CLSCompliant(false)]
         public FedmIscTagHandler_ISO15693_NXP_ICODE_SLI[] Handlers
         {
             get
@@ -55,6 +56,7 @@ namespace AM.Rfid
         /// <summary>
         /// Index.
         /// </summary>
+        [CLSCompliant(false)]
         public FedmIscTagHandler_ISO15693_NXP_ICODE_SLI this[string uid]
         {
             get
@@ -63,10 +65,11 @@ namespace AM.Rfid
                 {
                     throw new ArgumentNullException("uid");
                 }
-                if (_dictionary.ContainsKey("uid"))
+                if (!_dictionary.ContainsKey("uid"))
                 {
                     throw new RfidException("No such UID: " + uid);
                 }
+
                 return _dictionary[uid];
             }
         }
@@ -78,6 +81,7 @@ namespace AM.Rfid
         /// <summary>
         /// Constructor.
         /// </summary>
+        [CLSCompliant(false)]
         public RfidTagList
         (
             Dictionary<string, FedmIscTagHandler> source
