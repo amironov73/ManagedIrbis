@@ -9,8 +9,11 @@
 
 #region Using directives
 
-using System.Text.RegularExpressions;
+using System.Text;
+
 using AM;
+using AM.Text;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -68,15 +71,91 @@ namespace ManagedIrbis
         #region Public methods
 
         /// <summary>
-        /// Prepare dynamic format string.
+        /// Remove comments from the format.
         /// </summary>
-        /// <param name="text"></param>
+        [CanBeNull]
+        public static string RemoveComments
+            (
+                [CanBeNull] string text
+            )
+        {
+            const char ZERO = '\0';
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            if (!text.Contains("/*"))
+            {
+                return text;
+            }
+
+            StringBuilder result = new StringBuilder(text.Length);
+            TextNavigator navigator = new TextNavigator(text);
+            char state = ZERO;
+
+            while (!navigator.IsEOF)
+            {
+                char c = navigator.ReadChar();
+
+                switch (state)
+                {
+                    case '\'':
+                        if (c == '\'')
+                        {
+                            state = ZERO;
+                        }
+                        result.Append(c);
+                        break;
+
+                    case '"':
+                        if (c == '"')
+                        {
+                            state = ZERO;
+                        }
+                        result.Append(c);
+                        break;
+
+                    case '|':
+                        if (c == '|')
+                        {
+                            state = ZERO;
+                        }
+                        result.Append(c);
+                        break;
+
+                    default:
+                        if (c == '/')
+                        {
+                            if (navigator.PeekChar() == '*')
+                            {
+                                navigator.ReadTo('\r', '\n');
+                            }
+                            else
+                            {
+                                result.Append(c);
+                            }
+                        }
+                        else
+                        {
+                            result.Append(c);
+                        }
+                        break;
+                }
+            }
+
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Prepare the dynamic format string.
+        /// </summary>
         /// <remarks>Dynamic format string
         /// mustn't contains comments and
         /// string delimiters (no matter
         /// real or IRBIS).
         /// </remarks>
-        /// <returns></returns>
         [CanBeNull]
         public static string PrepareFormat
             (
@@ -88,17 +167,15 @@ namespace ManagedIrbis
                 return text;
             }
 
-            text = Regex.Replace
-                (
-                    text,
-                    @"/[*].*?[\r\n]",
-                    " "
-                )
-                .Replace('\r', ' ')
-                .Replace('\n', ' ')
-                .Replace('\t', ' ')
-                .Replace('\x1F', ' ')
-                .Replace('\x1E', ' ');
+            text = RemoveComments(text);
+            if (!string.IsNullOrEmpty(text))
+            {
+                text = text.Replace("\r", string.Empty)
+                    .Replace("\n", string.Empty)
+                    .Replace('\t', ' ')
+                    .Replace("\x1F", string.Empty)
+                    .Replace("\x1E", string.Empty);
+            }
 
             return text;
         }

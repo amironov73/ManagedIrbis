@@ -370,24 +370,6 @@ namespace AM.Text
             return _text[_position];
         }
 
-        ///// <summary>
-        ///// Подглядывание текущего символа.
-        ///// </summary>
-        //public char PeekChar
-        //    (
-        //        int delta
-        //    )
-        //{
-        //    int newPosition = _position + delta;
-        //    if (newPosition >= _length
-        //        || newPosition < 0)
-        //    {
-        //        return EOF;
-        //    }
-
-        //    return _text[newPosition];
-        //}
-
         /// <summary>
         /// Подглядывание строки вплоть до указанной длины.
         /// </summary>

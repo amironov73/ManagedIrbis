@@ -25,11 +25,11 @@ namespace UnitTests.ManagedIrbis
             _TestFormat("", "");
             _TestFormat(" ", " ");
             _TestFormat("v100,/,v200", "v100,/,v200");
-            _TestFormat("\tv100\r\n", " v100  ");
+            _TestFormat("\tv100\r\n", " v100");
             _TestFormat
                 (
                     "v100/*comment\r\nv200",
-                    "v100  v200"
+                    "v100v200"
                 );
         }
 
