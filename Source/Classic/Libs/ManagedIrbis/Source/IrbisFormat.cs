@@ -137,6 +137,11 @@ namespace ManagedIrbis
                                 result.Append(c);
                             }
                         }
+                        else if (c == '\'' || c == '"' || c == '|')
+                        {
+                            state = c;
+                            result.Append(c);
+                        }
                         else
                         {
                             result.Append(c);
