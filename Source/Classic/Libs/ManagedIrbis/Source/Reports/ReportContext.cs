@@ -22,6 +22,8 @@ using AM.Collections;
 using AM.IO;
 using AM.Runtime;
 
+using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -46,16 +48,50 @@ namespace ManagedIrbis.Reports
         /// <summary>
         /// Abstract client.
         /// </summary>
+        [NotNull]
         public AbstractClient Client { get; set; }
 
         /// <summary>
-        /// Record.
+        /// Current record.
         /// </summary>
-        public MarcRecord Record { get; set; }
+        [CanBeNull]
+        public MarcRecord CurrentRecord { get; internal set; }
+
+        /// <summary>
+        /// Record index.
+        /// </summary>
+        public int Index { get; internal set; }
+
+        /// <summary>
+        /// Records.
+        /// </summary>
+        [NotNull]
+        public NonNullCollection<MarcRecord> Records { get; private set; }
+
+        /// <summary>
+        /// Output.
+        /// </summary>
+        [NotNull]
+        public TextBuffer Output { get; private set; }
 
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public ReportContext
+            (
+                [NotNull] AbstractClient client
+            )
+        {
+            Code.NotNull(client, "client");
+
+            Records = new NonNullCollection<MarcRecord>();
+            Output = new TextBuffer();
+            Client = client;
+        }
 
         #endregion
 

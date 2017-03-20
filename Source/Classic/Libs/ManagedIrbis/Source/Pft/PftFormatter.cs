@@ -114,31 +114,14 @@ namespace ManagedIrbis.Pft
         #region Public methods
 
         /// <summary>
-        /// Check whether connection established.
-        /// </summary>
-        public PftFormatter CheckConnection ()
-        {
-            IrbisConnection connection = Context.Connection;
-            if (ReferenceEquals(connection, null)
-                || !connection.Connected)
-            {
-                throw new PftNotConnectedException();
-            }
-
-            return this;
-        }
-
-        /// <summary>
         /// Format the record.
         /// </summary>
         [NotNull]
         public virtual string Format
             (
-                [NotNull] MarcRecord record
+                [CanBeNull] MarcRecord record
             )
         {
-            Code.NotNull(record, "record");
-
             if (ReferenceEquals(Program, null))
             {
                 throw new PftException("Program was not set");

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Cell.cs -- 
+/* TextCell.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -16,7 +16,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 using AM;
 using AM.Collections;
@@ -29,8 +28,6 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
-using Newtonsoft.Json;
-
 #endregion
 
 namespace ManagedIrbis.Reports
@@ -40,21 +37,16 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class ReportCell
+    public class TextCell
+        : ReportCell
     {
         #region Properties
 
         /// <summary>
-        /// Report.
+        /// Static text.
         /// </summary>
         [CanBeNull]
-        public IrbisReport Report { get; internal set; }
-
-        /// <summary>
-        /// Band.
-        /// </summary>
-        [NotNull]
-        public ReportBand Band { get; internal set; }
+        public string Text { get; set; }
 
         #endregion
 
@@ -68,23 +60,17 @@ namespace ManagedIrbis.Reports
 
         #region Public methods
 
-        /// <summary>
-        /// Clone the cell.
-        /// </summary>
-        public virtual ReportCell Clone()
-        {
-            return (ReportCell) MemberwiseClone();
-        }
+        #endregion
 
-        /// <summary>
-        /// Render the cell.
-        /// </summary>
-        public virtual void Evaluate 
+        #region ReportCell members
+
+        /// <inheritdoc />
+        public override void Evaluate
             (
-                [NotNull] ReportContext context
+                ReportContext context
             )
         {
-            // Nothing to do here
+            context.Output.Write(Text);
         }
 
         #endregion

@@ -61,13 +61,9 @@ namespace ManagedIrbis.Pft.Infrastructure
         public PftContext Parent { get { return _parent; } }
 
         /// <summary>
-        /// Клиент для связи с сервером.
-        /// </summary>
-        public IrbisConnection Connection { get; set; }
-
-        /// <summary>
         /// Текущая форматируемая запись.
         /// </summary>
+        [CanBeNull]
         public MarcRecord Record { get; set; }
 
         /// <summary>
@@ -221,10 +217,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             Record = ReferenceEquals(parent, null)
                 ? new MarcRecord()
                 : parent.Record;
-
-            Connection = ReferenceEquals(parent, null)
-                ? new IrbisConnection()
-                : parent.Connection;
 
             Functions = new PftFunctionManager();
 

@@ -46,6 +46,14 @@ namespace ManagedIrbis.Reports
         #region Properties
 
         /// <summary>
+        /// Body bands.
+        /// </summary>
+        [NotNull]
+        [XmlElement("body")]
+        [JsonProperty("body")]
+        public BandCollection Body { get; internal set; }
+
+        /// <summary>
         /// Footer band.
         /// </summary>
         [CanBeNull]
@@ -65,6 +73,17 @@ namespace ManagedIrbis.Reports
 
         #region Construction
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public GroupBand()
+        {
+            Body = new BandCollection
+            {
+                Group = this
+            };
+        }
+
         #endregion
 
         #region Private members
@@ -72,6 +91,43 @@ namespace ManagedIrbis.Reports
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region ReportBand members
+
+        /// <inheritdoc />
+        public override void Evaluate
+            (
+                ReportContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            if (!ReferenceEquals(Header, null))
+            {
+                Header.Evaluate(context);
+            }
+
+            int index = 0;
+            foreach (MarcRecord record in context.Records)
+            {
+                context.CurrentRecord = record;
+                context.Index = index;
+
+                foreach (ReportBand band in Body)
+                {
+                    band.Evaluate(context);
+                }
+
+                index++;
+            }
+
+            if (!ReferenceEquals(Footer, null))
+            {
+                Footer.Evaluate(context);
+            }
+        }
 
         #endregion
 

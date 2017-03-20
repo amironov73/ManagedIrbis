@@ -45,12 +45,12 @@ namespace ManagedIrbis.Reports
         #region Properties
 
         /// <summary>
-        /// Details band.
+        /// Report body band.
         /// </summary>
         [CanBeNull]
         [XmlElement("details")]
         [JsonProperty("details")]
-        public ReportBand Details { get; set; }
+        public ReportBand Body { get; set; }
 
         /// <summary>
         /// Footer band.
@@ -90,15 +90,27 @@ namespace ManagedIrbis.Reports
         /// <summary>
         /// Render the report.
         /// </summary>
-        [NotNull]
-        public string Render
+        public virtual void Evaluate
             (
                 [NotNull] ReportContext context
             )
         {
             Code.NotNull(context, "context");
 
-            return string.Empty;
+            if (!ReferenceEquals(Header, null))
+            {
+                Header.Evaluate(context);
+            }
+
+            if (!ReferenceEquals(Body, null))
+            {
+                Body.Evaluate(context);
+            }
+
+            if (!ReferenceEquals(Footer, null))
+            {
+                Footer.Evaluate(context);
+            }
         }
 
         #endregion

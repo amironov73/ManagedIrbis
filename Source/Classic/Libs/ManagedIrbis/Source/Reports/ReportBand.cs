@@ -53,17 +53,16 @@ namespace ManagedIrbis.Reports
         public CellCollection Cells { get; private set; }
 
         /// <summary>
-        /// Parent band.
-        /// </summary>
-        [XmlIgnore]
-        [JsonIgnore]
-        public ReportBand Parent { get; internal set; }
-
-        /// <summary>
-        /// Sort expression.
+        /// Group band.
         /// </summary>
         [CanBeNull]
-        public string SortExpression { get; set; }
+        public GroupBand Group { get; internal set; }
+
+        /// <summary>
+        /// Report.
+        /// </summary>
+        [CanBeNull]
+        public IrbisReport Report { get; internal set; }
 
         #endregion
 
@@ -84,6 +83,30 @@ namespace ManagedIrbis.Reports
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Clone the band.
+        /// </summary>
+        public virtual ReportBand Clone()
+        {
+            return (ReportBand)MemberwiseClone();
+        }
+
+        /// <summary>
+        /// Render the band.
+        /// </summary>
+        public virtual void Evaluate
+            (
+                [NotNull] ReportContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            foreach (ReportCell cell in Cells)
+            {
+                cell.Evaluate(context);
+            }
+        }
 
         #endregion
 

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* CellCollection.cs -- 
+/* BandCollection.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -33,12 +33,18 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class CellCollection
-        : Collection<ReportCell>,
+    public sealed class BandCollection
+        : Collection<ReportBand>,
         IHandmadeSerializable,
-        IReadOnly<CellCollection>
+        IReadOnly<BandCollection>
     {
         #region Properties
+
+        /// <summary>
+        /// Group.
+        /// </summary>
+        [CanBeNull]
+        public GroupBand Group { get; internal set; }
 
         /// <summary>
         /// Record.
@@ -58,16 +64,16 @@ namespace ManagedIrbis.Reports
 
         // ReSharper disable InconsistentNaming
 
-        internal CellCollection _SetReport
+        internal BandCollection _SetReport
             (
                 IrbisReport report
             )
         {
             _report = report;
 
-            foreach (ReportCell cell in this)
+            foreach (ReportBand band in this)
             {
-                cell.Report = report;
+                band.Report = report;
             }
 
             return this;
@@ -84,15 +90,15 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public void AddRange
             (
-                [NotNull] IEnumerable<ReportCell> cells
+                [NotNull] IEnumerable<ReportBand> bands
             )
         {
             ThrowIfReadOnly();
-            Code.NotNull(cells, "cells");
+            Code.NotNull(bands, "bands");
 
-            foreach (ReportCell cell in cells)
+            foreach (ReportBand band in bands)
             {
-                Add(cell);
+                Add(band);
             }
         }
 
@@ -100,16 +106,17 @@ namespace ManagedIrbis.Reports
         /// Создание клона коллекции.
         /// </summary>
         [NotNull]
-        public CellCollection Clone()
+        public BandCollection Clone()
         {
-            CellCollection result = new CellCollection
+            BandCollection result = new BandCollection
             {
+                Group = Group,
                 _report = Report
             };
 
-            foreach (ReportCell cell in this)
+            foreach (ReportBand band in this)
             {
-                ReportCell clone = cell.Clone();
+                ReportBand clone = band.Clone();
                 clone.Report = Report;
                 result.Add(clone);
             }
@@ -121,16 +128,16 @@ namespace ManagedIrbis.Reports
         /// Find first occurrence of the field with given predicate.
         /// </summary>
         [CanBeNull]
-        public ReportCell Find
+        public ReportBand Find
             (
-                [NotNull] Predicate<ReportCell> predicate
+                [NotNull] Predicate<ReportBand> predicate
             )
         {
             Code.NotNull(predicate, "predicate");
 
             return this.FirstOrDefault
                 (
-                    cell => predicate(cell)
+                    band => predicate(band)
                 );
         }
 
@@ -140,16 +147,16 @@ namespace ManagedIrbis.Reports
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public ReportCell[] FindAll
+        public ReportBand[] FindAll
             (
-                [NotNull] Predicate<ReportCell> predicate
+                [NotNull] Predicate<ReportBand> predicate
             )
         {
             Code.NotNull(predicate, "predicate");
 
             return this.Where
                 (
-                    cell => predicate(cell)
+                    band => predicate(band)
                 )
                 .ToArray();
         }
@@ -163,9 +170,10 @@ namespace ManagedIrbis.Reports
         {
             ThrowIfReadOnly();
 
-            foreach (ReportCell cell in this)
+            foreach (ReportBand band in this)
             {
-                cell.Report = null;
+                band.Group = null;
+                band.Report = null;
             }
 
             base.ClearItems();
@@ -175,7 +183,7 @@ namespace ManagedIrbis.Reports
         protected override void InsertItem
             (
                 int index,
-                [NotNull] ReportCell item
+                [NotNull] ReportBand item
             )
         {
             ThrowIfReadOnly();
@@ -196,10 +204,11 @@ namespace ManagedIrbis.Reports
 
             if ((index >= 0) && (index < Count))
             {
-                ReportCell cell  = this[index];
-                if (!ReferenceEquals(cell, null))
+                ReportBand band  = this[index];
+                if (!ReferenceEquals(band, null))
                 {
-                    cell.Report = null;
+                    band.Group = null;
+                    band.Report = null;
                 }
             }
 
@@ -210,12 +219,13 @@ namespace ManagedIrbis.Reports
         protected override void SetItem
             (
                 int index,
-                [NotNull] ReportCell item
+                [NotNull] ReportBand item
             )
         {
             ThrowIfReadOnly();
             Code.NotNull(item, "item");
 
+            item.Group = Group;
             item.Report = Report;
 
             base.SetItem(index, item);
@@ -265,9 +275,9 @@ namespace ManagedIrbis.Reports
         /// <summary>
         /// Create read-only clone of the collection.
         /// </summary>
-        public CellCollection AsReadOnly()
+        public BandCollection AsReadOnly()
         {
-            CellCollection result = Clone();
+            BandCollection result = Clone();
             result.SetReadOnly();
 
             return result;
