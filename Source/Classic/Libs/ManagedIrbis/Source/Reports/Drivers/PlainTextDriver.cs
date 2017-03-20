@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Band.cs -- 
+/* PlainTextDriver.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -16,7 +16,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 using AM;
 using AM.Collections;
@@ -29,8 +28,6 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
-using Newtonsoft.Json;
-
 #endregion
 
 namespace ManagedIrbis.Reports
@@ -40,40 +37,34 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class ReportBand
+    public sealed class PlainTextDriver
+        : ReportDriver
     {
         #region Properties
 
         /// <summary>
-        /// Cells.
-        /// </summary>
-        [NotNull]
-        [XmlArray("cells")]
-        [JsonProperty("cells")]
-        public CellCollection Cells { get; private set; }
-
-        /// <summary>
-        /// Group band.
+        /// Cell delimiter.
         /// </summary>
         [CanBeNull]
-        public GroupBand Group { get; internal set; }
+        public string CellDelimiter { get; set; }
 
         /// <summary>
-        /// Report.
+        /// Row delimiter.
         /// </summary>
         [CanBeNull]
-        public IrbisReport Report { get; internal set; }
+        public string RowDelimiter { get; set; }
 
         #endregion
 
         #region Construction
 
         /// <summary>
-        /// Construction.
+        /// Constructor.
         /// </summary>
-        public ReportBand()
+        public PlainTextDriver()
         {
-            Cells = new CellCollection();
+            CellDelimiter = "\t";
+            RowDelimiter = Environment.NewLine;
         }
 
         #endregion
@@ -84,28 +75,23 @@ namespace ManagedIrbis.Reports
 
         #region Public methods
 
-        /// <summary>
-        /// Clone the band.
-        /// </summary>
-        public virtual ReportBand Clone()
-        {
-            return (ReportBand)MemberwiseClone();
-        }
+        #endregion
 
-        /// <summary>
-        /// Render the band.
-        /// </summary>
-        public virtual void Evaluate
+        #region ReportDriver members
+
+        /// <inheritdoc />
+        public override void EndRow
             (
-                [NotNull] ReportContext context
+                ReportContext context
             )
         {
-            Code.NotNull(context, "context");
+            context.Output.Write(RowDelimiter);
+        }
 
-            foreach (ReportCell cell in Cells)
-            {
-                cell.Evaluate(context);
-            }
+        /// <inheritdoc />
+        public override void EndCell(ReportContext context)
+        {
+            context.Output.Write(CellDelimiter);
         }
 
         #endregion

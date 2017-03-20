@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Cell.cs -- 
+/* ReportDriver.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -16,7 +16,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 using AM;
 using AM.Collections;
@@ -29,8 +28,6 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
-using Newtonsoft.Json;
-
 #endregion
 
 namespace ManagedIrbis.Reports
@@ -40,21 +37,9 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class ReportCell
+    public abstract class ReportDriver
     {
         #region Properties
-
-        /// <summary>
-        /// Report.
-        /// </summary>
-        [CanBeNull]
-        public IrbisReport Report { get; internal set; }
-
-        /// <summary>
-        /// Band.
-        /// </summary>
-        [NotNull]
-        public ReportBand Band { get; internal set; }
 
         #endregion
 
@@ -69,17 +54,64 @@ namespace ManagedIrbis.Reports
         #region Public methods
 
         /// <summary>
-        /// Clone the cell.
+        /// Begin cell.
         /// </summary>
-        public virtual ReportCell Clone()
+        public virtual void BeginCell
+            (
+                [NotNull] ReportContext context
+            )
         {
-            return (ReportCell) MemberwiseClone();
+            // Nothing to do here
         }
 
         /// <summary>
-        /// Render the cell.
+        /// Begin document.
         /// </summary>
-        public virtual void Evaluate 
+        public virtual void BeginDocument
+            (
+                [NotNull] ReportContext context
+            )
+        {
+            // Nothing to do here
+        }
+
+        /// <summary>
+        /// Begin row.
+        /// </summary>
+        public virtual void BeginRow
+            (
+                [NotNull] ReportContext context
+            )
+        {
+            // Nothing to do here
+        }
+
+        /// <summary>
+        /// End cell.
+        /// </summary>
+        public virtual void EndCell
+            (
+                [NotNull] ReportContext context
+            )
+        {
+            // Nothing to do here
+        }
+
+        /// <summary>
+        /// End document.
+        /// </summary>
+        public virtual void EndDocument
+            (
+                [NotNull] ReportContext context
+            )
+        {
+            // Nothing to do here
+        }
+
+        /// <summary>
+        /// End row.
+        /// </summary>
+        public virtual void EndRow
             (
                 [NotNull] ReportContext context
             )

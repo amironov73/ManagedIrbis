@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ReportContext.cs -- 
+/* ReportVariable.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -22,13 +22,9 @@ using AM.Collections;
 using AM.IO;
 using AM.Runtime;
 
-using AM.Text;
-
 using CodeJam;
 
 using JetBrains.Annotations;
-
-using ManagedIrbis.Client;
 
 using MoonSharp.Interpreter;
 
@@ -41,44 +37,22 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class ReportContext
+    [DebuggerDisplay("{Name}: {Value}")]
+    public sealed class ReportVariable
     {
         #region Properties
 
         /// <summary>
-        /// Abstract client.
+        /// Name of the variable.
         /// </summary>
         [NotNull]
-        public AbstractClient Client { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
-        /// Current record.
+        /// Value of the variable.
         /// </summary>
         [CanBeNull]
-        public MarcRecord CurrentRecord { get; internal set; }
-
-        /// <summary>
-        /// Record index.
-        /// </summary>
-        public int Index { get; internal set; }
-
-        /// <summary>
-        /// Records.
-        /// </summary>
-        [NotNull]
-        public NonNullCollection<MarcRecord> Records { get; private set; }
-
-        /// <summary>
-        /// Output.
-        /// </summary>
-        [NotNull]
-        public ReportOutput Output { get; private set; }
-
-        /// <summary>
-        /// Variables.
-        /// </summary>
-        [NotNull]
-        public ReportVariableManager Variables { get; private set; }
+        public object Value { get; set; }
 
         #endregion
 
@@ -87,17 +61,16 @@ namespace ManagedIrbis.Reports
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ReportContext
+        public ReportVariable
             (
-                [NotNull] AbstractClient client
+                [NotNull] string name,
+                [CanBeNull] object value
             )
         {
-            Code.NotNull(client, "client");
+            Code.NotNullNorEmpty(name, "name");
 
-            Variables = new ReportVariableManager();
-            Records = new NonNullCollection<MarcRecord>();
-            Output = new ReportOutput();
-            Client = client;
+            Name = name;
+            Value = value;
         }
 
         #endregion
@@ -111,6 +84,17 @@ namespace ManagedIrbis.Reports
         #endregion
 
         #region Object members
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return string.Format
+                (
+                    "{0}: {1}",
+                    Name.ToVisibleString(),
+                    Value.NullableToVisibleString()
+                );
+        }
 
         #endregion
     }

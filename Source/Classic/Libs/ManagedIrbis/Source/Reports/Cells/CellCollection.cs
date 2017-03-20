@@ -41,10 +41,16 @@ namespace ManagedIrbis.Reports
         #region Properties
 
         /// <summary>
+        /// Band.
+        /// </summary>
+        [CanBeNull]
+        public ReportBand Band { get; internal set; }
+
+        /// <summary>
         /// Record.
         /// </summary>
         [CanBeNull]
-        public IrbisReport Report { get { return _report; } }
+        public IrbisReport Report { get; internal set; }
 
         #endregion
 
@@ -54,16 +60,14 @@ namespace ManagedIrbis.Reports
 
         #region Private members
 
-        private IrbisReport _report;
-
         // ReSharper disable InconsistentNaming
 
-        internal CellCollection _SetReport
+        internal CellCollection SetReport
             (
                 IrbisReport report
             )
         {
-            _report = report;
+            Report = report;
 
             foreach (ReportCell cell in this)
             {
@@ -104,7 +108,8 @@ namespace ManagedIrbis.Reports
         {
             CellCollection result = new CellCollection
             {
-                _report = Report
+                Band = Band,
+                Report = Report
             };
 
             foreach (ReportCell cell in this)
@@ -165,6 +170,7 @@ namespace ManagedIrbis.Reports
 
             foreach (ReportCell cell in this)
             {
+                cell.Band = null;
                 cell.Report = null;
             }
 
@@ -181,6 +187,7 @@ namespace ManagedIrbis.Reports
             ThrowIfReadOnly();
             Code.NotNull(item, "item");
 
+            item.Band = Band;
             item.Report = Report;
 
             base.InsertItem(index, item);
@@ -199,6 +206,7 @@ namespace ManagedIrbis.Reports
                 ReportCell cell  = this[index];
                 if (!ReferenceEquals(cell, null))
                 {
+                    cell.Band = null;
                     cell.Report = null;
                 }
             }
@@ -216,6 +224,7 @@ namespace ManagedIrbis.Reports
             ThrowIfReadOnly();
             Code.NotNull(item, "item");
 
+            item.Band = Band;
             item.Report = Report;
 
             base.SetItem(index, item);
