@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using ManagedIrbis.Client;
+using ManagedIrbis.Source.Reports.Drivers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis;
@@ -55,7 +56,7 @@ namespace UnitTests.ManagedIrbis.Reports
             _TestSaveJson(report);
         }
 
-        private void _TestEvaluate
+        private void _TestEvaluatePlainText
             (
                 IrbisReport report
             )
@@ -67,11 +68,24 @@ namespace UnitTests.ManagedIrbis.Reports
             Assert.IsNotNull(text);
         }
 
+        private void _TestEvaluateHtml
+            (
+                IrbisReport report
+            )
+        {
+            AbstractClient client = new LocalClient();
+            ReportContext context = new ReportContext(client);
+            context.SetDriver(new HtmlDriver());
+            report.Evaluate(context);
+            string text = context.Output.Text;
+            Assert.IsNotNull(text);
+        }
+
         [TestMethod]
         public void IrbisReport_Evaluate_1()
         {
             IrbisReport report = new IrbisReport();
-            _TestEvaluate(report);
+            _TestEvaluatePlainText(report);
 
             ReportBand headerBand = new ReportBand();
             headerBand.Cells.Add(new TextCell("Header"));
@@ -80,12 +94,33 @@ namespace UnitTests.ManagedIrbis.Reports
             DetailsBand detailsBand = new DetailsBand();
             detailsBand.Cells.Add(new TextCell("This is a text"));
             report.Body.Add(detailsBand);
-            _TestEvaluate(report);
+            _TestEvaluatePlainText(report);
 
             ReportBand footerBand = new ReportBand();
             footerBand.Cells.Add(new TextCell("Footer"));
             report.Footer = footerBand;
-            _TestEvaluate(report);
+            _TestEvaluatePlainText(report);
+        }
+
+        [TestMethod]
+        public void IrbisReport_Evaluate_2()
+        {
+            IrbisReport report = new IrbisReport();
+            _TestEvaluateHtml(report);
+
+            ReportBand headerBand = new ReportBand();
+            headerBand.Cells.Add(new TextCell("Header"));
+            report.Header = headerBand;
+
+            DetailsBand detailsBand = new DetailsBand();
+            detailsBand.Cells.Add(new TextCell("This is a text"));
+            report.Body.Add(detailsBand);
+            _TestEvaluateHtml(report);
+
+            ReportBand footerBand = new ReportBand();
+            footerBand.Cells.Add(new TextCell("Footer"));
+            report.Footer = footerBand;
+            _TestEvaluateHtml(report);
         }
     }
 }
