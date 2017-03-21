@@ -42,8 +42,6 @@ namespace PftTestRunner
             try
             {
                 string rootPath = CM.AppSettings["rootPath"];
-                //PftEnvironmentAbstraction environment
-                //    = new PftLocalEnvironment(rootPath);
                 AbstractClient environment
                     = new LocalClient(rootPath);
 

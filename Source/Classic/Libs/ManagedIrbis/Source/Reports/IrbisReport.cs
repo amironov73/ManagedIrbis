@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -120,6 +121,68 @@ namespace ManagedIrbis.Reports
             }
 
             driver.EndDocument(context);
+        }
+
+        /// <summary>
+        /// Load report from the JSON file.
+        /// </summary>
+        [NotNull]
+        public static IrbisReport LoadJsonFile
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            string contents = File.ReadAllText
+                (
+                    fileName,
+                    IrbisEncoding.Utf8
+                );
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Objects,
+                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+            };
+            IrbisReport result
+                = JsonConvert.DeserializeObject<IrbisReport>
+                (
+                    contents,
+                    settings
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Save the report to specified file.
+        /// </summary>
+        public void SaveJson
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                TypeNameHandling = TypeNameHandling.Objects,
+                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+            };
+            string contents = JsonConvert.SerializeObject
+                (
+                    this,
+                    Formatting.Indented,
+                    settings
+                );
+            File.WriteAllText
+                (
+                    fileName,
+                    contents,
+                    IrbisEncoding.Utf8
+                );
         }
 
         #endregion

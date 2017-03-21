@@ -68,7 +68,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         /// Environment.
         /// </summary>
         [CanBeNull]
-        //public PftEnvironmentAbstraction Environment { get; set; }
         public AbstractClient Environment { get; set; }
 
         /// <summary>

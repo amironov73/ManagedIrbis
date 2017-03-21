@@ -56,12 +56,16 @@ namespace ManagedIrbis.Reports
         /// Group band.
         /// </summary>
         [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
         public GroupBand Group { get; internal set; }
 
         /// <summary>
         /// Report.
         /// </summary>
         [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
         public IrbisReport Report
         {
             get { return _report; }

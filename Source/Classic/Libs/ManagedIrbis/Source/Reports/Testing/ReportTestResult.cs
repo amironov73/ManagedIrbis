@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* PftTestResult.cs --
+/* ReportTestResult.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -10,12 +10,6 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -25,14 +19,14 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedIrbis.Pft.Infrastructure.Testing
+namespace ManagedIrbis.Reports
 {
     /// <summary>
     /// 
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class PftTestResult
+    public sealed class ReportTestResult
     {
         #region Properties
 
@@ -89,13 +83,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         public string Tokens { get; set; }
 
         /// <summary>
-        /// Program AST dump.
-        /// </summary>
-        [CanBeNull]
-        [JsonProperty("ast")]
-        public string Ast { get; set; }
-
-        /// <summary>
         /// Output text.
         /// </summary>
         [CanBeNull]
@@ -115,6 +102,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         [CanBeNull]
         [JsonProperty("exception")]
         public string Exception { get; set; }
+
+        #endregion
+
+        #region Construction
+
+        #endregion
+
+        #region Private members
+
+        #endregion
+
+        #region Public methods
+
+        #endregion
+
+        #region Object members
 
         #endregion
     }

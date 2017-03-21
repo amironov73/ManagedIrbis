@@ -237,6 +237,7 @@
     <Compile Include="ManagedIrbis\Pft\PftUtilityTest.cs" />
     <Compile Include="ManagedIrbis\RawRecordTest.cs" />
     <Compile Include="ManagedIrbis\RecordComparatorTest.cs" />
+    <Compile Include="ManagedIrbis\Reports\IrbisReportTest.cs" />
     <Compile Include="ManagedIrbis\Search\KeywordPermutatorTest.cs" />
     <Compile Include="ManagedIrbis\Mapping\SubFieldMapperTest.cs" />
     <Compile Include="ManagedIrbis\Marc\Schema\MarcSchemaTest.cs" />

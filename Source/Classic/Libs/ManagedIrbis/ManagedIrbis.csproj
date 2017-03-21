@@ -499,6 +499,8 @@
     <Compile Include="Source\Reports\ReportVariable.cs" />
     <Compile Include="Source\Reports\ReportVariableManager.cs" />
     <Compile Include="Source\Reports\Testing\ReportTest.cs" />
+    <Compile Include="Source\Reports\Testing\ReportTester.cs" />
+    <Compile Include="Source\Reports\Testing\ReportTestResult.cs" />
     <Compile Include="Source\Requests\RequestStatus.cs" />
     <Compile Include="Source\Search\FoundLine.cs" />
     <Compile Include="Source\Search\Infrastructure\ComplexLevel.cs" />

@@ -85,7 +85,9 @@ namespace ManagedIrbis.Reports
                 ReportContext context
             )
         {
-            context.Output.Write(RowDelimiter);
+            ReportOutput output = context.Output;
+            output.TrimEnd();
+            output.Write(RowDelimiter);
         }
 
         /// <inheritdoc />

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Xml.Serialization;
 
 using AM;
 using AM.Runtime;
@@ -23,6 +24,8 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -45,6 +48,8 @@ namespace ManagedIrbis.Reports
         /// Group.
         /// </summary>
         [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
         public GroupBand Group { get; internal set; }
 
         /// <summary>

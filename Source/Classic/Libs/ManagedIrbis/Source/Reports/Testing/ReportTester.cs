@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* TextCell.cs -- 
+/* ReportTester.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -30,6 +30,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
+
 namespace ManagedIrbis.Reports
 {
     /// <summary>
@@ -37,38 +38,13 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class TextCell
-        : ReportCell
+    public sealed class ReportTester
     {
         #region Properties
-
-        /// <summary>
-        /// Static text.
-        /// </summary>
-        [CanBeNull]
-        public string Text { get; set; }
 
         #endregion
 
         #region Construction
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public TextCell()
-        {
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public TextCell
-            (
-                string text
-            )
-        {
-            Text = text;
-        }
 
         #endregion
 
@@ -77,26 +53,6 @@ namespace ManagedIrbis.Reports
         #endregion
 
         #region Public methods
-
-        #endregion
-
-        #region ReportCell members
-
-        /// <inheritdoc />
-        public override void Evaluate
-            (
-                ReportContext context
-            )
-        {
-            Code.NotNull(context, "context");
-
-            string text = Text;
-
-            ReportDriver driver = context.Driver;
-            driver.BeginCell(context);
-            driver.Write(context, text);
-            driver.EndCell(context);
-        }
 
         #endregion
 

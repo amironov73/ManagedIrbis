@@ -54,6 +54,24 @@ namespace ManagedIrbis.Reports
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftCell()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftCell
+            (
+                string format
+            )
+        {
+            Text = format;
+        }
+
         #endregion
 
         #region Private members

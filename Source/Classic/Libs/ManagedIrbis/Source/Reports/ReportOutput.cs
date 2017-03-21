@@ -75,7 +75,32 @@ namespace ManagedIrbis.Reports
         [NotNull]
         public ReportOutput Clear()
         {
-            _buffer.Clear();
+            _buffer.Length = 0;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Trim end of text.
+        /// </summary>
+        [NotNull]
+        public ReportOutput TrimEnd()
+        {
+            int length = _buffer.Length;
+            
+            while (length != 0)
+            {
+                string s = _buffer.ToString(length - 1, 1);
+                if (char.IsWhiteSpace(s, 0))
+                {
+                    length--;
+                    _buffer.Length = length;
+                }
+                else
+                {
+                    break;
+                }
+            }
 
             return this;
         }

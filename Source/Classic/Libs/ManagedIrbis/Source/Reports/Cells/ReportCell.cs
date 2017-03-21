@@ -40,7 +40,7 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class ReportCell
+    public abstract class ReportCell
     {
         #region Properties
 
@@ -48,12 +48,16 @@ namespace ManagedIrbis.Reports
         /// Band.
         /// </summary>
         [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
         public ReportBand Band { get; internal set; }
 
         /// <summary>
         /// Report.
         /// </summary>
         [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
         public IrbisReport Report { get; internal set; }
 
         #endregion
