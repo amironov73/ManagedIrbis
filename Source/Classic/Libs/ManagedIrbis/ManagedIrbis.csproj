@@ -495,8 +495,10 @@
     <Compile Include="Source\Reports\ReportContext.cs" />
     <Compile Include="Source\Reports\Cells\TextCell.cs" />
     <Compile Include="Source\Reports\ReportOutput.cs" />
+    <Compile Include="Source\Reports\ReportUtility.cs" />
     <Compile Include="Source\Reports\ReportVariable.cs" />
     <Compile Include="Source\Reports\ReportVariableManager.cs" />
+    <Compile Include="Source\Reports\Testing\ReportTest.cs" />
     <Compile Include="Source\Requests\RequestStatus.cs" />
     <Compile Include="Source\Search\FoundLine.cs" />
     <Compile Include="Source\Search\Infrastructure\ComplexLevel.cs" />

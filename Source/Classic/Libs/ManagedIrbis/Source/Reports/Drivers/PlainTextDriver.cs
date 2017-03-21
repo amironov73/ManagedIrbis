@@ -89,9 +89,24 @@ namespace ManagedIrbis.Reports
         }
 
         /// <inheritdoc />
-        public override void EndCell(ReportContext context)
+        public override void EndCell
+            (
+                ReportContext context
+            )
         {
             context.Output.Write(CellDelimiter);
+        }
+
+        /// <inheritdoc />
+        public override void Write
+            (
+                ReportContext context,
+                string text
+            )
+        {
+            Code.NotNull(context, "context");
+
+            context.Output.Write(text);
         }
 
         #endregion

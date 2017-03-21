@@ -119,6 +119,18 @@ namespace ManagedIrbis.Reports
             // Nothing to do here
         }
 
+        /// <summary>
+        /// Write the text.
+        /// </summary>
+        public virtual void Write
+            (
+                [NotNull] ReportContext context,
+                [CanBeNull] string text
+            )
+        {
+            // Nothing to do here
+        }
+
         #endregion
 
         #region Object members

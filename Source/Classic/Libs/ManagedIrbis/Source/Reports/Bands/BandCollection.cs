@@ -33,10 +33,11 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class BandCollection
-        : Collection<ReportBand>,
+    public sealed class BandCollection<T>
+        : Collection<T>,
         IHandmadeSerializable,
-        IReadOnly<BandCollection>
+        IReadOnly<BandCollection<T>>
+        where T: ReportBand
     {
         #region Properties
 
@@ -64,14 +65,14 @@ namespace ManagedIrbis.Reports
 
         // ReSharper disable InconsistentNaming
 
-        internal BandCollection _SetReport
+        internal BandCollection<T> _SetReport
             (
                 IrbisReport report
             )
         {
             _report = report;
 
-            foreach (ReportBand band in this)
+            foreach (T band in this)
             {
                 band.Report = report;
             }
@@ -90,13 +91,13 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public void AddRange
             (
-                [NotNull] IEnumerable<ReportBand> bands
+                [NotNull] IEnumerable<T> bands
             )
         {
             ThrowIfReadOnly();
             Code.NotNull(bands, "bands");
 
-            foreach (ReportBand band in bands)
+            foreach (T band in bands)
             {
                 Add(band);
             }
@@ -106,17 +107,17 @@ namespace ManagedIrbis.Reports
         /// Создание клона коллекции.
         /// </summary>
         [NotNull]
-        public BandCollection Clone()
+        public BandCollection<T> Clone()
         {
-            BandCollection result = new BandCollection
+            BandCollection<T> result = new BandCollection<T>
             {
                 Group = Group,
                 _report = Report
             };
 
-            foreach (ReportBand band in this)
+            foreach (T band in this)
             {
-                ReportBand clone = band.Clone();
+                T clone = (T)band.Clone();
                 clone.Report = Report;
                 result.Add(clone);
             }
@@ -183,7 +184,7 @@ namespace ManagedIrbis.Reports
         protected override void InsertItem
             (
                 int index,
-                [NotNull] ReportBand item
+                [NotNull] T item
             )
         {
             ThrowIfReadOnly();
@@ -219,7 +220,7 @@ namespace ManagedIrbis.Reports
         protected override void SetItem
             (
                 int index,
-                [NotNull] ReportBand item
+                [NotNull] T item
             )
         {
             ThrowIfReadOnly();
@@ -275,9 +276,9 @@ namespace ManagedIrbis.Reports
         /// <summary>
         /// Create read-only clone of the collection.
         /// </summary>
-        public BandCollection AsReadOnly()
+        public BandCollection<T> AsReadOnly()
         {
-            BandCollection result = Clone();
+            BandCollection<T> result = Clone();
             result.SetReadOnly();
 
             return result;

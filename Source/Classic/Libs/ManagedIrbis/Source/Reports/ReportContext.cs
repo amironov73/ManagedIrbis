@@ -58,6 +58,12 @@ namespace ManagedIrbis.Reports
         public MarcRecord CurrentRecord { get; internal set; }
 
         /// <summary>
+        /// Text driver.
+        /// </summary>
+        [NotNull]
+        public ReportDriver Driver { get; internal set; }
+
+        /// <summary>
         /// Record index.
         /// </summary>
         public int Index { get; internal set; }
@@ -97,6 +103,7 @@ namespace ManagedIrbis.Reports
             Variables = new ReportVariableManager();
             Records = new NonNullCollection<MarcRecord>();
             Output = new ReportOutput();
+            Driver = new PlainTextDriver();
             Client = client;
         }
 
@@ -107,6 +114,22 @@ namespace ManagedIrbis.Reports
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Set text driver for the context.
+        /// </summary>
+        [NotNull]
+        public ReportContext SetDriver
+            (
+                [NotNull] ReportDriver driver
+            )
+        {
+            Code.NotNull(driver, "driver");
+
+            Driver = driver;
+
+            return this;
+        }
 
         #endregion
 

@@ -51,7 +51,7 @@ namespace ManagedIrbis.Reports
         [NotNull]
         [XmlElement("body")]
         [JsonProperty("body")]
-        public BandCollection Body { get; internal set; }
+        public BandCollection<DetailsBand> Body { get; internal set; }
 
         /// <summary>
         /// Footer band.
@@ -78,7 +78,7 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public GroupBand()
         {
-            Body = new BandCollection
+            Body = new BandCollection<DetailsBand>
             {
                 Group = this
             };

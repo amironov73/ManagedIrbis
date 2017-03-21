@@ -41,6 +41,12 @@ namespace ManagedIrbis.Reports
     {
         #region Properties
 
+        /// <summary>
+        /// Result text.
+        /// </summary>
+        [NotNull]
+        public string Text { get { return _buffer.ToString(); } }
+
         #endregion
 
         #region Construction
@@ -62,6 +68,17 @@ namespace ManagedIrbis.Reports
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Clear the output.
+        /// </summary>
+        [NotNull]
+        public ReportOutput Clear()
+        {
+            _buffer.Clear();
+
+            return this;
+        }
 
         /// <summary>
         /// Write text.

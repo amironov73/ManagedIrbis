@@ -74,10 +74,14 @@ namespace ManagedIrbis.Reports
                 ReportContext context
             )
         {
+            Code.NotNull(context, "context");
+
             string text = Text;
 
             if (string.IsNullOrEmpty(text))
             {
+                // TODO: Skip or not on empty format?
+
                 return;
             }
 
@@ -86,10 +90,14 @@ namespace ManagedIrbis.Reports
                 _formatter = new PftFormatter();
                 _formatter.SetEnvironment(context.Client);
                 _formatter.ParseProgram(text);
-                _formatter.Format(context.CurrentRecord);
             }
 
-            base.Evaluate(context);
+            ReportDriver driver = context.Driver;
+
+            string formatted = _formatter.Format(context.CurrentRecord);
+            driver.BeginCell(context);
+            driver.Write(context, formatted);
+            driver.EndCell(context);
         }
 
         #endregion

@@ -47,10 +47,10 @@ namespace ManagedIrbis.Reports
         /// <summary>
         /// Report body band.
         /// </summary>
-        [CanBeNull]
+        [NotNull]
         [XmlElement("details")]
         [JsonProperty("details")]
-        public ReportBand Body { get; set; }
+        public BandCollection<DetailsBand> Body { get; set; }
 
         /// <summary>
         /// Footer band.
@@ -77,6 +77,7 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public IrbisReport()
         {
+            Body = new BandCollection<DetailsBand>();
         }
 
         #endregion
@@ -97,20 +98,28 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
+            context.Output.Clear();
+
+            ReportDriver driver = context.Driver;
+
+            driver.BeginDocument(context);
+
             if (!ReferenceEquals(Header, null))
             {
                 Header.Evaluate(context);
             }
 
-            if (!ReferenceEquals(Body, null))
+            foreach (DetailsBand band in Body)
             {
-                Body.Evaluate(context);
+                band.Evaluate(context);
             }
 
             if (!ReferenceEquals(Footer, null))
             {
                 Footer.Evaluate(context);
             }
+
+            driver.EndDocument(context);
         }
 
         #endregion

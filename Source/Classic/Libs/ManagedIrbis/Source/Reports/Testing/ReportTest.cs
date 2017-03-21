@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* TextCell.cs -- 
+/* ReportTest.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -37,16 +37,9 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class TextCell
-        : ReportCell
+    public sealed class ReportTest
     {
         #region Properties
-
-        /// <summary>
-        /// Static text.
-        /// </summary>
-        [CanBeNull]
-        public string Text { get; set; }
 
         #endregion
 
@@ -59,26 +52,6 @@ namespace ManagedIrbis.Reports
         #endregion
 
         #region Public methods
-
-        #endregion
-
-        #region ReportCell members
-
-        /// <inheritdoc />
-        public override void Evaluate
-            (
-                ReportContext context
-            )
-        {
-            Code.NotNull(context, "context");
-
-            string text = Text;
-
-            ReportDriver driver = context.Driver;
-            driver.BeginCell(context);
-            driver.Write(context, text);
-            driver.EndCell(context);
-        }
 
         #endregion
 

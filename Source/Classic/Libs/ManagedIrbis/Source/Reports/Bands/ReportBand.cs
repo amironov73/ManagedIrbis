@@ -115,10 +115,13 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
+            ReportDriver driver = context.Driver;
+            driver.BeginRow(context);
             foreach (ReportCell cell in Cells)
             {
                 cell.Evaluate(context);
             }
+            driver.EndRow(context);
         }
 
         #endregion
