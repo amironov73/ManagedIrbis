@@ -237,7 +237,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         /// </summary>
         public void SetEnvironment
             (
-                //[NotNull] PftEnvironmentAbstraction environment
                 [NotNull] AbstractClient environment
             )
         {

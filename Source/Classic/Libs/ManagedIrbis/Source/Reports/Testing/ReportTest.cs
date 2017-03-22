@@ -26,7 +26,7 @@ using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Client;
 using ManagedIrbis.ImportExport;
 
 using MoonSharp.Interpreter;
@@ -42,8 +42,6 @@ namespace ManagedIrbis.Reports
     [MoonSharpUserData]
     public sealed class ReportTest
     {
-        #region Constants
-
         #region Constants
 
         /// <summary>
@@ -68,9 +66,13 @@ namespace ManagedIrbis.Reports
 
         #endregion
 
-        #endregion
-
         #region Properties
+
+        /// <summary>
+        /// Environment.
+        /// </summary>
+        [CanBeNull]
+        public AbstractClient Environment { get; set; }
 
         /// <summary>
         /// Folder name.
@@ -158,6 +160,7 @@ namespace ManagedIrbis.Reports
                             IrbisEncoding.Utf8
                         );
                     result.Description = description;
+                    Console.Write(description);
                 }
 
                 string recordFile = GetFullName(RecordFileName);
@@ -170,32 +173,14 @@ namespace ManagedIrbis.Reports
                         );
                 }
 
-                MarcRecord record = PlainText.ReadOneRecord
+                MarcRecord[] records = PlainText.ReadRecords
                     (
                         recordFile,
                         IrbisEncoding.Utf8
                     );
 
-                if (ReferenceEquals(record, null))
-                {
-                    throw new IrbisException
-                        (
-                            "ReadOneRecord returns null"
-                        );
-                }
-
                 string reportFile = GetFullName(InputFileName);
-                string input = FileUtility.ReadAllText
-                    (
-                        reportFile,
-                        IrbisEncoding.Utf8
-                    )
-                    .DosToUnix()
-                    .ThrowIfNull("input");
-                result.Input = input;
-
-                Console.WriteLine(input);
-                Console.WriteLine();
+                IrbisReport report = IrbisReport.LoadJsonFile(reportFile);
 
                 string expectedFile = GetFullName(ExpectedFileName);
                 string expected = null;
@@ -211,19 +196,26 @@ namespace ManagedIrbis.Reports
                     result.Expected = expected;
                 }
 
+                AbstractClient environment = Environment
+                    .ThrowIfNull("environment not set");
+                ReportContext context = new ReportContext(environment);
+                context.Records.AddRange(records);
+                report.Evaluate(context);
+                string output = context.Output.Text.DosToUnix();
+                result.Output = output;
 
                 if (expected != null)
                 {
-                    //if (output != expected)
-                    //{
-                    //    result.Failed = true;
+                    if (output != expected)
+                    {
+                        result.Failed = true;
 
-                    //    Console.WriteLine();
-                    //    Console.WriteLine("!!! FAILED !!!");
-                    //    Console.WriteLine();
-                    //    Console.WriteLine(expected);
-                    //    Console.WriteLine();
-                    //}
+                        Console.WriteLine();
+                        Console.WriteLine("!!! FAILED !!!");
+                        Console.WriteLine();
+                        Console.WriteLine(expected);
+                        Console.WriteLine();
+                    }
                 }
             }
             catch (Exception exception)

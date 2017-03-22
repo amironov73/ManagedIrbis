@@ -68,12 +68,12 @@ namespace ManagedIrbis.Reports
         [JsonProperty("start")]
         public DateTime StartTime { get; set; }
 
-        /// <summary>
-        /// Input.
-        /// </summary>
-        [CanBeNull]
-        [JsonProperty("input")]
-        public string Input { get; set; }
+        ///// <summary>
+        ///// Input.
+        ///// </summary>
+        //[CanBeNull]
+        //[JsonProperty("input")]
+        //public string Input { get; set; }
 
         /// <summary>
         /// Tokens.

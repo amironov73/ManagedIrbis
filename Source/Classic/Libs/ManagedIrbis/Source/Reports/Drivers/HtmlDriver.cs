@@ -22,10 +22,13 @@ using AM.Collections;
 using AM.IO;
 using AM.Runtime;
 using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Reports;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -62,6 +65,17 @@ namespace ManagedIrbis.Source.Reports.Drivers
         #endregion
 
         #region ReportDriver members
+
+        /// <inheritdoc />
+        public override void BeginCell
+            (
+                ReportContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            context.Output.Write("<td>");
+        }
 
         /// <inheritdoc />
         public override void BeginDocument
@@ -133,20 +147,10 @@ namespace ManagedIrbis.Source.Reports.Drivers
         {
             Code.NotNull(context, "context");
 
-            // TODO: encode entities
-
-            context.Output.Write(text);
-        }
-
-        /// <inheritdoc />
-        public override void BeginCell
-            (
-                ReportContext context
-            )
-        {
-            Code.NotNull(context, "context");
-
-            context.Output.Write("<td>");
+            context.Output.Write
+                (
+                    HtmlText.Encode(text)
+                );
         }
 
         #endregion

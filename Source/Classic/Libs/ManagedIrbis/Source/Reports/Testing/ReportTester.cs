@@ -23,6 +23,7 @@ using AM.ConsoleIO;
 using AM.IO;
 using AM.Runtime;
 using AM.Text.Output;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -31,6 +32,9 @@ using ManagedIrbis;
 using ManagedIrbis.Client;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 #endregion
 
@@ -162,6 +166,7 @@ namespace ManagedIrbis.Reports
 
             try
             {
+                test.Environment = Environment;
                 result = test.Run(name);
 
 #if CLASSIC || NETCORE
@@ -230,6 +235,49 @@ namespace ManagedIrbis.Reports
                     Results.Add(result);
                 }
             }
+        }
+
+        /// <summary>
+        /// Set environment.
+        /// </summary>
+        public void SetEnvironment
+            (
+                [NotNull] AbstractClient environment
+            )
+        {
+            Code.NotNull(environment, "environment");
+
+            Environment = environment;
+        }
+
+        /// <summary>
+        /// Write test results to the file.
+        /// </summary>
+        public void WriteResults
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+#if !PocketPC && !WINMOBILE
+
+            using (StreamWriter writer = new StreamWriter
+                (
+                    new FileStream
+                        (
+                            fileName,
+                            FileMode.Create,
+                            FileAccess.Write
+                        )
+                ))
+            {
+                JArray array = JArray.FromObject(Results);
+                string text = array.ToString(Formatting.Indented);
+                writer.Write(text);
+            }
+
+#endif
         }
 
         #endregion

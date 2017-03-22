@@ -104,28 +104,18 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
-            if (!ReferenceEquals(Header, null))
+            ReportBand header = Header;
+            if (!ReferenceEquals(header, null))
             {
-                Header.Evaluate(context);
+                header.Evaluate(context);
             }
 
-            int index = 0;
-            foreach (MarcRecord record in context.Records)
+            base.Evaluate(context);
+
+            ReportBand footer = Footer;
+            if (!ReferenceEquals(footer, null))
             {
-                context.CurrentRecord = record;
-                context.Index = index;
-
-                foreach (ReportBand band in Body)
-                {
-                    band.Evaluate(context);
-                }
-
-                index++;
-            }
-
-            if (!ReferenceEquals(Footer, null))
-            {
-                Footer.Evaluate(context);
+                footer.Evaluate(context);
             }
         }
 

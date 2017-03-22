@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* DetailsBand.cs -- 
+/* RawTextCell.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -33,12 +33,12 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Reports
 {
     /// <summary>
-    /// Details (repeating) band.
+    /// 
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class DetailsBand
-        : ReportBand
+    public sealed class RawTextCell
+        : TextCell
     {
         #region Properties
 
@@ -56,7 +56,7 @@ namespace ManagedIrbis.Reports
 
         #endregion
 
-        #region ReportBand
+        #region ReportCell
 
         /// <inheritdoc />
         public override void Evaluate
@@ -66,16 +66,12 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
-            int index = 0;
-            foreach (MarcRecord record in context.Records)
-            {
-                context.CurrentRecord = record;
-                context.Index = index;
+            string text = Text;
 
-                base.Evaluate(context);
-
-                index++;
-            }
+            ReportDriver driver = context.Driver;
+            driver.BeginCell(context);
+            context.Output.Write(text);
+            driver.EndCell(context);
         }
 
         #endregion

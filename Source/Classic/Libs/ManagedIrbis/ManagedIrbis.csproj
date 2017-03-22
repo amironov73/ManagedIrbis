@@ -488,6 +488,7 @@
     <Compile Include="Source\Reports\Bands\GroupBand.cs" />
     <Compile Include="Source\Reports\Cells\IndexCell.cs" />
     <Compile Include="Source\Reports\Cells\PftCell.cs" />
+    <Compile Include="Source\Reports\Cells\RawTextCell.cs" />
     <Compile Include="Source\Reports\Cells\ReportCell.cs" />
     <Compile Include="Source\Reports\Drivers\CsvDriver.cs" />
     <Compile Include="Source\Reports\Drivers\HtmlDriver.cs" />

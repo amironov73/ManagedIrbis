@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using ManagedIrbis.Client;
 using ManagedIrbis.Source.Reports.Drivers;
@@ -35,6 +36,33 @@ namespace UnitTests.ManagedIrbis.Reports
             Assert.IsNotNull(second);
         }
 
+        private List<MarcRecord> _GetRecords()
+        {
+            List<MarcRecord> result = new List<MarcRecord>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                MarcRecord record = new MarcRecord();
+
+                record.Fields.Add
+                    (
+                        new RecordField
+                            (
+                                "200",
+                                new SubField
+                                    (
+                                        'a',
+                                        "Record" + (i + 1)
+                                    )
+                            )
+                    );
+
+                result.Add(record);
+            }
+
+            return result;
+        }
+
         [TestMethod]
         public void IrbisReport_SaveJson_1()
         {
@@ -63,6 +91,7 @@ namespace UnitTests.ManagedIrbis.Reports
         {
             AbstractClient client = new LocalClient();
             ReportContext context = new ReportContext(client);
+            context.Records.AddRange(_GetRecords());
             report.Evaluate(context);
             string text = context.Output.Text;
             Assert.IsNotNull(text);
@@ -75,6 +104,7 @@ namespace UnitTests.ManagedIrbis.Reports
         {
             AbstractClient client = new LocalClient();
             ReportContext context = new ReportContext(client);
+            context.Records.AddRange(_GetRecords());
             context.SetDriver(new HtmlDriver());
             report.Evaluate(context);
             string text = context.Output.Text;
@@ -120,6 +150,29 @@ namespace UnitTests.ManagedIrbis.Reports
             ReportBand footerBand = new ReportBand();
             footerBand.Cells.Add(new TextCell("Footer"));
             report.Footer = footerBand;
+            _TestEvaluateHtml(report);
+        }
+
+        [TestMethod]
+        public void IrbisReport_Evaluate_3()
+        {
+            IrbisReport report = new IrbisReport();
+
+            ReportBand headerBand = new ReportBand();
+            headerBand.Cells.Add(new TextCell("Header"));
+            report.Header = headerBand;
+
+            ReportBand footerBand = new ReportBand();
+            footerBand.Cells.Add(new TextCell("Footer"));
+            report.Footer = footerBand;
+
+            DetailsBand detailsBand = new DetailsBand();
+            detailsBand.Cells.Add(new IndexCell());
+            detailsBand.Cells.Add(new TextCell("::"));
+            detailsBand.Cells.Add(new PftCell("v200^a"));
+            report.Body.Add(detailsBand);
+
+            _TestSaveJson(report);
             _TestEvaluateHtml(report);
         }
     }
