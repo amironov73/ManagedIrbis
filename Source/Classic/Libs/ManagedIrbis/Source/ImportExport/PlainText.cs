@@ -22,7 +22,6 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
-
 #endregion
 
 namespace ManagedIrbis.ImportExport
@@ -230,6 +229,42 @@ namespace ManagedIrbis.ImportExport
 
                 return result;
             }
+        }
+
+        /// <summary>
+        /// Read some records from local file.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord[] ReadRecords
+            (
+                [NotNull] string fileName,
+                [NotNull] Encoding encoding
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNull(encoding, "encoding");
+
+            List<MarcRecord> result = new List<MarcRecord>();
+
+            using (StreamReader reader = new StreamReader
+                (
+                    new FileStream
+                    (
+                        fileName,
+                        FileMode.Open,
+                        FileAccess.Read
+                    ),
+                    encoding
+                ))
+            {
+                MarcRecord record;
+                while ((record = ReadRecord(reader)) != null)
+                {
+                    result.Add(record);
+                }
+            }
+
+            return result.ToArray();
         }
 
 #endif

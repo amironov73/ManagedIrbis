@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* HtmlDriver.cs -- 
+/* CsvDriver.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -21,31 +21,38 @@ using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Runtime;
-using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
-using ManagedIrbis.Reports;
+
 using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedIrbis.Source.Reports.Drivers
+namespace ManagedIrbis.Reports
 {
     /// <summary>
     /// 
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class HtmlDriver
+    public sealed class CsvDriver
         : ReportDriver
     {
         #region Properties
 
         /// <summary>
-        /// Table borders visible?
+        /// Field separator.
         /// </summary>
-        public bool Borders { get; set; }
+        [CanBeNull]
+        public string Separator = ";";
+
+        /// <summary>
+        /// Quotes.
+        /// </summary>
+        [CanBeNull]
+        public string Quotes = "\"";
 
         #endregion
 
@@ -64,31 +71,17 @@ namespace ManagedIrbis.Source.Reports.Drivers
         #region ReportDriver members
 
         /// <inheritdoc />
-        public override void BeginDocument
+        public override void BeginCell
             (
                 ReportContext context
             )
         {
             Code.NotNull(context, "context");
 
-            string table = string.Format
-                (
-                    "<table border={0}>",
-                    Borders ? "1" : "0"
-                );
-
-            context.Output.Write(table);
-        }
-
-        /// <inheritdoc />
-        public override void BeginRow
-            (
-                ReportContext context
-            )
-        {
-            Code.NotNull(context, "context");
-
-            context.Output.Write("<tr>");
+            if (!string.IsNullOrEmpty(Quotes))
+            {
+                context.Output.Write(Quotes);
+            }
         }
 
         /// <inheritdoc />
@@ -99,18 +92,17 @@ namespace ManagedIrbis.Source.Reports.Drivers
         {
             Code.NotNull(context, "context");
 
-            context.Output.Write("</td>");
-        }
+            ReportOutput output = context.Output;
 
-        /// <inheritdoc />
-        public override void EndDocument
-            (
-                ReportContext context
-            )
-        {
-            Code.NotNull(context, "context");
+            if (!string.IsNullOrEmpty(Quotes))
+            {
+                output.Write(Quotes);
+            }
 
-            context.Output.Write("</table>");
+            if (!string.IsNullOrEmpty(Separator))
+            {
+                output.Write(Separator);
+            }
         }
 
         /// <inheritdoc />
@@ -121,7 +113,7 @@ namespace ManagedIrbis.Source.Reports.Drivers
         {
             Code.NotNull(context, "context");
 
-            context.Output.Write("</tr>");
+            context.Output.Write(Environment.NewLine);
         }
 
         /// <inheritdoc />
@@ -133,20 +125,7 @@ namespace ManagedIrbis.Source.Reports.Drivers
         {
             Code.NotNull(context, "context");
 
-            // TODO: encode entities
-
             context.Output.Write(text);
-        }
-
-        /// <inheritdoc />
-        public override void BeginCell
-            (
-                ReportContext context
-            )
-        {
-            Code.NotNull(context, "context");
-
-            context.Output.Write("<td>");
         }
 
         #endregion
