@@ -484,8 +484,10 @@
     <Compile Include="Source\RecordDifferenceResult.cs" />
     <Compile Include="Source\Reports\Bands\BandCollection.cs" />
     <Compile Include="Source\Reports\Bands\DetailsBand.cs" />
+    <Compile Include="Source\Reports\Bands\DynamicBand.cs" />
     <Compile Include="Source\Reports\Cells\CellCollection.cs" />
     <Compile Include="Source\Reports\Bands\GroupBand.cs" />
+    <Compile Include="Source\Reports\Cells\DynamicCell.cs" />
     <Compile Include="Source\Reports\Cells\IndexCell.cs" />
     <Compile Include="Source\Reports\Cells\PftCell.cs" />
     <Compile Include="Source\Reports\Cells\RawTextCell.cs" />
@@ -498,6 +500,7 @@
     <Compile Include="Source\Reports\IrbisReport.cs" />
     <Compile Include="Source\Reports\ReportContext.cs" />
     <Compile Include="Source\Reports\Cells\TextCell.cs" />
+    <Compile Include="Source\Reports\ReportEvaluationEventArgs.cs" />
     <Compile Include="Source\Reports\ReportOutput.cs" />
     <Compile Include="Source\Reports\ReportUtility.cs" />
     <Compile Include="Source\Reports\ReportVariable.cs" />

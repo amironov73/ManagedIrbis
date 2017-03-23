@@ -16,12 +16,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Runtime;
-
 using AM.Text;
 
 using CodeJam;
@@ -85,6 +85,13 @@ namespace ManagedIrbis.Reports
         /// </summary>
         [NotNull]
         public ReportVariableManager Variables { get; private set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        public object UserData { get; set; }
+
 
         #endregion
 

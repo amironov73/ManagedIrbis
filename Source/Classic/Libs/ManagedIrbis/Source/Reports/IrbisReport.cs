@@ -69,6 +69,14 @@ namespace ManagedIrbis.Reports
         [JsonProperty("header")]
         public ReportBand Header { get; set; }
 
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        public object UserData { get; set; }
+
         #endregion
 
         #region Construction
