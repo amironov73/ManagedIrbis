@@ -123,6 +123,47 @@ namespace ManagedIrbis.Reports
         #region Public methods
 
         /// <summary>
+        /// Clone the context.
+        /// </summary>
+        [NotNull]
+        public ReportContext Clone()
+        {
+            ReportContext result = (ReportContext)MemberwiseClone();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Clone the context with new record list.
+        /// </summary>
+        [NotNull]
+        public ReportContext Clone
+            (
+                [NotNull] IEnumerable<MarcRecord> records
+            )
+        {
+            Code.NotNull(records, "records");
+
+            ReportContext result = (ReportContext) MemberwiseClone();
+            result.Records = new NonNullCollection<MarcRecord>();
+            result.Records.AddRange(records);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Push the context.
+        /// </summary>
+        [NotNull]
+        public ReportContext Push()
+        {
+            ReportContext result = (ReportContext) MemberwiseClone();
+            result.Output = new ReportOutput();
+
+            return result;
+        }
+
+        /// <summary>
         /// Set text driver for the context.
         /// </summary>
         [NotNull]
