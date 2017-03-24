@@ -45,14 +45,6 @@ namespace ManagedIrbis.Reports
         #region Properties
 
         /// <summary>
-        /// Group.
-        /// </summary>
-        [CanBeNull]
-        [XmlIgnore]
-        [JsonIgnore]
-        public GroupBand Group { get; internal set; }
-
-        /// <summary>
         /// Record.
         /// </summary>
         [CanBeNull]
@@ -116,7 +108,6 @@ namespace ManagedIrbis.Reports
         {
             BandCollection<T> result = new BandCollection<T>
             {
-                Group = Group,
                 _report = Report
             };
 
@@ -178,7 +169,6 @@ namespace ManagedIrbis.Reports
 
             foreach (ReportBand band in this)
             {
-                band.Group = null;
                 band.Report = null;
             }
 
@@ -213,7 +203,6 @@ namespace ManagedIrbis.Reports
                 ReportBand band  = this[index];
                 if (!ReferenceEquals(band, null))
                 {
-                    band.Group = null;
                     band.Report = null;
                 }
             }
@@ -231,7 +220,6 @@ namespace ManagedIrbis.Reports
             ThrowIfReadOnly();
             Code.NotNull(item, "item");
 
-            item.Group = Group;
             item.Report = Report;
 
             base.SetItem(index, item);

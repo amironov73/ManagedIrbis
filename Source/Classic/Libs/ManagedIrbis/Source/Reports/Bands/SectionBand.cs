@@ -40,34 +40,10 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class GroupBand
-        : ReportBand
+    public class SectionBand
+        : CompositeBand
     {
         #region Properties
-
-        /// <summary>
-        /// Body bands.
-        /// </summary>
-        [NotNull]
-        [XmlElement("body")]
-        [JsonProperty("body")]
-        public BandCollection<DetailsBand> Body { get; internal set; }
-
-        /// <summary>
-        /// Footer band.
-        /// </summary>
-        [CanBeNull]
-        [XmlElement("footer")]
-        [JsonProperty("footer")]
-        public ReportBand Footer { get; set; }
-
-        /// <summary>
-        /// Header band.
-        /// </summary>
-        [CanBeNull]
-        [XmlElement("header")]
-        [JsonProperty("header")]
-        public ReportBand Header { get; set; }
 
         #endregion
 
@@ -76,12 +52,8 @@ namespace ManagedIrbis.Reports
         /// <summary>
         /// 
         /// </summary>
-        public GroupBand()
+        public SectionBand()
         {
-            Body = new BandCollection<DetailsBand>
-            {
-                Group = this
-            };
         }
 
         #endregion
@@ -104,19 +76,19 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
-            ReportBand header = Header;
-            if (!ReferenceEquals(header, null))
-            {
-                header.Evaluate(context);
-            }
+            //ReportBand header = Header;
+            //if (!ReferenceEquals(header, null))
+            //{
+            //    header.Evaluate(context);
+            //}
 
-            base.Evaluate(context);
+            //base.Evaluate(context);
 
-            ReportBand footer = Footer;
-            if (!ReferenceEquals(footer, null))
-            {
-                footer.Evaluate(context);
-            }
+            //ReportBand footer = Footer;
+            //if (!ReferenceEquals(footer, null))
+            //{
+            //    footer.Evaluate(context);
+            //}
         }
 
         #endregion

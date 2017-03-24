@@ -53,14 +53,6 @@ namespace ManagedIrbis.Reports
         public CellCollection Cells { get; private set; }
 
         /// <summary>
-        /// Group band.
-        /// </summary>
-        [CanBeNull]
-        [XmlIgnore]
-        [JsonIgnore]
-        public GroupBand Group { get; internal set; }
-
-        /// <summary>
         /// Report.
         /// </summary>
         [CanBeNull]
