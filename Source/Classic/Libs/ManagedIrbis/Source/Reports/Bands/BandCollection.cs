@@ -39,7 +39,8 @@ namespace ManagedIrbis.Reports
     public sealed class BandCollection<T>
         : Collection<T>,
         IHandmadeSerializable,
-        IReadOnly<BandCollection<T>>
+        IReadOnly<BandCollection<T>>,
+        IDisposable
         where T: ReportBand
     {
         #region Properties
@@ -293,6 +294,19 @@ namespace ManagedIrbis.Reports
             if (ReadOnly)
             {
                 throw new ReadOnlyException();
+            }
+        }
+
+        #endregion
+
+        #region IDisposable members
+
+        /// <inheritdoc cref="IDisposable.Dispose"/>
+        public void Dispose()
+        {
+            foreach (T item in Items)
+            {
+                item.Dispose();
             }
         }
 

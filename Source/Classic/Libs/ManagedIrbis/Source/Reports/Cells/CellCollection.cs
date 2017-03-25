@@ -37,7 +37,8 @@ namespace ManagedIrbis.Reports
     public sealed class CellCollection
         : Collection<ReportCell>,
         IHandmadeSerializable,
-        IReadOnly<CellCollection>
+        IReadOnly<CellCollection>,
+        IDisposable
     {
         #region Properties
 
@@ -303,6 +304,19 @@ namespace ManagedIrbis.Reports
             if (ReadOnly)
             {
                 throw new ReadOnlyException();
+            }
+        }
+
+        #endregion
+
+        #region IDisposable members
+
+        /// <inheritdoc cref="IDisposable.Dispose"/>
+        public void Dispose()
+        {
+            foreach (ReportCell cell in this)
+            {
+                cell.Dispose();
             }
         }
 

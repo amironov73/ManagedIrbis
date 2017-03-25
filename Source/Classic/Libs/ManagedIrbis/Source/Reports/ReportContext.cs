@@ -42,6 +42,7 @@ namespace ManagedIrbis.Reports
     [PublicAPI]
     [MoonSharpUserData]
     public class ReportContext
+        : IDisposable
     {
         #region Properties
 
@@ -177,6 +178,16 @@ namespace ManagedIrbis.Reports
             Driver = driver;
 
             return this;
+        }
+
+        #endregion
+
+        #region IDisposable members
+
+        /// <inheritdoc cref="IDisposable.Dispose"/>
+        public void Dispose()
+        {
+            // TODO Do something here?
         }
 
         #endregion

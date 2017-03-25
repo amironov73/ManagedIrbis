@@ -1043,7 +1043,7 @@ namespace ManagedIrbis
                 );
             result.Add(record);
 
-            for (int version = 2; version < int.MaxValue; version++)
+            for (int version = 2; ; version++)
             {
                 record = connection.ReadRecord
                     (

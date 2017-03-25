@@ -91,6 +91,26 @@ namespace ManagedIrbis.Reports
 
         #endregion
 
+        #region IDisposable members
+
+        /// <inheritdoc cref="IDisposable.Dispose"/>
+        public override void Dispose()
+        {
+            if (!ReferenceEquals(Header, null))
+            {
+                Header.Dispose();
+            }
+            if (!ReferenceEquals(Footer, null))
+            {
+                Footer.Dispose();
+            }
+            Body.Dispose();
+
+            base.Dispose();
+        }
+
+        #endregion
+
         #region Object members
 
         #endregion

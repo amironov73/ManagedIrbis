@@ -41,6 +41,7 @@ namespace ManagedIrbis.Reports
     [PublicAPI]
     [MoonSharpUserData]
     public abstract class ReportCell
+        : IDisposable
     {
         #region Properties
 
@@ -95,6 +96,16 @@ namespace ManagedIrbis.Reports
             (
                 [NotNull] ReportContext context
             )
+        {
+            // Nothing to do here
+        }
+
+        #endregion
+
+        #region IDisposable members
+
+        /// <inheritdoc cref="IDisposable.Dispose"/>
+        public virtual void Dispose()
         {
             // Nothing to do here
         }

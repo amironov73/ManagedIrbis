@@ -42,6 +42,7 @@ namespace ManagedIrbis.Reports
     [PublicAPI]
     [MoonSharpUserData]
     public class IrbisReport
+        : IDisposable
     {
         #region Properties
 
@@ -191,6 +192,24 @@ namespace ManagedIrbis.Reports
                     contents,
                     IrbisEncoding.Utf8
                 );
+        }
+
+        #endregion
+
+        #region IDisposable members
+
+        /// <inheritdoc cref="IDisposable.Dispose"/>
+        public void Dispose()
+        {
+            if (!ReferenceEquals(Header, null))
+            {
+                Header.Dispose();
+            }
+            if (!ReferenceEquals(Footer, null))
+            {
+                Footer.Dispose();
+            }
+            Body.Dispose();
         }
 
         #endregion

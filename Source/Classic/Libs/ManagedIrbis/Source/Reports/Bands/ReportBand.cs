@@ -41,6 +41,7 @@ namespace ManagedIrbis.Reports
     [PublicAPI]
     [MoonSharpUserData]
     public class ReportBand
+        : IDisposable
     {
         #region Properties
 
@@ -126,6 +127,16 @@ namespace ManagedIrbis.Reports
                 cell.Evaluate(context);
             }
             driver.EndRow(context);
+        }
+
+        #endregion
+
+        #region IDisposable members
+
+        /// <inheritdoc cref="IDisposable.Dispose"/>
+        public virtual void Dispose()
+        {
+            Cells.Dispose();
         }
 
         #endregion
