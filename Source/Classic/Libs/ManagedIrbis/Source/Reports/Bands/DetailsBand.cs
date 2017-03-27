@@ -66,15 +66,22 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
-            int index = 0;
-            foreach (MarcRecord record in context.Records)
+            if (context.Index >= 0)
             {
-                context.CurrentRecord = record;
-                context.Index = index;
-
                 base.Evaluate(context);
+            }
+            else
+            {
+                int index = 0;
+                foreach (MarcRecord record in context.Records)
+                {
+                    context.CurrentRecord = record;
+                    context.Index = index;
 
-                index++;
+                    base.Evaluate(context);
+
+                    index++;
+                }
             }
         }
 

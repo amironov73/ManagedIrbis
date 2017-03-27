@@ -41,7 +41,7 @@ namespace ManagedIrbis.Reports
     [PublicAPI]
     [MoonSharpUserData]
     public class CompositeBand
-        : ReportBand
+        : DetailsBand
     {
         #region Properties
 
@@ -88,6 +88,53 @@ namespace ManagedIrbis.Reports
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Should serialize <see cref="ReportBand.Cells"/>?
+        /// </summary>
+        public bool ShouldSerializeCells()
+        {
+            return false;
+        }
+
+        #endregion
+
+        #region ReportBand members
+
+        /// <inheritdoc />
+        public override void Evaluate
+            (
+                ReportContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            ReportBand header = Header;
+            if (!ReferenceEquals(header, null))
+            {
+                header.Evaluate(context);
+            }
+
+            int count = context.Records.Count;
+            for (int index = 0; index < count; index++)
+            {
+                context.Index = index;
+                context.CurrentRecord = context.Records[index];
+
+                foreach (ReportBand band in Body)
+                {
+                    band.Evaluate(context);
+                }
+            }
+
+            // base.Evaluate(context);
+
+            ReportBand footer = Footer;
+            if (!ReferenceEquals(footer, null))
+            {
+                footer.Evaluate(context);
+            }
+        }
 
         #endregion
 

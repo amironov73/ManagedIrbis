@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 using AM;
 using AM.Collections;
@@ -30,6 +31,8 @@ using JetBrains.Annotations;
 using ManagedIrbis.Pft;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -49,6 +52,8 @@ namespace ManagedIrbis.Reports
         /// Sort expression.
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("sort")]
+        [JsonProperty("sort")]
         public string SortExpression { get; set; }
 
         #endregion
@@ -84,15 +89,17 @@ namespace ManagedIrbis.Reports
             {
                 int count = context.Records.Count;
 
-                PftFormatter formatter = new PftFormatter();
-                formatter.SetEnvironment(context.Client);
-                formatter.ParseProgram(expression);
+                PftFormatter formatter
+                    = context.GetFormatter(expression);
 
                 List<Pair<string, int>> list
                     = new List<Pair<string, int>>(count);
                 for (int i = 0; i < count; i++)
                 {
-                    string formatted = formatter.Format(context.Records[i]);
+                    string formatted = formatter.Format
+                        (
+                            context.Records[i]
+                        );
                     Pair<string, int> pair = new Pair<string, int>
                         (
                             formatted,
@@ -115,9 +122,7 @@ namespace ManagedIrbis.Reports
                     );
 
                 base.Evaluate(cloneContext);
-
             }
-
         }
 
         #endregion

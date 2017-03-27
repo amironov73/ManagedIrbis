@@ -112,6 +112,9 @@ namespace ManagedIrbis.Reports
 
             ReportDriver driver = context.Driver;
 
+            context.CurrentRecord = null;
+            context.Index = -1;
+
             driver.BeginDocument(context);
 
             if (!ReferenceEquals(Header, null))

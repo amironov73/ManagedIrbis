@@ -76,7 +76,30 @@ namespace UnitTests.ManagedIrbis.Reports
             DetailsBand detailsBand = new DetailsBand();
             detailsBand.Cells.Add(new TextCell("This is a text"));
             report.Body.Add(detailsBand);
+
+            ReportBand footerBand = new ReportBand();
+            footerBand.Cells.Add(new TextCell("Footer"));
+            report.Footer = footerBand;
             _TestSaveJson(report);
+        }
+
+        [TestMethod]
+        public void IrbisReport_SaveJson_2()
+        {
+            IrbisReport report = new IrbisReport();
+            _TestSaveJson(report);
+
+            ReportBand headerBand = new ReportBand();
+            headerBand.Cells.Add(new TextCell("Header"));
+            report.Header = headerBand;
+
+            FilterBand filterBand = new FilterBand();
+            filterBand.FilterExpression = "if v200^a:' ' then '1' else '0' fi";
+            DetailsBand detailsBand = new DetailsBand();
+            detailsBand.Cells.Add(new TextCell("This is a text"));
+            detailsBand.Cells.Add(new PftCell("'This is a PFT'"));
+            filterBand.Body.Add(detailsBand);
+            report.Body.Add(filterBand);
 
             ReportBand footerBand = new ReportBand();
             footerBand.Cells.Add(new TextCell("Footer"));

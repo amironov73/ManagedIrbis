@@ -26,6 +26,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -52,6 +54,28 @@ namespace ManagedIrbis.Reports
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Get PFT formatter for the report context.
+        /// </summary>
+        [NotNull]
+        public static PftFormatter GetFormatter
+            (
+                [NotNull] this ReportContext context,
+                [CanBeNull] string expression
+            )
+        {
+            Code.NotNull(context, "context");
+
+            PftFormatter result = new PftFormatter();
+            result.SetEnvironment(context.Client);
+            if (!string.IsNullOrEmpty(expression))
+            {
+                result.ParseProgram(expression);
+            }
+
+            return result;
+        }
 
         #endregion
 

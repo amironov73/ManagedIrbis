@@ -213,7 +213,7 @@ namespace ManagedIrbis.Reports
                         Console.WriteLine();
                         Console.WriteLine("!!! FAILED !!!");
                         Console.WriteLine();
-                        Console.WriteLine(expected);
+                        Console.WriteLine(output);
                         Console.WriteLine();
                     }
                 }
