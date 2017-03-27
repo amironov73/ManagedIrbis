@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AM.Core", "AM.Core\AM.Core.xproj", "{3BB90F17-45B6-47F6-B158-86386BDC19F7}"
+# Visual Studio 15
+VisualStudioVersion = 15.0.26124.0
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AM.Core", "AM.Core\AM.Core.csproj", "{3BB90F17-45B6-47F6-B158-86386BDC19F7}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ManagedIrbis", "ManagedIrbis\ManagedIrbis.xproj", "{E96E29C4-FD68-4338-B57E-CE74E718BF30}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ManagedIrbis", "ManagedIrbis\ManagedIrbis.csproj", "{E96E29C4-FD68-4338-B57E-CE74E718BF30}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RestfulIrbis", "RestfulIrbis\RestfulIrbis.xproj", "{85DD9AE3-43C4-4F78-9928-30818ABECA8B}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RestfulIrbis", "RestfulIrbis\RestfulIrbis.csproj", "{85DD9AE3-43C4-4F78-9928-30818ABECA8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,0 @@
-{
-  "projects": [ "AM.Core", "ManagedIrbis", "RestfulIrbis" ],
-  "sdk": {
-    "version": "1.0.0-preview2-003131"
-  }
-}
