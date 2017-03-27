@@ -2,8 +2,8 @@
   "$type": "ManagedIrbis.Reports.IrbisReport, ManagedIrbis",
   "details": [
     {
-      "$type": "ManagedIrbis.Reports.SortBand, ManagedIrbis",
-      "sort": "v200^a",
+      "$type": "ManagedIrbis.Reports.GroupBand, ManagedIrbis",
+      "group": "&uf('+95',v200^a)",
       "body": [
         {
           "$type": "ManagedIrbis.Reports.DetailsBand, ManagedIrbis",

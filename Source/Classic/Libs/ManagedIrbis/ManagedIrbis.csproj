@@ -487,6 +487,7 @@
     <Compile Include="Source\Reports\Bands\DetailsBand.cs" />
     <Compile Include="Source\Reports\Bands\DynamicBand.cs" />
     <Compile Include="Source\Reports\Bands\FilterBand.cs" />
+    <Compile Include="Source\Reports\Bands\GroupBand.cs" />
     <Compile Include="Source\Reports\Bands\SortBand.cs" />
     <Compile Include="Source\Reports\Cells\CellCollection.cs" />
     <Compile Include="Source\Reports\Bands\SectionBand.cs" />

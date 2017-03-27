@@ -83,6 +83,8 @@ namespace ManagedIrbis.Reports
             string expression = FilterExpression;
             if (string.IsNullOrEmpty(expression))
             {
+                context.Index = -1;
+                context.CurrentRecord = null;
                 base.Evaluate(context);
             }
             else
@@ -110,6 +112,8 @@ namespace ManagedIrbis.Reports
                         list
                     );
 
+                cloneContext.Index = -1;
+                cloneContext.CurrentRecord = null;
                 base.Evaluate(cloneContext);
             }
         }

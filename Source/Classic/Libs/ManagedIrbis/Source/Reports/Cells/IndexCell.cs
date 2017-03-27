@@ -98,8 +98,10 @@ namespace ManagedIrbis.Reports
             string format = Format;
             if (!string.IsNullOrEmpty(format))
             {
-                string index = context.Index.ToInvariantString();
-                string total = context.Records.Count.ToInvariantString();
+                string index = (context.Index + 1)
+                    .ToInvariantString();
+                string total = context.Records.Count
+                    .ToInvariantString();
                 string text = format
                     .Replace("{Index}", index)
                     .Replace("{Total}", total);

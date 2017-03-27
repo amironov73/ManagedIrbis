@@ -112,6 +112,8 @@ namespace ManagedIrbis.Reports
             ReportBand header = Header;
             if (!ReferenceEquals(header, null))
             {
+                context.Index = -1;
+                context.CurrentRecord = null;
                 header.Evaluate(context);
             }
 
@@ -132,6 +134,8 @@ namespace ManagedIrbis.Reports
             ReportBand footer = Footer;
             if (!ReferenceEquals(footer, null))
             {
+                context.Index = -1;
+                context.CurrentRecord = null;
                 footer.Evaluate(context);
             }
         }

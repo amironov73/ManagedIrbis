@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SortBand.cs -- 
+/* GroupBand.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -43,7 +43,7 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class SortBand
+    public class GroupBand
         : CompositeBand
     {
         #region Properties
@@ -52,9 +52,9 @@ namespace ManagedIrbis.Reports
         /// Sort expression.
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("sort")]
-        [JsonProperty("sort")]
-        public string SortExpression { get; set; }
+        [XmlAttribute("group")]
+        [JsonProperty("group")]
+        public string GroupExpression { get; set; }
 
         #endregion
 
@@ -63,10 +63,6 @@ namespace ManagedIrbis.Reports
         #endregion
 
         #region Private members
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
@@ -80,7 +76,7 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
-            string expression = SortExpression;
+            string expression = GroupExpression;
             if (string.IsNullOrEmpty(expression))
             {
                 context.Index = -1;
@@ -110,31 +106,48 @@ namespace ManagedIrbis.Reports
                     list.Add(pair);
                 }
 
-                list.Sort
+                var grouped = list.GroupBy
                     (
-                        (left, right) => NumberText.Compare
-                            (
-                                left.First,
-                                right.First
-                            )
-                    );
-                ReportContext cloneContext = context.Clone
+                        item => item.First
+                    )
+                    .OrderBy
                     (
-                        list.Select
-                        (
-                            pair => context.Records[pair.Second]
-                        )
+                        group => new NumberText(group.Key)
                     );
 
-                cloneContext.Index = -1;
-                cloneContext.CurrentRecord = null;
-                base.Evaluate(cloneContext);
+                foreach (var group in grouped)
+                {
+                    string key = group.Key;
+
+                    List<MarcRecord> records = group.Select
+                        (
+                            item => context.Records[item.Second]
+                        )
+                        .ToList();
+
+                    ReportContext cloneContext = context.Clone
+                        (
+                            records
+                        );
+
+                    cloneContext.Variables.SetVariable
+                        (
+                            "group",
+                            key
+                        );
+
+                    cloneContext.Index = -1;
+                    cloneContext.CurrentRecord = null;
+                    base.Evaluate(cloneContext);
+                }
+
+                context.Variables.Registry.Remove("group");
             }
         }
 
         #endregion
 
-        #region Object members
+        #region Public methods
 
         #endregion
     }
