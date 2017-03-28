@@ -43,7 +43,8 @@ namespace ManagedIrbis.Reports
     [PublicAPI]
     [MoonSharpUserData]
     public class ReportBand
-        : IDisposable
+        : IAttributable,
+        IDisposable
     {
         #region Properties
 
@@ -115,12 +116,12 @@ namespace ManagedIrbis.Reports
             )
         {
             ReportDriver driver = context.Driver;
-            driver.BeginRow(context);
+            driver.BeginRow(context, this);
             foreach (ReportCell cell in Cells)
             {
                 cell.Evaluate(context);
             }
-            driver.EndRow(context);
+            driver.EndRow(context, this);
         }
 
         #endregion

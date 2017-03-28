@@ -78,6 +78,40 @@ namespace ManagedIrbis.Reports
         }
 
         /// <summary>
+        /// Set height of the object.
+        /// </summary>
+        [NotNull]
+        public static IAttributable SetHeight
+            (
+                [NotNull] this IAttributable reportObject,
+                int height
+            )
+        {
+            Code.NotNull(reportObject, "reportObject");
+
+            reportObject.Attributes["Height"] = height;
+
+            return reportObject;
+        }
+
+        /// <summary>
+        /// Set width of the object.
+        /// </summary>
+        [NotNull]
+        public static IAttributable SetWidth
+            (
+                [NotNull] this IAttributable reportObject,
+                int width
+            )
+        {
+            Code.NotNull(reportObject, "reportObject");
+
+            reportObject.Attributes["Width"] = width;
+
+            return reportObject;
+        }
+
+        /// <summary>
         /// Set variables for <see cref="PftFormatter"/>.
         /// </summary>
         public static void SetVariables

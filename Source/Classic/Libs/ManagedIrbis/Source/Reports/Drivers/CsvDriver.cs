@@ -73,10 +73,12 @@ namespace ManagedIrbis.Reports
         /// <inheritdoc />
         public override void BeginCell
             (
-                ReportContext context
+                ReportContext context,
+                ReportCell cell
             )
         {
             Code.NotNull(context, "context");
+            Code.NotNull(cell, "cell");
 
             if (!string.IsNullOrEmpty(Quotes))
             {
@@ -87,10 +89,12 @@ namespace ManagedIrbis.Reports
         /// <inheritdoc />
         public override void EndCell
             (
-                ReportContext context
+                ReportContext context,
+                ReportCell cell
             )
         {
             Code.NotNull(context, "context");
+            Code.NotNull(cell, "cell");
 
             ReportOutput output = context.Output;
 
@@ -108,10 +112,12 @@ namespace ManagedIrbis.Reports
         /// <inheritdoc />
         public override void EndRow
             (
-                ReportContext context
+                ReportContext context,
+                ReportBand band
             )
         {
             Code.NotNull(context, "context");
+            Code.NotNull(band, "band");
 
             context.Output.Write(Environment.NewLine);
         }

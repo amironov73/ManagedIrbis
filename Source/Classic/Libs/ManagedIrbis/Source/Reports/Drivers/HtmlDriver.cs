@@ -69,10 +69,12 @@ namespace ManagedIrbis.Source.Reports.Drivers
         /// <inheritdoc />
         public override void BeginCell
             (
-                ReportContext context
+                ReportContext context,
+                ReportCell cell
             )
         {
             Code.NotNull(context, "context");
+            Code.NotNull(cell, "cell");
 
             context.Output.Write("<td>");
         }
@@ -80,10 +82,12 @@ namespace ManagedIrbis.Source.Reports.Drivers
         /// <inheritdoc />
         public override void BeginDocument
             (
-                ReportContext context
+                ReportContext context,
+                IrbisReport report
             )
         {
             Code.NotNull(context, "context");
+            Code.NotNull(report, "report");
 
             string table = string.Format
                 (
@@ -97,10 +101,12 @@ namespace ManagedIrbis.Source.Reports.Drivers
         /// <inheritdoc />
         public override void BeginRow
             (
-                ReportContext context
+                ReportContext context,
+                ReportBand band
             )
         {
             Code.NotNull(context, "context");
+            Code.NotNull(band, "band");
 
             context.Output.Write("<tr>");
         }
@@ -108,10 +114,12 @@ namespace ManagedIrbis.Source.Reports.Drivers
         /// <inheritdoc />
         public override void EndCell
             (
-                ReportContext context
+                ReportContext context,
+                ReportCell cell
             )
         {
             Code.NotNull(context, "context");
+            Code.NotNull(cell, "cell");
 
             context.Output.Write("</td>");
         }
@@ -119,23 +127,31 @@ namespace ManagedIrbis.Source.Reports.Drivers
         /// <inheritdoc />
         public override void EndDocument
             (
-                ReportContext context
+                ReportContext context,
+                IrbisReport report
             )
         {
             Code.NotNull(context, "context");
+            Code.NotNull(report, "report");
 
-            context.Output.Write("</table>");
+            ReportOutput output = context.Output;
+            output.Write("</table>");
+            output.Write(Environment.NewLine);
         }
 
         /// <inheritdoc />
         public override void EndRow
             (
-                ReportContext context
+                ReportContext context,
+                ReportBand band
             )
         {
             Code.NotNull(context, "context");
+            Code.NotNull(band, "band");
 
-            context.Output.Write("</tr>");
+            ReportOutput output = context.Output;
+            output.Write("</tr>");
+            output.Write(Environment.NewLine);
         }
 
         /// <inheritdoc />

@@ -93,7 +93,7 @@ namespace ManagedIrbis.Reports
 
             ReportDriver driver = context.Driver;
 
-            driver.BeginCell(context);
+            driver.BeginCell(context, this);
 
             string format = Format;
             if (!string.IsNullOrEmpty(format))
@@ -108,7 +108,7 @@ namespace ManagedIrbis.Reports
                 driver.Write(context, text);
             }
 
-            driver.EndCell(context);
+            driver.EndCell(context, this);
         }
 
         #endregion

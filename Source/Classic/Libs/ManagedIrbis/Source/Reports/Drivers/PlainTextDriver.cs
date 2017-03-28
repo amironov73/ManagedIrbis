@@ -82,9 +82,13 @@ namespace ManagedIrbis.Reports
         /// <inheritdoc />
         public override void EndRow
             (
-                ReportContext context
+                ReportContext context,
+                ReportBand band
             )
         {
+            Code.NotNull(context, "context");
+            Code.NotNull(band, "band");
+
             ReportOutput output = context.Output;
             output.TrimEnd();
             output.Write(RowDelimiter);
@@ -93,9 +97,13 @@ namespace ManagedIrbis.Reports
         /// <inheritdoc />
         public override void EndCell
             (
-                ReportContext context
+                ReportContext context,
+                ReportCell cell
             )
         {
+            Code.NotNull(context, "context");
+            Code.NotNull(cell, "cell");
+
             context.Output.Write(CellDelimiter);
         }
 

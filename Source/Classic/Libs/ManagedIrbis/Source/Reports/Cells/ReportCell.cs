@@ -41,7 +41,8 @@ namespace ManagedIrbis.Reports
     [PublicAPI]
     [MoonSharpUserData]
     public abstract class ReportCell
-        : IDisposable
+        : IAttributable,
+        IDisposable
     {
         #region Properties
 

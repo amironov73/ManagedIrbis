@@ -58,7 +58,8 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public virtual void BeginCell
             (
-                [NotNull] ReportContext context
+                [NotNull] ReportContext context,
+                [NotNull] ReportCell cell
             )
         {
             // Nothing to do here
@@ -69,7 +70,8 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public virtual void BeginDocument
             (
-                [NotNull] ReportContext context
+                [NotNull] ReportContext context,
+                [NotNull] IrbisReport report
             )
         {
             // Nothing to do here
@@ -80,7 +82,8 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public virtual void BeginRow
             (
-                [NotNull] ReportContext context
+                [NotNull] ReportContext context,
+                [NotNull] ReportBand band
             )
         {
             // Nothing to do here
@@ -91,7 +94,8 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public virtual void EndCell
             (
-                [NotNull] ReportContext context
+                [NotNull] ReportContext context,
+                [NotNull] ReportCell cell
             )
         {
             // Nothing to do here
@@ -102,7 +106,8 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public virtual void EndDocument
             (
-                [NotNull] ReportContext context
+                [NotNull] ReportContext context,
+                [NotNull] IrbisReport report
             )
         {
             // Nothing to do here
@@ -113,7 +118,8 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public virtual void EndRow
             (
-                [NotNull] ReportContext context
+                [NotNull] ReportContext context,
+                [NotNull] ReportBand band
             )
         {
             // Nothing to do here

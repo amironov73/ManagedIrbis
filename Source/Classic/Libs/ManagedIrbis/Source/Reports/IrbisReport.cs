@@ -42,7 +42,8 @@ namespace ManagedIrbis.Reports
     [PublicAPI]
     [MoonSharpUserData]
     public class IrbisReport
-        : IDisposable
+        : IAttributable,
+        IDisposable
     {
         #region Properties
 
@@ -124,7 +125,7 @@ namespace ManagedIrbis.Reports
             context.CurrentRecord = null;
             context.Index = -1;
 
-            driver.BeginDocument(context);
+            driver.BeginDocument(context, this);
 
             if (!ReferenceEquals(Header, null))
             {
@@ -141,7 +142,7 @@ namespace ManagedIrbis.Reports
                 Footer.Evaluate(context);
             }
 
-            driver.EndDocument(context);
+            driver.EndDocument(context, this);
         }
 
         /// <summary>

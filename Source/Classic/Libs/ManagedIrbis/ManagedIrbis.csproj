@@ -498,8 +498,10 @@
     <Compile Include="Source\Reports\Cells\ReportCell.cs" />
     <Compile Include="Source\Reports\Drivers\CsvDriver.cs" />
     <Compile Include="Source\Reports\Drivers\HtmlDriver.cs" />
+    <Compile Include="Source\Reports\Drivers\LoggingDriver.cs" />
     <Compile Include="Source\Reports\Drivers\PlainTextDriver.cs" />
     <Compile Include="Source\Reports\Drivers\ReportDriver.cs" />
+    <Compile Include="Source\Reports\IAttributable.cs" />
     <Compile Include="Source\Reports\IReportRenderer.cs" />
     <Compile Include="Source\Reports\IrbisReport.cs" />
     <Compile Include="Source\Reports\ReportAttributes.cs" />

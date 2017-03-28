@@ -69,9 +69,9 @@ namespace ManagedIrbis.Reports
             string text = Text;
 
             ReportDriver driver = context.Driver;
-            driver.BeginCell(context);
+            driver.BeginCell(context, this);
             context.Output.Write(text);
-            driver.EndCell(context);
+            driver.EndCell(context, this);
         }
 
         #endregion

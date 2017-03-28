@@ -114,9 +114,9 @@ namespace ManagedIrbis.Reports
 
             string formatted 
                 = _formatter.Format(context.CurrentRecord);
-            driver.BeginCell(context);
+            driver.BeginCell(context, this);
             driver.Write(context, formatted);
-            driver.EndCell(context);
+            driver.EndCell(context, this);
         }
 
         #endregion
