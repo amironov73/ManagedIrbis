@@ -105,14 +105,15 @@ namespace ManagedIrbis.Reports
 
             if (ReferenceEquals(_formatter, null))
             {
-                _formatter = new PftFormatter();
-                _formatter.SetEnvironment(context.Client);
-                _formatter.ParseProgram(text);
+                _formatter = context.GetFormatter(text);
             }
+
+            context.SetVariables(_formatter);
 
             ReportDriver driver = context.Driver;
 
-            string formatted = _formatter.Format(context.CurrentRecord);
+            string formatted 
+                = _formatter.Format(context.CurrentRecord);
             driver.BeginCell(context);
             driver.Write(context, formatted);
             driver.EndCell(context);

@@ -47,6 +47,14 @@ namespace ManagedIrbis.Reports
         #region Properties
 
         /// <summary>
+        /// Attributes.
+        /// </summary>
+        [NotNull]
+        [XmlArray("attr")]
+        [JsonProperty("attr")]
+        public ReportAttributes Attributes { get; private set; }
+
+        /// <summary>
         /// Report body band.
         /// </summary>
         [NotNull]
@@ -87,6 +95,7 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public IrbisReport()
         {
+            Attributes = new ReportAttributes();
             Body = new BandCollection<DetailsBand>();
         }
 

@@ -46,6 +46,14 @@ namespace ManagedIrbis.Reports
         #region Properties
 
         /// <summary>
+        /// Attributes.
+        /// </summary>
+        [NotNull]
+        [XmlArray("attr")]
+        [JsonProperty("attr")]
+        public ReportAttributes Attributes { get; private set; }
+
+        /// <summary>
         /// Band.
         /// </summary>
         [CanBeNull]
@@ -72,6 +80,14 @@ namespace ManagedIrbis.Reports
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        protected ReportCell()
+        {
+            Attributes = new ReportAttributes();
+        }
 
         #endregion
 

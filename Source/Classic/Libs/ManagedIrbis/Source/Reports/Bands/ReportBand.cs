@@ -27,6 +27,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -44,6 +46,14 @@ namespace ManagedIrbis.Reports
         : IDisposable
     {
         #region Properties
+
+        /// <summary>
+        /// Attributes.
+        /// </summary>
+        [NotNull]
+        [XmlArray("attr")]
+        [JsonProperty("attr")]
+        public ReportAttributes Attributes { get; private set; }
 
         /// <summary>
         /// Cells.
@@ -86,6 +96,7 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public ReportBand()
         {
+            Attributes = new ReportAttributes();
             Cells = new CellCollection
             {
                 Band = this
@@ -97,6 +108,20 @@ namespace ManagedIrbis.Reports
         #region Private members
 
         private IrbisReport _report;
+
+        private void _Evaluate
+            (
+                [NotNull] ReportContext context
+            )
+        {
+            ReportDriver driver = context.Driver;
+            driver.BeginRow(context);
+            foreach (ReportCell cell in Cells)
+            {
+                cell.Evaluate(context);
+            }
+            driver.EndRow(context);
+        }
 
         #endregion
 
@@ -120,13 +145,59 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
-            ReportDriver driver = context.Driver;
-            driver.BeginRow(context);
-            foreach (ReportCell cell in Cells)
+            EvaluateOnce(context, null);
+        }
+
+        /// <summary>
+        /// Evaluate the band once (ignore records).
+        /// </summary>
+        public void EvaluateOnce
+            (
+                [NotNull] ReportContext context,
+                [CanBeNull] PftFormatter formatter
+            )
+        {
+            Code.NotNull(context, "context");
+
+            context.SetVariables(formatter);
+
+            _Evaluate(context);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void EvaluateRecords
+            (
+                [NotNull] ReportContext context,
+                [CanBeNull] PftFormatter formatter
+            )
+        {
+            Code.NotNull(context, "context");
+
+            context.SetVariables(formatter);
+
+            int index = 0;
+            foreach (MarcRecord record in context.Records)
             {
-                cell.Evaluate(context);
+                context.CurrentRecord = record;
+                context.Index = index;
+
+                _Evaluate(context);
+
+                index++;
             }
-            driver.EndRow(context);
+
+            context.Index = -1;
+            context.CurrentRecord = null;
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="Attributes"/>?
+        /// </summary>
+        public bool ShouldSerializeAttributes()
+        {
+            return Attributes.Count != 0;
         }
 
         #endregion

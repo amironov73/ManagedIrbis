@@ -77,6 +77,31 @@ namespace ManagedIrbis.Reports
             return result;
         }
 
+        /// <summary>
+        /// Set variables for <see cref="PftFormatter"/>.
+        /// </summary>
+        public static void SetVariables
+            (
+                [NotNull] this ReportContext context,
+                [CanBeNull] PftFormatter formatter
+            )
+        {
+            Code.NotNull(context, "context");
+
+            if (!ReferenceEquals(formatter, null))
+            {
+                foreach (ReportVariable variable in
+                    context.Variables.GetAllVariables())
+                {
+                    formatter.Context.Variables.SetVariable
+                        (
+                            variable.Name,
+                            variable.Value.NullableToString()
+                        );
+                }
+            }
+        }
+
         #endregion
 
         #region Object members

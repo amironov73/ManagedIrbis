@@ -502,6 +502,7 @@
     <Compile Include="Source\Reports\Drivers\ReportDriver.cs" />
     <Compile Include="Source\Reports\IReportRenderer.cs" />
     <Compile Include="Source\Reports\IrbisReport.cs" />
+    <Compile Include="Source\Reports\ReportAttributes.cs" />
     <Compile Include="Source\Reports\ReportContext.cs" />
     <Compile Include="Source\Reports\Cells\TextCell.cs" />
     <Compile Include="Source\Reports\ReportEvaluationEventArgs.cs" />
