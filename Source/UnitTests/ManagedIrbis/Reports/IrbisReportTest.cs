@@ -36,6 +36,18 @@ namespace UnitTests.ManagedIrbis.Reports
             Assert.IsNotNull(second);
         }
 
+        private void _TestSaveShortJson
+            (
+                IrbisReport first
+            )
+        {
+            string fileName = Path.GetTempFileName();
+            first.SaveShortJson(fileName);
+
+            IrbisReport second = IrbisReport.LoadShortJson(fileName);
+            Assert.IsNotNull(second);
+        }
+
         private List<MarcRecord> _GetRecords()
         {
             List<MarcRecord> result = new List<MarcRecord>();
@@ -105,6 +117,34 @@ namespace UnitTests.ManagedIrbis.Reports
             footerBand.Cells.Add(new TextCell("Footer"));
             report.Footer = footerBand;
             _TestSaveJson(report);
+        }
+
+        [TestMethod]
+        public void IrbisReport_SaveShortJson_1()
+        {
+            IrbisReport report = new IrbisReport();
+            _TestSaveJson(report);
+
+            ReportBand headerBand = new ReportBand();
+            headerBand.Cells.Add(new TextCell("Header"));
+            report.Header = headerBand;
+
+            FilterBand filterBand = new FilterBand();
+            filterBand.FilterExpression = "if v200^a:' ' then '1' else '0' fi";
+            DetailsBand detailsBand = new DetailsBand();
+            ReportCell cell = new TextCell("This is a text");
+            cell.SetWidth(100).SetHeight(10);
+            detailsBand.Cells.Add(cell);
+            cell = new PftCell("'This is a PFT'");
+            cell.SetWidth(200).SetHeight(10);
+            detailsBand.Cells.Add(cell);
+            filterBand.Body.Add(detailsBand);
+            report.Body.Add(filterBand);
+
+            ReportBand footerBand = new ReportBand();
+            footerBand.Cells.Add(new TextCell("Footer"));
+            report.Footer = footerBand;
+            _TestSaveShortJson(report);
         }
 
         private void _TestEvaluatePlainText

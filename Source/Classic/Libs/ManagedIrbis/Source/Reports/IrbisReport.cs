@@ -31,6 +31,7 @@ using JetBrains.Annotations;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 #endregion
 
@@ -177,6 +178,51 @@ namespace ManagedIrbis.Reports
         }
 
         /// <summary>
+        /// Load report from the JSON file.
+        /// </summary>
+        public static IrbisReport LoadShortJson
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            string contents = File.ReadAllText
+                (
+                    fileName,
+                    IrbisEncoding.Utf8
+                );
+            JObject obj = JObject.Parse(contents);
+
+            var tokens = obj.SelectTokens("$..$type");
+            foreach (JToken token in tokens)
+            {
+                JValue val = (JValue)token;
+
+                string typeName = val.Value.ToString();
+                if (!typeName.Contains('.'))
+                {
+                    typeName = "ManagedIrbis.Reports."
+                               + typeName
+                               + ", ManagedIrbis";
+                    val.Value = typeName;
+                }
+            }
+
+            JsonSerializer serializer = new JsonSerializer
+            {
+                TypeNameHandling = TypeNameHandling.Objects,
+                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+            };
+            IrbisReport result = obj.ToObject<IrbisReport>
+                (
+                    serializer
+                );
+
+            return result;
+        }
+
+        /// <summary>
         /// Save the report to specified file.
         /// </summary>
         public void SaveJson
@@ -199,6 +245,82 @@ namespace ManagedIrbis.Reports
                     Formatting.Indented,
                     settings
                 );
+            File.WriteAllText
+                (
+                    fileName,
+                    contents,
+                    IrbisEncoding.Utf8
+                );
+        }
+
+        /// <summary>
+        /// Save the report to specified file.
+        /// </summary>
+        public void SaveShortJson
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            JsonSerializer serializer = new JsonSerializer
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                TypeNameHandling = TypeNameHandling.Objects,
+                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+            };
+            JObject obj = JObject.FromObject
+                (
+                    this,
+                    serializer
+                );
+
+            var tokens = obj.SelectTokens("$..$type");
+            foreach (JToken token in tokens)
+            {
+                JValue val = (JValue)token;
+
+                Type type = Type.GetType
+                    (
+                        val.Value.ToString(),
+                        false
+                    );
+                if (!ReferenceEquals(type, null))
+                {
+                    val.Value = type.Name;
+                }
+            }
+
+            while (true)
+            {
+                tokens = obj.SelectTokens("$..attr");
+                var attr = tokens.FirstOrDefault
+                    (
+                        a => a.Count() == 1
+                    );
+                if (ReferenceEquals(attr, null))
+                {
+                    break;
+                }
+                attr.Parent.Remove();
+            }
+
+            while (true)
+            {
+                tokens = obj.SelectTokens("$..cells");
+                var attr = tokens.FirstOrDefault
+                    (
+                        a => a.Count() == 0
+                    );
+                if (ReferenceEquals(attr, null))
+                {
+                    break;
+                }
+                attr.Parent.Remove();
+            }
+
+            string contents = obj.ToString(Formatting.Indented);
             File.WriteAllText
                 (
                     fileName,
