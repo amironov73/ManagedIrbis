@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ReportDriver.cs -- 
+/* ReportDriver.cs -- abstract report driver
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -33,7 +33,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Reports
 {
     /// <summary>
-    /// 
+    /// Abstract report driver.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -90,6 +90,18 @@ namespace ManagedIrbis.Reports
         }
 
         /// <summary>
+        /// Begin table.
+        /// </summary>
+        public virtual void BeginTable
+            (
+                [NotNull] ReportContext context,
+                [NotNull] IrbisReport report
+            )
+        {
+            // Nothing to do here
+        }
+
+        /// <summary>
         /// End cell.
         /// </summary>
         public virtual void EndCell
@@ -120,6 +132,18 @@ namespace ManagedIrbis.Reports
             (
                 [NotNull] ReportContext context,
                 [NotNull] ReportBand band
+            )
+        {
+            // Nothing to do here
+        }
+
+        /// <summary>
+        /// End table.
+        /// </summary>
+        public virtual void EndTable
+            (
+                [NotNull] ReportContext context,
+                [NotNull] IrbisReport report
             )
         {
             // Nothing to do here

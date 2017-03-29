@@ -489,6 +489,7 @@
     <Compile Include="Source\Reports\Bands\FilterBand.cs" />
     <Compile Include="Source\Reports\Bands\GroupBand.cs" />
     <Compile Include="Source\Reports\Bands\SortBand.cs" />
+    <Compile Include="Source\Reports\Bands\TableBand.cs" />
     <Compile Include="Source\Reports\Cells\CellCollection.cs" />
     <Compile Include="Source\Reports\Bands\SectionBand.cs" />
     <Compile Include="Source\Reports\Cells\DynamicCell.cs" />
@@ -501,6 +502,7 @@
     <Compile Include="Source\Reports\Drivers\LoggingDriver.cs" />
     <Compile Include="Source\Reports\Drivers\PlainTextDriver.cs" />
     <Compile Include="Source\Reports\Drivers\ReportDriver.cs" />
+    <Compile Include="Source\Reports\Drivers\RtfDriver.cs" />
     <Compile Include="Source\Reports\IAttributable.cs" />
     <Compile Include="Source\Reports\IReportRenderer.cs" />
     <Compile Include="Source\Reports\IrbisReport.cs" />
