@@ -490,6 +490,7 @@
     <Compile Include="Source\Reports\Bands\GroupBand.cs" />
     <Compile Include="Source\Reports\Bands\SortBand.cs" />
     <Compile Include="Source\Reports\Bands\TableBand.cs" />
+    <Compile Include="Source\Reports\Bands\TotalBand.cs" />
     <Compile Include="Source\Reports\Cells\CellCollection.cs" />
     <Compile Include="Source\Reports\Bands\SectionBand.cs" />
     <Compile Include="Source\Reports\Cells\DynamicCell.cs" />
@@ -497,6 +498,8 @@
     <Compile Include="Source\Reports\Cells\PftCell.cs" />
     <Compile Include="Source\Reports\Cells\RawTextCell.cs" />
     <Compile Include="Source\Reports\Cells\ReportCell.cs" />
+    <Compile Include="Source\Reports\Cells\TotalCell.cs" />
+    <Compile Include="Source\Reports\Cells\TotalFunction.cs" />
     <Compile Include="Source\Reports\Drivers\CsvDriver.cs" />
     <Compile Include="Source\Reports\Drivers\HtmlDriver.cs" />
     <Compile Include="Source\Reports\Drivers\LoggingDriver.cs" />
@@ -507,6 +510,7 @@
     <Compile Include="Source\Reports\IReportRenderer.cs" />
     <Compile Include="Source\Reports\IrbisReport.cs" />
     <Compile Include="Source\Reports\ReportAttributes.cs" />
+    <Compile Include="Source\Reports\ReportComputeEventArgs.cs" />
     <Compile Include="Source\Reports\ReportContext.cs" />
     <Compile Include="Source\Reports\Cells\TextCell.cs" />
     <Compile Include="Source\Reports\ReportEvaluationEventArgs.cs" />

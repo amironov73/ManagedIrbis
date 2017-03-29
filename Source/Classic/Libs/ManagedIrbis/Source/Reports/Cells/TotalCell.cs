@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* TextCell.cs -- 
+/* TotalCell.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -11,22 +11,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Xml.Serialization;
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -37,50 +33,42 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class TextCell
+    public class TotalCell
         : ReportCell
     {
         #region Properties
 
         /// <summary>
-        /// Static text.
+        /// Band index.
         /// </summary>
-        [CanBeNull]
-        public string Text { get; set; }
+        [XmlAttribute("band")]
+        [JsonProperty("band")]
+        public int BandIndex { get; set; }
+
+        /// <summary>
+        /// Cell index.
+        /// </summary>
+        [XmlAttribute("cell")]
+        [JsonProperty("cell")]
+        public int CellIndex
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// Function.
+        /// </summary>
+        [XmlAttribute("function")]
+        [JsonProperty("function")]
+        public TotalFunction Function { get; set; }
 
         #endregion
 
         #region Construction
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public TextCell()
-        {
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public TextCell
-            (
-                string text
-            )
-        {
-            Text = text;
-        }
-
         #endregion
 
         #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
-        #region ReportCell members
 
         /// <inheritdoc cref="ReportCell.Compute"/>
         public override string Compute
@@ -90,7 +78,28 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
-            string result = Text;
+            ReportBand band = Band
+                .ThrowIfNull("Band not set");
+            CompositeBand composite = (CompositeBand)band;
+            band = composite.Body[BandIndex];
+            ReportCell cell = band.Cells[CellIndex];
+
+            string result = null;
+
+            int count = context.Records.Count;
+            for (int i = 0; i < count; i++)
+            {
+                context.Index = i;
+                context.CurrentRecord = context.Records[i];
+
+                string value = cell.Compute(context);
+
+                // TODO implement functions
+                result = value;
+            }
+
+            context.CurrentRecord = null;
+            context.Index = -1;
 
             return result;
         }
@@ -103,17 +112,19 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
-            string text = Compute(context);
-
             ReportDriver driver = context.Driver;
+
             driver.BeginCell(context, this);
+
+            string text = Compute(context);
             driver.Write(context, text);
+
             driver.EndCell(context, this);
         }
 
         #endregion
 
-        #region Object members
+        #region Public methods
 
         #endregion
     }

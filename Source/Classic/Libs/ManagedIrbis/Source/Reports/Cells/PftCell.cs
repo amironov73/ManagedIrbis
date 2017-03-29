@@ -86,7 +86,37 @@ namespace ManagedIrbis.Reports
 
         #region ReportCell members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ReportCell.Compute"/>
+        public override string Compute
+            (
+                ReportContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            string text = Text;
+
+            if (string.IsNullOrEmpty(text))
+            {
+                // TODO: Skip or not on empty format?
+
+                return null;
+            }
+
+            if (ReferenceEquals(_formatter, null))
+            {
+                _formatter = context.GetFormatter(text);
+            }
+
+            context.SetVariables(_formatter);
+
+            string result
+                = _formatter.Format(context.CurrentRecord);
+
+            return result;
+        }
+
+        /// <inheritdoc cref="ReportCell.Evaluate" />
         public override void Evaluate
             (
                 ReportContext context
@@ -103,17 +133,9 @@ namespace ManagedIrbis.Reports
                 return;
             }
 
-            if (ReferenceEquals(_formatter, null))
-            {
-                _formatter = context.GetFormatter(text);
-            }
-
-            context.SetVariables(_formatter);
-
             ReportDriver driver = context.Driver;
+            string formatted = Compute(context);
 
-            string formatted 
-                = _formatter.Format(context.CurrentRecord);
             driver.BeginCell(context, this);
             driver.Write(context, formatted);
             driver.EndCell(context, this);

@@ -83,7 +83,31 @@ namespace ManagedIrbis.Reports
 
         #region ReportCell members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ReportCell.Compute"/>
+        public override string Compute
+            (
+                ReportContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            string result = null;
+            string format = Format;
+            if (!string.IsNullOrEmpty(format))
+            {
+                string index = (context.Index + 1)
+                    .ToInvariantString();
+                string total = context.Records.Count
+                    .ToInvariantString();
+                result = format
+                    .Replace("{Index}", index)
+                    .Replace("{Total}", total);
+            }
+
+            return result;
+        }
+
+        /// <inheritdoc cref="ReportCell.Evaluate" />
         public override void Evaluate
             (
                 ReportContext context
@@ -95,18 +119,8 @@ namespace ManagedIrbis.Reports
 
             driver.BeginCell(context, this);
 
-            string format = Format;
-            if (!string.IsNullOrEmpty(format))
-            {
-                string index = (context.Index + 1)
-                    .ToInvariantString();
-                string total = context.Records.Count
-                    .ToInvariantString();
-                string text = format
-                    .Replace("{Index}", index)
-                    .Replace("{Total}", total);
-                driver.Write(context, text);
-            }
+            string text = Compute(context);
+            driver.Write(context, text);
 
             driver.EndCell(context, this);
         }

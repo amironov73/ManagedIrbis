@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* RawTextCell.cs -- 
+/* TotalBand.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -11,16 +11,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
 
 using CodeJam;
 
@@ -37,8 +30,8 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class RawTextCell
-        : TextCell
+    public class TotalBand
+        : ReportBand
     {
         #region Properties
 
@@ -56,20 +49,9 @@ namespace ManagedIrbis.Reports
 
         #endregion
 
-        #region ReportCell
+        #region ReportBand members
 
-        /// <inheritdoc cref="ReportCell.Compute"/>
-        public override string Compute
-            (
-                ReportContext context
-            )
-        {
-            Code.NotNull(context, "context");
-
-            return Text;
-        }
-
-        /// <inheritdoc cref="ReportCell.Evaluate" />
+        /// <inheritdoc cref="ReportBand.Evaluate"/>
         public override void Evaluate
             (
                 ReportContext context
@@ -77,17 +59,8 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
-            string text = Compute(context);
-
-            ReportDriver driver = context.Driver;
-            driver.BeginCell(context, this);
-            context.Output.Write(text);
-            driver.EndCell(context, this);
+            base.Evaluate(context);
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

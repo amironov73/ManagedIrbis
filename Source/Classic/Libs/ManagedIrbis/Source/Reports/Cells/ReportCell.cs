@@ -107,6 +107,20 @@ namespace ManagedIrbis.Reports
         }
 
         /// <summary>
+        /// Compute value of the cell.
+        /// </summary>
+        [CanBeNull]
+        public virtual string Compute
+            (
+                [NotNull] ReportContext context
+            )
+        {
+            // Nothing to do here
+
+            return null;
+        }
+
+        /// <summary>
         /// Render the cell.
         /// </summary>
         public virtual void Evaluate 
