@@ -91,30 +91,31 @@ namespace ManagedIrbis.Reports
             {
                 int count = context.Records.Count;
 
-                PftFormatter formatter
-                    = context.GetFormatter(expression);
-
-                List<MarcRecord> list = new List<MarcRecord>(count);
-                for (int i = 0; i < count; i++)
+                using (PftFormatter formatter
+                    = context.GetFormatter(expression))
                 {
-                    string formatted = formatter.Format
+                    List<MarcRecord> list = new List<MarcRecord>(count);
+                    for (int i = 0; i < count; i++)
+                    {
+                        string formatted = formatter.Format
                         (
                             context.Records[i]
                         );
-                    if (formatted.SameString("1"))
-                    {
-                        list.Add(context.Records[i]);
+                        if (formatted.SameString("1"))
+                        {
+                            list.Add(context.Records[i]);
+                        }
                     }
-                }
 
-                ReportContext cloneContext = context.Clone
+                    ReportContext cloneContext = context.Clone
                     (
                         list
                     );
 
-                cloneContext.Index = -1;
-                cloneContext.CurrentRecord = null;
-                base.Evaluate(cloneContext);
+                    cloneContext.Index = -1;
+                    cloneContext.CurrentRecord = null;
+                    base.Evaluate(cloneContext);
+                }
             }
         }
 

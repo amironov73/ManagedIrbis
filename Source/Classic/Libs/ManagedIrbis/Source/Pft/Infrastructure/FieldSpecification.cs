@@ -620,7 +620,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
                 SubField = SubFieldCode.Normalize(c);
 
-                /* c = */ navigator.PeekChar();
+                /* c = navigator.PeekChar(); */
             } // c == '^'
 
             int length = navigator.Position - start;

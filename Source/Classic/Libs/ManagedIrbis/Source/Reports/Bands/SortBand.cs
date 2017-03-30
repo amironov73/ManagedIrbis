@@ -91,34 +91,34 @@ namespace ManagedIrbis.Reports
             {
                 int count = context.Records.Count;
 
-                PftFormatter formatter
-                    = context.GetFormatter(expression);
-
-                List<Pair<string, int>> list
-                    = new List<Pair<string, int>>(count);
-                for (int i = 0; i < count; i++)
+                using (PftFormatter formatter
+                    = context.GetFormatter(expression))
                 {
-                    string formatted = formatter.Format
+                    List<Pair<string, int>> list
+                        = new List<Pair<string, int>>(count);
+                    for (int i = 0; i < count; i++)
+                    {
+                        string formatted = formatter.Format
                         (
                             context.Records[i]
                         );
-                    Pair<string, int> pair = new Pair<string, int>
+                        Pair<string, int> pair = new Pair<string, int>
                         (
                             formatted,
                             i
                         );
-                    list.Add(pair);
-                }
+                        list.Add(pair);
+                    }
 
-                list.Sort
+                    list.Sort
                     (
                         (left, right) => NumberText.Compare
-                            (
-                                left.First,
-                                right.First
-                            )
+                        (
+                            left.First,
+                            right.First
+                        )
                     );
-                ReportContext cloneContext = context.Clone
+                    ReportContext cloneContext = context.Clone
                     (
                         list.Select
                         (
@@ -126,9 +126,10 @@ namespace ManagedIrbis.Reports
                         )
                     );
 
-                cloneContext.Index = -1;
-                cloneContext.CurrentRecord = null;
-                base.Evaluate(cloneContext);
+                    cloneContext.Index = -1;
+                    cloneContext.CurrentRecord = null;
+                    base.Evaluate(cloneContext);
+                }
             }
         }
 

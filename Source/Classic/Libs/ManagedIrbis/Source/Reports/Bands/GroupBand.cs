@@ -87,61 +87,62 @@ namespace ManagedIrbis.Reports
             {
                 int count = context.Records.Count;
 
-                PftFormatter formatter
-                    = context.GetFormatter(expression);
-
-                List<Pair<string, int>> list
-                    = new List<Pair<string, int>>(count);
-                for (int i = 0; i < count; i++)
+                using (PftFormatter formatter
+                    = context.GetFormatter(expression))
                 {
-                    string formatted = formatter.Format
+                    List<Pair<string, int>> list
+                        = new List<Pair<string, int>>(count);
+                    for (int i = 0; i < count; i++)
+                    {
+                        string formatted = formatter.Format
                         (
                             context.Records[i]
                         );
-                    Pair<string, int> pair = new Pair<string, int>
+                        Pair<string, int> pair = new Pair<string, int>
                         (
                             formatted,
                             i
                         );
-                    list.Add(pair);
-                }
+                        list.Add(pair);
+                    }
 
-                var grouped = list.GroupBy
-                    (
-                        item => item.First
-                    )
-                    .OrderBy
-                    (
-                        group => new NumberText(group.Key)
-                    );
-
-                foreach (var group in grouped)
-                {
-                    string key = group.Key;
-
-                    List<MarcRecord> records = group.Select
+                    var grouped = list.GroupBy
                         (
-                            item => context.Records[item.Second]
+                            item => item.First
                         )
-                        .ToList();
+                        .OrderBy
+                        (
+                            group => new NumberText(group.Key)
+                        );
 
-                    ReportContext cloneContext = context.Clone
+                    foreach (var group in grouped)
+                    {
+                        string key = group.Key;
+
+                        List<MarcRecord> records = group.Select
+                            (
+                                item => context.Records[item.Second]
+                            )
+                            .ToList();
+
+                        ReportContext cloneContext = context.Clone
                         (
                             records
                         );
 
-                    cloneContext.Variables.SetVariable
+                        cloneContext.Variables.SetVariable
                         (
                             "group",
                             key
                         );
 
-                    cloneContext.Index = -1;
-                    cloneContext.CurrentRecord = null;
-                    base.Evaluate(cloneContext);
-                }
+                        cloneContext.Index = -1;
+                        cloneContext.CurrentRecord = null;
+                        base.Evaluate(cloneContext);
+                    }
 
-                context.Variables.Registry.Remove("group");
+                    context.Variables.Registry.Remove("group");
+                }
             }
         }
 
