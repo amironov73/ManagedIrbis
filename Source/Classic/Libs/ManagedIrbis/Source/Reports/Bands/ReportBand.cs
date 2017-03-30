@@ -46,6 +46,20 @@ namespace ManagedIrbis.Reports
         : IAttributable,
         IDisposable
     {
+        #region Events
+
+        /// <summary>
+        /// Raised after evaluation.
+        /// </summary>
+        public event EventHandler<ReportEvaluationEventArgs> AfterEvaluation;
+
+        /// <summary>
+        /// Raised before evaluation.
+        /// </summary>
+        public event EventHandler<ReportEvaluationEventArgs> BeforeEvaluation;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -124,6 +138,32 @@ namespace ManagedIrbis.Reports
             driver.EndRow(context, this);
         }
 
+        /// <summary>
+        /// Called after <see cref="Evaluate"/>.
+        /// </summary>
+        protected void OnAfterEvaluation
+            (
+                ReportContext context
+            )
+        {
+            ReportEvaluationEventArgs eventArgs
+                = new ReportEvaluationEventArgs(context);
+            AfterEvaluation.Raise(this);
+        }
+
+        /// <summary>
+        /// Called before <see cref="Evaluate"/>.
+        /// </summary>
+        protected void OnBeforeEvaluation
+            (
+                ReportContext context
+            )
+        {
+            ReportEvaluationEventArgs eventArgs
+                = new ReportEvaluationEventArgs(context);
+            BeforeEvaluation.Raise(this);
+        }
+
         #endregion
 
         #region Public methods
@@ -160,9 +200,13 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
+            OnBeforeEvaluation(context);
+
             context.SetVariables(formatter);
 
             _Evaluate(context);
+
+            OnAfterEvaluation(context);
         }
 
         /// <summary>
@@ -175,6 +219,8 @@ namespace ManagedIrbis.Reports
             )
         {
             Code.NotNull(context, "context");
+
+            OnBeforeEvaluation(context);
 
             context.SetVariables(formatter);
 
@@ -191,6 +237,8 @@ namespace ManagedIrbis.Reports
 
             context.Index = -1;
             context.CurrentRecord = null;
+
+            OnAfterEvaluation(context);
         }
 
         /// <summary>

@@ -61,6 +61,8 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
+            OnBeforeEvaluation(context);
+
             ReportDriver driver = context.Driver;
             IrbisReport report = Report
                 .ThrowIfNull("Report not set");
@@ -96,6 +98,8 @@ namespace ManagedIrbis.Reports
             }
 
             driver.EndTable(context, report);
+
+            OnAfterEvaluation(context);
         }
 
         #endregion

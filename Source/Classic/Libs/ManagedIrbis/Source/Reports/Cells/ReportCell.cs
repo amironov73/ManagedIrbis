@@ -44,6 +44,20 @@ namespace ManagedIrbis.Reports
         : IAttributable,
         IDisposable
     {
+        #region Events
+
+        /// <summary>
+        /// Raised after <see cref="Compute"/>.
+        /// </summary>
+        public event EventHandler<ReportEventArgs> AfterCompute;
+
+        /// <summary>
+        /// Raised before <see cref="Compute"/>.
+        /// </summary>
+        public event EventHandler<ReportEventArgs> BeforeCompute;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -94,6 +108,32 @@ namespace ManagedIrbis.Reports
 
         #region Private members
 
+        /// <summary>
+        /// Called after <see cref="Compute"/>.
+        /// </summary>
+        protected void OnAfterCompute
+            (
+                ReportContext context
+            )
+        {
+            ReportEventArgs eventArgs 
+                = new ReportEventArgs(context);
+            AfterCompute.Raise(eventArgs);
+        }
+
+        /// <summary>
+        /// Called before <see cref="Compute"/>.
+        /// </summary>
+        protected void OnBeforeCompute
+            (
+                ReportContext context
+            )
+        {
+            ReportEventArgs eventArgs
+                = new ReportEventArgs(context);
+            BeforeCompute.Raise(eventArgs);
+        }
+
         #endregion
 
         #region Public methods
@@ -115,7 +155,13 @@ namespace ManagedIrbis.Reports
                 [NotNull] ReportContext context
             )
         {
+            Code.NotNull(context, "context");
+
+            OnBeforeCompute(context);
+
             // Nothing to do here
+
+            OnAfterCompute(context);
 
             return null;
         }

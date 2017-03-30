@@ -44,7 +44,7 @@ namespace AM
                 [CanBeNull] EventArgs args
             )
         {
-            if (handler != null)
+            if (!ReferenceEquals(handler, null))
             {
                 handler(sender, args);
             }
@@ -61,7 +61,7 @@ namespace AM
             )
             where T : EventArgs
         {
-            if (handler != null)
+            if (!ReferenceEquals(handler, null))
             {
                 handler(sender, args);
             }
@@ -77,7 +77,7 @@ namespace AM
             )
             where T : EventArgs
         {
-            if (handler != null)
+            if (!ReferenceEquals(handler, null))
             {
                 handler(sender, null);
             }
@@ -92,7 +92,7 @@ namespace AM
                 [CanBeNull] object sender
             )
         {
-            if (handler != null)
+            if (!ReferenceEquals(handler, null))
             {
                 handler(sender, EventArgs.Empty);
             }
@@ -107,7 +107,7 @@ namespace AM
             )
             where T : EventArgs
         {
-            if (handler != null)
+            if (!ReferenceEquals(handler, null))
             {
                 handler(null, null);
             }
@@ -129,7 +129,7 @@ namespace AM
                 (
                     () =>
                     {
-                        if (handler != null)
+                        if (!ReferenceEquals(handler, null))
                         {
                             handler(sender, args);
                         }
@@ -152,7 +152,7 @@ namespace AM
                 (
                     () =>
                     {
-                        if (handler != null)
+                        if (!ReferenceEquals(handler, null))
                         {
                             handler(sender, EventArgs.Empty);
                         }

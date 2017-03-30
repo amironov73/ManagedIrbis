@@ -91,6 +91,8 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
+            OnBeforeCompute(context);
+
             string result = null;
             string format = Format;
             if (!string.IsNullOrEmpty(format))
@@ -103,6 +105,8 @@ namespace ManagedIrbis.Reports
                     .Replace("{Index}", index)
                     .Replace("{Total}", total);
             }
+
+            OnAfterCompute(context);
 
             return result;
         }

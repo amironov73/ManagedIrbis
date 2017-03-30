@@ -66,7 +66,13 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
-            return Text;
+            OnBeforeCompute(context);
+
+            string result = Text;
+
+            OnAfterCompute(context);
+
+            return result;
         }
 
         /// <inheritdoc cref="ReportCell.Evaluate" />

@@ -514,6 +514,7 @@
     <Compile Include="Source\Reports\ReportContext.cs" />
     <Compile Include="Source\Reports\Cells\TextCell.cs" />
     <Compile Include="Source\Reports\ReportEvaluationEventArgs.cs" />
+    <Compile Include="Source\Reports\ReportEventArgs.cs" />
     <Compile Include="Source\Reports\ReportOutput.cs" />
     <Compile Include="Source\Reports\ReportUtility.cs" />
     <Compile Include="Source\Reports\ReportVariable.cs" />

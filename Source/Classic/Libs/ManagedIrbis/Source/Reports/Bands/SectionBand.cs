@@ -68,29 +68,6 @@ namespace ManagedIrbis.Reports
 
         #region ReportBand members
 
-        /// <inheritdoc />
-        public override void Evaluate
-            (
-                ReportContext context
-            )
-        {
-            Code.NotNull(context, "context");
-
-            //ReportBand header = Header;
-            //if (!ReferenceEquals(header, null))
-            //{
-            //    header.Evaluate(context);
-            //}
-
-            //base.Evaluate(context);
-
-            //ReportBand footer = Footer;
-            //if (!ReferenceEquals(footer, null))
-            //{
-            //    footer.Evaluate(context);
-            //}
-        }
-
         #endregion
 
         #region Object members

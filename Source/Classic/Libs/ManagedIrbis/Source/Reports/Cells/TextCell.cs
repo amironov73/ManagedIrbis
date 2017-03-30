@@ -90,7 +90,11 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
+            OnBeforeCompute(context);
+
             string result = Text;
+
+            OnAfterCompute(context);
 
             return result;
         }

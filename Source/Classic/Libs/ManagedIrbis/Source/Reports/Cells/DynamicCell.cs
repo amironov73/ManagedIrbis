@@ -55,9 +55,13 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
+            OnBeforeCompute(context);
+
             ReportComputeEventArgs eventArgs
                 = new ReportComputeEventArgs(context);
             Computation.Raise(this, eventArgs);
+
+            OnAfterCompute(context);
 
             return eventArgs.Result;
         }

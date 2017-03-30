@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* TotalBand.cs --
+/* ReportEventArgs.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -10,10 +10,6 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using CodeJam;
 
@@ -30,26 +26,33 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class TotalBand
-        : ReportBand
+    public sealed class ReportEventArgs
+        : EventArgs
     {
         #region Properties
+
+        /// <summary>
+        /// Context.
+        /// </summary>
+        [NotNull]
+        public ReportContext Context { get; private set; }
 
         #endregion
 
         #region Construction
 
-        #endregion
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public ReportEventArgs
+            (
+                [NotNull] ReportContext context
+            )
+        {
+            Code.NotNull(context, "context");
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
-        #region ReportBand members
+            Context = context;
+        }
 
         #endregion
     }

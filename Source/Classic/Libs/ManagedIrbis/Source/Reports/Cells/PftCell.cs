@@ -94,6 +94,8 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
+            OnBeforeCompute(context);
+
             string text = Text;
 
             if (string.IsNullOrEmpty(text))
@@ -112,6 +114,8 @@ namespace ManagedIrbis.Reports
 
             string result
                 = _formatter.Format(context.CurrentRecord);
+
+            OnAfterCompute(context);
 
             return result;
         }

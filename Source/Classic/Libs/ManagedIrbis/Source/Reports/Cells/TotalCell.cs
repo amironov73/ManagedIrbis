@@ -78,6 +78,8 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
+            OnBeforeCompute(context);
+
             ReportBand band = Band
                 .ThrowIfNull("Band not set");
             CompositeBand composite = (CompositeBand)band;
@@ -100,6 +102,8 @@ namespace ManagedIrbis.Reports
 
             context.CurrentRecord = null;
             context.Index = -1;
+
+            OnAfterCompute(context);
 
             return result;
         }

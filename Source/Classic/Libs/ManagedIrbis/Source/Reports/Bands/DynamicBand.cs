@@ -66,9 +66,13 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
+            OnBeforeEvaluation(context);
+
             ReportEvaluationEventArgs eventArgs
                 = new ReportEvaluationEventArgs(context);
             Evaluation.Raise(this, eventArgs);
+
+            OnAfterEvaluation(context);
         }
 
         #endregion

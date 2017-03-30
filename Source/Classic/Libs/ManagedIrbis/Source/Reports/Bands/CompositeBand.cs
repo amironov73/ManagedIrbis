@@ -109,6 +109,8 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
+            OnBeforeEvaluation(context);
+
             ReportBand header = Header;
             if (!ReferenceEquals(header, null))
             {
@@ -138,6 +140,8 @@ namespace ManagedIrbis.Reports
                 context.CurrentRecord = null;
                 footer.Evaluate(context);
             }
+
+            OnAfterEvaluation(context);
         }
 
         #endregion
