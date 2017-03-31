@@ -496,6 +496,7 @@
     <Compile Include="Source\Reports\Cells\DynamicCell.cs" />
     <Compile Include="Source\Reports\Cells\IndexCell.cs" />
     <Compile Include="Source\Reports\Cells\PftCell.cs" />
+    <Compile Include="Source\Reports\Cells\RawPftCell.cs" />
     <Compile Include="Source\Reports\Cells\RawTextCell.cs" />
     <Compile Include="Source\Reports\Cells\ReportCell.cs" />
     <Compile Include="Source\Reports\Cells\TotalCell.cs" />
@@ -706,9 +707,7 @@
     <Compile Include="Source\Worksheet\WsFile.cs" />
     <Compile Include="Source\Worksheet\WssFile.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Source\Reports\Docs\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="BlueBook.ico" />
   </ItemGroup>
@@ -717,6 +716,8 @@
     <None Include="packages.config" />
     <None Include="Source\Gbl\GBL protocol.docx" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.Parallel.cs" />
+    <None Include="Source\Reports\Docs\ReportBands.cd" />
+    <None Include="Source\Reports\Docs\ReportCells.cd" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AM.Core\AM.Core.csproj">

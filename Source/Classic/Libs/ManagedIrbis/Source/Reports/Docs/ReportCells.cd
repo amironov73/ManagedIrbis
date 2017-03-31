@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ManagedIrbis.Reports.ReportCell">
+    <Position X="3.25" Y="1.25" Width="1.5" />
+    <Members>
+      <Method Name="Clone" Hidden="true" />
+      <Method Name="OnAfterCompute" Hidden="true" />
+      <Method Name="OnBeforeCompute" Hidden="true" />
+      <Method Name="ReportCell" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>CEAAAAAAACAAAAAAAAAQAgAQAAQAAAAQAAAAAAAIhBA=</HashCode>
+      <FileName>Source\Reports\Cells\ReportCell.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ManagedIrbis.Reports.IndexCell" Collapsed="true">
+    <Position X="4.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAgAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Reports\Cells\IndexCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagedIrbis.Reports.DynamicCell" Collapsed="true">
+    <Position X="4.5" Y="4.5" Width="1.5" />
+    <InheritanceLine Type="ManagedIrbis.Reports.ReportCell" FixedToPoint="true">
+      <Path>
+        <Point X="4" Y="4.249" />
+        <Point X="4" Y="4.875" />
+        <Point X="4.5" Y="4.875" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AEACgAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Reports\Cells\DynamicCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagedIrbis.Reports.PftCell" Collapsed="true">
+    <Position X="4.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAACAAAAAAAAAAAgAAAAAAAAAAAAAACAAAAQA=</HashCode>
+      <FileName>Source\Reports\Cells\PftCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagedIrbis.Reports.RawTextCell" Collapsed="true">
+    <Position X="7.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Reports\Cells\RawTextCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagedIrbis.Reports.TextCell">
+    <Position X="5.25" Y="1.25" Width="1.5" />
+    <Members>
+      <Method Name="Compute" Hidden="true" />
+      <Method Name="Evaluate" Hidden="true" />
+      <Method Name="TextCell" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Source\Reports\Cells\TextCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagedIrbis.Reports.TotalCell" Collapsed="true">
+    <Position X="4.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEBAAAAAAAAAgAAAAAAAAgIAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Reports\Cells\TotalCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagedIrbis.Reports.RawPftCell" Collapsed="true">
+    <Position X="6.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Reports\Cells\RawPftCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Arial" Size="9.75" />
+</ClassDiagram>
