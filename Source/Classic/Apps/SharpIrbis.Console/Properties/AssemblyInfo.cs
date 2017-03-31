@@ -1,5 +1,8 @@
-﻿/* AssemblyInfo.cs --
- * Ars Magna project, http://arsmagna.ru
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* AssemblyInfo.cs -- general information about assembly
+ * Ars Magna project, http://arsmagna.ru 
  * -------------------------------------------------------
  * Status: poor
  */
@@ -43,7 +46,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.6.0.200")]
-[assembly: AssemblyFileVersion("1.6.0.200")]
-
-[assembly: CLSCompliant(true)]
+[assembly: AssemblyVersion("1.6.7.1400")]
+[assembly: AssemblyFileVersion("1.6.7.1400")]

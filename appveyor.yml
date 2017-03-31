@@ -1,4 +1,4 @@
-version: 1.6.6.{build}
+version: 1.6.7.{build}
 configuration: Debug
 image: Visual Studio 2015
 
@@ -14,7 +14,7 @@ init:
   - git config --global core.autocrlf true
 
 environment:
-  packageVersion: 1.6.5
+  packageVersion: 1.6.7
 
 assembly_info:
   patch: true
