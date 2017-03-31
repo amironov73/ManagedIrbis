@@ -11,11 +11,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+
 using AM;
+using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -62,9 +66,56 @@ namespace ManagedIrbis.Reports
         [JsonProperty("function")]
         public TotalFunction Function { get; set; }
 
+        /// <summary>
+        /// Format.
+        /// </summary>
+        [CanBeNull]
+        [XmlAttribute("format")]
+        [JsonProperty("format")]
+        public string Format { get; set; }
+
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public TotalCell()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public TotalCell
+            (
+                int bandIndex,
+                int cellIndex,
+                TotalFunction function
+            )
+        {
+            BandIndex = bandIndex;
+            CellIndex = cellIndex;
+            Function = function;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public TotalCell
+            (
+                int bandIndex,
+                int cellIndex,
+                TotalFunction function,
+                [CanBeNull] string format
+            )
+        {
+            BandIndex = bandIndex;
+            CellIndex = cellIndex;
+            Function = function;
+            Format = format;
+        }
 
         #endregion
 
@@ -82,22 +133,100 @@ namespace ManagedIrbis.Reports
 
             ReportBand band = Band
                 .ThrowIfNull("Band not set");
-            CompositeBand composite = (CompositeBand)band;
-            band = composite.Body[BandIndex];
+            CompositeBand parent = (CompositeBand) band.Parent
+                .ThrowIfNull("Parent not set");
+            band = parent.Body[BandIndex];
             ReportCell cell = band.Cells[CellIndex];
+            string format = Format;
 
             string result = null;
 
             int count = context.Records.Count;
-            for (int i = 0; i < count; i++)
+
+            if (Function == TotalFunction.Count)
             {
-                context.Index = i;
-                context.CurrentRecord = context.Records[i];
+                result = context.Records.Count.ToInvariantString();
+            }
+            else
+            {
+                int countNonEmpty = 0;
+                double accumulator = 0;
 
-                string value = cell.Compute(context);
+                for (int i = 0; i < count; i++)
+                {
+                    context.Index = i;
+                    context.CurrentRecord = context.Records[i];
 
-                // TODO implement functions
-                result = value;
+                    string value = cell.Compute(context);
+
+                    switch (Function)
+                    {
+                        case TotalFunction.CountNonEmpty:
+                            if (!string.IsNullOrEmpty(value))
+                            {
+                                countNonEmpty++;
+                            }
+                            result 
+                                = countNonEmpty.ToInvariantString();
+                            break;
+
+                        case TotalFunction.Maximum:
+                            if (string.IsNullOrEmpty(result))
+                            {
+                                result = value;
+                            }
+                            if (NumberText.Compare
+                                (
+                                    result,
+                                    value
+                                ) < 0)
+                            {
+                                result = value;
+                            }
+                            break;
+
+                        case TotalFunction.Minimum:
+                            if (string.IsNullOrEmpty(result))
+                            {
+                                result = value;
+                            }
+                            if (NumberText.Compare
+                                (
+                                    result,
+                                    value
+                                ) > 0)
+                            {
+                                result = value;
+                            }
+                            break;
+
+                        case TotalFunction.Sum:
+                            double number;
+                            if (NumericUtility.TryParseDouble
+                                (
+                                    value,
+                                    out number
+                                ))
+                            {
+                                accumulator += number;
+                                if (string.IsNullOrEmpty(format))
+                                {
+                                    result = accumulator
+                                        .ToInvariantString();
+                                }
+                                else
+                                {
+                                    result = accumulator
+                                        .ToString
+                                        (
+                                            format,
+                                            CultureInfo.InvariantCulture
+                                        );
+                                }
+                            }
+                            break;
+                    }
+                }
             }
 
             context.CurrentRecord = null;

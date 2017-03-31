@@ -95,6 +95,14 @@ namespace ManagedIrbis.Reports
         }
 
         /// <summary>
+        /// Parent band.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        public ReportBand Parent { get; internal set; }
+
+        /// <summary>
         /// Arbitrary user data.
         /// </summary>
         [CanBeNull]
@@ -148,7 +156,7 @@ namespace ManagedIrbis.Reports
         {
             ReportEvaluationEventArgs eventArgs
                 = new ReportEvaluationEventArgs(context);
-            AfterEvaluation.Raise(this);
+            AfterEvaluation.Raise(this, eventArgs);
         }
 
         /// <summary>
@@ -161,7 +169,7 @@ namespace ManagedIrbis.Reports
         {
             ReportEvaluationEventArgs eventArgs
                 = new ReportEvaluationEventArgs(context);
-            BeforeEvaluation.Raise(this);
+            BeforeEvaluation.Raise(this, eventArgs);
         }
 
         #endregion

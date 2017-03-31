@@ -1,0 +1,104 @@
+{
+  "$type": "ManagedIrbis.Reports.IrbisReport, ManagedIrbis",
+  "attr": {
+    "$type": "ManagedIrbis.Reports.ReportAttributes, ManagedIrbis"
+  },
+  "details": [
+    {
+      "$type": "ManagedIrbis.Reports.CompositeBand, ManagedIrbis",
+      "body": [
+        {
+          "$type": "ManagedIrbis.Reports.DetailsBand, ManagedIrbis",
+          "cells": [
+            {
+              "$type": "ManagedIrbis.Reports.IndexCell, ManagedIrbis",
+              "Format": "{Index})",
+              "attr": {
+                "$type": "ManagedIrbis.Reports.ReportAttributes, ManagedIrbis"
+              }
+            },
+            {
+              "$type": "ManagedIrbis.Reports.TextCell, ManagedIrbis",
+              "Text": "::",
+              "attr": {
+                "$type": "ManagedIrbis.Reports.ReportAttributes, ManagedIrbis"
+              }
+            },
+            {
+              "$type": "ManagedIrbis.Reports.PftCell, ManagedIrbis",
+              "Text": "v200^a",
+              "attr": {
+                "$type": "ManagedIrbis.Reports.ReportAttributes, ManagedIrbis"
+              }
+            },
+            {
+              "$type": "ManagedIrbis.Reports.PftCell, ManagedIrbis",
+              "Text": "v10^d",
+              "attr": {
+                "$type": "ManagedIrbis.Reports.ReportAttributes, ManagedIrbis"
+              }
+            }
+          ]
+        }
+      ],
+      "footer": {
+        "$type": "ManagedIrbis.Reports.TotalBand, ManagedIrbis",
+        "cells": [
+          {
+            "$type": "ManagedIrbis.Reports.TextCell, ManagedIrbis",
+            "attr": {
+              "$type": "ManagedIrbis.Reports.ReportAttributes, ManagedIrbis"
+            }
+          },
+          {
+            "$type": "ManagedIrbis.Reports.TextCell, ManagedIrbis",
+            "attr": {
+              "$type": "ManagedIrbis.Reports.ReportAttributes, ManagedIrbis"
+            }
+          },
+          {
+            "$type": "ManagedIrbis.Reports.TextCell, ManagedIrbis",
+            "Text": "Sum",
+            "attr": {
+              "$type": "ManagedIrbis.Reports.ReportAttributes, ManagedIrbis"
+            }
+          },
+          {
+            "$type": "ManagedIrbis.Reports.TotalCell, ManagedIrbis",
+            "cell": 3,
+            "function": 3,
+            "format": "F2",
+            "attr": {
+              "$type": "ManagedIrbis.Reports.ReportAttributes, ManagedIrbis"
+            }
+          }
+        ]
+      },
+      "cells": []
+    }
+  ],
+  "footer": {
+    "$type": "ManagedIrbis.Reports.ReportBand, ManagedIrbis",
+    "cells": [
+      {
+        "$type": "ManagedIrbis.Reports.TextCell, ManagedIrbis",
+        "Text": "Footer",
+        "attr": {
+          "$type": "ManagedIrbis.Reports.ReportAttributes, ManagedIrbis"
+        }
+      }
+    ]
+  },
+  "header": {
+    "$type": "ManagedIrbis.Reports.ReportBand, ManagedIrbis",
+    "cells": [
+      {
+        "$type": "ManagedIrbis.Reports.TextCell, ManagedIrbis",
+        "Text": "Header",
+        "attr": {
+          "$type": "ManagedIrbis.Reports.ReportAttributes, ManagedIrbis"
+        }
+      }
+    ]
+  }
+}

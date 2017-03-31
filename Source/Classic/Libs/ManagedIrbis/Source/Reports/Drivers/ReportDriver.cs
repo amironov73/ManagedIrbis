@@ -90,6 +90,18 @@ namespace ManagedIrbis.Reports
         }
 
         /// <summary>
+        /// Begin section.
+        /// </summary>
+        public virtual void BeginSection
+            (
+                [NotNull] ReportContext context,
+                [NotNull] ReportBand band
+            )
+        {
+            // Nothing to do here
+        }
+
+        /// <summary>
         /// Begin table.
         /// </summary>
         public virtual void BeginTable
@@ -129,6 +141,18 @@ namespace ManagedIrbis.Reports
         /// End row.
         /// </summary>
         public virtual void EndRow
+            (
+                [NotNull] ReportContext context,
+                [NotNull] ReportBand band
+            )
+        {
+            // Nothing to do here
+        }
+
+        /// <summary>
+        /// End section.
+        /// </summary>
+        public virtual void EndSection
             (
                 [NotNull] ReportContext context,
                 [NotNull] ReportBand band

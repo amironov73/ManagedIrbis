@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using ManagedIrbis.Client;
 using ManagedIrbis.Source.Reports.Drivers;
@@ -65,6 +66,22 @@ namespace UnitTests.ManagedIrbis.Reports
                                     (
                                         'a',
                                         "Record" + (i + 1)
+                                    )
+                            )
+                    );
+                record.Fields.Add
+                    (
+                        new RecordField
+                            (
+                                "10",
+                                new SubField
+                                    (
+                                        'd',
+                                        (i+1).ToString
+                                        (
+                                            "F2",
+                                            CultureInfo.InvariantCulture
+                                        )
                                     )
                             )
                     );
@@ -158,6 +175,8 @@ namespace UnitTests.ManagedIrbis.Reports
             report.Evaluate(context);
             string text = context.Output.Text;
             Assert.IsNotNull(text);
+            string fileName = Path.GetTempFileName();
+            File.WriteAllText(fileName, text);
         }
 
         private void _TestEvaluateHtml
@@ -172,6 +191,8 @@ namespace UnitTests.ManagedIrbis.Reports
             report.Evaluate(context);
             string text = context.Output.Text;
             Assert.IsNotNull(text);
+            string fileName = Path.GetTempFileName();
+            File.WriteAllText(fileName, text);
         }
 
         [TestMethod]
@@ -237,6 +258,42 @@ namespace UnitTests.ManagedIrbis.Reports
 
             _TestSaveJson(report);
             _TestEvaluateHtml(report);
+        }
+
+        [TestMethod]
+        public void IrbisReport_Evaluate_4()
+        {
+            IrbisReport report = new IrbisReport();
+
+            ReportBand headerBand = new ReportBand();
+            headerBand.Cells.Add(new TextCell("Header"));
+            report.Header = headerBand;
+
+            ReportBand footerBand = new ReportBand();
+            footerBand.Cells.Add(new TextCell("Footer"));
+            report.Footer = footerBand;
+
+            CompositeBand compositeBand = new CompositeBand();
+
+            DetailsBand detailsBand = new DetailsBand();
+            detailsBand.Cells.Add(new IndexCell());
+            detailsBand.Cells.Add(new TextCell("::"));
+            detailsBand.Cells.Add(new PftCell("v200^a"));
+            detailsBand.Cells.Add(new PftCell("v10^d"));
+            compositeBand.Body.Add(detailsBand);
+
+            TotalBand totalBand = new TotalBand();
+            totalBand.Cells.Add(new TextCell());
+            totalBand.Cells.Add(new TextCell());
+            totalBand.Cells.Add(new TextCell("Sum"));
+            totalBand.Cells.Add(new TotalCell(0,3,TotalFunction.Sum,
+                "F2"));
+            compositeBand.Footer = totalBand;
+
+            report.Body.Add(compositeBand);
+
+            _TestSaveJson(report);
+            _TestEvaluatePlainText(report);
         }
     }
 }

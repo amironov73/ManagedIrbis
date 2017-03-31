@@ -70,7 +70,22 @@ namespace ManagedIrbis.Reports
         [CanBeNull]
         [XmlElement("footer")]
         [JsonProperty("footer")]
-        public ReportBand Footer { get; set; }
+        public ReportBand Footer
+        {
+            get { return _footer; }
+            set
+            {
+                if (!ReferenceEquals(_footer, null))
+                {
+                    _footer.Report = null;
+                }
+                _footer = value;
+                if (!ReferenceEquals(_footer, null))
+                {
+                    _footer.Report = this;
+                }
+            }
+        }
 
         /// <summary>
         /// Header band.
@@ -78,7 +93,22 @@ namespace ManagedIrbis.Reports
         [CanBeNull]
         [XmlElement("header")]
         [JsonProperty("header")]
-        public ReportBand Header { get; set; }
+        public ReportBand Header
+        {
+            get { return _header; }
+            set
+            {
+                if (!ReferenceEquals(_header, null))
+                {
+                    _header.Report = null;
+                }
+                _header = value;
+                if (!ReferenceEquals(_header, null))
+                {
+                    _header.Report = this;
+                }
+            }
+        }
 
         /// <summary>
         /// Arbitrary user data.
@@ -98,12 +128,14 @@ namespace ManagedIrbis.Reports
         public IrbisReport()
         {
             Attributes = new ReportAttributes();
-            Body = new BandCollection<DetailsBand>();
+            Body = new BandCollection<DetailsBand>(this, null);
         }
 
         #endregion
 
         #region Private members
+
+        private ReportBand _footer, _header;
 
         #endregion
 

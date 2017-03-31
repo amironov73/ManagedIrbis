@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
 
 using AM;
 using AM.Runtime;
@@ -24,8 +23,6 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -46,6 +43,12 @@ namespace ManagedIrbis.Reports
         #region Properties
 
         /// <summary>
+        /// Parent band.
+        /// </summary>
+        [CanBeNull]
+        public ReportBand Parent { get { return _parent; } }
+
+        /// <summary>
         /// Record.
         /// </summary>
         [CanBeNull]
@@ -55,13 +58,51 @@ namespace ManagedIrbis.Reports
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public BandCollection()
+            : this (null, null)
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public BandCollection 
+            (
+                [CanBeNull] IrbisReport report,
+                [CanBeNull] ReportBand parent
+            )
+        {
+            _report = report;
+            _parent = parent;
+        }
+
         #endregion
 
         #region Private members
 
+        private ReportBand _parent;
+
         private IrbisReport _report;
 
         // ReSharper disable InconsistentNaming
+
+        internal BandCollection<T> _SetParent
+            (
+                ReportBand parent
+            )
+        {
+            _parent = parent;
+
+            foreach (T band in this)
+            {
+                band.Parent = parent;
+            }
+
+            return this;
+        }
 
         internal BandCollection<T> _SetReport
             (
@@ -145,7 +186,7 @@ namespace ManagedIrbis.Reports
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public ReportBand[] FindAll
+        public T[] FindAll
             (
                 [NotNull] Predicate<ReportBand> predicate
             )
@@ -168,7 +209,7 @@ namespace ManagedIrbis.Reports
         {
             ThrowIfReadOnly();
 
-            foreach (ReportBand band in this)
+            foreach (T band in this)
             {
                 band.Report = null;
             }
@@ -259,8 +300,9 @@ namespace ManagedIrbis.Reports
 
         #region IReadOnly<T> members
 
-        //[NonSerialized]
+        // ReSharper disable InconsistentNaming
         internal bool _readOnly;
+        // ReSharper restore InconsistentNaming
 
         /// <summary>
         /// Whether the collection is read-only?

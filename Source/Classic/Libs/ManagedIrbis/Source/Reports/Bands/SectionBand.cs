@@ -41,20 +41,37 @@ namespace ManagedIrbis.Reports
     [PublicAPI]
     [MoonSharpUserData]
     public class SectionBand
-        : CompositeBand
+        : ReportBand
     {
         #region Properties
+
+        /// <summary>
+        /// Body bands.
+        /// </summary>
+        [NotNull]
+        [XmlElement("body")]
+        [JsonProperty("body")]
+        public BandCollection<ReportBand> Body { get; internal set; }
+
+        /// <summary>
+        /// Footer band.
+        /// </summary>
+        [CanBeNull]
+        [XmlElement("footer")]
+        [JsonProperty("footer")]
+        public ReportBand Footer { get; set; }
+
+        /// <summary>
+        /// Header band.
+        /// </summary>
+        [CanBeNull]
+        [XmlElement("header")]
+        [JsonProperty("header")]
+        public ReportBand Header { get; set; }
 
         #endregion
 
         #region Construction
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public SectionBand()
-        {
-        }
 
         #endregion
 
@@ -67,6 +84,42 @@ namespace ManagedIrbis.Reports
         #endregion
 
         #region ReportBand members
+
+        /// <inheritdoc cref="ReportBand.Evaluate"/>
+        public override void Evaluate
+            (
+                ReportContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            OnBeforeEvaluation(context);
+
+            ReportBand header = Header;
+            if (!ReferenceEquals(header, null))
+            {
+                context.Index = -1;
+                context.CurrentRecord = null;
+                header.Evaluate(context);
+            }
+
+            context.Index = -1;
+            context.CurrentRecord = null;
+            foreach (ReportBand band in Body)
+            {
+                band.Evaluate(context);
+            }
+
+            ReportBand footer = Footer;
+            if (!ReferenceEquals(footer, null))
+            {
+                context.Index = -1;
+                context.CurrentRecord = null;
+                footer.Evaluate(context);
+            }
+
+            OnAfterEvaluation(context);
+        }
 
         #endregion
 

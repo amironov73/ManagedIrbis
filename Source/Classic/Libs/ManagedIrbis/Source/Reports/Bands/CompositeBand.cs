@@ -59,7 +59,22 @@ namespace ManagedIrbis.Reports
         [CanBeNull]
         [XmlElement("footer")]
         [JsonProperty("footer")]
-        public ReportBand Footer { get; set; }
+        public ReportBand Footer
+        {
+            get { return _footer; }
+            set
+            {
+                if (!ReferenceEquals(_footer, null))
+                {
+                    _footer.Parent = null;
+                }
+                _footer = value;
+                if (!ReferenceEquals(_footer, null))
+                {
+                    _footer.Parent = this;
+                }
+            }
+        }
 
         /// <summary>
         /// Header band.
@@ -67,7 +82,22 @@ namespace ManagedIrbis.Reports
         [CanBeNull]
         [XmlElement("header")]
         [JsonProperty("header")]
-        public ReportBand Header { get; set; }
+        public ReportBand Header
+        {
+            get { return _header; }
+            set
+            {
+                if (!ReferenceEquals(_header, null))
+                {
+                    _header.Parent = null;
+                }
+                _header = value;
+                if (!ReferenceEquals(_header, null))
+                {
+                    _header.Parent = this;
+                }
+            }
+        }
 
         #endregion
 
@@ -84,6 +114,8 @@ namespace ManagedIrbis.Reports
         #endregion
 
         #region Private members
+
+        private ReportBand _footer, _header;
 
         #endregion
 

@@ -502,7 +502,9 @@
     <Compile Include="Source\Reports\Cells\TotalFunction.cs" />
     <Compile Include="Source\Reports\Drivers\CsvDriver.cs" />
     <Compile Include="Source\Reports\Drivers\HtmlDriver.cs" />
+    <Compile Include="Source\Reports\Drivers\LatexDriver.cs" />
     <Compile Include="Source\Reports\Drivers\LoggingDriver.cs" />
+    <Compile Include="Source\Reports\Drivers\MarkdownDriver.cs" />
     <Compile Include="Source\Reports\Drivers\PlainTextDriver.cs" />
     <Compile Include="Source\Reports\Drivers\ReportDriver.cs" />
     <Compile Include="Source\Reports\Drivers\RtfDriver.cs" />
@@ -703,7 +705,9 @@
     <Compile Include="Source\Worksheet\WsFile.cs" />
     <Compile Include="Source\Worksheet\WssFile.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Source\Reports\Docs\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />
   </ItemGroup>
