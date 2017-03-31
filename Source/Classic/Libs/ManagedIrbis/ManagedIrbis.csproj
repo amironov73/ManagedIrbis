@@ -511,6 +511,7 @@
     <Compile Include="Source\Reports\IAttributable.cs" />
     <Compile Include="Source\Reports\IReportRenderer.cs" />
     <Compile Include="Source\Reports\IrbisReport.cs" />
+    <Compile Include="Source\Reports\RecordFilter.cs" />
     <Compile Include="Source\Reports\ReportAttributes.cs" />
     <Compile Include="Source\Reports\ReportComputeEventArgs.cs" />
     <Compile Include="Source\Reports\ReportContext.cs" />
