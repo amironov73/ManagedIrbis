@@ -85,29 +85,29 @@ namespace ManagedIrbis.Reports
 
         #region ReportBand members
 
-        /// <inheritdoc cref="ReportBand.Evaluate"/>
-        public override void Evaluate
+        /// <inheritdoc cref="ReportBand.Render"/>
+        public override void Render
             (
                 ReportContext context
             )
         {
             Code.NotNull(context, "context");
 
-            OnBeforeEvaluation(context);
+            OnBeforeRendering(context);
 
             ReportBand header = Header;
             if (!ReferenceEquals(header, null))
             {
                 context.Index = -1;
                 context.CurrentRecord = null;
-                header.Evaluate(context);
+                header.Render(context);
             }
 
             context.Index = -1;
             context.CurrentRecord = null;
             foreach (ReportBand band in Body)
             {
-                band.Evaluate(context);
+                band.Render(context);
             }
 
             ReportBand footer = Footer;
@@ -115,10 +115,10 @@ namespace ManagedIrbis.Reports
             {
                 context.Index = -1;
                 context.CurrentRecord = null;
-                footer.Evaluate(context);
+                footer.Render(context);
             }
 
-            OnAfterEvaluation(context);
+            OnAfterRendering(context);
         }
 
         #endregion

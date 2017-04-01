@@ -49,14 +49,14 @@ namespace ManagedIrbis.Reports
         #region Events
 
         /// <summary>
-        /// Raised after evaluation.
+        /// Raised after rendering.
         /// </summary>
-        public event EventHandler<ReportEvaluationEventArgs> AfterEvaluation;
+        public event EventHandler<ReportRenderingEventArgs> AfterRendering;
 
         /// <summary>
-        /// Raised before evaluation.
+        /// Raised before rendering.
         /// </summary>
-        public event EventHandler<ReportEvaluationEventArgs> BeforeEvaluation;
+        public event EventHandler<ReportRenderingEventArgs> BeforeRendering;
 
         #endregion
 
@@ -132,7 +132,7 @@ namespace ManagedIrbis.Reports
 
         private IrbisReport _report;
 
-        private void _Evaluate
+        private void _Render
             (
                 [NotNull] ReportContext context
             )
@@ -141,35 +141,35 @@ namespace ManagedIrbis.Reports
             driver.BeginRow(context, this);
             foreach (ReportCell cell in Cells)
             {
-                cell.Evaluate(context);
+                cell.Render(context);
             }
             driver.EndRow(context, this);
         }
 
         /// <summary>
-        /// Called after <see cref="Evaluate"/>.
+        /// Called after <see cref="Render"/>.
         /// </summary>
-        protected void OnAfterEvaluation
+        protected void OnAfterRendering
             (
                 ReportContext context
             )
         {
-            ReportEvaluationEventArgs eventArgs
-                = new ReportEvaluationEventArgs(context);
-            AfterEvaluation.Raise(this, eventArgs);
+            ReportRenderingEventArgs eventArgs
+                = new ReportRenderingEventArgs(context);
+            AfterRendering.Raise(this, eventArgs);
         }
 
         /// <summary>
-        /// Called before <see cref="Evaluate"/>.
+        /// Called before <see cref="Render"/>.
         /// </summary>
-        protected void OnBeforeEvaluation
+        protected void OnBeforeRendering
             (
                 ReportContext context
             )
         {
-            ReportEvaluationEventArgs eventArgs
-                = new ReportEvaluationEventArgs(context);
-            BeforeEvaluation.Raise(this, eventArgs);
+            ReportRenderingEventArgs eventArgs
+                = new ReportRenderingEventArgs(context);
+            BeforeRendering.Raise(this, eventArgs);
         }
 
         #endregion
@@ -187,20 +187,20 @@ namespace ManagedIrbis.Reports
         /// <summary>
         /// Render the band.
         /// </summary>
-        public virtual void Evaluate
+        public virtual void Render
             (
                 [NotNull] ReportContext context
             )
         {
             Code.NotNull(context, "context");
 
-            EvaluateOnce(context, null);
+            RenderOnce(context, null);
         }
 
         /// <summary>
-        /// Evaluate the band once (ignore records).
+        /// Render the band once (ignore records).
         /// </summary>
-        public void EvaluateOnce
+        public void RenderOnce
             (
                 [NotNull] ReportContext context,
                 [CanBeNull] PftFormatter formatter
@@ -208,19 +208,19 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
-            OnBeforeEvaluation(context);
+            OnBeforeRendering(context);
 
             context.SetVariables(formatter);
 
-            _Evaluate(context);
+            _Render(context);
 
-            OnAfterEvaluation(context);
+            OnAfterRendering(context);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public void EvaluateRecords
+        public void RenderWithRecords
             (
                 [NotNull] ReportContext context,
                 [CanBeNull] PftFormatter formatter
@@ -228,7 +228,7 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
-            OnBeforeEvaluation(context);
+            OnBeforeRendering(context);
 
             context.SetVariables(formatter);
 
@@ -238,7 +238,7 @@ namespace ManagedIrbis.Reports
                 context.CurrentRecord = record;
                 context.Index = index;
 
-                _Evaluate(context);
+                _Render(context);
 
                 index++;
             }
@@ -246,7 +246,7 @@ namespace ManagedIrbis.Reports
             context.Index = -1;
             context.CurrentRecord = null;
 
-            OnAfterEvaluation(context);
+            OnAfterRendering(context);
         }
 
         /// <summary>

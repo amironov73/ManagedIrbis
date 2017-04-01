@@ -59,7 +59,7 @@ namespace ManagedIrbis.Reports
         #region ReportBand members
 
         /// <inheritdoc />
-        public override void Evaluate
+        public override void Render
             (
                 ReportContext context
             )
@@ -68,11 +68,11 @@ namespace ManagedIrbis.Reports
 
             if (context.Index >= 0)
             {
-                EvaluateOnce(context, null);
+                RenderOnce(context, null);
             }
             else
             {
-                EvaluateRecords(context, null);
+                RenderWithRecords(context, null);
             }
         }
 

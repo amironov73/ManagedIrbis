@@ -39,9 +39,9 @@ namespace ManagedIrbis.Reports
         public event EventHandler<ReportComputeEventArgs> Computation;
 
         /// <summary>
-        /// Raised on cell evaluation.
+        /// Raised on cell rendering.
         /// </summary>
-        public event EventHandler<ReportEvaluationEventArgs> Evaluation;
+        public event EventHandler<ReportRenderingEventArgs> Rendering;
 
         #endregion
 
@@ -66,17 +66,17 @@ namespace ManagedIrbis.Reports
             return eventArgs.Result;
         }
 
-        /// <inheritdoc cref="ReportCell.Evaluate" />
-        public override void Evaluate
+        /// <inheritdoc cref="ReportCell.Render" />
+        public override void Render
             (
                 ReportContext context
             )
         {
             Code.NotNull(context, "context");
 
-            ReportEvaluationEventArgs eventArgs
-                = new ReportEvaluationEventArgs(context);
-            Evaluation.Raise(this, eventArgs);
+            ReportRenderingEventArgs eventArgs
+                = new ReportRenderingEventArgs(context);
+            Rendering.Raise(this, eventArgs);
         }
 
         #endregion

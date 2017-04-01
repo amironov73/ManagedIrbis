@@ -169,7 +169,7 @@ namespace ManagedIrbis.Reports
         /// <summary>
         /// Render the cell.
         /// </summary>
-        public virtual void Evaluate 
+        public virtual void Render 
             (
                 [NotNull] ReportContext context
             )

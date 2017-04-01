@@ -73,7 +73,7 @@ namespace ManagedIrbis.Reports
         #region ReportBand members
 
         /// <inheritdoc />
-        public override void Evaluate
+        public override void Render
             (
                 ReportContext context
             )
@@ -85,7 +85,7 @@ namespace ManagedIrbis.Reports
             {
                 context.Index = -1;
                 context.CurrentRecord = null;
-                base.Evaluate(context);
+                base.Render(context);
             }
             else
             {
@@ -114,7 +114,7 @@ namespace ManagedIrbis.Reports
 
                     cloneContext.Index = -1;
                     cloneContext.CurrentRecord = null;
-                    base.Evaluate(cloneContext);
+                    base.Render(cloneContext);
                 }
             }
         }

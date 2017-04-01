@@ -75,8 +75,8 @@ namespace ManagedIrbis.Reports
             return result;
         }
 
-        /// <inheritdoc cref="ReportCell.Evaluate" />
-        public override void Evaluate
+        /// <inheritdoc cref="ReportCell.Render" />
+        public override void Render
             (
                 ReportContext context
             )

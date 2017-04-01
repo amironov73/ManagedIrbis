@@ -162,17 +162,17 @@ namespace ManagedIrbis.Reports
 
             if (!ReferenceEquals(Header, null))
             {
-                Header.Evaluate(context);
+                Header.Render(context);
             }
 
             foreach (DetailsBand band in Body)
             {
-                band.Evaluate(context);
+                band.Render(context);
             }
 
             if (!ReferenceEquals(Footer, null))
             {
-                Footer.Evaluate(context);
+                Footer.Render(context);
             }
 
             driver.EndDocument(context, this);

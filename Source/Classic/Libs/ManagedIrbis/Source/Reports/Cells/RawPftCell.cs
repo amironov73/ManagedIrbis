@@ -41,13 +41,13 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class RawPftCell
+    public sealed class RawPftCell
         : PftCell
     {
         #region PftCell members
 
-        /// <inheritdoc cref="ReportCell.Evaluate" />
-        public override void Evaluate
+        /// <inheritdoc cref="ReportCell.Render" />
+        public override void Render
         (
             ReportContext context
         )

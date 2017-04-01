@@ -53,15 +53,15 @@ namespace ManagedIrbis.Reports
 
         #region ReportBand members
 
-        /// <inheritdoc cref="ReportBand.Evaluate"/>
-        public override void Evaluate
+        /// <inheritdoc cref="ReportBand.Render"/>
+        public override void Render
             (
                 ReportContext context
             )
         {
             Code.NotNull(context, "context");
 
-            OnBeforeEvaluation(context);
+            OnBeforeRendering(context);
 
             ReportDriver driver = context.Driver;
             IrbisReport report = Report
@@ -74,7 +74,7 @@ namespace ManagedIrbis.Reports
             {
                 context.Index = -1;
                 context.CurrentRecord = null;
-                header.Evaluate(context);
+                header.Render(context);
             }
 
             int count = context.Records.Count;
@@ -85,7 +85,7 @@ namespace ManagedIrbis.Reports
 
                 foreach (ReportBand band in Body)
                 {
-                    band.Evaluate(context);
+                    band.Render(context);
                 }
             }
 
@@ -94,12 +94,12 @@ namespace ManagedIrbis.Reports
             {
                 context.Index = -1;
                 context.CurrentRecord = null;
-                footer.Evaluate(context);
+                footer.Render(context);
             }
 
             driver.EndTable(context, report);
 
-            OnAfterEvaluation(context);
+            OnAfterRendering(context);
         }
 
         #endregion

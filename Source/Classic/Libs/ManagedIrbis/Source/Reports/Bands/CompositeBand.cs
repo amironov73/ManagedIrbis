@@ -134,21 +134,21 @@ namespace ManagedIrbis.Reports
         #region ReportBand members
 
         /// <inheritdoc />
-        public override void Evaluate
+        public override void Render
             (
                 ReportContext context
             )
         {
             Code.NotNull(context, "context");
 
-            OnBeforeEvaluation(context);
+            OnBeforeRendering(context);
 
             ReportBand header = Header;
             if (!ReferenceEquals(header, null))
             {
                 context.Index = -1;
                 context.CurrentRecord = null;
-                header.Evaluate(context);
+                header.Render(context);
             }
 
             int count = context.Records.Count;
@@ -159,21 +159,21 @@ namespace ManagedIrbis.Reports
 
                 foreach (ReportBand band in Body)
                 {
-                    band.Evaluate(context);
+                    band.Render(context);
                 }
             }
 
-            // base.Evaluate(context);
+            // base.Render(context);
 
             ReportBand footer = Footer;
             if (!ReferenceEquals(footer, null))
             {
                 context.Index = -1;
                 context.CurrentRecord = null;
-                footer.Evaluate(context);
+                footer.Render(context);
             }
 
-            OnAfterEvaluation(context);
+            OnAfterRendering(context);
         }
 
         #endregion

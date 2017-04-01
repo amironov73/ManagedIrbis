@@ -9,43 +9,65 @@
       <Method Name="ReportCell" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>CEAAAAAAACAAAAAAAAAQAgAQAAQAAAAQAAAAAAAIhBA=</HashCode>
+      <HashCode>CEAAAAAAACAAAAAAAAAQAAAQAAQAAAAQABAAAAAIhBA=</HashCode>
       <FileName>Source\Reports\Cells\ReportCell.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="ManagedIrbis.Reports.IndexCell" Collapsed="true">
-    <Position X="4.5" Y="5.25" Width="1.5" />
+  <Class Name="ManagedIrbis.Reports.IndexCell">
+    <Position X="5.25" Y="4" Width="1.5" />
+    <Members>
+      <Method Name="Compute" Hidden="true" />
+      <Method Name="IndexCell" Hidden="true" />
+      <Method Name="Render" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AEAAAAAAAAAAAAAAAAAAAgAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAABAAAAAAAAA=</HashCode>
       <FileName>Source\Reports\Cells\IndexCell.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ManagedIrbis.Reports.DynamicCell" Collapsed="true">
-    <Position X="4.5" Y="4.5" Width="1.5" />
+  <Class Name="ManagedIrbis.Reports.DynamicCell">
+    <Position X="5.25" Y="2.5" Width="1.5" />
+    <Members>
+      <Method Name="Compute" Hidden="true" />
+      <Method Name="Render" Hidden="true" />
+    </Members>
     <InheritanceLine Type="ManagedIrbis.Reports.ReportCell" FixedToPoint="true">
       <Path>
-        <Point X="4" Y="4.249" />
-        <Point X="4" Y="4.875" />
-        <Point X="4.5" Y="4.875" />
+        <Point X="4.75" Y="3.259" />
+        <Point X="5.25" Y="3.259" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AEACgAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AEACgAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
       <FileName>Source\Reports\Cells\DynamicCell.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ManagedIrbis.Reports.PftCell" Collapsed="true">
-    <Position X="4.5" Y="6" Width="1.5" />
+  <Class Name="ManagedIrbis.Reports.PftCell">
+    <Position X="5.25" Y="5.25" Width="1.5" />
+    <Members>
+      <Field Name="_formatter" Hidden="true" />
+      <Method Name="Compute" Hidden="true" />
+      <Method Name="Dispose" Hidden="true" />
+      <Method Name="PftCell" Hidden="true" />
+      <Method Name="Render" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="ManagedIrbis.Reports.ReportCell" FixedToPoint="true">
+      <Path>
+        <Point X="4" Y="4.249" />
+        <Point X="4" Y="5.909" />
+        <Point X="5.25" Y="5.909" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AEAAAAAAACAAAAAAAAAAAgAAAAAAAAAAAAAACAAAAQA=</HashCode>
+      <HashCode>AEAAAAAAACAAAAAAAAAAAAAAAAAAAAAAABAACAAAAQA=</HashCode>
       <FileName>Source\Reports\Cells\PftCell.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ManagedIrbis.Reports.RawTextCell" Collapsed="true">
     <Position X="7.25" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
       <FileName>Source\Reports\Cells\RawTextCell.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -53,25 +75,37 @@
     <Position X="5.25" Y="1.25" Width="1.5" />
     <Members>
       <Method Name="Compute" Hidden="true" />
-      <Method Name="Evaluate" Hidden="true" />
+      <Method Name="Render" Hidden="true" />
       <Method Name="TextCell" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AEAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAACAAAAAA=</HashCode>
       <FileName>Source\Reports\Cells\TextCell.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ManagedIrbis.Reports.TotalCell" Collapsed="true">
-    <Position X="4.5" Y="6.75" Width="1.5" />
+  <Class Name="ManagedIrbis.Reports.TotalCell">
+    <Position X="5.25" Y="6.5" Width="1.5" />
+    <Members>
+      <Method Name="Compute" Hidden="true" />
+      <Method Name="Render" Hidden="true" />
+      <Method Name="TotalCell" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="ManagedIrbis.Reports.ReportCell" FixedToPoint="true">
+      <Path>
+        <Point X="4" Y="4.249" />
+        <Point X="4" Y="7.188" />
+        <Point X="5.25" Y="7.188" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AEBAAAAAAAAAgAAAAAAAAgIAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AEBAAAAAAAAAgAAAAAAAAAIAAAgAAAAAABAAAAAAAAA=</HashCode>
       <FileName>Source\Reports\Cells\TotalCell.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ManagedIrbis.Reports.RawPftCell" Collapsed="true">
-    <Position X="6.5" Y="6" Width="1.5" />
+    <Position X="7.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
       <FileName>Source\Reports\Cells\RawPftCell.cs</FileName>
     </TypeIdentifier>
   </Class>
