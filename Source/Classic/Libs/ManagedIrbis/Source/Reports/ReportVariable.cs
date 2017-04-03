@@ -39,6 +39,7 @@ namespace ManagedIrbis.Reports
     [MoonSharpUserData]
     [DebuggerDisplay("{Name}: {Value}")]
     public sealed class ReportVariable
+        : IVerifiable
     {
         #region Properties
 
@@ -80,6 +81,24 @@ namespace ManagedIrbis.Reports
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"/>
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<ReportVariable> verifier
+                = new Verifier<ReportVariable>(this, throwOnError);
+
+            // TODO Add some verification here
+
+            return verifier.Result;
+        }
 
         #endregion
 

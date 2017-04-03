@@ -38,6 +38,7 @@ namespace ManagedIrbis.Reports
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class ReportVariableManager
+        : IVerifiable
     {
         #region Properties
 
@@ -162,6 +163,27 @@ namespace ManagedIrbis.Reports
             result.Value = value;
 
             return result;
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"/>
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<ReportVariableManager> verifier
+                = new Verifier<ReportVariableManager>(this, throwOnError);
+
+            foreach (ReportVariable variable in this.GetAllVariables())
+            {
+                verifier.VerifySubObject(variable, "variable");
+            }
+
+            return verifier.Result;
         }
 
         #endregion

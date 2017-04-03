@@ -326,7 +326,6 @@ namespace ManagedIrbis.Reports
 
             verifier
                 .VerifySubObject(Attributes, "attributes")
-                .Assert(Cells.Count != 0, "Cells.Count != 0")
                 .VerifySubObject(Cells, "cells");
 
             // TODO Add some verification

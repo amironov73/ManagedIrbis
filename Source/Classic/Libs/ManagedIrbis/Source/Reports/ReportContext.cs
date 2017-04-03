@@ -204,6 +204,8 @@ namespace ManagedIrbis.Reports
             Verifier<ReportContext> verifier
                 = new Verifier<ReportContext>(this, throwOnError);
 
+            verifier.VerifySubObject(Variables, "variables");
+
             // TODO Add some verification here
 
             return verifier.Result;

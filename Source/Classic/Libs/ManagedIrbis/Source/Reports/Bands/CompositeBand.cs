@@ -235,7 +235,9 @@ namespace ManagedIrbis.Reports
             {
                 verifier.VerifySubObject(Footer, "footer");
             }
-            verifier.VerifySubObject(Body, "body");
+            verifier
+                .Assert(Cells.Count == 0, "Cells.Count != 0")
+                .VerifySubObject(Body, "body");
 
             return verifier.Result;
         }

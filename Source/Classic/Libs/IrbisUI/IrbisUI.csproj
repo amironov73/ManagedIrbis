@@ -284,6 +284,8 @@
     <Compile Include="Source\RelatedSearchForm.Designer.cs">
       <DependentUpon>RelatedSearchForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\Reports\BandLabel.cs" />
+    <Compile Include="Source\Reports\CellLabel.cs" />
     <Compile Include="Source\WorksheetLine.cs" />
     <Compile Include="Source\WssForm.cs">
       <SubType>Form</SubType>

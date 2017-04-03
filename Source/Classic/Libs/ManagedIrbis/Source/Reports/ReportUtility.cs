@@ -78,6 +78,45 @@ namespace ManagedIrbis.Reports
         }
 
         /// <summary>
+        /// List band types.
+        /// </summary>
+        [NotNull]
+        public static Type[] ListBandTypes()
+        {
+            Type[] result =
+            {
+                typeof(CompositeBand),
+                typeof(FilterBand),
+                typeof(GroupBand),
+                typeof(SectionBand),
+                typeof(SortBand),
+                typeof(TableBand),
+                typeof(TotalBand)
+            };
+
+            return result;
+        }
+
+        /// <summary>
+        /// List cell types.
+        /// </summary>
+        [NotNull]
+        public static Type[] ListCellTypes()
+        {
+            Type[] result =
+            {
+                typeof(IndexCell),
+                typeof(PftCell),
+                typeof(RawPftCell),
+                typeof(RawTextCell),
+                typeof(TextCell),
+                typeof(TotalCell)
+            };
+
+            return result;
+        }
+
+        /// <summary>
         /// Set height of the object.
         /// </summary>
         [NotNull]

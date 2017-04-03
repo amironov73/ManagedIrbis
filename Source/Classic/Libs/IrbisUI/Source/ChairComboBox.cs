@@ -22,7 +22,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace IrbisUI.Source
+namespace IrbisUI
 {
     /// <summary>
     /// 

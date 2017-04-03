@@ -202,6 +202,7 @@ namespace ManagedIrbis.Reports
                 context.Records.AddRange(records);
 
                 context.Verify(true);
+                report.Verify(true);
 
                 report.Render(context);
                 string output = context.Output.Text.DosToUnix();
