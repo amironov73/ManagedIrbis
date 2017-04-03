@@ -80,12 +80,12 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
+            OnBeforeRendering(context);
+
             string expression = SortExpression;
             if (string.IsNullOrEmpty(expression))
             {
-                context.Index = -1;
-                context.CurrentRecord = null;
-                base.Render(context);
+                RenderOnce(context);
             }
             else
             {
@@ -126,11 +126,11 @@ namespace ManagedIrbis.Reports
                         )
                     );
 
-                    cloneContext.Index = -1;
-                    cloneContext.CurrentRecord = null;
-                    base.Render(cloneContext);
+                    RenderOnce(cloneContext);
                 }
             }
+
+            OnAfterRendering(context);
         }
 
         #endregion

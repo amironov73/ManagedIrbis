@@ -27,6 +27,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -41,7 +43,7 @@ namespace ManagedIrbis.Reports
     [PublicAPI]
     [MoonSharpUserData]
     public class CompositeBand
-        : DetailsBand
+        : ReportBand
     {
         #region Properties
 
@@ -117,6 +119,68 @@ namespace ManagedIrbis.Reports
 
         private ReportBand _footer, _header;
 
+        /// <inheritdoc cref="ReportBand.RenderOnce(ReportContext,PftFormatter)"/>
+        public override void RenderOnce
+            (
+                [NotNull] ReportContext context,
+                [CanBeNull] PftFormatter formatter
+            )
+        {
+            Code.NotNull(context, "context");
+
+            context.Index = -1;
+            context.CurrentRecord = null;
+
+            context.SetVariables(formatter);
+
+            if (!ReferenceEquals(Header, null))
+            {
+                Header.Render(context);
+            }
+
+            Body.Render(context);
+
+            if (!ReferenceEquals(Footer, null))
+            {
+                Footer.Render(context);
+            }
+        }
+
+        /// <inheritdoc 
+        /// cref="ReportBand.RenderAllRecords(ReportContext,PftFormatter)"/>
+        public override void RenderAllRecords
+            (
+                ReportContext context,
+                PftFormatter formatter
+            )
+        {
+            Code.NotNull(context, "context");
+
+            context.SetVariables(formatter);
+
+            if (!ReferenceEquals(Header, null))
+            {
+                Header.Render(context);
+            }
+
+            int count = context.Records.Count;
+            for (int index = 0; index < count; index++)
+            {
+                context.Index = index;
+                context.CurrentRecord = context.Records[index];
+
+                Body.Render(context);
+            }
+
+            if (!ReferenceEquals(Footer, null))
+            {
+                Footer.Render(context);
+            }
+
+            context.Index = -1;
+            context.CurrentRecord = null;
+        }
+
         #endregion
 
         #region Public methods
@@ -143,35 +207,7 @@ namespace ManagedIrbis.Reports
 
             OnBeforeRendering(context);
 
-            ReportBand header = Header;
-            if (!ReferenceEquals(header, null))
-            {
-                context.Index = -1;
-                context.CurrentRecord = null;
-                header.Render(context);
-            }
-
-            int count = context.Records.Count;
-            for (int index = 0; index < count; index++)
-            {
-                context.Index = index;
-                context.CurrentRecord = context.Records[index];
-
-                foreach (ReportBand band in Body)
-                {
-                    band.Render(context);
-                }
-            }
-
-            // base.Render(context);
-
-            ReportBand footer = Footer;
-            if (!ReferenceEquals(footer, null))
-            {
-                context.Index = -1;
-                context.CurrentRecord = null;
-                footer.Render(context);
-            }
+            RenderOnce(context);
 
             OnAfterRendering(context);
         }

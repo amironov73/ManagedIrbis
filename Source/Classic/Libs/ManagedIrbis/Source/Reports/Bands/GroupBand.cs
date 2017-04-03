@@ -76,12 +76,12 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
+            OnBeforeRendering(context);
+
             string expression = GroupExpression;
             if (string.IsNullOrEmpty(expression))
             {
-                context.Index = -1;
-                context.CurrentRecord = null;
-                base.Render(context);
+                RenderOnce(context);
             }
             else
             {
@@ -136,9 +136,7 @@ namespace ManagedIrbis.Reports
                             key
                         );
 
-                        cloneContext.Index = -1;
-                        cloneContext.CurrentRecord = null;
-                        base.Render(cloneContext);
+                        RenderOnce(cloneContext);
                     }
 
                     context.Variables.Registry.Remove("group");

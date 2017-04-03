@@ -72,9 +72,7 @@ namespace ManagedIrbis.Reports
             ReportBand header = Header;
             if (!ReferenceEquals(header, null))
             {
-                context.Index = -1;
-                context.CurrentRecord = null;
-                header.Render(context);
+                header.RenderOnce(context);
             }
 
             int count = context.Records.Count;
@@ -83,18 +81,13 @@ namespace ManagedIrbis.Reports
                 context.Index = index;
                 context.CurrentRecord = context.Records[index];
 
-                foreach (ReportBand band in Body)
-                {
-                    band.Render(context);
-                }
+                Body.Render(context);
             }
 
             ReportBand footer = Footer;
             if (!ReferenceEquals(footer, null))
             {
-                context.Index = -1;
-                context.CurrentRecord = null;
-                footer.Render(context);
+                footer.RenderOnce(context);
             }
 
             driver.EndTable(context, report);

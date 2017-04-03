@@ -194,7 +194,30 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
+            OnBeforeRendering(context);
+
             RenderOnce(context, null);
+
+            OnAfterRendering(context);
+        }
+
+        /// <summary>
+        /// Render the band once (ignore records).
+        /// </summary>
+        public virtual void RenderOnce
+            (
+                [NotNull] ReportContext context,
+                [CanBeNull] PftFormatter formatter
+            )
+        {
+            Code.NotNull(context, "context");
+
+            context.SetVariables(formatter);
+
+            context.Index = -1;
+            context.CurrentRecord = null;
+
+            _Render(context);
         }
 
         /// <summary>
@@ -202,33 +225,22 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public void RenderOnce
             (
-                [NotNull] ReportContext context,
-                [CanBeNull] PftFormatter formatter
+                [NotNull] ReportContext context
             )
         {
-            Code.NotNull(context, "context");
-
-            OnBeforeRendering(context);
-
-            context.SetVariables(formatter);
-
-            _Render(context);
-
-            OnAfterRendering(context);
+            RenderOnce(context, null);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public void RenderWithRecords
+        public virtual void RenderAllRecords
             (
                 [NotNull] ReportContext context,
                 [CanBeNull] PftFormatter formatter
             )
         {
             Code.NotNull(context, "context");
-
-            OnBeforeRendering(context);
 
             context.SetVariables(formatter);
 
@@ -245,8 +257,49 @@ namespace ManagedIrbis.Reports
 
             context.Index = -1;
             context.CurrentRecord = null;
+        }
 
-            OnAfterRendering(context);
+        /// <summary>
+        /// 
+        /// </summary>
+        public void RenderAllRecords
+            (
+                [NotNull] ReportContext context
+            )
+        {
+            RenderAllRecords(context, null);
+        }
+
+        /// <summary>
+        /// Render given index.
+        /// </summary>
+        public void RenderRecord
+            (
+                [NotNull] ReportContext context,
+                [CanBeNull] PftFormatter formatter,
+                int index
+            )
+        {
+            Code.NotNull(context, "context");
+
+            context.Index = index;
+            context.CurrentRecord = context.Records
+                .GetItem(index);
+            context.SetVariables(formatter);
+
+            _Render(context);
+        }
+
+        /// <summary>
+        /// Render given index.
+        /// </summary>
+        public void RenderRecord
+            (
+                [NotNull] ReportContext context,
+                int index
+            )
+        {
+            RenderRecord(context, null, index);
         }
 
         /// <summary>

@@ -80,12 +80,12 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
+            OnBeforeRendering(context);
+
             string expression = FilterExpression;
             if (string.IsNullOrEmpty(expression))
             {
-                context.Index = -1;
-                context.CurrentRecord = null;
-                base.Render(context);
+                RenderOnce(context);
             }
             else
             {
@@ -97,6 +97,8 @@ namespace ManagedIrbis.Reports
                     List<MarcRecord> list = new List<MarcRecord>(count);
                     for (int i = 0; i < count; i++)
                     {
+                        context.SetVariables(formatter);
+
                         string formatted = formatter.Format
                         (
                             context.Records[i]
@@ -108,15 +110,15 @@ namespace ManagedIrbis.Reports
                     }
 
                     ReportContext cloneContext = context.Clone
-                    (
-                        list
-                    );
+                        (
+                            list
+                        );
 
-                    cloneContext.Index = -1;
-                    cloneContext.CurrentRecord = null;
-                    base.Render(cloneContext);
+                    RenderOnce(cloneContext);
                 }
             }
+
+            OnAfterRendering(context);
         }
 
         #endregion

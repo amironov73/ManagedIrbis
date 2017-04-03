@@ -46,13 +46,21 @@ namespace ManagedIrbis.Reports
         /// Parent band.
         /// </summary>
         [CanBeNull]
-        public ReportBand Parent { get { return _parent; } }
+        public ReportBand Parent
+        {
+            get { return _parent; }
+            internal set { SetParent(value); }
+        }
 
         /// <summary>
         /// Record.
         /// </summary>
         [CanBeNull]
-        public IrbisReport Report { get { return _report; } }
+        public IrbisReport Report
+        {
+            get { return _report; }
+            internal set { SetReport(value); }
+        }
 
         #endregion
 
@@ -75,8 +83,8 @@ namespace ManagedIrbis.Reports
                 [CanBeNull] ReportBand parent
             )
         {
-            _report = report;
-            _parent = parent;
+            Report = report;
+            Parent = parent;
         }
 
         #endregion
@@ -87,9 +95,7 @@ namespace ManagedIrbis.Reports
 
         private IrbisReport _report;
 
-        // ReSharper disable InconsistentNaming
-
-        internal BandCollection<T> _SetParent
+        internal void SetParent
             (
                 ReportBand parent
             )
@@ -100,11 +106,9 @@ namespace ManagedIrbis.Reports
             {
                 band.Parent = parent;
             }
-
-            return this;
         }
 
-        internal BandCollection<T> _SetReport
+        internal void SetReport
             (
                 IrbisReport report
             )
@@ -115,11 +119,7 @@ namespace ManagedIrbis.Reports
             {
                 band.Report = report;
             }
-
-            return this;
         }
-
-        // ReSharper restore InconsistentNaming
 
         #endregion
 
@@ -148,15 +148,12 @@ namespace ManagedIrbis.Reports
         [NotNull]
         public BandCollection<T> Clone()
         {
-            BandCollection<T> result = new BandCollection<T>
-            {
-                _report = Report
-            };
+            BandCollection<T> result
+                = new BandCollection<T> (Report, Parent);
 
             foreach (T band in this)
             {
                 T clone = (T)band.Clone();
-                clone.Report = Report;
                 result.Add(clone);
             }
 
@@ -200,6 +197,22 @@ namespace ManagedIrbis.Reports
                 .ToArray();
         }
 
+        /// <summary>
+        /// Render bands.
+        /// </summary>
+        public void Render
+            (
+                [NotNull] ReportContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            foreach (T band in this)
+            {
+                band.Render(context);
+            }
+        }
+
         #endregion
 
         #region Collection<T> members
@@ -212,6 +225,7 @@ namespace ManagedIrbis.Reports
             foreach (T band in this)
             {
                 band.Report = null;
+                band.Parent = null;
             }
 
             base.ClearItems();
@@ -228,6 +242,7 @@ namespace ManagedIrbis.Reports
             Code.NotNull(item, "item");
 
             item.Report = Report;
+            item.Parent = Parent;
 
             base.InsertItem(index, item);
         }
@@ -240,12 +255,13 @@ namespace ManagedIrbis.Reports
         {
             ThrowIfReadOnly();
 
-            if ((index >= 0) && (index < Count))
+            if (index >= 0 && index < Count)
             {
                 ReportBand band  = this[index];
                 if (!ReferenceEquals(band, null))
                 {
                     band.Report = null;
+                    band.Parent = null;
                 }
             }
 
@@ -263,6 +279,7 @@ namespace ManagedIrbis.Reports
             Code.NotNull(item, "item");
 
             item.Report = Report;
+            item.Parent = Parent;
 
             base.SetItem(index, item);
         }

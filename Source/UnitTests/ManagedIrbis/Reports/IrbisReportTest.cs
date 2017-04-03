@@ -172,7 +172,7 @@ namespace UnitTests.ManagedIrbis.Reports
             AbstractClient client = new LocalClient();
             ReportContext context = new ReportContext(client);
             context.Records.AddRange(_GetRecords());
-            report.Evaluate(context);
+            report.Render(context);
             string text = context.Output.Text;
             Assert.IsNotNull(text);
             string fileName = Path.GetTempFileName();
@@ -188,7 +188,7 @@ namespace UnitTests.ManagedIrbis.Reports
             ReportContext context = new ReportContext(client);
             context.Records.AddRange(_GetRecords());
             context.SetDriver(new HtmlDriver());
-            report.Evaluate(context);
+            report.Render(context);
             string text = context.Output.Text;
             Assert.IsNotNull(text);
             string fileName = Path.GetTempFileName();

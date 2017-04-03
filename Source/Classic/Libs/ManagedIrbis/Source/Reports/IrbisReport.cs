@@ -62,7 +62,7 @@ namespace ManagedIrbis.Reports
         [NotNull]
         [XmlElement("details")]
         [JsonProperty("details")]
-        public BandCollection<DetailsBand> Body { get; set; }
+        public BandCollection<ReportBand> Body { get; set; }
 
         /// <summary>
         /// Footer band.
@@ -128,7 +128,7 @@ namespace ManagedIrbis.Reports
         public IrbisReport()
         {
             Attributes = new ReportAttributes();
-            Body = new BandCollection<DetailsBand>(this, null);
+            Body = new BandCollection<ReportBand>(this, null);
         }
 
         #endregion
@@ -144,7 +144,7 @@ namespace ManagedIrbis.Reports
         /// <summary>
         /// Render the report.
         /// </summary>
-        public virtual void Evaluate
+        public virtual void Render
             (
                 [NotNull] ReportContext context
             )
@@ -165,10 +165,7 @@ namespace ManagedIrbis.Reports
                 Header.Render(context);
             }
 
-            foreach (DetailsBand band in Body)
-            {
-                band.Render(context);
-            }
+            Body.Render(context);
 
             if (!ReferenceEquals(Footer, null))
             {
