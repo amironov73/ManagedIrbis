@@ -200,6 +200,9 @@ namespace ManagedIrbis.Reports
                     .ThrowIfNull("environment not set");
                 ReportContext context = new ReportContext(environment);
                 context.Records.AddRange(records);
+
+                context.Verify(true);
+
                 report.Render(context);
                 string output = context.Output.Text.DosToUnix();
                 result.Output = output;

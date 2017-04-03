@@ -37,6 +37,7 @@ namespace ManagedIrbis.Reports
         : Collection<T>,
         IHandmadeSerializable,
         IReadOnly<BandCollection<T>>,
+        IVerifiable,
         IDisposable
         where T: ReportBand
     {
@@ -354,6 +355,27 @@ namespace ManagedIrbis.Reports
             {
                 throw new ReadOnlyException();
             }
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"/>
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<BandCollection<T>> verifier
+                = new Verifier<BandCollection<T>>(this, throwOnError);
+
+            foreach (T band in this)
+            {
+                verifier.VerifySubObject(band, "band");
+            }
+
+            return verifier.Result;
         }
 
         #endregion

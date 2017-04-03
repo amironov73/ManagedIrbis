@@ -44,6 +44,7 @@ namespace ManagedIrbis.Reports
     [MoonSharpUserData]
     public class ReportBand
         : IAttributable,
+        IVerifiable,
         IDisposable
     {
         #region Events
@@ -308,6 +309,29 @@ namespace ManagedIrbis.Reports
         public bool ShouldSerializeAttributes()
         {
             return Attributes.Count != 0;
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"/>
+        public virtual bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<ReportBand> verifier
+                = new Verifier<ReportBand>(this, throwOnError);
+
+            verifier
+                .VerifySubObject(Attributes, "attributes")
+                .Assert(Cells.Count != 0, "Cells.Count != 0")
+                .VerifySubObject(Cells, "cells");
+
+            // TODO Add some verification
+
+            return verifier.Result;
         }
 
         #endregion

@@ -123,6 +123,30 @@ namespace ManagedIrbis.Reports
 
         #endregion
 
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"/>
+        public override bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<ReportBand> verifier
+                = new Verifier<ReportBand>(this, throwOnError);
+
+            verifier.Assert(base.Verify(throwOnError));
+
+            verifier.NotNullNorEmpty
+                (
+                    FilterExpression,
+                    "FilterExpression"
+                );
+
+            return verifier.Result;
+        }
+
+        #endregion
+
         #region Object members
 
         #endregion

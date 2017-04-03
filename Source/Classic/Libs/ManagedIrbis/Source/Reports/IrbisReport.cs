@@ -44,6 +44,7 @@ namespace ManagedIrbis.Reports
     [MoonSharpUserData]
     public class IrbisReport
         : IAttributable,
+        IVerifiable,
         IDisposable
     {
         #region Properties
@@ -356,6 +357,34 @@ namespace ManagedIrbis.Reports
                     contents,
                     IrbisEncoding.Utf8
                 );
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"/>
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<IrbisReport> verifier
+                = new Verifier<IrbisReport>(this, throwOnError);
+
+            verifier.VerifySubObject(Attributes, "attributes");
+
+            if (!ReferenceEquals(Header, null))
+            {
+                verifier.VerifySubObject(Header, "header");
+            }
+            if (!ReferenceEquals(Footer, null))
+            {
+                verifier.VerifySubObject(Footer, "footer");
+            }
+            verifier.VerifySubObject(Body, "body");
+
+            return verifier.Result;
         }
 
         #endregion

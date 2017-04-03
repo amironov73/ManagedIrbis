@@ -25,7 +25,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-using ManagedIrbis.Pft;
+
 using MoonSharp.Interpreter;
 
 #endregion

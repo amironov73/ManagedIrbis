@@ -42,6 +42,7 @@ namespace ManagedIrbis.Reports
     [MoonSharpUserData]
     public abstract class ReportCell
         : IAttributable,
+        IVerifiable,
         IDisposable
     {
         #region Events
@@ -175,6 +176,27 @@ namespace ManagedIrbis.Reports
             )
         {
             // Nothing to do here
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"/>
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<ReportCell> verifier
+                = new Verifier<ReportCell>(this, throwOnError);
+
+            verifier
+                .VerifySubObject(Attributes, "attributes");
+
+            // TODO Add some verification
+
+            return verifier.Result;
         }
 
         #endregion

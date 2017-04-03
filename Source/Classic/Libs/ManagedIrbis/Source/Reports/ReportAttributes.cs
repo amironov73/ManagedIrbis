@@ -15,6 +15,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -31,7 +33,8 @@ namespace ManagedIrbis.Reports
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class ReportAttributes
-        : Dictionary<string, object>
+        : Dictionary<string, object>,
+        IVerifiable
     {
         #region Properties
 
@@ -46,6 +49,24 @@ namespace ManagedIrbis.Reports
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"/>
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<ReportAttributes> verifier
+                = new Verifier<ReportAttributes>(this, throwOnError);
+
+            // TODO Add some verification
+
+            return verifier.Result;
+        }
 
         #endregion
     }

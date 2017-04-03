@@ -38,6 +38,7 @@ namespace ManagedIrbis.Reports
         : Collection<ReportCell>,
         IHandmadeSerializable,
         IReadOnly<CellCollection>,
+        IVerifiable,
         IDisposable
     {
         #region Properties
@@ -305,6 +306,27 @@ namespace ManagedIrbis.Reports
             {
                 throw new ReadOnlyException();
             }
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"/>
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<CellCollection> verifier
+                = new Verifier<CellCollection>(this, throwOnError);
+
+            foreach (ReportCell cell in this)
+            {
+                verifier.VerifySubObject(cell, "cell");
+            }
+
+            return verifier.Result;
         }
 
         #endregion

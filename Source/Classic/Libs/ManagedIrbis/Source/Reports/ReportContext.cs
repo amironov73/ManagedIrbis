@@ -42,7 +42,8 @@ namespace ManagedIrbis.Reports
     [PublicAPI]
     [MoonSharpUserData]
     public class ReportContext
-        : IDisposable
+        : IDisposable,
+        IVerifiable
     {
         #region Properties
 
@@ -188,6 +189,24 @@ namespace ManagedIrbis.Reports
         public void Dispose()
         {
             // TODO Do something here?
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"/>
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<ReportContext> verifier
+                = new Verifier<ReportContext>(this, throwOnError);
+
+            // TODO Add some verification here
+
+            return verifier.Result;
         }
 
         #endregion
