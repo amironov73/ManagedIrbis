@@ -137,6 +137,7 @@
     <Compile Include="AM\DisposableUtilityTest.cs" />
     <Compile Include="AM\DuplicateKeyExceptionTest.cs" />
     <Compile Include="AM\ExceptionEventArgsTest.cs" />
+    <Compile Include="AM\FunctionalUtilityTest.cs" />
     <Compile Include="AM\Text\RichTextStripperTest.cs" />
     <Compile Include="AM\Text\TextSeparatorTest.cs" />
     <Compile Include="ManagedIrbis\ClientInfoTest.cs" />
