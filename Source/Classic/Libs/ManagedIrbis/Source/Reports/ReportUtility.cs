@@ -86,6 +86,7 @@ namespace ManagedIrbis.Reports
             Type[] result =
             {
                 typeof(CompositeBand),
+                typeof(ConditionalBand),
                 typeof(FilterBand),
                 typeof(GroupBand),
                 typeof(SectionBand),
