@@ -171,6 +171,8 @@ namespace ManagedIrbis.Reports
             ReportRenderingEventArgs eventArgs
                 = new ReportRenderingEventArgs(context);
             BeforeRendering.Raise(this, eventArgs);
+
+            context.OnRendering();
         }
 
         #endregion
@@ -197,7 +199,7 @@ namespace ManagedIrbis.Reports
 
             OnBeforeRendering(context);
 
-            RenderOnce(context, null);
+            RenderOnce(context);
 
             OnAfterRendering(context);
         }

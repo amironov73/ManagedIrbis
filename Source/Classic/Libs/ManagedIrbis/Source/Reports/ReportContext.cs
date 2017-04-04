@@ -45,6 +45,15 @@ namespace ManagedIrbis.Reports
         : IDisposable,
         IVerifiable
     {
+        #region Events
+
+        /// <summary>
+        /// Raised on rendering bands.
+        /// </summary>
+        public event EventHandler<ReportEventArgs> Rendering;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -119,6 +128,17 @@ namespace ManagedIrbis.Reports
         #endregion
 
         #region Private members
+
+        /// <summary>
+        /// Raise <see cref="Rendering"/> event.
+        /// </summary>
+        internal void OnRendering()
+        {
+            ReportEventArgs eventArgs
+                = new ReportEventArgs(this);
+
+            Rendering.Raise(this, eventArgs);
+        }
 
         #endregion
 
