@@ -79,11 +79,13 @@ namespace ManagedIrbis.Reports
                 if (!ReferenceEquals(_footer, null))
                 {
                     _footer.Report = null;
+                    _footer.Parent = null;
                 }
                 _footer = value;
                 if (!ReferenceEquals(_footer, null))
                 {
                     _footer.Report = this;
+                    _footer.Parent = null;
                 }
             }
         }
@@ -102,11 +104,13 @@ namespace ManagedIrbis.Reports
                 if (!ReferenceEquals(_header, null))
                 {
                     _header.Report = null;
+                    _header.Parent = null;
                 }
                 _header = value;
                 if (!ReferenceEquals(_header, null))
                 {
                     _header.Report = this;
+                    _header.Parent = null;
                 }
             }
         }
@@ -376,13 +380,58 @@ namespace ManagedIrbis.Reports
 
             if (!ReferenceEquals(Header, null))
             {
-                verifier.VerifySubObject(Header, "header");
+                verifier
+                    .VerifySubObject(Header, "header")
+                    .ReferenceEquals
+                        (
+                            Header.Parent,
+                            null,
+                            "Header.Parent != null"
+                        )
+                    .ReferenceEquals
+                        (
+                            Header.Report,
+                            this,
+                            "Header.Report != this"
+                        );
             }
+
             if (!ReferenceEquals(Footer, null))
             {
-                verifier.VerifySubObject(Footer, "footer");
+                verifier
+                    .VerifySubObject(Footer, "footer")
+                    .ReferenceEquals
+                        (
+                            Footer.Parent,
+                            null,
+                            "Footer.Parent != null"
+                        )
+                    .ReferenceEquals
+                        (
+                            Footer.Report,
+                            this,
+                            "Footer.Report != this"
+                        );
             }
+
             verifier.VerifySubObject(Body, "body");
+
+            foreach (ReportBand band in Body)
+            {
+                verifier
+                    .ReferenceEquals
+                        (
+                            band.Parent,
+                            null,
+                            "band.Parent != null"
+                        )
+                    .ReferenceEquals
+                        (
+                            band.Report,
+                            this,
+                            "band.Report != this"
+                        );
+            }
 
             return verifier.Result;
         }

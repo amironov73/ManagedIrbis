@@ -68,11 +68,13 @@ namespace ManagedIrbis.Reports
             {
                 if (!ReferenceEquals(_footer, null))
                 {
+                    _footer.Report = null;
                     _footer.Parent = null;
                 }
                 _footer = value;
                 if (!ReferenceEquals(_footer, null))
                 {
+                    _footer.Report = Report;
                     _footer.Parent = this;
                 }
             }
@@ -91,13 +93,34 @@ namespace ManagedIrbis.Reports
             {
                 if (!ReferenceEquals(_header, null))
                 {
+                    _header.Report = null;
                     _header.Parent = null;
                 }
                 _header = value;
                 if (!ReferenceEquals(_header, null))
                 {
+                    _header.Report = Report;
                     _header.Parent = this;
                 }
+            }
+        }
+
+        /// <inheritdoc cref="ReportBand.Report"/>
+        public override IrbisReport Report
+        {
+            get { return base.Report; }
+            internal set
+            {
+                base.Report = value;
+                if (!ReferenceEquals(Header, null))
+                {
+                    Header.Report = value;
+                }
+                if (!ReferenceEquals(Footer, null))
+                {
+                    Footer.Report = value;
+                }
+                Body.SetReport(value);
             }
         }
 
@@ -110,7 +133,7 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public CompositeBand()
         {
-            Body = new BandCollection<ReportBand>();
+            Body = new BandCollection<ReportBand>(null, this);
         }
 
         #endregion
@@ -229,15 +252,60 @@ namespace ManagedIrbis.Reports
 
             if (!ReferenceEquals(Header, null))
             {
-                verifier.VerifySubObject(Header, "header");
+                verifier
+                    .VerifySubObject(Header, "header")
+                    .ReferenceEquals
+                        (
+                            Header.Parent,
+                            this,
+                            "Header.Parent != this"
+                        )
+                    .ReferenceEquals
+                        (
+                            Header.Report,
+                            Report,
+                            "Header.Report != this.Report"
+                        );
             }
+
             if (!ReferenceEquals(Footer, null))
             {
-                verifier.VerifySubObject(Footer, "footer");
+                verifier
+                    .VerifySubObject(Footer, "footer")
+                    .ReferenceEquals
+                        (
+                            Footer.Parent,
+                            this,
+                            "Footer.Parent != this"
+                        )
+                    .ReferenceEquals
+                        (
+                            Footer.Report,
+                            Report,
+                            "Footer.Report != this.Report"
+                        );
             }
+
             verifier
                 .Assert(Cells.Count == 0, "Cells.Count != 0")
                 .VerifySubObject(Body, "body");
+
+            foreach (ReportBand band in Body)
+            {
+                verifier
+                    .ReferenceEquals
+                        (
+                            band.Parent,
+                            this,
+                            "band.Parent != this"
+                        )
+                    .ReferenceEquals
+                        (
+                            band.Report,
+                            Report,
+                            "band.Report != this.Report"
+                        );
+            }
 
             return verifier.Result;
         }

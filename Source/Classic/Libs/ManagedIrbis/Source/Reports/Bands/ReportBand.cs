@@ -85,7 +85,7 @@ namespace ManagedIrbis.Reports
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        public IrbisReport Report
+        public virtual IrbisReport Report
         {
             get { return _report; }
             internal set
@@ -329,6 +329,23 @@ namespace ManagedIrbis.Reports
             verifier
                 .VerifySubObject(Attributes, "attributes")
                 .VerifySubObject(Cells, "cells");
+
+            foreach (ReportCell cell in Cells)
+            {
+                verifier
+                    .ReferenceEquals
+                        (
+                            cell.Band,
+                            this,
+                            "cell.Band != this"
+                        )
+                    .ReferenceEquals
+                        (
+                            cell.Report,
+                            Report,
+                            "cell.Report != this.Report"
+                        );
+            }
 
             // TODO Add some verification
 

@@ -226,6 +226,12 @@ namespace ManagedIrbis.Reports
             {
                 result.Failed = true;
                 result.Exception = exception.ToString();
+
+                Console.WriteLine();
+                Console.WriteLine("!!! FAILED !!!");
+                Console.WriteLine();
+                Console.WriteLine(exception);
+                Console.WriteLine();
             }
 
             result.FinishTime = DateTime.Now;

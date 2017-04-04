@@ -258,6 +258,23 @@ namespace AM
         }
 
         /// <summary>
+        /// Reference equals?
+        /// </summary>
+        public Verifier<T> ReferenceEquals
+            (
+                [CanBeNull] object first,
+                [CanBeNull] object second,
+                [NotNull] string message
+            )
+        {
+            return Assert
+                (
+                    ReferenceEquals(first, second),
+                    message
+                );
+        }
+
+        /// <summary>
         /// Throw exception.
         /// </summary>
         public void Throw()
