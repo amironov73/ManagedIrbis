@@ -42,7 +42,8 @@ namespace ManagedIrbis
     [MoonSharpUserData]
     [XmlRoot("connection")]
     public sealed class ConnectionSettings
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Constants
 
@@ -182,6 +183,8 @@ namespace ManagedIrbis
         /// <summary>
         /// Saved "connected" state.
         /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
         public bool Connected { get; set; }
 
         #endregion
@@ -483,6 +486,37 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Get missing elements from the settings.
+        /// </summary>
+        public ConnectionElement GetMissingElements()
+        {
+            ConnectionElement result = ConnectionElement.None;
+
+            if (string.IsNullOrEmpty(Host))
+            {
+                result |= ConnectionElement.Host;
+            }
+            if (Port == 0)
+            {
+                result |= ConnectionElement.Port;
+            }
+            if (string.IsNullOrEmpty(Username))
+            {
+                result |= ConnectionElement.Username;
+            }
+            if (string.IsNullOrEmpty(Password))
+            {
+                result |= ConnectionElement.Password;
+            }
+            if (Workstation == IrbisWorkstation.None)
+            {
+                result |= ConnectionElement.Workstation;
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Парсинг строки подключения.
         /// </summary>
         public ConnectionSettings ParseConnectionString
@@ -627,6 +661,33 @@ namespace ManagedIrbis
                 .WritePackedInt32(RetryCount)
                 .WriteNullable(UserData)
                 .Write(Connected);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"/>
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<ConnectionSettings> verifier
+                = new Verifier<ConnectionSettings>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(Host, "Host")
+                .Assert(Port > 0 && Port < 0x10000, "Port")
+                .NotNullNorEmpty(Username, "Username")
+                .NotNullNorEmpty(Password, "Password")
+                .Assert
+                    (
+                        Workstation != IrbisWorkstation.None,
+                        "Workstation"
+                    );
+
+            return verifier.Result;
         }
 
         #endregion

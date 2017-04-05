@@ -122,6 +122,7 @@
     <Compile Include="Source\Client\LocalCatalogerIniFile.cs" />
     <Compile Include="Source\Client\LocalClient.cs" />
     <Compile Include="Source\Client\RemoteCatalogerIniFile.cs" />
+    <Compile Include="Source\ConnectionElement.cs" />
     <Compile Include="Source\ConnectionSettings.cs" />
     <Compile Include="Source\CopyRecordManager.cs" />
     <Compile Include="Source\Direct\DirectReader32.cs" />
@@ -516,6 +517,7 @@
     <Compile Include="Source\Reports\IrbisReport.cs" />
     <Compile Include="Source\Reports\RecordFilter.cs" />
     <Compile Include="Source\Reports\RecordSorter.cs" />
+    <Compile Include="Source\Reports\ReportAttribute.cs" />
     <Compile Include="Source\Reports\ReportAttributes.cs" />
     <Compile Include="Source\Reports\ReportComputeEventArgs.cs" />
     <Compile Include="Source\Reports\ReportContext.cs" />
