@@ -1,0 +1,84 @@
+################################################################## 
+#   SCM Microsystems (C)1995-1996
+#
+#   File Name   : PAYFLEX2.REQ
+#   Version     : 2.0
+#   Date        : October 23, 1996
+#   By          : SCM Microsystems
+#
+# Description : 
+# This file is a demonstration file used by TESTCT.EXE or TESTCT95.EXE 
+# with the "CRYPT DEMO" Smart Card delivered with the SDK.
+# It treats the file as a cyclic file-
+# It writes, then reads four records, namely-
+#  SCM
+#  MICRO
+#  112233445566
+#  778899AABBCC
+#     
+# This is followed by the generation of two consecutive random numbers, using 
+# the 'Get Challange' command. This allows the user to see two distinctively 
+# different random numbers.
+#     
+# It finishes by selecting the Serial Number file. An attempt is made to read 
+# with an incorrect data length specified. This shows that error handling is 
+# correctly interpreted. It then reads the Serial Number file with the correct 
+# data length.
+################################################################## 
+
+#--- Select Application Directory File (7F10) --- 
+2,0 00A40000027F10
+
+#--- Verify PIN ---
+2,0 0020000008D43EC43A5295564E
+
+#--- Select Cyclic File (6E00) ---
+2,0 00A40000026E00
+
+#--- Update Last Record Number, 6 bytes --- 
+2,0 00DC000206112233445566
+
+#--- Update Next Record ---
+2,0 00DC0002064D4943524F01
+
+#--- Update Next Record ---
+2,0 00DC0002060153434D0101
+
+#--- Update Next Record ---
+2,0 00DC000206778899AABBCC
+
+#--- Read Last Record, 6 Bytes ---
+2,0 00B2000206
+
+#--- Read Last record ---
+2,0 00B2000206
+
+#--- Read Last Record ---
+2,0 00B2000206
+
+#--- Read Last Record ---
+2,0 00B2000206
+
+#--- Get Challange, 8 Bytes ---
+2,0 0084000008
+
+#--- Get Challange, 8 Bytes ---
+2,0 0084000008
+
+#--- These last two responses will change each time since 
+#--- they are based on a random number generator.
+
+#--- Select - Application Serial Number File (2F00) --- 
+2,0 00A40000022F00
+
+#--- Read Record - 20 Bytes (incorrect length) 
+2,0 00B2000020
+
+#--- Incorrect length status words will be returned 
+
+#--- Read Record - 8 Bytes (correct length) 
+2,0 00B2000008
+
+#--- End of demonstration program --- 
+
+##################################################################     
