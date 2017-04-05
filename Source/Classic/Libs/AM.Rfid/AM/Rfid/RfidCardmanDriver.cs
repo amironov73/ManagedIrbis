@@ -55,6 +55,7 @@ namespace AM.Rfid
         public RfidCardmanDriver()
         {
             _context = new SCardContext();
+            _context.Establish(SCardScope.System);
             _reader = new SCardReader(_context);
         }
 

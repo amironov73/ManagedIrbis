@@ -107,6 +107,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportTestRunner", "Classic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeActivator", "Classic\Apps\DeActivator\DeActivator.csproj", "{5F77BEC8-C3A5-4673-92DD-3E1AE8B69EC4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagnaRfid", "Classic\Apps\MagnaRfid\MagnaRfid.csproj", "{425B1242-F9D2-4C20-ADE4-03E5A4B6E4E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -309,6 +311,10 @@ Global
 		{5F77BEC8-C3A5-4673-92DD-3E1AE8B69EC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F77BEC8-C3A5-4673-92DD-3E1AE8B69EC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F77BEC8-C3A5-4673-92DD-3E1AE8B69EC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{425B1242-F9D2-4C20-ADE4-03E5A4B6E4E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{425B1242-F9D2-4C20-ADE4-03E5A4B6E4E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{425B1242-F9D2-4C20-ADE4-03E5A4B6E4E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{425B1242-F9D2-4C20-ADE4-03E5A4B6E4E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -361,5 +367,6 @@ Global
 		{5FD67962-5EAE-4D2B-9667-82033F2E2778} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{C39429EC-6DAF-438E-A825-9107BF3E8863} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{5F77BEC8-C3A5-4673-92DD-3E1AE8B69EC4} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{425B1242-F9D2-4C20-ADE4-03E5A4B6E4E1} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 	EndGlobalSection
 EndGlobal
