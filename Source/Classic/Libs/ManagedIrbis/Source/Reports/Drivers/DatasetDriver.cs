@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if CLASSIC
+
 #region Using directives
 
 using System;
@@ -131,3 +133,5 @@ namespace ManagedIrbis.Reports
         #endregion
     }
 }
+
+#endif
