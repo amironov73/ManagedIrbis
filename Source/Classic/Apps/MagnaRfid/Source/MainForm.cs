@@ -16,6 +16,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AM;
@@ -46,6 +47,8 @@ namespace MagnaRfid
         #endregion
 
         #region Private members
+
+        private bool _busy = false;
 
         private string _readerName;
 
@@ -102,6 +105,15 @@ namespace MagnaRfid
                 }
             }
 
+            bool english = _englishCheckBox.Checked;
+
+            if (english)
+            {
+                SendKeys.SendWait("%+");
+                Thread.Sleep(100);
+                //Application.DoEvents();
+            }
+
             SendKeys.SendWait(tag);
             _lastTag = tag;
             _lastMoment = DateTime.Now;
@@ -109,6 +121,13 @@ namespace MagnaRfid
             if (_crlfBox.Checked)
             {
                 SendKeys.SendWait("{ENTER}");
+            }
+
+            if (english)
+            {
+                SendKeys.SendWait("%+");
+                Thread.Sleep(100);
+                //Application.DoEvents();
             }
         }
 
@@ -157,6 +176,7 @@ namespace MagnaRfid
             )
         {
             if (!Active
+                || _busy
                 || ReferenceEquals(Driver, null)
                )
             {
@@ -165,6 +185,8 @@ namespace MagnaRfid
 
             try
             {
+                _busy = true;
+
                 Driver.Connect(_readerName);
                 string[] tags = Driver.Inventory();
                 //Driver.Disconnect();
@@ -178,6 +200,10 @@ namespace MagnaRfid
             catch
             {
                 // Nothing to do here
+            }
+            finally
+            {
+                _busy = false;
             }
         }
     }

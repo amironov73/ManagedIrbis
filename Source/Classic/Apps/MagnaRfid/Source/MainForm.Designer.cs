@@ -41,6 +41,7 @@
             this._startButton = new System.Windows.Forms.Button();
             this._stopButton = new System.Windows.Forms.Button();
             this._timer = new System.Windows.Forms.Timer(this.components);
+            this._englishCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // _readerGroup
@@ -92,7 +93,7 @@
             // 
             this._nameBox.TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this._nameBox.TextBox.Location = new System.Drawing.Point(0, 26);
-            this._nameBox.TextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this._nameBox.TextBox.Margin = new System.Windows.Forms.Padding(4);
             this._nameBox.TextBox.Name = "_textBox";
             this._nameBox.TextBox.Size = new System.Drawing.Size(200, 22);
             this._nameBox.TextBox.TabIndex = 1;
@@ -103,7 +104,7 @@
             this._crlfBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this._crlfBox.Location = new System.Drawing.Point(12, 129);
             this._crlfBox.Name = "_crlfBox";
-            this._crlfBox.Size = new System.Drawing.Size(200, 24);
+            this._crlfBox.Size = new System.Drawing.Size(80, 24);
             this._crlfBox.TabIndex = 3;
             this._crlfBox.Text = "CRLF";
             this._crlfBox.UseVisualStyleBackColor = true;
@@ -170,11 +171,22 @@
             this._timer.Enabled = true;
             this._timer.Tick += new System.EventHandler(this._timer_Tick);
             // 
+            // _englishCheckBox
+            // 
+            this._englishCheckBox.AutoSize = true;
+            this._englishCheckBox.Location = new System.Drawing.Point(85, 129);
+            this._englishCheckBox.Name = "_englishCheckBox";
+            this._englishCheckBox.Size = new System.Drawing.Size(76, 21);
+            this._englishCheckBox.TabIndex = 8;
+            this._englishCheckBox.Text = "English";
+            this._englishCheckBox.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(534, 232);
+            this.Controls.Add(this._englishCheckBox);
             this.Controls.Add(this._stopButton);
             this.Controls.Add(this._startButton);
             this.Controls.Add(this._closeButton);
@@ -193,6 +205,7 @@
             this.Text = "Magna RFID reader";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -209,6 +222,7 @@
         private System.Windows.Forms.Button _startButton;
         private System.Windows.Forms.Button _stopButton;
         private System.Windows.Forms.Timer _timer;
+        private System.Windows.Forms.CheckBox _englishCheckBox;
     }
 }
 
