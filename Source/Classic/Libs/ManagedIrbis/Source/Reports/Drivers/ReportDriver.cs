@@ -41,6 +41,14 @@ namespace ManagedIrbis.Reports
     {
         #region Properties
 
+        /// <summary>
+        /// Driver capabilities.
+        /// </summary>
+        public virtual DriverCapability Capabilities
+        {
+            get { return DriverCapability.None; }
+        }
+
         #endregion
 
         #region Construction

@@ -506,6 +506,7 @@
     <Compile Include="Source\Reports\Cells\TotalFunction.cs" />
     <Compile Include="Source\Reports\Drivers\CsvDriver.cs" />
     <Compile Include="Source\Reports\Drivers\DatasetDriver.cs" />
+    <Compile Include="Source\Reports\Drivers\DriverCapability.cs" />
     <Compile Include="Source\Reports\Drivers\HtmlDriver.cs" />
     <Compile Include="Source\Reports\Drivers\LatexDriver.cs" />
     <Compile Include="Source\Reports\Drivers\LoggingDriver.cs" />
