@@ -102,6 +102,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AM\AOT\Stemming\EnglishStemmerTest.cs" />
+    <Compile Include="AM\AOT\Stemming\GermanStemmerTest.cs" />
     <Compile Include="AM\AOT\Stemming\RussianStemmerTest.cs" />
     <Compile Include="AM\Caching\MemoryCacheTest.cs" />
     <Compile Include="AM\Caching\FileCacheTest.cs" />

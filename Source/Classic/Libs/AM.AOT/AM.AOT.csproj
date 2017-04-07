@@ -137,6 +137,7 @@
     <Compile Include="AM\AOT\Spelling\AffixUtility.cs" />
     <Compile Include="AM\AOT\Stemming\Among.cs" />
     <Compile Include="AM\AOT\Stemming\EnglishStemmer.cs" />
+    <Compile Include="AM\AOT\Stemming\FrenchStemmer.cs" />
     <Compile Include="AM\AOT\Stemming\GermanStemmer.cs" />
     <Compile Include="AM\AOT\Stemming\IStemmer.cs" />
     <Compile Include="AM\AOT\Stemming\MystemAnalysis.cs" />
