@@ -101,6 +101,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AM\AOT\Stemming\EnglishStemmerTest.cs" />
+    <Compile Include="AM\AOT\Stemming\RussianStemmerTest.cs" />
     <Compile Include="AM\Caching\MemoryCacheTest.cs" />
     <Compile Include="AM\Caching\FileCacheTest.cs" />
     <Compile Include="AM\CancelableEventArgsTest.cs" />
@@ -305,6 +307,10 @@
     <Compile Include="System\IO\Compression\DeflateStreamTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Classic\Libs\AM.AOT\AM.AOT.csproj">
+      <Project>{0f99a08e-e08f-4ffe-884b-c27ad252e1d5}</Project>
+      <Name>AM.AOT</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Classic\Libs\AM.Core\AM.Core.csproj">
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
       <Name>AM.Core</Name>
