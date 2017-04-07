@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AD558089-E19A-4E75-92B5-6A0CC8B49480}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AM.AOT</RootNamespace>
+    <AssemblyName>AM.AOT</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
+    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ANDROID</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\AM.AOT.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;ANDROID</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\AM.AOT.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JetBrains.Annotations.NetStandard, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.2.1\lib\netstandard1.0\JetBrains.Annotations.NetStandard.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Android" />
+    <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MoonSharp.2.0.0.0\lib\netstandard1.6\MoonSharp.Interpreter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Distributional\ModelName.cs">
+      <Link>AM\AOT\Distributional\ModelName.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Distributional\RusVectoresClient.cs">
+      <Link>AM\AOT\Distributional\RusVectoresClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Distributional\WordInfo.cs">
+      <Link>AM\AOT\Distributional\WordInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Spelling\AffixEntry.cs">
+      <Link>AM\AOT\Spelling\AffixEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Spelling\AffixRule.cs">
+      <Link>AM\AOT\Spelling\AffixRule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Spelling\AffixUtility.cs">
+      <Link>AM\AOT\Spelling\AffixUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\Among.cs">
+      <Link>AM\AOT\Stemming\Among.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\EnglishStemmer.cs">
+      <Link>AM\AOT\Stemming\EnglishStemmer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\FrenchStemmer.cs">
+      <Link>AM\AOT\Stemming\FrenchStemmer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\GermanStemmer.cs">
+      <Link>AM\AOT\Stemming\GermanStemmer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\IStemmer.cs">
+      <Link>AM\AOT\Stemming\IStemmer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\ItalianStemmer.cs">
+      <Link>AM\AOT\Stemming\ItalianStemmer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\MystemAnalysis.cs">
+      <Link>AM\AOT\Stemming\MystemAnalysis.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\MystemResult.cs">
+      <Link>AM\AOT\Stemming\MystemResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\MystemRunner.cs">
+      <Link>AM\AOT\Stemming\MystemRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\PortugalStemmer.cs">
+      <Link>AM\AOT\Stemming\PortugalStemmer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\RussianStemmer.cs">
+      <Link>AM\AOT\Stemming\RussianStemmer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\SpanishStemmer.cs">
+      <Link>AM\AOT\Stemming\SpanishStemmer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\StemmerOperations.cs">
+      <Link>AM\AOT\Stemming\StemmerOperations.cs</Link>
+    </Compile>
+    <Compile Include="Resources\Resource.Designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Resources\AboutResources.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\Values\Strings.xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\AM.Core\AM.Core.csproj">
+      <Project>{2da9f212-8619-422f-94e0-b58b938c88f9}</Project>
+      <Name>AM.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

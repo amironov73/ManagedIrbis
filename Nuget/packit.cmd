@@ -15,7 +15,7 @@ CALL :BUILD AM.Windows.Forms   no   no no    no  no
 CALL :BUILD AM.Win32           no   no no    no  no
 CALL :BUILD IrbisUI            no   no no    no  no
 CALL :BUILD AM.Suggestions     no   no no    no  no
-CALL :BUILD AM.AOT             no   no no    no  no
+CALL :BUILD AM.AOT             core no droid no  no
 CALL :BUILD AM.Ocr             no   no no    no  no
 CALL :BUILD RestfulIrbis       core no droid uap no
 

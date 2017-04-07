@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("ManagedIrbis.Resource", IsApplication=false)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("AM.AOT.Resource", IsApplication=false)]
 
-namespace ManagedIrbis
+namespace AM.AOT
 {
 	
 	
