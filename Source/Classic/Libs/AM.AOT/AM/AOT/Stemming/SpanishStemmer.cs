@@ -30,11 +30,12 @@ namespace AM.AOT.Stemming
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class SpanishStemmer
+    public sealed class SpanishStemmer
         : StemmerOperations,
         IStemmer
     {
-        private static readonly SpanishStemmer methodObject = new SpanishStemmer();
+        private static readonly SpanishStemmer methodObject
+            = new SpanishStemmer();
 
 
         private static readonly Among[] a_0 =
@@ -1362,7 +1363,11 @@ namespace AM.AOT.Stemming
             return true;
         }
 
-        public string Stem(string s)
+        /// <inheritdoc cref="IStemmer.Stem"/>
+        public string Stem
+            (
+                string s
+            )
         {
             SetCurrent(s.ToLowerInvariant());
             CanStem();

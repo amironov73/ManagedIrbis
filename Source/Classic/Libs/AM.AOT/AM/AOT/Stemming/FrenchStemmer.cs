@@ -30,7 +30,7 @@ namespace AM.AOT.Stemming
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class FrenchStemmer
+    public sealed class FrenchStemmer
         : StemmerOperations,
         IStemmer
     {

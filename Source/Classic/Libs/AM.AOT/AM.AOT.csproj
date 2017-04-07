@@ -140,6 +140,7 @@
     <Compile Include="AM\AOT\Stemming\FrenchStemmer.cs" />
     <Compile Include="AM\AOT\Stemming\GermanStemmer.cs" />
     <Compile Include="AM\AOT\Stemming\IStemmer.cs" />
+    <Compile Include="AM\AOT\Stemming\ItalianStemmer.cs" />
     <Compile Include="AM\AOT\Stemming\MystemAnalysis.cs" />
     <Compile Include="AM\AOT\Stemming\MystemResult.cs" />
     <Compile Include="AM\AOT\Stemming\MystemRunner.cs" />

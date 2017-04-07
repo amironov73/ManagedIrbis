@@ -30,7 +30,9 @@ namespace AM.AOT.Stemming
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class EnglishStemmer : StemmerOperations, IStemmer
+    public sealed class EnglishStemmer 
+        : StemmerOperations,
+        IStemmer
     {
         private readonly static Among[] a_0 =
         {
