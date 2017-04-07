@@ -15,7 +15,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AM.Core\AM.Core.csproj" />
+    <PackageReference Include="System.ComponentModel.Primitives" Version="4.3.0" />
     <ProjectReference Include="..\ManagedIrbis\ManagedIrbis.csproj" />
+    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
     <PackageReference Include="JetBrains.Annotations" Version="10.2.1" />
     <PackageReference Include="MoonSharp" Version="2.0.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />

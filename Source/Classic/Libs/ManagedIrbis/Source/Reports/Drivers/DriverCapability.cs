@@ -70,8 +70,13 @@ namespace ManagedIrbis.Reports
         Section = 0x0080,
 
         /// <summary>
+        /// Cell borders.
+        /// </summary>
+        CellBorders = 0x0100,
+
+        /// <summary>
         /// Cell span.
         /// </summary>
-        CellSpan = 0x0100
+        CellSpan = 0x0200
     }
 }

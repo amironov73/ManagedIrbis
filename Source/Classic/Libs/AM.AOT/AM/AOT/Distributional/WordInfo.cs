@@ -20,6 +20,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
 using Newtonsoft.Json.Linq;
 
 #endregion
@@ -77,7 +78,7 @@ namespace AM.AOT.Distributional
             string[] parts = text.Split('_');
             if (parts.Length != 2)
             {
-                throw new ApplicationException();
+                throw new Exception();
             }
             WordInfo result = new WordInfo
             {

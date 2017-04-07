@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETCORE;</DefineConstants>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
@@ -15,9 +15,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AM.Core\AM.Core.csproj" />
+    <PackageReference Include="System.ComponentModel.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
     <PackageReference Include="JetBrains.Annotations" Version="10.2.1" />
     <PackageReference Include="MoonSharp" Version="2.0.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="RestSharp.NetCore" Version="105.2.3" />
     <Compile Include="../../Classic/Libs/ManagedIrbis/**/*.cs" />
   </ItemGroup>
 

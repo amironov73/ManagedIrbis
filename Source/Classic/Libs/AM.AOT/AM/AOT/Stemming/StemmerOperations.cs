@@ -34,12 +34,12 @@ namespace AM.AOT.Stemming
     {
 
         //    // current string
-        protected StringBuilder current;
-        protected int cursor;
-        protected int limit;
-        protected int limit_backward;
-        protected int bra;
-        protected int ket;
+        internal StringBuilder current;
+        internal int cursor;
+        internal int limit;
+        internal int limit_backward;
+        internal int bra;
+        internal int ket;
 
 
 
@@ -232,6 +232,9 @@ namespace AM.AOT.Stemming
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected bool eq_s(int s_size, string s)
         {
             if (limit - cursor < s_size) return false;
@@ -245,6 +248,9 @@ namespace AM.AOT.Stemming
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected bool eq_s_b(int s_size, string s)
         {
             if (cursor - limit_backward < s_size) return false;
@@ -258,17 +264,26 @@ namespace AM.AOT.Stemming
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected bool eq_v(StringBuilder s)
         {
             return eq_s(s.Length, s.ToString());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected bool eq_v_b(StringBuilder s)
         {
             return eq_s_b(s.Length, s.ToString());
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
         internal int find_among(Among[] v, int v_size)
         {
             int i = 0;
@@ -525,6 +540,9 @@ namespace AM.AOT.Stemming
             SliceFrom(s.ToString());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected void slice_del()
         {
             SliceFrom("");

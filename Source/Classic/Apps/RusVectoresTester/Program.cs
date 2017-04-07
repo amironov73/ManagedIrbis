@@ -12,6 +12,8 @@ namespace RusVectoresTester
     {
         static void Main(string[] args)
         {
+#if CLASSIC
+
             if (args.Length == 0)
             {
                 Console.WriteLine("RusVectoresTester word");
@@ -43,6 +45,8 @@ namespace RusVectoresTester
             {
                 Console.WriteLine(exception);
             }
+
+#endif
         }
     }
 }

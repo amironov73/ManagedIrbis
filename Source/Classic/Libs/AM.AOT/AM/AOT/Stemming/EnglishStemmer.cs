@@ -1325,7 +1325,7 @@ namespace AM.AOT.Stemming
         }
 
 
-        public bool CanStem()
+        private bool CanStem()
         {
             bool returnn = true;
             bool subroot = false;

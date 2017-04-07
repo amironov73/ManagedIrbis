@@ -4,6 +4,8 @@
  * Status: poor
  */
 
+#if CLASSIC
+
 #region Using directives
 
 using System;
@@ -119,3 +121,5 @@ namespace AM.AOT.Stemming
         }
     }
 }
+
+#endif
