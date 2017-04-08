@@ -491,12 +491,14 @@
     <Compile Include="Source\Reports\Bands\FilterBand.cs" />
     <Compile Include="Source\Reports\Bands\FreeBand.cs" />
     <Compile Include="Source\Reports\Bands\GroupBand.cs" />
+    <Compile Include="Source\Reports\Bands\HeaderBand.cs" />
     <Compile Include="Source\Reports\Bands\SortBand.cs" />
     <Compile Include="Source\Reports\Bands\TableBand.cs" />
     <Compile Include="Source\Reports\Bands\TotalBand.cs" />
     <Compile Include="Source\Reports\Cells\CellCollection.cs" />
     <Compile Include="Source\Reports\Bands\SectionBand.cs" />
     <Compile Include="Source\Reports\Cells\DynamicCell.cs" />
+    <Compile Include="Source\Reports\Cells\HeaderCell.cs" />
     <Compile Include="Source\Reports\Cells\IndexCell.cs" />
     <Compile Include="Source\Reports\Cells\PftCell.cs" />
     <Compile Include="Source\Reports\Cells\RawPftCell.cs" />
