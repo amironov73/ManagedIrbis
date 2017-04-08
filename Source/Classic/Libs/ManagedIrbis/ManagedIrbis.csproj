@@ -107,9 +107,12 @@
     <Compile Include="Source\Batch\BatchRecordFormatter.cs" />
     <Compile Include="Source\Batch\BatchRecordReader.cs" />
     <Compile Include="Source\Batch\BatchRecordWriter.cs" />
-    <Compile Include="Source\Biblio\BiblioChapter.cs" />
+    <Compile Include="Source\Biblio\Cells\BiblioCell.cs" />
+    <Compile Include="Source\Biblio\Cells\CellCollection.cs" />
+    <Compile Include="Source\Biblio\Chapters\BiblioChapter.cs" />
     <Compile Include="Source\Biblio\BiblioDocument.cs" />
     <Compile Include="Source\Biblio\BiblioProcessor.cs" />
+    <Compile Include="Source\Biblio\Chapters\ChapterCollection.cs" />
     <Compile Include="Source\BibTex\BibTex.cs" />
     <Compile Include="Source\Caching\IrbisCache.cs" />
     <Compile Include="Source\Caching\MenuCache.cs" />
@@ -723,6 +726,7 @@
   <ItemGroup>
     <None Include="ArsMagna.private.snk" />
     <None Include="packages.config" />
+    <None Include="Source\Biblio\Docs\Библиографические списки в ManagedIrbis.docx" />
     <None Include="Source\Gbl\GBL protocol.docx" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.Parallel.cs" />
     <None Include="Source\Reports\Docs\ReportBands.cd" />
