@@ -10,9 +10,13 @@ SET NUGET=..\..\Nuget\nuget.exe
 %NUGET% restore
 
 "%MSBUILD%" AM.Core\AM.Core.csproj           /target:ReBuild /property:Configuration=Debug   /property:OutputPath=%OUTPUT%\DebugPortable   /p:DefineConstants="DEBUG;PORTABLE" %PARAMS%
+"%MSBUILD%" AM.AOT\AM.AOT.csproj             /target:ReBuild /property:Configuration=Debug   /property:OutputPath=%OUTPUT%\DebugPortable   /p:DefineConstants="DEBUG;PORTABLE" %PARAMS%
 "%MSBUILD%" ManagedIrbis\ManagedIrbis.csproj /target:ReBuild /property:Configuration=Debug   /property:OutputPath=%OUTPUT%\DebugPortable   /p:DefineConstants="DEBUG;PORTABLE" %PARAMS%
+"%MSBUILD%" RestfulIrbis\RestfulIrbis.csproj /target:ReBuild /property:Configuration=Debug   /property:OutputPath=%OUTPUT%\DebugPortable   /p:DefineConstants="DEBUG;PORTABLE" %PARAMS%
 
 "%MSBUILD%" AM.Core\AM.Core.csproj           /target:ReBuild /property:Configuration=Release /property:OutputPath=%OUTPUT%\ReleasePortable /p:DefineConstants="PORTABLE"     %PARAMS%
+"%MSBUILD%" AM.AOT\AM.AOT.csproj             /target:ReBuild /property:Configuration=Release /property:OutputPath=%OUTPUT%\ReleasePortable /p:DefineConstants="PORTABLE"     %PARAMS%
 "%MSBUILD%" ManagedIrbis\ManagedIrbis.csproj /target:ReBuild /property:Configuration=Release /property:OutputPath=%OUTPUT%\ReleasePortable /p:DefineConstants="PORTABLE"     %PARAMS%
+"%MSBUILD%" RestfulIrbis\RestfulIrbis.csproj /target:ReBuild /property:Configuration=Release /property:OutputPath=%OUTPUT%\ReleasePortable /p:DefineConstants="PORTABLE"     %PARAMS%
 
 cd ..\..

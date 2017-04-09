@@ -25,6 +25,7 @@
 [Dd]ebugPublic/
 [Dd]ebugSL50/
 [Dd]ebugDroid/
+[Dd]ebugPortable/
 [Dd]ebugUniversal/
 [Dd]ebugWindows81/
 [Rr]elease/
@@ -37,6 +38,7 @@
 [Rr]eleaseCore/
 [Rr]eleaseSL50/
 [Rr]eleaseDroid/
+[Rr]eleasePortable/
 [Rr]eleaseUniversal/
 [Rr]eleaseWindows81/
 [Rr]eleases/
