@@ -48,7 +48,7 @@ namespace ManagedIrbis.Biblio
         /// </summary>
         [NotNull]
         [JsonProperty("chapters")]
-        public NonNullCollection<BiblioChapter> Chapters { get; private set; }
+        public ChapterCollection Chapters { get; private set; }
 
         #endregion
 
@@ -59,7 +59,7 @@ namespace ManagedIrbis.Biblio
         /// </summary>
         public BiblioDocument()
         {
-            Chapters = new NonNullCollection<BiblioChapter>();
+            Chapters = new ChapterCollection(this, null);
         }
 
         #endregion

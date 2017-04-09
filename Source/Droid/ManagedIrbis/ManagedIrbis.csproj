@@ -69,14 +69,23 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Batch\BatchRecordWriter.cs">
       <Link>Source\Batch\BatchRecordWriter.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioChapter.cs">
-      <Link>Source\Biblio\BiblioChapter.cs</Link>
-    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioDocument.cs">
       <Link>Source\Biblio\BiblioDocument.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioProcessor.cs">
       <Link>Source\Biblio\BiblioProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Cells\BiblioCell.cs">
+      <Link>Source\Biblio\Cells\BiblioCell.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Cells\CellCollection.cs">
+      <Link>Source\Biblio\Cells\CellCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\BiblioChapter.cs">
+      <Link>Source\Biblio\Chapters\BiblioChapter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterCollection.cs">
+      <Link>Source\Biblio\Chapters\ChapterCollection.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Caching\IrbisCache.cs">
       <Link>Source\Caching\IrbisCache.cs</Link>
