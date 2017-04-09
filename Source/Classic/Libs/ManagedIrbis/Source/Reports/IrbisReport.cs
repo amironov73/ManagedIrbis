@@ -9,7 +9,11 @@
 
 #region Using directives
 
+#if ANDROID
+
 extern alias json;
+
+#endif
 
 using System;
 using System.Collections.Generic;
@@ -201,9 +205,13 @@ namespace ManagedIrbis.Reports
             JsonSerializerSettings settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects,
+#if ANDROID
                 TypeNameAssemblyFormat = json::System.Runtime
                     .Serialization.Formatters
                     .FormatterAssemblyStyle.Simple
+#else
+                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+#endif            
             };
             IrbisReport result
                 = JsonConvert.DeserializeObject<IrbisReport>
@@ -250,9 +258,13 @@ namespace ManagedIrbis.Reports
             JsonSerializer serializer = new JsonSerializer
             {
                 TypeNameHandling = TypeNameHandling.Objects,
+#if ANDROID
                 TypeNameAssemblyFormat = json::System.Runtime
                     .Serialization.Formatters
                     .FormatterAssemblyStyle.Simple
+#else
+                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+#endif            
             };
             IrbisReport result = obj.ToObject<IrbisReport>
                 (
@@ -277,9 +289,13 @@ namespace ManagedIrbis.Reports
                 NullValueHandling = NullValueHandling.Ignore,
                 DefaultValueHandling = DefaultValueHandling.Ignore,
                 TypeNameHandling = TypeNameHandling.Objects,
+#if ANDROID
                 TypeNameAssemblyFormat = json::System.Runtime
                     .Serialization.Formatters
                     .FormatterAssemblyStyle.Simple
+#else
+                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+#endif            
             };
             string contents = JsonConvert.SerializeObject
                 (
@@ -310,9 +326,13 @@ namespace ManagedIrbis.Reports
                 NullValueHandling = NullValueHandling.Ignore,
                 DefaultValueHandling = DefaultValueHandling.Ignore,
                 TypeNameHandling = TypeNameHandling.Objects,
+#if ANDROID
                 TypeNameAssemblyFormat = json::System.Runtime
                     .Serialization.Formatters
                     .FormatterAssemblyStyle.Simple
+#else
+                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+#endif            
             };
             JObject obj = JObject.FromObject
                 (
@@ -373,9 +393,9 @@ namespace ManagedIrbis.Reports
                 );
         }
 
-        #endregion
+#endregion
 
-        #region IVerifiable members
+#region IVerifiable members
 
         /// <inheritdoc cref="IVerifiable.Verify"/>
         public bool Verify
@@ -446,9 +466,9 @@ namespace ManagedIrbis.Reports
             return verifier.Result;
         }
 
-        #endregion
+#endregion
 
-        #region IDisposable members
+#region IDisposable members
 
         /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
@@ -464,10 +484,10 @@ namespace ManagedIrbis.Reports
             Body.Dispose();
         }
 
-        #endregion
+#endregion
 
-        #region Object members
+#region Object members
 
-        #endregion
+#endregion
     }
 }
