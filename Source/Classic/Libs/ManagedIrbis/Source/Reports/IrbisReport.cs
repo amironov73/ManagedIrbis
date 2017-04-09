@@ -186,6 +186,8 @@ namespace ManagedIrbis.Reports
             driver.EndDocument(context, this);
         }
 
+#if !PORTABLE
+
         /// <summary>
         /// Load report from the JSON file.
         /// </summary>
@@ -393,9 +395,11 @@ namespace ManagedIrbis.Reports
                 );
         }
 
-#endregion
+#endif
 
-#region IVerifiable members
+        #endregion
+
+        #region IVerifiable members
 
         /// <inheritdoc cref="IVerifiable.Verify"/>
         public bool Verify
@@ -466,9 +470,9 @@ namespace ManagedIrbis.Reports
             return verifier.Result;
         }
 
-#endregion
+        #endregion
 
-#region IDisposable members
+        #region IDisposable members
 
         /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
@@ -484,10 +488,10 @@ namespace ManagedIrbis.Reports
             Body.Dispose();
         }
 
-#endregion
+        #endregion
 
-#region Object members
+        #region Object members
 
-#endregion
+        #endregion
     }
 }
