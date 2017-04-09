@@ -33,6 +33,9 @@ using System.Runtime.InteropServices;
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
+// The following GUID is for the ID of the typelib if this project is exposed to COM
+[assembly: Guid("f9562edd-2489-486e-8992-c0bdfc26fa61")]
+
 // Version information for an assembly consists of the following four values:
 //
 //      Major Version
@@ -43,7 +46,7 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.6.6.1300")]
-[assembly: AssemblyFileVersion("1.6.6.1300")]
+[assembly: AssemblyVersion("1.6.7.1400")]
+[assembly: AssemblyFileVersion("1.6.7.1400")]
 
 [assembly: CLSCompliant(true)]

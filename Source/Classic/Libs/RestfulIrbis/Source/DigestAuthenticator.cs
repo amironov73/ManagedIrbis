@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if !PORTABLE
+
 #region Using directives
 
 using System.Net;
@@ -94,3 +96,5 @@ namespace RestfulIrbis
         #endregion
     }
 }
+
+#endif

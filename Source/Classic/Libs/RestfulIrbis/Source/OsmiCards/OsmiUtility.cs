@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if !PORTABLE
+
 #region Using directives
 
 using System;
@@ -149,3 +151,5 @@ namespace RestfulIrbis.OsmiCards
         #endregion
     }
 }
+
+#endif
