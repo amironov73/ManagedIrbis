@@ -9,6 +9,8 @@
 
 #region Using directives
 
+extern alias json;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -199,7 +201,9 @@ namespace ManagedIrbis.Reports
             JsonSerializerSettings settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects,
-                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+                TypeNameAssemblyFormat = json::System.Runtime
+                    .Serialization.Formatters
+                    .FormatterAssemblyStyle.Simple
             };
             IrbisReport result
                 = JsonConvert.DeserializeObject<IrbisReport>
@@ -246,7 +250,9 @@ namespace ManagedIrbis.Reports
             JsonSerializer serializer = new JsonSerializer
             {
                 TypeNameHandling = TypeNameHandling.Objects,
-                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+                TypeNameAssemblyFormat = json::System.Runtime
+                    .Serialization.Formatters
+                    .FormatterAssemblyStyle.Simple
             };
             IrbisReport result = obj.ToObject<IrbisReport>
                 (
@@ -271,7 +277,9 @@ namespace ManagedIrbis.Reports
                 NullValueHandling = NullValueHandling.Ignore,
                 DefaultValueHandling = DefaultValueHandling.Ignore,
                 TypeNameHandling = TypeNameHandling.Objects,
-                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+                TypeNameAssemblyFormat = json::System.Runtime
+                    .Serialization.Formatters
+                    .FormatterAssemblyStyle.Simple
             };
             string contents = JsonConvert.SerializeObject
                 (
@@ -302,7 +310,9 @@ namespace ManagedIrbis.Reports
                 NullValueHandling = NullValueHandling.Ignore,
                 DefaultValueHandling = DefaultValueHandling.Ignore,
                 TypeNameHandling = TypeNameHandling.Objects,
-                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+                TypeNameAssemblyFormat = json::System.Runtime
+                    .Serialization.Formatters
+                    .FormatterAssemblyStyle.Simple
             };
             JObject obj = JObject.FromObject
                 (

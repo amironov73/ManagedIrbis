@@ -19,7 +19,6 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
-using AM.ConsoleIO;
 using AM.IO;
 using AM.Runtime;
 using AM.Text.Output;
@@ -287,3 +286,4 @@ namespace ManagedIrbis.Reports
         #endregion
     }
 }
+

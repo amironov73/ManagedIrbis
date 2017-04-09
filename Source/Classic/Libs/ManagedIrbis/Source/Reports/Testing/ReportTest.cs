@@ -249,3 +249,4 @@ namespace ManagedIrbis.Reports
         #endregion
     }
 }
+
