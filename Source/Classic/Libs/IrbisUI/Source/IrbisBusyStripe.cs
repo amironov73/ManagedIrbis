@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ThreadUtility.cs --
+/* IrbisBusyStripe.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -11,24 +11,34 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+
+using AM;
+using AM.Windows.Forms;
+
+using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis;
 
 using MoonSharp.Interpreter;
 
 #endregion
 
-namespace AM.Threading
+namespace IrbisUI
 {
     /// <summary>
     /// 
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public static class ThreadUtility
+    public class IrbisBusyStripe
+        : BusyStripe
     {
         #region Properties
 
@@ -44,60 +54,28 @@ namespace AM.Threading
 
         #region Public methods
 
-#if CLASSIC
-
-#if FW45
-
         /// <summary>
-        /// Sleep for specified milliseconds.
+        /// Subscribe to the connection busy state.
         /// </summary>
-        public static async void Sleep
+        public void SubscribeTo
             (
-                int milliseconds
+                [NotNull] IrbisConnection connection
             )
         {
-            // Let other tasks use this thread.
-
-            if (milliseconds > 0)
-            {
-                await Task.Delay(milliseconds);
-            }
+            Code.NotNull(connection, "connection");
         }
-
-#else
 
         /// <summary>
-        /// Sleep for specified milliseconds.
+        /// Unsubscribe from the connection
+        /// busy state.
         /// </summary>
-        public static void Sleep
+        public void UnsubscribeFrom
             (
-                int milliseconds
+                [NotNull] IrbisConnection connection
             )
         {
-            Thread.Sleep (milliseconds);
+            Code.NotNull(connection, "connection");
         }
-
-#endif
-
-#else
-
-        /// <summary>
-        /// Sleep for specified milliseconds.
-        /// </summary>
-        public static async void Sleep
-            (
-                int milliseconds
-            )
-        {
-            // Let other tasks use this thread.
-
-            if (milliseconds > 0)
-            {
-                await Task.Delay(milliseconds);
-            }
-        }
-
-#endif
 
         #endregion
     }
