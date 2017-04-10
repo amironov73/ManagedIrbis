@@ -569,6 +569,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\StateHolder.cs">
       <Link>AM\Threading\StateHolder.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\ThreadUtility.cs">
+      <Link>AM\Threading\ThreadUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\TimeSpanUtility.cs">
       <Link>AM\TimeSpanUtility.cs</Link>
     </Compile>

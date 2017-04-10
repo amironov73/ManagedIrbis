@@ -1,0 +1,65 @@
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* ThreadUtility.cs --
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
+ */
+
+#region Using directives
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
+#endregion
+
+namespace AM.Threading
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
+    public static class ThreadUtility
+    {
+        #region Properties
+
+        #endregion
+
+        #region Construction
+
+        #endregion
+
+        #region Private members
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Sleep for specified milliseconds.
+        /// </summary>
+        public static async void Sleep
+            (
+                int milliseconds
+            )
+        {
+            // Let other tasks use this thread.
+
+            if (milliseconds > 0)
+            {
+                await Task.Delay(milliseconds);
+            }
+        }
+
+        #endregion
+    }
+}

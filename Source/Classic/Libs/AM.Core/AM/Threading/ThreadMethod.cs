@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if CLASSIC
+
 namespace AM.Threading
 {
     /// <summary>
@@ -14,3 +16,5 @@ namespace AM.Threading
     /// </summary>
     public delegate void ThreadMethod(object[] parameters);
 }
+
+#endif

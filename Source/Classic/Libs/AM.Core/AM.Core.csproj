@@ -268,6 +268,7 @@
     <Compile Include="AM\Threading\Tasks\Throttle.cs" />
     <Compile Include="AM\Threading\ThreadMethod.cs" />
     <Compile Include="AM\Threading\ThreadRunner.cs" />
+    <Compile Include="AM\Threading\ThreadUtility.cs" />
     <Compile Include="AM\TimeSpanUtility.cs" />
     <Compile Include="AM\TriState.cs" />
     <Compile Include="Compatibility\TypeInfo.cs" />
