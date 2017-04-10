@@ -25,7 +25,7 @@
       <dependency id="JetBrains.Annotations" version="10.2.1" />
       <dependency id="MoonSharp" version="2.0.0.0" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
-      <dependency id="ArsMagna.Core" version="1.6.6" />
+      <dependency id="ArsMagna.Core" version="1.6.7" />
       <dependency id="PCSC" version="3.5.1.0" />
     </dependencies>
     <references></references>
