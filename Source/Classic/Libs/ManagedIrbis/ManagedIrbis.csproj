@@ -179,6 +179,7 @@
     <Compile Include="Source\Infrastructure\ExecutionContext.cs" />
     <Compile Include="Source\Infrastructure\ExecutionEventArgs.cs" />
     <Compile Include="Source\Infrastructure\SharpRunner.cs" />
+    <Compile Include="Source\Infrastructure\Sockets\BrokenSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\SlowSocket.cs" />
     <Compile Include="Source\Infrastructure\StandardEngine.cs" />
     <Compile Include="Source\Fields\BinaryResource.cs" />

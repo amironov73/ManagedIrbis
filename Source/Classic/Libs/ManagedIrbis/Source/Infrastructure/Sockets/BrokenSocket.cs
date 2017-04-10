@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SlowSocket.cs --
+/* BrokenSocket.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 using CodeJam;
@@ -31,31 +30,31 @@ namespace ManagedIrbis.Infrastructure.Sockets
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class SlowSocket
+    public sealed class BrokenSocket
         : AbstractClientSocket
     {
         #region Constants
 
         /// <summary>
-        /// Default value for <see cref="Delay"/>.
+        /// Default value for
         /// </summary>
-        public const int DefaultDelay = 300;
+        public const double DefaultProbability = 0.07;
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Delay, milliseconds.
-        /// </summary>
-        public int Delay { get; set; }
-
-        /// <summary>
         /// Inner socket.
         /// </summary>
         [NotNull]
         public AbstractClientSocket InnerSocket
-            { get; private set; }
+        { get; private set; }
+
+        /// <summary>
+        /// Probability of error event.
+        /// </summary>
+        public double Probability { get; set; }
 
         #endregion
 
@@ -64,7 +63,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SlowSocket
+        public BrokenSocket
             (
                 [NotNull] IrbisConnection connection,
                 [NotNull] AbstractClientSocket innerSocket
@@ -74,13 +73,17 @@ namespace ManagedIrbis.Infrastructure.Sockets
             Code.NotNull(connection, "connection");
             Code.NotNull(innerSocket, "innerSocket");
 
-            Delay = DefaultDelay;
+            Probability = DefaultProbability;
             InnerSocket = innerSocket;
+
+            _random = new Random();
         }
 
         #endregion
 
         #region Private members
+
+        private readonly Random _random;
 
         #endregion
 
@@ -104,10 +107,18 @@ namespace ManagedIrbis.Infrastructure.Sockets
         {
             Code.NotNull(request, "request");
 
-            int delay = Delay;
-            if (delay > 0)
+            double probability = Probability;
+            if (probability > 0.0
+                && probability < 1.0)
             {
-                Thread.Sleep(delay);
+                double value = _random.NextDouble();
+                if (value < probability)
+                {
+                    throw new IrbisNetworkException
+                        (
+                            "Broken network event"
+                        );
+                }
             }
 
             byte[] result = InnerSocket.ExecuteRequest(request);
