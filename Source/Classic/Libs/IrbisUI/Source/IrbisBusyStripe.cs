@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using AM;
+using AM.Threading;
 using AM.Windows.Forms;
 
 using CodeJam;
@@ -50,6 +51,35 @@ namespace IrbisUI
 
         #region Private members
 
+        private void Busy_StateChanged
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            BusyState state = (BusyState)sender;
+
+            this.InvokeIfRequired
+                (
+                    () =>
+                    {
+                        Visible = state;
+                        Moving = state;
+                    }
+                );
+        }
+
+        private void Connection_Disposing
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            IrbisConnection connection = (IrbisConnection)sender;
+
+            UnsubscribeFrom(connection);
+        }
+
         #endregion
 
         #region Public methods
@@ -63,6 +93,9 @@ namespace IrbisUI
             )
         {
             Code.NotNull(connection, "connection");
+
+            connection.Busy.StateChanged += Busy_StateChanged;
+            connection.Disposing += Connection_Disposing;
         }
 
         /// <summary>
@@ -75,6 +108,9 @@ namespace IrbisUI
             )
         {
             Code.NotNull(connection, "connection");
+
+            connection.Busy.StateChanged -= Busy_StateChanged;
+            connection.Disposing -= Connection_Disposing;
         }
 
         #endregion

@@ -74,7 +74,7 @@ namespace AM.Threading
                 int milliseconds
             )
         {
-            Thread.Sleep (milliseconds);
+            System.Threading.Thread.Sleep (milliseconds);
         }
 
 #endif
