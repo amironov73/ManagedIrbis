@@ -22,6 +22,8 @@ uses
 // http://wiki.elnit.org/index.php/IRBIS64.dll
 //
 
+// ===========================================================================
+
 // функция инициализации Space вызывается первой!!!!!!
 function IrbisInit: integer; external 'IRBIS64.dll';
 
@@ -214,7 +216,322 @@ function IrbisIsActualized
     shelf: integer
   ): integer; external 'IRBIS64.dll';
 
+// ===========================================================================
 
+// функция инициализации Space вызывается первой!!!!!!
+function IrbisInit65: integer; stdcall;
+begin
+  Result := IrbisInit;
+end;
+
+// скрыто выполняет все закрытия файлов и освобождение памяти
+// irbisclosemst, irbiscloseterm
+function IrbisClose65
+  (
+    space: integer
+  ): integer; stdcall;
+begin
+  Result := IrbisClose(space);
+end;
+
+procedure IrbisDllVersion65
+  (
+    buffer: Pchar;
+    bufsize: integer
+  ); stdcall;
+begin
+  IrbisDLLVersion(buffer, bufsize);
+end;
+
+// создание 5 файлов новой БД
+function IrbisInitNewDB65
+  (
+    path: PChar
+  ):integer; stdcall;
+begin
+  Result := IrbisInitNewDB(path);
+end;
+
+function irbis_uatab_init65
+  (
+    uctab,
+    lctab,
+    actab,
+    aExecDir,
+    aDataPath: PChar
+  ): integer; stdcall;
+begin
+  Result := irbis_uatab_init(uctab, lctab, actab, aExecDir, aDataPath);
+end;
+
+function irbis_init_DepositPath65
+  (
+    path: PChar
+  ): integer; stdcall;
+begin
+  Result := irbis_init_DepositPath(path);
+end;
+
+function IrbisNewRec65
+  (
+    space,
+    shelf: integer
+  ): integer; stdcall;
+begin
+  Result := IrbisNewRec(space, shelf);
+end;
+
+function IrbisFldAdd65
+  (
+    space,
+    shelf,
+    met,
+    nf: integer;
+    pole: Pchar
+  ): integer; stdcall;
+begin
+  Result := IrbisFldAdd(space, shelf, met, nf, pole);
+end;
+
+function Irbis_InitPFT65
+  (
+    space: integer;
+    line: PChar
+  ): integer; stdcall;
+begin
+  Result := Irbis_InitPFT(space, line);
+end;
+
+function Irbis_Format65
+  (
+    space,
+    shelf,
+    alt_shelf,
+    trm_shelf,
+    LwLn: integer;
+    FmtExitDLL : PChar
+  ): integer; stdcall;
+begin
+  Result := Irbis_Format(space, shelf, alt_shelf, trm_shelf, LwLn, FmtExitDLL);
+end;
+
+// открывает мастер файл на чтение-запись
+// database - полный путь на мастер файл БЕЗ РАСШИРЕНИЯ!!!
+function IrbisInitMst65
+  (
+    space: integer;
+    database: Pchar;
+    numberShelfs: integer
+  ): integer; stdcall;
+begin
+  Result := IrbisInitMst(space, database, numberShelfs);
+end;
+
+// открывает инверсный файл на чтение-запись
+// database - полный путь на инверсный файл БЕЗ РАСШИРЕНИЯ!!!
+function IrbisInitTerm65
+  (
+    space: integer;
+    database: Pchar
+  ): integer; stdcall;
+begin
+  Result := IrbisInitTerm(space, database);
+end;
+
+function IrbisMaxMfn65
+  (
+    space: integer
+  ): integer; stdcall;
+begin
+  Result := IrbisMaxMfn(space);
+end;
+
+function IrbisCloseMst65
+  (
+    space: integer
+  ): integer; stdcall;
+begin
+  Result := IrbisCloseMst(space);
+end;
+
+function IrbisRecord65
+  (
+    space,
+    shelf,
+    mfn: integer
+  ): integer; stdcall;
+begin
+  Result := IrbisRecord(space, shelf, mfn);
+end;
+
+function IrbisMfn65
+  (
+    space,
+    shelf: integer
+  ): integer; stdcall;
+begin
+  Result := IrbisMfn(space, shelf);
+end;
+
+function IrbisNFields65
+  (
+    space,
+    shelf: integer
+  ): integer;  stdcall;
+begin
+  Result := IrbisNFields(space, shelf);
+end;
+
+// чтение копии с шагом назад step без блокировки
+function IrbisReadVersion65
+  (
+    space,
+    mfn: integer
+  ):integer; stdcall;
+begin
+  Result := IrbisReadVersion(space, mfn);
+end;
+
+// откат до старой копии step шагов
+function IrbisRecordBack65
+  (
+    space,
+    shelf,
+    mfn,
+    step:integer
+  ): integer; stdcall;
+begin
+  Result := IrbisRecordBack(space, shelf, mfn, step);
+end;
+
+function IrbisRecLock065
+  (
+    space,
+    shelf,
+    mfn: integer
+  ): integer; stdcall;
+begin
+  Result := IrbisRecLock0(space, shelf, mfn);
+end;
+
+function IrbisRecUnLock065
+  (
+    space,
+    mfn:integer
+  ): integer; stdcall;
+begin
+  Result := IrbisRecUnLock0(space, mfn);
+end;
+
+function IrbisRecUpdate065
+  (
+    space,
+    shelf,
+    keepLock:integer
+  ): integer; stdcall;
+begin
+  Result := IrbisRecUpdate0(space, shelf, keepLock);
+end;
+
+function IrbisRecIfUpdate065
+  (
+    space,
+    shelf,
+    mfn:integer
+  ): integer; stdcall;
+begin
+  Result := IrbisRecIfUpdate0(space, shelf, mfn);
+end;
+
+function IrbisIsDBLocked65
+  (
+    space: integer
+  ): integer; stdcall;
+begin
+  Result := IrbisIsDBLocked(space);
+end;
+
+// запись заблокирована? - без чтения!!!!!!!! только проверка флага в XRF
+function IrbisIsRealyLocked65
+  (
+    space,
+    mfn: integer
+  ): integer; stdcall;
+begin
+  Result := IrbisIsRealyLocked(space, mfn);
+end;
+
+function IrbisIsRealyActualized65
+  (
+    space,
+    mfn: integer
+  ): integer; stdcall;
+begin
+  Result := IrbisIsRealyActualized(space, mfn);
+end;
+
+function IrbisIsLocked65
+  (
+    space,
+    shelf: integer
+  ): integer; stdcall;
+begin
+  Result := IrbisIsLocked(space, shelf);
+end;
+
+function IrbisIsDeleted65
+  (
+    space,
+    shelf: integer
+  ): integer; stdcall;
+begin
+  Result := IrbisIsDeleted(space, shelf);
+end;
+
+function IrbisIsActualized65
+  (
+    space,
+    shelf: integer
+  ): integer; stdcall;
+begin
+  Result := IrbisIsActualized(space, shelf);
+end;
+
+// ===========================================================================
+
+exports
+
+IrbisInit65 name 'IrbisInit',
+IrbisClose65 name 'IrbisClose',
+IrbisDllVersion65 name 'IrbisDllVersion',
+IrbisInitNewDB65 name 'IrbisInitNewDb',
+irbis_uatab_init65 name 'IrbisUatabInit',
+irbis_init_DepositPath65 name 'IrbisInitDepositPath',
+IrbisNewRec65 name 'IrbisNewRec',
+IrbisFldAdd65 name 'IrbisFldAdd',
+Irbis_InitPFT65 name 'IrbisInitPft',
+Irbis_Format65 name 'IrbisFormat',
+IrbisInitMst65 name 'IrbisInitMst',
+IrbisInitTerm65 name 'IrbisInitTerm',
+IrbisMaxMfn65 name 'IrbisMaxMfn',
+IrbisCloseMst65 name 'IrbisCloseMfn',
+IrbisRecord65 name 'IrbisRecord',
+IrbisMfn65 name 'IrbisMfn',
+IrbisNFields65 name 'IrbisNFields',
+IrbisReadVersion65 name 'IrbisReadVersion',
+IrbisRecordBack65 name 'IrbisRecordBack',
+IrbisRecLock065 name 'IrbisRecLock0',
+IrbisRecUnLock065 name 'IrbisRecUnlock0',
+IrbisRecUpdate065 name 'IrbisRecUpdate0',
+IrbisRecIfUpdate065 name 'IrbisRecIfUpdate0',
+IrbisIsDBLocked65 name 'IrbisIsDBLocked',
+IrbisIsRealyLocked65 name 'IrbisIsReallyLocked',
+IrbisIsRealyActualized65 name 'IrbisIsReallyActualized',
+IrbisIsLocked65 name 'IrbisIsLocked',
+IrbisIsDeleted65 name 'IrbisIsDeleted',
+IrbisIsActualized65 name 'IrbisIsActualized';
+
+// ===========================================================================
 
 begin
 end.
