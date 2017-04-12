@@ -10,10 +10,10 @@ library Irbis65;
   with your DLL. To avoid using BORLNDMM.DLL, pass string information
   using PChar or ShortString parameters. }
 
-uses
+//uses
 //  ShareMem,
-  SysUtils,
-  Classes;
+//  SysUtils,
+//  Classes;
 
 {$R *.res}
 {$WARN UNSAFE_CODE OFF}
@@ -46,6 +46,7 @@ function IrbisInitNewDB
   (
     path: PChar
   ):integer; external 'IRBIS64.dll';
+}
 
 function irbis_uatab_init
   (
@@ -54,8 +55,8 @@ function irbis_uatab_init
     actab,
     aExecDir,
     aDataPath: PChar
-  ): integer; external 'IRBIS64.dll';
-
+  ): integer; external 'IRBIS64.dll' name 'irbis_uatab_init';
+{
 function irbis_init_DepositPath
   (
     path: PChar
@@ -75,12 +76,12 @@ function IrbisFldAdd
     nf: integer;
     pole: Pchar
   ): integer; external 'IRBIS64.dll';
-
-function Irbis_InitPFT
+}
+function IrbisInitPft
   (
     space: integer;
     line: PChar
-  ): integer; external 'IRBIS64.dll';
+  ): integer; external 'IRBIS64.dll' name 'Irbis_InitPFT';
 
 function Irbis_Format
   (
@@ -90,7 +91,7 @@ function Irbis_Format
     trm_shelf,
     LwLn: integer;
     FmtExitDLL : PChar
-  ): integer; external 'IRBIS64.dll';
+  ): integer; external 'IRBIS64.dll' name 'Irbis_Format';
 
 // открывает мастер файл на чтение-запись
 // database - полный путь на мастер файл Ѕ≈« –ј—Ў»–≈Ќ»я!!!
@@ -99,7 +100,7 @@ function IrbisInitMst
     space: integer;
     database: Pchar;
     numberShelfs: integer
-  ): integer; external 'IRBIS64.dll';
+  ): integer; external 'IRBIS64.dll' name 'Irbisinitmst';
 
 // открывает инверсный файл на чтение-запись
 // database - полный путь на инверсный файл Ѕ≈« –ј—Ў»–≈Ќ»я!!!
@@ -107,25 +108,25 @@ function IrbisInitTerm
   (
     space: integer;
     database: Pchar
-  ): integer;external 'IRBIS64.dll';
+  ): integer;external 'IRBIS64.dll' name 'Irbisinitterm';
 
 function IrbisMaxMfn
   (
     space: integer
-  ): integer; external 'IRBIS64.dll';
+  ): integer; external 'IRBIS64.dll' name 'Irbismaxmfn';
 
 function IrbisCloseMst
   (
     space: integer
-  ): integer; external 'IRBIS64.dll';
+  ): integer; external 'IRBIS64.dll' name 'Irbisclosemst';
 
 function IrbisRecord
   (
     space,
     shelf,
     mfn: integer
-  ): integer; external 'IRBIS64.dll';
-
+  ): integer; external 'IRBIS64.dll' name 'IrbisRecord';
+{
 function IrbisMfn
   (
     space,
@@ -252,6 +253,7 @@ function IrbisInitNewDB65
 begin
   Result := IrbisInitNewDB(path);
 end;
+}
 
 function irbis_uatab_init65
   (
@@ -264,7 +266,7 @@ function irbis_uatab_init65
 begin
   Result := irbis_uatab_init(uctab, lctab, actab, aExecDir, aDataPath);
 end;
-
+{
 function irbis_init_DepositPath65
   (
     path: PChar
@@ -293,14 +295,14 @@ function IrbisFldAdd65
 begin
   Result := IrbisFldAdd(space, shelf, met, nf, pole);
 end;
-
-function Irbis_InitPFT65
+}
+function IrbisInitPft65
   (
     space: integer;
     line: PChar
   ): integer; stdcall;
 begin
-  Result := Irbis_InitPFT(space, line);
+  Result := IrbisInitPft(space, line);
 end;
 
 function Irbis_Format65
@@ -364,7 +366,7 @@ function IrbisRecord65
 begin
   Result := IrbisRecord(space, shelf, mfn);
 end;
-
+{
 function IrbisMfn65
   (
     space,
@@ -513,19 +515,19 @@ IrbisInit65 name 'IrbisInit',
 IrbisClose65 name 'IrbisClose',
 IrbisDllVersion65 name 'IrbisDllVersion',
 {
-IrbisInitNewDB65 name 'IrbisInitNewDb',
+IrbisInitNewDB65 name 'IrbisInitNewDb',}
 irbis_uatab_init65 name 'IrbisUatabInit',
-irbis_init_DepositPath65 name 'IrbisInitDepositPath',
+{irbis_init_DepositPath65 name 'IrbisInitDepositPath',
 IrbisNewRec65 name 'IrbisNewRec',
-IrbisFldAdd65 name 'IrbisFldAdd',
-Irbis_InitPFT65 name 'IrbisInitPft',
+IrbisFldAdd65 name 'IrbisFldAdd',}
+IrbisInitPft65 name 'IrbisInitPft',
 Irbis_Format65 name 'IrbisFormat',
 IrbisInitMst65 name 'IrbisInitMst',
 IrbisInitTerm65 name 'IrbisInitTerm',
 IrbisMaxMfn65 name 'IrbisMaxMfn',
-IrbisCloseMst65 name 'IrbisCloseMfn',
+IrbisCloseMst65 name 'IrbisCloseMst',
 IrbisRecord65 name 'IrbisRecord',
-IrbisMfn65 name 'IrbisMfn',
+{IrbisMfn65 name 'IrbisMfn',
 IrbisNFields65 name 'IrbisNFields',
 IrbisReadVersion65 name 'IrbisReadVersion',
 IrbisRecordBack65 name 'IrbisRecordBack',

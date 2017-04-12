@@ -39,6 +39,46 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
+        private static IntPtr GetFormattedRecordBufferPtr
+            (
+                IntPtr space
+            )
+        {
+            var ptrBuffer = new byte[4];
+            Marshal.Copy(space + 654, ptrBuffer, 0, 4);
+            IntPtr fmtBuffer = new IntPtr(BitConverter.ToInt32(ptrBuffer, 0));
+            return fmtBuffer;
+        }
+
+        private static void ClearFormattedRecordBuffer
+            (
+                IntPtr space
+            )
+        {
+            var fmtBuffer = GetFormattedRecordBufferPtr(space);
+            var strBuffer = new byte[32000];
+            Marshal.Copy(strBuffer, 0, fmtBuffer, strBuffer.Length);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static string GetFormattedRecord
+            (
+                IntPtr space
+            )
+        {
+            var strBuffer = new byte[32000];
+            var fmtBuffer = GetFormattedRecordBufferPtr(space);
+            Marshal.Copy(fmtBuffer, strBuffer, 0, strBuffer.Length);
+            var formattedRecord = Encoding.UTF8.GetString(strBuffer).TrimEnd((char)0);
+
+            return formattedRecord;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         [DllImport(DllName, EntryPoint = "IrbisInit")]
         public static extern IntPtr IrbisInit();
 
@@ -52,18 +92,18 @@ namespace IrbisInterop
                 int bufsize
             );
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //[DllImport(DllName, EntryPoint = "IrbiUatabInit")]
-        //public static extern int IrbisUatabInit
-        //    (
-        //        string uctab,
-        //        string lctab,
-        //        string actab,
-        //        string aExecDir,
-        //        string aDataPath
-        //    );
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisUatabInit")]
+        public static extern int IrbisUatabInit
+            (
+                string uctab,
+                string lctab,
+                string actab,
+                string aExecDir,
+                string aDataPath
+            );
 
         /// <summary>
         /// 
@@ -74,14 +114,14 @@ namespace IrbisInterop
                 IntPtr space
             );
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //[DllImport(DllName, EntryPoint = "IrbisCloseMst")]
-        //public static extern void IrbisCloseMST
-        //    (
-        //        IntPtr space
-        //    );
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisCloseMst")]
+        public static extern void IrbisCloseMst
+            (
+                IntPtr space
+            );
 
         ///// <summary>
         ///// 
@@ -106,40 +146,70 @@ namespace IrbisInterop
         //        string pole
         //    );
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //[DllImport(DllName, EntryPoint = "IrbisInitPft")]
-        //public static extern int IrbisInitPft
-        //    (
-        //        IntPtr space,
-        //        string line
-        //    );
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisInitPft")]
+        public static extern int IrbisInitPft
+            (
+                IntPtr space,
+                string line
+            );
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //[DllImport(DllName, EntryPoint = "IrbisFormat")]
-        //public static extern int IrbisFormat
-        //    (
-        //        IntPtr space,
-        //        int shelf,
-        //        int alt_shelf,
-        //        int trm_shelf,
-        //        int lwLn,
-        //        string fmtExitDLL
-        //    );
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisFormat")]
+        public static extern int IrbisFormat
+            (
+                IntPtr space,
+                int shelf,
+                int altShelf,
+                int trmShelf,
+                int lwLn,
+                string fmtExitDll
+            );
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //[DllImport(DllName, EntryPoint = "IrbisInitMst")]
-        //public static extern int IrbisInitMST
-        //    (
-        //        IntPtr space,
-        //        string dataBase,
-        //        int aNumberShelfs
-        //    );
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisInitMst")]
+        public static extern int IrbisInitMst
+            (
+                IntPtr space,
+                string dataBase,
+                int aNumberShelfs
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisInitTerm")]
+        public static extern int IrbisInitTerm
+        (
+            IntPtr space,
+            string dataBase
+        );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisMaxMfn")]
+        public static extern int IrbisMaxMfn
+            (
+                IntPtr space
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisRecord")]
+        public static extern int IrbisRecord
+            (
+                IntPtr space,
+                int shelf,
+                int mfn
+            );
 
         /// <summary>
         /// Current version is 100.
