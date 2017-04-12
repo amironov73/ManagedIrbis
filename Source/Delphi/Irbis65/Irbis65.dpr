@@ -11,6 +11,7 @@ library Irbis65;
   using PChar or ShortString parameters. }
 
 uses
+//  ShareMem,
   SysUtils,
   Classes;
 
@@ -25,21 +26,21 @@ uses
 // ===========================================================================
 
 // функция инициализации Space вызывается первой!!!!!!
-function IrbisInit: integer; external 'IRBIS64.dll';
+function IrbisInit: integer; external 'IRBIS64.dll' name 'Irbisinit';
 
 // скрыто выполняет все закрытия файлов и освобождение памяти
 // irbisclosemst, irbiscloseterm
 function IrbisClose
   (
     space: integer
-  ): integer; external 'IRBIS64.dll';
+  ): integer; external 'IRBIS64.dll' name 'Irbisclose';
 
 procedure IrbisDLLVersion
   (
     buffer: Pchar;
     bufsize: integer
   ); external 'IRBIS64.dll';
-
+{
 // создание 5 файлов новой БД
 function IrbisInitNewDB
   (
@@ -215,7 +216,7 @@ function IrbisIsActualized
     space,
     shelf: integer
   ): integer; external 'IRBIS64.dll';
-
+}
 // ===========================================================================
 
 // функция инициализации Space вызывается первой!!!!!!
@@ -242,7 +243,7 @@ procedure IrbisDllVersion65
 begin
   IrbisDLLVersion(buffer, bufsize);
 end;
-
+{
 // создание 5 файлов новой БД
 function IrbisInitNewDB65
   (
@@ -497,6 +498,13 @@ begin
   Result := IrbisIsActualized(space, shelf);
 end;
 
+}
+
+function InteropVersion: integer; stdcall;
+begin
+  Result := 100;
+end;
+
 // ===========================================================================
 
 exports
@@ -504,6 +512,7 @@ exports
 IrbisInit65 name 'IrbisInit',
 IrbisClose65 name 'IrbisClose',
 IrbisDllVersion65 name 'IrbisDllVersion',
+{
 IrbisInitNewDB65 name 'IrbisInitNewDb',
 irbis_uatab_init65 name 'IrbisUatabInit',
 irbis_init_DepositPath65 name 'IrbisInitDepositPath',
@@ -529,7 +538,9 @@ IrbisIsRealyLocked65 name 'IrbisIsReallyLocked',
 IrbisIsRealyActualized65 name 'IrbisIsReallyActualized',
 IrbisIsLocked65 name 'IrbisIsLocked',
 IrbisIsDeleted65 name 'IrbisIsDeleted',
-IrbisIsActualized65 name 'IrbisIsActualized';
+IrbisIsActualized65 name 'IrbisIsActualized',
+}
+InteropVersion name 'InteropVersion';
 
 // ===========================================================================
 

@@ -30,7 +30,7 @@ namespace IrbisInterop
         /// <summary>
         /// Name for DLL.
         /// </summary>
-        public const string DllName = "irbis65.dll";
+        public const string DllName = "Irbis65.dll";
 
         #endregion
 
@@ -39,97 +39,113 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisInit65")]
+        [DllImport(DllName, EntryPoint = "IrbisInit")]
         public static extern IntPtr IrbisInit();
 
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbiUatabInit65")]
-        public static extern int IrbisUatabInit
+        [DllImport(DllName, EntryPoint = "IrbisDllVersion")]
+        public static extern void IrbisDllVersion
             (
-                string uctab,
-                string lctab,
-                string actab,
-                string aExecDir,
-                string aDataPath
+                StringBuilder buffer,
+                int bufsize
             );
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[DllImport(DllName, EntryPoint = "IrbiUatabInit")]
+        //public static extern int IrbisUatabInit
+        //    (
+        //        string uctab,
+        //        string lctab,
+        //        string actab,
+        //        string aExecDir,
+        //        string aDataPath
+        //    );
 
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisClose65")]
+        [DllImport(DllName, EntryPoint = "IrbisClose")]
         public static extern void IrbisClose
             (
                 IntPtr space
             );
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisCloseMst65")]
-        public static extern void IrbisCloseMST
-            (
-                IntPtr space
-            );
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[DllImport(DllName, EntryPoint = "IrbisCloseMst")]
+        //public static extern void IrbisCloseMST
+        //    (
+        //        IntPtr space
+        //    );
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[DllImport(DllName, EntryPoint = "IrbisNewRec")]
+        //public static extern int IrbisNewRec
+        //    (
+        //        IntPtr space,
+        //        int shelf
+        //    );
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[DllImport(DllName, EntryPoint = "IrbisFldAdd")]
+        //public static extern int IrbisFldAdd
+        //    (
+        //        IntPtr space,
+        //        int shelf,
+        //        int met,
+        //        int nf,
+        //        string pole
+        //    );
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[DllImport(DllName, EntryPoint = "IrbisInitPft")]
+        //public static extern int IrbisInitPft
+        //    (
+        //        IntPtr space,
+        //        string line
+        //    );
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[DllImport(DllName, EntryPoint = "IrbisFormat")]
+        //public static extern int IrbisFormat
+        //    (
+        //        IntPtr space,
+        //        int shelf,
+        //        int alt_shelf,
+        //        int trm_shelf,
+        //        int lwLn,
+        //        string fmtExitDLL
+        //    );
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[DllImport(DllName, EntryPoint = "IrbisInitMst")]
+        //public static extern int IrbisInitMST
+        //    (
+        //        IntPtr space,
+        //        string dataBase,
+        //        int aNumberShelfs
+        //    );
 
         /// <summary>
-        /// 
+        /// Current version is 100.
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisNewRec65")]
-        public static extern int IrbisNewRec
-            (
-                IntPtr space,
-                int shelf
-            );
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisFldAdd65")]
-        public static extern int IrbisFldAdd
-            (
-                IntPtr space,
-                int shelf,
-                int met,
-                int nf,
-                string pole
-            );
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisInitPft65")]
-        public static extern int IrbisInitPft
-            (
-                IntPtr space,
-                string line
-            );
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisFormat65")]
-        public static extern int IrbisFormat
-            (
-                IntPtr space,
-                int shelf,
-                int alt_shelf,
-                int trm_shelf,
-                int lwLn,
-                string fmtExitDLL
-            );
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisInitMst65")]
-        public static extern int IrbisInitMST
-            (
-                IntPtr space,
-                string dataBase,
-                int aNumberShelfs
-            );
+        [DllImport(DllName, EntryPoint = "InteropVersion")]
+        public static extern int InteropVersion();
 
         #endregion
     }
