@@ -56,12 +56,12 @@ function irbis_uatab_init
     aExecDir,
     aDataPath: PChar
   ): integer; external 'IRBIS64.dll' name 'irbis_uatab_init';
-{
-function irbis_init_DepositPath
+
+function IrbisInitDeposit
   (
     path: PChar
-  ): integer; external 'IRBIS64.dll';
-
+  ): integer; external 'IRBIS64.dll' name 'irbis_init_DepositPath';
+{
 function IrbisNewRec
   (
     space,
@@ -218,6 +218,24 @@ function IrbisIsActualized
     shelf: integer
   ): integer; external 'IRBIS64.dll';
 }
+
+procedure IrbisSetOptions
+  (
+    cashable,
+    precompiled,
+    errorFirstBreak :boolean
+  ); external 'IRBIS64.dll' name 'irbis_set_options';
+
+procedure IrbisMainIniInit
+  (
+    AIniFile:PChar
+  ); external 'IRBIS64.dll' name 'irbis_MainIni_Init';
+
+procedure IrbisInitUactab
+  (
+    space: integer
+  ); external 'IRBIS64.dll' name 'IrbisInitUACTAB';
+
 // ===========================================================================
 
 // функция инициализации Space вызывается первой!!!!!!
@@ -266,15 +284,15 @@ function irbis_uatab_init65
 begin
   Result := irbis_uatab_init(uctab, lctab, actab, aExecDir, aDataPath);
 end;
-{
-function irbis_init_DepositPath65
+
+function IrbisInitDeposit65
   (
     path: PChar
   ): integer; stdcall;
 begin
-  Result := irbis_init_DepositPath(path);
+  Result := IrbisInitDeposit(path);
 end;
-
+{
 function IrbisNewRec65
   (
     space,
@@ -502,6 +520,32 @@ end;
 
 }
 
+procedure IrbisSetOptions65
+  (
+    cashable,
+    precompiled,
+    errorFirstBreak :boolean
+  ); stdcall;
+begin
+  IrbisSetOptions(cashable, precompiled, errorFirstBreak);
+end;
+
+procedure IrbisMainIniInit65
+  (
+    iniFile:PChar
+  ); stdcall;
+begin
+  IrbisMainIniInit(iniFile);
+end;
+
+procedure IrbisInitUactab65
+  (
+    space: integer
+  ); stdcall;
+begin
+  IrbisInitUactab(space);
+end;
+
 function InteropVersion: integer; stdcall;
 begin
   Result := 100;
@@ -517,8 +561,8 @@ IrbisDllVersion65 name 'IrbisDllVersion',
 {
 IrbisInitNewDB65 name 'IrbisInitNewDb',}
 irbis_uatab_init65 name 'IrbisUatabInit',
-{irbis_init_DepositPath65 name 'IrbisInitDepositPath',
-IrbisNewRec65 name 'IrbisNewRec',
+IrbisInitDeposit65 name 'IrbisInitDeposit',
+{IrbisNewRec65 name 'IrbisNewRec',
 IrbisFldAdd65 name 'IrbisFldAdd',}
 IrbisInitPft65 name 'IrbisInitPft',
 Irbis_Format65 name 'IrbisFormat',
@@ -542,6 +586,9 @@ IrbisIsLocked65 name 'IrbisIsLocked',
 IrbisIsDeleted65 name 'IrbisIsDeleted',
 IrbisIsActualized65 name 'IrbisIsActualized',
 }
+IrbisSetOptions65 name 'IrbisSetOptions',
+IrbisMainIniInit65 name 'IrbisMainIniInit',
+IrbisInitUactab65 name 'IrbisInitUactab',
 InteropVersion name 'InteropVersion';
 
 // ===========================================================================

@@ -39,6 +39,20 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
+        private static IntPtr GetRawRecordBufferPtr
+        (
+            IntPtr space
+        )
+        {
+            var ptrBuffer = new byte[4];
+            Marshal.Copy(space + 626, ptrBuffer, 0, 4);
+            IntPtr fmtBuffer = new IntPtr(BitConverter.ToInt32(ptrBuffer, 0));
+            return fmtBuffer;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         private static IntPtr GetFormattedRecordBufferPtr
             (
                 IntPtr space
@@ -48,16 +62,6 @@ namespace IrbisInterop
             Marshal.Copy(space + 654, ptrBuffer, 0, 4);
             IntPtr fmtBuffer = new IntPtr(BitConverter.ToInt32(ptrBuffer, 0));
             return fmtBuffer;
-        }
-
-        private static void ClearFormattedRecordBuffer
-            (
-                IntPtr space
-            )
-        {
-            var fmtBuffer = GetFormattedRecordBufferPtr(space);
-            var strBuffer = new byte[32000];
-            Marshal.Copy(strBuffer, 0, fmtBuffer, strBuffer.Length);
         }
 
         /// <summary>
@@ -70,6 +74,36 @@ namespace IrbisInterop
         {
             var strBuffer = new byte[32000];
             var fmtBuffer = GetFormattedRecordBufferPtr(space);
+            Marshal.Copy(fmtBuffer, strBuffer, 0, strBuffer.Length);
+            int pos;
+            for (pos = 0; pos < strBuffer.Length; pos++)
+            {
+                if (strBuffer[pos] == 0)
+                {
+                    break;
+                }
+            }
+
+            var formattedRecord = Encoding.UTF8.GetString
+                (
+                    strBuffer,
+                    0,
+                    pos
+                );
+
+            return formattedRecord;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static string GetRawRecordText
+            (
+                IntPtr space
+            )
+        {
+            var strBuffer = new byte[32000];
+            var fmtBuffer = GetRawRecordBufferPtr(space);
             Marshal.Copy(fmtBuffer, strBuffer, 0, strBuffer.Length);
             var formattedRecord = Encoding.UTF8.GetString(strBuffer).TrimEnd((char)0);
 
@@ -85,17 +119,27 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisDllVersion")]
+        [DllImport(DllName, EntryPoint = "IrbisDllVersion", CharSet = CharSet.Ansi)]
         public static extern void IrbisDllVersion
             (
                 StringBuilder buffer,
                 int bufsize
             );
 
+
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisUatabInit")]
+        [DllImport(DllName, EntryPoint = "IrbisInitDeposit", CharSet = CharSet.Ansi)]
+        public static extern int IrbisInitDeposit
+            (
+                string path
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisUatabInit", CharSet = CharSet.Ansi)]
         public static extern int IrbisUatabInit
             (
                 string uctab,
@@ -149,7 +193,7 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisInitPft")]
+        [DllImport(DllName, EntryPoint = "IrbisInitPft", CharSet = CharSet.Ansi)]
         public static extern int IrbisInitPft
             (
                 IntPtr space,
@@ -159,7 +203,7 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisFormat")]
+        [DllImport(DllName, EntryPoint = "IrbisFormat", CharSet = CharSet.Ansi)]
         public static extern int IrbisFormat
             (
                 IntPtr space,
@@ -173,7 +217,7 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisInitMst")]
+        [DllImport(DllName, EntryPoint = "IrbisInitMst", CharSet = CharSet.Ansi)]
         public static extern int IrbisInitMst
             (
                 IntPtr space,
@@ -184,12 +228,12 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisInitTerm")]
+        [DllImport(DllName, EntryPoint = "IrbisInitTerm", CharSet = CharSet.Ansi)]
         public static extern int IrbisInitTerm
-        (
-            IntPtr space,
-            string dataBase
-        );
+            (
+                IntPtr space,
+                string dataBase
+            );
 
         /// <summary>
         /// 
@@ -209,6 +253,35 @@ namespace IrbisInterop
                 IntPtr space,
                 int shelf,
                 int mfn
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisSetOptions")]
+        public static extern void IrbisSetOptions
+            (
+                int cashable,
+                int precompiled,
+                int errorFirstBreak
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisMainIniInit", CharSet = CharSet.Ansi)]
+        public static extern void IrbisMainIniInit
+            (
+                string iniFile
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisInitUactab")]
+        public static extern void IrbisInitUactab
+            (
+                IntPtr space
             );
 
         /// <summary>

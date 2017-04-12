@@ -33,6 +33,20 @@ namespace IrbisInteropTester
 {
     class Program
     {
+        static void DumpAddress
+            (
+                IntPtr pointer,
+                int count
+            )
+        {
+            byte[] bytes = new byte[count];
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                bytes[i] = Marshal.ReadByte(pointer, i);
+            }
+            DumpUtility.Dump(Console.Out, bytes);
+        }
+
         static void HandleRetCode
             (
                 int retCode
@@ -75,9 +89,6 @@ namespace IrbisInteropTester
                     .ThrowIfNull("dataPath not set");
                 Console.WriteLine("DataPath={0}", dataPath);
 
-                //Environment.CurrentDirectory = systemPath;
-                //Console.WriteLine("Directory changed to {0}", Environment.CurrentDirectory);
-
                 int interopVersion = Irbis65Dll.InteropVersion();
                 Console.WriteLine("InteropVersion={0}", interopVersion);
 
@@ -85,24 +96,46 @@ namespace IrbisInteropTester
                 Irbis65Dll.IrbisDllVersion(dllVersion, dllVersion.Capacity);
                 Console.WriteLine("Irbis64.dll version={0}", dllVersion);
 
-                IntPtr space = Irbis65Dll.IrbisInit();
-                Console.WriteLine("Initialized");
-
                 string uctab = Path.Combine(systemPath, "isisucw");
-                string lctab = Path.Combine(systemPath, "isisacw");
+                string lctab = string.Empty;
                 string actab = Path.Combine(systemPath, "isisacw");
                 string execDir = systemPath;
                 string dataDir = dataPath;
                 int retCode = Irbis65Dll.IrbisUatabInit(uctab, lctab, actab, execDir, dataDir);
                 Console.WriteLine("IrbisUatabInit={0}", retCode);
                 HandleRetCode(retCode);
-                IntPtr uaPtr = new IntPtr(retCode);
-                byte[] bytes = new byte[192];
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    bytes[i] = Marshal.ReadByte(uaPtr, i);
-                }
-                DumpUtility.Dump(Console.Out, bytes);
+                //DumpAddress(new IntPtr(retCode), 192);
+
+                string depositPath = Path.GetFullPath
+                    (
+                        Path.Combine
+                        (
+                            dataPath,
+                            "Deposit"
+                        )
+                    );
+                Console.WriteLine("DepositPath={0}", depositPath);
+                retCode = Irbis65Dll.IrbisInitDeposit(depositPath);
+                Console.WriteLine("IrbisInitDeposit({0})={1}", depositPath, retCode);
+                HandleRetCode(retCode);
+
+                Irbis65Dll.IrbisSetOptions(-1,0,0);
+                Console.WriteLine("IrbisSetOptions(-1,0,0)");
+
+                IntPtr space = Irbis65Dll.IrbisInit();
+                Console.WriteLine("IrbisInit=0x{0:X8}", space.ToInt32());
+                //DumpAddress(space, 256);
+
+                string mainIni = Path.GetFullPath
+                    (
+                        Path.Combine
+                        (
+                            systemPath,
+                            "irbisc.ini"
+                        )
+                    );
+                Irbis65Dll.IrbisMainIniInit(mainIni);
+                Console.WriteLine("IrbisMainIniInit({0})", mainIni);
 
                 string ibisParPath = Path.Combine
                     (
@@ -150,6 +183,9 @@ namespace IrbisInteropTester
                 Console.WriteLine("IrbisRecord({0})={1}", mfn, retCode);
                 HandleRetCode(retCode);
 
+                //string rawRecordText = Irbis65Dll.GetRawRecordText(space);
+                //Console.WriteLine(rawRecordText);
+
                 string pftPath = ibisPar.PftPath
                     .ThrowIfNull("pftPath not set");
                 pftPath = Path.GetFullPath
@@ -170,6 +206,9 @@ namespace IrbisInteropTester
                 int retcode = Irbis65Dll.IrbisInitPft(space, "@" + briefPath);
                 Console.WriteLine("IrbisInitPft({0})={1}", briefPath, retcode);
                 HandleRetCode(retcode);
+
+                Irbis65Dll.IrbisInitUactab(space);
+                Console.WriteLine("IrbisInitUactab");
 
                 retcode = Irbis65Dll.IrbisFormat
                     (
