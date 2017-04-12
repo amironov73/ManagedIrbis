@@ -58,6 +58,25 @@ namespace IrbisInteropTester
             }
         }
 
+        static string FromBytes
+            (
+                Encoding encoding,
+                byte[] bytes
+            )
+        {
+            int pos;
+            for (pos = 0; pos < bytes.Length; pos++)
+            {
+                if (bytes[pos] == 0)
+                {
+                    break;
+                }
+            }
+            string result = encoding.GetString(bytes, 0, pos);
+
+            return result;
+        }
+
         static void Main(string[] args)
         {
             if (args.Length != 1)
@@ -224,6 +243,36 @@ namespace IrbisInteropTester
 
                 string formattedRecord = Irbis65Dll.GetFormattedRecord(space);
                 Console.WriteLine(formattedRecord);
+
+                Encoding utf = Encoding.UTF8;
+                byte[] term = new byte[512];
+                string text = "K=БЕТОН";
+                utf.GetBytes (text, 0, text.Length, term, 0);
+                retCode = Irbis65Dll.IrbisFind(space, term);
+                Console.WriteLine("IrbisFind={0}", retCode);
+                for (int i = 0; i < 10; i++)
+                {
+                    retCode = Irbis65Dll.IrbisNextTerm(space, term);
+                    if (retCode < 0)
+                    {
+                        break;
+                    }
+                    text = FromBytes(utf, term);
+                    int nposts = Irbis65Dll.IrbisNPosts(space);
+                    Console.Write("{0,-8} {1}:", nposts, text);
+                    for (int j = 0; j < nposts; j++)
+                    {
+                        Irbis65Dll.IrbisNextPost(space);
+                        mfn = Irbis65Dll.IrbisPosting(space, 1);
+                        Console.Write
+                            (
+                                "{0}{1}",
+                                j == 0 ? " " : ", ",
+                                mfn
+                            );
+                    }
+                    Console.WriteLine();
+                }
 
                 Irbis65Dll.IrbisClose(space);
                 Console.WriteLine("Closed");

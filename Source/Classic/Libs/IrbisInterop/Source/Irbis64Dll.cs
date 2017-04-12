@@ -42,7 +42,7 @@ namespace IrbisInterop
         /// </summary>
         public Irbis64Dll()
         {
-            //_space = Irbis65Dll.IrbisInit();
+            _space = Irbis65Dll.IrbisInit();
         }
 
         #endregion
@@ -62,7 +62,7 @@ namespace IrbisInterop
         /// <inheritdoc />
         public void Dispose()
         {
-            //Irbis65Dll.IrbisClose(_space);
+            Irbis65Dll.IrbisClose(_space);
         }
 
         #endregion

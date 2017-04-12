@@ -285,6 +285,70 @@ namespace IrbisInterop
             );
 
         /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisFind")]
+        public static extern int IrbisFind
+            (
+                IntPtr space,
+                byte[] term
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisNextTerm")]
+        public static extern int IrbisNextTerm
+            (
+                IntPtr space,
+                byte[] term
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisPrevTerm")]
+        public static extern int IrbisPrevTerm
+        (
+            IntPtr space,
+            byte[] term
+        );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisNPosts")]
+        public static extern int IrbisNPosts
+            (
+                IntPtr space
+            );
+
+        /// <summary>
+        /// Разобрать ссылку на: mfn, tag, occ, cnt.
+        /// Возможные значения opt:
+        /// opt = 1 функция возвращает mfn (номер записи);
+        /// opt = 2 функция возвращает tag (метка поля);
+        /// opt = 3 функция возвращает occ (повторение поля);
+        /// opt = 4 функция возвращает cnt (номер слова).
+        /// Возвращает: в случае успеха положительное значение (больше ноля).
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisPosting")]
+        public static extern int IrbisPosting
+            (
+                IntPtr space,
+                short opt
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisNextPost")]
+        public static extern int IrbisNextPost
+            (
+                IntPtr space
+            );
+
+        /// <summary>
         /// Current version is 100.
         /// </summary>
         [DllImport(DllName, EntryPoint = "InteropVersion")]

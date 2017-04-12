@@ -228,13 +228,47 @@ procedure IrbisSetOptions
 
 procedure IrbisMainIniInit
   (
-    AIniFile:PChar
+    iniFile:PChar
   ); external 'IRBIS64.dll' name 'irbis_MainIni_Init';
 
 procedure IrbisInitUactab
   (
     space: integer
   ); external 'IRBIS64.dll' name 'IrbisInitUACTAB';
+
+function IrbisFind
+  (
+    space: integer;
+    term: Pchar
+  ): integer; external 'IRBIS64.dll' name 'Irbisfind';
+
+function IrbisNextTerm
+  (
+    space: integer;
+    term: Pchar
+  ): integer; external 'IRBIS64.dll' name 'Irbisnxtterm';
+
+function IrbisPrevTerm
+  (
+    space: integer;
+    term: Pchar
+  ): integer; external 'IRBIS64.dll' name 'Irbisprevterm';
+
+function IrbisNPosts
+  (
+    space: integer
+  ): longint; external 'IRBIS64.dll' name 'Irbisnposts';
+
+function IrbisPosting
+  (
+    space: integer;
+    opt: smallint
+  ): longint; external 'IRBIS64.dll' name 'Irbisposting';
+
+function IrbisNextPost
+  (
+    space: integer
+  ): integer; external 'IRBIS64.dll' name 'Irbisnxtpost';
 
 // ===========================================================================
 
@@ -546,6 +580,58 @@ begin
   IrbisInitUactab(space);
 end;
 
+function IrbisFind65
+  (
+    space: integer;
+    term: Pchar
+  ): integer; stdcall;
+begin
+  Result := IrbisFind(space, term);
+end;
+
+function IrbisNextTerm65
+  (
+    space: integer;
+    term: Pchar
+  ): integer; stdcall;
+begin
+  Result := IrbisNextTerm(space, term);
+end;
+
+function IrbisPrevTerm65
+  (
+    space: integer;
+    term: Pchar
+  ): integer; stdcall;
+begin
+  Result := IrbisPrevTerm(space, term);
+end;
+
+function IrbisNPosts65
+  (
+    space: integer
+  ): longint; stdcall;
+begin
+  Result := IrbisNPosts(space);
+end;
+
+function IrbisPosting65
+  (
+    space: integer;
+    opt: smallint
+  ): longint; stdcall;
+begin
+  Result := IrbisPosting(space, opt);
+end;
+
+function IrbisNextPost65
+  (
+    space: integer
+  ): integer; stdcall;
+begin
+  Result := IrbisNextPost(space);
+end;
+
 function InteropVersion: integer; stdcall;
 begin
   Result := 100;
@@ -589,6 +675,12 @@ IrbisIsActualized65 name 'IrbisIsActualized',
 IrbisSetOptions65 name 'IrbisSetOptions',
 IrbisMainIniInit65 name 'IrbisMainIniInit',
 IrbisInitUactab65 name 'IrbisInitUactab',
+IrbisFind65 name 'IrbisFind',
+IrbisNextTerm65 name 'IrbisNextTerm',
+IrbisPrevTerm65 name 'IrbisPrevTerm',
+IrbisNPosts65 name 'IrbisNPosts',
+IrbisPosting65 name 'IrbisPosting',
+IrbisNextPost65 name 'IrbisNextPost',
 InteropVersion name 'InteropVersion';
 
 // ===========================================================================
