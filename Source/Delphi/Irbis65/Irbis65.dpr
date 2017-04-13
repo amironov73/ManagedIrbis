@@ -1,20 +1,5 @@
 library Irbis65;
 
-{ Important note about DLL memory management: ShareMem must be the
-  first unit in your library's USES clause AND your project's (select
-  Project-View Source) USES clause if your DLL exports any procedures or
-  functions that pass strings as parameters or function results. This
-  applies to all strings passed to and from your DLL--even those that
-  are nested in records and classes. ShareMem is the interface unit to
-  the BORLNDMM.DLL shared memory manager, which must be deployed along
-  with your DLL. To avoid using BORLNDMM.DLL, pass string information
-  using PChar or ShortString parameters. }
-
-//uses
-//  ShareMem,
-//  SysUtils,
-//  Classes;
-
 {$R *.res}
 {$WARN UNSAFE_CODE OFF}
 {$WARN UNSAFE_TYPE OFF}
@@ -125,25 +110,25 @@ function IrbisRecord
     shelf,
     mfn: integer
   ): integer; external 'IRBIS64.dll' name 'IrbisRecord';
-{
+
 function IrbisMfn
   (
     space,
     shelf: integer
-  ): integer; external 'IRBIS64.dll';
+  ): integer; external 'IRBIS64.dll' name 'Irbismfn';
 
 function IrbisNFields
   (
     space,
     shelf: integer
-  ): integer; external 'IRBIS64.dll';
+  ): integer; external 'IRBIS64.dll' name 'Irbisnfields';
 
 // чтение копии с шагом назад step без блокировки
 function IrbisReadVersion
   (
     space,
     mfn: integer
-  ):integer; external 'IRBIS64.dll';
+  ):integer; external 'IRBIS64.dll' name 'IrbisReadVersion';
 
 // откат до старой копии step шагов
 function IrbisRecordBack
@@ -152,71 +137,64 @@ function IrbisRecordBack
     shelf,
     mfn,
     step:integer
-  ): integer; external 'IRBIS64.dll';
+  ): integer; external 'IRBIS64.dll' name 'IrbisRecordBack';
 
 function IrbisRecLock0
   (
     space,
     shelf,
     mfn: integer
-  ): integer; external 'IRBIS64.dll';
+  ): integer; external 'IRBIS64.dll' name 'IrbisRecLock0';
 
 function IrbisRecUnLock0
   (
     space,
     mfn:integer
-  ): integer; external 'IRBIS64.dll';
+  ): integer; external 'IRBIS64.dll' name 'IrbisRecUnLock0';
 
 function IrbisRecUpdate0
   (
     space,
     shelf,
     keepLock:integer
-  ): integer; external 'IRBIS64.dll';
+  ): integer; external 'IRBIS64.dll' name 'IrbisRecUpdate0';
 
 function IrbisRecIfUpdate0
   (
     space,
     shelf,
     mfn:integer
-  ): integer; external 'IRBIS64.dll';
+  ): integer; external 'IRBIS64.dll' name 'IrbisRecIfUpdate0';
 
 function IrbisIsDBLocked
   (
     space: integer
-  ): integer; external 'IRBIS64.dll';
+  ): integer; external 'IRBIS64.dll' name 'IrbisIsDBLocked';
 
 // запись заблокирована? - без чтения!!!!!!!! только проверка флага в XRF
 function IrbisIsRealyLocked
   (
     space,
     mfn: integer
-  ): integer; external 'IRBIS64.dll';
-
-function IrbisIsRealyActualized
-  (
-    space,
-    mfn: integer
-  ): integer; external 'IRBIS64.dll';
+  ): integer; external 'IRBIS64.dll' name 'IrbisIsRealyLocked';
 
 function IrbisIsLocked
   (
     space,
     shelf: integer
-  ): integer; external 'IRBIS64.dll';
+  ): integer; external 'IRBIS64.dll' name 'IrbisIsLocked';
 
 function IrbisIsDeleted
   (
     space,
     shelf: integer
-  ): integer; external 'IRBIS64.dll';
+  ): integer; external 'IRBIS64.dll' name 'IrbisIsDeleted';
 
 function IrbisIsActualized
   (
     space,
     shelf: integer
-  ): integer; external 'IRBIS64.dll';
-}
+  ): integer; external 'IRBIS64.dll' name 'IrbisIsActualized';
 
 procedure IrbisSetOptions
   (
@@ -416,7 +394,7 @@ function IrbisRecord65
 begin
   Result := IrbisRecord(space, shelf, mfn);
 end;
-{
+
 function IrbisMfn65
   (
     space,
@@ -435,7 +413,6 @@ begin
   Result := IrbisNFields(space, shelf);
 end;
 
-// чтение копии с шагом назад step без блокировки
 function IrbisReadVersion65
   (
     space,
@@ -514,15 +491,6 @@ begin
   Result := IrbisIsRealyLocked(space, mfn);
 end;
 
-function IrbisIsRealyActualized65
-  (
-    space,
-    mfn: integer
-  ): integer; stdcall;
-begin
-  Result := IrbisIsRealyActualized(space, mfn);
-end;
-
 function IrbisIsLocked65
   (
     space,
@@ -549,8 +517,6 @@ function IrbisIsActualized65
 begin
   Result := IrbisIsActualized(space, shelf);
 end;
-
-}
 
 procedure IrbisSetOptions65
   (
@@ -654,7 +620,7 @@ IrbisInitTerm65 name 'IrbisInitTerm',
 IrbisMaxMfn65 name 'IrbisMaxMfn',
 IrbisCloseMst65 name 'IrbisCloseMst',
 IrbisRecord65 name 'IrbisRecord',
-{IrbisMfn65 name 'IrbisMfn',
+IrbisMfn65 name 'IrbisMfn',
 IrbisNFields65 name 'IrbisNFields',
 IrbisReadVersion65 name 'IrbisReadVersion',
 IrbisRecordBack65 name 'IrbisRecordBack',
@@ -662,13 +628,11 @@ IrbisRecLock065 name 'IrbisRecLock0',
 IrbisRecUnLock065 name 'IrbisRecUnlock0',
 IrbisRecUpdate065 name 'IrbisRecUpdate0',
 IrbisRecIfUpdate065 name 'IrbisRecIfUpdate0',
-IrbisIsDBLocked65 name 'IrbisIsDBLocked',
+IrbisIsDBLocked65 name 'IrbisIsDbLocked',
 IrbisIsRealyLocked65 name 'IrbisIsReallyLocked',
-IrbisIsRealyActualized65 name 'IrbisIsReallyActualized',
 IrbisIsLocked65 name 'IrbisIsLocked',
 IrbisIsDeleted65 name 'IrbisIsDeleted',
 IrbisIsActualized65 name 'IrbisIsActualized',
-}
 IrbisSetOptions65 name 'IrbisSetOptions',
 IrbisMainIniInit65 name 'IrbisMainIniInit',
 IrbisInitUactab65 name 'IrbisInitUactab',

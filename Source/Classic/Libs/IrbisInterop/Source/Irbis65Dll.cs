@@ -358,6 +358,140 @@ namespace IrbisInterop
             );
 
         /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisMfn")]
+        public static extern int IrbisMfn
+            (
+                IntPtr space,
+                int shelf
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisNFields")]
+        public static extern int IrbisNFields
+            (
+                IntPtr space,
+                int shelf
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisIsLocked")]
+        public static extern int IrbisIsLocked
+            (
+                IntPtr space,
+                int shelf
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisIsActualized")]
+        public static extern int IrbisIsDeleted
+            (
+                IntPtr space,
+                int shelf
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisIsActualized")]
+        public static extern int IrbisIsActualized
+            (
+                IntPtr space,
+                int shelf
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisIsDbLocked")]
+        public static extern int IrbisIsDbLocked
+            (
+                IntPtr space
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisIsReallyLocked")]
+        public static extern int IrbisIsRealyLocked
+            (
+                IntPtr space,
+                int mfn
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisRecLock0")]
+        public static extern int IrbisRecLock0
+            (
+                IntPtr space,
+                int shelf,
+                int mfn
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisRecUnlock0")]
+        public static extern int IrbisRecUnLock0
+            (
+                IntPtr space,
+                int mfn
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisReadVersion")]
+        public static extern int IrbisReadVersion
+            (
+                IntPtr space,
+                int mfn
+        );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisRecordBack")]
+        public static extern int IrbisRecordBack
+            (
+                IntPtr space,
+                int shelf,
+                int mfn,
+                int step
+        );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisRecUpdate0")]
+        public static extern int IrbisRecUpdate0
+            (
+                IntPtr space,
+                int shelf,
+                int keepLock
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisRecIfUpdate0")]
+        public static extern int IrbisRecIfUpdate0
+            (
+                IntPtr space,
+                int shelf,
+                int mfn
+            );
+
+        /// <summary>
         /// Current version is 100.
         /// </summary>
         [DllImport(DllName, EntryPoint = "InteropVersion")]

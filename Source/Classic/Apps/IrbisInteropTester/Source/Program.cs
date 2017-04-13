@@ -193,6 +193,10 @@ namespace IrbisInteropTester
                 Console.WriteLine("IrbisInitTerm({0})={1}", termPath, retCode);
                 HandleRetCode(retCode);
 
+                retCode = Irbis65Dll.IrbisIsDbLocked(space);
+                Console.WriteLine("IrbisIsDbLocked={0}", retCode);
+                HandleRetCode(retCode);
+
                 int maxMfn = Irbis65Dll.IrbisMaxMfn(space);
                 Console.WriteLine("MaxMFN={0}", maxMfn);
                 HandleRetCode(maxMfn);
@@ -201,6 +205,31 @@ namespace IrbisInteropTester
                 retCode = Irbis65Dll.IrbisRecord(space, 0, mfn);
                 Console.WriteLine("IrbisRecord({0})={1}", mfn, retCode);
                 HandleRetCode(retCode);
+
+                mfn = Irbis65Dll.IrbisMfn(space, 0);
+                Console.WriteLine("IrbisMfn={0}", mfn);
+                HandleRetCode(mfn);
+
+                retCode = Irbis65Dll.IrbisNFields(space, 0);
+                Console.WriteLine("IrbisNFields={0}", retCode);
+                HandleRetCode(retCode);
+
+                int isLocked = Irbis65Dll.IrbisIsLocked(space, 0);
+                int isDeleted = Irbis65Dll.IrbisIsDeleted(space, 0);
+                int isActualized = Irbis65Dll.IrbisIsActualized(space, 0);
+                Console.WriteLine("Locked={0}, Deleted={1}, Actualized={2}",
+                    isLocked, isDeleted, isActualized);
+                HandleRetCode(isLocked);
+                HandleRetCode(isDeleted);
+                HandleRetCode(isActualized);
+
+                isLocked = Irbis65Dll.IrbisIsRealyLocked(space, mfn);
+                Console.WriteLine("IrbisIsReallyLocked={0}", isLocked);
+                HandleRetCode(isLocked);
+
+                int version = Irbis65Dll.IrbisReadVersion(space, mfn);
+                Console.WriteLine("IrbisReadVersion={0}", version);
+                HandleRetCode(version);
 
                 //string rawRecordText = Irbis65Dll.GetRawRecordText(space);
                 //Console.WriteLine(rawRecordText);
