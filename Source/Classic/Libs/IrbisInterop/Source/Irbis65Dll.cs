@@ -40,9 +40,9 @@ namespace IrbisInterop
         /// 
         /// </summary>
         private static IntPtr GetRawRecordBufferPtr
-        (
-            IntPtr space
-        )
+            (
+                IntPtr space
+            )
         {
             var ptrBuffer = new byte[4];
             Marshal.Copy(space + 626, ptrBuffer, 0, 4);

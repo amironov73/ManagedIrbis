@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.IO;
-
+using AM.Runtime;
 using IrbisInterop;
 
 using ManagedIrbis;
@@ -339,12 +339,12 @@ namespace IrbisInteropTester
                             irbis.GetMaxMfn()
                         );
 
-                    int mfn = 100;
-                    irbis.ReadRecord(mfn);
-                    Console.WriteLine("Read record MFN={0}", mfn);
-                    if (irbis.GetCurrentMfn() != mfn)
+                    for (int mfn = 10; mfn < 20; mfn++)
                     {
-                        Console.WriteLine("Hmm!");
+                        irbis.ReadRecord(mfn);
+                        Console.WriteLine("Read record MFN={0}", mfn);
+                        NativeRecord record = irbis.GetRecord();
+                        Console.WriteLine(record);
                     }
                 }
             }

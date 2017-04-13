@@ -18,6 +18,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -172,6 +173,20 @@ namespace IrbisInterop
         {
             int result = Irbis65Dll.IrbisMaxMfn(Space);
             _HandleRetCode("IrbisMaxMfn", result);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get native record from memory.
+        /// </summary>
+        [NotNull]
+        public NativeRecord GetRecord()
+        {
+            IntPtr recordPointer = Space.GetPointer32(626);
+            int recordLength = recordPointer.GetInt32(4);
+            byte[] memory = recordPointer.GetBlock(recordLength);
+            NativeRecord result = NativeRecord.ParseMemory(memory);
 
             return result;
         }

@@ -12,7 +12,10 @@
 #region Using directives
 
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
+using AM.IO;
 
 using CodeJam;
 
@@ -124,6 +127,119 @@ namespace AM.Runtime
 
             return stuff;
         }
+
+        /// <summary>
+        /// Get block of bytes from given pointer.
+        /// </summary>
+        [NotNull]
+        public static byte[] GetBlock
+            (
+                this IntPtr pointer,
+                int blockLength
+            )
+        {
+            byte[] result = new byte[blockLength];
+
+            Marshal.Copy(pointer, result, 0, blockLength);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get 16-bit integer from pointer plus offset.
+        /// </summary>
+        public static short GetInt16
+            (
+                this IntPtr pointer,
+                int offset
+            )
+        {
+            byte[] buffer = new byte[2];
+
+            Marshal.Copy(pointer + offset, buffer, 0, 2);
+            short result = BitConverter.ToInt16(buffer, 0);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get 32-bit integer from pointer plus offset.
+        /// </summary>
+        public static int GetInt32
+            (
+                this IntPtr pointer,
+                int offset
+            )
+        {
+            byte[] buffer = new byte[4];
+
+            Marshal.Copy(pointer + offset, buffer, 0, 4);
+            int result = BitConverter.ToInt32(buffer, 0);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get 32-bit pointer from pointer plus offset.
+        /// </summary>
+        public static IntPtr GetPointer32
+            (
+                this IntPtr pointer,
+                int offset
+            )
+        {
+            byte[] buffer = new byte[4];
+
+            Marshal.Copy(pointer + offset, buffer, 0, 4);
+            IntPtr result = new IntPtr(BitConverter.ToInt32(buffer, 0));
+
+            return result;
+        }
+
+        /// <summary>
+        /// Dump bytes from specified pointer.
+        /// </summary>
+        public static void DumpAddress
+            (
+                TextWriter writer,
+                IntPtr pointer,
+                int count
+            )
+        {
+            byte[] bytes = new byte[count];
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                bytes[i] = Marshal.ReadByte(pointer, i);
+            }
+            DumpUtility.Dump(writer, bytes);
+        }
+
+        /// <summary>
+        /// Get zero-ended string from specified pointer.
+        /// </summary>
+        public static string GetZeroEndedString
+            (
+                IntPtr pointer,
+                Encoding encoding,
+                int maxLength
+            )
+        {
+            int pos;
+            for (pos = 0; pos < maxLength; pos++)
+            {
+                if (Marshal.ReadByte(pointer, pos) == 0)
+                {
+                    break;
+                }
+            }
+
+            byte[] buffer = new byte[pos];
+            Marshal.Copy(pointer, buffer, 0, pos);
+            string result = encoding.GetString(buffer, 0, pos);
+
+            return result;
+        }
+
     }
 }
 
