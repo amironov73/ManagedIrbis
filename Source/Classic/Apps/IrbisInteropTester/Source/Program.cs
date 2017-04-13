@@ -115,9 +115,9 @@ namespace IrbisInteropTester
                 Irbis65Dll.IrbisDllVersion(dllVersion, dllVersion.Capacity);
                 Console.WriteLine("Irbis64.dll version={0}", dllVersion);
 
-                string uctab = Path.Combine(systemPath, "isisucw");
+                string uctab = serverIni.UpperCaseTable;
                 string lctab = string.Empty;
-                string actab = Path.Combine(systemPath, "isisacw");
+                string actab = serverIni.AlphabetTablePath;
                 string execDir = systemPath;
                 string dataDir = dataPath;
                 int retCode = Irbis65Dll.IrbisUatabInit(uctab, lctab, actab, execDir, dataDir);
@@ -181,14 +181,14 @@ namespace IrbisInteropTester
                 string termPath = ibisPar.IfpPath
                     .ThrowIfNull("ibisPar.IfpPath not set");
                 termPath = Path.GetFullPath
-                (
-                    Path.Combine(systemPath, termPath)
-                );
+                    (
+                        Path.Combine(systemPath, termPath)
+                    );
                 termPath = Path.Combine
-                (
-                    termPath,
-                    "ibis"
-                );
+                    (
+                        termPath,
+                        "ibis"
+                    );
                 retCode = Irbis65Dll.IrbisInitTerm(space, termPath);
                 Console.WriteLine("IrbisInitTerm({0})={1}", termPath, retCode);
                 HandleRetCode(retCode);

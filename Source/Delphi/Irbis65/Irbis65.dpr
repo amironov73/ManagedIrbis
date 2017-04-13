@@ -247,6 +247,40 @@ function IrbisNextPost
     space: integer
   ): integer; external 'IRBIS64.dll' name 'Irbisnxtpost';
 
+procedure IrbisRecDelete
+  (
+    space,
+    shelf: integer
+  ); external 'IRBIS64.dll' name 'Irbisrecdel';
+
+procedure IrbisRecUndelete
+  (
+    space,
+    shelf: integer
+  ); external 'IRBIS64.dll' name 'Irbisrecundelete';
+
+function Unifor
+  (
+    space,
+    currentShelf,
+    termShelf,
+    lwExit,
+    occExit: integer;
+    sp1,
+    sp2: Pchar
+  ): integer; external 'IRBIS64.dll' name 'UNIFOR';
+
+function Umarci
+  (
+    space,
+    currentShelf,
+    termShelf,
+    lwExit,
+    occExit: integer;
+    sp1,
+    sp2: Pchar
+  ): integer; external 'IRBIS64.dll' name 'UMARCI';
+
 // ===========================================================================
 
 // функция инициализации Space вызывается первой!!!!!!
@@ -596,6 +630,52 @@ begin
   Result := IrbisNextPost(space);
 end;
 
+procedure IrbisRecDelete65
+  (
+    space,
+    shelf: integer
+  ); stdcall;
+begin
+  IrbisRecDelete(space, shelf);
+end;
+
+procedure IrbisRecUndelete65
+  (
+    space,
+    shelf: integer
+  ); stdcall;
+begin
+  IrbisRecUndelete(space, shelf);
+end;
+
+function Unifor65
+  (
+    space,
+    currentShelf,
+    termShelf,
+    lwExit,
+    occExit: integer;
+    sp1,
+    sp2: Pchar
+  ): integer; stdcall;
+begin
+  Result := Unifor(space, currentShelf, termShelf, lwExit, occExit, sp1, sp2);
+end;
+
+function Umarci65
+  (
+    space,
+    currentShelf,
+    termShelf,
+    lwExit,
+    occExit: integer;
+    sp1,
+    sp2: Pchar
+  ): integer; stdcall;
+begin
+  Result := Umarci(space, currentShelf, termShelf, lwExit, occExit, sp1, sp2);
+end;
+
 function InteropVersion: integer; stdcall;
 begin
   Result := 100;
@@ -642,6 +722,10 @@ IrbisPrevTerm65 name 'IrbisPrevTerm',
 IrbisNPosts65 name 'IrbisNPosts',
 IrbisPosting65 name 'IrbisPosting',
 IrbisNextPost65 name 'IrbisNextPost',
+IrbisRecDelete65 name 'IrbisRecDelete',
+IrbisRecUndelete65 name 'IrbisRecUndelete',
+Unifor65 name 'Unifor',
+Umarci65 name 'Umarci',
 InteropVersion name 'InteropVersion';
 
 // ===========================================================================

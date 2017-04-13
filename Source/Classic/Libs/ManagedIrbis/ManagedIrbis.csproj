@@ -574,6 +574,7 @@
     <Compile Include="Source\Server\Commands\ServerCommand.cs" />
     <Compile Include="Source\Server\IrbisServerSocket.cs" />
     <Compile Include="Source\Server\IrbisServerWorker.cs" />
+    <Compile Include="Source\Server\ServerConfiguration.cs" />
     <Compile Include="Source\Server\ServerContext.cs" />
     <Compile Include="Source\Server\ServerIniFile.cs" />
     <Compile Include="Source\Server\IrbisSocketServer.cs" />

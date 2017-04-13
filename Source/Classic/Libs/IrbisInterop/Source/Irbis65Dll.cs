@@ -492,6 +492,56 @@ namespace IrbisInterop
             );
 
         /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisRecDelete")]
+        public static extern void IrbisRecDelete
+            (
+                IntPtr space,
+                int shelf
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisRecUndelete")]
+        public static extern void IrbisRecUndelete
+            (
+                IntPtr space,
+                int shelf
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "Unifor")]
+        public static extern int Unifor
+            (
+                IntPtr space,
+                int currentShelf,
+                int termShelf,
+                int lwExit,
+                int occExit,
+                byte[] sp1,
+                byte[] sp2
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "Umarci")]
+        public static extern int Umarci
+            (
+                IntPtr space,
+                int currentShelf,
+                int termShelf,
+                int lwExit,
+                int occExit,
+                byte[] sp1,
+                byte[] sp2
+            );
+
+        /// <summary>
         /// Current version is 100.
         /// </summary>
         [DllImport(DllName, EntryPoint = "InteropVersion")]
