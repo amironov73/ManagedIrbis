@@ -49,6 +49,11 @@ namespace IrbisInterop
         /// </summary>
         public int Shelf { get; set; }
 
+        /// <summary>
+        /// Pointer to IrbisSpace structure.
+        /// </summary>
+        public IntPtr Space { get; internal set; }
+
         #endregion
 
         #region Construction
@@ -70,8 +75,6 @@ namespace IrbisInterop
         #endregion
 
         #region Private members
-
-        private IntPtr _space;
 
         static void _HandleRetCode
             (
@@ -125,12 +128,67 @@ namespace IrbisInterop
             _HandleRetCode("IrbisInitDeposit", retCode);
 
             Irbis65Dll.IrbisSetOptions(-1, 0, 0);
-            _space = Irbis65Dll.IrbisInit();
+            Space = Irbis65Dll.IrbisInit();
         }
 
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Get current mfn.
+        /// </summary>
+        public int GetCurrentMfn()
+        {
+            int result = Irbis65Dll.IrbisMfn(Space, Shelf);
+            _HandleRetCode("IrbisMfn", result);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get version of IRBIS64.dll.
+        /// </summary>
+        public static string GetDllVersion()
+        {
+            StringBuilder result = new StringBuilder(255);
+            Irbis65Dll.IrbisDllVersion(result, result.Capacity);
+
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Get interop version for irbis65.dll.
+        /// </summary>
+        public static int GetInteropVersion()
+        {
+            return Irbis65Dll.InteropVersion();
+        }
+
+        /// <summary>
+        /// Get max MFN for current database.
+        /// </summary>
+        public int GetMaxMfn()
+        {
+            int result = Irbis65Dll.IrbisMaxMfn(Space);
+            _HandleRetCode("IrbisMaxMfn", result);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Read record with specified MFN.
+        /// </summary>
+        public void ReadRecord
+            (
+                int mfn
+            )
+        {
+            Code.Positive(mfn, "mfn");
+
+            int result = Irbis65Dll.IrbisRecord(Space, Shelf, mfn);
+            _HandleRetCode("IrbisRecord", result);
+        }
 
         /// <summary>
         /// Use specified database.
@@ -166,7 +224,7 @@ namespace IrbisInterop
 
             int retCode = Irbis65Dll.IrbisInitMst
                 (
-                    _space,
+                    Space,
                     mstPath, 
                     5
                 );
@@ -187,7 +245,7 @@ namespace IrbisInterop
                     termPath,
                     databaseName
                 );
-            retCode = Irbis65Dll.IrbisInitTerm(_space, termPath);
+            retCode = Irbis65Dll.IrbisInitTerm(Space, termPath);
             _HandleRetCode("IrbisInitTerm", retCode);
         }
 
@@ -198,7 +256,10 @@ namespace IrbisInterop
         /// <inheritdoc />
         public void Dispose()
         {
-            Irbis65Dll.IrbisClose(_space);
+            if (Space.ToInt32() != 0)
+            {
+                Irbis65Dll.IrbisClose(Space);
+            }
         }
 
         #endregion

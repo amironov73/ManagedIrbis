@@ -77,7 +77,7 @@ namespace IrbisInteropTester
             return result;
         }
 
-        static void Main(string[] args)
+        static void Test1(string[] args)
         {
             if (args.Length != 1)
             {
@@ -90,15 +90,15 @@ namespace IrbisInteropTester
                 string fileName = args[0];
                 Encoding encoding = IrbisEncoding.Ansi;
                 IniFile iniFile = new IniFile
-                (
-                    fileName,
-                    encoding,
-                    false
-                );
+                    (
+                        fileName,
+                        encoding,
+                        false
+                    );
                 ServerIniFile serverIni = new ServerIniFile
-                (
-                    iniFile
-                );
+                    (
+                        iniFile
+                    );
 
                 string systemPath = serverIni.SystemPath
                     .ThrowIfNull("systemPath not set");
@@ -138,7 +138,7 @@ namespace IrbisInteropTester
                 Console.WriteLine("IrbisInitDeposit({0})={1}", depositPath, retCode);
                 HandleRetCode(retCode);
 
-                Irbis65Dll.IrbisSetOptions(-1,0,0);
+                Irbis65Dll.IrbisSetOptions(-1, 0, 0);
                 Console.WriteLine("IrbisSetOptions(-1,0,0)");
 
                 IntPtr space = Irbis65Dll.IrbisInit();
@@ -239,10 +239,10 @@ namespace IrbisInteropTester
                 pftPath = Path.GetFullPath
                     (
                         Path.Combine
-                            (
-                                systemPath,
-                                pftPath
-                            )
+                        (
+                            systemPath,
+                            pftPath
+                        )
                     );
                 Console.WriteLine("PftPath={0}", pftPath);
                 string briefPath = Path.Combine
@@ -276,7 +276,7 @@ namespace IrbisInteropTester
                 Encoding utf = Encoding.UTF8;
                 byte[] term = new byte[512];
                 string text = "K=БЕТОН";
-                utf.GetBytes (text, 0, text.Length, term, 0);
+                utf.GetBytes(text, 0, text.Length, term, 0);
                 retCode = Irbis65Dll.IrbisFind(space, term);
                 Console.WriteLine("IrbisFind={0}", retCode);
                 for (int i = 0; i < 10; i++)
@@ -310,6 +310,54 @@ namespace IrbisInteropTester
             {
                 Console.WriteLine(exception);
             }
+        }
+
+        static void Test2(string[] args)
+        {
+            if (args.Length != 1)
+            {
+                Console.WriteLine("IrbisInteropTester <irbis_server.ini>");
+                return;
+            }
+
+            try
+            {
+                ServerConfiguration configuration
+                    = ServerConfiguration.FromIniFile(args[0]);
+                using (Irbis64Dll irbis = new Irbis64Dll(configuration))
+                {
+                    Console.WriteLine
+                        (
+                            "Irbis64.dll version={0}",
+                            Irbis64Dll.GetDllVersion()
+                        );
+
+                    irbis.UseDatabase("ibis");
+                    Console.WriteLine
+                        (
+                            "Max MFN={0}",
+                            irbis.GetMaxMfn()
+                        );
+
+                    int mfn = 100;
+                    irbis.ReadRecord(mfn);
+                    Console.WriteLine("Read record MFN={0}", mfn);
+                    if (irbis.GetCurrentMfn() != mfn)
+                    {
+                        Console.WriteLine("Hmm!");
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            //Test1(args);
+            Test2(args);
         }
     }
 }

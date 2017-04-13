@@ -336,7 +336,7 @@ namespace ManagedIrbis.Server
         /// C:\IRBIS64\isisucw
         /// </remarks>
         [CanBeNull]
-        public string UpperCaseTable { get { return GetValue("UCTABPATH "); } }
+        public string UpperCaseTable { get { return GetValue("UCTABPATH"); } }
 
         /// <summary>
         /// Директория для сохранения временных файлов,

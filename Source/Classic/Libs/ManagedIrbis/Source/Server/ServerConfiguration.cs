@@ -96,6 +96,32 @@ namespace ManagedIrbis.Server
             return result;
         }
 
+        /// <summary>
+        /// Create server configuration from INI file.
+        /// </summary>
+        [NotNull]
+        public static ServerConfiguration FromIniFile
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            IniFile iniFile = new IniFile
+                (
+                    fileName,
+                    IrbisEncoding.Ansi,
+                    false
+                );
+            ServerIniFile serverIni = new ServerIniFile
+                (
+                    iniFile
+                );
+            ServerConfiguration result = FromIniFile(serverIni);
+
+            return result;
+        }
+
         #endregion
 
         #region Object members
