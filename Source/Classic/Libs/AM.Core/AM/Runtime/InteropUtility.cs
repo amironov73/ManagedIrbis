@@ -146,40 +146,6 @@ namespace AM.Runtime
         }
 
         /// <summary>
-        /// Get 16-bit integer from pointer plus offset.
-        /// </summary>
-        public static short GetInt16
-            (
-                this IntPtr pointer,
-                int offset
-            )
-        {
-            byte[] buffer = new byte[2];
-
-            Marshal.Copy(pointer + offset, buffer, 0, 2);
-            short result = BitConverter.ToInt16(buffer, 0);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Get 32-bit integer from pointer plus offset.
-        /// </summary>
-        public static int GetInt32
-            (
-                this IntPtr pointer,
-                int offset
-            )
-        {
-            byte[] buffer = new byte[4];
-
-            Marshal.Copy(pointer + offset, buffer, 0, 4);
-            int result = BitConverter.ToInt32(buffer, 0);
-
-            return result;
-        }
-
-        /// <summary>
         /// Get 32-bit pointer from pointer plus offset.
         /// </summary>
         public static IntPtr GetPointer32
@@ -188,10 +154,7 @@ namespace AM.Runtime
                 int offset
             )
         {
-            byte[] buffer = new byte[4];
-
-            Marshal.Copy(pointer + offset, buffer, 0, 4);
-            IntPtr result = new IntPtr(BitConverter.ToInt32(buffer, 0));
+            IntPtr result = new IntPtr(Marshal.ReadInt32(pointer, offset));
 
             return result;
         }
@@ -217,7 +180,7 @@ namespace AM.Runtime
         /// <summary>
         /// Get zero-ended string from specified pointer.
         /// </summary>
-        public static string GetZeroEndedString
+        public static string GetZeroTerminatedString
             (
                 IntPtr pointer,
                 Encoding encoding,

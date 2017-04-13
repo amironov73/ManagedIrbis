@@ -184,7 +184,7 @@ namespace IrbisInterop
         public NativeRecord GetRecord()
         {
             IntPtr recordPointer = Space.GetPointer32(626);
-            int recordLength = recordPointer.GetInt32(4);
+            int recordLength = Marshal.ReadInt32(recordPointer, 4);
             byte[] memory = recordPointer.GetBlock(recordLength);
             NativeRecord result = NativeRecord.ParseMemory(memory);
 
