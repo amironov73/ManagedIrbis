@@ -1,0 +1,34 @@
+//
+// Record layout in IRBIS64.DLL memory
+//
+
+struct Control
+{
+    DWORD Mfn;
+    DWORD Length;
+    DWORD Unknown1;
+    DWORD Unknown2;
+    DWORD Offset;
+    DWORD NFields;
+    DWORD Unknown3; // Version?
+    DWORD Unknown4; // Flags?
+};
+
+Control control;
+
+struct Dict
+{
+    DWORD Tag;
+    DWORD Offset;
+    DWORD Length;
+
+    local int save = FTell();
+
+    FSeek(control.Offset + Offset);
+
+    char Value[Length];
+
+    FSeek(save);
+};
+
+Dict dict[control.NFields];
