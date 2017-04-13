@@ -167,28 +167,28 @@ namespace IrbisInterop
                 IntPtr space
             );
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //[DllImport(DllName, EntryPoint = "IrbisNewRec")]
-        //public static extern int IrbisNewRec
-        //    (
-        //        IntPtr space,
-        //        int shelf
-        //    );
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisNewRec")]
+        public static extern int IrbisNewRec
+            (
+                IntPtr space,
+                int shelf
+            );
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //[DllImport(DllName, EntryPoint = "IrbisFldAdd")]
-        //public static extern int IrbisFldAdd
-        //    (
-        //        IntPtr space,
-        //        int shelf,
-        //        int met,
-        //        int nf,
-        //        string pole
-        //    );
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisFldAdd", CharSet = CharSet.Ansi)]
+        public static extern int IrbisFldAdd
+            (
+                IntPtr space,
+                int shelf,
+                int met,
+                int nf,
+                string pole
+            );
 
         /// <summary>
         /// 
@@ -346,6 +346,15 @@ namespace IrbisInterop
         public static extern int IrbisNextPost
             (
                 IntPtr space
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisInitNewDb", CharSet = CharSet.Ansi)]
+        public static extern int IrbisInitNewDb
+            (
+                string path
             );
 
         /// <summary>

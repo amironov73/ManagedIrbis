@@ -9,7 +9,7 @@ E=0
 F=0
 G=1
 H=1
-I=1
+I=0
 J=0
 K=0
 L=0
@@ -95,7 +95,7 @@ UnitOutputDir=
 PackageDLLOutputDir=
 PackageDCPOutputDir=
 SearchPath=
-Packages=vcl;rtl;visualclx
+Packages=
 Conditionals=
 DebugSourceDirs=
 UsePackages=0
@@ -119,7 +119,11 @@ Private=0
 DLL=0
 Locale=1049
 CodePage=1251
+[Version Info Keys]
+FileVersion=1.0.0.0
 [Excluded Packages]
+c:\program files (x86)\borland\delphi7\Bin\applet70.bpl=Borland Control Panel Applet Package
+c:\program files (x86)\borland\delphi7\Bin\dclclxstd70.bpl=Borland CLX Standard Components
 c:\program files (x86)\borland\delphi7\Bin\dclsmpedit70.bpl=Borland Editor Script Enhancements
 c:\program files (x86)\borland\delphi7\Bin\dclemacsedit70.bpl=Borland Editor Emacs Enhancements
 c:\program files (x86)\borland\delphi7\Bin\dbwebxprt.bpl=Borland Web Wizard Package
@@ -157,3 +161,6 @@ c:\program files (x86)\borland\delphi7\Bin\dclRave70.bpl=Rave Reports BE 5.0 Pac
 c:\program files (x86)\borland\delphi7\Bin\dclIntraweb_50_70.bpl=Intraweb 5.0 Design Package for Delphi 7
 c:\program files (x86)\borland\delphi7\Bin\DCLNMF70.bpl=NetMasters Fastnet Tools
 c:\program files (x86)\borland\delphi7\Bin\VclNewlyExt70.bpl=Newly Delphi Features Extented Components
+[HistoryLists\hlUnitAliases]
+Count=1
+Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;

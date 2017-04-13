@@ -40,13 +40,12 @@ procedure IrbisDLLVersion
     buffer: Pchar;
     bufsize: integer
   ); external 'IRBIS64.dll';
-{
+
 // создание 5 файлов новой БД
 function IrbisInitNewDB
   (
     path: PChar
-  ):integer; external 'IRBIS64.dll';
-}
+  ):integer; external 'IRBIS64.dll' name 'IrbisinitNewDB';
 
 function irbis_uatab_init
   (
@@ -61,12 +60,12 @@ function IrbisInitDeposit
   (
     path: PChar
   ): integer; external 'IRBIS64.dll' name 'irbis_init_DepositPath';
-{
+
 function IrbisNewRec
   (
     space,
     shelf: integer
-  ): integer; external 'IRBIS64.dll';
+  ): integer; external 'IRBIS64.dll' name 'Irbisnewrec';
 
 function IrbisFldAdd
   (
@@ -75,8 +74,8 @@ function IrbisFldAdd
     met,
     nf: integer;
     pole: Pchar
-  ): integer; external 'IRBIS64.dll';
-}
+  ): integer; external 'IRBIS64.dll' name 'Irbisfldadd';
+
 function IrbisInitPft
   (
     space: integer;
@@ -296,7 +295,7 @@ procedure IrbisDllVersion65
 begin
   IrbisDLLVersion(buffer, bufsize);
 end;
-{
+
 // создание 5 файлов новой БД
 function IrbisInitNewDB65
   (
@@ -305,7 +304,6 @@ function IrbisInitNewDB65
 begin
   Result := IrbisInitNewDB(path);
 end;
-}
 
 function irbis_uatab_init65
   (
@@ -326,7 +324,7 @@ function IrbisInitDeposit65
 begin
   Result := IrbisInitDeposit(path);
 end;
-{
+
 function IrbisNewRec65
   (
     space,
@@ -347,7 +345,7 @@ function IrbisFldAdd65
 begin
   Result := IrbisFldAdd(space, shelf, met, nf, pole);
 end;
-}
+
 function IrbisInitPft65
   (
     space: integer;
@@ -644,12 +642,11 @@ exports
 IrbisInit65 name 'IrbisInit',
 IrbisClose65 name 'IrbisClose',
 IrbisDllVersion65 name 'IrbisDllVersion',
-{
-IrbisInitNewDB65 name 'IrbisInitNewDb',}
+IrbisInitNewDB65 name 'IrbisInitNewDb',
 irbis_uatab_init65 name 'IrbisUatabInit',
 IrbisInitDeposit65 name 'IrbisInitDeposit',
-{IrbisNewRec65 name 'IrbisNewRec',
-IrbisFldAdd65 name 'IrbisFldAdd',}
+IrbisNewRec65 name 'IrbisNewRec',
+IrbisFldAdd65 name 'IrbisFldAdd',
 IrbisInitPft65 name 'IrbisInitPft',
 Irbis_Format65 name 'IrbisFormat',
 IrbisInitMst65 name 'IrbisInitMst',
