@@ -39,7 +39,19 @@ namespace IrbisInterop
     [MoonSharpUserData]
     public sealed class SpaceLayout
     {
+        #region Constants
+
+        private const string MagicString = "MagicString";
+
+        #endregion
+
         #region Properties
+
+        /// <summary>
+        /// Offset of formatted record text in the space.
+        /// </summary>
+        [JsonProperty("formatted")]
+        public int FormattedOffset { get; set; }
 
         /// <summary>
         /// Offset of native record in the space.
@@ -60,9 +72,83 @@ namespace IrbisInterop
         #region Public methods
 
         /// <summary>
-        /// Search for the record in the space.
+        /// Find the formatted text in the space.
         /// </summary>
-        public void SearchForRecord
+        public void FindTheFormattedText
+            (
+                IntPtr space,
+                int blockSize
+            )
+        {
+            if (FormattedOffset != 0)
+            {
+                return;
+            }
+
+            string format = "'" + MagicString + "'";
+            int retCode = Irbis65Dll.IrbisInitPft(space, format);
+            if (retCode < 0)
+            {
+                throw new IrbisException();
+            }
+            retCode = Irbis65Dll.IrbisFormat
+            (
+                space,
+                0 /*номер полки*/,
+                1,
+                0,
+                32000 /*размер буфера*/,
+                "IRBIS64"
+            );
+            if (retCode < 0)
+            {
+                throw new IrbisException();
+            }
+
+            Irbis65Dll.IrbisInitUactab(space);
+
+            Encoding encoding = IrbisEncoding.Utf8;
+            int length = encoding.GetByteCount(MagicString);
+            byte[] expected = new byte[length + 1];
+            encoding.GetBytes(MagicString, 0, length, expected, 0);
+            length++;
+
+            int minAddress = space.ToInt32() - 0x100000;
+            int maxAddress = space.ToInt32() + 0x100000;
+
+            for (int offset = 4; offset < blockSize; offset++)
+            {
+                IntPtr pointer = space.GetPointer32(offset);
+                int address = pointer.ToInt32();
+                if (address < minAddress || address > maxAddress)
+                {
+                    continue;
+                }
+
+                bool found = true;
+                for (int i = 0; i < length; i++)
+                {
+                    byte b = Marshal.ReadByte(pointer, i);
+                    if (b != expected[i])
+                    {
+                        found = false;
+                        break;
+                    }
+                }
+                if (found)
+                {
+                    FormattedOffset = offset;
+                    return;
+                }
+            }
+
+            throw new IrbisException("formatted not found");
+        }
+
+        /// <summary>
+        /// Find the record in the space.
+        /// </summary>
+        public void FindTheRecord
             (
                 IntPtr space,
                 int mfn,
@@ -79,24 +165,24 @@ namespace IrbisInterop
 
             for (int offset = 4; offset < blockSize; offset++)
             {
-                IntPtr ptr = space.GetPointer32(offset);
-                int address = ptr.ToInt32();
+                IntPtr pointer = space.GetPointer32(offset);
+                int address = pointer.ToInt32();
                 if (address < minAddress || address > maxAddress)
                 {
                     continue;
                 }
 
-                int canBeMfn = Marshal.ReadInt32(ptr);
+                int canBeMfn = Marshal.ReadInt32(pointer);
                 if (canBeMfn != mfn)
                 {
                     continue;
                 }
-                int mustBeZero = Marshal.ReadInt32(ptr, 8);
+                int mustBeZero = Marshal.ReadInt32(pointer, 8);
                 if (mustBeZero != 0)
                 {
                     continue;
                 }
-                mustBeZero = Marshal.ReadInt32(ptr, 12);
+                mustBeZero = Marshal.ReadInt32(pointer, 12);
                 if (mustBeZero != 0)
                 {
                     continue;

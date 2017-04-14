@@ -54,8 +54,13 @@ namespace IrbisInterop
         /// <summary>
         /// Memory layout.
         /// </summary>
+        public NonNullValue<SpaceLayout> Layout { get; set; }
+
+        /// <summary>
+        /// Current database parameters.
+        /// </summary>
         [CanBeNull]
-        public SpaceLayout Layout { get; set; }
+        public ParFile Parameters { get; private set; }
 
         /// <summary>
         /// Current shelf number.
@@ -80,6 +85,8 @@ namespace IrbisInterop
             )
         {
             Code.NotNull(configuration, "configuration");
+
+            Layout = new SpaceLayout();
 
             Configuration = configuration;
             _Initialize();
@@ -186,6 +193,40 @@ namespace IrbisInterop
         }
 
         /// <summary>
+        /// Get full path for the PFT file (without extension).
+        /// </summary>
+        [NotNull]
+        public string GetPftPath
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            ParFile parameters = Parameters
+                    .ThrowIfNull("paramters not set");
+            string pftPath = parameters.PftPath
+                .ThrowIfNull("pftPath not set");
+            string systemPath = Configuration.SystemPath
+                .ThrowIfNull("systemPath not set");
+            pftPath = Path.GetFullPath
+            (
+                Path.Combine
+                (
+                    systemPath,
+                    pftPath
+                )
+            );
+            string result = Path.Combine
+            (
+                pftPath,
+                fileName
+            );
+
+            return result;
+        }
+
+        /// <summary>
         /// Format current record.
         /// </summary>
         [NotNull]
@@ -202,8 +243,7 @@ namespace IrbisInterop
                 );
             _HandleRetCode("IrbisFormat", retcode);
 
-            string result
-                = Irbis65Dll.GetFormattedRecord(Space);
+            string result = GetFormattedText();
 
             return result;
         }
@@ -287,6 +327,34 @@ namespace IrbisInterop
         }
 
         /// <summary>
+        /// Get formatted text.
+        /// </summary>
+        [NotNull]
+        public string GetFormattedText()
+        {
+            SpaceLayout layout = Layout;
+
+            if (layout.FormattedOffset == 0)
+            {
+                throw new IrbisException("formattedOffset not set");
+            }
+
+            IntPtr textPointer = Space.GetPointer32
+            (
+                layout.FormattedOffset
+            );
+            Encoding encoding = IrbisEncoding.Utf8;
+            string result = InteropUtility.GetZeroTerminatedString
+                (
+                    textPointer,
+                    encoding,
+                    32000
+                );
+
+            return result;
+        }
+
+        /// <summary>
         /// Get native record from memory.
         /// </summary>
         [NotNull]
@@ -305,10 +373,6 @@ namespace IrbisInterop
         public byte[] GetRecordMemory()
         {
             SpaceLayout layout = Layout;
-            if (ReferenceEquals(layout, null))
-            {
-                throw new IrbisException("layout not set");
-            }
 
             IntPtr recordPointer = Space.GetPointer32
                 (
@@ -454,11 +518,9 @@ namespace IrbisInterop
             int result = Irbis65Dll.IrbisRecord(Space, Shelf, mfn);
             _HandleRetCode("IrbisRecord", result);
 
-            SpaceLayout layout = Layout;
-            if (!ReferenceEquals(layout, null)
-                && layout.RecordOffset == 0)
+            if (Layout.Value.RecordOffset == 0)
             {
-                layout.SearchForRecord
+                Layout.Value.FindTheRecord
                 (
                     Space,
                     mfn,
@@ -476,6 +538,15 @@ namespace IrbisInterop
             )
         {
             Code.NotNullNorEmpty(format, "format");
+
+            if (Layout.Value.FormattedOffset == 0)
+            {
+                Layout.Value.FindTheFormattedText
+                    (
+                        Space,
+                        0x4000
+                    );
+            }
 
             int result = Irbis65Dll.IrbisInitPft(Space, format);
             _HandleRetCode("IrbisInitPft", result);
@@ -504,6 +575,7 @@ namespace IrbisInterop
                     databaseName + ".par"
                 );
             ParFile parFile = ParFile.ParseFile(parPath);
+            Parameters = parFile;
             string mstPath = parFile.MstPath
                 .ThrowIfNull("mstPath not set");
             mstPath = Path.GetFullPath

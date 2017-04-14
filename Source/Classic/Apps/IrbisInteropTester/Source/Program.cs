@@ -270,8 +270,8 @@ namespace IrbisInteropTester
                 Console.WriteLine("IrbisFormat={0}", retcode);
                 HandleRetCode(retcode);
 
-                string formattedRecord = Irbis65Dll.GetFormattedRecord(space);
-                Console.WriteLine(formattedRecord);
+                //string formattedRecord = Irbis65Dll.GetFormattedRecord(space);
+                //Console.WriteLine(formattedRecord);
 
                 Encoding utf = Encoding.UTF8;
                 byte[] term = new byte[512];
@@ -326,8 +326,6 @@ namespace IrbisInteropTester
                     = ServerConfiguration.FromIniFile(args[0]);
                 using (Irbis64Dll irbis = new Irbis64Dll(configuration))
                 {
-                    irbis.Layout = new SpaceLayout();
-
                     Console.WriteLine
                         (
                             "Irbis64.dll version={0}",
@@ -341,18 +339,28 @@ namespace IrbisInteropTester
                             irbis.GetMaxMfn()
                         );
 
+                    string briefPft = irbis.GetPftPath("brief");
+                    irbis.SetFormat("@" + briefPft);
+
                     for (int mfn = 10; mfn < 200; mfn++)
                     {
                         irbis.ReadRecord(mfn);
                         Console.WriteLine("Read record MFN={0}", mfn);
+
                         NativeRecord record = irbis.GetRecord();
                         Console.WriteLine(record);
+
+                        string text = irbis.FormatRecord();
+                        Console.WriteLine(text);
+
+                        Console.WriteLine();
                     }
 
                     Console.WriteLine
                         (
-                            "Record offset={0}",
-                            irbis.Layout.RecordOffset
+                            "Record offset={0}, formatted offset={1}",
+                            irbis.Layout.Value.RecordOffset,
+                            irbis.Layout.Value.FormattedOffset
                         );
                 }
             }

@@ -158,7 +158,13 @@ namespace IrbisInterop
         {
             StringBuilder result = new StringBuilder();
 
-            result.AppendFormat("MFN={0}", Mfn);
+            result.AppendFormat
+                (
+                    "MFN={0}, Version={1}, Flags={2}", 
+                    Mfn,
+                    Version,
+                    Flags
+                );
             result.AppendLine();
 
             foreach (NativeField field in Fields)
