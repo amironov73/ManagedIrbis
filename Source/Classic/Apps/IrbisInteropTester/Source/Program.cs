@@ -326,6 +326,8 @@ namespace IrbisInteropTester
                     = ServerConfiguration.FromIniFile(args[0]);
                 using (Irbis64Dll irbis = new Irbis64Dll(configuration))
                 {
+                    irbis.Layout = new SpaceLayout();
+
                     Console.WriteLine
                         (
                             "Irbis64.dll version={0}",
@@ -339,13 +341,19 @@ namespace IrbisInteropTester
                             irbis.GetMaxMfn()
                         );
 
-                    for (int mfn = 10; mfn < 20; mfn++)
+                    for (int mfn = 10; mfn < 200; mfn++)
                     {
                         irbis.ReadRecord(mfn);
                         Console.WriteLine("Read record MFN={0}", mfn);
-                        //NativeRecord record = irbis.GetRecord();
-                        //Console.WriteLine(record);
+                        NativeRecord record = irbis.GetRecord();
+                        Console.WriteLine(record);
                     }
+
+                    Console.WriteLine
+                        (
+                            "Record offset={0}",
+                            irbis.Layout.RecordOffset
+                        );
                 }
             }
             catch (Exception exception)

@@ -52,6 +52,12 @@ namespace IrbisInterop
         public string Database { get; private set; }
 
         /// <summary>
+        /// Memory layout.
+        /// </summary>
+        [CanBeNull]
+        public SpaceLayout Layout { get; set; }
+
+        /// <summary>
         /// Current shelf number.
         /// </summary>
         public int Shelf { get; set; }
@@ -298,7 +304,16 @@ namespace IrbisInterop
         /// </summary>
         public byte[] GetRecordMemory()
         {
-            IntPtr recordPointer = Space.GetPointer32(626);
+            SpaceLayout layout = Layout;
+            if (ReferenceEquals(layout, null))
+            {
+                throw new IrbisException("layout not set");
+            }
+
+            IntPtr recordPointer = Space.GetPointer32
+                (
+                    layout.RecordOffset
+                );
             int recordLength 
                 = Marshal.ReadInt32(recordPointer, 4);
             byte[] memory = recordPointer.GetBlock(recordLength);
@@ -396,6 +411,18 @@ namespace IrbisInterop
 
             int result = Irbis65Dll.IrbisRecord(Space, Shelf, mfn);
             _HandleRetCode("IrbisRecord", result);
+
+            SpaceLayout layout = Layout;
+            if (!ReferenceEquals(layout, null)
+                && layout.RecordOffset == 0)
+            {
+                layout.SearchForRecord
+                (
+                    Space,
+                    mfn,
+                    0x4000
+                );
+            }
         }
 
         /// <summary>
