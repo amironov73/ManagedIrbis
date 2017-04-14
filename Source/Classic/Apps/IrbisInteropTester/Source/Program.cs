@@ -343,8 +343,8 @@ namespace IrbisInteropTester
                     {
                         irbis.ReadRecord(mfn);
                         Console.WriteLine("Read record MFN={0}", mfn);
-                        NativeRecord record = irbis.GetRecord();
-                        Console.WriteLine(record);
+                        //NativeRecord record = irbis.GetRecord();
+                        //Console.WriteLine(record);
                     }
                 }
             }

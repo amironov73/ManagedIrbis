@@ -46,6 +46,12 @@ namespace IrbisInterop
         public ServerConfiguration Configuration { get; internal set; }
 
         /// <summary>
+        /// Current database name.
+        /// </summary>
+        [CanBeNull]
+        public string Database { get; private set; }
+
+        /// <summary>
         /// Current shelf number.
         /// </summary>
         public int Shelf { get; set; }
@@ -137,6 +143,103 @@ namespace IrbisInterop
         #region Public methods
 
         /// <summary>
+        /// Performs simple search for exact term match.
+        /// </summary>
+        [NotNull]
+        public int[] ExactSearch
+            (
+                [NotNull] string term
+            )
+        {
+            Code.NotNullNorEmpty(term, "term");
+
+            Encoding utf = IrbisEncoding.Utf8;
+            byte[] buffer = new byte[512];
+            utf.GetBytes(term, 0, term.Length, buffer, 0);
+            int retCode = Irbis65Dll.IrbisFind(Space, buffer);
+            if (retCode < 0)
+            {
+                return new int[0];
+            }
+
+            int nposts = Irbis65Dll.IrbisNPosts(Space);
+            _HandleRetCode("IrbisNPosts", nposts);
+
+            int[] result = new int[nposts];
+            for (int i = 0; i < nposts; i++)
+            {
+                retCode = Irbis65Dll.IrbisNextPost(Space);
+                _HandleRetCode("IrbisNextPost", retCode);
+
+                int mfn = Irbis65Dll.IrbisPosting(Space, 1);
+                _HandleRetCode("IrbisPosting", mfn);
+                result[i] = mfn;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Format current record.
+        /// </summary>
+        [NotNull]
+        public string FormatRecord()
+        {
+            int retcode = Irbis65Dll.IrbisFormat
+                (
+                    Space,
+                    0 /*номер полки*/,
+                    1,
+                    0,
+                    32000 /*размер буфера*/,
+                    "IRBIS64"
+                );
+            _HandleRetCode("IrbisFormat", retcode);
+
+            string result
+                = Irbis65Dll.GetFormattedRecord(Space);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Format record.
+        /// </summary>
+        [NotNull]
+        public string FormatRecord
+            (
+                int mfn
+            )
+        {
+            Code.Positive(mfn, "mfn");
+
+            ReadRecord(mfn);
+            string result = FormatRecord();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Format record.
+        /// </summary>
+        [NotNull]
+        public string FormatRecord
+            (
+                string format,
+                int mfn
+            )
+        {
+            Code.NotNullNorEmpty(format, "format");
+            Code.Positive(mfn, "mfn");
+
+            ReadRecord(mfn);
+            SetFormat(format);
+            string result = FormatRecord();
+
+            return result;
+        }
+
+        /// <summary>
         /// Get current mfn.
         /// </summary>
         public int GetCurrentMfn()
@@ -183,12 +286,102 @@ namespace IrbisInterop
         [NotNull]
         public NativeRecord GetRecord()
         {
-            IntPtr recordPointer = Space.GetPointer32(626);
-            int recordLength = Marshal.ReadInt32(recordPointer, 4);
-            byte[] memory = recordPointer.GetBlock(recordLength);
-            NativeRecord result = NativeRecord.ParseMemory(memory);
+            byte[] memory = GetRecordMemory();
+            NativeRecord result 
+                = NativeRecord.ParseMemory(memory);
 
             return result;
+        }
+
+        /// <summary>
+        /// Get memory block for current record.
+        /// </summary>
+        public byte[] GetRecordMemory()
+        {
+            IntPtr recordPointer = Space.GetPointer32(626);
+            int recordLength 
+                = Marshal.ReadInt32(recordPointer, 4);
+            byte[] memory = recordPointer.GetBlock(recordLength);
+
+            return memory;
+        }
+
+        /// <summary>
+        /// Determines version for given record.
+        /// </summary>
+        public int GetRecordVersion
+            (
+                int mfn
+            )
+        {
+            Code.Positive(mfn, "mfn");
+
+            int result = Irbis65Dll.IrbisReadVersion(Space, mfn);
+            _HandleRetCode("IrbisReadVersion", result);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Determines whether the database is locked.
+        /// </summary>
+        public bool IsDatabaseLocked()
+        {
+            int result = Irbis65Dll.IrbisIsDbLocked(Space);
+            _HandleRetCode("IrbisIsDbLocked", result);
+
+            return Convert.ToBoolean(result);
+        }
+
+        /// <summary>
+        /// Determines whether the record is actualized.
+        /// </summary>
+        public bool IsRecordActualized()
+        {
+            int result = Irbis65Dll.IrbisIsActualized(Space, Shelf);
+            _HandleRetCode("IrbisIsActualized", result);
+
+            return Convert.ToBoolean(result);
+        }
+
+        /// <summary>
+        /// Determines whether the record is deleted.
+        /// </summary>
+        public bool IsRecordDeleted()
+        {
+            int result = Irbis65Dll.IrbisIsDeleted(Space, Shelf);
+            _HandleRetCode("IrbisIsDeleted", result);
+
+            return Convert.ToBoolean(result);
+        }
+
+        /// <summary>
+        /// Determines whether the record is locked.
+        /// </summary>
+        public bool IsRecordLocked()
+        {
+            int result = Irbis65Dll.IrbisIsLocked(Space, Shelf);
+            _HandleRetCode("IrbisIsLocked", result);
+
+            return Convert.ToBoolean(result);
+        }
+
+        /// <summary>
+        /// Determines whether the record is locked.
+        /// </summary>
+        public bool IsRecordLocked
+            (
+                int mfn
+            )
+        {
+            int result = Irbis65Dll.IrbisIsRealyLocked
+                (
+                    Space,
+                    mfn
+                );
+            _HandleRetCode("IrbisIsReallyLocked", result);
+
+            return Convert.ToBoolean(result);
         }
 
         /// <summary>
@@ -206,6 +399,22 @@ namespace IrbisInterop
         }
 
         /// <summary>
+        /// Setup the format.
+        /// </summary>
+        public void SetFormat
+            (
+                [NotNull] string format
+            )
+        {
+            Code.NotNullNorEmpty(format, "format");
+
+            int result = Irbis65Dll.IrbisInitPft(Space, format);
+            _HandleRetCode("IrbisInitPft", result);
+
+            Irbis65Dll.IrbisInitUactab(Space);
+        }
+
+        /// <summary>
         /// Use specified database.
         /// </summary>
         public void UseDatabase
@@ -214,6 +423,11 @@ namespace IrbisInterop
             )
         {
             Code.NotNullNorEmpty(databaseName, "databaseName");
+
+            if (Database.SameString(databaseName))
+            {
+                return;
+            }
 
             string parPath = Path.Combine
                 (
@@ -260,8 +474,14 @@ namespace IrbisInterop
                     termPath,
                     databaseName
                 );
-            retCode = Irbis65Dll.IrbisInitTerm(Space, termPath);
+            retCode = Irbis65Dll.IrbisInitTerm
+                (
+                    Space,
+                    termPath
+                );
             _HandleRetCode("IrbisInitTerm", retCode);
+
+            Database = databaseName;
         }
 
         #endregion
