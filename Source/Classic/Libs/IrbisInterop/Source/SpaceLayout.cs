@@ -118,7 +118,11 @@ namespace IrbisInterop
 
             for (int offset = 4; offset < blockSize; offset++)
             {
-                IntPtr pointer = space.GetPointer32(offset);
+                IntPtr pointer = Marshal.ReadIntPtr
+                    (
+                        space,
+                        offset
+                    );
                 int address = pointer.ToInt32();
                 if (address < minAddress || address > maxAddress)
                 {
@@ -165,7 +169,11 @@ namespace IrbisInterop
 
             for (int offset = 4; offset < blockSize; offset++)
             {
-                IntPtr pointer = space.GetPointer32(offset);
+                IntPtr pointer = Marshal.ReadIntPtr
+                    (
+                        space,
+                        offset
+                    );
                 int address = pointer.ToInt32();
                 if (address < minAddress || address > maxAddress)
                 {

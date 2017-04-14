@@ -146,20 +146,6 @@ namespace AM.Runtime
         }
 
         /// <summary>
-        /// Get 32-bit pointer from pointer plus offset.
-        /// </summary>
-        public static IntPtr GetPointer32
-            (
-                this IntPtr pointer,
-                int offset
-            )
-        {
-            IntPtr result = new IntPtr(Marshal.ReadInt32(pointer, offset));
-
-            return result;
-        }
-
-        /// <summary>
         /// Dump bytes from specified pointer.
         /// </summary>
         public static void DumpAddress

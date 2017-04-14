@@ -86,6 +86,11 @@ namespace IrbisInterop
         {
             Code.NotNull(configuration, "configuration");
 
+            if (IntPtr.Size != 4)
+            {
+                throw new IrbisException("Irbis64Dll must be 32-bit");
+            }
+
             Layout = new SpaceLayout();
 
             Configuration = configuration;
@@ -339,10 +344,11 @@ namespace IrbisInterop
                 throw new IrbisException("formattedOffset not set");
             }
 
-            IntPtr textPointer = Space.GetPointer32
-            (
-                layout.FormattedOffset
-            );
+            IntPtr textPointer = Marshal.ReadIntPtr
+                (
+                    Space,
+                    layout.FormattedOffset
+                );
             Encoding encoding = IrbisEncoding.Utf8;
             string result = InteropUtility.GetZeroTerminatedString
                 (
@@ -374,12 +380,16 @@ namespace IrbisInterop
         {
             SpaceLayout layout = Layout;
 
-            IntPtr recordPointer = Space.GetPointer32
+            IntPtr recordPointer = Marshal.ReadIntPtr
                 (
+                    Space,
                     layout.RecordOffset
                 );
-            int recordLength 
-                = Marshal.ReadInt32(recordPointer, 4);
+            int recordLength = Marshal.ReadInt32
+                (
+                    recordPointer,
+                    4
+                );
             byte[] memory = recordPointer.GetBlock(recordLength);
 
             return memory;
@@ -411,7 +421,11 @@ namespace IrbisInterop
                 int length
             )
         {
-            IntPtr pointer = Space.GetPointer32(offset);
+            IntPtr pointer = Marshal.ReadIntPtr
+                (
+                    Space,
+                    offset
+                );
             byte[] result = new byte[length];
             Marshal.Copy(pointer, result,0, length);
 
@@ -431,7 +445,11 @@ namespace IrbisInterop
         {
             Code.NotNull(encoding, "encoding");
 
-            IntPtr pointer = Space.GetPointer32(offset);
+            IntPtr pointer = Marshal.ReadIntPtr
+                (
+                    Space,
+                    offset
+                );
             string result
                 = InteropUtility.GetZeroTerminatedString
                     (
