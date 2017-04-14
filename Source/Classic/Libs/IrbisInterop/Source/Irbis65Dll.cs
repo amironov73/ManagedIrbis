@@ -16,6 +16,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
+using JetBrains.Annotations;
+
 #endregion
 
 namespace IrbisInterop
@@ -542,10 +544,145 @@ namespace IrbisInterop
             );
 
         /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisDbEmptyTime")]
+        public static extern int IrbisDbEmptyTime
+            (
+                IntPtr space,
+                int seconds
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisLockDbTime")]
+        public static extern int IrbisLockDbTime
+            (
+                IntPtr space,
+                int seconds
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisUnLockDbTime")]
+        public static extern int IrbisUnLockDbTime
+            (
+                IntPtr space,
+                int seconds
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisRecLockTime")]
+        public static extern int IrbisRecLockTime
+            (
+                IntPtr space,
+                int shelf,
+                int mfn,
+                int seconds
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisRecUnlockTime")]
+        public static extern int IrbisRecUnlockTime
+            (
+                IntPtr space,
+                int mfn,
+                int seconds
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisRecUpdateTime")]
+        public static extern int IrbisRecUpdateTime
+            (
+                IntPtr space,
+                int shelf,
+                int keepLock,
+                int updif,
+                int seconds,
+                ref int updateResult,
+                ref int updifResult
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisRecIfUpdateTime")]
+        public static extern int IrbisRecIfUpdateTime
+            (
+                IntPtr space,
+                int shelf,
+                int mfn,
+                int seconds
+            );
+
+        // =========================================================
+
+        //
+        // Functions from BORLNDMM.DLL
+        //
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "SysGetMem")]
+        public static extern IntPtr SysGetMem
+            (
+                int size
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "SysFreeMem")]
+        public static extern int SysFreeMem
+            (
+                IntPtr pointer
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "SysReallocMem")]
+        public static extern IntPtr SysReallocMem
+            (
+                IntPtr pointer,
+                int size
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "SysAllocMem")]
+        public static extern IntPtr SysAllocMem
+            (
+                int size
+            );
+
+        // =========================================================
+
+        /// <summary>
         /// Current version is 100.
         /// </summary>
         [DllImport(DllName, EntryPoint = "InteropVersion")]
         public static extern int InteropVersion();
+
+        /// <summary>
+        /// Determines whether the function is available.
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IsFunctionAvailable",
+            CharSet = CharSet.Ansi)]
+        public static extern int IsFunctionAvailable
+            (
+                [NotNull] string functionName
+            );
 
         #endregion
     }

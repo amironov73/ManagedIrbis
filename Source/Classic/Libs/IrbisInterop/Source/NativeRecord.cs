@@ -55,6 +55,16 @@ namespace IrbisInterop
         [NotNull]
         public NonNullCollection<NativeField> Fields { get; private set; }
 
+        /// <summary>
+        /// Version.
+        /// </summary>
+        public int Version { get; set; }
+
+        /// <summary>
+        /// Flags.
+        /// </summary>
+        public int Flags { get; set; }
+
         #endregion
 
         #region Construction
@@ -91,24 +101,20 @@ namespace IrbisInterop
                 Mfn = BitConverter.ToInt32(memory, 0)
             };
 
-            //string fileName = string.Format
-            //    (
-            //        "MFN{0}.bin",
-            //        result.Mfn
-            //    );
-            //File.WriteAllBytes(fileName, memory);
-
             int totalLength = BitConverter.ToInt32(memory, 4);
             if (totalLength < memory.Length)
             {
                 throw new IrbisException();
             }
+
+            // Always zero. Padding?
             int unknown1 = BitConverter.ToInt32(memory, 8);
             int unknown2 = BitConverter.ToInt32(memory, 12);
+
             int dataOffset = BitConverter.ToInt32(memory, 0x10);
             int fieldCount = BitConverter.ToInt32(memory, 0x14);
-            int unknown3 = BitConverter.ToInt32(memory, 0x14);
-            int unknown4 = BitConverter.ToInt32(memory, 0x1C);
+            result.Version = BitConverter.ToInt32(memory, 0x14);
+            result.Flags = BitConverter.ToInt32(memory, 0x1C);
             int offset = 0x20;
             Encoding encoding = new UTF8Encoding(false, true);
             int end = 0;

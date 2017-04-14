@@ -338,6 +338,48 @@ namespace IrbisInterop
         }
 
         /// <summary>
+        /// Grab block by pointer.
+        /// </summary>
+        [NotNull]
+        public byte[] GrabBlockByPointer
+            (
+                int offset,
+                int length
+            )
+        {
+            IntPtr pointer = Space.GetPointer32(offset);
+            byte[] result = new byte[length];
+            Marshal.Copy(pointer, result,0, length);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Grab string by pointer.
+        /// </summary>
+        [NotNull]
+        public string GrabStringByPointer
+            (
+                [NotNull] Encoding encoding,
+                int offset,
+                int maxLength
+            )
+        {
+            Code.NotNull(encoding, "encoding");
+
+            IntPtr pointer = Space.GetPointer32(offset);
+            string result
+                = InteropUtility.GetZeroTerminatedString
+                    (
+                        pointer,
+                        encoding,
+                        maxLength
+                    );
+
+            return result;
+        }
+
+        /// <summary>
         /// Determines whether the database is locked.
         /// </summary>
         public bool IsDatabaseLocked()
