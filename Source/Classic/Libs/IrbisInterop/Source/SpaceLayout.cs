@@ -59,6 +59,18 @@ namespace IrbisInterop
         [JsonProperty("record")]
         public int RecordOffset { get; set; }
 
+        // =========================================================
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static int GlobalFormattedOffset { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static int GlobalRecordOffset { get; set; }
+
         #endregion
 
         #region Construction
@@ -85,6 +97,12 @@ namespace IrbisInterop
                 return;
             }
 
+            if (GlobalFormattedOffset != 0)
+            {
+                FormattedOffset = GlobalFormattedOffset;
+                return;
+            }
+
             string format = "'" + MagicString + "'";
             int retCode = Irbis65Dll.IrbisInitPft(space, format);
             if (retCode < 0)
@@ -97,8 +115,8 @@ namespace IrbisInterop
                 0 /*номер полки*/,
                 1,
                 0,
-                32000 /*размер буфера*/,
-                "IRBIS64"
+                Irbis64Dll.BufferSize,
+                Irbis64Dll.DllName
             );
             if (retCode < 0)
             {
@@ -142,6 +160,7 @@ namespace IrbisInterop
                 if (found)
                 {
                     FormattedOffset = offset;
+                    GlobalFormattedOffset = offset;
                     return;
                 }
             }
@@ -161,6 +180,12 @@ namespace IrbisInterop
         {
             if (RecordOffset != 0)
             {
+                return;
+            }
+
+            if (GlobalRecordOffset != 0)
+            {
+                RecordOffset = GlobalRecordOffset;
                 return;
             }
 
@@ -197,6 +222,7 @@ namespace IrbisInterop
                 }
 
                 RecordOffset = offset;
+                GlobalRecordOffset = offset;
                 return;
             } 
 

@@ -37,6 +37,20 @@ namespace IrbisInterop
     public sealed class Irbis64Dll
         : IDisposable
     {
+        #region Constants
+
+        /// <summary>
+        /// Buffer size.
+        /// </summary>
+        public const int BufferSize = 32000;
+
+        /// <summary>
+        /// Name of the DLL file (without extension!).
+        /// </summary>
+        public const string DllName = "IRBIS64";
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -275,8 +289,8 @@ namespace IrbisInterop
                     0 /*номер полки*/,
                     1,
                     0,
-                    32000 /*размер буфера*/,
-                    "IRBIS64"
+                    BufferSize,
+                    DllName
                 );
             _HandleRetCode("IrbisFormat", retcode);
 
@@ -386,7 +400,7 @@ namespace IrbisInterop
                 (
                     textPointer,
                     encoding,
-                    32000
+                    BufferSize
                 );
 
             return result;
