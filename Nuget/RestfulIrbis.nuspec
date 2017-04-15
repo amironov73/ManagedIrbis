@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>RestfulIrbis</id>
-    <version>1.6.8.1500</version>
+    <version>1.6.7.1400</version>
     <title>REST server and client for Irbis64</title>
     <authors>Mironov Alexey</authors>
     <owners></owners>

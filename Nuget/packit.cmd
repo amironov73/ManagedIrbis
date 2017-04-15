@@ -18,6 +18,7 @@ CALL :BUILD AM.Suggestions     no   no no    no  no    no
 CALL :BUILD AM.AOT             core no droid uap no    pcl
 CALL :BUILD AM.Ocr             no   no no    no  no    no
 CALL :BUILD RestfulIrbis       core no droid uap no    pcl
+CALL :BUILD IrbisInterop       no   no no    no  no    no
 
 GOTO :END
 
@@ -125,6 +126,13 @@ copy %BIN%\%BUILD%45\OBIDISC4NETnative.dll    lib\net45 > nul
 copy %BIN%\%BUILD%45\pcsc-sharp.dll           lib\net45 > nul
 copy %BIN%\%BUILD%45\pcsc-sharp.pdb           lib\net45 > nul
 copy %BIN%\%BUILD%45\pcsc-sharp.xml           lib\net45 > nul
+)
+
+
+IF %1==IrbisInterop (
+copy ..\Source\Delphi\Irbis65\Irbis65.dll     lib\net35 > nul
+copy ..\Source\Delphi\Irbis65\Irbis65.dll     lib\net40 > nul
+copy ..\Source\Delphi\Irbis65\Irbis65.dll     lib\net45 > nul
 )
 
 PatchNugetVersion.exe %BIN%\%BUILD%40\AM.Core.dll %1.nuspec
