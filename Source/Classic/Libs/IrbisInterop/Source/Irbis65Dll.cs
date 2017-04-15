@@ -114,7 +114,7 @@ namespace IrbisInterop
                 int shelf,
                 int met,
                 int nf,
-                string pole
+                string value
             );
 
         /// <summary>
@@ -546,6 +546,27 @@ namespace IrbisInterop
                 int shelf,
                 int mfn,
                 int seconds
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisFldEmpty")]
+        public static extern int IrbisFldEmpty
+            (
+                IntPtr space,
+                int shelf
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisChangeMfn")]
+        public static extern int IrbisChangeMfn
+            (
+                IntPtr space,
+                int shelf,
+                int newMfn
             );
 
         // =========================================================

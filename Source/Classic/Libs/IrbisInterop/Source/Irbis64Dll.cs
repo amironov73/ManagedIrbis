@@ -161,6 +161,38 @@ namespace IrbisInterop
         #region Public methods
 
         /// <summary>
+        /// Create database with specified name.
+        /// </summary>
+        /// <param name="databasePath">Full path to master
+        /// file (without extension!)</param>
+        public void CreateDatabase
+            (
+                [NotNull] string databasePath
+            )
+        {
+            Code.NotNullNorEmpty(databasePath, "databasePath");
+
+            string fileName = Path.GetFileNameWithoutExtension
+                (
+                    databasePath
+                );
+            string directory = Path.GetDirectoryName(databasePath)
+                .ThrowIfNull("directory not set");
+            string[] files = Directory.GetFiles
+                (
+                    directory,
+                    fileName + ".*"
+                );
+            foreach (string file in files)
+            {
+                File.Delete(file);
+            }
+
+            int retCode = Irbis65Dll.IrbisInitNewDb(databasePath);
+            _HandleRetCode("IrbisInitNewDb", retCode);
+        }
+
+        /// <summary>
         /// Performs simple search for exact term match.
         /// </summary>
         [NotNull]
@@ -367,7 +399,7 @@ namespace IrbisInterop
         public NativeRecord GetRecord()
         {
             byte[] memory = GetRecordMemory();
-            NativeRecord result 
+            NativeRecord result
                 = NativeRecord.ParseMemory(memory);
 
             return result;
@@ -427,7 +459,7 @@ namespace IrbisInterop
                     offset
                 );
             byte[] result = new byte[length];
-            Marshal.Copy(pointer, result,0, length);
+            Marshal.Copy(pointer, result, 0, length);
 
             return result;
         }
@@ -524,6 +556,15 @@ namespace IrbisInterop
         }
 
         /// <summary>
+        /// Create new record on the shelf.
+        /// </summary>
+        public void NewRecord()
+        {
+            int retCode = Irbis65Dll.IrbisNewRec(Space, Shelf);
+            _HandleRetCode("IrbisNewRec", retCode);
+        }
+
+        /// <summary>
         /// Read record with specified MFN.
         /// </summary>
         public void ReadRecord
@@ -573,6 +614,46 @@ namespace IrbisInterop
         }
 
         /// <summary>
+        /// Put the record into the space.
+        /// </summary>
+        public void SetRecord
+            (
+                int shelf,
+                [NotNull] NativeRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            IntPtr space = Space;
+
+            int retCode = Irbis65Dll.IrbisFldEmpty(space, shelf);
+            _HandleRetCode("IrbisFldEmpty", retCode);
+            foreach (NativeField field in record.Fields)
+            {
+                retCode = Irbis65Dll.IrbisFldAdd
+                    (
+                        space,
+                        shelf,
+                        field.Tag,
+                        0,
+                        field.Value
+                    );
+                _HandleRetCode("IrbisFldAdd", retCode);
+            }
+        }
+
+        /// <summary>
+        /// Put the record into the space.
+        /// </summary>
+        public void SetRecord
+            (
+                [NotNull] NativeRecord record
+            )
+        {
+            SetRecord(Shelf, record);
+        }
+
+        /// <summary>
         /// Use specified database.
         /// </summary>
         public void UseDatabase
@@ -613,7 +694,7 @@ namespace IrbisInterop
             int retCode = Irbis65Dll.IrbisInitMst
                 (
                     Space,
-                    mstPath, 
+                    mstPath,
                     5
                 );
             _HandleRetCode("IrbisInitMst", retCode);
@@ -624,7 +705,7 @@ namespace IrbisInterop
                 (
                     Path.Combine
                         (
-                            Configuration.SystemPath, 
+                            Configuration.SystemPath,
                             termPath
                         )
                 );
@@ -641,6 +722,63 @@ namespace IrbisInterop
             _HandleRetCode("IrbisInitTerm", retCode);
 
             Database = databaseName;
+        }
+
+        /// <summary>
+        /// Use specified database.
+        /// </summary>
+        public void UseStandaloneDatabase
+            (
+                [NotNull] string databasePath
+            )
+        {
+            Code.NotNullNorEmpty(databasePath, "databasePath");
+
+            string directory = Path.GetDirectoryName(databasePath);
+            if (string.IsNullOrEmpty(directory))
+            {
+                throw new IrbisException("directory not specified");
+            }
+
+            string databaseName = Path.GetFileName(databasePath);
+            if (string.IsNullOrEmpty(databaseName))
+            {
+                throw new IrbisException("file not specified");
+            }
+
+            int retCode = Irbis65Dll.IrbisInitMst
+                (
+                    Space,
+                    databasePath,
+                    5
+                );
+            _HandleRetCode("IrbisInitMst", retCode);
+
+            retCode = Irbis65Dll.IrbisInitTerm
+                (
+                    Space,
+                    databasePath
+                );
+            _HandleRetCode("IrbisInitTerm", retCode);
+
+            Database = databaseName;
+        }
+
+        /// <summary>
+        /// Write record from the shelf.
+        /// </summary>
+        public void WriteRecord
+            (
+                bool keepLock
+            )
+        {
+            int retCode = Irbis65Dll.IrbisRecUpdate0
+                (
+                    Space,
+                    Shelf,
+                    Convert.ToInt32(keepLock)
+                );
+            _HandleRetCode("IrbisRecUpdate0", retCode);
         }
 
         #endregion

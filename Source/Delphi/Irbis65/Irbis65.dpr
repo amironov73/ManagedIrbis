@@ -891,6 +891,43 @@ end;
 
 // ===========================================================================
 
+{опустошает запись}
+function IrbisFldEmpty
+  (
+    space,
+    shelf: integer
+): integer; external 'IRBIS64.DLL' name 'Irbisfldempty';
+
+function IrbisFldEmpty65
+  (
+    space,
+    shelf: integer
+  ): integer; stdcall; export;
+begin
+  Result := IrbisFldEmpty(space, shelf);
+end;
+
+// ===========================================================================
+
+function IrbisChangeMfn
+  (
+    space,
+    shelf,
+    newmfn: integer
+  ): integer; external 'IRBIS64.DLL' name 'Irbischangemfn';
+
+function IrbisChangeMfn65
+  (
+    space,
+    shelf,
+    newmfn: integer
+  ): integer; stdcall; export;
+begin
+  Result := IrbisChangeMfn(space, shelf, newmfn);
+end;
+
+// ===========================================================================
+
 function InteropVersion: integer; stdcall;
 begin
   Result := 100;
@@ -948,6 +985,8 @@ IrbisRecUpdateTime65 name 'IrbisRecUpdateTime',
 IrbisRecIfUpdateTime65 name 'IrbisRecIfUpdateTime',
 IrbisRecLockTime65 name 'IrbisRecLockTime',
 IrbisRecUnLockTime65 name 'IrbisRecUnLockTime',
+IrbisFldEmpty65 name 'IrbisFldEmpty',
+IrbisChangeMfn65 name 'IrbisChangeMfn',
 InteropVersion name 'InteropVersion';
 
 // ===========================================================================

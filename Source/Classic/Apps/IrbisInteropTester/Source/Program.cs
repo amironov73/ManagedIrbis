@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -362,6 +363,44 @@ namespace IrbisInteropTester
                             irbis.Layout.Value.RecordOffset,
                             irbis.Layout.Value.FormattedOffset
                         );
+
+                    string testDatabase = Path.Combine
+                    (
+                            Path.GetDirectoryName
+                            (
+                                Assembly.GetEntryAssembly().Location
+                            )
+                            .ThrowIfNull("directory is unknown"),
+                        "TestDb"
+                    );
+                    if (!Directory.Exists(testDatabase))
+                    {
+                        Directory.CreateDirectory(testDatabase);
+                    }
+                    testDatabase += "\\TestDb";
+
+                    irbis.CreateDatabase(testDatabase);
+                    irbis.UseStandaloneDatabase(testDatabase);
+
+                    for (int i = 0; i < 10; i++)
+                    {
+                        int number = i + 1;
+                        NativeRecord record = new NativeRecord();
+                        NativeField field = new NativeField
+                        {
+                            Tag = 1,
+                            Value = "Record number " + number
+                        };
+                        record.Fields.Add(field);
+
+                        irbis.NewRecord();
+                        irbis.SetRecord(record);
+                        //irbis.WriteRecord(false);
+
+                        irbis.SetFormat("v1");
+                        string text = irbis.FormatRecord();
+                        Console.WriteLine(text);
+                    }
                 }
             }
             catch (Exception exception)
