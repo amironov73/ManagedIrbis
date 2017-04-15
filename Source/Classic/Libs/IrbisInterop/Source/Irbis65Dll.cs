@@ -54,7 +54,6 @@ namespace IrbisInterop
                 int bufsize
             );
 
-
         /// <summary>
         /// 
         /// </summary>
@@ -533,8 +532,8 @@ namespace IrbisInterop
                 int keepLock,
                 int updif,
                 int seconds,
-                ref int updateResult,
-                ref int updifResult
+                out int updateResult,
+                out int updifResult
             );
 
         /// <summary>
