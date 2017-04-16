@@ -343,7 +343,7 @@ namespace IrbisInteropTester
                     string briefPft = irbis.GetPftPath("brief");
                     irbis.SetFormat("@" + briefPft);
 
-                    for (int mfn = 10; mfn < 200; mfn++)
+                    for (int mfn = 10; mfn < 20; mfn++)
                     {
                         irbis.ReadRecord(mfn);
                         Console.WriteLine("Read record MFN={0}", mfn);
@@ -394,7 +394,31 @@ namespace IrbisInteropTester
                         record.Fields.Add(field);
 
                         irbis.NewRecord();
-                        irbis.SetRecord(record);
+                        //irbis.SetRecord(record);
+                        byte[] buffer = new byte[1000];
+                        int length = field.Value.Length;
+                        IrbisEncoding.Utf8.GetBytes
+                            (
+                                field.Value,
+                                0,
+                                length,
+                                buffer,
+                                0
+                            );
+                        Irbis65Dll.IrbisFldAdd
+                            (
+                                irbis.Space,
+                                irbis.Shelf,
+                                field.Tag,
+                                1,
+                                buffer
+                            );
+                        Irbis65Dll.IrbisRecUpdate0
+                            (
+                                irbis.Space,
+                                irbis.Shelf,
+                                0
+                            );
                         //irbis.WriteRecord(false);
 
                         irbis.SetFormat("v1");

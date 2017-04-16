@@ -120,6 +120,19 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisFldAdd")]
+        public static extern int IrbisFldAdd
+        (
+            IntPtr space,
+            int shelf,
+            int met,
+            int nf,
+            byte[] value
+        );
+
+        /// <summary>
+        /// 
+        /// </summary>
         [DllImport(DllName, EntryPoint = "IrbisInitPft", CharSet = CharSet.Ansi)]
         public static extern int IrbisInitPft
             (
@@ -399,7 +412,8 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisRecUpdate0")]
+        [DllImport(DllName, EntryPoint = "IrbisRecUpdate0",
+            CallingConvention = CallingConvention.StdCall)]
         public static extern int IrbisRecUpdate0
             (
                 IntPtr space,

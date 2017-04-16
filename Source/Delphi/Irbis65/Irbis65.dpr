@@ -386,7 +386,7 @@ function IrbisRecUnLock0
 function IrbisRecUnLock065
   (
     space,
-    mfn:integer
+    mfn: integer
   ): integer; stdcall; export;
 begin
   Result := IrbisRecUnLock0(space, mfn);
@@ -398,14 +398,14 @@ function IrbisRecUpdate0
   (
     space,
     shelf,
-    keepLock:integer
+    keepLock: integer
   ): integer; external 'IRBIS64.dll' name 'IrbisRecUpdate0';
 
 function IrbisRecUpdate065
   (
     space,
     shelf,
-    keepLock:integer
+    keepLock: integer
   ): integer; stdcall; export;
 begin
   Result := IrbisRecUpdate0(space, shelf, keepLock);
@@ -417,14 +417,14 @@ function IrbisRecIfUpdate0
   (
     space,
     shelf,
-    mfn:integer
+    mfn: integer
   ): integer; external 'IRBIS64.dll' name 'IrbisRecIfUpdate0';
 
 function IrbisRecIfUpdate065
   (
     space,
     shelf,
-    mfn:integer
+    mfn: integer
   ): integer; stdcall; export;
 begin
   Result := IrbisRecIfUpdate0(space, shelf, mfn);
