@@ -198,6 +198,8 @@ namespace AM
             return this;
         }
 
+#if !WIN81 && !PORTABLE
+
         /// <summary>
         /// Specified directory must exist.
         /// </summary>
@@ -259,6 +261,8 @@ namespace AM
 
             return this;
         }
+
+#endif
 
         /// <summary>
         /// Not null?
