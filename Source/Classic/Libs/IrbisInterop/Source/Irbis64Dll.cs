@@ -574,8 +574,15 @@ namespace IrbisInterop
         /// </summary>
         public void NewRecord()
         {
-            int retCode = Irbis65Dll.IrbisNewRec(Space, Shelf);
+            IntPtr space = Space;
+            int shelf = Shelf;
+
+            int retCode = Irbis65Dll.IrbisNewRec(space, shelf);
             _HandleRetCode("IrbisNewRec", retCode);
+
+            // Is it really needed?
+            retCode = Irbis65Dll.IrbisFldEmpty(space, shelf);
+            _HandleRetCode("IrbisFldEmpty", retCode);
         }
 
         /// <summary>
@@ -639,18 +646,24 @@ namespace IrbisInterop
             Code.NotNull(record, "record");
 
             IntPtr space = Space;
+            Encoding encoding = IrbisEncoding.Utf8;
 
             int retCode = Irbis65Dll.IrbisFldEmpty(space, shelf);
             _HandleRetCode("IrbisFldEmpty", retCode);
             foreach (NativeField field in record.Fields)
             {
+                string value = field.Value;
+                int length = encoding.GetByteCount(value);
+                byte[] buffer = new byte[length + 1];
+                encoding.GetBytes(value, 0, value.Length, buffer, 0);
+
                 retCode = Irbis65Dll.IrbisFldAdd
                     (
                         space,
                         shelf,
                         field.Tag,
                         0,
-                        field.Value
+                        buffer
                     );
                 _HandleRetCode("IrbisFldAdd", retCode);
             }
@@ -743,37 +756,87 @@ namespace IrbisInterop
         /// </summary>
         public void UseStandaloneDatabase
             (
-                [NotNull] string databasePath
+                [NotNull] string databasePath,
+                [NotNull] string databaseName
             )
         {
             Code.NotNullNorEmpty(databasePath, "databasePath");
+            Code.NotNullNorEmpty(databaseName, "databaseName");
 
-            string directory = Path.GetDirectoryName(databasePath);
-            if (string.IsNullOrEmpty(directory))
+            if (!Directory.Exists(databasePath))
             {
-                throw new IrbisException("directory not specified");
+                throw new IrbisException
+                    (
+                        string.Format
+                        (
+                            "directory not exist: '{0}'",
+                            databasePath
+                        )
+                    );
             }
 
-            string databaseName = Path.GetFileName(databasePath);
-            if (string.IsNullOrEmpty(databaseName))
+            string masterPath = Path.Combine
+                (
+                    Path.GetFullPath(databasePath),
+                    databaseName
+                );
+
+            string masterFile = masterPath + ".mst";
+
+            if (!File.Exists(masterFile))
             {
-                throw new IrbisException("file not specified");
+                throw new IrbisException
+                    (
+                        string.Format
+                            (
+                                "master file doesn't exist: '{0}'",
+                                masterFile
+                            )
+                    );
             }
 
             int retCode = Irbis65Dll.IrbisInitMst
                 (
                     Space,
-                    databasePath,
+                    masterPath,
                     5
                 );
             _HandleRetCode("IrbisInitMst", retCode);
 
+            string invertedFile = masterPath + ".ifp";
+
+            if (!File.Exists(invertedFile))
+            {
+                throw new IrbisException
+                    (
+                        string.Format
+                            (
+                                "inverted file doesn't exist: '{0}'",
+                                invertedFile
+                            )
+                    );
+            }
+
             retCode = Irbis65Dll.IrbisInitTerm
                 (
                     Space,
-                    databasePath
+                    masterPath
                 );
             _HandleRetCode("IrbisInitTerm", retCode);
+
+            string fstFile = masterPath + ".fst";
+            if (File.Exists(fstFile))
+            {
+                Irbis65Dll.IrbisInitInvContext
+                    (
+                        Space,
+                        masterPath,
+                        masterPath,
+                        Configuration.UpperCaseTable,
+                        Configuration.AlphabetTablePath,
+                        false
+                    );
+            }
 
             Database = databaseName;
         }
@@ -783,16 +846,38 @@ namespace IrbisInterop
         /// </summary>
         public void WriteRecord
             (
+                bool invUpdate,
                 bool keepLock
             )
         {
+            IntPtr space = Space;
+            int shelf = Shelf;
+
             int retCode = Irbis65Dll.IrbisRecUpdate0
                 (
-                    Space,
-                    Shelf,
+                    space,
+                    shelf,
                     Convert.ToInt32(keepLock)
                 );
             _HandleRetCode("IrbisRecUpdate0", retCode);
+
+            if (invUpdate)
+            {
+                int mfn = Irbis65Dll.IrbisMfn
+                    (
+                        space,
+                        shelf
+                    );
+                _HandleRetCode("IrbisMfn", mfn);
+
+                retCode = Irbis65Dll.IrbisRecIfUpdate0
+                    (
+                        space,
+                        shelf,
+                        mfn
+                    );
+                _HandleRetCode("IrbisRecIfUpdate0", retCode);
+            }
         }
 
         #endregion

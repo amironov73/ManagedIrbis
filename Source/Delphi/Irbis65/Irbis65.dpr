@@ -928,6 +928,31 @@ end;
 
 // ===========================================================================
 
+procedure IrbisInitInvContext
+  (
+    space,
+    fst,
+    stw,
+    uctab,
+    actab: PChar;
+    deflex: boolean
+  ); external 'IRBIS64.DLL' name 'IrbisInitInvContext';
+
+procedure IrbisInitInvContext65
+  (
+    space,
+    fst,
+    stw,
+    uctab,
+    actab: PChar;
+    deflex: boolean
+  ); stdcall; export;
+begin
+  IrbisInitInvContext(space, fst, stw, uctab, actab, deflex);
+end;
+
+// ===========================================================================
+
 function InteropVersion: integer; stdcall;
 begin
   Result := 100;
@@ -987,6 +1012,7 @@ IrbisRecLockTime65 name 'IrbisRecLockTime',
 IrbisRecUnLockTime65 name 'IrbisRecUnLockTime',
 IrbisFldEmpty65 name 'IrbisFldEmpty',
 IrbisChangeMfn65 name 'IrbisChangeMfn',
+IrbisInitInvContext65 name 'IrbisInitInvContext',
 InteropVersion name 'InteropVersion';
 
 // ===========================================================================

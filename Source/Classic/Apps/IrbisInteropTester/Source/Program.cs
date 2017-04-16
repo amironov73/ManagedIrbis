@@ -373,55 +373,33 @@ namespace IrbisInteropTester
                             .ThrowIfNull("directory is unknown"),
                         "TestDb"
                     );
-                    if (!Directory.Exists(testDatabase))
-                    {
-                        Directory.CreateDirectory(testDatabase);
-                    }
-                    testDatabase += "\\TestDb";
 
-                    irbis.CreateDatabase(testDatabase);
-                    irbis.UseStandaloneDatabase(testDatabase);
+                    irbis.UseStandaloneDatabase
+                        (
+                            testDatabase,
+                            "TestDb"
+                        );
 
                     for (int i = 0; i < 10; i++)
                     {
                         int number = i + 1;
                         NativeRecord record = new NativeRecord();
-                        NativeField field = new NativeField
+                        for (int j = 0; j < 10; j++)
                         {
-                            Tag = 1,
-                            Value = "Record number " + number
-                        };
-                        record.Fields.Add(field);
+                            NativeField field = new NativeField
+                            {
+                                Tag = 100 + j,
+                                Value = "Запись номер " + number
+                                    + " поле " + (100 + j)
+                            };
+                            record.Fields.Add(field);
+                        }
 
                         irbis.NewRecord();
-                        //irbis.SetRecord(record);
-                        byte[] buffer = new byte[1000];
-                        int length = field.Value.Length;
-                        IrbisEncoding.Utf8.GetBytes
-                            (
-                                field.Value,
-                                0,
-                                length,
-                                buffer,
-                                0
-                            );
-                        Irbis65Dll.IrbisFldAdd
-                            (
-                                irbis.Space,
-                                irbis.Shelf,
-                                field.Tag,
-                                1,
-                                buffer
-                            );
-                        Irbis65Dll.IrbisRecUpdate0
-                            (
-                                irbis.Space,
-                                irbis.Shelf,
-                                0
-                            );
-                        //irbis.WriteRecord(false);
+                        irbis.SetRecord(record);
+                        irbis.WriteRecord(true, false);
 
-                        irbis.SetFormat("v1");
+                        irbis.SetFormat("v100");
                         string text = irbis.FormatRecord();
                         Console.WriteLine(text);
                     }
