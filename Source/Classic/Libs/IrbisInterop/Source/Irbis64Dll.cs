@@ -105,6 +105,8 @@ namespace IrbisInterop
                 throw new IrbisException("Irbis64Dll must be 32-bit");
             }
 
+            configuration.Verify(true);
+
             Layout = new SpaceLayout();
 
             Configuration = configuration;
@@ -747,6 +749,16 @@ namespace IrbisInterop
                     termPath
                 );
             _HandleRetCode("IrbisInitTerm", retCode);
+
+            Irbis65Dll.IrbisInitInvContext
+                (
+                    Space,
+                    mstPath,
+                    mstPath,
+                    Configuration.UpperCaseTable,
+                    Configuration.AlphabetTablePath,
+                    false
+                );
 
             Database = databaseName;
         }

@@ -39,6 +39,7 @@ namespace ManagedIrbis.Server
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class ServerConfiguration
+        : IVerifiable
     {
         #region Properties
 
@@ -120,6 +121,25 @@ namespace ManagedIrbis.Server
             ServerConfiguration result = FromIniFile(serverIni);
 
             return result;
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"/>
+        public bool Verify(bool throwOnError)
+        {
+            Verifier<ServerConfiguration> verifier
+                = new Verifier<ServerConfiguration>(this, throwOnError);
+
+            verifier
+                .DirectoryExist(SystemPath, "SystemPath")
+                .DirectoryExist(DataPath, "DataPath")
+                .NotNullNorEmpty(AlphabetTablePath, "AlphabetTablePath")
+                .NotNullNorEmpty(UpperCaseTable, "UpperCaseTable");
+
+            return verifier.Result;
         }
 
         #endregion

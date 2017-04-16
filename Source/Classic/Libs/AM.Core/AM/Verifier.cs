@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -193,6 +194,68 @@ namespace AM
                     format,
                     arguments
                 );
+
+            return this;
+        }
+
+        /// <summary>
+        /// Specified directory must exist.
+        /// </summary>
+        public Verifier<T> DirectoryExist
+            (
+                string path,
+                string name
+            )
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                _Throw
+                    (
+                        "Directory '{0}': path not specified",
+                        name
+                    );
+            }
+
+            if (!Directory.Exists(path))
+            {
+                _Throw
+                    (
+                        "Directory '{0}' is set to '{1}': path not exist",
+                        name,
+                        path
+                    );
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Specified file must exist.
+        /// </summary>
+        public Verifier<T> FileExist
+            (
+                string path,
+                string name
+            )
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                _Throw
+                (
+                    "File '{0}': path not specified",
+                    name
+                );
+            }
+
+            if (!File.Exists(path))
+            {
+                _Throw
+                (
+                    "File '{0}' is set to '{1}': path not exist",
+                    name,
+                    path
+                );
+            }
 
             return this;
         }
