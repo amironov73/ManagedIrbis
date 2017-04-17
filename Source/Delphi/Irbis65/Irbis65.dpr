@@ -953,6 +953,177 @@ end;
 
 // ===========================================================================
 
+function IrbisField
+  (
+    space,
+    shelf,
+    nf: integer;
+    subfields: PChar
+  ): Pchar; external 'IRBIS64.DLL' name 'Irbisfield';
+
+function IrbisField65
+  (
+    space,
+    shelf,
+    nf: integer;
+    subfields: PChar
+  ): Pchar; stdcall; export;
+begin
+  Result := IrbisField(space, shelf, nf, subfields);
+end;
+
+// ===========================================================================
+
+function IrbisFieldN
+  (
+    space,
+    shelf,
+    met,
+    occ: integer
+  ): integer; external 'IRBIS64.DLL' name 'Irbisfieldn';
+
+function IrbisFieldN65
+  (
+    space,
+    shelf,
+    met,
+    occ: integer
+  ): integer; stdcall; export;
+begin
+  Result := IrbisFieldN(space, shelf, met, occ);
+end;
+
+// ===========================================================================
+
+function IrbisFldRep
+  (
+    space,
+    shelf,
+    nf: integer;
+    pole: Pchar
+  ): integer; external 'IRBIS64.DLL' name 'Irbisfldrep';
+
+function IrbisFldRep65
+  (
+    space,
+    shelf,
+    nf: integer;
+    pole: Pchar
+  ): integer; stdcall; export;
+begin
+  Result := IrbisFldRep(space, shelf, nf, pole);
+end;
+
+// ===========================================================================
+
+function IrbisNOcc
+  (
+    space,
+    shelf,
+    met: integer
+  ): integer; external 'IRBIS64.DLL' name 'Irbisnocc';
+
+function IrbisNOcc65
+  (
+    space,
+    shelf,
+    met: integer
+  ): integer; stdcall; export;
+begin
+  Result := IrbisNOcc(space, shelf, met);
+end;
+
+// ===========================================================================
+
+function IrbisFldTag
+  (
+    space,
+    shelf,
+    nf: integer
+  ): integer; external 'IRBIS64.DLL' name 'Irbisfldtag';
+
+function IrbisFldTag65
+  (
+    space,
+    shelf,
+    nf: integer
+  ): integer; stdcall; export;
+begin
+  Result := IrbisFldTag(space, shelf, nf);
+end;
+
+// ===========================================================================
+
+function IrbisFindPosting
+  (
+    space: integer;
+    term: PChar;
+    posting: integer
+): integer; external 'IRBIS64.DLL' name 'IrbisFindPosting';
+
+function IrbisFindPosting65
+  (
+    space: integer;
+    term: PChar;
+    posting: integer
+): integer; stdcall; export;
+begin
+  Result := IrbisFindPosting(space, term, posting);
+end;
+
+// ===========================================================================
+
+function InsertTerm
+  (
+    space: integer;
+    term: PChar;
+    posting: integer
+  ): integer; external 'IRBIS64.DLL' name 'InsertTerm';
+
+function InsertTerm65
+  (
+    space: integer;
+    term: PChar;
+    posting: integer
+  ): integer; stdcall; export;
+begin
+  Result := InsertTerm(space, term, posting);
+end;
+
+// ===========================================================================
+
+function IrbisInitPost
+  (
+    space: integer
+  ): integer; external 'IRBIS64.DLL' name 'Irbisinitpost';
+
+function IrbisInitPost65
+  (
+    space: integer
+  ): integer; stdcall; export;
+begin
+  Result := IrbisInitPost(space);
+end;
+
+// ===========================================================================
+
+function IrbisPrevTerm
+  (
+    space: integer,
+    term: Pchar
+  ): integer; external 'IRBIS64.DLL' name 'Irbisprevterm';
+
+function IrbisPrevTerm65
+  (
+    space: integer,
+    term: Pchar
+  ): integer; stdcall; export;
+begin
+  Result := IrbisPrevTerm(space, term);
+end;
+
+// ===========================================================================
+
 function InteropVersion: integer; stdcall;
 begin
   Result := 100;
@@ -1013,6 +1184,15 @@ IrbisRecUnLockTime65 name 'IrbisRecUnLockTime',
 IrbisFldEmpty65 name 'IrbisFldEmpty',
 IrbisChangeMfn65 name 'IrbisChangeMfn',
 IrbisInitInvContext65 name 'IrbisInitInvContext',
+IrbisField65 name 'IrbisField',
+IrbisFieldN65 name 'IrbisFieldN',
+IrbisFldRep65 name 'IrbisFldRep',
+IrbisNOcc65 name 'IrbisNOcc',
+IrbisFldTag65 name 'IrbisFldTag',
+IrbisFindPosting65 name 'IrbisFindPosting',
+InsertTerm65 name 'InsertTerm',
+IrbisInitPost65 name 'IrbisInitPost',
+IrbisPrevTerm65 name 'IrbisPrevTerm',
 InteropVersion name 'InteropVersion';
 
 // ===========================================================================

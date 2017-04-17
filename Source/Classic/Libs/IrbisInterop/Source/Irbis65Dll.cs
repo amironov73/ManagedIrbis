@@ -10,11 +10,8 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 using JetBrains.Annotations;
 
@@ -47,7 +44,8 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisDllVersion", CharSet = CharSet.Ansi)]
+        [DllImport(DllName, EntryPoint = "IrbisDllVersion",
+            CharSet = CharSet.Ansi)]
         public static extern void IrbisDllVersion
             (
                 StringBuilder buffer,
@@ -57,7 +55,8 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisInitDeposit", CharSet = CharSet.Ansi)]
+        [DllImport(DllName, EntryPoint = "IrbisInitDeposit",
+            CharSet = CharSet.Ansi)]
         public static extern int IrbisInitDeposit
             (
                 string path
@@ -66,14 +65,15 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisUatabInit", CharSet = CharSet.Ansi)]
+        [DllImport(DllName, EntryPoint = "IrbisUatabInit",
+            CharSet = CharSet.Ansi)]
         public static extern int IrbisUatabInit
             (
                 string uctab,
                 string lctab,
                 string actab,
-                string aExecDir,
-                string aDataPath
+                string execDir,
+                string dataPath
             );
 
         /// <summary>
@@ -109,18 +109,19 @@ namespace IrbisInterop
         /// </summary>
         [DllImport(DllName, EntryPoint = "IrbisFldAdd")]
         public static extern int IrbisFldAdd
-        (
-            IntPtr space,
-            int shelf,
-            int met,
-            int nf,
-            byte[] value
-        );
+            (
+                IntPtr space,
+                int shelf,
+                int met,
+                int nf,
+                byte[] value
+            );
 
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisInitPft", CharSet = CharSet.Ansi)]
+        [DllImport(DllName, EntryPoint = "IrbisInitPft",
+            CharSet = CharSet.Ansi)]
         public static extern int IrbisInitPft
             (
                 IntPtr space,
@@ -130,7 +131,8 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisFormat", CharSet = CharSet.Ansi)]
+        [DllImport(DllName, EntryPoint = "IrbisFormat",
+            CharSet = CharSet.Ansi)]
         public static extern int IrbisFormat
             (
                 IntPtr space,
@@ -144,22 +146,24 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisInitMst", CharSet = CharSet.Ansi)]
+        [DllImport(DllName, EntryPoint = "IrbisInitMst",
+            CharSet = CharSet.Ansi)]
         public static extern int IrbisInitMst
             (
                 IntPtr space,
-                string dataBase,
-                int aNumberShelfs
+                string database,
+                int numberShelfs
             );
 
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisInitTerm", CharSet = CharSet.Ansi)]
+        [DllImport(DllName, EntryPoint = "IrbisInitTerm",
+            CharSet = CharSet.Ansi)]
         public static extern int IrbisInitTerm
             (
                 IntPtr space,
-                string dataBase
+                string database
             );
 
         /// <summary>
@@ -196,7 +200,8 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisMainIniInit", CharSet = CharSet.Ansi)]
+        [DllImport(DllName, EntryPoint = "IrbisMainIniInit",
+            CharSet = CharSet.Ansi)]
         public static extern void IrbisMainIniInit
             (
                 string iniFile
@@ -236,10 +241,10 @@ namespace IrbisInterop
         /// </summary>
         [DllImport(DllName, EntryPoint = "IrbisPrevTerm")]
         public static extern int IrbisPrevTerm
-        (
-            IntPtr space,
-            byte[] term
-        );
+            (
+                IntPtr space,
+                byte[] term
+            );
 
         /// <summary>
         /// 
@@ -278,7 +283,8 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisInitNewDb", CharSet = CharSet.Ansi)]
+        [DllImport(DllName, EntryPoint = "IrbisInitNewDb",
+            CharSet = CharSet.Ansi)]
         public static extern int IrbisInitNewDb
             (
                 string path
@@ -382,7 +388,7 @@ namespace IrbisInterop
             (
                 IntPtr space,
                 int mfn
-        );
+            );
 
         /// <summary>
         /// 
@@ -394,7 +400,7 @@ namespace IrbisInterop
                 int shelf,
                 int mfn,
                 int step
-        );
+            );
 
         /// <summary>
         /// 
@@ -572,7 +578,8 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
-        [DllImport(DllName, EntryPoint = "IrbisInitInvContext", CharSet = CharSet.Ansi)]
+        [DllImport(DllName, EntryPoint = "IrbisInitInvContext",
+            CharSet = CharSet.Ansi)]
         public static extern void IrbisInitInvContext
             (
                 IntPtr space,
@@ -581,6 +588,95 @@ namespace IrbisInterop
                 string uctab,
                 string actab,
                 bool deflex
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisField")]
+        public static extern IntPtr IrbisField
+            (
+                IntPtr space,
+                int shelf,
+                int nf,
+                byte[] subfields
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisFieldN")]
+        public static extern int IrbisFieldN
+            (
+                IntPtr space,
+                int shelf,
+                int met,
+                int occ
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisFldRep")]
+        public static extern int IrbisFldRep
+            (
+                IntPtr space,
+                int shelf,
+                int nf,
+                byte[] pole
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisNOcc")]
+        public static extern int IrbisNOcc
+            (
+                IntPtr space,
+                int shelf,
+                int met
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisFldTag")]
+        public static extern int IrbisFldTag
+            (
+                IntPtr space,
+                int shelf,
+                int nf        
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisFindPosting")]
+        public static extern int IrbisFindPosting
+            (
+                IntPtr space,
+                byte[] term,
+                IntPtr posting
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "InsertTerm")]
+        public static extern int InsertTerm
+            (
+                IntPtr space,
+                byte[] term,
+                IntPtr posting
+            );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport(DllName, EntryPoint = "IrbisInitPost")]
+        public static extern int IrbisInitPost
+            (
+                IntPtr space
             );
 
         // =========================================================

@@ -25,6 +25,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Search;
 using ManagedIrbis.Server;
 
 #endregion
@@ -219,27 +220,84 @@ namespace IrbisInterop
         {
             Code.NotNullNorEmpty(term, "term");
 
+            IntPtr space = Space;
+
             Encoding utf = IrbisEncoding.Utf8;
             byte[] buffer = new byte[512];
             utf.GetBytes(term, 0, term.Length, buffer, 0);
-            int retCode = Irbis65Dll.IrbisFind(Space, buffer);
+            int retCode = Irbis65Dll.IrbisFind(space, buffer);
             if (retCode < 0)
             {
                 return new int[0];
             }
 
-            int nposts = Irbis65Dll.IrbisNPosts(Space);
+            int nposts = Irbis65Dll.IrbisNPosts(space);
             _HandleRetCode("IrbisNPosts", nposts);
 
             int[] result = new int[nposts];
             for (int i = 0; i < nposts; i++)
             {
-                retCode = Irbis65Dll.IrbisNextPost(Space);
+                retCode = Irbis65Dll.IrbisNextPost(space);
                 _HandleRetCode("IrbisNextPost", retCode);
 
-                int mfn = Irbis65Dll.IrbisPosting(Space, 1);
+                int mfn = Irbis65Dll.IrbisPosting(space, 1);
                 _HandleRetCode("IrbisPosting", mfn);
                 result[i] = mfn;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Performs simple search for exact term match.
+        /// </summary>
+        [NotNull]
+        public TermPosting[] ExactSearchEx
+            (
+                [NotNull] string term
+            )
+        {
+            Code.NotNullNorEmpty(term, "term");
+
+            IntPtr space = Space;
+
+            Encoding utf = IrbisEncoding.Utf8;
+            byte[] buffer = new byte[512];
+            utf.GetBytes(term, 0, term.Length, buffer, 0);
+            int retCode = Irbis65Dll.IrbisFind(space, buffer);
+            if (retCode < 0)
+            {
+                return new TermPosting[0];
+            }
+
+            int nposts = Irbis65Dll.IrbisNPosts(space);
+            _HandleRetCode("IrbisNPosts", nposts);
+
+            TermPosting[] result = new TermPosting[nposts];
+            for (int i = 0; i < nposts; i++)
+            {
+                retCode = Irbis65Dll.IrbisNextPost(space);
+                _HandleRetCode("IrbisNextPost", retCode);
+
+                TermPosting posting = new TermPosting();
+
+                int mfn = Irbis65Dll.IrbisPosting(space, 1);
+                _HandleRetCode("IrbisPosting", mfn);
+                posting.Mfn = mfn;
+
+                int tag = Irbis65Dll.IrbisPosting(space, 2);
+                _HandleRetCode("IrbisPosting", tag);
+                posting.Tag = tag;
+
+                int occ = Irbis65Dll.IrbisPosting(space, 3);
+                _HandleRetCode("IrbisPosting", occ);
+                posting.Occurrence = occ;
+
+                int count = Irbis65Dll.IrbisPosting(space, 4);
+                _HandleRetCode("IrbisPosting", count);
+                posting.Count = count;
+
+                result[i] = posting;
             }
 
             return result;
