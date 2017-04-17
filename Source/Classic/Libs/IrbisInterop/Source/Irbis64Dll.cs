@@ -297,6 +297,8 @@ namespace IrbisInterop
                 _HandleRetCode("IrbisPosting", count);
                 posting.Count = count;
 
+                posting.Text = term;
+
                 result[i] = posting;
             }
 
@@ -321,18 +323,18 @@ namespace IrbisInterop
             string systemPath = Configuration.SystemPath
                 .ThrowIfNull("systemPath not set");
             pftPath = Path.GetFullPath
-            (
-                Path.Combine
                 (
-                    systemPath,
-                    pftPath
-                )
-            );
+                    Path.Combine
+                    (
+                        systemPath,
+                        pftPath
+                    )
+                );
             string result = Path.Combine
-            (
-                pftPath,
-                fileName
-            );
+                (
+                    pftPath,
+                    fileName
+                );
 
             return result;
         }
