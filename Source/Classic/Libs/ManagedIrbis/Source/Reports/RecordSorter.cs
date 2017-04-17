@@ -20,7 +20,7 @@ using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Batch;
 using ManagedIrbis.Client;
 using ManagedIrbis.Pft;
 
@@ -140,37 +140,63 @@ namespace ManagedIrbis.Reports
                 return sourceRecords.ToList();
             }
 
-            if (ReferenceEquals(_formatter, null))
-            {
-                _formatter = new PftFormatter();
-                _formatter.SetEnvironment(Client);
-                _formatter.ParseProgram(expression);
-            }
-
+            ConnectedClient connected
+                = Client as ConnectedClient;
             List<Pair<string, MarcRecord>> list
                 = new List<Pair<string, MarcRecord>>();
-            foreach (MarcRecord record in sourceRecords)
+
+            if (!ReferenceEquals(connected, null))
             {
-                string formatted = _formatter.Format
-                (
-                    record
-                );
-                Pair<string, MarcRecord> pair
-                    = new Pair<string, MarcRecord>
+                IrbisConnection connection = connected.Connection;
+                foreach (MarcRecord record in sourceRecords)
+                {
+                    string formatted = connection.FormatRecord
+                        (
+                            expression,
+                            record
+                        );
+                    Pair<string, MarcRecord> pair
+                        = new Pair<string, MarcRecord>
+                        (
+                            formatted,
+                            record
+                        );
+                    list.Add(pair);
+                }
+            }
+            else
+            {
+                if (ReferenceEquals(_formatter, null))
+                {
+                    _formatter = new PftFormatter();
+                    _formatter.SetEnvironment(Client);
+                    _formatter.ParseProgram(expression);
+                }
+
+                foreach (MarcRecord record in sourceRecords)
+                {
+                    string formatted = _formatter.Format
                     (
-                        formatted,
                         record
                     );
-                list.Add(pair);
+                    Pair<string, MarcRecord> pair
+                        = new Pair<string, MarcRecord>
+                        (
+                            formatted,
+                            record
+                        );
+                    list.Add(pair);
+                }
             }
+
             list.Sort
-            (
-                (left, right) => NumberText.Compare
                 (
-                    left.First,
-                    right.First
-                )
-            );
+                    (left, right) => NumberText.Compare
+                    (
+                        left.First,
+                        right.First
+                    )
+                );
 
             List<MarcRecord> result = list
                 .Select(pair => pair.Second)

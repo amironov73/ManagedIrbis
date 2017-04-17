@@ -155,7 +155,8 @@ namespace ManagedIrbis.Reports
 
             try
             {
-                string descriptionFile = GetFullName(DescriptionFileName);
+                string descriptionFile 
+                    = GetFullName(DescriptionFileName);
                 if (File.Exists(descriptionFile))
                 {
                     string description = FileUtility.ReadAllText

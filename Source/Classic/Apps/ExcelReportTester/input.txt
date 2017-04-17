@@ -1,0 +1,42 @@
+{
+  "$type": "ManagedIrbis.Reports.IrbisReport, ManagedIrbis",
+  "details": [
+    {
+      "$type": "ManagedIrbis.Reports.SortBand, ManagedIrbis",
+      "sort": "@brief",
+      "body": [
+        {
+          "$type": "ManagedIrbis.Reports.DetailsBand, ManagedIrbis",
+          "cells": [
+            {
+               "$type": "ManagedIrbis.Reports.IndexCell, ManagedIrbis",
+               "Format": "{Index})"
+            },
+            {
+               "$type": "ManagedIrbis.Reports.PftCell, ManagedIrbis",
+               "Text": "@brief"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "footer": {
+    "$type": "ManagedIrbis.Reports.ReportBand, ManagedIrbis",
+    "cells": [
+      {
+        "$type": "ManagedIrbis.Reports.TextCell, ManagedIrbis",
+        "Text": "Footer"
+      }
+    ]
+  },
+  "header": {
+    "$type": "ManagedIrbis.Reports.ReportBand, ManagedIrbis",
+    "cells": [
+      {
+        "$type": "ManagedIrbis.Reports.TextCell, ManagedIrbis",
+        "Text": "Header"
+      }
+    ]
+  }
+}

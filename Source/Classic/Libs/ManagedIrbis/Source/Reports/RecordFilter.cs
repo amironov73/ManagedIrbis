@@ -137,14 +137,29 @@ namespace ManagedIrbis.Reports
                 return true;
             }
 
-            if (ReferenceEquals(_formatter, null))
-            {
-                _formatter = new PftFormatter();
-                _formatter.SetEnvironment(Client);
-                _formatter.ParseProgram(expression);
-            }
+            string text = null;
 
-            string text = _formatter.Format(record);
+            ConnectedClient connected
+                = Client as ConnectedClient;
+            if (!ReferenceEquals(connected, null))
+            {
+                text = connected.FormatRecord
+                    (
+                        record,
+                        expression
+                    );
+            }
+            else
+            {
+                if (ReferenceEquals(_formatter, null))
+                {
+                    _formatter = new PftFormatter();
+                    _formatter.SetEnvironment(Client);
+                    _formatter.ParseProgram(expression);
+                }
+
+                text = _formatter.Format(record);
+            }
             bool result = CheckResult(text);
 
             return result;

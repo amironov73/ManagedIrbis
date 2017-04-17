@@ -25,7 +25,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Client;
 using ManagedIrbis.Pft;
 
 using MoonSharp.Interpreter;
@@ -105,18 +105,36 @@ namespace ManagedIrbis.Reports
                 return null;
             }
 
-            if (ReferenceEquals(_formatter, null))
+            string result = null;
+
+            ConnectedClient connected 
+                = context.Client as ConnectedClient;
+            if (!ReferenceEquals(connected, null))
             {
-                _formatter = context.GetFormatter(text);
+                MarcRecord record = context.CurrentRecord;
+                if (!ReferenceEquals(record, null))
+                {
+                    result = connected.FormatRecord
+                    (
+                        record,
+                        text
+                    );
+                }
             }
+            else
+            {
+                if (ReferenceEquals(_formatter, null))
+                {
+                    _formatter = context.GetFormatter(text);
+                }
 
-            context.SetVariables(_formatter);
+                context.SetVariables(_formatter);
 
-            string result
-                = _formatter.Format(context.CurrentRecord);
+                result
+                    = _formatter.Format(context.CurrentRecord);
 
-            OnAfterCompute(context);
-
+                OnAfterCompute(context);
+            }
             return result;
         }
 
