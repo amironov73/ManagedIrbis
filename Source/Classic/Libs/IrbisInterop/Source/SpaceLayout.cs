@@ -48,6 +48,18 @@ namespace IrbisInterop
         #region Properties
 
         /// <summary>
+        /// Minimal version.
+        /// </summary>
+        [JsonProperty("min-version")]
+        public string MinVersion { get; set; }
+
+        /// <summary>
+        /// Maximal version.
+        /// </summary>
+        [JsonProperty("max-version")]
+        public string MaxVersion { get; set; }
+
+        /// <summary>
         /// Offset of formatted record text in the space.
         /// </summary>
         [JsonProperty("formatted")]
@@ -237,6 +249,8 @@ namespace IrbisInterop
         {
             SpaceLayout result = new SpaceLayout
             {
+                MinVersion = "2012.1",
+                MaxVersion = "2013.1",
                 RecordOffset = 577
             };
 
@@ -251,6 +265,8 @@ namespace IrbisInterop
         {
             SpaceLayout result = new SpaceLayout
             {
+                MinVersion = "2014.1",
+                MaxVersion = "2015.1",
                 RecordOffset = 626
             };
 
@@ -265,6 +281,8 @@ namespace IrbisInterop
         {
             SpaceLayout result = new SpaceLayout
             {
+                MinVersion = "2016.1",
+                MaxVersion = "2016.1",
                 RecordOffset = 2034
             };
 

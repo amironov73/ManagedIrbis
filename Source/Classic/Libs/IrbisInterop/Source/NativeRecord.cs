@@ -61,9 +61,9 @@ namespace IrbisInterop
         public int Version { get; set; }
 
         /// <summary>
-        /// Flags.
+        /// Status.
         /// </summary>
-        public int Flags { get; set; }
+        public int Status { get; set; }
 
         #endregion
 
@@ -84,6 +84,36 @@ namespace IrbisInterop
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Convert <see cref="MarcRecord"/>
+        /// to <see cref="NativeRecord"/>.
+        /// </summary>
+        [NotNull]
+        public static NativeRecord FromMarcRecord
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            NativeRecord result = new NativeRecord
+            {
+                Mfn = record.Mfn,
+                Version = record.Version,
+                Status = (int) record.Status
+            };
+
+            foreach (RecordField field in record.Fields)
+            {
+                result.Fields.Add
+                    (
+                        NativeField.FromRecordField(field)
+                    );
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Parse memory representation of rectord.
@@ -114,7 +144,7 @@ namespace IrbisInterop
             int dataOffset = BitConverter.ToInt32(memory, 0x10);
             int fieldCount = BitConverter.ToInt32(memory, 0x14);
             result.Version = BitConverter.ToInt32(memory, 0x14);
-            result.Flags = BitConverter.ToInt32(memory, 0x1C);
+            result.Status = BitConverter.ToInt32(memory, 0x1C);
             int offset = 0x20;
             Encoding encoding = new UTF8Encoding(false, true);
             int end = 0;
@@ -149,6 +179,32 @@ namespace IrbisInterop
             return result;
         }
 
+        /// <summary>
+        /// Convert <see cref="NativeRecord"/>
+        /// to <see cref="MarcRecord"/>.
+        /// </summary>
+        /// <returns></returns>
+        [NotNull]
+        public MarcRecord ToMarcRecord()
+        {
+            MarcRecord result = new MarcRecord()
+            {
+                Mfn = Mfn,
+                Version = Version,
+                Status = (RecordStatus) Status
+            };
+
+            foreach (NativeField field in Fields)
+            {
+                result.Fields.Add
+                    (
+                        field.ToRecordField()
+                    );
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region Object members
@@ -160,10 +216,10 @@ namespace IrbisInterop
 
             result.AppendFormat
                 (
-                    "MFN={0}, Version={1}, Flags={2}", 
+                    "MFN={0}, Version={1}, Status={2}", 
                     Mfn,
                     Version,
-                    Flags
+                    Status
                 );
             result.AppendLine();
 

@@ -27,6 +27,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -63,6 +65,43 @@ namespace IrbisInterop
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Convert <see cref="RecordField"/>
+        /// to <see cref="NativeField"/>
+        /// </summary>
+        [NotNull]
+        public static NativeField FromRecordField
+            (
+                [NotNull] RecordField field
+            )
+        {
+            Code.NotNull(field, "field");
+
+            NativeField result = new NativeField
+            {
+                Tag = NumericUtility.ParseInt32(field.Tag),
+                Value = field.ToText()
+            };
+
+            return result;
+        }
+
+        /// <summary>
+        /// Convert <see cref="NativeField"/>
+        /// to <see cref="RecordField"/>.
+        /// </summary>
+        [NotNull]
+        public RecordField ToRecordField()
+        {
+            RecordField result = new RecordField
+                (
+                    Tag.ToInvariantString(),
+                    Value
+                );
+
+            return result;
+        }
 
         #endregion
 
