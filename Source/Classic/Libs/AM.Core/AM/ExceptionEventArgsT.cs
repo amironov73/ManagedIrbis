@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ExceptionEventArgs.cs --
+/* ExceptionEventArgsT.cs -- information about exception
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -10,26 +10,26 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+
+using CodeJam;
 
 using JetBrains.Annotations;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
 namespace AM
 {
     /// <summary>
-    /// 
+    /// Information about exception.
     /// </summary>
     [PublicAPI]
-    [MoonSharpUserData]
-    public sealed class ExceptionEventArgs
+#if !WINMOBILE && !PocketPC
+    [DebuggerDisplay("{Exception} {Handled}")]
+#endif
+    public sealed class ExceptionEventArgs<T>
         : EventArgs
+        where T: Exception
     {
         #region Properties
 
@@ -37,7 +37,12 @@ namespace AM
         /// Exception.
         /// </summary>
         [NotNull]
-        public Exception Exception { get; private set; }
+        public T Exception { get; private set; }
+
+        /// <summary>
+        /// Handled?
+        /// </summary>
+        public bool Handled { get; set; }
 
         #endregion
 
@@ -48,19 +53,13 @@ namespace AM
         /// </summary>
         public ExceptionEventArgs
             (
-                [NotNull] Exception exception
+                [NotNull] T exception
             )
         {
+            Code.NotNull(exception, "exception");
+
             Exception = exception;
         }
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
 
         #endregion
     }

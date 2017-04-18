@@ -162,6 +162,7 @@
     <Compile Include="AM\DisposableUtility.cs" />
     <Compile Include="AM\DuplicateKeyException.cs" />
     <Compile Include="AM\ExceptionEventArgs.cs" />
+    <Compile Include="AM\ExceptionEventArgsT.cs" />
     <Compile Include="AM\ExceptionUtility.cs" />
     <Compile Include="AM\FunctionalUtility.cs" />
     <Compile Include="AM\FuncUtility.cs" />

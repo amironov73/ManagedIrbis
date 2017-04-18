@@ -35,6 +35,20 @@ namespace AM
     [MoonSharpUserData]
     public sealed class RetryManager
     {
+        #region Events
+
+        /// <summary>
+        /// Raised when exception occurs.
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs> ExceptionOccurs;
+
+        /// <summary>
+        /// Raised when exception is resolved.
+        /// </summary>
+        public event EventHandler Resolved;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -116,6 +130,10 @@ namespace AM
                 throw ex;
             }
 
+            ExceptionEventArgs eventArgs
+                = new ExceptionEventArgs (ex);
+            ExceptionOccurs.Raise(this, eventArgs);
+
             if (ReferenceEquals(_resolver, null))
             {
                 return;
@@ -130,6 +148,8 @@ namespace AM
                         ex
                     );
             }
+
+            Resolved.Raise(this);
 
             _Delay();
         }

@@ -230,6 +230,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ExceptionEventArgs.cs">
       <Link>AM\ExceptionEventArgs.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ExceptionEventArgsT.cs">
+      <Link>AM\ExceptionEventArgsT.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\FuncUtility.cs">
       <Link>AM\FuncUtility.cs</Link>
     </Compile>

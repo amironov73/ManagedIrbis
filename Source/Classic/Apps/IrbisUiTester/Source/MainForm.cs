@@ -101,10 +101,59 @@ namespace IrbisUiTester
 
             if (_retryBox.CheckBox.Checked)
             {
-                result.SetupRetryForm();
+                RetryManager manager =
+                    result.SetupRetryForm();
+                manager.ExceptionOccurs += ExceptionOccurs;
+                manager.Resolved += ExceptionResolved;
+                result.Disposing += ConnectionDisposing;
             }
 
             return result;
+        }
+
+        private void ConnectionDisposing
+            (
+                object sender,
+                EventArgs eventArgs
+            )
+        {
+            IrbisConnection connection = sender as IrbisConnection;
+            if (!ReferenceEquals(connection, null))
+            {
+                RetryClientSocket socket = connection.Socket
+                    as RetryClientSocket;
+                if (!ReferenceEquals(socket, null))
+                {
+                    RetryManager manager = socket.RetryManager;
+                    manager.ExceptionOccurs -= ExceptionOccurs;
+                    manager.Resolved -= ExceptionResolved;
+                }
+                connection.Disposing -= ConnectionDisposing;
+            }
+
+            WriteLine("Disconnected");
+        }
+
+        private void ExceptionResolved
+            (
+                object sender,
+                EventArgs eventArgs
+            )
+        {
+            WriteLine("Exception resolved");
+        }
+
+        private void ExceptionOccurs
+            (
+                object sender,
+                ExceptionEventArgs eventArgs
+            )
+        {
+            WriteLine
+                (
+                    "Exception: {0}",
+                    eventArgs.Exception.Message
+                );
         }
 
         private void WriteLine

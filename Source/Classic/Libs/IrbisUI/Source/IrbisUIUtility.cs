@@ -42,7 +42,7 @@ namespace IrbisUI
         /// Setup retry form for the connection.
         /// </summary>
         [NotNull]
-        public static IrbisConnection SetupRetryForm
+        public static RetryManager SetupRetryForm
             (
                 [NotNull] this IrbisConnection connection
             )
@@ -62,7 +62,7 @@ namespace IrbisUI
                 );
             connection.SetSocket(socket);
 
-            return connection;
+            return manager;
         }
 
         #endregion
