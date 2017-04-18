@@ -69,8 +69,8 @@ namespace ManagedIrbis.Reports
             driver.BeginCell(context, this);
             context.Output.Write(formatted);
             driver.EndCell(context, this);
-
-            #endregion
         }
+
+        #endregion
     }
 }

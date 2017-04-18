@@ -45,7 +45,7 @@ namespace AM
         /// <summary>
         /// Retry count.
         /// </summary>
-        public int RetryCount { get { return _retryCount; } }
+        public int RetryCount { get; private set; }
 
         #endregion
 
@@ -61,7 +61,7 @@ namespace AM
         {
             Code.Positive(retryCount, "retryCount");
 
-            _retryCount = retryCount;
+            RetryCount = retryCount;
         }
 
         /// <summary>
@@ -75,15 +75,13 @@ namespace AM
         {
             Code.Positive(retryCount, "retryCount");
 
-            _retryCount = retryCount;
+            RetryCount = retryCount;
             _resolver = resolver;
         }
 
         #endregion
 
         #region Private members
-
-        private readonly int _retryCount;
 
         private readonly Func<Exception, bool> _resolver;
 

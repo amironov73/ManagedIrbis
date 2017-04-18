@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using System;
+
 using AM;
 
 using CodeJam;
@@ -104,7 +106,13 @@ namespace ManagedIrbis.Infrastructure.Sockets
                 byte[] request
             )
         {
-            throw new System.NotImplementedException();
+            byte[] result = RetryManager.Try
+                (
+                    InnerSocket.ExecuteRequest,
+                    request
+                );
+
+            return result;
         }
 
         #endregion

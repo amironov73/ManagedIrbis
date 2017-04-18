@@ -226,6 +226,7 @@
     <Compile Include="Source\Editors\MenuForm.Designer.cs">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\IrbisUIUtility.cs" />
     <Compile Include="Source\MagazineListBox.cs">
       <SubType>UserControl</SubType>
     </Compile>

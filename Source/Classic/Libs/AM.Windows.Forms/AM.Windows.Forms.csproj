@@ -236,6 +236,12 @@
     <Compile Include="AM\Windows\Forms\RainbowControl.cs" />
     <Compile Include="AM\Windows\Forms\RainbowItem.cs" />
     <Compile Include="AM\Windows\Forms\RainbowItemList.cs" />
+    <Compile Include="AM\Windows\Forms\RetryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\RetryForm.Designer.cs">
+      <DependentUpon>RetryForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AM\Windows\Forms\RichTextEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -314,6 +320,9 @@
     <None Include="Images\downArrow.png" />
     <EmbeddedResource Include="AM\Windows\Forms\AttachmentBox.resx">
       <DependentUpon>AttachmentBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\RetryForm.resx">
+      <DependentUpon>RetryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AM\Windows\Forms\TextBoxWithButton.resx">
       <DependentUpon>TextBoxWithButton.cs</DependentUpon>
