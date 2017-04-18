@@ -106,9 +106,13 @@ namespace ManagedIrbis.Infrastructure.Sockets
                 byte[] request
             )
         {
+            Func<byte[], byte[]> func 
+                = InnerSocket.ExecuteRequest;
+
+
             byte[] result = RetryManager.Try
                 (
-                    InnerSocket.ExecuteRequest,
+                    func,
                     request
                 );
 
