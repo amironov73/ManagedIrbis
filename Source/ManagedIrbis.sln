@@ -119,6 +119,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedIrbis.Excel", "Class
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelReportTester", "Classic\Apps\ExcelReportTester\ExcelReportTester.csproj", "{BAAEDC95-046F-49EE-A2F8-DE334B86E9D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisUiTester", "Classic\Apps\IrbisUiTester\IrbisUiTester.csproj", "{7D087371-BC99-4164-A2C3-77F1468C0D32}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -567,6 +569,14 @@ Global
 		{BAAEDC95-046F-49EE-A2F8-DE334B86E9D1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BAAEDC95-046F-49EE-A2F8-DE334B86E9D1}.Release|x86.ActiveCfg = Release|Any CPU
 		{BAAEDC95-046F-49EE-A2F8-DE334B86E9D1}.Release|x86.Build.0 = Release|Any CPU
+		{7D087371-BC99-4164-A2C3-77F1468C0D32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D087371-BC99-4164-A2C3-77F1468C0D32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D087371-BC99-4164-A2C3-77F1468C0D32}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7D087371-BC99-4164-A2C3-77F1468C0D32}.Debug|x86.Build.0 = Debug|Any CPU
+		{7D087371-BC99-4164-A2C3-77F1468C0D32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D087371-BC99-4164-A2C3-77F1468C0D32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D087371-BC99-4164-A2C3-77F1468C0D32}.Release|x86.ActiveCfg = Release|Any CPU
+		{7D087371-BC99-4164-A2C3-77F1468C0D32}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -625,5 +635,6 @@ Global
 		{4BDA382D-0FC8-46C5-B9D4-853E45CEF47F} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{A7B8B919-8BF6-43C1-8985-8C3D677C628B} = {7233A430-352D-4BF2-B349-B3767E8E3EDE}
 		{BAAEDC95-046F-49EE-A2F8-DE334B86E9D1} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{7D087371-BC99-4164-A2C3-77F1468C0D32} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 	EndGlobalSection
 EndGlobal

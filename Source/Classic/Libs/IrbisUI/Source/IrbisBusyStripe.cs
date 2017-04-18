@@ -63,7 +63,7 @@ namespace IrbisUI
                 (
                     () =>
                     {
-                        Visible = state;
+                        //Visible = state;
                         Moving = state;
                     }
                 );

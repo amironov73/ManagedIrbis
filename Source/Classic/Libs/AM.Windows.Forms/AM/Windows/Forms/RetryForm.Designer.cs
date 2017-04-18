@@ -36,7 +36,7 @@
             // 
             // _messageLabel
             // 
-            this._messageLabel.Location = new System.Drawing.Point(12, 29);
+            this._messageLabel.Location = new System.Drawing.Point(2, 9);
             this._messageLabel.Name = "_messageLabel";
             this._messageLabel.Size = new System.Drawing.Size(714, 91);
             this._messageLabel.TabIndex = 0;
@@ -44,7 +44,7 @@
             // 
             // _retryLabel
             // 
-            this._retryLabel.Location = new System.Drawing.Point(13, 137);
+            this._retryLabel.Location = new System.Drawing.Point(12, 111);
             this._retryLabel.Name = "_retryLabel";
             this._retryLabel.Size = new System.Drawing.Size(712, 31);
             this._retryLabel.TabIndex = 1;
@@ -54,7 +54,7 @@
             // _yesButton
             // 
             this._yesButton.DialogResult = System.Windows.Forms.DialogResult.Yes;
-            this._yesButton.Location = new System.Drawing.Point(205, 184);
+            this._yesButton.Location = new System.Drawing.Point(205, 156);
             this._yesButton.Name = "_yesButton";
             this._yesButton.Size = new System.Drawing.Size(162, 46);
             this._yesButton.TabIndex = 2;
@@ -64,7 +64,7 @@
             // _noButton
             // 
             this._noButton.DialogResult = System.Windows.Forms.DialogResult.No;
-            this._noButton.Location = new System.Drawing.Point(390, 184);
+            this._noButton.Location = new System.Drawing.Point(390, 156);
             this._noButton.Name = "_noButton";
             this._noButton.Size = new System.Drawing.Size(162, 46);
             this._noButton.TabIndex = 3;

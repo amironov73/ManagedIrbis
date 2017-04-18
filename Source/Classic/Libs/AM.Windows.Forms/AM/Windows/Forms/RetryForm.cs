@@ -76,7 +76,7 @@ namespace AM.Windows.Forms
                 form.Message = exception.Message;
                 DialogResult result = form.ShowDialog();
 
-                return result == DialogResult.OK;
+                return result == DialogResult.Yes;
             }
         }
 
