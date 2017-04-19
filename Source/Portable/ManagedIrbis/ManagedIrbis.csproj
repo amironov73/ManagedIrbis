@@ -74,8 +74,8 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ClientInfo.cs">
       <Link>Source\ClientInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\AbstractClient.cs">
-      <Link>Source\Client\AbstractClient.cs</Link>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\IrbisProvider.cs">
+      <Link>Source\Client\IrbisProvider.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\Alias.cs">
       <Link>Source\Client\Alias.cs</Link>
@@ -89,8 +89,8 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\LocalCatalogerIniFile.cs">
       <Link>Source\Client\LocalCatalogerIniFile.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\LocalClient.cs">
-      <Link>Source\Client\LocalClient.cs</Link>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\LocalProvider.cs">
+      <Link>Source\Client\LocalProvider.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\RemoteCatalogerIniFile.cs">
       <Link>Source\Client\RemoteCatalogerIniFile.cs</Link>
