@@ -44,15 +44,6 @@ namespace ManagedIrbis.Infrastructure.Sockets
         [NotNull]
         public string DebugPath { get; private set; }
 
-        /// <summary>
-        /// Underlying socket to do real work.
-        /// </summary>
-        [NotNull]
-        public AbstractClientSocket InnerSocket
-        {
-            get; private set;
-        }
-
         #endregion
 
         #region Construction

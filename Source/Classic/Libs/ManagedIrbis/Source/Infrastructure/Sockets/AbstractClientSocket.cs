@@ -51,10 +51,13 @@ namespace ManagedIrbis.Infrastructure
         /// Busy state flag.
         /// </summary>
         [NotNull]
-        public BusyState Busy
-        {
-            get { return _busy; }
-        }
+        public BusyState Busy { get; private set; }
+
+        /// <summary>
+        /// Inner socket.
+        /// </summary>
+        [CanBeNull]
+        public AbstractClientSocket InnerSocket { get; internal set; }
 
         #endregion
 
@@ -71,14 +74,12 @@ namespace ManagedIrbis.Infrastructure
             Code.NotNull(connection, "connection");
 
             Connection = connection;
-            _busy = new BusyState(false);
+            Busy = new BusyState(false);
         }
 
         #endregion
 
         #region Private members
-
-        private readonly BusyState _busy;
 
         #endregion
 

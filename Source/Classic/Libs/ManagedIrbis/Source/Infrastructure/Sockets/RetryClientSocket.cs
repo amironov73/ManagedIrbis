@@ -43,15 +43,6 @@ namespace ManagedIrbis.Infrastructure.Sockets
         }
 
         /// <summary>
-        /// Working socket.
-        /// </summary>
-        [NotNull]
-        public AbstractClientSocket InnerSocket
-        {
-            get; private set;
-        }
-
-        /// <summary>
         /// Retry manager.
         /// </summary>
         [NotNull]

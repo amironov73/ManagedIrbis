@@ -50,13 +50,6 @@ namespace ManagedIrbis.Infrastructure.Sockets
         /// </summary>
         public int Delay { get; set; }
 
-        /// <summary>
-        /// Inner socket.
-        /// </summary>
-        [NotNull]
-        public AbstractClientSocket InnerSocket
-            { get; private set; }
-
         #endregion
 
         #region Construction

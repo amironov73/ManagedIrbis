@@ -10,7 +10,6 @@
 #region Using directives
 
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -113,15 +112,7 @@ namespace AM.Windows.Forms
 
         #region Control members
 
-        /// <summary>
-        /// Releases the unmanaged resources used by the 
-        /// <see cref="T:System.Windows.Forms.Control"/>
-        /// and its child controls and optionally releases the 
-        /// managed resources.
-        /// </summary>
-        /// <param name="disposing">true to release both managed 
-        /// and unmanaged resources; false to release only 
-        /// unmanaged resources. </param>
+        /// <inheritdoc cref="Control.Dispose(bool)"/>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -135,7 +126,7 @@ namespace AM.Windows.Forms
             base.Dispose(disposing);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Control.OnPaint"/>
         protected override void OnPaint
             (
                 PaintEventArgs e
@@ -145,18 +136,30 @@ namespace AM.Windows.Forms
             Rectangle r = ClientRectangle;
             r.X -= 2;
             r.Width += 4;
-            using (LinearGradientBrush brush
-                = new LinearGradientBrush
-                (
-                    r, 
-                    BackColor, 
-                    ForeColor,
-                    _back ? 0 : 180
-                ))
+
+            if (Moving)
             {
-                brush.SetBlendTriangularShape(_position, 0.5f);
-                g.FillRectangle(brush, ClientRectangle);
+                using (LinearGradientBrush brush
+                    = new LinearGradientBrush
+                    (
+                        r,
+                        BackColor,
+                        ForeColor,
+                        _back ? 0 : 180
+                    ))
+                {
+                    brush.SetBlendTriangularShape(_position, 0.5f);
+                    g.FillRectangle(brush, ClientRectangle);
+                }
             }
+            else
+            {
+                using (SolidBrush brush = new SolidBrush(BackColor))
+                {
+                    g.FillRectangle(brush, ClientRectangle);
+                }
+            }
+
             if (!string.IsNullOrEmpty(Text))
             {
                 using (Brush brush = new SolidBrush(ForeColor))

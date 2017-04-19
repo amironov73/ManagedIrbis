@@ -115,7 +115,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisInteropTester", "Class
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsisUtilsNet", "Classic\Apps\IsisUtilsNet\IsisUtilsNet.csproj", "{4BDA382D-0FC8-46C5-B9D4-853E45CEF47F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedIrbis.Excel", "Classic\Libs\ManagedIrbis.Excel\ManagedIrbis.Excel.csproj", "{A7B8B919-8BF6-43C1-8985-8C3D677C628B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedIrbis.Office", "Classic\Libs\ManagedIrbis.Office\ManagedIrbis.Office.csproj", "{A7B8B919-8BF6-43C1-8985-8C3D677C628B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelReportTester", "Classic\Apps\ExcelReportTester\ExcelReportTester.csproj", "{BAAEDC95-046F-49EE-A2F8-DE334B86E9D1}"
 EndProject

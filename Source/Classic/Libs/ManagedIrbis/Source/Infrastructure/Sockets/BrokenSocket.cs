@@ -45,13 +45,6 @@ namespace ManagedIrbis.Infrastructure.Sockets
         #region Properties
 
         /// <summary>
-        /// Inner socket.
-        /// </summary>
-        [NotNull]
-        public AbstractClientSocket InnerSocket
-        { get; private set; }
-
-        /// <summary>
         /// Probability of error event.
         /// </summary>
         public double Probability { get; set; }
