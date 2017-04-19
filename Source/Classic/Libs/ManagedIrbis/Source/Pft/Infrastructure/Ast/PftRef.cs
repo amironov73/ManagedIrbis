@@ -143,7 +143,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 context.Evaluate(Mfn);
                 int mfn = (int)Mfn.Value;
-                MarcRecord record = context.Environment.ReadRecord(mfn);
+                MarcRecord record = context.Provider.ReadRecord(mfn);
                 if (!ReferenceEquals(record, null))
                 {
                     using (new PftContextSaver(context, true))

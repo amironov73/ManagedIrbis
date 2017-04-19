@@ -71,7 +71,7 @@ namespace IrbisUI.Editors
                 FileSpecification fileSpecification 
                     = menuSpecification.ToFileSpecification();
 
-                MenuFile menu = context.Client.ReadMenuFile
+                MenuFile menu = context.Provider.ReadMenuFile
                     (
                         fileSpecification
                     )

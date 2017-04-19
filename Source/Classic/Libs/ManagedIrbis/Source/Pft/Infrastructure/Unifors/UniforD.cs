@@ -70,7 +70,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             string database = navigator.ReadUntil(',');
             if (string.IsNullOrEmpty(database))
             {
-                database = context.Environment.Database;
+                database = context.Provider.Database;
             }
 
             if (navigator.ReadChar() != ',')
@@ -100,16 +100,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 }
                 navigator.ReadChar();
 
-                string saveDatabase = context.Environment.Database;
+                string saveDatabase = context.Provider.Database;
                 try
                 {
-                    context.Environment.Database = database;
+                    context.Provider.Database = database;
 
-                    found = context.Environment.Search(query);
+                    found = context.Provider.Search(query);
                 }
                 finally
                 {
-                    context.Environment.Database = saveDatabase;
+                    context.Provider.Database = saveDatabase;
                 }
             }
 
@@ -148,7 +148,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     foreach (int mfn in found)
                     {
                         MarcRecord record 
-                            = copy.Environment.ReadRecord(mfn);
+                            = copy.Provider.ReadRecord(mfn);
                         if (!ReferenceEquals(record, null))
                         {
                             copy.Record = record;

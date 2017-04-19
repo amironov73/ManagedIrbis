@@ -80,7 +80,7 @@ namespace ManagedIrbis.Reports
                 List<MarcRecord> list;
 
                 using (RecordSorter sorter
-                    = new RecordSorter(context.Client, expression))
+                    = new RecordSorter(context.Provider, expression))
                 {
                     list = sorter.SortRecords(context.Records);
                 }

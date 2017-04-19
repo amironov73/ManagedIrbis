@@ -43,12 +43,12 @@ namespace ManagedIrbis.Reports
         #region Properties
 
         /// <summary>
-        /// Client.
+        /// Provider.
         /// </summary>
         [NotNull]
         [XmlIgnore]
         [JsonIgnore]
-        public AbstractClient Client { get; internal set; }
+        public IrbisProvider Provider { get; internal set; }
 
         /// <summary>
         /// 
@@ -79,7 +79,7 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public RecordSorter()
         {
-            Client = new LocalClient();
+            Provider = new LocalProvider();
         }
 
         /// <summary>
@@ -87,12 +87,12 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public RecordSorter
             (
-                [NotNull] AbstractClient client
+                [NotNull] IrbisProvider provider
             )
         {
-            Code.NotNull(client, "client");
+            Code.NotNull(provider, "provider");
 
-            Client = client;
+            Provider = provider;
         }
 
         /// <summary>
@@ -100,14 +100,14 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public RecordSorter
             (
-                [NotNull] AbstractClient client,
+                [NotNull] IrbisProvider provider,
                 [NotNull] string expression
             )
         {
-            Code.NotNull(client, "client");
+            Code.NotNull(provider, "provider");
             Code.NotNullNorEmpty(expression, "expression");
 
-            Client = client;
+            Provider = provider;
             _expression = expression;
         }
 
@@ -141,7 +141,7 @@ namespace ManagedIrbis.Reports
             }
 
             ConnectedClient connected
-                = Client as ConnectedClient;
+                = Provider as ConnectedClient;
             List<Pair<string, MarcRecord>> list
                 = new List<Pair<string, MarcRecord>>();
 
@@ -169,7 +169,7 @@ namespace ManagedIrbis.Reports
                 if (ReferenceEquals(_formatter, null))
                 {
                     _formatter = new PftFormatter();
-                    _formatter.SetEnvironment(Client);
+                    _formatter.SetEnvironment(Provider);
                     _formatter.ParseProgram(expression);
                 }
 

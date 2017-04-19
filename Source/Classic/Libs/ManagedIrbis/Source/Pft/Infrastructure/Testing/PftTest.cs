@@ -65,10 +65,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         #region Properties
 
         /// <summary>
-        /// Environment.
+        /// Provider.
         /// </summary>
         [CanBeNull]
-        public AbstractClient Environment { get; set; }
+        public IrbisProvider Provider { get; set; }
 
         /// <summary>
         /// Folder name.
@@ -147,7 +147,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
 
             try
             {
-                if (ReferenceEquals(Environment, null))
+                if (ReferenceEquals(Provider, null))
                 {
                     throw new PftException("environment not set");
                 }
@@ -247,8 +247,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     result.Expected = expected;
                 }
 
-                AbstractClient environment = Environment;
-                if (ReferenceEquals(environment, null)) //-V3022
+                IrbisProvider provider = Provider;
+                if (ReferenceEquals(provider, null)) //-V3022
                 {
                     throw new IrbisException
                         (
@@ -262,7 +262,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     Program = program
                 })
                 {
-                    formatter.SetEnvironment(environment);
+                    formatter.SetEnvironment(provider);
                     output = formatter.Format(record)
                         .DosToUnix()
                         .ThrowIfNull("output");

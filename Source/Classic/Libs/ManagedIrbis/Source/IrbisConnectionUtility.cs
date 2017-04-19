@@ -243,10 +243,10 @@ namespace ManagedIrbis
                 return records;
             }
 
-            using (AbstractClient client = new ConnectedClient(connection))
+            using (IrbisProvider provider = new ConnectedClient(connection))
             using (PftFormatter formatter = new PftFormatter())
             {
-                formatter.SetEnvironment(client);
+                formatter.SetEnvironment(provider);
                 string specification
                     = parameters.FilterSpecification.ThrowIfNull();
 

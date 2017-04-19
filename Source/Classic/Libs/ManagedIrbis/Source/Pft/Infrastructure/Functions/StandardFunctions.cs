@@ -108,10 +108,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                     = new FileSpecification
                     (
                         IrbisPath.MasterFile,
-                        context.Environment.Database,
+                        context.Provider.Database,
                         expression
                     );
-                string source = context.Environment.ReadFile
+                string source = context.Provider.ReadFile
                     (
                         specification
                     );
@@ -380,7 +380,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (number != null)
             {
                 int mfn = (int)number;
-                MarcRecord record = context.Environment
+                MarcRecord record = context.Provider
                     .ReadRecord(mfn);
 
                 if (ReferenceEquals(record, null))
@@ -610,7 +610,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             string expression = context.GetStringArgument(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
             {
-                int[] foundMfns = context.Environment.Search(expression);
+                int[] foundMfns = context.Provider.Search(expression);
                 if (foundMfns.Length != 0)
                 {
                     string[] foundLines = foundMfns.Select

@@ -57,10 +57,10 @@ namespace ManagedIrbis.Reports
         #region Properties
 
         /// <summary>
-        /// Abstract client.
+        /// Provider.
         /// </summary>
         [NotNull]
-        public AbstractClient Client { get; set; }
+        public IrbisProvider Provider { get; set; }
 
         /// <summary>
         /// Current record.
@@ -113,16 +113,16 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public ReportContext
             (
-                [NotNull] AbstractClient client
+                [NotNull] IrbisProvider provider
             )
         {
-            Code.NotNull(client, "client");
+            Code.NotNull(provider, "provider");
 
             Variables = new ReportVariableManager();
             Records = new NonNullCollection<MarcRecord>();
             Output = new ReportOutput();
             Driver = new PlainTextDriver();
-            Client = client;
+            Provider = provider;
         }
 
         #endregion

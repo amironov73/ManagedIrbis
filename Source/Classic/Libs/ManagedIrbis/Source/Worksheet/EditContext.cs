@@ -29,10 +29,10 @@ namespace ManagedIrbis.Worksheet
         #region Properties
 
         /// <summary>
-        /// Client.
+        /// Provider.
         /// </summary>
         [CanBeNull]
-        public AbstractClient Client { get; set; }
+        public IrbisProvider Provider { get; set; }
 
         /// <summary>
         /// Record to be edited.

@@ -96,7 +96,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         return;
                     }
 
-                    record = context.Environment.ReadRecordVersion(mfn, version);
+                    record = context.Provider.ReadRecordVersion(mfn, version);
 
                     using (PftContextGuard guard = new PftContextGuard(context))
                     {

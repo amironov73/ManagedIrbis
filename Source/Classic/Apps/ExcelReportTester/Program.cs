@@ -54,7 +54,7 @@ namespace ExelReporTester
             using (IrbisConnection connection
                 = new IrbisConnection(connectionString))
             {
-                AbstractClient environment
+                IrbisProvider provider
                     = new ConnectedClient(connection);
 
                 IrbisReport report = IrbisReport.LoadJsonFile
@@ -77,7 +77,7 @@ namespace ExelReporTester
                     FileName = "report.xlsx"
                 };
 
-                ReportContext context = new ReportContext(environment);
+                ReportContext context = new ReportContext(provider);
                 context.Records.AddRange(records);
                 context.SetDriver(driver);
                 report.Render(context);

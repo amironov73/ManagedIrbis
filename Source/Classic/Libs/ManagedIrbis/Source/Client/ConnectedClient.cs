@@ -27,7 +27,7 @@ namespace ManagedIrbis.Client
     [PublicAPI]
     [MoonSharpUserData]
     public class ConnectedClient
-        : AbstractClient
+        : IrbisProvider
     {
         #region Properties
 

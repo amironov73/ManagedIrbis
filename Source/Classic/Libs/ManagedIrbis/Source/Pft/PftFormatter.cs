@@ -156,13 +156,12 @@ namespace ManagedIrbis.Pft
         /// </summary>
         public void SetEnvironment
             (
-                //[NotNull] PftEnvironmentAbstraction environment
-                [NotNull] AbstractClient environment
+                [NotNull] IrbisProvider provider
             )
         {
-            Code.NotNull(environment, "environment");
+            Code.NotNull(provider, "provider");
 
-            Context.SetEnvironment(environment);
+            Context.SetProvider(provider);
         }
 
         #endregion

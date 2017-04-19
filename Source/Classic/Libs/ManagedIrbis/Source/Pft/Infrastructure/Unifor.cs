@@ -349,7 +349,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 string expression
             )
         {
-            string output = context.Environment.Database;
+            string output = context.Provider.Database;
             if (!string.IsNullOrEmpty(output))
             {
                 context.Write(node, output);
@@ -512,7 +512,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         && !string.IsNullOrEmpty(parameter))
                     {
                         string result;
-                        using (IniFile iniFile = context.Environment.GetUserIniFile())
+                        using (IniFile iniFile = context.Provider.GetUserIniFile())
                         {
                             result = iniFile.GetValue
                                 (
@@ -564,10 +564,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                 FileSpecification specification = new FileSpecification
                         (
                             IrbisPath.MasterFile,
-                            context.Environment.Database,
+                            context.Provider.Database,
                             menuName
                         );
-                MenuFile menu = context.Environment.ReadMenuFile
+                MenuFile menu = context.Provider.ReadMenuFile
                     (
                         specification
                     );

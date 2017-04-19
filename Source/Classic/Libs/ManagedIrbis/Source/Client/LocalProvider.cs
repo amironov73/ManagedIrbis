@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* LocalClient.cs -- 
+/* LocalProvider.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -40,8 +40,8 @@ namespace ManagedIrbis.Client
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class LocalClient
-        : AbstractClient
+    public class LocalProvider
+        : IrbisProvider
     {
         #region Properties
 
@@ -62,7 +62,7 @@ namespace ManagedIrbis.Client
         /// <summary>
         /// Constructor.
         /// </summary>
-        public LocalClient()
+        public LocalProvider()
         {
             RootPath = "C:/IRBIS64";
             DataPath = "C:/IRBIS64/DataI";
@@ -72,7 +72,7 @@ namespace ManagedIrbis.Client
         /// <summary>
         /// Constructor.
         /// </summary>
-        public LocalClient
+        public LocalProvider
             (
                 string rootPath
             )

@@ -108,7 +108,7 @@ namespace ManagedIrbis.Reports
             string result = null;
 
             ConnectedClient connected 
-                = context.Client as ConnectedClient;
+                = context.Provider as ConnectedClient;
             if (!ReferenceEquals(connected, null))
             {
                 MarcRecord record = context.CurrentRecord;

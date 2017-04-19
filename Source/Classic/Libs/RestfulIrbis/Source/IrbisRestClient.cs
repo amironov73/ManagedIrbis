@@ -38,7 +38,7 @@ namespace RestfulIrbis
     [PublicAPI]
     [MoonSharpUserData]
     public class IrbisRestClient
-        : AbstractClient
+        : IrbisProvider
     {
         #region Properties
 

@@ -48,10 +48,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     = new FileSpecification
                     (
                         IrbisPath.MasterFile,
-                        context.Environment.Database,
+                        context.Provider.Database,
                         fileName
                     );
-                string source = context.Environment.ReadFile
+                string source = context.Provider.ReadFile
                 (
                     specification
                 );

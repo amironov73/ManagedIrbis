@@ -40,10 +40,10 @@ namespace ManagedIrbis.Fields
         #region Properties
 
         /// <summary>
-        /// Client.
+        /// Provider.
         /// </summary>
         [NotNull]
-        public AbstractClient Client { get; private set; }
+        public IrbisProvider Provider { get; private set; }
 
         /// <summary>
         /// Formatter.
@@ -64,7 +64,7 @@ namespace ManagedIrbis.Fields
             )
             : this
                 (
-                    new LocalClient(),
+                    new LocalProvider(),
                     format
                 )
         {
@@ -75,17 +75,17 @@ namespace ManagedIrbis.Fields
         /// </summary>
         public FieldFilter
             (
-                [NotNull] AbstractClient client,
+                [NotNull] IrbisProvider provider,
                 [NotNull] string format
             )
         {
-            Code.NotNull(client, "client");
+            Code.NotNull(provider, "provider");
             Code.NotNullNorEmpty(format, "format");
 
-            Client = client;
+            Provider = provider;
 
             Formatter = new PftFormatter();
-            Formatter.SetEnvironment(client);
+            Formatter.SetEnvironment(provider);
             SetProgram(format);
         }
 

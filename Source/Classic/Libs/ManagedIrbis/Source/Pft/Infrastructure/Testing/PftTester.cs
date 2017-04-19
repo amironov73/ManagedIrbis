@@ -46,11 +46,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         #region Properties
 
         /// <summary>
-        /// Environment.
+        /// Provider.
         /// </summary>
         [NotNull]
-        //public PftEnvironmentAbstraction Environment { get; private set; }
-        public AbstractClient Environment { get; private set; }
+        public IrbisProvider Provider { get; private set; }
 
         /// <summary>
         /// Folder name.
@@ -85,7 +84,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
             Code.NotNullNorEmpty(folder, "folder");
 
             //Environment = new PftLocalEnvironment();
-            Environment = new LocalClient();
+            Provider = new LocalProvider();
             Folder = folder;
             Tests = new NonNullCollection<PftTest>();
             Results = new NonNullCollection<PftTestResult>();
@@ -223,7 +222,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         {
             foreach (PftTest test in Tests)
             {
-                test.Environment = Environment;
+                test.Provider = Provider;
                 PftTestResult result = RunTest(test);
                 if (result != null)
                 {
@@ -237,12 +236,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         /// </summary>
         public void SetEnvironment
             (
-                [NotNull] AbstractClient environment
+                [NotNull] IrbisProvider provider
             )
         {
-            Code.NotNull(environment, "environment");
+            Code.NotNull(provider, "provider");
 
-            Environment = environment;
+            Provider = provider;
         }
 
         /// <summary>

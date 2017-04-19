@@ -77,7 +77,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             string expression = context.Evaluate(Children);
             if (!string.IsNullOrEmpty(expression))
             {
-                int[] found = context.Environment.Search(expression);
+                int[] found = context.Provider.Search(expression);
                 if (found.Length != 0)
                 {
                     Value = found[0];

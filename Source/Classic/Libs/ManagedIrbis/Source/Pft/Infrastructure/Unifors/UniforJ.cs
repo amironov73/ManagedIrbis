@@ -45,7 +45,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             string database = navigator.ReadUntil(',');
             if (string.IsNullOrEmpty(database))
             {
-                database = context.Environment.Database;
+                database = context.Provider.Database;
             }
 
             if (navigator.ReadChar() != ',')
@@ -59,20 +59,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            string saveDatabase = context.Environment.Database;
+            string saveDatabase = context.Provider.Database;
 
             try
             {
-                context.Environment.Database = database;
+                context.Provider.Database = database;
 
-                int[] found = context.Environment.Search(term);
+                int[] found = context.Provider.Search(term);
                 string output = found.Length.ToInvariantString();
                 context.Write(node, output);
                 context.OutputFlag = true;
             }
             finally
             {
-                context.Environment.Database = saveDatabase;
+                context.Provider.Database = saveDatabase;
             }
         }
 

@@ -12,10 +12,10 @@ namespace UnitTests.ManagedIrbis.Fields
     {
         private FieldFilter _GetFilter()
         {
-            AbstractClient client = new LocalClient();
+            IrbisProvider provider = new LocalProvider();
             FieldFilter result = new FieldFilter
                 (
-                    client,
+                    provider,
                     "v200^a = 'Второе'"
                 );
 

@@ -44,10 +44,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         #region Properties
 
         /// <summary>
-        /// Environment.
+        /// Provider.
         /// </summary>
         [NotNull]
-        public AbstractClient Environment { get; private set; }
+        public IrbisProvider Provider { get; private set; }
 
         /// <summary>
         /// Text driver.
@@ -181,9 +181,9 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             _parent = parent;
 
-            Environment = ReferenceEquals(parent, null)
-                ? new LocalClient()
-                : parent.Environment;
+            Provider = ReferenceEquals(parent, null)
+                ? new LocalProvider()
+                : parent.Provider;
 
             PftOutput parentBuffer = ReferenceEquals(parent, null)
                 ? null
@@ -577,16 +577,16 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
-        /// Set environment.
+        /// Set provider.
         /// </summary>
-        public void SetEnvironment
+        public void SetProvider
             (
-                [NotNull] AbstractClient environment
+                [NotNull] IrbisProvider provider
             )
         {
-            Code.NotNull(environment, "environment");
+            Code.NotNull(provider, "provider");
 
-            Environment = environment;
+            Provider = provider;
         }
 
         /// <summary>
@@ -702,7 +702,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <inheritdoc/>
         public void Dispose()
         {
-            Environment.Dispose();
+            Provider.Dispose();
         }
 
         #endregion

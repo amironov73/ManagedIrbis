@@ -40,10 +40,9 @@ namespace ManagedIrbis.Fst
         #region Properties
 
         /// <summary>
-        /// Environment.
+        /// Provider.
         /// </summary>
-        //public PftEnvironmentAbstraction Environment { get; private set; }
-        public AbstractClient Environment { get; private set; }
+        public IrbisProvider Provider { get; private set; }
 
         #endregion
 
@@ -66,12 +65,12 @@ namespace ManagedIrbis.Fst
             //    {
             //        Database = database
             //    };
-            LocalClient environment
-                = new LocalClient(rootPath)
+            LocalProvider environment
+                = new LocalProvider(rootPath)
                 {
                     Database = database
                 };
-            Environment = environment;
+            Provider = environment;
         }
 
         #endregion
@@ -140,14 +139,14 @@ namespace ManagedIrbis.Fst
             {
                 Record = record
             };
-            context.SetEnvironment(Environment);
+            context.SetProvider(Provider);
             PftProgram program = parser.Parse();
             program.Execute(context);
             string transformed = context.Text;
 
             MarcRecord result = new MarcRecord
             {
-                Database = Environment.Database
+                Database = Provider.Database
             };
             string[] lines = transformed.Split((char) 0x07);
             string[] separators = {"\r\n", "\r", "\n"};

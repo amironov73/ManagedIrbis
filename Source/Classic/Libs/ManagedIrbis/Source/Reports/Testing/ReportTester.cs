@@ -52,11 +52,10 @@ namespace ManagedIrbis.Reports
         #region Properties
 
         /// <summary>
-        /// Environment.
+        /// Provider.
         /// </summary>
         [NotNull]
-        //public PftEnvironmentAbstraction Environment { get; private set; }
-        public AbstractClient Environment { get; private set; }
+        public IrbisProvider Provider { get; private set; }
 
         /// <summary>
         /// Folder name.
@@ -91,7 +90,7 @@ namespace ManagedIrbis.Reports
             Code.NotNullNorEmpty(folder, "folder");
 
             //Environment = new PftLocalEnvironment();
-            Environment = new LocalClient();
+            Provider = new LocalProvider();
             Folder = folder;
             Tests = new NonNullCollection<ReportTest>();
             Results = new NonNullCollection<ReportTestResult>();
@@ -167,7 +166,7 @@ namespace ManagedIrbis.Reports
 
             try
             {
-                test.Environment = Environment;
+                test.Provider = Provider;
                 result = test.Run(name);
 
 #if CLASSIC || NETCORE
@@ -243,12 +242,12 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public void SetEnvironment
             (
-                [NotNull] AbstractClient environment
+                [NotNull] IrbisProvider provider
             )
         {
-            Code.NotNull(environment, "environment");
+            Code.NotNull(provider, "provider");
 
-            Environment = environment;
+            Provider = provider;
         }
 
         /// <summary>

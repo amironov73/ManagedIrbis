@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* AbstractClient.cs -- 
+/* IrbisProvider.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -40,7 +40,7 @@ namespace ManagedIrbis.Client
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public abstract class AbstractClient
+    public abstract class IrbisProvider
         : IDisposable
     {
         #region Properties

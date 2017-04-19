@@ -54,7 +54,7 @@ namespace PftBench
             InitializeComponent();
 
             string rootPath = CM.AppSettings["rootPath"];
-            _environment = new LocalClient
+            _provider = new LocalProvider
                     (
                         rootPath
                     );
@@ -63,7 +63,7 @@ namespace PftBench
         private MarcRecord _record;
         private PftTokenList _tokenList;
         private PftProgram _program;
-        private readonly AbstractClient _environment;
+        private readonly IrbisProvider _provider;
 
         private void Clear()
         {
@@ -123,10 +123,10 @@ namespace PftBench
                 as DatabaseInfo;
             if (!ReferenceEquals(database, null))
             {
-                _environment.Database = database.Name
+                _provider.Database = database.Name
                     .ThrowIfNull("database.Name");
             }
-            formatter.SetEnvironment(_environment);
+            formatter.SetEnvironment(_provider);
 
             string result = formatter.Format(_record);
             _resutlBox.Text = result;
@@ -254,7 +254,7 @@ namespace PftBench
             _splitContainer3.SplitterDistance
                 = _splitContainer3.Width / 2;
 
-            DatabaseInfo[] databases = _environment.ListDatabases();
+            DatabaseInfo[] databases = _provider.ListDatabases();
             _databaseBox.Items.AddRange(databases);
             if (databases.Length != 0)
             {
@@ -272,8 +272,8 @@ namespace PftBench
 
             if (!ReferenceEquals(database, null))
             {
-                _environment.Database = database.Name.ThrowIfNull();
-                int maxMfn = _environment.GetMaxMfn();
+                _provider.Database = database.Name.ThrowIfNull();
+                int maxMfn = _provider.GetMaxMfn();
 
                 _maxMfnLabel.Text = string.Format
                     (

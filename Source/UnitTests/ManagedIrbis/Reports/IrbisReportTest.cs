@@ -169,8 +169,8 @@ namespace UnitTests.ManagedIrbis.Reports
                 IrbisReport report
             )
         {
-            AbstractClient client = new LocalClient();
-            ReportContext context = new ReportContext(client);
+            IrbisProvider provider = new LocalProvider();
+            ReportContext context = new ReportContext(provider);
             context.Records.AddRange(_GetRecords());
             report.Render(context);
             string text = context.Output.Text;
@@ -184,7 +184,7 @@ namespace UnitTests.ManagedIrbis.Reports
                 IrbisReport report
             )
         {
-            AbstractClient client = new LocalClient();
+            IrbisProvider client = new LocalProvider();
             ReportContext context = new ReportContext(client);
             context.Records.AddRange(_GetRecords());
             context.SetDriver(new HtmlDriver());

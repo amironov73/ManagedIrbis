@@ -44,11 +44,11 @@ namespace ReportTestRunner
             try
             {
                 string rootPath = CM.AppSettings["rootPath"];
-                AbstractClient environment
-                    = new LocalClient(rootPath);
+                IrbisProvider provider
+                    = new LocalProvider(rootPath);
 
                 ReportTester tester = new ReportTester(args[0]);
-                tester.SetEnvironment(environment);
+                tester.SetEnvironment(provider);
 
                 tester.DiscoverTests();
 

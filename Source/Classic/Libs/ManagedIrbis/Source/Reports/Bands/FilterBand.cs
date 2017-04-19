@@ -93,7 +93,7 @@ namespace ManagedIrbis.Reports
 
                 using (RecordFilter filter = new RecordFilter
                     (
-                        context.Client,
+                        context.Provider,
                         expression
                     ))
                 {

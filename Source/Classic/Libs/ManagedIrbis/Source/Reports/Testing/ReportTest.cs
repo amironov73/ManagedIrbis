@@ -73,10 +73,10 @@ namespace ManagedIrbis.Reports
         #region Properties
 
         /// <summary>
-        /// Environment.
+        /// Provider.
         /// </summary>
         [CanBeNull]
-        public AbstractClient Environment { get; set; }
+        public IrbisProvider Provider { get; set; }
 
         /// <summary>
         /// Folder name.
@@ -201,9 +201,9 @@ namespace ManagedIrbis.Reports
                     result.Expected = expected;
                 }
 
-                AbstractClient environment = Environment
-                    .ThrowIfNull("environment not set");
-                ReportContext context = new ReportContext(environment);
+                IrbisProvider provider = Provider
+                    .ThrowIfNull("provider not set");
+                ReportContext context = new ReportContext(provider);
                 context.Records.AddRange(records);
 
                 context.Verify(true);

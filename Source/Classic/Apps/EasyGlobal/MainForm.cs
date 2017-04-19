@@ -163,10 +163,10 @@ namespace EasyGlobal
                 int counter = 0;
 
                 string programText = _programBox.Text;
-                AbstractClient environment
+                IrbisProvider provider
                     = new ConnectedClient(Connection);
                 PftFormatter formatter = new PftFormatter();
-                formatter.SetEnvironment(environment);
+                formatter.SetEnvironment(provider);
                 formatter.ParseProgram(programText);
 
                 formatter.Context.Functions.Add("print", _Printer);
