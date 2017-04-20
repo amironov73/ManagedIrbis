@@ -90,8 +90,13 @@ namespace ManagedIrbis.Reports
         {
             Registry = new Dictionary<string, Type>
             {
-                { Csv, typeof(CsvDriver) },
+#if !NETCORE
+
                 { Dataset, typeof(DatasetDriver) },
+
+#endif
+
+                { Csv, typeof(CsvDriver) },
                 { Html, typeof(HtmlDriver) },
                 { Latex, typeof(LatexDriver) },
                 { Markdown, typeof(MarkdownDriver) },
