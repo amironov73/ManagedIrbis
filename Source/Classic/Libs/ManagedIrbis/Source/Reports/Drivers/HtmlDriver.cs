@@ -33,7 +33,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedIrbis.Source.Reports.Drivers
+namespace ManagedIrbis.Reports
 {
     /// <summary>
     /// 
