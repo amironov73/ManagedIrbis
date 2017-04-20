@@ -11,10 +11,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
+using AM.Drawing;
+
 using CodeJam;
 
 using DevExpress.Spreadsheet;
@@ -38,10 +42,16 @@ namespace ManagedIrbis.Reports
         #region Properties
 
         /// <summary>
+        /// Name of the template file.
+        /// </summary>
+        [CanBeNull]
+        public string InputFile { get; set; }
+
+        /// <summary>
         /// Name of the result file.
         /// </summary>
         [CanBeNull]
-        public string FileName { get; set; }
+        public string OutputFile { get; set; }
 
         #endregion
 
@@ -71,6 +81,125 @@ namespace ManagedIrbis.Reports
             )
         {
             _accumulatedText = new StringBuilder();
+
+            foreach (var pair in cell.Attributes)
+            {
+                int intValue;
+                double dblValue;
+                bool enabled;
+                Color color;
+                string strValue;
+
+                Cell curCell = _worksheet.Cells[_row, _column];
+                switch (pair.Key)
+                {
+                    case ReportAttribute.BackColor:
+                        color = ((string)pair.Value).ToColor();
+                        curCell.FillColor = color;
+                        break;
+
+                    case ReportAttribute.Bold:
+                        enabled = (bool)pair.Value;
+                        curCell.Font.Bold = enabled;
+                        break;
+
+                    case ReportAttribute.Borders:
+                        enabled = (bool)pair.Value;
+                        if (enabled)
+                        {
+                            curCell.Borders.SetAllBorders
+                                (
+                                    Color.Black,
+                                    BorderLineStyle.Medium
+                                );
+                        }
+                        else
+                        {
+                            curCell.Borders.RemoveBorders();
+                        }
+                        break;
+
+                    case ReportAttribute.Column:
+                        intValue = Convert.ToInt32(pair.Value);
+                        _column += intValue;
+                        break;
+
+                    case ReportAttribute.FontName:
+                        strValue = (string)pair.Value;
+                        curCell.Font.Name = strValue;
+                        break;
+
+                    case ReportAttribute.FontSize:
+                        dblValue = (double)pair.Value;
+                        curCell.Font.Size = dblValue;
+                        break;
+
+                    case ReportAttribute.ForeColor:
+                        color = ((string)pair.Value).ToColor();
+                        curCell.Font.Color = color;
+                        break;
+
+                    case ReportAttribute.HorizontalAlign:
+                        strValue = (string)pair.Value;
+                        SpreadsheetHorizontalAlignment horizontal
+                            = SpreadsheetHorizontalAlignment.Left;
+                        switch (strValue)
+                        {
+                            case "Center":
+                                horizontal = SpreadsheetHorizontalAlignment.Center;
+                                break;
+
+                            case "Right":
+                                horizontal = SpreadsheetHorizontalAlignment.Right;
+                                break;
+                        }
+                        curCell.Alignment.Horizontal = horizontal;
+                        break;
+
+                    case ReportAttribute.Italic:
+                        enabled = (bool)pair.Value;
+                        curCell.Font.Italic = enabled;
+                        break;
+
+                    case ReportAttribute.Span:
+                        // TODO: implement
+                        break;
+
+                    case ReportAttribute.Underline:
+                        enabled = (bool)pair.Value;
+                        curCell.Font.UnderlineType = enabled
+                            ? UnderlineType.Single
+                            : UnderlineType.None;
+                        break;
+
+                    case ReportAttribute.VerticalAlign:
+                        strValue = (string)pair.Value;
+                        SpreadsheetVerticalAlignment vertical
+                            = SpreadsheetVerticalAlignment.Top;
+                        switch (strValue)
+                        {
+                            case "Bottom":
+                                vertical = SpreadsheetVerticalAlignment.Bottom;
+                                break;
+
+                            case "Center":
+                                vertical = SpreadsheetVerticalAlignment.Center;
+                                break;
+                        }
+                        curCell.Alignment.Vertical = vertical;
+                        break;
+
+                    case ReportAttribute.Width:
+                        dblValue = Convert.ToDouble(pair.Value);
+                        curCell.ColumnWidth = dblValue;
+                        break;
+
+                    case ReportAttribute.WrapText:
+                        enabled = (bool)pair.Value;
+                        curCell.Alignment.WrapText = enabled;
+                        break;
+                }
+            }
         }
 
         /// <inheritdoc cref="ReportDriver.BeginDocument"/>
@@ -81,7 +210,16 @@ namespace ManagedIrbis.Reports
             )
         {
             _workbook = new Workbook();
-            _workbook.CreateNewDocument();
+
+            string inputFile = InputFile;
+            if (string.IsNullOrEmpty(inputFile))
+            {
+                _workbook.CreateNewDocument();
+            }
+            else
+            {
+                _workbook.LoadDocument(inputFile);
+            }
             _worksheet = _workbook.Worksheets[0];
             _row = 0;
             _column = 0;
@@ -95,6 +233,24 @@ namespace ManagedIrbis.Reports
             )
         {
             _column = 0;
+
+            foreach (var pair in band.Attributes)
+            {
+                int offset;
+
+                switch (pair.Key)
+                {
+                    case ReportAttribute.Row:
+                        offset = Convert.ToInt32(pair.Value);
+                        _row += offset;
+                        break;
+
+                    case ReportAttribute.Column:
+                        offset = Convert.ToInt32(pair.Value);
+                        _column += offset;
+                        break;
+                }
+            }
         }
 
         /// <inheritdoc cref="ReportDriver.EndCell"/>
@@ -117,7 +273,7 @@ namespace ManagedIrbis.Reports
                 IrbisReport report
             )
         {
-            string fileName = FileName
+            string fileName = OutputFile
                 .ThrowIfNull("File name not set");
             _workbook.SaveDocument(fileName);
         }

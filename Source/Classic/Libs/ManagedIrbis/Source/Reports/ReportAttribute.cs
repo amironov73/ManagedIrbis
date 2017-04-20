@@ -27,6 +27,11 @@ namespace ManagedIrbis.Reports
         #region Constants
 
         /// <summary>
+        /// Background color.
+        /// </summary>
+        public const string BackColor = "BackColor";
+
+        /// <summary>
         /// Black color.
         /// </summary>
         public const string Black = "Black";
@@ -42,9 +47,19 @@ namespace ManagedIrbis.Reports
         public const string Bold = "Bold";
 
         /// <summary>
+        /// Borders.
+        /// </summary>
+        public const string Borders = "Borders";
+
+        /// <summary>
         /// Center.
         /// </summary>
         public const string Center = "Center";
+
+        /// <summary>
+        /// Column offset.
+        /// </summary>
+        public const string Column = "Column";
 
         /// <summary>
         /// Font name (family).
@@ -55,6 +70,11 @@ namespace ManagedIrbis.Reports
         /// Font size.
         /// </summary>
         public const string FontSize = "FontSize";
+
+        /// <summary>
+        /// Foreground color.
+        /// </summary>
+        public const string ForeColor = "ForeColor";
 
         /// <summary>
         /// Gray color.
@@ -72,6 +92,11 @@ namespace ManagedIrbis.Reports
         public const string Height = "Height";
 
         /// <summary>
+        /// Horizontal alignment.
+        /// </summary>
+        public const string HorizontalAlign = "HorizontalAlign";
+
+        /// <summary>
         /// Italic.
         /// </summary>
         public const string Italic = "Italic";
@@ -87,14 +112,39 @@ namespace ManagedIrbis.Reports
         public const string Red = "Red";
 
         /// <summary>
+        /// Row offset.
+        /// </summary>
+        public const string Row = "Row";
+
+        /// <summary>
         /// Right justify.
         /// </summary>
         public const string Right = "Right";
 
         /// <summary>
+        /// Cell merge.
+        /// </summary>
+        public const string Span = "Span";
+
+        /// <summary>
+        /// Underline.
+        /// </summary>
+        public const string Underline = "Underline";
+
+        /// <summary>
+        /// Vertical alignment.
+        /// </summary>
+        public const string VerticalAlign = "VerticalAlign";
+
+        /// <summary>
         /// Width.
         /// </summary>
         public const string Width = "Width";
+
+        /// <summary>
+        /// Text wrapping.
+        /// </summary>
+        public const string WrapText = "WrapText";
 
         #endregion
     }

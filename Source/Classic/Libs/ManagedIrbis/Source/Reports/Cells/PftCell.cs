@@ -25,10 +25,13 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Client;
 using ManagedIrbis.Pft;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -48,6 +51,7 @@ namespace ManagedIrbis.Reports
         /// Script text.
         /// </summary>
         [CanBeNull]
+        [JsonProperty("text")]
         public string Text { get; set; }
 
         #endregion

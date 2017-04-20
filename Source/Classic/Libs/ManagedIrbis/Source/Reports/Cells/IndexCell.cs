@@ -28,6 +28,8 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
+using Newtonsoft.Json;
+
 #endregion
 
 namespace ManagedIrbis.Reports
@@ -46,6 +48,7 @@ namespace ManagedIrbis.Reports
         /// Format.
         /// </summary>
         [CanBeNull]
+        [JsonProperty("format")]
         public string Format { get; set; }
 
         #endregion

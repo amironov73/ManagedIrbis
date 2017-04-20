@@ -6,14 +6,49 @@
       "sort": "@brief",
       "body": [
         {
+          "$type": "ManagedIrbis.Reports.ReportBand, ManagedIrbis",
+          "attr": {
+               "Row": 1,
+          },
+          "cells": [
+            {
+              "$type": "ManagedIrbis.Reports.TextCell, ManagedIrbis",
+              "attr": {
+                    "Bold": true,
+                    "Borders": true,
+              },
+              "text": "Номер"
+            },
+            {
+              "$type": "ManagedIrbis.Reports.TextCell, ManagedIrbis",
+              "attr": {
+                    "Bold": true,
+                    "Borders": true,
+              },
+              "text": "Библиографическое описание"
+            },
+          ]
+        },
+        {
           "$type": "ManagedIrbis.Reports.DetailsBand, ManagedIrbis",
           "cells": [
             {
                "$type": "ManagedIrbis.Reports.IndexCell, ManagedIrbis",
+               "attr" : {
+                   "Bold": true,
+                   "Borders": true,
+                   "HorizontalAlign": "Right",
+                   "VerticalAlign": "Top",
+                },
                "Format": "{Index})"
             },
             {
                "$type": "ManagedIrbis.Reports.PftCell, ManagedIrbis",
+               "attr": {
+                   "Borders": true,                   
+                   "Width": 2200, 
+                   "WrapText": true,
+               },
                "Text": "@brief"
             }
           ]
@@ -23,9 +58,15 @@
   ],
   "footer": {
     "$type": "ManagedIrbis.Reports.ReportBand, ManagedIrbis",
+    "attr": {
+         "Row": 1,
+    },
     "cells": [
       {
         "$type": "ManagedIrbis.Reports.TextCell, ManagedIrbis",
+        "attr": {
+           "BackColor": "#C0C0C0",
+        },
         "Text": "Footer"
       }
     ]
@@ -35,6 +76,11 @@
     "cells": [
       {
         "$type": "ManagedIrbis.Reports.TextCell, ManagedIrbis",
+        "attr": {
+           "FontSize": 14.5,
+           "ForeColor": "#FF0000",
+           "Italic": true,
+        },
         "Text": "Header"
       }
     ]

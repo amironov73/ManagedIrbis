@@ -74,7 +74,7 @@ namespace ExelReporTester
 
                 ExcelDriver driver = new ExcelDriver
                 {
-                    FileName = "report.xlsx"
+                    OutputFile = "report.xlsx"
                 };
 
                 ReportContext context = new ReportContext(provider);
