@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using ManagedIrbis.Client;
-using ManagedIrbis.Source.Reports.Drivers;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis;
+using ManagedIrbis.Client;
 using ManagedIrbis.Reports;
 
 namespace UnitTests.ManagedIrbis.Reports
