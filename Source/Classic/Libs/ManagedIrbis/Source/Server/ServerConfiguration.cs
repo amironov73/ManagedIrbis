@@ -123,6 +123,30 @@ namespace ManagedIrbis.Server
             return result;
         }
 
+        /// <summary>
+        /// Create server configuration from path.
+        /// </summary>
+        [NotNull]
+        public static ServerConfiguration FromPath
+            (
+                [NotNull] string path
+            )
+        {
+            Code.NotNullNorEmpty(path, "path");
+
+            string systemPath = Path.GetFullPath(path);
+
+            ServerConfiguration result = new ServerConfiguration
+            {
+                SystemPath = systemPath + "\\",
+                DataPath = Path.Combine(systemPath, "Datai\\"),
+                AlphabetTablePath = Path.Combine(systemPath, "isisacw"),
+                UpperCaseTable = Path.Combine(systemPath, "isisucw")
+            };
+
+            return result;
+        }
+
         #endregion
 
         #region IVerifiable members
