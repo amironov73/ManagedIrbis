@@ -536,6 +536,8 @@
     <Compile Include="Source\Reports\ReportRenderingEventArgs.cs" />
     <Compile Include="Source\Reports\ReportEventArgs.cs" />
     <Compile Include="Source\Reports\ReportOutput.cs" />
+    <Compile Include="Source\Reports\ReportRunner.cs" />
+    <Compile Include="Source\Reports\ReportSettings.cs" />
     <Compile Include="Source\Reports\ReportUtility.cs" />
     <Compile Include="Source\Reports\ReportVariable.cs" />
     <Compile Include="Source\Reports\ReportVariableManager.cs" />
