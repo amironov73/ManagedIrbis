@@ -503,6 +503,7 @@
     <Compile Include="Source\Reports\Bands\TotalBand.cs" />
     <Compile Include="Source\Reports\Cells\CellCollection.cs" />
     <Compile Include="Source\Reports\Bands\SectionBand.cs" />
+    <Compile Include="Source\Reports\Cells\DataCell.cs" />
     <Compile Include="Source\Reports\Cells\DynamicCell.cs" />
     <Compile Include="Source\Reports\Cells\HeaderCell.cs" />
     <Compile Include="Source\Reports\Cells\IndexCell.cs" />

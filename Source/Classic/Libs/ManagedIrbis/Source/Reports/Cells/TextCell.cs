@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 using AM;
 using AM.Collections;
@@ -49,6 +50,7 @@ namespace ManagedIrbis.Reports
         /// </summary>
         [CanBeNull]
         [JsonProperty("text")]
+        [XmlAttribute("text")]
         public string Text { get; set; }
 
         #endregion

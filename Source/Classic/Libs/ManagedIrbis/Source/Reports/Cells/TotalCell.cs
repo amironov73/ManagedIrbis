@@ -45,15 +45,15 @@ namespace ManagedIrbis.Reports
         /// <summary>
         /// Band index.
         /// </summary>
-        [XmlAttribute("band")]
         [JsonProperty("band")]
+        [XmlAttribute("band")]
         public int BandIndex { get; set; }
 
         /// <summary>
         /// Cell index.
         /// </summary>
-        [XmlAttribute("cell")]
         [JsonProperty("cell")]
+        [XmlAttribute("cell")]
         public int CellIndex
         {
             get; set;
@@ -62,16 +62,16 @@ namespace ManagedIrbis.Reports
         /// <summary>
         /// Function.
         /// </summary>
-        [XmlAttribute("function")]
         [JsonProperty("function")]
+        [XmlAttribute("function")]
         public TotalFunction Function { get; set; }
 
         /// <summary>
         /// Format.
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("format")]
         [JsonProperty("format")]
+        [XmlAttribute("format")]
         public string Format { get; set; }
 
         #endregion

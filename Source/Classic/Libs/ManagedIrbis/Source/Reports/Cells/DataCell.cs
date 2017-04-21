@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* IndexCell.cs -- 
+/* DataCell.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -22,6 +22,7 @@ using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Runtime;
+using AM.Text;
 
 using CodeJam;
 
@@ -40,41 +41,21 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class IndexCell
+    public class DataCell
         : ReportCell
     {
         #region Properties
 
         /// <summary>
-        /// Format.
+        /// Index.
         /// </summary>
-        [CanBeNull]
-        [JsonProperty("format")]
-        [XmlAttribute("format")]
-        public string Format { get; set; }
+        [JsonProperty("index")]
+        [XmlAttribute("index")]
+        public int Index { get; set; }
 
         #endregion
 
         #region Construction
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public IndexCell()
-        {
-            Format = "{Index})";
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public IndexCell
-            (
-                [CanBeNull] string format
-            )
-        {
-            Format = format;
-        }
 
         #endregion
 
@@ -86,7 +67,7 @@ namespace ManagedIrbis.Reports
 
         #endregion
 
-        #region ReportCell members
+        #region ReportCell
 
         /// <inheritdoc cref="ReportCell.Compute"/>
         public override string Compute
@@ -96,27 +77,31 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
-            OnBeforeCompute(context);
-
             string result = null;
-            string format = Format;
-            if (!string.IsNullOrEmpty(format))
+            MarcRecord record = context.CurrentRecord;
+            if (!ReferenceEquals(record, null))
             {
-                string index = (context.Index + 1)
-                    .ToInvariantString();
-                string total = context.Records.Count
-                    .ToInvariantString();
-                result = format
-                    .Replace("{Index}", index)
-                    .Replace("{Total}", total);
+                object[] data = record.UserData as object[];
+                if (!ReferenceEquals(data, null))
+                {
+                    object obj = data.GetOccurrence(Index);
+                    result = obj.NullableToString();
+                }
+                else
+                {
+                    IList<object> list = record.UserData as IList<object>;
+                    if (!ReferenceEquals(list, null))
+                    {
+                        object obj = list.GetItem(Index);
+                        result = obj.NullableToString();
+                    }
+                }
             }
-
-            OnAfterCompute(context);
 
             return result;
         }
 
-        /// <inheritdoc cref="ReportCell.Render" />
+        /// <inheritdoc cref="ReportCell.Render"/>
         public override void Render
             (
                 ReportContext context
@@ -124,13 +109,11 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
-            ReportDriver driver = context.Driver;
-
-            driver.BeginCell(context, this);
-
             string text = Compute(context);
-            driver.Write(context, text);
 
+            ReportDriver driver = context.Driver;
+            driver.BeginCell(context, this);
+            driver.Write(context, text);
             driver.EndCell(context, this);
         }
 
