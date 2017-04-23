@@ -475,8 +475,8 @@ namespace AM.Collections
         /// </summary>
         public static bool operator <=
             (
-                Set<T> left,
-                Set<T> right
+                [NotNull] Set<T> left,
+                [NotNull] Set<T> right
             )
         {
             foreach (T element in left)
@@ -486,6 +486,7 @@ namespace AM.Collections
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -494,11 +495,12 @@ namespace AM.Collections
         /// </summary>
         public static bool operator <
             (
-                Set<T> left,
-                Set<T> right
+                [NotNull] Set<T> left,
+                [NotNull] Set<T> right
             )
         {
-            return (left.Count < right.Count) && (left <= right);
+            return left.Count < right.Count
+                && left <= right;
         }
 
         /// <summary>
@@ -506,11 +508,12 @@ namespace AM.Collections
         /// </summary>
         public static bool operator ==
             (
-                Set<T> left,
-                Set<T> right
+                [NotNull] Set<T> left,
+                [NotNull] Set<T> right
             )
         {
-            return (left.Count == right.Count) && (left <= right);
+            return left.Count == right.Count
+                && left <= right;
         }
 
         /// <summary>
@@ -518,8 +521,8 @@ namespace AM.Collections
         /// </summary>
         public static bool operator >
             (
-                Set<T> left,
-                Set<T> right
+                [NotNull] Set<T> left,
+                [NotNull] Set<T> right
             )
         {
             return right < left;
@@ -530,8 +533,8 @@ namespace AM.Collections
         /// </summary>
         public static bool operator >=
             (
-                Set<T> left,
-                Set<T> right
+                [NotNull] Set<T> left,
+                [NotNull] Set<T> right
             )
         {
             return right <= left;

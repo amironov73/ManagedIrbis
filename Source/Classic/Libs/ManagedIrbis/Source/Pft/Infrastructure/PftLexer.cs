@@ -1137,7 +1137,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         break;
                 }
 
-                if (kind == PftTokenKind.None)
+                if (kind == PftTokenKind.None) //-V3022
                 {
                     throw new PftSyntaxException(_navigator);
                 }

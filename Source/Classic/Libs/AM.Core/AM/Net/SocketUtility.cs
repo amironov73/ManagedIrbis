@@ -325,27 +325,29 @@ namespace AM.Net
             Code.NotNull(socket, "socket");
             Code.Nonnegative(dataLength, "dataLength");
 
-            MemoryStream result = new MemoryStream(dataLength);
-            byte[] buffer = new byte[32 * 1024];
-
-            while (dataLength > 0)
+            using (MemoryStream result = new MemoryStream(dataLength))
             {
-                int readed = socket.Receive(buffer);
+                byte[] buffer = new byte[32 * 1024];
 
-                if (readed <= 0)
+                while (dataLength > 0)
                 {
-                    throw new ArsMagnaException
+                    int readed = socket.Receive(buffer);
+
+                    if (readed <= 0)
+                    {
+                        throw new ArsMagnaException
                         (
                             "Socket reading error"
                         );
+                    }
+
+                    result.Write(buffer, 0, readed);
+
+                    dataLength -= readed;
                 }
 
-                result.Write(buffer, 0, readed);
-
-                dataLength -= readed;
+                return result.ToArray();
             }
-
-            return result.ToArray();
         }
 
         /// <summary>
@@ -359,30 +361,32 @@ namespace AM.Net
         {
             Code.NotNull(socket, "socket");
 
-            MemoryStream result = new MemoryStream();
-            byte[] buffer = new byte[32 * 1024];
-
-            while (true)
+            using (MemoryStream result = new MemoryStream())
             {
-                int readed = socket.Receive(buffer);
+                byte[] buffer = new byte[32 * 1024];
 
-                if (readed < 0)
+                while (true)
                 {
-                    throw new ArsMagnaException
+                    int readed = socket.Receive(buffer);
+
+                    if (readed < 0)
+                    {
+                        throw new ArsMagnaException
                         (
                             "Socket reading error"
                         );
+                    }
+
+                    if (readed == 0)
+                    {
+                        break;
+                    }
+
+                    result.Write(buffer, 0, readed);
                 }
 
-                if (readed == 0)
-                {
-                    break;
-                }
-
-                result.Write(buffer, 0, readed);
+                return result.ToArray();
             }
-
-            return result.ToArray();
         }
 
         #endregion

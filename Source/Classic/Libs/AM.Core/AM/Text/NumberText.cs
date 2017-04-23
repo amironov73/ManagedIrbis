@@ -921,7 +921,7 @@ namespace AM.Text
                 [NotNull] NumberText other
             )
         {
-            for (int i = 0; i < int.MaxValue; i++)
+            for (int i = 0; i < int.MaxValue; i++) //-V3022
             {
                 Chunk c1 = this[i];
                 Chunk c2 = other[i];

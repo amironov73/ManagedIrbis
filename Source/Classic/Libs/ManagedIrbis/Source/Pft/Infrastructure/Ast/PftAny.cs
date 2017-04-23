@@ -145,7 +145,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                     condition.Execute(context);
 
-                    if (!context._vMonitor.Output
+                    if (!context._vMonitor.Output //-V3022
                         || context.BreakFlag
                        )
                     {

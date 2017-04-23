@@ -88,7 +88,7 @@ namespace AM.IO
             string result = fileName + "_temp";
             if (!string.IsNullOrEmpty(extension))
             {
-                result = Path.Combine(result, extension);
+                result = Path.Combine(result, extension); //-V3127
             }
             if (!string.IsNullOrEmpty(directory))
             {

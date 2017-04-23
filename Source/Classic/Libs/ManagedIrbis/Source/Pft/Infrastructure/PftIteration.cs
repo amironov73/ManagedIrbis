@@ -39,7 +39,7 @@ namespace ManagedIrbis.Pft.Infrastructure
     /// <see cref="PftParallelForEach"/>, <see cref="PftParallelGroup"/>
     /// и <see cref="PftParallelWith"/>.
     /// </summary>
-    internal sealed class PftIteration
+    internal sealed class PftIteration //-V3073
         : IDisposable
     {
         #region Properties

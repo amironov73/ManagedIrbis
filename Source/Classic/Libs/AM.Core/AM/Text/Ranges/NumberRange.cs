@@ -419,12 +419,7 @@ namespace AM.Text.Ranges
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString"/>
         public override string ToString()
         {
             if (ReferenceEquals(Start, null)
@@ -434,7 +429,7 @@ namespace AM.Text.Ranges
             }
             if (ReferenceEquals(Start, null))
             {
-                return Stop.ToString();
+                return Stop.ToString(); //-V3125 //-V3095
             }
             if (ReferenceEquals(Stop, null))
             {
