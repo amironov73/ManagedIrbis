@@ -63,7 +63,7 @@ namespace AsyncSocketTester
 
         #endregion
 
-        private void _pressMeButton_Click
+        private async void _pressMeButton_Click
             (
                 object sender,
                 EventArgs e
@@ -74,25 +74,38 @@ namespace AsyncSocketTester
                 using (IrbisConnection connection
                     = new IrbisConnection())
                 {
-                    AsyncClientSocket socket
-                        = new AsyncClientSocket(connection);
-                    connection.SetSocket(socket);
+                    _pressMeButton.Enabled = false;
+                    try
+                    {
 
-                    connection.ParseConnectionString
-                    (
-                        _connectionString
-                    );
+                        AsyncClientSocket socket
+                            = new AsyncClientSocket(connection);
+                        connection.SetSocket(socket);
 
-                    connection.Connect();
+                        connection.ParseConnectionString
+                        (
+                            _connectionString
+                        );
 
-                    _output.WriteLine("Connected");
+                        await connection.ConnectAsync();
 
-                    int maxMfn = connection.GetMaxMfn();
-                    _output.WriteLine
-                    (
-                        "Max MFN={0}",
-                        maxMfn
-                    );
+                        _output.WriteLine("Connected");
+
+                        int maxMfn 
+                            = await connection.GetMaxMfnAsync();
+                        _output.WriteLine
+                        (
+                            "Max MFN={0}",
+                            maxMfn
+                        );
+
+                        await connection.DisconnectAsync();
+
+                    }
+                    finally
+                    {
+                        _pressMeButton.Enabled = true;
+                    }
                 }
 
                 _output.WriteLine("Diconnected");

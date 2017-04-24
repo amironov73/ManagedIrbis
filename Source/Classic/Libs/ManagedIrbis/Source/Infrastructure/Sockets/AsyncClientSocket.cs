@@ -19,6 +19,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using AM;
@@ -67,7 +68,8 @@ namespace ManagedIrbis.Infrastructure
 
         private byte[] _result;
 
-        private void __Execute
+        // Must be async Task method!
+        private async Task __Execute
             (
                 byte[] request
             )
@@ -98,17 +100,9 @@ namespace ManagedIrbis.Infrastructure
 
                     if (ReferenceEquals(_address, null))
                     {
-#if NETCORE
 
                         IPHostEntry ipHostEntry
-                            = Dns.GetHostEntryAsync(host).Result;
-
-#else
-
-                        IPHostEntry ipHostEntry
-                            = Dns.GetHostEntry(host);
-
-#endif
+                            = await Dns.GetHostEntryAsync(host);
 
                         if (!ReferenceEquals(ipHostEntry, null)
                             && !ReferenceEquals
@@ -137,23 +131,11 @@ namespace ManagedIrbis.Infrastructure
 
                     Debug.WriteLine("AsyncClientSocket: before Connect");
 
-#if NETCORE
-
                     client.ConnectAsync
                         (
                             _address,
                             Connection.Port
                         ).Wait ();
-
-#else
-
-                    client.Connect
-                        (
-                            _address,
-                            Connection.Port
-                        );
-
-#endif
 
                     Debug.WriteLine("AsyncClientSocket: after Connectc");
 
@@ -202,20 +184,19 @@ namespace ManagedIrbis.Infrastructure
                     Debug.WriteLine("AsyncClientSocket: exiting");
 
                     Connection.RawServerResponse = _result;
+
+                    // Thread.Sleep(3000); // for debugging only!
                 }
             }
         }
 
+        // ExecuteRequest can't use await
         private async void _Execute
             (
                 byte[] request
             )
         {
-            Task task = Task.Factory.StartNew
-                (
-                    () => __Execute(request)
-                );
-            task.Wait(); // ???
+            await __Execute(request);
         }
 
         #endregion
