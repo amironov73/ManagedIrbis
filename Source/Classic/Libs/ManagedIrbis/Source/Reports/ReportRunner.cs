@@ -72,11 +72,15 @@ namespace ManagedIrbis.Reports
             report.Verify(true);
             settings.Verify(true);
 
+#if !NETCORE
+
             string[] assemblies = settings.Assemblies.ToArray();
             foreach (string path in assemblies)
             {
                 Assembly.LoadFile(path);
             }
+
+#endif
 
             string providerFullName = settings.RegisterProvider;
             if (!string.IsNullOrEmpty(providerFullName))

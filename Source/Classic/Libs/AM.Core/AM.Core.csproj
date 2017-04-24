@@ -319,7 +319,6 @@
     <Compile Include="Compatibility\DummyClass.cs" />
     <Compile Include="Compatibility\JetBrains.cs" />
     <Compile Include="Compatibility\MoonSharp.cs" />
-    <Compile Include="Compatibility\Reflection.cs" />
     <Compile Include="Compatibility\StringBuilderCompability.cs" />
     <Compile Include="Compatibility\System.cs" />
     <Compile Include="Compatibility\Xml.cs" />

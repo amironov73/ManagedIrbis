@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if CLASSIC && FW45
+#if (CLASSIC && FW45) || NETCORE || ANDROID || UAP
 
 #region Using directives
 
@@ -81,7 +81,7 @@ namespace ManagedIrbis.Infrastructure
                 catch
                 {
                     IPHostEntry ipHostEntry
-                        = Dns.GetHostEntry(host);
+                        = await Dns.GetHostEntryAsync(host);
                     if (!ReferenceEquals(ipHostEntry, null)
                         && !ReferenceEquals
                         (
@@ -155,13 +155,13 @@ namespace ManagedIrbis.Infrastructure
             }
         }
 
-        #endregion
+#endregion
 
-        #region Public methods
+#region Public methods
 
-        #endregion
+#endregion
 
-        #region AbstractClientSocket members
+#region AbstractClientSocket members
 
         /// <summary>
         /// Abort the request.
@@ -192,7 +192,7 @@ namespace ManagedIrbis.Infrastructure
 
         }
 
-        #endregion
+#endregion
     }
 }
 
