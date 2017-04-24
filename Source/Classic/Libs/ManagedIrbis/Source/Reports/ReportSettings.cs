@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Json;
 using AM.Runtime;
 using AM.Text;
 
@@ -43,6 +44,7 @@ namespace ManagedIrbis.Reports
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class ReportSettings
+        : IVerifiable
     {
         #region Properties
 
@@ -51,7 +53,10 @@ namespace ManagedIrbis.Reports
         /// </summary>
         [NotNull]
         [JsonProperty("assemblies")]
-        public NonNullCollection<string> Assemblies { get; private set; }
+        public NonNullCollection<string> Assemblies
+        {
+            get; private set;
+        }
 
         /// <summary>
         /// Name of the <see cref="ReportDriver"/>.
@@ -66,6 +71,13 @@ namespace ManagedIrbis.Reports
         [CanBeNull]
         [JsonProperty("driverSettings")]
         public string DriverSettings { get; set; }
+
+        /// <summary>
+        /// Record filter.
+        /// </summary>
+        [CanBeNull]
+        [JsonProperty("filter")]
+        public string Filter { get; set; }
 
         /// <summary>
         /// Output file name.
@@ -102,6 +114,22 @@ namespace ManagedIrbis.Reports
         [JsonProperty("providerSettings")]
         public string ProviderSettings { get; set; }
 
+        /// <summary>
+        /// Register <see cref="ReportDriver"/>
+        /// before report building.
+        /// </summary>
+        [CanBeNull]
+        [JsonProperty("registerDriver")]
+        public string RegisterDriver { get; set; }
+
+        /// <summary>
+        /// <see cref="IrbisProvider"/> to register
+        /// before report building.
+        /// </summary>
+        [CanBeNull]
+        [JsonProperty("registerProvider")]
+        public string RegisterProvider { get; set; }
+
         #endregion
 
         #region Construction
@@ -121,6 +149,47 @@ namespace ManagedIrbis.Reports
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Load <see cref="ReportSettings"/>
+        /// from specified file.
+        /// </summary>
+        public static ReportSettings LoadFromFile
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            ReportSettings result = JsonUtility
+                .ReadObjectFromFile<ReportSettings>
+            (
+                fileName
+            );
+
+            return result;
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"/>
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<ReportSettings> verifier
+                = new Verifier<ReportSettings>(this, throwOnError);
+
+            verifier
+                .NotNull(Assemblies, "Assemblies")
+                .NotNullNorEmpty(DriverName)
+                .NotNullNorEmpty(ProviderName);
+
+            return verifier.Result;
+        }
 
         #endregion
 

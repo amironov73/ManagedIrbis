@@ -78,6 +78,36 @@ namespace ManagedIrbis.Client
 
         #region Public methods
 
+        /// <summary>
+        /// Get <see cref="IrbisProvider"/> by name.
+        /// </summary>
+        [CanBeNull]
+        public static IrbisProvider GetProvider
+            (
+                [NotNull] string name,
+                bool throwOnError
+            )
+        {
+            Code.NotNull(name, "name");
+
+            Type type;
+            if (!Registry.TryGetValue(name, out type))
+            {
+                if (throwOnError)
+                {
+                    throw new IrbisException
+                        (
+                            "Provider not found: " + name
+                        );
+                }
+            }
+
+            IrbisProvider result
+                = (IrbisProvider) Activator.CreateInstance(type);
+
+            return result;
+        }
+
         #endregion
     }
 }

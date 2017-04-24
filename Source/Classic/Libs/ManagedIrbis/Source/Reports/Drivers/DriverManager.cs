@@ -113,6 +113,38 @@ namespace ManagedIrbis.Reports
 
         #region Public methods
 
+        /// <summary>
+        /// Get <see cref="ReportDriver"/> by name.
+        /// </summary>
+        [CanBeNull]
+        public static ReportDriver GetDriver
+            (
+                [NotNull] string name,
+                bool throwOnError
+            )
+        {
+            Code.NotNull(name, "name");
+
+            Type type;
+            if (!Registry.TryGetValue(name, out type))
+            {
+                if (throwOnError)
+                {
+                    throw new IrbisException
+                        (
+                            "Driver not found: " + name
+                        );
+                }
+
+                return null;
+            }
+
+            ReportDriver result
+                = (ReportDriver) Activator.CreateInstance(type);
+
+            return result;
+        }
+
         #endregion
     }
 }
