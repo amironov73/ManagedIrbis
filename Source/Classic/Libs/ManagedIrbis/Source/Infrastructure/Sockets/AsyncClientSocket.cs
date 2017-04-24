@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if (CLASSIC && FW45) || NETCORE || ANDROID || UAP
+#if (CLASSIC && (FW45 || FW46)) || NETCORE || ANDROID || UAP
 
 #region Using directives
 
@@ -65,7 +65,9 @@ namespace ManagedIrbis.Infrastructure
 
         private IPAddress _address;
 
-        private async Task<byte[]> _Execute
+        private byte[] _result;
+
+        private void __Execute
             (
                 byte[] request
             )
@@ -77,119 +79,152 @@ namespace ManagedIrbis.Infrastructure
             string host = Connection.Host
                 .ThrowIfNull("Connection.Host not specified");
 
-            if (ReferenceEquals(_address, null))
+            using (new BusyGuard(Busy))
             {
-                try
-                {
-                    Debug.WriteLine("AsyncClientSocket: before Parse");
-
-                    _address = IPAddress.Parse(host);
-
-                    Debug.WriteLine("AsyncClientSocket: after Parse");
-                }
-                catch
-                {
-                    // Nothing to do here
-                }
-
                 if (ReferenceEquals(_address, null))
                 {
-                    IPHostEntry ipHostEntry
-                        = await Dns.GetHostEntryAsync(host);
-                    if (!ReferenceEquals(ipHostEntry, null)
-                        && !ReferenceEquals
-                        (
-                            ipHostEntry.AddressList,
-                            null
-                        )
-                        && ipHostEntry.AddressList.Length != 0)
+                    try
                     {
-                        _address = ipHostEntry.AddressList[0];
+                        Debug.WriteLine("AsyncClientSocket: before Parse");
+
+                        _address = IPAddress.Parse(host);
+
+                        Debug.WriteLine("AsyncClientSocket: after Parse");
+                    }
+                    catch
+                    {
+                        // Nothing to do here
+                    }
+
+                    if (ReferenceEquals(_address, null))
+                    {
+#if NETCORE
+
+                        IPHostEntry ipHostEntry
+                            = Dns.GetHostEntryAsync(host).Result;
+
+#else
+
+                        IPHostEntry ipHostEntry
+                            = Dns.GetHostEntry(host);
+
+#endif
+
+                        if (!ReferenceEquals(ipHostEntry, null)
+                            && !ReferenceEquals
+                            (
+                                ipHostEntry.AddressList,
+                                null
+                            )
+                            && ipHostEntry.AddressList.Length != 0)
+                        {
+                            _address = ipHostEntry.AddressList[0];
+                        }
+                    }
+
+                    if (ReferenceEquals(_address, null))
+                    {
+                        throw new IrbisNetworkException
+                        (
+                            "Can't resolve host " + host
+                        );
                     }
                 }
 
-                if (ReferenceEquals(_address, null))
+                using (TcpClient client = new TcpClient())
                 {
-                    throw new IrbisNetworkException
-                    (
-                        "Can't resolve host " + host
-                    );
-                }
-            }
+                    // TODO some setup?
 
-            using (TcpClient client = new TcpClient())
-            {
-                // TODO some setup?
+                    Debug.WriteLine("AsyncClientSocket: before Connect");
 
-                Debug.WriteLine("AsyncClientSocket: before ConnectAsync");
+#if NETCORE
 
-                await client.ConnectAsync
-                    (
-                        _address,
-                        Connection.Port
-                    );
-
-                Debug.WriteLine("AsyncClientSocket: after ConnectAsync");
-
-                NetworkStream stream = client.GetStream();
-
-                Debug.WriteLine("AsyncClientSocket: before WriteAsync");
-
-                await stream.WriteAsync(request, 0, request.Length);
-
-                Debug.WriteLine("AsyncClientSocket: after WriteAsync");
-
-                byte[] result;
-
-                using (MemoryStream memory = new MemoryStream())
-                {
-                    byte[] buffer = new byte[32 * 1024];
-
-                    while (true)
-                    {
-                        Debug.WriteLine("AsyncClientSocket: before ReadAsync");
-
-                        int readed = await stream.ReadAsync
+                    client.ConnectAsync
                         (
-                            buffer, 0, buffer.Length
+                            _address,
+                            Connection.Port
+                        ).Wait ();
+
+#else
+
+                    client.Connect
+                        (
+                            _address,
+                            Connection.Port
                         );
 
-                        Debug.WriteLine("AsyncClientSocket: after ReadAsync");
+#endif
 
-                        if (readed < 0)
+                    Debug.WriteLine("AsyncClientSocket: after Connectc");
+
+                    NetworkStream stream = client.GetStream();
+
+                    Debug.WriteLine("AsyncClientSocket: before Write");
+
+                    stream.Write(request, 0, request.Length);
+
+                    Debug.WriteLine("AsyncClientSocket: after Write");
+
+                    using (MemoryStream memory = new MemoryStream())
+                    {
+                        byte[] buffer = new byte[32 * 1024];
+
+                        while (true)
                         {
-                            throw new ArsMagnaException
-                            (
-                                "Socket reading error"
-                            );
+                            Debug.WriteLine("AsyncClientSocket: before Read");
+
+                            int readed = stream.Read
+                                (
+                                    buffer, 0, buffer.Length
+                                );
+
+                            Debug.WriteLine("AsyncClientSocket: after Read");
+
+                            if (readed < 0)
+                            {
+                                throw new ArsMagnaException
+                                (
+                                    "Socket reading error"
+                                );
+                            }
+
+                            if (readed == 0)
+                            {
+                                break;
+                            }
+
+                            memory.Write(buffer, 0, readed);
                         }
 
-                        if (readed == 0)
-                        {
-                            break;
-                        }
-
-                        memory.Write(buffer, 0, readed);
+                        _result = memory.ToArray();
                     }
 
-                    result = memory.ToArray();
+                    Debug.WriteLine("AsyncClientSocket: exiting");
+
+                    Connection.RawServerResponse = _result;
                 }
-
-                Debug.WriteLine("AsyncClientSocket: exiting");
-
-                Connection.RawServerResponse = result;
-
-                return result;
             }
         }
 
-#endregion
+        private async void _Execute
+            (
+                byte[] request
+            )
+        {
+            Task task = Task.Factory.StartNew
+                (
+                    () => __Execute(request)
+                );
+            task.Wait(); // ???
+        }
 
-#region Public methods
+        #endregion
 
-#endregion
+        #region Public methods
 
-#region AbstractClientSocket members
+        #endregion
+
+        #region AbstractClientSocket members
 
         /// <summary>
         /// Abort the request.
@@ -209,16 +244,13 @@ namespace ManagedIrbis.Infrastructure
         {
             Code.NotNull(request, "request");
 
-            using (new BusyGuard(Busy))
-            {
-                byte[] result = _Execute(request).Result;
+            _result = null;
+            _Execute(request);
 
-                return result;
-            }
-
+            return _result;
         }
 
-#endregion
+        #endregion
     }
 }
 

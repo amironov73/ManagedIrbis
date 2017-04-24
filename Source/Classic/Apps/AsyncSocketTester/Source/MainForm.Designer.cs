@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this._pressMeButton = new System.Windows.Forms.Button();
+            this._logBox = new AM.Windows.Forms.LogBox();
+            this._press2Button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // _pressMeButton
@@ -42,11 +44,36 @@
             this._pressMeButton.UseVisualStyleBackColor = true;
             this._pressMeButton.Click += new System.EventHandler(this._pressMeButton_Click);
             // 
+            // _logBox
+            // 
+            this._logBox.BackColor = System.Drawing.SystemColors.Window;
+            this._logBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._logBox.Location = new System.Drawing.Point(0, 0);
+            this._logBox.Multiline = true;
+            this._logBox.Name = "_logBox";
+            this._logBox.ReadOnly = true;
+            this._logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this._logBox.Size = new System.Drawing.Size(677, 386);
+            this._logBox.TabIndex = 2;
+            // 
+            // _press2Button
+            // 
+            this._press2Button.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this._press2Button.Location = new System.Drawing.Point(0, 363);
+            this._press2Button.Name = "_press2Button";
+            this._press2Button.Size = new System.Drawing.Size(677, 23);
+            this._press2Button.TabIndex = 3;
+            this._press2Button.Text = "Press me 2";
+            this._press2Button.UseVisualStyleBackColor = true;
+            this._press2Button.Click += new System.EventHandler(this._press2Button_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(677, 426);
+            this.Controls.Add(this._press2Button);
+            this.Controls.Add(this._logBox);
             this.Controls.Add(this._pressMeButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -54,11 +81,14 @@
             this.Name = "MainForm";
             this.Text = "Async Socket Tester";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
         private System.Windows.Forms.Button _pressMeButton;
+        private AM.Windows.Forms.LogBox _logBox;
+        private System.Windows.Forms.Button _press2Button;
     }
 }
 
