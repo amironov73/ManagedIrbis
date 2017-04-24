@@ -26,7 +26,7 @@ namespace Compatibility
     [PublicAPI]
     public static class StringBuilderCompatibility
     {
-#region Public methods
+        #region Public methods
 
         /// <summary>
         /// Removes all characters from the given
@@ -43,7 +43,7 @@ namespace Compatibility
             return builder;
         }
 
-#endregion
+        #endregion
     }
 
 }
