@@ -80,6 +80,11 @@ namespace ManagedIrbis.Infrastructure
                 }
                 catch
                 {
+                    // Nothing to do here
+                }
+
+                if (ReferenceEquals(_address, null))
+                {
                     IPHostEntry ipHostEntry
                         = await Dns.GetHostEntryAsync(host);
                     if (!ReferenceEquals(ipHostEntry, null)
