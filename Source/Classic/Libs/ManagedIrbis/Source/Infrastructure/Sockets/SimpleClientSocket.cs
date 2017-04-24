@@ -92,19 +92,19 @@ namespace ManagedIrbis.Infrastructure
             {
 #if NETCORE || SILVERLIGHT || UAP
 
-                _address = IPAddress.Parse(Connection.Host);
+                _address = IPAddress.Parse(host);
 
 #else
 
                 try
                 {
-                    _address = IPAddress.Parse(Connection.Host);
+                    _address = IPAddress.Parse(host);
                 }
                 catch
                 {
                     // Not supported in .NET Core
                     IPHostEntry ipHostEntry
-                        = Dns.GetHostEntry(Connection.Host);
+                        = Dns.GetHostEntry(host);
                     if (ipHostEntry != null
                         && ipHostEntry.AddressList != null
                         && ipHostEntry.AddressList.Length != 0)
@@ -140,7 +140,6 @@ namespace ManagedIrbis.Infrastructure
 
 #else
 
-            // Not supported in .NET Core
             result.Connect(_address, Connection.Port);
 
 #endif
@@ -225,17 +224,6 @@ namespace ManagedIrbis.Infrastructure
                     socket.Send(request);
 
                     byte[] result = socket.ReceiveToEnd();
-
-                    //NetworkStream stream = client.GetStream();
-
-                    //stream.Write
-                    //    (
-                    //        request,
-                    //        0,
-                    //        request.Length
-                    //    );
-
-                    //byte[] result = stream.ReadToEnd();
 
                     Connection.RawServerResponse = result;
 

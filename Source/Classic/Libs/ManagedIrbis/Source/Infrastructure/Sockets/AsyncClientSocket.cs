@@ -13,6 +13,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -69,6 +70,10 @@ namespace ManagedIrbis.Infrastructure
                 byte[] request
             )
         {
+            Connection.RawClientRequest = request;
+
+            Debug.WriteLine("AsyncClientSocket: entering");
+
             string host = Connection.Host
                 .ThrowIfNull("Connection.Host not specified");
 
@@ -76,7 +81,11 @@ namespace ManagedIrbis.Infrastructure
             {
                 try
                 {
+                    Debug.WriteLine("AsyncClientSocket: before Parse");
+
                     _address = IPAddress.Parse(host);
+
+                    Debug.WriteLine("AsyncClientSocket: after Parse");
                 }
                 catch
                 {
@@ -112,15 +121,23 @@ namespace ManagedIrbis.Infrastructure
             {
                 // TODO some setup?
 
+                Debug.WriteLine("AsyncClientSocket: before ConnectAsync");
+
                 await client.ConnectAsync
                     (
                         _address,
                         Connection.Port
                     );
 
+                Debug.WriteLine("AsyncClientSocket: after ConnectAsync");
+
                 NetworkStream stream = client.GetStream();
 
+                Debug.WriteLine("AsyncClientSocket: before WriteAsync");
+
                 await stream.WriteAsync(request, 0, request.Length);
+
+                Debug.WriteLine("AsyncClientSocket: after WriteAsync");
 
                 byte[] result;
 
@@ -130,10 +147,14 @@ namespace ManagedIrbis.Infrastructure
 
                     while (true)
                     {
+                        Debug.WriteLine("AsyncClientSocket: before ReadAsync");
+
                         int readed = await stream.ReadAsync
                         (
                             buffer, 0, buffer.Length
                         );
+
+                        Debug.WriteLine("AsyncClientSocket: after ReadAsync");
 
                         if (readed < 0)
                         {
@@ -153,6 +174,8 @@ namespace ManagedIrbis.Infrastructure
 
                     result = memory.ToArray();
                 }
+
+                Debug.WriteLine("AsyncClientSocket: exiting");
 
                 Connection.RawServerResponse = result;
 
@@ -185,8 +208,6 @@ namespace ManagedIrbis.Infrastructure
             )
         {
             Code.NotNull(request, "request");
-
-            Connection.RawClientRequest = request;
 
             using (new BusyGuard(Busy))
             {

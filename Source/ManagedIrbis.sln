@@ -123,6 +123,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisUiTester", "Classic\Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagnaSort", "Classic\Apps\MagnaSort\MagnaSort.csproj", "{145B1B2B-361D-4527-9212-8FB712B67203}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncSocketTester", "Classic\Apps\AsyncSocketTester\AsyncSocketTester.csproj", "{6752AADF-AD1F-43AF-BB21-141D97F9717E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -587,6 +589,14 @@ Global
 		{145B1B2B-361D-4527-9212-8FB712B67203}.Release|Any CPU.Build.0 = Release|Any CPU
 		{145B1B2B-361D-4527-9212-8FB712B67203}.Release|x86.ActiveCfg = Release|Any CPU
 		{145B1B2B-361D-4527-9212-8FB712B67203}.Release|x86.Build.0 = Release|Any CPU
+		{6752AADF-AD1F-43AF-BB21-141D97F9717E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6752AADF-AD1F-43AF-BB21-141D97F9717E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6752AADF-AD1F-43AF-BB21-141D97F9717E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6752AADF-AD1F-43AF-BB21-141D97F9717E}.Debug|x86.Build.0 = Debug|Any CPU
+		{6752AADF-AD1F-43AF-BB21-141D97F9717E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6752AADF-AD1F-43AF-BB21-141D97F9717E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6752AADF-AD1F-43AF-BB21-141D97F9717E}.Release|x86.ActiveCfg = Release|Any CPU
+		{6752AADF-AD1F-43AF-BB21-141D97F9717E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -647,5 +657,6 @@ Global
 		{BAAEDC95-046F-49EE-A2F8-DE334B86E9D1} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{7D087371-BC99-4164-A2C3-77F1468C0D32} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{145B1B2B-361D-4527-9212-8FB712B67203} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{6752AADF-AD1F-43AF-BB21-141D97F9717E} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 	EndGlobalSection
 EndGlobal
