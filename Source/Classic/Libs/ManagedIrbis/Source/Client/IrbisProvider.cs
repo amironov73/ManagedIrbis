@@ -94,6 +94,15 @@ namespace ManagedIrbis.Client
         }
 
         /// <summary>
+        /// Get alphabet table.
+        /// </summary>
+        [NotNull]
+        public virtual IrbisAlphabetTable GetAlphabetTable()
+        {
+            return new IrbisAlphabetTable();
+        }
+
+        /// <summary>
         /// Get maximal MFN.
         /// </summary>
         public virtual int GetMaxMfn()

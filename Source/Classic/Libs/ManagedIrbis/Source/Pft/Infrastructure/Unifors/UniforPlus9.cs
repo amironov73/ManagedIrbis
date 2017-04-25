@@ -302,21 +302,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 string expression
             )
         {
-            //
-            // TODO: use ISISACW.TAB
-            //
-
             if (!string.IsNullOrEmpty(expression))
             {
-                MatchCollection matches = Regex.Matches(expression, "\\w+");
-                List<string> words = new List<string>(matches.Count);
-                foreach (Match match in matches)
-                {
-                    words.Add(match.Value);
-                }
+                IrbisAlphabetTable table = context.Provider
+                    .GetAlphabetTable();
+
+                string[] words = table.SplitWords(expression);
                 string output = string.Join
                     (
-                        System.Environment.NewLine,
+                        Environment.NewLine,
                         words.ToArray()
                     );
                 context.Write(node, output);
