@@ -10,10 +10,14 @@
 #region Using directives
 
 using System.Linq;
+
 using AM;
 using AM.Collections;
+
 using CodeJam;
+
 using JetBrains.Annotations;
+
 using ManagedIrbis.Client;
 
 #endregion
@@ -48,7 +52,6 @@ namespace ManagedIrbis.Search.Infrastructure
         /// </summary>
         [NotNull]
         public NonNullCollection<T> Items { get; private set; }
-
 
         #endregion
 
@@ -99,19 +102,20 @@ namespace ManagedIrbis.Search.Infrastructure
 
         public string Value { get { return null; } }
 
-        public int[] Find
+        /// <inheritdoc cref="ISearchTree.Find"/>
+        public virtual TermLink[] Find
             (
-                IrbisProvider provider
+                SearchContext context
             )
         {
-            return new int[0];
+            return new TermLink[0];
         }
 
         #endregion
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             string result = StringUtility.Join(Separator, Items);

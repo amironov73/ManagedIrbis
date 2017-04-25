@@ -36,6 +36,9 @@ namespace ManagedIrbis.Search.Infrastructure
         /// Find records for the node.
         /// </summary>
         [NotNull]
-        int[] Find([NotNull] IrbisProvider provider);
+        TermLink[] Find
+            (
+                [NotNull] SearchContext context
+            );
     }
 }

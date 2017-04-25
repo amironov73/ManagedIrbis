@@ -7,6 +7,14 @@
  * Status: poor
  */
 
+#region Using directives
+
+using CodeJam;
+
+using ManagedIrbis.Client;
+
+#endregion
+
 namespace ManagedIrbis.Search.Infrastructure
 {
     /// <summary>
@@ -27,9 +35,26 @@ namespace ManagedIrbis.Search.Infrastructure
 
         #endregion
 
+        #region ISearchTree members
+
+        /// <inheritdoc cref="ISearchTree.Find"/>
+        public override TermLink[] Find
+            (
+                SearchContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            TermLink[] result = Items[0].Find(context);
+
+            return result;
+        }
+
+        #endregion
+
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             SearchLevel6 item = Items[0];

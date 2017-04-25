@@ -41,12 +41,12 @@ namespace ManagedIrbis.Search.Infrastructure
 
         public string Value { get { return Number; } }
 
-        public int[] Find
+        public TermLink[] Find
             (
-                IrbisProvider provider
+                SearchContext context
             )
         {
-            return new int[0];
+            return new TermLink[0];
         }
 
         #endregion

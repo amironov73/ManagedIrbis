@@ -43,7 +43,8 @@ namespace ManagedIrbis.Search.Infrastructure
         {
             get
             {
-                ISearchTree[] result = ReferenceEquals(EntryPoint, null)
+                ISearchTree[] result 
+                    = ReferenceEquals(EntryPoint, null)
                     ? new ISearchTree[0]
                     : EntryPoint.Children;
 
@@ -54,12 +55,12 @@ namespace ManagedIrbis.Search.Infrastructure
         string ISearchTree.Value { get { return null; } }
 
         /// <inheritdoc cref="ISearchTree.Find"/>
-        public int[] Find
+        public TermLink[] Find
             (
-                IrbisProvider provider
+                SearchContext context
             )
         {
-            return new int[0];
+            return new TermLink[0];
         }
 
         #endregion

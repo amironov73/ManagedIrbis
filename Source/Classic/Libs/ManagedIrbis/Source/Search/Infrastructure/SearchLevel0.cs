@@ -72,13 +72,13 @@ namespace ManagedIrbis.Search.Infrastructure
             get { return null; }
         }
 
-
-        public int[] Find
+        /// <inheritdoc cref="ISearchTree.Find"/>
+        public TermLink[] Find
             (
-                IrbisProvider provider
+                SearchContext context
             )
         {
-            return new int[0];
+            return new TermLink[0];
         }
 
         #endregion
