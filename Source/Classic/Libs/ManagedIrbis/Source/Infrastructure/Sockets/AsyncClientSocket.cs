@@ -190,13 +190,22 @@ namespace ManagedIrbis.Infrastructure
             }
         }
 
-        // ExecuteRequest can't use await
+        // ExecuteRequest can't use await,
+        // so we must create intemediate method
         private async void _Execute
             (
                 byte[] request
             )
         {
-            await __Execute(request);
+            try
+            {
+                await __Execute(request);
+            }
+            catch (AggregateException exception)
+            {
+                // TODO: intelligent handling!
+                exception.Handle(ex => true);
+            }
         }
 
         #endregion
@@ -207,17 +216,13 @@ namespace ManagedIrbis.Infrastructure
 
         #region AbstractClientSocket members
 
-        /// <summary>
-        /// Abort the request.
-        /// </summary>
+        /// <inheritdoc cref="AbstractClientSocket.AbortRequest"/>
         public override void AbortRequest()
         {
             // TODO do something?
         }
 
-        /// <summary>
-        /// Send request to server and receive answer.
-        /// </summary>
+        /// <see cref="AbstractClientSocket.ExecuteRequest"/>
         public override byte[] ExecuteRequest
             (
                 byte[] request

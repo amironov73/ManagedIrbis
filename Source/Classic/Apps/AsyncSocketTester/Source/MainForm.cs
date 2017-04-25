@@ -77,10 +77,17 @@ namespace AsyncSocketTester
                     _pressMeButton.Enabled = false;
                     try
                     {
+                        //AsyncClientSocket socket
+                        //    = new AsyncClientSocket(connection);
+                        //connection.SetSocket(socket);
 
-                        AsyncClientSocket socket
-                            = new AsyncClientSocket(connection);
-                        connection.SetSocket(socket);
+                        //AsyncSocketAdapter adapter
+                        //    = new AsyncSocketAdapter
+                        //        (
+                        //            connection,
+                        //            connection.Socket
+                        //        );
+                        //connection.SetSocket(adapter);
 
                         connection.ParseConnectionString
                         (
@@ -117,6 +124,8 @@ namespace AsyncSocketTester
                 (
                     exception.ToString()
                 );
+
+                Clipboard.SetText(exception.ToString());
             }
         }
 
