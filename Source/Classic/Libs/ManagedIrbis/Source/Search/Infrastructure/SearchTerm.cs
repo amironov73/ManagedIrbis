@@ -22,7 +22,7 @@ using AM.IO;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Client;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -67,6 +67,14 @@ namespace ManagedIrbis.Search.Infrastructure
         }
 
         public string Value { get { return Term; } }
+
+        public int[] Find
+            (
+                IrbisProvider provider
+            )
+        {
+            return new int[0];
+        }
 
         #endregion
 

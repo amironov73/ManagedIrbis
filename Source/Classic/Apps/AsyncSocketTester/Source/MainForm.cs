@@ -75,6 +75,7 @@ namespace AsyncSocketTester
                     = new IrbisConnection())
                 {
                     _pressMeButton.Enabled = false;
+                    _press2Button.Enabled = false;
                     try
                     {
                         //AsyncClientSocket socket
@@ -112,6 +113,7 @@ namespace AsyncSocketTester
                     finally
                     {
                         _pressMeButton.Enabled = true;
+                        _press2Button.Enabled = true;
                     }
                 }
 

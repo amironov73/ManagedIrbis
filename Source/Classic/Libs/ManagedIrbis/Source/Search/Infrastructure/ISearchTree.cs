@@ -11,17 +11,31 @@
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
+
 #endregion
 
 namespace ManagedIrbis.Search.Infrastructure
 {
     internal interface ISearchTree
     {
+        /// <summary>
+        /// Children of the node.
+        /// </summary>
         [NotNull]
         [ItemNotNull]
         ISearchTree[] Children { get; }
 
+        /// <summary>
+        /// Value of the node.
+        /// </summary>
         [CanBeNull]
         string Value { get; }
+
+        /// <summary>
+        /// Find records for the node.
+        /// </summary>
+        [NotNull]
+        int[] Find([NotNull] IrbisProvider provider);
     }
 }

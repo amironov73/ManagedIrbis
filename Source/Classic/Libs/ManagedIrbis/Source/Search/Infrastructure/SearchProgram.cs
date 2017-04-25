@@ -11,6 +11,8 @@
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -51,11 +53,20 @@ namespace ManagedIrbis.Search.Infrastructure
 
         string ISearchTree.Value { get { return null; } }
 
+        /// <inheritdoc cref="ISearchTree.Find"/>
+        public int[] Find
+            (
+                IrbisProvider provider
+            )
+        {
+            return new int[0];
+        }
+
         #endregion
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             if (ReferenceEquals(EntryPoint, null))

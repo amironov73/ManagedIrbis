@@ -60,7 +60,10 @@ namespace ManagedIrbis.Search
         /// Search history.
         /// </summary>
         [NotNull]
-        public NonNullCollection<SearchResult> SearchHistory { get; private set; }
+        public NonNullCollection<SearchResult> SearchHistory
+        {
+            get; private set;
+        }
 
         #endregion
 

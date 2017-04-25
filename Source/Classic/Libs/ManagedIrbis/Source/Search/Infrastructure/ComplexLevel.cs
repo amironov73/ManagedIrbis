@@ -14,6 +14,7 @@ using AM;
 using AM.Collections;
 using CodeJam;
 using JetBrains.Annotations;
+using ManagedIrbis.Client;
 
 #endregion
 
@@ -91,10 +92,20 @@ namespace ManagedIrbis.Search.Infrastructure
 
         public ISearchTree[] Children
         {
+            // ReSharper disable CoVariantArrayConversion
             get { return Items.ToArray(); }
+            // ReSharper restore CoVariantArrayConversion
         }
 
         public string Value { get { return null; } }
+
+        public int[] Find
+            (
+                IrbisProvider provider
+            )
+        {
+            return new int[0];
+        }
 
         #endregion
 

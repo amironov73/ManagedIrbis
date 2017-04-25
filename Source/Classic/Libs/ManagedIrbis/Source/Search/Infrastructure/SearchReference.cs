@@ -10,6 +10,7 @@
 #region Using directives
 
 using JetBrains.Annotations;
+using ManagedIrbis.Client;
 
 #endregion
 
@@ -39,6 +40,14 @@ namespace ManagedIrbis.Search.Infrastructure
         }
 
         public string Value { get { return Number; } }
+
+        public int[] Find
+            (
+                IrbisProvider provider
+            )
+        {
+            return new int[0];
+        }
 
         #endregion
 

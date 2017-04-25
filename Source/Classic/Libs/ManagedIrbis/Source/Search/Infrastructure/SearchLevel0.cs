@@ -13,6 +13,8 @@ using AM;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
+
 #endregion
 
 namespace ManagedIrbis.Search.Infrastructure
@@ -70,11 +72,20 @@ namespace ManagedIrbis.Search.Infrastructure
             get { return null; }
         }
 
+
+        public int[] Find
+            (
+                IrbisProvider provider
+            )
+        {
+            return new int[0];
+        }
+
         #endregion
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString"/>/>
         public override string ToString()
         {
             return
