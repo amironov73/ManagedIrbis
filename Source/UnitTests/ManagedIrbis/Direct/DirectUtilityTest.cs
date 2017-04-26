@@ -21,7 +21,7 @@ namespace UnitTests.ManagedIrbis.Direct
                     random.Next().ToString
                     (
                         CultureInfo.InvariantCulture
-                    )
+                    ) + "_1"
                 );
             Directory.CreateDirectory(directory);
             string path = Path.Combine
@@ -44,7 +44,7 @@ namespace UnitTests.ManagedIrbis.Direct
                     random.Next().ToString
                     (
                         CultureInfo.InvariantCulture
-                    )
+                    ) + "_2"
                 );
             Directory.CreateDirectory(directory);
             string path = Path.Combine
