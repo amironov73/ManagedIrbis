@@ -1322,6 +1322,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\ISearchTree.cs">
       <Link>Source\Search\Infrastructure\ISearchTree.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchContext.cs">
+      <Link>Source\Search\Infrastructure\SearchContext.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchLevel0.cs">
       <Link>Source\Search\Infrastructure\SearchLevel0.cs</Link>
     </Compile>
