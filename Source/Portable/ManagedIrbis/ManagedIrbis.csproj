@@ -92,6 +92,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\LocalProvider.cs">
       <Link>Source\Client\LocalProvider.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\NullProvider.cs">
+      <Link>Source\Client\NullProvider.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\RemoteCatalogerIniFile.cs">
       <Link>Source\Client\RemoteCatalogerIniFile.cs</Link>
     </Compile>
@@ -1687,6 +1690,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchTokenList.cs">
       <Link>Source\Search\Inftrastructure\SearchTokenList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\TermLinkComparer.cs">
+      <Link>Source\Search\Inftrastructure\TermLinkComparer.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\KeywordPermutator.cs">
       <Link>Source\Search\KeywordPermutator.cs</Link>

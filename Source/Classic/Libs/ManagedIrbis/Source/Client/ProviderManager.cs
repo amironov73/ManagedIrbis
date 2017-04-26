@@ -44,6 +44,11 @@ namespace ManagedIrbis.Client
         /// </summary>
         public const string Local = "Local";
 
+        /// <summary>
+        /// Null provider.
+        /// </summary>
+        public const string Null = "Null";
+
         #endregion
 
         #region Properties
@@ -65,6 +70,7 @@ namespace ManagedIrbis.Client
         {
             Registry = new Dictionary<string, Type>
             {
+                {Null, typeof(NullProvider)},
                 {Local, typeof(LocalProvider)},
                 {Connected, typeof(ConnectedClient)}
             };
@@ -103,7 +109,7 @@ namespace ManagedIrbis.Client
             }
 
             IrbisProvider result
-                = (IrbisProvider) Activator.CreateInstance(type);
+                = (IrbisProvider)Activator.CreateInstance(type);
 
             return result;
         }
