@@ -10,6 +10,7 @@
 #region Using directives
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,15 @@ using MoonSharp.Interpreter;
 
 namespace ManagedIrbis.Search.Infrastructure
 {
+    //
+    // второй оператор контекстного И; соединение двух
+    // терминов таким оператором контекстного И 
+    // обозначает требование поиска записей, в которых
+    // оба термина присутствуют в одном и том же
+    // повторении поля (или точнее – когда у терминов
+    // совпадают вторые и третьи части ссылок).
+    //
+
     /// <summary>
     /// level1 (F) level1
     /// </summary>
@@ -56,8 +66,14 @@ namespace ManagedIrbis.Search.Infrastructure
             TermLink[] first = Items[0].Find(context);
             TermLink[] second = Items[1].Find(context);
 
-            // TODO implement properly
-            TermLink[] result = first.Intersect(second).ToArray();
+            IEqualityComparer<TermLink> comparer
+                = new TermLinkComparer.ByOccurrence();
+            TermLink[] result = first.Intersect
+                (
+                    second,
+                    comparer
+                )
+                .ToArray();
 
             return result;
         }

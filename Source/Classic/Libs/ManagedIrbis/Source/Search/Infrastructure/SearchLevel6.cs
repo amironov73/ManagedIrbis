@@ -25,6 +25,13 @@ using MoonSharp.Interpreter;
 
 namespace ManagedIrbis.Search.Infrastructure
 {
+    //
+    // оператор логического ИЛИ; соединение двух операндов
+    // (терминов) логическим оператором ИЛИ обозначает 
+    // требование поиска записей, в которых присутствует
+    // хотя бы один из терминов.
+    //
+
     /// <summary>
     /// level5 + level5
     /// </summary>
@@ -56,8 +63,16 @@ namespace ManagedIrbis.Search.Infrastructure
             TermLink[] first = Items[0].Find(context);
             TermLink[] second = Items[1].Find(context);
 
-            // TODO make distinct
-            TermLink[] result = first.Union(second).ToArray();
+
+            IEqualityComparer<TermLink> comparer
+                = new TermLinkComparer.ByMfn();
+            TermLink[] result = first.Union
+                (
+                    second,
+                    comparer
+                )
+                .Distinct(comparer)
+                .ToArray();
 
             return result;
         }

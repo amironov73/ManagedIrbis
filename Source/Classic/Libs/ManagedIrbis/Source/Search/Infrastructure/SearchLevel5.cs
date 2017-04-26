@@ -25,6 +25,15 @@ using MoonSharp.Interpreter;
 
 namespace ManagedIrbis.Search.Infrastructure
 {
+    //
+    // оператор логического НЕ; соединение двух терминов
+    // логическим оператором НЕ обозначает требование
+    // поиска записей, в которых присутствует первый термин
+    // и отсутствует второй; оператор НЕ не может быть
+    // одноместным (т.е. данному оператору, как и всем
+    // другим, должен ОБЯЗАТЕЛЬНО предшествовать термин).
+    //
+
     /// <summary>
     /// level4 ^ level4
     /// </summary>
@@ -56,7 +65,14 @@ namespace ManagedIrbis.Search.Infrastructure
             TermLink[] first = Items[0].Find(context);
             TermLink[] second = Items[1].Find(context);
 
-            TermLink[] result = first.Except(second).ToArray();
+            IEqualityComparer<TermLink> comparer
+                = new TermLinkComparer.ByMfn();
+            TermLink[] result = first.Except
+                (
+                    second,
+                    comparer
+                )
+                .ToArray();
 
             return result;
         }
