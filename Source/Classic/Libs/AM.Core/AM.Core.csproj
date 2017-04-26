@@ -233,6 +233,7 @@
     <Compile Include="AM\Text\RichText.cs" />
     <Compile Include="AM\Text\RichTextStripper.cs" />
     <Compile Include="AM\Text\RussianFormat.cs" />
+    <Compile Include="AM\Text\SourceCodeUtility.cs" />
     <Compile Include="AM\Text\StreamParser.cs" />
     <Compile Include="AM\Text\TextBuffer.cs" />
     <Compile Include="AM\Text\TextKind.cs" />

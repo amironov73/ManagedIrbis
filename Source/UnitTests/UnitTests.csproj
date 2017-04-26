@@ -162,6 +162,7 @@
     <Compile Include="AM\ExceptionEventArgsTest.cs" />
     <Compile Include="AM\FunctionalUtilityTest.cs" />
     <Compile Include="AM\Text\RichTextStripperTest.cs" />
+    <Compile Include="AM\Text\SourceCodeUtilityTest.cs" />
     <Compile Include="AM\Text\TextSeparatorTest.cs" />
     <Compile Include="ManagedIrbis\ClientInfoTest.cs" />
     <Compile Include="ManagedIrbis\DatabaseInfoTest.cs" />
