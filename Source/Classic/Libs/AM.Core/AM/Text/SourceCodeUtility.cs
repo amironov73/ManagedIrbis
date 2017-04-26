@@ -112,12 +112,12 @@ namespace AM.Text
             {
                 if (i != 0)
                 {
+                    result.Append(", ");
                     if (i % 10 == 0)
                     {
                         result.AppendLine();
                         result.Append("  ");
                     }
-                    result.Append(", ");
                 }
                 result.AppendFormat
                     (

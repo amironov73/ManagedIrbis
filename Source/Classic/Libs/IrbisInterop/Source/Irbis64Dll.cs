@@ -25,6 +25,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Direct;
 using ManagedIrbis.Search;
 using ManagedIrbis.Server;
 
@@ -205,8 +206,11 @@ namespace IrbisInterop
                 File.Delete(file);
             }
 
-            int retCode = Irbis65Dll.IrbisInitNewDb(databasePath);
-            _HandleRetCode("IrbisInitNewDb", retCode);
+            // IrbisInitNewDb creates bad files
+            // int retCode = Irbis65Dll.IrbisInitNewDb(databasePath);
+            // _HandleRetCode("IrbisInitNewDb", retCode);
+
+            DirectUtility.CreateDatabase64(databasePath);
         }
 
         /// <summary>
