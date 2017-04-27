@@ -533,6 +533,15 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\StandardEngine.cs">
       <Link>Source\Infrastructure\StandardEngine.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Statistics\ConnectionStatistics.cs">
+      <Link>Source\Infrastructure\Statistics\ConnectionStatistics.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Statistics\ConnectionStatisticsService.cs">
+      <Link>Source\Infrastructure\Statistics\ConnectionStatisticsService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Statistics\IConnectionStatisticsService.cs">
+      <Link>Source\Infrastructure\Statistics\IConnectionStatisticsService.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Input\InputLine.cs">
       <Link>Source\Input\InputLine.cs</Link>
     </Compile>

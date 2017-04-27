@@ -283,6 +283,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\InquiryEventArgs.cs">
       <Link>AM\InquiryEventArgs.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IOC\ServiceRepository.cs">
+      <Link>AM\IOC\ServiceRepository.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\BinaryReaderUtility.cs">
       <Link>AM\IO\BinaryReaderUtility.cs</Link>
     </Compile>
