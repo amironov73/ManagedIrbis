@@ -58,9 +58,9 @@ namespace ManagedIrbis
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class IrbisUpperCaseTable
+        : IVerifiable
 #if !SILVERLIGHT && !WIN81 && !PORTABLE
-        : IHandmadeSerializable,
-        IVerifiable
+        , IHandmadeSerializable
 #endif
     {
         #region Constants
