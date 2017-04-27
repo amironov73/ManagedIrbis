@@ -12,6 +12,7 @@
 using System;
 
 using AM;
+using AM.IOC;
 using AM.Logging;
 using AM.Threading;
 
@@ -67,6 +68,12 @@ namespace ManagedIrbis.Infrastructure
         [CanBeNull]
         public AbstractEngine NestedEngine { get; private set; }
 
+        /// <summary>
+        /// Additional services.
+        /// </summary>
+        [NotNull]
+        public ServiceRepository Services { get; private set; }
+
         #endregion
 
         #region Construction
@@ -86,6 +93,7 @@ namespace ManagedIrbis.Infrastructure
 
             Connection = connection;
             NestedEngine = nestedEngine;
+            Services = new ServiceRepository();
         }
 
         #endregion

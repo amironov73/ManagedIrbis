@@ -236,6 +236,9 @@
     <Compile Include="Source\ImportExport\ProtocolText.cs" />
     <Compile Include="Source\ImportExport\Iso2709.cs" />
     <Compile Include="Source\ImportExport\IsoReader.cs" />
+    <Compile Include="Source\Infrastructure\Statistics\ConnectionStatistics.cs" />
+    <Compile Include="Source\Infrastructure\Statistics\ConnectionStatisticsService.cs" />
+    <Compile Include="Source\Infrastructure\Statistics\IConnectionStatisticsService.cs" />
     <Compile Include="Source\Input\InputLine.cs" />
     <Compile Include="Source\Input\InputSpecification.cs" />
     <Compile Include="Source\IrbisAlphabetTable.cs" />

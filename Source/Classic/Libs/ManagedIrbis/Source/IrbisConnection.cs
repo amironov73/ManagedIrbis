@@ -304,8 +304,6 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(connectionString, "connectionString");
 
-            Log.Trace("IrbisConnection::Constructor");
-
             ParseConnectionString(connectionString);
             Connect();
         }

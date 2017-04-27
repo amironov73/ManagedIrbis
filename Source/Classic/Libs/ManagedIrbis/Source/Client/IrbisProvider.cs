@@ -20,6 +20,8 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.IOC;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -29,6 +31,7 @@ using JetBrains.Annotations;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
 using ManagedIrbis.Search;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -56,9 +59,25 @@ namespace ManagedIrbis.Client
         [NotNull]
         public virtual string Database { get; set; }
 
+        /// <summary>
+        /// Additional services.
+        /// </summary>
+        [NotNull]
+        public ServiceRepository Services { get; private set; }
+
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        protected IrbisProvider()
+        {
+            Log.Trace("IrbisProvider::Constructor");
+
+            Services = new ServiceRepository();
+        }
 
         #endregion
 
@@ -253,9 +272,10 @@ namespace ManagedIrbis.Client
 
         #region IDisposable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public virtual void Dispose()
         {
+            Log.Trace("IrbisProvider::Dispose");
             // Nothing to do here.
         }
 
