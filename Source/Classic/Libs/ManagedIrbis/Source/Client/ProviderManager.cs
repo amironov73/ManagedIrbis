@@ -108,6 +108,14 @@ namespace ManagedIrbis.Client
                 }
             }
 
+            if (ReferenceEquals(type, null))
+            {
+                throw new IrbisException
+                    (
+                        "Can't find type: " + name
+                    );
+            }
+
             IrbisProvider result
                 = (IrbisProvider)Activator.CreateInstance(type);
 

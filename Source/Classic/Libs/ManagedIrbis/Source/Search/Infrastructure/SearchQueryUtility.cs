@@ -49,7 +49,8 @@ namespace ManagedIrbis.Search.Infrastructure
 
             foreach (ISearchTree child in node.Children)
             {
-                List<ISearchTree> descendants = GetDescendants(child);
+                List<ISearchTree> descendants
+                    = GetDescendants(child);
                 result.AddRange(descendants);
             }
 
@@ -89,8 +90,12 @@ namespace ManagedIrbis.Search.Infrastructure
             Code.NotNull(program, "program");
 
             List<ISearchTree> nodes = GetDescendants(program);
-            SearchTerm[] terms = nodes.OfType<SearchTerm>().ToArray();
-            string[] result = terms.Select(term => term.Term).ToArray();
+            SearchTerm[] terms = nodes
+                .OfType<SearchTerm>()
+                .ToArray();
+            string[] result = terms
+                .Select(term => term.Term)
+                .ToArray();
 
             return result;
         }

@@ -98,6 +98,84 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Encode one character.
+        /// </summary>
+        public static string EncodeCharacter
+            (
+                char value
+            )
+        {
+            switch (value)
+            {
+                case '\a': return "\\a";
+                case '\b': return "\\b";
+                case '\f': return "\\f";
+                case '\n': return "\\n";
+                case '\r': return "\\r";
+                case '\t': return "\\t";
+                case '\v': return "\\v";
+                case '\\': return "\\\\";
+                case '\'': return "\\'";
+                case '\"': return "\\\"";
+            }
+
+            if (value < ' ')
+            {
+                return string.Format
+                    (
+                        CultureInfo.InvariantCulture,
+                        "\\x{0}",
+                        (int)value
+                    );
+            }
+
+            return value.ToString();
+        }
+
+        /// <summary>
+        /// Convert the character to C# source code.
+        /// </summary>
+        public static string ToSourceCode
+            (
+                char value
+            )
+        {
+            return "'" + EncodeCharacter(value) + "'";
+        }
+
+        /// <summary>
+        /// Convert array of characters to C# source code.
+        /// </summary>
+        public static string ToSourceCode
+            (
+                [NotNull] char[] array
+            )
+        {
+            Code.NotNull(array, "array");
+
+            StringBuilder result = new StringBuilder("{");
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (i != 0)
+                {
+                    result.Append(", ");
+                    if (i % 10 == 0)
+                    {
+                        result.AppendLine();
+                        result.Append("  ");
+                    }
+                }
+                result.Append
+                    (
+                        "'" + EncodeCharacter(array[i]) + "'"
+                    );
+            }
+            result.Append("}");
+
+            return result.ToString();
+        }
+
+        /// <summary>
         /// Convert array of 32-bit integers to C# source code.
         /// </summary>
         public static string ToSourceCode
@@ -119,7 +197,7 @@ namespace AM.Text
                         result.Append("  ");
                     }
                 }
-                result.AppendFormat
+                result.Append
                     (
                         array[i].ToString
                             (

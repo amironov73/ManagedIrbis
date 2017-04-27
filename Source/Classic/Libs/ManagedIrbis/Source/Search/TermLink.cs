@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
 
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -38,7 +39,8 @@ namespace ManagedIrbis.Search
     [DebuggerDisplay("[{Mfn}] {Tag}/{Occurrence} {Index}")]
 #endif
     public sealed class TermLink
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
@@ -77,7 +79,6 @@ namespace ManagedIrbis.Search
         /// <summary>
         /// Clone the <see cref="TermLink"/>.
         /// </summary>
-        /// <returns></returns>
         [NotNull]
         public TermLink Clone()
         {
@@ -109,9 +110,7 @@ namespace ManagedIrbis.Search
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore object state from the specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -125,9 +124,7 @@ namespace ManagedIrbis.Search
             Index = reader.ReadPackedInt32();
         }
 
-        /// <summary>
-        /// Save object state to the specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream"/>
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -144,14 +141,31 @@ namespace ManagedIrbis.Search
 
         #endregion
 
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"/>
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<TermLink> verifier
+                = new Verifier<TermLink>(this, throwOnError);
+
+            verifier
+                .Assert(Mfn > 0, "Mfn")
+                .Assert(Tag > 0, "Tag")
+                .Assert(Occurrence > 0, "Occurrence")
+                .Assert(Index > 0, "Index");
+
+            return verifier.Result;
+        }
+
+        #endregion
+
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString"/>
         public override string ToString()
         {
             return string.Format
@@ -174,23 +188,13 @@ namespace ManagedIrbis.Search
         {
             Code.NotNull(other, "other");
 
-            return (Mfn == other.Mfn) 
-                && (Tag == other.Tag) 
-                && (Occurrence == other.Occurrence) 
-                && (Index == other.Index);
+            return Mfn == other.Mfn
+                && Tag == other.Tag
+                && Occurrence == other.Occurrence
+                && Index == other.Index;
         }
 
-        /// <summary>
-        /// Determines whether the specified
-        /// <see cref="System.Object" />
-        /// is equal to this instance.
-        /// </summary>
-        /// <param name="obj">The object to compare
-        /// with the current object.</param>
-        /// <returns><c>true</c> if the specified
-        /// <see cref="System.Object" /> is equal to
-        /// this instance; otherwise, <c>false</c>.
-        /// </returns>
+        /// <inheritdoc cref="object.Equals(object)"/>
         public override bool Equals
             (
                 object obj
@@ -205,17 +209,13 @@ namespace ManagedIrbis.Search
                 return true;
             }
 
-            return (obj is TermLink) 
-                && Equals((TermLink) obj);
+            TermLink termLink = obj as TermLink;
+
+            return !ReferenceEquals(termLink, null)
+                   && Equals(termLink);
         }
 
-        /// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>A hash code for this instance,
-        /// suitable for use in hashing algorithms
-        /// and data structures like a hash table.
-        /// </returns>
+        /// <inheritdoc cref="object.GetHashCode"/>
         public override int GetHashCode()
         {
             unchecked

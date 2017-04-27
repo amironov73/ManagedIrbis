@@ -59,17 +59,23 @@ namespace ManagedIrbis.Search.Infrastructure
         {
             Code.NotNull(context, "context");
 
-            TermLink[] first = Items[0].Find(context);
-            TermLink[] second = Items[1].Find(context);
-
+            TermLink[] result = Items[0].Find(context);
             IEqualityComparer<TermLink> comparer
                 = new TermLinkComparer.ByMfn();
-            TermLink[] result = first.Intersect
-                (
-                    second,
-                    comparer
-                )
-                .ToArray();
+            for (int i = 1; i < Items.Count; i++)
+            {
+                if (result.Length == 0)
+                {
+                    return result;
+                }
+                result = result.Intersect
+                    (
+                        Items[i].Find(context),
+                        comparer
+                    )
+                    .ToArray();
+            }
+            result = result.Distinct(comparer).ToArray();
 
             return result;
         }
