@@ -11,11 +11,16 @@
 
 using System;
 using System.Text;
+
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Gbl;
 using ManagedIrbis.Infrastructure.Commands;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -54,6 +59,8 @@ namespace ManagedIrbis.Infrastructure
             )
         {
             Code.NotNull(connection, "connection");
+
+            Log.Trace("CommandFactory::Constructor");
 
             Connection = connection;
         }

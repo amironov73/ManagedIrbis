@@ -18,6 +18,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -82,6 +83,8 @@ namespace ManagedIrbis.Infrastructure.Commands
         {
             Code.NotNull(connection, "connection");
 
+            Log.Trace("AbstractCommand::Constructor");
+
             Connection = connection;
         }
 
@@ -110,6 +113,12 @@ namespace ManagedIrbis.Infrastructure.Commands
 
                 if (!goodCodes.Contains(returnCode))
                 {
+                    Log.Trace
+                        (
+                            "AbstractCommand::CheckResponse: code="
+                            + returnCode
+                        );
+
                     throw new IrbisException(returnCode);
                 }
             }
@@ -120,6 +129,8 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public virtual ClientQuery CreateQuery ()
         {
+            Log.Trace("AbstractCommand::CreateQuery");
+
             ClientQuery result = new ClientQuery
             {
                 Workstation = Connection.Workstation,
@@ -143,8 +154,17 @@ namespace ManagedIrbis.Infrastructure.Commands
         {
             Code.NotNull(query, "query");
 
+            Log.Trace("AbstractCommand::Execute");
+
             byte[] request = query.EncodePacket();
-            byte[] answer = Connection.Socket.ExecuteRequest(request);
+            byte[] answer = Connection.Socket
+                .ExecuteRequest(request);
+
+            Log.Trace
+                (
+                    "AbstractCommand::Execute: answer.Length="
+                    + answer.Length
+                );
 
             ServerResponse result = new ServerResponse
                 (

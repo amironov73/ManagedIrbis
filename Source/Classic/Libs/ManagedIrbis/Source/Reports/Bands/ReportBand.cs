@@ -21,6 +21,7 @@ using System.Xml.Serialization;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -120,6 +121,8 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public ReportBand()
         {
+            Log.Trace("ReportBand::Constructor");
+
             Attributes = new ReportAttributes();
             Cells = new CellCollection
             {
@@ -359,6 +362,8 @@ namespace ManagedIrbis.Reports
         /// <inheritdoc cref="IDisposable.Dispose"/>
         public virtual void Dispose()
         {
+            Log.Trace("ReportBand::Dispose");
+
             Cells.Dispose();
         }
 

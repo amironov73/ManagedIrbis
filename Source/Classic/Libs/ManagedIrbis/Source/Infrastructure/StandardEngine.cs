@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -48,6 +50,7 @@ namespace ManagedIrbis.Infrastructure
             )
             : base(connection, nestedEngine)
         {
+            Log.Trace("StandardEngine::Constructor");
         }
 
         #endregion

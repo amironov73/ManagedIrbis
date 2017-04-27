@@ -18,6 +18,7 @@ using System.Reflection;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 using AM.Threading;
 
@@ -275,6 +276,8 @@ namespace ManagedIrbis
         /// </remarks>
         public IrbisConnection()
         {
+            Log.Trace("IrbisConnection::Constructor");
+
             Busy = new BusyState();
 
             Host = ConnectionSettings.DefaultHost;
@@ -300,6 +303,8 @@ namespace ManagedIrbis
             : this()
         {
             Code.NotNullNorEmpty(connectionString, "connectionString");
+
+            Log.Trace("IrbisConnection::Constructor");
 
             ParseConnectionString(connectionString);
             Connect();
@@ -618,6 +623,8 @@ namespace ManagedIrbis
             )
         {
             Code.NotNull(command, "command");
+
+            Log.Trace("IrbisConnection::ExecuteCommand");
 
             RawClientRequest = null;
             RawServerResponse = null;
@@ -1865,6 +1872,8 @@ namespace ManagedIrbis
         /// </summary>
         public void Dispose()
         {
+            Log.Trace("IrbisConnection::Dispose");
+
             Disposing.Raise(this);
 
             if (_connected)

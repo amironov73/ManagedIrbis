@@ -21,6 +21,7 @@ using System.Xml.Serialization;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -102,6 +103,8 @@ namespace ManagedIrbis.Reports
         /// </summary>
         protected ReportCell()
         {
+            Log.Trace("ReportCell::Constructor");
+
             Attributes = new ReportAttributes();
         }
 
@@ -207,6 +210,7 @@ namespace ManagedIrbis.Reports
         public virtual void Dispose()
         {
             // Nothing to do here
+            Log.Trace("ReportCell::Dispose");
         }
 
         #endregion

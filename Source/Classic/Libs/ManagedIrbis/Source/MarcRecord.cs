@@ -19,6 +19,7 @@ using System.ComponentModel;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -178,6 +179,8 @@ namespace ManagedIrbis
         /// </summary>
         public MarcRecord()
         {
+            Log.Trace("MarcRecord::Constructor");
+
             _fields = new RecordFieldCollection()
                 ._SetRecord(this);
         }
@@ -190,6 +193,8 @@ namespace ManagedIrbis
                 [NotNull] MarcRecord other
             )
         {
+            Log.Trace("MarcRecord::CopyConstructor");
+
             Database = other.Database;
             Mfn = other.Mfn;
             Status = other.Status;
@@ -225,6 +230,8 @@ namespace ManagedIrbis
         [NotNull]
         public MarcRecord Clone()
         {
+            Log.Trace("MarcRecord::Clone");
+
             MarcRecord result = new MarcRecord(this);
 
             return result;
@@ -352,9 +359,9 @@ namespace ManagedIrbis
         /// </remarks>
         [CanBeNull]
         public string FR
-        (
-            [NotNull] string format
-        )
+            (
+                [NotNull] string format
+            )
         {
             Code.NotNull(format, "format");
 
@@ -507,15 +514,15 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
             Code.NotNull(reader, "reader");
+
+            Log.Trace("MarcRecord::RestoreFromStream");
 
             Database = reader.ReadNullableString();
             Mfn = reader.ReadPackedInt32();
@@ -527,15 +534,15 @@ namespace ManagedIrbis
             Index = reader.ReadNullableString();
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream"/>
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
             Code.NotNull(writer, "writer");
+
+            Log.Trace("MarcRecord::SaveToStream");
 
             writer.WriteNullable(Database);
             writer.WritePackedInt32(Mfn);
@@ -596,14 +603,14 @@ namespace ManagedIrbis
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify"/>
         public bool Verify
             (
                 bool throwOnError
             )
         {
+            Log.Trace("MarcRecord::Verify");
+
             Verifier<MarcRecord> verifier = new Verifier<MarcRecord>
                 (
                     this,
@@ -626,7 +633,7 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString"/>
         public override string ToString()
         {
             return ProtocolText.EncodeRecord(this);

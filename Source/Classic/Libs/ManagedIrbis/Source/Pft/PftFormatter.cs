@@ -11,6 +11,8 @@
 
 using System;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -99,6 +101,8 @@ namespace ManagedIrbis.Pft
         {
             Code.NotNull(context, "context");
 
+            Log.Trace("PftFormatter::Constructor");
+
             Context = context;
             _ownContext = false;
         }
@@ -122,6 +126,8 @@ namespace ManagedIrbis.Pft
                 [CanBeNull] MarcRecord record
             )
         {
+            Log.Trace("PftFormatter::Format");
+
             if (ReferenceEquals(Program, null))
             {
                 throw new PftException("Program was not set");
@@ -171,6 +177,8 @@ namespace ManagedIrbis.Pft
         /// <inheritdoc/>
         public void Dispose()
         {
+            Log.Trace("PftFormatter::Dispose");
+
             if (_ownContext)
             {
                 Context.Dispose();

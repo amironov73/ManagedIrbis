@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -38,6 +39,7 @@ namespace ManagedIrbis.Reports
     [PublicAPI]
     [MoonSharpUserData]
     public abstract class ReportDriver
+        : IDisposable
     {
         #region Properties
 
@@ -52,6 +54,14 @@ namespace ManagedIrbis.Reports
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        protected ReportDriver()
+        {
+            Log.Trace("ReportDriver::Constructor");
+        }
 
         #endregion
 
@@ -191,6 +201,16 @@ namespace ManagedIrbis.Reports
             )
         {
             // Nothing to do here
+        }
+
+        #endregion
+
+        #region IDisposable members
+
+        /// <inheritdoc cref="IDisposable.Dispose"/>
+        public virtual void Dispose()
+        {
+            Log.Trace("ReportDriver::Dispose");
         }
 
         #endregion

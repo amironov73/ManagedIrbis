@@ -21,6 +21,7 @@ using System.Xml.Serialization;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 using AM.Text;
 
@@ -53,6 +54,8 @@ namespace ManagedIrbis.Reports
         )
         {
             Code.NotNull(context, "context");
+
+            Log.Trace("RawPftCell::Render");
 
             string text = Text;
 

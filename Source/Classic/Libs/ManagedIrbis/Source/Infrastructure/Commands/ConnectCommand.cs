@@ -10,6 +10,7 @@
 #region Using directives
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -104,6 +105,8 @@ namespace ManagedIrbis.Infrastructure.Commands
             )
             : base(connection)
         {
+            Log.Trace("ConnectCommand::Constructor");
+
             Connection.GenerateClientID();
             Connection.ResetCommandNumber();
         }
@@ -117,6 +120,8 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public override ClientQuery CreateQuery()
         {
+            Log.Trace("ConnectCommand::CreateQuery");
+
             ClientQuery result = base.CreateQuery();
             result.CommandCode = CommandCode.RegisterClient;
 
@@ -150,8 +155,11 @@ namespace ManagedIrbis.Infrastructure.Commands
         {
             Code.NotNull(query, "query");
 
+            Log.Trace("ConnectCommand::Execute");
+
             if (Connection.Connected)
             {
+                Log.Trace("ConnectCommand::Execute: already connected");
                 throw new IrbisException("Already connected");
             }
 
@@ -160,6 +168,12 @@ namespace ManagedIrbis.Infrastructure.Commands
             while (true)
             {
                 result = base.Execute(query);
+
+                Log.Trace
+                    (
+                        "ConnectCommand::Execute: returnCode="
+                        + result.ReturnCode
+                    );
 
                 // CLIENT_ALREADY_EXISTS
                 if (result.ReturnCode == -3337)

@@ -28,6 +28,7 @@ using System.Xml.Serialization;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -138,6 +139,8 @@ namespace ManagedIrbis.Reports
         /// </summary>
         public IrbisReport()
         {
+            Log.Trace("IrbisReport::Constructor");
+
             Attributes = new ReportAttributes();
             Body = new BandCollection<ReportBand>(this, null);
         }
@@ -161,6 +164,8 @@ namespace ManagedIrbis.Reports
             )
         {
             Code.NotNull(context, "context");
+
+            Log.Trace("IrbisReport::Render");
 
             context.Output.Clear();
 
@@ -477,6 +482,8 @@ namespace ManagedIrbis.Reports
         /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
+            Log.Trace("IrbisReport::Dispose");
+
             if (!ReferenceEquals(Header, null))
             {
                 Header.Dispose();

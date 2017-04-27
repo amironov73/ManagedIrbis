@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using AM.Logging;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -40,6 +42,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             )
             : base(connection)
         {
+            Log.Trace("DisconnectCommand::Constructor");
         }
 
         #endregion
@@ -63,7 +66,15 @@ namespace ManagedIrbis.Infrastructure.Commands
                 ClientQuery query
             )
         {
+            Log.Trace("DisconnectCommand::Execute");
+
             ServerResponse result = base.Execute(query);
+
+            Log.Trace
+                (
+                    "DisconnectCommand::Execute: returnCode="
+                    + result.ReturnCode
+                );
 
             Connection._connected = false;
 

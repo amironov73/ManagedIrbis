@@ -15,6 +15,7 @@ using System.IO;
 using System.Threading;
 
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -80,6 +81,8 @@ namespace AM.Threading
         /// </summary>
         public BusyState()
         {
+            Log.Trace("BusyState::Constructor");
+
             _lock = new object();
             _waitHandle = new ManualResetEvent(true);
         }
@@ -118,6 +121,12 @@ namespace AM.Threading
                 bool newState
             )
         {
+            Log.Trace
+                (
+                    "BusyState::SetState: newState="
+                    + newState
+                );
+
             lock (_lock)
             {
                 if (newState != _currentState)
@@ -164,12 +173,15 @@ namespace AM.Threading
                     if (!Busy)
                     {
                         SetState(true);
-                        return;
+                        goto DONE;
                     }
 
                     WaitHandle.WaitOne();
                 }
             }
+
+            DONE:
+            Log.Trace("BusyState::WaitAndGrab: return");
         }
 
         /// <summary>
@@ -222,11 +234,14 @@ namespace AM.Threading
             {
                 if (!Busy)
                 {
-                    return;
+                    goto DONE;
                 }
 
                 WaitHandle.WaitOne();
             }
+
+            DONE:
+            Log.Trace("BusyState::WaitFreeState: return");
         }
 
         /// <summary>

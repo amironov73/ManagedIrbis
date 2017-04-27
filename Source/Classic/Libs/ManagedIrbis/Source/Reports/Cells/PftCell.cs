@@ -21,6 +21,7 @@ using System.Xml.Serialization;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -100,6 +101,8 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "context");
 
+            Log.Trace("PftCell::Compute");
+
             OnBeforeCompute(context);
 
             string text = Text;
@@ -151,6 +154,8 @@ namespace ManagedIrbis.Reports
             )
         {
             Code.NotNull(context, "context");
+
+            Log.Trace("PftCell::Render");
 
             string text = Text;
 

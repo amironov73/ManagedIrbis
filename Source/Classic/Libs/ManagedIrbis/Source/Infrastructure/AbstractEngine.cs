@@ -12,6 +12,7 @@
 using System;
 
 using AM;
+using AM.Logging;
 using AM.Threading;
 
 using CodeJam;
@@ -81,6 +82,8 @@ namespace ManagedIrbis.Infrastructure
         {
             Code.NotNull(connection, "connection");
 
+            Log.Trace("AbstractEngine::Constructor");
+
             Connection = connection;
             NestedEngine = nestedEngine;
         }
@@ -106,6 +109,7 @@ namespace ManagedIrbis.Infrastructure
             {
                 if (!connection.Connected)
                 {
+                    Log.Trace("Not connected");
                     throw new IrbisException("Not connected");
                 }
             }
@@ -119,11 +123,15 @@ namespace ManagedIrbis.Infrastructure
                 [NotNull] ExecutionContext context
             )
         {
-            EventHandler<ExecutionEventArgs> handler = AfterExecution;
+            Log.Trace("AbstractEngine::OnAfterExecute");
+
+            EventHandler<ExecutionEventArgs> handler
+                = AfterExecution;
 
             if (!ReferenceEquals(handler, null))
             {
-                ExecutionEventArgs args = new ExecutionEventArgs(context);
+                ExecutionEventArgs args
+                    = new ExecutionEventArgs(context);
 
                 handler(this, args);
             }
@@ -137,11 +145,15 @@ namespace ManagedIrbis.Infrastructure
                 [NotNull] ExecutionContext context
             )
         {
-            EventHandler<ExecutionEventArgs> handler = BeforeExecution;
+            Log.Trace("AbstractEngine::OnBeforeExecute");
+
+            EventHandler<ExecutionEventArgs> handler
+                = BeforeExecution;
 
             if (!ReferenceEquals(handler, null))
             {
-                ExecutionEventArgs args = new ExecutionEventArgs(context);
+                ExecutionEventArgs args
+                    = new ExecutionEventArgs(context);
 
                 handler(this, args);
             }
@@ -155,7 +167,10 @@ namespace ManagedIrbis.Infrastructure
                 [NotNull] ExecutionContext context
             )
         {
-            ArsMagnaException exception = context.Exception as ArsMagnaException;
+            Log.Trace("AbstractEngine::OnException");
+
+            ArsMagnaException exception
+                = context.Exception as ArsMagnaException;
             if (!ReferenceEquals(exception, null))
             {
                 if (!ReferenceEquals(Connection.RawClientRequest, null))
@@ -170,7 +185,8 @@ namespace ManagedIrbis.Infrastructure
 
                 if (!ReferenceEquals(Connection.RawServerResponse, null))
                 {
-                    BinaryAttachment response = new BinaryAttachment
+                    BinaryAttachment response
+                        = new BinaryAttachment
                         (
                             "response",
                             Connection.RawServerResponse
@@ -179,11 +195,13 @@ namespace ManagedIrbis.Infrastructure
                 }
             }
 
-            EventHandler<ExecutionEventArgs> handler = ExceptionOccurs;
+            EventHandler<ExecutionEventArgs> handler
+                = ExceptionOccurs;
 
             if (!ReferenceEquals(handler, null))
             {
-                ExecutionEventArgs args = new ExecutionEventArgs(context);
+                ExecutionEventArgs args
+                    = new ExecutionEventArgs(context);
 
                 handler(this, args);
             }
@@ -199,6 +217,8 @@ namespace ManagedIrbis.Infrastructure
                 [NotNull] ExecutionContext context
             )
         {
+            Log.Trace("AbstractEngine::StandardExecution");
+
             AbstractCommand command = context.Command
                 .ThrowIfNull("Command");
             IrbisConnection connection = context.Connection
@@ -259,6 +279,8 @@ namespace ManagedIrbis.Infrastructure
             )
         {
             Code.NotNull(context, "context");
+
+            Log.Trace("AbstractEngine::ExecuteCommand");
 
             context.Verify(true);
 

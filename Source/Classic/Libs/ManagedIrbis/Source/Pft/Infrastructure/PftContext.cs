@@ -14,6 +14,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using AM;
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -179,6 +180,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 [CanBeNull] PftContext parent
             )
         {
+            Log.Trace("PftContext::Constructor");
+
             _parent = parent;
 
             Provider = ReferenceEquals(parent, null)
@@ -255,6 +258,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Code.NotNull(node, "node");
 
+            Log.Trace("PftContext::ActivateDebugger");
+
             if (!ReferenceEquals(Debugger, null))
             {
                 PftDebugEventArgs args = new PftDebugEventArgs
@@ -272,6 +277,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public PftContext ClearAll()
         {
+            Log.Trace("PftContext::ClearAll");
+
             Output.ClearText();
             Output.ClearError();
             Output.ClearWarning();
@@ -284,6 +291,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public PftContext ClearText()
         {
+            Log.Trace("PftContext::ClearText");
+
             Output.ClearText();
 
             return this;
@@ -300,6 +309,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Code.NotNull(action, "action");
             Code.Nonnegative(count, "count");
+
+            Log.Trace("PftContext::DoRepeatableAction");
 
             count = Math.Min(count, PftConfig.MaxRepeat);
 
@@ -339,6 +350,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Code.NotNull(node, "node");
 
+            Log.Trace("PftContext::Evaluate");
+
             using (PftContextGuard guard = new PftContextGuard(this))
             {
                 PftContext copy = guard.ChildContext;
@@ -359,6 +372,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             )
         {
             Code.NotNull(items, "items");
+
+            Log.Trace("PftContext::Evaluate");
 
             using (PftContextGuard guard = new PftContextGuard(this))
             {
@@ -381,6 +396,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 [CanBeNull] IEnumerable<PftNode> nodes
             )
         {
+            Log.Trace("PftContext::Execute");
+
             if (!ReferenceEquals(nodes, null))
             {
                 foreach (PftNode node in nodes)
@@ -702,6 +719,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <inheritdoc/>
         public void Dispose()
         {
+            Log.Trace("PftContext::Dispose");
+
             Provider.Dispose();
         }
 

@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -65,6 +67,8 @@ namespace ManagedIrbis.Infrastructure
         [NotNull]
         public virtual IrbisConnection GetConnection()
         {
+            Log.Trace("ConnectionFactory::GetConnection");
+
             return new IrbisConnection();
         }
 
@@ -78,6 +82,8 @@ namespace ManagedIrbis.Infrastructure
             )
         {
             Code.NotNull(factory, "factory");
+
+            Log.Trace("ConnectionFactory::SetDefaultFactory");
 
             ConnectionFactory result = Default;
             _default = factory;
