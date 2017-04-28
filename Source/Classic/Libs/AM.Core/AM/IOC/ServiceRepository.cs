@@ -91,7 +91,8 @@ namespace AM.IOC
 
             Log.Trace("ServiceRepository::Register");
 
-#if !NETCORE
+#if !NETCORE && !UAP && !WIN81 && !PCL
+
             if (type.IsValueType)
             {
                 throw new ArsMagnaException("type.IsValueType");
@@ -104,6 +105,7 @@ namespace AM.IOC
                         "!type.IsInstanceOfType"
                     );
             }
+
 #endif
 
             lock (_lock)
