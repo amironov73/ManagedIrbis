@@ -24,6 +24,7 @@ using AM.Runtime;
 using IrbisInterop;
 
 using ManagedIrbis;
+using ManagedIrbis.Search;
 using ManagedIrbis.Server;
 
 #endregion
@@ -246,37 +247,37 @@ namespace IrbisInteropTester
                         )
                     );
                 Console.WriteLine("PftPath={0}", pftPath);
-                string briefPath = Path.Combine
-                    (
-                        pftPath,
-                        "brief"
-                    );
+                //string briefPath = Path.Combine
+                //    (
+                //        pftPath,
+                //        "brief"
+                //    );
 
-                int retcode = Irbis65Dll.IrbisInitPft(space, "@" + briefPath);
-                Console.WriteLine("IrbisInitPft({0})={1}", briefPath, retcode);
-                HandleRetCode(retcode);
+                //int retcode = Irbis65Dll.IrbisInitPft(space, "@" + briefPath);
+                //Console.WriteLine("IrbisInitPft({0})={1}", briefPath, retcode);
+                //HandleRetCode(retcode);
 
-                Irbis65Dll.IrbisInitUactab(space);
-                Console.WriteLine("IrbisInitUactab");
+                //Irbis65Dll.IrbisInitUactab(space);
+                //Console.WriteLine("IrbisInitUactab");
 
-                retcode = Irbis65Dll.IrbisFormat
-                    (
-                        space,
-                        0 /*номер полки*/,
-                        1,
-                        0,
-                        32000 /*размер буфера*/,
-                        "IRBIS64"
-                    );
-                Console.WriteLine("IrbisFormat={0}", retcode);
-                HandleRetCode(retcode);
+                //retcode = Irbis65Dll.IrbisFormat
+                //    (
+                //        space,
+                //        0 /*номер полки*/,
+                //        1,
+                //        0,
+                //        32000 /*размер буфера*/,
+                //        "IRBIS64"
+                //    );
+                //Console.WriteLine("IrbisFormat={0}", retcode);
+                //HandleRetCode(retcode);
 
                 //string formattedRecord = Irbis65Dll.GetFormattedRecord(space);
                 //Console.WriteLine(formattedRecord);
 
                 Encoding utf = Encoding.UTF8;
                 byte[] term = new byte[512];
-                string text = "K=БЕТОН";
+                string text = "K=";
                 utf.GetBytes(text, 0, text.Length, term, 0);
                 retCode = Irbis65Dll.IrbisFind(space, term);
                 Console.WriteLine("IrbisFind={0}", retCode);
@@ -357,6 +358,8 @@ namespace IrbisInteropTester
                         Console.WriteLine();
                     }
 
+                    Console.WriteLine();
+
                     Console.WriteLine
                         (
                             "Record offset={0}, formatted offset={1}",
@@ -364,9 +367,50 @@ namespace IrbisInteropTester
                             irbis.Layout.Value.FormattedOffset
                         );
 
+                    Console.WriteLine();
+
+                    TermInfo[] terms = irbis.ListTerms("K=", 50);
+                    for (int i = 0; i < terms.Length; i++)
+                    {
+                        Console.WriteLine(terms[i]);
+                    }
+
+                    Console.WriteLine();
+
+                    terms = irbis.ExactSearchTrimEx("K=БЕТОН", 200);
+                    for (int i = 0; i < terms.Length; i++)
+                    {
+                        Console.WriteLine(terms[i]);
+                    }
+
+                    Console.WriteLine();
+
+                    TermLink[] links = irbis.ExactSearchLinks
+                        (
+                            "K=БЕТОН"
+                        );
+                    for (int i = 0; i < links.Length; i++)
+                    {
+                        Console.WriteLine(links[i]);
+                    }
+
+                    Console.WriteLine();
+
+                    links = irbis.ExactSearchTrimLinks
+                        (
+                            "K=БЕТОН",
+                            200
+                        );
+                    for (int i = 0; i < links.Length; i++)
+                    {
+                        Console.WriteLine(links[i]);
+                    }
+
+                    Console.WriteLine();
+
                     string testDatabase = Path.Combine
                     (
-                            Path.GetDirectoryName
+                        Path.GetDirectoryName
                             (
                                 Assembly.GetEntryAssembly().Location
                             )

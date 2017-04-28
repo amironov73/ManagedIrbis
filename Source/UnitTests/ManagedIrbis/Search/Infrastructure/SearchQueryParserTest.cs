@@ -161,7 +161,7 @@ namespace UnitTests.ManagedIrbis.Search.Infrastructure
             SearchTokenList tokens = SearchQueryLexer.Tokenize(text);
             SearchQueryParser parser = new SearchQueryParser(tokens);
             SearchProgram program = parser.Parse();
-            string[] terms = SearchQueryUtility.ExtractTerms(program);
+            SearchTerm[] terms = SearchQueryUtility.ExtractTerms(program);
 
             Assert.AreEqual(expected, terms.Length);
         }

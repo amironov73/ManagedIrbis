@@ -27,6 +27,7 @@ using JetBrains.Annotations;
 using ManagedIrbis;
 using ManagedIrbis.Direct;
 using ManagedIrbis.Search;
+using ManagedIrbis.Search.Infrastructure;
 using ManagedIrbis.Server;
 
 #endregion
@@ -179,6 +180,57 @@ namespace IrbisInterop
         #region Public methods
 
         /// <summary>
+        /// Get buffer from the text.
+        /// </summary>
+        public byte[] BufferFromString
+            (
+                [NotNull] Encoding encoding,
+                [NotNull] string text,
+                int bufferSize
+            )
+        {
+            Code.NotNull(encoding, "encoding");
+            Code.NotNull(text, "text");
+            Code.Positive(bufferSize, "bufferSize");
+
+            byte[] result = new byte[bufferSize];
+            encoding.GetBytes
+                (
+                    text,
+                    0,
+                    text.Length,
+                    result,
+                    0
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get buffer from the text.
+        /// </summary>
+        public byte[] BufferFromString
+            (
+                [NotNull] Encoding encoding,
+                [NotNull] string text
+            )
+        {
+            Code.NotNull(encoding, "encoding");
+            Code.NotNull(text, "text");
+
+            // Use zero-terminated strings!
+            int bufferLength = encoding.GetByteCount(text) + 1;
+            byte[] result = BufferFromString
+                (
+                    encoding,
+                    text,
+                    bufferLength
+                );
+
+            return result;
+        }
+
+        /// <summary>
         /// Create database with specified name.
         /// </summary>
         /// <param name="databasePath">Full path to master
@@ -227,8 +279,7 @@ namespace IrbisInterop
             IntPtr space = Space;
 
             Encoding utf = IrbisEncoding.Utf8;
-            byte[] buffer = new byte[512];
-            utf.GetBytes(term, 0, term.Length, buffer, 0);
+            byte[] buffer = BufferFromString(utf, term, 512);
             int retCode = Irbis65Dll.IrbisFind(space, buffer);
             if (retCode < 0)
             {
@@ -266,8 +317,7 @@ namespace IrbisInterop
             IntPtr space = Space;
 
             Encoding utf = IrbisEncoding.Utf8;
-            byte[] buffer = new byte[512];
-            utf.GetBytes(term, 0, term.Length, buffer, 0);
+            byte[] buffer = BufferFromString(utf, term, 512);
             int retCode = Irbis65Dll.IrbisFind(space, buffer);
             if (retCode < 0)
             {
@@ -307,6 +357,192 @@ namespace IrbisInterop
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Performs simple search for exact term match.
+        /// </summary>
+        [NotNull]
+        public TermLink[] ExactSearchLinks
+            (
+                [NotNull] string term
+            )
+        {
+            Code.NotNullNorEmpty(term, "term");
+
+            IntPtr space = Space;
+
+            Encoding utf = IrbisEncoding.Utf8;
+            byte[] buffer = BufferFromString(utf, term, 512);
+            int retCode = Irbis65Dll.IrbisFind(space, buffer);
+            if (retCode < 0)
+            {
+                return new TermLink[0];
+            }
+
+            int nposts = Irbis65Dll.IrbisNPosts(space);
+            _HandleRetCode("IrbisNPosts", nposts);
+
+            TermLink[] result = new TermLink[nposts];
+            for (int i = 0; i < nposts; i++)
+            {
+                retCode = Irbis65Dll.IrbisNextPost(space);
+                _HandleRetCode("IrbisNextPost", retCode);
+
+                TermLink link = new TermLink();
+
+                int mfn = Irbis65Dll.IrbisPosting(space, 1);
+                _HandleRetCode("IrbisPosting", mfn);
+                link.Mfn = mfn;
+
+                int tag = Irbis65Dll.IrbisPosting(space, 2);
+                _HandleRetCode("IrbisPosting", tag);
+                link.Tag = tag;
+
+                int occ = Irbis65Dll.IrbisPosting(space, 3);
+                _HandleRetCode("IrbisPosting", occ);
+                link.Occurrence = occ;
+
+                int index = Irbis65Dll.IrbisPosting(space, 4);
+                _HandleRetCode("IrbisPosting", index);
+                link.Index = index;
+
+                result[i] = link;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [NotNull]
+        public TermInfo[] ExactSearchTrimEx
+            (
+                [NotNull] string term,
+                int limit
+            )
+        {
+            Code.NotNullNorEmpty(term, "term");
+            Code.Positive(limit, "limit");
+
+            // TODO Use IrbisUpperCaseTable
+            term = term.ToUpper();
+
+            IntPtr space = Space;
+
+            Encoding utf = IrbisEncoding.Utf8;
+            byte[] buffer = BufferFromString(utf, term, 512);
+            int retCode = Irbis65Dll.IrbisFind(space, buffer);
+            if (retCode < 0)
+            {
+                return new TermInfo[0];
+            }
+
+            List<TermInfo> result
+                = new List<TermInfo>();
+
+            for (int i = 0; i < limit; i++)
+            {
+                TermInfo item = new TermInfo();
+
+                string text = StringFromBuffer(utf, buffer);
+                if (!text.StartsWith(term))
+                {
+                    break;
+                }
+                item.Text = text;
+
+                int nposts = Irbis65Dll.IrbisNPosts(space);
+                _HandleRetCode("IrbisNPosts", nposts);
+                item.Count = nposts;
+
+                result.Add(item);
+
+                retCode = Irbis65Dll.IrbisNextTerm(space, buffer);
+                if (retCode < 0)
+                {
+                    break;
+                }
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [NotNull]
+        public TermLink[] ExactSearchTrimLinks
+            (
+                [NotNull] string term,
+                int limit
+            )
+        {
+            Code.NotNullNorEmpty(term, "term");
+            Code.Positive(limit, "limit");
+
+            // TODO Use IrbisUpperCaseTable
+            term = term.ToUpper();
+
+            IntPtr space = Space;
+
+            Encoding utf = IrbisEncoding.Utf8;
+            byte[] buffer = BufferFromString(utf, term, 512);
+            int retCode = Irbis65Dll.IrbisFind(space, buffer);
+            if (retCode < 0)
+            {
+                return new TermLink[0];
+            }
+
+            List<TermLink> result
+                = new List<TermLink>();
+
+            for (int i = 0; i < limit; i++)
+            {
+                string text = StringFromBuffer(utf, buffer);
+                if (!text.StartsWith(term))
+                {
+                    break;
+                }
+
+                int nposts = Irbis65Dll.IrbisNPosts(space);
+                _HandleRetCode("IrbisNPosts", nposts);
+
+                for (int j = 0; j < nposts; j++)
+                {
+                    retCode = Irbis65Dll.IrbisNextPost(space);
+                    _HandleRetCode("IrbisNextPost", retCode);
+
+                    TermLink link = new TermLink();
+
+                    int mfn = Irbis65Dll.IrbisPosting(space, 1);
+                    _HandleRetCode("IrbisPosting", mfn);
+                    link.Mfn = mfn;
+
+                    int tag = Irbis65Dll.IrbisPosting(space, 2);
+                    _HandleRetCode("IrbisPosting", tag);
+                    link.Tag = tag;
+
+                    int occ = Irbis65Dll.IrbisPosting(space, 3);
+                    _HandleRetCode("IrbisPosting", occ);
+                    link.Occurrence = occ;
+
+                    int index = Irbis65Dll.IrbisPosting(space, 4);
+                    _HandleRetCode("IrbisPosting", index);
+                    link.Index = index;
+
+                    result.Add(link);
+                }
+
+                retCode = Irbis65Dll.IrbisNextTerm(space, buffer);
+                if (retCode < 0)
+                {
+                    break;
+                }
+            }
+
+            return result.ToArray();
         }
 
         /// <summary>
@@ -636,6 +872,63 @@ namespace IrbisInterop
         }
 
         /// <summary>
+        /// List terms starting from specified one.
+        /// </summary>
+        [NotNull]
+        public TermInfo[] ListTerms
+            (
+                [NotNull] string startTerm,
+                int count
+            )
+        {
+            Code.NotNull(startTerm, "startTerm");
+            Code.Positive(count, "count");
+
+            IntPtr space = Space;
+
+            Encoding utf = IrbisEncoding.Utf8;
+            byte[] buffer = new byte[512];
+            utf.GetBytes
+                (
+                    startTerm,
+                    0,
+                    startTerm.Length,
+                    buffer,
+                    0
+                );
+            int retCode = Irbis65Dll.IrbisFind(space, buffer);
+            if (retCode < 0)
+            {
+                return new TermInfo[0];
+            }
+
+            List<TermInfo> result
+                = new List<TermInfo>(count);
+
+            for (int i = 0; i < count; i++)
+            {
+                TermInfo term = new TermInfo();
+
+                string text = StringFromBuffer(utf, buffer);
+                term.Text = text;
+
+                int nposts = Irbis65Dll.IrbisNPosts(space);
+                _HandleRetCode("IrbisNPosts", nposts);
+                term.Count = nposts;
+
+                result.Add(term);
+
+                retCode = Irbis65Dll.IrbisNextTerm(space, buffer);
+                if (retCode < 0)
+                {
+                    break;
+                }
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
         /// Create new record on the shelf.
         /// </summary>
         public void NewRecord()
@@ -676,6 +969,36 @@ namespace IrbisInterop
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public int[] Search
+            (
+                [NotNull] string expression
+            )
+        {
+            Code.NotNull(expression, "expression");
+
+            SearchTokenList tokens
+                = SearchQueryLexer.Tokenize(expression);
+            SearchQueryParser parser
+                = new SearchQueryParser(tokens);
+            SearchProgram program = parser.Parse();
+            SearchTerm[] terms
+                = SearchQueryUtility.ExtractTerms(program);
+
+            // Is it possible?
+            if (terms.Length == 0)
+            {
+                return new int[0];
+            }
+
+            //SearchManager manager = new SearchManager();
+            //SearchContext context = new SearchContext();
+
+            return new int[0];
+        }
+
+        /// <summary>
         /// Setup the format.
         /// </summary>
         public void SetFormat
@@ -712,16 +1035,14 @@ namespace IrbisInterop
             Code.NotNull(record, "record");
 
             IntPtr space = Space;
-            Encoding encoding = IrbisEncoding.Utf8;
+            Encoding utf = IrbisEncoding.Utf8;
 
             int retCode = Irbis65Dll.IrbisFldEmpty(space, shelf);
             _HandleRetCode("IrbisFldEmpty", retCode);
             foreach (NativeField field in record.Fields)
             {
                 string value = field.Value;
-                int length = encoding.GetByteCount(value);
-                byte[] buffer = new byte[length + 1];
-                encoding.GetBytes(value, 0, value.Length, buffer, 0);
+                byte[] buffer = BufferFromString(utf, value);
 
                 retCode = Irbis65Dll.IrbisFldAdd
                     (
@@ -744,6 +1065,48 @@ namespace IrbisInterop
             )
         {
             SetRecord(Shelf, record);
+        }
+
+        /// <summary>
+        /// Get string from array of bytes.
+        /// </summary>
+        [NotNull]
+        public static string StringFromBuffer
+            (
+                [NotNull] Encoding encoding,
+                [NotNull] byte[] bytes
+            )
+        {
+            Code.NotNull(encoding, "encoding");
+            Code.NotNull(bytes, "bytes");
+
+            int pos;
+            for (pos = 0; pos < bytes.Length; pos++)
+            {
+                if (bytes[pos] == 0)
+                {
+                    break;
+                }
+            }
+            string result = encoding.GetString(bytes, 0, pos);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get string from array of bytes.
+        /// </summary>
+        [NotNull]
+        public static string StringFromBuffer
+            (
+                [NotNull] byte[] bytes
+            )
+        {
+            return StringFromBuffer
+                (
+                    IrbisEncoding.Utf8,
+                    bytes
+                );
         }
 
         /// <summary>

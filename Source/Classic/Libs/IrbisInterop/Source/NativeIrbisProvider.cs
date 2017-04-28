@@ -28,6 +28,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Client;
+using ManagedIrbis.Search;
 using ManagedIrbis.Server;
 
 using MoonSharp.Interpreter;
@@ -107,6 +108,30 @@ namespace IrbisInterop.Source
         #endregion
 
         #region IrbisProvider members
+
+        /// <inheritdoc cref="IrbisProvider.ExactSearchLinks"/>
+        public override TermLink[] ExactSearchLinks
+            (
+                string term
+            )
+        {
+            Code.NotNull(term, "term");
+
+            return Irbis64.ExactSearchLinks(term);
+        }
+
+        /// <inheritdoc cref="IrbisProvider.ExactSearchTrimLinks"/>
+        public override TermLink[] ExactSearchTrimLinks
+            (
+                string term,
+                int limit
+            )
+        {
+            Code.NotNull(term, "term");
+            Code.Positive(limit, "limit");
+
+            return Irbis64.ExactSearchTrimLinks(term, limit);
+        }
 
         #endregion
 

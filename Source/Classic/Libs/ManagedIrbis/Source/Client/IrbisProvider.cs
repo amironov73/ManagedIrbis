@@ -88,6 +88,29 @@ namespace ManagedIrbis.Client
         #region Public methods
 
         /// <summary>
+        /// Exact search.
+        /// </summary>
+        public virtual TermLink[] ExactSearchLinks
+            (
+                [NotNull] string term
+            )
+        {
+            return new TermLink[0];
+        }
+
+        /// <summary>
+        /// Exact search with trim.
+        /// </summary>
+        public virtual TermLink[] ExactSearchTrimLinks
+            (
+                [NotNull] string term,
+                int limit
+            )
+        {
+            return new TermLink[0];
+        }
+
+        /// <summary>
         /// Format given record.
         /// </summary>
         [CanBeNull]

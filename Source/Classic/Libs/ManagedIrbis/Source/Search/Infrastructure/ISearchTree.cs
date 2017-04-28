@@ -17,7 +17,10 @@ using ManagedIrbis.Client;
 
 namespace ManagedIrbis.Search.Infrastructure
 {
-    internal interface ISearchTree
+    /// <summary>
+    /// 
+    /// </summary>
+    public interface ISearchTree
     {
         /// <summary>
         /// Children of the node.

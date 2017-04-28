@@ -37,7 +37,7 @@ namespace ManagedIrbis.Search.Infrastructure
     {
         #region Private members
 
-        private static List<ISearchTree> GetDescendants
+        internal static List<ISearchTree> GetDescendants
             (
                 ISearchTree node
             )
@@ -82,7 +82,7 @@ namespace ManagedIrbis.Search.Infrastructure
         /// Extract search terms from the query.
         /// </summary>
         [NotNull]
-        public static string[] ExtractTerms
+        public static SearchTerm[] ExtractTerms
             (
                 [NotNull] SearchProgram program
             )
@@ -90,11 +90,8 @@ namespace ManagedIrbis.Search.Infrastructure
             Code.NotNull(program, "program");
 
             List<ISearchTree> nodes = GetDescendants(program);
-            SearchTerm[] terms = nodes
+            SearchTerm[] result = nodes
                 .OfType<SearchTerm>()
-                .ToArray();
-            string[] result = terms
-                .Select(term => term.Term)
                 .ToArray();
 
             return result;

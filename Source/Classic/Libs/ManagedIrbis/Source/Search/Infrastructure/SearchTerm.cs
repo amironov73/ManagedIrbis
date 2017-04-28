@@ -67,7 +67,7 @@ namespace ManagedIrbis.Search.Infrastructure
     /// <summary>
     /// Leaf node of AST.
     /// </summary>
-    sealed class SearchTerm
+    public sealed class SearchTerm
         : ISearchTree
     {
         #region Properties
