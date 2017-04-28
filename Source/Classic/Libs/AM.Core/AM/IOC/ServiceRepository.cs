@@ -91,6 +91,7 @@ namespace AM.IOC
 
             Log.Trace("ServiceRepository::Register");
 
+#if !NETCORE
             if (type.IsValueType)
             {
                 throw new ArsMagnaException("type.IsValueType");
@@ -103,6 +104,7 @@ namespace AM.IOC
                         "!type.IsInstanceOfType"
                     );
             }
+#endif
 
             lock (_lock)
             {
@@ -151,6 +153,7 @@ namespace AM.IOC
         /// </summary>
         [NotNull]
         public ServiceRepository Unregister<T>()
+            where T: class
         {
             return Unregister(typeof(T));
         }

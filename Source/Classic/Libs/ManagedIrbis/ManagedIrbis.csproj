@@ -241,6 +241,11 @@
     <Compile Include="Source\Infrastructure\Statistics\ConnectionStatistics.cs" />
     <Compile Include="Source\Infrastructure\Statistics\ConnectionStatisticsService.cs" />
     <Compile Include="Source\Infrastructure\Statistics\IConnectionStatisticsService.cs" />
+    <Compile Include="Source\Infrastructure\Transactions\IrbisTransactionAction.cs" />
+    <Compile Include="Source\Infrastructure\Transactions\IrbisTransactionContext.cs" />
+    <Compile Include="Source\Infrastructure\Transactions\IrbisTransactionEventArgs.cs" />
+    <Compile Include="Source\Infrastructure\Transactions\IrbisTransactionItem.cs" />
+    <Compile Include="Source\Infrastructure\Transactions\IrbisTransactionManager.cs" />
     <Compile Include="Source\Input\InputLine.cs" />
     <Compile Include="Source\Input\InputSpecification.cs" />
     <Compile Include="Source\IrbisAlphabetTable.cs" />
