@@ -38,6 +38,29 @@ namespace AM.Text.Output
         public abstract bool HaveError { get; set; }
 
         /// <summary>
+        /// Current <see cref="AbstractOutput"/>.
+        /// </summary>
+        [NotNull]
+        public static AbstractOutput Current
+        {
+            get
+            {
+                if (ReferenceEquals(_current, null))
+                {
+                    _current = Null;
+                }
+
+                return _current;
+            }
+            set
+            {
+                Code.NotNull(value, "value");
+
+                _current = value;
+            }
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         [NotNull]
@@ -80,6 +103,8 @@ namespace AM.Text.Output
         private static AbstractOutput _null;
 
         private static AbstractOutput _console;
+
+        private static AbstractOutput _current;
 
         #endregion
 

@@ -181,6 +181,7 @@
     <Compile Include="Source\Infrastructure\Commands\UpdateIniFileCommand.cs" />
     <Compile Include="Source\Infrastructure\ExecutionContext.cs" />
     <Compile Include="Source\Infrastructure\ExecutionEventArgs.cs" />
+    <Compile Include="Source\Infrastructure\IOutputService.cs" />
     <Compile Include="Source\Infrastructure\SharpRunner.cs" />
     <Compile Include="Source\Infrastructure\Sockets\AsyncClientSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\AsyncSocketAdapter.cs" />
@@ -236,6 +237,7 @@
     <Compile Include="Source\ImportExport\ProtocolText.cs" />
     <Compile Include="Source\ImportExport\Iso2709.cs" />
     <Compile Include="Source\ImportExport\IsoReader.cs" />
+    <Compile Include="Source\Infrastructure\StandardOutputService.cs" />
     <Compile Include="Source\Infrastructure\Statistics\ConnectionStatistics.cs" />
     <Compile Include="Source\Infrastructure\Statistics\ConnectionStatisticsService.cs" />
     <Compile Include="Source\Infrastructure\Statistics\IConnectionStatisticsService.cs" />

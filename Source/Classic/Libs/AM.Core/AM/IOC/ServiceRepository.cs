@@ -91,12 +91,38 @@ namespace AM.IOC
 
             Log.Trace("ServiceRepository::Register");
 
+            if (type.IsValueType)
+            {
+                throw new ArsMagnaException("type.IsValueType");
+            }
+
+            if (!type.IsInstanceOfType(service))
+            {
+                throw new ArsMagnaException
+                    (
+                        "!type.IsInstanceOfType"
+                    );
+            }
+
             lock (_lock)
             {
                 _dictionary[type] = service;
             }
 
             return this;
+        }
+
+        /// <summary>
+        /// Register service of given type.
+        /// </summary>
+        [NotNull]
+        public ServiceRepository Register<T>
+            (
+                [NotNull] T service
+            )
+            where T: class
+        {
+            return Register(typeof(T), service);
         }
 
         /// <summary>
@@ -118,6 +144,15 @@ namespace AM.IOC
             }
 
             return this;
+        }
+
+        /// <summary>
+        /// Unregister service of given type.
+        /// </summary>
+        [NotNull]
+        public ServiceRepository Unregister<T>()
+        {
+            return Unregister(typeof(T));
         }
 
         #endregion
