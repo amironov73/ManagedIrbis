@@ -49,11 +49,10 @@ namespace AM.Windows.Forms
             DateTime moment
                 = DateTime.Now.AddMilliseconds(milliseconds);
 
-            while (DateTime.Now < moment)
-            {
-                Application.DoEvents();
-                Thread.Sleep(10);
-            }
+            PseudoAsync.WaitFor
+                (
+                    () => DateTime.Now < moment
+                );
         }
 
         #endregion

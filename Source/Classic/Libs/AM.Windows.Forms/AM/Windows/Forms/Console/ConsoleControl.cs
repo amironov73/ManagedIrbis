@@ -748,12 +748,9 @@ namespace AM.Windows.Forms
 
             Input += inputHandler;
             Disposed += disposeHandler;
-            while (!done)
-            {
-                Application.DoEvents();
 
-                Thread.Sleep(10);
-            }
+            PseudoAsync.WaitFor(ref done);
+
             Input -= inputHandler;
             Disposed -= disposeHandler;
 

@@ -232,6 +232,7 @@
     <Compile Include="AM\Windows\Forms\PropertyBox.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="AM\Windows\Forms\PseudoAsync.cs" />
     <Compile Include="AM\Windows\Forms\RadioGroup.cs" />
     <Compile Include="AM\Windows\Forms\RainbowControl.cs" />
     <Compile Include="AM\Windows\Forms\RainbowItem.cs" />
