@@ -9,11 +9,7 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AM.Collections;
 
 using CodeJam;
 
@@ -34,13 +30,24 @@ namespace ManagedIrbis.Infrastructure.Transactions
     {
         #region Properties
 
-        public List<IrbisTransactionItem> Items
+        /// <summary>
+        /// Transaction items.
+        /// </summary>
+        public NonNullCollection<IrbisTransactionItem> Items
         {
             get { return _items; }
         }
 
+        /// <summary>
+        /// Name of the context (optional).
+        /// </summary>
+        [CanBeNull]
         public string Name { get; private set; }
 
+        /// <summary>
+        /// Parent context.
+        /// </summary>
+        [CanBeNull]
         public IrbisTransactionContext ParentContext
         {
             get; private set;
@@ -50,36 +57,55 @@ namespace ManagedIrbis.Infrastructure.Transactions
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public IrbisTransactionContext()
         {
-            _items = new List<IrbisTransactionItem>();
+            _items = new NonNullCollection<IrbisTransactionItem>();
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public IrbisTransactionContext
             (
-                string name
+                [NotNull] string name
             )
             : this()
         {
+            Code.NotNullNorEmpty(name, "name");
+
             Name = name;
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public IrbisTransactionContext
             (
-                IrbisTransactionContext parentContext
+                [NotNull] IrbisTransactionContext parentContext
             )
             : this()
         {
+            Code.NotNull(parentContext, "parentContext");
+
             ParentContext = parentContext;
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public IrbisTransactionContext
             (
-                string name,
-                IrbisTransactionContext parentContext
+                [NotNull] string name,
+                [NotNull] IrbisTransactionContext parentContext
             )
             : this()
         {
+            Code.NotNullNorEmpty(name, "name");
+            Code.NotNull(parentContext, "parentContext");
+
             Name = name;
             ParentContext = parentContext;
         }
@@ -88,12 +114,15 @@ namespace ManagedIrbis.Infrastructure.Transactions
 
         #region Private members
 
-        private readonly List<IrbisTransactionItem> _items;
+        private readonly NonNullCollection<IrbisTransactionItem> _items;
 
         #endregion
 
         #region Public methods
 
+        /// <summary>
+        /// Clear the context.
+        /// </summary>
         public void Clear()
         {
             Items.Clear();

@@ -94,13 +94,22 @@ namespace ManagedIrbis.Search.Infrastructure
 
         #region ISearchTree members
 
+        /// <summary>
+        /// Children nodes.
+        /// </summary>
         public ISearchTree[] Children
         {
             get { return new ISearchTree[0]; }
         }
 
+        /// <summary>
+        /// Value of the term.
+        /// </summary>
         public string Value { get { return Term; } }
 
+        /// <summary>
+        /// Find the term.
+        /// </summary>
         public TermLink[] Find
             (
                 SearchContext context
