@@ -9,14 +9,6 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CodeJam;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -34,17 +26,34 @@ namespace ManagedIrbis.Infrastructure.Transactions
     {
         #region Properties
 
+        /// <summary>
+        /// Connection.
+        /// </summary>
         public IrbisConnection Connection { get; internal set; }
 
+        /// <summary>
+        /// Context.
+        /// </summary>
         public IrbisTransactionContext Context { get; internal set; }
 
+        /// <summary>
+        /// Item.
+        /// </summary>
         public IrbisTransactionItem Item { get; internal set; }
 
         #endregion
 
         #region Construction
 
-        public IrbisTransactionEventArgs(IrbisConnection connection, IrbisTransactionContext context, IrbisTransactionItem item)
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public IrbisTransactionEventArgs
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] IrbisTransactionContext context,
+                [NotNull] IrbisTransactionItem item
+            )
         {
             Connection = connection;
             Context = context;

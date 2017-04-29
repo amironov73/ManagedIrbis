@@ -21,7 +21,10 @@ ManagedIrbis currently supports:
 - **AM.Win32** - interop, Win32 API wrappers;
 - **AM.Rfid** - RFID technology support;
 - **AM.Suggestions** - suggestion control and clients (currently dadata.ru only);
+- **AM.AOT** - Porter stemmer, RusVectores.org client, Yandex MyStem wrapper;
 - **ManagedIrbis** - common IRBIS client related classes;
+- **IrbisInterop** - interop with IRBIS64.DLL (Win32 only);
+- **RestfulIrbis** - REST client and server for IRBIS;
 - **IrbisUI** - System.Windows.Forms based common UI components for clients;
 - **SharpIrbis** - C#-based client scripting;
 - **MoonIrbis** - Lua-based client scripting.
