@@ -6,7 +6,7 @@ popular russian library computer system IRBIS64 ("ИРБИС64").
 
 ManagedIrbis currently supports:
 
-- classic desktop .NET 3.5/4.0/4.5/4.6 up to 4.6.2;
+- classic desktop .NET 3.5/4.0/4.5/4.6 up to 4.6.2 (possibly 4.7);
 - .NET Core 1.0.1 (standard library 1.6);
 - Mono 4.3;
 - Compact Framework 3.5 (for WinMobile and Pocket PC);
@@ -16,18 +16,19 @@ ManagedIrbis currently supports:
 ### Components
 
 - **AM.Core** - common classes and routines;
+- **AM.AOT** - Porter stemmer, RusVectores.org client, Yandex MyStem wrapper;
 - **AM.Drawing** - System.Drawing related stuff;
-- **AM.Windows.Forms** - Syste.Windows.Forms based visual components;
-- **AM.Win32** - interop, Win32 API wrappers;
 - **AM.Rfid** - RFID technology support;
 - **AM.Suggestions** - suggestion control and clients (currently dadata.ru only);
-- **AM.AOT** - Porter stemmer, RusVectores.org client, Yandex MyStem wrapper;
-- **ManagedIrbis** - common IRBIS client related classes;
+- **AM.Windows.Forms** - Syste.Windows.Forms based visual components;
+- **AM.Win32** - interop, Win32 API wrappers;
 - **IrbisInterop** - interop with IRBIS64.DLL (Win32 only);
-- **RestfulIrbis** - REST client and server for IRBIS;
 - **IrbisUI** - System.Windows.Forms based common UI components for clients;
-- **SharpIrbis** - C#-based client scripting;
-- **MoonIrbis** - Lua-based client scripting.
+- **ManagedIrbis** - common IRBIS client related classes;
+- **ManagedIrbis.Office** - report driver for Excel file generation;
+- **MoonIrbis** - Lua-based client scripting;
+- **RestfulIrbis** - REST client and server for IRBIS;
+- **SharpIrbis** - C#-based client scripting.
 
 ### Links
 
