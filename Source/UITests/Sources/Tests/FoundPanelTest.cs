@@ -24,6 +24,7 @@ using IrbisUI;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Client;
 using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
@@ -63,7 +64,8 @@ namespace UITests
                 };
                 form.Controls.Add(panel);
 
-                SearchManager manager = new SearchManager(connection);
+                ConnectedClient client = new ConnectedClient(connection);
+                SearchManager manager = new SearchManager(client);
                 FoundLine[] found = manager.Search
                     (
                         "IBIS",

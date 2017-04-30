@@ -27,6 +27,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Infrastructure.Commands;
 
@@ -51,9 +52,9 @@ namespace ManagedIrbis.Search
         /// Connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection
+        public IrbisProvider Provider
         {
-            get { return _connection; }
+            get { return _provider; }
         }
 
         /// <summary>
@@ -74,12 +75,12 @@ namespace ManagedIrbis.Search
         /// </summary>
         public SearchManager
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IrbisProvider provider
             )
         {
-            Code.NotNull(connection, "connection");
+            Code.NotNull(provider, "provider");
 
-            _connection = connection;
+            _provider = provider;
             SearchHistory = new NonNullCollection<SearchResult>();
         }
 
@@ -87,7 +88,7 @@ namespace ManagedIrbis.Search
 
         #region Private members
 
-        private readonly IrbisConnection _connection;
+        private readonly IrbisProvider _provider;
 
         #endregion
 
@@ -105,7 +106,7 @@ namespace ManagedIrbis.Search
         {
             Code.NotNull(file, "file");
 
-            string text = Connection.ReadTextFile(file);
+            string text = Provider.ReadFile(file);
             if (string.IsNullOrEmpty(text))
             {
                 return new SearchScenario[0];
@@ -135,51 +136,61 @@ namespace ManagedIrbis.Search
             Code.NotNullNorEmpty(database, "database");
             Code.NotNullNorEmpty(expression, "expression");
 
-            SearchParameters parameters = new SearchParameters
+            Provider.Database = database;
+            int[] found = Provider.Search(expression);
+            FoundLine[] result = new FoundLine[found.Length];
+            for (int i = 0; i < found.Length; i++)
             {
-                Database = database,
-                SearchExpression = expression,
-                FormatSpecification = IrbisFormat.Brief
-            };
-
-            SearchCommand command 
-                = Connection.CommandFactory.GetSearchCommand();
-            command.ApplyParameters(parameters);
-
-            Connection.ExecuteCommand(command);
-
-            FoundLine[] result = command.Found
-                .ThrowIfNull("command.Found")
-                .Select
-                (
-                    item => new FoundLine
-                    {
-                        Mfn = item.Mfn,
-                        Description = item.Text
-                    }
-                )
-                .ToArray();
-
-            if (!string.IsNullOrEmpty(prefix))
-            {
-                int prefixLength = prefix.Length;
-
-                foreach (FoundLine line in result)
-                {
-                    string description = line.Description;
-                    if (string.IsNullOrEmpty(description))
-                    {
-                        continue;
-                    }
-                    if (description.StartsWith(prefix))
-                    {
-                        line.Description = description
-                            .Substring(prefixLength);
-                    }
-                }
+                result[i].Mfn = found[i];
             }
 
             return result;
+
+            //SearchParameters parameters = new SearchParameters
+            //{
+            //    Database = database,
+            //    SearchExpression = expression,
+            //    FormatSpecification = IrbisFormat.Brief
+            //};
+
+            //SearchCommand command 
+            //    = Provider.CommandFactory.GetSearchCommand();
+            //command.ApplyParameters(parameters);
+
+            //Provider.ExecuteCommand(command);
+
+            //FoundLine[] result = command.Found
+            //    .ThrowIfNull("command.Found")
+            //    .Select
+            //    (
+            //        item => new FoundLine
+            //        {
+            //            Mfn = item.Mfn,
+            //            Description = item.Text
+            //        }
+            //    )
+            //    .ToArray();
+
+            //if (!string.IsNullOrEmpty(prefix))
+            //{
+            //    int prefixLength = prefix.Length;
+
+            //    foreach (FoundLine line in result)
+            //    {
+            //        string description = line.Description;
+            //        if (string.IsNullOrEmpty(description))
+            //        {
+            //            continue;
+            //        }
+            //        if (description.StartsWith(prefix))
+            //        {
+            //            line.Description = description
+            //                .Substring(prefixLength);
+            //        }
+            //    }
+            //}
+
+            //return result;
         }
 
         #endregion

@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using System;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -185,7 +187,7 @@ namespace ManagedIrbis.Client
 
         #region IDisposable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public override void Dispose()
         {
             base.Dispose();
