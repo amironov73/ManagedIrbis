@@ -13,8 +13,6 @@ using AM;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Client;
-
 #endregion
 
 namespace ManagedIrbis.Search.Infrastructure
@@ -78,14 +76,33 @@ namespace ManagedIrbis.Search.Infrastructure
                 SearchContext context
             )
         {
-            return new TermLink[0];
+            TermLink[] result;
+
+            if (!ReferenceEquals(Term, null))
+            {
+                result = Term.Find(context);
+            }
+            else if (!ReferenceEquals(Reference, null))
+            {
+                result = Reference.Find(context);
+            }
+            else if (!ReferenceEquals(Parenthesis, null))
+            {
+                result = Parenthesis.Find(context);
+            }
+            else
+            {
+                throw new IrbisException("Unexpected SearchLevel0");
+            }
+
+            return result;
         }
 
         #endregion
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString"/>/>
+        /// <inheritdoc cref="object.ToString"/>
         public override string ToString()
         {
             return

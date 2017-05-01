@@ -106,6 +106,49 @@ namespace ManagedIrbis.Search
             return result;
         }
 
+        /// <summary>
+        /// Convert array of <see cref="TermLink"/> into array of MFN.
+        /// </summary>
+        [NotNull]
+        public static int[] ToMfn
+            (
+                [NotNull] TermLink[] links
+            )
+        {
+            Code.NotNull(links, "links");
+
+            int[] result = new int[links.Length];
+            for (int i = 0; i < links.Length; i++)
+            {
+                result[i] = links[i].Mfn;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Convert array of MFN into array of <see cref="TermLink"/>s.
+        /// </summary>
+        /// <returns></returns>
+        public static TermLink[] FromMfn
+            (
+                [NotNull] int[] array
+            )
+        {
+            Code.NotNull(array, "array");
+
+            TermLink[] result = new TermLink[array.Length];
+            for (int i = 0; i < array.Length; i++)
+            {
+                result[i] = new TermLink
+                {
+                    Mfn = array[i]
+                };
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region IHandmadeSerializable members

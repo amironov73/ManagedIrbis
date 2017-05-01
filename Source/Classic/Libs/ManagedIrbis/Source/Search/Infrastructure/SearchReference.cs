@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using System.Linq;
+using AM;
 using JetBrains.Annotations;
 using ManagedIrbis.Client;
 
@@ -46,7 +48,23 @@ namespace ManagedIrbis.Search.Infrastructure
                 SearchContext context
             )
         {
-            return new TermLink[0];
+            TermLink[] result = new TermLink[0];
+
+            int number = Number.SafeToInt32(-1);
+            if (number > 0)
+            {
+                var history = context.Manager.SearchHistory;
+                if (number <= history.Count)
+                {
+                    SearchResult previous = history[number - 1];
+
+
+                    int[] found = context.Provider.Search(previous.Query);
+                    result = TermLink.FromMfn(found);
+                }
+            }
+
+            return result;
         }
 
         #endregion

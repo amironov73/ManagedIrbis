@@ -115,7 +115,31 @@ namespace ManagedIrbis.Search.Infrastructure
                 SearchContext context
             )
         {
-            return new TermLink[0];
+            Code.NotNull(context, "context");
+
+            IrbisProvider provider = context.Provider;
+            TermLink[] result;
+
+            switch (Tail)
+            {
+                case null:
+                case "":
+                    result = provider.ExactSearchLinks(Term);
+                    break;
+
+                case "$":
+                    result = provider.ExactSearchTrimLinks(Term, 1000);
+                    break;
+
+                case "@":
+                    throw new NotImplementedException();
+
+                default:
+                    throw new IrbisException("Unexpected tail");
+            }
+
+
+            return result;
         }
 
         #endregion

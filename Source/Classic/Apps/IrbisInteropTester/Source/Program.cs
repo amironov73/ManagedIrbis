@@ -24,6 +24,7 @@ using AM.Runtime;
 using IrbisInterop;
 
 using ManagedIrbis;
+using ManagedIrbis.Client;
 using ManagedIrbis.Search;
 using ManagedIrbis.Server;
 
@@ -334,7 +335,8 @@ namespace IrbisInteropTester
                             Irbis64Dll.GetDllVersion()
                         );
 
-                    irbis.UseDatabase("ibis");
+                    //irbis.UseDatabase("ibis");
+                    irbis.UseDatabase("ISTU");
                     Console.WriteLine
                         (
                             "Max MFN={0}",
@@ -387,7 +389,7 @@ namespace IrbisInteropTester
 
                     TermLink[] links = irbis.ExactSearchLinks
                         (
-                            "K=БЕТОН"
+                            "K=1 КЛАСС"
                         );
                     for (int i = 0; i < links.Length; i++)
                     {
@@ -401,6 +403,26 @@ namespace IrbisInteropTester
                             "K=БЕТОН",
                             200
                         );
+                    for (int i = 0; i < links.Length; i++)
+                    {
+                        Console.WriteLine(links[i]);
+                    }
+
+                    Console.WriteLine();
+
+
+                    IrbisProvider provider = new NativeIrbisProvider(irbis);
+                    SearchManager manager = new SearchManager(provider);
+                    SearchContext context = new SearchContext(manager, provider);
+                    links = irbis.Search("K=БЕТОН", context);
+                    for (int i = 0; i < links.Length; i++)
+                    {
+                        Console.WriteLine(links[i]);
+                    }
+
+                    Console.WriteLine();
+
+                    links = irbis.Search("K=БЕТОН * K=ЖЕЛЕЗО$", context);
                     for (int i = 0; i < links.Length; i++)
                     {
                         Console.WriteLine(links[i]);

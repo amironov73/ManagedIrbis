@@ -60,7 +60,11 @@ namespace ManagedIrbis.Search.Infrastructure
                 SearchContext context
             )
         {
-            return new TermLink[0];
+            TermLink[] result = ReferenceEquals(EntryPoint, null)
+                ? new TermLink[0]
+                : EntryPoint.Find(context);
+
+            return result;
         }
 
         #endregion

@@ -971,31 +971,24 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
-        public int[] Search
+        public TermLink[] Search
             (
-                [NotNull] string expression
+                [NotNull] string expression,
+                [NotNull] SearchContext context
             )
         {
             Code.NotNull(expression, "expression");
+            Code.NotNull(context, "context");
 
             SearchTokenList tokens
                 = SearchQueryLexer.Tokenize(expression);
             SearchQueryParser parser
                 = new SearchQueryParser(tokens);
             SearchProgram program = parser.Parse();
-            SearchTerm[] terms
-                = SearchQueryUtility.ExtractTerms(program);
 
-            // Is it possible?
-            if (terms.Length == 0)
-            {
-                return new int[0];
-            }
+            TermLink[] result = program.Find(context);
 
-            //SearchManager manager = new SearchManager();
-            //SearchContext context = new SearchContext();
-
-            return new int[0];
+            return result;
         }
 
         /// <summary>

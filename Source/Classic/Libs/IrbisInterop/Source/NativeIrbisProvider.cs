@@ -35,7 +35,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace IrbisInterop.Source
+namespace IrbisInterop
 {
     /// <summary>
     /// 
