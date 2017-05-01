@@ -17,12 +17,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-#if !PORTABLE
-
-using System.Security.Cryptography;
-
-#endif
-
 using AM;
 using AM.Collections;
 using AM.IO;

@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if !WIN81 && !PORTABLE
+#if !WIN81 && !PORTABLE && !SILVERLIGHT
 
 #region Using directives
 
@@ -24,6 +24,8 @@ using AM.Text.Output;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Direct;
 
 using MoonSharp.Interpreter;
 
@@ -49,7 +51,7 @@ namespace ManagedIrbis
         public AbstractOutput Output { get; private set; }
 
         /// <summary>
-        /// Root path for catalogs.
+        /// Root path for catalogs (DATAI folder).
         /// </summary>
         [NotNull]
         public string RootPath { get; private set; }
@@ -141,12 +143,6 @@ namespace ManagedIrbis
             Code.NotNullNorEmpty(backupPath, "backupPath");
             Code.NotNull(catalogName, "catalogName");
 
-#if SILVERLIGHT
-
-            throw new NotImplementedException();
-
-#else
-
             if (!Directory.Exists(backupPath))
             {
                 Directory.CreateDirectory(backupPath);
@@ -159,8 +155,67 @@ namespace ManagedIrbis
                     backupPath,
                     catalogName
                 );
+        }
 
-#endif
+        /// <summary>
+        /// Create database from the blank.
+        /// </summary>
+        public void CreateCatalog
+            (
+                [NotNull] string ibisPath,
+                [NotNull] string targetPath
+            )
+        {
+            Code.NotNullNorEmpty(ibisPath, "ibisPath");
+            Code.NotNullNorEmpty(targetPath, "targetPath");
+
+            if (!Directory.Exists(ibisPath))
+            {
+                throw new IrbisException("ibisPath doesn't exist");
+            }
+
+            if (!Directory.Exists(targetPath))
+            {
+                Directory.CreateDirectory(targetPath);
+            }
+            DirectoryUtility.ClearDirectory(targetPath);
+
+            string[] sourceFiles = Directory.GetFiles(ibisPath);
+            foreach (string sourceFile in sourceFiles)
+            {
+                // TODO don't copy ibis.* database files
+
+                string targetFile = Path.Combine
+                    (
+                        targetPath,
+                        Path.GetFileName(sourceFile)
+                    );
+                File.Copy(sourceFile, targetFile);
+            }
+
+            DirectUtility.CreateDatabase64
+                (
+                    targetPath
+                );
+
+            // TODO write .par
+            // ParFile parFile = new ParFile(targetPath);
+            // parFile.WriteFile();
+        }
+
+        /// <summary>
+        /// Replicate catalog
+        /// </summary>
+        public void ReplicateCatalog
+            (
+                [NotNull] string sourcePath,
+                [NotNull] string tagetPath
+            )
+        {
+            Code.NotNullNorEmpty(sourcePath, "sourcePath");
+            Code.NotNullNorEmpty(tagetPath, "tagetPath");
+
+            throw new NotImplementedException();
         }
 
         /// <summary>
