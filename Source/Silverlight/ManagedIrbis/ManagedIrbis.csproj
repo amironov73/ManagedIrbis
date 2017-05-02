@@ -104,6 +104,12 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ClientInfo.cs">
       <Link>Source\ClientInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\CatalogDelta.cs">
+      <Link>Source\Client\CatalogDelta.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\CatalogState.cs">
+      <Link>Source\Client\CatalogState.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\IrbisProvider.cs">
       <Link>Source\Client\IrbisProvider.cs</Link>
     </Compile>
@@ -124,6 +130,12 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\NullProvider.cs">
       <Link>Source\Client\NullProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\ProviderManager.cs">
+      <Link>Source\Client\ProviderManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\RecordState.cs">
+      <Link>Source\Client\RecordState.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\RemoteCatalogerIniFile.cs">
       <Link>Source\Client\RemoteCatalogerIniFile.cs</Link>
