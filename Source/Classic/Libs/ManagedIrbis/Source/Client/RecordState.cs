@@ -9,10 +9,11 @@
 
 #region Using directives
 
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
-
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -69,9 +70,51 @@ namespace ManagedIrbis.Client
 
         #region Private members
 
+        private static char[] _delimiters =
+        {
+            ' ', '\t', '\r', '\n', '#', '\x1F', '\x1E'
+        };
+
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Parse server answer.
+        /// </summary>
+        public static RecordState ParseServerAnswer
+            (
+                [NotNull] string line
+            )
+        {
+            Code.NotNullNorEmpty(line, "line");
+
+            //
+            // &uf('G0$',&uf('+0'))
+            //
+            // 0 MFN#STATUS 0#VERSION OTHER
+            // 0 161608#0 0#1 101#
+            //
+
+            RecordState result = new RecordState();
+
+            string[] parts = line.Split
+                (
+                    _delimiters,
+                    StringSplitOptions.RemoveEmptyEntries
+                );
+            if (parts.Length < 5)
+            {
+                throw new IrbisException("bad line format");
+            }
+
+            result.Mfn = NumericUtility.ParseInt32(parts[1]);
+            result.Status
+                = (RecordStatus) NumericUtility.ParseInt32(parts[2]);
+            result.Version = NumericUtility.ParseInt32(parts[4]);
+
+            return result;
+        }
 
         #endregion
 

@@ -10,11 +10,12 @@
 #region Using directives
 
 using System;
-
+using System.Collections.Generic;
 using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Batch;
 using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
@@ -44,13 +45,6 @@ namespace ManagedIrbis.Client
         /// </summary>
         [NotNull]
         public IrbisConnection Connection { get; private set; }
-
-        /// <inheritdoc/>
-        public override string Database
-        {
-            get { return Connection.Database; }
-            set { Connection.Database = value; }
-        }
 
         #endregion
 
@@ -105,7 +99,30 @@ namespace ManagedIrbis.Client
             Connection.Dispose();
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Parse connection string.
+        /// </summary>
+        public void ParseConnectionString
+            (
+                [NotNull] string connectionString
+            )
+        {
+            Code.NotNullNorEmpty(connectionString, "connectionString");
+
+            Connection.ParseConnectionString(connectionString);
+        }
+
+        #endregion
+
+        #region IrbisProvider members
+        /// <inheritdoc/>
+        public override string Database
+        {
+            get { return Connection.Database; }
+            set { Connection.Database = value; }
+        }
+
+        /// <inheritdoc cref="IrbisProvider.FormatRecord" />
         public override string FormatRecord
             (
                 MarcRecord record,
@@ -124,7 +141,7 @@ namespace ManagedIrbis.Client
             return result;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IrbisProvider.FormatRecords"/>
         public override string[] FormatRecords
             (
                 int[] mfns,
@@ -141,20 +158,44 @@ namespace ManagedIrbis.Client
             return result;
         }
 
-        /// <summary>
-        /// Parse connection string.
-        /// </summary>
-        public void ParseConnectionString
+        /// <inheritdoc cref="IrbisProvider.GetCatalogState" />
+        public override CatalogState GetCatalogState
             (
-                [NotNull] string connectionString
+                string database
             )
         {
-            Code.NotNullNorEmpty(connectionString, "connectionString");
+            Code.NotNullNorEmpty(database, "database");
 
-            Connection.ParseConnectionString(connectionString);
+            var lines = BatchRecordFormatter.WholeDatabase
+                (
+                    Connection,
+                    database,
+                    "&uf(\'G0$\',&uf(\'+0\'))",
+                    1000
+                );
+
+            CatalogState result = new CatalogState
+            {
+                Database = database,
+                MaxMfn = Connection.GetMaxMfn(database)
+            };
+
+            List <RecordState> records
+                = new List<RecordState>(result.MaxMfn);
+
+            foreach (string line in lines)
+            {
+                RecordState record
+                    = RecordState.ParseServerAnswer(line);
+                records.Add(record);
+            }
+
+            result.Records = records.ToArray();
+
+            return result;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IrbisProvider.ReadTerms" />
         public override TermInfo[] ReadTerms
             (
                 TermParameters parameters
@@ -167,7 +208,7 @@ namespace ManagedIrbis.Client
             return result;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IrbisProvider.Search" />
         public override int[] Search
             (
                 string expression
