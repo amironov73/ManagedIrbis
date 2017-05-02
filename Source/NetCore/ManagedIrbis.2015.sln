@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
-MinimumVisualStudioVersion = 15.0.26124.0
+# Visual Studio 2013
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AM.Core", "AM.Core\AM.Core.csproj", "{3BB90F17-45B6-47F6-B158-86386BDC19F7}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ManagedIrbis", "ManagedIrbis\ManagedIrbis.csproj", "{E96E29C4-FD68-4338-B57E-CE74E718BF30}"
