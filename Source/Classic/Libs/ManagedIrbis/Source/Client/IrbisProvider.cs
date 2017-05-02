@@ -145,6 +145,26 @@ namespace ManagedIrbis.Client
         }
 
         /// <summary>
+        /// Get catalog state for specified database.
+        /// </summary>
+        [NotNull]
+        public virtual CatalogState GetCatalogState
+            (
+                [NotNull] string database
+            )
+        {
+            Code.NotNullNorEmpty(database, "database");
+
+            CatalogState result = new CatalogState
+            {
+                Database = database,
+                Records = new RecordState[0]
+            };
+
+            return result;
+        }
+
+        /// <summary>
         /// Get maximal MFN.
         /// </summary>
         public virtual int GetMaxMfn()

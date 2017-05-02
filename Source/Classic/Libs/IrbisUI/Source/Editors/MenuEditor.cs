@@ -19,7 +19,6 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
-using ManagedIrbis.Source.Menus;
 using ManagedIrbis.Worksheet;
 
 using MoonSharp.Interpreter;

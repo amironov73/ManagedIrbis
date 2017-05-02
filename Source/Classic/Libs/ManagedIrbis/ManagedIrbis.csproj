@@ -118,6 +118,8 @@
     <Compile Include="Source\Caching\MenuCache.cs" />
     <Compile Include="Source\Caching\RecordCache.cs" />
     <Compile Include="Source\Caching\TextCache.cs" />
+    <Compile Include="Source\Client\CatalogDelta.cs" />
+    <Compile Include="Source\Client\CatalogState.cs" />
     <Compile Include="Source\Client\IrbisProvider.cs" />
     <Compile Include="Source\Client\Alias.cs" />
     <Compile Include="Source\Client\AliasManager.cs" />
@@ -504,6 +506,7 @@
     <Compile Include="Source\RawRecord.cs" />
     <Compile Include="Source\RecordComparator.cs" />
     <Compile Include="Source\RecordDifferenceResult.cs" />
+    <Compile Include="Source\Client\RecordState.cs" />
     <Compile Include="Source\Reports\Bands\BandCollection.cs" />
     <Compile Include="Source\Reports\Bands\CompositeBand.cs" />
     <Compile Include="Source\Reports\Bands\ConditionalBand.cs" />

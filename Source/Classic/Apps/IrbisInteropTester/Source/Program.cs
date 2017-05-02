@@ -335,8 +335,8 @@ namespace IrbisInteropTester
                             Irbis64Dll.GetDllVersion()
                         );
 
-                    //irbis.UseDatabase("ibis");
-                    irbis.UseDatabase("ISTU");
+                    irbis.UseDatabase("ibis");
+                    //irbis.UseDatabase("ISTU");
                     Console.WriteLine
                         (
                             "Max MFN={0}",
@@ -409,7 +409,6 @@ namespace IrbisInteropTester
                     }
 
                     Console.WriteLine();
-
 
                     IrbisProvider provider = new NativeIrbisProvider(irbis);
                     SearchManager manager = new SearchManager(provider);

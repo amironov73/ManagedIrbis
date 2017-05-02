@@ -455,6 +455,32 @@ namespace AM.IO
         }
 
         /// <summary>
+        /// Read nullable array of objects.
+        /// </summary>
+        [CanBeNull]
+        public static T[] ReadNullableArray<T>
+            (
+                [NotNull] this BinaryReader reader
+            )
+            where T: IHandmadeSerializable, new()
+        {
+            Code.NotNull(reader, "reader");
+
+            if (reader.ReadBoolean())
+            {
+                int count = reader.ReadPackedInt32();
+                T[] result = new T[count];
+                for (int i = 0; i < count; i++)
+                {
+                    result[i] = new T();
+                    result[i].RestoreFromStream(reader);
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Read 32-bit integer in packed format.
         /// </summary>
         /// <remarks>Borrowed from

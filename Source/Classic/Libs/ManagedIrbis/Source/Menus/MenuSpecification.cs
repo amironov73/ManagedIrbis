@@ -26,7 +26,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedIrbis.Source.Menus
+namespace ManagedIrbis.Menus
 {
     //
     // Official documentation says:

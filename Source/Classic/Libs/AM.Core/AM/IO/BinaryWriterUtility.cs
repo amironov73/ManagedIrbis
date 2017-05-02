@@ -514,6 +514,36 @@ namespace AM.IO
         }
 
         /// <summary>
+        /// Write array of objects.
+        /// </summary>
+        [NotNull]
+        public static BinaryWriter WriteNullableArray<T>
+            (
+                [NotNull] this BinaryWriter writer,
+                [CanBeNull] T[] array
+            )
+            where T: IHandmadeSerializable
+        {
+            Code.NotNull(writer, "writer");
+
+            if (ReferenceEquals(array, null))
+            {
+                writer.Write(false);
+            }
+            else
+            {
+                writer.Write(true);
+                writer.WritePackedInt32(array.Length);
+                for (int i = 0; i < array.Length; i++)
+                {
+                    array[i].SaveToStream(writer);
+                }
+            }
+
+            return writer;
+        }
+
+        /// <summary>
         /// Write 32-bit integer in packed format.
         /// </summary>
         /// <remarks>Borrowed from
