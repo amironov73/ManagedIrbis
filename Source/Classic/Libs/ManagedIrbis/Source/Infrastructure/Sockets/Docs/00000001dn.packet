@@ -1,0 +1,19 @@
+POST /cgi-bin/irbis64r_01/WebToIrbisServer.exe HTTP/1.1
+User-Agent: GPNTB/Irbis64
+Host: 127.0.0.1:6666
+Accept: *.*
+Content-length: 72
+
+A
+C
+A
+904625
+1
+password
+username
+
+
+
+username
+password
+IRBIS_END_REQUEST

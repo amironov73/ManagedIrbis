@@ -27,6 +27,13 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.IO;
+
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
+
+using AM.Net;
+
+#endif
+
 using AM.Threading;
 
 using CodeJam;
@@ -47,10 +54,6 @@ namespace ManagedIrbis.Infrastructure.Sockets
     public sealed class SmartClientSocket
         : AbstractClientSocket
     {
-        #region Properties
-
-        #endregion
-
         #region Construction
 
         /// <summary>
@@ -68,7 +71,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
 
         #region Private members
 
-#if !WIN81 && !PORTABLE
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         private IPAddress _address;
 
@@ -79,21 +82,12 @@ namespace ManagedIrbis.Infrastructure.Sockets
         {
             Code.NotNullNorEmpty(host, "host");
 
-            if (_address == null)
+            if (ReferenceEquals(_address, null))
             {
-                //try
-                //{
-                _address = IPAddress.Parse(Connection.Host);
-                //}
-                //catch
-                //{
-                //    // Not supported in .NET Core
-                //    IPHostEntry ipHostEntry = Dns.GetHostEntry(Connection.Host);
-                //    _address = ipHostEntry.AddressList[0];
-                //}
+                _address = SocketUtility.ResolveAddress(host);
             }
 
-            if (_address == null)
+            if (ReferenceEquals(_address, null))
             {
                 throw new IrbisNetworkException
                     (
@@ -102,41 +96,25 @@ namespace ManagedIrbis.Infrastructure.Sockets
             }
         }
 
-#if !SILVERLIGHT && !UAP && !PORTABLE
-
         private TcpClient _GetTcpClient()
         {
             TcpClient result = new TcpClient();
 
             // TODO some setup
 
-#if FW35
-
-            // Not supported in .NET Core
-            result.Connect(_address, Connection.Port);
-
-#endif
-
-#if NETCORE
+#if NETCORE || UAP
 
             Task task = result.ConnectAsync(_address, Connection.Port);
             task.Wait();
 
 #else
 
-            // FW40 doesn't contain ConnectAsync
             result.Connect(_address, Connection.Port);
 
 #endif
 
             return result;
         }
-
-#endif
-
-#endif
-
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         private static byte[] _SmartRead
             (
@@ -235,15 +213,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
 
             throw new NotImplementedException();
 
-#elif UAP
-
-            throw new NotImplementedException();
-
-#elif WIN81
-
-            throw new NotImplementedException();
-
-#elif PORTABLE
+#elif WIN81 || PORTABLE
 
             throw new NotImplementedException();
 
@@ -255,16 +225,11 @@ namespace ManagedIrbis.Infrastructure.Sockets
             {
                 using (TcpClient client = _GetTcpClient())
                 {
+                    Socket socket = client.Client;
+                    socket.Send(request);
+
                     NetworkStream stream = client.GetStream();
-
-                    stream.Write
-                        (
-                            request,
-                            0,
-                            request.Length
-                        );
-
-                    byte[] result = stream.ReadToEnd();
+                    byte[] result = _SmartRead(stream);
 
                     return result;
                 }
