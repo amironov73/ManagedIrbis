@@ -380,6 +380,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\MessageEventHandler.cs">
       <Link>AM\MessageEventHandler.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Net\SocketUtility.cs">
+      <Link>AM\Net\SocketUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\NonNullValue.cs">
       <Link>AM\NonNullValue.cs</Link>
     </Compile>

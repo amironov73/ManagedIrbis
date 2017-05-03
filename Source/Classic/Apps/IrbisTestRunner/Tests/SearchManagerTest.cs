@@ -17,6 +17,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Client;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Search;
 using ManagedIrbis.Testing;
@@ -51,8 +52,10 @@ namespace IrbisTestRunner.Tests
             IrbisConnection connection
                 = Connection.ThrowIfNull();
 
+            IrbisProvider provider
+                = new ConnectedClient(connection);
             SearchManager manager
-                = new SearchManager(connection);
+                = new SearchManager(provider);
             FileSpecification file = new FileSpecification
                 (
                     IrbisPath.MasterFile, 

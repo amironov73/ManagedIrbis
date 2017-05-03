@@ -11,6 +11,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
@@ -39,36 +40,64 @@ namespace AM.Net
 
         #region Public methods
 
+        /// <summary>
+        /// Resolve IPv4 address
+        /// </summary>
+        /// <returns>Resolved IP address of the host.</returns>
+        [NotNull]
+        public static IPAddress ResolveAddress
+            (
+                [NotNull] string address
+            )
+        {
+            Code.NotNull(address, "address");
+
+            if (address.OneOf("localhost", "local", "(local)"))
+            {
+                return IPAddress.Loopback;
+            }
+
+            IPAddress result = null;
+
+            try
+            {
+                result = IPAddress.Parse(address);
+            }
+            catch 
+            {
+                IPHostEntry entry;
+
+#if NETCORE || UAP
+
+                entry = Dns.GetHostEntryAsync(address).Result;
+
+#else
+
+                entry = Dns.GetHostEntry(address);
+
+#endif
+
+                if (!ReferenceEquals(entry, null)
+                    && !ReferenceEquals(entry.AddressList, null)
+                    && entry.AddressList.Length != 0)
+                {
+                    result = entry.AddressList.FirstOrDefault
+                        (
+                            item => item.AddressFamily 
+                                == AddressFamily.InterNetwork
+                        );
+                }
+            }
+
+            if (ReferenceEquals(result, null))
+            {
+                throw new ArsMagnaException("Can't resolve address");
+            }
+
+            return result;
+        }
+
 #if NOTDEF
-
-        ///// <summary>
-        ///// Gets IP address from hostname.
-        ///// </summary>
-        ///// <returns>Resolved IP address of the host.</returns>
-        //[NotNull]
-        //public static IPAddress IPAddressFromHostname
-        //    (
-        //        [NotNull]string hostname
-        //    )
-        //{
-        //    Code.NotNull(hostname, "hostname");
-
-        //    if (hostname.OneOf("localhost","local", "(local)"))
-        //    {
-        //        return IPAddress.Loopback;
-        //    }
-
-        //    IPHostEntry hostEntry = Dns.GetHostEntry(hostname);
-        //    if (hostEntry.AddressList.Length == 0)
-        //    {
-        //        throw new SocketException();
-        //    }
-
-        //    return hostEntry.AddressList
-        //            [
-        //                new Random().Next(hostEntry.AddressList.Length)
-        //            ];
-        //}
 
         [NotNull]
         public static Task<Socket> AcceptAsync
@@ -389,7 +418,7 @@ namespace AM.Net
             }
         }
 
-        #endregion
+#endregion
     }
 
 }

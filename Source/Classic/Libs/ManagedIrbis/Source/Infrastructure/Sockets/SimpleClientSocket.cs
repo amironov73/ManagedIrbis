@@ -25,16 +25,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-#if UAP || WIN81
-
-using Windows.Networking;
-using Windows.Networking.Sockets;
-
-#endif
-
 using AM.IO;
 
-#if !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
 using AM.Net;
 
@@ -77,7 +70,7 @@ namespace ManagedIrbis.Infrastructure
 
         #region Private members
 
-#if !WIN81 && !PORTABLE
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         private IPAddress _address;
 
@@ -88,35 +81,12 @@ namespace ManagedIrbis.Infrastructure
         {
             Code.NotNullNorEmpty(host, "host");
 
-            if (_address == null)
+            if (ReferenceEquals(_address, null))
             {
-#if NETCORE || SILVERLIGHT || UAP
-
-                _address = IPAddress.Parse(host);
-
-#else
-
-                try
-                {
-                    _address = IPAddress.Parse(host);
-                }
-                catch
-                {
-                    // Not supported in .NET Core
-                    IPHostEntry ipHostEntry
-                        = Dns.GetHostEntry(host);
-                    if (ipHostEntry != null
-                        && ipHostEntry.AddressList != null
-                        && ipHostEntry.AddressList.Length != 0)
-                    {
-                        _address = ipHostEntry.AddressList[0];
-                    }
-                }
-
-#endif
+                _address = SocketUtility.ResolveAddress(host);
             }
 
-            if (_address == null)
+            if (ReferenceEquals(_address, null))
             {
                 throw new IrbisNetworkException
                     (
@@ -125,15 +95,13 @@ namespace ManagedIrbis.Infrastructure
             }
         }
 
-#if !SILVERLIGHT && !UAP
-
         private TcpClient _GetTcpClient()
         {
             TcpClient result = new TcpClient();
 
             // TODO some setup
 
-#if NETCORE
+#if NETCORE || UAP
 
             Task task = result.ConnectAsync(_address, Connection.Port);
             task.Wait();
@@ -146,8 +114,6 @@ namespace ManagedIrbis.Infrastructure
 
             return result;
         }
-
-#endif
 
 #endif
 
@@ -179,11 +145,7 @@ namespace ManagedIrbis.Infrastructure
 
             throw new NotImplementedException();
 
-#elif UAP
-
-            throw new NotImplementedException();
-
-#elif WIN81
+#elif WIN81 || PORTABLE
 
             throw new NotImplementedException();
 
@@ -206,10 +168,6 @@ namespace ManagedIrbis.Infrastructure
                     return result;
                 }
             }
-
-#elif PORTABLE
-
-            throw new NotImplementedException();
 
 #else
 
