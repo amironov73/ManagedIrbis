@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+
 using AM;
 using AM.IO;
 using AM.Runtime;
@@ -39,7 +40,9 @@ namespace ManagedIrbis.Client
     [MoonSharpUserData]
     [XmlRoot("catalogDelta")]
     public sealed class CatalogDelta
+#if !SILVERLIGHT
         : IHandmadeSerializable
+#endif
     {
         #region Properties
 
@@ -198,7 +201,9 @@ namespace ManagedIrbis.Client
 
         #endregion
 
-        #region IHandmadeSerializable
+#region IHandmadeSerializable
+
+#if !SILVERLIGHT
 
         /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
         public void RestoreFromStream
@@ -232,6 +237,8 @@ namespace ManagedIrbis.Client
                 .WriteNullableArray(DeletedRecords)
                 .WriteNullableArray(AlteredRecords);
         }
+
+#endif
 
         #endregion
 

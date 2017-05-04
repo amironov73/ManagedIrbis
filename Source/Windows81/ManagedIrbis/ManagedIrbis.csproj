@@ -170,6 +170,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\RecordState.cs">
       <Link>Source\Client\RecordState.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\RecordStateComparer.cs">
+      <Link>Source\Client\RecordStateComparer.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\RemoteCatalogerIniFile.cs">
       <Link>Source\Client\RemoteCatalogerIniFile.cs</Link>
     </Compile>
