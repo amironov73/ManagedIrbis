@@ -466,10 +466,12 @@ namespace AM.IO
         {
             Code.NotNull(reader, "reader");
 
+            T[] result = null;
+
             if (reader.ReadBoolean())
             {
                 int count = reader.ReadPackedInt32();
-                T[] result = new T[count];
+                result = new T[count];
                 for (int i = 0; i < count; i++)
                 {
                     result[i] = new T();
@@ -477,7 +479,7 @@ namespace AM.IO
                 }
             }
 
-            return null;
+            return result;
         }
 
         /// <summary>

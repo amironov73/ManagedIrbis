@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
@@ -40,6 +41,20 @@ namespace ManagedIrbis.Client
         #region Properties
 
         /// <summary>
+        /// Identifier for LiteDB.
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Date.
+        /// </summary>
+        [JsonProperty("date")]
+        [XmlAttribute("date")]
+        public DateTime Date { get; set; }
+
+        /// <summary>
         /// Database name.
         /// </summary>
         [CanBeNull]
@@ -62,6 +77,15 @@ namespace ManagedIrbis.Client
         [XmlArray("records")]
         [XmlArrayItem("record")]
         public RecordState[] Records { get; set; }
+
+        /// <summary>
+        /// Logically deleted records.
+        /// </summary>
+        [CanBeNull]
+        [JsonProperty("logicallyDeleted")]
+        [XmlArray("logicallyDeleted")]
+        [XmlArrayItem("mfn")]
+        public int[] LogicallyDeleted { get; set; }
 
         #endregion
 
@@ -87,9 +111,12 @@ namespace ManagedIrbis.Client
         {
             Code.NotNull(reader, "reader");
 
+            Id = reader.ReadPackedInt32();
+            Date = reader.ReadDateTime();
             Database = reader.ReadNullableString();
             MaxMfn = reader.ReadPackedInt32();
             Records = reader.ReadNullableArray<RecordState>();
+            LogicallyDeleted = reader.ReadNullableInt32Array();
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream"/>
@@ -101,9 +128,12 @@ namespace ManagedIrbis.Client
             Code.NotNull(writer, "writer");
 
             writer
+                .WritePackedInt32(Id)
+                .Write(Date)
                 .WriteNullable(Database)
                 .WritePackedInt32(MaxMfn)
-                .WriteNullableArray(Records);
+                .WriteNullableArray(Records)
+                .WriteNullableArray(LogicallyDeleted);
         }
 
         #endregion

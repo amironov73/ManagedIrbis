@@ -57,6 +57,13 @@ namespace ManagedIrbis.Fields
         #region Properties
 
         /// <summary>
+        /// Identifier for LiteDB.
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        public int Id { get; set; }
+
+        /// <summary>
         /// Статус. Подполе a.
         /// </summary>
         [CanBeNull]
@@ -552,12 +559,13 @@ namespace ManagedIrbis.Fields
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            Id = reader.ReadPackedInt32();
             Status = reader.ReadNullableString();
             Number = reader.ReadNullableString();
             Date = reader.ReadNullableString();
@@ -592,13 +600,14 @@ namespace ManagedIrbis.Fields
             Mfn = reader.ReadInt32();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
             writer
+                .WritePackedInt32(Id)
                 .WriteNullable(Status)
                 .WriteNullable(Number)
                 .WriteNullable(Date)

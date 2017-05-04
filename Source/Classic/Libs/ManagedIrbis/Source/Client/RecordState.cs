@@ -13,6 +13,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
+
 using AM;
 using AM.IO;
 using AM.Runtime;
@@ -40,6 +41,13 @@ namespace ManagedIrbis.Client
         : IHandmadeSerializable
     {
         #region Properties
+
+        /// <summary>
+        /// Identifier for LiteDB.
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        public int Id { get; set; }
 
         /// <summary>
         /// MFN.
@@ -128,6 +136,7 @@ namespace ManagedIrbis.Client
         {
             Code.NotNull(reader, "reader");
 
+            Id = reader.ReadPackedInt32();
             Mfn = reader.ReadPackedInt32();
             Status = (RecordStatus) reader.ReadPackedInt32();
             Version = reader.ReadPackedInt32();
@@ -142,6 +151,7 @@ namespace ManagedIrbis.Client
             Code.NotNull(writer, "writer");
 
             writer
+                .WritePackedInt32(Id)
                 .WritePackedInt32(Mfn)
                 .WritePackedInt32((int) Status)
                 .WritePackedInt32(Version);

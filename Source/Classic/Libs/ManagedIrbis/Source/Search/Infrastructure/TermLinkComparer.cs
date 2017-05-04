@@ -99,7 +99,7 @@ namespace ManagedIrbis.Search.Infrastructure
             {
                 Code.NotNull(obj, "obj");
 
-                return obj.Mfn * 37 + obj.Tag;
+                return unchecked (obj.Mfn * 37 + obj.Tag);
             }
 
             #endregion
@@ -137,8 +137,8 @@ namespace ManagedIrbis.Search.Infrastructure
             {
                 Code.NotNull(obj, "obj");
 
-                return (obj.Mfn * 37 + obj.Tag) * 37
-                    + obj.Occurrence;
+                return unchecked ((obj.Mfn * 37 + obj.Tag) * 37
+                    + obj.Occurrence);
             }
 
             #endregion
@@ -179,8 +179,8 @@ namespace ManagedIrbis.Search.Infrastructure
 
                 // obj.Index not forgotten!
 
-                return (obj.Mfn * 37 + obj.Tag) * 37
-                    + obj.Occurrence;
+                return unchecked ((obj.Mfn * 37 + obj.Tag) * 37
+                    + obj.Occurrence);
             }
 
             #endregion

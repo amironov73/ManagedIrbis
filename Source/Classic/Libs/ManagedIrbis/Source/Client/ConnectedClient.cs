@@ -11,6 +11,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -177,6 +179,7 @@ namespace ManagedIrbis.Client
             CatalogState result = new CatalogState
             {
                 Database = database,
+                Date = DateTime.Today,
                 MaxMfn = Connection.GetMaxMfn(database)
             };
 
@@ -187,10 +190,21 @@ namespace ManagedIrbis.Client
             {
                 RecordState record
                     = RecordState.ParseServerAnswer(line);
-                records.Add(record);
+                if (record.Mfn != 0)
+                {
+                    records.Add(record);
+                }
             }
 
             result.Records = records.ToArray();
+
+            DatabaseInfo info
+                = Connection.GetDatabaseInfo(database);
+            result.LogicallyDeleted
+                = info.LogicallyDeletedRecords
+                .ThrowIfNull("info.LogicallyDeletedRecords")
+                .Where(mfn => mfn != 0)
+                .ToArray();
 
             return result;
         }

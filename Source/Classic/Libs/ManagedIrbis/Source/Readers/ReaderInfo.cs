@@ -44,6 +44,13 @@ namespace ManagedIrbis.Readers
         #region Properties
 
         /// <summary>
+        /// Identifier for LiteDB.
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        public int Id { get; set; }
+
+        /// <summary>
         /// ФИО. Комбинируется из полей 10, 11 и 12.
         /// </summary>
         [CanBeNull]
@@ -631,7 +638,7 @@ namespace ManagedIrbis.Readers
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -639,6 +646,7 @@ namespace ManagedIrbis.Readers
         {
             Code.NotNull(writer, "writer");
 
+            writer.WritePackedInt32(Id);
             writer.WriteNullable(FullName);
             writer.WriteNullable(FamilyName);
             writer.WriteNullable(FirstName);
@@ -666,7 +674,7 @@ namespace ManagedIrbis.Readers
             writer.WritePackedInt32(Mfn);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -674,6 +682,7 @@ namespace ManagedIrbis.Readers
         {
             Code.NotNull(reader, "reader");
 
+            Id = reader.ReadPackedInt32();
             FullName = reader.ReadNullableString();
             FamilyName = reader.ReadNullableString();
             FirstName = reader.ReadNullableString();

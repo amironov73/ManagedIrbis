@@ -48,6 +48,13 @@ namespace ManagedIrbis.Readers
         #region Properties
 
         /// <summary>
+        /// Identifier for LiteDB.
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        public int Id { get; set; }
+
+        /// <summary>
         /// подполе G, имя БД каталога.
         /// </summary>
         [CanBeNull]
@@ -441,12 +448,13 @@ namespace ManagedIrbis.Readers
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
+            writer.WritePackedInt32(Id);
             writer.WriteNullable(Database);
             writer.WriteNullable(Index);
             writer.WriteNullable(Inventory);
@@ -498,12 +506,13 @@ namespace ManagedIrbis.Readers
 
 #endif
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            Id = reader.ReadPackedInt32();
             Database = reader.ReadNullableString();
             Index = reader.ReadNullableString();
             Inventory = reader.ReadNullableString();
