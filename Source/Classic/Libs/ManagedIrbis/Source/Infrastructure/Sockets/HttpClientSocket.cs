@@ -133,7 +133,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
 
             if (ReferenceEquals(_address, null))
             {
-                _address = SocketUtility.ResolveAddress(host);
+                _address = SocketUtility.ResolveAddressIPv4(host);
             }
 
             if (ReferenceEquals(_address, null))

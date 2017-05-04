@@ -45,7 +45,7 @@ namespace AM.Net
         /// </summary>
         /// <returns>Resolved IP address of the host.</returns>
         [NotNull]
-        public static IPAddress ResolveAddress
+        public static IPAddress ResolveAddressIPv4
             (
                 [NotNull] string address
             )
@@ -62,6 +62,11 @@ namespace AM.Net
             try
             {
                 result = IPAddress.Parse(address);
+                if (result.AddressFamily
+                    == AddressFamily.InterNetwork)
+                {
+                    throw new Exception("Address must be IPv4");
+                }
             }
             catch 
             {
@@ -81,11 +86,95 @@ namespace AM.Net
                     && !ReferenceEquals(entry.AddressList, null)
                     && entry.AddressList.Length != 0)
                 {
-                    result = entry.AddressList.FirstOrDefault
+                    IPAddress[] addresses = entry.AddressList
+                        .Where
                         (
-                            item => item.AddressFamily 
-                                == AddressFamily.InterNetwork
-                        );
+                            item => item.AddressFamily
+                                    == AddressFamily.InterNetwork
+                        )
+                        .ToArray();
+
+                    if (addresses.Length == 0)
+                    {
+                        throw new Exception("Address must be IPv4 only");
+                    }
+
+                    result = addresses.Length == 1
+                        ? addresses[0]
+                        : addresses[new Random().Next(addresses.Length)];
+                }
+            }
+
+            if (ReferenceEquals(result, null))
+            {
+                throw new ArsMagnaException("Can't resolve address");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Resolve IPv6 address
+        /// </summary>
+        /// <returns>Resolved IP address of the host.</returns>
+        [NotNull]
+        public static IPAddress ResolveAddressIPv6
+            (
+                [NotNull] string address
+            )
+        {
+            Code.NotNull(address, "address");
+
+            if (address.OneOf("localhost", "local", "(local)"))
+            {
+                return IPAddress.IPv6Loopback;
+            }
+
+            IPAddress result = null;
+
+            try
+            {
+                result = IPAddress.Parse(address);
+                if (result.AddressFamily
+                    == AddressFamily.InterNetworkV6)
+                {
+                    throw new Exception("Address must be IPv6");
+                }
+            }
+            catch
+            {
+                IPHostEntry entry;
+
+#if NETCORE || UAP
+
+                entry = Dns.GetHostEntryAsync(address).Result;
+
+#else
+
+                entry = Dns.GetHostEntry(address);
+
+#endif
+
+                if (!ReferenceEquals(entry, null)
+                    && !ReferenceEquals(entry.AddressList, null)
+                    && entry.AddressList.Length != 0)
+                {
+                    IPAddress[] addresses = entry.AddressList
+                        .Where
+                        (
+                            item => item.AddressFamily
+                                    == AddressFamily.InterNetworkV6
+                        )
+                        .ToArray();
+
+                    if (addresses.Length == 0)
+                    {
+                        throw new Exception("Address must be IPv6 only");
+                    }
+
+                    result = addresses.Length == 1
+                        ? addresses[0]
+                        : addresses[new Random().Next(addresses.Length)];
                 }
             }
 

@@ -83,7 +83,15 @@ namespace ManagedIrbis.Infrastructure
 
             if (ReferenceEquals(_address, null))
             {
-                _address = SocketUtility.ResolveAddress(host);
+                _address = SocketUtility.ResolveAddressIPv4(host);
+                if (_address.AddressFamily
+                    != AddressFamily.InterNetwork)
+                {
+                    throw new IrbisNetworkException
+                        (
+                            "Address must be IPv4 only!"
+                        );
+                }
             }
 
             if (ReferenceEquals(_address, null))
