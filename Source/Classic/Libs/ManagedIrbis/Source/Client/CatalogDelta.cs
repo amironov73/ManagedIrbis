@@ -201,7 +201,7 @@ namespace ManagedIrbis.Client
 
         #endregion
 
-#region IHandmadeSerializable
+        #region IHandmadeSerializable
 
 #if !SILVERLIGHT
 

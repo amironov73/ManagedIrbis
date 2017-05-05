@@ -70,6 +70,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Batch\BatchRecordWriter.cs">
       <Link>Source\Batch\BatchRecordWriter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Batch\BatchSearcher.cs">
+      <Link>Source\Batch\BatchSearcher.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioDocument.cs">
       <Link>Source\Biblio\BiblioDocument.cs</Link>
     </Compile>
@@ -1761,6 +1764,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\SearchSyntaxException.cs">
       <Link>Source\Search\SearchSyntaxException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\SearchUtility.cs">
+      <Link>Source\Search\SearchUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\TermInfo.cs">
       <Link>Source\Search\TermInfo.cs</Link>

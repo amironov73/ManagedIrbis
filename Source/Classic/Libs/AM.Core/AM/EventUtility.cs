@@ -10,12 +10,15 @@
 #region Using directives
 
 using System;
+using System.Reflection;
 
 #if !WINMOBILE && !PocketPC
 
 using System.Threading.Tasks;
 
 #endif
+
+using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -163,6 +166,29 @@ namespace AM
         }
 
 #endif
+
+        /// <summary>
+        /// Unsubscribe all handlers from the event.
+        /// </summary>
+        public static void UnsubscribeAll
+            (
+                [CanBeNull] this EventHandler handler
+            )
+        {
+            // TODO totally crap :(
+
+            if (!ReferenceEquals(handler, null))
+            {
+                Delegate[] subscribers
+                    = handler.GetInvocationList();
+                foreach (Delegate subscriber in subscribers)
+                {
+                    // ReSharper disable DelegateSubtraction
+                    handler -= (EventHandler) subscriber;
+                    // ReSharper restore DelegateSubtraction
+                }
+            }
+        }
 
         #endregion
     }

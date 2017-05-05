@@ -226,8 +226,15 @@ namespace ManagedIrbis.Batch
 
             if (!ReferenceEquals(action, null))
             {
-                EventHandler batchHandler = (sender, args) => action(result);
+                EventHandler batchHandler 
+                    = (sender, args) => action(result);
                 result.BatchRead += batchHandler;
+
+                EventHandler completeHandler = (sender, args) =>
+                {
+                    result.BatchRead -= batchHandler;
+                };
+                result.ReadComplete += completeHandler;
             }
 
             return result;
