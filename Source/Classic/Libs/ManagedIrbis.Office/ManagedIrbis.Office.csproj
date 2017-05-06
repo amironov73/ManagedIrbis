@@ -76,6 +76,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -106,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Reports\DataGridViewDriver.cs" />
     <Compile Include="Source\Reports\ExcelDriver.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +123,14 @@
     <ProjectReference Include="..\AM.Drawing\AM.Drawing.csproj">
       <Project>{f64c8161-d6e3-4d78-88db-c1787f4fe981}</Project>
       <Name>AM.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AM.Windows.Forms\AM.Windows.Forms.csproj">
+      <Project>{c06e1d15-0d0d-44b3-bf74-1b2c616f9ee5}</Project>
+      <Name>AM.Windows.Forms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IrbisUI\IrbisUI.csproj">
+      <Project>{aeebb65d-1023-4ac2-a280-4639e085cdb5}</Project>
+      <Name>IrbisUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\ManagedIrbis\ManagedIrbis.csproj">
       <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
