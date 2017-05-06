@@ -61,11 +61,11 @@ namespace ManagedIrbis.Direct
         public RecordStatus Status { get; set; }
 
         /// <summary>
-        /// Is the record locked.
+        /// Whether the record is locked?
         /// </summary>
         public bool Locked
         {
-            get { return ((Status & RecordStatus.Locked) != 0); }
+            get { return (Status & RecordStatus.Locked) != 0; }
             set
             {
                 if (value)
@@ -80,17 +80,17 @@ namespace ManagedIrbis.Direct
         }
 
         /// <summary>
-        /// Is the record deleted.
+        /// Whether the record is deleted?
         /// </summary>
         public bool Deleted
         {
             get
             {
-                return ((Status & 
-                    (
-                        RecordStatus.LogicallyDeleted 
-                        | RecordStatus.PhysicallyDeleted
-                    )) != 0);
+                return (Status &
+                        (
+                            RecordStatus.LogicallyDeleted 
+                            | RecordStatus.PhysicallyDeleted
+                        )) != 0;
             }
         }
 
@@ -106,12 +106,7 @@ namespace ManagedIrbis.Direct
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString"/>
         public override string ToString()
         {
             return string.Format

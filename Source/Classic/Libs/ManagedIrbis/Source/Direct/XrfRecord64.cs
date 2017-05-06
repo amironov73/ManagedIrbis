@@ -19,6 +19,23 @@ using System.Text;
 
 namespace ManagedIrbis.Direct
 {
+    //
+    // Extract from official documentation:
+    // http://sntnarciss.ru/irbis/spravka/wtcp006002000.htm
+    //
+    // Каждая ссылка состоит из 3-х полей:
+    // Число бит Параметр
+    // 32        XRF_LOW – младшее слово в 8 байтовом смещении на запись;
+    // 32        XRF_HIGH– старшее слово в 8 байтовом смещении на запись;
+    // 32        XRF_FLAGS – Индикатор записи в виде битовых флагов
+    //           следующего содержания:
+    //             BIT_LOG_DEL(1)  - логически удаленная запись;
+    //             BIT_PHYS_DEL(2) - физически удаленная запись;
+    //             BIT_ABSENT(4)  - несуществующая запись;
+    //             BIT_NOTACT_REC(8)- неактуализированная запись;
+    //             BIT_LOCK_REC(64)- заблокированная запись.
+    //
+
     /// <summary>
     /// Contains information about record offset and status.
     /// </summary>
@@ -55,11 +72,11 @@ namespace ManagedIrbis.Direct
         public RecordStatus Status { get; set; }
 
         /// <summary>
-        /// Is the record locked.
+        /// Whether the record is locked?
         /// </summary>
         public bool Locked
         {
-            get { return ((Status & RecordStatus.Locked) != 0); }
+            get { return (Status & RecordStatus.Locked) != 0; }
             set
             {
                 if (value)
@@ -74,11 +91,18 @@ namespace ManagedIrbis.Direct
         }
 
         /// <summary>
-        /// Is the record deleted.
+        /// Whether the record is deleted?
         /// </summary>
         public bool Deleted
         {
-            get { return ((Status & (RecordStatus.LogicallyDeleted | RecordStatus.PhysicallyDeleted)) != 0); }
+            get
+            {
+                return (Status & 
+                    (
+                        RecordStatus.LogicallyDeleted
+                        | RecordStatus.PhysicallyDeleted
+                    )) != 0;
+            }
         }
 
         #endregion
@@ -93,9 +117,7 @@ namespace ManagedIrbis.Direct
 
         #region Object members
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc cref="object.ToString"/>
         public override string ToString()
         {
             return string.Format
