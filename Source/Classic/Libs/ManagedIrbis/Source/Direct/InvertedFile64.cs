@@ -389,8 +389,23 @@ namespace ManagedIrbis.Direct
             FOUND:
                 if (goodItem != null)
                 {
-                    IfpRecord ifp = ReadIfpRecord(goodItem.FullOffset);
-                    return ifp.Links.ToArray();
+                    // ibatrak записи могут иметь ссылки на следующие
+
+                    List<TermLink> result = new List<TermLink>();
+                    long offset = goodItem.FullOffset;
+                    while (offset > 0)
+                    {
+                        IfpRecord ifp = ReadIfpRecord(offset);
+                        result.AddRange(ifp.Links);
+                        offset = ifp.FullOffset > 0 
+                            ? ifp.FullOffset 
+                            : 0;
+                    }
+
+                    return result
+                        .Distinct()
+                        .ToArray();
+                    //ibatrak до сюда
                 }
             }
             catch (Exception ex)
@@ -510,15 +525,24 @@ namespace ManagedIrbis.Direct
                         if (compareResult >= 0)
                         {
                             bool starts = item.Text.StartsWith(key);
-                            if ((compareResult > 0) && !starts)
+                            if (compareResult > 0 && !starts)
                             {
                                 goto DONE;
                             }
                             if (starts)
                             {
-                                IfpRecord ifp
-                                    = ReadIfpRecord(item.FullOffset);
-                                result.AddRange(ifp.Links);
+                                //ibatrak записи могут иметь ссылки на следующие
+
+                                var offset = item.FullOffset;
+                                while (offset > 0)
+                                {
+                                    IfpRecord ifp = ReadIfpRecord(offset);
+                                    result.AddRange(ifp.Links);
+                                    offset = ifp.FullOffset > 0 
+                                        ? ifp.FullOffset
+                                        : 0;
+                                }
+                                //ibatrak до сюда
                             }
                         }
                     }
@@ -527,7 +551,6 @@ namespace ManagedIrbis.Direct
                         currentNode = ReadNext(currentNode);
                     }
                 }
-
             }
 
         DONE:

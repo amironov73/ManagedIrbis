@@ -220,7 +220,7 @@ namespace ManagedIrbis.Direct
         }
 
         /// <summary>
-        /// Read the record.
+        /// Read the record (with preload optimization).
         /// </summary>
         [NotNull]
         public MstRecord64 ReadRecord2
@@ -290,36 +290,29 @@ namespace ManagedIrbis.Direct
                 bool flag
             )
         {
-#if !NETCORE
-
             byte[] buffer = new byte[4];
 
             _stream.Position = MstControlRecord64.LockFlagPosition;
+
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !UAP && !NETCORE
+
+            _stream.Lock(0, MstControlRecord64.RecordSize);
+
+#endif
+
             if (flag)
             {
-
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !UAP
-
-                _stream.Lock(0, MstControlRecord64.RecordSize);
-
-#endif
-
                 buffer[0] = 1;
-                _stream.Write(buffer, 0, buffer.Length);
             }
-            else
-            {
-                _stream.Write(buffer, 0, buffer.Length);
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !UAP
+            _stream.Write(buffer, 0, buffer.Length);
 
-                _stream.Unlock(0, MstControlRecord64.RecordSize);
+#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !UAP && !NETCORE
+
+            _stream.Unlock(0, MstControlRecord64.RecordSize);
 
 #endif
-            }
             _lockFlag = flag;
-
-#endif
         }
 
         /// <summary>
@@ -331,18 +324,20 @@ namespace ManagedIrbis.Direct
 
             _stream.Position = MstControlRecord64.LockFlagPosition;
             _stream.Read(buffer, 0, buffer.Length);
-            return Convert.ToBoolean(BitConverter.ToInt32(buffer, 0));
+
+            bool result = Convert.ToBoolean
+                (
+                    BitConverter.ToInt32(buffer, 0)
+                );
+
+            return result;
         }
 
         #endregion
 
         #region IDisposable members
 
-        /// <summary>
-        /// Performs application-defined tasks associated
-        /// with freeing, releasing, or resetting
-        /// unmanaged resources.
-        /// </summary>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
             if (_stream != null)

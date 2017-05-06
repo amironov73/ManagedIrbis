@@ -185,15 +185,26 @@ namespace ManagedIrbis.Direct
         #region Properties
 
         /// <summary>
-        /// Младшее слово смещения на следующую запись(если нет - 0).
+        /// Младшее слово смещения на следующую запись (если нет - 0).
         /// </summary>
         public int LowOffset { get; set; }
 
         /// <summary>
-        /// Старшее слово смещения на следующую запись(если нет - 0).
+        /// Старшее слово смещения на следующую запись (если нет - 0).
         /// </summary>
         /// <remarks>Признак последнего блока – LOW=HIGH= -1.</remarks>
         public int HighOffset { get; set; }
+
+        /// <summary>
+        /// ibatrak ссылка на следующую запись
+        /// </summary>
+        public long FullOffset
+        {
+            get
+            {
+                return unchecked(((long)HighOffset << 32) + LowOffset);
+            }
+        }
 
         /// <summary>
         /// Ообщее число ссылок для данного термина
@@ -315,10 +326,42 @@ namespace ManagedIrbis.Direct
                 {
                     var nestedRecord = Read(stream, stream.Position);
                     nestedRecords[i] = nestedRecord;
+
+                    // Last record in the list must have
+                    // negative offset values
+                    if (nestedRecord.LowOffset == -1 
+                        && nestedRecord.HighOffset == -1)
+                    {
+                        if (i != result.BlockLinkCount - 1)
+                        {
+                            throw new InvalidOperationException
+                                (
+                                    "IFP reading error"
+                                );
+                        }
+                        break;
+                    }
+                    if (nestedRecord.FullOffset < 0)
+                    {
+                        throw new InvalidOperationException
+                            (
+                                "IFP reading error"
+                            );
+                    }
+
+                    stream.Position = nestedRecord.FullOffset;
                 }
+
                 TermLink[] links = nestedRecords
                     .SelectMany(r => r.Links)
                     .ToArray();
+                if (links.Length != result.TotalLinkCount)
+                {
+                    throw new InvalidOperationException
+                        (
+                            "IFP reading error"
+                        );
+                }
                 result.Links.AddRange(links);
 
                 return result;
