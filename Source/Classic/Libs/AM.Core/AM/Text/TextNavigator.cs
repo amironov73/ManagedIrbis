@@ -1433,7 +1433,7 @@ namespace AM.Text
 
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format
