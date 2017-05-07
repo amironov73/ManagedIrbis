@@ -425,7 +425,6 @@ namespace AM
             return false;
         }
 
-
         /// <summary>
         /// Determines whether given object
         /// is default value.
@@ -491,6 +490,7 @@ namespace AM
             where T : class
         {
             string text = value.NullableToString();
+
             return text.ToVisibleString();
         }
 
