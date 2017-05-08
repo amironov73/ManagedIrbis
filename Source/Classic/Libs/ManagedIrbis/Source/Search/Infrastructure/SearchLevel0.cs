@@ -11,6 +11,8 @@
 
 using AM;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
 #endregion
@@ -24,6 +26,9 @@ namespace ManagedIrbis.Search.Infrastructure
         : ISearchTree
     {
         #region Properties
+
+        /// <inheritdoc cref="ISearchTree.Parent"/>
+        public ISearchTree Parent { get; set; }
 
         /// <summary>
         /// Term.
@@ -96,6 +101,41 @@ namespace ManagedIrbis.Search.Infrastructure
             }
 
             return result;
+        }
+
+        /// <inheritdoc cref="ISearchTree.ReplaceChild"/>
+        public void ReplaceChild
+            (
+                ISearchTree fromChild,
+                ISearchTree toChild
+            )
+        {
+            Code.NotNull(fromChild, "fromChild");
+
+            fromChild.Parent = null;
+
+            SearchTerm term = fromChild as SearchTerm;
+            if (!ReferenceEquals(term, null))
+            {
+                Term = (SearchTerm) toChild;
+            }
+
+            SearchReference reference = fromChild as SearchReference;
+            if (!ReferenceEquals(reference, null))
+            {
+                Reference = (SearchReference) toChild;
+            }
+
+            SearchLevel7 level7 = fromChild as SearchLevel7;
+            if (!ReferenceEquals(level7, null))
+            {
+                Parenthesis = (SearchLevel7) toChild;
+            }
+
+            if (!ReferenceEquals(toChild, null))
+            {
+                toChild.Parent = this;
+            }
         }
 
         #endregion

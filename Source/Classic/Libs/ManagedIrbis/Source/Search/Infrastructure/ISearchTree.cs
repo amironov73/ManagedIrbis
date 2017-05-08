@@ -11,8 +11,6 @@
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Client;
-
 #endregion
 
 namespace ManagedIrbis.Search.Infrastructure
@@ -22,6 +20,12 @@ namespace ManagedIrbis.Search.Infrastructure
     /// </summary>
     public interface ISearchTree
     {
+        /// <summary>
+        /// Parent node.
+        /// </summary>
+        [CanBeNull]
+        ISearchTree Parent { get; set; }
+
         /// <summary>
         /// Children of the node.
         /// </summary>
@@ -42,6 +46,15 @@ namespace ManagedIrbis.Search.Infrastructure
         TermLink[] Find
             (
                 [NotNull] SearchContext context
+            );
+
+        /// <summary>
+        /// Replace specified child to another.
+        /// </summary>
+        void ReplaceChild
+            (
+                [NotNull] ISearchTree fromChild,
+                [CanBeNull] ISearchTree toChild
             );
     }
 }

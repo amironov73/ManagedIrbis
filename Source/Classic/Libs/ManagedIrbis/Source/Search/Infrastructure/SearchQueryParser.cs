@@ -154,6 +154,19 @@ namespace ManagedIrbis.Search.Infrastructure
 
         #region Private members
 
+        private static void _AssignParentToChildren
+            (
+                [NotNull] ISearchTree parent
+            )
+        {
+            ISearchTree[] children = parent.Children;
+            foreach (ISearchTree child in children)
+            {
+                child.Parent = parent;
+                _AssignParentToChildren(child);
+            }
+        }
+
         /// <summary>
         /// Leaf node.
         /// </summary>
@@ -417,6 +430,8 @@ namespace ManagedIrbis.Search.Infrastructure
                 SearchLevel6 entryPoint = ParseLevel6();
                 result.EntryPoint = entryPoint;
             }
+
+            _AssignParentToChildren(result);
 
             return result;
         }

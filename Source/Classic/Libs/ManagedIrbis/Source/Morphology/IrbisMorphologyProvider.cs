@@ -9,14 +9,14 @@
 
 #region Using directives
 
-using System.Collections.Generic;
 using System.Linq;
+
+using AM;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Search;
 using ManagedIrbis.Search.Infrastructure;
 
 using MoonSharp.Interpreter;
@@ -128,72 +128,6 @@ namespace ManagedIrbis.Morphology
 
         private string _database = "MORPH";
 
-
-        //private QAst _MakeAst
-        //    (
-        //        string[] array,
-        //        IEnumerable<string> tags
-        //    )
-        //{
-        //    if (array.Length == 1)
-        //    {
-        //        return new QAstEntry(tags)
-        //        {
-        //            Expression = Prefix + array[0],
-        //            Quoted = true
-        //        };
-        //    }
-        //    QAstPlusOperator result = new QAstPlusOperator
-        //    {
-        //        LeftOperand = new QAstEntry
-        //        {
-        //            Expression = Prefix + array[0],
-        //            Quoted = true,
-        //        },
-        //        RightOperand = _MakeAst
-        //            (
-        //                array.Skip(1).ToArray(),
-        //                tags
-        //            )
-        //    };
-        //    result.Children.Add(result.LeftOperand);
-        //    result.Children.Add(result.RightOperand);
-        //    return result;
-        //}
-
-        //private bool _QueryWalker
-        //    (
-        //        QAst ast
-        //    )
-        //{
-        //    for (int i = 0; i < ast.Children.Count; i++)
-        //    {
-        //        QAst child = ast.Children[i];
-        //        QAstEntry entry = child as QAstEntry;
-        //        if (entry != null)
-        //        {
-        //            if (entry.Expression.StartsWith(Prefix)
-        //                && entry.Ending == EndingKind.NoTrim)
-        //            {
-        //                string word = string.IsNullOrEmpty(Prefix)
-        //                    ? entry.Expression
-        //                    : entry.Expression.Substring(Prefix.Length);
-        //                MorphologyEntry[] entries = FindWord(word);
-        //                string[] flatten = Flatten(word, entries);
-        //                if (flatten.Length > 1)
-        //                {
-        //                    QAstParen paren = new QAstParen();
-        //                    QAst newAst = _MakeAst(flatten, entry.Tags);
-        //                    paren.Children.Add(newAst);
-        //                    ast.Children[i] = paren;
-        //                    return false;
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return true;
-        //}
-
         #endregion
 
         #region MorphologyProvider members
@@ -206,22 +140,27 @@ namespace ManagedIrbis.Morphology
         {
             Code.NotNullNorEmpty(word, "word");
 
+            IrbisConnection connection = Connection.ThrowIfNull("Connection");
+            string database = Database.ThrowIfNull("Database");
+
             try
             {
-                Connection.PushDatabase(Database);
-                MarcRecord[] records = Connection.SearchRead
+                connection.PushDatabase(database);
+                MarcRecord[] records = connection.SearchRead
                     (
                         "\"K={0}\"",
                         word
                     );
                 MorphologyEntry[] result = records
+                    // ReSharper disable ConvertClosureToMethodGroup
                     .Select(r => MorphologyEntry.Parse(r))
+                    // ReSharper restore ConvertClosureToMethodGroup
                     .ToArray();
                 return result;
             }
             finally
             {
-                Connection.PopDatabase();
+                connection.PopDatabase();
             }
         }
 
@@ -239,9 +178,68 @@ namespace ManagedIrbis.Morphology
             SearchProgram program = parser.Parse();
             SearchTerm[] terms = SearchQueryUtility.ExtractTerms(program);
 
-            // Do something with terms
+            string prefix = Prefix.ThrowIfNull("Prefix");
+            int prefixLength = prefix.Length;
 
-            return queryExpression;
+            foreach (SearchTerm oldTerm in terms)
+            {
+                string word = oldTerm.Term;
+                if (string.IsNullOrEmpty(word))
+                {
+                    continue;
+                }
+                if (oldTerm.Tail == "$"
+                    || !word.StartsWith(prefix))
+                {
+                    continue;
+                }
+                word = word.Substring(prefixLength);
+                if (string.IsNullOrEmpty(word))
+                {
+                    continue;
+                }
+                MorphologyEntry[] entries = FindWord(word);
+                string[] flatten = Flatten(word, entries);
+                if (flatten.Length < 2)
+                {
+                    continue;
+                }
+
+                SearchLevel7 level7 = new SearchLevel7();
+                foreach (string s in flatten)
+                {
+                    SearchLevel6 level6 = new SearchLevel6();
+                    SearchLevel5 level5 = new SearchLevel5();
+                    SearchLevel4 level4 = new SearchLevel4();
+                    SearchLevel3 level3 = new SearchLevel3();
+                    SearchLevel2 level2 = new SearchLevel2();
+                    SearchLevel1 level1 = new SearchLevel1();
+                    SearchLevel0 level0 = new SearchLevel0();
+                    level1.AddItem(level0);
+                    level2.AddItem(level1);
+                    level3.AddItem(level2);
+                    level4.AddItem(level3);
+                    level5.AddItem(level4);
+                    level6.AddItem(level5);
+                    level7.AddItem(level6);
+
+                    SearchTerm newTerm = new SearchTerm
+                    {
+                        Term = s,
+                        Tail = string.Empty,
+                        Context = oldTerm.Context
+                    };
+                    level0.Term = newTerm;
+
+                    ISearchTree parent = oldTerm.Parent
+                        .ThrowIfNull("oldTerm.Parent");
+                    parent.ReplaceChild(oldTerm, newTerm);
+                }
+            }
+
+            string result = program.ToString();
+
+            return result;
         }
 
         #endregion

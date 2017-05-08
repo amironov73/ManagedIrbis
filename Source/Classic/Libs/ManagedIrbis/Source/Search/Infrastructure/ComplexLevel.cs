@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Collections.Generic;
 using System.Linq;
 
 using AM;
@@ -93,6 +94,9 @@ namespace ManagedIrbis.Search.Infrastructure
 
         #region ISearchTree members
 
+        /// <inheritdoc cref="ISearchTree.Parent"/>
+        public ISearchTree Parent { get; set; }
+
         public ISearchTree[] Children
         {
             // ReSharper disable CoVariantArrayConversion
@@ -109,6 +113,35 @@ namespace ManagedIrbis.Search.Infrastructure
             )
         {
             return new TermLink[0];
+        }
+
+        /// <inheritdoc cref="ISearchTree.ReplaceChild"/>
+        public void ReplaceChild
+            (
+                ISearchTree fromChild,
+                ISearchTree toChild
+            )
+        {
+            Code.NotNull(fromChild, "fromChild");
+
+            T item = (T) fromChild;
+
+            int index = Items.IndexOf(item);
+            if (index < 0)
+            {
+                throw new KeyNotFoundException();
+            }
+            if (ReferenceEquals(toChild, null))
+            {
+                Items.RemoveAt(index);
+            }
+            else
+            {
+                Items[index] = item;
+                toChild.Parent = this;
+            }
+
+            fromChild.Parent = this;
         }
 
         #endregion

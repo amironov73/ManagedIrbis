@@ -30,6 +30,15 @@ namespace ManagedIrbis.Search.Infrastructure
         #region Properties
 
         /// <summary>
+        /// No parent.
+        /// </summary>
+        public ISearchTree Parent
+        {
+            get { return null; }
+            set { /* Do nothing */ }
+        }
+
+        /// <summary>
         /// Program entry point - root of syntax tree.
         /// </summary>
         [CanBeNull]
@@ -65,6 +74,16 @@ namespace ManagedIrbis.Search.Infrastructure
                 : EntryPoint.Find(context);
 
             return result;
+        }
+
+        /// <inheritdoc cref="ISearchTree.ReplaceChild"/>
+        public void ReplaceChild
+            (
+                ISearchTree fromChild,
+                ISearchTree toChild
+            )
+        {
+            throw new System.NotImplementedException();
         }
 
         #endregion

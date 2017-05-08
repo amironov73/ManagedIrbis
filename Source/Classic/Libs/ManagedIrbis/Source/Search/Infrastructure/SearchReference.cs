@@ -26,6 +26,9 @@ namespace ManagedIrbis.Search.Infrastructure
     {
         #region Properties
 
+        /// <inheritdoc cref="ISearchTree.Parent"/>
+        public ISearchTree Parent { get; set; }
+
         /// <summary>
         /// Number.
         /// </summary>
@@ -65,6 +68,16 @@ namespace ManagedIrbis.Search.Infrastructure
             }
 
             return result;
+        }
+
+        /// <inheritdoc cref="ISearchTree.ReplaceChild"/>
+        public void ReplaceChild
+            (
+                ISearchTree fromChild,
+                ISearchTree toChild
+            )
+        {
+            throw new System.NotImplementedException();
         }
 
         #endregion

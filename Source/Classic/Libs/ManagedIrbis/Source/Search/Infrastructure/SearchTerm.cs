@@ -72,6 +72,9 @@ namespace ManagedIrbis.Search.Infrastructure
     {
         #region Properties
 
+        /// <inheritdoc cref="ISearchTree.Parent"/>
+        public ISearchTree Parent { get; set; }
+
         /// <summary>
         /// K=keyword
         /// </summary>
@@ -138,8 +141,19 @@ namespace ManagedIrbis.Search.Infrastructure
                     throw new IrbisException("Unexpected tail");
             }
 
+            // TODO implement context filtering
 
             return result;
+        }
+
+        /// <inheritdoc cref="ISearchTree.ReplaceChild"/>
+        public void ReplaceChild
+            (
+                ISearchTree fromChild,
+                ISearchTree toChild
+            )
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
