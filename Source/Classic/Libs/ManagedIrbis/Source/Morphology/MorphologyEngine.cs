@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* MorphologyEngine.cs -- работа с морфологией
+/* MorphologyEngine.cs -- morphology engine
  * Ars Magna project, http://arsmagna.ru 
  * -------------------------------------------------------
  * Status: poor
@@ -9,9 +9,13 @@
 
 #region Using directives
 
+using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
 
@@ -19,26 +23,26 @@ using MoonSharp.Interpreter;
 
 namespace ManagedIrbis.Morphology
 {
-#if NOTDEF
-
     /// <summary>
-    /// Работа с морфологией
+    /// Morphology engine.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class MorphologyEngine
     {
         #region Properties
 
         /// <summary>
-        /// ИРБИС-клиент.
+        /// Client connection.
         /// </summary>
         [NotNull]
-        public ManagedClient64 Client
+        public IrbisConnection Connection
         {
-            get { return _client; }
+            get { return _connection; }
         }
 
         /// <summary>
-        /// Провайдер морфологии.
+        /// Morphology provider.
         /// </summary>
         [NotNull]
         public MorphologyProvider Provider
@@ -51,67 +55,71 @@ namespace ManagedIrbis.Morphology
         #region Construction
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public MorphologyEngine
             (
-                [NotNull] ManagedClient64 client
+                [NotNull] IrbisConnection connection
             )
         {
-            Code.NotNull(() => client);
+            Code.NotNull(connection, "connection");
 
-            _client = client;
+            _connection = connection;
             _provider = new IrbisMorphologyProvider
                 (
-                    client
+                    connection
                 );
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public MorphologyEngine
             (
-                [NotNull] ManagedClient64 client,
+                [NotNull] IrbisConnection connection,
                 [NotNull] MorphologyProvider provider
             )
         {
-            Code.NotNull(() => client);
-            Code.NotNull(() => provider);
+            Code.NotNull(connection, "connection");
+            Code.NotNull(provider, "provider");
 
-            _client = client;
+            _connection = connection;
             _provider = provider;
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public MorphologyEngine
             (
-                [NotNull] ManagedClient64 client,
+                [NotNull] IrbisConnection connection,
                 [NotNull] string prefix,
                 [NotNull] string database
             )
         {
-            Code.NotNull(() => client);
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(prefix, "prefix");
+            Code.NotNullNorEmpty(database, "database");
 
-            _client = client;
+            _connection = connection;
             _provider = new IrbisMorphologyProvider
                 (
                     prefix,
                     database,
-                    client
+                    connection
                 );
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public MorphologyEngine
             (
-                MorphologyProvider provider
+                [NotNull] MorphologyProvider provider
             )
         {
+            Code.NotNull(provider, "provider");
+
             _provider = provider;
         }
 
@@ -121,65 +129,108 @@ namespace ManagedIrbis.Morphology
 
         private readonly MorphologyProvider _provider;
 
-        private readonly ManagedClient64 _client;
+        private readonly IrbisConnection _connection;
 
         #endregion
 
         #region Public methods
 
+        /// <summary>
+        /// Rewrite the query.
+        /// </summary>
+        [NotNull]
         public string RewriteQuery
             (
-                string queryText
+                [NotNull] string queryText
             )
         {
-            return Provider.RewriteQuery(queryText);
+            Code.NotNullNorEmpty(queryText, "queryText");
+
+            MorphologyProvider provider = Provider.ThrowIfNull("Provider");
+
+            return provider.RewriteQuery(queryText);
         }
 
+        /// <summary>
+        /// Search with query rewritting.
+        /// </summary>
+        [NotNull]
         public int[] Search
             (
-                string format,
+                [NotNull] string format,
                 params object[] args
             )
         {
+            Code.NotNullNorEmpty(format, "format");
+
             string original = string.Format(format, args);
             string rewritten = RewriteQuery(original);
-            return _client.Search(rewritten);
+
+            IrbisConnection connection = Connection.ThrowIfNull("Connection");
+
+            return connection.Search(rewritten);
         }
 
-        public IrbisRecord[] SearchRead
+        /// <summary>
+        /// Search and read records with query rewritting.
+        /// </summary>
+        [NotNull]
+        public MarcRecord[] SearchRead
             (
-                string format,
+                [NotNull] string format,
                 params object[] args
             )
         {
+            Code.NotNullNorEmpty(format, "format");
+
             string original = string.Format(format, args);
             string rewritten = RewriteQuery(original);
-            return _client.SearchRead(rewritten);
+
+            IrbisConnection connection = Connection.ThrowIfNull("Connection");
+
+            return connection.SearchRead(rewritten);
         }
 
-        public IrbisRecord SearchReadOneRecord
+        /// <summary>
+        /// Search and read first found record using query rewritting.
+        /// </summary>
+        [CanBeNull]
+        public MarcRecord SearchReadOneRecord
             (
-                string format,
+                [NotNull] string format,
                 params object[] args
             )
         {
+            Code.NotNullNorEmpty(format, "format");
+
             string original = string.Format(format, args);
             string rewritten = RewriteQuery(original);
-            return _client.SearchReadOneRecord(rewritten);
+
+            IrbisConnection connection = Connection.ThrowIfNull("Connection");
+
+            return connection.SearchReadOneRecord(rewritten);
         }
 
-        public string[] SearchFormat
+        /// <summary>
+        /// Search and format found records using query rewritting.
+        /// </summary>
+        [NotNull]
+        public FoundItem[] SearchFormat
             (
-                string expression,
-                string format
+                [NotNull] string expression,
+                [NotNull] string format
             )
         {
+            Code.NotNullNorEmpty(expression, "expression");
+            Code.NotNullNorEmpty(format, "format");
+
             string rewritten = RewriteQuery(expression);
-            return _client.SearchFormat(rewritten, format);
+
+            IrbisConnection connection = Connection.ThrowIfNull("Connection");
+
+            return connection.SearchFormat(rewritten, format);
         }
 
         #endregion
     }
-
-#endif
 }

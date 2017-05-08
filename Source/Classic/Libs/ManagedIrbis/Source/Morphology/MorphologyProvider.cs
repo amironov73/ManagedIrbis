@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* MorphologyProvider.cs
+/* MorphologyProvider.cs -- base morphology provider
  * Ars Magna project, http://arsmagna.ru 
  * -------------------------------------------------------
  * Status: poor
@@ -12,12 +12,23 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using AM;
+
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
 #endregion
 
 namespace ManagedIrbis.Morphology
 {
-#if NOTDEF
-
+    /// <summary>
+    /// Base morphology provider.
+    /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public class MorphologyProvider
     {
         #region Properties
@@ -34,12 +45,19 @@ namespace ManagedIrbis.Morphology
 
         #region Public methods
 
+        /// <summary>
+        /// Flatten the query.
+        /// </summary>
+        [NotNull]
         public string[] Flatten
             (
-                string word,
-                MorphologyEntry[] entries
+                [NotNull] string word,
+                [NotNull] MorphologyEntry[] entries
             )
         {
+            Code.NotNullNorEmpty(word, "word");
+            Code.NotNull(entries, "entries");
+
             List<string> result = new List<string>
             {
                 word.ToUpper()
@@ -47,8 +65,13 @@ namespace ManagedIrbis.Morphology
 
             foreach (MorphologyEntry entry in entries)
             {
-                result.Add(entry.MainTerm.ToUpper());
-                result.AddRange(entry.Forms.Select(w => w.ToUpper()));
+                string entryMainTerm = entry.MainTerm
+                    .ThrowIfNull("entry.MainTerm");
+                string[] entryForms = entry.Forms
+                    .ThrowIfNull("entry.Forms");
+
+                result.Add(entryMainTerm.ToUpper());
+                result.AddRange(entryForms.Select(w => w.ToUpper()));
             }
 
             return result
@@ -56,17 +79,25 @@ namespace ManagedIrbis.Morphology
                 .ToArray();
         }
 
+        /// <summary>
+        /// Find the word in the morphology database.
+        /// </summary>
+        [NotNull]
         public virtual MorphologyEntry[] FindWord
             (
-                string word
+                [NotNull] string word
             )
         {
             return new MorphologyEntry[0];
         }
 
+        /// <summary>
+        /// Rewrite the query using morphology.
+        /// </summary>
+        [NotNull]
         public virtual string RewriteQuery
             (
-                string queryExpression
+                [NotNull] string queryExpression
             )
         {
             return queryExpression;
@@ -74,6 +105,4 @@ namespace ManagedIrbis.Morphology
 
         #endregion
     }
-
-#endif
 }
