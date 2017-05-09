@@ -149,14 +149,7 @@ namespace AM.Text.Output
 
         #region IDisposable members
 
-        /// <summary>
-        /// Releases the unmanaged resources used by the
-        /// <see cref="T:System.IO.TextWriter" /> and optionally
-        /// releases the managed resources.
-        /// </summary>
-        /// <param name="disposing">true to release both managed
-        /// and unmanaged resources; false to release only
-        /// unmanaged resources.</param>
+        /// <inheritdoc cref="TextWriter.Dispose(bool)"/>
         protected override void Dispose
             (
                 bool disposing

@@ -404,11 +404,11 @@ namespace ManagedIrbis.Mx
             }
         }
 
-#endregion
+        #endregion
 
-#region IDisposable members
+        #region IDisposable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
             _DisposeCommands();
@@ -416,10 +416,10 @@ namespace ManagedIrbis.Mx
             Client.Dispose();
         }
 
-#endregion
+        #endregion
 
-#region Object members
+        #region Object members
 
-#endregion
+        #endregion
     }
 }

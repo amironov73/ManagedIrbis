@@ -199,7 +199,7 @@ namespace ManagedIrbis.Server
 
         #region IDisposable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
             Listener.Stop(); // ???

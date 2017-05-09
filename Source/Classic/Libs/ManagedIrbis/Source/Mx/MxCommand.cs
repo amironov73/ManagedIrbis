@@ -151,7 +151,7 @@ namespace ManagedIrbis.Mx
 
         #region IDisposable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public virtual void Dispose()
         {
             // Nothing to do here

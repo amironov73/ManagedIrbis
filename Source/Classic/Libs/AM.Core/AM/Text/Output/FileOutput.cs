@@ -256,9 +256,7 @@ namespace AM.Text.Output
 
         #region IDisposable members
 
-        /// <summary>
-        /// Disposes this instance.
-        /// </summary>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public override void Dispose()
         {
             if (_writer != null)

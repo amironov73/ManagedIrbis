@@ -1276,7 +1276,7 @@ namespace AM.IO
 
         #region IDisposable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
 #if !WIN81 && !PORTABLE

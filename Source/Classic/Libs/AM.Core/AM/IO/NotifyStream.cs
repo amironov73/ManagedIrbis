@@ -228,7 +228,7 @@ namespace AM.IO
 
         #region IDisposable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         void IDisposable.Dispose()
         {
             if (!ReferenceEquals(_baseStream, null))

@@ -207,10 +207,9 @@ namespace AM.Threading.Tasks
 
         #endregion
 
-
         #region IDisposable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
             if (_isDisposed)

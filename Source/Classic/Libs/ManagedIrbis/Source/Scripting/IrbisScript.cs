@@ -145,7 +145,7 @@ namespace ManagedIrbis.Scripting
 
 #endregion
 
-#region Public methods
+        #region Public methods
 
         /// <summary>
         /// Вызов Lua-функции и получение результата.
@@ -305,14 +305,11 @@ namespace ManagedIrbis.Scripting
             return this;
         }
 
-#endregion
+        #endregion
 
-#region IDisposable members
-        /// <summary>
-        /// Performs application-defined tasks associated
-        /// with freeing, releasing, or resetting
-        /// unmanaged resources.
-        /// </summary>
+        #region IDisposable members
+
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
             if (_ownClient)
@@ -321,6 +318,6 @@ namespace ManagedIrbis.Scripting
             }
         }
 
-#endregion
+        #endregion
     }
 }

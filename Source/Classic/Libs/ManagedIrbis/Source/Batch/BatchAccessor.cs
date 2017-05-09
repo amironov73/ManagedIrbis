@@ -171,7 +171,7 @@ namespace ManagedIrbis.Batch
             (
                 [NotNull] string line,
                 [NotNull] string database,
-                [NotNull] Func<MarcRecord,T> func,
+                [NotNull] Func<MarcRecord, T> func,
                 [NotNull] BlockingCollection<T> collection
             )
         {
@@ -250,62 +250,59 @@ namespace ManagedIrbis.Batch
 
 #if FW4
 
-            _records = new BlockingCollection<MarcRecord>
-                (
-                    array.Length
-                );
-
-            int[][] slices = array.Slice(1000).ToArray();
-
-            foreach (int[] slice in slices)
+            using (_records
+                = new BlockingCollection<MarcRecord>(array.Length))
             {
-                if (slice.Length == 1)
+                int[][] slices = array.Slice(1000).ToArray();
+
+                foreach (int[] slice in slices)
                 {
-                    MarcRecord record = Connection.ReadRecord
-                    (
-                        database,
-                        slice[0],
-                        false,
-                        null
-                    );
-
-                    _records.Add(record);
-                }
-                else
-                {
-                    FormatCommand command
-                        = Connection.CommandFactory
-                        .GetFormatCommand();
-                    command.Database = database;
-                    command.FormatSpecification 
-                        = IrbisFormat.All;
-                    command.MfnList.AddRange(slice);
-
-                    Connection.ExecuteCommand(command);
-
-                    string[] lines = command.FormatResult
-                        .ThrowIfNullOrEmpty
+                    if (slice.Length == 1)
+                    {
+                        MarcRecord record = Connection.ReadRecord
                         (
-                            "command.FormatResult"
+                            database,
+                            slice[0],
+                            false,
+                            null
                         );
 
-                    Debug.Assert
-                    (
-                        lines.Length == slice.Length,
-                        "some records not retrieved"
-                    );
+                        _records.Add(record);
+                    }
+                    else
+                    {
+                        FormatCommand command
+                            = Connection.CommandFactory.GetFormatCommand();
+                        command.Database = database;
+                        command.FormatSpecification = IrbisFormat.All;
+                        command.MfnList.AddRange(slice);
 
-                    Parallel.ForEach
-                    (
-                        lines,
-                        line => _ParseRecord(line, database)
-                    );
+                        Connection.ExecuteCommand(command);
+
+                        string[] lines = command.FormatResult
+                            .ThrowIfNullOrEmpty
+                            (
+                                "command.FormatResult"
+                            );
+
+                        Debug.Assert
+                        (
+                            lines.Length == slice.Length,
+                            "some records not retrieved"
+                        );
+
+                        Parallel.ForEach
+                        (
+                            lines,
+                            line => _ParseRecord(line, database)
+                        );
+                    }
                 }
+
+                _records.CompleteAdding();
+
+                return _records.ToArray();
             }
-
-            _records.CompleteAdding();
-
-            return _records.ToArray();
 
 #else
 
@@ -348,7 +345,7 @@ namespace ManagedIrbis.Batch
             (
                 [CanBeNull] string database,
                 [NotNull] IEnumerable<int> mfnList,
-                [NotNull] Func<MarcRecord,T> func
+                [NotNull] Func<MarcRecord, T> func
             )
         {
             Code.NotNull(mfnList, "mfnList");
@@ -386,68 +383,68 @@ namespace ManagedIrbis.Batch
 
 #if FW4
 
-            BlockingCollection<T> collection = new BlockingCollection<T>
-                (
-                    array.Length
-                );
-
-            int[][] slices = array.Slice(1000).ToArray();
-
-            foreach (int[] slice in slices)
+            using (BlockingCollection<T> collection
+                = new BlockingCollection<T>(array.Length))
             {
-                if (slice.Length == 1)
+
+                int[][] slices = array.Slice(1000).ToArray();
+
+                foreach (int[] slice in slices)
                 {
-                    MarcRecord record = Connection.ReadRecord
-                    (
-                        database,
-                        slice[0],
-                        false,
-                        null
-                    );
-
-                    _records.Add(record);
-                }
-                else
-                {
-                    FormatCommand command
-                        = Connection.CommandFactory
-                        .GetFormatCommand();
-                    command.Database = database;
-                    command.FormatSpecification
-                        = IrbisFormat.All;
-                    command.MfnList.AddRange(slice);
-
-                    Connection.ExecuteCommand(command);
-
-                    string[] lines = command.FormatResult
-                        .ThrowIfNullOrEmpty
+                    if (slice.Length == 1)
+                    {
+                        MarcRecord record = Connection.ReadRecord
                         (
-                            "command.FormatResult"
+                            database,
+                            slice[0],
+                            false,
+                            null
                         );
 
-                    Debug.Assert
-                    (
-                        lines.Length == slice.Length,
-                        "some records not retrieved"
-                    );
+                        _records.Add(record);
+                    }
+                    else
+                    {
+                        FormatCommand command
+                            = Connection.CommandFactory
+                                .GetFormatCommand();
+                        command.Database = database;
+                        command.FormatSpecification
+                            = IrbisFormat.All;
+                        command.MfnList.AddRange(slice);
 
-                    Parallel.ForEach
-                    (
-                        lines,
-                        line => _ParseRecord
+                        Connection.ExecuteCommand(command);
+
+                        string[] lines = command.FormatResult
+                            .ThrowIfNullOrEmpty
+                            (
+                                "command.FormatResult"
+                            );
+
+                        Debug.Assert
+                        (
+                            lines.Length == slice.Length,
+                            "some records not retrieved"
+                        );
+
+                        Parallel.ForEach
+                        (
+                            lines,
+                            line => _ParseRecord
                             (
                                 line,
                                 database,
                                 func,
                                 collection
                             )
-                    );
+                        );
+                    }
                 }
+
+                collection.CompleteAdding();
+
+                return collection.ToArray();
             }
-
-            collection.CompleteAdding();
-
-            return collection.ToArray();
 
 #else
 

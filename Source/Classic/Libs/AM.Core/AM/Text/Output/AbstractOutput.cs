@@ -254,7 +254,7 @@ namespace AM.Text.Output
 
         #region IDisposable members
 
-        /// <inheritdoc cref="IDisposable"/>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public virtual void Dispose()
         {
         }

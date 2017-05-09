@@ -53,15 +53,13 @@ namespace AM.Collections
 
         #region IDisposable members
 
-        /// <summary>
-        /// Dispose all items.
-        /// </summary>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
             for (int i = 0; i < Count; i++)
             {
                 IDisposable item = this[i];
-                if (item != null)
+                if (!ReferenceEquals(item, null))
                 {
                     item.Dispose();
                     //GC.SuppressFinalize(item);

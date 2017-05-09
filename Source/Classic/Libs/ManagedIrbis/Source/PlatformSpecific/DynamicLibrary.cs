@@ -219,7 +219,7 @@ namespace ManagedIrbis.PlatformSpecific
 
         #region IDisposable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
             Disposing.Raise(this);

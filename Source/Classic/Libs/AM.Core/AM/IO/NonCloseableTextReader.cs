@@ -157,13 +157,11 @@ namespace AM.IO.NonCloseable
             return _innerReader.ReadToEnd();
         }
 
-#endregion
+        #endregion
 
         #region IDisposable members
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         void IDisposable.Dispose()
         {
             // Nothing to do actually

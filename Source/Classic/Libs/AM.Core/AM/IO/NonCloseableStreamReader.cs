@@ -181,14 +181,11 @@ namespace AM.IO
             // Nothing to do actually
         }
 
-#endregion
+        #endregion
 
         #region IDisposable Members
 
-        /// <summary>
-        /// Releases all resources used by the 
-        /// <see cref="T:System.IO.TextReader"/> object.
-        /// </summary>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         void IDisposable.Dispose()
         {
             // Nothing to do actually

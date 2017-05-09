@@ -149,9 +149,7 @@ namespace AM.Text.Output
             return this;
         }
 
-        /// <summary>
-        /// Disposes this instance.
-        /// </summary>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public override void Dispose()
         {
             if (_ownWriter)

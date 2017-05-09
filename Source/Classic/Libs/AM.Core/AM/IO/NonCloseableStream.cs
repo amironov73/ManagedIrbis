@@ -296,14 +296,11 @@ namespace AM.IO
             _innerStream.Write(buffer, offset, count);
         }
 
-#endregion
+        #endregion
 
         #region IDisposable members
 
-        /// <summary>
-        /// Releases all resources used by the 
-        /// <see cref="T:System.IO.Stream"></see>.
-        /// </summary>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         void IDisposable.Dispose()
         {
             // Nothing to do actually

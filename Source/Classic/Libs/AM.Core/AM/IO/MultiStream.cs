@@ -322,7 +322,7 @@ namespace AM.IO
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         protected override void Dispose
             (
                 bool disposing

@@ -148,14 +148,11 @@ namespace ManagedIrbis.ImportExport
 
         #region IDisposable members
 
-        /// <summary>
-        /// Performs application-defined tasks associated with
-        /// freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
             if (_ownStream
-                && (_stream != null))
+                && !ReferenceEquals(_stream, null))
             {
                 _stream.Dispose();
             }

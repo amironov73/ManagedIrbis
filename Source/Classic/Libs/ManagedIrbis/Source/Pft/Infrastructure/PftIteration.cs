@@ -117,6 +117,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region IDisposable members
 
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
             Context.Pop();

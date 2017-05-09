@@ -84,11 +84,7 @@ namespace AM.Collections
 
             #region IEnumerator members
 
-            /// <summary>
-            /// Performs application-defined tasks associated
-            /// with freeing, releasing, or resetting
-            /// unmanaged resources.
-            /// </summary>
+            /// <inheritdoc cref="IDisposable.Dispose"/>
             public void Dispose()
             {
                 // Nothing to do here

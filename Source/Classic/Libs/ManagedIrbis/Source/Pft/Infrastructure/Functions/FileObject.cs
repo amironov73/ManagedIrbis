@@ -137,6 +137,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region IDisposable
 
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
             if (!ReferenceEquals(_reader, null))

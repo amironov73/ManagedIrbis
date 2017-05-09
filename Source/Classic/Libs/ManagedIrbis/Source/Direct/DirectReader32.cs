@@ -272,11 +272,7 @@ namespace ManagedIrbis.Direct
 
         #region IDisposable members
 
-        /// <summary>
-        /// Performs application-defined tasks associated
-        /// with freeing, releasing, or resetting
-        /// unmanaged resources.
-        /// </summary>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
             Mst.Dispose();

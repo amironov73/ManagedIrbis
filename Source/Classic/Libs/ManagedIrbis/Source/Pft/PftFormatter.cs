@@ -174,7 +174,7 @@ namespace ManagedIrbis.Pft
 
         #region IDisposable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
             Log.Trace("PftFormatter::Dispose");

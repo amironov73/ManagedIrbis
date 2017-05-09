@@ -201,9 +201,7 @@ namespace ManagedIrbis.Batch
 
         #region IDisposable members
 
-        /// <summary>
-        /// Dispose the batch writer.
-        /// </summary>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
             Flush();

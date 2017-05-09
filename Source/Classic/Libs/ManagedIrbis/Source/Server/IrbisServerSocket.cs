@@ -78,7 +78,7 @@ namespace ManagedIrbis.Server
 
         #region IDisposable
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
 #if NETCORE

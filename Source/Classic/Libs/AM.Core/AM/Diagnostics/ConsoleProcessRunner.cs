@@ -185,7 +185,7 @@ namespace AM.Diagnostics
 
         #region IDisposable
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
             if (!ReferenceEquals(_runningProcess, null))

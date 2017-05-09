@@ -84,7 +84,7 @@ namespace ManagedIrbis.Client
 
         #endregion
 
-#region Private members
+        #region Private members
 
 #if !WIN81 && !PORTABLE
 
@@ -401,7 +401,7 @@ namespace ManagedIrbis.Client
 
         #region IDisposable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public override void Dispose()
         {
             base.Dispose();
