@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Ean13.cs --
+/* Ean8.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -36,9 +36,9 @@ namespace ManagedIrbis.Identifiers
     // американского стандарта UPC.
     //
     // Пример проверки контрольной суммы
-    // 4600051000057 (сигареты «Прима») — код EAN-13.
-    // 4x1 + 6x3 + 0x1 + 0x3 + 0x1 + 5x3 + 1x1 + 0x3 + 0x1 + 0x3 + 0x1 + 5x3 + 7x1=
-    // 4 + 18 + 0 + 0 + 0 + 15 + 1 + 0 + 0 + 0 + 0 + 15 + 7= 60.
+    // 46009333 (папиросы «Беломорканал») — код EAN-8.
+    // 4x3 + 6x1 + 0x3 + 0x1 + 9x3 + 3x1 + 3x3 + 3x1=
+    // 12 + 6 + 0 + 0 + 27 + 3 + 9 + 3= 60.
     // Контрольная сумма = 0 — номер правильный.
     //
 
@@ -47,7 +47,7 @@ namespace ManagedIrbis.Identifiers
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class Ean13
+    public sealed class Ean8
     {
         #region Public data
 
@@ -55,7 +55,7 @@ namespace ManagedIrbis.Identifiers
         /// Coefficients for control digit calculation.
         /// </summary>
         public static int[] Coefficients
-            = { 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1 };
+            = { 3, 1, 3, 1, 3, 1, 3, 1 };
 
         #endregion
 
@@ -72,7 +72,7 @@ namespace ManagedIrbis.Identifiers
             Code.NotNull(digits, "digits");
 
             int sum = 0;
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < 7; i++)
             {
                 sum = sum + (digits[i] - '0') * Coefficients[i];
             }
@@ -92,7 +92,7 @@ namespace ManagedIrbis.Identifiers
             Code.NotNull(digits, "digits");
 
             int sum = 0;
-            for (int i = 0; i < 13; i++)
+            for (int i = 0; i < 8; i++)
             {
                 sum = sum + (digits[i] - '0') * Coefficients[i];
             }

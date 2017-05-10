@@ -161,6 +161,8 @@
     <Compile Include="Source\Fst\FstProcessor.cs" />
     <Compile Include="Source\Fst\LocalFstProcessor.cs" />
     <Compile Include="Source\Identifiers\Ean13.cs" />
+    <Compile Include="Source\Identifiers\Ean8.cs" />
+    <Compile Include="Source\Identifiers\Upc12.cs" />
     <Compile Include="Source\ImportExport\IsoMarker.cs" />
     <Compile Include="Source\ImportExport\IsoRecordHeader.cs" />
     <Compile Include="Source\Infrastructure\AbstractEngine.cs" />
