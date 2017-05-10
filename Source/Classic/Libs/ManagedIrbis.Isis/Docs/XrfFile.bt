@@ -1,0 +1,52 @@
+typedef struct XrfRecord
+{
+    int   data;
+} RECORD<read=readRecord>;
+ 
+string readRecord ( RECORD &rec )
+{
+    local int d = rec.data;
+    local int del = false;
+    if (d < 0)
+    {
+        d = -d;
+        del = true;
+    }
+    local int mfp = d & 0x7FF;
+    local int blk = (d & 0xFFFFF800) >> 11;
+    local int64 ofs = ((blk-1)<<9)+mfp;
+ 
+    string s;
+    SPrintf 
+        ( 
+            s, 
+            "del=%d, blk=%d, mfp=%d, ofs=%LXh",
+            del,
+            blk, 
+            mfp, 
+            ofs 
+        );
+    return s;
+}
+ 
+typedef struct XrfBlock
+{
+    int     XrfPos;
+    if (XrfPos < 0)
+    {
+        return 0;
+    }
+    RECORD  record[127];
+} BLOCK<read=readBlock>;
+ 
+string readBlock ( BLOCK &block )
+{
+    string s;
+    SPrintf ( s, "BLOCK=%d", block.XrfPos );
+    return s;
+}
+ 
+while (!FEof())
+{
+    BLOCK block;
+}
