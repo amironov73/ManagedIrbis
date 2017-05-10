@@ -209,15 +209,12 @@ namespace ManagedIrbis.Identifiers
             int[] digits = new int[10];
             int i, j, sum;
 
-            if ((isbn == null) || (isbn.Length != 13))
+            if (isbn == null || isbn.Length != 13)
             {
                 return false;
             }
 
-            // Not supported in .NET Core
-            //isbn = isbn.ToUpper(Invariant);
             isbn = isbn.ToUpper();
-            //hyphen = char.ToUpper(hyphen, Invariant);
             hyphen = char.ToUpper(hyphen);
             for (i = j = 0; i < isbn.Length; i++)
             {
@@ -239,7 +236,7 @@ namespace ManagedIrbis.Identifiers
                 }
                 else
                 {
-                    if ((chr >= '0') && (chr <= '9'))
+                    if (chr >= '0' && chr <= '9')
                     {
                         digits[j++] = chr - '0';
                     }
@@ -255,7 +252,7 @@ namespace ManagedIrbis.Identifiers
             }
             sum %= 11;
 
-            return (sum == 0);
+            return sum == 0;
         }
 
         /// <summary>
@@ -289,9 +286,9 @@ namespace ManagedIrbis.Identifiers
             int count = 0;
 
             if (string.IsNullOrEmpty(isbn)
-                || (isbn[0] == hyphen)
-                || (isbn[isbn.Length - 1] == hyphen)
-                || (isbn[isbn.Length - 2] != hyphen)
+                || isbn[0] == hyphen
+                || isbn[isbn.Length - 1] == hyphen
+                || isbn[isbn.Length - 2] != hyphen
                 )
             {
                 return false;
@@ -309,7 +306,7 @@ namespace ManagedIrbis.Identifiers
                 }
             }
 
-            return (count == 3);
+            return count == 3;
         }
 
         /// <summary>
@@ -352,26 +349,34 @@ namespace ManagedIrbis.Identifiers
             return result;
         }
 
-#if NOTDEF
-
         /// <summary>
         /// Конвертирует ISBN в штрих-код EAN13.
         /// </summary>
         /// <param name="isbn">ISBN.</param>
         /// <returns>Штрих-код.</returns>
-        public static string ToEan13(string isbn)
+        public static string ToEan13
+            (
+                string isbn
+            )
         {
-            if ((isbn == null) || (isbn.Length != 13))
+            if (isbn == null || isbn.Length != 13)
                 return null;
 
-            char[] digits = new char[13] { '9', '7', '8', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
+            char[] digits =
+            {
+                '9', '7', '8', ' ', ' ', ' ', ' ', ' ',
+                ' ', ' ', ' ', ' ', ' '
+            };
             for (int i = 0, j = 2; i < isbn.Length; i++)
             {
                 char chr = isbn[i];
-                if ((chr >= '0') && (chr <= '9'))
+                if (chr >= '0' && chr <= '9')
+                {
                     digits[++j] = chr;
+                }
             }
-            digits[12] = ComputeCheckDigit(new string(digits));
+            digits[12] = Ean13.ComputeCheckDigit(digits);
+
             return new string(digits);
         }
 
@@ -380,10 +385,15 @@ namespace ManagedIrbis.Identifiers
         /// </summary>
         /// <param name="ean">штрих-код.</param>
         /// <returns>Суррогатный ISBN.</returns>
-        public static string FromEan13(string ean)
+        public static string FromEan13
+            (
+                string ean
+            )
         {
-            if ((ean == null) || (ean.Length != 13))
+            if (ean == null || ean.Length != 13)
+            {
                 return null;
+            }
 
             char[] digits = new char[] { ' ', '-', ' ', ' ', ' ', '-', ' ', ' ', ' ', ' ', ' ', '-', ' ' };
             char[] possible = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'X' };
@@ -411,8 +421,6 @@ namespace ManagedIrbis.Identifiers
             }
             return result;
         }
-
-#endif
 
         #endregion
     }

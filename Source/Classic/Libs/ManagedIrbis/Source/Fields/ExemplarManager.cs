@@ -12,16 +12,19 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
 using AM;
+using AM.IO;
 using AM.Runtime;
 using AM.Text.Output;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Batch;
 using ManagedIrbis.Readers;
 
 #endregion
@@ -36,12 +39,12 @@ namespace ManagedIrbis.Fields
         #region Properties
 
         /// <summary>
-        /// Client.
+        /// Client connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Client
+        public IrbisConnection Connection
         {
-            get { return _client; }
+            get { return _connection; }
         }
 
         /// <summary>
@@ -96,11 +99,10 @@ namespace ManagedIrbis.Fields
         /// </summary>
         public ExemplarManager
             (
-                [NotNull] IrbisConnection client
+                [NotNull] IrbisConnection connection
             )
-            : this (client, null)
+            : this (connection, null)
         {
-            
         }
 
         /// <summary>
@@ -108,11 +110,11 @@ namespace ManagedIrbis.Fields
         /// </summary>
         public ExemplarManager
             (
-                [NotNull] IrbisConnection client,
+                [NotNull] IrbisConnection connection,
                 [CanBeNull] AbstractOutput output
             )
         {
-            _client = client;
+            _connection = connection;
             _output = output;
             Prefix = "IN=";
             Format = "@brief";
@@ -124,7 +126,7 @@ namespace ManagedIrbis.Fields
 
         #region Private members
 
-        private readonly IrbisConnection _client;
+        private readonly IrbisConnection _connection;
 
         private readonly List<ExemplarInfo> _list;
 
@@ -134,7 +136,7 @@ namespace ManagedIrbis.Fields
 
         private static string _GetYear
             (
-                MarcRecord record
+                [NotNull] MarcRecord record
             )
         {
             string result = record.FM("210", 'd');
@@ -175,6 +177,7 @@ namespace ManagedIrbis.Fields
             {
                 return price;
             }
+
             return string.Empty;
         }
 
@@ -244,7 +247,7 @@ namespace ManagedIrbis.Fields
             string result = record.Description;
             if (string.IsNullOrEmpty(result))
             {
-                result = Client.FormatRecord
+                result = Connection.FormatRecord
                     (
                         Format,
                         record.Mfn
@@ -263,7 +266,7 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Get bibliographic description.
         /// </summary>
-        [NotNull]
+        [CanBeNull]
         public string GetDescription
             (
                 [CanBeNull] MarcRecord record,
@@ -272,13 +275,13 @@ namespace ManagedIrbis.Fields
         {
             string result;
 
-            if (record != null)
+            if (!ReferenceEquals(record, null))
             {
                 result = GetDescription(record);
             }
             else
             {
-                result = Client.FormatRecord
+                result = Connection.FormatRecord
                     (
                         Format,
                         exemplar.Mfn
@@ -309,7 +312,7 @@ namespace ManagedIrbis.Fields
                     exemplar
                 );
 
-            if (record != null)
+            if (!ReferenceEquals(record, null))
             {
                 exemplar.Year = _GetYear(record);
                 exemplar.Price = _GetPrice(record, exemplar);
@@ -364,7 +367,7 @@ namespace ManagedIrbis.Fields
         /// </summary>
         public bool IsNewspaper
             (
-                MarcRecord record
+                [NotNull] MarcRecord record
             )
         {
             string worklist = record.FM("920");
@@ -388,7 +391,7 @@ namespace ManagedIrbis.Fields
                 return result;
             }
 
-            MarcRecord main = Client.SearchReadOneRecord
+            MarcRecord main = Connection.SearchReadOneRecord
                 (
                     "\"I={0}\"",
                     index
@@ -407,11 +410,12 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// List library places.
         /// </summary>
+        [NotNull]
         public ChairInfo[] ListPlaces()
         {
             ChairInfo[] result = ChairInfo.Read
                 (
-                    Client,
+                    Connection,
                     "mhr.mnu",
                     false
                 )
@@ -463,7 +467,7 @@ namespace ManagedIrbis.Fields
                 [NotNull] string number
             )
         {
-            MarcRecord[] records = Client.SearchRead
+            MarcRecord[] records = Connection.SearchRead
                 (
                     "\"{0}{1}\"",
                     Prefix,
@@ -496,19 +500,26 @@ namespace ManagedIrbis.Fields
                 [CanBeNull] Encoding encoding
             )
         {
-            throw new NotImplementedException();
-
-#if NOTDEF
-            if (encoding == null)
+            if (ReferenceEquals(encoding, null))
             {
                 encoding = Encoding.UTF8;
             }
 
-            IniFile ini = IniFile.ParseFile<IniFile>(fileName, encoding);
-            IniFile.Section section = ini.GetOrCreateSection("Main");
-            Format = section.Get("Format", Format);
-            Prefix = section.Get("Prefix", Prefix);
-#endif
+            IniFile ini = new IniFile(fileName, encoding, false);
+            IniFile.Section section = ini.GetSection("Main");
+            if (!ReferenceEquals(section, null))
+            {
+                string format = section.GetValue("Format", Format);
+                if (!string.IsNullOrEmpty(format))
+                {
+                    Format = format;
+                }
+                string prefix = section.GetValue("Prefix", Prefix);
+                if (!string.IsNullOrEmpty(prefix))
+                {
+                    Prefix = prefix;
+                }
+            }
         }
 
         /// <summary>
@@ -520,23 +531,20 @@ namespace ManagedIrbis.Fields
                 [CanBeNull] Encoding encoding
             )
         {
-            throw new NotImplementedException();
-
-#if NOTDEF
             if (encoding == null)
             {
                 encoding = Encoding.UTF8;
             }
 
             IniFile ini = File.Exists(fileName)
-                ? IniFile.ParseFile<IniFile>(fileName, encoding)
-                : new IniFile();
-            IniFile.Section section = ini.GetOrCreateSection("Main");
+                ? new IniFile(fileName, encoding, true) 
+                : new IniFile { Encoding = encoding };
+            IniFile.Section section
+                = ini.GetOrCreateSection("Main");
             section["Format"] = Format;
             section["Prefix"] = Prefix;
 
-            ini.Save(fileName, encoding);
-#endif
+            ini.Save(fileName);
         }
 
 #if !SILVERLIGHT && !WIN81 && !PORTABLE
@@ -562,20 +570,17 @@ namespace ManagedIrbis.Fields
         public ExemplarManager ReadRange
             (
                 [CanBeNull] string place,
-                [NotNull] string format,
-                params object[] args
+                [NotNull] string searchExpression
             )
         {
-            throw new NotImplementedException();
-
-#if NOTDEF
-            BatchRecordReader reader = new BatchRecordReader
+            IEnumerable<MarcRecord> reader = BatchRecordReader.Search
                 (
-                    Client,
-                    format,
-                    args
+                    Connection,
+                    Connection.Database,
+                    searchExpression,
+                    1000
                 );
-            foreach (IrbisRecord record in reader)
+            foreach (MarcRecord record in reader)
             {
                 ExemplarInfo[] exemplars = FromRecord(record);
                 if (!string.IsNullOrEmpty(place))
@@ -591,7 +596,6 @@ namespace ManagedIrbis.Fields
             }
 
             return this;
-#endif
         }
 
         /// <summary>
