@@ -91,19 +91,19 @@ namespace ManagedIrbis.Client
 
         #endregion
 
-#region Construction
+        #region Construction
 
-#endregion
+        #endregion
 
-#region Private members
+        #region Private members
 
-#endregion
+        #endregion
 
-#region Public methods
+        #region Public methods
 
-#endregion
+        #endregion
 
-#region IHandmadeSerializable
+        #region IHandmadeSerializable
 
 #if !SILVERLIGHT
 

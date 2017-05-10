@@ -331,6 +331,18 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Gbl\ProtocolLine.cs">
       <Link>Source\Gbl\ProtocolLine.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Ean13.cs">
+      <Link>Source\Identifiers\Ean13.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Ean8.cs">
+      <Link>Source\Identifiers\Ean8.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isbn.cs">
+      <Link>Source\Identifiers\Isbn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Upc12.cs">
+      <Link>Source\Identifiers\Upc12.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\IlfFile.cs">
       <Link>Source\IlfFile.cs</Link>
     </Compile>

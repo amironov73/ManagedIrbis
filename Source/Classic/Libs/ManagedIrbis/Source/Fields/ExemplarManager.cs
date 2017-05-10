@@ -491,6 +491,8 @@ namespace ManagedIrbis.Fields
             return result;
         }
 
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
+
         /// <summary>
         /// Read configuration.
         /// </summary>
@@ -546,8 +548,6 @@ namespace ManagedIrbis.Fields
 
             ini.Save(fileName);
         }
-
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Save to the file.
