@@ -16,6 +16,10 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
+
 #endregion
 
 namespace ManagedIrbis.Isis
@@ -23,6 +27,8 @@ namespace ManagedIrbis.Isis
     /// <summary>
     /// ISIS32.DLL interop.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public static class IsisInterop
     {
         #region Constants
@@ -60,7 +66,7 @@ namespace ManagedIrbis.Isis
         public static extern int IsisAppAcTab
             (
                 int handle,
-                string fileName
+                [NotNull] string fileName
             );
 
         /// <summary>
@@ -100,7 +106,7 @@ namespace ManagedIrbis.Isis
         public static extern int IsisAppLogFile
             (
                 int handle,
-                string fileName
+                [NotNull] string fileName
             );
 
         /// <summary>
@@ -126,8 +132,8 @@ namespace ManagedIrbis.Isis
         public static extern int IsisAppParGet
             (
                 int handle,
-                string parinp,
-                StringBuilder paroutp,
+                [NotNull] string parinp,
+                [NotNull] StringBuilder paroutp,
                 int areasize
             );
 
@@ -144,7 +150,7 @@ namespace ManagedIrbis.Isis
         public static extern int IsisAppParSet
             (
                 int handle,
-                string pararea
+                [NotNull] string pararea
             );
 
         /// <summary>
@@ -161,7 +167,7 @@ namespace ManagedIrbis.Isis
         public static extern int IsisAppUcTab
             (
                 int handle,
-                string fileName
+                [NotNull] string fileName
             );
 
         /// <summary>
@@ -174,7 +180,7 @@ namespace ManagedIrbis.Isis
         public static extern int IsisSpaDb
             (
                 int handle,
-                string name
+                [NotNull] string name
             );
 
         /// <summary>
@@ -198,7 +204,7 @@ namespace ManagedIrbis.Isis
         public static extern int IsisSpaDf
             (
                 int handle,
-                string name
+                [NotNull] string name
             );
 
         /// <summary>
@@ -211,7 +217,7 @@ namespace ManagedIrbis.Isis
         public static extern int IsisSpaFdt
             (
                 int handle,
-                string name
+                [NotNull] string name
             );
 
         /// <summary>
@@ -224,7 +230,7 @@ namespace ManagedIrbis.Isis
         public static extern int IsisSpaFst
             (
                 int handle,
-                string name
+                [NotNull] string name
             );
 
         /// <summary>
@@ -237,7 +243,7 @@ namespace ManagedIrbis.Isis
         public static extern int IsisSpaGf
             (
                 int handle,
-                string name
+                [NotNull] string name
             );
 
         /// <summary>
@@ -250,7 +256,7 @@ namespace ManagedIrbis.Isis
         public static extern int IsisSpaHeaderMap
             (
                 int handle,
-                string header
+                [NotNull] string header
             );
 
         /// <summary>
@@ -263,7 +269,7 @@ namespace ManagedIrbis.Isis
         public static extern int IsisSpaIf
             (
                 int handle,
-                string fname
+                [NotNull] string fname
             );
 
         /// <summary>
@@ -288,8 +294,8 @@ namespace ManagedIrbis.Isis
         public static extern int IsisSpaIsoDelim
             (
                 int handle,
-                string recordDelimiter,
-                string fieldDelimiter
+                [NotNull] string recordDelimiter,
+                [NotNull] string fieldDelimiter
             );
 
         /// <summary>
@@ -302,7 +308,7 @@ namespace ManagedIrbis.Isis
         public static extern int IsisSpaIsoIn
             (
                 int handle,
-                string fname
+                [NotNull] string fname
             );
 
         /// <summary>
@@ -315,7 +321,7 @@ namespace ManagedIrbis.Isis
         public static extern int IsisSpaIsoOut
             (
                 int handle,
-                string fname
+                [NotNull] string fname
             );
 
         /// <summary>
@@ -339,7 +345,7 @@ namespace ManagedIrbis.Isis
         public static extern int IsisSpaMf
             (
                 int handle,
-                string fname
+                [NotNull] string fname
             );
 
         /// <summary>
@@ -396,7 +402,7 @@ namespace ManagedIrbis.Isis
         public static extern int IsisSpaName
             (
                 int handle,
-                string name
+                [NotNull] string name
             );
 
         /// <summary>
@@ -420,7 +426,7 @@ namespace ManagedIrbis.Isis
         public static extern int IsisSpaPft
             (
                 int handle,
-                string format
+                [NotNull] string format
             );
 
         /// <summary>
@@ -434,8 +440,8 @@ namespace ManagedIrbis.Isis
         public static extern int IsisSpaRecDelim
             (
                 int handle,
-                string begin,
-                string end
+                [NotNull] string begin,
+                [NotNull] string end
             );
 
         /// <summary>
@@ -461,7 +467,7 @@ namespace ManagedIrbis.Isis
         public static extern int IsisSpaStw
             (
                 int handle,
-                string name
+                [NotNull] string name
             );
 
         /// <summary>
@@ -533,7 +539,7 @@ namespace ManagedIrbis.Isis
             (
                 int spaceHandle,
                 int index,
-                StringBuilder area,
+                [NotNull] StringBuilder area,
                 int areaSize
             );
 
@@ -554,7 +560,7 @@ namespace ManagedIrbis.Isis
                 int index,
                 int tag,
                 int occurence,
-                StringBuilder area,
+                [NotNull] StringBuilder area,
                 int areaSize
             );
 
@@ -588,7 +594,7 @@ namespace ManagedIrbis.Isis
                 int handle,
                 int index,
                 int pos,
-                StringBuilder area,
+                [NotNull] StringBuilder area,
                 int areaSize
             );
 
@@ -604,7 +610,7 @@ namespace ManagedIrbis.Isis
             (
                 int spaceHandle,
                 int index,
-                string updateString
+                [NotNull] string updateString
             );
 
         /// <summary>
@@ -620,7 +626,7 @@ namespace ManagedIrbis.Isis
             (
                 int handle,
                 int index,
-                StringBuilder area,
+                [NotNull] StringBuilder area,
                 int areaSize
             );
 
@@ -639,7 +645,7 @@ namespace ManagedIrbis.Isis
                 int handle,
                 int index,
                 int lineSize,
-                StringBuilder area,
+                [NotNull] StringBuilder area,
                 int areaSize
             );
 
@@ -861,8 +867,8 @@ namespace ManagedIrbis.Isis
                 int index,
                 int tag,
                 int occurence,
-                string subField,
-                StringBuilder area,
+                [NotNull] string subField,
+                [NotNull] StringBuilder area,
                 int areaSize
             );
 
@@ -885,9 +891,9 @@ namespace ManagedIrbis.Isis
                 int index,
                 int tag,
                 int occurence,
-                string subField,
+                [NotNull] string subField,
                 int subOccurence,
-                StringBuilder area,
+                [NotNull] StringBuilder area,
                 int areaSize
             );
 
@@ -942,7 +948,7 @@ namespace ManagedIrbis.Isis
             (
                 int handle,
                 int index,
-                string sparser
+                [NotNull] string sparser
             );
 
         /// <summary>
@@ -1080,7 +1086,7 @@ namespace ManagedIrbis.Isis
                 int searchnum,
                 int firstpos,
                 int lastpos,
-                IsisSearchHit[] areap
+                [NotNull] IsisSearchHit[] areap
             );
 
         /// <summary>
@@ -1111,7 +1117,7 @@ namespace ManagedIrbis.Isis
             (
                 int handle,
                 int lognumber,
-                string filename
+                [NotNull] string filename
             );
 
         /// <summary>
@@ -1126,7 +1132,7 @@ namespace ManagedIrbis.Isis
         public static extern int IsisSrcLogFileUse
             (
                 int handle,
-                string filename,
+                [NotNull] string filename,
                 int lognumber
             );
 
@@ -1157,7 +1163,7 @@ namespace ManagedIrbis.Isis
                 int searchnum,
                 int firstpos,
                 int lastpos,
-                int[] mfnareap
+                [NotNull] int[] mfnareap
             );
 
         /// <summary>
@@ -1205,7 +1211,7 @@ namespace ManagedIrbis.Isis
                 int index,
                 int firstpos,
                 int lastpos,
-                int[] mfnareap
+                [NotNull] int[] mfnareap
             );
 
         /// <summary>
@@ -1230,7 +1236,7 @@ namespace ManagedIrbis.Isis
                 int index,
                 int firstpos,
                 int lastops,
-                IsisTermPosting[] parea
+                [NotNull] IsisTermPosting[] parea
             );
 
         /// <summary>

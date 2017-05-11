@@ -1,25 +1,38 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* NullLogger.cs --
+/* ConsoleLogger.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
 
+#if CLASSIC || DESKTOP || NETCORE
+
 #region Using directives
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using CodeJam;
+
 using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
 
 #endregion
 
 namespace AM.Logging
 {
     /// <summary>
-    /// Null logger.
+    /// 
     /// </summary>
     [PublicAPI]
-    public sealed class NullLogger
+    [MoonSharpUserData]
+    public sealed class ConsoleLogger
         : IAmLogger
     {
         #region IAmLogger members
@@ -30,6 +43,7 @@ namespace AM.Logging
                 string text
             )
         {
+            Console.WriteLine(text);
         }
 
         /// <inheritdoc cref="IAmLogger.Error" />
@@ -38,6 +52,7 @@ namespace AM.Logging
                 string text
             )
         {
+            Console.WriteLine(text);
         }
 
         /// <inheritdoc cref="IAmLogger.Fatal" />
@@ -46,6 +61,7 @@ namespace AM.Logging
                 string text
             )
         {
+            Console.WriteLine(text);
         }
 
         /// <inheritdoc cref="IAmLogger.Info" />
@@ -54,6 +70,7 @@ namespace AM.Logging
                 string text
             )
         {
+            Console.WriteLine(text);
         }
 
         /// <inheritdoc cref="IAmLogger.Trace" />
@@ -62,6 +79,7 @@ namespace AM.Logging
                 string text
             )
         {
+            Console.WriteLine(text);
         }
 
         /// <inheritdoc cref="IAmLogger.Warn" />
@@ -70,8 +88,11 @@ namespace AM.Logging
                 string text
             )
         {
+            Console.WriteLine(text);
         }
 
         #endregion
     }
 }
+
+#endif
