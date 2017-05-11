@@ -1613,6 +1613,14 @@ namespace ManagedIrbis
         {
             Code.NotNull(socket, "socket");
 
+            if (Connected)
+            {
+                throw new IrbisException
+                    (
+                        "Can't set socket while connected"
+                    );
+            }
+
             socket.Connection = this;
             Socket = socket;
         }
@@ -1758,13 +1766,35 @@ namespace ManagedIrbis
                 bool actualize
             )
         {
+            return WriteRecord
+                (
+                    record,
+                    lockFlag,
+                    actualize,
+                    false
+                );
+        }
+
+        /// <summary>
+        /// Create or update existing record in the database.
+        /// </summary>
+        [NotNull]
+        public MarcRecord WriteRecord
+            (
+                [NotNull] MarcRecord record,
+                bool lockFlag,
+                bool actualize,
+                bool dontParseResponse
+            )
+        {
             Code.NotNull(record, "record");
 
             WriteRecordCommand command = new WriteRecordCommand(this)
             {
                 Record = record,
                 Actualize = actualize,
-                Lock = lockFlag
+                Lock = lockFlag,
+                DontParseResponse = dontParseResponse
             };
 
             ExecuteCommand(command);

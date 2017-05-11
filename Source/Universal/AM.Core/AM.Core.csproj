@@ -362,6 +362,12 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Json\JsonUtility.cs">
       <Link>AM\Json\JsonUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Logging\ConsoleLogger.cs">
+      <Link>AM\Logging\ConsoleLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Logging\FileLogger.cs">
+      <Link>AM\Logging\FileLogger.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Logging\IAmLogger.cs">
       <Link>AM\Logging\IAmLogger.cs</Link>
     </Compile>

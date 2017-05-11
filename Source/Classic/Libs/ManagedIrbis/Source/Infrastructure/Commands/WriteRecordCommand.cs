@@ -50,6 +50,11 @@ namespace ManagedIrbis.Infrastructure.Commands
         public int MaxMfn { get; set; }
 
         /// <summary>
+        /// Don't parse server response.
+        /// </summary>
+        public bool DontParseResponse { get; set; }
+
+        /// <summary>
         /// Record to write.
         /// </summary>
         [CanBeNull]
@@ -131,11 +136,14 @@ namespace ManagedIrbis.Infrastructure.Commands
             Record.Database = database;
             Record.HostName = Connection.Host;
 
-            ProtocolText.ParseResponseForWriteRecord
-                            (
-                                result,
-                                Record
-                            );
+            if (!DontParseResponse)
+            {
+                ProtocolText.ParseResponseForWriteRecord
+                (
+                    result,
+                    Record
+                );
+            }
 
             return result;
         }

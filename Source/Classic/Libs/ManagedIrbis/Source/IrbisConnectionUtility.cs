@@ -141,6 +141,30 @@ namespace ManagedIrbis
             }
         }
 
+        /// <summary>
+        /// Delete given record (mark as deleted on the server).
+        /// </summary>
+        public static void DeleteRecord
+            (
+                [NotNull] this IrbisConnection connection,
+                int mfn,
+                bool dontParseResponse
+            )
+        {
+            Code.NotNull(connection, "connection");
+
+            MarcRecord record = connection.ReadRecord(mfn);
+            if (!record.Deleted)
+            {
+                record.Deleted = true;
+                connection.WriteRecord
+                    (
+                        record,
+                        dontParseResponse
+                    );
+            }
+        }
+
         // ========================================================
 
         /// <summary>
@@ -1667,6 +1691,29 @@ namespace ManagedIrbis
                     record,
                     false,
                     true
+                );
+        }
+
+        /// <summary>
+        /// Create or update existing record in the database.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord WriteRecord
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] MarcRecord record,
+                bool dontParseResponse
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNull(record, "record");
+
+            return connection.WriteRecord
+                (
+                    record,
+                    false,
+                    true,
+                    dontParseResponse
                 );
         }
 

@@ -21,6 +21,14 @@ CALL :BUILD RestfulIrbis       core no droid uap no    pcl
 CALL :BUILD IrbisInterop       no   no no    no  no    no
 CALL :BUILD ManagedIrbis.Isis  no   no no    no  no    no
 
+IF exist content (
+cd content
+del /s /q *.* > nul 2> nul
+cd ..
+rmdir content > nul 2> nul
+)
+
+
 GOTO :END
 
 :BUILD
@@ -52,6 +60,13 @@ IF %6==no    rmdir win81                 > nul 2> nul
 
 IF %7==pcl   mkdir "portable-net45+win8" > nul 2> nul
 IF %7==no    rmdir "portable-net45+win8" > nul 2> nul
+
+IF exist content (
+cd content
+del /s /q *.* > nul 2> nul
+cd ..
+rmdir content > nul 2> nul
+)
 
 cd ..
 
@@ -137,9 +152,8 @@ copy ..\Source\Delphi\Irbis65\Irbis65.dll     lib\net45 > nul
 )
 
 IF %1==ManagedIrbis.Isis (
-copy %BIN%\%BUILD%35\ISIS32.DLL               lib\net35 > nul
-copy %BIN%\%BUILD%40\ISIS32.DLL               lib\net40 > nul
-copy %BIN%\%BUILD%45\ISIS32.DLL               lib\net45 > nul
+mkdir content
+copy %BIN%\%BUILD%35\ISIS32.DLL               content   > nul
 )
 
 
