@@ -20,7 +20,7 @@
     <iconUrl>http://arsmagna.ru/images/arsmagna-icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
-    <copyright>Copyright Alexey Mironov 2013-2016</copyright>
+    <copyright>Copyright Alexey Mironov 2013-2017</copyright>
     <dependencies>
       <dependency id="JetBrains.Annotations" version="10.2.1" />
       <dependency id="MoonSharp" version="2.0.0.0" />

@@ -19,6 +19,7 @@ CALL :BUILD AM.AOT             core no droid uap no    pcl
 CALL :BUILD AM.Ocr             no   no no    no  no    no
 CALL :BUILD RestfulIrbis       core no droid uap no    pcl
 CALL :BUILD IrbisInterop       no   no no    no  no    no
+CALL :BUILD ManagedIrbis.Isis  no   no no    no  no    no
 
 GOTO :END
 
@@ -134,6 +135,13 @@ copy ..\Source\Delphi\Irbis65\Irbis65.dll     lib\net35 > nul
 copy ..\Source\Delphi\Irbis65\Irbis65.dll     lib\net40 > nul
 copy ..\Source\Delphi\Irbis65\Irbis65.dll     lib\net45 > nul
 )
+
+IF %1==ManagedIrbis.Isis (
+copy %BIN%\%BUILD%35\ISIS32.DLL               lib\net35 > nul
+copy %BIN%\%BUILD%40\ISIS32.DLL               lib\net40 > nul
+copy %BIN%\%BUILD%45\ISIS32.DLL               lib\net45 > nul
+)
+
 
 PatchNugetVersion.exe %BIN%\%BUILD%40\AM.Core.dll %1.nuspec
 

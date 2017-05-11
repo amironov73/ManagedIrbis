@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>ManagedIrbis</id>
+    <id>ManagedIrbis.Office</id>
     <version>1.7.0.1500</version>
     <title>Report driver for Excel file generation</title>
     <authors>Mironov Alexey</authors>
@@ -20,13 +20,15 @@
     <iconUrl>http://arsmagna.ru/images/arsmagna-icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
-    <copyright>Copyright Alexey Mironov 2013-2016</copyright>
+    <copyright>Copyright Alexey Mironov 2013-2017</copyright>
     <dependencies>
       <dependency id="JetBrains.Annotations" version="10.2.1" />
       <dependency id="MoonSharp" version="2.0.0.0" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
       <dependency id="ArsMagna.Core" version="1.7.0" />
       <dependency id="ArsMagna.Drawing" version="1.7.0" />
+      <dependency id="ArsMagna.Windows.Forms" version="1.7.0" />
+      <dependency id="ArsMagna.IrbisUI" version="1.7.0" />
       <dependency id="ManagedIrbis" version="1.7.0" />
     </dependencies>
     <references></references>
