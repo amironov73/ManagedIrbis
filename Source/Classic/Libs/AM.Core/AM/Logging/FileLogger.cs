@@ -12,6 +12,7 @@
 #region Using directives
 
 using System.IO;
+using System.Text;
 
 using CodeJam;
 
@@ -71,8 +72,17 @@ namespace AM.Logging
         {
             if (!ReferenceEquals(line, null))
             {
-                using (StreamWriter writer 
-                    = new StreamWriter(FileName, true))
+                using (StreamWriter writer
+#if NETCORE
+                    = new StreamWriter
+                    (
+                        new FileStream (FileName, FileMode.Append),
+                        Encoding.UTF8
+                    )
+#else
+                    = new StreamWriter(FileName, true)
+#endif
+                    )
                 {
                     writer.WriteLine(line);
                 }
@@ -81,9 +91,9 @@ namespace AM.Logging
             return this;
         }
 
-        #endregion
+#endregion
 
-        #region IAMLogger members
+#region IAMLogger members
 
         /// <inheritdoc cref="IAmLogger.Debug" />
         public void Debug
@@ -139,7 +149,7 @@ namespace AM.Logging
             WriteLine(text);
         }
 
-        #endregion
+#endregion
     }
 }
 
