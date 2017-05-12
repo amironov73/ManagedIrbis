@@ -167,6 +167,8 @@ namespace ManagedIrbis
                 [CanBeNull] string text
             )
         {
+            const char ZERO = '\0';
+
             if (string.IsNullOrEmpty(text))
             {
                 return text;
@@ -176,13 +178,61 @@ namespace ManagedIrbis
             if (!string.IsNullOrEmpty(text))
             {
                 text = text.Replace("\r", string.Empty)
-                    .Replace("\n", string.Empty)
-                    .Replace('\t', ' ')
-                    .Replace("\x1F", string.Empty)
-                    .Replace("\x1E", string.Empty);
+                    .Replace("\n", string.Empty);
             }
 
-            return text;
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            StringBuilder result = new StringBuilder(text.Length);
+            TextNavigator navigator = new TextNavigator(text);
+
+            char state = ZERO;
+
+            // Replace all forbidden characters with spaces
+            while (!navigator.IsEOF)
+            {
+                char c = navigator.ReadChar();
+
+                switch (state)
+                {
+                    case '\'':
+                        if (c == '\'')
+                        {
+                            state = ZERO;
+                        }
+                        result.Append(c);
+                        break;
+
+                    case '"':
+                        if (c == '"')
+                        {
+                            state = ZERO;
+                        }
+                        result.Append(c);
+                        break;
+
+                    case '|':
+                        if (c == '|')
+                        {
+                            state = ZERO;
+                        }
+                        result.Append(c);
+                        break;
+
+                    default:
+                        if (c < ' ')
+                        {
+                            c = ' ';
+                        }
+                        result.Append(c);
+                        break;
+                }
+            }
+
+            return result.ToString();
         }
 
         /// <summary>

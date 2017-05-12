@@ -34,6 +34,15 @@ namespace ManagedIrbis.Search
     [MoonSharpUserData]
     public static class SearchUtility
     {
+        #region Constants
+
+        /// <summary>
+        /// Maximal term length (bytes, not characters!).
+        /// </summary>
+        public const int MaxTermLength = 255;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -66,15 +75,21 @@ namespace ManagedIrbis.Search
 
             foreach (string term in terms)
             {
-                if (!first)
+                if (!string.IsNullOrEmpty(term))
                 {
-                    result.Append(operation);
+                    if (!first)
+                    {
+                        result.Append(operation);
+                    }
+
+                    string wrapped = WrapTerm
+                    (
+                        TrimTerm(prefix + term)
+                    );
+                    result.Append(wrapped);
+
+                    first = false;
                 }
-
-                string wrapped = WrapTerm(prefix + term);
-                result.Append(wrapped);
-
-                first = false;
             }
 
             if (first)
@@ -83,6 +98,53 @@ namespace ManagedIrbis.Search
             }
 
             return result.ToString();
+        }
+
+        /// <summary>
+        /// Trim the term (if exceeds <see cref="MaxTermLength"/>
+        /// bytes).
+        /// </summary>
+        [NotNull]
+        public static string TrimTerm
+            (
+                [NotNull] string term
+            )
+        {
+            Code.NotNull(term, "term");
+
+            int originalLength = term.Length;
+
+            // Simple optimization
+            if (originalLength < MaxTermLength / 2)
+            {
+                // Garanteed to fit into
+                return term;
+            }
+
+            Encoding encoding = IrbisEncoding.Utf8;
+            char[] charArray = term.ToCharArray();
+            int currentLength = originalLength;
+
+            while (currentLength > 0)
+            {
+                int count = encoding.GetByteCount
+                    (
+                        charArray,
+                        0,
+                        currentLength
+                    );
+                if (count <= MaxTermLength)
+                {
+                    break;
+                }
+                currentLength--;
+            }
+
+            string result = currentLength == originalLength
+                ? term
+                : term.Substring(0, currentLength);
+
+            return result;
         }
 
         /// <summary>

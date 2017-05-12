@@ -55,8 +55,21 @@ namespace ManagedIrbis
         public static string ConversionFormat = DefaultFormat;
 
         /// <summary>
+        /// Text representation of today date.
+        /// </summary>
+        [NotNull]
+        public static string TodayText
+        {
+            get
+            {
+                return new IrbisDate().Text;
+            }
+        }
+
+        /// <summary>
         /// В виде текста.
         /// </summary>
+        [NotNull]
         public string Text { get; private set; }
 
         /// <summary>

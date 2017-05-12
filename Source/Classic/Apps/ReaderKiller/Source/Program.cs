@@ -103,7 +103,11 @@ namespace ReaderKiller
                 Exception exception
             )
         {
-            Console.WriteLine(exception.Message);
+            Console.WriteLine
+                (
+                    " {0}",
+                    exception.Message
+                );
 
             return true;
         }
@@ -184,6 +188,7 @@ namespace ReaderKiller
 
                 Console.WriteLine("Disconnected");
 
+                stopwatch.Stop();
                 Console.WriteLine
                     (
                         "Time elapsed: {0}",
