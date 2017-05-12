@@ -58,6 +58,11 @@ namespace ManagedIrbis.Readers
         [NotNull]
         public IrbisConnection Connection { get; private set; }
 
+        /// <summary>
+        /// Omit deleted records?
+        /// </summary>
+        public bool OmitDeletedRecords { get; set; }
+
         #endregion
 
         #region Construction
@@ -126,6 +131,11 @@ namespace ManagedIrbis.Readers
             {
                 if (!ReferenceEquals(record, null))
                 {
+                    if (OmitDeletedRecords && record.Deleted)
+                    {
+                        continue;
+                    }
+
                     ReaderInfo reader = ReaderInfo.Parse(record);
                     result.Add(reader);
                 }
@@ -170,6 +180,11 @@ namespace ManagedIrbis.Readers
             {
                 if (!ReferenceEquals(record, null))
                 {
+                    if (OmitDeletedRecords && record.Deleted)
+                    {
+                        continue;
+                    }
+
                     ReaderInfo reader = ReaderInfo.Parse(record);
                     result.Add(reader);
                 }

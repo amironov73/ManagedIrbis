@@ -15,6 +15,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -34,7 +36,21 @@ namespace ManagedIrbis.Batch
     [MoonSharpUserData]
     public sealed class BatchSearcher
     {
+        #region Constants
+
+        /// <summary>
+        /// Default batch size.
+        /// </summary>
+        public const int DefaultBatchSize = 100;
+
+        #endregion
+
         #region Properties
+
+        /// <summary>
+        /// Batch size.
+        /// </summary>
+        public int BatchSize { get; set; }
 
         /// <summary>
         /// Connection.
@@ -77,6 +93,7 @@ namespace ManagedIrbis.Batch
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(database, "database");
 
+            BatchSize = DefaultBatchSize;
             Connection = connection;
             Database = database;
             Prefix = prefix;
@@ -123,10 +140,30 @@ namespace ManagedIrbis.Batch
         {
             Code.NotNull(terms, "terms");
 
-            string expression = BuildExpression(terms);
-            int[] result = Connection.Search(expression);
+            int batchSize = BatchSize;
+            if (batchSize < 1)
+            {
+                throw new ArsMagnaException("BatchSize");
+            }
 
-            return result;
+            string[][] packages = terms
+                .Slice(batchSize)
+                .ToArray();
+            int totalSize = packages.Sum(p => p.Length);
+            if (totalSize == 0)
+            {
+                return new int[0];
+            }
+
+            List<int> result = new List<int>(totalSize);
+            foreach (string[] package in packages)
+            {
+                string expression = BuildExpression(package);
+                int[] found = Connection.Search(expression);
+                result.AddRange(found);
+            }
+
+            return result.ToArray();
         }
 
         /// <summary>
@@ -140,11 +177,32 @@ namespace ManagedIrbis.Batch
         {
             Code.NotNull(terms, "terms");
 
-            string expression = BuildExpression(terms);
-            MarcRecord[] result
-                = Connection.SearchRead(expression);
+            int batchSize = BatchSize;
+            if (batchSize < 1)
+            {
+                throw new ArsMagnaException("BatchSize");
+            }
 
-            return result;
+            string[][] packages = terms
+                .Slice(batchSize)
+                .ToArray();
+            int totalSize = packages.Sum(p => p.Length);
+            if (totalSize == 0)
+            {
+                return new MarcRecord[0];
+            }
+
+            List<MarcRecord> result
+                = new List<MarcRecord>(totalSize);
+            foreach (string[] package in packages)
+            {
+                string expression = BuildExpression(package);
+                MarcRecord[] found
+                    = Connection.SearchRead(expression);
+                result.AddRange(found);
+            }
+
+            return result.ToArray();
         }
 
         #endregion

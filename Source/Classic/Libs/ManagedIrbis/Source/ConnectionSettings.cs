@@ -541,6 +541,10 @@ namespace ManagedIrbis
 
                 switch (name)
                 {
+                    case "provider":
+                        // Nothing to do
+                        break;
+
                     case "host":
                     case "server":
                     case "address":
@@ -571,7 +575,8 @@ namespace ManagedIrbis
 
                     case "arm":
                     case "workstation":
-                        Workstation = (IrbisWorkstation)(byte)value[0];
+                        Workstation 
+                            = (IrbisWorkstation)(byte)value[0];
                         break;
 
                     case "socket":

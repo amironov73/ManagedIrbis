@@ -68,7 +68,10 @@ namespace OldReaders
                 using (IrbisConnection connection
                     = new IrbisConnection(connectionString))
                 {
-                    ReaderManager manager = new ReaderManager(connection);
+                    ReaderManager manager = new ReaderManager(connection)
+                    {
+                        OmitDeletedRecords = true
+                    };
                     manager.BatchRead += (obj, ea) => Console.Write(".");
 
                     string[] databases = ConfigurationUtility.GetString("databases")

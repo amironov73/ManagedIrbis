@@ -82,6 +82,11 @@ namespace ManagedIrbis.Batch
         public string Database { get; private set; }
 
         /// <summary>
+        /// Omit deleted records?
+        /// </summary>
+        public bool OmitDeletedRecords { get; set; }
+
+        /// <summary>
         /// Total number of records read.
         /// </summary>
         public int RecordsRead { get; private set; }
@@ -122,6 +127,35 @@ namespace ManagedIrbis.Batch
             TotalRecords = _packages.Sum(p => p.Length);
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public BatchRecordReader
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] string database,
+                int batchSize,
+                bool omitDeletedRecords,
+                [NotNull] IEnumerable<int> range
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNull(range, "range");
+            if (batchSize < 1)
+            {
+                throw new ArgumentOutOfRangeException("batchSize");
+            }
+
+            Connection = connection;
+            Database = database;
+            BatchSize = batchSize;
+            OmitDeletedRecords = omitDeletedRecords;
+
+            _packages = range.Slice(batchSize).ToArray();
+            TotalRecords = _packages.Sum(p => p.Length);
+        }
+
         #endregion
 
         #region Private members
@@ -136,7 +170,7 @@ namespace ManagedIrbis.Batch
             EventHandler<ExceptionEventArgs<Exception>> handler
                 = Exception;
 
-            if (handler == null)
+            if (ReferenceEquals(handler, null))
             {
                 return false;
             }
@@ -212,6 +246,7 @@ namespace ManagedIrbis.Batch
                 int firstMfn,
                 int lastMfn,
                 int batchSize,
+                bool omitDeletedRecords,
                 [CanBeNull] Action<BatchRecordReader> action
             )
         {
@@ -223,6 +258,7 @@ namespace ManagedIrbis.Batch
                     lastMfn,
                     batchSize
                 );
+            result.OmitDeletedRecords = omitDeletedRecords;
 
             if (!ReferenceEquals(action, null))
             {
@@ -240,7 +276,7 @@ namespace ManagedIrbis.Batch
             return result;
         }
 
-            /// <summary>
+        /// <summary>
         /// Считывает все записи сразу.
         /// </summary>
         [NotNull]
@@ -251,6 +287,32 @@ namespace ManagedIrbis.Batch
 
             foreach (MarcRecord record in this)
             {
+                result.Add(record);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Считывает все записи сразу.
+        /// </summary>
+        [NotNull]
+        public List<MarcRecord> ReadAll
+            (
+                bool omitDeletedRecords
+            )
+        {
+            List<MarcRecord> result
+                = new List<MarcRecord>(TotalRecords);
+
+            foreach (MarcRecord record in this)
+            {
+                if (omitDeletedRecords
+                    && record.Deleted)
+                {
+                    continue;
+                }
+
                 result.Add(record);
             }
 
@@ -387,6 +449,37 @@ namespace ManagedIrbis.Batch
             return result;
         }
 
+        /// <summary>
+        /// Read whole database
+        /// </summary>
+        [NotNull]
+        public static IEnumerable<MarcRecord> WholeDatabase
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] string database,
+                int batchSize,
+                bool omitDeletedRecords,
+                [CanBeNull] Action<BatchRecordReader> action
+            )
+        {
+            BatchRecordReader result = (BatchRecordReader)WholeDatabase
+                (
+                    connection,
+                    database,
+                    batchSize
+                );
+            result.OmitDeletedRecords = omitDeletedRecords;
+
+            if (!ReferenceEquals(action, null))
+            {
+                EventHandler batchHandler
+                    = (sender, args) => action(result);
+                result.BatchRead += batchHandler;
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region IEnumerable members
@@ -414,10 +507,16 @@ namespace ManagedIrbis.Batch
                         throw;
                     }
                 }
-                if (records != null)
+                if (!ReferenceEquals(records, null))
                 {
                     foreach (MarcRecord record in records)
                     {
+                        if (OmitDeletedRecords
+                            && record.Deleted)
+                        {
+                            continue;
+                        }
+
                         yield return record;
                     }
                 }
