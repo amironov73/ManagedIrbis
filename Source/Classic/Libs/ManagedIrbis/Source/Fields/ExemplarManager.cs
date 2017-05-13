@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ExemplarManager.cs --
+/* ExemplarManager.cs -- manages exemplars of the books/magazines etc
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -9,7 +9,6 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -22,6 +21,8 @@ using AM.IO;
 using AM.Runtime;
 using AM.Text.Output;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis.Batch;
@@ -32,7 +33,7 @@ using ManagedIrbis.Readers;
 namespace ManagedIrbis.Fields
 {
     /// <summary>
-    /// Exemplar manager
+    /// Manages exemplars of the books/magazines etc.
     /// </summary>
     public sealed class ExemplarManager
     {
@@ -502,24 +503,28 @@ namespace ManagedIrbis.Fields
                 [CanBeNull] Encoding encoding
             )
         {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
             if (ReferenceEquals(encoding, null))
             {
                 encoding = Encoding.UTF8;
             }
 
-            IniFile ini = new IniFile(fileName, encoding, false);
-            IniFile.Section section = ini.GetSection("Main");
-            if (!ReferenceEquals(section, null))
+            using (IniFile ini = new IniFile(fileName, encoding, false))
             {
-                string format = section.GetValue("Format", Format);
-                if (!string.IsNullOrEmpty(format))
+                IniFile.Section section = ini.GetSection("Main");
+                if (!ReferenceEquals(section, null))
                 {
-                    Format = format;
-                }
-                string prefix = section.GetValue("Prefix", Prefix);
-                if (!string.IsNullOrEmpty(prefix))
-                {
-                    Prefix = prefix;
+                    string format = section.GetValue("Format", Format);
+                    if (!string.IsNullOrEmpty(format))
+                    {
+                        Format = format;
+                    }
+                    string prefix = section.GetValue("Prefix", Prefix);
+                    if (!string.IsNullOrEmpty(prefix))
+                    {
+                        Prefix = prefix;
+                    }
                 }
             }
         }
@@ -533,20 +538,24 @@ namespace ManagedIrbis.Fields
                 [CanBeNull] Encoding encoding
             )
         {
-            if (encoding == null)
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            if (ReferenceEquals(encoding, null))
             {
                 encoding = Encoding.UTF8;
             }
 
-            IniFile ini = File.Exists(fileName)
-                ? new IniFile(fileName, encoding, true) 
-                : new IniFile { Encoding = encoding };
-            IniFile.Section section
-                = ini.GetOrCreateSection("Main");
-            section["Format"] = Format;
-            section["Prefix"] = Prefix;
+            using (IniFile ini = File.Exists(fileName)
+                ? new IniFile(fileName, encoding, true)
+                : new IniFile {Encoding = encoding})
+            {
+                IniFile.Section section
+                    = ini.GetOrCreateSection("Main");
+                section["Format"] = Format;
+                section["Prefix"] = Prefix;
 
-            ini.Save(fileName);
+                ini.Save(fileName);
+            }
         }
 
         /// <summary>

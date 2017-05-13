@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Diagnostics;
 using System.Text;
 
 using AM;
@@ -126,6 +127,8 @@ namespace ManagedIrbis
                         break;
 
                     default:
+                        Debug.Assert(state == ZERO, "state == ZERO");
+
                         if (c == '/')
                         {
                             if (navigator.PeekChar() == '*')
@@ -223,7 +226,13 @@ namespace ManagedIrbis
                         break;
 
                     default:
-                        if (c < ' ')
+                        Debug.Assert(state == ZERO, "state == ZERO");
+
+                        if (c == '\'' || c == '"' || c == '|')
+                        {
+                            state = c;
+                        }
+                        else if (c < ' ')
                         {
                             c = ' ';
                         }
