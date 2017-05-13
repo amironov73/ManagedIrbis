@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* FieldDefect.cs -- дефект в поле/подполе.
+/* FieldDefect.cs -- detected defect of the field/subfield
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -9,10 +9,10 @@
 
 #region Using directives
 
-using System;
 using System.Diagnostics;
 using System.IO;
 
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -29,13 +29,14 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Quality
 {
     /// <summary>
-    /// Дефект в поле/подполе.
+    /// Detected defect of the field/subfield.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     [DebuggerDisplay("Field={Field} Value={Value} Message={Message}")]
     public sealed class FieldDefect
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
@@ -83,14 +84,14 @@ namespace ManagedIrbis.Quality
 
         #region IHandmadeSerializable
 
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             Field = reader.ReadNullableString();
             FieldRepeat = reader.ReadPackedInt32();
             Subfield = reader.ReadNullableString();
@@ -99,14 +100,14 @@ namespace ManagedIrbis.Quality
             Damage = reader.ReadPackedInt32();
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream"/>
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             writer
                 .WriteNullable(Field)
                 .WritePackedInt32(FieldRepeat)
@@ -118,14 +119,31 @@ namespace ManagedIrbis.Quality
 
         #endregion
 
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"/>
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<FieldDefect> verifier
+                = new Verifier<FieldDefect>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(Field, "Field")
+                .Assert(FieldRepeat >= 0, "FieldRepeat")
+                .NotNullNorEmpty(Message, "Message")
+                .Assert(Damage >= 0, "Damage");
+
+            return verifier.Result;
+        }
+
+        #endregion
+
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString"/>
         public override string ToString()
         {
             return string.Format

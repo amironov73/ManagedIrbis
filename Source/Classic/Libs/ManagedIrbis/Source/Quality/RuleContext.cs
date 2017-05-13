@@ -57,7 +57,7 @@ namespace ManagedIrbis.Quality
         #region Public methods
 
         /// <summary>
-        /// Конструктор по умолчанию.
+        /// Constructor.
         /// </summary>
         public RuleContext()
         {

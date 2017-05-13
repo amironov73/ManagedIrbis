@@ -231,7 +231,7 @@ namespace ManagedIrbis.Readers
 
         #region IHandmadeSerializable
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -248,7 +248,7 @@ namespace ManagedIrbis.Readers
             Database = reader.ReadNullableString();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* DefectList.cs -- список дефектов для поля записи
+/* DefectList.cs -- defect list for the field of the record
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -9,12 +9,8 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM.Collections;
 using AM.IO;
@@ -31,7 +27,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Quality
 {
     /// <summary>
-    /// Список дефектов для записи.
+    /// Defect list for the field of the record.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -53,7 +49,7 @@ namespace ManagedIrbis.Quality
         /// </summary>
         public DefectList
             (
-                IEnumerable<FieldDefect> defects
+                [NotNull] IEnumerable<FieldDefect> defects
             )
         {
             AddRange(defects);
@@ -67,9 +63,7 @@ namespace ManagedIrbis.Quality
 
         #region IHandmadeSerializable
 
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -82,9 +76,7 @@ namespace ManagedIrbis.Quality
             AddRange(array);
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream"/>
         public void SaveToStream
             (
                 BinaryWriter writer

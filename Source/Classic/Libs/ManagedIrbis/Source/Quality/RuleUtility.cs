@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* RuleUtility.cs --
+/* RuleUtility.cs -- utility routines for quality rules
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -13,6 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -22,7 +24,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Quality
 {
     /// <summary>
-    /// Утилиты для правил.
+    /// Utility routines for quality rules.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -216,7 +218,7 @@ namespace ManagedIrbis.Quality
         }
 
         /// <summary>
-        /// Плохой символ?
+        /// Whether the character is bad?
         /// </summary>
         public static bool IsBadCharacter
             (
@@ -235,9 +237,11 @@ namespace ManagedIrbis.Quality
         /// </summary>
         public static int BadCharacterPosition
             (
-                string text
+                [NotNull] string text
             )
         {
+            Code.NotNull(text, "text");
+
             for (int i = 0; i < text.Length; i++)
             {
                 char c = text[i];
@@ -258,6 +262,8 @@ namespace ManagedIrbis.Quality
                 [NotNull] MarcRecord record
             )
         {
+            Code.NotNull(record, "record");
+
             RenumberFields
                 (
                     record,
@@ -276,6 +282,9 @@ namespace ManagedIrbis.Quality
                 [NotNull] IEnumerable<RecordField> fields
             )
         {
+            Code.NotNull(record, "record");
+            Code.NotNull(fields, "fields");
+
             List<string> seen = new List<string>();
 
             foreach (RecordField field in fields)
@@ -289,6 +298,7 @@ namespace ManagedIrbis.Quality
                         count++;
                     }
                 }
+                seen.Add(field.Tag);
                 field.Repeat = count;
                 foreach (SubField subField in field.SubFields)
                 {

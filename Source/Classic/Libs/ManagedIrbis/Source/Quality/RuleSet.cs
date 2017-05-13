@@ -31,6 +31,8 @@ namespace ManagedIrbis.Quality
     /// <summary>
     /// Набор правил.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class RuleSet
     {
         #region Properties
@@ -55,12 +57,16 @@ namespace ManagedIrbis.Quality
         /// <summary>
         /// Merge two reports.
         /// </summary>
+        [NotNull]
         public static RecordReport MergeReport
             (
-                RecordReport first,
-                RecordReport second
+                [NotNull] RecordReport first,
+                [NotNull] RecordReport second
             )
         {
+            Code.NotNull(first, "first");
+            Code.NotNull(second, "second");
+
             RecordReport result = new RecordReport
             {
                 Defects = new DefectList
@@ -80,13 +86,14 @@ namespace ManagedIrbis.Quality
         /// <summary>
         /// Проверка одной записи
         /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
+        [NotNull]
         public RecordReport CheckRecord
             (
-                RuleContext context
+                [NotNull] RuleContext context
             )
         {
+            Code.NotNull(context, "context");
+
             RecordReport result = new RecordReport
             {
                 Description = context.Connection.FormatRecord
@@ -124,11 +131,10 @@ namespace ManagedIrbis.Quality
         /// <summary>
         /// Получаем правило по его имени.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        [CanBeNull]
         public static QualityRule GetRule
             (
-                string name
+                [NotNull] string name
             )
         {
             Type ruleType;
@@ -140,25 +146,28 @@ namespace ManagedIrbis.Quality
             {
                 return null;
             }
+
             QualityRule result = (QualityRule)Activator.CreateInstance
                 (
                     ruleType
                 );
+
             return result;
         }
 
 #if !PORTABLE
 
         /// <summary>
-        /// 
+        /// Load set of rules from the specified file.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
+        [NotNull]
         public static RuleSet LoadJson
             (
-                string fileName
+                [NotNull] string fileName
             )
         {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
             string text = File.ReadAllText(fileName);
             JObject obj = JObject.Parse(text);
             
@@ -187,12 +196,13 @@ namespace ManagedIrbis.Quality
         /// <summary>
         /// Регистрируем все правила из указанной сборки.
         /// </summary>
-        /// <param name="assembly"></param>
         public static void RegisterAssembly
             (
-                Assembly assembly
+                [NotNull] Assembly assembly
             )
         {
+            Code.NotNull(assembly, "assembly");
+
             Type[] types = assembly
                 .GetTypes()
                 .Where(t => t.IsPublic)
@@ -220,9 +230,11 @@ namespace ManagedIrbis.Quality
         /// </summary>
         public static void RegisterRule
             (
-                Type ruleType
+                [NotNull] Type ruleType
             )
         {
+            Code.NotNull(ruleType, "ruleType");
+
             string ruleName = ruleType.Name;
 
             _registeredRules.Add
@@ -238,9 +250,11 @@ namespace ManagedIrbis.Quality
         /// <param name="name"></param>
         public static void UnregisterRule
             (
-                string name
+                [NotNull] string name
             )
         {
+            Code.NotNullNorEmpty(name, "name");
+
             if (_registeredRules.ContainsKey(name))
             {
                 _registeredRules.Remove(name);

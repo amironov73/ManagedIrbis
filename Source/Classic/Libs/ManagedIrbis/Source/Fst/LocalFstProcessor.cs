@@ -36,12 +36,14 @@ namespace ManagedIrbis.Fst
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class LocalFstProcessor
+        : IDisposable
     {
         #region Properties
 
         /// <summary>
         /// Provider.
         /// </summary>
+        [NotNull]
         public IrbisProvider Provider { get; private set; }
 
         #endregion
@@ -224,6 +226,16 @@ namespace ManagedIrbis.Fst
                 );
 
             return result;
+        }
+
+        #endregion
+
+        #region IDisposable members
+
+        /// <inheritdoc cref="IDisposable.Dispose"/>
+        public void Dispose()
+        {
+            Provider.Dispose();
         }
 
         #endregion

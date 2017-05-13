@@ -738,9 +738,17 @@ namespace ManagedIrbis
             {
                 FileName = fileName
             };
-            using (TextReader reader = new StringReader(text))
+            try
             {
-                result.Read(reader);
+                using (TextReader reader = new StringReader(text))
+                {
+                    result.Read(reader);
+                }
+            }
+            catch
+            {
+                result.Dispose();
+                throw;
             }
 
             return result;

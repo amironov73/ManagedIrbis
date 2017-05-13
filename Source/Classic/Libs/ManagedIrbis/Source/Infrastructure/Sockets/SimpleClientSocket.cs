@@ -94,13 +94,13 @@ namespace ManagedIrbis.Infrastructure
                 }
             }
 
-            if (ReferenceEquals(_address, null))
-            {
-                throw new IrbisNetworkException
-                    (
-                        "Can't resolve host " + host
-                    );
-            }
+            //if (ReferenceEquals(_address, null))
+            //{
+            //    throw new IrbisNetworkException
+            //        (
+            //            "Can't resolve host " + host
+            //        );
+            //}
         }
 
         private TcpClient _GetTcpClient()
