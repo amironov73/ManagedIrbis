@@ -354,7 +354,19 @@ namespace ManagedIrbis.Pft
         {
             if (string.IsNullOrEmpty(inner))
             {
-                return true;
+                // Original formatter have the bug:
+                //
+                // if '':'' then '1' else '2' fi,
+                // if 'ABC':'A' then '1' else '2' fi,
+                // if '':'A' then '1' else '2' fi,
+                // if 'A': '' then '1' else '2' fi
+                //
+                // produces 1122
+                //
+                // Thus not-empty string DOESNT contains empty one!
+                // Bug discovered by Ivan Batrak
+
+                return string.IsNullOrEmpty(outer);
             }
             if (string.IsNullOrEmpty(outer))
             {
@@ -382,7 +394,19 @@ namespace ManagedIrbis.Pft
         {
             if (string.IsNullOrEmpty(inner))
             {
-                return true;
+                // Original formatter have the bug:
+                //
+                // if '':'' then '1' else '2' fi,
+                // if 'ABC':'A' then '1' else '2' fi,
+                // if '':'A' then '1' else '2' fi,
+                // if 'A': '' then '1' else '2' fi
+                //
+                // produces 1122
+                //
+                // Thus not-empty string DOESNT contains empty one!
+                // Bug discovered by Ivan Batrak
+
+                return string.IsNullOrEmpty(outer);
             }
             if (string.IsNullOrEmpty(outer))
             {

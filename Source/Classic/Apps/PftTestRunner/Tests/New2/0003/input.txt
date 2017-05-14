@@ -1,2 +1,4 @@
-﻿if 'A' ~  'a' then 'first' else 'second' fi /
-if 'A' ~~ 'a' then 'first' else 'second' fi
+﻿if '':'' then '1' else '2' fi,
+if 'ABC':'A' then '1' else '2' fi,
+if '':'A' then '1' else '2' fi,
+if 'A': '' then '1' else '2' fi

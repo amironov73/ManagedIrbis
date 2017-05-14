@@ -1,2 +1,2 @@
-﻿if 'A' !=  'a' then 'first' else 'second' fi /
-if 'A' !== 'a' then 'first' else 'second' fi
+﻿if 'A' ~  'a' then 'first' else 'second' fi /
+if 'A' ~~ 'a' then 'first' else 'second' fi

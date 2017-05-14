@@ -1,1 +1,1 @@
-﻿Comparison: ~ and ~~
+﻿Comparison: : now bug-compatible
