@@ -512,7 +512,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                         && !string.IsNullOrEmpty(parameter))
                     {
                         string result;
-                        using (IniFile iniFile = context.Provider.GetUserIniFile())
+                        using (IniFile iniFile
+                            = context.Provider.GetUserIniFile())
                         {
                             result = iniFile.GetValue
                                 (

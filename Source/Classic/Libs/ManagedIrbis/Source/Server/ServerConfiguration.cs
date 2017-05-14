@@ -108,19 +108,21 @@ namespace ManagedIrbis.Server
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            IniFile iniFile = new IniFile
+            using (IniFile iniFile = new IniFile
                 (
                     fileName,
                     IrbisEncoding.Ansi,
                     false
-                );
-            ServerIniFile serverIni = new ServerIniFile
+                ))
+            {
+                ServerIniFile serverIni = new ServerIniFile
                 (
                     iniFile
                 );
-            ServerConfiguration result = FromIniFile(serverIni);
+                ServerConfiguration result = FromIniFile(serverIni);
 
-            return result;
+                return result;
+            }
         }
 
         /// <summary>

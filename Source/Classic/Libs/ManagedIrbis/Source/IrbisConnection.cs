@@ -235,6 +235,14 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Флаг отключения.
+        /// </summary>
+        public bool Disposed
+        {
+            get { return _disposed; }
+        }
+
+        /// <summary>
         /// Таймаут получения ответа от сервера в миллисекундах
         /// (для продвинутых функций).
         /// </summary>
@@ -314,6 +322,7 @@ namespace ManagedIrbis
 
         // ReSharper disable InconsistentNaming
         internal bool _connected;
+        internal bool _disposed;
         private int _clientID;
         private int _queryID;
         // ReSharper restore InconsistentNaming
@@ -1913,6 +1922,8 @@ namespace ManagedIrbis
                 _iniFile.Dispose();
                 _iniFile = null;
             }
+
+            _disposed = true;
         }
 
         #endregion

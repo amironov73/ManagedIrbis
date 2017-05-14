@@ -26,8 +26,6 @@ using MoonSharp.Interpreter;
 
 namespace AM.Threading.Tasks
 {
-#if FW45
-
     /// <summary>
     /// Extensions for <see cref="Task"/> class.
     /// </summary>
@@ -36,6 +34,48 @@ namespace AM.Threading.Tasks
     public static class TaskUtility
     {
         #region Public methods
+
+        /// <summary>
+        /// ConfigureAwait(false).
+        /// </summary>
+        [NotNull]
+        public static Task ConfigureSafe
+            (
+                [NotNull] this Task task
+            )
+        {
+            Code.NotNull(task, "task");
+
+#if FW45 || NETCORE || DROID || UAP
+
+            task.ConfigureAwait(false);
+
+#endif
+
+            return task;
+        }
+
+        /// <summary>
+        /// ConfigureAwait(false).
+        /// </summary>
+        [NotNull]
+        public static Task<T> ConfigureSafe<T>
+            (
+                [NotNull] this Task<T> task
+            )
+        {
+            Code.NotNull(task, "task");
+
+#if FW45 || NETCORE || DROID || UAP
+
+            task.ConfigureAwait(false);
+
+#endif
+
+            return task;
+        }
+
+#if FW45 || NETCORE
 
         /// <summary>
         /// Borrowed from Stephen Toub book.
@@ -115,8 +155,8 @@ namespace AM.Threading.Tasks
             }
         }
 
+#endif
+
         #endregion
     }
-
-#endif
 }

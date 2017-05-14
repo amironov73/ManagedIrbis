@@ -7,13 +7,14 @@
  * Status: poor
  */
 
-#if FW4
+#if FW4 || NETCORE || DROID || UAP
 
 #region Using directives
 
 using System.Threading.Tasks;
 
 using AM.IO;
+using AM.Threading.Tasks;
 
 using CodeJam;
 
@@ -26,6 +27,8 @@ using ManagedIrbis.Search;
 using MoonSharp.Interpreter;
 
 #endregion
+
+// ReSharper disable ConvertClosureToMethodGroup
 
 namespace ManagedIrbis
 {
@@ -61,12 +64,11 @@ namespace ManagedIrbis
         {
             Code.NotNull(connection, "connection");
 
-            // ReSharper disable ConvertClosureToMethodGroup
             Task<IniFile> result = Task.Factory.StartNew
                 (
                     () => connection.Connect()
-                );
-            // ReSharper restore ConvertClosureToMethodGroup
+                )
+                .ConfigureSafe();
 
             return result;
         }
@@ -85,7 +87,8 @@ namespace ManagedIrbis
             Task result = Task.Factory.StartNew
                 (
                     connection.Dispose
-                );
+                )
+                .ConfigureSafe();
 
             return result;
         }
@@ -108,7 +111,8 @@ namespace ManagedIrbis
             Task<string> result = Task.Factory.StartNew
                 (
                     () => connection.FormatRecord(format, mfn)
-                );
+                )
+                .ConfigureSafe();
 
             return result;
         }
@@ -131,7 +135,8 @@ namespace ManagedIrbis
             Task<string> result = Task.Factory.StartNew
                 (
                     () => connection.FormatRecord(format, record)
-                );
+                )
+                .ConfigureSafe();
 
             return result;
         }
@@ -147,12 +152,11 @@ namespace ManagedIrbis
         {
             Code.NotNull(connection, "connection");
 
-            // ReSharper disable ConvertClosureToMethodGroup
             Task<int> result = Task.Factory.StartNew
                 (
                     () => connection.GetMaxMfn()
-                );
-            // ReSharper restore ConvertClosureToMethodGroup
+                )
+                .ConfigureSafe();
 
             return result;
         }
@@ -173,7 +177,8 @@ namespace ManagedIrbis
             Task<DatabaseInfo[]> result = Task.Factory.StartNew
                 (
                     () => connection.ListDatabases(menuName)
-                );
+                )
+                .ConfigureSafe();
 
             return result;
         }
@@ -190,9 +195,10 @@ namespace ManagedIrbis
             Code.NotNull(connection, "connection");
 
             Task result = Task.Factory.StartNew
-            (
-                connection.NoOp
-            );
+                (
+                    connection.NoOp
+                )
+                .ConfigureSafe();
 
             return result;
         }
@@ -211,9 +217,10 @@ namespace ManagedIrbis
             Code.NotNullNorEmpty(fileName, "fileName");
 
             Task<IniFile> result = Task.Factory.StartNew
-            (
-                () => connection.ReadIniFile(fileName)
-            );
+                (
+                    () => connection.ReadIniFile(fileName)
+                )
+                .ConfigureSafe();
 
             return result;
         }
@@ -232,9 +239,10 @@ namespace ManagedIrbis
             Code.NotNullNorEmpty(menuName, "menuName");
 
             Task<MenuFile> result = Task.Factory.StartNew
-            (
-                () => connection.ReadMenu(menuName)
-            );
+                (
+                    () => connection.ReadMenu(menuName)
+                )
+                .ConfigureSafe();
 
             return result;
         }
@@ -264,7 +272,8 @@ namespace ManagedIrbis
             Task<TermInfo[]> result = Task.Factory.StartNew
                 (
                     () => connection.ReadTerms(parameters)
-                );
+                )
+                .ConfigureSafe();
 
             return result;
         }
@@ -285,7 +294,8 @@ namespace ManagedIrbis
             Task<SearchScenario[]> result = Task.Factory.StartNew
                 (
                     () => connection.ReadSearchScenario(fileName)
-                );
+                )
+                .ConfigureSafe();
 
             return result;
         }
@@ -306,7 +316,8 @@ namespace ManagedIrbis
             Task<MarcRecord> result = Task.Factory.StartNew
                 (
                     () => connection.ReadRecord(mfn)
-                );
+                )
+                .ConfigureSafe();
 
             return result;
         }
@@ -327,7 +338,8 @@ namespace ManagedIrbis
             Task<string> result = Task.Factory.StartNew
                 (
                     () => connection.ReadTextFile(specification)
-                );
+                )
+                .ConfigureSafe();
 
             return result;
         }
@@ -348,7 +360,8 @@ namespace ManagedIrbis
             Task<int[]> result = Task.Factory.StartNew
                 (
                     () => connection.Search(expression)
-                );
+                )
+                .ConfigureSafe();
 
             return result;
         }
@@ -369,7 +382,8 @@ namespace ManagedIrbis
             Task<MarcRecord> result = Task.Factory.StartNew
                 (
                     () => connection.WriteRecord(record)
-                );
+                )
+                .ConfigureSafe();
 
             return result;
         }

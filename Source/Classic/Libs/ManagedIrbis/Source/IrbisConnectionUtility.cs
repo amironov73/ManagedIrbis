@@ -1006,19 +1006,21 @@ namespace ManagedIrbis
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            IniFile iniFile = ReadIniFile
+            using (IniFile iniFile = ReadIniFile
                 (
                     connection,
                     fileName
-                );
+                ))
+            {
 
-            SearchScenario[] result
-                = SearchScenario.ParseIniFile
-                (
-                    iniFile
-                );
+                SearchScenario[] result
+                    = SearchScenario.ParseIniFile
+                    (
+                        iniFile
+                    );
 
-            return result;
+                return result;
+            }
         }
 
         // ========================================================

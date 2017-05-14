@@ -44,6 +44,7 @@ namespace ManagedIrbis.Server
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class ServerIniFile
+        : IDisposable
     {
         #region Constants
 
@@ -503,6 +504,16 @@ namespace ManagedIrbis.Server
                 );
 
             return this;
+        }
+
+        #endregion
+
+        #region IDisposable members
+
+        /// <inheritdoc cref="IDisposable.Dispose"/>
+        public void Dispose()
+        {
+            Ini.Dispose();
         }
 
         #endregion

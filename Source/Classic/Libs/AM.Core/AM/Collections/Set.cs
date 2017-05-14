@@ -512,6 +512,15 @@ namespace AM.Collections
                 [NotNull] Set<T> right
             )
         {
+            // Fix PVS-Studio issue
+            // ReSharper disable ConditionIsAlwaysTrueOrFalse
+            if (ReferenceEquals(left, null)
+                || ReferenceEquals(right, null))
+            {
+                return false;
+            }
+            // ReSharper restore ConditionIsAlwaysTrueOrFalse
+
             return left.Count == right.Count
                 && left <= right;
         }
