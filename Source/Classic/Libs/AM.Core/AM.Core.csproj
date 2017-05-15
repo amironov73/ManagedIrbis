@@ -184,6 +184,7 @@
     <Compile Include="AM\IO\SafeSaveStream.cs" />
     <Compile Include="AM\IO\StreamPacker.cs" />
     <Compile Include="AM\IO\TextReaderUtility.cs" />
+    <Compile Include="AM\IO\TextWriterUtility.cs" />
     <Compile Include="AM\IO\VersionStream.cs" />
     <Compile Include="AM\IReadOnly.cs" />
     <Compile Include="AM\ISynchronize.cs" />

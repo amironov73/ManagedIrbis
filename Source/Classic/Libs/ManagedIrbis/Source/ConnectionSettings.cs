@@ -659,6 +659,7 @@ namespace ManagedIrbis
             FactoryTypeName = reader.ReadNullableString();
             EngineTypeName = reader.ReadNullableString();
             RetryCount = reader.ReadPackedInt32();
+            WebCgi = reader.ReadNullableString();
             UserData = reader.ReadNullableString();
             Connected = reader.ReadBoolean();
         }
@@ -683,6 +684,7 @@ namespace ManagedIrbis
                 .WriteNullable(FactoryTypeName)
                 .WriteNullable(EngineTypeName)
                 .WritePackedInt32(RetryCount)
+                .WriteNullable(WebCgi)
                 .WriteNullable(UserData)
                 .Write(Connected);
         }

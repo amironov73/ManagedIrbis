@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* TextReaderUtility.cs -- helpers for TextReader
+/* TextWriterUtility.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -9,8 +9,12 @@
 
 #region Using directives
 
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 using CodeJam;
 
@@ -23,19 +27,19 @@ using MoonSharp.Interpreter;
 namespace AM.IO
 {
     /// <summary>
-    /// Helpers for <see cref="TextReader"/>.
+    /// 
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public static class TextReaderUtility
+    public static class TextWriterUtility
     {
         #region Public methods
 
         /// <summary>
-        /// Open file for reading.
+        /// Open file for append.
         /// </summary>
         [NotNull]
-        public static StreamReader OpenRead
+        public static StreamWriter OpenAppend
             (
                 [NotNull] string fileName,
                 [NotNull] Encoding encoding
@@ -44,9 +48,13 @@ namespace AM.IO
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
-            StreamReader result = new StreamReader
+            StreamWriter result = new StreamWriter
                 (
-                    File.OpenRead(fileName),
+                    new FileStream
+                        (
+                            fileName,
+                            FileMode.Append
+                        ),
                     encoding
                 );
 
@@ -54,24 +62,27 @@ namespace AM.IO
         }
 
         /// <summary>
-        /// Обязательное чтение строки.
+        /// Open file for writing.
         /// </summary>
         [NotNull]
-        public static string RequireLine
+        public static StreamWriter OpenWrite
             (
-                [NotNull] this TextReader reader
+                [NotNull] string fileName,
+                [NotNull] Encoding encoding
             )
         {
-            Code.NotNull(reader, "reader");
+            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNull(encoding, "encoding");
 
-            string result = reader.ReadLine();
-            if (ReferenceEquals(result, null))
-            {
-                throw new ArsMagnaException
-                    (
-                        "Unexpected end of stream"
-                    );
-            }
+            StreamWriter result = new StreamWriter
+                (
+                    new FileStream
+                        (
+                            fileName, 
+                            FileMode.Create
+                        ),
+                    encoding
+                );
 
             return result;
         }
