@@ -521,6 +521,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\AbstractClientSocket.cs">
       <Link>Source\Infrastructure\Sockets\AbstractClientSocket.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\ClientSocketUtility.cs">
+      <Link>Source\Infrastructure\Sockets\ClientSocketUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\FakeClientSocket.cs">
       <Link>Source\Infrastructure\Sockets\FakeClientSocket.cs</Link>
     </Compile>
@@ -616,6 +619,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\IrbisWorkstation.cs">
       <Link>Source\IrbisWorkstation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\LanguageFile.cs">
+      <Link>Source\LanguageFile.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\LocalCatalogManager.cs">
       <Link>Source\LocalCatalogManager.cs</Link>

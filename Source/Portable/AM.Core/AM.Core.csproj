@@ -307,6 +307,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\TextReaderUtility.cs">
       <Link>AM\IO\TextReaderUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\TextWriterUtility.cs">
+      <Link>AM\IO\TextWriterUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\VersionStream.cs">
       <Link>AM\IO\VersionStream.cs</Link>
     </Compile>

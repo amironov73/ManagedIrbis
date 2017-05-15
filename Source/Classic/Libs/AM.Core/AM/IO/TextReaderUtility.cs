@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using System.IO;
 using System.Text;
 
@@ -41,6 +42,12 @@ namespace AM.IO
                 [NotNull] Encoding encoding
             )
         {
+#if WIN81 || PORTABLE
+
+            throw new NotImplementedException();
+
+#else
+
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
@@ -51,6 +58,8 @@ namespace AM.IO
                 );
 
             return result;
+
+#endif
         }
 
         /// <summary>

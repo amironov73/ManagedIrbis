@@ -45,6 +45,12 @@ namespace AM.IO
                 [NotNull] Encoding encoding
             )
         {
+#if WIN81 || PORTABLE
+
+            throw new NotImplementedException();
+
+#else
+
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
@@ -59,6 +65,8 @@ namespace AM.IO
                 );
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -71,6 +79,12 @@ namespace AM.IO
                 [NotNull] Encoding encoding
             )
         {
+#if WIN81 || PORTABLE
+
+            throw new NotImplementedException();
+
+#else
+
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
@@ -85,6 +99,8 @@ namespace AM.IO
                 );
 
             return result;
+
+#endif
         }
 
         #endregion
