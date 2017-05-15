@@ -173,6 +173,14 @@ namespace ManagedIrbis
         public int RetryCount { get; set; }
 
         /// <summary>
+        /// Web CGI URL.
+        /// </summary>
+        [CanBeNull]
+        [XmlAttribute("web")]
+        [JsonProperty("web")]
+        public string WebCgi { get; set; }
+
+        /// <summary>
         /// Arbitrary user data.
         /// </summary>
         [CanBeNull]
@@ -276,7 +284,11 @@ namespace ManagedIrbis
 
             if (!string.IsNullOrEmpty(SocketTypeName))
             {
-                connection.SetSocket(SocketTypeName);
+                ClientSocketUtility.CreateSocket
+                    (
+                        connection,
+                        SocketTypeName
+                    );
             }
 
             if (!string.IsNullOrEmpty(NetworkLogging))
@@ -597,6 +609,13 @@ namespace ManagedIrbis
 
                     case "retry":
                         RetryCount = int.Parse(value);
+                        break;
+
+                    case "web":
+                    case "webcgi":
+                    case "cgi":
+                    case "http":
+                        WebCgi = value;
                         break;
 
                     case "userdata":

@@ -1558,14 +1558,18 @@ namespace ManagedIrbis
                 [CanBeNull] Func<Exception, bool> resolver
             )
         {
-            RetryClientSocket oldSocket = Socket
-                as RetryClientSocket;
+            RetryClientSocket oldSocket
+                = ClientSocketUtility.FindSocket<RetryClientSocket>(this);
 
             if (retryCount <= 0)
             {
                 if (!ReferenceEquals(oldSocket, null))
                 {
-                    SetSocket(oldSocket.InnerSocket);
+                    SetSocket
+                        (
+                            oldSocket.InnerSocket
+                            .ThrowIfNull("oldSocket.InnerSocket")
+                        );
                 }
             }
             else
@@ -1585,31 +1589,6 @@ namespace ManagedIrbis
         }
 
         // =========================================================
-
-        /// <summary>
-        /// Set
-        /// <see cref="T:ManagedIrbis.Network.Sockets.AbstractClientSocket"/>.
-        /// </summary>
-        public void SetSocket
-            (
-                [NotNull] string typeName
-            )
-        {
-            Code.NotNullNorEmpty(typeName, "typeName");
-
-#if !WINMOBILE && !PocketPC
-
-            Type type = Type.GetType(typeName, true);
-            AbstractClientSocket socket
-                = (AbstractClientSocket)Activator.CreateInstance
-                (
-                    type,
-                    this
-                );
-            SetSocket(socket);
-
-#endif
-        }
 
         /// <summary>
         /// Set

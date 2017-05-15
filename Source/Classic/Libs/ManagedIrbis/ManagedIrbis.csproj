@@ -193,6 +193,7 @@
     <Compile Include="Source\Infrastructure\Sockets\AsyncClientSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\AsyncSocketAdapter.cs" />
     <Compile Include="Source\Infrastructure\Sockets\BrokenSocket.cs" />
+    <Compile Include="Source\Infrastructure\Sockets\ClientSocketUtility.cs" />
     <Compile Include="Source\Infrastructure\Sockets\SlowSocket.cs" />
     <Compile Include="Source\Infrastructure\StandardEngine.cs" />
     <Compile Include="Source\Fields\BinaryResource.cs" />
