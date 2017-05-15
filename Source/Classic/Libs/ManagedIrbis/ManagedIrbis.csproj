@@ -127,6 +127,7 @@
     <Compile Include="Source\Client\ConnectedClient.cs" />
     <Compile Include="Source\Client\LocalCatalogerIniFile.cs" />
     <Compile Include="Source\Client\LocalProvider.cs" />
+    <Compile Include="Source\Client\MessageFile.cs" />
     <Compile Include="Source\Client\NullProvider.cs" />
     <Compile Include="Source\Client\ProviderManager.cs" />
     <Compile Include="Source\Client\RecordStateComparer.cs" />

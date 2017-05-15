@@ -19,6 +19,8 @@ using System.Threading.Tasks;
 
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -88,6 +90,7 @@ namespace ManagedIrbis
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class LanguageFile
+        : IHandmadeSerializable
     {
         #region Properties
 
@@ -139,7 +142,9 @@ namespace ManagedIrbis
             Code.NotNull(text, "text");
 
             string result;
-            if (!_dictionary.TryGetValue(text, out result))
+            _dictionary.TryGetValue(text, out result);
+
+            if (string.IsNullOrEmpty(result))
             {
                 result = text;
             }
@@ -157,17 +162,34 @@ namespace ManagedIrbis
         {
             Code.NotNull(reader, "reader");
 
-            string firstLine;
-            while ((firstLine = reader.ReadLine()) != null)
+            Log.Trace("LanguageFile::ReadFrom");
+
+            string key;
+            while ((key = reader.ReadLine()) != null)
             {
-                string secondLine;
-                if ((secondLine = reader.ReadLine()) == null)
+                if (_dictionary.ContainsKey(key))
+                {
+                    Log.Trace
+                        (
+                            "LanguageFile::ReadFrom: duplicate key: "
+                            + key
+                        );
+                }
+
+                string value;
+                if ((value = reader.ReadLine()) == null)
                 {
                     break;
                 }
 
-                _dictionary[firstLine] = secondLine;
+                _dictionary[key] = value;
             }
+
+            Log.Trace
+                (
+                    "LanguageFile::ReadFrom: keys: "
+                    + _dictionary.Count
+                );
         }
 
         /// <summary>
@@ -180,6 +202,8 @@ namespace ManagedIrbis
             )
         {
             Code.NotNullNorEmpty(fileName, "fileName");
+
+            Log.Trace("LanguageFile::ReadLocalFile");
 
             LanguageFile result = new LanguageFile
             {
@@ -226,6 +250,8 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+            Log.Trace("LanguageFile::WriteLocalFile");
+
             using (TextWriter writer = TextWriterUtility.OpenWrite
                 (
                     fileName,
@@ -234,6 +260,52 @@ namespace ManagedIrbis
             {
                 WriteTo(writer);
             }
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            Log.Trace("LanguageFile::RestoreFromStream");
+
+            Clear();
+
+            while (true)
+            {
+                string key = reader.ReadNullableString();
+                if (ReferenceEquals(key, null))
+                {
+                    break;
+                }
+                string value = reader.ReadNullableString();
+                _dictionary[key] = value;
+            }
+        }
+
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream"/>
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            Log.Trace("LanguageFile::SaveToStream");
+
+            foreach (KeyValuePair<string, string> pair in _dictionary)
+            {
+                writer.Write(pair.Key);
+                writer.WriteNullable(pair.Value);
+            }
+            writer.WriteNullable(null);
         }
 
         #endregion
