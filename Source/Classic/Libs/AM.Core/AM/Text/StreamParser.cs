@@ -18,6 +18,8 @@ using System.Reflection;
 using System.Resources;
 using System.Text;
 
+using AM.IO;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -150,8 +152,6 @@ namespace AM.Text
 
         #region Public methods
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Construct the <see cref="StreamParser"/>
         /// from the local text file.
@@ -167,12 +167,9 @@ namespace AM.Text
             Code.FileExists(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
-            StreamReader reader = new StreamReader
+            StreamReader reader = TextReaderUtility.OpenRead
                 (
-                    File.OpenRead
-                    (
-                        fileName
-                    ),
+                    fileName,
                     encoding
                 );
             StreamParser result = new StreamParser
@@ -183,8 +180,6 @@ namespace AM.Text
 
             return result;
         }
-
-#endif
 
         /// <summary>
         /// Construct the <see cref="StreamParser"/>

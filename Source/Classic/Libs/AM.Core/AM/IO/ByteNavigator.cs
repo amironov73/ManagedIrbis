@@ -16,6 +16,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -84,16 +86,7 @@ namespace AM.IO
 
             _data = data;
             Length = data.Length;
-
-#if SILVERLIGHT || WIN81 || PORTABLE
-
-            Encoding = Encoding.GetEncoding("windows-1251");
-
-#else
-
-            Encoding = Encoding.GetEncoding(0);
-
-#endif
+            Encoding = EncodingUtility.DefaultEncoding;
         }
 
         /// <summary>
@@ -115,16 +108,7 @@ namespace AM.IO
 
             _data = data;
             Length = length;
-
-#if SILVERLIGHT || WIN81 || PORTABLE
-
-            Encoding = Encoding.GetEncoding("windows-1251");
-
-#else
-
-            Encoding = Encoding.GetEncoding(0);
-
-#endif
+            Encoding = EncodingUtility.DefaultEncoding;
         }
 
         /// <summary>

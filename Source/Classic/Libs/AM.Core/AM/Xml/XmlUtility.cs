@@ -245,7 +245,8 @@ namespace AM.Xml
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            XmlSerializer serializer = new XmlSerializer(obj.GetType());
+            XmlSerializer serializer
+                = new XmlSerializer(obj.GetType());
             Serialize(fileName, serializer, obj);
         }
 

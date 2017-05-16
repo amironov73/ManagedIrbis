@@ -79,15 +79,7 @@ namespace AM.Text.Output
         /// </summary>
         public override Encoding Encoding
         {
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
-
-            get { return Encoding.GetEncoding(0); }
-
-#else
-
-            get { return Encoding.GetEncoding("windows-1251"); }
-
-#endif
+            get { return EncodingUtility.DefaultEncoding; }
         }
 
         /// <summary>

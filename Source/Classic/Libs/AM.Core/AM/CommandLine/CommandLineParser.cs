@@ -14,6 +14,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -213,7 +215,7 @@ namespace AM.CommandLine
             return ParseFile
                 (
                     fileName,
-                    Encoding.GetEncoding(0)
+                    EncodingUtility.DefaultEncoding
                 );
         }
 

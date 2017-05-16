@@ -13,6 +13,7 @@ using System;
 using System.IO;
 using System.Text;
 
+using AM.Text;
 using AM.Text.Output;
 
 using CodeJam;
@@ -104,16 +105,7 @@ namespace AM.IO
             StreamWriter writer = new StreamWriter
                 (
                     stream,
-
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
-
-                    Encoding.GetEncoding(0)
-
-#else
-
-                    Encoding.GetEncoding("windows-1251")
-
-#endif
+                    EncodingUtility.DefaultEncoding
                 );
 
             Dump(writer, data);

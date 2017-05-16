@@ -83,8 +83,6 @@ namespace AM.Collections
             return result;
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Loads <see cref="StringDictionary"/> from the specified file.
         /// </summary>
@@ -98,20 +96,15 @@ namespace AM.Collections
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
-            using (TextReader reader = new StreamReader
+            using (TextReader reader = TextReaderUtility.OpenRead
                 (
-                    File.OpenRead
-                    (
-                        fileName
-                    ),
+                    fileName,
                     encoding
                 ))
             {
                 return Load(reader);
             }
         }
-
-#endif
 
         /// <summary>
         /// Saves the <see cref="StringDictionary"/> with specified writer.
@@ -132,8 +125,6 @@ namespace AM.Collections
             writer.WriteLine(EndOfDictionary);
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Saves the <see cref="StringDictionary"/> to specified file.
         /// </summary>
@@ -146,22 +137,21 @@ namespace AM.Collections
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
-            using (TextWriter writer
-                = new StreamWriter(File.Create(fileName), encoding))
+            using (TextWriter writer = TextWriterUtility.Create
+                (
+                    fileName,
+                    encoding
+                ))
             {
                 Save(writer);
             }
         }
 
-#endif
-
-#endregion
+        #endregion
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore the object state from the specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -180,9 +170,7 @@ namespace AM.Collections
             }
         }
 
-        /// <summary>
-        /// Save the object state to the specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream"/>
         public void SaveToStream
             (
                 BinaryWriter writer

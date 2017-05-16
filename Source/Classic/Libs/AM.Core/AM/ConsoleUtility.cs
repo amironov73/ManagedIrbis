@@ -15,7 +15,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-
+using AM.IO;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -45,20 +45,12 @@ namespace AM
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
-            //StreamWriter stdOutput = new StreamWriter
-            //    (
-            //        fileName,
-            //        false,
-            //        encoding
-            //    )
-            StreamWriter stdOutput = new StreamWriter
+            StreamWriter stdOutput = TextWriterUtility.Create
                 (
-                    File.Create(fileName),
+                    fileName,
                     encoding
-                )
-            {
-                AutoFlush = true
-            };
+                );
+            stdOutput.AutoFlush = true;
 
             Console.SetOut(stdOutput);
         }
@@ -111,7 +103,6 @@ namespace AM
         /// <summary>
         /// Переключение кодовой страницы вывода консоли.
         /// </summary>
-        /// <param name="codePage"></param>
         public static void SetOutputCodePage
             (
                 [NotNull] string codePage

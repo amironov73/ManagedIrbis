@@ -81,20 +81,10 @@ namespace AM.Text
                 bool ansi
             )
         {
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
-
             Text = text;
             Encoding = ansi
-                ? Encoding.GetEncoding(0)
+                ? EncodingUtility.DefaultEncoding
                 : Encoding.UTF8;
-
-#else
-            Text = text;
-            Encoding = ansi
-                ? Encoding.GetEncoding("windows-1251")
-                : Encoding.UTF8;
-
-#endif
         }
 
         /// <summary>
@@ -126,22 +116,13 @@ namespace AM.Text
         [NotNull]
         public byte[] ToBytes()
         {
-            if (Text == null)
+            if (ReferenceEquals(Text, null))
             {
                 return new byte[0];
             }
 
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
-
             Encoding encoding = Encoding 
-                ?? Encoding.GetEncoding(0);
-
-#else
-
-            Encoding encoding = Encoding
-                ?? Encoding.GetEncoding("windows-1251");
-
-#endif
+                ?? EncodingUtility.DefaultEncoding;
 
             return encoding.GetBytes(Text);
         }

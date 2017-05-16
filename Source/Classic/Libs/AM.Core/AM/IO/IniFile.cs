@@ -19,6 +19,7 @@ using System.Text;
 
 using AM.Collections;
 using AM.Runtime;
+using AM.Text;
 
 using CodeJam;
 
@@ -933,10 +934,8 @@ namespace AM.IO
             return this;
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
-        /// Reread from the file.
+        /// Reread the <see cref="IniFile"/> from the file.
         /// </summary>
         public void Read()
         {
@@ -945,16 +944,8 @@ namespace AM.IO
                 return;
             }
 
-
-#if !SILVERLIGHT
-
-            Encoding encoding = Encoding ?? Encoding.GetEncoding(0);
-
-#else
-
-            Encoding encoding = Encoding ?? Encoding.GetEncoding("windows-1251");
-
-#endif
+            Encoding encoding = Encoding 
+                ?? EncodingUtility.DefaultEncoding;
 
             Read(FileName, encoding);
         }
@@ -971,17 +962,15 @@ namespace AM.IO
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
-            using (StreamReader reader = new StreamReader
+            using (StreamReader reader = TextReaderUtility.OpenRead
                 (
-                    File.OpenRead(fileName),
+                    fileName,
                     encoding
                 ))
             {
                 Read(reader);
             }
         }
-
-#endif
 
         /// <summary>
         /// Reread from the stream.
@@ -1078,8 +1067,6 @@ namespace AM.IO
             Modified = false;
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Save the INI-file to specified file.
         /// </summary>
@@ -1090,28 +1077,18 @@ namespace AM.IO
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-#if !SILVERLIGHT
+            Encoding encoding = Encoding
+                ?? EncodingUtility.DefaultEncoding;
 
-            Encoding encoding = Encoding ?? Encoding.GetEncoding(0);
-
-
-#else
-
-            Encoding encoding = Encoding ?? Encoding.GetEncoding("windows-1251");
-
-#endif
-
-            using (StreamWriter writer = new StreamWriter
+            using (StreamWriter writer = TextWriterUtility.Create
                 (
-                    File.Create(fileName),
+                    fileName,
                     encoding
                 ))
             {
                 Save(writer);
             }
         }
-
-#endif
 
         /// <summary>
         /// Set value for specified section and key.
