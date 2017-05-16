@@ -492,8 +492,6 @@ DONE:
             return result;
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Read local file.
         /// </summary>
@@ -507,10 +505,9 @@ DONE:
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
-            using (StreamReader reader
-                = new StreamReader
+            using (StreamReader reader = TextReaderUtility.OpenRead
                     (
-                        File.OpenRead(fileName),
+                        fileName,
                         encoding
                     ))
             {
@@ -520,8 +517,6 @@ DONE:
                 return result;
             }
         }
-
-#endif
 
         /// <summary>
         /// Save to text stream.
@@ -539,8 +534,6 @@ DONE:
                 );
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Save to local file.
         /// </summary>
@@ -553,17 +546,15 @@ DONE:
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
-            using (StreamWriter writer = new StreamWriter
+            using (StreamWriter writer = TextWriterUtility.Create
                     (
-                        File.Create(fileName),
+                        fileName,
                         encoding
                     ))
             {
                 Save(writer);
             }
         }
-
-#endif
 
         /// <summary>
         /// Verify the tree.

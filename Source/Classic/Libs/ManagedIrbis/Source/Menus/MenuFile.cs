@@ -374,9 +374,9 @@ namespace ManagedIrbis.Menus
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
-            using (StreamReader reader = new StreamReader
+            using (StreamReader reader = TextReaderUtility.OpenRead
                     (
-                        File.OpenRead(fileName),
+                        fileName,
                         encoding
                     ))
             {

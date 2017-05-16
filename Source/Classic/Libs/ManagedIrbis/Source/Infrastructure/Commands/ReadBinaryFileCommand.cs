@@ -156,23 +156,15 @@ namespace ManagedIrbis.Infrastructure.Commands
             ServerResponse result = base.Execute(query);
 
             byte[] buffer = result.RawAnswer;
-            Encoding encoding;
-
-#if SILVERLIGHT || WIN81 || PORTABLE
-
-            encoding = Encoding.GetEncoding("windows-1251");
-
-#else
-
-            encoding = Encoding.ASCII;
-
-#endif
-
+            Encoding encoding = IrbisEncoding.Ansi;
             byte[] preamble = encoding.GetBytes(Preamble);
             int offset = _FindPreamble(buffer, preamble);
             if (offset < 0)
             {
-                throw new IrbisNetworkException("No binary data received");
+                throw new IrbisNetworkException
+                    (
+                        "No binary data received"
+                    );
             }
             offset += preamble.Length;
             Content = result.RawAnswer.GetSpan(offset);

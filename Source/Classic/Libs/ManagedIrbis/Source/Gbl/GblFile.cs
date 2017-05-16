@@ -17,6 +17,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+
 using AM;
 using AM.Collections;
 using AM.IO;
@@ -116,9 +117,9 @@ namespace ManagedIrbis.Gbl
             Code.NotNull(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
-            using (StreamReader reader = new StreamReader
+            using (StreamReader reader = TextReaderUtility.OpenRead
                 (
-                    File.OpenRead(fileName),
+                    fileName,
                     encoding
                 ))
             {

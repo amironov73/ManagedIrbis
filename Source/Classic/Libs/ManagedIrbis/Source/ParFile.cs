@@ -304,8 +304,6 @@ namespace ManagedIrbis
             return result;
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Разбор файла.
         /// </summary>
@@ -317,17 +315,15 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            using (StreamReader reader = new StreamReader
+            using (StreamReader reader = TextReaderUtility.OpenRead
                     (
-                        File.OpenRead(fileName),
+                        fileName,
                         IrbisEncoding.Ansi
                     ))
             {
                 return ParseText(reader);
             }
         }
-
-#endif
 
         /// <summary>
         /// Разбор текста.
@@ -389,8 +385,6 @@ namespace ManagedIrbis
             return result;
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Запись в файл
         /// </summary>
@@ -401,18 +395,15 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            using (StreamWriter writer 
-                = new StreamWriter
+            using (StreamWriter writer = TextWriterUtility.Create
                     (
-                        File.Create(fileName),
+                        fileName,
                         IrbisEncoding.Ansi
                     ))
             {
                 WriteText(writer);
             }
         }
-
-#endif
 
         /// <summary>
         /// Запись в поток.

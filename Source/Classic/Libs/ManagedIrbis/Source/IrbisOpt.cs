@@ -22,7 +22,7 @@ using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Runtime;
-
+using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -397,8 +397,6 @@ namespace ManagedIrbis
             return record.FM(WorksheetTag);
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Загружаем из OPT-файла.
         /// </summary>
@@ -409,27 +407,15 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(filePath, "filePath");
 
-            using (StreamReader reader
-                = new StreamReader
+            using (StreamReader reader = TextReaderUtility.OpenRead
                     (
-                        File.OpenRead(filePath),
-
-#if SILVERLIGHT
-
-                        Encoding.GetEncoding("windows-1251")
-
-#else
-
-                        Encoding.GetEncoding(0)
-
-#endif
+                        filePath,
+                        IrbisEncoding.Ansi
                     ))
             {
                 return ParseText(reader);
             }
         }
-
-#endif
 
         /// <summary>
         /// Разбор текста.
@@ -482,8 +468,6 @@ namespace ManagedIrbis
             throw new IrbisException("Can't select worksheet");
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Создание OPT-файла по описанию.
         /// </summary>
@@ -494,18 +478,15 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            using (StreamWriter writer
-                = new StreamWriter
+            using (StreamWriter writer = TextWriterUtility.Create
                     (
-                        File.Create(fileName),
+                        fileName,
                         IrbisEncoding.Ansi
                     ))
             {
                 WriteOptFile(writer);
             }
         }
-
-#endif
 
         /// <summary>
         /// Создание OPT-файла по описанию.

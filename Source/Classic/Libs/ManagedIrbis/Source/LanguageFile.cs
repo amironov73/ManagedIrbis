@@ -210,8 +210,7 @@ namespace ManagedIrbis
                 Name = fileName
             };
 
-            using (StreamReader reader
-                = TextReaderUtility.OpenRead
+            using (StreamReader reader = TextReaderUtility.OpenRead
                     (
                         fileName,
                         IrbisEncoding.Utf8
@@ -252,7 +251,7 @@ namespace ManagedIrbis
 
             Log.Trace("LanguageFile::WriteLocalFile");
 
-            using (TextWriter writer = TextWriterUtility.OpenWrite
+            using (TextWriter writer = TextWriterUtility.Create
                 (
                     fileName,
                     IrbisEncoding.Utf8

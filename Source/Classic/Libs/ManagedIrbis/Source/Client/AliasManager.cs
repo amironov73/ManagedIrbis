@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 
 using AM;
+using AM.IO;
 
 using CodeJam;
 
@@ -86,8 +87,6 @@ namespace ManagedIrbis.Client
             return this;
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Read file and create <see cref="AliasManager"/>.
         /// </summary>
@@ -99,12 +98,11 @@ namespace ManagedIrbis.Client
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            using (StreamReader reader
-                = new StreamReader
-                    (
-                        File.OpenRead(fileName),
-                        IrbisEncoding.Ansi
-                    ))
+            using (StreamReader reader = TextReaderUtility.OpenRead
+                (
+                    fileName, 
+                    IrbisEncoding.Ansi
+                ))
             {
                 AliasManager result = new AliasManager();
 
@@ -119,18 +117,16 @@ namespace ManagedIrbis.Client
                         break;
                     }
                     Alias theAlias = new Alias
-                        {
-                            Name = line1,
-                            Value = line2
-                        };
+                    {
+                        Name = line1,
+                        Value = line2
+                    };
                     result._aliases.Add(theAlias);
                 }
 
                 return result;
             }
         }
-
-#endif
 
         /// <summary>
         /// Get alias value if exists.
@@ -164,8 +160,6 @@ namespace ManagedIrbis.Client
             return result;
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Save aliases to file.
         /// </summary>
@@ -176,9 +170,9 @@ namespace ManagedIrbis.Client
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            using (StreamWriter writer = new StreamWriter
+            using (StreamWriter writer = TextWriterUtility.Create
                     (
-                        File.Create(fileName),
+                        fileName,
                         IrbisEncoding.Ansi
                     ))
             {
@@ -188,10 +182,7 @@ namespace ManagedIrbis.Client
                     writer.WriteLine(theAlias.Value);
                 }
             }
-
         }
-
-#endif
 
         /// <summary>
         /// Add new or modify existing alias.

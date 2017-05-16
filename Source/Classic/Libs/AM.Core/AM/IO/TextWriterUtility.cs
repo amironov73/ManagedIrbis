@@ -39,7 +39,7 @@ namespace AM.IO
         /// Open file for append.
         /// </summary>
         [NotNull]
-        public static StreamWriter OpenAppend
+        public static StreamWriter Append
             (
                 [NotNull] string fileName,
                 [NotNull] Encoding encoding
@@ -73,7 +73,7 @@ namespace AM.IO
         /// Open file for writing.
         /// </summary>
         [NotNull]
-        public static StreamWriter OpenWrite
+        public static StreamWriter Create
             (
                 [NotNull] string fileName,
                 [NotNull] Encoding encoding

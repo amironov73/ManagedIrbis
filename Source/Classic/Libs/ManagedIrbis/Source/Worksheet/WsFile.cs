@@ -270,9 +270,9 @@ namespace ManagedIrbis.Worksheet
 
             WsFile result;
 
-            using (StreamReader reader = new StreamReader
+            using (StreamReader reader = TextReaderUtility.OpenRead
                 (
-                    File.OpenRead(fileName),
+                    fileName,
                     encoding
                 ))
             {

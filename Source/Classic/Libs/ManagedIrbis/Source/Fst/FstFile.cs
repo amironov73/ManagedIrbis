@@ -133,9 +133,9 @@ namespace ManagedIrbis.Fst
                 [NotNull] Encoding encoding
             )
         {
-            using (TextReader reader = new StreamReader
+            using (TextReader reader = TextReaderUtility.OpenRead
                 (
-                    File.OpenRead(fileName),
+                    fileName,
                     encoding
                 ))
             {

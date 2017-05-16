@@ -273,8 +273,6 @@ namespace ManagedIrbis
             return result;
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Парсим локальный файл.
         /// </summary>
@@ -286,10 +284,9 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            using (StreamReader reader
-                = new StreamReader
+            using (StreamReader reader = TextReaderUtility.OpenRead
                     (
-                        File.OpenRead(fileName),
+                        fileName,
                         IrbisEncoding.Ansi
                     ))
             {
@@ -302,8 +299,6 @@ namespace ManagedIrbis
                     );
             }
         }
-
-#endif
 
         /// <summary>
         /// Parse text and build upper-case table.
@@ -423,8 +418,6 @@ namespace ManagedIrbis
             return result.ToString();
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Записываемся в файл.
         /// </summary>
@@ -435,17 +428,15 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            using (StreamWriter writer = new StreamWriter
+            using (StreamWriter writer = TextWriterUtility.Create
                     (
-                        File.Create(fileName),
+                        fileName,
                         IrbisEncoding.Ansi
                     ))
             {
                 WriteTable(writer);
             }
         }
-
-#endif
 
         /// <summary>
         /// Записываемся в поток.

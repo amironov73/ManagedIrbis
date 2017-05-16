@@ -74,17 +74,7 @@ namespace ManagedIrbis.Infrastructure
 
             writer.Write("  ");
 
-            Encoding encoding;
-
-#if SILVERLIGHT || WIN81 || PORTABLE
-
-            encoding = Encoding.GetEncoding("windows-1251");
-
-#else
-
-            encoding = Encoding.ASCII;
-
-#endif
+            Encoding encoding = IrbisEncoding.Ansi;
 
             for (int i = 0; i < length; i++)
             {
