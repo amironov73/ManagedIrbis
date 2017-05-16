@@ -262,6 +262,7 @@
     <Compile Include="ManagedIrbis\IrbisFormatTest.cs" />
     <Compile Include="ManagedIrbis\IrbisStopWordsTest.cs" />
     <Compile Include="ManagedIrbis\IrbisUpperCaseTableTest.cs" />
+    <Compile Include="ManagedIrbis\LocalizationManagerTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftNodeTest1.cs" />
     <Compile Include="ManagedIrbis\Pft\PftUtilityTest.cs" />
     <Compile Include="ManagedIrbis\RawRecordTest.cs" />

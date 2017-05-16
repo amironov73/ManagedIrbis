@@ -92,6 +92,11 @@ namespace ManagedIrbis.Client
         #region Properties
 
         /// <summary>
+        /// Count of lines.
+        /// </summary>
+        public int LineCount { get { return _list.Count; } }
+
+        /// <summary>
         /// Name of the file.
         /// </summary>
         [CanBeNull]

@@ -12,6 +12,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 
@@ -499,6 +500,7 @@ namespace AM
         /// if given value is <c>null</c>.
         /// </summary>
         [NotNull]
+        [DebuggerStepThrough]
         public static T ThrowIfNull<T>
             (
                 [CanBeNull] this T value
@@ -518,6 +520,7 @@ namespace AM
         /// if given value is <c>null</c>.
         /// </summary>
         [NotNull]
+        [DebuggerStepThrough]
         public static T1 ThrowIfNull<T1, T2>
             (
                 [CanBeNull] this T1 value
@@ -538,6 +541,7 @@ namespace AM
         /// if given value is <c>null</c>.
         /// </summary>
         [NotNull]
+        [DebuggerStepThrough]
         public static T ThrowIfNull<T>
             (
                 [CanBeNull] this T value,

@@ -55,8 +55,6 @@ namespace CodeJam
             }
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Checks whether specified files exists.
         /// </summary>
@@ -73,6 +71,8 @@ namespace CodeJam
         {
             NotNull(path, argumentName);
 
+#if !WIN81 && !PORTABLE
+
             if (!File.Exists(path))
             {
                 throw new FileNotFoundException
@@ -82,9 +82,9 @@ namespace CodeJam
                         + path
                     );
             }
-        }
 
 #endif
+        }
 
         /// <summary>
         /// Checks whether <paramref name="argument"/> fits into
@@ -230,9 +230,9 @@ namespace CodeJam
             }
         }
 
-#endregion
+        #endregion
 
-#region Expressions
+        #region Expressions
 
         //// Borrowed from:
         //// https://github.com/Real-Serious-Games/RSG.Toolkit/
@@ -382,9 +382,9 @@ namespace CodeJam
         //    }
         //}
 
-#endregion
+        #endregion
 
-#region Argument validation
+        #region Argument validation
         /// <summary>
         /// Ensures that <paramref name="arg" /> != <c>null</c>
         /// </summary>
@@ -508,9 +508,10 @@ namespace CodeJam
                     );
             }
         }
-#endregion
+        #endregion
 
-#region Argument validation - in range
+        #region Argument validation - in range
+
         /// <summary>
         /// Assertion for the argument in range
         /// </summary>
@@ -561,9 +562,9 @@ namespace CodeJam
             }
         }
 
-#endregion
+        #endregion
 
-#region Argument validation - valid index
+        #region Argument validation - valid index
         /// <summary>
         /// Assertion for index in range
         /// </summary>
@@ -660,9 +661,9 @@ namespace CodeJam
 
             InRange(count, countName, 0, length - startIndex);
         }
-#endregion
+        #endregion
 
-#region State validation
+        #region State validation
 
         /// <summary>
         /// State assertion
@@ -701,6 +702,6 @@ namespace CodeJam
                 throw CodeExceptions.InvalidOperation(messageFormat, args);
             }
         }
-#endregion
+        #endregion
     }
 }
