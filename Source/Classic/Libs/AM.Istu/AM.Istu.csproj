@@ -111,6 +111,7 @@
   <ItemGroup>
     <Compile Include="AM\Istu\IstuDepartment.cs" />
     <Compile Include="AM\Istu\IstuReader.cs" />
+    <Compile Include="AM\Istu\OldModel\ReaderInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

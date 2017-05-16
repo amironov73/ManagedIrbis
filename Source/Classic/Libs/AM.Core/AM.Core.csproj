@@ -152,9 +152,14 @@
     <Compile Include="AM\ConsoleIO\NullConsole.cs" />
     <Compile Include="AM\ConsoleIO\SystemConsole.cs" />
     <Compile Include="AM\ConsoleUtility.cs" />
+    <Compile Include="AM\Data\ColumnHeaderAttribute.cs" />
+    <Compile Include="AM\Data\ColumnIndexAttribute.cs" />
+    <Compile Include="AM\Data\ColumnWidthAttribute.cs" />
     <Compile Include="AM\Data\DataColumnInfo.cs" />
     <Compile Include="AM\Data\DataSetInfo.cs" />
     <Compile Include="AM\Data\DataTableInfo.cs" />
+    <Compile Include="AM\Data\HiddenColumnAttribute.cs" />
+    <Compile Include="AM\Data\SortIndexAttribute.cs" />
     <Compile Include="AM\DelegateUtility.cs" />
     <Compile Include="AM\Diagnostics\ConsoleProcessRunner.cs" />
     <Compile Include="AM\Diagnostics\ConsoleTraceListener.cs" />
