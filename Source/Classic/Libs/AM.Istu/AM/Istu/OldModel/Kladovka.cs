@@ -138,8 +138,6 @@ namespace AM.Istu.OldModel
         {
             Code.NotNull(attendance, "attendance");
 
-            // this is useless comment
-
             Query<AttendanceRecord>.Insert
                 (
                     Attendances.DataContextInfo,
