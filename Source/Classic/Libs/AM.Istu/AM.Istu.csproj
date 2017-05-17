@@ -111,6 +111,7 @@
   <ItemGroup>
     <Compile Include="AM\Istu\IstuDepartment.cs" />
     <Compile Include="AM\Istu\IstuReader.cs" />
+    <Compile Include="AM\Istu\OldModel\AttendanceRecord.cs" />
     <Compile Include="AM\Istu\OldModel\HudRecord.cs" />
     <Compile Include="AM\Istu\OldModel\MagazineRecord.cs" />
     <Compile Include="AM\Istu\OldModel\OperatorRecord.cs" />
