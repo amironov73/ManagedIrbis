@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ReaderInfo.cs --
+/* ReaderRecord.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -35,7 +35,7 @@ namespace AM.Istu.OldModel
 {
     [PublicAPI]
     [MoonSharpUserData]
-    public class ReaderInfo
+    public class ReaderRecord
     {
         #region Properties
 
@@ -836,7 +836,7 @@ namespace AM.Istu.OldModel
         private bool _everlasting;
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="ReaderInfo"/> is everlasting.
+        /// Gets or sets a value indicating whether this <see cref="ReaderRecord"/> is everlasting.
         /// </summary>
         /// <value><c>true</c> if everlasting; otherwise, <c>false</c>.</value>
         [SortIndex(30)]
