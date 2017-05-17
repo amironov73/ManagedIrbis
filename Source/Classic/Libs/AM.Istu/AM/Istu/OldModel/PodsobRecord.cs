@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using AM.Configuration;
 using AM.Data;
 
+using BLToolkit.DataAccess;
 using BLToolkit.Mapping;
 
 using CodeJam;
@@ -36,6 +37,7 @@ namespace AM.Istu.OldModel
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [TableName("podsob")]
     public class PodsobRecord
     {
         #region Properties

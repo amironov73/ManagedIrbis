@@ -21,6 +21,7 @@ using AM.Configuration;
 using AM.Data;
 using AM.Suggestions;
 
+using BLToolkit.DataAccess;
 using BLToolkit.Mapping;
 
 using CodeJam;
@@ -33,8 +34,12 @@ using MoonSharp.Interpreter;
 
 namespace AM.Istu.OldModel
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [TableName("readers")]
     public class ReaderRecord
     {
         #region Properties
