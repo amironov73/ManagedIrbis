@@ -16,7 +16,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -99,6 +102,12 @@ namespace ManagedIrbis.Infrastructure
             }
             catch (AggregateException exception)
             {
+                Log.TraceException
+                    (
+                        "AsyncSocketAdapter::_Execute",
+                        exception
+                    );
+
                 // TODO: intelligent handling!
                 exception.Handle(ex => true);
             }

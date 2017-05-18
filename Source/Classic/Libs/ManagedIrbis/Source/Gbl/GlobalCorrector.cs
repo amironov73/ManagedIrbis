@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -255,9 +256,15 @@ namespace ManagedIrbis.Gbl
                         break;
                     }
                 }
-                catch (Exception ex)
+                catch (Exception exception)
                 {
-                    Result.Exception = ex;
+                    Log.TraceException
+                        (
+                            "GlobalCorrector::ProcessInterval",
+                            exception
+                        );
+
+                    Result.Exception = exception;
                     break;
                 }
 
@@ -324,9 +331,15 @@ namespace ManagedIrbis.Gbl
                         break;
                     }
                 }
-                catch (Exception ex)
+                catch (Exception exception)
                 {
-                    Result.Exception = ex;
+                    Log.TraceException
+                        (
+                            "GlobalCorrector::ProcessRecordset",
+                            exception
+                        );
+
+                    Result.Exception = exception;
                     break;
                 }
             }

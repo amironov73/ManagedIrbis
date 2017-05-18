@@ -25,6 +25,7 @@ using System.Collections.Concurrent;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Text;
 
 #if CLASSIC
@@ -745,8 +746,14 @@ namespace ManagedIrbis
                     result.Read(reader);
                 }
             }
-            catch
+            catch (Exception exception)
             {
+                Log.TraceException
+                    (
+                        "IrbisConnectionUtility::ReadIniFile",
+                        exception
+                    );
+
                 result.Dispose();
                 throw;
             }

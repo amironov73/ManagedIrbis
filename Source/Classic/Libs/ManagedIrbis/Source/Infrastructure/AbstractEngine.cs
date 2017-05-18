@@ -257,6 +257,12 @@ namespace ManagedIrbis.Infrastructure
                 }
                 catch (Exception exception)
                 {
+                    Log.TraceException
+                        (
+                            "AbstractEngine::StandardExecution",
+                            exception
+                        );
+
                     context.Exception = exception;
 
                     OnException(context);

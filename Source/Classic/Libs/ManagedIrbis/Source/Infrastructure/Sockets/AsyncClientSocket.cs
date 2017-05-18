@@ -23,6 +23,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Logging;
 using AM.Threading;
 
 using CodeJam;
@@ -93,9 +94,13 @@ namespace ManagedIrbis.Infrastructure
 
                         Debug.WriteLine("AsyncClientSocket: after Parse");
                     }
-                    catch
+                    catch (Exception exception)
                     {
-                        // Nothing to do here
+                        Log.TraceException
+                            (
+                                "AsyncClientSocket::__Execute",
+                                exception
+                            );
                     }
 
                     if (ReferenceEquals(_address, null))
@@ -203,6 +208,12 @@ namespace ManagedIrbis.Infrastructure
             }
             catch (AggregateException exception)
             {
+                Log.TraceException
+                    (
+                        "AsyncClientSocket::_Execute",
+                        exception
+                    );
+
                 // TODO: intelligent handling!
                 exception.Handle(ex => true);
             }

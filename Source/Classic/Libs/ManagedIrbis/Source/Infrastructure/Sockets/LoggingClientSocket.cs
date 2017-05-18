@@ -15,8 +15,9 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-
+using AM;
 using AM.IO;
+using AM.Logging;
 
 using CodeJam;
 
@@ -204,7 +205,10 @@ namespace ManagedIrbis.Infrastructure.Sockets
         /// </summary>
         public override void AbortRequest()
         {
-            InnerSocket.AbortRequest();
+            AbstractClientSocket innerSocket = InnerSocket
+                .ThrowIfNull("InnerSocket");
+
+            innerSocket.AbortRequest();
         }
 
         /// <summary>
@@ -217,13 +221,22 @@ namespace ManagedIrbis.Infrastructure.Sockets
         {
             Code.NotNull(request, "request");
 
+            AbstractClientSocket innerSocket = InnerSocket
+                .ThrowIfNull("InnerSocket");
+
             byte[] result;
             try
             {
-                result = InnerSocket.ExecuteRequest(request);
+                result = innerSocket.ExecuteRequest(request);
             }
             catch (Exception exception)
             {
+                Log.TraceException
+                    (
+                        "LoggingClientSocket::ExecuteRequest",
+                        exception
+                    );
+
                 Task.Factory.StartNew
                     (
                         () => _DumpException(exception)

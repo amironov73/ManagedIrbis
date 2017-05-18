@@ -16,6 +16,7 @@ using System.IO;
 using System.Text;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -716,6 +717,12 @@ namespace ManagedIrbis.Infrastructure
             }
             catch (Exception exception)
             {
+                Log.TraceException
+                    (
+                        "ServerResponse::RequireInt32",
+                        exception
+                    );
+
                 throw new IrbisNetworkException
                     (
                         "packet",

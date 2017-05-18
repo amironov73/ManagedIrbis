@@ -18,6 +18,7 @@ using System.Xml;
 using System.Xml.Linq;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -139,8 +140,14 @@ namespace ManagedIrbis.Marc.Schema
             {
                 result = int.Parse(attribute.Value);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                Log.TraceException
+                    (
+                        "SchemaUtility::GetAttributeInt32",
+                        exception
+                    );
+
                 result = defaultValue;
             }
 #else
@@ -168,7 +175,10 @@ namespace ManagedIrbis.Marc.Schema
             Code.NotNull(element, "element");
             Code.NotNull(attributeName, "attributeName");
 
-            return element.Attribute(attributeName).Value;
+            XAttribute attribute = element.Attribute(attributeName)
+                .ThrowIfNull("attribute");
+
+            return attribute.Value;
         }
 
         /// <summary>
@@ -186,7 +196,7 @@ namespace ManagedIrbis.Marc.Schema
             Code.NotNull(attributeName, "attributeName");
 
             XAttribute attribute = element.Attribute(attributeName);
-            return (ReferenceEquals(attribute, null))
+            return ReferenceEquals(attribute, null)
                 ? defaultValue
                 : attribute.Value;
         }
@@ -206,7 +216,7 @@ namespace ManagedIrbis.Marc.Schema
             Code.NotNull(elementName, "elementName");
 
             XElement subElement = element.Element(elementName);
-            return (ReferenceEquals(subElement, null))
+            return ReferenceEquals(subElement, null)
                 ? defaultValue
                 : subElement.Value;
         }

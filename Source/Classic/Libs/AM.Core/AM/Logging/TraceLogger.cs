@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if CLASSIC || DESKTOP
+
 #region Using directives
 
 using System;
@@ -121,3 +123,5 @@ namespace AM.Logging
         #endregion
     }
 }
+
+#endif

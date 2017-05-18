@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 using AM.Text;
 
@@ -235,6 +236,12 @@ namespace ManagedIrbis.Mx
             }
             catch (Exception exception)
             {
+                Log.TraceException
+                    (
+                        "MxExecutive::_ExecuteLine",
+                        exception
+                    );
+
                 WriteLine("Exception: {0}", exception);
 
                 return result;

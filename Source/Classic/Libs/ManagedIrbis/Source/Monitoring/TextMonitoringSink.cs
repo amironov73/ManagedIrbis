@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -89,8 +90,14 @@ namespace ManagedIrbis.Monitoring
                     );
                 Writer.WriteLine(text);
             }
-            catch
+            catch (Exception exception)
             {
+                Log.TraceException
+                    (
+                        "TextMonitoringSink::WriteData",
+                        exception
+                    );
+
                 return false;
             }
 
