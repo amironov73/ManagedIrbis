@@ -196,11 +196,13 @@
     <Compile Include="AM\IVerifiable.cs" />
     <Compile Include="AM\Json\JsonUtility.cs" />
     <Compile Include="AM\Logging\ConsoleLogger.cs" />
+    <Compile Include="AM\Logging\DebugLogger.cs" />
     <Compile Include="AM\Logging\FileLogger.cs" />
     <Compile Include="AM\Logging\IAmLogger.cs" />
     <Compile Include="AM\Logging\Log.cs" />
     <Compile Include="AM\Logging\NullLogger.cs" />
     <Compile Include="AM\Logging\TeeLogger.cs" />
+    <Compile Include="AM\Logging\TraceLogger.cs" />
     <Compile Include="AM\Mathematics\MathUtility.cs" />
     <Compile Include="AM\MessageEventArgs.cs" />
     <Compile Include="AM\MessageEventHandler.cs" />

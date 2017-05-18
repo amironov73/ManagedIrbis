@@ -16,6 +16,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -243,9 +245,13 @@ namespace ManagedIrbis.Direct
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception exception)
                 {
-                    Debug.WriteLine(ex);
+                    Log.TraceException
+                    (
+                        "DirectReader64::SearchReadSimple",
+                        exception
+                    );
                 }
             }
             return result.ToArray();

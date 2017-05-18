@@ -20,6 +20,7 @@ using System.Text;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -408,9 +409,13 @@ namespace ManagedIrbis.Direct
                     //ibatrak до сюда
                 }
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Debug.WriteLine(ex);
+                Log.TraceException
+                (
+                    "InvertedFile64::SearchExact",
+                    exception
+                );
             }
 
             return new TermLink[0];

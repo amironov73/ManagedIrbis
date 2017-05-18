@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -64,6 +65,8 @@ namespace ManagedIrbis.Client
         /// </summary>
         public LocalProvider()
         {
+            Log.Trace("LocalProvider::Constructor");
+
             RootPath = "C:/IRBIS64";
             DataPath = "C:/IRBIS64/DataI";
             Database = "IBIS";
@@ -133,7 +136,7 @@ namespace ManagedIrbis.Client
 
         #region AbstractClient members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IrbisProvider.GetMaxMfn"/>
         public override int GetMaxMfn()
         {
             int result = 0;
@@ -144,15 +147,18 @@ namespace ManagedIrbis.Client
             try
             {
                 reader = _GetReader();
-                if (reader != null)
+                if (!ReferenceEquals(reader, null))
                 {
                     result = reader.GetMaxMfn();
                 }
             }
-            // ReSharper disable once EmptyGeneralCatchClause
-            catch
+            catch (Exception exception)
             {
-                // Nothing to do actually
+                Log.TraceException
+                    (
+                        "LocalProvider::GetMaxMfn",
+                        exception
+                    );
             }
             finally
             {
@@ -167,7 +173,7 @@ namespace ManagedIrbis.Client
             return result;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IrbisProvider.ListDatabases" />
         public override DatabaseInfo[] ListDatabases()
         {
 #if WIN81 || PocketPC || WINMOBILE || PORTABLE || SILVERLIGHT
@@ -195,7 +201,7 @@ namespace ManagedIrbis.Client
 #endif
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IrbisProvider.ReadFile" />
         public override string ReadFile
             (
                 FileSpecification fileSpecification
@@ -261,7 +267,7 @@ namespace ManagedIrbis.Client
 #endif
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IrbisProvider.ReadRecord" />
         public override MarcRecord ReadRecord
             (
                 int mfn
@@ -285,10 +291,13 @@ namespace ManagedIrbis.Client
                     result = reader.ReadRecord(mfn);
                 }
             }
-            // ReSharper disable once EmptyGeneralCatchClause
-            catch
+            catch (Exception exception)
             {
-                // Nothing to do actually
+                Log.TraceException
+                (
+                    "LocalProvider::ReadRecord",
+                    exception
+                );
             }
             finally
             {
@@ -303,7 +312,7 @@ namespace ManagedIrbis.Client
             return result;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IrbisProvider.ReadRecordVersion" />
         public override MarcRecord ReadRecordVersion
             (
                 int mfn,
@@ -337,10 +346,13 @@ namespace ManagedIrbis.Client
                     }
                 }
             }
-            // ReSharper disable once EmptyGeneralCatchClause
-            catch
+            catch (Exception exception)
             {
-                // Nothing to do actually
+                Log.TraceException
+                (
+                    "LocalProvider::ReadRecordVersion",
+                    exception
+                );
             }
             finally
             {
@@ -355,7 +367,7 @@ namespace ManagedIrbis.Client
             return result;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IrbisProvider.Search" />
         public override int[] Search
             (
                 string expression
@@ -379,10 +391,13 @@ namespace ManagedIrbis.Client
                     result = reader.SearchSimple(expression);
                 }
             }
-            // ReSharper disable once EmptyGeneralCatchClause
-            catch
+            catch (Exception exception)
             {
-                // Nothing to do actually
+                Log.TraceException
+                (
+                    "LocalProvider::Search",
+                    exception
+                );
             }
             finally
             {
@@ -404,6 +419,8 @@ namespace ManagedIrbis.Client
         /// <inheritdoc cref="IDisposable.Dispose"/>
         public override void Dispose()
         {
+            Log.Trace("LocalProvider::Dispose");
+
             base.Dispose();
         }
 

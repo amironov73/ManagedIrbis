@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using System;
+
 using JetBrains.Annotations;
 
 #endregion
@@ -170,6 +172,26 @@ namespace AM.Logging
                     Logger.Trace(text);
                 }
             }
+        }
+
+        /// <summary>
+        /// Trace the exception.
+        /// </summary>
+        public static void TraceException
+            (
+                [NotNull] string text,
+                [NotNull] Exception exception
+            )
+        {
+            string fullText = string.Format
+                (
+                    "{0}: {1}: {2}",
+                    text,
+                    exception.GetType().Name,
+                    exception.Message
+                );
+
+            Trace(fullText);
         }
 
         /// <summary>

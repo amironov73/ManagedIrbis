@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -502,6 +503,12 @@ namespace ManagedIrbis.Batch
                 }
                 catch (Exception exception)
                 {
+                    Log.TraceException
+                        (
+                            "BatchRecordReader::GetEnumerator",
+                            exception
+                        );
+
                     if (!_HandleException(exception))
                     {
                         throw;
