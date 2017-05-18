@@ -181,6 +181,21 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ComparableObject.cs">
       <Link>AM\ComparableObject.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ConsoleIO\ConsoleInput.cs">
+      <Link>AM\ConsoleIO\ConsoleInput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ConsoleIO\IConsoleDriver.cs">
+      <Link>AM\ConsoleIO\IConsoleDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ConsoleIO\InputHistory.cs">
+      <Link>AM\ConsoleIO\InputHistory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ConsoleIO\NullConsole.cs">
+      <Link>AM\ConsoleIO\NullConsole.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ConsoleIO\SystemConsole.cs">
+      <Link>AM\ConsoleIO\SystemConsole.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ConsoleUtility.cs">
       <Link>AM\ConsoleUtility.cs</Link>
     </Compile>

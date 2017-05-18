@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -93,6 +94,13 @@ namespace ManagedIrbis.Batch
             Code.NotNullNorEmpty(database, "database");
             if (capacity < 1)
             {
+                Log.Trace
+                    (
+                        "BatchRecordWriter::Constructor: "
+                        + "capacity="
+                        + capacity
+                    );
+
                 throw new ArgumentOutOfRangeException("capacity");
             }
 

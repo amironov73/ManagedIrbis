@@ -29,76 +29,137 @@ namespace AM.ConsoleIO
     {
         #region IConsoleDriver members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IConsoleDriver.BackgroundColor" />
         public ConsoleColor BackgroundColor
         {
-            get { return Console.BackgroundColor; }
-            set { Console.BackgroundColor = value; }
+            get
+            {
+#if UAP || WIN81 || PORTABLE || SILVERLIGHT
+                return ConsoleColor.Black;
+#else
+                return Console.BackgroundColor;
+#endif
+            }
+            set
+            {
+#if !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT
+                Console.BackgroundColor = value;
+#endif
+            }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IConsoleDriver.ForegroundColor" />
         public ConsoleColor ForegroundColor
         {
-            get { return Console.ForegroundColor; }
-            set { Console.ForegroundColor = value; }
+            get
+            {
+#if UAP || WIN81 || PORTABLE || SILVERLIGHT
+                return ConsoleColor.White;
+#else
+                return Console.ForegroundColor;
+#endif
+            }
+            set
+            {
+#if !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT
+                Console.ForegroundColor = value;
+#endif
+            }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IConsoleDriver.KeyAvailable" />
         public bool KeyAvailable 
         {
-            get { return Console.KeyAvailable; }
+            get
+            {
+#if UAP || WIN81 || PORTABLE || SILVERLIGHT
+                return false;
+#else
+                return Console.KeyAvailable;
+#endif
+            }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IConsoleDriver.Title" />
         public string Title
         {
-            get { return Console.Title; }
-            set { Console.Title = value; }
+            get
+            {
+#if UAP || WIN81 || PORTABLE || SILVERLIGHT
+                return string.Empty;
+#else
+                return Console.Title;
+#endif
+            }
+            set
+            {
+#if !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT
+                Console.Title = value;
+#endif
+            }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IConsoleDriver.Clear" />
         public void Clear()
         {
+#if !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT
             Console.Clear();
+#endif
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IConsoleDriver.Read" />
         public int Read()
         {
+#if UAP || WIN81 || PORTABLE || SILVERLIGHT
+            return -1;
+#else
             return Console.Read();
+#endif
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IConsoleDriver.ReadKey" />
         public ConsoleKeyInfo ReadKey
             (
                 bool intercept
             )
         {
+#if UAP || WIN81 || PORTABLE || SILVERLIGHT
+            return new ConsoleKeyInfo();
+#else
             return Console.ReadKey(intercept);
+#endif
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IConsoleDriver.ReadLine" />
         public string ReadLine()
         {
+#if UAP || WIN81 || PORTABLE || SILVERLIGHT
+            return null;
+#else
             return Console.ReadLine();
+#endif
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IConsoleDriver.Write" />
         public void Write
             (
                 string text
             )
         {
+#if !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT
             if (!string.IsNullOrEmpty(text))
             {
                 Console.Write(text);
             }
+#endif
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IConsoleDriver.WriteLine" />
         public void WriteLine()
         {
+#if !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT
             Console.WriteLine();
+#endif
         }
 
         #endregion

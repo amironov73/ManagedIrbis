@@ -13,6 +13,7 @@ using System;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 
 using CodeJam;
 
@@ -61,12 +62,20 @@ namespace ManagedIrbis.Client
                 IniFile ini = Ini;
                 if (ReferenceEquals(ini, null))
                 {
+                    // Can it be?
+
                     throw new IrbisException("INI file is null");
                 }
 
                 IniFile.Section result = ini.GetSection(Main);
                 if (ReferenceEquals(result, null))
                 {
+                    Log.Trace
+                        (
+                            "LocalCatalogerIniFile::MainSection: "
+                            + "main section is null"
+                        );
+
                     throw new IrbisException("Main section is null");
                 }
 

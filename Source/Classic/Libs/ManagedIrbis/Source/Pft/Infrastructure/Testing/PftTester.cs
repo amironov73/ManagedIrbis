@@ -140,7 +140,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
 
             string name = Path.GetFileName(test.Folder);
 
-            ConsoleColor foreColor = Console.ForegroundColor;
+            ConsoleColor foreColor = ConsoleInput.ForegroundColor;
             ConsoleInput.ForegroundColor = ConsoleColor.Cyan;
 
             ConsoleInput.Write(string.Format("{0}: ", name));

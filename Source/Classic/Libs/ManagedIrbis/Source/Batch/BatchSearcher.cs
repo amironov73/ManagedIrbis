@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -143,6 +144,13 @@ namespace ManagedIrbis.Batch
             int batchSize = BatchSize;
             if (batchSize < 1)
             {
+                Log.Trace
+                    (
+                        "BatchSearcher::Search: "
+                        + "batchSize="
+                        + batchSize
+                    );
+
                 throw new ArsMagnaException("BatchSize");
             }
 
@@ -180,6 +188,13 @@ namespace ManagedIrbis.Batch
             int batchSize = BatchSize;
             if (batchSize < 1)
             {
+                Log.Trace
+                    (
+                        "BatchSearcher::SearchRead: "
+                        + "batchSize="
+                        + batchSize
+                    );
+
                 throw new ArsMagnaException("BatchSize");
             }
 
