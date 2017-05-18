@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -85,13 +86,19 @@ namespace ManagedIrbis
             {
                 if (subField.Code == sign)
                 {
-                    if (found != null)
+                    if (!ReferenceEquals(found, null))
                     {
                         result.Add(found);
                     }
                     string value = subField.Value;
                     if (string.IsNullOrEmpty(value))
                     {
+                        Log.Trace
+                            (
+                                "EmbeddedField::GetEmbeddedFields: "
+                                + "bad format"
+                            );
+
                         throw new FormatException();
                     }
                     string tag = value.Substring
@@ -101,7 +108,7 @@ namespace ManagedIrbis
                         );
                     found = new RecordField(tag);
                     if (tag.StartsWith("00")
-                        && (value.Length > 3)
+                        && value.Length > 3
                        )
                     {
                         found.Value = value.Substring(3);
@@ -109,7 +116,7 @@ namespace ManagedIrbis
                 }
                 else
                 {
-                    if (found != null)
+                    if (!ReferenceEquals(found, null))
                     {
                         found.AddSubField
                             (
@@ -120,7 +127,7 @@ namespace ManagedIrbis
                 }
             }
 
-            if (found != null)
+            if (!ReferenceEquals(found, null))
             {
                 result.Add(found);
             }

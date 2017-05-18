@@ -18,6 +18,7 @@ using System.Text.RegularExpressions;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 using AM.Text.Output;
 
@@ -258,7 +259,13 @@ namespace ManagedIrbis.Fields
 
             if (string.IsNullOrEmpty(result))
             {
-                throw new IrbisException();
+                Log.Trace
+                    (
+                        "ExemplarManager::GetDescription: "
+                        + "empty description"
+                    );
+
+                throw new IrbisException("Empty description");
             }
 
             return result;
@@ -304,6 +311,13 @@ namespace ManagedIrbis.Fields
         {
             if (exemplar.Mfn <= 0)
             {
+                Log.Trace
+                    (
+                        "ExemplarManager::Extend: "
+                        + "MFN="
+                        + exemplar.Mfn
+                    );
+
                 throw new IrbisException("MFN <= 0");
             }
 
@@ -440,7 +454,17 @@ namespace ManagedIrbis.Fields
 
             if (ReferenceEquals(loaded, null))
             {
-                throw new IrbisException();
+                Log.Trace
+                    (
+                        "ExemplarManager::LoadFromFile: "
+                        + "failed to load from: "
+                        + fileName
+                    );
+
+                throw new IrbisException
+                    (
+                        "Failed to load exemplars from file"
+                    );
             }
 
             foreach (ExemplarInfo exemplar in loaded)

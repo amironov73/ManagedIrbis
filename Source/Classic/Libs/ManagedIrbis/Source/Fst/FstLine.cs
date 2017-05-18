@@ -16,8 +16,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -139,7 +140,18 @@ namespace ManagedIrbis.Fst
 
             if (parts.Length != 3)
             {
-                throw new FormatException("line: " + line);
+                Log.Trace
+                    (
+                        "FstLine::ParseStream: "
+                        + "bad line: "
+                        + line.NullableToVisibleString()
+                    );
+
+                throw new FormatException
+                    (
+                        "Bad FST line: "
+                        + line.NullableToVisibleString()
+                    );
             }
 
             FstIndexMethod method = (FstIndexMethod) int.Parse

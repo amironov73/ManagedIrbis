@@ -20,6 +20,7 @@ using System.ComponentModel;
 #endif
 
 using AM;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -322,6 +323,11 @@ namespace ManagedIrbis
         {
             if (ReadOnly)
             {
+                Log.Trace
+                    (
+                        "FieldIndicator::ThrowIfReadOnly"
+                    );
+
                 throw new ReadOnlyException();
             }
         }
@@ -330,7 +336,7 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return ToText();

@@ -17,6 +17,7 @@ using System.Xml.Serialization;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Parameters;
 using AM.Runtime;
 
@@ -624,11 +625,19 @@ namespace ManagedIrbis
                         break;
 
                     default:
+                        Log.Trace
+                        (
+                            "ConnectionSettings::ParseConnectionString: "
+                            + "unknown parameter: "
+                            + name
+                        );
+
                         string message = string.Format
                             (
                                 "Unknown parameter: {0}",
                                 name
                             );
+
                         throw new ArgumentException(message);
                 }
             }

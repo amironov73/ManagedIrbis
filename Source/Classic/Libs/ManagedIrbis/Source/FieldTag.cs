@@ -16,6 +16,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using AM;
 using AM.Collections;
+using AM.Logging;
 
 using JetBrains.Annotations;
 
@@ -119,9 +120,23 @@ namespace ManagedIrbis
         {
             bool result = IsValidTag(tag);
 
-            if (!result && throwOnError)
+            if (!result)
             {
-                throw new VerificationException("bad tag: " + tag);
+                Log.Trace
+                    (
+                        "FieldTag::Verify: "
+                        + "bad tag: "
+                        + tag.NullableToVisibleString()
+                    );
+
+                if (throwOnError)
+                {
+                    throw new VerificationException
+                        (
+                            "bad tag: " 
+                            + tag.NullableToVisibleString()
+                        );
+                }
             }
 
             return result;

@@ -124,6 +124,7 @@
     <Compile Include="Source\NativeIrbisProvider.cs" />
     <Compile Include="Source\NativeRecord.cs" />
     <Compile Include="Source\SpaceLayout.cs" />
+    <Compile Include="Source\Win32.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />

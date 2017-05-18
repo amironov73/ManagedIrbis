@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 using AM.Runtime;
 
 using CodeJam;
-
+using IrbisInterop.Source;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
@@ -143,8 +143,8 @@ namespace IrbisInterop
             encoding.GetBytes(MagicString, 0, length, expected, 0);
             length++;
 
-            int minAddress = space.ToInt32() - 0x100000;
-            int maxAddress = space.ToInt32() + 0x100000;
+            //int minAddress = space.ToInt32() - 0x100000;
+            //int maxAddress = space.ToInt32() + 0x100000;
 
             for (int offset = 4; offset < blockSize; offset++)
             {
@@ -154,7 +154,12 @@ namespace IrbisInterop
                         offset
                     );
                 int address = pointer.ToInt32();
-                if (address < minAddress || address > maxAddress)
+                //if (address < minAddress || address > maxAddress)
+                //{
+                //    continue;
+                //}
+
+                if (Win32.IsBadReadPtr(address, 32000))
                 {
                     continue;
                 }
@@ -201,8 +206,8 @@ namespace IrbisInterop
                 return;
             }
 
-            int minAddress = space.ToInt32() - 0x100000;
-            int maxAddress = space.ToInt32() + 0x100000;
+            //int minAddress = space.ToInt32() - 0x100000;
+            //int maxAddress = space.ToInt32() + 0x100000;
 
             for (int offset = 4; offset < blockSize; offset++)
             {
@@ -212,7 +217,12 @@ namespace IrbisInterop
                         offset
                     );
                 int address = pointer.ToInt32();
-                if (address < minAddress || address > maxAddress)
+                //if (address < minAddress || address > maxAddress)
+                //{
+                //    continue;
+                //}
+
+                if (Win32.IsBadReadPtr(address, 32000))
                 {
                     continue;
                 }

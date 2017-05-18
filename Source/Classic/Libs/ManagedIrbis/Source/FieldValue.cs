@@ -15,6 +15,7 @@ using System.Diagnostics.CodeAnalysis;
 #endif
 
 using AM;
+using AM.Logging;
 
 using JetBrains.Annotations;
 
@@ -116,9 +117,23 @@ namespace ManagedIrbis
         {
             bool result = IsValidValue(value);
 
-            if (!result && throwOnError)
+            if (!result)
             {
-                throw new VerificationException("Field.Value");
+                Log.Trace
+                    (
+                        "FieldValue::Verify: "
+                        + "bad value: "
+                        + value.NullableToVisibleString()
+                    );
+
+                if (throwOnError)
+                {
+                    throw new VerificationException
+                        (
+                            "Bad Field.Value: " 
+                            + value.NullableToVisibleString()
+                        );
+                }
             }
 
             return result;

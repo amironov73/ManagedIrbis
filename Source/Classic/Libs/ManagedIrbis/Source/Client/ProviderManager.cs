@@ -15,6 +15,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -99,6 +101,13 @@ namespace ManagedIrbis.Client
             Type type;
             if (!Registry.TryGetValue(name, out type))
             {
+                Log.Trace
+                    (
+                        "ProviderManager::GetProvider: "
+                        + "provider not found: "
+                        + name
+                    );
+
                 if (throwOnError)
                 {
                     throw new IrbisException
@@ -110,6 +119,13 @@ namespace ManagedIrbis.Client
 
             if (ReferenceEquals(type, null))
             {
+                Log.Trace
+                    (
+                        "ProviderManager::GetProvider: "
+                        + "can't find type: "
+                        + name
+                    );
+
                 throw new IrbisException
                     (
                         "Can't find type: " + name

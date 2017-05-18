@@ -16,6 +16,7 @@ using System.Xml.Serialization;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -113,6 +114,13 @@ namespace ManagedIrbis.Client
                 );
             if (parts.Length < 5)
             {
+                Log.Trace
+                    (
+                        "RecordState::ParseServerAnswer: "
+                        + "bad line format: "
+                        + line
+                    );
+
                 throw new IrbisException("bad line format");
             }
 
