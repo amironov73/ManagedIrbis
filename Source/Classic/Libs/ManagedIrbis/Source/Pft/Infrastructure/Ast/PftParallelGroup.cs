@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using AM.Collections;
+using AM.Logging;
 
 using CodeJam;
 
@@ -139,10 +140,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     }
 
                 }
-                catch (PftBreakException)
+                catch (PftBreakException exception)
                 {
-                    // Nothing to do here
-                    // Just swallow the exception
+                    // It was break operator
+
+                    Log.TraceException
+                        (
+                            "PftParalleGroup::Execute",
+                            exception
+                        );
                 }
 
                 OnAfterExecution(context);

@@ -18,6 +18,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Logging;
 using AM.Text;
 using AM.Text.Ranges;
 
@@ -114,8 +115,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
                 return result.ToString();
             }
-            catch
+            catch (Exception exception)
             {
+                Log.TraceException
+                    (
+                        "Unifor3::Cumulate",
+                        exception
+                    );
+
                 return issues;
             }
         }

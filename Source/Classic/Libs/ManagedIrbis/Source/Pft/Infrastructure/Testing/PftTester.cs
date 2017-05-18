@@ -20,6 +20,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM.Collections;
+using AM.ConsoleIO;
+using AM.Logging;
 
 using CodeJam;
 
@@ -83,7 +85,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
         {
             Code.NotNullNorEmpty(folder, "folder");
 
-            //Environment = new PftLocalEnvironment();
             Provider = new LocalProvider();
             Folder = folder;
             Tests = new NonNullCollection<PftTest>();
@@ -146,11 +147,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
 
 #endif
 
-#if !UAP
-
-            Console.Write("{0}: ", name);
-
-#endif
+            ConsoleInput.Write(string.Format("{0}: ", name));
 
 #if CLASSIC || NETCORE
 
@@ -170,17 +167,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
 
 #endif
 
-#if !UAP
-
-                Console.WriteLine();
-                Console.WriteLine
+                ConsoleInput.WriteLine();
+                ConsoleInput.WriteLine
                     (
                         result.Failed
                         ? "FAIL"
                         : "OK"
                     );
-
-#endif
 
 #if CLASSIC || NETCORE
 
@@ -188,29 +181,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
 
 #endif
 
-#if !UAP
-
-                Console.WriteLine(new string('=', 70));
-                Console.WriteLine();
-
-#endif
+                ConsoleInput.WriteLine(new string('=', 70));
+                ConsoleInput.WriteLine();
             }
             catch (Exception exception)
             {
+                Log.TraceException
+                    (
+                        "PftTester::RunTest",
+                        exception
+                    );
+
                 Debug.WriteLine(exception);
 
-#if !UAP
-
-                Console.WriteLine(exception);
-
-#endif
+                ConsoleInput.WriteLine(exception.ToString());
             }
 
-#if !UAP
-
-            Console.WriteLine();
-
-#endif
+            ConsoleInput.WriteLine();
 
             return result;
         }

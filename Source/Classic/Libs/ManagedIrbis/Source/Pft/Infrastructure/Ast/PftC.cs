@@ -13,6 +13,7 @@ using System;
 using System.IO;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -84,6 +85,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
             catch (Exception exception)
             {
+                Log.TraceException
+                    (
+                        "PftC::Constructor",
+                        exception
+                    );
+
                 throw new PftSyntaxException(token, exception);
             }
         }

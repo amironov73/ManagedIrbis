@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -87,15 +88,31 @@ namespace ManagedIrbis.Pft.Infrastructure
                 context.Procedures = Procedures;
                 base.Execute(context);
             }
-            catch (PftBreakException)
+            catch (PftBreakException exception)
             {
+                // It was break operator
+
+                Log.TraceException
+                    (
+                        "PftProgram::Execute",
+                        exception
+                    );
+
                 if (!ReferenceEquals(context.Parent, null))
                 {
                     throw;
                 }
             }
-            catch (PftExitException)
+            catch (PftExitException exception)
             {
+                // It was exit operator
+
+                Log.TraceException
+                    (
+                        "PftProgram::Execute",
+                        exception
+                    );
+
                 if (!ReferenceEquals(context.Parent, null))
                 {
                     throw;

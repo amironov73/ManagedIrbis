@@ -14,8 +14,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
 using AM.Collections;
+using AM.Logging;
 
 using CodeJam;
 
@@ -185,9 +187,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     context.Execute(Body);
                 }
             }
-            catch (PftBreakException)
+            catch (PftBreakException exception)
             {
-                // Nothing to do here
+                // It was break operator
+
+                Log.TraceException
+                    (
+                        "PftWhile::Execute",
+                        exception
+                    );
             }
 
             OnAfterExecution(context);

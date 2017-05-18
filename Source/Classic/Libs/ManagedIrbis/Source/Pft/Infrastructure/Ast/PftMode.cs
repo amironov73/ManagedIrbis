@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -70,7 +72,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
             catch (Exception exception)
             {
-                throw new PftSyntaxException("bad mode text", exception);
+                Log.TraceException
+                    (
+                        "PftMode::Constructor",
+                        exception
+                    );
+
+                throw new PftSyntaxException
+                    (
+                        "bad mode text",
+                        exception
+                    );
             }
         }
 
@@ -88,10 +100,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             try
             {
-                ParseText(token.Text);
+                ParseText
+                    (
+                        token.Text.ThrowIfNull("token.Text")
+                    );
             }
             catch (Exception exception)
             {
+                Log.TraceException
+                    (
+                        "PftMode::Constructor",
+                        exception
+                    );
+
                 throw new PftSyntaxException(token, exception);
             }
         }

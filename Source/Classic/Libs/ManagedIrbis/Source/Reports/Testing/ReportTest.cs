@@ -22,7 +22,9 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
+using AM.ConsoleIO;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 using AM.Text;
 
@@ -165,7 +167,7 @@ namespace ManagedIrbis.Reports
                             IrbisEncoding.Utf8
                         );
                     result.Description = description;
-                    Console.Write(description);
+                    ConsoleInput.Write(description);
                 }
 
                 string recordFile = GetFullName(RecordFileName);
@@ -219,16 +221,22 @@ namespace ManagedIrbis.Reports
                     {
                         result.Failed = true;
 
-                        Console.WriteLine();
-                        Console.WriteLine("!!! FAILED !!!");
-                        Console.WriteLine();
-                        Console.WriteLine(output);
-                        Console.WriteLine();
+                        ConsoleInput.WriteLine();
+                        ConsoleInput.WriteLine("!!! FAILED !!!");
+                        ConsoleInput.WriteLine();
+                        ConsoleInput.WriteLine(output);
+                        ConsoleInput.WriteLine();
                     }
                 }
             }
             catch (Exception exception)
             {
+                Log.TraceException
+                    (
+                        "ReportTest::Run",
+                        exception
+                    );
+
                 result.Failed = true;
                 result.Exception = exception.ToString();
 

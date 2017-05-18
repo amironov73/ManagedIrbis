@@ -13,6 +13,7 @@ using System.Collections.Generic;
 
 using AM;
 using AM.Collections;
+using AM.Logging;
 
 using CodeJam;
 
@@ -180,9 +181,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     context.Execute(Loop);
                 }
             }
-            catch (PftBreakException)
+            catch (PftBreakException exception)
             {
-                // Nothing to do here
+                // It was brak operator
+
+                Log.TraceException
+                    (
+                        "PftFor::Execute",
+                        exception
+                    );
             }
 
             OnAfterExecution(context);

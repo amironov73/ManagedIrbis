@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -95,10 +97,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                             }
                         );
                 }
-                catch (PftBreakException)
+                catch (PftBreakException exception)
                 {
-                    // Nothing to do here
-                    // Just swallow the exception
+                    // It was break operator
+
+                    Log.TraceException
+                        (
+                            "PftGroup::Execute",
+                            exception
+                        );
                 }
 
                 OnAfterExecution(context);

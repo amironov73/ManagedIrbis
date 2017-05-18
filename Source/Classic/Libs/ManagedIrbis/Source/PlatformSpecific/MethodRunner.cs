@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -116,9 +117,13 @@ namespace ManagedIrbis.PlatformSpecific
 
                 result.Output = buffer.ToString();
             }
-            catch
+            catch (Exception exception)
             {
-                // Nothing to do
+                Log.TraceException
+                    (
+                        "MethodRunner::RunMethod",
+                        exception
+                    );
             }
 
 #endif

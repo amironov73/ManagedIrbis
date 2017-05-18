@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -105,6 +106,12 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
             catch (Exception exception)
             {
+                Log.TraceException
+                    (
+                        "PftIteration::_Run",
+                        exception
+                    );
+
                 Exception = exception;
             }
         }

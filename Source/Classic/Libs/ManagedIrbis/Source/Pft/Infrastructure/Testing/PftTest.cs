@@ -15,7 +15,9 @@ using System;
 using System.IO;
 
 using AM;
+using AM.ConsoleIO;
 using AM.IO;
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -197,12 +199,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     .ThrowIfNull("input");
                 result.Input = input;
 
-#if !UAP
-
-                Console.WriteLine(input);
-                Console.WriteLine();
-
-#endif
+                ConsoleInput.WriteLine(input);
+                ConsoleInput.WriteLine();
 
                 PftLexer lexer = new PftLexer();
                 PftTokenList tokenList = lexer.Tokenize(input);
@@ -212,12 +210,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     .DosToUnix()
                     .ThrowIfNull("tokens");
 
-#if !UAP
-
-                Console.WriteLine(result.Tokens);
-                Console.WriteLine();
-
-#endif
+                ConsoleInput.WriteLine(result.Tokens);
+                ConsoleInput.WriteLine();
 
                 PftParser parser = new PftParser(tokenList);
                 PftProgram program = parser.Parse();
@@ -226,12 +220,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     .DosToUnix()
                     .ThrowIfNull("ast");
 
-#if !UAP
-
-                Console.WriteLine(result.Ast);
-                Console.WriteLine();
-
-#endif
+                ConsoleInput.WriteLine(result.Ast);
+                ConsoleInput.WriteLine();
 
                 string expectedFile = GetFullName(ExpectedFileName);
                 string expected = null;
@@ -269,11 +259,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 }
                 result.Output = output;
 
-#if !UAP
-
-                Console.WriteLine(output);
-
-#endif
+                ConsoleInput.WriteLine(output);
 
                 if (expected != null)
                 {
@@ -281,20 +267,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     {
                         result.Failed = true;
 
-#if !UAP
-
-                        Console.WriteLine();
-                        Console.WriteLine("!!! FAILED !!!");
-                        Console.WriteLine();
-                        Console.WriteLine(expected);
-                        Console.WriteLine();
-
-#endif
+                        ConsoleInput.WriteLine();
+                        ConsoleInput.WriteLine("!!! FAILED !!!");
+                        ConsoleInput.WriteLine();
+                        ConsoleInput.WriteLine(expected);
+                        ConsoleInput.WriteLine();
                     }
                 }
             }
             catch (Exception exception)
             {
+                Log.TraceException
+                    (
+                        "PftTest::Run",
+                        exception
+                    );
+
                 result.Failed = true;
                 result.Exception = exception.ToString();
             }

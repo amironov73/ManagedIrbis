@@ -16,6 +16,7 @@ using System.IO;
 
 using AM;
 using AM.Collections;
+using AM.Logging;
 
 using CodeJam;
 
@@ -218,7 +219,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 checked
                 {
-                    if ((offset + length) > text.Length)
+                    if (offset + length > text.Length)
                     {
                         length = text.Length - offset;
                         if (length <= 0)
@@ -230,6 +231,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
             catch (Exception exception)
             {
+                Log.TraceException
+                (
+                    "PftField::SafeSubString",
+                    exception
+                );
+
                 Debug.WriteLine(exception);
 
                 throw;
@@ -247,6 +254,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
             catch (Exception exception)
             {
+                Log.TraceException
+                    (
+                        "PftField::SafeSubString",
+                        exception
+                    );
+
                 Debug.WriteLine(exception);
 
 #if !UAP && !WIN81 && !PORTABLE
@@ -400,9 +413,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             MarcRecord record = context.Record;
             if (record == null
-                || (string.IsNullOrEmpty(Tag)
-                    && string.IsNullOrEmpty(TagSpecification)
-                   )
+                || string.IsNullOrEmpty(Tag)
+                && string.IsNullOrEmpty(TagSpecification)
                )
             {
                 return null;

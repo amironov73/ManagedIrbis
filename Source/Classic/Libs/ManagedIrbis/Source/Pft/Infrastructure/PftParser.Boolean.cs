@@ -72,6 +72,10 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
             catch
             {
+                // This is intentional behavior
+                // If we can't compare as arithmetic
+                // then we must compare as text
+
                 Tokens.RestorePosition(position);
                 result = ParseNext();
 

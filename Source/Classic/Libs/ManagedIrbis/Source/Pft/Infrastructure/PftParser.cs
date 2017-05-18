@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Text;
 using AM.Text.Tokenizer;
 
@@ -182,6 +183,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
                 catch
                 {
+                    // This is intentional behavior
+                    // If we can't assign as arithmetic
+                    // then we must assign as plain text
+
                     result.Children.Clear();
                     Tokens.RestorePosition(position);
                     while (!Tokens.IsEof)
@@ -644,6 +649,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                     }
                     catch
                     {
+                        // This is intentional behavior
+
                         superNode = new PftNode();
                         Tokens.RestorePosition(savePosition);
                         while (!Tokens.IsEof)

@@ -18,6 +18,7 @@ using System.Text.RegularExpressions;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -469,10 +470,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                     }
                 }
             }
-            // ReSharper disable once EmptyGeneralCatchClause
-            catch
+            catch (Exception exception)
             {
-                // Eat the exception
+                Log.TraceException
+                    (
+                        "Unifor::GetFieldRepeat",
+                        exception
+                    );
             }
         }
 
