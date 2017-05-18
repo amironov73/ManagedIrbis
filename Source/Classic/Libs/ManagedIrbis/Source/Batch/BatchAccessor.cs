@@ -17,6 +17,7 @@ using System.Text;
 
 using AM;
 using AM.Collections;
+using AM.Logging;
 
 using CodeJam;
 
@@ -106,6 +107,12 @@ namespace ManagedIrbis.Batch
                 && record.Fields.Count == 0
                )
             {
+                Log.Trace
+                    (
+                        "BatchAccessor::ThrowIfEmptyRecord: "
+                        + "empty record detected"
+                    );
+
                 byte[] bytes = Encoding.UTF8.GetBytes(line);
                 string dump = IrbisNetworkUtility.DumpBytes(bytes);
                 string message = string.Format

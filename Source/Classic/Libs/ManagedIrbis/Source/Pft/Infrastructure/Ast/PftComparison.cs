@@ -9,10 +9,12 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -174,8 +176,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     break;
 
                 default:
+                    Log.Trace
+                        (
+                            "PftComparison::DoNumericOperation: "
+                            + "unexpected operation: "
+                            + operation
+                        );
+
                     throw new PftSyntaxException(this);
             }
+
+            Log.Trace
+                (
+                    "PftComparison::DoNumericOperation: left="
+                    + leftValue
+                    + ", operation="
+                    + operation
+                    + ", right="
+                    + rightValue
+                    + ", result="
+                    + result
+                );
 
             return result;
         }
@@ -320,8 +341,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     break;
 
                 default:
+                    Log.Trace
+                        (
+                            "PftComparison::DoStringOperation: "
+                            + "unexpected operation: "
+                            + operation
+                        );
+
                     throw new PftSyntaxException(this);
             }
+
+            Log.Trace
+                (
+                    "PftComparison::DoStringOperation: left="
+                    + leftValue
+                    + ", operation="
+                    + operation
+                    + ", right="
+                    + rightValue
+                    + ", result="
+                    + result
+                );
 
             return result;
         }
@@ -350,7 +390,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region ICloneable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICloneable.Clone" />
         public override object Clone()
         {
             PftComparison result = (PftComparison)base.Clone();
@@ -374,7 +414,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -411,7 +451,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             if (leftNumeric || rightNumeric)
             {
                 double leftValue = GetValue(context, LeftOperand);
-                double rightValue = GetValue(context, RightOperand);
+                double rightValue = GetValue
+                    (
+                        context, 
+                        RightOperand.ThrowIfNull("RightOperand")
+                    );
                 Value = DoNumericOperation
                     (
                         context,
@@ -436,7 +480,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.GetNodeInfo" />
         public override PftNodeInfo GetNodeInfo()
         {
             PftNodeInfo result = new PftNodeInfo

@@ -140,32 +140,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
 
             string name = Path.GetFileName(test.Folder);
 
-#if CLASSIC || NETCORE
-
             ConsoleColor foreColor = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Cyan;
-
-#endif
+            ConsoleInput.ForegroundColor = ConsoleColor.Cyan;
 
             ConsoleInput.Write(string.Format("{0}: ", name));
 
-#if CLASSIC || NETCORE
-
-            Console.ForegroundColor = foreColor;
-
-#endif
+            ConsoleInput.ForegroundColor = foreColor;
 
             try
             {
                 result = test.Run(name);
 
-#if CLASSIC || NETCORE
-
-                Console.ForegroundColor = result.Failed
+                ConsoleInput.ForegroundColor = result.Failed
                     ? ConsoleColor.Red
                     : ConsoleColor.Green;
-
-#endif
 
                 ConsoleInput.WriteLine();
                 ConsoleInput.WriteLine
@@ -175,11 +163,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                         : "OK"
                     );
 
-#if CLASSIC || NETCORE
-
-                Console.ForegroundColor = foreColor;
-
-#endif
+                ConsoleInput.ForegroundColor = foreColor;
 
                 ConsoleInput.WriteLine(new string('=', 70));
                 ConsoleInput.WriteLine();

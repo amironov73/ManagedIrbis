@@ -122,7 +122,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region ICloneable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICloneable.Clone" />
         public override object Clone()
         {
             PftWith result = (PftWith) base.Clone();
@@ -150,10 +150,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
-            PftContext context
+                PftContext context
             )
         {
             OnBeforeExecution(context);
@@ -178,8 +178,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 PftVariable variable = new PftVariable
                     (
-                    name,
-                    false
+                        name,
+                        false
                     );
 
                 localManager.Registry.Add

@@ -154,10 +154,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -199,7 +198,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.GetNodeInfo" />
         public override PftNodeInfo GetNodeInfo()
         {
             PftNodeInfo result = new PftNodeInfo
@@ -239,7 +238,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region ICloneable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICloneable.Clone" />
         public override object Clone()
         {
             PftAssignment result = (PftAssignment)base.Clone();
@@ -250,6 +249,5 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         #endregion
-
     }
 }

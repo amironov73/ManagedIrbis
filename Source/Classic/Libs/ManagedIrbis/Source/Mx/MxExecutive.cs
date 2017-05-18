@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
+using AM.ConsoleIO;
 using AM.IO;
 using AM.Logging;
 using AM.Runtime;
@@ -372,11 +373,7 @@ namespace ManagedIrbis.Mx
                 params object[] arguments
             )
         {
-#if !PORTABLE
-
-            Console.Write(format, arguments);
-
-#endif
+            ConsoleInput.Write(string.Format(format, arguments));
         }
 
         /// <summary>
@@ -388,11 +385,7 @@ namespace ManagedIrbis.Mx
                 params object[] arguments
             )
         {
-#if !PORTABLE
-
-            Console.WriteLine(format, arguments);
-
-#endif
+            ConsoleInput.WriteLine(string.Format(format, arguments));
         }
 
         /// <summary>

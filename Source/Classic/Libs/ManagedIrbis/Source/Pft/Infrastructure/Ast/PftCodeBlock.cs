@@ -10,6 +10,9 @@
 #region Using directives
 
 using System.IO;
+
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -89,7 +92,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Write" />
         public override void Execute
             (
                 PftContext context
@@ -101,6 +104,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (!_compiled)
             {
+                Log.Trace("PftCodeBlock::Execute: compile method");
+
                 _compiled = true;
 
                 string text = Text;
@@ -117,6 +122,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (!ReferenceEquals(_method, null))
             {
+                Log.Trace ("PftCodeBlock::Execute: invoke method");
+
                 _method.Invoke(null, new object[] {this, context});
             }
 
@@ -125,7 +132,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Write" />
         public override void Write
             (
                 StreamWriter writer

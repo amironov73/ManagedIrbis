@@ -117,6 +117,13 @@ namespace ManagedIrbis.Batch
             Code.NotNull(range, "range");
             if (batchSize < 1)
             {
+                Log.Trace
+                    (
+                        "BatchRecordReader::Constructor: "
+                        + "batchSize="
+                        + batchSize
+                    );
+
                 throw new ArgumentOutOfRangeException("batchSize");
             }
 
@@ -145,6 +152,13 @@ namespace ManagedIrbis.Batch
             Code.NotNull(range, "range");
             if (batchSize < 1)
             {
+                Log.Trace
+                    (
+                        "BatchRecordReader::Constructor: "
+                        + "batchSize="
+                        + batchSize
+                    );
+
                 throw new ArgumentOutOfRangeException("batchSize");
             }
 
@@ -206,6 +220,13 @@ namespace ManagedIrbis.Batch
             Code.Positive(lastMfn, "lastMfn");
             if (batchSize < 1)
             {
+                Log.Trace
+                    (
+                        "BatchRecordReader::Interval: "
+                        + "batchSize="
+                        + batchSize
+                    );
+
                 throw new ArgumentOutOfRangeException("batchSize");
             }
 
@@ -337,6 +358,13 @@ namespace ManagedIrbis.Batch
             Code.NotNullNorEmpty(searchExpression, "searchExpression");
             if (batchSize < 1)
             {
+                Log.Trace
+                    (
+                        "BatchRecordReader::Search: "
+                        + "batchSize="
+                        + batchSize
+                    );
+
                 throw new ArgumentOutOfRangeException("batchSize");
             }
 
@@ -402,6 +430,13 @@ namespace ManagedIrbis.Batch
             Code.NotNullNorEmpty(database, "database");
             if (batchSize < 1)
             {
+                Log.Trace
+                    (
+                        "BatchRecordReader::WholeDatabase: "
+                        + "batchSize="
+                        + batchSize
+                    );
+
                 throw new ArgumentOutOfRangeException("batchSize");
             }
 

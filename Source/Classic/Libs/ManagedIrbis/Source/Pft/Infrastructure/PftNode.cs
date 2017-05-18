@@ -28,6 +28,8 @@ using MoonSharp.Interpreter;
 
 #endregion
 
+// ReSharper disable DoNotCallOverridableMethodsInConstructor
+
 namespace ManagedIrbis.Pft.Infrastructure
 {
     using Diagnostics;
@@ -112,7 +114,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public PftNode()
         {
-            // ReSharper disable once DoNotCallOverridableMethodsInConstructor
             Children = new NonNullCollection<PftNode>();
         }
 
@@ -129,7 +130,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             LineNumber = token.Line;
             Column = token.Column;
-            // ReSharper disable once DoNotCallOverridableMethodsInConstructor
             Text = token.Text;
         }
 
@@ -222,7 +222,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public virtual void Execute
             (
-                PftContext context
+                [NotNull] PftContext context
             )
         {
             OnBeforeExecution(context);
@@ -353,7 +353,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public virtual bool SupportsMultithreading()
         {
-            return (Children.Count != 0)
+            return Children.Count != 0
                 && Children.All
                 (
                     child => child.SupportsMultithreading()
@@ -382,8 +382,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc/>
-        public void RestoreFromStream
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
+        public virtual void RestoreFromStream
             (
                 BinaryReader reader
             )
@@ -391,8 +391,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             Code.NotNull(reader, "reader");
         }
 
-        /// <inheritdoc/>
-        public void SaveToStream
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
+        public virtual void SaveToStream
             (
                 BinaryWriter writer
             )
@@ -404,7 +404,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region ITreeSerialize members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ITreeSerialize.DeserializeTree" />
         public void DeserializeTree
             (
                 BinaryReader reader
@@ -432,7 +432,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 #endif
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ITreeSerialize.SerializeTree" />
         public void SerializeTree
             (
                 BinaryWriter writer
@@ -466,10 +466,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Семантическая валидация поддерева.
-        /// На данный момент не реализована
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public virtual bool Verify
             (
                 bool throwOnError
@@ -492,7 +489,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region ICloneable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICloneable.Clone" />
         public virtual object Clone()
         {
             PftNode result = (PftNode) MemberwiseClone();
@@ -511,7 +508,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();

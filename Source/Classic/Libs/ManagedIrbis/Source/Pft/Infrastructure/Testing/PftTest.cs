@@ -179,15 +179,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     (
                         recordFile,
                         IrbisEncoding.Utf8
-                    );
-
-                if (ReferenceEquals(record, null))
-                {
-                    throw new IrbisException
-                        (
-                            "ReadOneRecord returns null"
-                        );
-                }
+                    )
+                    .ThrowIfNull("ReadOneRecord returns null");
 
                 string pftFile = GetFullName(InputFileName);
                 string input = FileUtility.ReadAllText
@@ -237,14 +230,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     result.Expected = expected;
                 }
 
-                IrbisProvider provider = Provider;
-                if (ReferenceEquals(provider, null)) //-V3022
-                {
-                    throw new IrbisException
-                        (
-                            "Environment is null"
-                        );
-                }
+                IrbisProvider provider = Provider
+                    .ThrowIfNull("Provider");
 
                 string output;
                 using (PftFormatter formatter = new PftFormatter

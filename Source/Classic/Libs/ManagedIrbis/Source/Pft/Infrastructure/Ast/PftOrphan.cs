@@ -16,6 +16,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -57,6 +59,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.Execute"/>
+        public override void Execute
+            (
+                PftContext context
+            )
+        {
+            OnBeforeExecution(context);
+
+            Log.Trace("PftOrphan::Execute");
+
+            OnAfterExecution(context);
+        }
 
         #endregion
     }

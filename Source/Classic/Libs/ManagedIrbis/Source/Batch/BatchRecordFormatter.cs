@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -112,6 +113,13 @@ namespace ManagedIrbis.Batch
             Code.NotNull(range, "range");
             if (batchSize < 1)
             {
+                Log.Trace
+                    (
+                        "BatchRecordFormatter::Constructor: "
+                        + "batchSize="
+                        + batchSize
+                    );
+
                 throw new ArgumentOutOfRangeException("batchSize");
             }
 
@@ -119,7 +127,6 @@ namespace ManagedIrbis.Batch
             Database = database;
             BatchSize = batchSize;
             Format = format;
-            //_syncRoot = new object();
 
             _packages = range.Slice(batchSize).ToArray();
             TotalRecords = _packages.Sum(p => p.Length);
@@ -176,6 +183,13 @@ namespace ManagedIrbis.Batch
             Code.Positive(lastMfn, "lastMfn");
             if (batchSize < 1)
             {
+                Log.Trace
+                    (
+                        "BatchRecordFormatter::Interval: "
+                        + "batchSize="
+                        + batchSize
+                    );
+
                 throw new ArgumentOutOfRangeException("batchSize");
             }
 
@@ -243,6 +257,13 @@ namespace ManagedIrbis.Batch
             Code.NotNullNorEmpty(searchExpression, "searchExpression");
             if (batchSize < 1)
             {
+                Log.Trace
+                    (
+                        "BatchRecordFormatter::Search: "
+                        + "batchSize="
+                        + batchSize
+                    );
+
                 throw new ArgumentOutOfRangeException("batchSize");
             }
 
@@ -281,6 +302,13 @@ namespace ManagedIrbis.Batch
             Code.NotNullNorEmpty(format, "format");
             if (batchSize < 1)
             {
+                Log.Trace
+                    (
+                        "BatchRecordFormatter::WholeDatabase: "
+                        + "batchSize="
+                        + batchSize
+                    );
+
                 throw new ArgumentOutOfRangeException("batchSize");
             }
 
@@ -306,9 +334,7 @@ namespace ManagedIrbis.Batch
 
         #region IEnumerable members
 
-        /// <summary>
-        /// Get enumerator.
-        /// </summary>
+        /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
         public IEnumerator<string> GetEnumerator()
         {
             foreach (int[] package in _packages)
@@ -339,6 +365,5 @@ namespace ManagedIrbis.Batch
         }
 
         #endregion
-
     }
 }

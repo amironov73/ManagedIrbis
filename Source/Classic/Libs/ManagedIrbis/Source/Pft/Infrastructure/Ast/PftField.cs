@@ -16,6 +16,7 @@ using System.IO;
 
 using AM;
 using AM.Collections;
+using AM.ConsoleIO;
 using AM.Logging;
 
 using CodeJam;
@@ -262,11 +263,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 Debug.WriteLine(exception);
 
-#if !UAP && !WIN81 && !PORTABLE
-
-                Console.WriteLine(exception);
-
-#endif
+                ConsoleInput.WriteLine(exception.ToString());
 
                 throw;
             }
