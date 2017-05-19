@@ -117,7 +117,12 @@ namespace ManagedIrbis.Infrastructure
             {
                 if (!connection.Connected)
                 {
-                    Log.Trace("Not connected");
+                    Log.Error
+                        (
+                            "AbstractEngine::CheckConnection: "
+                            + "not connected"
+                        );
+
                     throw new IrbisException("Not connected");
                 }
             }

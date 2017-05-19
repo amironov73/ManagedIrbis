@@ -15,6 +15,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -115,15 +117,29 @@ namespace ManagedIrbis.ImportExport
             char c = (char) reader.Read();
             if (c != '#')
             {
+                Log.Error
+                    (
+                        "PlainText::_ParseLine: "
+                        + "format error: "
+                        + line.NullableToVisibleString()
+                    );
+
                 throw new IrbisException();
             }
             RecordField result = new RecordField
             {
                 Tag = _ReadTo(reader, ':')
             };
+
             c = (char) reader.Read();
             if (c != ' ')
             {
+                Log.Error
+                    (
+                        "PlainText::_ParseLine: "
+                        + "whitespace required: "
+                        + line
+                    );
                 throw new IrbisException();
             }
             result.Value = _ReadTo(reader, '^');
@@ -173,6 +189,12 @@ namespace ManagedIrbis.ImportExport
 
             if (line.StartsWith("*****"))
             {
+                Log.Error
+                    (
+                        "PlainText::ReadRecord: "
+                        + "unexpected five stars"
+                    );
+
                 throw new IrbisException();
             }
 
@@ -193,6 +215,12 @@ namespace ManagedIrbis.ImportExport
 
             if (!good)
             {
+                Log.Error
+                    (
+                        "PlainText::ReadRecord: "
+                        + "bad record"
+                    );
+
                 throw new IrbisException();
             }
 

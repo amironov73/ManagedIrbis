@@ -113,7 +113,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
                 if (!goodCodes.Contains(returnCode))
                 {
-                    Log.Trace
+                    Log.Error
                         (
                             "AbstractCommand::CheckResponse: code="
                             + returnCode
@@ -192,9 +192,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify"/>
         public virtual bool Verify
             (
                 bool throwOnError

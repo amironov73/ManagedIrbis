@@ -12,6 +12,7 @@
 using System.Text;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -125,9 +126,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             response.RefuseAnReturnCode();
         }
 
-        /// <summary>
-        /// Create client query.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.CreateQuery"/>
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
@@ -135,7 +134,13 @@ namespace ManagedIrbis.Infrastructure.Commands
 
             if (ReferenceEquals(File, null))
             {
-                throw new IrbisException("File is null");
+                Log.Error
+                    (
+                        "ReadBinaryFileCommand::CreateQuery: "
+                        + "file name not specified"
+                    );
+
+                throw new IrbisException("File name not specified");
             }
             File.BinaryFile = true;
             result.AddAnsi(File.ToString());
@@ -143,9 +148,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Execute the command.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.Execute"/>
         public override ServerResponse Execute
             (
                 ClientQuery query
@@ -161,6 +164,12 @@ namespace ManagedIrbis.Infrastructure.Commands
             int offset = _FindPreamble(buffer, preamble);
             if (offset < 0)
             {
+                Log.Error
+                    (
+                        "ReadBinaryFileCommand::Execute: "
+                        + "no binary data received"
+                    );
+
                 throw new IrbisNetworkException
                     (
                         "No binary data received"
@@ -172,9 +181,11 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"/>
         public override bool Verify
             (
                 bool throwOnError

@@ -12,6 +12,7 @@
 using System;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -218,9 +219,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region AbstractCommand members
 
-        /// <summary>
-        /// Create client query.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.CreateQuery"/>
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
@@ -229,6 +228,12 @@ namespace ManagedIrbis.Infrastructure.Commands
             string database = Database ?? Connection.Database;
             if (string.IsNullOrEmpty(database))
             {
+                Log.Error
+                    (
+                        "GblCommand::CreateQuery: "
+                        + "database not specified"
+                    );
+
                 throw new IrbisException("database not specified");
             }
             result.AddAnsi(database);
@@ -278,6 +283,13 @@ namespace ManagedIrbis.Infrastructure.Commands
             {
                 if (MfnList.Length == 0)
                 {
+                    Log.Error
+                        (
+                            "GblCommand::CreateQuery: "
+                            + "MfnList.Length="
+                            + MfnList.Length
+                        );
+
                     throw new IrbisException("MfnList.Length == 0");
                 }
                 result.Add(MfnList.Length);
@@ -300,9 +312,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Execute the command.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.Execute"/>
         public override ServerResponse Execute
             (
                 ClientQuery query
@@ -310,7 +320,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         {
             Code.NotNull(query, "query");
 
-            Result = new GblResult
+            GblResult gblResult = new GblResult
             {
                 TimeStarted = DateTime.Now
             };
@@ -318,15 +328,19 @@ namespace ManagedIrbis.Infrastructure.Commands
             ServerResponse response = base.Execute(query);
             CheckResponse(response);
 
-            Result.TimeElapsed = DateTime.Now - Result.TimeStarted;
-            Result.Parse(response);
+            gblResult.TimeElapsed = DateTime.Now - gblResult.TimeStarted;
+            gblResult.Parse(response);
+
+            Result = gblResult;
 
             return response;
         }
 
-        /// <summary>
-        /// Verify the object state.
-        /// </summary>
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"/>
         public override bool Verify
             (
                 bool throwOnError

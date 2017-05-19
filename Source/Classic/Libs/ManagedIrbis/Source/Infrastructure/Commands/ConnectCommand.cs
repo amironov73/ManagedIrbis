@@ -115,9 +115,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region AbstractCommand members
 
-        /// <summary>
-        /// Create the query.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.CreateQuery"/>
         public override ClientQuery CreateQuery()
         {
             Log.Trace("ConnectCommand::CreateQuery");
@@ -128,11 +126,24 @@ namespace ManagedIrbis.Infrastructure.Commands
             string username = Username ?? Connection.Username;
             if (string.IsNullOrEmpty(username))
             {
+                Log.Error
+                    (
+                        "ConnectCommand::CreateQuery: "
+                        + "username not specified"
+                    );
+
                 throw new IrbisException("username not specified");
             }
+
             string password = Password ?? Connection.Password;
             if (string.IsNullOrEmpty(password))
             {
+                Log.Error
+                    (
+                        "ConnectCommand::CreateQuery: "
+                        + "password not specified"
+                    );
+
                 throw new IrbisException("password not specified");
             }
 
@@ -145,9 +156,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Execute the command.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.Execute"/>
         public override ServerResponse Execute
             (
                 ClientQuery query
@@ -159,7 +168,12 @@ namespace ManagedIrbis.Infrastructure.Commands
 
             if (Connection.Connected)
             {
-                Log.Trace("ConnectCommand::Execute: already connected");
+                Log.Error
+                    (
+                        "ConnectCommand::Execute: "
+                        + "already connected"
+                    );
+
                 throw new IrbisException("Already connected");
             }
 
@@ -201,9 +215,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify"/>
         public override bool Verify
             (
                 bool throwOnError

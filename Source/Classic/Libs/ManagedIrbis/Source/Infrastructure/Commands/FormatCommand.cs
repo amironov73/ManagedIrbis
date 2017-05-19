@@ -12,6 +12,7 @@
 using System.Collections.Generic;
 
 using AM;
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -177,9 +178,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region AbstractCommand members
 
-        /// <summary>
-        /// Create client query.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.CreateQuery"/>
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
@@ -208,6 +207,13 @@ namespace ManagedIrbis.Infrastructure.Commands
 
             if (MfnList.Count >= IrbisConstants.MaxPostings)
             {
+                Log.Error
+                    (
+                        "FormatCommand::CreateQuery: "
+                        + "too many MFNs: "
+                        + MfnList.Count
+                    );
+
                 throw new IrbisNetworkException("too many MFNs");
             }
 
@@ -228,9 +234,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Execute the command.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.Execute"/>
         public override ServerResponse Execute
             (
                 ClientQuery query
@@ -258,9 +262,11 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"/>
         public override bool Verify
             (
                 bool throwOnError
@@ -272,12 +278,12 @@ namespace ManagedIrbis.Infrastructure.Commands
             verifier
                 //.NotNullNorEmpty(FormatSpecification, "FormatSpecification")
                 .Assert
-                (
-                    MfnList.Count < IrbisConstants.MaxPostings,
-                    "MfnList.Count"
-                )
+                    (
+                        MfnList.Count < IrbisConstants.MaxPostings,
+                        "MfnList.Count"
+                    )
                 .Assert(!ReferenceEquals(VirtualRecord, null)
-                        || (MfnList.Count > 0))
+                        || MfnList.Count > 0)
                 .Assert(base.Verify(throwOnError));
 
             return verifier.Result;

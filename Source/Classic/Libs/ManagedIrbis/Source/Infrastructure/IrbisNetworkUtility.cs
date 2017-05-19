@@ -13,7 +13,9 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Text;
+
 using AM;
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -367,10 +369,23 @@ namespace ManagedIrbis.Infrastructure
 
             if (string.IsNullOrEmpty(reference.Database))
             {
-                throw new IrbisException("database is null");
+                Log.Error
+                    (
+                        "IrbisNetworkUtility::EncodeRecordReference: "
+                        + "database not specified"
+                    );
+
+                throw new IrbisException("database not specified");
             }
+
             if (ReferenceEquals(reference.Record, null))
             {
+                Log.Error
+                    (
+                        "IrbisNetworkUtility::EncodeRecordReference: "
+                        + "record is null"
+                    );
+
                 throw new IrbisException("record is null");
             }
 
@@ -456,12 +471,19 @@ namespace ManagedIrbis.Infrastructure
                 string dump = DumpBytes(bytes);
                 string message = string.Format
                     (
-                        "Empty record in ReadRecordCommand:{0}{1}",
+                        "Empty record detected:{0}{1}",
                         Environment.NewLine,
                         dump
                     );
 
-                IrbisNetworkException exception = new IrbisNetworkException(message);
+                Log.Error
+                    (
+                        "IrbisNetworkUtility::ThrowIfEmptyRecord: "
+                        + "empty record detected"
+                    );
+
+                IrbisNetworkException exception
+                    = new IrbisNetworkException(message);
                 BinaryAttachment attachment = new BinaryAttachment
                     (
                         "response",

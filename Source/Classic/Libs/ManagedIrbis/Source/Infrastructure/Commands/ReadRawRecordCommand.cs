@@ -10,10 +10,9 @@
 #region Using directives
 
 using AM;
+using AM.Logging;
 
 using JetBrains.Annotations;
-
-using ManagedIrbis.ImportExport;
 
 using MoonSharp.Interpreter;
 
@@ -83,9 +82,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region AbstractCommand members
 
-        /// <summary>
-        /// Create client query.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.CreateQuery"/>
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
@@ -116,9 +113,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Execute the command.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.Execute"/>
         public override ServerResponse Execute
             (
                 ClientQuery query
@@ -141,9 +136,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Good return codes.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.GoodReturnCodes"/>
         public override int[] GoodReturnCodes
         {
             // Record can be logically deleted
@@ -155,25 +148,32 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify"/>
         public override bool Verify
             (
                 bool throwOnError
             )
         {
             bool result = !string.IsNullOrEmpty(Database)
-                && (Mfn > 0);
+                && Mfn > 0;
 
             if (result)
             {
                 result = base.Verify(throwOnError);
             }
 
-            if (!result && throwOnError)
+            if (!result)
             {
-                throw new VerificationException();
+                Log.Error
+                    (
+                        "ReadRawRecordCommand::Verify: "
+                        + "verification error"
+                    );
+
+                if (throwOnError)
+                {
+                    throw new VerificationException();
+                }
             }
 
             return result;

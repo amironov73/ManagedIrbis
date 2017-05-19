@@ -20,6 +20,7 @@ using System.Text;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -381,6 +382,13 @@ namespace ManagedIrbis
                 string magicString = reader.ReadString(MagicString.Length);
                 if (magicString != MagicString)
                 {
+                    Log.Error
+                        (
+                            "IlfFile::ReadLocalFile: "
+                            + "wrong magic string="
+                            + magicString
+                        );
+
                     throw new FormatException();
                 }
 
@@ -455,9 +463,7 @@ namespace ManagedIrbis
 
 #if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
-        /// <summary>
-        /// Restore object state from the given stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -466,9 +472,7 @@ namespace ManagedIrbis
             reader.ReadCollection(Entries);
         }
 
-        /// <summary>
-        /// Save object state to the given stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream"/>
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -483,9 +487,7 @@ namespace ManagedIrbis
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify the object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify"/>
         public bool Verify
             (
                 bool throwOnError
@@ -501,9 +503,18 @@ namespace ManagedIrbis
                     );
             }
 
-            if (!result && throwOnError)
+            if (!result)
             {
-                throw new VerificationException();
+                Log.Error
+                    (
+                        "IlfFile::Verify: "
+                        + "verification error"
+                    );
+
+                if (throwOnError)
+                {
+                    throw new VerificationException();
+                }
             }
 
             return result;

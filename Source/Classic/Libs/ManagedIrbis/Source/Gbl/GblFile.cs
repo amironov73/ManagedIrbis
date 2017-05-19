@@ -21,6 +21,7 @@ using System.Xml.Serialization;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -66,7 +67,7 @@ namespace ManagedIrbis.Gbl
             get { return _statements; }
         }
 
-            /// <summary>
+        /// <summary>
         /// Signature.
         /// </summary>
         [NotNull]
@@ -175,10 +176,7 @@ namespace ManagedIrbis.Gbl
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore object state from specified stream.
-        /// </summary>
-        /// <param name="reader"></param>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -189,9 +187,7 @@ namespace ManagedIrbis.Gbl
             reader.ReadCollection(Statements);
         }
 
-        /// <summary>
-        /// Save object state to specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream"/>
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -206,9 +202,7 @@ namespace ManagedIrbis.Gbl
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify"/>
         public bool Verify
             (
                 bool throwOnError
@@ -225,7 +219,7 @@ namespace ManagedIrbis.Gbl
             }
 
             if (result
-                && (Parameters.Count != 0))
+                && Parameters.Count != 0)
             {
                 result = Parameters.All
                     (
@@ -233,9 +227,18 @@ namespace ManagedIrbis.Gbl
                     );
             }
 
-            if (!result && throwOnError)
+            if (!result)
             {
-                throw new VerificationException();
+                Log.Error
+                    (
+                        "GblFile::Verify: "
+                        + "verification error"
+                    );
+
+                if (throwOnError)
+                {
+                    throw new VerificationException();
+                }
             }
 
             return result;

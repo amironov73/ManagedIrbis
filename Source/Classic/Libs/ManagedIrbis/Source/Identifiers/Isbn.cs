@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -341,9 +342,19 @@ namespace ManagedIrbis.Identifiers
             bool result = CheckHyphens(isbn)
                 && CheckControlDigit(isbn);
 
-            if (!result && throwException)
+            if (!result)
             {
-                throw new ArgumentOutOfRangeException("isbn");
+                Log.Error
+                    (
+                        "Isbn::Validate: "
+                        + "isbn="
+                        + isbn.NullableToVisibleString()
+                    );
+
+                if (throwException)
+                {
+                    throw new ArgumentOutOfRangeException("isbn");
+                }
             }
 
             return result;

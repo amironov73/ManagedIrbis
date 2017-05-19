@@ -9,16 +9,7 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using AM.Logging;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -46,6 +37,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Private members
 
+        private bool _traced;
+
         #endregion
 
         #region Public methods
@@ -68,7 +61,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            Log.Trace("PftOrphan::Execute");
+            if (!_traced)
+            {
+                Log.Trace("PftOrphan::Execute");
+                _traced = true;
+            }
 
             OnAfterExecution(context);
         }

@@ -143,6 +143,13 @@ namespace ManagedIrbis.Gbl
 
             if (chunkSize < 1)
             {
+                Log.Error
+                    (
+                        "GlobalCorrector::Constructor: "
+                        + "chunkSize="
+                        + chunkSize
+                    );
+
                 throw new ArgumentOutOfRangeException("chunkSize");
             }
 
@@ -201,23 +208,49 @@ namespace ManagedIrbis.Gbl
             Code.NotNull(statements, "statements");
             if (minMfn <= 0)
             {
+                Log.Error
+                    (
+                        "GlobalCorrector::ProcessInterval: "
+                        + "minMfn="
+                        + minMfn
+                    );
+
                 throw new ArgumentOutOfRangeException("minMfn");
             }
 
             int limit = Connection.GetMaxMfn() - 1;
             if (minMfn > limit)
             {
+                Log.Error
+                    (
+                        "GlobalCorrector::ProcessInterval: "
+                        + "minMfn="
+                        + minMfn
+                        + ", limit="
+                        + limit
+                    );
+
                 throw new ArgumentOutOfRangeException("minMfn");
             }
             maxMfn = Math.Min(maxMfn, limit);
             if (minMfn > maxMfn)
             {
+                Log.Error
+                    (
+                        "GlobalCorrector::ProcessInterval: "
+                        + "minMfn="
+                        + minMfn
+                        + ", maxMfn="
+                        + maxMfn
+                    );
+
                 throw new ArgumentOutOfRangeException("minMfn");
             }
 
             if (statements.Length == 0)
             {
                 Result = GblResult.GetEmptyResult();
+
                 return Result;
             }
 

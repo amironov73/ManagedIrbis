@@ -9,10 +9,8 @@
 
 #region Using directives
 
-using System;
-using System.Text;
-
 using AM;
+using AM.Logging;
 
 using JetBrains.Annotations;
 
@@ -100,9 +98,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region AbstractCommand members
 
-        /// <summary>
-        /// Create client query.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.CreateQuery"/>
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
@@ -112,6 +108,12 @@ namespace ManagedIrbis.Infrastructure.Commands
 
             if (string.IsNullOrEmpty(database))
             {
+                Log.Error
+                    (
+                        "ReadRecordCommand::CreateQuery: "
+                        + "database not specified"
+                    );
+
                 throw new IrbisNetworkException("database not specified");
             }
 
@@ -133,9 +135,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Execute the command.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.Execute"/>
         public override ServerResponse Execute
             (
                 ClientQuery query
@@ -146,7 +146,6 @@ namespace ManagedIrbis.Infrastructure.Commands
             // Check whether no records read
             if (result.GetReturnCode() != -201)
             {
-
                 MarcRecord record = new MarcRecord
                 {
                     HostName = Connection.Host,
@@ -175,9 +174,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Good return codes.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.GoodReturnCodes"/>
         public override int[] GoodReturnCodes
         {
             // Record can be logically deleted
@@ -189,25 +186,32 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify"/>
         public override bool Verify
             (
                 bool throwOnError
             )
         {
             bool result = !string.IsNullOrEmpty(Database)
-                && (Mfn > 0);
+                && Mfn > 0;
 
             if (result)
             {
                 result = base.Verify(throwOnError);
             }
 
-            if (!result && throwOnError)
+            if (!result)
             {
-                throw new VerificationException();
+                Log.Error
+                    (
+                        "ReadRecordCommand::Verify: "
+                        + "verification failed"
+                    );
+
+                if (throwOnError)
+                {
+                    throw new VerificationException();
+                }
             }
 
             return result;

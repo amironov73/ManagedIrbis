@@ -14,6 +14,7 @@ using System.Linq;
 
 using AM;
 using AM.Collections;
+using AM.Logging;
 
 using CodeJam;
 
@@ -80,9 +81,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region AbstractCommand members
 
-        /// <summary>
-        /// Check the server response.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.CheckResponse"/>
         public override void CheckResponse
             (
                 ServerResponse response
@@ -94,19 +93,23 @@ namespace ManagedIrbis.Infrastructure.Commands
             response.RefuseAnReturnCode();
         }
 
-        /// <summary>
-        /// Create client query.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.CreateQuery"/>
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
             result.CommandCode = CommandCode.ListFiles;
 
-
             if (Specifications.Count == 0)
             {
+                Log.Error
+                    (
+                        "ListFilesCommand::CreateQuery: "
+                        + "specification list is empty"
+                    );
+
                 throw new IrbisException("specification list is empty");
             }
+
             foreach (FileSpecification specification in Specifications)
             {
                 specification.Verify(true);
@@ -116,9 +119,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Execute the command.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.Execute"/>
         public override ServerResponse Execute
             (
                 ClientQuery query
@@ -138,9 +139,11 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"/>
         public override bool Verify
             (
                 bool throwOnError
