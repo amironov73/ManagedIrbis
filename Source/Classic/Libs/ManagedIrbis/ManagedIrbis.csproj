@@ -155,6 +155,9 @@
     <Compile Include="Source\Direct\XrfFile64.cs" />
     <Compile Include="Source\Direct\XrfRecord32.cs" />
     <Compile Include="Source\Direct\XrfRecord64.cs" />
+    <Compile Include="Source\Extensibility\ExtensionManager.cs" />
+    <Compile Include="Source\Extensibility\ExtensionInfo.cs" />
+    <Compile Include="Source\Extensibility\IrbisExtension.cs" />
     <Compile Include="Source\Fields\ExemplarStatus.cs" />
     <Compile Include="Source\Fields\ExternalResource.cs" />
     <Compile Include="Source\Fields\FieldFilter.cs" />

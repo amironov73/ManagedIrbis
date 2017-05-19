@@ -169,7 +169,7 @@ namespace ManagedIrbis.ImportExport
         #region Public methods
 
         /// <summary>
-        /// Чтение одно записи из потока.
+        /// Чтение одной записи из потока.
         /// </summary>
         [CanBeNull]
         public static MarcRecord ReadRecord
