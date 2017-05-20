@@ -137,17 +137,25 @@ namespace IrbisUI.Universal
         #region Private members
 
         static void _ThreadException
-        (
-            object sender,
-            ThreadExceptionEventArgs eventArgs
-        )
+            (
+                object sender,
+                ThreadExceptionEventArgs eventArgs
+            )
         {
             ExceptionBox.Show(eventArgs.Exception);
+
+#if FW4
             Environment.FailFast
-            (
-                "Shutting down",
-                eventArgs.Exception
-            );
+                (
+                    "Exception occurred. Shutting down",
+                    eventArgs.Exception
+                );
+
+#else
+
+            Environment.Exit(1);
+
+#endif
         }
 
         #endregion
