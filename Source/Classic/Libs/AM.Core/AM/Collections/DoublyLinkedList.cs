@@ -14,6 +14,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -108,13 +110,11 @@ namespace AM.Collections
         /// <summary>
         /// Первый элемент.
         /// </summary>
-        /// <value></value>
         public Node<T> FirstNode { get; protected set; }
 
         /// <summary>
         /// Последний элемент.
         /// </summary>
-        /// <value></value>
         public Node<T> LastNode { get; protected set; }
 
         #endregion
@@ -171,27 +171,29 @@ namespace AM.Collections
 
         #region IList<T> members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IList{T}.IndexOf" />
         public int IndexOf
             (
                 T item
             )
         {
-            IEnumerator<T> enumerator = GetEnumerator();
-            for (int i = 0; enumerator.MoveNext(); i++)
+            using (IEnumerator<T> enumerator = GetEnumerator())
             {
-                T current = enumerator.Current;
-                if (!ReferenceEquals(current, null)
-                    && current.Equals(item))
+                for (int i = 0; enumerator.MoveNext(); i++)
                 {
-                    return i;
+                    T current = enumerator.Current;
+                    if (!ReferenceEquals(current, null)
+                        && current.Equals(item))
+                    {
+                        return i;
+                    }
                 }
             }
 
             return -1;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IList{T}.Insert" />
         public void Insert
             (
                 int index,
@@ -224,7 +226,7 @@ namespace AM.Collections
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IList{T}.RemoveAt" />
         public void RemoveAt
             (
                 int index
@@ -256,10 +258,7 @@ namespace AM.Collections
             }
         }
 
-        /// <summary>
-        /// Gets or sets the <see cref="T:T"/> at the specified index.
-        /// </summary>
-        /// <value></value>
+        /// <inheritdoc cref="IList{T}.this"/>
         public T this[int index]
         {
             get
@@ -268,6 +267,14 @@ namespace AM.Collections
 
                 if (ReferenceEquals(node, null))
                 {
+                    Log.Error
+                        (
+                            "DoublyLinkedList::Indexer: "
+                            + "index="
+                            + index
+                            + " is out of range"
+                        );
+
                     throw new IndexOutOfRangeException();
                 }
 
@@ -279,6 +286,14 @@ namespace AM.Collections
 
                 if (ReferenceEquals(node, null))
                 {
+                    Log.Error
+                    (
+                        "DoublyLinkedList::Indexer: "
+                        + "index="
+                        + index
+                        + " is out of range"
+                    );
+
                     throw new IndexOutOfRangeException();
                 }
 
@@ -290,7 +305,7 @@ namespace AM.Collections
 
         #region ICollection<T> members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ICollection{T}.Add" />
         public void Add
             (
                 T item
@@ -309,64 +324,70 @@ namespace AM.Collections
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ICollection{T}.Clear" />
         public void Clear()
         {
             FirstNode = null;
             LastNode = null;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ICollection{T}.Contains" />
         public bool Contains
             (
                 T item
             )
         {
-            IEnumerator<T> enumerator = GetEnumerator();
-            while (enumerator.MoveNext())
+            using (IEnumerator<T> enumerator = GetEnumerator())
             {
-                if (enumerator.Current.Equals(item))
+                while (enumerator.MoveNext())
                 {
-                    return true;
+                    if (enumerator.Current.Equals(item))
+                    {
+                        return true;
+                    }
                 }
             }
 
             return false;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ICollection{T}.CopyTo" />
         public void CopyTo
             (
-                T[] array, 
+                T[] array,
                 int arrayIndex
             )
         {
-            IEnumerator<T> enumerator = GetEnumerator();
-            while (enumerator.MoveNext()
-                && arrayIndex < array.Length)
+            using (IEnumerator<T> enumerator = GetEnumerator())
             {
-                array[arrayIndex] = enumerator.Current;
-                arrayIndex++;
+                while (enumerator.MoveNext()
+                       && arrayIndex < array.Length)
+                {
+                    array[arrayIndex] = enumerator.Current;
+                    arrayIndex++;
+                }
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ICollection{T}.Count" />
         public int Count
         {
             get
             {
-                IEnumerator<T> enumerator = GetEnumerator();
-                int result = 0;
-                while (enumerator.MoveNext())
+                using (IEnumerator<T> enumerator = GetEnumerator())
                 {
-                    result++;
-                }
+                    int result = 0;
+                    while (enumerator.MoveNext())
+                    {
+                        result++;
+                    }
 
-                return result;
+                    return result;
+                }
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ICollection{T}.IsReadOnly" />
         public bool IsReadOnly
         {
             get
@@ -375,7 +396,7 @@ namespace AM.Collections
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ICollection{T}.Remove" />
         public bool Remove
             (
                 T item
@@ -385,6 +406,7 @@ namespace AM.Collections
             if (index >= 0)
             {
                 RemoveAt(index);
+
                 return true;
             }
 
@@ -395,7 +417,7 @@ namespace AM.Collections
 
         #region IEnumerable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IEnumerable.GetEnumerator" />
         IEnumerator IEnumerable.GetEnumerator()
         {
             for (Node<T> node = FirstNode;
@@ -410,7 +432,7 @@ namespace AM.Collections
 
         #region IEnumerable<T> members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
         public IEnumerator<T> GetEnumerator()
         {
             for (Node<T> node = FirstNode;

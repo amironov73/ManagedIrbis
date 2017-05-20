@@ -15,6 +15,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -46,6 +48,12 @@ namespace AM.Collections
             Code.NotNull(list, "list");
             Code.NotNull(reader, "reader");
 
+            Log.Error
+                (
+                    "DictionaryListUtility::RestoreFromStream: "
+                    + "not implemented"
+                );
+
             throw new NotImplementedException();
         }
 
@@ -60,6 +68,12 @@ namespace AM.Collections
         {
             Code.NotNull(list, "list");
             Code.NotNull(writer, "writer");
+
+            Log.Error
+                (
+                    "DictionaryListUtility::SaveToStream: "
+                    + "not implemented"
+                );
 
             throw new NotImplementedException();
         }

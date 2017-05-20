@@ -12,6 +12,8 @@
 using System;
 using System.Collections.Generic;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -53,6 +55,12 @@ namespace AM.Collections
             {
                 if (ReferenceEquals(dictionary, null))
                 {
+                    Log.Error
+                        (
+                            "DictionaryUtility::MergeWithConflicts: "
+                            + "dictionary is null"
+                        );
+
                     throw new ArgumentNullException("dictionaries");
                 }
             }
@@ -66,6 +74,7 @@ namespace AM.Collections
                     result.Add(pair.Key, pair.Value);
                 }
             }
+
             return result;
         }
 
@@ -86,6 +95,12 @@ namespace AM.Collections
             {
                 if (ReferenceEquals(dictionary, null))
                 {
+                    Log.Error
+                        (
+                            "DictionaryUtility::MergeWithoutConflicts: "
+                            + "dictionary is null"
+                        );
+
                     throw new ArgumentNullException("dictionaries");
                 }
             }
@@ -102,6 +117,7 @@ namespace AM.Collections
                     }
                 }
             }
+
             return result;
         }
 
@@ -122,6 +138,12 @@ namespace AM.Collections
             {
                 if (ReferenceEquals(dictionary, null))
                 {
+                    Log.Error
+                        (
+                            "DictionaryUtility::MergeLastValues: "
+                            + "dictionary is null"
+                        );
+
                     throw new ArgumentNullException("dictionaries");
                 }
             }

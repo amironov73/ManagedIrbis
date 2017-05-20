@@ -12,6 +12,8 @@
 using System;
 using System.Collections.ObjectModel;
 
+using AM.Logging;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -30,7 +32,7 @@ namespace AM.Collections
     {
         #region Collection<string> members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Collection{T}.InsertItem" />
         protected override void InsertItem
             (
                 int index,
@@ -39,13 +41,19 @@ namespace AM.Collections
         {
             if (string.IsNullOrEmpty(item))
             {
+                Log.Error
+                    (
+                        "NonEmptyStringCollection::InsertItem: "
+                        + "item is empty"
+                    );
+
                 throw new ArgumentOutOfRangeException("item");
             }
 
             base.InsertItem(index, item);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Collection{T}.SetItem" />
         protected override void SetItem
             (
                 int index,
@@ -54,6 +62,12 @@ namespace AM.Collections
         {
             if (string.IsNullOrEmpty(item))
             {
+                Log.Error
+                (
+                    "NonEmptyStringCollection::SetItem: "
+                    + "item is empty"
+                );
+
                 throw new ArgumentOutOfRangeException("item");
             }
 

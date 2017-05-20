@@ -18,6 +18,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -60,6 +62,14 @@ namespace AM.Collections
             {
                 if (keyType.IsAssignableFrom(typeof(ICloneable)))
                 {
+                    Log.Error
+                        (
+                            "CloneableDictionary::Clone: "
+                            + "type "
+                            + keyType.FullName
+                            + " is not cloneable"
+                        );
+
                     throw new ArgumentException(keyType.Name);
                 }
                 cloneKeys = true;
@@ -68,6 +78,14 @@ namespace AM.Collections
             {
                 if (valueType.IsAssignableFrom(typeof(ICloneable)))
                 {
+                    Log.Error
+                    (
+                        "CloneableDictionary::Clone: "
+                        + "type "
+                        + valueType.FullName
+                        + " is not cloneable"
+                    );
+
                     throw new ArgumentException(valueType.Name);
                 }
                 cloneValues = true;

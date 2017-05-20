@@ -13,6 +13,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -135,6 +137,14 @@ namespace AM.Collections
                 Element element = GetElement(key);
                 if (ReferenceEquals(element, null))
                 {
+                    Log.Error
+                        (
+                            "KeyedCollection::Indexer: "
+                            + "key="
+                            + key.ToVisibleString()
+                            + " not found"
+                        );
+
                     throw new KeyNotFoundException();
                 }
 
@@ -371,7 +381,7 @@ namespace AM.Collections
             return GetEnumerator();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
         public IEnumerator<Element> GetEnumerator()
         {
             // ReSharper disable once InconsistentlySynchronizedField

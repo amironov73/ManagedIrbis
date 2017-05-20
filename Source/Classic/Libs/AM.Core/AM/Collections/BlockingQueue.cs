@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
+using AM.Logging;
 using AM.IO;
 using AM.Runtime;
 
@@ -176,11 +177,23 @@ namespace AM.Collections
         {
             if (IsCompleted)
             {
+                Log.Error
+                    (
+                        "BlockingQueue::Enqueue: "
+                        + "completed"
+                    );
+
                 throw new Exception("BlockingQueue has been Completed");
             }
 
             if (IsCanceled)
             {
+                Log.Error
+                    (
+                        "BlockingQueue::Enqueue: "
+                        + "canceled"
+                    );
+
                 throw new Exception("BlockingQueue has been Canceled");
             }
 

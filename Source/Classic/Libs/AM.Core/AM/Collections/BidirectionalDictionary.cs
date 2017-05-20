@@ -14,6 +14,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -110,6 +112,12 @@ namespace AM.Collections
         {
             if (_isReadOnly)
             {
+                Log.Error
+                    (
+                        "BidirectionalDictionary::_Add: "
+                        + "dictionary is read-only"
+                    );
+
                 throw new NotSupportedException();
             }
             lock (_syncRoot)
@@ -126,6 +134,12 @@ namespace AM.Collections
         {
             if (_isReadOnly)
             {
+                Log.Error
+                    (
+                        "BidirectionalDictionary::_Clear: "
+                        + "dictionary is read-only"
+                    );
+
                 throw new NotSupportedException();
             }
             lock (_syncRoot)
@@ -259,6 +273,12 @@ namespace AM.Collections
         {
             if (_isReadOnly)
             {
+                Log.Error
+                    (
+                        "BidirectionalDictionary::_Remove: "
+                        + "dictionary is read-only"
+                    );
+
                 throw new NotSupportedException();
             }
             lock (_syncRoot)
@@ -269,6 +289,7 @@ namespace AM.Collections
                     bool straightSuccess = _straight.Remove(key);
                     bool reverseSuccess = _reverse.Remove(value);
                     Debug.Assert(straightSuccess == reverseSuccess);
+
                     return straightSuccess;
                 }
 
@@ -290,6 +311,12 @@ namespace AM.Collections
         {
             if (_isReadOnly)
             {
+                Log.Error
+                    (
+                        "BidirectionalDictionary::_Remove: "
+                        + "dictionary is read-only"
+                    );
+
                 throw new NotSupportedException();
             }
             lock (_syncRoot)
@@ -316,6 +343,12 @@ namespace AM.Collections
         {
             if (_isReadOnly)
             {
+                Log.Error
+                    (
+                        "BidirectionalDictionary::_Set: "
+                        + "dictionary is read-only"
+                    );
+
                 throw new NotSupportedException();
             }
             lock (_syncRoot)
@@ -420,6 +453,13 @@ namespace AM.Collections
             TKey result;
             if (!TryGetKey(value, out result))
             {
+                Log.Error
+                    (
+                        "BidirectionalDictionary::GetKey: "
+                        + "key not found: "
+                        + value.ToVisibleString()
+                    );
+
                 throw new KeyNotFoundException();
             }
 

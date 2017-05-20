@@ -12,6 +12,8 @@
 using System;
 using System.Collections.Generic;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -19,7 +21,6 @@ using JetBrains.Annotations;
 using MoonSharp.Interpreter;
 
 #endregion
-
 
 namespace AM.Collections
 {
@@ -180,11 +181,23 @@ namespace AM.Collections
         {
             if (ReferenceEquals(list, null))
             {
+                Log.Error
+                    (
+                        "ListUtility::ThrowIfNullOrEmpty: "
+                        + "list is null"
+                    );
+
                 throw new ArgumentNullException();
             }
 
             if (list.Count == 0)
             {
+                Log.Error
+                    (
+                        "ListUtility::ThrowIfNullOrEmpty: "
+                        + "list is empty"
+                    );
+
                 throw new ArgumentException();
             }
 
@@ -206,11 +219,23 @@ namespace AM.Collections
 
             if (ReferenceEquals(list, null))
             {
+                Log.Error
+                (
+                    "ListUtility::ThrowIfNullOrEmpty: "
+                    + "list is null"
+                );
+
                 throw new ArgumentNullException(message);
             }
 
             if (list.Count == 0)
             {
+                Log.Error
+                (
+                    "ListUtility::ThrowIfNullOrEmpty: "
+                    + "list is empty"
+                );
+
                 throw new ArgumentException(message);
             }
 
@@ -229,11 +254,23 @@ namespace AM.Collections
         {
             if (ReferenceEquals(array, null))
             {
+                Log.Error
+                (
+                    "ListUtility::ThrowIfNullOrEmpty: "
+                    + "array is null"
+                );
+
                 throw new ArgumentNullException();
             }
 
             if (array.Length == 0)
             {
+                Log.Error
+                (
+                    "ListUtility::ThrowIfNullOrEmpty: "
+                    + "array is empty"
+                );
+
                 throw new ArgumentException();
             }
 
@@ -255,11 +292,23 @@ namespace AM.Collections
 
             if (ReferenceEquals(array, null))
             {
+                Log.Error
+                (
+                    "ListUtility::ThrowIfNullOrEmpty: "
+                    + "array is null"
+                );
+
                 throw new ArgumentNullException(message);
             }
 
             if (array.Length == 0)
             {
+                Log.Error
+                (
+                    "ListUtility::ThrowIfNullOrEmpty: "
+                    + "array is empty"
+                );
+
                 throw new ArgumentException(message);
             }
 

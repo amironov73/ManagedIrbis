@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using AM.Logging;
+
 using System;
 
 using CodeJam;
@@ -163,6 +165,12 @@ namespace AM
             if (firstArray.Length
                  != secondArray.Length)
             {
+                Log.Error
+                    (
+                        "ArrayUtility::Compare: "
+                        + "length not equal"
+                    );
+
                 throw new ArgumentException();
             }
 
@@ -393,8 +401,16 @@ namespace AM
             int resultLength = 0;
             for (int i = 0; i < arrays.Length; i++)
             {
-                if (arrays[i] == null)
+                if (ReferenceEquals(arrays[i], null))
                 {
+                    Log.Error
+                        (
+                            "ArrayUtility::Merge: "
+                            + "array["
+                            + i
+                            + "] is null"
+                        );
+
                     throw new ArgumentNullException("arrays");
                 }
                 resultLength += arrays[i].Length;

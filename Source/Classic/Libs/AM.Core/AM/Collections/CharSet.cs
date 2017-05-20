@@ -15,7 +15,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -203,6 +205,12 @@ namespace AM.Collections
                     JsonSerializer serializer
                 )
             {
+                Log.Error
+                    (
+                        "CharSet::ReadJson: "
+                        + "not implemented"
+                    );
+
                 throw new NotImplementedException();
             }
 
@@ -385,6 +393,12 @@ namespace AM.Collections
                 {
                     if (i >= len2)
                     {
+                        Log.Error
+                            (
+                                "CharSet::_Add: "
+                                + "too long"
+                            );
+
                         throw new ArgumentException();
                     }
                     for (int c = s[i]; c <= s[i + 2]; c++)
@@ -402,6 +416,12 @@ namespace AM.Collections
             {
                 if (s[i] == '\\')
                 {
+                    Log.Error
+                        (
+                            "CharSet::_Add: "
+                            + "unexpected '\\'"
+                        );
+
                     throw new ArgumentException();
                 }
                 _data[s[i]] = val;
