@@ -12,7 +12,7 @@ namespace UnitTests.AM.Collections
     public class PairTest
     {
         [TestMethod]
-        public void Pair_Construction1()
+        public void Pair_Construction_1()
         {
             Pair<int, string> pair = new Pair<int, string>();
             Assert.AreEqual(0, pair.First);
@@ -20,7 +20,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Pair_Construction2()
+        public void Pair_Construction_2()
         {
             Pair<int, string> firstPair = new Pair<int, string>(1, "Hello");
             Pair<int, string> secondPair = new Pair<int, string>(firstPair);
@@ -29,7 +29,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Pair_Construction3()
+        public void Pair_Construction_3()
         {
             Pair<int, string> pair = new Pair<int, string>(1);
             Assert.AreEqual(1, pair.First);
@@ -37,7 +37,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Pair_Construction4()
+        public void Pair_Construction_4()
         {
             Pair<int, string> pair = new Pair<int, string>(1, "Hello");
             Assert.AreEqual(1, pair.First);
@@ -45,7 +45,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Pair_Construction5()
+        public void Pair_Construction_5()
         {
             Pair<int, string> pair = new Pair<int, string>(1, "Hello", true);
             Assert.AreEqual(1, pair.First);
@@ -55,14 +55,14 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
-        public void Pair_Add()
+        public void Pair_Add_1()
         {
             IList pair = new Pair<int, string>();
             pair.Add("hello");
         }
 
         [TestMethod]
-        public void Pair_Contains()
+        public void Pair_Contains_1()
         {
             IList pair = new Pair<int, string>(1, "Hello");
             Assert.AreEqual(true, pair.Contains(1));
@@ -72,14 +72,14 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
-        public void Pair_Clear()
+        public void Pair_Clear_1()
         {
             IList pair = new Pair<int, string>();
             pair.Clear();
         }
 
         [TestMethod]
-        public void Pair_IndexOf()
+        public void Pair_IndexOf_1()
         {
             IList pair = new Pair<int, string>(1, "Hello");
             Assert.AreEqual(0, pair.IndexOf(1));
@@ -89,7 +89,7 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
-        public void Pair_Insert()
+        public void Pair_Insert_1()
         {
             IList pair = new Pair<int, string>();
             pair.Insert(0, 1);
@@ -97,7 +97,7 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
-        public void Pair_Remove()
+        public void Pair_Remove_1()
         {
             IList pair = new Pair<int, string>();
             pair.Remove(1);
@@ -105,14 +105,14 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
-        public void Pair_RemoveAt()
+        public void Pair_RemoveAt_1()
         {
             IList pair = new Pair<int, string>();
             pair.RemoveAt(1);
         }
 
         [TestMethod]
-        public void Pair_Indexer1()
+        public void Pair_Indexer_1()
         {
             IList pair = new Pair<int, string>(1, "Hello");
             Assert.AreEqual(1, pair[0]);
@@ -121,14 +121,14 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Pair_Indexer2()
+        public void Pair_Indexer_2()
         {
             IList pair = new Pair<int, string>(1, "Hello");
             object o = pair[2];
         }
 
         [TestMethod]
-        public void Pair_Indexer3()
+        public void Pair_Indexer_3()
         {
             Pair<int, string> pair = new Pair<int, string>();
             pair[0] = 1;
@@ -139,7 +139,7 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(InvalidCastException))]
-        public void Pair_Indexer4()
+        public void Pair_Indexer_4()
         {
             Pair<int, string> pair = new Pair<int, string>();
             pair[0] = "Hello";
@@ -147,7 +147,7 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Pair_Indexer5()
+        public void Pair_Indexer_5()
         {
             IList pair = new Pair<int, string>(1, "Hello");
             pair[2] = null;
@@ -155,14 +155,14 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
-        public void Pair_Indexer6()
+        public void Pair_Indexer_6()
         {
             IList pair = new Pair<int, string>(1, "Hello", true);
             pair[0] = 2;
         }
 
         [TestMethod]
-        public void Pair_IsReadOnly()
+        public void Pair_IsReadOnly_1()
         {
             IList pair = new Pair<int, string>();
             Assert.AreEqual(false, pair.IsReadOnly);
@@ -172,15 +172,14 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Pair_IsFixedSize()
+        public void Pair_IsFixedSize_1()
         {
             IList pair = new Pair<int, string>();
             Assert.AreEqual(true, pair.IsFixedSize);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotImplementedException))]
-        public void Pair_CopyTo()
+        public void Pair_CopyTo_1()
         {
             IList pair = new Pair<int, string>();
             object[] array = new object[2];
@@ -188,28 +187,28 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Pair_Count()
+        public void Pair_Count_1()
         {
             IList pair = new Pair<int, string>();
             Assert.AreEqual(2, pair.Count);
         }
 
         [TestMethod]
-        public void Pair_SyncRoot()
+        public void Pair_SyncRoot_1()
         {
             IList pair = new Pair<int, string>();
             Assert.IsNotNull(pair.SyncRoot);
         }
 
         [TestMethod]
-        public void Pair_IsSynchronized()
+        public void Pair_IsSynchronized_1()
         {
             IList pair = new Pair<int, string>();
             Assert.AreEqual(false, pair.IsSynchronized);
         }
 
         [TestMethod]
-        public void Pair_GetEnumerator()
+        public void Pair_GetEnumerator_1()
         {
             IList pair = new Pair<int, string>(1, "Hello");
             object[] array = new object[2];
@@ -223,7 +222,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Pair_Clone()
+        public void Pair_Clone_1()
         {
             Pair<int, string> first = new Pair<int, string>(1, "Hello");
             Pair<int, string> second = (Pair<int, string>)first.Clone();
@@ -232,7 +231,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Pair_ReadOnly()
+        public void Pair_ReadOnly_1()
         {
             Pair<int, string> pair = new Pair<int, string>();
             Assert.AreEqual(false, pair.ReadOnly);
@@ -242,7 +241,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Pair_AsReadOnly()
+        public void Pair_AsReadOnly_1()
         {
             Pair<int, string> first = new Pair<int, string>(1, "Hello");
             Assert.AreEqual(false, first.ReadOnly);
@@ -255,14 +254,14 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
-        public void Pair_ThrowIfReadOnly()
+        public void Pair_ThrowIfReadOnly_1()
         {
             Pair<int, string> pair = new Pair<int, string>(1, "Hello", true);
             pair.ThrowIfReadOnly();
         }
 
         [TestMethod]
-        public void Pair_Equals1()
+        public void Pair_Equals_1()
         {
             Pair<int, string> first = new Pair<int, string>(1, "Hello");
             Pair<int, string> second = new Pair<int, string>(1, "Hello");
@@ -273,7 +272,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Pair_Equals2()
+        public void Pair_Equals_2()
         {
             Pair<int, string> first = new Pair<int, string>(1, "Hello");
             object second = new Pair<int, string>(1, "Hello");
@@ -288,7 +287,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Pair_GetHashCode()
+        public void Pair_GetHashCode_1()
         {
             Pair<int, string> first = new Pair<int, string>(1, "Hello");
             Pair<int, string> second = new Pair<int, string>(2, "World");
@@ -300,14 +299,14 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Pair_ToString()
+        public void Pair_ToString_1()
         {
             Pair<int, string> pair = new Pair<int, string>(1, "Hello");
             Assert.AreEqual("1;Hello", pair.ToString());
         }
 
         [TestMethod]
-        public void Pair_SetReadOnly()
+        public void Pair_SetReadOnly_1()
         {
             Pair<int,string> pair = new Pair<int, string>(1, "Hello");
             Assert.AreEqual(false, pair.ReadOnly);
