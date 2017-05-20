@@ -16,6 +16,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -94,7 +96,15 @@ namespace AM.Threading.Tasks
                 }
                 catch
                 {
-                    if (i == maxTries - 1) throw;
+                    if (i == maxTries - 1)
+                    {
+                        Log.Error
+                            (
+                                "TaskUtility::RetryOnFault"
+                            );
+
+                        throw;
+                    }
                 }
             }
 

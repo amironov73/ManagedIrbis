@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml.Serialization;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -100,20 +102,15 @@ namespace AM.Collections
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="Pair{T1, T2}"/> class.
-        /// Both <see cref="First"/> and <see cref="Second"/>
-        /// members of the pair remains unassigned.
+        /// Constructor.
         /// </summary>
         public Pair()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="Pair{T1, T2}"/> class.
+        /// Constructor.
         /// </summary>
-        /// <param name="pair">The pair.</param>
         public Pair
             (
                 [NotNull] Pair<T1, T2> pair
@@ -127,13 +124,8 @@ namespace AM.Collections
         }
 
         /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="Pair{T1, T2}"/> class
-        /// and assigns <see cref="First"/> member of the pair.
-        /// <see cref="Second"/> member remains unassigned.
+        /// Constructor.
         /// </summary>
-        /// <param name="first">Initial value for <see cref="First"/>
-        /// member of the pair.</param>
         public Pair
             (
                 [CanBeNull] T1 first
@@ -143,11 +135,8 @@ namespace AM.Collections
         }
 
         /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="Pair{T1, T2}"/> class.
+        /// Constructor.
         /// </summary>
-        /// <param name="first">The first.</param>
-        /// <param name="second">The second.</param>
         public Pair
             (
                 [CanBeNull] T1 first,
@@ -159,13 +148,8 @@ namespace AM.Collections
         }
 
         /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="Pair{T1, T2}"/> class.
+        /// Constructor.
         /// </summary>
-        /// <param name="first">The first.</param>
-        /// <param name="second">The second.</param>
-        /// <param name="readOnly">Specifies whether the pair
-        /// should be read-only.</param>
         public Pair
             (
                 [CanBeNull] T1 first,
@@ -186,14 +170,26 @@ namespace AM.Collections
 
         #region IList members
 
-        ///<inheritdoc/>
-        int IList.Add(object value)
+        ///<inheritdoc cref="IList.Add" />
+        int IList.Add
+            (
+                object value
+            )
         {
+            Log.Error
+                (
+                    "Pair::Add: "
+                    + "not supported"
+                );
+
             throw new NotSupportedException();
         }
 
-        ///<inheritdoc/>
-        bool IList.Contains(object value)
+        ///<inheritdoc cref="IList.Contains" />
+        bool IList.Contains
+            (
+                object value
+            )
         {
             foreach (object o in this)
             {
@@ -207,13 +203,19 @@ namespace AM.Collections
             return false;
         }
 
-        ///<inheritdoc/>
+        ///<inheritdoc cref="IList.Clear" />
         void IList.Clear()
         {
+            Log.Error
+            (
+                "Pair::Clear: "
+                + "not supported"
+            );
+
             throw new NotSupportedException();
         }
 
-        ///<inheritdoc/>
+        ///<inheritdoc cref="IList.IndexOf" />
         int IList.IndexOf
             (
                 object value
@@ -235,45 +237,53 @@ namespace AM.Collections
             return -1;
         }
 
-        ///<inheritdoc/>
+        ///<inheritdoc cref="IList.Insert" />
         void IList.Insert
             (
                 int index,
                 object value
             )
         {
+            Log.Error
+                (
+                    "Pair::Insert: "
+                    + "not supported"
+                );
+
             throw new NotSupportedException();
         }
 
-        ///<inheritdoc/>
+        ///<inheritdoc cref="IList.Remove" />
         void IList.Remove
             (
                 object value
             )
         {
+            Log.Error
+                (
+                    "Pair::Remove: "
+                    + "not supported"
+                );
+
             throw new NotSupportedException();
         }
 
-        ///<inheritdoc/>
+        ///<inheritdoc cref="IList.RemoveAt" />
         void IList.RemoveAt
             (
                 int index
             )
         {
+            Log.Error
+                (
+                    "Pair::RemoveAt: "
+                    + "not supported"
+                );
+
             throw new NotSupportedException();
         }
 
-        ///<summary>
-        /// Gets or sets the element at the specified index.
-        ///</summary>
-        ///<returns>
-        /// The element at the specified index.
-        ///</returns>
-        ///<param name="index">The zero-based index of 
-        /// the element to get or set. </param>
-        ///<exception cref="T:System.ArgumentOutOfRangeException">
-        /// <paramref name="index"/> is not a valid index in the 
-        /// <see cref="T:System.Collections.IList"/>.</exception>
+        /// <inheritdoc cref="IList.this"/>
         public object this[int index]
         {
             get
@@ -287,6 +297,14 @@ namespace AM.Collections
                         return Second;
 
                     default:
+                        Log.Error
+                            (
+                                "Pair::Indexer: "
+                                + "index="
+                                + index
+                                + " is out of range"
+                            );
+
                         throw new ArgumentOutOfRangeException("index");
                 }
             }
@@ -294,8 +312,15 @@ namespace AM.Collections
             {
                 if (_isReadOnly)
                 {
+                    Log.Error
+                        (
+                            "Pair::Indexer: "
+                            + "is read-only"
+                        );
+
                     throw new NotSupportedException();
                 }
+
                 switch (index)
                 {
                     case 0:
@@ -307,6 +332,14 @@ namespace AM.Collections
                         break;
 
                     default:
+                        Log.Error
+                            (
+                                "Pair::Indexer: "
+                                + "index="
+                                + index
+                                + " is out of range"
+                            );
+
                         throw new ArgumentOutOfRangeException("index");
                 }
             }
@@ -314,7 +347,7 @@ namespace AM.Collections
 
         private bool _isReadOnly;
 
-        ///<inheritdoc/>
+        /// <inheritdoc cref="IList.IsReadOnly" />
         bool IList.IsReadOnly
         {
             get
@@ -323,17 +356,7 @@ namespace AM.Collections
             }
         }
 
-        ///<summary>
-        /// Gets a value indicating whether the 
-        /// <see cref="T:System.Collections.IList" /> has a fixed size.
-        ///</summary>
-        ///<returns>
-        /// <c>true</c> if the <see cref="T:System.Collections.IList" />
-        /// has a fixed size; otherwise, <c>false</c>.
-        ///</returns>
-        ///<remarks><see cref="Pair{T1,T2}"/>
-        /// yields <c>true</c>.
-        /// </remarks>
+        /// <inheritdoc cref="IList.IsFixedSize" />
         bool IList.IsFixedSize
         {
             get
@@ -342,27 +365,18 @@ namespace AM.Collections
             }
         }
 
-        ///<inheritdoc/>
+        /// <inheritdoc cref="ICollection.CopyTo" />
         void ICollection.CopyTo
             (
                 Array array,
                 int index
             )
         {
-            throw new NotImplementedException();
+            array.SetValue(First, index);
+            array.SetValue(Second, index + 1);
         }
 
-        ///<summary>
-        /// Gets the number of elements contained in the 
-        /// <see cref="T:System.Collections.ICollection"/>.
-        ///</summary>
-        ///<returns>
-        /// The number of elements contained in the 
-        /// <see cref="T:System.Collections.ICollection" />.
-        ///</returns>
-        ///<remarks><see cref="Pair{T1,T2}"/>
-        /// yields <c>2</c>.
-        /// </remarks>
+        /// <inheritdoc cref="ICollection.Count" />
         public int Count
         {
             [DebuggerStepThrough]
@@ -372,17 +386,7 @@ namespace AM.Collections
             }
         }
 
-        ///<summary>
-        /// Gets an object that can be used to synchronize 
-        /// access to the <see cref="T:System.Collections.ICollection"/>.
-        ///</summary>
-        ///<returns>
-        /// An object that can be used to synchronize access to the 
-        /// <see cref="T:System.Collections.ICollection"/>.
-        ///</returns>
-        ///<remarks><see cref="Pair{T1,T2}"/>
-        /// yields <c>this</c>.
-        /// </remarks>
+        /// <inheritdoc cref="ICollection.SyncRoot" />
         object ICollection.SyncRoot
         {
             get
@@ -391,19 +395,7 @@ namespace AM.Collections
             }
         }
 
-        ///<summary>
-        /// Gets a value indicating whether access to the 
-        /// <see cref="T:System.Collections.ICollection"/>
-        /// is synchronized (thread safe).
-        ///</summary>
-        ///<returns>
-        /// <c>true</c> if access to the 
-        /// <see cref="T:System.Collections.ICollection"/>
-        /// is synchronized (thread safe); otherwise, <c>false</c>.
-        ///</returns>
-        /// <remarks><see cref="Pair{T1,T2}"/>
-        /// yields <c>false</c>.
-        /// </remarks>
+        /// <inheritdoc cref="ICollection.IsSynchronized" />
         bool ICollection.IsSynchronized
         {
             get
@@ -412,17 +404,7 @@ namespace AM.Collections
             }
         }
 
-        ///<summary>
-        /// Returns an enumerator that iterates through a collection.
-        ///</summary>
-        ///<returns>
-        /// An <see cref="T:System.Collections.IEnumerator"/>
-        /// object that can be used to iterate through the collection.
-        ///</returns>
-        ///<remarks><see cref="Pair{T1,T2}"/>
-        /// yields sequentially: <see cref="First"/>,
-        /// <see cref="Second"/>.
-        /// </remarks>
+        /// <inheritdoc cref="IEnumerable.GetEnumerator" />
         IEnumerator IEnumerable.GetEnumerator()
         {
             yield return First;
@@ -433,12 +415,7 @@ namespace AM.Collections
 
         #region ICloneable members
 
-        ///<summary>
-        /// Creates a new object that is a copy of the current instance.
-        ///</summary>
-        ///<returns>
-        /// A new object that is a copy of this instance.
-        ///</returns>
+        /// <inheritdoc cref="ICloneable.Clone" />
         public object Clone()
         {
             return new Pair<T1, T2>(First, Second, _isReadOnly);
@@ -448,66 +425,78 @@ namespace AM.Collections
 
         #region IReadOnly<T> members
 
-        /// <summary>
-        /// Gets a value indicating whether object is read only.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.ReadOnly" />
         public bool ReadOnly
         {
             get { return _isReadOnly; }
         }
 
-        /// <summary>
-        /// Returns read-only copy of the pair.
-        /// </summary>
-        /// <returns>Read-only copy of the pair.</returns>
+        /// <inheritdoc cref="IReadOnly{T}.AsReadOnly" />
         public Pair<T1, T2> AsReadOnly()
         {
             return new Pair<T1, T2>(First, Second, true);
         }
 
-        /// <summary>
-        /// Sets the read only.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.SetReadOnly" />
         public void SetReadOnly()
         {
             _isReadOnly = true;
         }
 
-        /// <summary>
-        /// Throws if read only.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.ThrowIfReadOnly" />
         public void ThrowIfReadOnly()
         {
             if (ReadOnly)
             {
+                Log.Error
+                    (
+                        "Pair::ThrowIfReadOnly"
+                    );
+
                 throw new ReadOnlyException();
             }
         }
 
         #endregion
 
-        #region Object members
+        #region IEquatable<T> members
 
-        ///<inheritdoc/>
+        ///<inheritdoc cref="IEquatable{T}.Equals(T)" />
         protected bool Equals
-            (
-                Pair<T1, T2> other
-            )
+        (
+            Pair<T1, T2> other
+        )
         {
             return EqualityComparer<T1>.Default.Equals(_first, other._first)
-                && EqualityComparer<T2>.Default.Equals(_second, other._second);
+                   && EqualityComparer<T2>.Default.Equals(_second, other._second);
         }
 
-        ///<inheritdoc/>
+        #endregion
+
+        #region Object members
+
+        ///<inheritdoc cref="object.Equals(object)" />
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
             return Equals((Pair<T1, T2>)obj);
         }
 
-        ///<inheritdoc/>
+        ///<inheritdoc cref="object.GetHashCode" />
         public override int GetHashCode()
         {
             // ReSharper disable NonReadonlyFieldInGetHashCode
@@ -519,14 +508,14 @@ namespace AM.Collections
             // ReSharper restore NonReadonlyFieldInGetHashCode
         }
 
-        ///<inheritdoc/>
+        ///<inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format
                 (
                     "{0};{1}",
-                    First,
-                    Second
+                    First.ToVisibleString(),
+                    Second.ToVisibleString()
                 );
         }
 

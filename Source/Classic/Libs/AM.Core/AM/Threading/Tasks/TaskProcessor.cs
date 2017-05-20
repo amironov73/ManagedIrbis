@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* TaskProcessor.cs -- 
+/* TaskProcessor.cs -- simplest task processor
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -16,6 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using AM.Collections;
+using AM.Logging;
 
 using CodeJam;
 
@@ -28,7 +29,7 @@ using MoonSharp.Interpreter;
 namespace AM.Threading.Tasks
 {
     /// <summary>
-    /// Task processor.
+    /// Simplest task processor.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -97,10 +98,25 @@ namespace AM.Threading.Tasks
         /// <summary>
         /// Constructor.
         /// </summary>
-        public TaskProcessor(int degree)
+        public TaskProcessor
+            (
+                int degree
+            )
         {
+            Log.Trace
+                (
+                    "TaskProcessor::Constructor"
+                );
+
             if (degree < 0)
             {
+                Log.Error
+                    (
+                        "TaskProcessor::Constructor: "
+                        + "degree="
+                        + degree
+                    );
+
                 throw new ArgumentOutOfRangeException("degree");
             }
 
@@ -158,6 +174,11 @@ namespace AM.Threading.Tasks
         /// </summary>
         public void Complete()
         {
+            Log.Trace
+                (
+                    "TaskProcessor::Complete"
+                );
+
             _queue.CompleteAdding();
         }
 
@@ -171,6 +192,11 @@ namespace AM.Threading.Tasks
         {
             Code.NotNull(action, "action");
 
+            Log.Trace
+                (
+                    "TaskProcessor::Enqueue"
+                );
+
             _queue.Add(action);
         }
 
@@ -179,14 +205,31 @@ namespace AM.Threading.Tasks
         /// </summary>
         public void WaitForCompletion()
         {
+            Log.Trace
+                (
+                    "TaskProcessor::WaitForCompletion: "
+                    + "begin1"
+                );
+
 #if NETCORE || PORTABLE
+
             SpinWait.SpinUntil(() => _queue.IsCompleted);
+
 #else
+
             while (!_queue.IsCompleted)
             {
                 Thread.SpinWait(100000);
             }
+
 #endif
+
+            Log.Trace
+            (
+                "TaskProcessor::WaitForCompletion: "
+                + "begin2"
+            );
+
             Task[] tasks;
 
             lock (_running)
@@ -197,8 +240,14 @@ namespace AM.Threading.Tasks
             }
 
             Task.WaitAll(tasks);
+
+            Log.Trace
+            (
+                "TaskProcessor::WaitForCompletion: "
+                + "end"
+            );
         }
 
-#endregion
+        #endregion
     }
 }

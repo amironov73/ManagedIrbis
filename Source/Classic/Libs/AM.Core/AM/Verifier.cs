@@ -16,6 +16,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -346,6 +348,11 @@ namespace AM
         /// </summary>
         public void Throw()
         {
+            Log.Error
+                (
+                    "Verifier::Throw"
+                );
+
             throw new VerificationException();
         }
 
@@ -357,6 +364,12 @@ namespace AM
                 string message
             )
         {
+            Log.Error
+                (
+                    "Verifier::Throw: "
+                    + message
+                );
+
             throw new VerificationException(message);
         }
 

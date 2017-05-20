@@ -16,6 +16,8 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -509,6 +511,11 @@ namespace AM
         {
             if (ReferenceEquals(value, null))
             {
+                Log.Error
+                    (
+                        "Utility::ThrowIfNull"
+                    );
+
                 throw new ArgumentException("value");
             }
 
@@ -530,6 +537,11 @@ namespace AM
         {
             if (ReferenceEquals(value, null))
             {
+                Log.Error
+                    (
+                        "Utility::ThrowIfNull"
+                    );
+
                 throw new T2();
             }
 
@@ -553,6 +565,12 @@ namespace AM
 
             if (ReferenceEquals(value, null))
             {
+                Log.Error
+                    (
+                        "Utility::ThrowIfNull: "
+                        + message
+                    );
+
                 throw new ArgumentException(message);
             }
 
