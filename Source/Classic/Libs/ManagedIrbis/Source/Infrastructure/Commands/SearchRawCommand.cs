@@ -10,6 +10,7 @@
 #region Using directives
 
 using AM;
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -222,9 +223,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region AbstractCommand members
 
-        /// <summary>
-        /// Create client query.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.CreateQuery"/>
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
@@ -233,6 +232,12 @@ namespace ManagedIrbis.Infrastructure.Commands
             string database = Database ?? Connection.Database;
             if (string.IsNullOrEmpty(database))
             {
+                Log.Error
+                    (
+                        "SearchRawCommand::CreateQuery: "
+                        + "database not set"
+                    );
+
                 throw new IrbisNetworkException("database not set");
             }
 
@@ -291,9 +296,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Execute the command.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.Execute"/>
         public override ServerResponse Execute
             (
                 ClientQuery clientQuery
@@ -314,9 +317,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify"/>
         public override bool Verify
             (
                 bool throwOnError

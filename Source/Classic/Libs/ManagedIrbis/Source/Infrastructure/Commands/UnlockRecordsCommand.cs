@@ -11,7 +11,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
+
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -65,7 +67,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region AbstractCommand members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="AbstractCommand.CreateQuery" />
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
@@ -74,12 +76,24 @@ namespace ManagedIrbis.Infrastructure.Commands
             string database = Database ?? Connection.Database;
             if (string.IsNullOrEmpty(database))
             {
+                Log.Error
+                    (
+                        "UnlockRecordsCommand::CreateQuery: "
+                        + "database not specified"
+                    );
+
                 throw new IrbisException("database not specified");
             }
             result.AddAnsi(database);
 
             if (Records.Count == 0)
             {
+                Log.Error
+                    (
+                        "UnlockRecordsCommand::CreateQuery: "
+                        + "record list is empty"
+                    );
+
                 throw new IrbisException("record list is empty");
             }
             result.Arguments.AddRange(Records.Cast<object>());
@@ -87,7 +101,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="AbstractCommand.Execute" />
         public override ServerResponse Execute
             (
                 ClientQuery query
@@ -105,9 +119,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public override bool Verify
             (
                 bool throwOnError

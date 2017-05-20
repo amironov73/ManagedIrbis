@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -183,9 +184,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region AbstractCommand members
 
-        /// <summary>
-        /// Good return codes.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.GoodReturnCodes" />
         public override int[] GoodReturnCodes
         {
             // TERM_NOT_EXISTS = -202;
@@ -194,9 +193,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             get { return new[] { -202, -203, -204 }; }
         }
 
-        /// <summary>
-        /// Create client query.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.CreateQuery" />
         public override ClientQuery CreateQuery()
         {
             ClientQuery result =  base.CreateQuery();
@@ -208,6 +205,12 @@ namespace ManagedIrbis.Infrastructure.Commands
                 ?? Connection.Database;
             if (string.IsNullOrEmpty(database))
             {
+                Log.Error
+                    (
+                        "ReadTermsCommand::CreateQuery: "
+                        + "database not specified"
+                    );
+
                 throw new IrbisException("database not specified");
             }
 
@@ -225,9 +228,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Execute the command.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.Execute" />
         public override ServerResponse Execute
             (
                 ClientQuery query
@@ -251,9 +252,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public override bool Verify
             (
                 bool throwOnError

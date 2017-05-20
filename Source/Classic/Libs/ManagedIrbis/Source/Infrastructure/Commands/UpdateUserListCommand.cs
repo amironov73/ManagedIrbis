@@ -10,6 +10,7 @@
 #region Using directives
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -64,9 +65,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region AbstractCommand members
 
-        /// <summary>
-        /// Create the client query.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.CreateQuery" />
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
@@ -74,6 +73,11 @@ namespace ManagedIrbis.Infrastructure.Commands
 
             if (ReferenceEquals(UserList, null))
             {
+                Log.Error
+                    (
+                        "UpdateUserListCommand::CreateQuery: "
+                        + "UserList not set"
+                    );
                 throw new IrbisException("UserList not set");
             }
 
@@ -86,9 +90,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Execute the command.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.Execute" />
         public override ServerResponse Execute
             (
                 ClientQuery query
@@ -101,9 +103,11 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Verify the object state.
-        /// </summary>
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public override bool Verify
             (
                 bool throwOnError

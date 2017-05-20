@@ -11,6 +11,7 @@
 #region Using directives
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -87,9 +88,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region AbstractCommand members
 
-        /// <summary>
-        /// Create client query.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.CreateQuery" />
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
@@ -97,12 +96,24 @@ namespace ManagedIrbis.Infrastructure.Commands
 
             if (ReferenceEquals(Record, null))
             {
+                Log.Error
+                    (
+                        "WriteRecordCommand::CreateQuery: "
+                        + "record is null"
+                    );
+
                 throw new IrbisNetworkException("record is null");
             }
 
             string database = Record.Database ?? Connection.Database;
             if (string.IsNullOrEmpty(database))
             {
+                Log.Error
+                    (
+                        "WriteRecordCommand::CreateQuery: "
+                        + "database not set"
+                    );
+
                 throw new IrbisNetworkException("database not set");
             }
 
@@ -115,9 +126,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Execute the command.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.Execute" />
         public override ServerResponse Execute
             (
                 ClientQuery query
@@ -133,15 +142,17 @@ namespace ManagedIrbis.Infrastructure.Commands
 
             MaxMfn = result.GetReturnCode();
 
-            Record.Database = database;
-            Record.HostName = Connection.Host;
+            MarcRecord record = Record.ThrowIfNull("Record");
+
+            record.Database = database;
+            record.HostName = Connection.Host;
 
             if (!DontParseResponse)
             {
                 ProtocolText.ParseResponseForWriteRecord
                 (
                     result,
-                    Record
+                    record
                 );
             }
 
@@ -152,9 +163,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public override bool Verify
             (
                 bool throwOnError

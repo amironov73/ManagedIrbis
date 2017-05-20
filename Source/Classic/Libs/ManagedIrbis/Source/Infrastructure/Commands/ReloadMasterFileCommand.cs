@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -62,9 +64,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region AbstractCommand members
 
-        /// <summary>
-        /// Create client query.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.CreateQuery"/>
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
@@ -73,6 +73,12 @@ namespace ManagedIrbis.Infrastructure.Commands
             string database = Database ?? Connection.Database;
             if (string.IsNullOrEmpty(database))
             {
+                Log.Error
+                    (
+                        "ReloadMasteFileCommand::CreateQuery: "
+                        + "database not specified"
+                    );
+
                 throw new IrbisException("database not specified");
             }
             result.AddAnsi(database);
@@ -80,9 +86,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Execute the command.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.Execute" />
         public override ServerResponse Execute
             (
                 ClientQuery query

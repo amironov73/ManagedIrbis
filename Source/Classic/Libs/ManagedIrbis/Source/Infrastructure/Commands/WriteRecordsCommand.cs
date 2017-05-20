@@ -13,6 +13,7 @@
 
 using AM;
 using AM.Collections;
+using AM.Logging;
 
 using CodeJam;
 
@@ -85,9 +86,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region AbstractCommand members
 
-        /// <summary>
-        /// Create client query.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.CreateQuery" />
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
@@ -95,10 +94,23 @@ namespace ManagedIrbis.Infrastructure.Commands
 
             if (References.Count == 0)
             {
+                Log.Error
+                    (
+                        "WriteRecordsCommand::CreateQuery: "
+                        + "no records given"
+                    );
+
                 throw new IrbisNetworkException("no records given");
             }
+
             if (References.Count >= IrbisConstants.MaxPostings)
             {
+                Log.Error
+                    (
+                        "WriteRecordsCommand::CreateQuery: "
+                        + "too many records"
+                    );
+
                 throw new IrbisNetworkException("too many records");
             }
 
@@ -110,29 +122,43 @@ namespace ManagedIrbis.Infrastructure.Commands
             {
                 if (ReferenceEquals(reference.Record, null))
                 {
+                    Log.Error
+                        (
+                            "WriteRecordsCommand::CreateQuery: "
+                            + "record is null"
+                        );
+
                     throw new IrbisException("record is null");
                 }
+
                 if (ReferenceEquals(reference.Database, null))
                 {
                     reference.Database = reference.Record.Database;
                 }
+
                 if (ReferenceEquals(reference.Database, null))
                 {
+                    Log.Error
+                    (
+                        "WriteRecordsCommand::CreateQuery: "
+                        + "database not set"
+                    );
+
                     throw new IrbisException("database not set");
                 }
+
                 if (string.IsNullOrEmpty(reference.Record.Database))
                 {
                     reference.Record.Database = reference.Database;
                 }
+
                 result.Add(reference);
             }
 
             return result;
         }
 
-        /// <summary>
-        /// Execute the command.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.Execute" />
         public override ServerResponse Execute
             (
                 ClientQuery query
@@ -146,6 +172,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
             // ReSharper disable AssignNullToNotNullAttribute
             // ReSharper disable PossibleNullReferenceException
+            // ReSharper disable ForCanBeConvertedToForeach
             for (int i = 0; i < References.Count; i++)
             {
                 ProtocolText.ParseResponseForWriteRecords
@@ -156,6 +183,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
                 References[i].Mfn = References[i].Record.Mfn;
             }
+            // ReSharper restore ForCanBeConvertedToForeach
             // ReSharper restore PossibleNullReferenceException
             // ReSharper restore AssignNullToNotNullAttribute
 
@@ -166,9 +194,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public override bool Verify
             (
                 bool throwOnError
