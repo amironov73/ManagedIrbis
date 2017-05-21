@@ -17,6 +17,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -80,7 +82,7 @@ namespace AM.Reflection
                     false
                 );
             
-            return (T)((all.Length == 0)
+            return (T)(all.Length == 0
                             ? null
                             : all[0]);
         }
@@ -168,23 +170,29 @@ namespace AM.Reflection
         public static object GetFieldValue<T>
             (
                 T target, 
-                string fieldName
+                [NotNull] string fieldName
             )
         {
-            if (string.IsNullOrEmpty(fieldName))
-            {
-                throw new ArgumentNullException("fieldName");
-            }
+            Code.NotNullNorEmpty(fieldName, "fieldName");
+
             FieldInfo fieldInfo = typeof(T).GetField
                 (
                     fieldName,
                     BindingFlags.Public | BindingFlags.NonPublic
                     | BindingFlags.Instance | BindingFlags.Static
                 );
-            if (fieldInfo == null)
+            if (ReferenceEquals(fieldInfo, null))
             {
+                Log.Error
+                    (
+                        "ReflectionUtility::GeFieldValue: "
+                        + "can't find field="
+                        + fieldName
+                    );
+
                 throw new ArgumentException("fieldName");
             }
+
             return fieldInfo.GetValue(target);
         }
 
@@ -200,7 +208,7 @@ namespace AM.Reflection
         {
             Code.NotNull(type, "type");
 
-            return (GetCustomAttribute<T>(type, inherit) != null);
+            return GetCustomAttribute<T>(type, inherit) != null;
         }
 
         /// <summary>
@@ -227,10 +235,18 @@ namespace AM.Reflection
                     BindingFlags.Public | BindingFlags.NonPublic
                     | BindingFlags.Instance | BindingFlags.Static
                 );
-            if (fieldInfo == null)
+            if (ReferenceEquals(fieldInfo, null))
             {
+                Log.Error
+                    (
+                        "ReflectionUtility::SetFieldValue: "
+                        + "can't find field="
+                        + fieldName
+                    );
+
                 throw new ArgumentException("fieldName");
             }
+
             fieldInfo.SetValue(target, value);
         }
 
@@ -255,10 +271,18 @@ namespace AM.Reflection
                     BindingFlags.Public | BindingFlags.NonPublic
                     | BindingFlags.Instance | BindingFlags.Static
                 );
-            if (propertyInfo == null)
+            if (ReferenceEquals(propertyInfo, null))
             {
+                Log.Error
+                    (
+                        "ReflectionUtility::GetPropertyValue: "
+                        + "can't find property="
+                        + propertyName
+                    );
+
                 throw new ArgumentException("propertyName");
             }
+
             return propertyInfo.GetValue(target, null);
         }
 
@@ -304,10 +328,18 @@ namespace AM.Reflection
                     BindingFlags.Public | BindingFlags.NonPublic
                     | BindingFlags.Instance | BindingFlags.Static
                 );
-            if (propertyInfo == null)
+            if (ReferenceEquals(propertyInfo, null))
             {
+                Log.Error
+                    (
+                        "ReflectionUtility::SetPropertyValue: "
+                        + "can't find property="
+                        + propertyName
+                    );
+
                 throw new ArgumentException("propertyName");
             }
+
             propertyInfo.SetValue(target, value, null);
         }
 

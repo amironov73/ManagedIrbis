@@ -13,6 +13,8 @@ using System;
 using System.IO;
 using System.Text;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -76,6 +78,12 @@ namespace AM.IO
             string result = reader.ReadLine();
             if (ReferenceEquals(result, null))
             {
+                Log.Error
+                    (
+                        "TextReaderUtility::RequireLine: "
+                        + "unexpected end of stream"
+                    );
+
                 throw new ArsMagnaException
                     (
                         "Unexpected end of stream"

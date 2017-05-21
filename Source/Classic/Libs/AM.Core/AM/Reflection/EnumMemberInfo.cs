@@ -17,6 +17,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -163,14 +165,26 @@ namespace AM.Reflection
         /// </summary>
         /// <param name="enumType">Type of the enum.</param>
         /// <returns></returns>
-        public static EnumMemberInfo[] Parse(Type enumType)
+        public static EnumMemberInfo[] Parse
+            (
+                Type enumType
+            )
         {
             // ArgumentUtility.NotNull ( enumType, "enumType" );
             List<EnumMemberInfo> result = new List<EnumMemberInfo>();
             if (!enumType.IsEnum)
             {
+                Log.Error
+                    (
+                        "EnumMemberInfo::Parse: "
+                        + "type="
+                        + enumType.FullName
+                        + " is not enum"
+                    );
+
                 throw new ArgumentException("enumType");
             }
+
             Type underlyingType = Enum.GetUnderlyingType(enumType);
             switch (underlyingType.Name)
             {
@@ -181,7 +195,15 @@ namespace AM.Reflection
                 case "Int32":
                 case "UInt32":
                     break;
+
                 default:
+                    Log.Error
+                        (
+                            "EnumMemberInfo::Parse: "
+                            + "unexpected underlying type="
+                            + underlyingType.FullName
+                        );
+
                     throw new ArgumentException("enumType");
             }
             foreach (string name in Enum.GetNames(enumType))

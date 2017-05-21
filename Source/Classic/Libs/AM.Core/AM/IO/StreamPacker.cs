@@ -13,6 +13,7 @@ using System;
 using System.IO;
 using System.Text;
 
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -101,6 +102,13 @@ namespace AM.IO
                 }
                 else
                 {
+                    Log.Error
+                        (
+                            "StreamPacker::PackUInt32: "
+                            + "value too big="
+                            + val
+                        );
+
                     throw new ArgumentException("too big", "val");
                 }
             }
@@ -128,6 +136,12 @@ namespace AM.IO
 
             if (fb < 0)
             {
+                Log.Error
+                    (
+                        "StreamPacker::UnpackUInt32: "
+                        + "unexpected end of stream"
+                    );
+
                 throw new IOException("end of stream");
             }
             unchecked
@@ -138,6 +152,12 @@ namespace AM.IO
                     fb = stream.ReadByte();
                     if (fb < 0)
                     {
+                        Log.Error
+                            (
+                                "StreamPacker::UnpackUInt32: "
+                                + "unexpected end of stream"
+                            );
+
                         throw new IOException("end of stream");
                     }
                     res = (uint)((res << 8) + fb);
@@ -202,6 +222,13 @@ namespace AM.IO
                 }
                 else
                 {
+                    Log.Error
+                        (
+                            "StreamPacker::PackUInt64: "
+                            + "value too big="
+                            + val
+                        );
+
                     throw new ArgumentException("too big", "val");
                 }
                 bytes[8 - length] |= (byte)((length - 1) << 5);
@@ -230,6 +257,12 @@ namespace AM.IO
 
             if (fb < 0)
             {
+                Log.Error
+                    (
+                        "StreamPacker::UnpackUInt64: "
+                        + "unexpected end of stream"
+                    );
+
                 throw new IOException("end of stream");
             }
             unchecked
@@ -240,6 +273,12 @@ namespace AM.IO
                     fb = stream.ReadByte();
                     if (fb < 0)
                     {
+                        Log.Error
+                            (
+                                "StreamPacker::UnpackUInt64: "
+                                + "unexpected end of stream"
+                            );
+
                         throw new IOException("end of stream");
                     }
                     res = (res << 8) + (ulong)fb;
@@ -301,6 +340,12 @@ namespace AM.IO
             byte[] bytes = new byte[len];
             if (stream.Read(bytes, 0, len) != len)
             {
+                Log.Error
+                    (
+                        "StreamPacker::UnpackBytes: "
+                        + "unexpected end of stream"
+                    );
+
                 throw new IOException("end of stream");
             }
 

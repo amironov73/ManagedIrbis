@@ -14,6 +14,8 @@
 using System;
 using System.Reflection;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -65,8 +67,15 @@ namespace AM.Reflection
                     BindingFlags.Instance | BindingFlags.Static
                     | BindingFlags.Public | BindingFlags.NonPublic
                 );
-            if (_info == null)
+            if (ReferenceEquals(_info, null))
             {
+                Log.Error
+                    (
+                        "FieldAccessor::Constructor: "
+                        + "can't retrieve field="
+                        + fieldName
+                    );
+
                 throw new ArgumentException("fieldName");
             }
         }

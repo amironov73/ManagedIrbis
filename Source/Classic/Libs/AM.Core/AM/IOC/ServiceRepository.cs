@@ -95,11 +95,27 @@ namespace AM.IOC
 
             if (type.IsValueType)
             {
+                Log.Error
+                    (
+                        "ServiceRepository::Register: "
+                        + "type="
+                        + type.FullName
+                        + " is value type"
+                    );
+
                 throw new ArsMagnaException("type.IsValueType");
             }
 
             if (!type.IsInstanceOfType(service))
             {
+                Log.Error
+                    (
+                        "ServiceRepository::Register: "
+                        + "type="
+                        + type.FullName
+                        + " is not istance of service"
+                    );
+
                 throw new ArsMagnaException
                     (
                         "!type.IsInstanceOfType"

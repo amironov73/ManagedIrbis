@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 
 using AM.Collections;
+using AM.Logging;
 using AM.Runtime;
 using AM.Text;
 
@@ -72,11 +73,6 @@ namespace AM.IO
             public string Key
             {
                 get { return _key; }
-                //private set
-                //{
-                //    CheckName(value);
-                //    _name = value;
-                //}
             }
 
             /// <summary>
@@ -181,7 +177,7 @@ namespace AM.IO
 
             #region IHandmadeSerializable members
 
-            /// <inheritdoc />
+            /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
             public void RestoreFromStream
                 (
                     BinaryReader reader
@@ -194,7 +190,7 @@ namespace AM.IO
                 Modified = reader.ReadBoolean();
             }
 
-            /// <inheritdoc />
+            /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
             public void SaveToStream
                 (
                     BinaryWriter writer
@@ -212,7 +208,7 @@ namespace AM.IO
 
             #region Object members
 
-            /// <inheritdoc />
+            /// <inheritdoc cref="object.ToString" />
             public override string ToString()
             {
                 string result = string.Format
@@ -351,6 +347,13 @@ namespace AM.IO
                 CheckKeyName(line.Key);
                 if (ContainsKey(line.Key))
                 {
+                    Log.Error
+                        (
+                            "IniFile::Add: "
+                            + "duplicate key="
+                            + line.Key
+                        );
+
                     throw new DuplicateKeyException("key");
                 }
 
@@ -563,7 +566,7 @@ namespace AM.IO
 
             #region IHandmadeSerializable members
 
-            /// <inheritdoc />
+            /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
             public void RestoreFromStream
                 (
                     BinaryReader reader
@@ -573,7 +576,7 @@ namespace AM.IO
                 _lines = reader.ReadNonNullCollection<Line>();
             }
 
-            /// <inheritdoc />
+            /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
             public void SaveToStream
                 (
                     BinaryWriter writer
@@ -592,7 +595,7 @@ namespace AM.IO
                 return GetEnumerator();
             }
 
-            /// <inheritdoc />
+            /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
             public IEnumerator<Line> GetEnumerator()
             {
                 return _lines.GetEnumerator();
@@ -662,6 +665,11 @@ namespace AM.IO
         public IniFile()
         {
             _sections = new NonNullCollection<Section>();
+
+            Log.Trace
+                (
+                    "IniFile::Constructor"
+                );
         }
 
 #if !WIN81 && !PORTABLE
@@ -690,6 +698,13 @@ namespace AM.IO
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+            Log.Trace
+                (
+                    "IniFile::Constructor: "
+                    + "fileName="
+                    + fileName
+                );
+
             FileName = fileName;
             Encoding = encoding;
             Writable = writable;
@@ -712,11 +727,25 @@ namespace AM.IO
         {
             if (string.IsNullOrEmpty(keyName))
             {
+                Log.Error
+                    (
+                        "IniFile::CheckKeyName: "
+                        + "keyName="
+                        + keyName.ToVisibleString()
+                    );
+
                 throw new ArgumentException("keyName");
             }
 
             if (keyName.Contains("="))
             {
+                Log.Error
+                    (
+                        "IniFile::CheckKeyName: "
+                        + "keyName="
+                        + keyName
+                    );
+
                 throw new ArgumentException("key");
             }
         }
@@ -806,6 +835,13 @@ namespace AM.IO
 
             if (ContainsSection(name))
             {
+                Log.Error
+                    (
+                        "IniFile::CreateSection: "
+                        + "duplicate name="
+                        + name
+                    );
+
                 throw new DuplicateKeyException("name");
             }
 
@@ -999,6 +1035,13 @@ namespace AM.IO
                 {
                     if (!line.EndsWith("]"))
                     {
+                        Log.Error
+                            (
+                                "IniFile::Read: "
+                                + "unclosed section name="
+                                + line
+                            );
+
                         throw new FormatException();
                     }
 
@@ -1180,7 +1223,7 @@ namespace AM.IO
 
         #region IHandmadeSerializable
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -1204,7 +1247,7 @@ namespace AM.IO
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -1243,7 +1286,7 @@ namespace AM.IO
             return GetEnumerator();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
         public IEnumerator<Section> GetEnumerator()
         {
             return _sections.GetEnumerator();
@@ -1256,6 +1299,11 @@ namespace AM.IO
         /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
+            Log.Trace
+                (
+                    "IniFile::Dispose"
+                );
+
 #if !WIN81 && !PORTABLE
 
             if (Writable

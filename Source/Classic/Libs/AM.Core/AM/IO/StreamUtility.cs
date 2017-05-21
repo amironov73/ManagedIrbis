@@ -13,6 +13,7 @@ using System;
 using System.IO;
 using System.Text;
 
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -34,13 +35,24 @@ namespace AM.IO
     {
         #region Private members
 
-        private static byte[] _Read(Stream stream, int length)
+        private static byte[] _Read
+            (
+                Stream stream,
+                int length
+            )
         {
             byte[] buffer = new byte[length];
             if (stream.Read(buffer, 0, length) != length)
             {
+                Log.Error
+                    (
+                        "StreamUtility::_Read: "
+                        + "unexpected end of stream"
+                    );
+
                 throw new IOException();
             }
+
             return buffer;
         }
 
@@ -172,6 +184,13 @@ namespace AM.IO
 
             if (maximum < 0)
             {
+                Log.Error
+                    (
+                        "StreamUtility::ReadAsMuchAsPossible: "
+                        + "maximum="
+                        + maximum
+                    );
+
                 throw new ArgumentOutOfRangeException("maximum");
             }
 
@@ -182,6 +201,7 @@ namespace AM.IO
                 return new byte[0];
             }
             Array.Resize(ref result, readed);
+
             return result;
         }
 
@@ -1044,7 +1064,7 @@ namespace AM.IO
             Code.NotNull(values, "values");
 
             Write(stream, values.Length);
-            
+
             // ReSharper disable once ForCanBeConvertedToForeach
             for (int i = 0; i < values.Length; i++)
             {
@@ -1326,10 +1346,17 @@ namespace AM.IO
             int readed = stream.Read(buffer, 0, 2);
             if (readed != 2)
             {
+                Log.Error
+                    (
+                        "StreamUtility::ReadInt16Network: "
+                        + "unexpected end of stream"
+                    );
+
                 throw new IOException();
             }
             NetworkToHost16(buffer, 0);
             short result = BitConverter.ToInt16(buffer, 0);
+
             return result;
         }
 
@@ -1346,9 +1373,16 @@ namespace AM.IO
             int readed = stream.Read(buffer, 0, 2);
             if (readed != 2)
             {
+                Log.Error
+                    (
+                        "StreamUtility::ReadInt16Host: "
+                        + "unexpected end of stream"
+                    );
+
                 throw new IOException();
             }
             short result = BitConverter.ToInt16(buffer, 0);
+
             return result;
         }
 
@@ -1365,10 +1399,17 @@ namespace AM.IO
             int readed = stream.Read(buffer, 0, 4);
             if (readed != 4)
             {
+                Log.Error
+                    (
+                        "StreamUtility::ReadInt32Network: "
+                        + "unexpected end of stream"
+                    );
+
                 throw new IOException();
             }
             NetworkToHost32(buffer, 0);
             int result = BitConverter.ToInt32(buffer, 0);
+
             return result;
         }
 
@@ -1385,9 +1426,16 @@ namespace AM.IO
             int readed = stream.Read(buffer, 0, 4);
             if (readed != 4)
             {
+                Log.Error
+                    (
+                        "StreamUtility::ReadInt32Host: "
+                        + "unexpected end of stream"
+                    );
+
                 throw new IOException();
             }
             int result = BitConverter.ToInt32(buffer, 0);
+
             return result;
         }
 
@@ -1404,10 +1452,17 @@ namespace AM.IO
             int readed = stream.Read(buffer, 0, 8);
             if (readed != 8)
             {
+                Log.Error
+                    (
+                        "StreamUtility::ReadInt64Network: "
+                        + "unexpected end of stream"
+                    );
+
                 throw new IOException();
             }
             NetworkToHost64(buffer, 0);
             long result = BitConverter.ToInt64(buffer, 0);
+
             return result;
         }
 
@@ -1424,9 +1479,16 @@ namespace AM.IO
             int readed = stream.Read(buffer, 0, 8);
             if (readed != 8)
             {
+                Log.Error
+                    (
+                        "StreamUtility::ReadInt64Host: "
+                        + "unexpected end of stream"
+                    );
+
                 throw new IOException();
             }
             long result = BitConverter.ToInt64(buffer, 0);
+
             return result;
         }
 

@@ -17,6 +17,8 @@ using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -65,6 +67,13 @@ namespace AM.Net
                 if (result.AddressFamily
                     == AddressFamily.InterNetwork)
                 {
+                    Log.Error
+                        (
+                            "SocketUtility::ResolveAddressIPv4: "
+                            + "address must be IPv4 but "
+                            + result.AddressFamily
+                        );
+
                     throw new Exception("Address must be IPv4");
                 }
             }
@@ -96,7 +105,13 @@ namespace AM.Net
 
                     if (addresses.Length == 0)
                     {
-                        throw new Exception("Address must be IPv4 only");
+                        Log.Error
+                            (
+                                "SocketUtility::ResolveAddressIPv4: "
+                                + "can't resolve IPv4 address"
+                            );
+
+                        throw new Exception("Can't resolve IPv4 address");
                     }
 
                     result = addresses.Length == 1
@@ -107,6 +122,12 @@ namespace AM.Net
 
             if (ReferenceEquals(result, null))
             {
+                Log.Error
+                    (
+                        "SocketUtility::ResolveAddressIPv4: "
+                        + "can't resolve address"
+                    );
+
                 throw new ArsMagnaException("Can't resolve address");
             }
 
@@ -136,8 +157,15 @@ namespace AM.Net
             {
                 result = IPAddress.Parse(address);
                 if (result.AddressFamily
-                    == AddressFamily.InterNetworkV6)
+                    != AddressFamily.InterNetworkV6)
                 {
+                    Log.Error
+                        (
+                            "SocketUtility::ResolveAddressIPv6: "
+                            + "address must be IPv6 but="
+                            + result.AddressFamily
+                        );
+
                     throw new Exception("Address must be IPv6");
                 }
             }
@@ -169,7 +197,13 @@ namespace AM.Net
 
                     if (addresses.Length == 0)
                     {
-                        throw new Exception("Address must be IPv6 only");
+                        Log.Error
+                            (
+                                "SocketUtility::ResolveAddressIPv6: "
+                                + "can't resolve IPv6 address"
+                            );
+
+                        throw new Exception("Can't resolve IPv6 address");
                     }
 
                     result = addresses.Length == 1
@@ -180,6 +214,12 @@ namespace AM.Net
 
             if (ReferenceEquals(result, null))
             {
+                Log.Error
+                    (
+                        "SocketUtility::ResolveAddressIPv6: "
+                        + "can't resolve address"
+                    );
+
                 throw new ArsMagnaException("Can't resolve address");
             }
 
@@ -453,10 +493,16 @@ namespace AM.Net
 
                     if (readed <= 0)
                     {
+                        Log.Error
+                            (
+                                "SocketUtility::ReceiveExact: "
+                                + "error reading socket"
+                            );
+
                         throw new ArsMagnaException
-                        (
-                            "Socket reading error"
-                        );
+                            (
+                                "Socket reading error"
+                            );
                     }
 
                     result.Write(buffer, 0, readed);
@@ -489,10 +535,16 @@ namespace AM.Net
 
                     if (readed < 0)
                     {
+                        Log.Error
+                            (
+                                "SocketUtility::ReceiveToEnd: "
+                                + "error reading socket"
+                            );
+
                         throw new ArsMagnaException
-                        (
-                            "Socket reading error"
-                        );
+                            (
+                                "Socket reading error"
+                            );
                     }
 
                     if (readed == 0)

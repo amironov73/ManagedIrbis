@@ -13,6 +13,8 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -192,6 +194,14 @@ namespace AM.Reflection
             if (!(memberInfo is PropertyInfo)
                  && !(memberInfo is FieldInfo))
             {
+                Log.Error
+                    (
+                        "PropertyOrField::Constructor: "
+                        + "member="
+                        + memberInfo.Name
+                        + "is neither property nor field"
+                    );
+
                 throw new ArgumentException
                     (
                         "Member is neither property nor field"
