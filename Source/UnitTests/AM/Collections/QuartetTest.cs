@@ -11,7 +11,7 @@ namespace UnitTests.AM.Collections
     public class QuartetTest
     {
         [TestMethod]
-        public void Quartet_Construction1()
+        public void Quartet_Construction_1()
         {
             Quartet<int, string, bool, double> quartet
                 = new Quartet<int, string, bool, double>();
@@ -22,7 +22,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Quartet_Construction2()
+        public void Quartet_Construction_2()
         {
             Quartet<int, string, bool, double> firstQuartet
                 = new Quartet<int, string, bool, double>(1, "Hello", true, 3.14);
@@ -35,7 +35,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Quartet_Construction3()
+        public void Quartet_Construction_3()
         {
             Quartet<int, string, bool, double> quartet
                 = new Quartet<int, string, bool, double>(1);
@@ -46,7 +46,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Quartet_Construction4()
+        public void Quartet_Construction_4()
         {
             Quartet<int, string, bool, double> quartet
                 = new Quartet<int, string, bool, double>(1, "Hello");
@@ -57,7 +57,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Quartet_Construction5()
+        public void Quartet_Construction_5()
         {
             Quartet<int, string, bool, double> quartet
                 = new Quartet<int, string, bool, double>(1, "Hello", true);
@@ -68,7 +68,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Quartet_Construction6()
+        public void Quartet_Construction_6()
         {
             Quartet<int, string, bool, double> quartet
                 = new Quartet<int, string, bool, double>(1, "Hello", true, 3.14);
@@ -79,7 +79,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Quartet_Construction7()
+        public void Quartet_Construction_7()
         {
             Quartet<int, string, bool, double> quartet
                 = new Quartet<int, string, bool, double>(1, "Hello", true, 3.14, true);
@@ -92,14 +92,14 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
-        public void Quartet_Add()
+        public void Quartet_Add_1()
         {
             IList quartet = new Quartet<int, string, bool, double>();
             quartet.Add("hello");
         }
 
         [TestMethod]
-        public void Quartet_Contains()
+        public void Quartet_Contains_1()
         {
             IList quartet = new Quartet<int, string, bool, double>(1, "Hello", true, 3.14);
             Assert.AreEqual(true, quartet.Contains(1));
@@ -111,14 +111,14 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
-        public void Quartet_Clear()
+        public void Quartet_Clear_1()
         {
             IList quartet = new Quartet<int, string, bool, double>();
             quartet.Clear();
         }
 
         [TestMethod]
-        public void Quartet_IndexOf()
+        public void Quartet_IndexOf_1()
         {
             IList quartet = new Quartet<int, string, bool, double>(1, "Hello", true, 3.14);
             Assert.AreEqual(0, quartet.IndexOf(1));
@@ -130,7 +130,7 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
-        public void Quartet_Insert()
+        public void Quartet_Insert_1()
         {
             IList quartet = new Quartet<int, string, bool, double>();
             quartet.Insert(0, 1);
@@ -138,7 +138,7 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
-        public void Quartet_Remove()
+        public void Quartet_Remove_1()
         {
             IList quartet = new Quartet<int, string, bool, double>();
             quartet.Remove(1);
@@ -146,14 +146,14 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
-        public void Quartet_RemoveAt()
+        public void Quartet_RemoveAt_1()
         {
             IList quartet = new Quartet<int, string, bool, double>();
             quartet.RemoveAt(1);
         }
 
         [TestMethod]
-        public void Quartet_Indexer1()
+        public void Quartet_Indexer_1()
         {
             IList quartet = new Quartet<int, string, bool, double>(1, "Hello", true, 3.14);
             Assert.AreEqual(1, quartet[0]);
@@ -164,14 +164,14 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Quartet_Indexer2()
+        public void Quartet_Indexer_2()
         {
             IList quartet = new Quartet<int, string, bool, double>(1, "Hello", true, 3.14);
             object o = quartet[4];
         }
 
         [TestMethod]
-        public void Quartet_Indexer3()
+        public void Quartet_Indexer_3()
         {
             Quartet<int, string, bool, double> quartet
                 = new Quartet<int, string, bool, double>();
@@ -187,7 +187,7 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(InvalidCastException))]
-        public void Quartet_Indexer4()
+        public void Quartet_Indexer_4()
         {
             Quartet<int, string, bool, double> quartet
                 = new Quartet<int, string, bool, double>();
@@ -196,7 +196,7 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Quartet_Indexer5()
+        public void Quartet_Indexer_5()
         {
             IList quartet = new Quartet<int, string, bool, double>(1, "Hello");
             quartet[4] = null;
@@ -204,14 +204,14 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
-        public void Quartet_Indexer6()
+        public void Quartet_Indexer_6()
         {
             IList quartet = new Quartet<int, string, bool, double>(1, "Hello", true, 3.14, true);
             quartet[0] = 2;
         }
 
         [TestMethod]
-        public void Quartet_IsReadOnly()
+        public void Quartet_IsReadOnly_1()
         {
             IList quartet = new Quartet<int, string, bool, double>();
             Assert.AreEqual(false, quartet.IsReadOnly);
@@ -221,15 +221,14 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Quartet_IsFixedSize()
+        public void Quartet_IsFixedSize_1()
         {
             IList quartet = new Quartet<int, string, bool, double>();
             Assert.AreEqual(true, quartet.IsFixedSize);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotImplementedException))]
-        public void Quartet_CopyTo()
+        public void Quartet_CopyTo_1()
         {
             IList quartet = new Quartet<int, string, bool, double>();
             object[] array = new object[4];
@@ -237,14 +236,14 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Quartet_Count()
+        public void Quartet_Count_1()
         {
             IList quartet = new Quartet<int, string, bool, double>();
             Assert.AreEqual(4, quartet.Count);
         }
 
         [TestMethod]
-        public void Quartet_SyncRoot()
+        public void Quartet_SyncRoot_1()
         {
             IList quartet = new Quartet<int, string, bool, double>();
             Assert.IsNotNull(quartet.SyncRoot);
@@ -258,7 +257,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Quartet_GetEnumerator()
+        public void Quartet_GetEnumerator_1()
         {
             IList quartet = new Quartet<int, string, bool, double>(1, "Hello", true, 3.14);
             object[] array = new object[4];
@@ -278,7 +277,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Quartet_Clone()
+        public void Quartet_Clone_1()
         {
             Quartet<int, string, bool, double> first
                 = new Quartet<int, string, bool, double>(1, "Hello", true, 3.14);
@@ -291,7 +290,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Quartet_ReadOnly()
+        public void Quartet_ReadOnly_1()
         {
             Quartet<int, string, bool, double> quartet
                 = new Quartet<int, string, bool, double>();
@@ -302,7 +301,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Quartet_AsReadOnly()
+        public void Quartet_AsReadOnly_1()
         {
             Quartet<int, string, bool, double> first
                 = new Quartet<int, string, bool, double>(1, "Hello", true, 3.14);
@@ -318,7 +317,7 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
-        public void Quartet_ThrowIfReadOnly()
+        public void Quartet_ThrowIfReadOnly_1()
         {
             Quartet<int, string, bool, double> quartet
                 = new Quartet<int, string, bool, double>(1, "Hello", true, 3.14, true);
@@ -326,7 +325,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Quartet_Equals1()
+        public void Quartet_Equals_1()
         {
             Quartet<int, string, bool, double> first
                 = new Quartet<int, string, bool, double>(1, "Hello", true, 3.14);
@@ -339,7 +338,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Quartet_Equals2()
+        public void Quartet_Equals_2()
         {
             Quartet<int, string, bool, double> first
                 = new Quartet<int, string, bool, double>(1, "Hello", true, 3.14);
@@ -355,7 +354,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Quartet_GetHashCode()
+        public void Quartet_GetHashCode_1()
         {
             Quartet<int, string, bool, double> first
                 = new Quartet<int, string, bool, double>(1, "Hello", true, 3.14);
@@ -369,7 +368,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Quartet_ToString()
+        public void Quartet_ToString_1()
         {
             Quartet<int, string, bool, double> quartet
                 = new Quartet<int, string, bool, double>(1, "Hello", true, 3.14);
@@ -378,7 +377,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Quartet_SetReadOnly()
+        public void Quartet_SetReadOnly_1()
         {
             Quartet<int, string, bool, double> Quartet
                 = new Quartet<int, string, bool, double>(1, "Hello", true, 3.14);

@@ -11,7 +11,7 @@ namespace UnitTests.AM.Collections
     public class TripletTest
     {
         [TestMethod]
-        public void Triplet_Construction1()
+        public void Triplet_Construction_1()
         {
             Triplet<int, string, double> triplet 
                 = new Triplet<int, string, double>();
@@ -21,7 +21,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Triplet_Construction2()
+        public void Triplet_Construction_2()
         {
             Triplet<int, string, double> firstTriplet 
                 = new Triplet<int, string, double>(1, "Hello", 3.14);
@@ -33,7 +33,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Triplet_Construction3()
+        public void Triplet_Construction_3()
         {
             Triplet<int, string, double> triplet 
                 = new Triplet<int, string, double>(1);
@@ -43,7 +43,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Triplet_Construction4()
+        public void Triplet_Construction_4()
         {
             Triplet<int, string, double> triplet 
                 = new Triplet<int, string, double>(1, "Hello");
@@ -53,7 +53,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Triplet_Construction5()
+        public void Triplet_Construction_5()
         {
             Triplet<int, string, double> triplet
                 = new Triplet<int, string, double>(1, "Hello", 3.14);
@@ -63,7 +63,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Triplet_Construction6()
+        public void Triplet_Construction_6()
         {
             Triplet<int, string, double> triplet
                 = new Triplet<int, string, double>(1, "Hello", 3.14, true);
@@ -75,14 +75,14 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
-        public void Triplet_Add()
+        public void Triplet_Add_1()
         {
             IList triplet = new Triplet<int, string, double>();
             triplet.Add("hello");
         }
 
         [TestMethod]
-        public void Triplet_Contains()
+        public void Triplet_Contains_1()
         {
             IList triplet = new Triplet<int, string, double>(1, "Hello", 3.14);
             Assert.AreEqual(true, triplet.Contains(1));
@@ -93,14 +93,14 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
-        public void Triplet_Clear()
+        public void Triplet_Clear_1()
         {
             IList triplet = new Triplet<int, string, double>();
             triplet.Clear();
         }
 
         [TestMethod]
-        public void Triplet_IndexOf()
+        public void Triplet_IndexOf_1()
         {
             IList triplet = new Triplet<int, string, double>(1, "Hello", 3.14);
             Assert.AreEqual(0, triplet.IndexOf(1));
@@ -111,7 +111,7 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
-        public void Triplet_Insert()
+        public void Triplet_Insert_1()
         {
             IList triplet = new Triplet<int, string, double>();
             triplet.Insert(0, 1);
@@ -119,7 +119,7 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
-        public void Triplet_Remove()
+        public void Triplet_Remove_1()
         {
             IList triplet = new Triplet<int, string, double>();
             triplet.Remove(1);
@@ -127,14 +127,14 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
-        public void Triplet_RemoveAt()
+        public void Triplet_RemoveAt_1()
         {
             IList triplet = new Triplet<int, string, double>();
             triplet.RemoveAt(1);
         }
 
         [TestMethod]
-        public void Triplet_Indexer1()
+        public void Triplet_Indexer_1()
         {
             IList triplet = new Triplet<int, string, double>(1, "Hello", 3.14);
             Assert.AreEqual(1, triplet[0]);
@@ -144,14 +144,14 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Triplet_Indexer2()
+        public void Triplet_Indexer_2()
         {
             IList triplet = new Triplet<int, string, double>(1, "Hello", 3.14);
             object o = triplet[3];
         }
 
         [TestMethod]
-        public void Triplet_Indexer3()
+        public void Triplet_Indexer_3()
         {
             Triplet<int, string, double> triplet
                 = new Triplet<int, string, double>();
@@ -165,7 +165,7 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(InvalidCastException))]
-        public void Triplet_Indexer4()
+        public void Triplet_Indexer_4()
         {
             Triplet<int, string, double> triplet
                 = new Triplet<int, string, double>();
@@ -174,7 +174,7 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Triplet_Indexer5()
+        public void Triplet_Indexer_5()
         {
             IList triplet = new Triplet<int, string, double>(1, "Hello", 3.14);
             triplet[3] = null;
@@ -182,14 +182,14 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
-        public void Triplet_Indexer6()
+        public void Triplet_Indexer_6()
         {
             IList triplet = new Triplet<int, string, double>(1, "Hello", 3.14, true);
             triplet[0] = 2;
         }
 
         [TestMethod]
-        public void Triplet_IsReadOnly()
+        public void Triplet_IsReadOnly_1()
         {
             IList triplet = new Triplet<int, string, double>();
             Assert.AreEqual(false, triplet.IsReadOnly);
@@ -199,15 +199,14 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Triplet_IsFixedSize()
+        public void Triplet_IsFixedSize_1()
         {
             IList triplet = new Triplet<int, string, double>();
             Assert.AreEqual(true, triplet.IsFixedSize);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotImplementedException))]
-        public void Triplet_CopyTo()
+        public void Triplet_CopyTo_1()
         {
             IList triplet = new Triplet<int, string, double>();
             object[] array = new object[3];
@@ -215,28 +214,28 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Triplet_Count()
+        public void Triplet_Count_1()
         {
             IList triplet = new Triplet<int, string, double>();
             Assert.AreEqual(3, triplet.Count);
         }
 
         [TestMethod]
-        public void Triplet_SyncRoot()
+        public void Triplet_SyncRoot_1()
         {
             IList triplet = new Triplet<int, string, double>();
             Assert.IsNotNull(triplet.SyncRoot);
         }
 
         [TestMethod]
-        public void Triplet_IsSynchronized()
+        public void Triplet_IsSynchronized_1()
         {
             IList triplet = new Triplet<int, string, double>();
             Assert.AreEqual(false, triplet.IsSynchronized);
         }
 
         [TestMethod]
-        public void Triplet_GetEnumerator()
+        public void Triplet_GetEnumerator_1()
         {
             IList triplet = new Triplet<int, string, double>(1, "Hello", 3.14);
             object[] array = new object[3];
@@ -253,7 +252,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Triplet_Clone()
+        public void Triplet_Clone_1()
         {
             Triplet<int, string, double> first 
                 = new Triplet<int, string, double>(1, "Hello", 3.14);
@@ -264,7 +263,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Triplet_ReadOnly()
+        public void Triplet_ReadOnly_1()
         {
             Triplet<int, string, double> triplet
                 = new Triplet<int, string, double>();
@@ -275,7 +274,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Triplet_AsReadOnly()
+        public void Triplet_AsReadOnly_1()
         {
             Triplet<int, string, double> first
                 = new Triplet<int, string, double>(1, "Hello", 3.14);
@@ -290,7 +289,7 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
-        public void Triplet_ThrowIfReadOnly()
+        public void Triplet_ThrowIfReadOnly_1()
         {
             Triplet<int, string, double> triplet
                 = new Triplet<int, string, double>(1, "Hello", 3.14, true);
@@ -298,7 +297,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Triplet_Equals1()
+        public void Triplet_Equals_1()
         {
             Triplet<int, string, double> first 
                 = new Triplet<int, string, double>(1, "Hello", 3.14);
@@ -311,7 +310,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Triplet_Equals2()
+        public void Triplet_Equals_2()
         {
             Triplet<int, string, double> first
                 = new Triplet<int, string, double>(1, "Hello", 3.14);
@@ -327,7 +326,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Triplet_GetHashCode()
+        public void Triplet_GetHashCode_1()
         {
             Triplet<int, string, double> first
                 = new Triplet<int, string, double>(1, "Hello", 3.14);
@@ -341,7 +340,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Triplet_ToString()
+        public void Triplet_ToString_1()
         {
             Triplet<int, string, double> triplet
                 = new Triplet<int, string, double>(1, "Hello", 3.14);
@@ -350,7 +349,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void Triplet_SetReadOnly()
+        public void Triplet_SetReadOnly_1()
         {
             Triplet<int, string, double> Triplet
                 = new Triplet<int, string, double>(1, "Hello", 3.14);

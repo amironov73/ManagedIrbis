@@ -418,7 +418,12 @@ namespace AM.Collections
         /// <inheritdoc cref="ICloneable.Clone" />
         public object Clone()
         {
-            return new Pair<T1, T2>(First, Second, _isReadOnly);
+            return new Pair<T1, T2>
+                (
+                    First,
+                    Second,
+                    ReadOnly
+                );
         }
 
         #endregion

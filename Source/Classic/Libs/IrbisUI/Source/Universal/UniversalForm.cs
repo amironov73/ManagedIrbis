@@ -145,6 +145,7 @@ namespace IrbisUI.Universal
             ExceptionBox.Show(eventArgs.Exception);
 
 #if FW4
+
             Environment.FailFast
                 (
                     "Exception occurred. Shutting down",
