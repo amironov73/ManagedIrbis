@@ -12,7 +12,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+
 using AM.Collections;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -500,6 +502,12 @@ namespace AM.IO
             {
                 if (shift == 5*7)
                 {
+                    Log.Error
+                        (
+                            "BinaryReaderUtility::ReadPackedInt: "
+                            + "value too long"
+                        );
+
                     throw new FormatException();
                 }
 
@@ -507,6 +515,7 @@ namespace AM.IO
                 count |= (b & 0x7F) << shift; //-V3134
                 shift += 7;
             } while ((b & 0x80) != 0);
+
             return count;
         }
 
@@ -530,6 +539,7 @@ namespace AM.IO
                 count |= (b & 0x7F) << shift;
                 shift += 7;
             } while ((b & 0x80) != 0);
+
             return count;
         }
 

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* NonNullValue.cs -- не должен принимать значение null
+/* NonNullValue.cs -- must not be null
  * Ars Magna project, http://arsmagna.ru 
  * -------------------------------------------------------
  * Status: poor
@@ -11,6 +11,8 @@
 
 using System;
 using System.Diagnostics;
+
+using AM.Logging;
 
 using CodeJam;
 
@@ -23,7 +25,7 @@ using MoonSharp.Interpreter;
 namespace AM
 {
     /// <summary>
-    /// Не должен принимать значение null.
+    /// Must not be <c>null</c>.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -36,7 +38,7 @@ namespace AM
         #region Properties
 
         /// <summary>
-        /// Собственно значение
+        /// Value itself.
         /// </summary>
         [NotNull]
         public T Value
@@ -72,13 +74,19 @@ namespace AM
         #region Public methods
 
         /// <summary>
-        /// Получение значения
+        /// Get the value.
         /// </summary>
         [NotNull]
         public T GetValue()
         {
             if (ReferenceEquals(_value, null))
             {
+                Log.Error
+                    (
+                        "NonNullValue::GetValue: "
+                        + "value is null"
+                    );
+
                 throw new ArgumentNullException();
             }
 
@@ -86,7 +94,7 @@ namespace AM
         }
 
         /// <summary>
-        /// Присвоение значения.
+        /// Set the value.
         /// </summary>
         public void SetValue
             (
@@ -99,7 +107,7 @@ namespace AM
         }
 
         /// <summary>
-        /// Преобразование.
+        /// Implicit conversion.
         /// </summary>
         public static implicit operator NonNullValue<T>
             (
@@ -110,7 +118,7 @@ namespace AM
         }
 
         /// <summary>
-        /// Преобразование.
+        /// Implicit conversion.
         /// </summary>
         [NotNull]
         public static implicit operator T
@@ -125,12 +133,7 @@ namespace AM
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return Value.ToString();

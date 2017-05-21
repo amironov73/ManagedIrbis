@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -70,10 +71,22 @@ namespace AM
                 {
                     return function();
                 }
-                catch
+                catch (Exception exception)
                 {
-                    if (i == (maxTries - 1))
+                    Log.TraceException
+                        (
+                            "FuncUtility::RetryOnFault",
+                            exception
+                        );
+
+                    if (i == maxTries - 1)
                     {
+                        Log.Error
+                            (
+                                "FuncUtility::RetryOnFault: "
+                                + "giving up"
+                            );
+
                         throw;
                     }
                 }

@@ -105,12 +105,30 @@ namespace AM
 
         #endregion
 
+        #region IEquatable<T> members
+
+        /// <inheritdoc cref="IEquatable{T}.Equals(T)" />
+        public bool Equals
+            (
+                Optional<T> other
+            )
+        {
+            if (HasValue && other.HasValue)
+            {
+                return Equals(_value, other._value);
+            }
+
+            return HasValue == other.HasValue;
+        }
+
+        #endregion
+
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.Equals(object)" />
         public override bool Equals
             (
-                [CanBeNull] object obj
+                object obj
             )
         {
             if (obj is Optional<T>)
@@ -121,21 +139,7 @@ namespace AM
             return false;
         }
 
-        /// <inheritdoc />
-        public bool Equals
-            (
-                Optional<T> other
-            )
-        {
-            if (HasValue && other.HasValue)
-            {
-                return Equals(_value, other._value);
-            }
-            
-            return HasValue == other.HasValue;
-        }
-
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.GetHashCode" />
         public override int GetHashCode()
         {
             if (!HasValue)

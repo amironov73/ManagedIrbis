@@ -15,6 +15,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -62,6 +64,13 @@ namespace AM
                     format,
                     args
                 );
+
+            Log.Trace
+                (
+                    "ExceptionUtility::Throw: "
+                    + message
+                );
+
             throw new Exception(message);
         }
 

@@ -15,11 +15,12 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 
+using AM.IO;
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
-
-using AM.IO;
 
 using MoonSharp.Interpreter;
 
@@ -63,8 +64,7 @@ namespace AM.Diagnostics
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="ConsoleProcessRunner"/> class.
+        /// Constructor.
         /// </summary>
         public ConsoleProcessRunner
             (
@@ -88,9 +88,9 @@ namespace AM.Diagnostics
                 DataReceivedEventArgs e
             )
         {
-            if ((Receiver != null)
-                 && (e != null)
-                 && (e.Data != null))
+            if (Receiver != null
+                 && e != null
+                 && e.Data != null)
             {
                 Receiver.ReceiveConsoleOutput(e.Data);
             }
@@ -120,14 +120,22 @@ namespace AM.Diagnostics
         /// <param name="arguments">The arguments.</param>
         public void Start
             (
-            string fileName,
-            string arguments)
+                [NotNull] string fileName,
+                [NotNull] string arguments
+            )
         {
-            if ((RunningProcess != null)
+            if (!ReferenceEquals(RunningProcess, null)
                  && !RunningProcess.HasExited)
             {
+                Log.Error
+                    (
+                        "ConsoleProcessRunner::Start: "
+                        + "process already running"
+                    );
+
                 throw new ArsMagnaException();
             }
+
             ProcessStartInfo startInfo = new ProcessStartInfo
                 {
                     FileName = fileName,
@@ -173,7 +181,9 @@ namespace AM.Diagnostics
         /// </summary>
         public void Stop()
         {
-            if ((RunningProcess != null)
+            // TODO: try to kill running process?
+
+            if (!ReferenceEquals(RunningProcess, null)
                  && !RunningProcess.HasExited)
             {
                 RunningProcess.OutputDataReceived -= _OutputDataReceived;

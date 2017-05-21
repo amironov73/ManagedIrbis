@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -51,6 +52,12 @@ namespace AM.CommandLine
         {
             if (text.Length < 2)
             {
+                Log.Error
+                    (
+                        "CommandLineParser::_ParseSwitch: "
+                        + "premature end of text"
+                    );
+
                 throw new ArgumentException();
             }
 
@@ -77,6 +84,12 @@ namespace AM.CommandLine
                 if (string.IsNullOrEmpty(parts[0])
                     || string.IsNullOrEmpty(parts[1]))
                 {
+                    Log.Error
+                        (
+                            "CommandLineParser::_ParseSwitch: "
+                            + "empty switch value"
+                        );
+
                     throw new ArgumentException();
                 }
                 result.Name = parts[0];
@@ -112,6 +125,12 @@ namespace AM.CommandLine
             {
                 if (string.IsNullOrEmpty(argument))
                 {
+                    Log.Error
+                        (
+                            "CommandLineParser::Parse: "
+                            + "empty argument"
+                        );
+
                     throw new ArgumentException();
                 }
 
@@ -120,10 +139,22 @@ namespace AM.CommandLine
                 {
                     if (argument.Length == 1)
                     {
+                        Log.Error
+                            (
+                                "CommandLineParser::Parse: "
+                                + "premature end of argument"
+                            );
+
                         throw new ArgumentException();
                     }
                     if (argument[argument.Length - 1] != '"')
                     {
+                        Log.Error
+                            (
+                                "CommandLineParser::Parse: "
+                                + "unclosed colon"
+                            );
+
                         throw new ArgumentException();
                     }
 

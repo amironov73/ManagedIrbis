@@ -61,6 +61,7 @@ namespace AM
             get
             {
                 ++_counter;
+
                 return _target;
             }
             [DebuggerStepThrough]
@@ -76,8 +77,7 @@ namespace AM
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of 
-        /// the <see cref="Reference{T}"/> class.
+        /// Constructor.
         /// </summary>
         public Reference()
         {
@@ -87,8 +87,10 @@ namespace AM
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="initialValue">The initial value.</param>
-        public Reference(T initialValue)
+        public Reference
+            (
+                T initialValue
+            )
         {
             _target = initialValue;
         }
@@ -150,7 +152,7 @@ namespace AM
         protected virtual void OnTargetChanged()
         {
             EventHandler handler = TargetChanged;
-            if (handler != null)
+            if (!ReferenceEquals(handler, null))
             {
                 handler(this, EventArgs.Empty);
             }
@@ -160,12 +162,10 @@ namespace AM
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
-            return ReferenceEquals(_target, null)
-                ? "(null)"
-                : _target.ToString();
+            return _target.ToVisibleString();
         }
 
         #endregion

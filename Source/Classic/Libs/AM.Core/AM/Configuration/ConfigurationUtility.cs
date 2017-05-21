@@ -14,6 +14,7 @@
 using System;
 using System.Globalization;
 
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -347,6 +348,14 @@ namespace AM.Configuration
 
             if (ReferenceEquals(result, null))
             {
+                Log.Error
+                    (
+                        "ConfigurationUtility::RequireString: "
+                        + "key '"
+                        + key
+                        + "' not set"
+                    );
+
                 throw new ArgumentNullException
                     (
                         "configuration key '" + key + "' not set"

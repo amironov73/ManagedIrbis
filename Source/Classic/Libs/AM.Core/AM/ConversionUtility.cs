@@ -13,6 +13,8 @@ using System;
 using System.ComponentModel;
 using System.Reflection;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -220,69 +222,78 @@ namespace AM
 #endif
 
             string svalue = value as string;
-            if ((svalue == "false")
-                 || (svalue == "0")
-                 || (svalue == "no")
-                 || (svalue == "n")
-                 || (svalue == "off")
-                 || (svalue == "negative")
-                 || (svalue == "neg")
-                 || (svalue == "disabled")
-                 || (svalue == "incorrect")
-                 || (svalue == "wrong")
-                 || (svalue == "нет")
+            if (svalue == "false"
+                 || svalue == "0"
+                 || svalue == "no"
+                 || svalue == "n"
+                 || svalue == "off"
+                 || svalue == "negative"
+                 || svalue == "neg"
+                 || svalue == "disabled"
+                 || svalue == "incorrect"
+                 || svalue == "wrong"
+                 || svalue == "нет"
                 )
             {
                 return false;
             }
-            if ((svalue == "true")
-                 || (svalue == "1")
-                 || (svalue == "yes")
-                 || (svalue == "y")
-                 || (svalue == "on")
-                 || (svalue == "positiva")
-                 || (svalue == "pos")
-                 || (svalue == "enabled")
-                 || (svalue == "correct")
-                 || (svalue == "right")
-                 || (svalue == "да")
+
+            if (svalue == "true"
+                 || svalue == "1"
+                 || svalue == "yes"
+                 || svalue == "y"
+                 || svalue == "on"
+                 || svalue == "positiva"
+                 || svalue == "pos"
+                 || svalue == "enabled"
+                 || svalue == "correct"
+                 || svalue == "right"
+                 || svalue == "да"
                 )
             {
                 return true;
             }
+
             unchecked
             {
-                if ((value is int)
-                     || (value is uint)
-                     || (value is byte)
-                     || (value is sbyte)
+                if (value is int
+                     || value is uint
+                     || value is byte
+                     || value is sbyte
                     )
                 {
                     int intValue = (int)value;
-                    return (intValue != 0);
+                    return intValue != 0;
                 }
-                if ((value is long)
-                     || (value is ulong)
+                if (value is long
+                     || value is ulong
                     )
                 {
                     long longValue = (long)value;
-                    return (longValue != 0L);
+                    return longValue != 0L;
                 }
             }
             if (value is decimal)
             {
                 decimal doubleValue = (decimal)value;
-                return (doubleValue != 0m);
+                return doubleValue != 0m;
             }
-            if ((value is float)
-                 || (value is double)
+            if (value is float
+                 || value is double
                 )
             {
                 double doubleValue = (double)value;
                 
                 // ReSharper disable once CompareOfFloatsByEqualityOperator
-                return (doubleValue != 0.0);
+                return doubleValue != 0.0;
             }
+
+            Log.Error
+                (
+                    "ConversionUtility::ToBoolean: "
+                    + "bad value="
+                    + value
+                );
 
             throw new FormatException
                 (

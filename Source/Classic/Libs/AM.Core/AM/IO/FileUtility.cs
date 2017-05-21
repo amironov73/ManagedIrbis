@@ -16,6 +16,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -293,6 +295,13 @@ namespace AM.IO
             }
 
             // TODO diagnostics
+
+            Log.Error
+                (
+                    "FileUtility::GetNotExistentFileName: "
+                    + "giving up"
+                );
+
             throw new ArsMagnaException();
         }
 
