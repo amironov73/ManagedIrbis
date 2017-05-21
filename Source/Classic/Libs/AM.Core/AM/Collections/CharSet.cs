@@ -848,9 +848,7 @@ namespace AM.Collections
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore object state from the stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -863,9 +861,7 @@ namespace AM.Collections
             Add(text);
         }
 
-        /// <summary>
-        /// Save object state to the stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream"/>
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -881,23 +877,13 @@ namespace AM.Collections
 
         #region IEnumerable<char> members
 
-        /// <summary>
-        /// Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// <returns>An <see cref="T:System.Collections.IEnumerator" />
-        /// object that can be used to iterate through the collection.
-        /// </returns>
+        /// <inheritdoc cref="IEnumerable.GetEnumerator" />
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
 
-        /// <summary>
-        /// Returns an enumerator that iterates through the collection.
-        /// </summary>
-        /// <returns>A <see cref="T:System.Collections.Generic.IEnumerator`1" />
-        /// that can be used to iterate through the collection.
-        /// </returns>
+        /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
         public IEnumerator<char> GetEnumerator()
         {
             return new CharSetEnumerator(this);
@@ -907,21 +893,15 @@ namespace AM.Collections
 
         #region IEquatable<CharSet> members
 
-        /// <summary>
-        /// Indicates whether the current object is equal
-        /// to another object of the same type.
-        /// </summary>
-        /// <param name="other">An object to compare with this object.
-        /// </param>
-        /// <returns>true if the current object is equal
-        /// to the <paramref name="other" /> parameter;
-        /// otherwise, false.</returns>
+        /// <inheritdoc cref="IEquatable{T}.Equals(T)" />
         public bool Equals
             (
-                [NotNull] CharSet other
+                CharSet other
             )
         {
             Code.NotNull(other, "other");
+
+            other = other.ThrowIfNull("other");
 
             return BitArrayUtility.AreEqual
                 (
@@ -934,46 +914,28 @@ namespace AM.Collections
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return new string(ToArray());
         }
 
-        /// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>A hash code for this instance,
-        /// suitable for use in hashing algorithms
-        /// and data structures like a hash table.</returns>
+        /// <inheritdoc cref="object.GetHashCode" />
         public override int GetHashCode()
         {
             return _data.GetHashCode();
         }
 
-        /// <summary>
-        /// Determines whether the specified
-        /// <see cref="System.Object" /> is equal to this instance.
-        /// </summary>
-        /// <param name="obj">The object to compare with
-        /// the current object.</param>
-        /// <returns><c>true</c> if the specified
-        /// <see cref="System.Object" /> is equal to this instance;
-        /// otherwise, <c>false</c>.</returns>
+        /// <inheritdoc cref="object.Equals(object)" />
         public override bool Equals(object obj)
         {
-            if (obj == null)
+            if (ReferenceEquals(obj, null))
             {
                 return false;
             }
 
             CharSet charset = obj as CharSet;
-            if (charset == null)
+            if (ReferenceEquals(charset, null))
             {
                 return false;
             }

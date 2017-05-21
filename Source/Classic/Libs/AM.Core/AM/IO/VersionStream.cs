@@ -74,9 +74,7 @@ namespace AM.IO
 
         #region NotifyStream members
 
-        /// <summary>
-        /// Called when stream content is changed.
-        /// </summary>
+        /// <inheritdoc cref="NotifyStream.OnStreamChanged" />
         protected override void OnStreamChanged()
         {
             _version++;

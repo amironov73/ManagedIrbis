@@ -350,7 +350,7 @@ namespace AM.Collections
         /// <returns></returns>
         public Set<T> Union(IEnumerable<T> set)
         {
-            return (this | new Set<T>(set));
+            return this | new Set<T>(set);
         }
 
         /// <summary>
@@ -381,7 +381,7 @@ namespace AM.Collections
                 IEnumerable<T> set
             )
         {
-            return (this & new Set<T>(set));
+            return this & new Set<T>(set);
         }
 
         /// <summary>
@@ -415,7 +415,7 @@ namespace AM.Collections
                 IEnumerable<T> setToCompare
             )
         {
-            return (this - new Set<T>(setToCompare));
+            return this - new Set<T>(setToCompare);
         }
 
         /// <summary>
@@ -561,17 +561,16 @@ namespace AM.Collections
             return !(left == right);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.Equals(object)" />
         public override bool Equals(object obj)
         {
             Set<T> a = this;
             Set<T> b = obj as Set<T>;
-            return ((b == null)
-                         ? false
-                         : (a == b));
+
+            return !ReferenceEquals(b, null) && a == b;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.GetHashCode" />
         public override int GetHashCode()
         {
             int hashcode = 0;
@@ -584,13 +583,17 @@ namespace AM.Collections
             return hashcode;
         }
 
-        /// <inheritdoc />
-        void ICollection.CopyTo(Array array, int index)
+        /// <inheritdoc cref="ICollection.CopyTo" />
+        void ICollection.CopyTo
+            (
+                Array array,
+                int index
+            )
         {
             ((ICollection)_data.Keys).CopyTo(array, index);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICollection.SyncRoot" />
         object ICollection.SyncRoot
         {
             get
@@ -599,7 +602,7 @@ namespace AM.Collections
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICollection.IsSynchronized" />
         bool ICollection.IsSynchronized
         {
             get
@@ -608,7 +611,7 @@ namespace AM.Collections
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IEnumerable.GetEnumerator" />
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable)_data.Keys).GetEnumerator();
@@ -618,9 +621,7 @@ namespace AM.Collections
 
         #region ICloneable members
 
-        /// <summary>
-        /// Get clone of the set.
-        /// </summary>
+        /// <inheritdoc cref="ICloneable.Clone" />
         public object Clone()
         {
             return new Set<T>(this);

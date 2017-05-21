@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -102,7 +104,7 @@ namespace AM.Collections
         /// </summary>
         public VirtualList
             (
-                Action<Parameters> retriever,
+                [NotNull] Action<Parameters> retriever,
                 int count,
                 int cacheSize
             )
@@ -140,6 +142,11 @@ namespace AM.Collections
         [ContractAnnotation("=> halt")]
         private void _ThrowReadonly()
         {
+            Log.Error
+                (
+                    "VirtualList::_ThrowReadOnly"
+                );
+
             throw new ReadOnlyException();
         }
 
@@ -215,7 +222,7 @@ namespace AM.Collections
 
         #region IList<T> members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICollection{T}.Count" />
         public int Count { get; private set; }
 
         /// <inheritdoc />
@@ -224,14 +231,17 @@ namespace AM.Collections
             _ThrowReadonly();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICollection{T}.Clear" />
         void ICollection<T>.Clear()
         {
             _ThrowReadonly();
         }
 
-        /// <inheritdoc />
-        public bool Contains(T item)
+        /// <inheritdoc cref="ICollection{T}.Contains" />
+        public bool Contains
+            (
+                T item
+            )
         {
             if (ReferenceEquals(_cache, null))
             {
@@ -257,17 +267,26 @@ namespace AM.Collections
             return false;
         }
 
-        void ICollection<T>.CopyTo(T[] array, int arrayIndex)
+        /// <inheritdoc cref="ICollection{T}.CopyTo" />
+        void ICollection<T>.CopyTo
+            (
+                T[] array,
+                int arrayIndex
+            )
         {
-            throw new NotImplementedException();
+            foreach (T item in this)
+            {
+                array.SetValue(item, arrayIndex++);
+            }
         }
 
+        /// <inheritdoc cref="IEnumerable.GetEnumerator" />
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
         public IEnumerator<T> GetEnumerator()
         {
             if (ReferenceEquals(_cache, null))
@@ -286,10 +305,10 @@ namespace AM.Collections
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICollection{T}.IsReadOnly" />
         public bool IsReadOnly { get { return true; } }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IList{T}.IndexOf" />
         public int IndexOf(T item)
         {
             if (ReferenceEquals(_cache, null))
@@ -316,24 +335,27 @@ namespace AM.Collections
             return -1;
         }
 
+        /// <inheritdoc cref="IList{T}.Insert" />
         void IList<T>.Insert(int index, T item)
         {
             _ThrowReadonly();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICollection{T}.Remove" />
         bool ICollection<T>.Remove(T item)
         {
             _ThrowReadonly();
+
             return false;
         }
 
+        /// <inheritdoc cref="IList{T}.RemoveAt" />
         void IList<T>.RemoveAt(int index)
         {
             _ThrowReadonly();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IList{T}.this" />
         public T this[int index]
         {
             get

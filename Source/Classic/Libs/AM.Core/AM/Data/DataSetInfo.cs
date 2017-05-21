@@ -98,7 +98,7 @@ namespace AM.Data
         /// <returns></returns>
         public static DataSetInfo Load
             (
-                string fileName
+                [NotNull] string fileName
             )
         {
             Code.FileExists(fileName, "fileName");
@@ -116,7 +116,7 @@ namespace AM.Data
         /// <param name="fileName">Name of the file.</param>
         public void Save
             (
-                string fileName
+                [NotNull] string fileName
             )
         {
             Code.NotNullNorEmpty(fileName, "fileName");

@@ -13,6 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -34,22 +36,7 @@ namespace AM.Collections
     {
         #region Collection<T> members
 
-        /// <summary>
-        /// Inserts an element into the 
-        /// <see cref="Collection{T}"/>
-        /// at the specified index.
-        /// </summary>
-        /// <param name="index">The zero-based index at which item 
-        /// should be inserted.</param>
-        /// <param name="item">The object to insert. The value can 
-        /// be null for reference types.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="index"/> is less than zero.-or-index is greater than 
-        /// <see cref="Collection{T}.Count"/>.
-        /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="item"/> is <c>null</c>.
-        /// </exception>
+        /// <inheritdoc cref="Collection{T}.InsertItem" />
         protected override void InsertItem
             (
                 int index,
@@ -61,22 +48,12 @@ namespace AM.Collections
             base.InsertItem(index, item);
         }
 
-        /// <summary>
-        /// Replaces the element at the specified index.
-        /// </summary>
-        /// <param name="index">The zero-based index of the 
-        /// element to replace.</param>
-        /// <param name="item">The new value for the element 
-        /// at the specified index. The value can be null for reference types.
-        /// </param>
-        /// <exception cref="T:System.ArgumentOutOfRangeException">
-        /// <paramref name="index"/> is less than zero.-or-index is greater 
-        /// than <see cref="Collection{T}.Count"/>.
-        /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="item"/> is <c>null</c>.
-        /// </exception>
-        protected override void SetItem(int index, T item)
+        /// <inheritdoc cref="Collection{T}.SetItem" />
+        protected override void SetItem
+            (
+                int index,
+                T item
+            )
         {
             Code.NotNull(item, "item");
 

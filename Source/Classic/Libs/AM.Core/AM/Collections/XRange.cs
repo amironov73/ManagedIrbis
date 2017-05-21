@@ -81,20 +81,24 @@ namespace AM.Collections
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="XRange"/> class.
+        /// Constructor.
         /// </summary>
-        /// <param name="length">The length.</param>
-        public XRange(T length)
+        public XRange
+            (
+                T length
+            )
             : this(0, length)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="XRange"/> class.
+        /// Constructor.
         /// </summary>
-        /// <param name="start">The start.</param>
-        /// <param name="length">The length.</param>
-        public XRange(T start, T length)
+        public XRange
+            (
+                T start,
+                T length
+            )
         {
             _start = start;
             _length = length;
@@ -104,18 +108,12 @@ namespace AM.Collections
 
         #region IEnumerable<T> members
 
-        /// <summary>
-        /// Returns an enumerator that iterates through the collection.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/>
-        /// that can be used to iterate through the collection.
-        ///</returns>
+        /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
         IEnumerator<int> IEnumerable<int>.GetEnumerator()
         {
             for (T i = 0; i < Length; i++)
             {
-                yield return (Start + i);
+                yield return Start + i;
             }
         }
 
@@ -123,13 +121,7 @@ namespace AM.Collections
 
         #region IEnumerable Members
 
-        /// <summary>
-        /// Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// <returns>
-        /// An <see cref="T:System.Collections.IEnumerator"/>
-        /// object that can be used to iterate through the collection.
-        ///</returns>
+        /// <inheritdoc cref="IEnumerable.GetEnumerator" />
         public IEnumerator GetEnumerator()
         {
             return ((IEnumerable<T>)this).GetEnumerator();

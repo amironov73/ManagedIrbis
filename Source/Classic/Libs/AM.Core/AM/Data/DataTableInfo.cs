@@ -69,13 +69,12 @@ namespace AM.Data
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return Name.ToVisibleString();
         }
 
         #endregion
-
     }
 }
