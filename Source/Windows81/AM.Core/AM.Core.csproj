@@ -421,6 +421,33 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reference.cs">
       <Link>AM\Reference.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\AssemblyUtility.cs">
+      <Link>AM\Reflection\AssemblyUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\EnumMemberInfo.cs">
+      <Link>AM\Reflection\EnumMemberInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\FieldAccessor.cs">
+      <Link>AM\Reflection\FieldAccessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\PropertyAccessor.cs">
+      <Link>AM\Reflection\PropertyAccessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\PropertyOrField.cs">
+      <Link>AM\Reflection\PropertyOrField.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\PublicKeyTokens.cs">
+      <Link>AM\Reflection\PublicKeyTokens.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\ReflectionUtility.cs">
+      <Link>AM\Reflection\ReflectionUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\TaggedClassAttribute.cs">
+      <Link>AM\Reflection\TaggedClassAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\TaggedClassCollector.cs">
+      <Link>AM\Reflection\TaggedClassCollector.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\RetryManager.cs">
       <Link>AM\RetryManager.cs</Link>
     </Compile>

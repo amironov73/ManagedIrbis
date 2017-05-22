@@ -20,6 +20,12 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
+#if WIN81
+
+using MvvmCross.Platform;
+
+#endif
+
 #endregion
 
 namespace AM
@@ -158,9 +164,18 @@ namespace AM
                 }
                 else
                 {
+#if PORTABLE || WIN81
+
+                    MemberInfo[] members = new MemberInfo[0];
+
+#else
+
                     MemberInfo[] members = element
                         .GetType()
                         .GetMembers(BindingFlags.Public | BindingFlags.Instance);
+
+#endif
+
                     Write(prefix);
                     bool propWritten = false;
                     foreach (MemberInfo member in members)
@@ -183,6 +198,9 @@ namespace AM
                             Type type = !ReferenceEquals(fieldInfo, null)
                                             ? fieldInfo.FieldType
                                             : propertyInfo.PropertyType;
+
+#if !PORTABLE
+
                             if (type.Bridge().IsValueType
                                 || type == typeof(string))
                             {
@@ -200,6 +218,8 @@ namespace AM
                                         : "{ }"
                                     );
                             }
+
+#endif
                         }
                     }
 

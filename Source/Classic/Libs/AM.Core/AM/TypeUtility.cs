@@ -13,6 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
+using AM.Reflection;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -57,6 +59,33 @@ namespace AM
         //}
 
         /// <summary>
+        /// Get <see cref="Assembly"/> for the type.
+        /// </summary>
+        [NotNull]
+        public static Assembly GetAssembly
+            (
+                [NotNull] Type type
+            )
+        {
+            Code.NotNull(type, "type");
+
+            return type.Bridge().Assembly;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static Type GetBaseType
+            (
+                [NotNull] Type type
+            )
+        {
+            Code.NotNull(type, "type");
+
+            return type.Bridge().BaseType;
+        }
+
+        /// <summary>
         /// Получение закрытого generic-типа, параметризованного
         /// указанными типами.
         /// </summary>
@@ -92,14 +121,133 @@ namespace AM
         /// <summary>
         /// Gets type of the argument.
         /// </summary>
-        /// <param name="arg">The argument.</param>
-        /// <returns></returns>
-        public static Type GetType<T>(T arg)
+        public static Type GetType<T>
+            (
+                T arg
+            )
             where T : class
         {
             return ReferenceEquals(arg, null)
                     ? typeof(T)
                     : arg.GetType();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static bool IsAbstract
+            (
+                [NotNull] Type type
+            )
+        {
+            Code.NotNull(type, "type");
+
+            return type.Bridge().IsAbstract;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static bool IsClass
+            (
+                [NotNull] Type type
+            )
+        {
+            Code.NotNull(type, "type");
+
+            return type.Bridge().IsClass;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static bool IsEnum
+            (
+                [NotNull] Type type
+            )
+        {
+            Code.NotNull(type, "type");
+
+            return type.Bridge().IsEnum;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static bool IsGenericType
+            (
+                [NotNull] Type type
+            )
+        {
+            Code.NotNull(type, "type");
+
+            return type.Bridge().IsGenericType;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static bool IsInterface
+            (
+                [NotNull] Type type
+            )
+        {
+            Code.NotNull(type, "type");
+
+            return type.Bridge().IsInterface;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static bool IsPrimitive
+            (
+                [NotNull] Type type
+            )
+        {
+            Code.NotNull(type, "type");
+
+            return type.Bridge().IsPrimitive;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static bool IsPublic
+            (
+                [NotNull] Type type
+            )
+        {
+            Code.NotNull(type, "type");
+
+            return type.Bridge().IsPublic;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static bool IsSealed
+            (
+                [NotNull] Type type
+            )
+        {
+            Code.NotNull(type, "type");
+
+            return type.Bridge().IsSealed;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static bool IsValueType
+            (
+                [NotNull] Type type
+            )
+        {
+            Code.NotNull(type, "type");
+
+            return type.Bridge().IsValueType;
+        }
+
     }
 }

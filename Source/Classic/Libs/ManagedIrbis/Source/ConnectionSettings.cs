@@ -167,11 +167,11 @@ namespace ManagedIrbis
         public string EngineTypeName { get; set; }
 
         /// <summary>
-        /// Retry count.
+        /// Retry limit.
         /// </summary>
         [XmlAttribute("retry")]
         [JsonProperty("retry")]
-        public int RetryCount { get; set; }
+        public int RetryLimit { get; set; }
 
         /// <summary>
         /// Web CGI URL.
@@ -302,9 +302,9 @@ namespace ManagedIrbis
                 connection.SetCommandFactory(FactoryTypeName);
             }
 
-            if (RetryCount != 0)
+            if (RetryLimit != 0)
             {
-                connection.SetRetry(RetryCount, null);
+                connection.SetRetry(RetryLimit, null);
             }
 
             if (!string.IsNullOrEmpty(UserData))
@@ -384,9 +384,9 @@ namespace ManagedIrbis
                 (
                     parameters,
                     "retry",
-                    RetryCount == 0
+                    RetryLimit == 0
                     ? null
-                    : RetryCount.ToInvariantString()
+                    : RetryLimit.ToInvariantString()
                 );
             _Add(parameters, "data", UserData);
 
@@ -456,7 +456,7 @@ namespace ManagedIrbis
                 = connection.Socket as RetryClientSocket;
             if (retrySocket != null)
             {
-                result.RetryCount = retrySocket.RetryManager.RetryLimit;
+                result.RetryLimit = retrySocket.RetryManager.RetryLimit;
             }
 
 #if !WINMOBILE && !PocketPC && !WIN81 && !PORTABLE
@@ -609,7 +609,7 @@ namespace ManagedIrbis
                         break;
 
                     case "retry":
-                        RetryCount = int.Parse(value);
+                        RetryLimit = int.Parse(value);
                         break;
 
                     case "web":
@@ -667,7 +667,7 @@ namespace ManagedIrbis
             SocketTypeName = reader.ReadNullableString();
             FactoryTypeName = reader.ReadNullableString();
             EngineTypeName = reader.ReadNullableString();
-            RetryCount = reader.ReadPackedInt32();
+            RetryLimit = reader.ReadPackedInt32();
             WebCgi = reader.ReadNullableString();
             UserData = reader.ReadNullableString();
             Connected = reader.ReadBoolean();
@@ -692,7 +692,7 @@ namespace ManagedIrbis
                 .WriteNullable(SocketTypeName)
                 .WriteNullable(FactoryTypeName)
                 .WriteNullable(EngineTypeName)
-                .WritePackedInt32(RetryCount)
+                .WritePackedInt32(RetryLimit)
                 .WriteNullable(WebCgi)
                 .WriteNullable(UserData)
                 .Write(Connected);

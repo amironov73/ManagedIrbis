@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if !PORTABLE && !WIN81
+
 #region Using directives
 
 using System;
@@ -220,7 +222,7 @@ namespace AM.Reflection
                 string displayName = name;
 
 #endif
-                int value = (int)Enum.Parse(enumType, name);
+                int value = (int)Enum.Parse(enumType, name, false);
                 EnumMemberInfo info
                     = new EnumMemberInfo(name, displayName, value);
                 result.Add(info);
@@ -277,3 +279,4 @@ namespace AM.Reflection
     }
 }
 
+#endif

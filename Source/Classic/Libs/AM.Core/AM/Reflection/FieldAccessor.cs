@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if !PORTABLE
+
 #region Using directives
 
 using System;
@@ -19,6 +21,12 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+#if WIN81
+
+using MvvmCross.Platform;
+
+#endif
 
 #endregion
 
@@ -62,8 +70,18 @@ namespace AM.Reflection
             _info = typeof(TTarget).GetField
                 (
                     fieldName,
+
+#if WIN81
+
+                BindingFlags.Instance | BindingFlags.Static
+                | BindingFlags.Public
+
+#else
+
                     BindingFlags.Instance | BindingFlags.Static
                     | BindingFlags.Public | BindingFlags.NonPublic
+
+#endif
                 );
             if (ReferenceEquals(_info, null))
             {
@@ -112,3 +130,4 @@ namespace AM.Reflection
     }
 }
 
+#endif

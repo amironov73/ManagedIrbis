@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if !NETCORE
+#if !NETCORE && !PORTABLE
 
 #region Using directives
 
@@ -16,6 +16,12 @@ using System.Collections.Generic;
 using System.Reflection;
 
 using JetBrains.Annotations;
+
+#if WIN81
+
+using MvvmCross.Platform;
+
+#endif
 
 #endregion
 
