@@ -7,8 +7,6 @@
  * Status: poor
  */
 
-#if !NETCORE
-
 #region Using directives
 
 using System;
@@ -123,19 +121,15 @@ namespace AM.Reflection
                 switch (_sortBy)
                 {
                     case SortBy.Name:
-                        return string.Compare
+                        return first.Name.SafeCompare
                             (
-                                first.Name,
-                                second.Name,
-                                StringComparison.InvariantCulture
+                                second.Name
                             );
 
                     case SortBy.FriendlyName:
-                        return string.Compare
+                        return first.DisplayName.SafeCompare
                             (
-                                first.DisplayName,
-                                second.DisplayName,
-                                StringComparison.InvariantCulture
+                                second.DisplayName
                             );
 
                     case SortBy.Value:
@@ -172,7 +166,7 @@ namespace AM.Reflection
         {
             // ArgumentUtility.NotNull ( enumType, "enumType" );
             List<EnumMemberInfo> result = new List<EnumMemberInfo>();
-            if (!enumType.IsEnum)
+            if (!enumType.Bridge().IsEnum)
             {
                 Log.Error
                     (
@@ -211,16 +205,21 @@ namespace AM.Reflection
                 FieldInfo field =
                     enumType.GetField(name
                         /*, BindingFlags.Public | BindingFlags.GetField */ );
-                DisplayNameAttribute titleAttribute
-                    = (DisplayNameAttribute)Attribute.GetCustomAttribute
-                        (
-                            field,
-                            typeof(DisplayNameAttribute)
-                        );
 
-                string displayName = (titleAttribute == null)
-                                        ? name
-                                        : titleAttribute.DisplayName;
+#if CLASSIC || NETCORE || DROID
+
+                DisplayNameAttribute titleAttribute = ReflectionUtility
+                    .GetCustomAttribute<DisplayNameAttribute>(field);
+
+                string displayName = ReferenceEquals(titleAttribute, null)
+                    ? name
+                    : titleAttribute.DisplayName;
+
+#else
+
+                string displayName = name;
+
+#endif
                 int value = (int)Enum.Parse(enumType, name);
                 EnumMemberInfo info
                     = new EnumMemberInfo(name, displayName, value);
@@ -278,4 +277,3 @@ namespace AM.Reflection
     }
 }
 
-#endif

@@ -461,9 +461,9 @@ namespace ManagedIrbis
 
 #if !WINMOBILE && !PocketPC && !WIN81 && !PORTABLE
 
-            if ((connection.Socket.GetType() != typeof(SimpleClientSocket))
-                && (retrySocket == null)
-                && (loggingSocket == null)
+            if (connection.Socket.GetType() != typeof(SimpleClientSocket)
+                && retrySocket == null
+                && loggingSocket == null
             )
             {
                 result.SocketTypeName = connection.Socket

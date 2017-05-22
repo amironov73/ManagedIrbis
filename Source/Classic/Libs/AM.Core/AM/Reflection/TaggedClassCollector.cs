@@ -47,9 +47,11 @@ namespace AM.Reflection
 
             foreach (Type type in asm.GetTypes())
             {
-                object[] attributes = type.GetCustomAttributes
+                var attributes = type.Bridge().GetCustomAttributes
                     (
-                    typeof(TaggedClassAttribute), true);
+                        typeof(TaggedClassAttribute),
+                        true
+                    );
 
                 foreach (TaggedClassAttribute attribute in attributes)
                 {

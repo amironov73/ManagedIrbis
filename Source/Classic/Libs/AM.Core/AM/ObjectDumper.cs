@@ -14,6 +14,8 @@ using System.Collections;
 using System.IO;
 using System.Reflection;
 
+using AM.Reflection;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -22,8 +24,6 @@ using MoonSharp.Interpreter;
 
 namespace AM
 {
-#if NOTDEF
-
     /// <summary>
     /// Object dumper for debug purposes.
     /// </summary>
@@ -34,8 +34,7 @@ namespace AM
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="ObjectDumper"/> class.
+        /// Constructor.
         /// </summary>
         private ObjectDumper
             (
@@ -78,7 +77,7 @@ namespace AM
         private void WriteTab()
         {
             Write(_indent);
-            while ((_position % 8) != 0)
+            while (_position % 8 != 0)
             {
                 Write(" ");
             }
@@ -92,11 +91,11 @@ namespace AM
 
         private void WriteValue(object o)
         {
-            if (o == null)
+            if (ReferenceEquals(o, null))
             {
                 Write("(null)");
             }
-            else if ((o is ValueType) || (o is string))
+            else if (o is ValueType || o is string)
             {
                 Write(o.ToString());
             }
@@ -122,8 +121,8 @@ namespace AM
             )
         {
             if (ReferenceEquals(element, null)
-                || (element is ValueType)
-                || (element is string))
+                || element is ValueType
+                || element is string)
             {
                 WriteIndent();
                 Write(prefix);
@@ -137,7 +136,7 @@ namespace AM
                 {
                     foreach (object item in enumerable)
                     {
-                        if ((item is IEnumerable)
+                        if (item is IEnumerable
                             && !(item is string))
                         {
                             WriteIndent();
@@ -168,8 +167,8 @@ namespace AM
                     {
                         FieldInfo fieldInfo = member as FieldInfo;
                         PropertyInfo propertyInfo = member as PropertyInfo;
-                        if ((fieldInfo != null)
-                            || (propertyInfo != null))
+                        if (!ReferenceEquals(fieldInfo, null)
+                            || !ReferenceEquals(propertyInfo, null))
                         {
                             if (propWritten)
                             {
@@ -181,13 +180,13 @@ namespace AM
                             }
                             Write(member.Name);
                             Write("=");
-                            Type type = (fieldInfo != null)
+                            Type type = !ReferenceEquals(fieldInfo, null)
                                             ? fieldInfo.FieldType
                                             : propertyInfo.PropertyType;
-                            if (type.IsValueType
-                                || (type == typeof(string)))
+                            if (type.Bridge().IsValueType
+                                || type == typeof(string))
                             {
-                                WriteValue((fieldInfo != null)
+                                WriteValue(!ReferenceEquals(fieldInfo, null)
                                     ? fieldInfo.GetValue(element)
                                     : propertyInfo.GetValue(element, null));
                             }
@@ -215,20 +214,20 @@ namespace AM
                         {
                             FieldInfo fieldInfo = member as FieldInfo;
                             PropertyInfo propertyInfo = member as PropertyInfo;
-                            if ((fieldInfo != null)
-                                || (propertyInfo != null))
+                            if (!ReferenceEquals(fieldInfo, null)
+                                || !ReferenceEquals(propertyInfo, null))
                             {
 
-                                Type type = (fieldInfo != null)
+                                Type type = !ReferenceEquals(fieldInfo, null)
                                                 ? fieldInfo.FieldType
                                                 : propertyInfo.PropertyType;
-                                if (!(type.IsValueType
-                                    || (type == typeof(string))))
+                                if (!(type.Bridge().IsValueType
+                                    || type == typeof(string)))
                                 {
-                                    object value = (fieldInfo != null)
+                                    object value = !ReferenceEquals(fieldInfo, null)
                                                        ? fieldInfo.GetValue(element)
                                                        : propertyInfo.GetValue(element, null);
-                                    if (value != null)
+                                    if (!ReferenceEquals(value, null))
                                     {
                                         _level++;
                                         WriteObject(member.Name + ":", value);
@@ -274,7 +273,11 @@ namespace AM
                 int depth
             )
         {
+#if !UAP && !SILVERLIGHT && !PORTABLE && !WIN81
+
             Write(element, depth, Console.Out);
+
+#endif
         }
 
         /// <summary>
@@ -292,5 +295,4 @@ namespace AM
         #endregion
     }
 
-#endif
 }

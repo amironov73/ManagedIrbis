@@ -7,8 +7,6 @@
  *  Status: poor
  */
 
-#if !NETCORE
-
 #region Using directives
 
 using System;
@@ -64,10 +62,33 @@ namespace AM.Reflection
         //}
 
         /// <summary>
-        /// 
+        /// Bridge for NETCORE and UAP.
         /// </summary>
-        /// <param name="classType"></param>
-        /// <returns></returns>
+#if NETCORE || UAP
+        public static TypeInfo Bridge
+            (
+                [NotNull] this Type type
+            )
+        {
+            Code.NotNull(type, "type");
+
+            return type.GetTypeInfo();
+        }
+#else
+        public static Type Bridge
+            (
+                [NotNull] this Type type
+            )
+        {
+            Code.NotNull(type, "type");
+
+            return type;
+        }
+#endif
+
+        /// <summary>
+        /// Get the custom attribute.
+        /// </summary>
         public static T GetCustomAttribute<T>
             (
                 [NotNull] Type classType
@@ -76,19 +97,17 @@ namespace AM.Reflection
         {
             Code.NotNull(classType, "classType");
 
-            object[] all = classType.GetCustomAttributes
+            var all = classType.Bridge().GetCustomAttributes
                 (
                     typeof(T),
                     false
                 );
             
-            return (T)(all.Length == 0
-                            ? null
-                            : all[0]);
+            return (T)all.FirstOrDefault();
         }
 
         /// <summary>
-        /// Gets the custom attribute.
+        /// Get the custom attribute.
         /// </summary>
         [CanBeNull]
         public static T GetCustomAttribute<T>
@@ -100,7 +119,7 @@ namespace AM.Reflection
         {
             Code.NotNull(classType, "classType");
 
-            object[] all = classType.GetCustomAttributes
+            var all = classType.Bridge().GetCustomAttributes
                 (
                     typeof(T),
                     inherit
@@ -112,8 +131,27 @@ namespace AM.Reflection
         /// <summary>
         /// Gets the custom attribute.
         /// </summary>
-        /// <param name="propertyInfo">The property info.</param>
-        /// <returns></returns>
+        [CanBeNull]
+        public static T GetCustomAttribute<T>
+            (
+                [NotNull] FieldInfo fieldInfo
+            )
+            where T : Attribute
+        {
+            Code.NotNull(fieldInfo, "fieldInfo");
+
+            var all = fieldInfo.GetCustomAttributes
+                (
+                    typeof(T),
+                    false
+                );
+
+            return (T)all.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Gets the custom attribute.
+        /// </summary>
         [CanBeNull]
         public static T GetCustomAttribute<T>
             (
@@ -123,11 +161,12 @@ namespace AM.Reflection
         {
             Code.NotNull(propertyInfo, "propertyInfo");
 
-            object[] all = propertyInfo.GetCustomAttributes
+            var all = propertyInfo.GetCustomAttributes
                 (
                     typeof(T),
                     false
                 );
+
             return (T) all.FirstOrDefault();
         }
 
@@ -197,7 +236,7 @@ namespace AM.Reflection
         }
 
         /// <summary>
-        /// Determines whether the specified type has attribute.
+        /// Determines whether the specified type has the attribute.
         /// </summary>
         public static bool HasAttribute<T>
             (
@@ -208,17 +247,16 @@ namespace AM.Reflection
         {
             Code.NotNull(type, "type");
 
-            return GetCustomAttribute<T>(type, inherit) != null;
+            return !ReferenceEquals
+                (
+                    GetCustomAttribute<T>(type, inherit),
+                    null
+                );
         }
 
         /// <summary>
         /// Set field value either public or private.
         /// </summary>
-        /// <typeparam name="TTarget"></typeparam>
-        /// <typeparam name="TValue"></typeparam>
-        /// <param name="target"></param>
-        /// <param name="fieldName"></param>
-        /// <param name="value"></param>
         public static void SetFieldValue<TTarget, TValue>
             (
                 TTarget target, 
@@ -253,10 +291,6 @@ namespace AM.Reflection
         /// <summary>
         /// Get property value either public or private.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="target"></param>
-        /// <param name="propertyName"></param>
-        /// <returns></returns>
         public static object GetPropertyValue<T>
             (
                 T target, 
@@ -343,8 +377,7 @@ namespace AM.Reflection
             propertyInfo.SetValue(target, value, null);
         }
 
-        #endregion
+#endregion
     }
 }
 
-#endif

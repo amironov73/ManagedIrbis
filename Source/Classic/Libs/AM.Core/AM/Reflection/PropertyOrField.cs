@@ -44,7 +44,7 @@ namespace AM.Reflection
             [DebuggerStepThrough]
             get
             {
-                return (MemberInfo as FieldInfo);
+                return MemberInfo as FieldInfo;
             }
         }
 
@@ -52,15 +52,15 @@ namespace AM.Reflection
         /// Gets a value indicating whether this instance is indexed.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if this instance is indexed; otherwise, <c>false</c>.
+        /// <c>true</c> if this instance is indexed; otherwise, <c>false</c>.
         /// </value>
         public bool IsIndexed
         {
             [DebuggerStepThrough]
             get
             {
-                return (IsProperty
-                    && (PropertyInfo.GetIndexParameters().Length != 0));
+                return IsProperty
+                       && PropertyInfo.GetIndexParameters().Length != 0;
             }
         }
 
@@ -68,14 +68,14 @@ namespace AM.Reflection
         /// Gets a value indicating whether this instance is property.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if this instance is property; otherwise, <c>false</c>.
+        /// <c>true</c> if this instance is property; otherwise, <c>false</c>.
         /// </value>
         public bool IsProperty
         {
             [DebuggerStepThrough]
             get
             {
-                return (MemberInfo is PropertyInfo);
+                return MemberInfo is PropertyInfo;
             }
         }
 
@@ -84,7 +84,6 @@ namespace AM.Reflection
         /// <summary>
         /// Gets the member info.
         /// </summary>
-        /// <value>The member info.</value>
         public MemberInfo MemberInfo
         {
             [DebuggerStepThrough]
@@ -97,7 +96,6 @@ namespace AM.Reflection
         /// <summary>
         /// Gets the type of the member.
         /// </summary>
-        /// <value>The type of the member.</value>
         public Type MemberType
         {
             [DebuggerStepThrough]
@@ -107,6 +105,7 @@ namespace AM.Reflection
                 {
                     return PropertyInfo.PropertyType;
                 }
+
                 return FieldInfo.FieldType;
             }
         }
@@ -133,7 +132,7 @@ namespace AM.Reflection
             [DebuggerStepThrough]
             get
             {
-                return (MemberInfo as PropertyInfo);
+                return MemberInfo as PropertyInfo;
             }
         }
 
@@ -147,7 +146,7 @@ namespace AM.Reflection
             [DebuggerStepThrough]
             get
             {
-                return (IsProperty && !PropertyInfo.CanWrite);
+                return IsProperty && !PropertyInfo.CanWrite;
             }
         }
 
@@ -156,10 +155,12 @@ namespace AM.Reflection
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PropertyOrField"/> class.
+        /// Constructor.
         /// </summary>
-        /// <param name="propertyInfo">The property info.</param>
-        public PropertyOrField(PropertyInfo propertyInfo)
+        public PropertyOrField
+            (
+                [NotNull] PropertyInfo propertyInfo
+            )
         {
             Code.NotNull(propertyInfo, "propertyInfo");
 
@@ -167,12 +168,11 @@ namespace AM.Reflection
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PropertyOrField"/> class.
+        /// Constructor.
         /// </summary>
-        /// <param name="fieldInfo">The field info.</param>
         public PropertyOrField
             (
-                FieldInfo fieldInfo
+                [NotNull] FieldInfo fieldInfo
             )
         {
             Code.NotNull(fieldInfo, "fieldInfo");
@@ -181,12 +181,11 @@ namespace AM.Reflection
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PropertyOrField"/> class.
+        /// Constructor.
         /// </summary>
-        /// <param name="memberInfo">The member info.</param>
         public PropertyOrField
             (
-                MemberInfo memberInfo
+                [NotNull] MemberInfo memberInfo
             )
         {
             Code.NotNull(memberInfo, "memberInfo");
@@ -237,14 +236,16 @@ namespace AM.Reflection
         /// <summary>
         /// Gets the value.
         /// </summary>
-        /// <param name="obj">The obj.</param>
-        /// <returns></returns>
-        public object GetValue(object obj)
+        public object GetValue
+            (
+                object obj
+            )
         {
             if (IsProperty)
             {
                 return PropertyInfo.GetValue(obj, null);
             }
+
             return FieldInfo.GetValue(obj);
         }
 
@@ -253,21 +254,18 @@ namespace AM.Reflection
         /// haves the attribute.
         /// </summary>
         /// <param name="inherit">if set to <c>true</c> [inherit].</param>
-        /// <returns></returns>
         public bool HaveAttribute<T>
             (
                 bool inherit
             )
             where T : Attribute
         {
-            return (GetCustomAttribute<T>(inherit) != null);
+            return GetCustomAttribute<T>(inherit) != null;
         }
 
         /// <summary>
         /// Sets the value.
         /// </summary>
-        /// <param name="obj">The obj.</param>
-        /// <param name="value">The value.</param>
         public void SetValue
             (
                 object obj,
@@ -286,43 +284,25 @@ namespace AM.Reflection
 
         #endregion
 
-        #region Object members
-
-        /// <summary>
-        /// Returns a <see cref="String"/> that represents the current 
-        /// <see cref="Object"/>.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="String"/> that represents the current 
-        /// <see cref="Object"/>.
-        ///</returns>
-        public override string ToString()
-        {
-            return Name;
-        }
-
-        #endregion
-
         #region IComparable<PropertyOrField> members
 
-        /// <summary>
-        /// Compares the current object with another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// A 32-bit signed integer that indicates the relative order of the objects 
-        /// being compared. The return value has the following meanings: Value 
-        /// Meaning Less than zero This object is less than the other parameter.
-        /// Zero This object is equal to other. Greater than zero This object is 
-        /// greater than other. 
-        /// </returns>
-        /// <param name="other">An object to compare with this object.
-        /// </param>
+        /// <inheritdoc cref="IComparable{T}.CompareTo" />
         int IComparable<PropertyOrField>.CompareTo
             (
                 [NotNull] PropertyOrField other
             )
         {
-            return string.Compare(Name, other.Name);
+            return Name.SafeCompare(other.Name);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return Name;
         }
 
         #endregion

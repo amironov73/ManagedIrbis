@@ -49,10 +49,9 @@ namespace AM.Reflection
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="tag">Tag.</param>
         public TaggedClassAttribute
             (
-                string tag
+                [NotNull] string tag
             )
         {
             _tag = tag;

@@ -97,7 +97,7 @@ namespace AM
         public static Type GetType<T>(T arg)
             where T : class
         {
-            return arg == null
+            return ReferenceEquals(arg, null)
                     ? typeof(T)
                     : arg.GetType();
         }

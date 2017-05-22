@@ -23,8 +23,6 @@ using MoonSharp.Interpreter;
 
 namespace AM.Reflection
 {
-#if NOTDEF
-
     /// <summary>
     /// Some hacking: get access to private properties (via reflection).
     /// </summary>
@@ -218,22 +216,48 @@ namespace AM.Reflection
             if (_info.CanRead)
             {
                 MethodInfo methodInfo = _info.GetGetMethod(true);
+
+#if NETCORE || UAP
+
+                _getter = (_Getter) methodInfo.CreateDelegate
+                    (
+                        typeof(_Getter),
+                        Target
+                    );
+
+#else
+
                 _getter = (_Getter)Delegate.CreateDelegate
-                                        (
-                                            typeof(_Getter),
-                                            Target,
-                                            methodInfo
-                                        );
+                    (
+                        typeof(_Getter),
+                        Target,
+                        methodInfo
+                    );
+
+#endif
             }
             if (_info.CanWrite)
             {
                 MethodInfo methodInfo = _info.GetSetMethod(true);
+
+#if NETCORE || UAP
+
+                _setter = (_Setter) methodInfo.CreateDelegate
+                    (
+                        typeof(_Setter),
+                        Target
+                    );
+
+#else
+
                 _setter = (_Setter)Delegate.CreateDelegate
-                                        (
-                                            typeof(_Setter),
-                                            Target,
-                                            methodInfo
-                                        );
+                    (
+                        typeof(_Setter),
+                        Target,
+                        methodInfo
+                    );
+
+#endif
             }
         }
 
@@ -296,6 +320,4 @@ namespace AM.Reflection
 
         #endregion
     }
-
-#endif
 }
