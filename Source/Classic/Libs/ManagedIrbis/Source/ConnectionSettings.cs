@@ -456,7 +456,7 @@ namespace ManagedIrbis
                 = connection.Socket as RetryClientSocket;
             if (retrySocket != null)
             {
-                result.RetryCount = retrySocket.RetryManager.RetryCount;
+                result.RetryCount = retrySocket.RetryManager.RetryLimit;
             }
 
 #if !WINMOBILE && !PocketPC && !WIN81 && !PORTABLE

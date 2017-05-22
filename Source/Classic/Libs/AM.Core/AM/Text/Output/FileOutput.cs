@@ -15,6 +15,8 @@ using System;
 using System.IO;
 using System.Text;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -94,18 +96,11 @@ namespace AM.Text.Output
                 bool append
             )
         {
-            if (string.IsNullOrEmpty(fileName))
-            {
-                throw new ArgumentNullException("fileName");
-            }
+            Code.NotNullNorEmpty(fileName, "fileName");
+
             Close();
             _fileName = fileName;
             
-            //_writer = new StreamWriter
-            //    (
-            //        fileName,
-            //        append
-            //    );
             FileMode fileMode = append
                 ? FileMode.Append
                 : FileMode.Create;
@@ -146,12 +141,6 @@ namespace AM.Text.Output
             Close();
             _fileName = fileName;
 
-            //_writer = new StreamWriter
-            //    (
-            //        fileName,
-            //        append,
-            //        encoding
-            //    );
             FileMode fileMode = append
                 ? FileMode.Append
                 : FileMode.Create;

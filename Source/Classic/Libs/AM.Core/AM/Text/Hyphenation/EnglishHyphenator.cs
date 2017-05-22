@@ -13,6 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -85,8 +87,17 @@ namespace AM.Text.Hyphenation
         /// 	<c>true</c> if word can be processed;
         /// otherwise <c>false</c>.
         /// </returns>
-        public override bool RecognizeWord(string theWord)
+        public override bool RecognizeWord
+            (
+                string theWord
+            )
         {
+            Log.Error
+                (
+                    "EnglishHyphenator::RecognizeWord: "
+                    + "not implemented"
+                );
+
             throw new NotImplementedException();
         }
 

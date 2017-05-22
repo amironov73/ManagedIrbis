@@ -13,6 +13,8 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
+using AM.Logging;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -114,6 +116,12 @@ namespace AM.Runtime
             {
                 if (IsDisposed)
                 {
+                    Log.Error
+                        (
+                            "PinnedStructure::ManagedObject: "
+                            + "disposed"
+                        );
+
                     throw new ObjectDisposedException("PinnedStructure");
                 }
                 return (T)_handle.Target;
@@ -141,6 +149,12 @@ namespace AM.Runtime
             {
                 if (IsDisposed)
                 {
+                    Log.Error
+                        (
+                            "PinnedStructure::Pointer: "
+                            + "disposed"
+                        );
+
                     throw new ObjectDisposedException("PinnedStructure");
                 }
                 return _pointer;

@@ -13,6 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -90,8 +92,17 @@ namespace AM.Text.Hyphenation
         /// </summary>
         /// <param name="theWord"></param>
         /// <returns></returns>
-        public override bool RecognizeWord(string theWord)
+        public override bool RecognizeWord
+            (
+                string theWord
+            )
         {
+            Log.Error
+                (
+                    "RussianHyphenator::RecognizeWord: "
+                    + "not implemented"
+                );
+
             throw new NotImplementedException();
         }
 

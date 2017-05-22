@@ -11,6 +11,8 @@
 
 using System;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -50,10 +52,8 @@ namespace AM.Text.Output
                 [NotNull] AbstractOutput inner
             )
         {
-            if (ReferenceEquals(inner, null))
-            {
-                throw new ArgumentNullException("inner");
-            }
+            Code.NotNull(inner, "inner");
+
             _inner = inner;
         }
 

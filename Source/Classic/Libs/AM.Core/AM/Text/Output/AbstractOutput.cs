@@ -76,8 +76,6 @@ namespace AM.Text.Output
             }
         }
 
-#if !UAP && !WIN81 && !PORTABLE
-
         /// <summary>
         /// 
         /// </summary>
@@ -93,8 +91,6 @@ namespace AM.Text.Output
                 return _console;
             }
         }
-
-#endif
 
         #endregion
 

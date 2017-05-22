@@ -18,6 +18,8 @@ using System.Threading.Tasks;
 
 #endif
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -59,7 +61,7 @@ namespace AM
         /// <summary>
         /// Retry count.
         /// </summary>
-        public int RetryCount { get; private set; }
+        public int RetryLimit { get; private set; }
 
         #endregion
 
@@ -70,12 +72,12 @@ namespace AM
         /// </summary>
         public RetryManager
             (
-                int retryCount
+                int retryLimit
             )
         {
-            Code.Positive(retryCount, "retryCount");
+            Code.Positive(retryLimit, "retryLimit");
 
-            RetryCount = retryCount;
+            RetryLimit = retryLimit;
         }
 
         /// <summary>
@@ -83,13 +85,13 @@ namespace AM
         /// </summary>
         public RetryManager
             (
-                int retryCount,
+                int retryLimit,
                 [CanBeNull] Func<Exception, bool> resolver
             )
         {
-            Code.Positive(retryCount, "retryCount");
+            Code.Positive(retryLimit, "retryLimit");
 
-            RetryCount = retryCount;
+            RetryLimit = retryLimit;
             _resolver = resolver;
         }
 
@@ -125,8 +127,26 @@ namespace AM
                 Exception ex
             )
         {
-            if (count >= RetryCount)
+            Log.Error
+                (
+                    "RetryManager::_Resolve: "
+                    + "catch exception: "
+                    + ex.GetType().Name
+                    + ": "
+                    + ex.Message
+                    + ", count="
+                    + count
+                );
+
+            if (count >= RetryLimit)
             {
+                Log.Error
+                    (
+                        "RetryManager::_Resolve: "
+                        + "count exceeded limit="
+                        + RetryLimit
+                    );
+
                 throw ex;
             }
 
@@ -142,6 +162,13 @@ namespace AM
             bool result = _resolver(ex);
             if (!result)
             {
+                Log.Error
+                    (
+                        "RetryManager::_Resolve: "
+                        + "couldn't resolve: "
+                        + ex.GetType().Name
+                    );
+
                 throw new ArsMagnaException
                     (
                         "RetryManager failed",
@@ -168,7 +195,7 @@ namespace AM
         {
             Code.NotNull(action, "action");
 
-            for (int i = 0; i <= RetryCount; i++)
+            for (int i = 0; i <= RetryLimit; i++)
             {
                 try
                 {
@@ -193,7 +220,7 @@ namespace AM
         {
             Code.NotNull(action, "action");
 
-            for (int i = 0; i <= RetryCount; i++)
+            for (int i = 0; i <= RetryLimit; i++)
             {
                 try
                 {
@@ -205,6 +232,12 @@ namespace AM
                     _Resolve(i, ex);
                 }
             }
+
+            Log.Error
+                (
+                    "RetryManager::Try: "
+                    + "giving up"
+                );
 
             throw new ArsMagnaException("RetryManager failed");
         }
@@ -221,7 +254,7 @@ namespace AM
         {
             Code.NotNull(action, "action");
 
-            for (int i = 0; i <= RetryCount; i++)
+            for (int i = 0; i <= RetryLimit; i++)
             {
                 try
                 {
@@ -233,6 +266,12 @@ namespace AM
                     _Resolve(i, ex);
                 }
             }
+
+            Log.Error
+                (
+                    "RetryManager::Try: "
+                    + "giving up"
+                );
 
             throw new ArsMagnaException("RetryManager failed");
         }
@@ -250,7 +289,7 @@ namespace AM
         {
             Code.NotNull(action, "action");
 
-            for (int i = 0; i <= RetryCount; i++)
+            for (int i = 0; i <= RetryLimit; i++)
             {
                 try
                 {
@@ -262,6 +301,12 @@ namespace AM
                     _Resolve(i, ex);
                 }
             }
+
+            Log.Error
+                (
+                    "RetryManager::Try: "
+                    + "giving up"
+                );
 
             throw new ArsMagnaException("RetryManager failed");
         }
@@ -276,7 +321,7 @@ namespace AM
         {
             Code.NotNull(function, "function");
 
-            for (int i = 0; i <= RetryCount; i++)
+            for (int i = 0; i <= RetryLimit; i++)
             {
                 try
                 {
@@ -287,6 +332,12 @@ namespace AM
                     _Resolve(i, ex);
                 }
             }
+
+            Log.Error
+                (
+                    "RetryManager::Try: "
+                    + "giving up"
+                );
 
             throw new ArsMagnaException("RetryManager failed");
         }
@@ -302,7 +353,7 @@ namespace AM
         {
             Code.NotNull(function, "function");
 
-            for (int i = 0; i <= RetryCount; i++)
+            for (int i = 0; i <= RetryLimit; i++)
             {
                 try
                 {
@@ -313,6 +364,12 @@ namespace AM
                     _Resolve(i, ex);
                 }
             }
+
+            Log.Error
+                (
+                    "RetryManager::Try: "
+                    + "giving up"
+                );
 
             throw new ArsMagnaException("RetryManager failed");
         }
@@ -329,7 +386,7 @@ namespace AM
         {
             Code.NotNull(function, "function");
 
-            for (int i = 0; i <= RetryCount; i++)
+            for (int i = 0; i <= RetryLimit; i++)
             {
                 try
                 {
@@ -340,6 +397,12 @@ namespace AM
                     _Resolve(i, ex);
                 }
             }
+
+            Log.Error
+                (
+                    "RetryManager::Try: "
+                    + "giving up"
+                );
 
             throw new ArsMagnaException("RetryManager failed");
         }
@@ -357,7 +420,7 @@ namespace AM
         {
             Code.NotNull(function, "function");
 
-            for (int i = 0; i <= RetryCount; i++)
+            for (int i = 0; i <= RetryLimit; i++)
             {
                 try
                 {
@@ -368,6 +431,12 @@ namespace AM
                     _Resolve(i, ex);
                 }
             }
+
+            Log.Error
+                (
+                    "RetryManager::Try: "
+                    + "giving up"
+                );
 
             throw new ArsMagnaException("RetryManager failed");
         }

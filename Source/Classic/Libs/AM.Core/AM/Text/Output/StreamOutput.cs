@@ -13,6 +13,8 @@ using System;
 using System.IO;
 using System.Text;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -117,6 +119,12 @@ namespace AM.Text.Output
                 string configuration
             )
         {
+            Log.Error
+                (
+                    "StreamOutput::Configure: "
+                    + "not implemented"
+                );
+
             throw new NotImplementedException();
         }
 

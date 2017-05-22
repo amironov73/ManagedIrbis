@@ -7,16 +7,9 @@
  * Status: poor
  */
 
-#if !UAP && !WIN81 && !PORTABLE
-
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using CodeJam;
+using AM.ConsoleIO;
 
 using JetBrains.Annotations;
 
@@ -36,27 +29,19 @@ namespace AM.Text.Output
     {
         #region AbstractOutput members
 
-        /// <summary>
-        /// Флаг: был ли вывод с помощью WriteError.
-        /// </summary>
+        /// <inheritdoc cref="AbstractOutput.HaveError" />
         public override bool HaveError { get; set; }
 
-        /// <summary>
-        /// Очищает вывод, например, окно.
-        /// Надо переопределить в потомке.
-        /// </summary>
-        /// <returns>AbstractOutput.</returns>
+        /// <inheritdoc cref="AbstractOutput.Clear" />
         public override AbstractOutput Clear()
         {
             HaveError = false;
-            Console.Clear();
+            ConsoleInput.Clear();
+
             return this;
         }
 
-        /// <summary>
-        /// Конфигурирование объекта.
-        /// Надо переопределить в потомке.
-        /// </summary>
+        /// <inheritdoc cref="AbstractOutput.Configure"/>
         public override AbstractOutput Configure
             (
                 string configuration
@@ -66,36 +51,32 @@ namespace AM.Text.Output
             return this;
         }
 
-        /// <summary>
-        /// Метод, который нужно переопределить
-        /// в потомке.
-        /// </summary>
+        /// <inheritdoc cref="AbstractOutput.Write(string)" />
         public override AbstractOutput Write
             (
                 string text
             )
         {
-            System.Console.Write(text);
+            ConsoleInput.Write(text);
+
             return this;
         }
 
-        /// <summary>
-        /// Выводит ошибку. Например, красным цветом.
-        /// Надо переопределить в потомке.
-        /// </summary>
+        /// <inheritdoc cref="AbstractOutput.WriteError(string)" />
         public override AbstractOutput WriteError
             (
                 string text
             )
         {
             HaveError = true;
-            System.Console.Error.Write(text);
+
+            // TODO implement properly: System.Console.Error.Write(text);
+            ConsoleInput.Write(text);
+
             return this;
         }
 
         #endregion
     }
 }
-
-#endif
 

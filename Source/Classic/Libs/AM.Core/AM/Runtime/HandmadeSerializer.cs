@@ -7,7 +7,6 @@
  * Status: poor
  */
 
-using AM.IO;
 #if !NETCORE
 
 #region Using directives
@@ -17,6 +16,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+
+using AM.IO;
+using AM.Logging;
 
 using CodeJam;
 
@@ -170,6 +172,13 @@ namespace AM.Runtime
                     break;
 
                 default:
+                    Log.Error
+                        (
+                            "HandmadeSerializer::GetTypeName: "
+                            + "unexpected PrefixLength="
+                            + PrefixLength
+                        );
+
                     throw new InvalidOperationException();
             }
 
@@ -213,6 +222,12 @@ namespace AM.Runtime
             int count = array.Length;
             if (count == 0)
             {
+                Log.Error
+                    (
+                        "HandmadeSerializer::Serialize: "
+                        + "count=0"
+                    );
+
                 throw new ArgumentException();
             }
 

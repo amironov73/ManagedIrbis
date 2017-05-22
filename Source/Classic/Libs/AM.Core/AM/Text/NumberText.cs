@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -123,7 +124,7 @@ namespace AM.Text
 
                 if (result == 0)
                 {
-                    result = (HaveValue && other.HaveValue)
+                    result = HaveValue && other.HaveValue
                         ? Math.Sign(Value - other.Value)
                         : HaveValue.CompareTo(other.HaveValue);
                 }
@@ -253,7 +254,7 @@ namespace AM.Text
         {
             get
             {
-                return (Length == 1)
+                return Length == 1
                        && HavePrefix(0)
                        && !HaveValue(0);
             }
@@ -266,7 +267,7 @@ namespace AM.Text
         {
             get
             {
-                return (Length == 1)
+                return Length == 1
                        && !HavePrefix(0)
                        && HaveValue(0);
             }
@@ -324,7 +325,7 @@ namespace AM.Text
                     index--;
                 }
 
-                return (result == null)
+                return result == null
                     ? null
                     : result.Value;
             }
@@ -429,7 +430,7 @@ namespace AM.Text
             )
         {
             Chunk chunk = this[index];
-            return (chunk == null)
+            return chunk == null
                 ? 0
                 : chunk.HaveValue
                     ? chunk.Length
@@ -445,7 +446,7 @@ namespace AM.Text
             )
         {
             Chunk chunk = this[index];
-            return (chunk == null)
+            return chunk == null
                 ? null
                 : chunk.Prefix;
         }
@@ -459,9 +460,9 @@ namespace AM.Text
             )
         {
             Chunk chunk = this[index];
-            return (chunk == null)
+            return chunk == null
                 ? 0
-                : (chunk.HaveValue)
+                : chunk.HaveValue
                   ? chunk.Value
                   : 0;
         }
@@ -474,7 +475,7 @@ namespace AM.Text
                 int index
             )
         {
-            return (this[index] != null);
+            return this[index] != null;
         }
 
         /// <summary>
@@ -487,7 +488,7 @@ namespace AM.Text
             )
         {
             Chunk chunk = this[index];
-            return (chunk != null) && chunk.HavePrefix;
+            return chunk != null && chunk.HavePrefix;
         }
 
         /// <summary>
@@ -500,7 +501,7 @@ namespace AM.Text
             )
         {
             Chunk chunk = this[index];
-            return (chunk != null) && chunk.HaveValue;
+            return chunk != null && chunk.HaveValue;
         }
 
         /// <summary>
@@ -541,8 +542,8 @@ namespace AM.Text
             )
         {
             Chunk chunk = this[index];
-            if ((chunk != null)
-                && (chunk.HaveValue))
+            if (chunk != null
+                && chunk.HaveValue)
             {
                 chunk.Value += delta;
             }
@@ -560,8 +561,8 @@ namespace AM.Text
             )
         {
             Chunk chunk = this[index];
-            if ((chunk != null)
-                && (chunk.HaveValue))
+            if (chunk != null
+                && chunk.HaveValue)
             {
                 chunk.Value += delta;
             }
@@ -657,6 +658,12 @@ namespace AM.Text
                 {
                     if (firstBuffer.Length == 0)
                     {
+                        Log.Error
+                            (
+                                "NumberText::ParseRanges: "
+                                + "syntax error"
+                            );
+
                         throw new ArsMagnaException();
                     }
 
@@ -664,8 +671,8 @@ namespace AM.Text
                 }
 
                 if (
-                        (c2 != '/')
-                    &&  
+                        c2 != '/'
+                        &&  
                         (   char.IsSeparator(c2)
                         ||  char.IsPunctuation(c2)
                         )
@@ -707,8 +714,8 @@ namespace AM.Text
                     }
 
                     if (
-                            (c4 != '/')
-                         && 
+                            c4 != '/'
+                            && 
                             (   char.IsSeparator(c4)
                             ||  char.IsPunctuation(c4)
                             )
@@ -722,6 +729,12 @@ namespace AM.Text
 
                 if (secondBuffer.Length == 0)
                 {
+                    Log.Error
+                        (
+                            "NumberText::ParseRanges: "
+                            + "syntax error"
+                        );
+
                     throw new Exception();
                 }
 
@@ -730,6 +743,16 @@ namespace AM.Text
 
                 if (firstNumber.GetPrefix(0) != secondNumber.GetPrefix(0))
                 {
+                    Log.Error
+                        (
+                            "NumberText::ParseRanges: "
+                            + "prefix mismatch: '"
+                            + firstNumber.GetPrefix(0)
+                            + "' and '"
+                            + secondNumber.GetPrefix(0)
+                            + "'"
+                        );
+
                     throw new Exception();
                 }
 
@@ -832,16 +855,35 @@ namespace AM.Text
                 Chunk chunk = node.Value;
                 if (!chunk.HavePrefix && !chunk.HaveValue)
                 {
+                    Log.Error
+                        (
+                            "NumberText::Verify: "
+                            + "empty chunk"
+                        );
+
                     throw new ArsMagnaException();
                 }
                 if (node.Next != null)
                 {
                     if (!chunk.HaveValue)
                     {
+                        Log.Error
+                            (
+                                "NumberText::Verify: "
+                                + "chunk without value"
+                            );
+
                         throw new ArsMagnaException();
                     }
+
                     if (!node.Next.Value.HavePrefix)
                     {
+                        Log.Error
+                            (
+                                "NumberText::Verify: "
+                                + "next chunk without prefix"
+                            );
+
                         throw new ArsMagnaException();
                     }
                 }
@@ -925,7 +967,7 @@ namespace AM.Text
             {
                 Chunk c1 = this[i];
                 Chunk c2 = other[i];
-                if ((c1 != null) && (c2 != null))
+                if (c1 != null && c2 != null)
                 {
                     int result = c1.CompareTo(c2);
                     if (result != 0)
@@ -935,11 +977,11 @@ namespace AM.Text
                 }
                 else
                 {
-                    if ((c1 == null) && (c2 == null))
+                    if (c1 == null && c2 == null)
                     {
                         return 0;
                     }
-                    return (c1 != null)
+                    return c1 != null
                         ? 1
                         : -1;
                 }
@@ -1007,7 +1049,7 @@ namespace AM.Text
                 NumberText right
             )
         {
-            return (left < right)
+            return left < right
                 ? right
                 : left;
         }
@@ -1021,7 +1063,7 @@ namespace AM.Text
                 NumberText right
             )
         {
-            return (left < right)
+            return left < right
                 ? left
                 : right;
         }
@@ -1044,7 +1086,7 @@ namespace AM.Text
                 return false;
             }
 
-            return (left.CompareTo(right) == 0);
+            return left.CompareTo(right) == 0;
         }
 
         /// <summary>
@@ -1065,7 +1107,7 @@ namespace AM.Text
                 return false;
             }
 
-            return (left.CompareTo(right) == 0);
+            return left.CompareTo(right) == 0;
         }
 
         /// <summary>
@@ -1082,7 +1124,7 @@ namespace AM.Text
                 return false;
             }
 
-            return (left.CompareTo(right) == 0);
+            return left.CompareTo(right) == 0;
         }
 
         /// <summary>
@@ -1096,14 +1138,14 @@ namespace AM.Text
         {
             if (ReferenceEquals(left, null))
             {
-                return (!ReferenceEquals(right, null));
+                return !ReferenceEquals(right, null);
             }
             if (ReferenceEquals(right, null))
             {
                 return true;
             }
 
-            return (left.CompareTo(right) != 0);            
+            return left.CompareTo(right) != 0;            
         }
 
         /// <summary>
@@ -1117,14 +1159,14 @@ namespace AM.Text
         {
             if (ReferenceEquals(left, null))
             {
-                return (!ReferenceEquals(right, null));
+                return !ReferenceEquals(right, null);
             }
             if (ReferenceEquals(right, null))
             {
                 return true;
             }
 
-            return (left.CompareTo(right) != 0);
+            return left.CompareTo(right) != 0;
         }
 
         /// <summary>
@@ -1141,7 +1183,7 @@ namespace AM.Text
                 return true;
             }
 
-            return (left.CompareTo(right) != 0);
+            return left.CompareTo(right) != 0;
         }
 
         /// <summary>
@@ -1162,7 +1204,7 @@ namespace AM.Text
                 return false;
             }
 
-            return (left.CompareTo(right) < 0);
+            return left.CompareTo(right) < 0;
         }
 
         /// <summary>
@@ -1183,7 +1225,7 @@ namespace AM.Text
                 return false;
             }
 
-            return (left.CompareTo(right) < 0);
+            return left.CompareTo(right) < 0;
         }
 
         /// <summary>
@@ -1204,7 +1246,7 @@ namespace AM.Text
                 return false;
             }
 
-            return (left.CompareTo(right) <= 0);
+            return left.CompareTo(right) <= 0;
         }
 
         /// <summary>
@@ -1221,7 +1263,7 @@ namespace AM.Text
                 return true;
             }
 
-            return (left.CompareTo(right) < 0);
+            return left.CompareTo(right) < 0;
         }
 
         /// <summary>
@@ -1242,7 +1284,7 @@ namespace AM.Text
                 return true;
             }
 
-            return (left.CompareTo(right) > 0);
+            return left.CompareTo(right) > 0;
         }
 
         /// <summary>
@@ -1263,7 +1305,7 @@ namespace AM.Text
                 return true;
             }
 
-            return (left.CompareTo(right) > 0);
+            return left.CompareTo(right) > 0;
         }
 
         /// <summary>
@@ -1280,7 +1322,7 @@ namespace AM.Text
                 return false;
             }
 
-            return (left.CompareTo(right) > 0);
+            return left.CompareTo(right) > 0;
         }
 
         /// <summary>
@@ -1301,7 +1343,7 @@ namespace AM.Text
                 return true;
             }
 
-            return (left.CompareTo(right) >= 0);
+            return left.CompareTo(right) >= 0;
         }
 
         /// <summary>
@@ -1322,7 +1364,7 @@ namespace AM.Text
             {
                 return false;
             }
-            return (CompareTo(other) == 0);
+            return CompareTo(other) == 0;
         }
 
         /// <summary>
@@ -1353,7 +1395,7 @@ namespace AM.Text
         /// structures like a hash table.</returns>
         public override int GetHashCode()
         {
-            return (_chunks != null ? _chunks.GetHashCode() : 0);
+            return _chunks != null ? _chunks.GetHashCode() : 0;
         }
 
         #endregion
