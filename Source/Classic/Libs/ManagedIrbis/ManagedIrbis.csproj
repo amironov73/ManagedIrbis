@@ -121,6 +121,7 @@
     <Compile Include="Source\Caching\TextCache.cs" />
     <Compile Include="Source\Client\CatalogDelta.cs" />
     <Compile Include="Source\Client\CatalogState.cs" />
+    <Compile Include="Source\Client\ClientLM.cs" />
     <Compile Include="Source\Client\IrbisProvider.cs" />
     <Compile Include="Source\Client\Alias.cs" />
     <Compile Include="Source\Client\AliasManager.cs" />
