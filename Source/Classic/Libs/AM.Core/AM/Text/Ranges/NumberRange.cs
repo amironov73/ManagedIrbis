@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
-using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -141,14 +141,28 @@ namespace AM.Text.Ranges
 
             if (ReferenceEquals(Start, null))
             {
+                Log.Error
+                    (
+                        "NumberRange::Contains: "
+                        + "start is null"
+                    );
+
                 throw new ArsMagnaException("Start is null");
             }
+
             if (ReferenceEquals(Stop, null))
             {
+                Log.Error
+                    (
+                        "NumberRange::Contains: "
+                        + "stop is null"
+                    );
+
                 throw new ArsMagnaException("Stop is null");
             }
-            return ((Start.CompareTo(number) <= 0)
-                    && (number.CompareTo(Stop)) <= 0);
+
+            return Start.CompareTo(number) <= 0
+                   && number.CompareTo(Stop) <= 0;
         }
 
         /// <summary>
@@ -167,6 +181,12 @@ namespace AM.Text.Ranges
             navigator.SkipWhile(Delimiters);
             if (navigator.IsEOF)
             {
+                Log.Error
+                    (
+                        "NumberRange::Parse: "
+                        + "unexpected end of text"
+                    );
+
                 throw new FormatException();
             }
 
@@ -174,8 +194,15 @@ namespace AM.Text.Ranges
             string start = navigator.ReadUntil(DelimitersOrMinus);
             if (string.IsNullOrEmpty(start))
             {
+                Log.Error
+                    (
+                        "NumberRange::Parse: "
+                        + "start sequence not found"
+                    );
+
                 throw new FormatException();
             }
+
             navigator.SkipWhitespace();
             if (navigator.PeekChar() == '-')
             {
@@ -184,8 +211,15 @@ namespace AM.Text.Ranges
                 string stop = navigator.ReadUntil(DelimitersOrMinus);
                 if (string.IsNullOrEmpty(stop))
                 {
+                    Log.Error
+                        (
+                            "NumberRange::Parse: "
+                            + "stop sequence not found"
+                        );
+
                     throw new FormatException();
                 }
+
                 result = new NumberRange(start, stop);
             }
             else
@@ -193,8 +227,15 @@ namespace AM.Text.Ranges
                 result = new NumberRange(start);
             }
             navigator.SkipWhile(Delimiters);
+
             if (!navigator.IsEOF)
             {
+                Log.Error
+                    (
+                        "NumberRange::Parse: "
+                        + "garbage behind range"
+                    );
+
                 throw new FormatException();
             }
 
@@ -204,23 +245,33 @@ namespace AM.Text.Ranges
         /// <summary>
         /// Выполнение указанного действия на всём диапазоне.
         /// </summary>
-        /// <param name="action"></param>
         public void For
             (
-                Action<NumberText> action
+                [NotNull] Action<NumberText> action
             )
         {
+            Code.NotNull(action, "action");
+
             // ReSharper disable NotResolvedInText
-            if (ReferenceEquals(action, null))
-            {
-                throw new ArgumentNullException("action");
-            }
             if (ReferenceEquals(Start, null))
             {
+                Log.Error
+                    (
+                        "NumberRange::Parse: "
+                        + "start is null"
+                    );
+
                 throw new ArgumentNullException("Start");
             }
+
             if (ReferenceEquals(Stop, null))
             {
+                Log.Error
+                    (
+                        "NumberRange::Parse: "
+                        + "stop is null"
+                    );
+
                 throw new ArgumentNullException("Stop");
             }
             // ReSharper restore NotResolvedInText
@@ -259,7 +310,7 @@ namespace AM.Text.Ranges
         /// </summary>
         public bool IsEmpty ()
         {
-            return (Start > Stop);
+            return Start > Stop;
         }
 
         /// <summary>
@@ -315,10 +366,7 @@ namespace AM.Text.Ranges
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore object state from the specified stream.
-        /// </summary>
-        /// <param name="reader"></param>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -330,9 +378,7 @@ namespace AM.Text.Ranges
             Stop = reader.RestoreNullable<NumberText>();
         }
 
-        /// <summary>
-        /// Save object state to the specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -349,18 +395,10 @@ namespace AM.Text.Ranges
 
         #region IEquatable members
 
-        /// <summary>
-        /// Indicates whether the current object
-        /// is equal to another object of the same type.
-        /// </summary>
-        /// <param name="other">An object to compare
-        /// with this object.</param>
-        /// <returns>true if the current object is equal
-        /// to the <paramref name="other" /> parameter;
-        /// otherwise, false.</returns>
+        /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
         public bool Equals
             (
-                [NotNull] NumberRange other
+                NumberRange other
             )
         {
             Code.NotNull(other, "other");
@@ -370,6 +408,8 @@ namespace AM.Text.Ranges
             {
                 return false;
             }
+
+            other = other.ThrowIfNull("other");
 
             bool result = Start.Equals(other.Start)
                    && Stop.Equals(other.Stop);
@@ -381,9 +421,7 @@ namespace AM.Text.Ranges
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify the object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError

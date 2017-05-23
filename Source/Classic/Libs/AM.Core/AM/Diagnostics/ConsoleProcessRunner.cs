@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if !NETCORE && !PORTABLE
+#if !PORTABLE
 
 #region Using directives
 

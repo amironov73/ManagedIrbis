@@ -14,6 +14,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -53,6 +55,7 @@ namespace AM
             {
                 return item;
             }
+
             return defaultValue;
         }
 
@@ -170,7 +173,7 @@ namespace AM
         {
             Code.NotNull(sequence, "sequence");
 
-            return sequence.Where(value => value != null);
+            return sequence.Where(value => !ReferenceEquals(value, null));
         }
 
         /// <summary>
@@ -384,6 +387,13 @@ namespace AM
             Code.NotNull(sequence, "sequence");
             if (pieceSize <= 0)
             {
+                Log.Error
+                    (
+                        "Sequence::Slice: "
+                        + "pieceSize="
+                        + pieceSize
+                    );
+
                 throw new ArgumentOutOfRangeException("pieceSize");
             }
 

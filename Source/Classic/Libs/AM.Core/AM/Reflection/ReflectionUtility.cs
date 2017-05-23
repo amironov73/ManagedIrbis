@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 using AM.Logging;
 
@@ -41,6 +42,18 @@ namespace AM.Reflection
     public static class ReflectionUtility
     {
         #region Private members
+
+#if FW45
+
+        private const MethodImplOptions Aggressive
+            = MethodImplOptions.AggressiveInlining;
+
+#else
+
+        private const MethodImplOptions Aggressive
+            = (MethodImplOptions)0;
+
+#endif
 
         #endregion
 
@@ -72,6 +85,7 @@ namespace AM.Reflection
         /// </summary>
 #if NETCORE || UAP || PORTABLE || WIN81
 
+        [MethodImpl(Aggressive)]
         public static TypeInfo Bridge
             (
                 [NotNull] this Type type
@@ -84,6 +98,7 @@ namespace AM.Reflection
 
 #else
 
+        [MethodImpl(Aggressive)]
         public static Type Bridge
             (
                 [NotNull] this Type type

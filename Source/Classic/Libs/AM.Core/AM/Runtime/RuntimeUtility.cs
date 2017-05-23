@@ -7,13 +7,15 @@
  * Status: poor
  */
 
-#if CLASSIC
+#if CLASSIC || DROID || NETCORE
 
 #region Using directives
 
 using System;
 using System.Diagnostics;
 using System.IO;
+
+using AM.Reflection;
 
 using JetBrains.Annotations;
 
@@ -29,32 +31,32 @@ namespace AM.Runtime
     {
         #region Properties
 
-        ///// <summary>
-        ///// Путь к файлам текущей версии Net Framework.
-        ///// </summary>
-        ///// <remarks>
-        ///// Типичная выдача:
-        ///// C:\WINDOWS\Microsoft.NET\Framework\v2.0.50215
-        ///// </remarks>
-        //[NotNull]
-        //public static string FrameworkLocation
-        //{
-        //    get
-        //    {
-        //        string result = Path.GetDirectoryName
-        //            (
-        //                typeof(int).Assembly.Location
-        //            );
-        //        if (string.IsNullOrEmpty(result))
-        //        {
-        //            throw new ArsMagnaException
-        //                (
-        //                    "Can't determine framework location"
-        //                );
-        //        }
-        //        return result;
-        //    }
-        //}
+        /// <summary>
+        /// Путь к файлам текущей версии Net Framework.
+        /// </summary>
+        /// <remarks>
+        /// Типичная выдача:
+        /// C:\WINDOWS\Microsoft.NET\Framework\v2.0.50215
+        /// </remarks>
+        [NotNull]
+        public static string FrameworkLocation
+        {
+            get
+            {
+                string result = Path.GetDirectoryName
+                    (
+                        typeof(int).Bridge().Assembly.Location
+                    );
+                if (string.IsNullOrEmpty(result))
+                {
+                    throw new ArsMagnaException
+                        (
+                            "Can't determine framework location"
+                        );
+                }
+                return result;
+            }
+        }
 
         /// <summary>
         /// Имя исполняемого процесса.
@@ -66,6 +68,7 @@ namespace AM.Runtime
             {
                 Process process = Process.GetCurrentProcess();
                 ProcessModule module = process.MainModule;
+
                 return module.FileName;
             }
         }

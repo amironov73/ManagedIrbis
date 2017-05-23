@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if CLASSIC || DROID
+
 #region Using directives
 
 using System;
@@ -25,8 +27,6 @@ using MoonSharp.Interpreter;
 
 namespace AM.Resources
 {
-#if NOTDEF
-
     /// <summary>
     /// Localization manager. Inspired by same name RSDN code.
     /// </summary>
@@ -251,6 +251,6 @@ namespace AM.Resources
 
         #endregion
     }
+}
 
 #endif
-}

@@ -11,7 +11,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-//using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 
 using AM;
 
@@ -27,6 +27,22 @@ namespace CodeJam
     [PublicAPI]
     public static class Code
     {
+        #region Private members
+
+#if FW45
+
+        private const MethodImplOptions Aggressive
+            = MethodImplOptions.AggressiveInlining;
+
+#else
+
+        private const MethodImplOptions Aggressive
+            = (MethodImplOptions)0;
+
+#endif
+
+        #endregion
+
         #region My additions
 
         /// <summary>
@@ -108,8 +124,8 @@ namespace CodeJam
                 [NotNull, InvokerParameterName] string argumentName
             )
         {
-            if ((argument < from)
-                 || (argument > to))
+            if (argument < @from
+                 || argument > to)
             {
                 throw new ArgumentOutOfRangeException(argumentName);
             }
@@ -126,6 +142,7 @@ namespace CodeJam
         [DebuggerHidden]
         [AssertionMethod]
         [Conditional("DEBUG")]
+        [MethodImpl(Aggressive)]
         public static void Nonnegative
             (
                 int argument,
@@ -149,6 +166,7 @@ namespace CodeJam
         [DebuggerHidden]
         [AssertionMethod]
         [Conditional("DEBUG")]
+        [MethodImpl(Aggressive)]
         public static void Nonnegative
             (
                 long argument,
@@ -172,6 +190,7 @@ namespace CodeJam
         [DebuggerHidden]
         [AssertionMethod]
         [Conditional("DEBUG")]
+        [MethodImpl(Aggressive)]
         public static void Nonnegative
             (
                 double argument,
@@ -195,6 +214,7 @@ namespace CodeJam
         [DebuggerHidden]
         [AssertionMethod]
         [Conditional("DEBUG")]
+        [MethodImpl(Aggressive)]
         public static void Positive
             (
                 int argument,
@@ -218,6 +238,7 @@ namespace CodeJam
         [DebuggerHidden]
         [AssertionMethod]
         [Conditional("DEBUG")]
+        [MethodImpl(Aggressive)]
         public static void Positive
             (
                 double argument,
@@ -391,6 +412,7 @@ namespace CodeJam
         [DebuggerHidden]
         [AssertionMethod]
         [Conditional("DEBUG")]
+        [MethodImpl(Aggressive)]
         public static void NotNull<T>
             (
                 [CanBeNull, NoEnumeration] T arg,
@@ -410,6 +432,7 @@ namespace CodeJam
         [DebuggerHidden]
         [AssertionMethod]
         [Conditional("DEBUG")]
+        [MethodImpl(Aggressive)]
         public static void NotNull<T>
             (
                 [CanBeNull] T? arg,
@@ -428,6 +451,7 @@ namespace CodeJam
         [DebuggerHidden]
         [AssertionMethod]
         [Conditional("DEBUG")]
+        [MethodImpl(Aggressive)]
         public static void NotNullNorEmpty
             (
                 [CanBeNull] string arg,
@@ -446,6 +470,7 @@ namespace CodeJam
         [DebuggerHidden]
         [AssertionMethod]
         [Conditional("DEBUG")]
+        [MethodImpl(Aggressive)]
         public static void AssertArgument
             (
                 bool condition,
@@ -465,6 +490,7 @@ namespace CodeJam
         [DebuggerHidden]
         [AssertionMethod]
         [Conditional("DEBUG")]
+        [MethodImpl(Aggressive)]
         public static void AssertArgument
             (
                 bool condition,
@@ -490,6 +516,7 @@ namespace CodeJam
         [DebuggerHidden]
         [AssertionMethod, StringFormatMethod("messageFormat")]
         [Conditional("DEBUG")]
+        [MethodImpl(Aggressive)]
         public static void AssertArgument
             (
                 bool condition,
@@ -671,6 +698,7 @@ namespace CodeJam
         [DebuggerHidden]
         [AssertionMethod]
         [Conditional("DEBUG")]
+        [MethodImpl(Aggressive)]
         public static void AssertState
             (
                 bool condition,
@@ -690,6 +718,7 @@ namespace CodeJam
         [AssertionMethod]
         [StringFormatMethod("messageFormat")]
         [Conditional("DEBUG")]
+        [MethodImpl(Aggressive)]
         public static void AssertState
             (
                 bool condition,
