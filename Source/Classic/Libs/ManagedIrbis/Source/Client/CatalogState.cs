@@ -34,9 +34,11 @@ namespace ManagedIrbis.Client
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE
     [DebuggerDisplay("{Database}")]
+#endif
     public sealed class CatalogState
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !WINMOBILE
         : IHandmadeSerializable
 #endif
     {
@@ -105,7 +107,7 @@ namespace ManagedIrbis.Client
 
         #region IHandmadeSerializable
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !WINMOBILE
 
         /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
         public void RestoreFromStream

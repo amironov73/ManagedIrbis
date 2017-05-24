@@ -23,7 +23,15 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
+#if WINMOBILE || PocketPC
+
+using CM = OpenNETCF.Configuration.ConfigurationSettings;
+
+#else
+
 using CM = System.Configuration.ConfigurationManager;
+
+#endif
 
 #endregion
 
@@ -92,15 +100,17 @@ namespace AM.Configuration
         public static bool GetBoolean
             (
                 [NotNull] string key,
-                bool defaultValue = false
+                bool defaultValue
             )
         {
+            bool result = defaultValue;
             string s = CM.AppSettings[key];
             if (!string.IsNullOrEmpty(s))
             {
-                defaultValue = ConversionUtility.ToBoolean(s);
+                result = ConversionUtility.ToBoolean(s);
             }
-            return defaultValue;
+
+            return result;
         }
 
         /// <summary>
@@ -109,20 +119,30 @@ namespace AM.Configuration
         public static short GetInt16
             (
                 [NotNull] string key,
-                short defaultValue = 0
+                short defaultValue
             )
         {
+            short result = defaultValue;
             string s = CM.AppSettings[key];
+
             if (!string.IsNullOrEmpty(s))
             {
-                defaultValue = short.Parse
+#if WINMOBILE
+
+                result = short.Parse(s);
+
+#else
+
+                result = short.Parse
                     (
                         s,
                         _FormatProvider
                     );
+
+#endif
             }
 
-            return defaultValue;
+            return result;
         }
 
         /// <summary>
@@ -132,20 +152,29 @@ namespace AM.Configuration
         public static ushort GetUInt16
             (
                 [NotNull] string key,
-                ushort defaultValue = 0
+                ushort defaultValue
             )
         {
+            ushort result = defaultValue;
             string s = CM.AppSettings[key];
             if (!string.IsNullOrEmpty(s))
             {
-                defaultValue = ushort.Parse
+#if WINMOBILE
+
+                result = ushort.Parse(s);
+
+#else
+
+                result = ushort.Parse
                     (
                         s,
                         _FormatProvider
                     );
+
+#endif
             }
 
-            return defaultValue;
+            return result;
         }
 
         /// <summary>
@@ -155,19 +184,28 @@ namespace AM.Configuration
         public static int GetInt32
             (
                 [NotNull] string key,
-                int defaultValue = 0
+                int defaultValue
             )
         {
+            int result = defaultValue;
             string s = CM.AppSettings[key];
             if (!string.IsNullOrEmpty(s))
             {
-                defaultValue = int.Parse
+#if WINMOBILE
+
+                result = int.Parse(s);
+
+#else
+
+                result = int.Parse
                     (
                         s,
                         _FormatProvider
                     );
+#endif
             }
-            return defaultValue;
+
+            return result;
         }
 
         /// <summary>
@@ -178,20 +216,29 @@ namespace AM.Configuration
         public static uint GetUInt32
             (
                 [NotNull] string key,
-                uint defaultValue = 0U
+                uint defaultValue
             )
         {
+            uint result = defaultValue;
             string s = CM.AppSettings[key];
             if (!string.IsNullOrEmpty(s))
             {
-                defaultValue = uint.Parse
+#if WINMOBILE
+
+                result = uint.Parse(s);
+
+#else
+
+                result = uint.Parse
                     (
                         s,
                         _FormatProvider
                     );
+
+#endif
             }
 
-            return defaultValue;
+            return result;
         }
 
         /// <summary>
@@ -201,19 +248,29 @@ namespace AM.Configuration
         public static long GetInt64
             (
                 [NotNull] string key,
-                long defaultValue = 0L
+                long defaultValue
             )
         {
+            long result = defaultValue;
             string s = CM.AppSettings[key];
             if (!string.IsNullOrEmpty(s))
             {
-                defaultValue = long.Parse
+#if WINMOBILE
+
+                result = long.Parse(s);
+
+#else
+
+                result = long.Parse
                     (
                         s,
                         _FormatProvider
                     );
+
+#endif
             }
-            return defaultValue;
+
+            return result;
         }
 
         /// <summary>
@@ -224,92 +281,122 @@ namespace AM.Configuration
         public static ulong GetUInt64
             (
                 [NotNull] string key,
-                ulong defaultValue = 0UL
+                ulong defaultValue
             )
         {
+            ulong result = defaultValue;
             string s = CM.AppSettings[key];
             if (!string.IsNullOrEmpty(s))
             {
-                defaultValue = ulong.Parse
+#if WINMOBILE
+
+                result = ulong.Parse(s);
+
+#else
+
+                result = ulong.Parse
                     (
                         s,
                         _FormatProvider
                     );
+
+#endif
             }
 
-            return defaultValue;
+            return result;
         }
 
         /// <summary>
         /// Get single-precision float value from application configuration.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
         public static float GetSingle
             (
                 [NotNull] string key,
-                float defaultValue = 0.0f
+                float defaultValue
             )
         {
+            float result = defaultValue;
             string s = CM.AppSettings[key];
             if (!string.IsNullOrEmpty(s))
             {
-                defaultValue = float.Parse
+#if WINMOBILE
+
+                result = float.Parse(s);
+
+#else
+
+                result = float.Parse
                     (
                         s,
                         _FormatProvider
                     );
+
+#endif
             }
-            return defaultValue;
+
+            return result;
         }
 
         /// <summary>
         /// Get double-precision float value from application configuration.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
         public static double GetDouble
             (
                 [NotNull] string key,
-                double defaultValue = 0.0
+                double defaultValue
             )
         {
+            double result = defaultValue;
             string s = CM.AppSettings[key];
             if (!string.IsNullOrEmpty(s))
             {
-                defaultValue = double.Parse
+#if WINMOBILE
+
+                result = double.Parse(s);
+
+#else
+
+                result = double.Parse
                     (
                         s,
                         _FormatProvider
                     );
+
+#endif
             }
-            return defaultValue;
+
+            return result;
         }
 
         /// <summary>
         /// Get decimal value from application configuration.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
         public static decimal GetDecimal
             (
                 [NotNull] string key,
-                decimal defaultValue = 0.0m
+                decimal defaultValue
             )
         {
+            decimal result = defaultValue;
             string s = CM.AppSettings[key];
             if (!string.IsNullOrEmpty(s))
             {
-                defaultValue = decimal.Parse
+#if WINMOBILE
+
+                result = decimal.Parse(s);
+
+#else
+
+                result = decimal.Parse
                     (
                         s,
                         _FormatProvider
                     );
+
+#endif
             }
-            return defaultValue;
+
+            return result;
         }
 
         /// <summary>
@@ -319,18 +406,19 @@ namespace AM.Configuration
         public static string GetString
             (
                 [NotNull] string key,
-                [CanBeNull] string defaultValue = null
+                [CanBeNull] string defaultValue
             )
         {
             Code.NotNullNorEmpty(key, "key");
 
+            string result = defaultValue;
             string s = CM.AppSettings[key];
             if (!string.IsNullOrEmpty(s))
             {
-                defaultValue = s;
+                result = s;
             }
 
-            return defaultValue;
+            return result;
         }
 
         /// <summary>
@@ -344,7 +432,7 @@ namespace AM.Configuration
         {
             Code.NotNullNorEmpty(key, "key");
 
-            string result = GetString(key);
+            string result = GetString(key, null);
 
             if (ReferenceEquals(result, null))
             {

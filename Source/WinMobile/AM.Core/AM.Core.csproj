@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5EB159AC-C548-4B35-AE16-A173983F5A98}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -50,7 +50,20 @@
     <DocumentationFile>bin\Release\AM.Core.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.WindowsMobile.Configuration, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="mscorlib" />
+    <Reference Include="OpenNETCF, Version=2.3.12317.0, Culture=neutral, PublicKeyToken=e60dbea84bb431b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\OpenNETCF\OpenNETCF.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenNETCF.AppSettings, Version=2.3.12317.0, Culture=neutral, PublicKeyToken=e60dbea84bb431b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\OpenNETCF\OpenNETCF.AppSettings.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenNETCF.Configuration, Version=2.3.12317.0, Culture=neutral, PublicKeyToken=e60dbea84bb431b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\OpenNETCF\OpenNETCF.Configuration.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -179,6 +192,24 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ComparableObject.cs">
       <Link>AM\ComparableObject.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Configuration\ConfigurationUtility.cs">
+      <Link>AM\Configuration\ConfigurationUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ConsoleIO\ConsoleInput.cs">
+      <Link>AM\ConsoleIO\ConsoleInput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ConsoleIO\IConsoleDriver.cs">
+      <Link>AM\ConsoleIO\IConsoleDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ConsoleIO\InputHistory.cs">
+      <Link>AM\ConsoleIO\InputHistory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ConsoleIO\NullConsole.cs">
+      <Link>AM\ConsoleIO\NullConsole.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ConsoleIO\SystemConsole.cs">
+      <Link>AM\ConsoleIO\SystemConsole.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ConsoleUtility.cs">
       <Link>AM\ConsoleUtility.cs</Link>
     </Compile>
@@ -209,14 +240,35 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ExceptionEventArgs.cs">
       <Link>AM\ExceptionEventArgs.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ExceptionEventArgsT.cs">
+      <Link>AM\ExceptionEventArgsT.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\FuncUtility.cs">
       <Link>AM\FuncUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Globalization\BuiltinCultures.cs">
+      <Link>AM\Globalization\BuiltinCultures.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Globalization\CultureCode.cs">
+      <Link>AM\Globalization\CultureCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Globalization\CultureSaver.cs">
+      <Link>AM\Globalization\CultureSaver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Globalization\RussianStringComparer.cs">
+      <Link>AM\Globalization\RussianStringComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Globalization\UICultureSaver.cs">
+      <Link>AM\Globalization\UICultureSaver.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IAttachmentContainer.cs">
       <Link>AM\IAttachmentContainer.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\InquiryEventArgs.cs">
       <Link>AM\InquiryEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IOC\ServiceRepository.cs">
+      <Link>AM\IOC\ServiceRepository.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\BinaryReaderUtility.cs">
       <Link>AM\IO\BinaryReaderUtility.cs</Link>
@@ -263,6 +315,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\PathUtility.cs">
       <Link>AM\IO\PathUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\SafeSaveStream.cs">
+      <Link>AM\IO\SafeSaveStream.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\StreamPacker.cs">
       <Link>AM\IO\StreamPacker.cs</Link>
     </Compile>
@@ -271,6 +326,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\TextReaderUtility.cs">
       <Link>AM\IO\TextReaderUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\TextWriterUtility.cs">
+      <Link>AM\IO\TextWriterUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\VersionStream.cs">
       <Link>AM\IO\VersionStream.cs</Link>
@@ -283,6 +341,30 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IVerifiable.cs">
       <Link>AM\IVerifiable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Logging\ConsoleLogger.cs">
+      <Link>AM\Logging\ConsoleLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Logging\DebugLogger.cs">
+      <Link>AM\Logging\DebugLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Logging\FileLogger.cs">
+      <Link>AM\Logging\FileLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Logging\IAmLogger.cs">
+      <Link>AM\Logging\IAmLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Logging\Log.cs">
+      <Link>AM\Logging\Log.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Logging\NullLogger.cs">
+      <Link>AM\Logging\NullLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Logging\TeeLogger.cs">
+      <Link>AM\Logging\TeeLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Logging\TraceLogger.cs">
+      <Link>AM\Logging\TraceLogger.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\MessageEventArgs.cs">
       <Link>AM\MessageEventArgs.cs</Link>
@@ -322,6 +404,33 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reference.cs">
       <Link>AM\Reference.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\AssemblyUtility.cs">
+      <Link>AM\Reflection\AssemblyUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\EnumMemberInfo.cs">
+      <Link>AM\Reflection\EnumMemberInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\FieldAccessor.cs">
+      <Link>AM\Reflection\FieldAccessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\PropertyAccessor.cs">
+      <Link>AM\Reflection\PropertyAccessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\PropertyOrField.cs">
+      <Link>AM\Reflection\PropertyOrField.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\PublicKeyTokens.cs">
+      <Link>AM\Reflection\PublicKeyTokens.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\ReflectionUtility.cs">
+      <Link>AM\Reflection\ReflectionUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\TaggedClassAttribute.cs">
+      <Link>AM\Reflection\TaggedClassAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\TaggedClassCollector.cs">
+      <Link>AM\Reflection\TaggedClassCollector.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\RetryManager.cs">
       <Link>AM\RetryManager.cs</Link>
@@ -430,6 +539,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\RussianFormat.cs">
       <Link>AM\Runtime\RussianFormat.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\SourceCodeUtility.cs">
+      <Link>AM\Text\SourceCodeUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\StreamParser.cs">
       <Link>AM\Text\StreamParser.cs</Link>
@@ -544,9 +656,6 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\Newtonsoft.cs">
       <Link>Compability\Newtonsoft.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\Reflection.cs">
-      <Link>Compability\Reflection.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\StringBuilderCompability.cs">
       <Link>Compability\StringBuilderCompability.cs</Link>

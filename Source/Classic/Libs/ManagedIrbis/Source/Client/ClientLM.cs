@@ -179,7 +179,7 @@ namespace ManagedIrbis.Client
                 }
             }
 
-            string result = Encoding.GetString(raw);
+            string result = Encoding.GetString(raw, 0, raw.Length);
 
             return result;
         }

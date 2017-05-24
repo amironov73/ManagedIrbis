@@ -34,7 +34,7 @@ namespace AM.ConsoleIO
         {
             get
             {
-#if UAP || WIN81 || PORTABLE || SILVERLIGHT
+#if UAP || WIN81 || PORTABLE || SILVERLIGHT || WINMOBILE
                 return ConsoleColor.Black;
 #else
                 return Console.BackgroundColor;
@@ -42,7 +42,7 @@ namespace AM.ConsoleIO
             }
             set
             {
-#if !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT
+#if !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT && !WINMOBILE
                 Console.BackgroundColor = value;
 #endif
             }
@@ -53,7 +53,7 @@ namespace AM.ConsoleIO
         {
             get
             {
-#if UAP || WIN81 || PORTABLE || SILVERLIGHT
+#if UAP || WIN81 || PORTABLE || SILVERLIGHT || WINMOBILE
                 return ConsoleColor.White;
 #else
                 return Console.ForegroundColor;
@@ -61,7 +61,7 @@ namespace AM.ConsoleIO
             }
             set
             {
-#if !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT
+#if !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT && !WINMOBILE
                 Console.ForegroundColor = value;
 #endif
             }
@@ -72,7 +72,7 @@ namespace AM.ConsoleIO
         {
             get
             {
-#if UAP || WIN81 || PORTABLE || SILVERLIGHT
+#if UAP || WIN81 || PORTABLE || SILVERLIGHT || WINMOBILE
                 return false;
 #else
                 return Console.KeyAvailable;
@@ -85,7 +85,7 @@ namespace AM.ConsoleIO
         {
             get
             {
-#if UAP || WIN81 || PORTABLE || SILVERLIGHT
+#if UAP || WIN81 || PORTABLE || SILVERLIGHT || WINMOBILE
                 return string.Empty;
 #else
                 return Console.Title;
@@ -93,7 +93,7 @@ namespace AM.ConsoleIO
             }
             set
             {
-#if !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT
+#if !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT && !WINMOBILE
                 Console.Title = value;
 #endif
             }
@@ -102,7 +102,7 @@ namespace AM.ConsoleIO
         /// <inheritdoc cref="IConsoleDriver.Clear" />
         public void Clear()
         {
-#if !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT
+#if !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT && !WINMOBILE
             Console.Clear();
 #endif
         }
@@ -110,7 +110,7 @@ namespace AM.ConsoleIO
         /// <inheritdoc cref="IConsoleDriver.Read" />
         public int Read()
         {
-#if UAP || WIN81 || PORTABLE || SILVERLIGHT
+#if UAP || WIN81 || PORTABLE || SILVERLIGHT || WINMOBILE
             return -1;
 #else
             return Console.Read();
@@ -123,7 +123,7 @@ namespace AM.ConsoleIO
                 bool intercept
             )
         {
-#if UAP || WIN81 || PORTABLE || SILVERLIGHT
+#if UAP || WIN81 || PORTABLE || SILVERLIGHT || WINMOBILE
             return new ConsoleKeyInfo();
 #else
             return Console.ReadKey(intercept);
@@ -133,7 +133,7 @@ namespace AM.ConsoleIO
         /// <inheritdoc cref="IConsoleDriver.ReadLine" />
         public string ReadLine()
         {
-#if UAP || WIN81 || PORTABLE || SILVERLIGHT
+#if UAP || WIN81 || PORTABLE || SILVERLIGHT || WINMOBILE
             return null;
 #else
             return Console.ReadLine();
@@ -146,7 +146,7 @@ namespace AM.ConsoleIO
                 string text
             )
         {
-#if !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT
+#if !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT && !WINMOBILE
             if (!string.IsNullOrEmpty(text))
             {
                 Console.Write(text);
@@ -157,7 +157,7 @@ namespace AM.ConsoleIO
         /// <inheritdoc cref="IConsoleDriver.WriteLine" />
         public void WriteLine()
         {
-#if !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT
+#if !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT && !WINMOBILE
             Console.WriteLine();
 #endif
         }

@@ -30,6 +30,12 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
+#if WINMOBILE
+
+using OpenNETCF.IO;
+
+#endif
+
 #endregion
 
 namespace ManagedIrbis.Client
@@ -168,10 +174,19 @@ namespace ManagedIrbis.Client
                 Name = fileName
             };
 
-            result._list.AddRange
-                (
-                    File.ReadAllLines(fileName, encoding)
-                );
+            string[] lines;
+
+#if WINMOBILE
+
+            lines = FileHelper.ReadAllLines(fileName, encoding);
+
+#else
+
+            lines = File.ReadAllLines(fileName, encoding)
+
+#endif
+
+            result._list.AddRange(lines);
 
             return result;
         }

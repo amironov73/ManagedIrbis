@@ -16,6 +16,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
+using AM.IO;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -288,28 +290,28 @@ namespace ManagedIrbis.Direct
             Code.NotNullNorEmpty(path, "path");
 
             string cntFile = path + ".cnt";
-            File.WriteAllBytes(cntFile, _cntContent32);
+            FileUtility.WriteAllBytes(cntFile, _cntContent32);
 
             string ifpFile = path + ".ifp";
-            File.WriteAllBytes(ifpFile, _ifpContent32);
+            FileUtility.WriteAllBytes(ifpFile, _ifpContent32);
 
             string l01File = path + ".l01";
-            File.WriteAllBytes(l01File, _l01Content32);
+            FileUtility.WriteAllBytes(l01File, _l01Content32);
 
             string l02File = path + ".l02";
-            File.WriteAllBytes(l02File, _l02Content32);
+            FileUtility.WriteAllBytes(l02File, _l02Content32);
 
             string mstFile = path + ".mst";
-            File.WriteAllBytes(mstFile, _mstContent32);
+            FileUtility.WriteAllBytes(mstFile, _mstContent32);
 
             string n01File = path + ".n01";
-            File.WriteAllBytes(n01File, _n01Content32);
+            FileUtility.WriteAllBytes(n01File, _n01Content32);
 
             string n02File = path + ".n02";
-            File.WriteAllBytes(n02File, _n02Content32);
+            FileUtility.WriteAllBytes(n02File, _n02Content32);
 
             string xrfFile = path + ".xrf";
-            File.WriteAllBytes(xrfFile, _xrfContent32);
+            FileUtility.WriteAllBytes(xrfFile, _xrfContent32);
         }
 
         /// <summary>
@@ -323,19 +325,19 @@ namespace ManagedIrbis.Direct
             Code.NotNullNorEmpty(path, "path");
 
             string ifpFile = path + ".ifp";
-            File.WriteAllBytes(ifpFile, _ifpContent64);
+            FileUtility.WriteAllBytes(ifpFile, _ifpContent64);
 
             string l01File = path + ".l01";
-            File.WriteAllBytes(l01File, _l01Content64);
+            FileUtility.WriteAllBytes(l01File, _l01Content64);
 
             string mstFile = path + ".mst";
-            File.WriteAllBytes(mstFile, _mstContent64);
+            FileUtility.WriteAllBytes(mstFile, _mstContent64);
 
             string n01File = path + ".n01";
-            File.WriteAllBytes(n01File, _n01Content64);
+            FileUtility.WriteAllBytes(n01File, _n01Content64);
 
             string xrfFile = path + ".xrf";
-            File.WriteAllBytes(xrfFile, _xrfContent64);
+            FileUtility.WriteAllBytes(xrfFile, _xrfContent64);
         }
 
         #endregion

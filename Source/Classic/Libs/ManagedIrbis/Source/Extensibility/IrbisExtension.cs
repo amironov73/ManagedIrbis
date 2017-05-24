@@ -140,7 +140,8 @@ namespace ManagedIrbis.Extensibility
                 bytes.Add(b);
             }
 
-            string result = IrbisEncoding.Utf8.GetString(bytes.ToArray());
+            byte[] array = bytes.ToArray();
+            string result = IrbisEncoding.Utf8.GetString(array, 0, array.Length);
 
             return result;
         }

@@ -40,7 +40,7 @@ namespace ManagedIrbis.Client
     [MoonSharpUserData]
     [XmlRoot("catalogDelta")]
     public sealed class CatalogDelta
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !WINMOBILE
         : IHandmadeSerializable
 #endif
     {
@@ -203,7 +203,7 @@ namespace ManagedIrbis.Client
 
         #region IHandmadeSerializable
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !WINMOBILE
 
         /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
         public void RestoreFromStream

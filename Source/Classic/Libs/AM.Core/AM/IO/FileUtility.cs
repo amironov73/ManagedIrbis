@@ -24,6 +24,12 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
+#if WINMOBILE
+
+using OpenNETCF.IO;
+
+#endif
+
 #endregion
 
 namespace AM.IO
@@ -367,6 +373,32 @@ namespace AM.IO
 
 #endif
 
+        }
+
+        /// <summary>
+        /// Write all the bytes to the file.
+        /// </summary>
+        public static void WriteAllBytes
+            (
+                [NotNull] string fileName,
+                [NotNull] byte[] bytes
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNull(bytes, "bytes");
+
+#if WINMOBILE
+
+            using (FileStream stream = new FileStream(fileName, FileMode.Create))
+            {
+                stream.Write(bytes, 0, bytes.Length);
+            }
+
+#else
+
+            File.WriteAllBytes(fileName, bytes);
+
+#endif
         }
 
         #endregion

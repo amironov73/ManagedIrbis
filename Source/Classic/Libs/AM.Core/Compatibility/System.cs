@@ -62,7 +62,7 @@ namespace System
 
 #endif
 
-#if UAP || WIN81 || PORTABLE || SILVERLIGHT
+#if UAP || WIN81 || PORTABLE || SILVERLIGHT || WINMOBILE || PocketPC
 
 namespace System
 {
@@ -681,10 +681,6 @@ namespace System
         ///
         /// </summary>
         Oem7,
-
-        /// <summary>
-        ///
-        /// </summary>
 
         /// <summary>
         ///

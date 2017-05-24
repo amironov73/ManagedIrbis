@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if CLASSIC || DROID || NETCORE
+#if CLASSIC || DROID || NETCORE || WINMOBILE
 
 #region Using directives
 
@@ -43,6 +43,11 @@ namespace AM.Runtime
         {
             get
             {
+#if WINMOBILE
+                throw new NotImplementedException();
+
+#else
+
                 string result = Path.GetDirectoryName
                     (
                         typeof(int).Bridge().Assembly.Location
@@ -54,7 +59,10 @@ namespace AM.Runtime
                             "Can't determine framework location"
                         );
                 }
+
                 return result;
+
+#endif
             }
         }
 
@@ -66,10 +74,18 @@ namespace AM.Runtime
         {
             get
             {
+#if WINMOBILE
+
+                throw new NotImplementedException();
+
+#else
+
                 Process process = Process.GetCurrentProcess();
                 ProcessModule module = process.MainModule;
 
                 return module.FileName;
+
+#endif
             }
         }
 

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{2A9B1508-57AB-493D-B478-A78F9AFAD27B}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -83,6 +83,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Batch\BatchRecordWriter.cs">
       <Link>Source\Batch\BatchRecordWriter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Batch\BatchSearcher.cs">
+      <Link>Source\Batch\BatchSearcher.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Caching\IrbisCache.cs">
       <Link>Source\Caching\IrbisCache.cs</Link>
     </Compile>
@@ -97,6 +100,15 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ClientInfo.cs">
       <Link>Source\ClientInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\CatalogDelta.cs">
+      <Link>Source\Client\CatalogDelta.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\CatalogState.cs">
+      <Link>Source\Client\CatalogState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\ClientLM.cs">
+      <Link>Source\Client\ClientLM.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\IrbisProvider.cs">
       <Link>Source\Client\IrbisProvider.cs</Link>
@@ -116,8 +128,26 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\LocalProvider.cs">
       <Link>Source\Client\LocalProvider.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\MessageFile.cs">
+      <Link>Source\Client\MessageFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\NullProvider.cs">
+      <Link>Source\Client\NullProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\ProviderManager.cs">
+      <Link>Source\Client\ProviderManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\RecordState.cs">
+      <Link>Source\Client\RecordState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\RecordStateComparer.cs">
+      <Link>Source\Client\RecordStateComparer.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\RemoteCatalogerIniFile.cs">
       <Link>Source\Client\RemoteCatalogerIniFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ConnectionElement.cs">
+      <Link>Source\ConnectionElement.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ConnectionSettings.cs">
       <Link>Source\ConnectionSettings.cs</Link>
@@ -133,6 +163,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectReader64.cs">
       <Link>Source\Direct\DirectReader64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectUtility.cs">
+      <Link>Source\Direct\DirectUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\IfpRecord.cs">
       <Link>Source\Direct\IfpRecord.cs</Link>
@@ -200,6 +233,15 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\EmbeddedField.cs">
       <Link>Source\EmbeddedField.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Extensibility\ExtensionInfo.cs">
+      <Link>Source\Extensibility\ExtensionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Extensibility\ExtensionManager.cs">
+      <Link>Source\Extensibility\ExtensionManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Extensibility\IrbisExtension.cs">
+      <Link>Source\Extensibility\IrbisExtension.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FieldIndicator.cs">
       <Link>Source\FieldIndicator.cs</Link>
     </Compile>
@@ -223,6 +265,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ExternalResource.cs">
       <Link>Source\Fields\ExternalResource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\FieldFilter.cs">
+      <Link>Source\Fields\FieldFilter.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\RevisionInfo.cs">
       <Link>Source\Fields\RevisionInfo.cs</Link>
@@ -499,6 +544,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\AbstractClientSocket.cs">
       <Link>Source\Infrastructure\Sockets\AbstractClientSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\ClientSocketUtility.cs">
+      <Link>Source\Infrastructure\Sockets\ClientSocketUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\FakeClientSocket.cs">
       <Link>Source\Infrastructure\Sockets\FakeClientSocket.cs</Link>
@@ -1298,6 +1346,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\ISearchTree.cs">
       <Link>Source\Search\Infrastructure\ISearchTree.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchContext.cs">
+      <Link>Source\Search\Infrastructure\SearchContext.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchLevel0.cs">
       <Link>Source\Search\Infrastructure\SearchLevel0.cs</Link>
     </Compile>
@@ -1349,6 +1400,12 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchTokenList.cs">
       <Link>Source\Search\Infrastructure\SearchTokenList.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\TermLinkComparer.cs">
+      <Link>Source\Search\Infrastructure\TermLinkComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\KeywordPermutator.cs">
+      <Link>Source\Search\KeywordPermutator.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\PostingParameters.cs">
       <Link>Source\Search\PostingParameters.cs</Link>
     </Compile>
@@ -1372,6 +1429,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\SearchSyntaxException.cs">
       <Link>Source\Search\SearchSyntaxException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\SearchUtility.cs">
+      <Link>Source\Search\SearchUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\TermInfo.cs">
       <Link>Source\Search\TermInfo.cs</Link>

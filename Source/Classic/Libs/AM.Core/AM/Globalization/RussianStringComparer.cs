@@ -110,6 +110,47 @@ namespace AM.Globalization
 
         #endregion
 
+#if WINMOBILE || PocketPC
+
+        ///<inheritdoc/>
+        public override int Compare
+            (
+                object x,
+                object y
+            )
+        {
+            return Compare
+                (
+                    (string)x,
+                    (string)y
+                );
+        }
+
+        ///<inheritdoc/>
+        public override bool Equals
+            (
+                object x,
+                object y
+            )
+        {
+            return Equals
+                (
+                    (string)x,
+                    (string)y
+                );
+        }
+
+        ///<inheritdoc/>
+        public override int GetHashCode
+            (
+                object obj
+            )
+        {
+            return GetHashCode((string)obj);
+        }
+
+#endif
+
         ///<inheritdoc/>
         public override int Compare
             (

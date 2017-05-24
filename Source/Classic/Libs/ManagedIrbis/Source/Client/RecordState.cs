@@ -37,7 +37,9 @@ namespace ManagedIrbis.Client
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("record")]
+#if !WINMOBILE
     [DebuggerDisplay("{Mfn} {Status} {Version}")]
+#endif
     public struct RecordState
         : IHandmadeSerializable
     {
@@ -107,11 +109,22 @@ namespace ManagedIrbis.Client
 
             RecordState result = new RecordState();
 
-            string[] parts = line.Split
+            string[] parts;
+
+#if WINMOBILE
+
+            parts = line.Split(_delimiters);
+
+#else
+
+            parts = line.Split
                 (
                     _delimiters,
                     StringSplitOptions.RemoveEmptyEntries
                 );
+
+#endif
+
             if (parts.Length < 5)
             {
                 Log.Trace
