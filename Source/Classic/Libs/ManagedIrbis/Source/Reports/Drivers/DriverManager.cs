@@ -90,7 +90,7 @@ namespace ManagedIrbis.Reports
         {
             Registry = new Dictionary<string, Type>
             {
-#if !NETCORE
+#if !NETCORE && !WINMOBILE
 
                 { Dataset, typeof(DatasetDriver) },
 

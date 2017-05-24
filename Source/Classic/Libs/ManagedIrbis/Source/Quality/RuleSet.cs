@@ -155,7 +155,7 @@ namespace ManagedIrbis.Quality
             return result;
         }
 
-#if !PORTABLE
+#if !PORTABLE && !WINMOBILE
 
         /// <summary>
         /// Load set of rules from the specified file.
@@ -191,7 +191,7 @@ namespace ManagedIrbis.Quality
 
 #endif
 
-#if !NETCORE && !PORTABLE
+#if !NETCORE && !PORTABLE && !WINMOBILE
 
         /// <summary>
         /// Регистрируем все правила из указанной сборки.

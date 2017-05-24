@@ -2000,6 +2000,41 @@ namespace AM
             return result.ToArray();
         }
 
+#if WINMOBILE
+
+        /// <summary>
+        /// Clear the <see cref="StringBuilder"/>.
+        /// </summary>
+        public static void Clear
+            (
+                [NotNull] this StringBuilder builder
+            )
+        {
+            Code.NotNull(builder, "builder");
+
+            builder.Length = 0;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static string ToLowerInvariant
+            (
+                [NotNull] this string text
+            )
+        {
+            StringBuilder result = new StringBuilder(text);
+
+            foreach (char c in text)
+            {
+                result.Append(char.ToLowerInvariant(c));
+            }
+
+            return result.ToString();
+        }
+
+#endif
+
         #endregion
     }
 }

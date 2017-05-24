@@ -112,7 +112,9 @@ namespace ManagedIrbis.Identifiers
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE
     [DebuggerDisplay("{Prefix} {Suffix}")]
+#endif
     public sealed class Doi
         : IHandmadeSerializable
     {

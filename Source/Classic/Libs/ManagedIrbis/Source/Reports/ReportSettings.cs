@@ -20,7 +20,6 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
-using AM.Json;
 using AM.Runtime;
 using AM.Text;
 
@@ -33,6 +32,12 @@ using ManagedIrbis.Client;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
+
+#if !WINMOBILE
+
+using AM.Json;
+
+#endif
 
 #endregion
 
@@ -161,11 +166,19 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if WINMOBILE
+
+            ReportSettings result = new ReportSettings();
+
+#else
+
             ReportSettings result = JsonUtility
                 .ReadObjectFromFile<ReportSettings>
             (
                 fileName
             );
+
+#endif
 
             return result;
         }

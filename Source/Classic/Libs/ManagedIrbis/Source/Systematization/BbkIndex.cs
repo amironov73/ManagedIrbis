@@ -15,6 +15,7 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
+using AM;
 using AM.Collections;
 
 using CodeJam;
@@ -42,7 +43,9 @@ namespace ManagedIrbis.Systematization
     [PublicAPI]
     [XmlRoot("bbk")]
     [MoonSharpUserData]
+#if !WINMOBILE
     [DebuggerDisplay("{MainIndex}")]
+#endif
     public sealed class BbkIndex
     {
         #region Properties

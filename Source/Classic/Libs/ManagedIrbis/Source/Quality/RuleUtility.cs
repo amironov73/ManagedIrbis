@@ -148,11 +148,22 @@ namespace ManagedIrbis.Quality
         {
             List<RecordField> result = new List<RecordField>();
             
-            string[] parts = allSpec.Split
+            string[] parts;
+
+#if WINMOBILE
+
+            parts = allSpec.Split(_delimiters);
+
+#else
+
+            parts = allSpec.Split
                 (
                     _delimiters,
                     StringSplitOptions.RemoveEmptyEntries
                 );
+
+#endif
+
             foreach (string oneSpec in parts)
             {
                 result.AddRange(_GetField1(fields, oneSpec));

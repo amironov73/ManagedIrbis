@@ -197,6 +197,348 @@
         <member name="M:ManagedIrbis.Search.Infrastructure.SearchLevel2.Find(ManagedIrbis.Search.SearchContext)">
             <inheritdoc cref="M:ManagedIrbis.Search.Infrastructure.ISearchTree.Find(ManagedIrbis.Search.SearchContext)"/>
         </member>
+        <member name="T:ManagedIrbis.Reports.DriverManager">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.DriverManager.Csv">
+            <summary>
+            CSV driver.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.DriverManager.Dataset">
+            <summary>
+            Dataset driver.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.DriverManager.Html">
+            <summary>
+            HTML driver.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.DriverManager.Latex">
+            <summary>
+            LaTex driver.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.DriverManager.Markdown">
+            <summary>
+            Markdown driver.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.DriverManager.PlainText">
+            <summary>
+            Plain text driver.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.DriverManager.Rtf">
+            <summary>
+            RTf driver.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.DriverManager.GetDriver(System.String,System.Boolean)">
+            <summary>
+            Get <see cref="T:ManagedIrbis.Reports.ReportDriver"/> by name.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.DriverManager.Registry">
+            <summary>
+            Registry.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.TotalFunction">
+            <summary>
+            Function for <see cref="T:ManagedIrbis.Reports.TotalCell"/>.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.TotalFunction.Count">
+            <summary>
+            Cell count.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.TotalFunction.CountNonEmpty">
+            <summary>
+            Count of non-empty cells.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.TotalFunction.CountUnique">
+            <summary>
+            Count of unique cells.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.TotalFunction.Sum">
+            <summary>
+            Sum.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.TotalFunction.Average">
+            <summary>
+            Average.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.TotalFunction.Maximum">
+            <summary>
+            Maximum.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.TotalFunction.Minimum">
+            <summary>
+            Minimum.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.TotalFunction.StandardDeviation">
+            <summary>
+            Standard deviation.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.TotalFunction.Variation">
+            <summary>
+            Variation.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.RawPftCell">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.PftCell">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.ReportCell">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.IAttributable">
+            <summary>
+            Object with attributes.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.IAttributable.Attributes">
+            <summary>
+            Attributes.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportCell.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportCell.OnAfterCompute(ManagedIrbis.Reports.ReportContext)">
+            <summary>
+            Called after <see cref="M:ManagedIrbis.Reports.ReportCell.Compute(ManagedIrbis.Reports.ReportContext)"/>.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportCell.OnBeforeCompute(ManagedIrbis.Reports.ReportContext)">
+            <summary>
+            Called before <see cref="M:ManagedIrbis.Reports.ReportCell.Compute(ManagedIrbis.Reports.ReportContext)"/>.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportCell.Clone">
+            <summary>
+            Clone the cell.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportCell.Compute(ManagedIrbis.Reports.ReportContext)">
+            <summary>
+            Compute value of the cell.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportCell.Render(ManagedIrbis.Reports.ReportContext)">
+            <summary>
+            Render the cell.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportCell.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportCell.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="E:ManagedIrbis.Reports.ReportCell.AfterCompute">
+            <summary>
+            Raised after <see cref="M:ManagedIrbis.Reports.ReportCell.Compute(ManagedIrbis.Reports.ReportContext)"/>.
+            </summary>
+        </member>
+        <member name="E:ManagedIrbis.Reports.ReportCell.BeforeCompute">
+            <summary>
+            Raised before <see cref="M:ManagedIrbis.Reports.ReportCell.Compute(ManagedIrbis.Reports.ReportContext)"/>.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportCell.Attributes">
+            <summary>
+            Attributes.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportCell.Band">
+            <summary>
+            Band.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportCell.Report">
+            <summary>
+            Report.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportCell.UserData">
+            <summary>
+            Arbitrary user data.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.PftCell.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.PftCell.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.PftCell.Compute(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportCell.Compute(ManagedIrbis.Reports.ReportContext)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.PftCell.Render(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportCell.Render(ManagedIrbis.Reports.ReportContext)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.PftCell.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.PftCell.Text">
+            <summary>
+            Script text.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RawPftCell.Render(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportCell.Render(ManagedIrbis.Reports.ReportContext)"/>
+        </member>
+        <member name="T:ManagedIrbis.Reports.FreeBand">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.ReportBand">
+            <summary>
+            Generic (non-repeating) band.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportBand.#ctor">
+            <summary>
+            Construction.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportBand.OnAfterRendering(ManagedIrbis.Reports.ReportContext)">
+            <summary>
+            Called after <see cref="M:ManagedIrbis.Reports.ReportBand.Render(ManagedIrbis.Reports.ReportContext)"/>.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportBand.OnBeforeRendering(ManagedIrbis.Reports.ReportContext)">
+            <summary>
+            Called before <see cref="M:ManagedIrbis.Reports.ReportBand.Render(ManagedIrbis.Reports.ReportContext)"/>.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportBand.Clone">
+            <summary>
+            Clone the band.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportBand.Render(ManagedIrbis.Reports.ReportContext)">
+            <summary>
+            Render the band.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportBand.RenderOnce(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Pft.PftFormatter)">
+            <summary>
+            Render the band once (ignore records).
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportBand.RenderOnce(ManagedIrbis.Reports.ReportContext)">
+            <summary>
+            Render the band once (ignore records).
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportBand.RenderAllRecords(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Pft.PftFormatter)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportBand.RenderAllRecords(ManagedIrbis.Reports.ReportContext)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportBand.RenderRecord(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Pft.PftFormatter,System.Int32)">
+            <summary>
+            Render given index.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportBand.RenderRecord(ManagedIrbis.Reports.ReportContext,System.Int32)">
+            <summary>
+            Render given index.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportBand.ShouldSerializeAttributes">
+            <summary>
+            Should serialize <see cref="P:ManagedIrbis.Reports.ReportBand.Attributes"/>?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportBand.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportBand.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="E:ManagedIrbis.Reports.ReportBand.AfterRendering">
+            <summary>
+            Raised after rendering.
+            </summary>
+        </member>
+        <member name="E:ManagedIrbis.Reports.ReportBand.BeforeRendering">
+            <summary>
+            Raised before rendering.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportBand.Attributes">
+            <summary>
+            Attributes.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportBand.Cells">
+            <summary>
+            Cells.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportBand.Report">
+            <summary>
+            Report.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportBand.Parent">
+            <summary>
+            Parent band.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportBand.UserData">
+            <summary>
+            Arbitrary user data.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.FreeBand.DataSource">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.DetailsBand">
+            <summary>
+            Details (repeating) band.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.DetailsBand.Render(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc />
+        </member>
         <member name="T:ManagedIrbis.Readers.ReaderInfo">
             <summary>
             Информация о читателе.
@@ -422,6 +764,211 @@
             <summary>
             Flag for the reader info.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Quality.Rules.Require200">
+            <summary>
+            Основное заглавие.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Quality.QualityRule">
+            <summary>
+            Abstract base class for all the quality rules.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.AddDefect(System.String,System.Int32,System.String,System.Object[])">
+            <summary>
+            Add detected defect.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.AddDefect(ManagedIrbis.RecordField,System.Int32,System.String,System.Object[])">
+            <summary>
+            Add detected defect.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.AddDefect(ManagedIrbis.RecordField,ManagedIrbis.SubField,System.Int32,System.String,System.Object[])">
+            <summary>
+            Add detected defect.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.BeginCheck(ManagedIrbis.Quality.RuleContext)">
+            <summary>
+            Begin the record checking.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.CacheMenu(System.String,ManagedIrbis.Menus.MenuFile)">
+            <summary>
+            Cache the menu.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.CheckForMenu(ManagedIrbis.Menus.MenuFile,System.String)">
+            <summary>
+            Check the value against the menu.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.GetTextAtPosition(System.String,System.Int32)">
+            <summary>
+            Get text at specified position in the string.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.ShowDoubleWhiteSpace(System.String)">
+            <summary>
+            Show double whitespace in the text.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.CheckWhitespace(ManagedIrbis.RecordField,ManagedIrbis.SubField)">
+            <summary>
+            Check the subfield for whitespace.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.CheckWhitespace(ManagedIrbis.RecordField)">
+            <summary>
+            Check for whitespace.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.EndCheck">
+            <summary>
+            End the record checking.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.IsAsp">
+            <summary>
+            Whether the current working list is ASP?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.IsBook">
+            <summary>
+            Whether the current working list is book-specific:
+            PAZK, SPEC or PVK?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.IsPazk">
+            <summary>
+            Whether the current working list is PAZK?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.IsSpec">
+            <summary>
+            Whether the current working list is SPEC?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.GetFields">
+            <summary>
+            Get fields of the current record for the rule
+            according the <see cref="P:ManagedIrbis.Quality.QualityRule.FieldSpec"/>.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.MustNotContainSubfields(ManagedIrbis.RecordField)">
+            <summary>
+            Must not contain subfields.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.MustNotContainText(ManagedIrbis.RecordField)">
+            <summary>
+            Asserts that the field must not contain plain text value.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.MustNotRepeatSubfields(ManagedIrbis.RecordField)">
+            <summary>
+            Asserts that the field must not contain
+            repeatable subfields.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.MustBeUniqueField(ManagedIrbis.RecordField[])">
+            <summary>
+            Asserts that the field must be unique.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.MustBeNonEmptySubfield(ManagedIrbis.RecordField,System.Char)">
+            <summary>
+            Asserts that her subfield must be non-empty.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.MustBeUniqueSubfield(ManagedIrbis.RecordField[],System.Char)">
+            <summary>
+            Asserts that subfields of the fields must be unique.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.MustBeUniqueSubfield(ManagedIrbis.RecordField[],System.Char[])">
+            <summary>
+            Asserts that subfields of the fields must be unique.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.MustNotContainWhitespace(ManagedIrbis.RecordField)">
+            <summary>
+            Asserts that the field must not contain whitespace.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.MustNotContainWhitespace(ManagedIrbis.RecordField,ManagedIrbis.SubField)">
+            <summary>
+            Asserts that the subfield must not contain whitespace.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.MustNotContainWhitespace(ManagedIrbis.RecordField,System.Char[])">
+            <summary>
+            Asserts that subfields of the field must not contain whitespace.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.MustNotContainBadCharacters(ManagedIrbis.RecordField)">
+            <summary>
+            Asserts that the field must not contain bad characters.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.MustNotContainBadCharacters(ManagedIrbis.RecordField,ManagedIrbis.SubField)">
+            <summary>
+            Asserts that the subfield must not contain bad characters.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.QualityRule.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <summary>
+            Check the record.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.QualityRule.FieldSpec">
+            <summary>
+            Specification of the fields to check.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.QualityRule.Connection">
+            <summary>
+            Клиент.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.QualityRule.Context">
+            <summary>
+            Текущий контекст.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.QualityRule.Record">
+            <summary>
+            Текущая проверяемая запись.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.QualityRule.Report">
+            <summary>
+            Накопленный отчёт.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.QualityRule.Worksheet">
+            <summary>
+            Рабочий лист.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.Rules.Require200.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Quality.Rules.Require200.FieldSpec">
+            <inheritdoc />
+        </member>
+        <member name="T:ManagedIrbis.Quality.Rules.Require101">
+            <summary>
+            Язык основного текста.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.Rules.Require101.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Quality.Rules.Require101.FieldSpec">
+            <inheritdoc />
         </member>
         <member name="T:ManagedIrbis.Pooling.PoolUtility">
             <summary>
@@ -2369,6 +2916,72 @@
             Additional services.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Systematization.BbkIndex">
+            <summary>
+            Классификационный индекс ББК,
+            разложенный по элементам.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.BbkIndex.#ctor">
+            <summary>
+            Конструктор.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.BbkIndex.#ctor(System.String)">
+            <summary>
+            Конструктор.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.BbkIndex.Parse(System.String)">
+            <summary>
+            Разбор текстовой строки.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.BbkIndex.Dump(System.IO.TextWriter,System.String)">
+            <summary>
+            Дамп
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkIndex.MainIndex">
+            <summary>
+            Основной индекс.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkIndex.TerritorialIndex">
+            <summary>
+            Территориальные типовые деления.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkIndex.SpecialIndex">
+            <summary>
+            Специальные типовые деления.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkIndex.SocialIndex">
+            <summary>
+            Код социальной системы.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkIndex.CombinedIndex">
+            <summary>
+            Комбинированный индекс.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkIndex.Qualifiers">
+            <summary>
+            Определители.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkIndex.Hren">
+            <summary>
+            Некая хрень.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkIndex.Comma">
+            <summary>
+            Запятая???
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Search.TermInfoEx">
             <summary>
             Extended search term info.
@@ -2508,6 +3121,232 @@
         </member>
         <member name="M:ManagedIrbis.Search.Infrastructure.SearchLevel1.Find(ManagedIrbis.Search.SearchContext)">
             <inheritdoc cref="M:ManagedIrbis.Search.Infrastructure.ISearchTree.Find(ManagedIrbis.Search.SearchContext)"/>
+        </member>
+        <member name="T:ManagedIrbis.Reports.ReportTestResult">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportTestResult.Duration">
+            <summary>
+            Duration.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportTestResult.Failed">
+            <summary>
+            Test failed?
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportTestResult.FinishTime">
+            <summary>
+            Finish time.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportTestResult.Name">
+            <summary>
+            Name of the test.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportTestResult.Description">
+            <summary>
+            Description.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportTestResult.StartTime">
+            <summary>
+            Start time.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportTestResult.Tokens">
+            <summary>
+            Tokens.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportTestResult.Expected">
+            <summary>
+            Output text.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportTestResult.Output">
+            <summary>
+            Output text.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportTestResult.Exception">
+            <summary>
+            Exception text (if any).
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.LatexDriver">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.ReportDriver">
+            <summary>
+            Abstract report driver.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportDriver.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportDriver.BeginCell(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportCell)">
+            <summary>
+            Begin cell.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportDriver.BeginDocument(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.IrbisReport)">
+            <summary>
+            Begin document.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportDriver.BeginRow(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportBand)">
+            <summary>
+            Begin row.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportDriver.BeginSection(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportBand)">
+            <summary>
+            Begin section.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportDriver.BeginTable(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.IrbisReport)">
+            <summary>
+            Begin table.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportDriver.EndCell(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportCell)">
+            <summary>
+            End cell.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportDriver.EndDocument(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.IrbisReport)">
+            <summary>
+            End document.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportDriver.EndRow(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportBand)">
+            <summary>
+            End row.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportDriver.EndSection(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportBand)">
+            <summary>
+            End section.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportDriver.EndTable(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.IrbisReport)">
+            <summary>
+            End table.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportDriver.Write(ManagedIrbis.Reports.ReportContext,System.String)">
+            <summary>
+            Write the text.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportDriver.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportDriver.Capabilities">
+            <summary>
+            Driver capabilities.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.TotalBand">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.FilterBand">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.CompositeBand">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.CompositeBand.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.CompositeBand.RenderOnce(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Pft.PftFormatter)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportBand.RenderOnce(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Pft.PftFormatter)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.CompositeBand.RenderAllRecords(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Pft.PftFormatter)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportBand.RenderAllRecords(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Pft.PftFormatter)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.CompositeBand.ShouldSerializeCells">
+            <summary>
+            Should serialize <see cref="P:ManagedIrbis.Reports.ReportBand.Cells"/>?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.CompositeBand.Render(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.CompositeBand.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.CompositeBand.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.CompositeBand.Body">
+            <summary>
+            Body bands.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.CompositeBand.Footer">
+            <summary>
+            Footer band.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.CompositeBand.Header">
+            <summary>
+            Header band.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.CompositeBand.Report">
+            <inheritdoc cref="P:ManagedIrbis.Reports.ReportBand.Report"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.FilterBand.Render(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.FilterBand.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.FilterBand.FilterExpression">
+            <summary>
+            Filter expression.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.DynamicBand">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.DynamicBand.Render(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc />
+        </member>
+        <member name="E:ManagedIrbis.Reports.DynamicBand.Rendering">
+            <summary>
+            Raised on band rendering.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Quality.Rules.Require210">
+            <summary>
+            Выходные данные
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.Rules.Require210.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Quality.Rules.Require210.FieldSpec">
+            <inheritdoc />
         </member>
         <member name="T:ManagedIrbis.Pft.PftSemanticException">
             <summary>
@@ -3689,6 +4528,41 @@
             Raw last server response.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Infrastructure.ClientSocketUtility">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.ClientSocketUtility.CreateSocket(ManagedIrbis.IrbisConnection,System.String)">
+            <summary>
+            Create socket of the given type
+            and add it to the socket chain
+            of the connection.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.ClientSocketUtility.CreateSocket``1(ManagedIrbis.IrbisConnection)">
+            <summary>
+            Create socket of the given type
+            and add it to the socket chain
+            of the connection.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.ClientSocketUtility.FindSocket``1(ManagedIrbis.IrbisConnection)">
+            <summary>
+            Find given socket type in the socket chain.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.ClientSocketUtility.FindOrCreateSocket``1(ManagedIrbis.IrbisConnection)">
+            <summary>
+            Find or create (add to socket chain)
+            given socket type.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.ClientSocketUtility.RemoveSocket(ManagedIrbis.IrbisConnection,ManagedIrbis.Infrastructure.AbstractClientSocket)">
+            <summary>
+            Remove given socket from the socket chain.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Infrastructure.Commands.DynamicCommand">
             <summary>
             Dynamic command. All actions configured
@@ -4468,6 +5342,328 @@
         <member name="P:ManagedIrbis.Requests.BookRequest.RequestRecord">
             <summary>
             Запись, на осонове которой построен запрос
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.ReportTester">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportTester.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportTester.DiscoverTests">
+            <summary>
+            Discover tests.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportTester.RunTest(ManagedIrbis.Reports.ReportTest)">
+            <summary>
+            Run the test.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportTester.RunTests">
+            <summary>
+            Run the tests.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportTester.SetEnvironment(ManagedIrbis.Client.IrbisProvider)">
+            <summary>
+            Set environment.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportTester.WriteResults(System.String)">
+            <summary>
+            Write test results to the file.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportTester.Provider">
+            <summary>
+            Provider.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportTester.Folder">
+            <summary>
+            Folder name.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportTester.Tests">
+            <summary>
+            Tests.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportTester.Results">
+            <summary>
+            Results.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.ReportSettings">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportSettings.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportSettings.LoadFromFile(System.String)">
+            <summary>
+            Load <see cref="T:ManagedIrbis.Reports.ReportSettings"/>
+            from specified file.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportSettings.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportSettings.Assemblies">
+            <summary>
+            Assemblies to load.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportSettings.DriverName">
+            <summary>
+            Name of the <see cref="T:ManagedIrbis.Reports.ReportDriver"/>.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportSettings.DriverSettings">
+            <summary>
+            Settings for driver.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportSettings.Filter">
+            <summary>
+            Record filter.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportSettings.OutputFile">
+            <summary>
+            Output file name.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportSettings.PageSettings">
+            <summary>
+            Page settings.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportSettings.PrinterName">
+            <summary>
+            Printer to send report to.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportSettings.ProviderName">
+            <summary>
+            Name of <see cref="T:ManagedIrbis.Client.IrbisProvider"/>.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportSettings.ProviderSettings">
+            <summary>
+            Settings for provider.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportSettings.RegisterDriver">
+            <summary>
+            Register <see cref="T:ManagedIrbis.Reports.ReportDriver"/>
+            before report building.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportSettings.RegisterProvider">
+            <summary>
+            <see cref="T:ManagedIrbis.Client.IrbisProvider"/> to register
+            before report building.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.ReportAttribute">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.BackColor">
+            <summary>
+            Background color.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.Black">
+            <summary>
+            Black color.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.Blue">
+            <summary>
+            Blue color.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.Bold">
+            <summary>
+            Bold.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.Borders">
+            <summary>
+            Borders.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.Center">
+            <summary>
+            Center.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.Column">
+            <summary>
+            Column offset.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.FontName">
+            <summary>
+            Font name (family).
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.FontSize">
+            <summary>
+            Font size.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.ForeColor">
+            <summary>
+            Foreground color.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.Gray">
+            <summary>
+            Gray color.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.Green">
+            <summary>
+            Green color.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.Height">
+            <summary>
+            Height.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.HorizontalAlign">
+            <summary>
+            Horizontal alignment.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.Italic">
+            <summary>
+            Italic.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.Left">
+            <summary>
+            Left justify.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.Red">
+            <summary>
+            Red color.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.Row">
+            <summary>
+            Row offset.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.Right">
+            <summary>
+            Right justify.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.Span">
+            <summary>
+            Cell merge.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.Underline">
+            <summary>
+            Underline.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.VerticalAlign">
+            <summary>
+            Vertical alignment.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.Width">
+            <summary>
+            Width.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.WrapText">
+            <summary>
+            Text wrapping.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.IrbisReport">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.IrbisReport.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.IrbisReport.Render(ManagedIrbis.Reports.ReportContext)">
+            <summary>
+            Render the report.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.IrbisReport.LoadJsonFile(System.String)">
+            <summary>
+            Load report from the JSON file.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.IrbisReport.LoadShortJson(System.String)">
+            <summary>
+            Load report from the JSON file.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.IrbisReport.SaveJson(System.String)">
+            <summary>
+            Save the report to specified file.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.IrbisReport.SaveShortJson(System.String)">
+            <summary>
+            Save the report to specified file.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.IrbisReport.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.IrbisReport.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.IrbisReport.Attributes">
+            <summary>
+            Attributes.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.IrbisReport.Body">
+            <summary>
+            Report body band.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.IrbisReport.Footer">
+            <summary>
+            Footer band.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.IrbisReport.Header">
+            <summary>
+            Header band.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.IrbisReport.UserData">
+            <summary>
+            Arbitrary user data.
             </summary>
         </member>
         <member name="T:ManagedIrbis.RecordReference">
@@ -6127,6 +7323,211 @@
             N02 node file.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Testing.AbstractTest">
+            <summary>
+            Abstract test.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Testing.AbstractTest.Write(System.String)">
+            <summary>
+            Write some text.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Testing.AbstractTest.Write(System.String,System.Object[])">
+            <summary>
+            Write some formatted text.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Testing.AbstractTest.Write(System.Object)">
+            <summary>
+            Write some object.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Testing.AbstractTest.WriteError(System.String)">
+            <summary>
+            Write some error text.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Testing.AbstractTest.WriteError(System.String,System.Object[])">
+            <summary>
+            Write some formatted error text.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Testing.AbstractTest.Connection">
+            <summary>
+            Connection.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Testing.AbstractTest.Output">
+            <summary>
+            Output.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Testing.AbstractTest.DataPath">
+            <summary>
+            Path to test data.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Testing.AbstractTest.Context">
+            <summary>
+            Test execution context.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Systematization.BbkException">
+            <summary>
+            Исключение, возникающее при работе с ББК.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.BbkException.#ctor">
+            <summary>
+            Конструктор.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.BbkException.#ctor(System.String)">
+            <summary>
+            Конструктор.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.BbkException.#ctor(System.String,System.Exception)">
+            <summary>
+            Конструктор.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.ReportTest">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportTest.DescriptionFileName">
+            <summary>
+            Description file name.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportTest.ExpectedFileName">
+            <summary>
+            Expected result file name.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportTest.InputFileName">
+            <summary>
+            Input file name.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.ReportTest.RecordFileName">
+            <summary>
+            Record file name.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportTest.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportTest.IsDirectoryContainsTest(System.String)">
+            <summary>
+            Whether the directory contains test?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportTest.Run(System.String)">
+            <summary>
+            Run the test.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportTest.Provider">
+            <summary>
+            Provider.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportTest.Folder">
+            <summary>
+            Folder name.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.LoggingDriver">
+            <summary>
+            Logging driver for report debugging.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.LoggingDriver.#ctor(ManagedIrbis.Reports.ReportDriver)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.LoggingDriver.BeginCell(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportCell)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportDriver.BeginCell(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportCell)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.LoggingDriver.BeginDocument(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.IrbisReport)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportDriver.BeginDocument(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.IrbisReport)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.LoggingDriver.BeginRow(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportBand)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportDriver.BeginRow(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportBand)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.LoggingDriver.EndCell(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportCell)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportDriver.EndCell(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportCell)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.LoggingDriver.EndDocument(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.IrbisReport)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportDriver.EndDocument(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.IrbisReport)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.LoggingDriver.EndRow(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportBand)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportDriver.EndRow(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportBand)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.LoggingDriver.Write(ManagedIrbis.Reports.ReportContext,System.String)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportDriver.Write(ManagedIrbis.Reports.ReportContext,System.String)"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.LoggingDriver.InnerDriver">
+            <summary>
+            Inner driver.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.CsvDriver">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.CsvDriver.Separator">
+            <summary>
+            Field separator.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.CsvDriver.Quotes">
+            <summary>
+            Quotes.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.CsvDriver.BeginCell(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportCell)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.CsvDriver.EndCell(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportCell)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.CsvDriver.EndRow(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportBand)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.CsvDriver.Write(ManagedIrbis.Reports.ReportContext,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="T:ManagedIrbis.Quality.Rules.Require461">
+            <summary>
+            Общие сведения о многотомнике.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.Rules.Require461.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Quality.Rules.Require461.FieldSpec">
+            <inheritdoc />
+        </member>
+        <member name="T:ManagedIrbis.Quality.Rules.Check908">
+            <summary>
+            Авторский знак.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.Rules.Check908.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Quality.Rules.Check908.FieldSpec">
+            <inheritdoc />
+        </member>
         <member name="T:ManagedIrbis.PlatformSpecific.MethodResult">
             <summary>
             Result of external method call.
@@ -7280,6 +8681,41 @@
             /
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Reports.ReportUtility">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportUtility.GetFormatter(ManagedIrbis.Reports.ReportContext,System.String)">
+            <summary>
+            Get PFT formatter for the report context.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportUtility.ListBandTypes">
+            <summary>
+            List band types.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportUtility.ListCellTypes">
+            <summary>
+            List cell types.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportUtility.SetHeight(ManagedIrbis.Reports.IAttributable,System.Int32)">
+            <summary>
+            Set height of the object.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportUtility.SetWidth(ManagedIrbis.Reports.IAttributable,System.Int32)">
+            <summary>
+            Set width of the object.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportUtility.SetVariables(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Pft.PftFormatter)">
+            <summary>
+            Set variables for <see cref="T:ManagedIrbis.Pft.PftFormatter"/>.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Readers.ReaderAddress">
             <summary>
             Адрес читателя: поле 13 в базе RDR.
@@ -7420,6 +8856,42 @@
         <member name="P:ManagedIrbis.RawRecord.Lines">
             <summary>
             Lines of text.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Quality.Rules.CheckEmptySubfields">
+            <summary>
+            Обнаружение пустых подполей.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.Rules.CheckEmptySubfields.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Quality.Rules.CheckEmptySubfields.FieldSpec">
+            <inheritdoc />
+        </member>
+        <member name="T:ManagedIrbis.Quality.RuleContext">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.RuleContext.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.RuleContext.Connection">
+            <summary>
+            Клиент.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.RuleContext.Record">
+            <summary>
+            Обрабатываемая запись.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.RuleContext.BriefFormat">
+            <summary>
+            Формат для краткого библиографического описания.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.PftProgram">
@@ -8338,6 +9810,21 @@
             XRF file path.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Direct.DirectUtility">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.DirectUtility.CreateDatabase32(System.String)">
+            <summary>
+            Create 8 database files for IRBIS32.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.DirectUtility.CreateDatabase64(System.String)">
+            <summary>
+            Create 5 database files for IRBIS64.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Search.SearchParameters">
             <summary>
             Signature for <see cref="T:ManagedIrbis.Infrastructure.Commands.SearchCommand"/>.
@@ -8463,6 +9950,58 @@
             List of terms.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Search.Infrastructure.TermLinkComparer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByMfn">
+            <summary>
+            Compares two <see cref="T:ManagedIrbis.Search.TermLink"/>s by MFN.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByMfn.Equals(ManagedIrbis.Search.TermLink,ManagedIrbis.Search.TermLink)">
+            <inheritdoc cref="M:System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)"/>
+        </member>
+        <member name="M:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByMfn.GetHashCode(ManagedIrbis.Search.TermLink)">
+            <inheritdoc cref="M:System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)"/>
+        </member>
+        <member name="T:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByTag">
+            <summary>
+            Compares two <see cref="T:ManagedIrbis.Search.TermLink"/>s by MFN
+            and field tag.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByTag.Equals(ManagedIrbis.Search.TermLink,ManagedIrbis.Search.TermLink)">
+            <inheritdoc cref="M:System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)"/>
+        </member>
+        <member name="M:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByTag.GetHashCode(ManagedIrbis.Search.TermLink)">
+            <inheritdoc cref="M:System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)"/>
+        </member>
+        <member name="T:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByOccurrence">
+            <summary>
+            Compares two <see cref="T:ManagedIrbis.Search.TermLink"/>s by MFN,
+            field tag and occurrence.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByOccurrence.Equals(ManagedIrbis.Search.TermLink,ManagedIrbis.Search.TermLink)">
+            <inheritdoc cref="M:System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)"/>
+        </member>
+        <member name="M:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByOccurrence.GetHashCode(ManagedIrbis.Search.TermLink)">
+            <inheritdoc cref="M:System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)"/>
+        </member>
+        <member name="T:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByIndex">
+            <summary>
+            Compares two <see cref="T:ManagedIrbis.Search.TermLink"/>s by MFN,
+            field tag, occurrence and index.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByIndex.Equals(ManagedIrbis.Search.TermLink,ManagedIrbis.Search.TermLink)">
+            <inheritdoc cref="M:System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)"/>
+        </member>
+        <member name="M:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByIndex.GetHashCode(ManagedIrbis.Search.TermLink)">
+            <inheritdoc cref="M:System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)"/>
+        </member>
         <member name="T:ManagedIrbis.Search.Infrastructure.SearchTerm">
             <summary>
             Leaf node of AST.
@@ -8505,6 +10044,74 @@
         <member name="P:ManagedIrbis.Search.Infrastructure.SearchTerm.Value">
             <summary>
             Value of the term.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.TextCell">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.TextCell.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.TextCell.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.TextCell.Compute(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportCell.Compute(ManagedIrbis.Reports.ReportContext)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.TextCell.Render(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportCell.Render(ManagedIrbis.Reports.ReportContext)"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.TextCell.Text">
+            <summary>
+            Static text.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.SectionBand">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.SectionBand.Render(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportBand.Render(ManagedIrbis.Reports.ReportContext)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.SectionBand.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.SectionBand.Body">
+            <summary>
+            Body bands.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.SectionBand.Footer">
+            <summary>
+            Footer band.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.SectionBand.Header">
+            <summary>
+            Header band.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.GroupBand">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.GroupBand.Render(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.GroupBand.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.GroupBand.GroupExpression">
+            <summary>
+            Sort expression.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Readers.DebtorManager">
@@ -9195,6 +10802,51 @@
             АРМ Администратор.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Testing.TestContext">
+            <summary>
+            Context of <see cref="T:ManagedIrbis.Testing.AbstractTest"/> execution.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Testing.TestContext.#ctor(AM.Text.Output.AbstractOutput)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Testing.TestContext.Duration">
+            <summary>
+            Duration.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Testing.TestContext.Failed">
+            <summary>
+            Test failed?
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Testing.TestContext.FinishTime">
+            <summary>
+            Finish time.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Testing.TestContext.Name">
+            <summary>
+            Name of the test.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Testing.TestContext.Output">
+            <summary>
+            Output channel.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Testing.TestContext.StartTime">
+            <summary>
+            Start time.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Testing.TestContext.Text">
+            <summary>
+            Output text.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Server.ServerIniFile">
             <summary>
             irbis_server.ini
@@ -9596,6 +11248,80 @@
         <member name="P:ManagedIrbis.Search.KeywordPermutator.StopWords">
             <summary>
             Stopword list.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.RecordSorter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RecordSorter.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RecordSorter.#ctor(ManagedIrbis.Client.IrbisProvider)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RecordSorter.#ctor(ManagedIrbis.Client.IrbisProvider,System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RecordSorter.SortRecords(System.Collections.Generic.IEnumerable{ManagedIrbis.MarcRecord})">
+            <summary>
+            Sort records.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RecordSorter.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.RecordSorter.Provider">
+            <summary>
+            Provider.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.RecordSorter.Expression">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.RtfDriver">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RtfDriver.BeginDocument(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.IrbisReport)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportDriver.BeginDocument(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.IrbisReport)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RtfDriver.EndDocument(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.IrbisReport)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportDriver.EndDocument(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.IrbisReport)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RtfDriver.BeginCell(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportCell)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportDriver.BeginCell(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportCell)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RtfDriver.EndRow(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportBand)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportDriver.EndRow(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportBand)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RtfDriver.Write(ManagedIrbis.Reports.ReportContext,System.String)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportDriver.Write(ManagedIrbis.Reports.ReportContext,System.String)"/>
+        </member>
+        <member name="T:ManagedIrbis.Reports.DataCell">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.DataCell.Compute(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportCell.Compute(ManagedIrbis.Reports.ReportContext)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.DataCell.Render(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportCell.Render(ManagedIrbis.Reports.ReportContext)"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.DataCell.Index">
+            <summary>
+            Index.
             </summary>
         </member>
         <member name="T:ManagedIrbis.RecordStatus">
@@ -10043,6 +11769,27 @@
             <summary>
             Omit deleted records?
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Quality.DefectList">
+            <summary>
+            Defect list for the field of the record.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.DefectList.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.DefectList.#ctor(System.Collections.Generic.IEnumerable{ManagedIrbis.Quality.FieldDefect})">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.DefectList.RestoreFromStream(System.IO.BinaryReader)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
+        </member>
+        <member name="M:ManagedIrbis.Quality.DefectList.SaveToStream(System.IO.BinaryWriter)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.VirtualChildren">
             <summary>
@@ -11479,6 +13226,45 @@
             List of MFN.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Systematization.BbkRange">
+            <summary>
+            Интервал индексов ББК вроде такого:
+            84.3/5
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.BbkRange.#ctor(System.String)">
+            <summary>
+            Конструктор.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.BbkRange.GetAllIndexes">
+            <summary>
+            Получение списка всех индексов из диапазона.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.BbkRange.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/>
+            that represents this instance.
+            </summary>
+            <returns>A <see cref="T:System.String"/>
+            that represents this instance.</returns>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRange.FirstIndex">
+            <summary>
+            Начальное значение индекса.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRange.OriginalIndex">
+            <summary>
+            Оригинальное значение (со слешем).
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRange.LastIndex">
+            <summary>
+            Конечное значение индекса.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.SubField">
             <summary>
             MARC record subfield.
@@ -11622,6 +13408,28 @@
             <summary>
             Whether the object is read-only?
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.RawTextCell">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RawTextCell.Compute(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportCell.Compute(ManagedIrbis.Reports.ReportContext)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RawTextCell.Render(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportCell.Render(ManagedIrbis.Reports.ReportContext)"/>
+        </member>
+        <member name="T:ManagedIrbis.Quality.Rules.Require903">
+            <summary>
+            Шифр документа в базе.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.Rules.Require903.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Quality.Rules.Require903.FieldSpec">
+            <inheritdoc />
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Unifors.Unifor4.FormatPreviousVersion(ManagedIrbis.Pft.Infrastructure.PftContext,ManagedIrbis.Pft.Infrastructure.PftNode,System.String)">
             <summary>
@@ -12453,6 +14261,109 @@
         <member name="F:ManagedIrbis.Search.SearchLogicType.OrAndNotPhrase">
             <summary>
             логика ИЛИ, И, НЕТ, И (в поле), И (фраза)
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.ReportOutput">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportOutput.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportOutput.Clear">
+            <summary>
+            Clear the output.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportOutput.TrimEnd">
+            <summary>
+            Trim end of text.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportOutput.Write(System.String)">
+            <summary>
+            Write text.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportOutput.Text">
+            <summary>
+            Result text.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.ReportEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportEventArgs.#ctor(ManagedIrbis.Reports.ReportContext)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportEventArgs.Context">
+            <summary>
+            Context.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.HeaderBand">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Quality.RecordReport">
+            <summary>
+            Отчёт о проверке записи.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.RecordReport.#ctor">
+            <summary>
+            Конструктор по умолчанию.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.RecordReport.RestoreFromStream(System.IO.BinaryReader)">
+            <summary>
+            Просим объект восстановить свое состояние из потока.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.RecordReport.SaveToStream(System.IO.BinaryWriter)">
+            <summary>
+            Просим объект сохранить себя в потоке.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.RecordReport.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/>
+            that represents this instance.
+            </summary>
+            <returns>A <see cref="T:System.String"/>
+            that represents this instance.</returns>
+        </member>
+        <member name="P:ManagedIrbis.Quality.RecordReport.Mfn">
+            <summary>
+            MFN записи.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.RecordReport.Index">
+            <summary>
+            Шифр записи.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.RecordReport.Description">
+            <summary>
+            Краткое БО.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.RecordReport.Defects">
+            <summary>
+            Дефекты.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.RecordReport.Gold">
+            <summary>
+            Формальная оценка качества.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.VMonitor.Output">
@@ -13396,6 +15307,11 @@
             Total number of records written.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Testing.TestClassAttribute">
+            <summary>
+            Attribute to mark test classes.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.StatDefinition">
             <summary>
             Signature for Stat command.
@@ -13489,6 +15405,49 @@
             How to sort result.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Reports.ReportVariableManager">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportVariableManager.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportVariableManager.DumpVariables(System.IO.TextWriter)">
+            <summary>
+            Dump all the variables.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportVariableManager.GetAllVariables">
+            <summary>
+            Get all variables.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportVariableManager.GetExistingVariable(System.String)">
+            <summary>
+            Get existing variable with the specified name.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportVariableManager.GetOrCreateVariable(System.String)">
+            <summary>
+            Get existing or create new variable with given name.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportVariableManager.SetVariable(System.String,System.Object)">
+            <summary>
+            Set the variable value.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportVariableManager.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportVariableManager.Registry">
+            <summary>
+            Variable registry.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Readers.ReaderRegistration">
             <summary>
             Информация о регистрации/перерегистрации читателя.
@@ -13559,6 +15518,17 @@
             <summary>
             Ссылка на зарегистрированного читателя.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Quality.Rules.Require60x">
+            <summary>
+            Предметные рубрики
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.Rules.Require60x.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Quality.Rules.Require60x.FieldSpec">
+            <inheritdoc />
         </member>
         <member name="T:ManagedIrbis.Pft.PftSyntaxException">
             <summary>
@@ -14327,6 +16297,31 @@
             Salt.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Worksheet.FieldEditorRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.FieldEditorRepository.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.FieldEditorRepository.AddEditor(ManagedIrbis.Worksheet.EditMode,ManagedIrbis.Worksheet.IMarcEditor)">
+            <summary>
+            Add editor for specified mode.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.FieldEditorRepository.GetEditor(ManagedIrbis.Worksheet.EditMode)">
+            <summary>
+            Get editor for specified mode.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.FieldEditorRepository.Dictionary">
+            <summary>
+            Dictionary.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.ServerStat">
             <summary>
             IRBIS server stat
@@ -14511,6 +16506,115 @@
         <member name="P:ManagedIrbis.Requests.RequestManager.RequestDatabase">
             <summary>
             Request database name.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.ReportAttributes">
+            <summary>
+            Attributes for cell, band, report.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportAttributes.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="T:ManagedIrbis.Reports.RecordFilter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RecordFilter.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RecordFilter.#ctor(ManagedIrbis.Client.IrbisProvider)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RecordFilter.#ctor(ManagedIrbis.Client.IrbisProvider,System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RecordFilter.CheckRecord(ManagedIrbis.MarcRecord)">
+            <summary>
+            Check the record.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RecordFilter.CheckResult(System.String)">
+            <summary>
+            Check text result.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RecordFilter.FilterRecords(System.Collections.Generic.IEnumerable{ManagedIrbis.MarcRecord})">
+            <summary>
+            Filter records.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.RecordFilter.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.RecordFilter.Provider">
+            <summary>
+            Provider.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.RecordFilter.Expression">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.PlainTextDriver">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.PlainTextDriver.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.PlainTextDriver.EndRow(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportBand)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.PlainTextDriver.EndCell(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportCell)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.PlainTextDriver.Write(ManagedIrbis.Reports.ReportContext,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Reports.PlainTextDriver.CellDelimiter">
+            <summary>
+            Cell delimiter.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.PlainTextDriver.RowDelimiter">
+            <summary>
+            Row delimiter.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.TableBand">
+            <summary>
+            Table band.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.TableBand.Render(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportBand.Render(ManagedIrbis.Reports.ReportContext)"/>
+        </member>
+        <member name="T:ManagedIrbis.Reports.SortBand">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.SortBand.Render(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.SortBand.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.SortBand.SortExpression">
+            <summary>
+            Sort expression.
             </summary>
         </member>
         <member name="T:ManagedIrbis.RecordFieldUtility">
@@ -14845,6 +16949,28 @@
             <summary>
             Restore the field from XML.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Quality.Rules.Require900">
+            <summary>
+            Коды
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.Rules.Require900.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Quality.Rules.Require900.FieldSpec">
+            <inheritdoc />
+        </member>
+        <member name="T:ManagedIrbis.Quality.Rules.Require60">
+            <summary>
+            Раздел знаний.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.Rules.Require60.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Quality.Rules.Require60.FieldSpec">
+            <inheritdoc />
         </member>
         <member name="T:ManagedIrbis.PlatformSpecific.ProcessRunner">
             <summary>
@@ -15788,6 +17914,161 @@
             Номер последней команды
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Worksheet.WorksheetPage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WorksheetPage.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WorksheetPage.ParseStream(System.IO.TextReader,System.String,System.Int32)">
+            <summary>
+            Разбор потока.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WorksheetPage.RestoreFromStream(System.IO.BinaryReader)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WorksheetPage.SaveToStream(System.IO.BinaryWriter)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WorksheetPage.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.WorksheetPage.Name">
+            <summary>
+            Имя страницы.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.WorksheetPage.Items">
+            <summary>
+            Элементы страницы.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Worksheet.WorksheetItem">
+            <summary>
+            Одна строчка в рабочем листе.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WorksheetItem.ParseStream(System.IO.TextReader)">
+            <summary>
+            Разбор потока.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WorksheetItem.RestoreFromStream(System.IO.BinaryReader)">
+            <summary>
+            Просим объект восстановить свое состояние из потока.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WorksheetItem.SaveToStream(System.IO.BinaryWriter)">
+            <summary>
+            Просим объект сохранить себя в потоке.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WorksheetItem.ToString">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.WorksheetItem.Tag">
+            <summary>
+            Числовая метка поля.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.WorksheetItem.Title">
+            <summary>
+            Наименование поля.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.WorksheetItem.Repeatable">
+            <summary>
+            Повторяемость поля.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.WorksheetItem.Help">
+            <summary>
+            Индекс контекстной помощи.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.WorksheetItem.EditMode">
+            <summary>
+            Режим ввода.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.WorksheetItem.InputInfo">
+            <summary>
+            Дополнительная информация для расширенных
+            средств ввода.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.WorksheetItem.FormalVerification">
+            <summary>
+            ФЛК.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.WorksheetItem.Hint">
+            <summary>
+            Подсказка - текст помощи (инструкции),
+            сопровождающий ввод в поле.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.WorksheetItem.DefaultValue">
+            <summary>
+            Знчение по умолчанию при создании 
+            новой записи.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.WorksheetItem.Reserved">
+            <summary>
+            Используется при определенных режимах ввода.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Worksheet.SubFieldEditorRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.SubFieldEditorRepository.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.SubFieldEditorRepository.AddEditor(ManagedIrbis.Worksheet.EditMode,ManagedIrbis.Worksheet.IMarcEditor)">
+            <summary>
+            Add editor for specified mode.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.SubFieldEditorRepository.GetEditor(ManagedIrbis.Worksheet.EditMode)">
+            <summary>
+            Get editor for specified mode.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.SubFieldEditorRepository.Dictionary">
+            <summary>
+            Dictionary.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Systematization.UdkException">
+            <summary>
+            Исключение, возникающее при работе с УДК.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.UdkException.#ctor">
+            <summary>
+            Конструктор.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.UdkException.#ctor(System.String)">
+            <summary>
+            Конструктор.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.UdkException.#ctor(System.String,System.Exception)">
+            <summary>
+            Конструктор.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.StandardDatabases">
             <summary>
             Стандартные базы данных, входящие
@@ -15874,6 +18155,208 @@
         <member name="P:ManagedIrbis.Search.Infrastructure.SearchReference.Number">
             <summary>
             Number.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.ReportRenderingEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportRenderingEventArgs.#ctor(ManagedIrbis.Reports.ReportContext)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportRenderingEventArgs.Context">
+            <summary>
+            Context.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.ReportComputeEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportComputeEventArgs.#ctor(ManagedIrbis.Reports.ReportContext)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportComputeEventArgs.Context">
+            <summary>
+            Context.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportComputeEventArgs.Result">
+            <summary>
+            Result.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.IReportRenderer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.IReportRenderer.RenderCell(ManagedIrbis.Reports.ReportCell)">
+            <summary>
+            Render the cell.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.MarkdownDriver">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.TotalCell">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.TotalCell.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.TotalCell.#ctor(System.Int32,System.Int32,ManagedIrbis.Reports.TotalFunction)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.TotalCell.#ctor(System.Int32,System.Int32,ManagedIrbis.Reports.TotalFunction,System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.TotalCell.Compute(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportCell.Compute(ManagedIrbis.Reports.ReportContext)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.TotalCell.Render(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportCell.Render(ManagedIrbis.Reports.ReportContext)"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.TotalCell.BandIndex">
+            <summary>
+            Band index.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.TotalCell.CellIndex">
+            <summary>
+            Cell index.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.TotalCell.Function">
+            <summary>
+            Function.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.TotalCell.Format">
+            <summary>
+            Format.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.IndexCell">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.IndexCell.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.IndexCell.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.IndexCell.Compute(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportCell.Compute(ManagedIrbis.Reports.ReportContext)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.IndexCell.Render(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportCell.Render(ManagedIrbis.Reports.ReportContext)"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.IndexCell.Format">
+            <summary>
+            Format.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.CellCollection">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.CellCollection.AddRange(System.Collections.Generic.IEnumerable{ManagedIrbis.Reports.ReportCell})">
+            <summary>
+            Add range of <see cref="T:ManagedIrbis.RecordField"/>s.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.CellCollection.Clone">
+            <summary>
+            Создание клона коллекции.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.CellCollection.Find(System.Predicate{ManagedIrbis.Reports.ReportCell})">
+            <summary>
+            Find first occurrence of the field with given predicate.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.CellCollection.FindAll(System.Predicate{ManagedIrbis.Reports.ReportCell})">
+            <summary>
+            Find all occurrences of the field
+            with given predicate.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.CellCollection.ClearItems">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.CellCollection.InsertItem(System.Int32,ManagedIrbis.Reports.ReportCell)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.CellCollection.RemoveItem(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.CellCollection.SetItem(System.Int32,ManagedIrbis.Reports.ReportCell)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.CellCollection.RestoreFromStream(System.IO.BinaryReader)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.CellCollection.SaveToStream(System.IO.BinaryWriter)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.CellCollection.AsReadOnly">
+            <summary>
+            Create read-only clone of the collection.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.CellCollection.SetReadOnly">
+            <summary>
+            Marks the object as read-only.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.CellCollection.ThrowIfReadOnly">
+            <summary>
+            Throws if read only.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.CellCollection.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.CellCollection.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.CellCollection.Band">
+            <summary>
+            Band.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.CellCollection.Report">
+            <summary>
+            Record.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.CellCollection.ReadOnly">
+            <summary>
+            Whether the collection is read-only?
             </summary>
         </member>
         <member name="T:ManagedIrbis.Readers.DebtorInfo">
@@ -15965,6 +18448,110 @@
         <member name="P:ManagedIrbis.Readers.DebtorInfo.Debt">
             <summary>
             Задолженные экземпляры
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Quality.RuleUtility">
+            <summary>
+            Utility routines for quality rules.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.RuleUtility.GetFieldBySpec(System.Collections.Generic.IEnumerable{ManagedIrbis.RecordField},System.String)">
+            <summary>
+            Get field by specification.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.RuleUtility.IsBadCharacter(System.Char)">
+            <summary>
+            Whether the character is bad?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.RuleUtility.BadCharacterPosition(System.String)">
+            <summary>
+            Индекс первого найденного плохого символа в строке
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.RuleUtility.RenumberFields(ManagedIrbis.MarcRecord)">
+            <summary>
+            Renumber fields.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.RuleUtility.RenumberFields(ManagedIrbis.MarcRecord,System.Collections.Generic.IEnumerable{ManagedIrbis.RecordField})">
+            <summary>
+            Renumber fields.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.RuleUtility.BadCharacters">
+            <summary>
+            Плохие символы, которые не должны встречаться в записях.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Quality.Rules.Require910">
+            <summary>
+            Сведения об экземплярах.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.Rules.Require910.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Quality.Rules.Require910.FieldSpec">
+            <inheritdoc />
+        </member>
+        <member name="T:ManagedIrbis.Quality.Rules.CheckWhitespace">
+            <summary>
+            Проверка употребления пробелов в полях/подполях
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.Rules.CheckWhitespace.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Quality.Rules.CheckWhitespace.FieldSpec">
+            <inheritdoc />
+        </member>
+        <member name="T:ManagedIrbis.Quality.Rules.Check10">
+            <summary>
+            ISBN и цена.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.Rules.Check10.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Quality.Rules.Check10.FieldSpec">
+            <inheritdoc />
+        </member>
+        <member name="T:ManagedIrbis.Quality.RuleSet">
+            <summary>
+            Набор правил.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.RuleSet.MergeReport(ManagedIrbis.Quality.RecordReport,ManagedIrbis.Quality.RecordReport)">
+            <summary>
+            Merge two reports.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.RuleSet.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <summary>
+            Проверка одной записи
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.RuleSet.GetRule(System.String)">
+            <summary>
+            Получаем правило по его имени.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.RuleSet.RegisterRule(System.Type)">
+            <summary>
+            Register rule from type.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.RuleSet.UnregisterRule(System.String)">
+            <summary>
+            Отменяем регистрацию правила с указанным именем.
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="P:ManagedIrbis.Quality.RuleSet.Rules">
+            <summary>
+            Правила, входящие в набор.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Pft.PftHtmlFormatter">
@@ -16839,6 +19426,110 @@
             Lock records?
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Worksheet.WssFile">
+            <summary>
+            Вложенный рабочий лист.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WssFile.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WssFile.ParseStream(System.IO.TextReader)">
+            <summary>
+            Разбор потока.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WssFile.ReadFromServer(ManagedIrbis.IrbisConnection,ManagedIrbis.Infrastructure.FileSpecification)">
+            <summary>
+            Read from server.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WssFile.ReadLocalFile(System.String,System.Text.Encoding)">
+            <summary>
+            Считывание из локального файла.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WssFile.ReadLocalFile(System.String)">
+            <summary>
+            Считывание из локального файла.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WssFile.RestoreFromStream(System.IO.BinaryReader)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WssFile.SaveToStream(System.IO.BinaryWriter)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WssFile.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.WssFile.Name">
+            <summary>
+            Имя рабочего листа.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.WssFile.Items">
+            <summary>
+            Элементы рабочего листа.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Worksheet.EditContext">
+            <summary>
+            Context for field/subfield editor.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.EditContext.Provider">
+            <summary>
+            Provider.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.EditContext.Record">
+            <summary>
+            Record to be edited.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.EditContext.Tag">
+            <summary>
+            Tag of the field.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.EditContext.Code">
+            <summary>
+            Code of the subfield (if present).
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.EditContext.Repeat">
+            <summary>
+            Repeat (0 = all/unknown).
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.EditContext.Item">
+            <summary>
+            Worksheet item.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.EditContext.Source">
+            <summary>
+            Source lines (at least one).
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.EditContext.Result">
+            <summary>
+            Result lines (at least one).
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.EditContext.Accept">
+            <summary>
+            Whether user accepted result.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.EditContext.UserData">
+            <summary>
+            Arbitrary user data.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Search.SearchUtility">
             <summary>
             
@@ -17065,6 +19756,72 @@
             <summary>
             Читатели с отрицательным балансом.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.HtmlDriver">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.HtmlDriver.BeginCell(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportCell)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.HtmlDriver.BeginDocument(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.IrbisReport)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.HtmlDriver.BeginRow(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportBand)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.HtmlDriver.EndCell(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportCell)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.HtmlDriver.EndDocument(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.IrbisReport)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.HtmlDriver.EndRow(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Reports.ReportBand)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.HtmlDriver.Write(ManagedIrbis.Reports.ReportContext,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Reports.HtmlDriver.Borders">
+            <summary>
+            Table borders visible?
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.ConditionalBand">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ConditionalBand.Render(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportBand.Render(ManagedIrbis.Reports.ReportContext)"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ConditionalBand.ConditionalExpression">
+            <summary>
+            Conditional expression (PFT).
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Quality.Rules.Require920">
+            <summary>
+            Рабочий лист
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.Rules.Require920.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Quality.Rules.Require920.FieldSpec">
+            <inheritdoc />
+        </member>
+        <member name="T:ManagedIrbis.Quality.Rules.Require700">
+            <summary>
+            Индивидуальные авторы.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.Rules.Require700.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Quality.Rules.Require700.FieldSpec">
+            <inheritdoc />
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Unifors.UniforS.ToRoman(System.Int32)">
             <summary>
@@ -18199,6 +20956,108 @@
             Saved "connected" state.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Worksheet.EditMode">
+            <summary>
+            Field/subfield edit mode.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Worksheet.EditMode.Default">
+            <summary>
+            Ввод без дополнительной обработки.
+            Простая строка ввода
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Worksheet.EditMode.Menu">
+            <summary>
+            Ввод через простое (не иерархическое)
+            меню (справочник).
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Worksheet.EditMode.Dictionary">
+            <summary>
+            Ввод через поисковый словарь.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Worksheet.EditMode.Rubricator">
+            <summary>
+            Ввод через рубрикатор ГРНТИ.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Worksheet.EditMode.Multiline">
+            <summary>
+            Ввод через оконный редактор
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Worksheet.EditMode.SubSheet">
+            <summary>
+            Ввод через вложенный рабочий лист.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Worksheet.EditMode.Tree">
+            <summary>
+            Ввод через иерархический справочник
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Worksheet.EditMode.Switch">
+            <summary>
+            Ввод с использованием переключателей.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Worksheet.EditMode.ExternalProgram">
+            <summary>
+            Ввод с использованием внешней программы.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Worksheet.EditMode.Template">
+            <summary>
+            Ввод на основе маски (шаблона).
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Worksheet.EditMode.AuthorityFile">
+            <summary>
+            Ввод через авторитетный файл.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Worksheet.EditMode.Thesaurus">
+            <summary>
+            Ввод через тезаурус.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Worksheet.EditMode.ExternalFile">
+            <summary>
+            Ввод через обращение к внешнему файлу.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Worksheet.EditMode.Navigator">
+            <summary>
+            Ввод на основе ИРБИС-Навигатора.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Worksheet.EditMode.ExternalDll">
+            <summary>
+            Ввод с помощью режима (функции) пользователя.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Worksheet.EditMode.DynamicMenu">
+            <summary>
+            Ввод с помощью динамического справочника.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Worksheet.EditMode.ServerResource">
+            <summary>
+            Ввод с помощью файловых ресурсов системы ИРБИС.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Worksheet.EditMode.TableMode">
+            <summary>
+            Table mode (F3).
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Testing.TestMethodAttribute">
+            <summary>
+            Attribute to mark test methods.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.SubFieldCollection">
             <summary>
             Коллекция подполей.
@@ -18321,6 +21180,87 @@
         </member>
         <member name="M:ManagedIrbis.Search.Infrastructure.SearchLevel6.Find(ManagedIrbis.Search.SearchContext)">
             <inheritdoc cref="M:ManagedIrbis.Search.Infrastructure.ISearchTree.Find(ManagedIrbis.Search.SearchContext)"/>
+        </member>
+        <member name="T:ManagedIrbis.Reports.DriverCapability">
+            <summary>
+            Capabilities of the <see cref="T:ManagedIrbis.Reports.ReportDriver"/>.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.DriverCapability.None">
+            <summary>
+            None.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.DriverCapability.FontFace">
+            <summary>
+            Arial, Times, Courier etc.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.DriverCapability.FontSize">
+            <summary>
+            Font size.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.DriverCapability.FontDecoration">
+            <summary>
+            Bold, Italic, Underline.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.DriverCapability.FontColor">
+            <summary>
+            Red, Green, Blue.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.DriverCapability.ParagraphAlignment">
+            <summary>
+            Left, Right, Center, Justify.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.DriverCapability.Image">
+            <summary>
+            Pictures.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.DriverCapability.Table">
+            <summary>
+            Table.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.DriverCapability.Section">
+            <summary>
+            Section.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.DriverCapability.CellBorders">
+            <summary>
+            Cell borders.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Reports.DriverCapability.CellSpan">
+            <summary>
+            Cell span.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.DynamicCell">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.DynamicCell.Compute(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportCell.Compute(ManagedIrbis.Reports.ReportContext)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.DynamicCell.Render(ManagedIrbis.Reports.ReportContext)">
+            <inheritdoc cref="M:ManagedIrbis.Reports.ReportCell.Render(ManagedIrbis.Reports.ReportContext)"/>
+        </member>
+        <member name="E:ManagedIrbis.Reports.DynamicCell.Computation">
+            <summary>
+            Raised on cell computation.
+            </summary>
+        </member>
+        <member name="E:ManagedIrbis.Reports.DynamicCell.Rendering">
+            <summary>
+            Raised on cell rendering.
+            </summary>
         </member>
         <member name="T:ManagedIrbis.RecordFieldCollection">
             <summary>
@@ -18707,6 +21647,17 @@
             <summary>
             Название.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Quality.Rules.Require215">
+            <summary>
+            Количественные характеристики.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.Rules.Require215.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Quality.Rules.Require215.FieldSpec">
+            <inheritdoc />
         </member>
         <member name="T:ManagedIrbis.Pft.PftNotConnectedException">
             <summary>
@@ -19552,6 +22503,92 @@
         </member>
         <member name="M:ManagedIrbis.Search.Infrastructure.SearchLevel5.Find(ManagedIrbis.Search.SearchContext)">
             <inheritdoc cref="M:ManagedIrbis.Search.Infrastructure.ISearchTree.Find(ManagedIrbis.Search.SearchContext)"/>
+        </member>
+        <member name="T:ManagedIrbis.Reports.ReportContext">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportContext.#ctor(ManagedIrbis.Client.IrbisProvider)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportContext.OnRendering">
+            <summary>
+            Raise <see cref="E:ManagedIrbis.Reports.ReportContext.Rendering"/> event.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportContext.Clone">
+            <summary>
+            Clone the context.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportContext.Clone(System.Collections.Generic.IEnumerable{ManagedIrbis.MarcRecord})">
+            <summary>
+            Clone the context with new record list.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportContext.Push">
+            <summary>
+            Push the context.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportContext.SetDriver(ManagedIrbis.Reports.ReportDriver)">
+            <summary>
+            Set text driver for the context.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportContext.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportContext.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="E:ManagedIrbis.Reports.ReportContext.Rendering">
+            <summary>
+            Raised on rendering bands.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportContext.Provider">
+            <summary>
+            Provider.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportContext.CurrentRecord">
+            <summary>
+            Current record.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportContext.Driver">
+            <summary>
+            Text driver.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportContext.Index">
+            <summary>
+            Record index.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportContext.Records">
+            <summary>
+            Records.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportContext.Output">
+            <summary>
+            Output.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportContext.Variables">
+            <summary>
+            Variables.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportContext.UserData">
+            <summary>
+            Arbitrary user data.
+            </summary>
         </member>
         <member name="T:ManagedIrbis.Readers.ReaderUtility">
             <summary>
@@ -20744,6 +23781,122 @@
         <member name="M:ManagedIrbis.Search.Infrastructure.SearchLevel4.Find(ManagedIrbis.Search.SearchContext)">
             <inheritdoc cref="M:ManagedIrbis.Search.Infrastructure.ISearchTree.Find(ManagedIrbis.Search.SearchContext)"/>
         </member>
+        <member name="T:ManagedIrbis.Reports.ReportRunner">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportRunner.RunReport(ManagedIrbis.Reports.IrbisReport,ManagedIrbis.Reports.ReportSettings)">
+            <summary>
+            Run the report.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.BandCollection`1">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.BandCollection`1.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.BandCollection`1.#ctor(ManagedIrbis.Reports.IrbisReport,ManagedIrbis.Reports.ReportBand)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.BandCollection`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Add range of <see cref="T:ManagedIrbis.RecordField"/>s.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.BandCollection`1.Clone">
+            <summary>
+            Создание клона коллекции.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.BandCollection`1.Find(System.Predicate{ManagedIrbis.Reports.ReportBand})">
+            <summary>
+            Find first occurrence of the field with given predicate.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.BandCollection`1.FindAll(System.Predicate{ManagedIrbis.Reports.ReportBand})">
+            <summary>
+            Find all occurrences of the field
+            with given predicate.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.BandCollection`1.Render(ManagedIrbis.Reports.ReportContext)">
+            <summary>
+            Render bands.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.BandCollection`1.ClearItems">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.BandCollection`1.InsertItem(System.Int32,`0)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.BandCollection`1.RemoveItem(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.BandCollection`1.SetItem(System.Int32,`0)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.BandCollection`1.RestoreFromStream(System.IO.BinaryReader)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.BandCollection`1.SaveToStream(System.IO.BinaryWriter)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Reports.BandCollection`1.AsReadOnly">
+            <summary>
+            Create read-only clone of the collection.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.BandCollection`1.SetReadOnly">
+            <summary>
+            Marks the object as read-only.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.BandCollection`1.ThrowIfReadOnly">
+            <summary>
+            Throws if read only.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.BandCollection`1.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.BandCollection`1.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="P:ManagedIrbis.Reports.BandCollection`1.Parent">
+            <summary>
+            Parent band.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.BandCollection`1.Report">
+            <summary>
+            Record.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.BandCollection`1.ReadOnly">
+            <summary>
+            Whether the collection is read-only?
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Quality.Rules.Check610">
+            <summary>
+            Ключевые слова.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.Rules.Check610.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Quality.Rules.Check610.FieldSpec">
+            <inheritdoc />
+        </member>
         <member name="T:ManagedIrbis.Pooling.IrbisConnectionPool">
             <summary>
             Пул соединений с сервером.
@@ -21889,6 +25042,70 @@
             Connection.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Worksheet.WsFile">
+            <summary>
+            Рабочий лист.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WsFile.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WsFile.ParseStream(System.IO.TextReader)">
+            <summary>
+            Разбор потока.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WsFile.ReadFromServer(ManagedIrbis.IrbisConnection,ManagedIrbis.Infrastructure.FileSpecification)">
+            <summary>
+            Read from server.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WsFile.FixupLocalFile(System.String,System.Text.Encoding,ManagedIrbis.Worksheet.WsFile)">
+            <summary>
+            Fixup nested worksheets for local file.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WsFile.ReadLocalFile(System.String,System.Text.Encoding)">
+            <summary>
+            Считывание из локального файла.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WsFile.ReadLocalFile(System.String)">
+            <summary>
+            Считывание из локального файла.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WsFile.RestoreFromStream(System.IO.BinaryReader)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WsFile.SaveToStream(System.IO.BinaryWriter)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.WsFile.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.WsFile.Name">
+            <summary>
+            Имя рабочего листа.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Worksheet.WsFile.Pages">
+            <summary>
+            Страницы рабочего листа.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Worksheet.IMarcEditor">
+            <summary>
+            Generic editor for field/subfield.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Worksheet.IMarcEditor.PerformEdit(ManagedIrbis.Worksheet.EditContext)">
+            <summary>
+            Perform edit action using specified context.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.SubFieldValue">
             <summary>
             Subfield value related routines.
@@ -22063,6 +25280,37 @@
             MFN.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Reports.ReportVariable">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportVariable.#ctor(System.String,System.Object)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportVariable.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportVariable.ToString">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportVariable.Name">
+            <summary>
+            Name of the variable.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportVariable.Value">
+            <summary>
+            Value of the variable.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Reports.HeaderCell">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Readers.IriProfile">
             <summary>
             Профиль ИРИ
@@ -22137,6 +25385,100 @@
         <member name="P:ManagedIrbis.Readers.IriProfile.Reader">
             <summary>
             Ссылка на читателя.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Quality.Rules.Require102">
+            <summary>
+            Страна.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.Rules.Require102.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Quality.Rules.Require102.FieldSpec">
+            <inheritdoc />
+        </member>
+        <member name="T:ManagedIrbis.Quality.Rules.CheckMixedCharacters">
+            <summary>
+            Проверка на смешение символов.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.Rules.CheckMixedCharacters.CheckRecord(ManagedIrbis.Quality.RuleContext)">
+            <inheritdoc />
+        </member>
+        <member name="P:ManagedIrbis.Quality.Rules.CheckMixedCharacters.FieldSpec">
+            <inheritdoc />
+        </member>
+        <member name="T:ManagedIrbis.Quality.RuleReport">
+            <summary>
+            Отчёт о работе правила.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.RuleReport.#ctor">
+            <summary>
+            Конструктор по умолчанию.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.RuleReport.Defects">
+            <summary>
+            Дефекты, обнаруженные правилом.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.RuleReport.Damage">
+            <summary>
+            Общий урон.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.RuleReport.Bonus">
+            <summary>
+            Начисленный бонус.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Quality.FieldDefect">
+            <summary>
+            Detected defect of the field/subfield.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Quality.FieldDefect.RestoreFromStream(System.IO.BinaryReader)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
+        </member>
+        <member name="M:ManagedIrbis.Quality.FieldDefect.SaveToStream(System.IO.BinaryWriter)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
+        </member>
+        <member name="M:ManagedIrbis.Quality.FieldDefect.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="M:ManagedIrbis.Quality.FieldDefect.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Quality.FieldDefect.Field">
+            <summary>
+            Поле.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.FieldDefect.FieldRepeat">
+            <summary>
+            Повторение поля.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.FieldDefect.Subfield">
+            <summary>
+            Подполе (если есть).
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.FieldDefect.Value">
+            <summary>
+            Значение поля/подполя.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.FieldDefect.Message">
+            <summary>
+            Сообщение об ошибке.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Quality.FieldDefect.Damage">
+            <summary>
+            Урон от дефекта.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Testing.PftTest">
@@ -23722,106 +27064,169 @@
             Altered records.
             </summary>
         </member>
-        <member name="T:ManagedIrbis.Search.Infrastructure.TermLinkComparer">
+        <member name="T:ManagedIrbis.Identifiers.CrossRefApi">
+            <summary>
+            API for CrossRef.org
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Doi">
+            <summary>
+            DOI
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Doi.RestoreFromStream(System.IO.BinaryReader)">
+            <summary>
+            Просим объект восстановить свое состояние из потока.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Doi.SaveToStream(System.IO.BinaryWriter)">
+            <summary>
+            Просим объект сохранить себя в потоке.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Doi.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/>
+            that represents this instance.
+            </summary>
+            <returns>A <see cref="T:System.String"/>
+            that represents this instance.</returns>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Doi.Prefix">
+            <summary>
+            Префикс.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Doi.Suffix">
+            <summary>
+            Суффикс.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Ean8">
             <summary>
             
             </summary>
         </member>
-        <member name="T:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByMfn">
+        <member name="F:ManagedIrbis.Identifiers.Ean8.Coefficients">
             <summary>
-            Compares two <see cref="T:ManagedIrbis.Search.TermLink"/>s by MFN.
+            Coefficients for control digit calculation.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByMfn.Equals(ManagedIrbis.Search.TermLink,ManagedIrbis.Search.TermLink)">
-            <inheritdoc cref="M:System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)"/>
-        </member>
-        <member name="M:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByMfn.GetHashCode(ManagedIrbis.Search.TermLink)">
-            <inheritdoc cref="M:System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)"/>
-        </member>
-        <member name="T:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByTag">
+        <member name="M:ManagedIrbis.Identifiers.Ean8.ComputeCheckDigit(System.Char[])">
             <summary>
-            Compares two <see cref="T:ManagedIrbis.Search.TermLink"/>s by MFN
-            and field tag.
+            Compute check digit.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByTag.Equals(ManagedIrbis.Search.TermLink,ManagedIrbis.Search.TermLink)">
-            <inheritdoc cref="M:System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)"/>
-        </member>
-        <member name="M:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByTag.GetHashCode(ManagedIrbis.Search.TermLink)">
-            <inheritdoc cref="M:System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)"/>
-        </member>
-        <member name="T:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByOccurrence">
+        <member name="M:ManagedIrbis.Identifiers.Ean8.CheckControlDigit(System.Char[])">
             <summary>
-            Compares two <see cref="T:ManagedIrbis.Search.TermLink"/>s by MFN,
-            field tag and occurrence.
+            Check control digit.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByOccurrence.Equals(ManagedIrbis.Search.TermLink,ManagedIrbis.Search.TermLink)">
-            <inheritdoc cref="M:System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)"/>
-        </member>
-        <member name="M:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByOccurrence.GetHashCode(ManagedIrbis.Search.TermLink)">
-            <inheritdoc cref="M:System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)"/>
-        </member>
-        <member name="T:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByIndex">
-            <summary>
-            Compares two <see cref="T:ManagedIrbis.Search.TermLink"/>s by MFN,
-            field tag, occurrence and index.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByIndex.Equals(ManagedIrbis.Search.TermLink,ManagedIrbis.Search.TermLink)">
-            <inheritdoc cref="M:System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)"/>
-        </member>
-        <member name="M:ManagedIrbis.Search.Infrastructure.TermLinkComparer.ByIndex.GetHashCode(ManagedIrbis.Search.TermLink)">
-            <inheritdoc cref="M:System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)"/>
-        </member>
-        <member name="T:ManagedIrbis.Direct.DirectUtility">
+        <member name="T:ManagedIrbis.Identifiers.Ean13">
             <summary>
             
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Direct.DirectUtility.CreateDatabase32(System.String)">
+        <member name="F:ManagedIrbis.Identifiers.Ean13.Coefficients">
             <summary>
-            Create 8 database files for IRBIS32.
+            Coefficients for control digit calculation.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Direct.DirectUtility.CreateDatabase64(System.String)">
+        <member name="M:ManagedIrbis.Identifiers.Ean13.ComputeCheckDigit(System.Char[])">
             <summary>
-            Create 5 database files for IRBIS64.
+            Compute check digit.
             </summary>
         </member>
-        <member name="T:ManagedIrbis.Infrastructure.ClientSocketUtility">
+        <member name="M:ManagedIrbis.Identifiers.Ean13.CheckControlDigit(System.Char[])">
+            <summary>
+            Check control digit.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Isbn">
+            <summary>
+            Всё, связанное с ISBN.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Identifiers.Isbn.StandardHyphen">
+            <summary>
+            Стандартный знак дефис.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Isbn.CheckControlDigit(System.String,System.Char)">
+            <summary>
+            Проверяет контрольную цифру ISBN.
+            </summary>
+            <param name="isbn">Проверяемая строка.</param>
+            <param name="hyphen">Символ дефиса.</param>
+            <returns><c>true</c> если вычисленная и фактическая 
+            контрольные цифры совпадают.</returns>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Isbn.CheckControlDigit(System.String)">
+            <summary>
+            Проверяем контрольную цифру.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Isbn.CheckHyphens(System.String,System.Char)">
+            <summary>
+            Проверяем дефисы.
+            </summary>
+            <param name="isbn">Проверяемая строка.</param>
+            <param name="hyphen">Символ дефиса.</param>
+            <returns><c>true</c> если дефисы расставлены правильно.
+            </returns>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Isbn.CheckHyphens(System.String)">
+            <summary>
+            Проверяет дефисы.
+            </summary>
+            <param name="isbn">Проверяемая строка.</param>
+            <returns><c>true</c> если дефисы расставлены правильно.
+            </returns>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Isbn.Validate(System.String,System.Boolean)">
+            <summary>
+            Проверяет ISBN.
+            </summary>
+            <returns><c>true</c> если ISBN написан правильно.
+            </returns>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Isbn.ToEan13(System.String)">
+            <summary>
+            Конвертирует ISBN в штрих-код EAN13.
+            </summary>
+            <param name="isbn">ISBN.</param>
+            <returns>Штрих-код.</returns>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Isbn.FromEan13(System.String)">
+            <summary>
+            Получает (суррогатный) ISBN из штрих-кода EAN13.
+            </summary>
+            <param name="ean">штрих-код.</param>
+            <returns>Суррогатный ISBN.</returns>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Issn">
+            <summary>
+            Всё, связанное с ISSN.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Upc12">
             <summary>
             
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.ClientSocketUtility.CreateSocket(ManagedIrbis.IrbisConnection,System.String)">
+        <member name="F:ManagedIrbis.Identifiers.Upc12.Coefficients">
             <summary>
-            Create socket of the given type
-            and add it to the socket chain
-            of the connection.
+            Coefficients for control digit calculation.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.ClientSocketUtility.CreateSocket``1(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Identifiers.Upc12.ComputeCheckDigit(System.Char[])">
             <summary>
-            Create socket of the given type
-            and add it to the socket chain
-            of the connection.
+            Compute check digit.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.ClientSocketUtility.FindSocket``1(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Identifiers.Upc12.CheckControlDigit(System.Char[])">
             <summary>
-            Find given socket type in the socket chain.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Infrastructure.ClientSocketUtility.FindOrCreateSocket``1(ManagedIrbis.IrbisConnection)">
-            <summary>
-            Find or create (add to socket chain)
-            given socket type.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Infrastructure.ClientSocketUtility.RemoveSocket(ManagedIrbis.IrbisConnection,ManagedIrbis.Infrastructure.AbstractClientSocket)">
-            <summary>
-            Remove given socket from the socket chain.
+            Check control digit.
             </summary>
         </member>
     </members>

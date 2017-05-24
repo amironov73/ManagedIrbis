@@ -344,6 +344,45 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Gbl\ProtocolLine.cs">
       <Link>Source\Gbl\ProtocolLine.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\CrossRefApi.cs">
+      <Link>Source\Identifiers\CrossRefApi.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Doi.cs">
+      <Link>Source\Identifiers\Doi.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Ean13.cs">
+      <Link>Source\Identifiers\Ean13.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Ean8.cs">
+      <Link>Source\Identifiers\Ean8.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isbn.cs">
+      <Link>Source\Identifiers\Isbn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Ismn.cs">
+      <Link>Source\Identifiers\Ismn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isni.cs">
+      <Link>Source\Identifiers\Isni.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Issn.cs">
+      <Link>Source\Identifiers\Issn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\JournalSeekApi.cs">
+      <Link>Source\Identifiers\JournalSeekApi.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Orcid.cs">
+      <Link>Source\Identifiers\Orcid.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Upc12.cs">
+      <Link>Source\Identifiers\Upc12.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\WikipediaApi.cs">
+      <Link>Source\Identifiers\WikipediaApi.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\WorldCatApi.cs">
+      <Link>Source\Identifiers\WorldCatApi.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\IlfFile.cs">
       <Link>Source\IlfFile.cs</Link>
     </Compile>
@@ -1268,6 +1307,87 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pooling\PoolUtility.cs">
       <Link>Source\Pooling\PoolUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\DefectList.cs">
+      <Link>Source\Quality\DefectList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\FieldDefect.cs">
+      <Link>Source\Quality\FieldDefect.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\QualityRule.cs">
+      <Link>Source\Quality\QualityRule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\RecordReport.cs">
+      <Link>Source\Quality\RecordReport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\RuleContext.cs">
+      <Link>Source\Quality\RuleContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\RuleReport.cs">
+      <Link>Source\Quality\RuleReport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\RuleSet.cs">
+      <Link>Source\Quality\RuleSet.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\Check10.cs">
+      <Link>Source\Quality\Rules\Check10.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\Check610.cs">
+      <Link>Source\Quality\Rules\Check610.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\Check908.cs">
+      <Link>Source\Quality\Rules\Check908.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\CheckEmptySubfields.cs">
+      <Link>Source\Quality\Rules\CheckEmptySubfields.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\CheckMixedCharacters.cs">
+      <Link>Source\Quality\Rules\CheckMixedCharacters.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\CheckWhitespace.cs">
+      <Link>Source\Quality\Rules\CheckWhitespace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\Require101.cs">
+      <Link>Source\Quality\Rules\Require101.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\Require102.cs">
+      <Link>Source\Quality\Rules\Require102.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\Require200.cs">
+      <Link>Source\Quality\Rules\Require200.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\Require210.cs">
+      <Link>Source\Quality\Rules\Require210.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\Require215.cs">
+      <Link>Source\Quality\Rules\Require215.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\Require461.cs">
+      <Link>Source\Quality\Rules\Require461.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\Require60.cs">
+      <Link>Source\Quality\Rules\Require60.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\Require60x.cs">
+      <Link>Source\Quality\Rules\Require60x.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\Require700.cs">
+      <Link>Source\Quality\Rules\Require700.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\Require900.cs">
+      <Link>Source\Quality\Rules\Require900.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\Require903.cs">
+      <Link>Source\Quality\Rules\Require903.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\Require910.cs">
+      <Link>Source\Quality\Rules\Require910.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\Require920.cs">
+      <Link>Source\Quality\Rules\Require920.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Quality\RuleUtility.cs">
+      <Link>Source\Quality\RuleUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RawRecord.cs">
       <Link>Source\RawRecord.cs</Link>
     </Compile>
@@ -1318,6 +1438,177 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RecordStatus.cs">
       <Link>Source\RecordStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\BandCollection.cs">
+      <Link>Source\Reports\Bands\BandCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\CompositeBand.cs">
+      <Link>Source\Reports\Bands\CompositeBand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\ConditionalBand.cs">
+      <Link>Source\Reports\Bands\ConditionalBand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\DetailsBand.cs">
+      <Link>Source\Reports\Bands\DetailsBand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\DynamicBand.cs">
+      <Link>Source\Reports\Bands\DynamicBand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\FilterBand.cs">
+      <Link>Source\Reports\Bands\FilterBand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\FreeBand.cs">
+      <Link>Source\Reports\Bands\FreeBand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\GroupBand.cs">
+      <Link>Source\Reports\Bands\GroupBand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\HeaderBand.cs">
+      <Link>Source\Reports\Bands\HeaderBand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\ReportBand.cs">
+      <Link>Source\Reports\Bands\ReportBand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\SectionBand.cs">
+      <Link>Source\Reports\Bands\SectionBand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\SortBand.cs">
+      <Link>Source\Reports\Bands\SortBand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\TableBand.cs">
+      <Link>Source\Reports\Bands\TableBand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\TotalBand.cs">
+      <Link>Source\Reports\Bands\TotalBand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\CellCollection.cs">
+      <Link>Source\Reports\Cells\CellCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\DataCell.cs">
+      <Link>Source\Reports\Cells\DataCell.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\DynamicCell.cs">
+      <Link>Source\Reports\Cells\DynamicCell.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\HeaderCell.cs">
+      <Link>Source\Reports\Cells\HeaderCell.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\IndexCell.cs">
+      <Link>Source\Reports\Cells\IndexCell.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\PftCell.cs">
+      <Link>Source\Reports\Cells\PftCell.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\RawPftCell.cs">
+      <Link>Source\Reports\Cells\RawPftCell.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\RawTextCell.cs">
+      <Link>Source\Reports\Cells\RawTextCell.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\ReportCell.cs">
+      <Link>Source\Reports\Cells\ReportCell.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\TextCell.cs">
+      <Link>Source\Reports\Cells\TextCell.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\TotalCell.cs">
+      <Link>Source\Reports\Cells\TotalCell.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\TotalFunction.cs">
+      <Link>Source\Reports\Cells\TotalFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Drivers\CsvDriver.cs">
+      <Link>Source\Reports\Drivers\CsvDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Drivers\DatasetDriver.cs">
+      <Link>Source\Reports\Drivers\DatasetDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Drivers\DriverCapability.cs">
+      <Link>Source\Reports\Drivers\DriverCapability.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Drivers\DriverManager.cs">
+      <Link>Source\Reports\Drivers\DriverManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Drivers\HtmlDriver.cs">
+      <Link>Source\Reports\Drivers\HtmlDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Drivers\LatexDriver.cs">
+      <Link>Source\Reports\Drivers\LatexDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Drivers\LoggingDriver.cs">
+      <Link>Source\Reports\Drivers\LoggingDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Drivers\MarkdownDriver.cs">
+      <Link>Source\Reports\Drivers\MarkdownDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Drivers\PlainTextDriver.cs">
+      <Link>Source\Reports\Drivers\PlainTextDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Drivers\ReportDriver.cs">
+      <Link>Source\Reports\Drivers\ReportDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Drivers\RtfDriver.cs">
+      <Link>Source\Reports\Drivers\RtfDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\IAttributable.cs">
+      <Link>Source\Reports\IAttributable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\IrbisReport.cs">
+      <Link>Source\Reports\IrbisReport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\IReportRenderer.cs">
+      <Link>Source\Reports\IReportRenderer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\RecordFilter.cs">
+      <Link>Source\Reports\RecordFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\RecordSorter.cs">
+      <Link>Source\Reports\RecordSorter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportAttribute.cs">
+      <Link>Source\Reports\ReportAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportAttributes.cs">
+      <Link>Source\Reports\ReportAttributes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportComputeEventArgs.cs">
+      <Link>Source\Reports\ReportComputeEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportContext.cs">
+      <Link>Source\Reports\ReportContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportEventArgs.cs">
+      <Link>Source\Reports\ReportEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportOutput.cs">
+      <Link>Source\Reports\ReportOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportRenderingEventArgs.cs">
+      <Link>Source\Reports\ReportRenderingEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportRunner.cs">
+      <Link>Source\Reports\ReportRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportSettings.cs">
+      <Link>Source\Reports\ReportSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportUtility.cs">
+      <Link>Source\Reports\ReportUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportVariable.cs">
+      <Link>Source\Reports\ReportVariable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportVariableManager.cs">
+      <Link>Source\Reports\ReportVariableManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Testing\ReportTest.cs">
+      <Link>Source\Reports\Testing\ReportTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Testing\ReportTester.cs">
+      <Link>Source\Reports\Testing\ReportTester.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Testing\ReportTestResult.cs">
+      <Link>Source\Reports\Testing\ReportTestResult.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Requests\BookRequest.cs">
       <Link>Source\Requests\BookRequest.cs</Link>
@@ -1475,11 +1766,65 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\SubFieldValue.cs">
       <Link>Source\SubFieldValue.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Systematization\BbkException.cs">
+      <Link>Source\Systematization\BbkException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Systematization\BbkIndex.cs">
+      <Link>Source\Systematization\BbkIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Systematization\BbkRange.cs">
+      <Link>Source\Systematization\BbkRange.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Systematization\UdkException.cs">
+      <Link>Source\Systematization\UdkException.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\TableDefinition.cs">
       <Link>Source\TableDefinition.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Testing\AbstractTest.cs">
+      <Link>Source\Testing\AbstractTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Testing\TestClassAttribute.cs">
+      <Link>Source\Testing\TestClassAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Testing\TestContext.cs">
+      <Link>Source\Testing\TestContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Testing\TestMethodAttribute.cs">
+      <Link>Source\Testing\TestMethodAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Testing\TestRunner.cs">
+      <Link>Source\Testing\TestRunner.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\UserInfo.cs">
       <Link>Source\UserInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\EditContext.cs">
+      <Link>Source\Worksheet\EditContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\EditMode.cs">
+      <Link>Source\Worksheet\EditMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\FieldEditorRepository.cs">
+      <Link>Source\Worksheet\FieldEditorRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\IMarcEditor.cs">
+      <Link>Source\Worksheet\IMarcEditor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\SubFieldEditorRepository.cs">
+      <Link>Source\Worksheet\SubFieldEditorRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\WorksheetItem.cs">
+      <Link>Source\Worksheet\WorksheetItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\WorksheetPage.cs">
+      <Link>Source\Worksheet\WorksheetPage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\WsFile.cs">
+      <Link>Source\Worksheet\WsFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\WssFile.cs">
+      <Link>Source\Worksheet\WssFile.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

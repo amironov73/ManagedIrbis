@@ -37,7 +37,9 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE
     [DebuggerDisplay("{Name}: {Value}")]
+#endif
     public sealed class ReportVariable
         : IVerifiable
     {

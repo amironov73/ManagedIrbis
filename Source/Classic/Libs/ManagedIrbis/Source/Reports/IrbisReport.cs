@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -39,6 +38,12 @@ using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
+#if !WINMOBILE
+
+using System.Runtime.Serialization.Formatters;
+
+#endif
 
 #endregion
 
@@ -204,6 +209,12 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if WINMOBILE
+
+            return new IrbisReport();
+
+#else
+
             string contents = File.ReadAllText
                 (
                     fileName,
@@ -228,6 +239,8 @@ namespace ManagedIrbis.Reports
                 );
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -239,6 +252,12 @@ namespace ManagedIrbis.Reports
             )
         {
             Code.NotNullNorEmpty(fileName, "fileName");
+
+#if WINMOBILE
+
+            return new IrbisReport();
+
+#else
 
             string contents = File.ReadAllText
                 (
@@ -279,6 +298,8 @@ namespace ManagedIrbis.Reports
                 );
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -290,6 +311,8 @@ namespace ManagedIrbis.Reports
             )
         {
             Code.NotNullNorEmpty(fileName, "fileName");
+
+#if !WINMOBILE
 
             JsonSerializerSettings settings = new JsonSerializerSettings
             {
@@ -316,6 +339,8 @@ namespace ManagedIrbis.Reports
                     contents,
                     IrbisEncoding.Utf8
                 );
+
+#endif
         }
 
         /// <summary>
@@ -327,6 +352,8 @@ namespace ManagedIrbis.Reports
             )
         {
             Code.NotNullNorEmpty(fileName, "fileName");
+
+#if !WINMOBILE
 
             JsonSerializer serializer = new JsonSerializer
             {
@@ -398,6 +425,8 @@ namespace ManagedIrbis.Reports
                     contents,
                     IrbisEncoding.Utf8
                 );
+
+#endif
         }
 
 #endif

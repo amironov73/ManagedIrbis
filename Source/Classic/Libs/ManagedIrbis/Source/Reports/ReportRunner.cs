@@ -72,7 +72,7 @@ namespace ManagedIrbis.Reports
             report.Verify(true);
             settings.Verify(true);
 
-#if !NETCORE
+#if !NETCORE && !WINMOBILE
 
             string[] assemblies = settings.Assemblies.ToArray();
             foreach (string path in assemblies)

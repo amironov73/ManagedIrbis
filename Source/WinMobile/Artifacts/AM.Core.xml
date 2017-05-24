@@ -2029,6 +2029,16 @@
             Конец текста.
             </summary>
         </member>
+        <member name="T:AM.Text.RichText">
+            <summary>
+            Rich text support.
+            </summary>
+        </member>
+        <member name="M:AM.Text.RichText.Encode(System.String)">
+            <summary>
+            Encode text.
+            </summary>
+        </member>
         <member name="T:AM.Reflection.TaggedClassesCollector">
             <summary>
             Collects tagged classes in given assemblies.
@@ -4018,6 +4028,16 @@
             </summary>
             <remarks>For compatibility with WinMobile
             </remarks>
+        </member>
+        <member name="M:AM.StringUtility.Clear(System.Text.StringBuilder)">
+            <summary>
+            Clear the <see cref="T:System.Text.StringBuilder"/>.
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.ToLowerInvariant(System.String)">
+            <summary>
+            
+            </summary>
         </member>
         <member name="T:AM.Runtime.PinnedStructure`1">
             <summary>
