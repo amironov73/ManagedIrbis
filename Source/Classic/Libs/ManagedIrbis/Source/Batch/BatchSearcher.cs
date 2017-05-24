@@ -144,7 +144,7 @@ namespace ManagedIrbis.Batch
             int batchSize = BatchSize;
             if (batchSize < 1)
             {
-                Log.Trace
+                Log.Error
                     (
                         "BatchSearcher::Search: "
                         + "batchSize="
@@ -188,7 +188,7 @@ namespace ManagedIrbis.Batch
             int batchSize = BatchSize;
             if (batchSize < 1)
             {
-                Log.Trace
+                Log.Error
                     (
                         "BatchSearcher::SearchRead: "
                         + "batchSize="

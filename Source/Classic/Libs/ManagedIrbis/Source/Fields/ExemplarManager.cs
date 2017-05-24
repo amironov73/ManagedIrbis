@@ -259,7 +259,7 @@ namespace ManagedIrbis.Fields
 
             if (string.IsNullOrEmpty(result))
             {
-                Log.Trace
+                Log.Error
                     (
                         "ExemplarManager::GetDescription: "
                         + "empty description"
@@ -311,7 +311,7 @@ namespace ManagedIrbis.Fields
         {
             if (exemplar.Mfn <= 0)
             {
-                Log.Trace
+                Log.Error
                     (
                         "ExemplarManager::Extend: "
                         + "MFN="
@@ -454,7 +454,7 @@ namespace ManagedIrbis.Fields
 
             if (ReferenceEquals(loaded, null))
             {
-                Log.Trace
+                Log.Error
                     (
                         "ExemplarManager::LoadFromFile: "
                         + "failed to load from: "

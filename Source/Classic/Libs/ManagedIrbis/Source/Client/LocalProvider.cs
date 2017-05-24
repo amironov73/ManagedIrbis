@@ -67,9 +67,11 @@ namespace ManagedIrbis.Client
         {
             Log.Trace("LocalProvider::Constructor");
 
+            // ReSharper disable VirtualMemberCallInConstructor
             RootPath = "C:/IRBIS64";
             DataPath = "C:/IRBIS64/DataI";
             Database = "IBIS";
+            // ReSharper restore VirtualMemberCallInConstructor
         }
 
         /// <summary>

@@ -122,10 +122,10 @@ namespace ManagedIrbis
 
             if (!result)
             {
-                Log.Trace
+                Log.Error
                     (
                         "FieldTag::Verify: "
-                        + "bad tag: "
+                        + "bad tag="
                         + tag.NullableToVisibleString()
                     );
 
@@ -133,7 +133,7 @@ namespace ManagedIrbis
                 {
                     throw new VerificationException
                         (
-                            "bad tag: " 
+                            "bad tag=" 
                             + tag.NullableToVisibleString()
                         );
                 }

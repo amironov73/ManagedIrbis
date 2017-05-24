@@ -93,7 +93,7 @@ namespace ManagedIrbis
                     string value = subField.Value;
                     if (string.IsNullOrEmpty(value))
                     {
-                        Log.Trace
+                        Log.Error
                             (
                                 "EmbeddedField::GetEmbeddedFields: "
                                 + "bad format"

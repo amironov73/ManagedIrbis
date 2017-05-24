@@ -141,9 +141,10 @@ namespace ManagedIrbis.Client
         {
             if (index < 0 || index >= _list.Count)
             {
-                Log.Trace
+                Log.Error
                     (
-                        "MessageFile::GetMessage: missing: "
+                        "MessageFile::GetMessage: "
+                        + "missing index="
                         + index
                     );
 

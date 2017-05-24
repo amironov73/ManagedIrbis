@@ -117,7 +117,7 @@ namespace ManagedIrbis.Batch
             Code.NotNull(range, "range");
             if (batchSize < 1)
             {
-                Log.Trace
+                Log.Error
                     (
                         "BatchRecordReader::Constructor: "
                         + "batchSize="
@@ -152,7 +152,7 @@ namespace ManagedIrbis.Batch
             Code.NotNull(range, "range");
             if (batchSize < 1)
             {
-                Log.Trace
+                Log.Error
                     (
                         "BatchRecordReader::Constructor: "
                         + "batchSize="
@@ -358,7 +358,7 @@ namespace ManagedIrbis.Batch
             Code.NotNullNorEmpty(searchExpression, "searchExpression");
             if (batchSize < 1)
             {
-                Log.Trace
+                Log.Error
                     (
                         "BatchRecordReader::Search: "
                         + "batchSize="
@@ -430,7 +430,7 @@ namespace ManagedIrbis.Batch
             Code.NotNullNorEmpty(database, "database");
             if (batchSize < 1)
             {
-                Log.Trace
+                Log.Error
                     (
                         "BatchRecordReader::WholeDatabase: "
                         + "batchSize="

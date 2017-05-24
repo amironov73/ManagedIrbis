@@ -127,7 +127,7 @@ namespace ManagedIrbis.Client
 
             if (parts.Length < 5)
             {
-                Log.Trace
+                Log.Error
                     (
                         "RecordState::ParseServerAnswer: "
                         + "bad line format: "

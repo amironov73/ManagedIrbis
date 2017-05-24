@@ -140,7 +140,7 @@ namespace ManagedIrbis.Fst
 
             if (parts.Length != 3)
             {
-                Log.Trace
+                Log.Error
                     (
                         "FstLine::ParseStream: "
                         + "bad line: "

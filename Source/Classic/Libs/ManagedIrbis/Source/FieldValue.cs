@@ -119,10 +119,10 @@ namespace ManagedIrbis
 
             if (!result)
             {
-                Log.Trace
+                Log.Error
                     (
                         "FieldValue::Verify: "
-                        + "bad value: "
+                        + "bad value="
                         + value.NullableToVisibleString()
                     );
 

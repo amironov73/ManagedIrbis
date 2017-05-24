@@ -101,7 +101,7 @@ namespace ManagedIrbis.Client
             Type type;
             if (!Registry.TryGetValue(name, out type))
             {
-                Log.Trace
+                Log.Error
                     (
                         "ProviderManager::GetProvider: "
                         + "provider not found: "
@@ -119,7 +119,7 @@ namespace ManagedIrbis.Client
 
             if (ReferenceEquals(type, null))
             {
-                Log.Trace
+                Log.Error
                     (
                         "ProviderManager::GetProvider: "
                         + "can't find type: "

@@ -94,7 +94,7 @@ namespace ManagedIrbis.Batch
             Code.NotNullNorEmpty(database, "database");
             if (capacity < 1)
             {
-                Log.Trace
+                Log.Error
                     (
                         "BatchRecordWriter::Constructor: "
                         + "capacity="

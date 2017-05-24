@@ -625,7 +625,7 @@ namespace ManagedIrbis
                         break;
 
                     default:
-                        Log.Trace
+                        Log.Error
                         (
                             "ConnectionSettings::ParseConnectionString: "
                             + "unknown parameter: "

@@ -323,7 +323,7 @@ namespace ManagedIrbis
         {
             if (ReadOnly)
             {
-                Log.Trace
+                Log.Error
                     (
                         "FieldIndicator::ThrowIfReadOnly"
                     );

@@ -113,7 +113,7 @@ namespace ManagedIrbis.Batch
             Code.NotNull(range, "range");
             if (batchSize < 1)
             {
-                Log.Trace
+                Log.Error
                     (
                         "BatchRecordFormatter::Constructor: "
                         + "batchSize="
@@ -183,7 +183,7 @@ namespace ManagedIrbis.Batch
             Code.Positive(lastMfn, "lastMfn");
             if (batchSize < 1)
             {
-                Log.Trace
+                Log.Error
                     (
                         "BatchRecordFormatter::Interval: "
                         + "batchSize="
@@ -257,7 +257,7 @@ namespace ManagedIrbis.Batch
             Code.NotNullNorEmpty(searchExpression, "searchExpression");
             if (batchSize < 1)
             {
-                Log.Trace
+                Log.Error
                     (
                         "BatchRecordFormatter::Search: "
                         + "batchSize="
@@ -302,7 +302,7 @@ namespace ManagedIrbis.Batch
             Code.NotNullNorEmpty(format, "format");
             if (batchSize < 1)
             {
-                Log.Trace
+                Log.Error
                     (
                         "BatchRecordFormatter::WholeDatabase: "
                         + "batchSize="

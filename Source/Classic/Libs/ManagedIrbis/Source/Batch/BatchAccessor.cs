@@ -107,7 +107,7 @@ namespace ManagedIrbis.Batch
                 && record.Fields.Count == 0
                )
             {
-                Log.Trace
+                Log.Error
                     (
                         "BatchAccessor::ThrowIfEmptyRecord: "
                         + "empty record detected"

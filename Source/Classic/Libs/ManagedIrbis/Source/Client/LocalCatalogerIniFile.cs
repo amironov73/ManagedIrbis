@@ -70,13 +70,13 @@ namespace ManagedIrbis.Client
                 IniFile.Section result = ini.GetSection(Main);
                 if (ReferenceEquals(result, null))
                 {
-                    Log.Trace
+                    Log.Error
                         (
                             "LocalCatalogerIniFile::MainSection: "
-                            + "main section is null"
+                            + "missing main section"
                         );
 
-                    throw new IrbisException("Main section is null");
+                    throw new IrbisException("Missing main section");
                 }
 
                 return result; 
