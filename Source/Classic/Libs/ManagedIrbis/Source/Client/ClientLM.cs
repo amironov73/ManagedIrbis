@@ -106,9 +106,10 @@ namespace ManagedIrbis.Client
         #region Public methods
 
         /// <summary>
-        /// Check IRBIS64-hash for the INI-file.
+        /// Check hash for the INI-file
+        /// (both IRBIS32 and IRBIS64).
         /// </summary>
-        public bool CheckHash64
+        public bool CheckHash
             (
                 [NotNull] IniFile iniFile
             )
@@ -124,32 +125,17 @@ namespace ManagedIrbis.Client
                 return false;
             }
 
-            string hash = ComputeHash64(user);
+            string hash = ComputeHash(user);
 
             return hash == common;
         }
 
         /// <summary>
-        /// Compute IRBIS32-hash for the text.
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        [NotNull]
-        public string ComputeHash32
-            (
-                [NotNull] string text
-            )
-        {
-            Code.NotNull(text, "text");
-
-            return string.Empty;
-        }
-
-        /// <summary>
-        /// Compute IRBIS64-hash for the text.
+        /// Compute hash for the text
+        /// (both IRBIS32 and IRBIS64).
         /// </summary>
         [NotNull]
-        public string ComputeHash64
+        public string ComputeHash
             (
                 [NotNull] string text
             )

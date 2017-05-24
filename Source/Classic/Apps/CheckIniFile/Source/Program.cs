@@ -43,7 +43,7 @@ namespace CheckIniFile
                     = new IniFile(fileName, encoding, false))
                 {
                     ClientLM lm = new ClientLM();
-                    bool result = lm.CheckHash64(iniFile);
+                    bool result = lm.CheckHash(iniFile);
 
                     Console.WriteLine("{0}: {1}", fileName, result);
                 }

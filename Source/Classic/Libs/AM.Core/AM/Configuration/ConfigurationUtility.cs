@@ -424,6 +424,18 @@ namespace AM.Configuration
         /// <summary>
         /// Get string value from application configuration.
         /// </summary>
+        [CanBeNull]
+        public static string GetString
+            (
+                [NotNull] string key
+            )
+        {
+            return GetString(key, null);
+        }
+
+        /// <summary>
+        /// Get string value from application configuration.
+        /// </summary>
         [NotNull]
         public static string RequireString
             (

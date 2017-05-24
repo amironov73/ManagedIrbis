@@ -182,7 +182,7 @@ namespace ManagedIrbis.Client
 
 #else
 
-            lines = File.ReadAllLines(fileName, encoding)
+            lines = File.ReadAllLines(fileName, encoding);
 
 #endif
 
