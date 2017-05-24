@@ -17,6 +17,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using AM.Logging;
+
 #endregion
 
 namespace AM.Threading.Tasks
@@ -164,6 +166,12 @@ namespace AM.Threading.Tasks
         {
             if (_isDisposed)
             {
+                Log.Error
+                    (
+                        "ProcessorBase::Enqueue: "
+                        + "disposed"
+                    );
+
                 throw new InvalidOperationException
                     (
                         "Cancellation has been requested"
@@ -173,7 +181,16 @@ namespace AM.Threading.Tasks
             if (_maxQueueSize.HasValue 
                 && Queue.Count >= _maxQueueSize)
             {
-                throw new InvalidOperationException("Queue is full");
+                Log.Error
+                    (
+                        "ProcessorBase::Enqueue: "
+                        + "queue is full"
+                    );
+
+                throw new InvalidOperationException
+                    (
+                        "Queue is full"
+                    );
             }
 
             Queue.Enqueue(item);

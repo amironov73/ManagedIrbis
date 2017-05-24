@@ -13,6 +13,8 @@ using System;
 using System.IO;
 using System.Text;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -580,6 +582,12 @@ namespace AM.Text
                     c = ReadChar();
                     if (c == EOF)
                     {
+                        Log.Error
+                            (
+                                "TextNavigator::ReadEscapedUntil: "
+                                + "unexpected end of stream"
+                            );
+
                         throw new FormatException();
                     }
                     result.Append(c);

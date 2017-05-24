@@ -15,6 +15,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
+using AM.Logging;
+
 #endregion
 
 namespace AM.Threading.Tasks
@@ -44,10 +46,19 @@ namespace AM.Threading.Tasks
             : base(maxParallelization, disposeTimeoutMs, maxQueueSize)
         {
             if (maxParallelization < 1)
+            {
+                Log.Error
+                    (
+                        "ParallelProcessor::Constructor: "
+                        + "maxParallelization="
+                        + maxParallelization
+                    );
+
                 throw new ArgumentException
                 (
                     "maxParallelization is required"
                 );
+            }
 
             _processHandler = processHandler;
             _exceptionHandler = exceptionHandler;
@@ -83,6 +94,13 @@ namespace AM.Threading.Tasks
                         // Cancellation was requested, ignore and exit.
                         return;
                     }
+
+                    Log.Error
+                        (
+                            "ParallelProcessor::ProcessLoopAsync: "
+                            + "TaskCanceledException"
+                        );
+
                     throw;
                 }
                 catch (Exception ex)

@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -178,6 +179,12 @@ namespace AM.Text.Ranges
             navigator.SkipWhile(NumberRange.Delimiters);
             if (navigator.IsEOF)
             {
+                Log.Error
+                    (
+                        "NumberRangeCollection::Parse: "
+                        + "unexpected end of stream"
+                    );
+
                 throw new FormatException();
             }
 
@@ -196,6 +203,12 @@ namespace AM.Text.Ranges
                 NumberRange range;
                 if (string.IsNullOrEmpty(start))
                 {
+                    Log.Error
+                        (
+                            "NumberRangeCollection::Parse: "
+                            + "empty Start clause"
+                        );
+
                     throw new FormatException();
                 }
                 navigator.SkipWhitespace();
@@ -207,6 +220,12 @@ namespace AM.Text.Ranges
                         .ReadUntil(NumberRange.Delimiters);
                     if (string.IsNullOrEmpty(stop))
                     {
+                        Log.Error
+                            (
+                                "NumberRangeCollection::Parse: "
+                                + "empty Stop clause"
+                            );
+
                         throw new FormatException();
                     }
 

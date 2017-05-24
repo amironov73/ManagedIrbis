@@ -14,6 +14,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 using AM.Logging;
@@ -36,6 +37,18 @@ namespace AM
     public static class Utility
     {
         #region Private members
+
+#if FW45
+
+        private const MethodImplOptions Aggressive
+            = MethodImplOptions.AggressiveInlining;
+
+#else
+
+        private const MethodImplOptions Aggressive
+            = (MethodImplOptions)0;
+
+#endif
 
         #endregion
 
@@ -82,8 +95,6 @@ namespace AM
 
         // =========================================================
 
-#if !NETCORE
-
         /// <summary>
         /// Compare two sequences.
         /// </summary>
@@ -118,10 +129,10 @@ namespace AM
                 }
                 {
                     if (!MemberwiseEquals
-                    (
-                        leftItem,
-                        rightEnumerator.Current
-                    ))
+                        (
+                            leftItem,
+                            rightEnumerator.Current
+                        ))
                     {
                         return false;
                     }
@@ -130,8 +141,6 @@ namespace AM
 
             return true;
         }
-
-#endif
 
         /// <summary>
         /// Aggregate hashcode for some objects.
@@ -168,8 +177,6 @@ namespace AM
             return hash;
         }
 
-#if !NETCORE
-
         /// <summary>
         /// Implementation of a memberwise comparison
         /// for objects.
@@ -200,14 +207,10 @@ namespace AM
                 return false;
             }
 
-#if !UAP && !WIN81 && !PORTABLE
-
-            if (type.IsValueType)
+            if (TypeUtility.IsValueType(type))
             {
                 return left.Equals(right);
             }
-
-#endif
 
 #if !WIN81 && !PORTABLE
 
@@ -309,10 +312,10 @@ namespace AM
 #if !WIN81 && !PORTABLE
 
             PropertyInfo[] properties = type.GetProperties
-            (
-                BindingFlags.Public
-                | BindingFlags.Instance
-            );
+                (
+                    BindingFlags.Public
+                    | BindingFlags.Instance
+                );
 
             foreach (PropertyInfo property in properties)
             {
@@ -335,13 +338,11 @@ namespace AM
             return left.Equals(right);
         }
 
-#endif
+        // =========================================================
 
-            // =========================================================
-
-            /// <summary>
-            /// Выборка элемента из массива.
-            /// </summary>
+        /// <summary>
+        /// Выборка элемента из массива.
+        /// </summary>
         public static T GetItem<T>
             (
                 [NotNull] this T[] array,
@@ -351,10 +352,10 @@ namespace AM
         {
             Code.NotNull(array, "array");
 
-            index = (index >= 0)
+            index = index >= 0
                 ? index
                 : array.Length + index;
-            T result = ((index >= 0) && (index < array.Length))
+            T result = index >= 0 && index < array.Length
                 ? array[index]
                 : defaultValue;
 
@@ -385,10 +386,10 @@ namespace AM
         {
             Code.NotNull(list, "list");
 
-            index = (index >= 0)
+            index = index >= 0
                 ? index
                 : list.Count + index;
-            T result = ((index >= 0) && (index < list.Count))
+            T result = index >= 0 && index < list.Count
                 ? list[index]
                 : defaultValue;
 
@@ -432,6 +433,7 @@ namespace AM
         /// Determines whether given object
         /// is default value.
         /// </summary>
+        [MethodImpl(Aggressive)]
         public static bool NotDefault<T>
             (
                 this T obj
@@ -448,6 +450,7 @@ namespace AM
         /// Returns given value instead of
         /// default(T) if happens.
         /// </summary>
+        [MethodImpl(Aggressive)]
         public static T NotDefault<T>
             (
                 this T obj,
@@ -503,6 +506,7 @@ namespace AM
         /// </summary>
         [NotNull]
         [DebuggerStepThrough]
+        [MethodImpl(Aggressive)]
         public static T ThrowIfNull<T>
             (
                 [CanBeNull] this T value
@@ -528,6 +532,7 @@ namespace AM
         /// </summary>
         [NotNull]
         [DebuggerStepThrough]
+        [MethodImpl(Aggressive)]
         public static T1 ThrowIfNull<T1, T2>
             (
                 [CanBeNull] this T1 value
@@ -554,6 +559,7 @@ namespace AM
         /// </summary>
         [NotNull]
         [DebuggerStepThrough]
+        [MethodImpl(Aggressive)]
         public static T ThrowIfNull<T>
             (
                 [CanBeNull] this T value,

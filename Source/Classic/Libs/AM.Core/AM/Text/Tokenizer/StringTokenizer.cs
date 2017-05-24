@@ -13,6 +13,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -111,7 +113,7 @@ namespace AM.Text.Tokenizer
             )
         {
             return char.IsWhiteSpace(c)
-                && !((c == '\r') || (c == '\n'));
+                && !(c == '\r' || c == '\n');
         }
 
         private bool _IsWord
@@ -120,7 +122,7 @@ namespace AM.Text.Tokenizer
             )
         {
             return char.IsLetterOrDigit(c)
-                   || (c == '_');
+                   || c == '_';
         }
 
         private bool _IsSymbol
@@ -128,7 +130,7 @@ namespace AM.Text.Tokenizer
                 char c
             )
         {
-            return (Array.IndexOf(Settings.SymbolChars, c) >= 0);
+            return Array.IndexOf(Settings.SymbolChars, c) >= 0;
         }
 
         private Token _SetTokenValue
@@ -175,7 +177,7 @@ namespace AM.Text.Tokenizer
                     ReadChar();
                     continue;
                 }
-                if ((c == 'E') || (c == 'e'))
+                if (c == 'E' || c == 'e')
                 {
                     ReadChar();
                     c = PeekChar();
@@ -194,6 +196,12 @@ namespace AM.Text.Tokenizer
             }
             if (!char.IsDigit(c))
             {
+                Log.Error
+                    (
+                        "StringTokenizer::_ReadNumber: "
+                        + "floating point format error"
+                    );
+
                 throw new TokenizerException("Floating point format error");
             }
             while (char.IsDigit(c))
@@ -398,11 +406,11 @@ namespace AM.Text.Tokenizer
                 }
                 goto BEGIN;
             }
-            if (char.IsDigit(c)||(c=='.'))
+            if (char.IsDigit(c)||c=='.')
             {
                 return _ReadNumber();
             }
-            if ((c == '"') || (c == '\''))
+            if (c == '"' || c == '\'')
             {
                 return _ReadString();
             }

@@ -11,6 +11,8 @@
 
 using System;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -97,6 +99,12 @@ namespace AM.Threading
             {
                 if (!State.WaitAndGrab(Timeout))
                 {
+                    Log.Error
+                        (
+                            "BusyGuard::_Grab: "
+                            + "timeout"
+                        );
+
                     throw new TimeoutException();
                 }
             }

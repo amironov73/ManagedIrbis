@@ -16,6 +16,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
+using AM.Logging;
+
 #endregion
 
 namespace AM.Threading.Tasks
@@ -46,10 +48,19 @@ namespace AM.Threading.Tasks
             : base(maxParallelization, disposeTimeoutMs, maxQueueSize)
         {
             if (batchSize < 1)
+            {
+                Log.Error
+                    (
+                        "BatchParallelProcessor::Constructor: "
+                        + "batchSize="
+                        + batchSize
+                    );
+
                 throw new ArgumentException
                 (
                     "batchSize is required"
                 );
+            }
 
             _batchSize = batchSize;
             _processHandler = processHandler;
@@ -95,6 +106,13 @@ namespace AM.Threading.Tasks
                         // Cancellation was requested, ignore and exit.
                         return;
                     }
+
+                    Log.Error
+                        (
+                            "BatchParallelProcessor::ProcessLoopAsync: "
+                            + "TaskCancelledException"
+                        );
+
                     throw;
                 }
                 catch (Exception ex)

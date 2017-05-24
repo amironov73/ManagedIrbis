@@ -16,9 +16,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-//using System.Threading.Tasks;
 
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using JetBrains.Annotations;
@@ -123,6 +123,12 @@ namespace AM.Threading
                 if (!AllowNull &&
                     ReferenceEquals(newValue, null))
                 {
+                    Log.Error
+                        (
+                            "StateHolder::SetValue: "
+                            + "newValue is null"
+                        );
+
                     throw new ArgumentNullException();
                 }
 
@@ -180,9 +186,7 @@ namespace AM.Threading
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -192,14 +196,17 @@ namespace AM.Threading
 
             if (flag)
             {
+                Log.Error
+                    (
+                        "StateHolder::RestoreFromStream: "
+                        + "not implemented"
+                    );
+
                 throw new NotImplementedException();
             }
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
-        /// <param name="writer">The writer.</param>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -215,7 +222,24 @@ namespace AM.Threading
 
                 IHandmadeSerializable intf = _value as IHandmadeSerializable;
 
+                if (ReferenceEquals(intf, null))
+                {
+                    Log.Error
+                        (
+                            "StateHolder::SaveToStream: "
+                            + "nonserializable value"
+                        );
+
+                    throw new NotImplementedException();
+                }
+
                 intf.SaveToStream(writer);
+
+                Log.Error
+                    (
+                        "StateHolder::SaveToStream: "
+                        + "not implemented"
+                    );
 
                 throw new NotImplementedException();
             }
@@ -225,15 +249,14 @@ namespace AM.Threading
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
-            return string.Format("Value: {0}", Value);
+            return string.Format
+                (
+                    "Value: {0}", 
+                    Value.ToVisibleString()
+                );
         }
 
         #endregion
