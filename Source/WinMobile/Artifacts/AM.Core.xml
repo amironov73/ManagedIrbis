@@ -7663,6 +7663,11 @@
             Get string value from application configuration.
             </summary>
         </member>
+        <member name="M:AM.Configuration.ConfigurationUtility.GetString(System.String)">
+            <summary>
+            Get string value from application configuration.
+            </summary>
+        </member>
         <member name="M:AM.Configuration.ConfigurationUtility.RequireString(System.String)">
             <summary>
             Get string value from application configuration.

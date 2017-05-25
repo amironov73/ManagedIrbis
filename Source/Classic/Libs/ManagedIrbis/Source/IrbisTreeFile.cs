@@ -216,7 +216,7 @@ namespace ManagedIrbis
                         (
                             "IrbisTreeFile.Item::SetValue: "
                             + "not implemented"
-                        )
+                        );
 
                     throw new NotImplementedException();
 

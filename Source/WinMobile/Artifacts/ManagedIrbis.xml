@@ -9022,16 +9022,16 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftField.Clone">
-            <inheritdoc />
+            <inheritdoc cref="M:System.ICloneable.Clone"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftField.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftField.GetNodeInfo">
-            <inheritdoc/>
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.GetNodeInfo"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftField.Write(System.IO.StreamWriter)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Write(System.IO.StreamWriter)"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftField.LeftHand">
             <summary>
@@ -9104,7 +9104,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftField.Children">
-            <inheritdoc />
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Children"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftN.#ctor">
             <summary>
@@ -13641,10 +13641,10 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftFirst.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftFirst.GetNodeInfo">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.GetNodeInfo"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftFirst.Clone">
             <inheritdoc />
@@ -13655,7 +13655,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftFirst.Children">
-            <inheritdoc />
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Children"/>
         </member>
         <member name="T:ManagedIrbis.Infrastructure.Commands.NopCommand">
             <summary>
@@ -14515,10 +14515,10 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.IrbisTreeFile.RestoreFromStream(System.IO.BinaryReader)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.IrbisTreeFile.SaveToStream(System.IO.BinaryWriter)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="P:ManagedIrbis.IrbisTreeFile.FileName">
             <summary>
@@ -14566,14 +14566,10 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.IrbisTreeFile.Item.RestoreFromStream(System.IO.BinaryReader)">
-            <summary>
-            Restore object state from specified stream.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.IrbisTreeFile.Item.SaveToStream(System.IO.BinaryWriter)">
-            <summary>
-            Save object state to specified stream.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="P:ManagedIrbis.IrbisTreeFile.Item.Children">
             <summary>
@@ -14830,6 +14826,11 @@
         <member name="P:ManagedIrbis.IlfFile.Entry.Data">
             <summary>
             Собственно данные.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.CrossRefApi">
+            <summary>
+            API for CrossRef.org
             </summary>
         </member>
         <member name="T:ManagedIrbis.Gbl.ProtocolLine">
@@ -15915,14 +15916,10 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Menus.MenuFile.RestoreFromStream(System.IO.BinaryReader)">
-            <summary>
-            Restore object state from the stream.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.Menus.MenuFile.SaveToStream(System.IO.BinaryWriter)">
-            <summary>
-            Save object state to the stream.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="P:ManagedIrbis.Menus.MenuFile.FileName">
             <summary>
@@ -16270,21 +16267,16 @@
             <param name="encoding"></param>
             <param name="salt"></param>
         </member>
-        <member name="M:ManagedIrbis.Client.ClientLM.CheckHash64(AM.IO.IniFile)">
+        <member name="M:ManagedIrbis.Client.ClientLM.CheckHash(AM.IO.IniFile)">
             <summary>
-            Check IRBIS64-hash for the INI-file.
+            Check hash for the INI-file
+            (both IRBIS32 and IRBIS64).
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Client.ClientLM.ComputeHash32(System.String)">
+        <member name="M:ManagedIrbis.Client.ClientLM.ComputeHash(System.String)">
             <summary>
-            Compute IRBIS32-hash for the text.
-            </summary>
-            <param name="text"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ManagedIrbis.Client.ClientLM.ComputeHash64(System.String)">
-            <summary>
-            Compute IRBIS64-hash for the text.
+            Compute hash for the text
+            (both IRBIS32 and IRBIS64).
             </summary>
         </member>
         <member name="P:ManagedIrbis.Client.ClientLM.Encoding">
@@ -17276,13 +17268,13 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftFieldAssignment.Clone">
-            <inheritdoc />
+            <inheritdoc cref="M:System.ICloneable.Clone"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftFieldAssignment.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftFieldAssignment.GetNodeInfo">
-            <inheritdoc/>
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.GetNodeInfo"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftFieldAssignment.Field">
             <summary>
@@ -17290,7 +17282,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftFieldAssignment.Children">
-            <inheritdoc />
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Children"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftConditionNot">
             <summary>
@@ -17319,7 +17311,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftConditionNot.Children">
-            <inheritdoc />
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Children"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftBreak">
             <summary>
@@ -17490,14 +17482,10 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Magazines.MagazineCumulation.RestoreFromStream(System.IO.BinaryReader)">
-            <summary>
-            Просим объект восстановить свое состояние из потока.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.Magazines.MagazineCumulation.SaveToStream(System.IO.BinaryWriter)">
-            <summary>
-            Просим объект сохранить себя в потоке.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="P:ManagedIrbis.Magazines.MagazineCumulation.Year">
             <summary>
@@ -17703,6 +17691,26 @@
         <member name="P:ManagedIrbis.Infrastructure.Commands.SearchReadCommand.Records">
             <summary>
             Read records.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Ean8">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Identifiers.Ean8.Coefficients">
+            <summary>
+            Coefficients for control digit calculation.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Ean8.ComputeCheckDigit(System.Char[])">
+            <summary>
+            Compute check digit.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Ean8.CheckControlDigit(System.Char[])">
+            <summary>
+            Check control digit.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Direct.MstFile64">
@@ -20024,13 +20032,13 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftF.Clone">
-            <inheritdoc/>
+            <inheritdoc cref="M:System.ICloneable.Clone"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftF.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftF.GetNodeInfo">
-            <inheritdoc/>
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.GetNodeInfo"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftF.Argument1">
             <summary>
@@ -20048,7 +20056,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftF.Children">
-            <inheritdoc />
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Children"/>
         </member>
         <member name="T:ManagedIrbis.Marc.MarcBibliographicalLevel">
             <summary>
@@ -22765,10 +22773,10 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftD.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftD.ToString">
-            <inheritdoc/>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftConditionalStatement">
             <summary>
@@ -22810,7 +22818,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftConditionalStatement.Children">
-            <inheritdoc />
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Children"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftComparison">
             <summary>
@@ -22894,7 +22902,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftAny.Children">
-            <inheritdoc />
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Children"/>
         </member>
         <member name="T:ManagedIrbis.Menus.MenuEntry">
             <summary>
@@ -23624,6 +23632,113 @@
         <member name="M:ManagedIrbis.ImportExport.ProtocolText.ToProtocolText(ManagedIrbis.MarcRecord)">
             <summary>
             
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Upc12">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Identifiers.Upc12.Coefficients">
+            <summary>
+            Coefficients for control digit calculation.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Upc12.ComputeCheckDigit(System.Char[])">
+            <summary>
+            Compute check digit.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Upc12.CheckControlDigit(System.Char[])">
+            <summary>
+            Check control digit.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Issn">
+            <summary>
+            Всё, связанное с ISSN.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Isbn">
+            <summary>
+            Всё, связанное с ISBN.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Identifiers.Isbn.StandardHyphen">
+            <summary>
+            Стандартный знак дефис.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Isbn.CheckControlDigit(System.String,System.Char)">
+            <summary>
+            Проверяет контрольную цифру ISBN.
+            </summary>
+            <param name="isbn">Проверяемая строка.</param>
+            <param name="hyphen">Символ дефиса.</param>
+            <returns><c>true</c> если вычисленная и фактическая 
+            контрольные цифры совпадают.</returns>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Isbn.CheckControlDigit(System.String)">
+            <summary>
+            Проверяем контрольную цифру.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Isbn.CheckHyphens(System.String,System.Char)">
+            <summary>
+            Проверяем дефисы.
+            </summary>
+            <param name="isbn">Проверяемая строка.</param>
+            <param name="hyphen">Символ дефиса.</param>
+            <returns><c>true</c> если дефисы расставлены правильно.
+            </returns>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Isbn.CheckHyphens(System.String)">
+            <summary>
+            Проверяет дефисы.
+            </summary>
+            <param name="isbn">Проверяемая строка.</param>
+            <returns><c>true</c> если дефисы расставлены правильно.
+            </returns>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Isbn.Validate(System.String,System.Boolean)">
+            <summary>
+            Проверяет ISBN.
+            </summary>
+            <returns><c>true</c> если ISBN написан правильно.
+            </returns>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Isbn.ToEan13(System.String)">
+            <summary>
+            Конвертирует ISBN в штрих-код EAN13.
+            </summary>
+            <param name="isbn">ISBN.</param>
+            <returns>Штрих-код.</returns>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Isbn.FromEan13(System.String)">
+            <summary>
+            Получает (суррогатный) ISBN из штрих-кода EAN13.
+            </summary>
+            <param name="ean">штрих-код.</param>
+            <returns>Суррогатный ISBN.</returns>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Ean13">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Identifiers.Ean13.Coefficients">
+            <summary>
+            Coefficients for control digit calculation.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Ean13.ComputeCheckDigit(System.Char[])">
+            <summary>
+            Compute check digit.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Ean13.CheckControlDigit(System.Char[])">
+            <summary>
+            Check control digit.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Fst.FstLine">
@@ -24572,7 +24687,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftConditionAndOr.Children">
-            <inheritdoc />
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Children"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftComment">
             <summary>
@@ -26213,7 +26328,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftConditionParenthesis.Children">
-            <inheritdoc />
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Children"/>
         </member>
         <member name="T:ManagedIrbis.IrbisOpt">
             <summary>
@@ -26628,6 +26743,39 @@
         <member name="P:ManagedIrbis.Infrastructure.Commands.ServerVersionCommand.Result">
             <summary>
             Result.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Doi">
+            <summary>
+            DOI
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Doi.RestoreFromStream(System.IO.BinaryReader)">
+            <summary>
+            Просим объект восстановить свое состояние из потока.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Doi.SaveToStream(System.IO.BinaryWriter)">
+            <summary>
+            Просим объект сохранить себя в потоке.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Doi.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/>
+            that represents this instance.
+            </summary>
+            <returns>A <see cref="T:System.String"/>
+            that represents this instance.</returns>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Doi.Prefix">
+            <summary>
+            Префикс.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Doi.Suffix">
+            <summary>
+            Суффикс.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Fields.RevisionInfo">
@@ -27062,171 +27210,6 @@
         <member name="P:ManagedIrbis.Client.CatalogDelta.AlteredRecords">
             <summary>
             Altered records.
-            </summary>
-        </member>
-        <member name="T:ManagedIrbis.Identifiers.CrossRefApi">
-            <summary>
-            API for CrossRef.org
-            </summary>
-        </member>
-        <member name="T:ManagedIrbis.Identifiers.Doi">
-            <summary>
-            DOI
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Identifiers.Doi.RestoreFromStream(System.IO.BinaryReader)">
-            <summary>
-            Просим объект восстановить свое состояние из потока.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Identifiers.Doi.SaveToStream(System.IO.BinaryWriter)">
-            <summary>
-            Просим объект сохранить себя в потоке.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Identifiers.Doi.ToString">
-            <summary>
-            Returns a <see cref="T:System.String"/>
-            that represents this instance.
-            </summary>
-            <returns>A <see cref="T:System.String"/>
-            that represents this instance.</returns>
-        </member>
-        <member name="P:ManagedIrbis.Identifiers.Doi.Prefix">
-            <summary>
-            Префикс.
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.Identifiers.Doi.Suffix">
-            <summary>
-            Суффикс.
-            </summary>
-        </member>
-        <member name="T:ManagedIrbis.Identifiers.Ean8">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:ManagedIrbis.Identifiers.Ean8.Coefficients">
-            <summary>
-            Coefficients for control digit calculation.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Identifiers.Ean8.ComputeCheckDigit(System.Char[])">
-            <summary>
-            Compute check digit.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Identifiers.Ean8.CheckControlDigit(System.Char[])">
-            <summary>
-            Check control digit.
-            </summary>
-        </member>
-        <member name="T:ManagedIrbis.Identifiers.Ean13">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:ManagedIrbis.Identifiers.Ean13.Coefficients">
-            <summary>
-            Coefficients for control digit calculation.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Identifiers.Ean13.ComputeCheckDigit(System.Char[])">
-            <summary>
-            Compute check digit.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Identifiers.Ean13.CheckControlDigit(System.Char[])">
-            <summary>
-            Check control digit.
-            </summary>
-        </member>
-        <member name="T:ManagedIrbis.Identifiers.Isbn">
-            <summary>
-            Всё, связанное с ISBN.
-            </summary>
-        </member>
-        <member name="F:ManagedIrbis.Identifiers.Isbn.StandardHyphen">
-            <summary>
-            Стандартный знак дефис.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Identifiers.Isbn.CheckControlDigit(System.String,System.Char)">
-            <summary>
-            Проверяет контрольную цифру ISBN.
-            </summary>
-            <param name="isbn">Проверяемая строка.</param>
-            <param name="hyphen">Символ дефиса.</param>
-            <returns><c>true</c> если вычисленная и фактическая 
-            контрольные цифры совпадают.</returns>
-        </member>
-        <member name="M:ManagedIrbis.Identifiers.Isbn.CheckControlDigit(System.String)">
-            <summary>
-            Проверяем контрольную цифру.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Identifiers.Isbn.CheckHyphens(System.String,System.Char)">
-            <summary>
-            Проверяем дефисы.
-            </summary>
-            <param name="isbn">Проверяемая строка.</param>
-            <param name="hyphen">Символ дефиса.</param>
-            <returns><c>true</c> если дефисы расставлены правильно.
-            </returns>
-        </member>
-        <member name="M:ManagedIrbis.Identifiers.Isbn.CheckHyphens(System.String)">
-            <summary>
-            Проверяет дефисы.
-            </summary>
-            <param name="isbn">Проверяемая строка.</param>
-            <returns><c>true</c> если дефисы расставлены правильно.
-            </returns>
-        </member>
-        <member name="M:ManagedIrbis.Identifiers.Isbn.Validate(System.String,System.Boolean)">
-            <summary>
-            Проверяет ISBN.
-            </summary>
-            <returns><c>true</c> если ISBN написан правильно.
-            </returns>
-        </member>
-        <member name="M:ManagedIrbis.Identifiers.Isbn.ToEan13(System.String)">
-            <summary>
-            Конвертирует ISBN в штрих-код EAN13.
-            </summary>
-            <param name="isbn">ISBN.</param>
-            <returns>Штрих-код.</returns>
-        </member>
-        <member name="M:ManagedIrbis.Identifiers.Isbn.FromEan13(System.String)">
-            <summary>
-            Получает (суррогатный) ISBN из штрих-кода EAN13.
-            </summary>
-            <param name="ean">штрих-код.</param>
-            <returns>Суррогатный ISBN.</returns>
-        </member>
-        <member name="T:ManagedIrbis.Identifiers.Issn">
-            <summary>
-            Всё, связанное с ISSN.
-            </summary>
-        </member>
-        <member name="T:ManagedIrbis.Identifiers.Upc12">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:ManagedIrbis.Identifiers.Upc12.Coefficients">
-            <summary>
-            Coefficients for control digit calculation.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Identifiers.Upc12.ComputeCheckDigit(System.Char[])">
-            <summary>
-            Compute check digit.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Identifiers.Upc12.CheckControlDigit(System.Char[])">
-            <summary>
-            Check control digit.
             </summary>
         </member>
     </members>
