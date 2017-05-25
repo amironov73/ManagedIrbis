@@ -130,6 +130,12 @@ namespace ManagedIrbis.Pft
 
             if (ReferenceEquals(Program, null))
             {
+                Log.Error
+                    (
+                        "PftFormatter::Format: "
+                        + "program was not set"
+                    );
+
                 throw new PftException("Program was not set");
             }
 

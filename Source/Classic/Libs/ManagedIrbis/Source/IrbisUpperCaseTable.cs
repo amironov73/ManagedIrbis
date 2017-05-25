@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -146,6 +147,12 @@ namespace ManagedIrbis
 
             if (!encoding.IsSingleByte)
             {
+                Log.Error
+                    (
+                        "IrbisUpperCaseTable::Constructor: "
+                        + "must be single-byte encoding"
+                    );
+
                 throw new IrbisException
                     (
                         "Must be single-byte encoding"
@@ -156,6 +163,12 @@ namespace ManagedIrbis
 
             if (table.Length != 256)
             {
+                Log.Error
+                    (
+                        "IrbisUpperCaseTable::Constructor: "
+                        + "must be 256 bytes in table"
+                    );
+
                 throw new IrbisException
                     (
                         "Must be 256 bytes in table"
@@ -258,6 +271,13 @@ namespace ManagedIrbis
 
             if (string.IsNullOrEmpty(text))
             {
+                Log.Error
+                    (
+                        "IrbisUpperCaseTable::FromServer: "
+                        + "no file "
+                        + fileName.ToVisibleString()
+                    );
+
                 throw new IrbisNetworkException
                     (
                         "No file " + fileName

@@ -14,6 +14,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -34,6 +35,18 @@ namespace AM
     public static class StringUtility
     {
         #region Private members
+
+#if FW45
+
+        private const MethodImplOptions Aggressive
+            = MethodImplOptions.AggressiveInlining;
+
+#else
+
+        private const MethodImplOptions Aggressive
+            = (MethodImplOptions)0;
+
+#endif
 
         private const string Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                      + "abcdefghijklmnopqrstuvwxyz";
@@ -1018,6 +1031,7 @@ namespace AM
         /// Пример: "(null)".
         /// </summary>
         [NotNull]
+        [MethodImpl(Aggressive)]
         public static string ToVisibleString
             (
                 [CanBeNull] this string text

@@ -15,6 +15,7 @@ using System.Linq;
 using System.Xml.Serialization;
 
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -26,6 +27,8 @@ using MoonSharp.Interpreter;
 using Newtonsoft.Json;
 
 #endregion
+
+// ReSharper disable ConvertClosureToMethodGroup
 
 namespace ManagedIrbis.Magazines
 {
@@ -127,34 +130,19 @@ namespace ManagedIrbis.Magazines
         /// <summary>
         /// Разбор записи.
         /// </summary>
+        [NotNull]
         public static MagazineCumulation[] Parse
             (
-                MarcRecord record,
-                string tag
+                [NotNull] MarcRecord record,
+                [NotNull] string tag
             )
         {
-            if (ReferenceEquals(record, null))
-            {
-                throw new ArgumentNullException("record");
-            }
-            if (string.IsNullOrEmpty(tag))
-            {
-                throw new ArgumentNullException("tag");
-            }
+            Code.NotNull(record, "record");
+            Code.NotNullNorEmpty(tag, "tag");
 
             return record.Fields
                 .GetField(tag)
-
-#if !WINMOBILE && !PocketPC
-
-                .Select(Parse)
-
-#else
-
                 .Select(field => Parse(field))
-
-#endif
-
                 .ToArray();
         }
 
@@ -177,9 +165,7 @@ namespace ManagedIrbis.Magazines
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -192,9 +178,7 @@ namespace ManagedIrbis.Magazines
             Set = reader.ReadNullableString();
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer

@@ -16,9 +16,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
-
+using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -211,6 +212,12 @@ namespace ManagedIrbis
 
                     // TODO Implement
 
+                    Log.Error
+                        (
+                            "IrbisTreeFile.Item::SetValue: "
+                            + "not implemented"
+                        )
+
                     throw new NotImplementedException();
 
 #endif
@@ -228,7 +235,7 @@ namespace ManagedIrbis
                 bool result = !string.IsNullOrEmpty(Value);
 
                 if (result &&
-                    (Children.Count != 0))
+                    Children.Count != 0)
                 {
                     result = Children.All
                         (
@@ -236,9 +243,18 @@ namespace ManagedIrbis
                         );
                 }
 
-                if (!result && throwException)
+                if (!result)
                 {
-                    throw new FormatException();
+                    Log.Error
+                        (
+                            "IrbisTreeFile::Verify: "
+                            + "verification error"
+                        );
+
+                    if (throwException)
+                    {
+                        throw new VerificationException();
+                    }
                 }
 
                 return result;
@@ -248,9 +264,7 @@ namespace ManagedIrbis
 
             #region IHandmadeSerializable members
 
-            /// <summary>
-            /// Restore object state from specified stream.
-            /// </summary>
+            /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
             public void RestoreFromStream
                 (
                     BinaryReader reader
@@ -260,9 +274,7 @@ namespace ManagedIrbis
                 reader.ReadCollection(Children);
             }
 
-            /// <summary>
-            /// Save object state to specified stream.
-            /// </summary>
+            /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
             public void SaveToStream
                 (
                     BinaryWriter writer
@@ -452,12 +464,18 @@ namespace ManagedIrbis
 
             List<Item> list = new List<Item>();
             string line = reader.ReadLine();
-            if (line == null)
+            if (ReferenceEquals(line, null))
             {
                 goto DONE;
             }
             if (CountIndent(line) != 0)
             {
+                Log.Error
+                    (
+                        "IrbisTreeFile::ParseStream: "
+                        + "indent != 0"
+                    );
+
                 throw new FormatException();
             }
             list.Add(new Item(line));
@@ -466,8 +484,14 @@ namespace ManagedIrbis
             while ((line = reader.ReadLine()) != null)
             {
                 int level = CountIndent(line);
-                if (level > (currentLevel + 1))
+                if (level > currentLevel + 1)
                 {
+                    Log.Error
+                        (
+                            "IrbisTreeFile::ParseStream: "
+                            + "level > currentLevel + 1"
+                        );
+
                     throw new FormatException();
                 }
                 currentLevel = level;
@@ -564,15 +588,24 @@ DONE:
                 bool throwException
             )
         {
-            bool result = (Roots.Count != 0)
+            bool result = Roots.Count != 0
                 && Roots.All
                     (
                         root => root.Verify(throwException)
                     );
 
-            if (!result && throwException)
+            if (!result)
             {
-                throw new FormatException();
+                Log.Error
+                    (
+                        "IrbisTreeFile::Verify: "
+                        + "verification error"
+                    );
+
+                if (throwException)
+                {
+                    throw new VerificationException();
+                }
             }
 
             return result;
@@ -582,7 +615,7 @@ DONE:
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -592,7 +625,7 @@ DONE:
             reader.ReadCollection(Roots);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer

@@ -13,6 +13,7 @@ using System;
 using System.Text;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -178,6 +179,12 @@ namespace ManagedIrbis
 
             if (!encoding.IsSingleByte)
             {
+                Log.Error
+                    (
+                        "IrbisEncoding::SetAnsiEncoding: "
+                        + "not single-byte encoding"
+                    );
+
                 throw new ArgumentOutOfRangeException("encoding");
             }
 
@@ -200,6 +207,12 @@ namespace ManagedIrbis
 
             if (!encoding.IsSingleByte)
             {
+                Log.Error
+                    (
+                        "IrbisEncoding::SetOemEncoding: "
+                        + "not single-byte encoding"
+                    );
+
                 throw new ArgumentOutOfRangeException("encoding");
             }
 

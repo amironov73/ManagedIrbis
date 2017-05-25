@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.Text;
 
 using AM;
+using AM.Logging;
 using AM.Text;
 
 using JetBrains.Annotations;
@@ -255,10 +256,17 @@ namespace ManagedIrbis
         {
             if (string.IsNullOrEmpty(text))
             {
+                Log.Error
+                    (
+                        "IrbisForma::VerifyFormat: "
+                        + "text is absent"
+                    );
+
                 if (throwOnError)
                 {
-                    throw new VerificationException("text is null");
+                    throw new VerificationException("text is absent");
                 }
+
                 return false;
             }
 

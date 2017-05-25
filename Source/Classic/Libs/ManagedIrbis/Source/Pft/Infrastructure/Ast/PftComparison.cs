@@ -176,7 +176,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     break;
 
                 default:
-                    Log.Trace
+                    Log.Error
                         (
                             "PftComparison::DoNumericOperation: "
                             + "unexpected operation: "
@@ -341,7 +341,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     break;
 
                 default:
-                    Log.Trace
+                    Log.Error
                         (
                             "PftComparison::DoStringOperation: "
                             + "unexpected operation: "

@@ -21,8 +21,10 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -465,6 +467,13 @@ namespace ManagedIrbis
                 }
             }
 
+            Log.Error
+                (
+                    "IrbisOpt::SelectWorksheet: "
+                    + "can't select worksheet for "
+                    + tagValue.ToVisibleString()
+                );
+
             throw new IrbisException("Can't select worksheet");
         }
 
@@ -522,6 +531,13 @@ namespace ManagedIrbis
         {
             if (length <= 0)
             {
+                Log.Error
+                    (
+                        "IrbisOpt::SetWorksheetLength: "
+                        + "length="
+                        + length
+                    );
+
                 throw new ArgumentOutOfRangeException("length");
             }
 

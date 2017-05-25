@@ -595,6 +595,8 @@ namespace ManagedIrbis
         {
             if (ReadOnly)
             {
+                Log.Error("MarcRecord::ThrowIfReadOnly");
+
                 throw new ReadOnlyException();
             }
         }

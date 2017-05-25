@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -70,6 +71,13 @@ namespace ManagedIrbis.Monitoring
             {
                 if (value < 1)
                 {
+                    Log.Error
+                        (
+                            "IrbisMonitor::Interval: "
+                            + "value="
+                            + value
+                        );
+
                     throw new ArgumentException("value");
                 }
 

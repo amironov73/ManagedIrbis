@@ -338,7 +338,6 @@ namespace ManagedIrbis.Menus
                 string code = reader.ReadLine();
                 if (string.IsNullOrEmpty(code))
                 {
-                    // throw new FormatException();
                     break;
                 }
                 if (code.StartsWith(StopMarker))
@@ -505,9 +504,7 @@ namespace ManagedIrbis.Menus
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore object state from the stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -517,9 +514,7 @@ namespace ManagedIrbis.Menus
             reader.ReadCollection(_entries);
         }
 
-        /// <summary>
-        /// Save object state to the stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer

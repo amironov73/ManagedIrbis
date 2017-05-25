@@ -14,6 +14,8 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 
+using AM.Logging;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -41,7 +43,7 @@ namespace ManagedIrbis
             )
         {
             if (ReferenceEquals(array, null)
-                || (array.Length == 0))
+                || array.Length == 0)
             {
                 return string.Empty;
             }
@@ -50,9 +52,9 @@ namespace ManagedIrbis
 
             foreach (byte b in array)
             {
-                if (((b >= 'A') && (b <= 'Z'))
-                    || ((b >= 'a') && (b <= 'z'))
-                    || ((b >= '0') && (b <= '9'))
+                if (b >= 'A' && b <= 'Z'
+                    || b >= 'a' && b <= 'z'
+                    || b >= '0' && b <= '9'
                     )
                 {
                     result.Append((char)b);
@@ -95,10 +97,17 @@ namespace ManagedIrbis
                     }
                     else
                     {
-                        if (i >= (text.Length - 2))
+                        if (i >= text.Length - 2)
                         {
+                            Log.Error
+                                (
+                                    "IrbisUtility::DecodePercentString: "
+                                    + "unexpected end of stream"
+                                );
+
                             throw new FormatException("text");
                         }
+
                         byte b = byte.Parse
                             (
                                 text.Substring(i + 1, 2),

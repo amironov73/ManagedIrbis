@@ -17,6 +17,7 @@ using System.Xml.Serialization;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -269,6 +270,12 @@ namespace ManagedIrbis
 
                 if (parts.Length != 2)
                 {
+                    Log.Error
+                        (
+                            "ParFile::ReadDictionary: "
+                            + "format error"
+                        );
+
                     throw new FormatException();
                 }
                 string key = parts[0].Trim();
@@ -276,6 +283,12 @@ namespace ManagedIrbis
                 if (string.IsNullOrEmpty(key)
                     || string.IsNullOrEmpty(value))
                 {
+                    Log.Error
+                        (
+                            "ParFile::ReadDictionary: "
+                            + "format error"
+                        );
+
                     throw new FormatException();
                 }
                 result.Add(key, value);
@@ -297,6 +310,13 @@ namespace ManagedIrbis
             {
                 if (!result.ContainsKey(key))
                 {
+                    Log.Error
+                        (
+                            "ParFile::ReadDictionary: "
+                            + "key not found: "
+                            + key.ToVisibleString()
+                        );
+
                     throw new FormatException();
                 }
             }

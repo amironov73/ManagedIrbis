@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -124,6 +125,12 @@ namespace ManagedIrbis.Magazines
         {
             Code.NotNull(issue, "issue");
 
+            Log.Error
+                (
+                    "MagazineManager::GetMagazine: "
+                    + "not implemented"
+                );
+
             throw new NotImplementedException();
         }
 
@@ -137,6 +144,12 @@ namespace ManagedIrbis.Magazines
             )
         {
             Code.NotNull(article, "article");
+
+            Log.Error
+                (
+                    "MagazineManager::GetIssue: "
+                    + "not implemented"
+                );
 
             throw new NotImplementedException();
         }
@@ -201,6 +214,12 @@ namespace ManagedIrbis.Magazines
         {
             Code.NotNull(issue, "issue");
 
+            Log.Error
+                (
+                    "MagazineManager::GetArticles: "
+                    + "not implemented"
+                );
+
             throw new NotImplementedException();
         }
 
@@ -214,6 +233,12 @@ namespace ManagedIrbis.Magazines
             )
         {
             Code.NotNull(magazine, "magazine");
+
+            Log.Error
+                (
+                    "MagazineManager::CreateMagazine:: "
+                    + "not implemented"
+                );
 
             throw new NotImplementedException();
         }

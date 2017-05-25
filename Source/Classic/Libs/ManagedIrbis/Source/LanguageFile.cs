@@ -169,7 +169,7 @@ namespace ManagedIrbis
             {
                 if (_dictionary.ContainsKey(key))
                 {
-                    Log.Trace
+                    Log.Error
                         (
                             "LanguageFile::ReadFrom: duplicate key: "
                             + key

@@ -17,8 +17,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Text.Output;
 
 using CodeJam;
@@ -74,6 +75,13 @@ namespace ManagedIrbis
 
             if (!Directory.Exists(rootPath))
             {
+                Log.Error
+                    (
+                        "LocalCatalogManager::Constructor: "
+                        + "directory not exist: "
+                        + rootPath.ToVisibleString()
+                    );
+
                 throw new DirectoryNotFoundException
                     (
                         rootPath
@@ -97,6 +105,13 @@ namespace ManagedIrbis
         {
             if (!Directory.Exists(sourcePath))
             {
+                Log.Error
+                    (
+                        "LocalCatalogManager::_CopyDatabaseOnly: "
+                        + "directory not found: "
+                        + sourcePath.ToVisibleString()
+                    );
+
                 throw new DirectoryNotFoundException
                     (
                         sourcePath
@@ -171,6 +186,13 @@ namespace ManagedIrbis
 
             if (!Directory.Exists(ibisPath))
             {
+                Log.Error
+                    (
+                        "LocalCatalogManager::CreateCatalog: "
+                        + "ibisPath doesn't exist: "
+                        + ibisPath.ToVisibleString()
+                    );
+
                 throw new IrbisException("ibisPath doesn't exist");
             }
 
@@ -189,6 +211,7 @@ namespace ManagedIrbis
                     (
                         targetPath,
                         Path.GetFileName(sourceFile)
+                            .ThrowIfNull("Path.GetFileName")
                     );
                 File.Copy(sourceFile, targetFile);
             }
@@ -214,6 +237,12 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(sourcePath, "sourcePath");
             Code.NotNullNorEmpty(tagetPath, "tagetPath");
+
+            Log.Error
+                (
+                    "LocalCatalogManager::ReplicateCatalog: "
+                    + "not implemented"
+                );
 
             throw new NotImplementedException();
         }
