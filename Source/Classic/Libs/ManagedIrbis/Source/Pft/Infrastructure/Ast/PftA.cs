@@ -16,6 +16,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -103,6 +105,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (ReferenceEquals(Field, null))
             {
+                Log.Error
+                    (
+                        "PftA::Execute: "
+                        + "field not set"
+                    );
+
                 throw new PftSyntaxException(this);
             }
 

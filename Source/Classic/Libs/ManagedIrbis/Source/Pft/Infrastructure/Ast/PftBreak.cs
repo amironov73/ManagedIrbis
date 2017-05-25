@@ -15,6 +15,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -85,6 +87,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 if (PftConfig.BreakImmediate)
                 {
+                    Log.Error
+                        (
+                            "PftBreak::Execute: "
+                            + "break inside the group"
+                        );
+
                     throw new PftBreakException(this);
                 }
 
@@ -94,6 +102,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 // Это не группа, а оператор for
                 // или что-нибудь в этом роде
+
+                Log.Error
+                    (
+                        "PftBreak::Execute: "
+                        + "break outside the group"
+                    );
 
                 throw new PftBreakException(this);
             }

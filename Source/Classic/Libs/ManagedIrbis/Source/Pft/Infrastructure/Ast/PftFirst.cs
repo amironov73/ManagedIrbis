@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -45,14 +46,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public PftCondition InnerCondition { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
         {
             get
             {
                 if (ReferenceEquals(_virtualChildren, null))
                 {
-
                     _virtualChildren = new VirtualChildren();
                     if (!ReferenceEquals(InnerCondition, null))
                     {
@@ -69,6 +69,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             protected set
             {
                 // Nothing to do here
+
+                Log.Error
+                    (
+                        "PftFirst::Children: "
+                        + "set value="
+                        + value.NullableToVisibleString()
+                    );
             }
         }
 
@@ -110,14 +117,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
             )
         {
-            if (context.CurrentGroup != null)
+            if (!ReferenceEquals(context.CurrentGroup, null))
             {
+                Log.Error
+                    (
+                        "PftFirst::Execute: "
+                        + "nested group detected"
+                    );
+
                 throw new PftSemanticException("Nested group");
             }
 
@@ -168,7 +181,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.GetNodeInfo" />
         public override PftNodeInfo GetNodeInfo()
         {
             PftNodeInfo result = new PftNodeInfo

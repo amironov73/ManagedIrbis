@@ -9,7 +9,11 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
+using AM;
+using AM.Logging;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
@@ -36,14 +40,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public PftField Field { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
         {
             get
             {
                 if (ReferenceEquals(_virtualChildren, null))
                 {
-
                     _virtualChildren = new VirtualChildren();
                     List<PftNode> nodes = new List<PftNode>();
                     if (!ReferenceEquals(Field, null))
@@ -58,6 +61,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             protected set
             {
                 // Nothing to do here
+
+                Log.Error
+                    (
+                        "PftFieldAssignment::Children: "
+                        + "set value="
+                        + value.NullableToVisibleString()
+                    );
             }
         }
 
@@ -97,7 +107,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region ICloneable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICloneable.Clone" />
         public override object Clone()
         {
             PftFieldAssignment result
@@ -115,7 +125,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -126,11 +136,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftField field = Field;
             if (ReferenceEquals(field, null))
             {
+                Log.Error
+                    (
+                        "PftFieldAssignment::Execute: "
+                        + "field not set"
+                    );
+
                 throw new IrbisException("Field is null");
             }
             string tag = field.Tag;
             if (string.IsNullOrEmpty(tag))
             {
+                Log.Error
+                    (
+                        "PftFieldAssignment::Execute: "
+                        + "field tag not set"
+                    );
+
                 throw new IrbisException("Field tag is null");
             }
 
@@ -161,7 +183,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.GetNodeInfo" />
         public override PftNodeInfo GetNodeInfo()
         {
             PftNodeInfo result = new PftNodeInfo

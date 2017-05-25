@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 
 using AM;
+using AM.Logging;
 
 using JetBrains.Annotations;
 
@@ -52,7 +53,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public PftCondition RightOperand { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
         {
             get
@@ -78,6 +79,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             protected set
             {
                 // Nothing to do here
+
+                Log.Error
+                    (
+                        "PftConditionAndOr::Children: "
+                        + "set value="
+                        + value.NullableToVisibleString()
+                    );
             }
         }
 
@@ -152,6 +160,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (ReferenceEquals(LeftOperand, null))
             {
+                Log.Error
+                    (
+                        "PftConditionAndOr::Execute: "
+                        + "LeftOperand not set"
+                    );
+
                 throw new PftSyntaxException();
             }
 
@@ -162,6 +176,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 if (string.IsNullOrEmpty(Operation))
                 {
+                    Log.Error
+                        (
+                            "PftConditionAndOr::Execute: "
+                            + "Operation not set"
+                        );
+
                     throw new PftSyntaxException();
                 }
 
@@ -178,6 +198,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 }
                 else
                 {
+                    Log.Error
+                        (
+                            "PftConditionAndOr::Execute: "
+                            + "unexpected operation="
+                            + Operation.NullableToVisibleString()
+                        );
+
                     throw new PftSyntaxException();
                 }
             }

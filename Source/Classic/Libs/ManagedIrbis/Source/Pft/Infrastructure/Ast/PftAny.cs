@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -45,7 +46,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public PftCondition InnerCondition { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
         {
             get
@@ -118,6 +119,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             if (context.CurrentGroup != null)
             {
+                Log.Error
+                    (
+                        "PftAny::Execute: "
+                        + "nested group detected"
+                    );
+
                 throw new PftSemanticException("Nested group");
             }
 

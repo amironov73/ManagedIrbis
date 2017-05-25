@@ -66,6 +66,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (string.IsNullOrEmpty(token.Text))
             {
+                Log.Error
+                    (
+                        "PftCodeBlock::Constructor: "
+                        + "token text not set"
+                    );
+
                 throw new PftSyntaxException(token);
             }
 

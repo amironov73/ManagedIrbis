@@ -15,6 +15,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -75,6 +77,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftContext context
             )
         {
+            Log.Error
+                (
+                    "PftCondition::Execute: "
+                    + "must be overridden"
+                );
+
             throw new PftException("Execute() must be overridden!");
         }
 

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 
 using AM;
 using AM.Collections;
+using AM.Logging;
 
 using CodeJam;
 
@@ -55,14 +56,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [NotNull]
         public NonNullCollection<PftNode> ThenBranch { get; private set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
         {
             get
             {
                 if (ReferenceEquals(_virtualChildren, null))
                 {
-
                     _virtualChildren = new VirtualChildren();
                     List<PftNode> nodes = new List<PftNode>();
                     if (!ReferenceEquals(Condition, null))
@@ -79,6 +79,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             protected set
             {
                 // Nothing to do here
+                Log.Error
+                    (
+                        "PftConditionalStatement::Children: "
+                        + "set value="
+                        + value.NullableToVisibleString()
+                    );
             }
         }
 
@@ -158,6 +164,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (ReferenceEquals(Condition, null))
             {
+                Log.Error
+                    (
+                        "PftConditionalStatement::Execute: "
+                        + "Condition not set"
+                    );
+
                 throw new PftSyntaxException();
             }
 

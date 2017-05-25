@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -116,8 +117,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftContext context
             )
         {
-            if (context.CurrentGroup != null)
+            if (!ReferenceEquals(context.CurrentGroup, null))
             {
+                Log.Error
+                    (
+                        "PftAll::Execute: "
+                        + "nested group detected"
+                    );
+
                 throw new PftSemanticException("Nested group");
             }
 

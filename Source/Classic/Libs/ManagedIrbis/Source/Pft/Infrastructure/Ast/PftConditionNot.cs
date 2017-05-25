@@ -11,6 +11,8 @@
 
 using System;
 using System.Collections.Generic;
+using AM;
+using AM.Logging;
 
 using JetBrains.Annotations;
 
@@ -36,7 +38,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public PftCondition InnerCondition { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
         {
             get
@@ -58,6 +60,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             protected set
             {
                 // Nothing to do here
+
+                Log.Error
+                    (
+                        "PftConditionNot::Children: "
+                        + "set value="
+                        + value.NullableToVisibleString()
+                    );
             }
         }
 
@@ -127,6 +136,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (ReferenceEquals(InnerCondition, null))
             {
+                Log.Error
+                    (
+                        "PftConditionNot::Execute: "
+                        + "InnerCondition not set"
+                    );
+
                 throw new PftSyntaxException();
             }
 

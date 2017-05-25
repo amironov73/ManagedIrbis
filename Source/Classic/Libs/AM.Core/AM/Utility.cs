@@ -489,6 +489,7 @@ namespace AM
         /// <returns>Для <c>null</c> возвращается "(null)".
         /// </returns>
         [NotNull]
+        [MethodImpl(Aggressive)]
         public static string NullableToVisibleString<T>
             (
                 [CanBeNull] this T value

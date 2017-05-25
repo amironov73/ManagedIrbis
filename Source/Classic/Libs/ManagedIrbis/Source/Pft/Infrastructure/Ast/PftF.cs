@@ -9,7 +9,11 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
+
+using AM;
+using AM.Logging;
 
 using JetBrains.Annotations;
 
@@ -119,14 +123,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public PftNumeric Argument3 { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
         {
             get
             {
                 if (ReferenceEquals(_virtualChildren, null))
                 {
-
                     _virtualChildren = new VirtualChildren();
                     List<PftNode> nodes = new List<PftNode>();
                     if (!ReferenceEquals(Argument1, null))
@@ -149,6 +152,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             protected set
             {
                 // Nothing to do here
+
+                Log.Error
+                    (
+                        "PftF::Children: "
+                        + "set value="
+                        + value.NullableToVisibleString()
+                    );
             }
         }
 
@@ -188,7 +198,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region ICloneable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ICloneable.Clone" />
         public override object Clone()
         {
             PftF result = (PftF) base.Clone();
@@ -217,7 +227,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -227,6 +237,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (ReferenceEquals(Argument1, null))
             {
+                Log.Error
+                    (
+                        "PftF::Execute: "
+                        + "Argument1 not set"
+                    );
+
                 throw new PftException("Argument1 is null");
             }
 
@@ -267,7 +283,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.GetNodeInfo" />
         public override PftNodeInfo GetNodeInfo()
         {
             PftNodeInfo result = new PftNodeInfo

@@ -426,14 +426,32 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (ReferenceEquals(LeftOperand, null))
             {
+                Log.Error
+                    (
+                        "PftComparison::Execute: "
+                        + "LeftOperand not set"
+                    );
+
                 throw new PftSyntaxException(this);
             }
             if (string.IsNullOrEmpty(Operation))
             {
+                Log.Error
+                    (
+                        "PftComparison::Execute: "
+                        + "Operation not set"
+                    );
+
                 throw new PftSyntaxException(this);
             }
             if (ReferenceEquals(RightOperand, null))
             {
+                Log.Error
+                    (
+                        "PftComparison::Execute: "
+                        + "RightOperand not set"
+                    );
+
                 throw new PftSyntaxException(this);
             }
 
