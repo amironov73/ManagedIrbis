@@ -12,6 +12,7 @@
 using System.IO;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -216,16 +217,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftField.IsLastRepeat" />
         public override bool IsLastRepeat
             (
                 PftContext context
             )
         {
-            return context.Index >= (_count - 1);
+            return context.Index >= _count - 1;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -233,8 +234,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            if (context.CurrentField != null)
+            if (!ReferenceEquals(context.CurrentField, null))
             {
+                Log.Error
+                    (
+                        "PftG::Execute: "
+                        + "nested field detected"
+                    );
+
                 throw new PftSemanticException("nested field");
             }
 
@@ -246,7 +253,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     );
             }
 
-            if (context.CurrentGroup != null)
+            if (!ReferenceEquals(context.CurrentGroup, null))
             {
                 if (IsFirstRepeat(context))
                 {
@@ -265,13 +272,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.GetAffectedFields" />
         public override string[] GetAffectedFields()
         {
             return new string[0];
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Write" />
         public override void Write
             (
                 StreamWriter writer
@@ -294,7 +301,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return ToSpecification().ToString();

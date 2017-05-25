@@ -101,6 +101,34 @@ namespace ManagedIrbis.Search
         }
 
         /// <summary>
+        /// Escape quotation mark for Web-IRBIS.
+        /// </summary>
+        [CanBeNull]
+        public static string EscapeQuotation
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            if (!text.Contains("\""))
+            {
+                return text;
+            }
+
+            string result = text.Replace
+                (
+                    "\"",
+                    "<.>"
+                );
+
+            return result;
+        }
+
+        /// <summary>
         /// Trim the term (if exceeds <see cref="MaxTermLength"/>
         /// bytes).
         /// </summary>
@@ -143,6 +171,34 @@ namespace ManagedIrbis.Search
             string result = currentLength == originalLength
                 ? term
                 : term.Substring(0, currentLength);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Unescape quotation mark for Web-IRBIS.
+        /// </summary>
+        [CanBeNull]
+        public static string UnescapeQuotation
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            if (!text.Contains("<.>"))
+            {
+                return text;
+            }
+
+            string result = text.Replace
+            (
+                "<.>",
+                "\""
+            );
 
             return result;
         }

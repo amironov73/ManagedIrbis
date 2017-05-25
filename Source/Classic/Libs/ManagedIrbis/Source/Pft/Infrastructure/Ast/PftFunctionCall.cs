@@ -9,10 +9,13 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using AM;
 using AM.Collections;
+using AM.Logging;
 
 using CodeJam;
 
@@ -48,20 +51,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [NotNull]
         public NonNullCollection<PftNode> Arguments { get; private set; }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
         public override bool ExtendedSyntax
         {
             get { return true; }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
         {
             get
             {
                 if (ReferenceEquals(_virtualChildren, null))
                 {
-
                     _virtualChildren = new VirtualChildren();
                     List<PftNode> nodes = new List<PftNode>();
                     nodes.AddRange(Arguments);
@@ -73,6 +75,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             protected set
             {
                 // Nothing to do here
+
+                Log.Error
+                    (
+                        "PftFunctionCall::Children: "
+                        + "set value="
+                        + value.NullableToVisibleString()
+                    );
             }
         }
 
@@ -132,7 +141,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region ICloneable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICloneable.Clone" />
         public override object Clone()
         {
             PftFunctionCall result = (PftFunctionCall) base.Clone();
@@ -148,7 +157,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -159,6 +168,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             string name = Name;
             if (string.IsNullOrEmpty(name))
             {
+                Log.Error
+                    (
+                        "PftFunctionCall::Execute: "
+                        + "name not specified"
+                    );
+
                 throw new PftSyntaxException(this);
             }
 
@@ -181,7 +196,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 if (!ReferenceEquals(procedure, null))
                 {
-                    string expression = context.GetStringArgument(arguments, 0);
+                    string expression 
+                        = context.GetStringArgument(arguments, 0);
                     procedure.Execute
                         (
                             context,
@@ -191,19 +207,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 else
                 {
                     PftFunctionManager.ExecuteFunction
-                    (
-                        name,
-                        context,
-                        this,
-                        arguments
-                    );
+                        (
+                            name,
+                            context,
+                            this,
+                            arguments
+                        );
                 }
             }
 
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.GetNodeInfo" />
         public override PftNodeInfo GetNodeInfo()
         {
             PftNodeInfo result = new PftNodeInfo

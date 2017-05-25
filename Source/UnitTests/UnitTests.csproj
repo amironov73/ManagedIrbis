@@ -291,6 +291,7 @@
     <Compile Include="ManagedIrbis\Search\PostingParametersTest.cs" />
     <Compile Include="ManagedIrbis\Search\SearchParametersTest.cs" />
     <Compile Include="ManagedIrbis\Search\SearchScenarioTest.cs" />
+    <Compile Include="ManagedIrbis\Search\SearchUtilityTest.cs" />
     <Compile Include="ManagedIrbis\Search\TermInfoTest.cs" />
     <Compile Include="ManagedIrbis\Search\TermLinkTest.cs" />
     <Compile Include="ManagedIrbis\Search\TermParametersTest.cs" />
