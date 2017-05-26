@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -117,6 +118,12 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
             if (string.IsNullOrEmpty(token.Text))
             {
+                Log.Error
+                    (
+                        "PftParser::ParseField: "
+                        + "empty field"
+                    );
+
                 throw new PftSyntaxException(token);
             }
 
@@ -124,6 +131,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                 = (FieldSpecification)token.UserData;
             if (ReferenceEquals(specification, null))
             {
+                Log.Error
+                    (
+                        "PftParser::ParseField: "
+                        + "missing field specification"
+                    );
+
                 throw new PftSyntaxException(token);
             }
 
@@ -151,6 +164,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                     break;
 
                 default:
+                    Log.Error
+                        (
+                            "PftParser::ParseField: "
+                            + "unexpected token="
+                            + token.Kind
+                        );
+
                     throw new PftSyntaxException(token);
             }
 
@@ -184,6 +204,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                     {
                         if (plus)
                         {
+                            Log.Error
+                                (
+                                    "PftParser::ParseField: "
+                                    + "PLUS not allowed here"
+                                );
+
                             throw new PftSyntaxException(token);
                         }
 

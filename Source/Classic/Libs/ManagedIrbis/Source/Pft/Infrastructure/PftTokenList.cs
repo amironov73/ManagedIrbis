@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 
 using CodeJam;
 
@@ -135,7 +136,18 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             _position++;
 
-            return _position < _tokens.Length;
+            bool result = _position < _tokens.Length;
+
+            if (!result)
+            {
+                Log.Trace
+                    (
+                        "PftTokenList::MoveNext: "
+                        + "end of list"
+                    );
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -177,6 +189,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             if (!MoveNext())
             {
+                Log.Error
+                    (
+                        "PftTokenList::RequreNext: "
+                        + "no next token"
+                    );
+
                 throw new PftSyntaxException(Current);
             }
 

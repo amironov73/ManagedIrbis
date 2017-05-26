@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Logging;
 
 using ManagedIrbis.Pft.Infrastructure.Ast;
 
@@ -52,6 +53,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                     break;
 
                 default:
+                    Log.Error
+                        (
+                            "PftParser::ParseParallel: "
+                            + "unexpected token="
+                            + nextToken
+                        );
+
                     throw new PftSyntaxException(Tokens);
             }
 
@@ -95,6 +103,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             if (_inGroup)
             {
+                Log.Error
+                    (
+                        "PftParser::ParseParallelGroup: "
+                        + "nested group detected"
+                    );
+
                 throw new PftSyntaxException("no nested group enabled");
             }
 

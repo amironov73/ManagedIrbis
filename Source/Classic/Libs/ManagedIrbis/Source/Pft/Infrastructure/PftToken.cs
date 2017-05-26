@@ -15,6 +15,7 @@ using System.IO;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -117,6 +118,15 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             if (Kind != kind)
             {
+                Log.Error
+                    (
+                        "PftToken::MustBe: "
+                        + "expecting="
+                        + kind
+                        + ", got="
+                        + Kind
+                    );
+
                 throw new PftSyntaxException();
             }
 
@@ -127,7 +137,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -141,7 +151,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Text = reader.ReadNullableString();
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -160,7 +170,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region ICloneable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICloneable.Clone" />
         public object Clone()
         {
             return MemberwiseClone();
@@ -170,7 +180,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return Kind 

@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -67,6 +68,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                 result = ParseArithmetic();
                 if (!Tokens.IsEof)
                 {
+                    Log.Error
+                        (
+                            "PftParser::ParseComparisonItem: "
+                            + "garbage detected"
+                        );
+
                     throw new PftSyntaxException();
                 }
             }

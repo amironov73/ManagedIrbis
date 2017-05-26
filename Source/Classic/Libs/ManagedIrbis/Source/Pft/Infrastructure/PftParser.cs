@@ -90,8 +90,15 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftField field = (PftField)ParseField();
             if (ReferenceEquals(field, null))
             {
+                Log.Error
+                    (
+                        "PftParser::ParseA: "
+                        + "field not specified"
+                    );
+
                 throw new PftSyntaxException(Tokens.Current);
             }
+
             result.Field = field;
             Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
 
@@ -177,8 +184,15 @@ namespace ManagedIrbis.Pft.Infrastructure
                     result.Children.Add(node);
                     if (!Tokens.IsEof)
                     {
+                        Log.Error
+                            (
+                                "PftParser::ParseAssignment: "
+                                + "garbage detected"
+                            );
+
                         throw new PftSyntaxException();
                     }
+
                     result.IsNumeric = true;
                 }
                 catch
@@ -295,6 +309,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             if (!ok)
             {
+                Log.Error
+                    (
+                        "PftParser::ParseEat: "
+                        + "syntax error"
+                    );
+
                 throw new PftSyntaxException(Tokens);
             }
 
@@ -325,38 +345,80 @@ namespace ManagedIrbis.Pft.Infrastructure
                 );
             if (Tokens.IsEof)
             {
+                Log.Error
+                    (
+                        "PftParser::ParseF: "
+                        + "unexpected end of stream"
+                    );
+
                 throw new PftSyntaxException(Tokens);
             }
+
             if (Tokens.Current.Kind != PftTokenKind.RightParenthesis)
             {
                 if (Tokens.Current.Kind != PftTokenKind.Comma)
                 {
+                    Log.Error
+                        (
+                            "PftParser::ParseF: "
+                            + "syntax error"
+                        );
+
                     throw new PftSyntaxException(Tokens.Current);
                 }
+
                 Tokens.RequireNext();
                 result.Argument2 = ParseNumber();
                 if (Tokens.IsEof)
                 {
+                    Log.Error
+                        (
+                            "PftParser::ParseF: "
+                            + "unexpected end of stream"
+                        );
+
                     throw new PftSyntaxException(Tokens);
                 }
+
                 if (Tokens.Current.Kind != PftTokenKind.RightParenthesis)
                 {
                     if (Tokens.Current.Kind != PftTokenKind.Comma)
                     {
+                        Log.Error
+                            (
+                                "PftParser::ParseF: "
+                                + "syntax error"
+                            );
+
                         throw new PftSyntaxException(Tokens.Current);
                     }
+
                     Tokens.RequireNext();
                     result.Argument3 = ParseNumber();
                 }
             }
             if (Tokens.IsEof)
             {
+                Log.Error
+                    (
+                        "PftParser::ParseF: "
+                        + "unexpected end of stream"
+                    );
+
                 throw new PftSyntaxException(Tokens);
             }
+
             if (Tokens.Current.Kind != PftTokenKind.RightParenthesis)
             {
+                Log.Error
+                    (
+                        "PftParser::ParseF: "
+                        + "syntax error"
+                    );
+
                 throw new PftSyntaxException(Tokens.Current);
             }
+
             Tokens.MoveNext();
 
             return result;
@@ -377,8 +439,15 @@ namespace ManagedIrbis.Pft.Infrastructure
                 || Tokens.Current.Kind != PftTokenKind.Comma
                )
             {
+                Log.Error
+                    (
+                        "PftParser::ParseF2: "
+                        + "syntax error"
+                    );
+
                 throw new PftSyntaxException(Tokens);
             }
+
             Tokens.RequireNext();
             PftTokenList formatTokens = Tokens.Segment
                 (
@@ -728,6 +797,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             if (_inGroup)
             {
+                Log.Error
+                    (
+                        "PftParser::ParseGroup: "
+                        + "nested group detected"
+                    );
+
                 throw new PftSyntaxException("no nested group enabled");
             }
 
@@ -772,6 +847,12 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
             else
             {
+                Log.Error
+                    (
+                        "PftParser::ParseHave: "
+                        + "syntax error"
+                    );
+
                 throw new PftSyntaxException(Tokens);
             }
 
@@ -822,6 +903,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                         break;
 
                     default:
+                        Log.Error
+                            (
+                                "PftParser::ParseLocal: "
+                                + "unexpected token="
+                                + token.Kind
+                            );
+
                         throw new PftSyntaxException(token);
                 }
 
@@ -898,11 +986,19 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftP result = new PftP(Tokens.Current);
             Tokens.RequireNext(PftTokenKind.LeftParenthesis);
             Tokens.RequireNext(PftTokenKind.V);
-            PftField field = (PftField)ParseField();
+
+            PftField field = ParseField();
             if (ReferenceEquals(field, null))
             {
+                Log.Error
+                    (
+                        "PftParser::ParseP: "
+                        + "field not set"
+                    );
+
                 throw new PftSyntaxException(Tokens.Current);
             }
+
             result.Field = field;
             Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
 
@@ -925,14 +1021,34 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             if (_inProcedure)
             {
+                Log.Error
+                    (
+                        "PftParser::ParseProc: "
+                        + "nested procedure detected"
+                    );
+
                 throw new PftSyntaxException("no nested proc allowed");
             }
+
             if (_inLoop)
             {
+                Log.Error
+                    (
+                        "PftParser::ParseProc: "
+                        + "procedure inside loop detected"
+                    );
+
                 throw new PftSyntaxException("no proc in loop allowed");
             }
+
             if (_inGroup)
             {
+                Log.Error
+                    (
+                        "PftParser::ParseProc: "
+                        + "procedure inside group detected"
+                    );
+
                 throw new PftSyntaxException("no proc in group allowed");
             }
 
@@ -952,6 +1068,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                     .ThrowIfNull("procedure.Name");
                 if (name.OneOf(PftUtility.GetReservedWords()))
                 {
+                    Log.Error
+                        (
+                            "PftParser::ParseProc: "
+                            + "reserved word="
+                            + name.ToVisibleString()
+                        );
+
                     throw new PftSyntaxException
                         (
                             "reserved word: " + name
@@ -961,13 +1084,28 @@ namespace ManagedIrbis.Pft.Infrastructure
                    || PftFunctionManager.UserFunctions.HaveFunction(name)
                    )
                 {
+                    Log.Error
+                        (
+                            "PftParser::ParseProc: "
+                            + "already have function: "
+                            + name.ToVisibleString()
+                        );
+
                     throw new PftSyntaxException
                         (
                             "already have function: " + name
                         );
                 }
+
                 if (!ReferenceEquals(_procedures.FindProcedure(name), null))
                 {
+                    Log.Error
+                        (
+                            "PftParser::ParseProc: "
+                            + "already have procedure: "
+                            + name.ToVisibleString()
+                        );
+
                     throw new PftSyntaxException
                         (
                             "already have procedure: " + name
@@ -975,10 +1113,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
 
                 _procedures.Registry.Add
-                (
-                    name,
-                    procedure
-                );
+                    (
+                        name,
+                        procedure
+                    );
 
                 PftTokenList bodyList = Tokens.Segment
                     (
@@ -989,10 +1127,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                     .ThrowIfNull("bodyList");
                 Tokens.Current.MustBe(PftTokenKind.End);
                 ChangeContext
-                (
-                    procedure.Body,
-                    bodyList
-                );
+                    (
+                        procedure.Body,
+                        bodyList
+                    );
                 Tokens.MoveNext();
 
             }
@@ -1012,7 +1150,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             Tokens.RequireNext(PftTokenKind.LeftParenthesis);
             Tokens.RequireNext();
-            //result.Mfn = ParseNumber();
             result.Mfn = ParseArithmetic(PftTokenKind.Comma);
             Tokens.Current.MustBe(PftTokenKind.Comma);
             Tokens.RequireNext();
@@ -1096,6 +1233,12 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 if (_inAssignment)
                 {
+                    Log.Error
+                        (
+                            "PftParser::ParseVariable: "
+                            + "nested assignment detected"
+                        );
+
                     throw new PftSyntaxException("nested assignment");
                 }
 
@@ -1118,8 +1261,15 @@ namespace ManagedIrbis.Pft.Infrastructure
                         );
                     if (ReferenceEquals(tokens, null))
                     {
+                        Log.Error
+                            (
+                                "PftParser::ParseVariable: "
+                                + "unclosed assignment"
+                            );
+
                         throw new PftSyntaxException(Tokens);
                     }
+
                     Tokens.Current.MustBe(PftTokenKind.Semicolon);
                     Tokens.MoveNext();
 
@@ -1256,15 +1406,23 @@ namespace ManagedIrbis.Pft.Infrastructure
                 switch (token.Kind)
                 {
                     case PftTokenKind.V:
-                        FieldSpecification specification = new FieldSpecification();
+                        FieldSpecification specification
+                            = new FieldSpecification();
                         if (!specification.ParseShort
                             (
                                 token.Text
                                     .ThrowIfNull("token.Text")
                             ))
                         {
+                            Log.Error
+                                (
+                                    "PftParser::ParseWith: "
+                                    + "field not specified"
+                                );
+
                             throw new PftSyntaxException(token);
                         }
+
                         result.Fields.Add(specification);
                         break;
 
@@ -1272,6 +1430,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                         break;
 
                     default:
+                        Log.Error
+                            (
+                                "PftParser::ParseWith: "
+                                + "unexpected token="
+                                + token.Kind
+                            );
+
                         throw new PftSyntaxException(token);
                 }
 

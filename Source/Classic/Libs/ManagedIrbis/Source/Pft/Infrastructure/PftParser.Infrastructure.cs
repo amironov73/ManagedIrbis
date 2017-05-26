@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -116,6 +117,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                 Func<PftNode> function;
                 if (!map.TryGetValue(token.Kind, out function))
                 {
+                    Log.Error
+                        (
+                            "PftParser::Get: "
+                            + "don't know to handle token="
+                            + token.Kind
+                        );
+
                     throw new PftException
                         (
                             "don't know how to handle token "
@@ -257,6 +265,12 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 return result;
             }
+
+            Log.Error
+                (
+                    "PftParser::ParseNext: "
+                    + "can't get build node"
+                );
 
             throw new PftSyntaxException(Tokens.Current);
         }

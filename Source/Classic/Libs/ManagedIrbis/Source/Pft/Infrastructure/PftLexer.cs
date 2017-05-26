@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 
 using AM;
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -239,7 +240,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             if (!digitFound)
             {
-                throw new PftSyntaxException(_navigator);
+                ThrowSyntax();
             }
 
             if (c == 'E' || c == 'e')
@@ -270,7 +271,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 if (!digitFound)
                 {
-                    throw new PftSyntaxException(_navigator);
+                    ThrowSyntax();
                 }
             }
 
@@ -287,6 +288,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 ThrowSyntax();
             }
+
             char c = ReadChar();
             if (c != stop)
             {
@@ -309,6 +311,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                     Line,
                     Column
                 );
+
+            Log.Error
+                (
+                    "PftLexer::ThrowSyntax: "
+                    + message
+                );
+
             throw new PftSyntaxException(message);
         }
 
@@ -451,7 +460,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = _navigator.ReadTo("}}}");
                                 if (ReferenceEquals(value, null))
                                 {
-                                    throw new PftSyntaxException(_navigator);
+                                    ThrowSyntax();
                                 }
                             }
                             else
@@ -588,7 +597,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = _navigator.ReadTo(">>>");
                                 if (ReferenceEquals(value, null))
                                 {
-                                    throw new PftSyntaxException(_navigator);
+                                    ThrowSyntax();
                                 }
                             }
                             else
@@ -629,7 +638,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         value = ReadIdentifier();
                         if (string.IsNullOrEmpty(value))
                         {
-                            throw new PftSyntaxException(_navigator);
+                            ThrowSyntax();
                         }
                         kind = PftTokenKind.Unifor;
                         break;
@@ -638,7 +647,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         value = ReadIdentifier();
                         if (string.IsNullOrEmpty(value))
                         {
-                            throw new PftSyntaxException(_navigator);
+                            ThrowSyntax();
                         }
                         kind = PftTokenKind.Variable;
                         break;
@@ -647,7 +656,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         value = ReadIdentifier();
                         if (string.IsNullOrEmpty(value))
                         {
-                            throw new PftSyntaxException(_navigator);
+                            ThrowSyntax();
                         }
                         kind = PftTokenKind.At;
                         break;
@@ -663,7 +672,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         if (string.IsNullOrEmpty(value)
                             || !ReadChar().OneOf('\x1D', '\u2194'))
                         {
-                            throw new PftSyntaxException(_navigator);
+                            ThrowSyntax();
                         }
                         kind = PftTokenKind.At;
                         break;
@@ -774,7 +783,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                                     }
                                     if (!ok)
                                     {
-                                        throw new PftSyntaxException(_navigator);
+                                        ThrowSyntax();
                                     }
                                 }
 
@@ -880,9 +889,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                         }
                         if (string.IsNullOrEmpty(value))
                         {
-                            throw new IrbisException();
+                            ThrowSyntax();
                         }
-                        switch (value.ToLower())
+
+                        switch (value.ThrowIfNull().ToLower())
                         {
                             case "abs":
                                 kind = PftTokenKind.Abs;
@@ -1139,7 +1149,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 if (kind == PftTokenKind.None) //-V3022
                 {
-                    throw new PftSyntaxException(_navigator);
+                    ThrowSyntax();
                 }
 
                 PftToken token = new PftToken(kind, line, column, value);

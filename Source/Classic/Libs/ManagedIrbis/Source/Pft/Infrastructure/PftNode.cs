@@ -18,6 +18,7 @@ using System.Text;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -351,6 +352,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// т. е. может ли быть запущен одновременно
         /// с соседними элементами.
         /// </summary>
+        /// <remarks>
+        /// На данный момент многопоточность
+        /// не поддерживается.
+        /// </remarks>
         public virtual bool SupportsMultithreading()
         {
             return Children.Count != 0
@@ -389,6 +394,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             )
         {
             Code.NotNull(reader, "reader");
+
+            // Nothing to do here
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
@@ -398,6 +405,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             )
         {
             Code.NotNull(writer, "writer");
+
+            // Nothing to do here
         }
 
         #endregion
@@ -410,12 +419,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                 BinaryReader reader
             )
         {
-#if NETCORE
-
-            throw new NotImplementedException();
-
-#else
-
             Code.NotNull(reader, "reader");
 
             RestoreFromStream(reader);
@@ -429,7 +432,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                 PftNode child = (PftNode)Activator.CreateInstance(type);
                 Children.Add(child);
             }
-#endif
         }
 
         /// <inheritdoc cref="ITreeSerialize.SerializeTree" />
@@ -439,12 +441,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             )
         {
             Code.NotNull(writer, "writer");
-
-#if NETCORE
-
-            throw new NotImplementedException();
-
-#else
 
             SaveToStream(writer);
 
@@ -458,8 +454,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                 writer.Write(typeName);
                 child.SerializeTree(writer);
             }
-
-#endif
         }
 
         #endregion
@@ -477,9 +471,18 @@ namespace ManagedIrbis.Pft.Infrastructure
                     child => child.Verify(throwOnError)
                 );
 
-            if (!result && throwOnError)
+            if (!result)
             {
-                throw new ArgumentException();
+                Log.Error
+                    (
+                        "PftNode::Verify: "
+                        + "verification failed"
+                    );
+
+                if (throwOnError)
+                {
+                    throw new VerificationException();
+                }
             }
 
             return result;

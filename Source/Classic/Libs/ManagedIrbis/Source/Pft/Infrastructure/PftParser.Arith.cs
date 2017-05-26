@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -57,6 +58,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                 );
             if (ReferenceEquals(newTokens, null))
             {
+                Log.Error
+                    (
+                        "PftParser::ParseArithmetic: "
+                        + "syntax error"
+                    );
+
                 throw new PftSyntaxException(Tokens);
             }
 
@@ -64,6 +71,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             try
             {
                 Tokens = newTokens;
+
                 return ParseArithmetic();
             }
             finally
@@ -126,15 +134,26 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             if (Tokens.IsEof)
             {
+                Log.Error
+                    (
+                        "PftParser::ParseValue: "
+                        + "unexpected end of stream"
+                    );
+
                 throw new PftSyntaxException(Tokens);
             }
+
             PftToken token = Tokens.Current;
 
             if (token.Kind == PftTokenKind.LeftParenthesis)
             {
                 Tokens.RequireNext();
-                PftNumeric inner = ParseArithmetic(PftTokenKind.RightParenthesis);
+                PftNumeric inner = ParseArithmetic
+                    (
+                        PftTokenKind.RightParenthesis
+                    );
                 Tokens.MoveNext();
+
                 return inner;
             }
             if (token.Kind == PftTokenKind.Minus)
@@ -143,6 +162,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 Tokens.RequireNext();
                 PftNumeric child = ParseValue();
                 minus.Children.Add(child);
+
                 return minus;
             }
 
@@ -162,7 +182,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Tokens.RequireNext(PftTokenKind.LeftParenthesis);
             Tokens.RequireNext();
-            PftNumeric expression = ParseArithmetic(PftTokenKind.RightParenthesis);
+            PftNumeric expression = ParseArithmetic
+                (
+                    PftTokenKind.RightParenthesis
+                );
             result.Children.Add(expression);
             Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
             Tokens.MoveNext();
