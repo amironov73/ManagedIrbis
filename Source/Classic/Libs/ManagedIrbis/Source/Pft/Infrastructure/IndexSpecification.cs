@@ -36,9 +36,7 @@ namespace ManagedIrbis.Pft.Infrastructure
     [PublicAPI]
     [MoonSharpUserData]
     public struct IndexSpecification
-#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
         : ICloneable
-#endif
     {
         #region Properties
 

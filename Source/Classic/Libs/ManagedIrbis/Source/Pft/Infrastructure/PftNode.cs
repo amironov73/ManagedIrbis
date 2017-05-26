@@ -43,10 +43,8 @@ namespace ManagedIrbis.Pft.Infrastructure
     public class PftNode
         : IHandmadeSerializable,
         ITreeSerialize,
-        IVerifiable
-#if !NETCORE && !UAP && !WIN81 && !PORTABLE && !SILVERLIGHT
-        , ICloneable
-#endif
+        IVerifiable,
+        ICloneable
     {
         #region Events
 

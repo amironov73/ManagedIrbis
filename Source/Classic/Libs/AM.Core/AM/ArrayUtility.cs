@@ -76,8 +76,6 @@ namespace AM
             return result;
         }
 
-#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
-
         /// <summary>
         /// Clone the array.
         /// </summary>
@@ -98,8 +96,6 @@ namespace AM
 
             return result;
         }
-
-#endif
 
         /// <summary>
         /// Whether segment of first array

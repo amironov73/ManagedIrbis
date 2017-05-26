@@ -34,10 +34,8 @@ namespace AM.Collections
 #endif
     public class Set<T>
         : ICollection<T>,
-          ICollection
-#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
-        , ICloneable
-#endif
+          ICollection,
+          ICloneable
     {
         #region Properties
 

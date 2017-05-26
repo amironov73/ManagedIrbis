@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if CLASSIC
+#if !PORTABLE
 
 #region Using directives
 
@@ -19,6 +19,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM.Logging;
+using AM.Reflection;
 
 using CodeJam;
 
@@ -52,9 +53,9 @@ namespace AM.Collections
             bool cloneKeys = false;
             bool cloneValues = false;
 
-            if (!keyType.IsValueType)
+            if (!TypeUtility.IsValueType(keyType))
             {
-                if (keyType.IsAssignableFrom(typeof(ICloneable)))
+                if (keyType.Bridge().IsAssignableFrom(typeof(ICloneable)))
                 {
                     Log.Error
                         (
@@ -68,9 +69,9 @@ namespace AM.Collections
                 }
                 cloneKeys = true;
             }
-            if (!valueType.IsValueType)
+            if (!TypeUtility.IsValueType(valueType))
             {
-                if (valueType.IsAssignableFrom(typeof(ICloneable)))
+                if (valueType.Bridge().IsAssignableFrom(typeof(ICloneable)))
                 {
                     Log.Error
                     (
@@ -109,4 +110,3 @@ namespace AM.Collections
 }
 
 #endif
-

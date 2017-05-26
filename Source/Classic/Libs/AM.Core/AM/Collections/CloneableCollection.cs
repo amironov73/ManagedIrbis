@@ -30,10 +30,8 @@ namespace AM.Collections
     [DebuggerDisplay("Count={Count}")]
 #endif
     public class CloneableCollection<T>
-        : Collection<T>
-#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
-        , ICloneable
-#endif
+        : Collection<T>,
+        ICloneable
     {
         #region ICloneable members
 
