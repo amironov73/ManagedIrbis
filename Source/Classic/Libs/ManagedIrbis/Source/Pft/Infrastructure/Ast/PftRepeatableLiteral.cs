@@ -51,7 +51,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public bool Plus { get; set; }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.Text" />
         public override string Text
         {
             get { return base.Text; }
@@ -122,7 +122,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -158,7 +158,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Write" />
         public override void Write
             (
                 StreamWriter writer

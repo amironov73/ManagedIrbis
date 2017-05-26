@@ -109,6 +109,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         Width = int.Parse(text);
                         if (Width <= 0)
                         {
+                            Log.Error
+                                (
+                                    "PftMfn::Constructor: "
+                                    + "Width="
+                                    + Width
+                                );
+
                             throw new PftSyntaxException(token);
                         }
                     }
@@ -139,7 +146,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -149,11 +156,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             Value = 0.0;
 
-            if (context.Record != null)
+            if (!ReferenceEquals(context.Record, null))
             {
                 Value = context.Record.Mfn;
 
-                string text = (Width == 0)
+                string text = Width == 0
                     ? context.Record.Mfn.ToInvariantString()
                     : context.Record.Mfn.ToString
                         (
@@ -171,7 +178,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Write" />
         public override void Write
             (
                 StreamWriter writer

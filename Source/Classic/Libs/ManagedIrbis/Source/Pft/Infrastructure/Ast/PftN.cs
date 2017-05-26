@@ -15,6 +15,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM;
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -71,6 +74,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             FieldSpecification specification = new FieldSpecification();
             if (!specification.Parse(text))
             {
+                Log.Error
+                    (
+                        "PftN::Constructor: "
+                        + "text="
+                        + text.ToVisibleString()
+                    );
+
                 throw new PftSyntaxException();
             }
 
@@ -110,7 +120,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftField.CanOutput" />
         public override bool CanOutput
             (
                 string value
@@ -119,7 +129,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return string.IsNullOrEmpty(value);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -127,12 +137,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            if (context.CurrentField != null)
+            if (!ReferenceEquals(context.CurrentField, null))
             {
+                Log.Error
+                    (
+                        "PftN::Execute: "
+                        + "nested field detected"
+                    );
+
                 throw new PftSemanticException("nested field");
             }
 
-            if (context.CurrentGroup != null)
+            if (!ReferenceEquals(context.CurrentGroup, null))
             {
                 if (IsFirstRepeat(context))
                 {
@@ -151,7 +167,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return ToSpecification().ToString();

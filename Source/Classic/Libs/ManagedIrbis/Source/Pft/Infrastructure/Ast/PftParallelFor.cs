@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,7 +48,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     {
         #region Properties
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
         public override bool ExtendedSyntax
         {
             get { return true; }
@@ -77,14 +78,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [NotNull]
         public NonNullCollection<PftNode> Body { get; private set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
         {
             get
             {
                 if (ReferenceEquals(_virtualChildren, null))
                 {
-
                     _virtualChildren = new VirtualChildren();
                     List<PftNode> nodes = new List<PftNode>();
                     nodes.AddRange(Initialization);
@@ -102,6 +102,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             protected set
             {
                 // Nothing to do here
+
+                Log.Error
+                    (
+                        "PftParallelFor::Children: "
+                        + "set value="
+                        + value.NullableToVisibleString()
+                    );
             }
         }
 
@@ -165,7 +172,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -206,6 +213,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 {
                     if (!ReferenceEquals(iteration.Exception, null))
                     {
+                        Log.TraceException
+                            (
+                                "PftParallelFor::Execute",
+                                iteration.Exception
+                            );
+
                         throw new IrbisException
                             (
                                 "Exception in parallel for",
@@ -235,7 +248,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.GetNodeInfo" />
         public override PftNodeInfo GetNodeInfo()
         {
             PftNodeInfo result = new PftNodeInfo
@@ -298,7 +311,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region ICloneable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ICloneable.Clone" />
         public override object Clone()
         {
             PftParallelFor result = (PftParallelFor) base.Clone();

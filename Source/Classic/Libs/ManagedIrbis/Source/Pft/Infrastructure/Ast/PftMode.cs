@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
 using AM.Logging;
 
@@ -138,20 +139,38 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             text = text.ToLower();
             if (text.Length != 3)
             {
+                Log.Error
+                    (
+                        "PftMode::ParseText: "
+                        + "text.Length != 3: "
+                        + text.ToVisibleString()
+                    );
+
                 throw new ArgumentException("mode");
             }
+
             switch (text[1])
             {
                 case 'p':
                     OutputMode = PftFieldOutputMode.PreviewMode;
                     break;
+
                 case 'h':
                     OutputMode = PftFieldOutputMode.HeaderMode;
                     break;
+
                 case 'd':
                     OutputMode = PftFieldOutputMode.DataMode;
                     break;
+
                 default:
+                    Log.Error
+                        (
+                            "PftMode::ParseText: "
+                            + "unexpected mode="
+                            + text.ToVisibleString()
+                        );
+
                     throw new ArgumentException();
             }
             switch (text[2])
@@ -159,10 +178,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 case 'u':
                     UpperMode = true;
                     break;
+
                 case 'l':
                     UpperMode = false;
                     break;
+
                 default:
+                    Log.Error
+                        (
+                            "PftMode::ParseText: "
+                            + "unexpected mode="
+                            + text.ToVisibleString()
+                        );
+
                     throw new ArgumentException();
             }
         }
@@ -171,7 +199,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context

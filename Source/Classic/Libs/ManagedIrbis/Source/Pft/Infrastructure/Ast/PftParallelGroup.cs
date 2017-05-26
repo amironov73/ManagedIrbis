@@ -71,14 +71,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
             )
         {
-            if (context.CurrentGroup != null)
+            if (!ReferenceEquals(context.CurrentGroup, null))
             {
+                Log.Error
+                    (
+                        "PftParallelGroup::Execute: "
+                        + "nested group detected"
+                    );
+
                 throw new PftSemanticException("Nested group");
             }
 
@@ -100,7 +106,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         )
                         + 1;
 
-                    PftIteration[] allIterations = new PftIteration[repeatCount];
+                    PftIteration[] allIterations
+                        = new PftIteration[repeatCount];
                     for (int index = 0; index < repeatCount; index++)
                     {
                         PftIteration iteration = new PftIteration
@@ -124,6 +131,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     {
                         if (!ReferenceEquals(iteration.Exception, null))
                         {
+                            Log.TraceException
+                                (
+                                    "PftParallelGroup::Execute",
+                                    iteration.Exception
+                                );
+
                             throw new IrbisException
                                 (
                                     "Exception in parallel group, iteration: "

@@ -67,14 +67,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
             )
         {
-            if (context.CurrentGroup != null)
+            if (!ReferenceEquals(context.CurrentGroup, null))
             {
+                Log.Error
+                    (
+                        "PftGroup::Execute: "
+                        + "nested group detected"
+                    );
+
                 throw new PftSemanticException("Nested group");
             }
 

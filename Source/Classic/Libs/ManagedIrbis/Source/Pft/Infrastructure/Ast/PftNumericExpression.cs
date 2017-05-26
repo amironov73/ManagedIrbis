@@ -9,9 +9,11 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -53,7 +55,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public PftNumeric RightOperand { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
         {
             get
@@ -78,6 +80,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             protected set
             {
                 // Nothing to do here
+
+                Log.Error
+                    (
+                        "PftNumericExpression::Children: "
+                        + "set value="
+                        + value.NullableToVisibleString()
+                    );
             }
         }
 
@@ -168,6 +177,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     break;
 
                 default:
+                    Log.Error
+                        (
+                            "PftNumericExpression: "
+                            + "unexpected operation="
+                            + operation
+                        );
+
                     throw new PftSyntaxException(this);
             }
 
@@ -179,10 +195,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region ICloneable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICloneable.Clone" />
         public override object Clone()
         {
-            PftNumericExpression result = (PftNumericExpression) base.Clone();
+            PftNumericExpression result
+                = (PftNumericExpression) base.Clone();
 
             if (!ReferenceEquals(LeftOperand, null))
             {
@@ -201,7 +218,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -211,14 +228,34 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (ReferenceEquals(LeftOperand, null))
             {
+                Log.Error
+                    (
+                        "PftNumericExpression: "
+                        + "LeftOperand not specified"
+                    );
+
                 throw new PftSyntaxException(this);
             }
+
             if (string.IsNullOrEmpty(Operation))
             {
+                Log.Error
+                    (
+                        "PftNumericExpression: "
+                        + "Operation not specified"
+                    );
+
                 throw new PftSyntaxException(this);
             }
+
             if (ReferenceEquals(RightOperand, null))
             {
+                Log.Error
+                    (
+                        "PftNumericExpression: "
+                        + "RightOperand not specified"
+                    );
+
                 throw new PftSyntaxException(this);
             }
 
@@ -241,7 +278,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.GetNodeInfo" />
         public override PftNodeInfo GetNodeInfo()
         {
             PftNodeInfo result = new PftNodeInfo

@@ -15,6 +15,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -42,7 +44,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public PftField Field { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
         {
             get
@@ -63,6 +65,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             protected set
             {
                 // Nothing to do here
+
+                Log.Error
+                    (
+                        "PftP::Children: "
+                        + "set value="
+                        + value.NullableToVisibleString()
+                    );
             }
         }
 
@@ -102,7 +111,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region ICloneable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICloneable.Clone" />
         public override object Clone()
         {
             PftP result = (PftP) base.Clone();
@@ -119,7 +128,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -129,6 +138,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (ReferenceEquals(Field, null))
             {
+                Log.Error
+                    (
+                        "PftP::Execute: "
+                        + "Field not specified"
+                    );
+
                 throw new PftSyntaxException(this);
             }
 
@@ -137,7 +152,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.Write" />
         public override void Write
             (
                 StreamWriter writer
