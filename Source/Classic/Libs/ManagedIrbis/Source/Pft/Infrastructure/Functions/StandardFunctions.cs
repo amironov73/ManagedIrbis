@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -258,6 +259,13 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             string expression = context.GetStringArgument(arguments, 0);
             string message = expression ?? string.Empty;
+
+            Log.Fatal
+                (
+                    "StandardFunctions::Fatal: "
+                    + "message="
+                    + message.ToVisibleString()
+                );
 
 #if PocketPC || WINMOBILE || SILVERLIGHT
 

@@ -9,7 +9,9 @@
 
 #region Using directives
 
+using AM;
 using AM.Collections;
+using AM.Logging;
 
 using CodeJam;
 
@@ -80,6 +82,13 @@ namespace ManagedIrbis.Pft.Infrastructure
             IFormatExit format;
             if (!Registry.TryGetValue(name, out format))
             {
+                Log.Error
+                    (
+                        "FormatExit::Execute: "
+                        + "unknown name="
+                        + name.ToVisibleString()
+                    );
+
                 throw new PftSemanticException("unknown format exit: " + name);
             }
 

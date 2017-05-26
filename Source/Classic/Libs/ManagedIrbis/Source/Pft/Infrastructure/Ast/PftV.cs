@@ -14,6 +14,7 @@ using System.IO;
 using System.Text;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -59,6 +60,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             FieldSpecification specification = new FieldSpecification();
             if (!specification.Parse(text))
             {
+                Log.Error
+                    (
+                        "PftV::Constructor: "
+                        + "text="
+                        + text.ToVisibleString()
+                    );
+
                 throw new PftSyntaxException();
             }
 
@@ -77,7 +85,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.V);
 
-            FieldSpecification specification = ((FieldSpecification)token.UserData)
+            FieldSpecification specification
+                = ((FieldSpecification)token.UserData)
                 .ThrowIfNull("token.UserData");
             Apply(specification);
         }
@@ -102,11 +111,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 string value = GetValue(context);
                 if (!string.IsNullOrEmpty(value))
                 {
-                    //if (Indent != 0
-                    //    && IsFirstRepeat(context))
-                    //{
-                    //    value = new string(' ', Indent) + value;
-                    //}
                     if (context.UpperMode)
                     {
                         value = value.ToUpper();
@@ -162,20 +166,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftField members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftField.IsLastRepeat" />
         public override bool IsLastRepeat
             (
                 PftContext context
             )
         {
-            return context.Index >= (_count - 1);
+            return context.Index >= _count - 1;
         }
 
         #endregion
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -183,12 +187,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            if (context.CurrentField != null)
+            if (!ReferenceEquals(context.CurrentField, null))
             {
+                Log.Error
+                    (
+                        "PftV::Execute: "
+                        + "nested field detected"
+                    );
+
                 throw new PftSemanticException("nested field");
             }
 
-            if (context.CurrentGroup != null)
+            if (!ReferenceEquals(context.CurrentGroup, null))
             {
                 if (IsFirstRepeat(context))
                 {
@@ -207,7 +217,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Write" />
         public override void Write
             (
                 StreamWriter writer

@@ -16,6 +16,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM;
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -66,6 +69,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Name = token.Text;
             if (string.IsNullOrEmpty(Name))
             {
+                Log.Error
+                    (
+                        "PftRsum::Constructor: "
+                        + "Name="
+                        + Name.ToVisibleString()
+                    );
+
                 throw new PftSyntaxException("Name");
             }
         }
@@ -82,7 +92,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -117,6 +127,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                             break;
 
                         default:
+                            Log.Error
+                                (
+                                    "PftRsum::Execute: "
+                                    + "unexpected function name="
+                                    + Name.ToVisibleString()
+                                );
+
                             throw new PftSyntaxException(this);
                     }
                 }

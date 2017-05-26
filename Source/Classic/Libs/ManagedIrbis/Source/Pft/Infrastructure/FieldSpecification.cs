@@ -14,6 +14,7 @@ using System.Globalization;
 using System.Text;
 
 using AM;
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -139,6 +140,13 @@ namespace ManagedIrbis.Pft.Infrastructure
             text = text.Trim();
             if (string.IsNullOrEmpty(text))
             {
+                Log.Error
+                    (
+                        "FieldSpecification::_ParseIndex: "
+                        + "text="
+                        + text.ToVisibleString()
+                    );
+
                 throw new PftSyntaxException(navigator);
             }
 
@@ -195,6 +203,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Code.NotNullNorEmpty(text, "text");
 
             TextNavigator navigator = new TextNavigator(text);
+
             return Parse(navigator);
         }
 
@@ -252,12 +261,24 @@ namespace ManagedIrbis.Pft.Infrastructure
                     );
                 if (ReferenceEquals(text, null))
                 {
+                    Log.Error
+                        (
+                            "FieldSpecification::Parse: "
+                            + "unclosed ["
+                        );
+
                     throw new PftSyntaxException(navigator);
                 }
 
                 text = text.Trim();
                 if (string.IsNullOrEmpty(text))
                 {
+                    Log.Error
+                        (
+                            "FieldSpecification::Parse: "
+                            + "empty []"
+                        );
+
                     throw new PftSyntaxException(navigator);
                 }
 
@@ -334,6 +355,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                     );
                 if (ReferenceEquals(text, null))
                 {
+                    Log.Error
+                        (
+                            "FieldSpecification::Parse: "
+                            + "unclosed ["
+                        );
+
                     throw new PftSyntaxException(navigator);
                 }
 
@@ -384,6 +411,13 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     if (!SubFieldCode.IsValidCode(c))
                     {
+                        Log.Error
+                            (
+                                "FieldSpecification::Parse: "
+                                + "unexpected code="
+                                + c.ToVisibleString()
+                            );
+
                         throw new PftSyntaxException(navigator);
                     }
                     SubField = SubFieldCode.Normalize(c);
@@ -407,6 +441,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                         );
                     if (ReferenceEquals(text, null))
                     {
+                        Log.Error
+                            (
+                                "FieldSpecification::Parse: "
+                                + "unclosed ["
+                            );
+
                         throw new PftSyntaxException(navigator);
                     }
 
@@ -448,6 +488,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 if (builder.Length == 0)
                 {
+                    Log.Error
+                        (
+                            "FieldSpecification: "
+                            + "empty offset"
+                        );
+
                     throw new PftSyntaxException(navigator);
                 }
 
@@ -480,6 +526,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 if (builder.Length == 0)
                 {
+                    Log.Error
+                        (
+                            "FieldSpecification::Parse: "
+                            + "empty length"
+                        );
+
                     throw new PftSyntaxException(navigator);
                 }
 
@@ -491,6 +543,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 if (navigator.PeekChar() == '*')
                 {
+                    Log.Error
+                        (
+                            "FieldSpecification::Parse: "
+                            + "offset after length"
+                        );
+
                     throw new PftSyntaxException(navigator);
                 }
             } // c == '.'
@@ -514,6 +572,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                     }
                     if (!c.IsArabicDigit())
                     {
+                        Log.Error
+                            (
+                                "FieldSpecification::Parse: "
+                                + "unexpected character="
+                                + c.ToVisibleString()
+                            );
+
                         throw new PftSyntaxException(navigator);
                     }
                     navigator.ReadChar();
@@ -522,6 +587,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 if (builder.Length == 0)
                 {
+                    Log.Error
+                        (
+                            "FieldSpecification::Parse: "
+                            + "empty paragraph indent"
+                        );
+
                     throw new PftSyntaxException(navigator);
                 }
                 ParagraphIndent = int.Parse
@@ -611,13 +682,28 @@ namespace ManagedIrbis.Pft.Infrastructure
                 navigator.ReadChar();
                 if (navigator.IsEOF)
                 {
+                    Log.Error
+                        (
+                            "FieldSpecification::ParseShort: "
+                            + "unexpected end of stream"
+                        );
+
                     throw new PftSyntaxException(navigator);
                 }
+
                 c = navigator.ReadChar();
                 if (!SubFieldCode.IsValidCode(c))
                 {
+                    Log.Error
+                        (
+                            "FieldSpecification::ParseShort: "
+                            + "unexpected code="
+                            + c.ToVisibleString()
+                        );
+
                     throw new PftSyntaxException(navigator);
                 }
+
                 SubField = SubFieldCode.Normalize(c);
 
                 /* c = navigator.PeekChar(); */
@@ -640,6 +726,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Code.NotNullNorEmpty(text, "text");
 
             TextNavigator navigator = new TextNavigator(text);
+
             return ParseUnifor(navigator);
         }
 
@@ -696,13 +783,28 @@ namespace ManagedIrbis.Pft.Infrastructure
                 navigator.ReadChar();
                 if (navigator.IsEOF)
                 {
+                    Log.Error
+                        (
+                            "FieldSpecification::ParseUnifor: "
+                            + "unexpected end of stream"
+                        );
+
                     throw new PftSyntaxException(navigator);
                 }
+
                 c = navigator.ReadChar();
                 if (!SubFieldCode.IsValidCode(c))
                 {
+                    Log.Error
+                        (
+                            "FieldSpecification::ParseUnifor: "
+                            + "unexpected code="
+                            + c.ToVisibleString()
+                        );
+
                     throw new PftSyntaxException(navigator);
                 }
+
                 SubField = SubFieldCode.Normalize(c);
 
                 c = navigator.PeekChar();
@@ -715,8 +817,15 @@ namespace ManagedIrbis.Pft.Infrastructure
                 string indexText = navigator.ReadInteger();
                 if (string.IsNullOrEmpty(indexText))
                 {
+                    Log.Error
+                        (
+                            "FieldSpecification::ParseUnifor: "
+                            + "empty index"
+                        );
+
                     throw new PftSyntaxException(navigator);
                 }
+
                 int indexValue = int.Parse(indexText);
                 FieldRepeat = new IndexSpecification
                 {
@@ -736,7 +845,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region ICloneable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICloneable.Clone" />
         public object Clone()
         {
             FieldSpecification result
@@ -753,7 +862,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();

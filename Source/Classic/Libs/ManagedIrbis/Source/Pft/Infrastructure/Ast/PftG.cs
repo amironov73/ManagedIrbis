@@ -215,7 +215,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region PftNode members
+        #region PftField members
 
         /// <inheritdoc cref="PftField.IsLastRepeat" />
         public override bool IsLastRepeat
@@ -225,6 +225,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             return context.Index >= _count - 1;
         }
+
+        #endregion
+
+        #region PftNode members
 
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute

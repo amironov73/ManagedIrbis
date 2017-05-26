@@ -15,6 +15,7 @@ using System.IO;
 using System.Text;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -166,10 +167,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region ICloneable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ICloneable.Clone" />
         public override object Clone()
         {
-            PftVariableReference result = (PftVariableReference) base.Clone();
+            PftVariableReference result
+                = (PftVariableReference) base.Clone();
 
             result.Index = (IndexSpecification) Index.Clone();
 
@@ -180,7 +182,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -193,15 +195,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 = context.Variables.GetExistingVariable(name);
             if (ReferenceEquals(variable, null))
             {
+                Log.Error
+                    (
+                        "PftVariableReference::Execute: "
+                        + "unknown variable="
+                        + name.ToVisibleString()
+                    );
+
                 throw new PftSemanticException
                     (
                         "unknown variable: " + name
                     );
             }
+
             if (variable.IsNumeric)
             {
                 Value = variable.NumericValue;
-                context.Write(this, variable.NumericValue.ToString());
+                context.Write
+                    (
+                        this,
+                        variable.NumericValue.ToInvariantString()
+                    );
             }
             else
             {
@@ -225,7 +239,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         foreach (string line in lines)
                         {
                             RecordField field = _ParseLine(line);
-                            string text = field.GetFirstSubFieldValue(SubFieldCode);
+                            string text = field.GetFirstSubFieldValue
+                                (
+                                    SubFieldCode
+                                );
                             list.Add(text);
                         }
 
@@ -249,7 +266,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         foreach (string line in lines)
                         {
                             RecordField field = _ParseLine(line);
-                            string text = field.GetFirstSubFieldValue(SubFieldCode);
+                            string text = field.GetFirstSubFieldValue
+                                (
+                                    SubFieldCode
+                                );
                             list.Add(text);
                         }
 
@@ -268,7 +288,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.GetNodeInfo" />
         public override PftNodeInfo GetNodeInfo()
         {
             PftNodeInfo result = base.GetNodeInfo();

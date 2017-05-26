@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -137,6 +138,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                         out descriptor
                     ))
                 {
+                    Log.Error
+                        (
+                            "PftFunctionManager::ExecuteFunction: "
+                            + "unknown function="
+                            + name.ToVisibleString()
+                        );
+
                     throw new PftSemanticException
                         (
                             "unknown function: "
@@ -197,11 +205,29 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             if (name.OneOf(PftUtility.GetReservedWords()))
             {
+                Log.Error
+                    (
+                        "PftFunctionManager::RegisterFunction: "
+                        + "reserved word="
+                        + name.ToVisibleString()
+                    );
+
                 throw new PftException("Reserved word: " + name);
             }
+
             if (HaveFunction(name))
             {
-                throw new PftException("Function already registered: " + name);
+                Log.Error
+                    (
+                        "PftFunctionManager::RegisterFunction: "
+                        + "already registered: "
+                        + name.ToVisibleString()
+                    );
+
+                throw new PftException
+                    (
+                        "Function already registered: " + name
+                    );
             }
 
             Add(name, function);

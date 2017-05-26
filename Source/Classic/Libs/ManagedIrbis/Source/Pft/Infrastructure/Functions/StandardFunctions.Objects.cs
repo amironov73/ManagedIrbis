@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -61,6 +62,12 @@ namespace ManagedIrbis.Pft.Infrastructure
             Code.NotNullNorEmpty(className, "className");
 
 #if WIN81 || PocketPC || WINMOBILE || PORTABLE
+
+            Log.Error
+                (
+                    "StandardFunctions::CreateObject: "
+                    + "not implemented"
+                );
 
             throw new NotImplementedException();
 
