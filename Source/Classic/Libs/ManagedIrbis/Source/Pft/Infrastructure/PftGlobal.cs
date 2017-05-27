@@ -37,9 +37,7 @@ namespace ManagedIrbis.Pft.Infrastructure
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !PocketPC
     [DebuggerDisplay("{Number} {ToString()}")]
-#endif
     public sealed class PftGlobal
         : IHandmadeSerializable
     {

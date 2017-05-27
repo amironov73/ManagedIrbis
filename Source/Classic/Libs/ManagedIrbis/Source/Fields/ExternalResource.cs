@@ -37,9 +37,7 @@ namespace ManagedIrbis.Fields
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("File={FileName} Url={Url} Description={Description}")]
-#endif
     public sealed class ExternalResource
 #if !WINMOBILE && !PocketPC && !SILVERLIGHT
         : IHandmadeSerializable

@@ -43,9 +43,7 @@ namespace ManagedIrbis.Systematization
     [PublicAPI]
     [XmlRoot("bbk")]
     [MoonSharpUserData]
-#if !WINMOBILE
     [DebuggerDisplay("{MainIndex}")]
-#endif
     public sealed class BbkIndex
     {
         #region Properties

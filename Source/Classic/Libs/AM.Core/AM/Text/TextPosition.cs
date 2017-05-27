@@ -26,9 +26,7 @@ namespace AM.Text
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Column={Column} Line={Line} Position={Position}")]
-#endif
     public sealed class TextPosition
     {
         #region Properties

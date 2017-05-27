@@ -33,9 +33,7 @@ namespace ManagedIrbis.Readers
     /// </summary>
     [PublicAPI]
     [XmlRoot("chair")]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Code} {Title}")]
-#endif
     public sealed class ChairInfo
         : IHandmadeSerializable
     {

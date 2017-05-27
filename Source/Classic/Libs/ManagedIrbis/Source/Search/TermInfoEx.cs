@@ -38,9 +38,7 @@ namespace ManagedIrbis.Search
     [PublicAPI]
     [XmlRoot("term-info")]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("[{Count}] {Text} {Formatted}")]
-#endif
     public sealed class TermInfoEx
         : TermInfo
     {

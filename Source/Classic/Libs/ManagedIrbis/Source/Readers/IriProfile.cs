@@ -38,9 +38,7 @@ namespace ManagedIrbis.Readers
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("iri-profile")]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Title} {Query}")]
-#endif
     public sealed class IriProfile
         : IHandmadeSerializable
     {

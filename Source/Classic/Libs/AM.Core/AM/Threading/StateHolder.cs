@@ -34,9 +34,7 @@ namespace AM.Threading
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Value}")]
-#endif
     public sealed class StateHolder<T>
         : IHandmadeSerializable
         where T: IEquatable<T>

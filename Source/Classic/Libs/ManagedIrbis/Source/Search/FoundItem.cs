@@ -34,9 +34,7 @@ namespace ManagedIrbis.Search
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Mfn} {Text}")]
-#endif
     public sealed class FoundItem
         : IHandmadeSerializable,
         IVerifiable

@@ -35,9 +35,7 @@ namespace ManagedIrbis.Search
     [PublicAPI]
     [XmlRoot("term-link")]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("[{Mfn}] {Tag}/{Occurrence} {Index}")]
-#endif
     public sealed class TermLink
         : IHandmadeSerializable,
         IVerifiable

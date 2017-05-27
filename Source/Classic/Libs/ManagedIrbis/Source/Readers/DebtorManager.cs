@@ -31,9 +31,7 @@ namespace ManagedIrbis.Readers
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Department}")]
-#endif
     public sealed class DebtorManager
     {
         #region Events

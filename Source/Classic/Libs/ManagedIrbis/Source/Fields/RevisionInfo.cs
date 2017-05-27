@@ -43,9 +43,7 @@ namespace ManagedIrbis.Fields
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Stage={Stage} Date={Date} Name={Name}")]
-#endif
     public sealed class RevisionInfo
         : IHandmadeSerializable
     {

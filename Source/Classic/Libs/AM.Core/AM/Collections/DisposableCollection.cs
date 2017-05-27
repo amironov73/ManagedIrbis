@@ -31,9 +31,7 @@ namespace AM.Collections
     /// <typeparam name="T"></typeparam>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Count = {Count}")]
-#endif
     public class DisposableCollection<T>
         : Collection<T>,
         IDisposable

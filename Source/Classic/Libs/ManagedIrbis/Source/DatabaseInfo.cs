@@ -43,9 +43,7 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Name} {Description}")]
-#endif
     public sealed class DatabaseInfo
         : IHandmadeSerializable
     {

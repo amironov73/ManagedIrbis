@@ -46,9 +46,7 @@ namespace ManagedIrbis
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("subfields")]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Count={Count}")]
-#endif
     public sealed class SubFieldCollection
         : Collection<SubField>,
         IHandmadeSerializable,

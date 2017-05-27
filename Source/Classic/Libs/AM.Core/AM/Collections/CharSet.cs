@@ -38,9 +38,7 @@ namespace AM.Collections
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{ToString()}")]
-#endif
     public sealed class CharSet
         : IHandmadeSerializable,
         IEnumerable<char>,

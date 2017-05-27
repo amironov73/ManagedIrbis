@@ -38,9 +38,7 @@ namespace ManagedIrbis.Marc.Schema
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("example")]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Text}")]
-#endif
     public sealed class Example
         : IHandmadeSerializable
     {

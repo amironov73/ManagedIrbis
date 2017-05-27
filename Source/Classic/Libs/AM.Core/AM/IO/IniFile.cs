@@ -39,9 +39,7 @@ namespace AM.IO
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Name={FileName}")]
-#endif
 #if !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
     // ReSharper disable once RedundantNameQualifier
     [System.ComponentModel.DesignerCategory("Code")]
@@ -58,9 +56,7 @@ namespace AM.IO
         /// </summary>
         [PublicAPI]
         [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
         [DebuggerDisplay("{Key}={Value} [{Modified}]")]
-#endif
         public sealed class Line
             : IHandmadeSerializable
         {

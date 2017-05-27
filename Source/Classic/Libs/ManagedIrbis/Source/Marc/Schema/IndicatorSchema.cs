@@ -39,9 +39,7 @@ namespace ManagedIrbis.Marc.Schema
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("indicator")]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Name}")]
-#endif
     public sealed class IndicatorSchema
         : IHandmadeSerializable
     {

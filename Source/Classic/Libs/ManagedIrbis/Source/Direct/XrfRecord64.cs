@@ -39,9 +39,7 @@ namespace ManagedIrbis.Direct
     /// <summary>
     /// Contains information about record offset and status.
     /// </summary>
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Offset={Offset}, Status={Status}")]
-#endif
     public sealed class XrfRecord64
     {
         #region Constants

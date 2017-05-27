@@ -26,10 +26,8 @@ namespace AM.Text.Tokenizer
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("IgnoreNewLine={IgnoreNewLine} "
         + "IgnoreWhitespace={IgnoreWhitespace}")]
-#endif
     public sealed class TokenizerSettings
     {
         #region Properties

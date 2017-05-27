@@ -28,9 +28,7 @@ namespace AM
     /// </typeparam>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Target}")]
-#endif
     public class Reference<T>
     {
         #region Events

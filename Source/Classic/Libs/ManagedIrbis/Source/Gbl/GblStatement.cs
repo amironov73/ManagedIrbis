@@ -103,9 +103,7 @@ namespace ManagedIrbis.Gbl
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("gbl-statement")]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Command} {Parameter1} {Parameter2}")]
-#endif
     public sealed class GblStatement
         : IHandmadeSerializable,
         IVerifiable

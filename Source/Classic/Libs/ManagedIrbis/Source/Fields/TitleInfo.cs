@@ -48,9 +48,7 @@ namespace ManagedIrbis.Fields
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{VolumeNumber} {Title}")]
-#endif
     public sealed class TitleInfo
 #if !WINMOBILE && !PocketPC && !SILVERLIGHT
         : IHandmadeSerializable

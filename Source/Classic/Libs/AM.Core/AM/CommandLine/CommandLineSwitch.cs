@@ -29,9 +29,7 @@ namespace AM.CommandLine
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Name.Value}={Value}")]
-#endif
     public sealed class CommandLineSwitch
     {
         #region Properties

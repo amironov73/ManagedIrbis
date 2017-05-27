@@ -29,9 +29,7 @@ namespace AM.Collections
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Count={Count}")]
-#endif
     public class Set<T>
         : ICollection<T>,
           ICollection,

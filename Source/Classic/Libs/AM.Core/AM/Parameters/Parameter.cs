@@ -34,9 +34,7 @@ namespace AM.Parameters
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("parameter")]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Name}={Value}")]
-#endif
     public sealed class Parameter
         : IHandmadeSerializable,
         IVerifiable

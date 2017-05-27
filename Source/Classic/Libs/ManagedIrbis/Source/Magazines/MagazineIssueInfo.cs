@@ -39,9 +39,7 @@ namespace ManagedIrbis.Magazines
     [PublicAPI]
     [XmlRoot("issue")]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Year} {Number} {Supplement}")]
-#endif
     public sealed class MagazineIssueInfo
         : IHandmadeSerializable
     {

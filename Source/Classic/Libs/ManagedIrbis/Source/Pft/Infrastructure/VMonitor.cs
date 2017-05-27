@@ -15,9 +15,10 @@ using System.Diagnostics;
 
 namespace ManagedIrbis.Pft.Infrastructure
 {
-#if !PocketPC
+    /// <summary>
+    /// Отслеживает, был ли вывод из поля с помощью vXXX.
+    /// </summary>
     [DebuggerDisplay("{Output}")]
-#endif
     internal sealed class VMonitor
     {
         #region Properties

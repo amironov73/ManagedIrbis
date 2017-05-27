@@ -39,9 +39,7 @@ namespace ManagedIrbis
     [PublicAPI]
     [XmlRoot("user")]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Name}")]
-#endif
     public sealed class UserInfo
         : IHandmadeSerializable,
         IVerifiable

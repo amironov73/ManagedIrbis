@@ -43,9 +43,7 @@ namespace ManagedIrbis.Worksheet
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("wss-file")]
-#if !WINMOBILE
     [DebuggerDisplay("{Name}")]
-#endif
     public sealed class WssFile
         : IHandmadeSerializable
     {

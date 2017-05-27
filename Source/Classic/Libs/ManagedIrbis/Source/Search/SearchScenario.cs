@@ -58,9 +58,7 @@ namespace ManagedIrbis.Search
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("search")]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Prefix} {Name}")]
-#endif
     public sealed class SearchScenario
         : IHandmadeSerializable,
         IVerifiable

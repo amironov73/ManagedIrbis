@@ -38,9 +38,7 @@ namespace ManagedIrbis.Fst
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Tag} {Method} {Format}")]
-#endif
     public sealed class FstLine
         : IHandmadeSerializable
     {

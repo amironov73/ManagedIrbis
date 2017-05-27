@@ -42,8 +42,8 @@ namespace ManagedIrbis
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("indicator")]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Value = '{Value}'")]
+#if !WINMOBILE && !PocketPC
     [JsonConverter(typeof(FieldIndicatorConverter))]
 #endif
     public sealed class FieldIndicator

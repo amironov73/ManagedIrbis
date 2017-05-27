@@ -118,9 +118,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Элемент словаря.
         /// </summary>
-#if !WINMOBILE && !PocketPC
         [DebuggerDisplay("{Key} {Value}")]
-#endif
         public sealed class Item
             : IHandmadeSerializable
         {

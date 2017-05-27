@@ -58,9 +58,7 @@ namespace ManagedIrbis
         /// </summary>
         [PublicAPI]
         [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
         [DebuggerDisplay("{Value}")]
-#endif
         public sealed class Item
             : IHandmadeSerializable
         {

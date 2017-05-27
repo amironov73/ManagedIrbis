@@ -29,9 +29,7 @@ namespace ManagedIrbis.Fields
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Resource}")]
-#endif
     public sealed class BinaryResource
     {
         #region Constants

@@ -1,4 +1,7 @@
-﻿/* Diagnostics.cs --
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* Diagnostics.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -8,32 +11,19 @@
 
 using System;
 
-#pragma warning disable 1591
-// ReSharper disable UnusedMember.Global
-// ReSharper disable UnusedParameter.Local
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable IntroduceOptionalParameters.Global
-// ReSharper disable MemberCanBeProtected.Global
-// ReSharper disable InconsistentNaming
-
 namespace System.Diagnostics
 {
-    //public sealed class DebuggerDisplayAttribute
-    //    : Attribute
-    //{
-    //    #region Construction
+    public sealed class DebuggerDisplayAttribute
+        : Attribute
+    {
+        public DebuggerDisplayAttribute()
+        {
+        }
 
-    //    public DebuggerDisplayAttribute()
-    //    {
-    //    }
-
-    //    public DebuggerDisplayAttribute(string text)
-    //    {
-    //    }
-
-    //    #endregion
-    //}
+        public DebuggerDisplayAttribute(string text)
+        {
+        }
+    }
 }
 
 #endif

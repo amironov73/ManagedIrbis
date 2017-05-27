@@ -62,9 +62,7 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !PocketPC
     [DebuggerDisplay("{Tag}")]
-#endif
     public sealed class FieldReference
         : IHandmadeSerializable,
         IVerifiable

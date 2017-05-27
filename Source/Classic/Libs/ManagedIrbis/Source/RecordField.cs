@@ -45,9 +45,7 @@ namespace ManagedIrbis
     [PublicAPI]
     [XmlRoot("field")]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{DebugText}")]
-#endif
     public sealed class RecordField
         : IHandmadeSerializable,
         IReadOnly<RecordField>,

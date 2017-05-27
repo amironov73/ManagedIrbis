@@ -36,9 +36,7 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("[{Number}] {Name} ({Workstation})")]
-#endif
     public sealed class IrbisProcessInfo
         : IHandmadeSerializable
     {

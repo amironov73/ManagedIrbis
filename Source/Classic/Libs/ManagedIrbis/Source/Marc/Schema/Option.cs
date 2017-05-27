@@ -38,9 +38,7 @@ namespace ManagedIrbis.Marc.Schema
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("option")]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("[{Value}] {Name}")]
-#endif
     public sealed class Option
         : IHandmadeSerializable
     {

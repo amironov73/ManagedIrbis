@@ -31,9 +31,7 @@ namespace AM.Collections
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Count={Count}")]
-#endif
     public class BidirectionalDictionary<TKey, TValue>
         : IDictionary<TKey, TValue>
     {

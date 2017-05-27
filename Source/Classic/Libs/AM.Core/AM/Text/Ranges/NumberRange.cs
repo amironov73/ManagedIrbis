@@ -34,9 +34,7 @@ namespace AM.Text.Ranges
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Start} - {Stop}")]
-#endif
     public sealed class NumberRange
         : IEnumerable<NumberText>,
         IHandmadeSerializable,

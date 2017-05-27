@@ -33,9 +33,7 @@ namespace AM.Threading
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Busy = {Busy}")]
-#endif
     public sealed class BusyState
         : IHandmadeSerializable
     {

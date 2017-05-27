@@ -37,9 +37,7 @@ namespace ManagedIrbis.Client
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("record")]
-#if !WINMOBILE
     [DebuggerDisplay("{Mfn} {Status} {Version}")]
-#endif
     public struct RecordState
         : IHandmadeSerializable
     {

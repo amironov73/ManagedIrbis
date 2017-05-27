@@ -89,9 +89,7 @@ namespace ManagedIrbis
         /// Entry.
         /// </summary>
         [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
         [DebuggerDisplay("[{Number}] {Name}")]
-#endif
         public sealed class Entry
             :
 #if !WINMOBILE && !PocketPC && !SILVERLIGHT

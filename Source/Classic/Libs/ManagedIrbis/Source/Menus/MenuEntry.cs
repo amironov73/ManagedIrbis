@@ -32,9 +32,7 @@ namespace ManagedIrbis.Menus
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("entry")]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Code} = {Comment}")]
-#endif
     public sealed class MenuEntry
         : IHandmadeSerializable
     {

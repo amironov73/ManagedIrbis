@@ -32,9 +32,7 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("{Text}")]
-#endif
     public sealed class IrbisDate
         : IHandmadeSerializable
     {

@@ -36,9 +36,7 @@ namespace AM.Collections
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Count = {Count}")]
-#endif
     public sealed class StringDictionary
         : Dictionary<string, string>,
         IHandmadeSerializable

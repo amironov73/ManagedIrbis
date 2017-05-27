@@ -121,9 +121,7 @@ namespace ManagedIrbis.Worksheet
     [PublicAPI]
     [XmlRoot("line")]
     [MoonSharpUserData]
-#if !WINMOBILE
     [DebuggerDisplay("{Tag} {Title} [{Repeatable}][{EditMode}]")]
-#endif
     public sealed class WorksheetItem
         : IHandmadeSerializable
     {

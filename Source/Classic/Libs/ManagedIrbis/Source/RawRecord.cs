@@ -33,9 +33,7 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("[{Database}] MFN={Mfn} ({Version})")]
-#endif
     public sealed class RawRecord
     {
         #region Properties

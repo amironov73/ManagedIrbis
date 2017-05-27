@@ -33,9 +33,7 @@ namespace ManagedIrbis
     [PublicAPI]
     [XmlRoot("subfield")]
     [MoonSharpUserData]
-#if !WINMOBILE && !PocketPC
     [DebuggerDisplay("Code={Code}, Value={Value}")]
-#endif
     public sealed class SubField
         : IHandmadeSerializable,
         IReadOnly<SubField>,

@@ -34,9 +34,7 @@ namespace ManagedIrbis.Client
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE
     [DebuggerDisplay("{Database}")]
-#endif
     public sealed class CatalogState
 #if !SILVERLIGHT && !WINMOBILE
         : IHandmadeSerializable

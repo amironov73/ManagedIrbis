@@ -32,9 +32,7 @@ namespace ManagedIrbis.Client
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !PocketPC
     [DebuggerDisplay("Count={_aliases.Count}")]
-#endif
     public sealed class AliasManager
     {
         #region Properties

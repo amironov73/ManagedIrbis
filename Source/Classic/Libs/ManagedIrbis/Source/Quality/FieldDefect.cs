@@ -33,9 +33,7 @@ namespace ManagedIrbis.Quality
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-#if !WINMOBILE
     [DebuggerDisplay("Field={Field} Value={Value} Message={Message}")]
-#endif
     public sealed class FieldDefect
         : IHandmadeSerializable,
         IVerifiable
