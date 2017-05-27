@@ -7,12 +7,9 @@
  * Status: poor
  */
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
-
 #region Using directives
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,9 +45,17 @@ namespace AM
                 [NotNull] this Func<TArg, TRes> func
             )
         {
-            var dictionary = new ConcurrentDictionary<TArg, TRes>();
+#if WINMOBILE || POCKETPC
+
+            throw new NotImplementedException();
+
+#else
+
+            var dictionary = new System.Collections.Concurrent.ConcurrentDictionary<TArg, TRes>();
 
             return arg => dictionary.GetOrAdd(arg, func);
+
+#endif
         }
 
         /// <summary>
@@ -98,6 +103,4 @@ namespace AM
         #endregion
     }
 }
-
-#endif
 

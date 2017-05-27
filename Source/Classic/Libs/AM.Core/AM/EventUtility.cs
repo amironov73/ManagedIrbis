@@ -11,12 +11,7 @@
 
 using System;
 using System.Reflection;
-
-#if !WINMOBILE && !PocketPC
-
 using System.Threading.Tasks;
-
-#endif
 
 using CodeJam;
 

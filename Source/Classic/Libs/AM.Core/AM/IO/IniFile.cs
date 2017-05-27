@@ -1052,17 +1052,7 @@ namespace AM.IO
                         _sections.Add(section);
                     }
 
-#if WINMOBILE || PocketPC || SILVERLIGHT
-
-                    // TODO Implement properly
-
-                    string[] parts = line.Split(separators);
-
-#else
-
-                    string[] parts = line.Split(separators,2);
-
-#endif
+                    string[] parts = StringUtility.SplitString(line, separators, 2);
 
                     string key = parts[0];
                     string value = parts.Length == 2

@@ -2014,6 +2014,55 @@ namespace AM
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Split the string.
+        /// </summary>
+        /// <remarks>For compatibility with WinMobile
+        /// </remarks>
+        [NotNull]
+        public static string[] SplitString
+            (
+                [NotNull] string text,
+                [NotNull] char[] separators,
+                int maxParts
+            )
+        {
+            Code.NotNull(text, "text");
+            Code.NotNull(separators, "separators");
+
+            List<string> result = new List<string>();
+            if (maxParts < 2)
+            {
+                result.Add(text);
+            }
+
+            while (result.Count < maxParts)
+            {
+                foreach (char separator in separators)
+                {
+                    int position = text.IndexOf(separator);
+                    if (position >= 0)
+                    {
+                        string prefix = text.Substring(0, position);
+                        result.Add(prefix);
+                        text = text.Substring
+                            (
+                                position + 1,
+                                text.Length - position - 1
+                            );
+                        goto DONE;
+                    }
+                }
+
+                result.Add(text);
+                break;
+
+            DONE: ;
+            }
+
+            return result.ToArray();
+        }
+
 #if WINMOBILE
 
         /// <summary>

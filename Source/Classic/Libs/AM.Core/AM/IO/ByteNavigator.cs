@@ -192,7 +192,7 @@ namespace AM.IO
         }
 
 
-#if !WINMOBILE && !PocketPC && !WIN81 && !PORTABLE
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Навигатор по двоичному файлу.
@@ -205,12 +205,11 @@ namespace AM.IO
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            byte[] data = File.ReadAllBytes(fileName);
+            byte[] data = FileUtility.ReadAllBytes(fileName);
             ByteNavigator result = new ByteNavigator(data);
 
             return result;
         }
-
 
 #endif
 

@@ -312,6 +312,33 @@ namespace AM.IO
         }
 
         /// <summary>
+        /// Read all bytes from the file.
+        /// </summary>
+        /// <remarks>For compatibility with WinMobile.</remarks>
+        public static byte[] ReadAllBytes
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+#if PocketPC || WINMOBILE
+
+            using (Stream stream = new FileStream(fileName, FileMode.Open))
+            {
+                int length = (int)stream.Length;
+                byte[] result = new byte[length];
+                stream.Read(result, 0, length);
+
+                return result;
+            }
+
+#else
+            return File.ReadAllBytes(fileName);
+#endif
+        }
+
+        /// <summary>
         /// Read all text from the text
         /// </summary>
         /// <remarks>

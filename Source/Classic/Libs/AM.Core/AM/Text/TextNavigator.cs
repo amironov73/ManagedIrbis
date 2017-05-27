@@ -13,6 +13,7 @@ using System;
 using System.IO;
 using System.Text;
 
+using AM.IO;
 using AM.Logging;
 
 using CodeJam;
@@ -127,7 +128,7 @@ namespace AM.Text
             return result;
         }
 
-#if !WINMOBILE && !PocketPC && !WIN81 && !PORTABLE
+#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Навигатор по текстовому файлу.
@@ -141,7 +142,7 @@ namespace AM.Text
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            string text = File.ReadAllText(fileName, encoding);
+            string text = FileUtility.ReadAllText(fileName, encoding);
             TextNavigator result = new TextNavigator(text);
 
             return result;
@@ -158,7 +159,7 @@ namespace AM.Text
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            string text = File.ReadAllText(fileName);
+            string text = FileUtility.ReadAllText(fileName, Encoding.UTF8);
             TextNavigator result = new TextNavigator(text);
 
             return result;

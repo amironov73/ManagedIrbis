@@ -69,17 +69,7 @@ namespace AM.CommandLine
                 char[] separators
                     = { CommandLineSettings.ValueSeparator };
 
-#if WINMOBILE || PocketPC || SILVERLIGHT
-
-                // TODO Implement properly
-
-                string[] parts = text.Split(separators);
-
-#else
-
-                string[] parts = text.Split(separators, 2);
-
-#endif
+                string[] parts = StringUtility.SplitString(text, separators, 2);
 
                 if (string.IsNullOrEmpty(parts[0])
                     || string.IsNullOrEmpty(parts[1]))
