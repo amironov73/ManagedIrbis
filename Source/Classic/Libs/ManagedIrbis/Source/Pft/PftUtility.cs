@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
+using AM.Logging;
 
 using CodeJam;
 
@@ -135,6 +136,12 @@ namespace ManagedIrbis.Pft
             MarcRecord record = context.Record;
             if (ReferenceEquals(record, null))
             {
+                Log.Error
+                    (
+                        "PftUtility::AssignField: "
+                        + "record not set"
+                    );
+
                 return;
             }
 
@@ -218,6 +225,12 @@ namespace ManagedIrbis.Pft
             MarcRecord record = context.Record;
             if (ReferenceEquals(record, null))
             {
+                Log.Error
+                    (
+                        "PftUtility::AssignSubField: "
+                        + "record not set"
+                    );
+
                 return;
             }
 
@@ -306,7 +319,15 @@ namespace ManagedIrbis.Pft
         {
             NonNullCollection<PftNode> result = null;
 
-            if (!ReferenceEquals(nodes, null))
+            if (ReferenceEquals(nodes, null))
+            {
+                Log.Error
+                    (
+                        "PftUtility::CloneNodes: "
+                        + "nodes are null"
+                    );
+            }
+            else
             {
                 result = new NonNullCollection<PftNode>();
 
@@ -446,7 +467,7 @@ namespace ManagedIrbis.Pft
             string value = match.Value;
             double result;
 
-#if PocketPC
+#if WINMOBILE || PocketPC
 
             NumericUtility.TryParseDouble
                 (
@@ -497,7 +518,7 @@ namespace ManagedIrbis.Pft
             {
                 double value;
 
-#if PocketPC
+#if WINMOBILE || PocketPC
 
                 if (NumericUtility.TryParseDouble
                     (
@@ -657,6 +678,13 @@ namespace ManagedIrbis.Pft
                     break;
 
                 default:
+                    Log.Error
+                        (
+                            "PftUtiltity::FormatField: "
+                            + "unexpected data mode="
+                            + mode.ToVisibleString()
+                        );
+
                     throw new ArgumentOutOfRangeException();
             }
 
@@ -966,14 +994,20 @@ namespace ManagedIrbis.Pft
             Code.NotNull(context, "context");
             Code.NotNullNorEmpty(tag, "tag");
 
-            tag = FieldTag.Normalize(tag);
-            code = SubFieldCode.Normalize(code);
-
             MarcRecord record = context.Record;
             if (ReferenceEquals(record, null))
             {
+                Log.Error
+                    (
+                        "PftUtility::GetSubFieldValue: "
+                        + "record not set"
+                    );
+
                 return new string[0];
             }
+
+            tag = FieldTag.Normalize(tag);
+            code = SubFieldCode.Normalize(code);
 
             RecordField[] fields = record.Fields.GetField(tag);
             fields = GetArrayItem

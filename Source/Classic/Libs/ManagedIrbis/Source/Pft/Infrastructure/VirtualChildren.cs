@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -85,7 +86,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             return GetEnumerator();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
         public IEnumerator<PftNode> GetEnumerator()
         {
             Enumeration.Raise(this);
@@ -96,19 +97,34 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
-        /// <inheritdoc />
-        public void Add(PftNode item)
+        /// <inheritdoc cref="ICollection{T}.Add" />
+        public void Add
+            (
+                PftNode item
+            )
         {
-            throw new NotImplementedException();
+            Log.Error
+                (
+                    "VirtualChildren::Add: "
+                    + "not applicable"
+                );
+
+            throw new NotSupportedException();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICollection{T}.Clear" />
         public void Clear()
         {
-            throw new NotImplementedException();
+            Log.Error
+                (
+                    "VirtualChildren::Clear: "
+                    + "not applicable"
+                );
+
+            throw new NotSupportedException();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICollection{T}.Contains" />
         public bool Contains
             (
                 PftNode item
@@ -117,7 +133,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             return _children.Contains(item);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICollection{T}.CopyTo" />
         public void CopyTo
             (
                 PftNode[] array,
@@ -127,23 +143,35 @@ namespace ManagedIrbis.Pft.Infrastructure
             _children.CopyTo(array, arrayIndex);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICollection{T}.Remove" />
         public bool Remove
             (
                 PftNode item
             )
         {
-            throw new NotImplementedException();
+            Log.Error
+                (
+                    "VirtualChildren::Remove: "
+                    + "not applicable"
+                );
+
+            throw new NotSupportedException();
         }
 
 
-        /// <inheritdoc />
-        public int Count { get { return _children.Length; } }
+        /// <inheritdoc cref="ICollection{T}.Count" />
+        public int Count
+        {
+            get { return _children.Length; }
+        }
 
-        /// <inheritdoc />
-        public bool IsReadOnly { get { return true; } }
+        /// <inheritdoc cref="ICollection{T}.IsReadOnly" />
+        public bool IsReadOnly
+        {
+            get { return true; }
+        }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IList{T}.IndexOf" />
         public int IndexOf
             (
                 PftNode item
@@ -152,30 +180,55 @@ namespace ManagedIrbis.Pft.Infrastructure
             return Array.IndexOf(_children, item);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IList{T}.Insert" />
         public void Insert
             (
                 int index,
                 PftNode item
             )
         {
-            throw new NotImplementedException();
+            Log.Error
+                (
+                    "VirtualChildren::Insert: "
+                    + "not applicable"
+                );
+
+            throw new NotSupportedException();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IList{T}.RemoveAt" />
         public void RemoveAt
             (
                 int index
             )
         {
-            throw new NotImplementedException();
+            Log.Error
+                (
+                    "VirtualChildren::RemoveAt: "
+                    + "not applicable"
+                );
+
+            throw new NotSupportedException();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IList{T}.this" />
         public PftNode this[int index]
         {
-            get { return _children[index]; }
-            set { throw new NotImplementedException(); }
+            get
+            {
+                return _children[index];
+            }
+            set
+            {
+                Log.Error
+                    (
+                        "VirtualList::Indexer: "
+                        + "set value="
+                        + value.NullableToVisibleString()
+                    );
+
+                throw new NotSupportedException();
+            }
         }
 
         #endregion

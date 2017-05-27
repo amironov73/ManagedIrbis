@@ -213,12 +213,18 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         // ================================================================
 
-        private static string _FirstEvaluator(Match match)
+        private static string _FirstEvaluator
+            (
+                Match match
+            )
         {
             return match.Groups["first"].Value;
         }
 
-        private static string _SecondEvaluator(Match match)
+        private static string _SecondEvaluator
+            (
+                Match match
+            )
         {
             return match.Groups["second"].Value;
         }
@@ -819,10 +825,10 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region IFormatExit members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IFormatExit.Name" />
         public string Name { get { return "unifor"; } }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IFormatExit.Execute" />
         public void Execute
             (
                 PftContext context,
@@ -835,6 +841,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             if (string.IsNullOrEmpty(expression))
             {
+                Log.Trace
+                    (
+                        "Unifor::Execute: "
+                        + "empty expression"
+                    );
+
                 return;
             }
 
@@ -843,9 +855,20 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             if (ReferenceEquals(action, null))
             {
+                Log.Error
+                    (
+                        "Unifor::Execute: "
+                        + "unknown action="
+                        + expression.ToVisibleString()
+                    );
+
                 if (ThrowOnUnknown)
                 {
-                    throw new PftException("Unknown unifor: " + expression);
+                    throw new PftException
+                        (
+                            "Unknown unifor: "
+                            + expression.ToVisibleString()
+                        );
                 }
             }
             else

@@ -12,12 +12,19 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
+
+using AM.Logging;
+
+using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
 #endregion
+
+// ReSharper disable ConvertClosureToMethodGroup
 
 namespace ManagedIrbis.Pooling
 {
@@ -64,27 +71,28 @@ namespace ManagedIrbis.Pooling
         /// <summary>
         /// Строка подключения к серверу.
         /// </summary>
-        public string ConnectionString { get; set; }
+        public string ConnectionString { get; private set; }
 
         #endregion
 
         #region Construction
 
         /// <summary>
-        /// Конструктор по умолчанию.
+        /// Constructor.
         /// </summary>
         public IrbisConnectionPool()
         {
-            //if (string.IsNullOrEmpty(DefaultConnectionString))
-            //{
-            //    DefaultConnectionString
-            //        = ManagedClientUtility.GetStandardConnectionString();
-            //}
+            Log.Trace
+                (
+                    "IrbisConnectionPool::Constructor"
+                );
+
+            Capacity = DefaultCapacity;
             ConnectionString = DefaultConnectionString;
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public IrbisConnectionPool
             (
@@ -100,13 +108,16 @@ namespace ManagedIrbis.Pooling
         }
 
         /// <summary>
-        /// Конструктор с конкретной строкой соединения.
+        /// Constructor.
         /// </summary>
         public IrbisConnectionPool
             (
-                string connectionString
+                [NotNull] string connectionString
             )
+            : this()
         {
+            Code.NotNullNorEmpty(connectionString, "connectionString");
+
             ConnectionString = connectionString;
         }
 
@@ -116,10 +127,12 @@ namespace ManagedIrbis.Pooling
         public IrbisConnectionPool
             (
                 int capacity,
-                string connectionString
+                [NotNull] string connectionString
             )
+            : this(capacity)
         {
-            Capacity = capacity;
+            Code.NotNullNorEmpty(connectionString, "connectionString");
+
             ConnectionString = connectionString;
         }
 
@@ -144,6 +157,12 @@ namespace ManagedIrbis.Pooling
         {
             if (_activeConnections.Count >= Capacity)
             {
+                Log.Trace
+                    (
+                        "IrbisConnectionPool::_GetNewClient: "
+                        + "capacity exhausted"
+                    );
+
                 return null;
             }
 
@@ -159,10 +178,18 @@ namespace ManagedIrbis.Pooling
         {
             if (_idleConnections.Count == 0)
             {
+                Log.Trace
+                    (
+                        "IrbisConnectionPool::_GetIdleClient: "
+                        + "no idle clients"
+                    );
+
                 return null;
             }
+
             IrbisConnection result = _idleConnections[0];
             _idleConnections.RemoveAt(0);
+
             return result;
         }
 
@@ -173,8 +200,15 @@ namespace ManagedIrbis.Pooling
             {
                 if (!_event.WaitOne())
                 {
+                    Log.Error
+                        (
+                            "IrbisConnectionPool::_WaitForClient: "
+                            + "WaitOne failed"
+                        );
+
                     throw new IrbisException("WaitOne failed");
                 }
+
                 lock (_syncRoot)
                 {
                     IrbisConnection result = _GetIdleClient();
@@ -208,28 +242,71 @@ namespace ManagedIrbis.Pooling
             {
                 result = _WaitForClient();
             }
+
             return result;
         }
+
+#if FW45
+
+        /// <summary>
+        /// Требование нового подключения к серверу.
+        /// </summary>
+        public Task<IrbisConnection> AcquireConnectionAsync()
+        {
+            Task<IrbisConnection> result
+                = Task<IrbisConnection>.Factory.StartNew
+                    (
+                        () =>
+                        {
+                            return AcquireConnection();
+                        }
+                    );
+
+            return result;
+        }
+
+#endif
 
         /// <summary>
         /// Исполнение некоторых действий на подключении из пула.
         /// </summary>
-        /// <param name="action"></param>
         public void Execute
             (
                 [NotNull] Action<IrbisConnection> action
             )
         {
-            if (ReferenceEquals(action, null))
-            {
-                throw new ArgumentNullException("action");
-            }
+            Code.NotNull(action, "action");
 
             using (IrbisPoolGuard guard = new IrbisPoolGuard (this))
             {
                 action(guard);
             }
         }
+
+#if FW45
+
+        /// <summary>
+        /// Исполнение некоторых действий на подключении из пула.
+        /// </summary>
+        public Task ExecuteAsync
+            (
+                [NotNull] Action<IrbisConnection> action
+            )
+        {
+            Code.NotNull(action, "action");
+
+            Task result = Task.Factory.StartNew
+                (
+                    () =>
+                    {
+                        Execute(action);
+                    }
+                );
+
+            return result;
+        }
+
+#endif
 
         /// <summary>
         /// Исполнение некоторых действий на подключении из пула.
@@ -240,10 +317,7 @@ namespace ManagedIrbis.Pooling
                 T userData
             )
         {
-            if (ReferenceEquals(action, null))
-            {
-                throw new ArgumentNullException("action");
-            }
+            Code.NotNull(action, "action");
 
             using (IrbisPoolGuard guard = new IrbisPoolGuard(this))
             {
@@ -264,10 +338,7 @@ namespace ManagedIrbis.Pooling
                 T1 userData
             )
         {
-            if (ReferenceEquals(function, null))
-            {
-                throw new ArgumentNullException("function");
-            }
+            Code.NotNull(function, "function");
 
             using (IrbisPoolGuard guard = new IrbisPoolGuard(this))
             {
@@ -285,24 +356,28 @@ namespace ManagedIrbis.Pooling
         /// </summary>
         public void ReleaseConnection
             (
-                [NotNull] IrbisConnection client
+                [NotNull] IrbisConnection connection
             )
         {
-            if (ReferenceEquals(client, null))
-            {
-                throw new ArgumentNullException("client");
-            }
+            Code.NotNull(connection, "connection");
 
             lock (_syncRoot)
             {
-                if (!_activeConnections.Contains(client))
+                if (!_activeConnections.Contains(connection))
                 {
+                    Log.Error
+                        (
+                            "IrbisConnectionPool::ReleaseConnection: "
+                            + "foreign connection detected"
+                        );
+
                     throw new IrbisException("Foreign connection");
                 }
-                _activeConnections.Remove(client);
-                if (client.Connected)
+
+                _activeConnections.Remove(connection);
+                if (connection.Connected)
                 {
-                    _idleConnections.Add(client);
+                    _idleConnections.Add(connection);
                 }
                 _event.Set();
             }
@@ -345,6 +420,26 @@ namespace ManagedIrbis.Pooling
             }
         }
 
+#if FW45
+
+        /// <summary>
+        /// Ожидание закрытия всех активных подключений.
+        /// </summary>
+        public Task WaitForAllConnectionsAsync()
+        {
+            Task result = Task.Factory.StartNew
+                (
+                    () =>
+                    {
+                        WaitForAllConnections();
+                    }
+                );
+
+            return result;
+        }
+
+#endif
+
         #endregion
 
         #region IDisposable members
@@ -352,10 +447,21 @@ namespace ManagedIrbis.Pooling
         /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
+            Log.Trace
+                (
+                    "IrbisConnectionPool::Dispose"
+                );
+
             lock (_syncRoot)
             {
                 if (_activeConnections.Count != 0)
                 {
+                    Log.Error
+                        (
+                            "IrbisConnectionPool::Dispose: "
+                            + "have active connections"
+                        );
+
                     throw new IrbisException("Have active connections");
                 }
 

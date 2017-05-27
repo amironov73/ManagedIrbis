@@ -12,17 +12,10 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
-using AM.IO;
-using AM.Runtime;
+using AM.Logging;
 
 using CodeJam;
 
@@ -80,12 +73,27 @@ namespace ManagedIrbis.PlatformSpecific
         {
             Code.NotNullNorEmpty(libraryName, "libraryName");
 
+            Log.Trace
+                (
+                    "DynamicLibrary::Constructor: "
+                    + "name="
+                    + libraryName.ToVisibleString()
+                );
+
             LibraryName = libraryName;
 
             _handle = LoadLibrary(libraryName);
             if (_handle == IntPtr.Zero)
             {
                 int errorCode = Marshal.GetLastWin32Error();
+
+                Log.Error
+                    (
+                        "DynamicLibrary::Constructor: "
+                        + "error="
+                        + errorCode
+                    );
+
                 throw new ArsMagnaException
                     (
                         string.Format
@@ -196,6 +204,13 @@ namespace ManagedIrbis.PlatformSpecific
             Code.NotNullNorEmpty(functionName, "functionName");
             Code.NotNull(type, "type");
 
+            Log.Trace
+                (
+                    "DynamicLibrary::CreateDelegate: "
+                    + "function="
+                    + functionName.ToVisibleString()
+                );
+
             IntPtr address = GetProcAddress
                 (
                     _handle,
@@ -203,6 +218,13 @@ namespace ManagedIrbis.PlatformSpecific
                 );
             if (address == IntPtr.Zero)
             {
+                Log.Error
+                    (
+                        "DynamicLibrary::CreateDelegate: "
+                        + "can't find function="
+                        + functionName.ToVisibleString()
+                    );
+
                 throw new ArsMagnaException("Can't find function");
             }
 
@@ -222,6 +244,13 @@ namespace ManagedIrbis.PlatformSpecific
         /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
+            Log.Trace
+                (
+                    "DynamicLibrary::Dispose: "
+                    + "name="
+                    + LibraryName.ToVisibleString()
+                );
+
             Disposing.Raise(this);
             FreeLibrary(_handle);
         }

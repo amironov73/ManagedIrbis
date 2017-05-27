@@ -12,6 +12,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -196,6 +198,13 @@ namespace ManagedIrbis.Quality
             string[] parts = allSpec.Split('!');
             if (parts.Length > 2)
             {
+                Log.Error
+                    (
+                        "RuleUtility::GetFieldBySpec: "
+                        + "bad spec format="
+                        + allSpec.ToVisibleString()
+                    );
+
                 throw new FormatException("allSpec");
             }
 

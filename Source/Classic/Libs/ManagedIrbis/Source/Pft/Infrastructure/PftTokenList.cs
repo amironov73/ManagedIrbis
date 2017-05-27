@@ -158,6 +158,12 @@ namespace ManagedIrbis.Pft.Infrastructure
             int newPosition = _position + 1;
             if (newPosition >= _tokens.Length)
             {
+                Log.Trace
+                    (
+                        "PftTokenList::Peek: "
+                        + "end of list"
+                    );
+
                 return PftTokenKind.None;
             }
 
@@ -176,6 +182,12 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (newPosition < 0
                 || newPosition >= _tokens.Length)
             {
+                Log.Trace
+                    (
+                        "PftTokenList::Peek: "
+                        + "end of list"
+                    );
+
                 return PftTokenKind.None;
             }
 
@@ -237,6 +249,15 @@ namespace ManagedIrbis.Pft.Infrastructure
             RequireNext();
             if (Current.Kind != kind)
             {
+                Log.Error
+                    (
+                        "PftTokenList::RequireNext: "
+                        + "expected="
+                        + kind
+                        + ", got="
+                        + Current.Kind
+                    );
+
                 throw new PftSyntaxException(Current);
             }
 
@@ -353,11 +374,25 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             if (level != 0)
             {
+                Log.Error
+                    (
+                        "PftTokenList::Segment: "
+                        + "unbalanced="
+                        + level
+                    );
+
                 throw new PftSyntaxException(this);
             }
             if (foundPosition < 0)
             {
+                Log.Trace
+                    (
+                        "PftTokenList::Segment: "
+                        + "not found"
+                    );
+
                 _position = savePosition;
+
                 return null;
             }
 
@@ -404,7 +439,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             if (IsEof)

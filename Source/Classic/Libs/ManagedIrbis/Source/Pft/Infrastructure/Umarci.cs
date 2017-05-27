@@ -13,6 +13,7 @@ using System;
 
 using AM;
 using AM.Collections;
+using AM.Logging;
 
 using CodeJam;
 
@@ -444,10 +445,10 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region IFormatExit members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IFormatExit.Name" />
         public string Name { get { return "umarci"; } }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IFormatExit.Execute" />
         public void Execute
             (
                 PftContext context,
@@ -460,6 +461,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             if (string.IsNullOrEmpty(expression))
             {
+                Log.Trace
+                    (
+                        "Umarci::Execute: "
+                        + "empty expression"
+                    );
+
                 return;
             }
 
@@ -468,9 +475,20 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             if (ReferenceEquals(action, null))
             {
+                Log.Error
+                    (
+                        "Umarci::Execute: "
+                        + "unknown action="
+                        + expression.ToVisibleString()
+                    );
+
                 if (ThrowOnUnknown)
                 {
-                    throw new PftException("Unknown unifor: " + expression);
+                    throw new PftException
+                        (
+                            "Unknown unifor: "
+                            + expression.ToVisibleString()
+                        );
                 }
             }
             else

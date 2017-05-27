@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -86,7 +87,7 @@ namespace ManagedIrbis.Pft
 
         #region PftFormatter members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftFormatter.ParseProgram" />
         public override void ParseProgram
             (
                 string text
@@ -96,6 +97,12 @@ namespace ManagedIrbis.Pft
 
             if (Separator.SeparateText(text))
             {
+                Log.Error
+                    (
+                        "PftHtmlFormatter::ParseProgram: "
+                        + "can't separate text"
+                    );
+
                 throw new PftSyntaxException();
             }
 

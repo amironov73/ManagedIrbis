@@ -11,6 +11,10 @@
 
 using System;
 
+using AM.Logging;
+
+using CodeJam;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -53,10 +57,12 @@ namespace ManagedIrbis.Pooling
                 [NotNull] IrbisConnectionPool pool
             )
         {
-            if (pool == null)
-            {
-                throw new ArgumentNullException("pool");
-            }
+            Code.NotNull(pool, "pool");
+
+            Log.Trace
+                (
+                    "IrbisPoolGuard::Constructor"
+                );
 
             Pool = pool;
             Connection = Pool.AcquireConnection();
@@ -84,6 +90,11 @@ namespace ManagedIrbis.Pooling
         /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
+            Log.Trace
+                (
+                    "IrbisPoolGuard::Dispose"
+                );
+
             Pool.ReleaseConnection(Connection);
         }
 
