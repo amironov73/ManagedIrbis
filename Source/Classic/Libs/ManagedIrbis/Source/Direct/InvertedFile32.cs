@@ -306,15 +306,7 @@ namespace ManagedIrbis.Direct
                 return new TermLink[0];
             }
 
-#if !WINMOBILE && !PocketPC
-
-            key = key.ToUpperInvariant();
-
-#else
-
-            key = key.ToUpper();
-
-#endif
+            key = StringUtility.ToUpperInvariant(key);
 
             NodeRecord firstNode = ReadNode(1);
             NodeRecord rootNode
@@ -407,15 +399,7 @@ namespace ManagedIrbis.Direct
 
             List<TermLink> result = new List<TermLink>();
 
-#if !WINMOBILE && !PocketPC
-
-            key = key.ToUpperInvariant();
-
-#else
-
-            key = key.ToUpper();
-
-#endif
+            key = StringUtility.ToUpperInvariant(key);
 
             NodeRecord firstNode = ReadNode(1);
             NodeRecord rootNode = ReadNode

@@ -11,6 +11,7 @@
 
 using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 using AM.Logging;
@@ -34,6 +35,18 @@ namespace AM.IO
     public static class StreamUtility
     {
         #region Private members
+
+#if FW45
+
+        private const MethodImplOptions Aggressive
+            = MethodImplOptions.AggressiveInlining;
+
+#else
+
+        private const MethodImplOptions Aggressive
+            = (MethodImplOptions)0;
+
+#endif
 
         private static byte[] _Read
             (
@@ -1521,6 +1534,44 @@ namespace AM.IO
             }
 
             return result.ToArray();
+        }
+
+        /// <summary>
+        /// Lock the file.
+        /// </summary>
+        /// <remarks>For WinMobile compatibility.</remarks>
+        [MethodImpl(Aggressive)]
+        public static void Lock
+            (
+                [NotNull] FileStream stream,
+                long position,
+                long length
+            )
+        {
+#if !WINMOBILE && !PocketPC
+
+            stream.Lock(position, length);
+
+#endif
+        }
+
+        /// <summary>
+        /// Unlock the file.
+        /// </summary>
+        /// <remarks>For WinMobile compatibility.</remarks>
+        [MethodImpl(Aggressive)]
+        public static void Unlock
+            (
+                [NotNull] FileStream stream,
+                long position,
+                long length
+            )
+        {
+#if !WINMOBILE && !PocketPC
+
+            stream.Unlock(position, length);
+
+#endif
         }
 
         #endregion

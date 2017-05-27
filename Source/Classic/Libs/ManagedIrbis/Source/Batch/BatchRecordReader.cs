@@ -40,25 +40,16 @@ namespace ManagedIrbis.Batch
         /// <summary>
         /// Raised on batch reading.
         /// </summary>
-#if !WINMOBILE && !PocketPC
-        [CanBeNull]
-#endif
         public event EventHandler BatchRead;
 
         /// <summary>
         /// Raised when exception occurs.
         /// </summary>
-#if !WINMOBILE && !PocketPC
-        [CanBeNull]
-#endif
         public event EventHandler<ExceptionEventArgs<Exception>> Exception;
 
         /// <summary>
         /// Raised when all data read.
         /// </summary>
-#if !WINMOBILE && !PocketPC
-        [CanBeNull]
-#endif
         public event EventHandler ReadComplete;
 
         #endregion

@@ -281,7 +281,6 @@ namespace ManagedIrbis.Direct
             return result;
         }
 
-
         /// <summary>
         /// Блокировка базы данных в целом.
         /// </summary>
@@ -294,11 +293,7 @@ namespace ManagedIrbis.Direct
 
             _stream.Position = MstControlRecord64.LockFlagPosition;
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !UAP && !NETCORE
-
-            _stream.Lock(0, MstControlRecord64.RecordSize);
-
-#endif
+            StreamUtility.Lock(_stream, 0, MstControlRecord64.RecordSize);
 
             if (flag)
             {
@@ -307,11 +302,8 @@ namespace ManagedIrbis.Direct
 
             _stream.Write(buffer, 0, buffer.Length);
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !UAP && !NETCORE
+            StreamUtility.Unlock(_stream, 0, MstControlRecord64.RecordSize);
 
-            _stream.Unlock(0, MstControlRecord64.RecordSize);
-
-#endif
             _lockFlag = flag;
         }
 

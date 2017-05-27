@@ -14,6 +14,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 using AM.Logging;
@@ -42,6 +43,18 @@ namespace AM.IO
     public static class FileUtility
     {
         #region Private members
+
+#if FW45
+
+        private const MethodImplOptions Aggressive
+            = MethodImplOptions.AggressiveInlining;
+
+#else
+
+        private const MethodImplOptions Aggressive
+            = (MethodImplOptions)0;
+
+#endif
 
         #endregion
 
@@ -314,7 +327,8 @@ namespace AM.IO
         /// <summary>
         /// Read all bytes from the file.
         /// </summary>
-        /// <remarks>For compatibility with WinMobile.</remarks>
+        /// <remarks>For WinMobile compatibility.</remarks>
+        [MethodImpl(Aggressive)]
         public static byte[] ReadAllBytes
             (
                 [NotNull] string fileName
@@ -339,12 +353,36 @@ namespace AM.IO
         }
 
         /// <summary>
+        /// Read all lines from the file.
+        /// </summary>
+        /// <remarks>For WinMobile compatibility.</remarks>
+        [MethodImpl(Aggressive)]
+        public static string[] ReadAllLines
+            (
+                [NotNull] string fileName,
+                [NotNull] Encoding encoding
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNull(encoding, "encoding");
+
+#if WINMOBILE || PocketPC
+
+            return FileHelper.ReadAllLines(fileName, encoding);
+
+#else
+
+            return File.ReadAllLines(fileName, encoding);
+
+#endif
+        }
+
+        /// <summary>
         /// Read all text from the text
         /// </summary>
-        /// <remarks>
-        /// For compatibility with WinMobile.
-        /// </remarks>
+        /// <remarks> For WinMobile compatibility.</remarks>
         [NotNull]
+        [MethodImpl(Aggressive)]
         public static string ReadAllText
             (
                 [NotNull] string fileName,
@@ -416,7 +454,8 @@ namespace AM.IO
 
 #if WINMOBILE
 
-            using (FileStream stream = new FileStream(fileName, FileMode.Create))
+            using (FileStream stream 
+                = new FileStream(fileName, FileMode.Create))
             {
                 stream.Write(bytes, 0, bytes.Length);
             }

@@ -2017,8 +2017,7 @@ namespace AM
         /// <summary>
         /// Split the string.
         /// </summary>
-        /// <remarks>For compatibility with WinMobile
-        /// </remarks>
+        /// <remarks>For compatibility with WinMobile.</remarks>
         [NotNull]
         public static string[] SplitString
             (
@@ -2062,6 +2061,49 @@ namespace AM
 
             return result.ToArray();
         }
+
+        /// <summary>
+        /// Convert string to upper case.
+        /// </summary>
+        /// <remarks>For WinMobile compatibility.</remarks>
+        [MethodImpl(Aggressive)]
+        public static string ToUpperInvariant
+            (
+                [NotNull] string text
+            )
+        {
+#if WINMOBILE || PocketPC
+
+            return text.ToUpper();
+
+#else
+
+            return text.ToUpperInvariant();
+
+#endif
+        }
+
+        /// <summary>
+        /// Convert string to lower case.
+        /// </summary>
+        /// <remarks>For WinMobile compatibility.</remarks>
+        [MethodImpl(Aggressive)]
+        public static string ToLowerInvariant
+            (
+                [NotNull] string text
+            )
+        {
+#if WINMOBILE || PocketPC
+
+            return text.ToLower();
+
+#else
+
+            return text.ToLowerInvariant();
+
+#endif
+        }
+
 
 #if WINMOBILE
 
