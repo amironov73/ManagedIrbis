@@ -11,6 +11,8 @@
 
 using System;
 using System.Collections.Generic;
+using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -177,6 +179,13 @@ namespace ManagedIrbis.Search.Infrastructure
             SearchToken token = Tokens.Current;
             if (token.Kind != SearchTokenKind.Term)
             {
+                Log.Error
+                    (
+                        "SearchQueryParser::ParseTerm: "
+                        + "unexpected token="
+                        + token.ToVisibleString()
+                    );
+
                 throw new SearchSyntaxException();
             }
 
@@ -226,6 +235,13 @@ namespace ManagedIrbis.Search.Infrastructure
 
                 if (token.Kind != SearchTokenKind.Term)
                 {
+                    Log.Error
+                        (
+                            "SearchQueryParser::ParseTerm: "
+                            + "unexpected token="
+                            + token.ToVisibleString()
+                        );
+
                     throw new SearchSyntaxException();
                 }
                 context.Add(token.Text);
@@ -394,14 +410,30 @@ namespace ManagedIrbis.Search.Infrastructure
                 Tokens.RequireNext();
                 item = ParseLevel6();
                 result.AddItem(item);
+
                 if (Tokens.IsEof)
                 {
+                    Log.Error
+                        (
+                            "SearchQueryParser::ParseLevel7: "
+                            + "unexpected end of stream"
+                        );
+
                     throw new SearchSyntaxException();
                 }
+
                 if (Tokens.Current.Kind != SearchTokenKind.RightParenthesis)
                 {
+                    Log.Error
+                        (
+                            "SearchQueryParser::ParseLevel7: "
+                            + "unexpected token="
+                            + Tokens.Current.ToVisibleString()
+                        );
+
                     throw new SearchSyntaxException();
                 }
+
                 Tokens.MoveNext();
             }
             else

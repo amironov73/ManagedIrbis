@@ -10,6 +10,7 @@
 #region Using directives
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -52,6 +53,7 @@ namespace ManagedIrbis.Search.Infrastructure
 
         #region ISearchTree members
 
+        /// <inheritdoc cref="ISearchTree.Children" />
         public ISearchTree[] Children
         {
             get
@@ -70,6 +72,7 @@ namespace ManagedIrbis.Search.Infrastructure
             }
         }
 
+        /// <inheritdoc cref="ISearchTree.Value" />
         public string Value
         {
             get { return null; }
@@ -97,6 +100,12 @@ namespace ManagedIrbis.Search.Infrastructure
             }
             else
             {
+                Log.Error
+                    (
+                        "SearchLevel0::Find: "
+                        + "unexpected situation"
+                    );
+
                 throw new IrbisException("Unexpected SearchLevel0");
             }
 

@@ -174,6 +174,12 @@ namespace ManagedIrbis.Reports
 
                 if (ReferenceEquals(recordFile, null))
                 {
+                    Log.Error
+                        (
+                            "ReportTest::Run: "
+                            + "GetFullName returns null"
+                        );
+
                     throw new IrbisException
                         (
                             "GetFullName returns null"
@@ -215,7 +221,7 @@ namespace ManagedIrbis.Reports
                 string output = context.Output.Text.DosToUnix();
                 result.Output = output;
 
-                if (expected != null)
+                if (!ReferenceEquals(expected, null))
                 {
                     if (output != expected)
                     {

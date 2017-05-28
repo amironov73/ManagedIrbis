@@ -9,6 +9,10 @@
 
 #region Using directives
 
+using System;
+
+using AM.Logging;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis.Client;
@@ -48,6 +52,7 @@ namespace ManagedIrbis.Search.Infrastructure
 
         #region ISearchTree members
 
+        /// <inheritdoc cref="ISearchTree.Children" />
         ISearchTree[] ISearchTree.Children
         {
             get
@@ -61,6 +66,7 @@ namespace ManagedIrbis.Search.Infrastructure
             }
         }
 
+        /// <inheritdoc cref="ISearchTree.Value" />
         string ISearchTree.Value { get { return null; } }
 
         /// <inheritdoc cref="ISearchTree.Find"/>
@@ -83,7 +89,13 @@ namespace ManagedIrbis.Search.Infrastructure
                 ISearchTree toChild
             )
         {
-            throw new System.NotImplementedException();
+            Log.Error
+                (
+                    "SearchProgram::ReplaceChild: "
+                    + "not implemented"
+                );
+
+            throw new NotImplementedException();
         }
 
         #endregion

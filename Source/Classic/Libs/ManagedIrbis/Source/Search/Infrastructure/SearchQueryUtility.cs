@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -68,6 +69,13 @@ namespace ManagedIrbis.Search.Infrastructure
         {
             if (ReferenceEquals(element, null))
             {
+                Log.Error
+                    (
+                        "SearchQueryUtility::RequireSyntax: "
+                        + "required element missing: "
+                        + message
+                    );
+
                 throw new SearchSyntaxException(message);
             }
 

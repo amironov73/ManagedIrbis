@@ -14,6 +14,7 @@ using System.Linq;
 
 using AM;
 using AM.Collections;
+using AM.Logging;
 
 using CodeJam;
 
@@ -97,6 +98,7 @@ namespace ManagedIrbis.Search.Infrastructure
         /// <inheritdoc cref="ISearchTree.Parent"/>
         public ISearchTree Parent { get; set; }
 
+        /// <inheritdoc cref="ISearchTree.Children" />
         public ISearchTree[] Children
         {
             // ReSharper disable CoVariantArrayConversion
@@ -104,6 +106,7 @@ namespace ManagedIrbis.Search.Infrastructure
             // ReSharper restore CoVariantArrayConversion
         }
 
+        /// <inheritdoc cref="ISearchTree.Value" />
         public string Value { get { return null; } }
 
         /// <inheritdoc cref="ISearchTree.Find"/>
@@ -129,8 +132,16 @@ namespace ManagedIrbis.Search.Infrastructure
             int index = Items.IndexOf(item);
             if (index < 0)
             {
+                Log.Error
+                    (
+                        "ComplexLevel::ReplaceChild: "
+                        + "child not found: "
+                        + fromChild.NullableToVisibleString()
+                    );
+
                 throw new KeyNotFoundException();
             }
+
             if (ReferenceEquals(toChild, null))
             {
                 Items.RemoveAt(index);

@@ -12,6 +12,7 @@
 using System.Collections.Generic;
 
 using AM;
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -68,6 +69,12 @@ namespace ManagedIrbis.Search.Infrastructure
                         kind = SearchTokenKind.Term;
                         if (navigator.ReadChar() != '"')
                         {
+                            Log.Error
+                                (
+                                    "SearchQueryLexer::Tokenize: "
+                                    + "unclosed line"
+                                );
+
                             throw new SearchSyntaxException();
                         }
                         break;
@@ -141,12 +148,6 @@ namespace ManagedIrbis.Search.Infrastructure
                         kind = SearchTokenKind.Term;
                         break;
                 }
-
-                // expression is always false
-                //if (kind == SearchTokenKind.None)
-                //{
-                //    throw new SearchSyntaxException();
-                //}
 
                 SearchToken token = new SearchToken(kind, position, value);
 

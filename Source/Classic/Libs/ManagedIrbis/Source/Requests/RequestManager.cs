@@ -17,6 +17,7 @@ using System.IO;
 using System.Linq;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -295,6 +296,12 @@ namespace ManagedIrbis.Requests
                 [NotNull] string[] numbers
             )
         {
+            Log.Error
+                (
+                    "RequestManager::FilterMyNumbers: "
+                    + "not implemented"
+                );
+
             throw new NotImplementedException();
 #if NOTDEF
             NumberFilter filter = NumberFilter.ParseNumbers(FilterSpecification);

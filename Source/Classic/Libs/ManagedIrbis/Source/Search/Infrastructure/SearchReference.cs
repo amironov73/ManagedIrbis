@@ -9,9 +9,13 @@
 
 #region Using directives
 
-using System.Linq;
+using System;
+
 using AM;
+using AM.Logging;
+
 using JetBrains.Annotations;
+
 using ManagedIrbis.Client;
 
 #endregion
@@ -77,7 +81,13 @@ namespace ManagedIrbis.Search.Infrastructure
                 ISearchTree toChild
             )
         {
-            throw new System.NotImplementedException();
+            Log.Error
+                (
+                    "SearchReference::ReplaceChild: "
+                    + "not implemented"
+                );
+
+            throw new NotImplementedException();
         }
 
         #endregion
