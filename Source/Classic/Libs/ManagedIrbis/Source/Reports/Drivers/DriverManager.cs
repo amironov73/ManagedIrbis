@@ -15,6 +15,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM;
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -128,11 +131,19 @@ namespace ManagedIrbis.Reports
             Type type;
             if (!Registry.TryGetValue(name, out type))
             {
+                Log.Error
+                    (
+                        "DriverManager::GetDriver: "
+                        + "driver not found: "
+                        + name.ToVisibleString()
+                    );
+
                 if (throwOnError)
                 {
                     throw new IrbisException
                         (
-                            "Driver not found: " + name
+                            "Driver not found: "
+                            + name.ToVisibleString()
                         );
                 }
 

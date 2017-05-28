@@ -1536,6 +1536,8 @@ namespace AM.IO
             return result.ToArray();
         }
 
+#if !WIN81 && !PORTABLE
+
         /// <summary>
         /// Lock the file.
         /// </summary>
@@ -1548,7 +1550,7 @@ namespace AM.IO
                 long length
             )
         {
-#if !WINMOBILE && !PocketPC && !NETCORE
+#if CLASSIC || DROID
 
             stream.Lock(position, length);
 
@@ -1567,12 +1569,14 @@ namespace AM.IO
                 long length
             )
         {
-#if !WINMOBILE && !PocketPC && !NETCORE
+#if CLASSIC || DROID
 
             stream.Unlock(position, length);
 
 #endif
         }
+
+#endif
 
         #endregion
     }

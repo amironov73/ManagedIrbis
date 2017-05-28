@@ -370,6 +370,10 @@ namespace AM.IO
 
             return FileHelper.ReadAllLines(fileName, encoding);
 
+#elif SILVERLIGHT
+
+            throw new NotImplementedException();
+
 #else
 
             return File.ReadAllLines(fileName, encoding);

@@ -45,7 +45,7 @@ namespace AM
                 [NotNull] this Func<TArg, TRes> func
             )
         {
-#if WINMOBILE || POCKETPC
+#if WINMOBILE || POCKETPC || SILVERLIGHT
 
             throw new NotImplementedException();
 
