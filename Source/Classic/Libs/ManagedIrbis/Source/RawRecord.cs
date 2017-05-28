@@ -16,8 +16,11 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
 using AM;
+using AM.Logging;
 using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -94,9 +97,9 @@ namespace ManagedIrbis
 
         private static void _AppendIrbisLine
             (
-                StringBuilder builder,
-                string delimiter,
-                string format,
+                [NotNull] StringBuilder builder,
+                [CanBeNull] string delimiter,
+                [NotNull] string format,
                 params object[] args
             )
         {
@@ -227,7 +230,13 @@ namespace ManagedIrbis
 
             if (lines.Length < 2)
             {
-                throw new IrbisException();
+                Log.Error
+                    (
+                        "RawRecord::Parse: "
+                        + "text too short"
+                    );
+
+                throw new IrbisException("Text too short");
             }
 
             string line1 = lines[0];
@@ -253,7 +262,7 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return EncodeRecord(Environment.NewLine);

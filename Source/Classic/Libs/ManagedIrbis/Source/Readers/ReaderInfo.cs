@@ -13,9 +13,10 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-
+using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -633,8 +634,16 @@ namespace ManagedIrbis.Readers
         {
             // TODO Implement
 
+            Log.Error
+                (
+                    "ReaderInfo::ToRecord: "
+                    + "not implemented"
+                );
+
             throw new NotImplementedException();
         }
+
+        #endregion
 
         #region IHandmadeSerializable members
 
@@ -712,18 +721,16 @@ namespace ManagedIrbis.Readers
 
         #endregion
 
-        #endregion
-
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format
                 (
                     "{0} - {1}", 
-                    Ticket,
-                    FullName
+                    Ticket.ToVisibleString(),
+                    FullName.ToVisibleString()
                 );
         }
 

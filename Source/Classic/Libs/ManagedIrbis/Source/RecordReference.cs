@@ -18,6 +18,7 @@ using System.Xml.Serialization;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -201,6 +202,13 @@ namespace ManagedIrbis
                 MarcRecord record = reference.ReadRecord(connection);
                 if (ReferenceEquals(record, null))
                 {
+                    Log.Error
+                        (
+                            "RecordReference::ReadRecords: "
+                            + "record not found: "
+                            + reference
+                        );
+
                     if (throwOnError)
                     {
                         throw new IrbisException("record not found");
@@ -238,9 +246,7 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore object state from the stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -254,9 +260,7 @@ namespace ManagedIrbis
             Index = reader.ReadNullableString();
         }
 
-        /// <summary>
-        /// Save object stat to the stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -275,9 +279,7 @@ namespace ManagedIrbis
 
         #region IVerifiable<T> members
 
-        /// <summary>
-        /// Verify the object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError
@@ -294,7 +296,7 @@ namespace ManagedIrbis
                 .NotNullNorEmpty(Database, "Database")
                 .Assert
                     (
-                        (Mfn != 0)
+                        Mfn != 0
                         || string.IsNullOrEmpty(Index),
                         "Mfn or Index"
                     );
@@ -306,12 +308,7 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString"/>
         public override string ToString()
         {
             if (ReferenceEquals(Record, null))
@@ -319,7 +316,7 @@ namespace ManagedIrbis
                 return string.Format
                     (
                         "{0}#{1}#{2}",
-                        Database,
+                        Database.ToVisibleString(),
                         Mfn,
                         Index
                     );
@@ -328,7 +325,7 @@ namespace ManagedIrbis
             string result = string.Format
                 (
                     "{0}{1}{2}",
-                    Database,
+                    Database.ToVisibleString(),
                     IrbisText.IrbisDelimiter,
                     Record.ToProtocolText()
                 );

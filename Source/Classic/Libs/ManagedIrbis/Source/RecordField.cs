@@ -23,6 +23,7 @@ using System.ComponentModel;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -217,7 +218,7 @@ namespace ManagedIrbis
         #region Construction
 
         /// <summary>
-        /// Конструктор по умолчанию.
+        /// Constructor.
         /// </summary>
         public RecordField()
         {
@@ -235,7 +236,7 @@ namespace ManagedIrbis
         }
 
         /// <summary>
-        /// Конструктор для клонирования.
+        /// Constructor.
         /// </summary>
         private RecordField
             (
@@ -243,6 +244,8 @@ namespace ManagedIrbis
             )
             : this()
         {
+            Code.NotNull(other, "other");
+
             Tag = other.Tag;
             _indicator1 = other.Indicator1.Clone();
             _indicator2 = other.Indicator2.Clone();
@@ -393,7 +396,7 @@ namespace ManagedIrbis
         {
             RecordField parsed = Parse
                 (
-                    Tag.ThrowIfNull(), 
+                    Tag.ThrowIfNull(),
                     encodedText
                 );
             if (!string.IsNullOrEmpty(parsed.Value))
@@ -534,7 +537,7 @@ namespace ManagedIrbis
         {
             ThrowIfReadOnly();
 
-            if (value != null)
+            if (!ReferenceEquals(value, null))
             {
                 string text = IrbisDate.ConvertDateToString(value.Value);
                 AddSubField(code, text);
@@ -678,8 +681,6 @@ namespace ManagedIrbis
         /// <summary>
         /// Gets the first subfield.
         /// </summary>
-        /// <param name="code">The code.</param>
-        /// <returns>SubField.</returns>
         [CanBeNull]
         public SubField GetFirstSubField
             (
@@ -707,7 +708,8 @@ namespace ManagedIrbis
             )
         {
             SubField result = GetSubField(code, occurrence);
-            return (result == null)
+
+            return ReferenceEquals(result, null)
                        ? null
                        : result.Value;
         }
@@ -722,7 +724,8 @@ namespace ManagedIrbis
             )
         {
             SubField result = GetFirstSubField(code);
-            return (result == null)
+
+            return ReferenceEquals(result, null)
                 ? null
                 : result.Value;
         }
@@ -735,11 +738,14 @@ namespace ManagedIrbis
                 char code
             )
         {
-            return SubFields.FirstOrDefault
+            return ReferenceEquals
                 (
-                    sub => sub.Code.SameChar(code)
-                )
-                == null;
+                    SubFields.FirstOrDefault
+                        (
+                            sub => sub.Code.SameChar(code)
+                        ),
+                    null
+                );
         }
 
         /// <summary>
@@ -751,11 +757,14 @@ namespace ManagedIrbis
                 params char[] codes
             )
         {
-            return SubFields.FirstOrDefault
+            return ReferenceEquals
                 (
-                    sub => sub.Code.OneOf(codes)
-                )
-                == null;
+                    SubFields.FirstOrDefault
+                        (
+                            sub => sub.Code.OneOf(codes)
+                        ),
+                    null
+                );
         }
 
         /// <summary>
@@ -766,11 +775,14 @@ namespace ManagedIrbis
                 char code
             )
         {
-            return SubFields.FirstOrDefault
+            return !ReferenceEquals
                 (
-                    sub => sub.Code.SameChar(code)
-                )
-                != null;
+                    SubFields.FirstOrDefault
+                        (
+                            sub => sub.Code.SameChar(code)
+                        ),
+                    null
+                );
         }
 
         /// <summary>
@@ -782,11 +794,14 @@ namespace ManagedIrbis
                 params char[] codes
             )
         {
-            return SubFields.FirstOrDefault
+            return !ReferenceEquals
                 (
-                    sub => sub.Code.OneOf(codes)
-                )
-                != null;
+                    SubFields.FirstOrDefault
+                        (
+                            sub => sub.Code.OneOf(codes)
+                        ),
+                    null
+                );
         }
 
         /// <summary>
@@ -822,7 +837,7 @@ namespace ManagedIrbis
 
             SubField subField = SubFields.GetFirstSubField(code);
 
-            if (subField == null)
+            if (ReferenceEquals(subField, null))
             {
                 subField = new SubField(code, text);
                 SubFields.Add(subField);
@@ -997,7 +1012,7 @@ namespace ManagedIrbis
                     code,
                     oldValue
                 );
-            if (found != null)
+            if (!ReferenceEquals(found, null))
             {
                 string text = newValue.NullableToString();
                 found.Value = text;
@@ -1047,12 +1062,20 @@ namespace ManagedIrbis
                 {
                     if (BreakOnValueContainDelimiters)
                     {
+                        Log.Error
+                            (
+                                "RecordField::SetValue: "
+                                + "contains delimiter: "
+                                + value.ToVisibleString()
+                            );
+
                         throw new ArgumentException
                             (
                                 "Contains delimiter",
                                 "value"
                             );
                     }
+
                     SetSubFields(value);
                 }
                 else
@@ -1098,15 +1121,15 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore the object state from the given stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            // TODO Is it necessarry?
             ThrowIfReadOnly();
+
             Code.NotNull(reader, "reader");
 
             Tag = reader.ReadNullableString();
@@ -1116,9 +1139,7 @@ namespace ManagedIrbis
             SubFields.RestoreFromStream(reader);
         }
 
-        /// <summary>
-        /// Save the object state to the given stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -1137,34 +1158,22 @@ namespace ManagedIrbis
 
         #region IReadOnly<T> members
 
-        //[NonSerialized]
         internal bool _readOnly;
 
-        /// <summary>
-        /// Whether the field is read-only?
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.ReadOnly" />
         [JsonIgnore]
         public bool ReadOnly { get { return _readOnly; } }
 
-        /// <summary>
-        /// Creates read-only clone of the field.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.AsReadOnly" />
         public RecordField AsReadOnly()
         {
             RecordField result = Clone();
-            result._readOnly = true;
-            result.SubFields._readOnly = true;
-            foreach (SubField subField in result.SubFields)
-            {
-                subField._readOnly = true;
-            }
+            result.SetReadOnly();
 
             return result;
         }
 
-        /// <summary>
-        /// Marks the record as read-only.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.SetReadOnly" />
         public void SetReadOnly()
         {
             _readOnly = true;
@@ -1173,13 +1182,16 @@ namespace ManagedIrbis
             SubFields.SetReadOnly();
         }
 
-        /// <summary>
-        /// Throws if read only.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.ThrowIfReadOnly" />
         public void ThrowIfReadOnly()
         {
             if (ReadOnly)
             {
+                Log.Error
+                    (
+                        "RecordField::ThrowIfReadOnly"
+                    );
+
                 throw new ReadOnlyException();
             }
         }
@@ -1188,9 +1200,7 @@ namespace ManagedIrbis
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify the object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError
@@ -1230,18 +1240,12 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="System.String" />
-        /// that represents this instance.
-        /// </returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
             ProtocolText.EncodeField(result, this);
+
             return result.ToString();
         }
 

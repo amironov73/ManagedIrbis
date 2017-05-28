@@ -19,6 +19,7 @@ using System.Runtime.InteropServices;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -87,9 +88,10 @@ namespace ManagedIrbis
             }
         }
 
+        [NotNull]
         internal RecordFieldCollection _SetRecord
             (
-                MarcRecord newRecord
+                [CanBeNull] MarcRecord newRecord
             )
         {
             _record = newRecord;
@@ -195,10 +197,7 @@ namespace ManagedIrbis
 
         #region Collection<T> members
 
-        /// <summary>
-        /// Removes all elements from the
-        /// <see cref="T:System.Collections.ObjectModel.Collection`1" />.
-        /// </summary>
+        /// <inheritdoc cref="Collection{T}.ClearItems" />
         protected override void ClearItems()
         {
             ThrowIfReadOnly();
@@ -213,11 +212,7 @@ namespace ManagedIrbis
             base.ClearItems();
         }
 
-        /// <summary>
-        /// Inserts an element into the
-        /// <see cref="T:System.Collections.ObjectModel.Collection`1" />
-        /// at the specified index.
-        /// </summary>
+        /// <inheritdoc cref="Collection{T}.InsertItem" />
         protected override void InsertItem
             (
                 int index,
@@ -236,12 +231,7 @@ namespace ManagedIrbis
             _RenumberFields();
         }
 
-        /// <summary>
-        /// Removes the element at the specified index of the
-        /// <see cref="T:System.Collections.ObjectModel.Collection`1" />.
-        /// </summary>
-        /// <param name="index">The zero-based index
-        /// of the element to remove.</param>
+        /// <inheritdoc cref="Collection{T}.RemoveItem" />
         protected override void RemoveItem
             (
                 int index
@@ -265,13 +255,7 @@ namespace ManagedIrbis
             _RenumberFields();
         }
 
-        /// <summary>
-        /// Replaces the element at the specified index.
-        /// </summary>
-        /// <param name="index">The zero-based index of the element
-        /// to replace.</param>
-        /// <param name="item">The new value for the element
-        /// at the specified index. The value can't be null.</param>
+        /// <inheritdoc cref="Collection{T}.SetItem" />
         protected override void SetItem
             (
                 int index,
@@ -294,9 +278,7 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore the object state from the given stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -310,9 +292,7 @@ namespace ManagedIrbis
             AddRange(array);
         }
 
-        /// <summary>
-        /// Save the object state to the given stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -327,17 +307,12 @@ namespace ManagedIrbis
 
         #region IReadOnly<T> members
 
-        //[NonSerialized]
         internal bool _readOnly;
 
-        /// <summary>
-        /// Whether the collection is read-only?
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.ReadOnly" />
         public bool ReadOnly { get { return _readOnly; } }
 
-        /// <summary>
-        /// Create read-only clone of the collection.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.AsReadOnly" />
         public RecordFieldCollection AsReadOnly()
         {
             RecordFieldCollection result = Clone();
@@ -346,9 +321,7 @@ namespace ManagedIrbis
             return result;
         }
 
-        /// <summary>
-        /// Marks the object as read-only.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.SetReadOnly" />
         public void SetReadOnly()
         {
             _readOnly = true;
@@ -358,13 +331,16 @@ namespace ManagedIrbis
             }
         }
 
-        /// <summary>
-        /// Throws if read only.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.ThrowIfReadOnly" />
         public void ThrowIfReadOnly()
         {
             if (ReadOnly)
             {
+                Log.Error
+                    (
+                        "RecordFieldCollection::ThrowIfReadOnly"
+                    );
+
                 throw new ReadOnlyException();
             }
         }

@@ -18,6 +18,7 @@ using System.Xml.Serialization;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using JetBrains.Annotations;
@@ -74,31 +75,25 @@ namespace ManagedIrbis.Readers
         #region Construction
 
         /// <summary>
-        /// Конструктор по умолчанию.
+        /// Constructor.
         /// </summary>
         public ChairInfo()
         {
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="code">Код.</param>
-        /// <param name="title">Название.</param>
+        /// <param name="code">Chair code.</param>
+        /// <param name="title">Chair title.</param>
         public ChairInfo
             (
                 [NotNull] string code,
                 [NotNull] string title
             )
         {
-            if (string.IsNullOrEmpty(code))
-            {
-                throw new ArgumentNullException("code");
-            }
-            if (string.IsNullOrEmpty(title))
-            {
-                throw new ArgumentNullException("title");
-            }
+            CodeJam.Code.NotNull(code, "code");
+            CodeJam.Code.NotNull(title, "title");
 
             Code = code;
             Title = title;
@@ -119,10 +114,7 @@ namespace ManagedIrbis.Readers
                 bool addAllItem
             )
         {
-            if (string.IsNullOrEmpty(text))
-            {
-                throw new ArgumentNullException("text");
-            }
+            CodeJam.Code.NotNullNorEmpty(text, "text");
 
             List<ChairInfo> result = new List<ChairInfo>();
 
@@ -167,21 +159,15 @@ namespace ManagedIrbis.Readers
         [ItemNotNull]
         public static ChairInfo[] Read
             (
-                [NotNull] IrbisConnection client,
+                [NotNull] IrbisConnection connection,
                 [NotNull] string fileName,
                 bool addAllItem
             )
         {
-            if (ReferenceEquals(client, null))
-            {
-                throw new ArgumentNullException("client");
-            }
-            if (string.IsNullOrEmpty(fileName))
-            {
-                throw new ArgumentNullException("fileName");
-            }
+            CodeJam.Code.NotNull(connection, "connection");
+            CodeJam.Code.NotNullNorEmpty(fileName, "fileName");
 
-            string chairText = client.ReadTextFile
+            string chairText = connection.ReadTextFile
                 (
                     IrbisPath.MasterFile,
                     fileName
@@ -189,6 +175,13 @@ namespace ManagedIrbis.Readers
 
             if (string.IsNullOrEmpty(chairText))
             {
+                Log.Error
+                    (
+                        "ChairInfo::Read: "
+                        + "file is missing or empty: "
+                        + fileName
+                    );
+
                 throw new IrbisException();
             }
 
@@ -200,18 +193,18 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Загрузка с сервера.
         /// </summary>
-        /// <param name="client"></param>
+        /// <param name="connection"></param>
         /// <returns></returns>
         [NotNull]
         [ItemNotNull]
         public static ChairInfo[] Read
             (
-                [NotNull] IrbisConnection client
+                [NotNull] IrbisConnection connection
             )
         {
             return Read
                 (
-                    client,
+                    connection,
                     ChairMenu,
                     true
                 );
@@ -221,7 +214,7 @@ namespace ManagedIrbis.Readers
 
         #region IHandmadeSerializable
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -231,7 +224,7 @@ namespace ManagedIrbis.Readers
             writer.WriteNullable(Title);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -245,7 +238,7 @@ namespace ManagedIrbis.Readers
 
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             if (string.IsNullOrEmpty(Title))
