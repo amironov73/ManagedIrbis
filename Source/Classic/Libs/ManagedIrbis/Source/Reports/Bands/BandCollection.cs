@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 
 using AM;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -98,7 +99,7 @@ namespace ManagedIrbis.Reports
 
         internal void SetParent
             (
-                ReportBand parent
+                [CanBeNull] ReportBand parent
             )
         {
             _parent = parent;
@@ -218,7 +219,7 @@ namespace ManagedIrbis.Reports
 
         #region Collection<T> members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Collection{T}.ClearItems" />
         protected override void ClearItems()
         {
             ThrowIfReadOnly();
@@ -232,7 +233,7 @@ namespace ManagedIrbis.Reports
             base.ClearItems();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Collection{T}.InsertItem" />
         protected override void InsertItem
             (
                 int index,
@@ -248,7 +249,7 @@ namespace ManagedIrbis.Reports
             base.InsertItem(index, item);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Collection{T}.RemoveItem" />
         protected override void RemoveItem
             (
                 int index
@@ -269,7 +270,7 @@ namespace ManagedIrbis.Reports
             base.RemoveItem(index);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Collection{T}.SetItem" />
         protected override void SetItem
             (
                 int index,
@@ -289,7 +290,7 @@ namespace ManagedIrbis.Reports
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -299,11 +300,22 @@ namespace ManagedIrbis.Reports
             Code.NotNull(reader, "reader");
 
             ClearItems();
+
+            // TODO implement
+
             //RecordField[] array = reader.ReadArray<RecordField>();
             //AddRange(array);
+
+            Log.Error
+                (
+                    "BandCollection::RestoreFromStream: "
+                    + "not implemented"
+                );
+
+            throw new NotImplementedException();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -311,7 +323,17 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(writer, "writer");
 
+            // TODO implement
+
             //writer.WriteArray(this.ToArray());
+
+            Log.Error
+                (
+                    "BandCollection::SaveToStream: "
+                    + "not implemented"
+                );
+
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -322,14 +344,10 @@ namespace ManagedIrbis.Reports
         internal bool _readOnly;
         // ReSharper restore InconsistentNaming
 
-        /// <summary>
-        /// Whether the collection is read-only?
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.ReadOnly" />
         public bool ReadOnly { get { return _readOnly; } }
 
-        /// <summary>
-        /// Create read-only clone of the collection.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.AsReadOnly" />
         public BandCollection<T> AsReadOnly()
         {
             BandCollection<T> result = Clone();
@@ -338,21 +356,22 @@ namespace ManagedIrbis.Reports
             return result;
         }
 
-        /// <summary>
-        /// Marks the object as read-only.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.SetReadOnly" />
         public void SetReadOnly()
         {
             _readOnly = true;
         }
 
-        /// <summary>
-        /// Throws if read only.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.ThrowIfReadOnly" />
         public void ThrowIfReadOnly()
         {
             if (ReadOnly)
             {
+                Log.Error
+                    (
+                        "BandCollection::ThrowIfReadOnly"
+                    );
+
                 throw new ReadOnlyException();
             }
         }

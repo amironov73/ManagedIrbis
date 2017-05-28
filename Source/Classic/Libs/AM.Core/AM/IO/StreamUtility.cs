@@ -1548,7 +1548,7 @@ namespace AM.IO
                 long length
             )
         {
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !NETCORE
 
             stream.Lock(position, length);
 
@@ -1567,7 +1567,7 @@ namespace AM.IO
                 long length
             )
         {
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !NETCORE
 
             stream.Unlock(position, length);
 
