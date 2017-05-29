@@ -11,19 +11,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-
-#if FW4
-
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-
-#endif
 
 using AM;
 using AM.IO;
@@ -41,6 +36,8 @@ using Newtonsoft.Json;
 
 #endregion
 
+// ReSharper disable ConvertClosureToMethodGroup
+
 namespace ManagedIrbis.Fields
 {
     /// <summary>
@@ -50,9 +47,7 @@ namespace ManagedIrbis.Fields
     [MoonSharpUserData]
     [DebuggerDisplay("{VolumeNumber} {Title}")]
     public sealed class TitleInfo
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
         : IHandmadeSerializable
-#endif
     {
         #region Constants
 
@@ -228,18 +223,8 @@ namespace ManagedIrbis.Fields
 
             return record.Fields
                 .GetField(tag)
-
-#if !WINMOBILE && !PocketPC
-
-            .Select(Parse)
-
-#else
-
                 .Select(field => Parse(field))
-
-#endif
-
-            .ToArray();
+                .ToArray();
         }
 
         /// <summary>
@@ -262,10 +247,8 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Should serialize <see cref="FirstResponsibility"/> field?
         /// </summary>
-#if FW4
         [ExcludeFromCodeCoverage]
         [EditorBrowsable(EditorBrowsableState.Never)]
-#endif
         public bool ShouldSerializeFirstResponsibility()
         {
             return !ReferenceEquals(FirstResponsibility, null);
@@ -274,10 +257,8 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Should serialize <see cref="General"/> field?
         /// </summary>
-#if FW4
         [ExcludeFromCodeCoverage]
         [EditorBrowsable(EditorBrowsableState.Never)]
-#endif
         public bool ShouldSerializeGeneral()
         {
             return !ReferenceEquals(General, null);
@@ -286,10 +267,8 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Should serialize <see cref="OtherResponsibility"/> field?
         /// </summary>
-#if FW4
         [ExcludeFromCodeCoverage]
         [EditorBrowsable(EditorBrowsableState.Never)]
-#endif
         public bool ShouldSerializeOtherResponsibility()
         {
             return !ReferenceEquals(OtherResponsibility, null);
@@ -298,10 +277,8 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Should serialize <see cref="Title"/> field?
         /// </summary>
-#if FW4
         [ExcludeFromCodeCoverage]
         [EditorBrowsable(EditorBrowsableState.Never)]
-#endif
         public bool ShouldSerializeTitle()
         {
             return !ReferenceEquals(Title, null);
@@ -310,10 +287,8 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Should serialize <see cref="Specific"/> field?
         /// </summary>
-#if FW4
         [ExcludeFromCodeCoverage]
         [EditorBrowsable(EditorBrowsableState.Never)]
-#endif
         public bool ShouldSerializeSpecific()
         {
             return !ReferenceEquals(Specific, null);
@@ -322,10 +297,8 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Should serialize <see cref="Subtitle"/> field?
         /// </summary>
-#if FW4
         [ExcludeFromCodeCoverage]
         [EditorBrowsable(EditorBrowsableState.Never)]
-#endif
         public bool ShouldSerializeSubtitle()
         {
             return !ReferenceEquals(Subtitle, null);
@@ -334,10 +307,8 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Should serialize <see cref="VolumeNumber"/> field?
         /// </summary>
-#if FW4
         [ExcludeFromCodeCoverage]
         [EditorBrowsable(EditorBrowsableState.Never)]
-#endif
         public bool ShouldSerializeVolumeNumber()
         {
             return !ReferenceEquals(VolumeNumber, null);
@@ -363,11 +334,9 @@ namespace ManagedIrbis.Fields
 
         #endregion
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
-
         #region IHandmadeSerializable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         void IHandmadeSerializable.RestoreFromStream
             (
                 BinaryReader reader
@@ -384,7 +353,7 @@ namespace ManagedIrbis.Fields
             OtherResponsibility = reader.ReadNullableString();
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         void IHandmadeSerializable.SaveToStream
             (
                 BinaryWriter writer
@@ -404,11 +373,9 @@ namespace ManagedIrbis.Fields
 
         #endregion
 
-#endif
-
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format

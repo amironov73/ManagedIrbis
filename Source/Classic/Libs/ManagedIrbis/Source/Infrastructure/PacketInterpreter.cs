@@ -17,7 +17,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Logging;
 using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -203,29 +205,17 @@ namespace ManagedIrbis.Infrastructure
 
             int result;
 
-#if !WINMOBILE && !PocketPC
-
-            if (!int.TryParse(line, out result))
+            if (!NumericUtility.TryParseInt32(line, out result))
             {
+                Log.Error
+                    (
+                        "PacketInterpreter::GetInt32: "
+                        + "bad format="
+                        + line.ToVisibleString()
+                    );
+
                 throw new IrbisNetworkException();
             }
-
-#else
-
-            try
-            {
-                result = int.Parse(line);
-            }
-            catch (Exception exception)
-            {
-                throw new IrbisNetworkException
-                    (
-                        "packet",
-                        exception
-                    );
-            }
-
-#endif
 
             return result;
         }
@@ -360,29 +350,17 @@ namespace ManagedIrbis.Infrastructure
 
             int result;
 
-#if !WINMOBILE && !PocketPC
-
-            if (!int.TryParse(line, out result))
+            if (!NumericUtility.TryParseInt32(line, out result))
             {
+                Log.Error
+                    (
+                        "PacketInterpreter::RequireInt32: "
+                        + "bad format="
+                        + line.ToVisibleString()
+                    );
+
                 throw new IrbisNetworkException();
             }
-
-#else
-
-            try
-            {
-                result = int.Parse(line);
-            }
-            catch (Exception exception)
-            {
-                throw new IrbisNetworkException
-                    (
-                        "packet",
-                        exception
-                    );
-            }
-
-#endif
 
             return result;
         }

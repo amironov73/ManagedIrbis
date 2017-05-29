@@ -2113,7 +2113,7 @@ namespace AM
         }
 
 
-#if WINMOBILE
+#if WINMOBILE || PocketPC || FW35
 
         /// <summary>
         /// Clear the <see cref="StringBuilder"/>.

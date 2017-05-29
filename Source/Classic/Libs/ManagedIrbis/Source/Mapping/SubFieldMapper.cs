@@ -15,6 +15,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -24,6 +26,8 @@ using MoonSharp.Interpreter;
 using Newtonsoft.Json;
 
 #endregion
+
+// ReSharper disable ConvertClosureToMethodGroup
 
 namespace ManagedIrbis.Mapping
 {
@@ -129,15 +133,7 @@ namespace ManagedIrbis.Mapping
         {
             decimal result;
 
-#if !WINMOBILE && !PocketPC
-
-            decimal.TryParse(subField.Value, out result);
-
-#else
-
-            result = decimal.Parse(subField.Value);
-
-#endif
+            NumericUtility.TryParseDecimal(subField.Value, out result);
 
             return result;
         }
@@ -153,15 +149,7 @@ namespace ManagedIrbis.Mapping
         {
             double result;
 
-#if !WINMOBILE && !PocketPC
-
-            double.TryParse(subField.Value, out result);
-
-#else
-
-            result = double.Parse(subField.Value);
-
-#endif
+            NumericUtility.TryParseDouble(subField.Value, out result);
 
             return result;
         }
@@ -177,15 +165,7 @@ namespace ManagedIrbis.Mapping
         {
             float result;
 
-#if !WINMOBILE && !PocketPC
-
-            float.TryParse(subField.Value, out result);
-
-#else
-
-            result = float.Parse(subField.Value);
-
-#endif
+            NumericUtility.TryParseFloat(subField.Value, out result);
 
             return result;
         }
@@ -200,14 +180,7 @@ namespace ManagedIrbis.Mapping
         {
             short result;
 
-#if !WINMOBILE && !PocketPC
-
-            short.TryParse(subField.Value, out result);
-
-#else
-            result = short.Parse(subField.Value);
-
-#endif
+            NumericUtility.TryParseInt16(subField.Value, out result);
 
             return result;
         }
@@ -222,15 +195,7 @@ namespace ManagedIrbis.Mapping
         {
             int result;
 
-#if !WINMOBILE && !PocketPC
-
-            int.TryParse(subField.Value, out result);
-
-#else
-
-            result = int.Parse(subField.Value);
-
-#endif
+            NumericUtility.TryParseInt32(subField.Value, out result);
 
             return result;
         }
@@ -264,15 +229,7 @@ namespace ManagedIrbis.Mapping
         {
             long result;
 
-#if !WINMOBILE && !PocketPC
-
-            long.TryParse(subField.Value, out result);
-
-#else
-
-            result = long.Parse(subField.Value);
-
-#endif
+            NumericUtility.TryParseInt64(subField.Value, out result);
 
             return result;
         }

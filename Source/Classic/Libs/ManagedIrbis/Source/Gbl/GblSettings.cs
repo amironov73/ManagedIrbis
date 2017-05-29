@@ -490,9 +490,7 @@ namespace ManagedIrbis.Gbl
 
         #region IHandmadeSerializable
 
-        /// <summary>
-        /// Restore the object state from the specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -515,9 +513,7 @@ namespace ManagedIrbis.Gbl
                 = reader.ReadNonNullCollection<GblStatement>();
         }
 
-        /// <summary>
-        /// Save the object state to the specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -543,9 +539,7 @@ namespace ManagedIrbis.Gbl
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify the object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError

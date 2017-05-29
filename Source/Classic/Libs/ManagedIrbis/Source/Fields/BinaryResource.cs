@@ -22,6 +22,8 @@ using MoonSharp.Interpreter;
 
 #endregion
 
+// ReSharper disable ConvertClosureToMethodGroup
+
 namespace ManagedIrbis.Fields
 {
     /// <summary>
@@ -158,17 +160,7 @@ namespace ManagedIrbis.Fields
                 .GetField(tag);
 
             BinaryResource[] result = fields
-
-#if !WINMOBILE && !PocketPC
-
-                .Select(Parse)
-
-#else
-
                 .Select(field => Parse(field))
-
-#endif
-
                 .ToArray();
 
             return result;

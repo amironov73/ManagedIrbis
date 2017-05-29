@@ -9,17 +9,12 @@
 
 #region Using directives
 
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-
-#if FW4
-
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-
-#endif
 
 using AM.IO;
 using AM.Runtime;
@@ -35,6 +30,8 @@ using MoonSharp.Interpreter;
 using Newtonsoft.Json;
 
 #endregion
+
+// ReSharper disable ConvertClosureToMethodGroup
 
 namespace ManagedIrbis.Fields
 {
@@ -146,17 +143,7 @@ namespace ManagedIrbis.Fields
 
             return record.Fields
                 .GetField(tag)
-
-#if !WINMOBILE && !PocketPC
-
-                .Select(Parse)
-
-#else
-
                 .Select(field => Parse(field))
-
-#endif
-
                 .ToArray();
         }
 
@@ -181,9 +168,9 @@ namespace ManagedIrbis.Fields
         /// Should serialize <see cref="Date"/> field?
         /// </summary>
 #if FW4
-        [ExcludeFromCodeCoverage]
         [EditorBrowsable(EditorBrowsableState.Never)]
 #endif
+        [ExcludeFromCodeCoverage]
         public bool ShouldSerializeDate()
         {
             return !ReferenceEquals(Date, null);
@@ -192,10 +179,8 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Should serialize <see cref="Name"/> field?
         /// </summary>
-#if FW4
-        [ExcludeFromCodeCoverage]
         [EditorBrowsable(EditorBrowsableState.Never)]
-#endif
+        [ExcludeFromCodeCoverage]
         public bool ShouldSerializeName()
         {
             return !ReferenceEquals(Name, null);
@@ -204,10 +189,8 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Should serialize <see cref="Stage"/> field?
         /// </summary>
-#if FW4
-        [ExcludeFromCodeCoverage]
         [EditorBrowsable(EditorBrowsableState.Never)]
-#endif
+        [ExcludeFromCodeCoverage]
         public bool ShouldSerializeStage()
         {
             return !ReferenceEquals(Stage, null);
@@ -231,7 +214,7 @@ namespace ManagedIrbis.Fields
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -242,7 +225,7 @@ namespace ManagedIrbis.Fields
             Name = reader.ReadNullableString();
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -258,7 +241,7 @@ namespace ManagedIrbis.Fields
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format

@@ -31,6 +31,8 @@ using Newtonsoft.Json;
 
 #endregion
 
+// ReSharper disable ConvertClosureToMethodGroup
+
 namespace ManagedIrbis.Magazines
 {
     /// <summary>
@@ -212,31 +214,12 @@ namespace ManagedIrbis.Magazines
 
                 Articles = record.Fields
                     .GetField("922")
-
-#if !WINMOBILE && !PocketPC
-
-                    .Select(MagazineArticleInfo.Parse)
-
-#else
                     .Select(field => MagazineArticleInfo.Parse(field))
-
-#endif
-
                     .ToArray(),
 
                 Exemplars = record.Fields
                     .GetField("910")
-
-#if !WINMOBILE && !PocketPC
-
-                    .Select(ExemplarInfo.Parse)
-
-#else
-
                     .Select(field => ExemplarInfo.Parse(field))
-
-#endif
-
                         .ToArray()
             };
 

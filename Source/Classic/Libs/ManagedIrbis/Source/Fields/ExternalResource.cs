@@ -30,6 +30,8 @@ using Newtonsoft.Json;
 
 #endregion
 
+// ReSharper disable ConvertClosureToMethodGroup
+
 namespace ManagedIrbis.Fields
 {
     /// <summary>
@@ -339,18 +341,8 @@ namespace ManagedIrbis.Fields
 
             return record.Fields
                 .GetField(tag)
-
-#if !WINMOBILE && !PocketPC
-
-                .Select(Parse)
-
-#else
-
                 .Select(field => Parse(field))
-
-#endif
-
-.ToArray();
+                .ToArray();
         }
 
         /// <summary>

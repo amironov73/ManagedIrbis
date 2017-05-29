@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 using CodeJam;
@@ -29,6 +30,22 @@ namespace AM
     [PublicAPI]
     public static class NumericUtility
     {
+        #region Private members
+
+#if FW45
+
+        private const MethodImplOptions Aggressive
+            = MethodImplOptions.AggressiveInlining;
+
+#else
+
+        private const MethodImplOptions Aggressive
+            = (MethodImplOptions)0;
+
+#endif
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -118,7 +135,7 @@ namespace AM
         /// Представляет ли строка положительное целое число.
         /// </summary>
         /// <param name="text"></param>
-        /// <returns></returns>
+        [MethodImpl(Aggressive)]
         public static bool IsPositiveInteger
             (
                 this string text
@@ -130,6 +147,7 @@ namespace AM
         /// <summary>
         /// Parse integer in standard manner.
         /// </summary>
+        [MethodImpl(Aggressive)]
         public static int ParseInt32
             (
                 [NotNull] string text

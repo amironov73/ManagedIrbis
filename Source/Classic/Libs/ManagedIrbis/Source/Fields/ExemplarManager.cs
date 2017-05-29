@@ -31,6 +31,8 @@ using ManagedIrbis.Readers;
 
 #endregion
 
+// ReSharper disable ConvertClosureToMethodGroup
+
 namespace ManagedIrbis.Fields
 {
     /// <summary>
@@ -500,17 +502,7 @@ namespace ManagedIrbis.Fields
                 );
 
             ExemplarInfo result = records
-
-#if !WINMOBILE && !PocketPC
-
-                .SelectMany(ExemplarInfo.Parse)
-
-#else
-
                 .SelectMany(record => ExemplarInfo.Parse(record))
-
-#endif
-
                 .FirstOrDefault();
 
             return result;

@@ -6985,8 +6985,14 @@
             Превращение обратно в поле.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Fields.TitleInfo.AM#Runtime#IHandmadeSerializable#RestoreFromStream(System.IO.BinaryReader)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
+        </member>
+        <member name="M:ManagedIrbis.Fields.TitleInfo.AM#Runtime#IHandmadeSerializable#SaveToStream(System.IO.BinaryWriter)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
+        </member>
         <member name="M:ManagedIrbis.Fields.TitleInfo.ToString">
-            <inheritdoc/>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Fields.TitleInfo.VolumeNumber">
             <summary>
@@ -7154,20 +7160,16 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.FieldIndicator.RestoreFromStream(System.IO.BinaryReader)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.FieldIndicator.SaveToStream(System.IO.BinaryWriter)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.FieldIndicator.AsReadOnly">
-            <summary>
-            Creates read-only clone of the indicator.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.AsReadOnly"/>
         </member>
         <member name="M:ManagedIrbis.FieldIndicator.ThrowIfReadOnly">
-            <summary>
-            Throws if read only.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.ThrowIfReadOnly"/>
         </member>
         <member name="M:ManagedIrbis.FieldIndicator.ToString">
             <inheritdoc cref="M:System.Object.ToString"/>
@@ -7188,9 +7190,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.FieldIndicator.ReadOnly">
-            <summary>
-            Whether the indicator is read-only?
-            </summary>
+            <inheritdoc cref="P:AM.IReadOnly`1.ReadOnly"/>
         </member>
         <member name="T:ManagedIrbis.Direct.MstDictionaryEntry32">
             <summary>
@@ -12918,19 +12918,13 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Gbl.GblSettings.RestoreFromStream(System.IO.BinaryReader)">
-            <summary>
-            Restore the object state from the specified stream.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.Gbl.GblSettings.SaveToStream(System.IO.BinaryWriter)">
-            <summary>
-            Save the object state to the specified stream.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.Gbl.GblSettings.Verify(System.Boolean)">
-            <summary>
-            Verify the object state.
-            </summary>
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="P:ManagedIrbis.Gbl.GblSettings.Actualize">
             <summary>
@@ -23105,9 +23099,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.ServerResponse.Verify(System.Boolean)">
-            <summary>
-            Verify object state.
-            </summary>
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="P:ManagedIrbis.Infrastructure.ServerResponse.CommandCode">
             <summary>
@@ -26736,13 +26728,13 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Fields.RevisionInfo.RestoreFromStream(System.IO.BinaryReader)">
-            <inheritdoc/>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.Fields.RevisionInfo.SaveToStream(System.IO.BinaryWriter)">
-            <inheritdoc/>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.Fields.RevisionInfo.ToString">
-            <inheritdoc/>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Fields.RevisionInfo.Stage">
             <summary>

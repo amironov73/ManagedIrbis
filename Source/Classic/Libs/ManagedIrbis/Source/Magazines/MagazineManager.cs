@@ -28,6 +28,8 @@ using Newtonsoft.Json;
 
 #endregion
 
+// ReSharper disable ConvertClosureToMethodGroup
+
 namespace ManagedIrbis.Magazines
 {
     /// <summary>
@@ -180,23 +182,7 @@ namespace ManagedIrbis.Magazines
                 );
 
             MagazineIssueInfo[] result = records
-
-#if !WINMOBILE && !PocketPC
-
-#if FW4
-
-                .AsParallel()
-
-#endif
-
-                .Select(MagazineIssueInfo.Parse)
-
-#else
-
                 .Select(record => MagazineIssueInfo.Parse(record))
-
-#endif
-
                 .NonNullItems()
                 .ToArray();
 

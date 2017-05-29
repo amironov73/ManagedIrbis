@@ -315,25 +315,10 @@ namespace ManagedIrbis.Infrastructure
 
             int result;
 
-#if !WINMOBILE && !PocketPC
-
-            if (!int.TryParse(line, out result))
+            if (!NumericUtility.TryParseInt32(line, out result))
             {
                 result = defaultValue;
             }
-
-#else
-
-            try
-            {
-                result = int.Parse(line);
-            }
-            catch (Exception)
-            {
-                result = defaultValue;
-            }
-
-#endif
 
             return result;
         }
@@ -702,35 +687,17 @@ namespace ManagedIrbis.Infrastructure
             
             int result;
 
-#if !WINMOBILE && !PocketPC
-
-            if (!int.TryParse(line, out result))
+            if (!NumericUtility.TryParseInt32(line, out result))
             {
+                Log.Error
+                    (
+                        "ServerResponse::RequireInt32: "
+                        + "bad format="
+                        + line.ToVisibleString()
+                    );
+
                 throw new IrbisNetworkException();
             }
-
-#else
-
-            try
-            {
-                result = int.Parse(line);
-            }
-            catch (Exception exception)
-            {
-                Log.TraceException
-                    (
-                        "ServerResponse::RequireInt32",
-                        exception
-                    );
-
-                throw new IrbisNetworkException
-                    (
-                        "packet",
-                        exception
-                    );
-            }
-
-#endif
 
             return result;
         }
@@ -739,9 +706,7 @@ namespace ManagedIrbis.Infrastructure
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError

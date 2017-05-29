@@ -11,11 +11,11 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml.Serialization;
 
 #if FW4
-using System.Diagnostics.CodeAnalysis;
 using System.ComponentModel;
 #endif
 
@@ -267,7 +267,7 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -280,7 +280,7 @@ namespace ManagedIrbis
             SetValue(value);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -299,15 +299,11 @@ namespace ManagedIrbis
         internal bool _readOnly;
         // ReSharper restore InconsistentNaming
 
-        /// <summary>
-        /// Whether the indicator is read-only?
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.ReadOnly" />
         [JsonIgnore]
         public bool ReadOnly { get { return _readOnly; } }
 
-        /// <summary>
-        /// Creates read-only clone of the indicator.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.AsReadOnly" />
         public FieldIndicator AsReadOnly()
         {
             FieldIndicator result = Clone();
@@ -316,9 +312,7 @@ namespace ManagedIrbis
             return result;
         }
 
-        /// <summary>
-        /// Throws if read only.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.ThrowIfReadOnly" />
         public void ThrowIfReadOnly()
         {
             if (ReadOnly)

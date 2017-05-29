@@ -3183,6 +3183,11 @@
             <value><c>true</c> if cancel; 
             otherwise, <c>false</c>.</value>
         </member>
+        <member name="T:System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute">
+            <summary>
+            For compatibility only.
+            </summary>
+        </member>
         <member name="T:AM.Text.RussianFormat">
             <summary>
             
@@ -4190,7 +4195,6 @@
             Представляет ли строка положительное целое число.
             </summary>
             <param name="text"></param>
-            <returns></returns>
         </member>
         <member name="M:AM.NumericUtility.ParseInt32(System.String)">
             <summary>
@@ -10284,6 +10288,21 @@
             Returns hello string.
             </summary>
         </member>
+        <member name="T:System.Diagnostics.DebuggerDisplayAttribute">
+            <summary>
+            For compatibility only.
+            </summary>
+        </member>
+        <member name="M:System.Diagnostics.DebuggerDisplayAttribute.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:System.Diagnostics.DebuggerDisplayAttribute.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
         <member name="T:AM.Text.Transliterator">
             <summary>
             Транслитерируем кириллицу в латиницу.
@@ -12433,11 +12452,6 @@
             <remarks>
             For WinMobile compatibility.
             </remarks>
-        </member>
-        <member name="T:System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute">
-            <summary>
-            For compatibility only.
-            </summary>
         </member>
     </members>
 </doc>

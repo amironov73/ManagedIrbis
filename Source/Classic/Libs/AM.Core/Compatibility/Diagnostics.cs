@@ -13,13 +13,22 @@ using System;
 
 namespace System.Diagnostics
 {
+    /// <summary>
+    /// For compatibility only.
+    /// </summary>
     public sealed class DebuggerDisplayAttribute
         : Attribute
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public DebuggerDisplayAttribute()
         {
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public DebuggerDisplayAttribute(string text)
         {
         }
