@@ -175,6 +175,27 @@ namespace AM.Reflection
         [CanBeNull]
         public static T GetCustomAttribute<T>
             (
+                [NotNull] MemberInfo member
+            )
+            where T : Attribute
+        {
+            Code.NotNull(member, "member");
+
+            var all = member.GetCustomAttributes
+                (
+                    typeof(T),
+                    false
+                );
+
+            return (T)all.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Gets the custom attribute.
+        /// </summary>
+        [CanBeNull]
+        public static T GetCustomAttribute<T>
+            (
                 [NotNull] FieldInfo fieldInfo
             )
             where T : Attribute
@@ -299,6 +320,24 @@ namespace AM.Reflection
             return !ReferenceEquals
                 (
                     GetCustomAttribute<T>(type, inherit),
+                    null
+                );
+        }
+
+        /// <summary>
+        /// Determines whether the specified member has the attribute.
+        /// </summary>
+        public static bool HasAttribute<T>
+            (
+                MemberInfo member
+            )
+            where T : Attribute
+        {
+            Code.NotNull(member, "member");
+
+            return !ReferenceEquals
+                (
+                    GetCustomAttribute<T>(member),
                     null
                 );
         }

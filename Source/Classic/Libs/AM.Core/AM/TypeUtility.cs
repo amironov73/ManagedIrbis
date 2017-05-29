@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 using AM.Reflection;
@@ -119,6 +120,81 @@ namespace AM
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public static FieldInfo[] GetFields
+            (
+                [NotNull] Type type
+            )
+        {
+            Code.NotNull(type, "type");
+
+#if PORTABLE || WIN81
+
+            return type.GetRuntimeFields().ToArray();
+
+#elif UAP
+
+            FieldInfo[] result = TypeExtensions.GetFields
+                (
+                    type,
+                    BindingFlags.Public
+                    | BindingFlags.NonPublic 
+                    | BindingFlags.Instance
+                );
+
+            return result;
+
+#else
+
+            FieldInfo[] result = type.Bridge().GetFields
+                (
+                    BindingFlags.Public
+                    | BindingFlags.NonPublic 
+                    | BindingFlags.Instance
+                );
+
+            return result;
+#endif
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [CanBeNull]
+        public static Type GetInterface
+            (
+                [NotNull] Type type,
+                [NotNull] string name
+            )
+        {
+            Code.NotNull(type, "type");
+            Code.NotNullNorEmpty(name, "name");
+
+#if PORTABLE
+
+            // TODO implement
+
+            return null;
+
+#elif SILVERLIGHT
+
+            return type.Bridge().GetInterface(name, false);
+
+#elif UAP || WIN81
+
+            // TODO implement
+
+            return null;
+
+#else
+
+            return type.Bridge().GetInterface(name);
+
+#endif
+        }
+
+        /// <summary>
         /// Gets type of the argument.
         /// </summary>
         public static Type GetType<T>
@@ -156,6 +232,27 @@ namespace AM
             Code.NotNull(type, "type");
 
             return type.Bridge().IsClass;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static bool IsComObject
+            (
+                [NotNull] Type type
+            )
+        {
+            Code.NotNull(type, "type");
+
+#if PORTABLE || SILVERLIGHT || UAP || WIN81
+
+            return false;
+
+#else
+
+            return type.Bridge().IsCOMObject;
+
+#endif
         }
 
         /// <summary>

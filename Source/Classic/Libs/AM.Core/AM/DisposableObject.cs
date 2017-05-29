@@ -7,8 +7,6 @@
  * Status: poor
  */
 
-#if NOTDEF
-
 #region Using directives
 
 using System;
@@ -17,6 +15,9 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.InteropServices;
+
+using AM.Logging;
+using AM.Reflection;
 
 using JetBrains.Annotations;
 
@@ -32,7 +33,6 @@ namespace AM
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-// ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
     public class DisposableObject
         : IDisposable
     {
@@ -45,37 +45,22 @@ namespace AM
         #region Properties
 
         /// <summary>
-        /// Is the instance disposed.
+        /// Whether the instance disposed.
         /// </summary>
-        public bool Disposed
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return _disposed;
-            }
-        }
+        public bool Disposed { get; private set; }
 
-        private bool _disposeByReflection;
 
         ///<summary>
         /// 
         ///</summary>
-        public bool DisposeByReflection
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return _disposeByReflection;
-            }
-        }
+        public bool DisposeByReflection { get; private set; }
 
         #endregion
 
         #region Construction
 
         /// <summary>
-        /// 
+        /// Constructor.
         /// </summary>
         public DisposableObject()
             : this(false)
@@ -83,15 +68,26 @@ namespace AM
         }
 
         /// <summary>
-        /// 
+        /// Constructor.
         /// </summary>
-        public DisposableObject(bool disposeByReflection)
+        public DisposableObject
+            (
+                bool disposeByReflection
+            )
         {
-            _disposeByReflection = disposeByReflection;
+#if CLASSIC || NETCORE || DROID
+
+            DisposeByReflection = disposeByReflection;
             if (!disposeByReflection)
             {
                 _GenerateDisposer();
             }
+
+#else
+
+            DisposeByReflection = true;
+
+#endif
         }
 
         /// <summary>
@@ -111,29 +107,36 @@ namespace AM
 
         private bool _CheckMember
             (
-            MemberInfo info,
-            Type type
+                MemberInfo info,
+                Type type
             )
         {
-            if (type.IsValueType)
+            if (TypeUtility.IsValueType(type))
             {
                 return false;
             }
-            Type iDisposable = type.GetInterface("IDisposable");
-            if (iDisposable == null)
+
+            Type iDisposable = TypeUtility.GetInterface
+                (
+                    type,
+                    "System.IDisposable"
+                );
+            if (ReferenceEquals(iDisposable, null))
             {
-                return false;
+                if (!info.IsDefined(typeof(AutoDisposeAttribute), true))
+                {
+                    return false;
+                }
             }
-            if (!info.IsDefined(typeof(AutoDisposeAttribute), true))
-            {
-                return false;
-            }
+
             return true;
         }
 
+#if CLASSIC || NETCORE || DROID
+
         private void _ProcessValue
             (
-            ILGenerator il
+                ILGenerator il
             )
         {
             il.Emit(OpCodes.Dup);
@@ -144,9 +147,9 @@ namespace AM
             il.Emit(OpCodes.Brfalse_S, label1);
             il.EmitCall
                 (
-                OpCodes.Callvirt,
-                iDisposable.GetMethod("Dispose"),
-                null
+                    OpCodes.Callvirt,
+                    iDisposable.GetMethod("Dispose"),
+                    null
                 );
             il.Emit(OpCodes.Br_S, label2);
             il.MarkLabel(label1);
@@ -156,8 +159,8 @@ namespace AM
 
         private void _OneField
             (
-            ILGenerator il,
-            FieldInfo field
+                ILGenerator il,
+                FieldInfo field
             )
         {
             Type type = field.FieldType;
@@ -165,6 +168,7 @@ namespace AM
             {
                 return;
             }
+
             il.Emit(OpCodes.Ldarg_0);
             il.Emit(OpCodes.Ldfld, field);
             _ProcessValue(il);
@@ -175,8 +179,8 @@ namespace AM
 
         private void _OneProperty
             (
-            ILGenerator il,
-            PropertyInfo prop
+                ILGenerator il,
+                PropertyInfo prop
             )
         {
             Type type = prop.PropertyType;
@@ -184,12 +188,13 @@ namespace AM
             {
                 return;
             }
+
             il.Emit(OpCodes.Ldarg_0);
             MethodInfo getter = prop.GetGetMethod();
             il.EmitCall(OpCodes.Callvirt, getter, null);
             _ProcessValue(il);
             MethodInfo setter = prop.GetSetMethod();
-            if (setter != null)
+            if (!ReferenceEquals(setter, null))
             {
                 il.Emit(OpCodes.Ldarg_0);
                 il.Emit(OpCodes.Ldnull);
@@ -200,28 +205,35 @@ namespace AM
         private void _GenerateDisposer()
         {
             Type type = GetType();
-            if (!_disposers.ContainsKey(type))
+
+            lock (_disposers)
             {
-                lock (_disposers)
+                if (!_disposers.ContainsKey(type))
                 {
                     if (!_disposers.ContainsKey(type))
                     {
                         string methodName = "_dispose" + _disposers.Count;
                         DynamicMethod method = new DynamicMethod
                             (
-                            methodName,
-                            typeof(void),
-                            new Type[] { typeof(object) },
-                            type
+                                methodName,
+                                typeof(void),
+                                new Type[] { typeof(object) },
+                                type
                             );
                         method.InitLocals = true;
+
                         ILGenerator il = method.GetILGenerator();
+
                         FieldInfo[] fields = type.GetFields
-                            (BindingFlags.Public | BindingFlags.Instance);
+                            (
+                                BindingFlags.Public 
+                                | BindingFlags.Instance
+                            );
                         foreach (FieldInfo field in fields)
                         {
                             _OneField(il, field);
                         }
+
                         PropertyInfo[] props = type.GetProperties
                             (BindingFlags.Public | BindingFlags.Instance);
                         foreach (PropertyInfo prop in props)
@@ -229,41 +241,60 @@ namespace AM
                             _OneProperty(il, prop);
                         }
                         il.Emit(OpCodes.Ret);
+
                         Disposer disposer = (Disposer)method.CreateDelegate
-                                                        (
-                                                        typeof(Disposer)
-                                                        );
+                            (
+                                typeof(Disposer)
+                            );
                         _disposers.Add(type, disposer);
                     }
                 }
             }
         }
 
-        private bool _disposed;
-
-        private static void _DisposeWithReflection(object obj)
+        private static void _DisposeWithLCG
+            (
+                object obj
+            )
         {
             Type type = obj.GetType();
-            FieldInfo[] fields = type.GetFields
-                (BindingFlags.Public
-                  | BindingFlags.NonPublic | BindingFlags.Instance);
+            Disposer disposer;
+
+            lock (_disposers)
+            {
+                disposer = _disposers[type];
+            }
+            disposer(obj);
+        }
+
+#endif
+
+        private static void _DisposeWithReflection
+            (
+                object obj
+            )
+        {
+            Type type = obj.GetType();
+            FieldInfo[] fields = TypeUtility.GetFields(type);
 
             foreach (FieldInfo field in fields)
             {
-                if (Attribute.IsDefined
-                    (field,
-                      typeof(AutoDisposeAttribute)))
+                if (ReflectionUtility.HasAttribute<AutoDisposeAttribute>(field))
                 {
                     object val = field.GetValue(obj);
                     IDisposable di = val as IDisposable;
 
-                    if (di != null)
+                    if (!ReferenceEquals(di, null))
                     {
                         di.Dispose();
                     }
-                    if (type.IsCOMObject)
+                    if (TypeUtility.IsComObject(type))
                     {
+#if !PORTABLE && !SILVERLIGHT
+
                         Marshal.ReleaseComObject(val);
+
+#endif
                     }
 
                     // Is it necessary?
@@ -272,19 +303,14 @@ namespace AM
             }
         }
 
-        private static void _DisposeWithLCG(object obj)
-        {
-            Type type = obj.GetType();
-            Disposer disposer = _disposers[type];
-            disposer(obj);
-        }
-
         /// <summary>
         /// Calls <c>Dispose ()</c> for all fields marked with
         /// <see cref="AutoDisposeAttribute">AutoDispose attribute.</see>
         /// </summary>
         private void DisposeFields()
         {
+#if CLASSIC || NETCORE || DROID
+
             if (!DisposeByReflection)
             {
                 _DisposeWithLCG(this);
@@ -293,6 +319,12 @@ namespace AM
             {
                 _DisposeWithReflection(this);
             }
+
+#else
+
+            _DisposeWithReflection(this);
+
+#endif
         }
 
         /// <summary>
@@ -302,6 +334,11 @@ namespace AM
         {
             if (Disposed)
             {
+                Log.Error
+                    (
+                        "DisposableObject::CheckDisposed"
+                    );
+
                 throw new ObjectDisposedException(GetType().Name);
             }
         }
@@ -311,12 +348,12 @@ namespace AM
         #region Protected members
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, 
-        /// releasing, or resetting unmanaged resources.
+        /// Can be overriden.
         /// </summary>
-        /// <param name="disposing">Is method called from <c>Dispose()</c>.
-        /// </param>
-        protected virtual void Dispose(bool disposing)
+        protected virtual void Dispose
+            (
+                bool disposing
+            )
         {
             DisposeFields();
         }
@@ -333,18 +370,14 @@ namespace AM
 
         #region IDisposable members
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, 
-        /// releasing, or resetting unmanaged resources.
-        /// </summary>
-        /// <remark>Thread-safe.</remark>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
             lock (this)
             {
-                if (!_disposed)
+                if (!Disposed)
                 {
-                    _disposed = true;
+                    Disposed = true;
                     Dispose(true);
                     GC.SuppressFinalize(this);
                 }
@@ -355,6 +388,4 @@ namespace AM
     }
 
 }
-
-#endif
 
