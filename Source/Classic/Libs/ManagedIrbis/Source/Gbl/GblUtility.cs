@@ -19,6 +19,7 @@ using System.Xml.Serialization;
 
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -71,7 +72,6 @@ namespace ManagedIrbis.Gbl
             return result.ToString();
         }
 
-#if !WINMOBILE && !PocketPC
 
         /// <summary>
         /// Restore <see cref="GblFile"/> from JSON.
@@ -84,15 +84,25 @@ namespace ManagedIrbis.Gbl
         {
             Code.NotNullNorEmpty(text, "text");
 
+#if WINMOBILE || PocketPC
+
+            Log.Error
+                (
+                    "GblUtility::FromJson: "
+                    + "not implemented"
+                );
+
+            throw new NotImplementedException();
+
+#else
+
             GblFile result = JsonConvert
                 .DeserializeObject<GblFile>(text);
 
             return result;
-        }
 
 #endif
-
-#if !NETCORE && !SILVERLIGHT
+        }
 
         /// <summary>
         /// Restore <see cref="GblFile"/> from JSON.
@@ -105,6 +115,18 @@ namespace ManagedIrbis.Gbl
         {
             Code.NotNull(text, "text");
 
+#if SILVERLIGHT
+
+            Log.Error
+                (
+                    "GblUtility::FromXml: "
+                    + "not implemented"
+                );
+
+            throw new NotImplementedException();
+
+#else
+
             XmlSerializer serializer = new XmlSerializer(typeof(GblFile));
             using (StringReader reader = new StringReader(text))
             {
@@ -112,11 +134,9 @@ namespace ManagedIrbis.Gbl
 
                 return result;
             }
-        }
 
 #endif
-
-#if !WINMOBILE && !PocketPC && !WIN81 && !PORTABLE
+        }
 
         /// <summary>
         /// Parses the local JSON file.
@@ -129,6 +149,18 @@ namespace ManagedIrbis.Gbl
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if WINMOBILE || PocketPC || WIN81 || PORTABLE
+
+            Log.Error
+                (
+                    "GblUtility::ParseLocalJsonFile: "
+                    + "not implemented"
+                );
+
+            throw new NotImplementedException ();
+
+#else
+
             string text = File.ReadAllText
                 (
                     fileName,
@@ -137,11 +169,8 @@ namespace ManagedIrbis.Gbl
             GblFile result = FromJson(text);
 
             return result;
-        }
-
 #endif
-
-#if !NETCORE && !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81 && !PORTABLE
+        }
 
         /// <summary>
         /// Parses the local XML file.
@@ -154,6 +183,18 @@ namespace ManagedIrbis.Gbl
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if WINMOBILE || PocketPC || SILVERLIGHT || WIN81 || PORTABLE
+
+            Log.Error
+                (
+                    "GblUtility::ParseLocalXmlFile: "
+                    + "not implemented"
+                );
+
+            throw new NotImplementedException();
+
+#else
+
             string text = File.ReadAllText
                 (
                     fileName,
@@ -162,11 +203,9 @@ namespace ManagedIrbis.Gbl
             GblFile result = FromXml(text);
 
             return result;
+#endif
         }
 
-#endif
-
-#if !WINMOBILE && !PocketPC && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Saves <see cref="GblFile"/> to local JSON file.
@@ -180,6 +219,18 @@ namespace ManagedIrbis.Gbl
             Code.NotNull(gbl, "gbl");
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if WINMOBILE || PocketPC || WIN81 || PORTABLE
+
+            Log.Error
+                (
+                    "GblUtility::SaveLocalJsonFile: "
+                    + "not implemented"
+                );
+
+            throw new NotImplementedException();
+
+#else
+
             string contents = JArray.FromObject(gbl)
                 .ToString(Formatting.Indented);
 
@@ -189,8 +240,9 @@ namespace ManagedIrbis.Gbl
                     contents,
                     IrbisEncoding.Utf8
                 );
-        }
 
+#endif
+        }
 
         /// <summary>
         /// Convert <see cref="GblFile"/> to JSON.
@@ -203,15 +255,25 @@ namespace ManagedIrbis.Gbl
         {
             Code.NotNull(gbl, "gbl");
 
+#if WINMOBILE || PocketPC || WIN81 || PORTABLE
+
+            Log.Error
+                (
+                    "GblUtility::ToJson: "
+                    + "not implemented"
+                );
+
+            throw new NotImplementedException();
+
+#else
+
             string result = JObject.FromObject(gbl)
                 .ToString(Formatting.None);
 
             return result;
-        }
 
 #endif
-
-#if !NETCORE && !SILVERLIGHT
+        }
 
         /// <summary>
         /// Converts the <see cref="GblFile"/> to XML.
@@ -224,16 +286,27 @@ namespace ManagedIrbis.Gbl
         {
             Code.NotNull(gbl, "gbl");
 
+#if SILVERLIGHT
+
+            Log.Error
+                (
+                    "GblUtility::ToXml: "
+                    + "not implemented"
+                );
+
+            throw new NotImplementedException();
+#else
+
             XmlSerializer serializer
                 = new XmlSerializer(typeof(GblFile));
             StringWriter writer = new StringWriter();
             serializer.Serialize(writer, gbl);
 
             return writer.ToString();
-        }
 
 #endif
+        }
 
-        #endregion
+#endregion
     }
 }

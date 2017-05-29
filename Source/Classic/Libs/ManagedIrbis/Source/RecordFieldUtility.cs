@@ -1573,7 +1573,7 @@ namespace ManagedIrbis
                 );
         }
 
-#if !NETCORE && !SILVERLIGHT
+#if !SILVERLIGHT
 
         /// <summary>
         /// Converts the field to XML.

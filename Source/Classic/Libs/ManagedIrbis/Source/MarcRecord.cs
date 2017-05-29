@@ -347,7 +347,7 @@ namespace ManagedIrbis
             return Fields.GetSubFieldValue(tag, code);
         }
 
-#if CLASSIC || NETCORE
+//#if CLASSIC || NETCORE
 
         /// <summary>
         /// Internal formatting the record/field/subfield.
@@ -375,7 +375,7 @@ namespace ManagedIrbis
             }
         }
 
-#endif
+//#endif
 
         /// <summary>
         /// Assign database name to the record.

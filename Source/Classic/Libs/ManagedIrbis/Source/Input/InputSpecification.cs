@@ -102,7 +102,7 @@ namespace ManagedIrbis.Input
 
 #endif
 
-#if !NETCORE && !SILVERLIGHT && !WIN81
+#if !SILVERLIGHT && !WIN81
 
         /// <summary>
         /// Load specification from XML file.

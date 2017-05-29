@@ -400,7 +400,7 @@ namespace ManagedIrbis
 
 #endif
 
-#if !NETCORE && !SILVERLIGHT
+#if !SILVERLIGHT
 
         /// <summary>
         /// Convert the subfield to XML.

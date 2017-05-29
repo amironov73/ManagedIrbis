@@ -219,7 +219,7 @@ namespace ManagedIrbis.Menus
 
 #endif
 
-#if !NETCORE && !SILVERLIGHT
+#if !SILVERLIGHT
 
         /// <summary>
         /// Converts the menu to XML.
