@@ -21,12 +21,6 @@ using AM.Logging;
 
 using CodeJam;
 
-#if !SILVERLIGHT && !ANDROID && !UAP && !WIN81
-
-using Compatibility;
-
-#endif
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;

@@ -12,7 +12,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+
 using AM.Collections;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -181,8 +183,6 @@ namespace AM.IO
             return writer;
         }
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
-
         /// <summary>
         /// Write <see cref="DateTime"/>.
         /// </summary>
@@ -193,10 +193,26 @@ namespace AM.IO
                 DateTime value
             )
         {
+            Code.NotNull(writer, "writer");
+
+#if WINMOBILE || PocketPC || SILVERLIGHT
+
+            Log.Error
+                (
+                    "BinaryWriterUtility::Write(DateTime): "
+                    + "not implemented"
+                );
+
+            throw new NotImplementedException();
+
+#else
+
             long ticks = value.ToBinary();
             writer.Write(ticks);
 
             return writer;
+
+#endif
         }
 
         /// <summary>
@@ -211,7 +227,19 @@ namespace AM.IO
         {
             Code.NotNull(writer, "writer");
 
-            if (value != null)
+#if WINMOBILE || PocketPC || SILVERLIGHT
+
+            Log.Error
+                (
+                    "BinaryWriterUtility::Write(DateTime?): "
+                    + "not implemented"
+                );
+
+            throw new NotImplementedException();
+
+#else
+
+            if (!ReferenceEquals(value, null))
             {
                 writer.Write(true);
                 writer.Write(value.Value);
@@ -222,9 +250,9 @@ namespace AM.IO
             }
 
             return writer;
-        }
 
 #endif
+        }
 
         /// <summary>
         /// Write nullable double precision number.

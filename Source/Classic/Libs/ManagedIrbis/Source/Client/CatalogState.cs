@@ -36,9 +36,7 @@ namespace ManagedIrbis.Client
     [MoonSharpUserData]
     [DebuggerDisplay("{Database}")]
     public sealed class CatalogState
-#if !SILVERLIGHT && !WINMOBILE
         : IHandmadeSerializable
-#endif
     {
         #region Properties
 
@@ -105,8 +103,6 @@ namespace ManagedIrbis.Client
 
         #region IHandmadeSerializable
 
-#if !SILVERLIGHT && !WINMOBILE
-
         /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
         public void RestoreFromStream
             (
@@ -139,8 +135,6 @@ namespace ManagedIrbis.Client
                 .WriteNullableArray(Records)
                 .WriteNullableArray(LogicallyDeleted);
         }
-
-#endif
 
         #endregion
     }

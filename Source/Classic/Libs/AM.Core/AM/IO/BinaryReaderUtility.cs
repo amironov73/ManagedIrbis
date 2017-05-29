@@ -127,8 +127,6 @@ namespace AM.IO
             return reader;
         }
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
-
         /// <summary>
         /// Read <see cref="DateTime"/> from the stream.
         /// </summary>
@@ -139,9 +137,23 @@ namespace AM.IO
         {
             Code.NotNull(reader, "reader");
 
+#if WINMOBILE || PocketPC || SILVERLIGHT
+
+            Log.Error
+                (
+                    "BinaryReaderUtility::ReadDateTime: "
+                    + "not implemented"
+                );
+
+            throw new NotImplementedException();
+
+#else
+
             DateTime result = DateTime.FromBinary(reader.ReadInt64());
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -155,6 +167,18 @@ namespace AM.IO
         {
             Code.NotNull(reader, "reader");
 
+#if WINMOBILE || PocketPC || SILVERLIGHT
+
+            Log.Error
+                (
+                    "BinaryReaderUtility::ReadDateTime: "
+                    + "not implemented"
+                );
+
+            throw new NotImplementedException();
+
+#else
+
             DateTime? result = null;
 
             bool flag = reader.ReadBoolean();
@@ -164,9 +188,9 @@ namespace AM.IO
             }
 
             return result;
-        }
 
 #endif
+        }
 
         /// <summary>
         /// Read array of 16-bit integers.
@@ -315,8 +339,6 @@ namespace AM.IO
                 : null;
         }
 
-#if !SILVERLIGHT
-
         /// <summary>
         /// Read nullable decimal.
         /// </summary>
@@ -328,13 +350,26 @@ namespace AM.IO
         {
             Code.NotNull(reader, "reader");
 
+#if SILVERLIGHT
+
+            Log.Error
+                (
+                    "BinaryReaderUtility::ReadNullableDecimal: "
+                    + "not implemented"
+                );
+
+            throw new NotImplementedException();
+
+#else
+
             bool flag = reader.ReadBoolean();
+
             return flag
                 ? (decimal?)reader.ReadDecimal()
                 : null;
-        }
 
 #endif
+        }
 
         /// <summary>
         /// Read nullable 16-bit integer.

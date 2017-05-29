@@ -11,13 +11,13 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
 #if FW4
-using System.Diagnostics.CodeAnalysis;
 using System.ComponentModel;
 #endif
 

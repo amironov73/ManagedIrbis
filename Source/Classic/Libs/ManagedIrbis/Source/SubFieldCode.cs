@@ -10,10 +10,7 @@
 #region Using directives
 
 using System;
-
-#if FW4
 using System.Diagnostics.CodeAnalysis;
-#endif
 
 using AM.Collections;
 using AM.Logging;
@@ -52,9 +49,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Throw exception on verification error.
         /// </summary>
-        #if FW4
         [ExcludeFromCodeCoverage]
-        #endif
         public static bool ThrowOnVerification { get; set; }
 
         /// <summary>

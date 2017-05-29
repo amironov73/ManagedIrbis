@@ -287,6 +287,7 @@
     <Compile Include="AM\TimeSpanUtility.cs" />
     <Compile Include="AM\TriState.cs" />
     <Compile Include="Compatibility\Diagnostics.cs" />
+    <Compile Include="Compatibility\ExcludeFromCodeCoverageAttribute.cs" />
     <Compile Include="Compatibility\TypeInfo.cs" />
     <Compile Include="AM\UniversalComparer.cs" />
     <Compile Include="AM\Utility.cs" />

@@ -629,6 +629,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\CodeJam\CodeExceptions.cs">
       <Link>CodeJam\CodeExceptions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\ExcludeFromCodeCoverageAttribute.cs">
+      <Link>Compatibility\ExcludeFromCodeCoverageAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\System.cs">
       <Link>Compatibility\System.cs</Link>
     </Compile>
