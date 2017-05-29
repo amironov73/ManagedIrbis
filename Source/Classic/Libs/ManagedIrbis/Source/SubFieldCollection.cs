@@ -23,6 +23,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -185,7 +186,7 @@ namespace ManagedIrbis
 
         #region Collection<T> members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Collection{T}.ClearItems" />
         protected override void ClearItems()
         {
             ThrowIfReadOnly();
@@ -200,7 +201,7 @@ namespace ManagedIrbis
             base.ClearItems();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Collection{T}.InsertItem" />
         protected override void InsertItem
             (
                 int index,
@@ -217,7 +218,7 @@ namespace ManagedIrbis
             base.InsertItem(index, item);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Collection{T}.RemoveItem" />
         protected override void RemoveItem
             (
                 int index
@@ -225,7 +226,7 @@ namespace ManagedIrbis
         {
             ThrowIfReadOnly();
 
-            if ((index >= 0) && (index < Count))
+            if (index >= 0 && index < Count)
             {
                 SubField subField = this[index];
                 if (subField != null)
@@ -239,7 +240,7 @@ namespace ManagedIrbis
             base.RemoveItem(index);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Collection{T}.SetItem" />
         protected override void SetItem
             (
                 int index,
@@ -260,7 +261,7 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref= "IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -274,7 +275,7 @@ namespace ManagedIrbis
             AddRange(array);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -294,16 +295,12 @@ namespace ManagedIrbis
         //[NonSerialized]
         internal bool _readOnly;
 
-        /// <summary>
-        /// Whether the collection is read-only?
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.ReadOnly" />
         public bool ReadOnly { get { return _readOnly; } }
 
         // ReSharper restore InconsistentNaming
 
-        /// <summary>
-        /// Create read-only clone of the collection.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.AsReadOnly" />
         public SubFieldCollection AsReadOnly()
         {
             SubFieldCollection result = Clone();
@@ -312,20 +309,21 @@ namespace ManagedIrbis
             return result;
         }
 
-        /// <summary>
-        /// Throws if read only.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.ThrowIfReadOnly" />
         public void ThrowIfReadOnly()
         {
             if (ReadOnly)
             {
+                Log.Error
+                    (
+                        "SubFieldCollection::ThrowIfReadOnly"
+                    );
+
                 throw new ReadOnlyException();
             }
         }
 
-        /// <summary>
-        /// Mark the collection as read-only.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.SetReadOnly" />
         public void SetReadOnly()
         {
             _readOnly = true;

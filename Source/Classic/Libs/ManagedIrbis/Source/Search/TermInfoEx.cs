@@ -17,6 +17,8 @@ using System.Xml.Serialization;
 
 using AM;
 using AM.IO;
+using AM.Logging;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -126,14 +128,29 @@ namespace ManagedIrbis.Search
 
                 if (parts.Length != 3)
                 {
+                    Log.Error
+                        (
+                            "TermInfoEx::ParseEx: "
+                            + "bad format: "
+                            + line.ToVisibleString()
+                        );
+
                     throw new IrbisNetworkException();
                 }
 
                 Match match = regex.Match(parts[0]);
                 if (!match.Success)
                 {
+                    Log.Error
+                        (
+                            "TermInfoEx::ParseEx: "
+                            + "bad format: "
+                            + parts[0].ToVisibleString()
+                        );
+
                     throw new IrbisNetworkException();
                 }
+
                 TermInfoEx item = new TermInfoEx
                     {
                         Count = int.Parse(match.Groups[1].Value),
@@ -155,9 +172,7 @@ namespace ManagedIrbis.Search
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore object state from the specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public override void RestoreFromStream
             (
                 BinaryReader reader
@@ -173,9 +188,7 @@ namespace ManagedIrbis.Search
             Formatted = reader.ReadNullableString();
         }
 
-        /// <summary>
-        /// Save object state to the specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public override void SaveToStream
             (
                 BinaryWriter writer
@@ -197,9 +210,7 @@ namespace ManagedIrbis.Search
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public override bool Verify
             (
                 bool throwOnError

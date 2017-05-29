@@ -16,6 +16,7 @@ using System.Diagnostics.CodeAnalysis;
 #endif
 
 using AM.Collections;
+using AM.Logging;
 
 using JetBrains.Annotations;
 
@@ -124,10 +125,18 @@ namespace ManagedIrbis
         {
             bool result = IsValidCode(code);
 
-            if (!result
-                && throwOnError)
+            if (!result)
             {
-                throw new ArgumentOutOfRangeException();
+                Log.Error
+                    (
+                        "SubFieldCode::Verify: "
+                        + code
+                    );
+
+                if (throwOnError)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
             }
 
             return result;

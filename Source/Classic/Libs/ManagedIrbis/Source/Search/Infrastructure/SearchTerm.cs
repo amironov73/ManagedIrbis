@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 
 using CodeJam;
 
@@ -97,22 +98,16 @@ namespace ManagedIrbis.Search.Infrastructure
 
         #region ISearchTree members
 
-        /// <summary>
-        /// Children nodes.
-        /// </summary>
+        /// <inheritdoc cref="ISearchTree.Children" />
         public ISearchTree[] Children
         {
             get { return new ISearchTree[0]; }
         }
 
-        /// <summary>
-        /// Value of the term.
-        /// </summary>
+        /// <inheritdoc cref="ISearchTree.Value" />
         public string Value { get { return Term; } }
 
-        /// <summary>
-        /// Find the term.
-        /// </summary>
+        /// <inheritdoc cref="ISearchTree.Find" />
         public TermLink[] Find
             (
                 SearchContext context
@@ -122,22 +117,36 @@ namespace ManagedIrbis.Search.Infrastructure
 
             IrbisProvider provider = context.Provider;
             TermLink[] result;
+            string term = Term.ThrowIfNull("Term");
 
             switch (Tail)
             {
                 case null:
                 case "":
-                    result = provider.ExactSearchLinks(Term);
+                    result = provider.ExactSearchLinks(term);
                     break;
 
                 case "$":
-                    result = provider.ExactSearchTrimLinks(Term, 1000);
+                    result = provider.ExactSearchTrimLinks(term, 1000);
                     break;
 
                 case "@":
+                    Log.Error
+                        (
+                            "SearchTerm::Find: "
+                            + "@ not implemented"
+                        );
+
                     throw new NotImplementedException();
 
                 default:
+                    Log.Error
+                        (
+                            "SearchTerm::Find: "
+                            + "unexpected tail: "
+                            + Tail.ToVisibleString()
+                        );
+
                     throw new IrbisException("Unexpected tail");
             }
 
@@ -153,6 +162,12 @@ namespace ManagedIrbis.Search.Infrastructure
                 ISearchTree toChild
             )
         {
+            Log.Error
+                (
+                    "SearchTerm::ReplaceChild: "
+                    + "not implemented"
+                );
+
             throw new NotImplementedException();
         }
 
@@ -160,7 +175,7 @@ namespace ManagedIrbis.Search.Infrastructure
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();

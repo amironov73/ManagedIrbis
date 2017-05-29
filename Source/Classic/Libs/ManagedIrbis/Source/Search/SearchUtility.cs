@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -94,6 +95,12 @@ namespace ManagedIrbis.Search
 
             if (first)
             {
+                Log.Error
+                    (
+                        "SearchUtility::ConcatTerms: "
+                        + "empty list of terms"
+                    );
+
                 throw new IrbisException("Empty list of terms");
             }
 

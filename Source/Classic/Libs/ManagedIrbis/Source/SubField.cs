@@ -15,6 +15,7 @@ using System.Xml.Serialization;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using JetBrains.Annotations;
@@ -245,7 +246,6 @@ namespace ManagedIrbis
         /// <summary>
         /// Clones this instance.
         /// </summary>
-        /// <returns></returns>
         public SubField Clone()
         {
             SubField result = new SubField
@@ -340,9 +340,7 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -355,9 +353,7 @@ namespace ManagedIrbis
             Value = reader.ReadNullableString();
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -377,16 +373,12 @@ namespace ManagedIrbis
         internal bool _readOnly;
         // ReSharper restore InconsistentNaming
 
-        /// <summary>
-        /// Whether the object is read-only?
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.ReadOnly" />
         [XmlIgnore]
         [JsonIgnore]
         public bool ReadOnly { get { return _readOnly; } }
 
-        /// <summary>
-        /// Creates read-only clone of the field.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.AsReadOnly" />
         public SubField AsReadOnly()
         {
             SubField result = Clone();
@@ -395,21 +387,22 @@ namespace ManagedIrbis
             return result;
         }
 
-        /// <summary>
-        /// Mark the subField as read-only.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.SetReadOnly" />
         public void SetReadOnly()
         {
             _readOnly = true;
         }
 
-        /// <summary>
-        /// Throws if read only.
-        /// </summary>
+        /// <inheritdoc cref="IReadOnly{T}.ThrowIfReadOnly" />
         public void ThrowIfReadOnly()
         {
             if (ReadOnly)
             {
+                Log.Error
+                    (
+                        "SubField::ThrowIfReadOnly"
+                    );
+
                 throw new ReadOnlyException();
             }
         }
@@ -418,7 +411,7 @@ namespace ManagedIrbis
 
         #region IVerifiable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError
@@ -449,7 +442,7 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format

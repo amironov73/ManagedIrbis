@@ -11,6 +11,7 @@
 #region Using directives
 
 using AM;
+using AM.Logging;
 
 using JetBrains.Annotations;
 
@@ -82,6 +83,8 @@ namespace ManagedIrbis
                 return value;
             }
 
+            // TODO normalize
+
             //string result = value.Trim();
             //return result;
 
@@ -111,9 +114,18 @@ namespace ManagedIrbis
         {
             bool result = IsValidValue(value);
 
-            if (!result && throwOnError)
+            if (!result)
             {
-                throw new VerificationException("SubField.Value");
+                Log.Error
+                    (
+                        "SubFieldValue::Verify: "
+                        + value.ToVisibleString()
+                    );
+
+                if (!throwOnError)
+                {
+                    throw new VerificationException("SubField.Value");
+                }
             }
 
             return result;

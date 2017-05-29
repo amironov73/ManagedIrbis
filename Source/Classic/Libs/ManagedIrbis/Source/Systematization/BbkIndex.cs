@@ -17,6 +17,7 @@ using System.Xml.Serialization;
 
 using AM;
 using AM.Collections;
+using AM.Logging;
 
 using CodeJam;
 
@@ -188,6 +189,13 @@ namespace ManagedIrbis.Systematization
 
                     if (result.Length == 1)
                     {
+                        Log.Error
+                            (
+                                "BbkIndex::_ParseCombined: "
+                                + "неверный комбинированный индекс: "
+                                + text.ToVisibleString()
+                            );
+
                         throw new BbkException
                             (
                                 "Неверный комбинированный индекс"
@@ -227,6 +235,13 @@ namespace ManagedIrbis.Systematization
 
                     if (result[result.Length - 1] != ')')
                     {
+                        Log.Error
+                            (
+                                "BbkIndex::_ParseTerritorial: "
+                                + "незакрытая скобка в территориальном делении: "
+                                + text.ToVisibleString()
+                            );
+
                         throw new BbkException
                             (
                                 "Незакрытая скобка в территориальном делении"
@@ -288,9 +303,16 @@ namespace ManagedIrbis.Systematization
 
                     if (result.Length == 1)
                     {
+                        Log.Error
+                            (
+                                "BbkIndex::_ParseSpecial: "
+                                + "неверный код специального типового деления: "
+                                + text.ToVisibleString()
+                            );
+
                         throw new BbkException
                             (
-                            "Неверный код специального типового деления"
+                                "Неверный код специального типового деления"
                             );
                     }
                 }
@@ -334,6 +356,13 @@ namespace ManagedIrbis.Systematization
 
                     if (result.Length == 1)
                     {
+                        Log.Error
+                            (
+                                "BbkIndex::_ParseComma: "
+                                + "неверно сформированный индекс: "
+                                + text.ToVisibleString()
+                            );
+
                         throw new BbkException
                             (
                                 "Неверно сформированный индекс"
@@ -361,9 +390,16 @@ namespace ManagedIrbis.Systematization
 
                     if (result.Length == 1)
                     {
+                        Log.Error
+                            (
+                                "BbkIndex::_ParseSocial: "
+                                + "неверный код социальной системы: "
+                                + text.ToVisibleString()
+                            );
+
                         throw new BbkException
                             (
-                            "Неверный код социальной системы"
+                                "Неверный код социальной системы"
                             );
                     }
                 }
@@ -377,7 +413,7 @@ namespace ManagedIrbis.Systematization
                 StringBuilder builder
             )
         {
-            return (builder.Length == 0)
+            return builder.Length == 0
                 ? null
                 : builder.ToString();
         }
@@ -405,6 +441,13 @@ namespace ManagedIrbis.Systematization
             }
             if (copy[copy.Length - 1] == '.')
             {
+                Log.Error
+                    (
+                        "BbkIndex::_Verify: "
+                        + "индекс оканчивается точкой: "
+                        + text.ToVisibleString()
+                    );
+
                 throw new BbkException
                     (
                         "Индекс заканчивается точкой"
@@ -416,6 +459,13 @@ namespace ManagedIrbis.Systematization
             {
                 if (copy[2] != '.')
                 {
+                    Log.Error
+                        (
+                            "BbkIndex::_Verify: "
+                            + "индекс должен начинаться с двузначной группы: "
+                            + text.ToVisibleString()
+                        );
+
                     throw new BbkException
                         (
                             "Индекс должен начинаться с двузначной группы"
@@ -428,11 +478,18 @@ namespace ManagedIrbis.Systematization
 
             while (offset < length)
             {
-                if ((copy[offset] == '.')
-                    || (copy[offset] == '/'))
+                if (copy[offset] == '.'
+                    || copy[offset] == '/')
                 {
                     if (count == 0)
                     {
+                        Log.Error
+                            (
+                                "BbkIndex::_Verify: "
+                                + "два разделителя подряд: "
+                                + text.ToVisibleString()
+                            );
+
                         throw new BbkException
                             (
                                 "Два разделителя подряд"

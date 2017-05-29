@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -77,6 +78,7 @@ namespace ManagedIrbis.Search.Infrastructure
         #region Private members
 
         private int _position;
+
         private readonly SearchToken[] _tokens;
 
         #endregion
@@ -100,6 +102,11 @@ namespace ManagedIrbis.Search.Infrastructure
         {
             if (!MoveNext())
             {
+                Log.Error
+                    (
+                        "SearchTokenList::RequireNext"
+                    );
+
                 throw new SearchSyntaxException();
             }
 
@@ -116,11 +123,26 @@ namespace ManagedIrbis.Search.Infrastructure
         {
             if (!MoveNext())
             {
+                Log.Error
+                    (
+                        "SearchTokenList::RequireNext: "
+                        + "unexpected end of stream"
+                    );
+
                 throw new SearchSyntaxException();
             }
 
             if (Current.Kind != tokenKind)
             {
+                Log.Error
+                    (
+                        "SearchTokenList::RequireNext: "
+                        + "expected="
+                        + tokenKind
+                        + ", got="
+                        + Current.Kind
+                    );
+
                 throw new SearchSyntaxException();
             }
 
@@ -131,7 +153,7 @@ namespace ManagedIrbis.Search.Infrastructure
 
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             if (IsEof)

@@ -17,6 +17,7 @@ using System.Xml.Serialization;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -234,9 +235,16 @@ namespace ManagedIrbis.Search
                     );
                 if (string.IsNullOrEmpty(name))
                 {
+                    Log.Error
+                        (
+                            "SearchScenario::ParseIniFile: "
+                            + "item name not set: "
+                            + i
+                        );
+
                     throw new IrbisException
                         (
-                            "Item name is null"
+                            "Item name not set: " + i
                         );
                 }
 
@@ -316,7 +324,7 @@ namespace ManagedIrbis.Search
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -338,7 +346,7 @@ namespace ManagedIrbis.Search
             Truncation = reader.ReadBoolean();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -365,7 +373,7 @@ namespace ManagedIrbis.Search
 
         #region IVerifiable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError
@@ -385,7 +393,7 @@ namespace ManagedIrbis.Search
 
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format
