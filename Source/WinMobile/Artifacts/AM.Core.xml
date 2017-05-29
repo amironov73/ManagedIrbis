@@ -2241,6 +2241,16 @@
             Write nullable decimal number.
             </summary>
         </member>
+        <member name="M:AM.IO.BinaryWriterUtility.Write(System.IO.BinaryWriter,System.DateTime)">
+            <summary>
+            Write <see cref="T:System.DateTime"/>.
+            </summary>
+        </member>
+        <member name="M:AM.IO.BinaryWriterUtility.Write(System.IO.BinaryWriter,System.Nullable{System.DateTime})">
+            <summary>
+            Write nullable DateTime.
+            </summary>
+        </member>
         <member name="M:AM.IO.BinaryWriterUtility.Write(System.IO.BinaryWriter,System.Nullable{System.Double})">
             <summary>
             Write nullable double precision number.
@@ -4029,14 +4039,27 @@
             <remarks>For compatibility with WinMobile
             </remarks>
         </member>
-        <member name="M:AM.StringUtility.Clear(System.Text.StringBuilder)">
+        <member name="M:AM.StringUtility.SplitString(System.String,System.Char[],System.Int32)">
             <summary>
-            Clear the <see cref="T:System.Text.StringBuilder"/>.
+            Split the string.
             </summary>
+            <remarks>For compatibility with WinMobile.</remarks>
+        </member>
+        <member name="M:AM.StringUtility.ToUpperInvariant(System.String)">
+            <summary>
+            Convert string to upper case.
+            </summary>
+            <remarks>For WinMobile compatibility.</remarks>
         </member>
         <member name="M:AM.StringUtility.ToLowerInvariant(System.String)">
             <summary>
-            
+            Convert string to lower case.
+            </summary>
+            <remarks>For WinMobile compatibility.</remarks>
+        </member>
+        <member name="M:AM.StringUtility.Clear(System.Text.StringBuilder)">
+            <summary>
+            Clear the <see cref="T:System.Text.StringBuilder"/>.
             </summary>
         </member>
         <member name="T:AM.Runtime.PinnedStructure`1">
@@ -6377,13 +6400,23 @@
             <param name="suffix">The suffix.</param>
             <returns>Name of not existent file.</returns>
         </member>
+        <member name="M:AM.IO.FileUtility.ReadAllBytes(System.String)">
+            <summary>
+            Read all bytes from the file.
+            </summary>
+            <remarks>For WinMobile compatibility.</remarks>
+        </member>
+        <member name="M:AM.IO.FileUtility.ReadAllLines(System.String,System.Text.Encoding)">
+            <summary>
+            Read all lines from the file.
+            </summary>
+            <remarks>For WinMobile compatibility.</remarks>
+        </member>
         <member name="M:AM.IO.FileUtility.ReadAllText(System.String,System.Text.Encoding)">
             <summary>
             Read all text from the text
             </summary>
-            <remarks>
-            For compatibility with WinMobile.
-            </remarks>
+            <remarks> For WinMobile compatibility.</remarks>
         </member>
         <member name="M:AM.IO.FileUtility.Touch(System.String)">
             <summary>
@@ -7202,6 +7235,16 @@
             Clone the navigator.
             </summary>
         </member>
+        <member name="M:AM.Text.TextNavigator.FromFile(System.String,System.Text.Encoding)">
+            <summary>
+            Навигатор по текстовому файлу.
+            </summary>
+        </member>
+        <member name="M:AM.Text.TextNavigator.FromFile(System.String)">
+            <summary>
+            Навигатор по текстовому файлу.
+            </summary>
+        </member>
         <member name="M:AM.Text.TextNavigator.GetRemainingText">
             <summary>
             Выдать остаток текста.
@@ -7592,6 +7635,21 @@
         <member name="P:AM.InquiryEventArgs.Success">
             <summary>
             Gets or sets a success indication.
+            </summary>
+        </member>
+        <member name="T:AM.FuncUtility">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.FuncUtility.Memoize``2(System.Func{``0,``1})">
+            <summary>
+            Memoizes the specified function.
+            </summary>
+        </member>
+        <member name="M:AM.FuncUtility.RetryOnFault``1(System.Func{``0},System.Int32)">
+            <summary>
+            Borrowed from Stephen Toub book.
             </summary>
         </member>
         <member name="T:AM.Configuration.ConfigurationUtility">
@@ -8804,6 +8862,18 @@
             <param name="stream">Поток для чтения.</param>
             <returns>Массив считанных байт.</returns>
         </member>
+        <member name="M:AM.IO.StreamUtility.Lock(System.IO.FileStream,System.Int64,System.Int64)">
+            <summary>
+            Lock the file.
+            </summary>
+            <remarks>For WinMobile compatibility.</remarks>
+        </member>
+        <member name="M:AM.IO.StreamUtility.Unlock(System.IO.FileStream,System.Int64,System.Int64)">
+            <summary>
+            Unlock the file.
+            </summary>
+            <remarks>For WinMobile compatibility.</remarks>
+        </member>
         <member name="T:AM.IO.MultiStream">
             <summary>
             
@@ -8889,6 +8959,11 @@
         <member name="M:AM.IO.ByteNavigator.Clone">
             <summary>
             Clone the navigator.
+            </summary>
+        </member>
+        <member name="M:AM.IO.ByteNavigator.FromFile(System.String)">
+            <summary>
+            Навигатор по двоичному файлу.
             </summary>
         </member>
         <member name="M:AM.IO.ByteNavigator.GetRemainingData">
@@ -11728,6 +11803,16 @@
             Reads collection of items from the stream.
             </summary>
         </member>
+        <member name="M:AM.IO.BinaryReaderUtility.ReadDateTime(System.IO.BinaryReader)">
+            <summary>
+            Read <see cref="T:System.DateTime"/> from the stream.
+            </summary>
+        </member>
+        <member name="M:AM.IO.BinaryReaderUtility.ReadNullableDateTime(System.IO.BinaryReader)">
+            <summary>
+            Read <see cref="T:System.DateTime"/> from the stream.
+            </summary>
+        </member>
         <member name="M:AM.IO.BinaryReaderUtility.ReadInt16Array(System.IO.BinaryReader)">
             <summary>
             Read array of 16-bit integers.
@@ -12348,6 +12433,11 @@
             <remarks>
             For WinMobile compatibility.
             </remarks>
+        </member>
+        <member name="T:System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute">
+            <summary>
+            For compatibility only.
+            </summary>
         </member>
     </members>
 </doc>

@@ -2069,7 +2069,11 @@ namespace AM
         [MethodImpl(Aggressive)]
         public static string ToUpperInvariant
             (
-                [NotNull] string text
+                [NotNull]
+#if WINMOBILE || PocketPC
+                this
+#endif
+                string text
             )
         {
 #if WINMOBILE || PocketPC
@@ -2090,7 +2094,11 @@ namespace AM
         [MethodImpl(Aggressive)]
         public static string ToLowerInvariant
             (
-                [NotNull] string text
+                [NotNull]
+#if WINMOBILE || PocketPC
+                this
+#endif
+                string text
             )
         {
 #if WINMOBILE || PocketPC
@@ -2118,24 +2126,6 @@ namespace AM
             Code.NotNull(builder, "builder");
 
             builder.Length = 0;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public static string ToLowerInvariant
-            (
-                [NotNull] this string text
-            )
-        {
-            StringBuilder result = new StringBuilder(text);
-
-            foreach (char c in text)
-            {
-                result.Append(char.ToLowerInvariant(c));
-            }
-
-            return result.ToString();
         }
 
 #endif

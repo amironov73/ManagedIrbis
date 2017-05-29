@@ -189,6 +189,12 @@
         <member name="P:ManagedIrbis.Search.Infrastructure.ComplexLevel`1.Parent">
             <inheritdoc cref="P:ManagedIrbis.Search.Infrastructure.ISearchTree.Parent"/>
         </member>
+        <member name="P:ManagedIrbis.Search.Infrastructure.ComplexLevel`1.Children">
+            <inheritdoc cref="P:ManagedIrbis.Search.Infrastructure.ISearchTree.Children"/>
+        </member>
+        <member name="P:ManagedIrbis.Search.Infrastructure.ComplexLevel`1.Value">
+            <inheritdoc cref="P:ManagedIrbis.Search.Infrastructure.ISearchTree.Value"/>
+        </member>
         <member name="M:ManagedIrbis.Search.Infrastructure.SearchLevel2.#ctor">
             <summary>
             Constructor.
@@ -571,7 +577,7 @@
             <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.Readers.ReaderInfo.ToString">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Readers.ReaderInfo.Id">
             <summary>
@@ -1276,6 +1282,10 @@
             т. е. может ли быть запущен одновременно
             с соседними элементами.
             </summary>
+            <remarks>
+            На данный момент многопоточность
+            не поддерживается.
+            </remarks>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.PftNode.Write(System.IO.StreamWriter)">
             <summary>
@@ -1383,7 +1393,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftParallelGroup.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftFor">
             <summary>
@@ -3046,19 +3056,13 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Search.TermInfoEx.RestoreFromStream(System.IO.BinaryReader)">
-            <summary>
-            Restore object state from the specified stream.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.Search.TermInfoEx.SaveToStream(System.IO.BinaryWriter)">
-            <summary>
-            Save object state to the specified stream.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.Search.TermInfoEx.Verify(System.Boolean)">
-            <summary>
-            Verify object state.
-            </summary>
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="P:ManagedIrbis.Search.TermInfoEx.Mfn">
             <summary>
@@ -3108,6 +3112,12 @@
             <summary>
             Program entry point - root of syntax tree.
             </summary>
+        </member>
+        <member name="P:ManagedIrbis.Search.Infrastructure.SearchProgram.ManagedIrbis#Search#Infrastructure#ISearchTree#Children">
+            <inheritdoc cref="P:ManagedIrbis.Search.Infrastructure.ISearchTree.Children"/>
+        </member>
+        <member name="P:ManagedIrbis.Search.Infrastructure.SearchProgram.ManagedIrbis#Search#Infrastructure#ISearchTree#Value">
+            <inheritdoc cref="P:ManagedIrbis.Search.Infrastructure.ISearchTree.Value"/>
         </member>
         <member name="T:ManagedIrbis.Search.Infrastructure.SearchLevel1">
             <summary>
@@ -3704,7 +3714,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftMode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftMode.OutputMode">
             <summary>
@@ -5092,16 +5102,16 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Search.SearchScenario.RestoreFromStream(System.IO.BinaryReader)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.Search.SearchScenario.SaveToStream(System.IO.BinaryWriter)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.Search.SearchScenario.Verify(System.Boolean)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="M:ManagedIrbis.Search.SearchScenario.ToString">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Search.SearchScenario.Name">
             <summary>
@@ -5214,6 +5224,12 @@
             <summary>
             Parenthesis.
             </summary>
+        </member>
+        <member name="P:ManagedIrbis.Search.Infrastructure.SearchLevel0.Children">
+            <inheritdoc cref="P:ManagedIrbis.Search.Infrastructure.ISearchTree.Children"/>
+        </member>
+        <member name="P:ManagedIrbis.Search.Infrastructure.SearchLevel0.Value">
+            <inheritdoc cref="P:ManagedIrbis.Search.Infrastructure.ISearchTree.Value"/>
         </member>
         <member name="T:ManagedIrbis.Requests.BookRequest">
             <summary>
@@ -5702,27 +5718,16 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.RecordReference.RestoreFromStream(System.IO.BinaryReader)">
-            <summary>
-            Restore object state from the stream.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.RecordReference.SaveToStream(System.IO.BinaryWriter)">
-            <summary>
-            Save object stat to the stream.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.RecordReference.Verify(System.Boolean)">
-            <summary>
-            Verify the object state.
-            </summary>
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="M:ManagedIrbis.RecordReference.ToString">
-            <summary>
-            Returns a <see cref="T:System.String"/>
-            that represents this instance.
-            </summary>
-            <returns>A <see cref="T:System.String"/>
-            that represents this instance.</returns>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.RecordReference.HostName">
             <summary>
@@ -5899,7 +5904,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Unifor.Execute(ManagedIrbis.Pft.Infrastructure.PftContext,ManagedIrbis.Pft.Infrastructure.PftNode,System.String)">
-            <inheritdoc/>
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.IFormatExit.Execute(ManagedIrbis.Pft.Infrastructure.PftContext,ManagedIrbis.Pft.Infrastructure.PftNode,System.String)"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Unifor.Registry">
             <summary>
@@ -5912,7 +5917,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Unifor.Name">
-            <inheritdoc/>
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.IFormatExit.Name"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.PftParser">
             <summary>
@@ -6046,10 +6051,10 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftRepeatableLiteral.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftRepeatableLiteral.Write(System.IO.StreamWriter)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Write(System.IO.StreamWriter)"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftRepeatableLiteral.IsPrefix">
             <summary>
@@ -6062,7 +6067,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftRepeatableLiteral.Text">
-            <inheritdoc/>
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Text"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftPercent">
             <summary>
@@ -6110,13 +6115,13 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftP.Clone">
-            <inheritdoc />
+            <inheritdoc cref="M:System.ICloneable.Clone"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftP.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftP.Write(System.IO.StreamWriter)">
-            <inheritdoc/>
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Write(System.IO.StreamWriter)"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftP.Field">
             <summary>
@@ -6124,7 +6129,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftP.Children">
-            <inheritdoc />
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Children"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftF2">
             <summary>
@@ -7619,10 +7624,10 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.FieldSpecification.Clone">
-            <inheritdoc />
+            <inheritdoc cref="M:System.ICloneable.Clone"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.FieldSpecification.ToString">
-            <inheritdoc/>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.FieldSpecification.Command">
             <summary>
@@ -8826,7 +8831,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.RawRecord.ToString">
-            <inheritdoc/>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.RawRecord.Database">
             <summary>
@@ -9122,13 +9127,13 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftN.CanOutput(System.String)">
-            <inheritdoc/>
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.Ast.PftField.CanOutput(System.String)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftN.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftN.ToString">
-            <inheritdoc/>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftAssignment">
             <summary>
@@ -10008,15 +10013,13 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Search.Infrastructure.SearchTerm.Find(ManagedIrbis.Search.SearchContext)">
-            <summary>
-            Find the term.
-            </summary>
+            <inheritdoc cref="M:ManagedIrbis.Search.Infrastructure.ISearchTree.Find(ManagedIrbis.Search.SearchContext)"/>
         </member>
         <member name="M:ManagedIrbis.Search.Infrastructure.SearchTerm.ReplaceChild(ManagedIrbis.Search.Infrastructure.ISearchTree,ManagedIrbis.Search.Infrastructure.ISearchTree)">
             <inheritdoc cref="M:ManagedIrbis.Search.Infrastructure.ISearchTree.ReplaceChild(ManagedIrbis.Search.Infrastructure.ISearchTree,ManagedIrbis.Search.Infrastructure.ISearchTree)"/>
         </member>
         <member name="M:ManagedIrbis.Search.Infrastructure.SearchTerm.ToString">
-            <inheritdoc/>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Search.Infrastructure.SearchTerm.Parent">
             <inheritdoc cref="P:ManagedIrbis.Search.Infrastructure.ISearchTree.Parent"/>
@@ -10037,14 +10040,10 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Search.Infrastructure.SearchTerm.Children">
-            <summary>
-            Children nodes.
-            </summary>
+            <inheritdoc cref="P:ManagedIrbis.Search.Infrastructure.ISearchTree.Children"/>
         </member>
         <member name="P:ManagedIrbis.Search.Infrastructure.SearchTerm.Value">
-            <summary>
-            Value of the term.
-            </summary>
+            <inheritdoc cref="P:ManagedIrbis.Search.Infrastructure.ISearchTree.Value"/>
         </member>
         <member name="T:ManagedIrbis.Reports.TextCell">
             <summary>
@@ -10327,10 +10326,10 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftMfn.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftMfn.Write(System.IO.StreamWriter)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Write(System.IO.StreamWriter)"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftMfn.Width">
             <summary>
@@ -10358,13 +10357,13 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftFunctionCall.Clone">
-            <inheritdoc />
+            <inheritdoc cref="M:System.ICloneable.Clone"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftFunctionCall.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftFunctionCall.GetNodeInfo">
-            <inheritdoc/>
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.GetNodeInfo"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftFunctionCall.Name">
             <summary>
@@ -10377,10 +10376,10 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftFunctionCall.ExtendedSyntax">
-            <inheritdoc/>
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.ExtendedSyntax"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftFunctionCall.Children">
-            <inheritdoc />
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Children"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftFalse">
             <summary>
@@ -11395,12 +11394,12 @@
         </member>
         <member name="M:ManagedIrbis.RecordField.#ctor">
             <summary>
-            Конструктор по умолчанию.
+            Constructor.
             </summary>
         </member>
         <member name="M:ManagedIrbis.RecordField.#ctor(ManagedIrbis.RecordField)">
             <summary>
-            Конструктор для клонирования.
+            Constructor.
             </summary>
         </member>
         <member name="M:ManagedIrbis.RecordField.#ctor(System.String)">
@@ -11503,8 +11502,6 @@
             <summary>
             Gets the first subfield.
             </summary>
-            <param name="code">The code.</param>
-            <returns>SubField.</returns>
         </member>
         <member name="M:ManagedIrbis.RecordField.GetSubFieldValue(System.Char,System.Int32)">
             <summary>
@@ -11617,44 +11614,25 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.RecordField.RestoreFromStream(System.IO.BinaryReader)">
-            <summary>
-            Restore the object state from the given stream.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.RecordField.SaveToStream(System.IO.BinaryWriter)">
-            <summary>
-            Save the object state to the given stream.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.RecordField.AsReadOnly">
-            <summary>
-            Creates read-only clone of the field.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.AsReadOnly"/>
         </member>
         <member name="M:ManagedIrbis.RecordField.SetReadOnly">
-            <summary>
-            Marks the record as read-only.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.SetReadOnly"/>
         </member>
         <member name="M:ManagedIrbis.RecordField.ThrowIfReadOnly">
-            <summary>
-            Throws if read only.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.ThrowIfReadOnly"/>
         </member>
         <member name="M:ManagedIrbis.RecordField.Verify(System.Boolean)">
-            <summary>
-            Verify the object state.
-            </summary>
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="M:ManagedIrbis.RecordField.ToString">
-            <summary>
-            Returns a <see cref="T:System.String"/>
-            that represents this instance.
-            </summary>
-            <returns>
-            A <see cref="T:System.String"/>
-            that represents this instance.
-            </returns>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.RecordField.Tag">
             <summary>
@@ -11716,9 +11694,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.RecordField.ReadOnly">
-            <summary>
-            Whether the field is read-only?
-            </summary>
+            <inheritdoc cref="P:AM.IReadOnly`1.ReadOnly"/>
         </member>
         <member name="T:ManagedIrbis.Readers.ReaderManager">
             <summary>
@@ -11807,31 +11783,31 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.VirtualChildren.GetEnumerator">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.Generic.IEnumerable`1.GetEnumerator"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.VirtualChildren.Add(ManagedIrbis.Pft.Infrastructure.PftNode)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Add(`0)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.VirtualChildren.Clear">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Clear"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.VirtualChildren.Contains(ManagedIrbis.Pft.Infrastructure.PftNode)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Contains(`0)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.VirtualChildren.CopyTo(ManagedIrbis.Pft.Infrastructure.PftNode[],System.Int32)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.VirtualChildren.Remove(ManagedIrbis.Pft.Infrastructure.PftNode)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Remove(`0)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.VirtualChildren.IndexOf(ManagedIrbis.Pft.Infrastructure.PftNode)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.Generic.IList`1.IndexOf(`0)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.VirtualChildren.Insert(System.Int32,ManagedIrbis.Pft.Infrastructure.PftNode)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.Generic.IList`1.Insert(System.Int32,`0)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.VirtualChildren.RemoveAt(System.Int32)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.Generic.IList`1.RemoveAt(System.Int32)"/>
         </member>
         <member name="E:ManagedIrbis.Pft.Infrastructure.VirtualChildren.Enumeration">
             <summary>
@@ -11839,13 +11815,13 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.VirtualChildren.Count">
-            <inheritdoc />
+            <inheritdoc cref="P:System.Collections.Generic.ICollection`1.Count"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.VirtualChildren.IsReadOnly">
-            <inheritdoc />
+            <inheritdoc cref="P:System.Collections.Generic.ICollection`1.IsReadOnly"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.VirtualChildren.Item(System.Int32)">
-            <inheritdoc />
+            <inheritdoc cref="P:System.Collections.Generic.IList`1.Item(System.Int32)"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.PftTokenList">
             <summary>
@@ -11928,7 +11904,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.PftTokenList.ToString">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.PftTokenList.Current">
             <summary>
@@ -13073,6 +13049,12 @@
             State of the catalog.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Client.CatalogState.RestoreFromStream(System.IO.BinaryReader)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
+        </member>
+        <member name="M:ManagedIrbis.Client.CatalogState.SaveToStream(System.IO.BinaryWriter)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
+        </member>
         <member name="P:ManagedIrbis.Client.CatalogState.Id">
             <summary>
             Identifier for LiteDB.
@@ -13234,7 +13216,7 @@
         </member>
         <member name="M:ManagedIrbis.Systematization.BbkRange.#ctor(System.String)">
             <summary>
-            Конструктор.
+            Constructor.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Systematization.BbkRange.GetAllIndexes">
@@ -13243,12 +13225,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Systematization.BbkRange.ToString">
-            <summary>
-            Returns a <see cref="T:System.String"/>
-            that represents this instance.
-            </summary>
-            <returns>A <see cref="T:System.String"/>
-            that represents this instance.</returns>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Systematization.BbkRange.FirstIndex">
             <summary>
@@ -13317,7 +13294,6 @@
             <summary>
             Clones this instance.
             </summary>
-            <returns></returns>
         </member>
         <member name="M:ManagedIrbis.SubField.Compare(ManagedIrbis.SubField,ManagedIrbis.SubField)">
             <summary>
@@ -13341,35 +13317,25 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.SubField.RestoreFromStream(System.IO.BinaryReader)">
-            <summary>
-            Просим объект восстановить свое состояние из потока.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.SubField.SaveToStream(System.IO.BinaryWriter)">
-            <summary>
-            Просим объект сохранить себя в потоке.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.SubField.AsReadOnly">
-            <summary>
-            Creates read-only clone of the field.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.AsReadOnly"/>
         </member>
         <member name="M:ManagedIrbis.SubField.SetReadOnly">
-            <summary>
-            Mark the subField as read-only.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.SetReadOnly"/>
         </member>
         <member name="M:ManagedIrbis.SubField.ThrowIfReadOnly">
-            <summary>
-            Throws if read only.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.ThrowIfReadOnly"/>
         </member>
         <member name="M:ManagedIrbis.SubField.Verify(System.Boolean)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="M:ManagedIrbis.SubField.ToString">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.SubField.Code">
             <summary>
@@ -13405,9 +13371,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.SubField.ReadOnly">
-            <summary>
-            Whether the object is read-only?
-            </summary>
+            <inheritdoc cref="P:AM.IReadOnly`1.ReadOnly"/>
         </member>
         <member name="T:ManagedIrbis.Reports.RawTextCell">
             <summary>
@@ -13552,13 +13516,13 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftVariableReference.Clone">
-            <inheritdoc/>
+            <inheritdoc cref="M:System.ICloneable.Clone"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftVariableReference.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftVariableReference.GetNodeInfo">
-            <inheritdoc/>
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.GetNodeInfo"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftVariableReference.Name">
             <summary>
@@ -14364,6 +14328,11 @@
         <member name="P:ManagedIrbis.Quality.RecordReport.Gold">
             <summary>
             Формальная оценка качества.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Pft.Infrastructure.VMonitor">
+            <summary>
+            Отслеживает, был ли вывод из поля с помощью vXXX.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.VMonitor.Output">
@@ -15612,7 +15581,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Umarci.Execute(ManagedIrbis.Pft.Infrastructure.PftContext,ManagedIrbis.Pft.Infrastructure.PftNode,System.String)">
-            <inheritdoc/>
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.IFormatExit.Execute(ManagedIrbis.Pft.Infrastructure.PftContext,ManagedIrbis.Pft.Infrastructure.PftNode,System.String)"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Umarci.Registry">
             <summary>
@@ -15625,7 +15594,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Umarci.Name">
-            <inheritdoc/>
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.IFormatExit.Name"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.PftProcedureManager">
             <summary>
@@ -15731,7 +15700,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftRsum.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftRsum.Name">
             <summary>
@@ -17189,10 +17158,10 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftWith.ExtendedSyntax">
-            <inheritdoc/>
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.ExtendedSyntax"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftWith.Children">
-            <inheritdoc />
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Children"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftOrphan">
             <summary>
@@ -18129,7 +18098,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Search.Infrastructure.SearchTokenList.ToString">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Search.Infrastructure.SearchTokenList.Current">
             <summary>
@@ -18314,37 +18283,31 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Reports.CellCollection.ClearItems">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.ClearItems"/>
         </member>
         <member name="M:ManagedIrbis.Reports.CellCollection.InsertItem(System.Int32,ManagedIrbis.Reports.ReportCell)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.InsertItem(System.Int32,`0)"/>
         </member>
         <member name="M:ManagedIrbis.Reports.CellCollection.RemoveItem(System.Int32)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.RemoveItem(System.Int32)"/>
         </member>
         <member name="M:ManagedIrbis.Reports.CellCollection.SetItem(System.Int32,ManagedIrbis.Reports.ReportCell)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.SetItem(System.Int32,`0)"/>
         </member>
         <member name="M:ManagedIrbis.Reports.CellCollection.RestoreFromStream(System.IO.BinaryReader)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.Reports.CellCollection.SaveToStream(System.IO.BinaryWriter)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.Reports.CellCollection.AsReadOnly">
-            <summary>
-            Create read-only clone of the collection.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.AsReadOnly"/>
         </member>
         <member name="M:ManagedIrbis.Reports.CellCollection.SetReadOnly">
-            <summary>
-            Marks the object as read-only.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.SetReadOnly"/>
         </member>
         <member name="M:ManagedIrbis.Reports.CellCollection.ThrowIfReadOnly">
-            <summary>
-            Throws if read only.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.ThrowIfReadOnly"/>
         </member>
         <member name="M:ManagedIrbis.Reports.CellCollection.Verify(System.Boolean)">
             <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
@@ -18363,9 +18326,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Reports.CellCollection.ReadOnly">
-            <summary>
-            Whether the collection is read-only?
-            </summary>
+            <inheritdoc cref="P:AM.IReadOnly`1.ReadOnly"/>
         </member>
         <member name="T:ManagedIrbis.Readers.DebtorInfo">
             <summary>
@@ -18578,7 +18539,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.PftHtmlFormatter.ParseProgram(System.String)">
-            <inheritdoc/>
+            <inheritdoc cref="M:ManagedIrbis.Pft.PftFormatter.ParseProgram(System.String)"/>
         </member>
         <member name="P:ManagedIrbis.Pft.PftHtmlFormatter.Separator">
             <summary>
@@ -18692,16 +18653,16 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftParallelFor.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftParallelFor.GetNodeInfo">
-            <inheritdoc/>
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.GetNodeInfo"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftParallelFor.Clone">
-            <inheritdoc/>
+            <inheritdoc cref="M:System.ICloneable.Clone"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftParallelFor.ExtendedSyntax">
-            <inheritdoc/>
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.ExtendedSyntax"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftParallelFor.Initialization">
             <summary>
@@ -18724,7 +18685,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftParallelFor.Children">
-            <inheritdoc />
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Children"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftGroup">
             <summary>
@@ -18742,7 +18703,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftGroup.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftG">
             <summary>
@@ -18780,19 +18741,19 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftG.IsLastRepeat(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc/>
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.Ast.PftField.IsLastRepeat(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftG.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftG.GetAffectedFields">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.GetAffectedFields"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftG.Write(System.IO.StreamWriter)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Write(System.IO.StreamWriter)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftG.ToString">
-            <inheritdoc/>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftG.Number">
             <summary>
@@ -19558,10 +19519,20 @@
             Concatenate some terms together.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Search.SearchUtility.EscapeQuotation(System.String)">
+            <summary>
+            Escape quotation mark for Web-IRBIS.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Search.SearchUtility.TrimTerm(System.String)">
             <summary>
             Trim the term (if exceeds <see cref="F:ManagedIrbis.Search.SearchUtility.MaxTermLength"/>
             bytes).
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Search.SearchUtility.UnescapeQuotation(System.String)">
+            <summary>
+            Unescape quotation mark for Web-IRBIS.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Search.SearchUtility.WrapTerm(System.String)">
@@ -21094,37 +21065,31 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.SubFieldCollection.ClearItems">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.ClearItems"/>
         </member>
         <member name="M:ManagedIrbis.SubFieldCollection.InsertItem(System.Int32,ManagedIrbis.SubField)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.InsertItem(System.Int32,`0)"/>
         </member>
         <member name="M:ManagedIrbis.SubFieldCollection.RemoveItem(System.Int32)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.RemoveItem(System.Int32)"/>
         </member>
         <member name="M:ManagedIrbis.SubFieldCollection.SetItem(System.Int32,ManagedIrbis.SubField)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.SetItem(System.Int32,`0)"/>
         </member>
         <member name="M:ManagedIrbis.SubFieldCollection.RestoreFromStream(System.IO.BinaryReader)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.SubFieldCollection.SaveToStream(System.IO.BinaryWriter)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.SubFieldCollection.AsReadOnly">
-            <summary>
-            Create read-only clone of the collection.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.AsReadOnly"/>
         </member>
         <member name="M:ManagedIrbis.SubFieldCollection.ThrowIfReadOnly">
-            <summary>
-            Throws if read only.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.ThrowIfReadOnly"/>
         </member>
         <member name="M:ManagedIrbis.SubFieldCollection.SetReadOnly">
-            <summary>
-            Mark the collection as read-only.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.SetReadOnly"/>
         </member>
         <member name="M:ManagedIrbis.SubFieldCollection.Assign(ManagedIrbis.SubFieldCollection)">
             <summary>
@@ -21142,9 +21107,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.SubFieldCollection.ReadOnly">
-            <summary>
-            Whether the collection is read-only?
-            </summary>
+            <inheritdoc cref="P:AM.IReadOnly`1.ReadOnly"/>
         </member>
         <member name="T:ManagedIrbis.Search.SearchResult">
             <summary>
@@ -21299,59 +21262,31 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.RecordFieldCollection.ClearItems">
-            <summary>
-            Removes all elements from the
-            <see cref="T:System.Collections.ObjectModel.Collection`1" />.
-            </summary>
+            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.ClearItems"/>
         </member>
         <member name="M:ManagedIrbis.RecordFieldCollection.InsertItem(System.Int32,ManagedIrbis.RecordField)">
-            <summary>
-            Inserts an element into the
-            <see cref="T:System.Collections.ObjectModel.Collection`1" />
-            at the specified index.
-            </summary>
+            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.InsertItem(System.Int32,`0)"/>
         </member>
         <member name="M:ManagedIrbis.RecordFieldCollection.RemoveItem(System.Int32)">
-            <summary>
-            Removes the element at the specified index of the
-            <see cref="T:System.Collections.ObjectModel.Collection`1" />.
-            </summary>
-            <param name="index">The zero-based index
-            of the element to remove.</param>
+            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.RemoveItem(System.Int32)"/>
         </member>
         <member name="M:ManagedIrbis.RecordFieldCollection.SetItem(System.Int32,ManagedIrbis.RecordField)">
-            <summary>
-            Replaces the element at the specified index.
-            </summary>
-            <param name="index">The zero-based index of the element
-            to replace.</param>
-            <param name="item">The new value for the element
-            at the specified index. The value can't be null.</param>
+            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.SetItem(System.Int32,`0)"/>
         </member>
         <member name="M:ManagedIrbis.RecordFieldCollection.RestoreFromStream(System.IO.BinaryReader)">
-            <summary>
-            Restore the object state from the given stream.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.RecordFieldCollection.SaveToStream(System.IO.BinaryWriter)">
-            <summary>
-            Save the object state to the given stream.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.RecordFieldCollection.AsReadOnly">
-            <summary>
-            Create read-only clone of the collection.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.AsReadOnly"/>
         </member>
         <member name="M:ManagedIrbis.RecordFieldCollection.SetReadOnly">
-            <summary>
-            Marks the object as read-only.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.SetReadOnly"/>
         </member>
         <member name="M:ManagedIrbis.RecordFieldCollection.ThrowIfReadOnly">
-            <summary>
-            Throws if read only.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.ThrowIfReadOnly"/>
         </member>
         <member name="P:ManagedIrbis.RecordFieldCollection.Record">
             <summary>
@@ -21359,9 +21294,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.RecordFieldCollection.ReadOnly">
-            <summary>
-            Whether the collection is read-only?
-            </summary>
+            <inheritdoc cref="P:AM.IReadOnly`1.ReadOnly"/>
         </member>
         <member name="T:ManagedIrbis.Readers.VisitInfoUtility">
             <summary>
@@ -21610,15 +21543,15 @@
         </member>
         <member name="M:ManagedIrbis.Readers.ChairInfo.#ctor">
             <summary>
-            Конструктор по умолчанию.
+            Constructor.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Readers.ChairInfo.#ctor(System.String,System.String)">
             <summary>
-            Конструктор.
+            Constructor.
             </summary>
-            <param name="code">Код.</param>
-            <param name="title">Название.</param>
+            <param name="code">Chair code.</param>
+            <param name="title">Chair title.</param>
         </member>
         <member name="M:ManagedIrbis.Readers.ChairInfo.Parse(System.String,System.Boolean)">
             <summary>
@@ -21634,17 +21567,17 @@
             <summary>
             Загрузка с сервера.
             </summary>
-            <param name="client"></param>
+            <param name="connection"></param>
             <returns></returns>
         </member>
         <member name="M:ManagedIrbis.Readers.ChairInfo.SaveToStream(System.IO.BinaryWriter)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.Readers.ChairInfo.RestoreFromStream(System.IO.BinaryReader)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.Readers.ChairInfo.ToString">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Readers.ChairInfo.Code">
             <summary>
@@ -21873,13 +21806,13 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftV.IsLastRepeat(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc/>
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.Ast.PftField.IsLastRepeat(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftV.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftV.Write(System.IO.StreamWriter)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Write(System.IO.StreamWriter)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftV.ToString">
             <inheritdoc/>
@@ -21905,13 +21838,13 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftNumericExpression.Clone">
-            <inheritdoc />
+            <inheritdoc cref="M:System.ICloneable.Clone"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftNumericExpression.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftNumericExpression.GetNodeInfo">
-            <inheritdoc/>
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.GetNodeInfo"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftNumericExpression.LeftOperand">
             <summary>
@@ -21929,7 +21862,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftNumericExpression.Children">
-            <inheritdoc />
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Children"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftFrom">
             <summary>
@@ -22603,29 +22536,12 @@
             Методы для работы с БД читателей.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Readers.ReaderUtility.LoadReaders(ManagedIrbis.IrbisConnection,System.Collections.Generic.List{ManagedIrbis.Readers.ReaderInfo},System.String)">
-            <summary>
-            Загрузка читателей из базы.
-            </summary>
-            <param name="client"></param>
-            <param name="readers"></param>
-            <param name="dbName"></param>
-        </member>
         <member name="M:ManagedIrbis.Readers.ReaderUtility.MergeReaders(System.Collections.Generic.List{ManagedIrbis.Readers.ReaderInfo})">
             <summary>
             Слияние записей о читателях из разных баз.
             </summary>
             <remarks>
-            Слияние происходит на основе читательского билета.
-            </remarks>
-        </member>
-        <member name="M:ManagedIrbis.Readers.ReaderUtility.LoadReaders(ManagedIrbis.IrbisConnection,System.String[])">
-            <summary>
-            Загрузка сведений о читателях из нескольких баз.
-            </summary>
-            <remarks>
-            Выполняется слияние сведений на основе
-            номера читательского билета.
+            Слияние происходит на основе номера читательского билета.
             </remarks>
         </member>
         <member name="M:ManagedIrbis.Readers.ReaderUtility.CountEvents(System.Collections.Generic.List{ManagedIrbis.Readers.ReaderInfo},System.DateTime,System.DateTime,System.Boolean)">
@@ -22690,7 +22606,7 @@
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftUnconditionalLiteral">
             <summary>
-            
+            Unconditional literal.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftUnconditionalLiteral.#ctor">
@@ -22709,16 +22625,16 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftUnconditionalLiteral.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftUnconditionalLiteral.Write(System.IO.StreamWriter)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Write(System.IO.StreamWriter)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftUnconditionalLiteral.ToString">
-            <inheritdoc/>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftUnconditionalLiteral.Text">
-            <inheritdoc/>
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Text"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftLast">
             <summary>
@@ -22736,13 +22652,13 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftLast.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftLast.GetNodeInfo">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.GetNodeInfo"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftLast.Clone">
-            <inheritdoc />
+            <inheritdoc cref="M:System.ICloneable.Clone"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftLast.InnerCondition">
             <summary>
@@ -22750,7 +22666,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftLast.Children">
-            <inheritdoc />
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Children"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftD">
             <summary>
@@ -23948,37 +23864,31 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Reports.BandCollection`1.ClearItems">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.ClearItems"/>
         </member>
         <member name="M:ManagedIrbis.Reports.BandCollection`1.InsertItem(System.Int32,`0)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.InsertItem(System.Int32,`0)"/>
         </member>
         <member name="M:ManagedIrbis.Reports.BandCollection`1.RemoveItem(System.Int32)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.RemoveItem(System.Int32)"/>
         </member>
         <member name="M:ManagedIrbis.Reports.BandCollection`1.SetItem(System.Int32,`0)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.SetItem(System.Int32,`0)"/>
         </member>
         <member name="M:ManagedIrbis.Reports.BandCollection`1.RestoreFromStream(System.IO.BinaryReader)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.Reports.BandCollection`1.SaveToStream(System.IO.BinaryWriter)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.Reports.BandCollection`1.AsReadOnly">
-            <summary>
-            Create read-only clone of the collection.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.AsReadOnly"/>
         </member>
         <member name="M:ManagedIrbis.Reports.BandCollection`1.SetReadOnly">
-            <summary>
-            Marks the object as read-only.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.SetReadOnly"/>
         </member>
         <member name="M:ManagedIrbis.Reports.BandCollection`1.ThrowIfReadOnly">
-            <summary>
-            Throws if read only.
-            </summary>
+            <inheritdoc cref="M:AM.IReadOnly`1.ThrowIfReadOnly"/>
         </member>
         <member name="M:ManagedIrbis.Reports.BandCollection`1.Verify(System.Boolean)">
             <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
@@ -23997,9 +23907,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Reports.BandCollection`1.ReadOnly">
-            <summary>
-            Whether the collection is read-only?
-            </summary>
+            <inheritdoc cref="P:AM.IReadOnly`1.ReadOnly"/>
         </member>
         <member name="T:ManagedIrbis.Quality.Rules.Check610">
             <summary>
@@ -24019,17 +23927,17 @@
         </member>
         <member name="M:ManagedIrbis.Pooling.IrbisConnectionPool.#ctor">
             <summary>
-            Конструктор по умолчанию.
+            Constructor.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pooling.IrbisConnectionPool.#ctor(System.Int32)">
             <summary>
-            Конструктор.
+            Constructor.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pooling.IrbisConnectionPool.#ctor(System.String)">
             <summary>
-            Конструктор с конкретной строкой соединения.
+            Constructor.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pooling.IrbisConnectionPool.#ctor(System.Int32,System.String)">
@@ -24048,7 +23956,6 @@
             <summary>
             Исполнение некоторых действий на подключении из пула.
             </summary>
-            <param name="action"></param>
         </member>
         <member name="M:ManagedIrbis.Pooling.IrbisConnectionPool.Execute``1(System.Action{ManagedIrbis.IrbisConnection,``0},``0)">
             <summary>
@@ -24294,16 +24201,16 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.PftToken.RestoreFromStream(System.IO.BinaryReader)">
-            <inheritdoc/>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.PftToken.SaveToStream(System.IO.BinaryWriter)">
-            <inheritdoc/>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.PftToken.Clone">
-            <inheritdoc />
+            <inheritdoc cref="M:System.ICloneable.Clone"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.PftToken.ToString">
-            <inheritdoc/>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.PftToken.Column">
             <summary>
@@ -27173,6 +27080,12 @@
             <summary>
             Create delta for two catalog states.
             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Client.CatalogDelta.RestoreFromStream(System.IO.BinaryReader)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
+        </member>
+        <member name="M:ManagedIrbis.Client.CatalogDelta.SaveToStream(System.IO.BinaryWriter)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.Client.CatalogDelta.ToString">
             <inheritdoc cref="M:System.Object.ToString"/>

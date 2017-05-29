@@ -648,6 +648,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\DummyClass.cs">
       <Link>Compability\DummyClass.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\ExcludeFromCodeCoverageAttribute.cs">
+      <Link>Compability\ExcludeFromCodeCoverageAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\JetBrains.cs">
       <Link>Compability\JetBrains.cs</Link>
     </Compile>

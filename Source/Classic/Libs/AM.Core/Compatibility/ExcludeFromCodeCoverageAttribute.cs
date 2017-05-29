@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if FW35 || PORTABLE || SILVERLIGHT || WIN81 || UAP || NETCORE
+#if FW35 || PORTABLE || SILVERLIGHT || WIN81 || UAP || NETCORE || WINMOBILE
 
 namespace System.Diagnostics.CodeAnalysis
 {
