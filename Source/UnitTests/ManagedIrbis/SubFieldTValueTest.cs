@@ -9,7 +9,7 @@ namespace UnitTests.ManagedIrbis
     public class SubFieldTValueTest
     {
         [TestMethod]
-        public void TestSubFieldValue_IsValidValue()
+        public void TestSubFieldValue_IsValidValue_1()
         {
             Assert.IsTrue(SubFieldValue.IsValidValue(null));
             Assert.IsTrue(SubFieldValue.IsValidValue(string.Empty));
@@ -31,7 +31,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestSubFieldValue_Normalize()
+        public void TestSubFieldValue_Normalize_1()
         {
             _TestNormalize(null);
             _TestNormalize(string.Empty);
@@ -40,7 +40,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestSubFieldValue_Verify()
+        public void TestSubFieldValue_Verify_1()
         {
             Assert.IsTrue(SubFieldValue.Verify(null));
             Assert.IsTrue(SubFieldValue.Verify(string.Empty));

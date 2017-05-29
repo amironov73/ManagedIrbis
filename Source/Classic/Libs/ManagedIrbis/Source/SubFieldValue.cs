@@ -122,7 +122,7 @@ namespace ManagedIrbis
                         + value.ToVisibleString()
                     );
 
-                if (!throwOnError)
+                if (throwOnError)
                 {
                     throw new VerificationException("SubField.Value");
                 }

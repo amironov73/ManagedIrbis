@@ -11,6 +11,7 @@
 
 using System.Collections.Generic;
 
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -53,7 +54,7 @@ namespace ManagedIrbis.Systematization
         #region Construction
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public BbkRange
             (
@@ -73,11 +74,27 @@ namespace ManagedIrbis.Systematization
             }
             if (slashPosition == 0)
             {
-                throw new BbkException("Индекс не может "
-                                      + "начинаться со слеша");
+                Log.Error
+                    (
+                        "BbkRange::Constructor: "
+                        + "index can't start with /: "
+                        + originalIndex
+                    );
+
+                throw new BbkException
+                    (
+                        "Индекс не может начинаться со слеша"
+                    );
             }
             if (OriginalIndex.LastIndexOf('/') != slashPosition)
             {
+                Log.Error
+                    (
+                        "BbkRange::Constructor: "
+                        + "more than one /: "
+                        + originalIndex
+                    );
+
                 throw new BbkException("Индекс не может содержать "
                     + "больше одного слэша");
             }
@@ -86,12 +103,27 @@ namespace ManagedIrbis.Systematization
             int suffixLength = totalLength - slashPosition - 1;
             if (suffixLength == 0)
             {
+                Log.Error
+                    (
+                        "BbkRange::Constructor: "
+                        + "index can't end with /: "
+                        + originalIndex
+                    );
+
                 throw new BbkException("Индекс не может "
                                       + "заканчиваться слэшом");
             }
+
             int prefixLenght = slashPosition - suffixLength;
             if (prefixLenght < 0)
             {
+                Log.Error
+                    (
+                        "BbkRange::Constructor: "
+                        + "prefix is shorter than suffix: "
+                        + originalIndex
+                    );
+
                 throw new BbkException("Префикс короче суффикса!");
             }
 
@@ -143,12 +175,7 @@ namespace ManagedIrbis.Systematization
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return OriginalIndex;

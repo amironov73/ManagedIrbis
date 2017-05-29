@@ -510,6 +510,13 @@ namespace ManagedIrbis.Systematization
                     count++;
                     if (count > 3)
                     {
+                        Log.Error
+                            (
+                                "BbkIndex::_Verify: "
+                                + "слишком длинная группа: "
+                                + text.ToVisibleString()
+                            );
+
                         throw new BbkException
                             (
                                 "Слишком длинная группа"
@@ -561,12 +568,25 @@ namespace ManagedIrbis.Systematization
 
             if (string.IsNullOrEmpty(text))
             {
+                Log.Error
+                    (
+                        "BbkIndex::Parse: "
+                        + "empty index"
+                    );
+
                 throw new BbkException("Пустой индекс ББК");
             }
 
             int length = text.Length;
             if (length < 2)
             {
+                Log.Error
+                    (
+                        "BbkIndex::Parse "
+                        + "less than two symbols: "
+                        + text.ToVisibleString()
+                    );
+
                 throw new BbkException
                     (
                         "ББК не может содержать меньше двух символов"
@@ -576,6 +596,13 @@ namespace ManagedIrbis.Systematization
             if (!char.IsDigit(text, 0)
                 || !char.IsDigit(text, 1))
             {
+                Log.Error
+                    (
+                        "BbkIndex::Parse: "
+                        + "two first symbols must be digits: "
+                        + text.ToVisibleString()
+                    );
+
                 throw new BbkException
                     (
                         "Первые два символа ББК должны быть цифрами"
@@ -637,6 +664,13 @@ namespace ManagedIrbis.Systematization
 
                 if (offset == previousOffset)
                 {
+                    Log.Error
+                        (
+                            "BbkIndex::Parse: "
+                            + "garbage found: "
+                            + text.ToVisibleString()
+                        );
+
                     throw new BbkException
                         (
                             "Нераспознанные символы начиная с '"

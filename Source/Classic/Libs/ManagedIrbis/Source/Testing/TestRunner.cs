@@ -23,6 +23,8 @@ using System.Text;
 using System.Threading;
 
 using AM;
+using AM.ConsoleIO;
+using AM.Logging;
 using AM.Text.Output;
 
 using CodeJam;
@@ -273,12 +275,18 @@ namespace ManagedIrbis
             bool haveError = false;
             foreach (var error in results.Errors)
             {
-                Console.WriteLine(error);
+                ConsoleInput.WriteLine(error.ToString());
                 haveError = true;
             }
 
             if (haveError)
             {
+                Log.Error
+                    (
+                        "TestRunner::CompileTests: "
+                        + "can't compile"
+                    );
+
                 throw new ApplicationException("Can't compile");
             }
 
@@ -303,7 +311,7 @@ namespace ManagedIrbis
                         item
                     );
 
-                Console.Write("\t{0}: ", item);
+                ConsoleInput.Write(string.Format("\t{0}: ", item));
                 if (File.Exists(fullPath))
                 {
                     WriteLine(ConsoleColor.Green, "OK");
@@ -312,6 +320,14 @@ namespace ManagedIrbis
                 else
                 {
                     WriteLine(ConsoleColor.Red, "not found!");
+
+                    Log.Error
+                        (
+                            "TestRunner::DiscoverTests: "
+                            + "not found: "
+                            + fullPath
+                        );
+
                     throw new FileNotFoundException(fullPath);
                 }
             }
@@ -669,7 +685,12 @@ namespace ManagedIrbis
         {
             if (ForeignServer)
             {
-                WriteLine(ConsoleColor.Yellow, "Foreign server -- need not to start");
+                WriteLine
+                    (
+                        ConsoleColor.Yellow,
+                        "Foreign server -- need not to start"
+                    );
+
                 return;
             }
 
@@ -679,7 +700,16 @@ namespace ManagedIrbis
                 );
             if (string.IsNullOrEmpty(workingDirectory))
             {
-                throw new IrbisException("can't determine working directory");
+                Log.Error
+                    (
+                        "TestRunner::StartServer: "
+                        + "can't determine working directory"
+                    );
+
+                throw new IrbisException
+                    (
+                        "can't determine working directory"
+                    );
             }
 
             ProcessStartInfo startInfo = new ProcessStartInfo
@@ -770,9 +800,9 @@ namespace ManagedIrbis
             )
         {
             ConsoleColor savedColor = Console.ForegroundColor;
-            Console.ForegroundColor = color;
-            Console.Write(text);
-            Console.ForegroundColor = savedColor;
+            ConsoleInput.ForegroundColor = color;
+            ConsoleInput.Write(text);
+            ConsoleInput.ForegroundColor = savedColor;
         }
 
         /// <summary>
@@ -787,9 +817,9 @@ namespace ManagedIrbis
             )
         {
             ConsoleColor savedColor = Console.ForegroundColor;
-            Console.ForegroundColor = color;
-            Console.Write(format, arguments);
-            Console.ForegroundColor = savedColor;
+            ConsoleInput.ForegroundColor = color;
+            ConsoleInput.Write(string.Format(format, arguments));
+            ConsoleInput.ForegroundColor = savedColor;
         }
 
         /// <summary>
@@ -802,9 +832,9 @@ namespace ManagedIrbis
             )
         {
             ConsoleColor savedColor = Console.ForegroundColor;
-            Console.ForegroundColor = color;
-            Console.WriteLine(text);
-            Console.ForegroundColor = savedColor;
+            ConsoleInput.ForegroundColor = color;
+            ConsoleInput.WriteLine(text);
+            ConsoleInput.ForegroundColor = savedColor;
         }
 
         /// <summary>
@@ -819,18 +849,16 @@ namespace ManagedIrbis
             )
         {
             ConsoleColor savedColor = Console.ForegroundColor;
-            Console.ForegroundColor = color;
-            Console.WriteLine(format, arguments);
-            Console.ForegroundColor = savedColor;
+            ConsoleInput.ForegroundColor = color;
+            ConsoleInput.WriteLine(string.Format(format, arguments));
+            ConsoleInput.ForegroundColor = savedColor;
         }
 
         #endregion
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError
@@ -840,9 +868,17 @@ namespace ManagedIrbis
                 && !string.IsNullOrEmpty(ConnectionString)
                 && !string.IsNullOrEmpty(TestPath);
 
-            if (!result && throwOnError)
+            if (!result)
             {
-                throw new VerificationException();
+                Log.Error
+                    (
+                        "TestRunner::Verify"
+                    );
+
+                if (throwOnError)
+                {
+                    throw new VerificationException();
+                }
             }
 
             return result;

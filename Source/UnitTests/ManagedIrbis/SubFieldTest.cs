@@ -13,7 +13,7 @@ namespace UnitTests
     public class SubFieldTest
     {
         [TestMethod]
-        public void SubField_Constructor()
+        public void SubField_Constructor_1()
         {
             SubField subField = new SubField();
             Assert.AreEqual(SubField.NoCode, subField.Code);
@@ -63,7 +63,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubField_Serialization()
+        public void SubField_Serialization_1()
         {
             _TestSerialization(new SubField[0]);
             _TestSerialization(new SubField());
@@ -74,7 +74,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubField_SetValue1()
+        public void SubField_SetValue_1()
         {
             SubField subField = new SubField('a')
             {
@@ -84,7 +84,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubField_SetValue2()
+        public void SubField_SetValue_2()
         {
             SubField subField = new SubField('a')
             {
@@ -94,7 +94,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubField_SetValue3()
+        public void SubField_SetValue_3()
         {
             SubField subField = new SubField('a')
             {
@@ -105,7 +105,7 @@ namespace UnitTests
 
         [TestMethod]
         [ExpectedException(typeof(VerificationException))]
-        public void SubField_SetValue_Exception()
+        public void SubField_SetValue_Exception_1()
         {
             bool save = SubFieldValue.ThrowOnVerify;
             SubFieldValue.ThrowOnVerify = true;
@@ -115,7 +115,7 @@ namespace UnitTests
                 {
                     Value = "Wrong^Value"
                 };
-                Assert.AreEqual("Wrong", subField.Value);
+                Assert.IsNull(subField.Value);
             }
             finally
             {
@@ -125,7 +125,7 @@ namespace UnitTests
 
         [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
-        public void SubField_ReadOnly()
+        public void SubField_ReadOnly_1()
         {
             SubField subField = new SubField('a', "Value", true, null);
             Assert.AreEqual("Value", subField.Value);
@@ -135,7 +135,7 @@ namespace UnitTests
 
         [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
-        public void SubField_AsReadOnly()
+        public void SubField_AsReadOnly_1()
         {
             SubField subField = new SubField('a', "Value")
                 .AsReadOnly();
@@ -146,7 +146,7 @@ namespace UnitTests
 
 
         [TestMethod]
-        public void SubField_ToJObject()
+        public void SubField_ToJObject_1()
         {
             SubField subField = new SubField('a', "Value");
 
@@ -156,7 +156,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubField_ToJson()
+        public void SubField_ToJson_1()
         {
             SubField subField = new SubField('a', "Value");
 
@@ -170,7 +170,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubField_FromJObject()
+        public void SubField_FromJObject_1()
         {
             JObject jObject = new JObject
                 (
@@ -184,7 +184,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubField_FromJson()
+        public void SubField_FromJson_1()
         {
             const string text = @"{"
 +@"  ""code"": ""a"","
@@ -198,7 +198,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubField_ToXml()
+        public void SubField_ToXml_1()
         {
             SubField subField = new SubField('a', "Value");
             string actual = subField.ToXml()
@@ -210,7 +210,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubField_FromXml()
+        public void SubField_FromXml_1()
         {
             const string text = @"<?xml version=""1.0"" encoding=""utf-16""?>"
 +@"<subfield xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" code=""a"" value=""Value"" />";
@@ -222,7 +222,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubField_Field1()
+        public void SubField_Field_1()
         {
             SubField subField = new SubField('a', "Title");
             Assert.IsNull(subField.Field);
@@ -233,7 +233,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubField_Path1()
+        public void SubField_Path_1()
         {
             SubField subField = new SubField();
             Assert.AreEqual(string.Empty, subField.Path);
@@ -247,7 +247,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubField_Verify1()
+        public void SubField_Verify_1()
         {
             SubField subField = new SubField();
             Assert.IsFalse(subField.Verify(false));
@@ -260,7 +260,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubField_Compare1()
+        public void SubField_Compare_1()
         {
             SubField subField1 = new SubField('a');
             SubField subField2 = new SubField('b');
@@ -285,7 +285,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubField_SetModified1()
+        public void SubField_SetModified_1()
         {
             SubField subField = new SubField('a', "Title1");
             Assert.IsFalse(subField.Modified);
@@ -296,7 +296,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubField_SetModified2()
+        public void SubField_SetModified_2()
         {
             RecordField field = new RecordField("200");
             Assert.IsFalse(field.Modified);
@@ -312,7 +312,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubField_UserData()
+        public void SubField_UserData_1()
         {
             SubField subField = new SubField();
             Assert.IsNull(subField.UserData);
@@ -322,7 +322,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SubField_ToString1()
+        public void SubField_ToString_1()
         {
             SubField subField = new SubField();
             Assert.AreEqual("^\0", subField.ToString());
