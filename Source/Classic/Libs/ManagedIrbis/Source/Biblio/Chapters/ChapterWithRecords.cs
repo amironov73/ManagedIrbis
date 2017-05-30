@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* BiblioDocument.cs -- 
+/* ChapterWithRecords.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -21,6 +21,7 @@ using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Runtime;
+using AM.Text;
 
 using CodeJam;
 
@@ -39,20 +40,27 @@ namespace ManagedIrbis.Biblio
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class BiblioDocument
+    public class ChapterWithRecords
+        : BiblioChapter
     {
         #region Properties
 
         /// <summary>
-        /// Chapters.
+        /// Records.
         /// </summary>
         [NotNull]
-        [JsonProperty("chapters")]
-        public ChapterCollection Chapters { get; private set; }
+        public RecordCollection Records { get; private set; }
 
         /// <summary>
-        /// Global filter for the document.
+        /// Duplicates.
         /// </summary>
+        [NotNull]
+        public RecordCollection Duplicates { get; private set; }
+
+        /// <summary>
+        /// Filter.
+        /// </summary>
+        [CanBeNull]
         [JsonProperty("filter")]
         public BiblioFilter Filter { get; set; }
 
@@ -63,9 +71,10 @@ namespace ManagedIrbis.Biblio
         /// <summary>
         /// Constructor.
         /// </summary>
-        public BiblioDocument()
+        public ChapterWithRecords()
         {
-            Chapters = new ChapterCollection(this, null);
+            Records = new RecordCollection();
+            Duplicates = new RecordCollection();
         }
 
         #endregion

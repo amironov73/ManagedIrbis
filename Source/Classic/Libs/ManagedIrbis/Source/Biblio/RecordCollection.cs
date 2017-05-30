@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* BiblioDocument.cs -- 
+/* RecordCollection.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -20,15 +20,15 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
+using AM.Text;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -39,34 +39,14 @@ namespace ManagedIrbis.Biblio
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class BiblioDocument
+    public sealed class RecordCollection
+        : NonNullCollection<MarcRecord>
     {
         #region Properties
-
-        /// <summary>
-        /// Chapters.
-        /// </summary>
-        [NotNull]
-        [JsonProperty("chapters")]
-        public ChapterCollection Chapters { get; private set; }
-
-        /// <summary>
-        /// Global filter for the document.
-        /// </summary>
-        [JsonProperty("filter")]
-        public BiblioFilter Filter { get; set; }
 
         #endregion
 
         #region Construction
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public BiblioDocument()
-        {
-            Chapters = new ChapterCollection(this, null);
-        }
 
         #endregion
 
@@ -75,6 +55,18 @@ namespace ManagedIrbis.Biblio
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Sort the records.
+        /// </summary>
+        public void SortRecords()
+        {
+            MarcRecord[] records = ToArray();
+
+            Array.Sort(records, RecordComparer.BySortKey());
+            Clear();
+            AddRange(records);
+        }
 
         #endregion
 

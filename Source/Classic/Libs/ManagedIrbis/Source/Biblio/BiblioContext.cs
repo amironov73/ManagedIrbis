@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* BiblioChapter.cs -- 
+/* BiblioContext.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -21,16 +21,15 @@ using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Runtime;
+using AM.Text;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Reports;
+using ManagedIrbis.Client;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -41,40 +40,46 @@ namespace ManagedIrbis.Biblio
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class BiblioChapter
-        : IAttributable
+    public class BiblioContext
     {
         #region Properties
 
-        /// <inheritdoc cref="IAttributable.Attributes" />
-        [NotNull]
-        public ReportAttributes Attributes { get; private set; }
-
         /// <summary>
-        /// Children chapters.
+        /// Document.
         /// </summary>
         [NotNull]
-        [JsonProperty("children")]
-        public NonNullCollection<BiblioChapter> Children { get; private set; }
+        public BiblioDocument Document { get; private set; }
 
         /// <summary>
-        /// Title of the chapter.
+        /// Provider.
         /// </summary>
-        [CanBeNull]
-        [JsonProperty("title")]
-        public string Title { get; set; }
+        [NotNull]
+        public IrbisProvider Provider { get; private set; }
+
+        /// <summary>
+        /// All the gathered records.
+        /// </summary>
+        [NotNull]
+        public RecordCollection Records { get; private set; }
 
         #endregion
 
         #region Construction
 
         /// <summary>
-        /// 
+        /// Constructor.
         /// </summary>
-        public BiblioChapter()
+        public BiblioContext
+            (
+                [NotNull] BiblioDocument document,
+                [NotNull] IrbisProvider provider
+            )
         {
-            Attributes = new ReportAttributes();
-            Children = new NonNullCollection<BiblioChapter>();
+            Code.NotNull(provider, "provider");
+
+            Document = document;
+            Provider = provider;
+            Records = new RecordCollection();
         }
 
         #endregion
@@ -84,6 +89,23 @@ namespace ManagedIrbis.Biblio
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Find the record with specified MFN.
+        /// </summary>
+        [CanBeNull]
+        public MarcRecord FindRecord
+            (
+                int mfn
+            )
+        {
+            Code.Positive(mfn, "mfn");
+
+            MarcRecord result = Records
+                .FirstOrDefault(record => record.Mfn == mfn);
+
+            return result;
+        }
 
         #endregion
 
