@@ -110,6 +110,8 @@
     <Compile Include="Source\Batch\BatchSearcher.cs" />
     <Compile Include="Source\Biblio\BiblioContext.cs" />
     <Compile Include="Source\Biblio\BiblioFilter.cs" />
+    <Compile Include="Source\Biblio\BiblioItem.cs" />
+    <Compile Include="Source\Biblio\BiblioTerm.cs" />
     <Compile Include="Source\Biblio\Cells\BiblioCell.cs" />
     <Compile Include="Source\Biblio\Cells\CellCollection.cs" />
     <Compile Include="Source\Biblio\Chapters\BiblioChapter.cs" />
@@ -117,6 +119,7 @@
     <Compile Include="Source\Biblio\BiblioProcessor.cs" />
     <Compile Include="Source\Biblio\Chapters\ChapterCollection.cs" />
     <Compile Include="Source\Biblio\Chapters\ChapterWithRecords.cs" />
+    <Compile Include="Source\Biblio\ItemCollection.cs" />
     <Compile Include="Source\Biblio\RecordCollection.cs" />
     <Compile Include="Source\BibTex\BibTex.cs" />
     <Compile Include="Source\Caching\IrbisCache.cs" />
