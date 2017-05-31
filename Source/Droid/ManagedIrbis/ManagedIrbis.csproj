@@ -73,8 +73,14 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Batch\BatchSearcher.cs">
       <Link>Source\Batch\BatchSearcher.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioContext.cs">
+      <Link>Source\Biblio\BiblioContext.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioDocument.cs">
       <Link>Source\Biblio\BiblioDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioFilter.cs">
+      <Link>Source\Biblio\BiblioFilter.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioProcessor.cs">
       <Link>Source\Biblio\BiblioProcessor.cs</Link>
@@ -90,6 +96,12 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterCollection.cs">
       <Link>Source\Biblio\Chapters\ChapterCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithRecords.cs">
+      <Link>Source\Biblio\Chapters\ChapterWithRecords.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\RecordCollection.cs">
+      <Link>Source\Biblio\RecordCollection.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Caching\IrbisCache.cs">
       <Link>Source\Caching\IrbisCache.cs</Link>
@@ -1494,6 +1506,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Readers\VisitInfoUtility.cs">
       <Link>Source\Readers\VisitInfoUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RecordComparer.cs">
+      <Link>Source\RecordComparer.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RecordField.cs">
       <Link>Source\RecordField.cs</Link>
