@@ -187,6 +187,11 @@ namespace AM
 
             return null;
 
+
+#elif WINMOBILE
+
+            return null;
+
 #else
 
             return type.Bridge().GetInterface(name);

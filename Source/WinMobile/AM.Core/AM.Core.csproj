@@ -79,6 +79,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ArsMagnaException.cs">
       <Link>AM\ArsMagnaException.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\AutoDisposeAttribute.cs">
+      <Link>AM\AutoDisposeAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\BinaryAttachment.cs">
       <Link>AM\BinaryAttachment.cs</Link>
     </Compile>

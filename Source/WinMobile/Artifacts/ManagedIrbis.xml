@@ -7903,6 +7903,14 @@
             Текст всех подполей с указанным тегом и кодом.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.MarcRecord.FR(System.String)">
+            <summary>
+            Internal formatting the record/field/subfield.
+            </summary>
+            <remarks>
+            Do not use external resources!
+            </remarks>
+        </member>
         <member name="M:ManagedIrbis.MarcRecord.SetDatabase(System.String)">
             <summary>
             Assign database name to the record.
@@ -10713,6 +10721,36 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Caching.IrbisCache">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Biblio.BiblioProcessor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioProcessor.#ctor(AM.Text.Output.AbstractOutput)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioProcessor.GatherRecords(ManagedIrbis.Biblio.BiblioContext,ManagedIrbis.Biblio.ChapterWithRecords)">
+            <summary>
+            Gather records from the chapter.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioProcessor.BuildDocument(ManagedIrbis.Biblio.BiblioContext)">
+            <summary>
+            Build document.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioProcessor.GatherRecords(ManagedIrbis.Biblio.BiblioContext)">
+            <summary>
+            Gather records.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioProcessor.Output">
             <summary>
             
             </summary>
@@ -14001,6 +14039,31 @@
             Имя файла оптимизации РЛ ввода.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Biblio.ChapterCollection">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.ChapterCollection.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.ChapterCollection.#ctor(ManagedIrbis.Biblio.BiblioDocument,ManagedIrbis.Biblio.BiblioChapter)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.ChapterCollection.Document">
+            <summary>
+            Document.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.ChapterCollection.Parent">
+            <summary>
+            Parent.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Batch.BatchRecordReader">
             <summary>
             Batch reader for <see cref="T:ManagedIrbis.MarcRecord"/>.
@@ -14874,9 +14937,34 @@
             Encode statements for IRBIS64 protocol.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Gbl.GblUtility.FromJson(System.String)">
+            <summary>
+            Restore <see cref="T:ManagedIrbis.Gbl.GblFile"/> from JSON.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Gbl.GblUtility.FromXml(System.String)">
             <summary>
             Restore <see cref="T:ManagedIrbis.Gbl.GblFile"/> from JSON.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.GblUtility.ParseLocalJsonFile(System.String)">
+            <summary>
+            Parses the local JSON file.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.GblUtility.ParseLocalXmlFile(System.String)">
+            <summary>
+            Parses the local XML file.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.GblUtility.SaveLocalJsonFile(ManagedIrbis.Gbl.GblFile,System.String)">
+            <summary>
+            Saves <see cref="T:ManagedIrbis.Gbl.GblFile"/> to local JSON file.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.GblUtility.ToJson(ManagedIrbis.Gbl.GblFile)">
+            <summary>
+            Convert <see cref="T:ManagedIrbis.Gbl.GblFile"/> to JSON.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Gbl.GblUtility.ToXml(ManagedIrbis.Gbl.GblFile)">
@@ -16250,6 +16338,31 @@
         <member name="P:ManagedIrbis.Client.ClientLM.Salt">
             <summary>
             Salt.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Biblio.BiblioItem">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioItem.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioItem.Number">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioItem.Text">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioItem.Terms">
+            <summary>
+            Terms.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Worksheet.FieldEditorRepository">
@@ -17885,6 +17998,11 @@
             Номер последней команды
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Biblio.CellCollection">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Worksheet.WorksheetPage">
             <summary>
             
@@ -19387,6 +19505,31 @@
         <member name="P:ManagedIrbis.CopyRecordManager.LockFlag">
             <summary>
             Lock records?
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Biblio.RecordCollection">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.RecordCollection.SortRecords">
+            <summary>
+            Sort the records.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Biblio.BiblioTerm">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioTerm.Prefix">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioTerm.Data">
+            <summary>
+            
             </summary>
         </member>
         <member name="T:ManagedIrbis.Worksheet.WssFile">
@@ -22376,6 +22519,26 @@
             Registry.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Biblio.BiblioFilter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioFilter.FormatExpression">
+            <summary>
+            Expression for record formatting.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioFilter.SelectExpression">
+            <summary>
+            Expression for record selection.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioFilter.SortExpression">
+            <summary>
+            Expression for record sorting.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.SubFieldCode">
             <summary>
             Subfield code related routines.
@@ -23791,6 +23954,64 @@
             Port number of the IRBIS server.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Biblio.ChapterWithRecords">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Biblio.BiblioChapter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioChapter.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioChapter.Render">
+            <summary>
+            Render the chapter.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioChapter.Attributes">
+            <inheritdoc cref="P:ManagedIrbis.Reports.IAttributable.Attributes"/>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioChapter.Children">
+            <summary>
+            Children chapters.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioChapter.Title">
+            <summary>
+            Title of the chapter.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioChapter.Items">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.ChapterWithRecords.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.ChapterWithRecords.Records">
+            <summary>
+            Records.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.ChapterWithRecords.Duplicates">
+            <summary>
+            Duplicates.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.ChapterWithRecords.Filter">
+            <summary>
+            Filter.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Search.Infrastructure.SearchLevel4">
             <summary>
             level3 * level3
@@ -25012,6 +25233,46 @@
         <member name="P:ManagedIrbis.Direct.DirectReader32.Database">
             <summary>
             Database name.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Biblio.ItemCollection">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Biblio.BiblioCell">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Biblio.BiblioContext">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioContext.#ctor(ManagedIrbis.Biblio.BiblioDocument,ManagedIrbis.Client.IrbisProvider)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioContext.FindRecord(System.Int32)">
+            <summary>
+            Find the record with specified MFN.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioContext.Document">
+            <summary>
+            Document.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioContext.Provider">
+            <summary>
+            Provider.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioContext.Records">
+            <summary>
+            All the gathered records.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Batch.BatchAccessor">
@@ -27115,6 +27376,108 @@
         <member name="P:ManagedIrbis.Client.CatalogDelta.AlteredRecords">
             <summary>
             Altered records.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Biblio.ChapterWithText">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.ChapterWithText.Text">
+            <summary>
+            Text.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Biblio.BiblioDocument">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioDocument.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioDocument.Chapters">
+            <summary>
+            Chapters.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioDocument.Filter">
+            <summary>
+            Global filter for the document.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.RecordComparator">
+            <summary>
+            Compares two record in field-by-field manner.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordComparator.FindDifference(ManagedIrbis.MarcRecord,ManagedIrbis.MarcRecord)">
+            <summary>
+            Find difference between two records.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.RecordComparer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordComparer.ByMfn">
+            <summary>
+            Compare <see cref="T:ManagedIrbis.MarcRecord"/> by MFN.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordComparer.ByIndex">
+            <summary>
+            Compare <see cref="T:ManagedIrbis.MarcRecord"/> by index.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordComparer.ByDescription">
+            <summary>
+            Compare <see cref="T:ManagedIrbis.MarcRecord"/> by descrption.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordComparer.BySortKey">
+            <summary>
+            Compare <see cref="T:ManagedIrbis.MarcRecord"/> by sort key.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordComparer.ByMfnComparer.Compare(ManagedIrbis.MarcRecord,ManagedIrbis.MarcRecord)">
+            <inheritdoc cref="M:System.Collections.Generic.IComparer`1.Compare(`0,`0)"/>
+        </member>
+        <member name="M:ManagedIrbis.RecordComparer.ByIndexComparer.Compare(ManagedIrbis.MarcRecord,ManagedIrbis.MarcRecord)">
+            <inheritdoc cref="M:System.Collections.Generic.IComparer`1.Compare(`0,`0)"/>
+        </member>
+        <member name="M:ManagedIrbis.RecordComparer.ByDescriptionComparer.Compare(ManagedIrbis.MarcRecord,ManagedIrbis.MarcRecord)">
+            <inheritdoc cref="M:System.Collections.Generic.IComparer`1.Compare(`0,`0)"/>
+        </member>
+        <member name="M:ManagedIrbis.RecordComparer.BySortKeyComparer.Compare(ManagedIrbis.MarcRecord,ManagedIrbis.MarcRecord)">
+            <inheritdoc cref="M:System.Collections.Generic.IComparer`1.Compare(`0,`0)"/>
+        </member>
+        <member name="T:ManagedIrbis.RecordDifferenceResult">
+            <summary>
+            Difference result for two records.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordDifferenceResult.#ctor">
+            <summary>
+            Constuctor
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.RecordDifferenceResult.Both">
+            <summary>
+            Fields present in both records.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.RecordDifferenceResult.FirstOnly">
+            <summary>
+            Fields present in first record only.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.RecordDifferenceResult.SecondOnly">
+            <summary>
+            Fields present in second record only.
             </summary>
         </member>
     </members>

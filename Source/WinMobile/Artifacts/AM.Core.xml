@@ -6707,6 +6707,16 @@
             указанными типами.
             </summary>
         </member>
+        <member name="M:AM.TypeUtility.GetFields(System.Type)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.TypeUtility.GetInterface(System.Type,System.String)">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:AM.TypeUtility.GetType``1(``0)">
             <summary>
             Gets type of the argument.
@@ -6718,6 +6728,11 @@
             </summary>
         </member>
         <member name="M:AM.TypeUtility.IsClass(System.Type)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.TypeUtility.IsComObject(System.Type)">
             <summary>
             
             </summary>
@@ -8129,6 +8144,11 @@
             Get the custom attribute.
             </summary>
         </member>
+        <member name="M:AM.Reflection.ReflectionUtility.GetCustomAttribute``1(System.Reflection.MemberInfo)">
+            <summary>
+            Gets the custom attribute.
+            </summary>
+        </member>
         <member name="M:AM.Reflection.ReflectionUtility.GetCustomAttribute``1(System.Reflection.FieldInfo)">
             <summary>
             Gets the custom attribute.
@@ -8147,6 +8167,11 @@
         <member name="M:AM.Reflection.ReflectionUtility.HasAttribute``1(System.Type,System.Boolean)">
             <summary>
             Determines whether the specified type has the attribute.
+            </summary>
+        </member>
+        <member name="M:AM.Reflection.ReflectionUtility.HasAttribute``1(System.Reflection.MemberInfo)">
+            <summary>
+            Determines whether the specified member has the attribute.
             </summary>
         </member>
         <member name="M:AM.Reflection.ReflectionUtility.SetFieldValue``2(``0,System.String,``1)">
@@ -9117,6 +9142,61 @@
         <member name="P:AM.Globalization.RussianStringComparer.IgnoreCase">
             <summary>
              Ignore case?
+            </summary>
+        </member>
+        <member name="T:AM.DisposableObject">
+            <summary>
+            Little automation: class that dispose all 
+            marked fields during finalization.
+            </summary>
+        </member>
+        <member name="M:AM.DisposableObject.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.DisposableObject.#ctor(System.Boolean)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.DisposableObject.Finalize">
+            <summary>
+            Destructor.
+            </summary>
+        </member>
+        <member name="M:AM.DisposableObject.DisposeFields">
+            <summary>
+            Calls <c>Dispose ()</c> for all fields marked with
+            <see cref="T:AM.AutoDisposeAttribute">AutoDispose attribute.</see>
+            </summary>
+        </member>
+        <member name="M:AM.DisposableObject.CheckDisposed">
+            <summary>
+            Checks whether this instance disposed.
+            </summary>
+        </member>
+        <member name="M:AM.DisposableObject.Dispose(System.Boolean)">
+            <summary>
+            Can be overriden.
+            </summary>
+        </member>
+        <member name="M:AM.DisposableObject.Close">
+            <summary>
+            Alias for <c>Dispose</c>.
+            </summary>
+        </member>
+        <member name="M:AM.DisposableObject.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="P:AM.DisposableObject.Disposed">
+            <summary>
+            Whether the instance disposed.
+            </summary>
+        </member>
+        <member name="P:AM.DisposableObject.DisposeByReflection">
+            <summary>
+             
             </summary>
         </member>
         <member name="T:AM.ConversionUtility">
@@ -11484,6 +11564,45 @@
             <value>The name of the language ("english for this case).
             </value>
         </member>
+        <member name="T:AM.Reflection.AssemblyUtility">
+            <summary>
+            Collection of assembly manipulation routines.
+            </summary>
+        </member>
+        <member name="M:AM.Reflection.AssemblyUtility.CheckForToken(System.Reflection.Assembly,System.Byte[])">
+            <summary>
+            Check an assembly to see if it has the given public key token.
+            </summary>
+            <remarks>Does not check to make sure the assembly's signature 
+            is valid.</remarks>
+        </member>
+        <member name="M:AM.Reflection.AssemblyUtility.CheckForToken(System.String,System.Byte[])">
+            <summary>
+            Check an assembly to see if it has the given public key token.
+            </summary>
+        </member>
+        <member name="M:AM.Reflection.AssemblyUtility.IsDebugAssembly(System.Reflection.Assembly)">
+            <summary>
+            Determines whether the specified assembly is debug version.
+            </summary>
+            <param name="assembly">The assembly to check.</param>
+            <returns>
+            	<c>true</c> if the specified assembly is debug version; 
+            otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:AM.Reflection.AssemblyUtility.IsMicrosoftSigned(System.Reflection.Assembly)">
+            <summary>
+            Check an assembly whether it has Microsoft public key token.
+            </summary>
+        </member>
+        <member name="M:AM.Reflection.AssemblyUtility.IsMicrosoftSigned(System.String)">
+            <summary>
+            Check an assembly whether it has Microsoft public key token.
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
         <member name="T:AM.Net.SocketUtility">
             <summary>
             
@@ -12452,6 +12571,11 @@
             <remarks>
             For WinMobile compatibility.
             </remarks>
+        </member>
+        <member name="T:AM.AutoDisposeAttribute">
+            <summary>
+            Mark instance field as auto-disposable.
+            </summary>
         </member>
     </members>
 </doc>

@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 
 using AM.Logging;
@@ -22,6 +21,12 @@ using AM.Reflection;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+#if CLASSIC || NETCORE || DROID
+
+using System.Reflection.Emit;
+
+#endif
 
 #endregion
 
