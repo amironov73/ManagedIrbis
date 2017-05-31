@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -64,6 +65,11 @@ namespace ManagedIrbis.Biblio
         [JsonProperty("title")]
         public string Title { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public ItemCollection Items { get; private set; }
+
         #endregion
 
         #region Construction
@@ -84,6 +90,20 @@ namespace ManagedIrbis.Biblio
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Render the chapter.
+        /// </summary>
+        public virtual void Render()
+        {
+            // Nothing to do here.
+
+            Log.Warn
+                (
+                    "BiblioChapter::Render: "
+                    + "must be overriden"
+                );
+        }
 
         #endregion
 

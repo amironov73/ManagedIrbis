@@ -119,6 +119,7 @@
     <Compile Include="Source\Biblio\BiblioProcessor.cs" />
     <Compile Include="Source\Biblio\Chapters\ChapterCollection.cs" />
     <Compile Include="Source\Biblio\Chapters\ChapterWithRecords.cs" />
+    <Compile Include="Source\Biblio\Chapters\ChapterWithText.cs" />
     <Compile Include="Source\Biblio\ItemCollection.cs" />
     <Compile Include="Source\Biblio\RecordCollection.cs" />
     <Compile Include="Source\BibTex\BibTex.cs" />

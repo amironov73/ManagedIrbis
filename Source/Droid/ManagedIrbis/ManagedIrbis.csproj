@@ -82,8 +82,14 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioFilter.cs">
       <Link>Source\Biblio\BiblioFilter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioItem.cs">
+      <Link>Source\Biblio\BiblioItem.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioProcessor.cs">
       <Link>Source\Biblio\BiblioProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioTerm.cs">
+      <Link>Source\Biblio\BiblioTerm.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Cells\BiblioCell.cs">
       <Link>Source\Biblio\Cells\BiblioCell.cs</Link>
@@ -99,6 +105,12 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithRecords.cs">
       <Link>Source\Biblio\Chapters\ChapterWithRecords.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithText.cs">
+      <Link>Source\Biblio\Chapters\ChapterWithText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\ItemCollection.cs">
+      <Link>Source\Biblio\ItemCollection.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\RecordCollection.cs">
       <Link>Source\Biblio\RecordCollection.cs</Link>
@@ -1507,8 +1519,14 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Readers\VisitInfoUtility.cs">
       <Link>Source\Readers\VisitInfoUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RecordComparator.cs">
+      <Link>Source\RecordComparator.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RecordComparer.cs">
       <Link>Source\RecordComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RecordDifferenceResult.cs">
+      <Link>Source\RecordDifferenceResult.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RecordField.cs">
       <Link>Source\RecordField.cs</Link>
