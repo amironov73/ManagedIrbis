@@ -94,8 +94,13 @@ namespace ManagedIrbis.Biblio
         /// <summary>
         /// Render the chapter.
         /// </summary>
-        public virtual void Render()
+        public virtual void Render
+            (
+                [NotNull] BiblioContext context
+            )
         {
+            Code.NotNull(context, "context");
+
             // Nothing to do here.
 
             Log.Warn

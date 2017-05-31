@@ -28,6 +28,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Client;
+using ManagedIrbis.Reports;
 
 using MoonSharp.Interpreter;
 
@@ -62,6 +63,12 @@ namespace ManagedIrbis.Biblio
         [NotNull]
         public RecordCollection Records { get; private set; }
 
+        /// <summary>
+        /// Context for report.
+        /// </summary>
+        [NotNull]
+        public ReportContext ReportContext { get; internal set; }
+
         #endregion
 
         #region Construction
@@ -79,6 +86,7 @@ namespace ManagedIrbis.Biblio
 
             Document = document;
             Provider = provider;
+            ReportContext = new ReportContext(provider);
             Records = new RecordCollection();
         }
 
