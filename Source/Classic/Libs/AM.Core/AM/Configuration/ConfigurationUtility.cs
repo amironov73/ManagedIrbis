@@ -7,7 +7,6 @@
  * Status: poor
  */
 
-#if !NETCORE
 
 #region Using directives
 
@@ -493,4 +492,3 @@ namespace AM.Configuration
     }
 }
 
-#endif

@@ -924,7 +924,7 @@ namespace System
 
 #endif
 
-#if NETCORE || UAP || SILVERLIGHT || WIN81 || PORTABLE
+#if UAP || SILVERLIGHT || WIN81 || PORTABLE
 
 namespace System
 {
