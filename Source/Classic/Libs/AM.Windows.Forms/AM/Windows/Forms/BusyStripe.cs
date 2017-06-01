@@ -15,6 +15,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
+using AM.Threading;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -108,11 +110,59 @@ namespace AM.Windows.Forms
             }
         }
 
+        private void Busy_StateChanged
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            BusyState state = (BusyState)sender;
+
+            this.InvokeIfRequired
+            (
+                () =>
+                {
+                    Moving = state;
+                    Invalidate();
+                }
+            );
+        }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Subscribe.
+        /// </summary>
+        public void SubscribeTo
+            (
+                [NotNull] BusyState busyState
+            )
+        {
+            Code.NotNull(busyState, "busyState");
+
+            busyState.StateChanged += Busy_StateChanged;
+        }
+
+        /// <summary>
+        /// Unsubscribe.
+        /// </summary>
+        public void UnsubscribeFrom
+            (
+                [NotNull] BusyState busyState
+            )
+        {
+            Code.NotNull(busyState, "busyState");
+
+            busyState.StateChanged -= Busy_StateChanged;
+        }
+
         #endregion
 
         #region Control members
 
-        /// <inheritdoc cref="Control.Dispose(bool)"/>
+        /// <inheritdoc cref="Control.Dispose(bool)" />
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -126,7 +176,7 @@ namespace AM.Windows.Forms
             base.Dispose(disposing);
         }
 
-        /// <inheritdoc cref="Control.OnPaint"/>
+        /// <inheritdoc cref="Control.OnPaint" />
         protected override void OnPaint
             (
                 PaintEventArgs e

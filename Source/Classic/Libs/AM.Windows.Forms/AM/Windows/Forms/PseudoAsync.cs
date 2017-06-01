@@ -92,6 +92,28 @@ namespace AM.Windows.Forms
         }
 
         /// <summary>
+        /// Run some code in pseudo-async manner.
+        /// </summary>
+        public static void Run
+            (
+                [NotNull] Action action
+            )
+        {
+            Code.NotNull(action, "action");
+            Log.Trace("PseudoAsync::Run: entering");
+
+            // TODO exception handling
+
+            using (Task task = new Task(action))
+            {
+                task.Start();
+                WaitFor(task);
+            }
+
+            Log.Trace("PseudoAsync::Run: leaving");
+        }
+
+        /// <summary>
         /// Wait for flag.
         /// </summary>
         public static void WaitFor

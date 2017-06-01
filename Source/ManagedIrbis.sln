@@ -145,6 +145,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckIniFile", "Classic\App
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiblioTester", "Classic\Apps\BiblioTester\BiblioTester.csproj", "{E4111BAB-C776-411D-96A8-82B1DC14B302}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DicCorrector", "Classic\Apps\DicCorrector\DicCorrector.csproj", "{C6CB2EA7-4B91-43C7-BC22-AFEF3B43D18C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -697,6 +699,14 @@ Global
 		{E4111BAB-C776-411D-96A8-82B1DC14B302}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E4111BAB-C776-411D-96A8-82B1DC14B302}.Release|x86.ActiveCfg = Release|Any CPU
 		{E4111BAB-C776-411D-96A8-82B1DC14B302}.Release|x86.Build.0 = Release|Any CPU
+		{C6CB2EA7-4B91-43C7-BC22-AFEF3B43D18C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6CB2EA7-4B91-43C7-BC22-AFEF3B43D18C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6CB2EA7-4B91-43C7-BC22-AFEF3B43D18C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C6CB2EA7-4B91-43C7-BC22-AFEF3B43D18C}.Debug|x86.Build.0 = Debug|Any CPU
+		{C6CB2EA7-4B91-43C7-BC22-AFEF3B43D18C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6CB2EA7-4B91-43C7-BC22-AFEF3B43D18C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6CB2EA7-4B91-43C7-BC22-AFEF3B43D18C}.Release|x86.ActiveCfg = Release|Any CPU
+		{C6CB2EA7-4B91-43C7-BC22-AFEF3B43D18C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -768,5 +778,6 @@ Global
 		{784B2135-FAB1-4920-96F5-9DD4C96E4432} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{72E54503-851C-441C-8B85-1407DDC0B603} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{E4111BAB-C776-411D-96A8-82B1DC14B302} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{C6CB2EA7-4B91-43C7-BC22-AFEF3B43D18C} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 	EndGlobalSection
 EndGlobal

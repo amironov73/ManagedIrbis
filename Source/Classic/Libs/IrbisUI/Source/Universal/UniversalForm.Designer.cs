@@ -28,14 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UniversalForm));
             this._splitContainer = new System.Windows.Forms.SplitContainer();
-            this._busyStripe = new IrbisUI.IrbisBusyStripe();
-            this._logBox = new AM.Windows.Forms.LogBox();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this._statusStrip = new System.Windows.Forms.StatusStrip();
             this._mainMenu = new System.Windows.Forms.MenuStrip();
             this._toolStrip = new System.Windows.Forms.ToolStrip();
-            this._statusStrip = new System.Windows.Forms.StatusStrip();
+            this._firstTimer = new System.Windows.Forms.Timer(this.components);
+            this._logBox = new AM.Windows.Forms.LogBox();
+            this._busyStripe = new IrbisUI.IrbisBusyStripe();
             ((System.ComponentModel.ISupportInitialize)(this._splitContainer)).BeginInit();
             this._splitContainer.Panel2.SuspendLayout();
             this._splitContainer.SuspendLayout();
@@ -45,7 +47,7 @@
             this.toolStripContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // splitContainer1
+            // _splitContainer
             // 
             this._splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this._splitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
@@ -53,34 +55,13 @@
             this._splitContainer.Name = "_splitContainer";
             this._splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // splitContainer1.Panel2
+            // _splitContainer.Panel2
             // 
             this._splitContainer.Panel2.Controls.Add(this._logBox);
             this._splitContainer.Panel2.Controls.Add(this._busyStripe);
             this._splitContainer.Size = new System.Drawing.Size(784, 490);
             this._splitContainer.SplitterDistance = 348;
             this._splitContainer.TabIndex = 0;
-            // 
-            // _busyStripe
-            // 
-            this._busyStripe.Dock = System.Windows.Forms.DockStyle.Top;
-            this._busyStripe.Location = new System.Drawing.Point(0, 0);
-            this._busyStripe.Moving = false;
-            this._busyStripe.Name = "_busyStripe";
-            this._busyStripe.Size = new System.Drawing.Size(784, 18);
-            this._busyStripe.TabIndex = 0;
-            // 
-            // _logBox
-            // 
-            this._logBox.BackColor = System.Drawing.SystemColors.Window;
-            this._logBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._logBox.Location = new System.Drawing.Point(0, 18);
-            this._logBox.Multiline = true;
-            this._logBox.Name = "_logBox";
-            this._logBox.ReadOnly = true;
-            this._logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this._logBox.Size = new System.Drawing.Size(784, 120);
-            this._logBox.TabIndex = 1;
             // 
             // toolStripContainer1
             // 
@@ -105,6 +86,14 @@
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this._mainMenu);
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this._toolStrip);
             // 
+            // _statusStrip
+            // 
+            this._statusStrip.Dock = System.Windows.Forms.DockStyle.None;
+            this._statusStrip.Location = new System.Drawing.Point(0, 0);
+            this._statusStrip.Name = "_statusStrip";
+            this._statusStrip.Size = new System.Drawing.Size(784, 22);
+            this._statusStrip.TabIndex = 0;
+            // 
             // _mainMenu
             // 
             this._mainMenu.Dock = System.Windows.Forms.DockStyle.None;
@@ -123,13 +112,30 @@
             this._toolStrip.Stretch = true;
             this._toolStrip.TabIndex = 1;
             // 
-            // _statusStrip
+            // _firstTimer
             // 
-            this._statusStrip.Dock = System.Windows.Forms.DockStyle.None;
-            this._statusStrip.Location = new System.Drawing.Point(0, 0);
-            this._statusStrip.Name = "_statusStrip";
-            this._statusStrip.Size = new System.Drawing.Size(784, 22);
-            this._statusStrip.TabIndex = 0;
+            this._firstTimer.Tick += new System.EventHandler(this._firstTimer_Tick);
+            // 
+            // _logBox
+            // 
+            this._logBox.BackColor = System.Drawing.SystemColors.Window;
+            this._logBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._logBox.Location = new System.Drawing.Point(0, 18);
+            this._logBox.Multiline = true;
+            this._logBox.Name = "_logBox";
+            this._logBox.ReadOnly = true;
+            this._logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this._logBox.Size = new System.Drawing.Size(784, 120);
+            this._logBox.TabIndex = 1;
+            // 
+            // _busyStripe
+            // 
+            this._busyStripe.Dock = System.Windows.Forms.DockStyle.Top;
+            this._busyStripe.Location = new System.Drawing.Point(0, 0);
+            this._busyStripe.Moving = false;
+            this._busyStripe.Name = "_busyStripe";
+            this._busyStripe.Size = new System.Drawing.Size(784, 18);
+            this._busyStripe.TabIndex = 0;
             // 
             // UniversalForm
             // 
@@ -165,5 +171,6 @@
         private System.Windows.Forms.MenuStrip _mainMenu;
         private System.Windows.Forms.ToolStrip _toolStrip;
         private System.Windows.Forms.StatusStrip _statusStrip;
+        private System.Windows.Forms.Timer _firstTimer;
     }
 }

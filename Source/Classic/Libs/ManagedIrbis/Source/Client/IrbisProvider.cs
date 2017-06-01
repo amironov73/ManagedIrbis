@@ -23,7 +23,7 @@ using AM.IO;
 using AM.IOC;
 using AM.Logging;
 using AM.Runtime;
-
+using AM.Threading;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -86,6 +86,23 @@ namespace ManagedIrbis.Client
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Configure the provider.
+        /// </summary>
+        public virtual void Configure
+            (
+                [NotNull] string configurationString
+            )
+        {
+            // Nothing to do here
+
+            Log.Warn
+                (
+                    "IrbisProvider::Configure: "
+                    + "not overridden"
+                );
+        }
 
         /// <summary>
         /// Exact search.
@@ -162,6 +179,16 @@ namespace ManagedIrbis.Client
             };
 
             return result;
+        }
+
+        /// <summary>
+        /// Get <see cref="BusyState"/> for the provider
+        /// (if any).
+        /// </summary>
+        [CanBeNull]
+        public virtual BusyState GetBusyState()
+        {
+            return null;
         }
 
         /// <summary>

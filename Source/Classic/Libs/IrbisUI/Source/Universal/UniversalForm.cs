@@ -24,6 +24,7 @@ using AM;
 using AM.Collections;
 using AM.Logging;
 using AM.Text.Output;
+using AM.Threading;
 using AM.Windows.Forms;
 
 using CodeJam;
@@ -47,6 +48,15 @@ namespace IrbisUI.Universal
     public partial class UniversalForm
         : Form
     {
+        #region Events
+
+        /// <summary>
+        /// Raised when the form needs initialization;
+        /// </summary>
+        public event EventHandler Initialize;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -159,16 +169,65 @@ namespace IrbisUI.Universal
 #endif
         }
 
+
+        private void _firstTimer_Tick
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            _firstTimer.Enabled = false;
+            OnInitialize();
+        }
+
+        /// <summary>
+        /// Initialize the form.
+        /// </summary>
+        protected virtual void OnInitialize()
+        {
+            Initialize.Raise(this, EventArgs.Empty);
+        }
+
         #endregion
 
         #region Public methods
 
         /// <summary>
-        /// Initialize the form.
+        /// Get <see cref="IrbisProvider"/>.
         /// </summary>
-        public virtual void Initialize()
+        [NotNull]
+        public virtual IrbisProvider GetIrbisProvider()
         {
-            
+            IrbisProvider result
+                = ProviderManager.GetPreconfiguredProvider();
+            SubscribeToBusyState(result);
+            Provider = result;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Hide main menu strip.
+        /// </summary>
+        public void HideMainMenu()
+        {
+            MainMenu.Hide();
+        }
+
+        /// <summary>
+        /// Hide tool strip.
+        /// </summary>
+        public void HideToolStrip()
+        {
+            ToolStrip.Hide();
+        }
+
+        /// <summary>
+        /// Hide status strip.
+        /// </summary>
+        public void HideStatusStrip()
+        {
+            StatusStrip.Hide();
         }
 
         /// <summary>
@@ -190,6 +249,20 @@ namespace IrbisUI.Universal
         }
 
         /// <summary>
+        /// Release currenlty used <see cref="IrbisProvider"/>.
+        /// </summary>
+        public virtual void ReleaseProvider()
+        {
+            IrbisProvider provider = Provider;
+            if (!ReferenceEquals(provider, null))
+            {
+                UnsubscribeFromBusyState(provider);
+                provider.Dispose();
+            }
+            Provider = null;
+        }
+
+        /// <summary>
         /// Run the main form.
         /// </summary>
         public static void Run<T>
@@ -197,7 +270,7 @@ namespace IrbisUI.Universal
                 T form,
                 string[] args
             )
-            where T: UniversalForm
+            where T : UniversalForm
         {
             try
             {
@@ -208,6 +281,8 @@ namespace IrbisUI.Universal
                     form.Show();
                     form.ShowSystemInformation();
                     form.ProcessArguments(args);
+
+                    form._firstTimer.Enabled = true;
 
                     Application.Run(form);
                 }
@@ -251,6 +326,78 @@ namespace IrbisUI.Universal
         {
             Output.PrintSystemInformation();
             this.ShowVersionInfoInTitle();
+        }
+
+        /// <summary>
+        /// Subscribe to <see cref="IrbisProvider"/>
+        /// <see cref="BusyState"/>.
+        /// </summary>
+        public void SubscribeToBusyState
+            (
+                [NotNull] IrbisProvider provider
+            )
+        {
+            Code.NotNull(provider, "provider");
+
+            BusyState busyState = provider.GetBusyState();
+            if (!ReferenceEquals(busyState, null))
+            {
+                BusyStripe.SubscribeTo(busyState);
+            }
+        }
+
+        /// <summary>
+        /// Test <see cref="Provider"/> connection.
+        /// </summary>
+        public bool TestProviderConnection()
+        {
+            bool result = false;
+
+            try
+            {
+                PseudoAsync.Run
+                    (
+                        () => GetIrbisProvider ()
+                    );
+
+                result = true;
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException
+                (
+                    "MainForm::_Initialize: ",
+                    exception
+                );
+
+                WriteLine
+                (
+                    exception.GetType().Name
+                    + ": "
+                    + exception.Message
+                );
+            }
+            ReleaseProvider();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Unsubscribe from <see cref="IrbisProvider"/>
+        /// <see cref="BusyState"/>.
+        /// </summary>
+        public void UnsubscribeFromBusyState
+        (
+            [NotNull] IrbisProvider provider
+        )
+        {
+            Code.NotNull(provider, "provider");
+
+            BusyState busyState = provider.GetBusyState();
+            if (!ReferenceEquals(busyState, null))
+            {
+                BusyStripe.UnsubscribeFrom(busyState);
+            }
         }
 
         /// <summary>

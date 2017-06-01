@@ -12,6 +12,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -76,8 +77,8 @@ namespace AM.Parameters
 
             StringBuilder result = new StringBuilder();
 
-            char[] badNameCharacters = {NameSeparator};
-            char[] badValueCharacters = {ValueSeparator};
+            char[] badNameCharacters = { NameSeparator };
+            char[] badValueCharacters = { ValueSeparator };
 
             foreach (Parameter parameter in parameters)
             {
@@ -104,6 +105,67 @@ namespace AM.Parameters
             }
 
             return result.ToString();
+        }
+
+        /// <summary>
+        /// Get the parameter with specified name.
+        /// </summary>
+        [CanBeNull]
+        public static string GetParameter
+            (
+                [NotNull] this Parameter[] parameters,
+                [NotNull] string name,
+                [CanBeNull] string defaultValue
+            )
+        {
+            Code.NotNull(parameters, "parameters");
+            Code.NotNullNorEmpty(name, "name");
+
+            Parameter found = parameters
+                .FirstOrDefault(p => p.Name.SameString(name));
+
+            string result = ReferenceEquals(found, null)
+                ? defaultValue
+                : found.Value;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get the parameter with specified name.
+        /// </summary>
+        [CanBeNull]
+        public static T GetParameter<T>
+            (
+                [NotNull] this Parameter[] parameters,
+                [NotNull] string name,
+                [CanBeNull] T defaultValue
+            )
+        {
+            Code.NotNull(parameters, "parameters");
+            Code.NotNullNorEmpty(name, "name");
+
+            Parameter found = parameters
+                .FirstOrDefault(p => p.Name.SameString(name));
+
+            T result = ReferenceEquals(found, null)
+                ? defaultValue
+                : ConversionUtility.ConvertTo<T>(found.Value);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get the parameter with specified name.
+        /// </summary>
+        [CanBeNull]
+        public static T GetParameter<T>
+            (
+                [NotNull] this Parameter[] parameters,
+                [NotNull] string name
+            )
+        {
+            return GetParameter(parameters, name, default(T));
         }
 
         /// <summary>

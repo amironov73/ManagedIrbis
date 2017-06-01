@@ -42,6 +42,13 @@ namespace ManagedIrbis.Client
             get { return Connection.Connected; }
         }
 
+        /// <inheritdoc/>
+        public override string Database
+        {
+            get { return Connection.Database; }
+            set { Connection.Database = value; }
+        }
+
         /// <summary>
         /// Connection.
         /// </summary>
@@ -117,11 +124,17 @@ namespace ManagedIrbis.Client
         #endregion
 
         #region IrbisProvider members
-        /// <inheritdoc/>
-        public override string Database
+
+        /// <inheritdoc cref="IrbisProvider.Configure" />
+        public override void Configure
+            (
+                string configurationString
+            )
         {
-            get { return Connection.Database; }
-            set { Connection.Database = value; }
+            Code.NotNullNorEmpty(configurationString, "configurationString");
+
+            Connection.ParseConnectionString(configurationString);
+            Connection.Connect();
         }
 
         /// <inheritdoc cref="IrbisProvider.FormatRecord" />
