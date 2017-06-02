@@ -13,10 +13,12 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 
 using AM.IO;
 using AM.Logging;
 using AM.Runtime;
+using AM.Threading.Tasks;
 
 using CodeJam;
 
@@ -40,7 +42,7 @@ namespace AM.Threading
         #region Events
 
         /// <summary>
-        /// Вызывается, когда меняется состояние.
+        /// Raised when the state has changed.
         /// </summary>
         public event EventHandler StateChanged;
 
@@ -49,12 +51,12 @@ namespace AM.Threading
         #region Properties
 
         /// <summary>
-        /// Состояние
+        /// The state itself.
         /// </summary>
         public bool Busy { get { return _currentState; } }
 
         /// <summary>
-        /// Использовать асинхронный обработчик события.
+        /// Whether to use asynchronous event handler.
         /// </summary>
         public bool UseAsync { get; set; }
 
@@ -75,7 +77,7 @@ namespace AM.Threading
         #region Construction
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public BusyState()
         {
@@ -86,7 +88,7 @@ namespace AM.Threading
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public BusyState
             (
@@ -112,7 +114,48 @@ namespace AM.Threading
         #region Public methods
 
         /// <summary>
-        /// Смена состояния.
+        /// Run some code.
+        /// </summary>
+        public void Run
+            (
+                [NotNull] Action action
+            )
+        {
+            Code.NotNull(action, "action");
+
+            WaitAndGrab();
+
+            try
+            {
+                action();
+            }
+            finally
+            {
+                SetState(false);
+            }
+        }
+
+        /// <summary>
+        /// Run some code in asychronous manner.
+        /// </summary>
+        public Task RunAsync
+            (
+                [NotNull] Action action
+            )
+        {
+            Code.NotNull(action, "action");
+
+            Task result = Task.Factory.StartNew
+                (
+                    () => Run(action)
+                )
+                .ConfigureSafe();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Change the state.
         /// </summary>
         public void SetState
             (
@@ -296,9 +339,7 @@ namespace AM.Threading
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -308,9 +349,7 @@ namespace AM.Threading
             UseAsync = reader.ReadBoolean();
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -324,12 +363,7 @@ namespace AM.Threading
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format("Busy: {0}", Busy);

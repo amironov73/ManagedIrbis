@@ -90,6 +90,7 @@ namespace AM.Configuration
                     return setting;
                 }
             }
+
             return null;
         }
 
@@ -121,24 +122,12 @@ namespace AM.Configuration
                 short defaultValue
             )
         {
-            short result = defaultValue;
+            short result;
             string s = CM.AppSettings[key];
 
-            if (!string.IsNullOrEmpty(s))
+            if (!NumericUtility.TryParseInt16(s, out result))
             {
-#if WINMOBILE
-
-                result = short.Parse(s);
-
-#else
-
-                result = short.Parse
-                    (
-                        s,
-                        _FormatProvider
-                    );
-
-#endif
+                result = defaultValue;
             }
 
             return result;
@@ -154,23 +143,12 @@ namespace AM.Configuration
                 ushort defaultValue
             )
         {
-            ushort result = defaultValue;
+            ushort result;
             string s = CM.AppSettings[key];
-            if (!string.IsNullOrEmpty(s))
+
+            if (!NumericUtility.TryParseUInt16(s, out result))
             {
-#if WINMOBILE
-
-                result = ushort.Parse(s);
-
-#else
-
-                result = ushort.Parse
-                    (
-                        s,
-                        _FormatProvider
-                    );
-
-#endif
+                result = defaultValue;
             }
 
             return result;
@@ -186,22 +164,12 @@ namespace AM.Configuration
                 int defaultValue
             )
         {
-            int result = defaultValue;
+            int result;
             string s = CM.AppSettings[key];
-            if (!string.IsNullOrEmpty(s))
+
+            if (!NumericUtility.TryParseInt32(s, out result))
             {
-#if WINMOBILE
-
-                result = int.Parse(s);
-
-#else
-
-                result = int.Parse
-                    (
-                        s,
-                        _FormatProvider
-                    );
-#endif
+                result = defaultValue;
             }
 
             return result;
@@ -218,23 +186,12 @@ namespace AM.Configuration
                 uint defaultValue
             )
         {
-            uint result = defaultValue;
+            uint result;
             string s = CM.AppSettings[key];
-            if (!string.IsNullOrEmpty(s))
+
+            if (!NumericUtility.TryParseUInt32(s, out result))
             {
-#if WINMOBILE
-
-                result = uint.Parse(s);
-
-#else
-
-                result = uint.Parse
-                    (
-                        s,
-                        _FormatProvider
-                    );
-
-#endif
+                result = defaultValue;
             }
 
             return result;
@@ -250,23 +207,12 @@ namespace AM.Configuration
                 long defaultValue
             )
         {
-            long result = defaultValue;
+            long result;
             string s = CM.AppSettings[key];
-            if (!string.IsNullOrEmpty(s))
+
+            if (!NumericUtility.TryParseInt64(s, out result))
             {
-#if WINMOBILE
-
-                result = long.Parse(s);
-
-#else
-
-                result = long.Parse
-                    (
-                        s,
-                        _FormatProvider
-                    );
-
-#endif
+                result = defaultValue;
             }
 
             return result;
@@ -283,23 +229,12 @@ namespace AM.Configuration
                 ulong defaultValue
             )
         {
-            ulong result = defaultValue;
+            ulong result;
             string s = CM.AppSettings[key];
-            if (!string.IsNullOrEmpty(s))
+
+            if (!NumericUtility.TryParseUInt64(s, out result))
             {
-#if WINMOBILE
-
-                result = ulong.Parse(s);
-
-#else
-
-                result = ulong.Parse
-                    (
-                        s,
-                        _FormatProvider
-                    );
-
-#endif
+                result = defaultValue;
             }
 
             return result;
@@ -314,23 +249,12 @@ namespace AM.Configuration
                 float defaultValue
             )
         {
-            float result = defaultValue;
+            float result;
             string s = CM.AppSettings[key];
-            if (!string.IsNullOrEmpty(s))
+
+            if (!NumericUtility.TryParseFloat(s, out result))
             {
-#if WINMOBILE
-
-                result = float.Parse(s);
-
-#else
-
-                result = float.Parse
-                    (
-                        s,
-                        _FormatProvider
-                    );
-
-#endif
+                result = defaultValue;
             }
 
             return result;
@@ -345,23 +269,12 @@ namespace AM.Configuration
                 double defaultValue
             )
         {
-            double result = defaultValue;
+            double result;
             string s = CM.AppSettings[key];
-            if (!string.IsNullOrEmpty(s))
+
+            if (!NumericUtility.TryParseDouble(s, out result))
             {
-#if WINMOBILE
-
-                result = double.Parse(s);
-
-#else
-
-                result = double.Parse
-                    (
-                        s,
-                        _FormatProvider
-                    );
-
-#endif
+                result = defaultValue;
             }
 
             return result;
@@ -376,23 +289,12 @@ namespace AM.Configuration
                 decimal defaultValue
             )
         {
-            decimal result = defaultValue;
+            decimal result;
             string s = CM.AppSettings[key];
-            if (!string.IsNullOrEmpty(s))
+
+            if (!NumericUtility.TryParseDecimal(s, out result))
             {
-#if WINMOBILE
-
-                result = decimal.Parse(s);
-
-#else
-
-                result = decimal.Parse
-                    (
-                        s,
-                        _FormatProvider
-                    );
-
-#endif
+                result = defaultValue;
             }
 
             return result;
@@ -412,6 +314,7 @@ namespace AM.Configuration
 
             string result = defaultValue;
             string s = CM.AppSettings[key];
+
             if (!string.IsNullOrEmpty(s))
             {
                 result = s;
@@ -467,9 +370,6 @@ namespace AM.Configuration
         /// <summary>
         /// Get date or time value from application configuration.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
         public static DateTime GetDateTime
             (
                 [NotNull] string key,
@@ -477,6 +377,7 @@ namespace AM.Configuration
             )
         {
             string s = CM.AppSettings[key];
+
             if (!string.IsNullOrEmpty(s))
             {
                 defaultValue = DateTime.Parse
@@ -485,6 +386,7 @@ namespace AM.Configuration
                         _FormatProvider
                     );
             }
+
             return defaultValue;
         }
 

@@ -924,7 +924,7 @@ namespace System
 
 #endif
 
-#if UAP || SILVERLIGHT || WIN81 || PORTABLE
+#if ANDROID || UAP || SILVERLIGHT || WIN81 || PORTABLE
 
 namespace System
 {

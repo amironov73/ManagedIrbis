@@ -599,6 +599,55 @@ namespace AM
         }
 
         /// <summary>
+        /// Try to parse unsigned integer in standard manner.
+        /// </summary>
+        [CLSCompliant(false)]
+        public static bool TryParseUInt16
+            (
+                [CanBeNull] string text,
+                out ushort value
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+#if WINMOBILE || PocketPC
+
+            bool result = false;
+
+            try
+            {
+                value = ushort.Parse
+                    (
+                        text,
+                        NumberStyles.Any,
+                        CultureInfo.InvariantCulture
+                    );
+
+                result = true;
+            }
+            catch
+            {
+                value = 0;
+            }
+
+            return result;
+
+#else
+
+            bool result = ushort.TryParse
+                (
+                    text,
+                    NumberStyles.Any,
+                    CultureInfo.InvariantCulture,
+                    out value
+                );
+
+            return result;
+
+#endif
+        }
+
+        /// <summary>
         /// Try parse integer in standard manner.
         /// </summary>
         public static bool TryParseInt32
@@ -647,6 +696,55 @@ namespace AM
         }
 
         /// <summary>
+        /// Try to parse unsigned integer in standard manner.
+        /// </summary>
+        [CLSCompliant(false)]
+        public static bool TryParseUInt32
+            (
+                [CanBeNull] string text,
+                out uint value
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+#if WINMOBILE || PocketPC
+
+            bool result = false;
+
+            try
+            {
+                value = uint.Parse
+                    (
+                        text,
+                        NumberStyles.Any,
+                        CultureInfo.InvariantCulture
+                    );
+
+                result = true;
+            }
+            catch
+            {
+                value = 0;
+            }
+
+            return result;
+
+#else
+
+            bool result = uint.TryParse
+                (
+                    text,
+                    NumberStyles.Any,
+                    CultureInfo.InvariantCulture,
+                    out value
+                );
+
+            return result;
+
+#endif
+        }
+
+        /// <summary>
         /// Try parse integer in standard manner.
         /// </summary>
         public static bool TryParseInt64
@@ -682,6 +780,55 @@ namespace AM
 #else
 
             bool result = long.TryParse
+                (
+                    text,
+                    NumberStyles.Any,
+                    CultureInfo.InvariantCulture,
+                    out value
+                );
+
+            return result;
+
+#endif
+        }
+
+        /// <summary>
+        /// Try to parse unsigned integer in standard manner.
+        /// </summary>
+        [CLSCompliant(false)]
+        public static bool TryParseUInt64
+            (
+                [CanBeNull] string text,
+                out ulong value
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+#if WINMOBILE || PocketPC
+
+            bool result = false;
+
+            try
+            {
+                value = ulong.Parse
+                    (
+                        text,
+                        NumberStyles.Any,
+                        CultureInfo.InvariantCulture
+                    );
+
+                result = true;
+            }
+            catch
+            {
+                value = 0;
+            }
+
+            return result;
+
+#else
+
+            bool result = ulong.TryParse
                 (
                     text,
                     NumberStyles.Any,

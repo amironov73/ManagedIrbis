@@ -102,15 +102,158 @@ namespace AM.Windows.Forms
             Code.NotNull(action, "action");
             Log.Trace("PseudoAsync::Run: entering");
 
-            // TODO exception handling
-
-            using (Task task = new Task(action))
+            using (Task task = Task.Factory.StartNew(action))
             {
-                task.Start();
                 WaitFor(task);
+                task.GetAwaiter().GetResult();
             }
 
             Log.Trace("PseudoAsync::Run: leaving");
+        }
+
+        /// <summary>
+        /// Run some code in pseudo-async manner.
+        /// </summary>
+        public static void Run<T>
+            (
+                [NotNull] Action<T> action,
+                T argument
+            )
+        {
+            Code.NotNull(action, "action");
+            Log.Trace("PseudoAsync::Run: entering");
+
+            Action interim = () => action(argument);
+            using (Task task = Task.Factory.StartNew(interim))
+            {
+                WaitFor(task);
+                task.GetAwaiter().GetResult();
+            }
+
+            Log.Trace("PseudoAsync::Run: leaving");
+        }
+
+        /// <summary>
+        /// Run some code in pseudo-async manner.
+        /// </summary>
+        public static void Run<T1, T2>
+            (
+                [NotNull] Action<T1, T2> action,
+                T1 argument1,
+                T2 argument2
+            )
+        {
+            Code.NotNull(action, "action");
+            Log.Trace("PseudoAsync::Run: entering");
+
+            Action interim = () => action(argument1, argument2);
+            using (Task task = Task.Factory.StartNew(interim))
+            {
+                WaitFor(task);
+                task.GetAwaiter().GetResult();
+            }
+
+            Log.Trace("PseudoAsync::Run: leaving");
+        }
+
+        /// <summary>
+        /// Run some code in pseudo-async manner.
+        /// </summary>
+        public static void Run<T1, T2, T3>
+            (
+                [NotNull] Action<T1, T2, T3> action,
+                T1 argument1,
+                T2 argument2,
+                T3 argument3
+            )
+        {
+            Code.NotNull(action, "action");
+            Log.Trace("PseudoAsync::Run: entering");
+
+            Action interim = () => action(argument1, argument2, argument3);
+            using (Task task = Task.Factory.StartNew(interim))
+            {
+                WaitFor(task);
+                task.GetAwaiter().GetResult();
+            }
+
+            Log.Trace("PseudoAsync::Run: leaving");
+        }
+
+        /// <summary>
+        /// Run some code in pseudo-async manner.
+        /// </summary>
+        public static TResult Run<TResult>
+            (
+                [NotNull] Func<TResult> func
+            )
+        {
+            Code.NotNull(func, "func");
+            Log.Trace("PseudoAsync::Run: entering");
+
+            TResult result;
+            using (Task<TResult> task = Task<TResult>.Factory.StartNew(func))
+            {
+                WaitFor(task);
+                result = task.Result;
+            }
+
+            Log.Trace("PseudoAsync::Run: leaving");
+
+            return result;
+        }
+
+        /// <summary>
+        /// Run some code in pseudo-async manner.
+        /// </summary>
+        public static TResult Run<T1, TResult>
+            (
+                [NotNull] Func<T1, TResult> func,
+                T1 argument
+            )
+        {
+            Code.NotNull(func, "func");
+            Log.Trace("PseudoAsync::Run: entering");
+
+            TResult result;
+            Func<TResult> interim = () => func(argument);
+            using (Task<TResult> task
+                = Task<TResult>.Factory.StartNew(interim))
+            {
+                WaitFor(task);
+                result = task.Result;
+            }
+
+            Log.Trace("PseudoAsync::Run: leaving");
+
+            return result;
+        }
+
+        /// <summary>
+        /// Run some code in pseudo-async manner.
+        /// </summary>
+        public static TResult Run<T1, T2, TResult>
+            (
+                [NotNull] Func<T1, T2, TResult> func,
+                T1 argument1,
+                T2 argument2
+            )
+        {
+            Code.NotNull(func, "func");
+            Log.Trace("PseudoAsync::Run: entering");
+
+            TResult result;
+            Func<TResult> interim = () => func(argument1, argument2);
+            using (Task<TResult> task
+                = Task<TResult>.Factory.StartNew(interim))
+            {
+                WaitFor(task);
+                result = task.Result;
+            }
+
+            Log.Trace("PseudoAsync::Run: leaving");
+
+            return result;
         }
 
         /// <summary>

@@ -13,9 +13,12 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using AM.Logging;
 using AM.Threading;
+using AM.Threading.Tasks;
 
 using CodeJam;
 
@@ -131,6 +134,51 @@ namespace AM.Windows.Forms
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Run some code.
+        /// </summary>
+        public void Run
+            (
+                [NotNull] BusyState busyState,
+                [NotNull] Action action
+            )
+        {
+            Code.NotNull(busyState, "busyState");
+            Code.NotNull(action, "action");
+
+            busyState.StateChanged += Busy_StateChanged;
+            try
+            {
+                busyState.Run(action);
+            }
+            finally
+            {
+                busyState.StateChanged -= Busy_StateChanged;
+            }
+        }
+
+        /// <summary>
+        /// Run some code in asychronous manner.
+        /// </summary>
+        public Task RunAsync
+            (
+                [NotNull] BusyState busyState,
+                [NotNull] Action action
+            )
+        {
+            Code.NotNull(busyState, "busyState");
+            Code.NotNull(action, "action");
+
+            Task result = Task.Factory.StartNew
+                (
+                    () => Run(busyState, action)
+                )
+                .ConfigureSafe();
+
+            return result;
+        }
+
 
         /// <summary>
         /// Subscribe.

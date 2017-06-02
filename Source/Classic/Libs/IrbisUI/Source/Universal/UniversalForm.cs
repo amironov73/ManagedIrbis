@@ -38,6 +38,8 @@ using MoonSharp.Interpreter;
 
 #endregion
 
+// ReSharper disable ConvertClosureToMethodGroup
+
 namespace IrbisUI.Universal
 {
     /// <summary>
@@ -364,17 +366,19 @@ namespace IrbisUI.Universal
             }
             catch (Exception exception)
             {
+                Exception unwrapped = ExceptionUtility.Unwrap(exception);
+
                 Log.TraceException
                 (
                     "MainForm::_Initialize: ",
-                    exception
+                    unwrapped
                 );
 
                 WriteLine
                 (
-                    exception.GetType().Name
+                    unwrapped.GetType().Name
                     + ": "
-                    + exception.Message
+                    + unwrapped.Message
                 );
             }
             ReleaseProvider();

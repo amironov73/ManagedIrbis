@@ -74,6 +74,32 @@ namespace AM
             throw new Exception(message);
         }
 
+        /// <summary>
+        /// Unwrap the <see cref="AggregateException"/>
+        /// (or do nothing if not aggregate).
+        /// </summary>
+        [NotNull]
+        public static Exception Unwrap
+            (
+                [NotNull] Exception exception
+            )
+        {
+            Code.NotNull(exception, "exception");
+
+#if FW4
+
+            AggregateException aggregate = exception as AggregateException;
+            if (!ReferenceEquals(aggregate, null))
+            {
+                aggregate = aggregate.Flatten();
+                return aggregate.InnerExceptions[0];
+            }
+
+#endif
+
+            return exception;
+        }
+
         #endregion
     }
 }

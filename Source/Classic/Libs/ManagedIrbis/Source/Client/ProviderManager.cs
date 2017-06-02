@@ -14,8 +14,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
-using AM.Configuration;
 using AM.Logging;
 using AM.Parameters;
 
@@ -183,7 +183,10 @@ namespace ManagedIrbis.Client
         [NotNull]
         public static IrbisProvider GetPreconfiguredProvider()
         {
-            string configurationString = ConfigurationUtility.GetString
+#if CLASSIC || NETCORE
+
+            string configurationString 
+                = AM.Configuration.ConfigurationUtility.GetString
                 (
                     "IrbisProvider"
                 );
@@ -205,6 +208,12 @@ namespace ManagedIrbis.Client
                 = GetAndConfigureProvider(configurationString);
 
             return result;
+
+#else
+
+            throw new NotImplementedException();
+
+#endif
         }
 
         #endregion
