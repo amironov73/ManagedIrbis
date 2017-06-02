@@ -629,6 +629,33 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\StateHolder.cs">
       <Link>AM\Threading\StateHolder.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\Tasks\AsyncLocal.cs">
+      <Link>AM\Threading\Tasks\AsyncLocal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\Tasks\BatchParallelProcessor.cs">
+      <Link>AM\Threading\Tasks\BatchParallelProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\Tasks\IThrottle.cs">
+      <Link>AM\Threading\Tasks\IThrottle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\Tasks\ParallelProcessor.cs">
+      <Link>AM\Threading\Tasks\ParallelProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\Tasks\ProcessorBase.cs">
+      <Link>AM\Threading\Tasks\ProcessorBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\Tasks\TaskFactoryUtility.cs">
+      <Link>AM\Threading\Tasks\TaskFactoryUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\Tasks\TaskProcessor.cs">
+      <Link>AM\Threading\Tasks\TaskProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\Tasks\TaskUtility.cs">
+      <Link>AM\Threading\Tasks\TaskUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\Tasks\Throttle.cs">
+      <Link>AM\Threading\Tasks\Throttle.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\ThreadUtility.cs">
       <Link>AM\Threading\ThreadUtility.cs</Link>
     </Compile>

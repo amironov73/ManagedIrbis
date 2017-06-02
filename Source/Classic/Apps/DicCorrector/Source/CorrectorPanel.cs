@@ -38,18 +38,10 @@ using MoonSharp.Interpreter;
 namespace DicCorrector
 {
     public partial class CorrectorPanel 
-        : UserControl
+        : UniversalCentralControl
     {
         #region Properties
 
-        [NotNull]
-        public MainForm MainForm { get; private set; }
-
-        [NotNull]
-        public AbstractOutput Output
-        {
-            get { return MainForm.Output; }
-        }
 
         #endregion
 
@@ -59,11 +51,8 @@ namespace DicCorrector
             (
                 MainForm mainForm
             )
+            : base (mainForm)
         {
-            Code.NotNull(mainForm, "mainForm");
-
-            MainForm = mainForm;
-
             InitializeComponent();
 
             MainForm.Icon = Properties.Resources.Correct;
@@ -75,22 +64,10 @@ namespace DicCorrector
         #region Private members
 
 
-
         #endregion
 
         #region Public methods
 
-
-        public void WriteLine
-        (
-            [NotNull] string format,
-            params object[] args
-        )
-        {
-            Code.NotNull(format, "format");
-
-            Output.WriteLine(format, args);
-        }
 
         #endregion
     }

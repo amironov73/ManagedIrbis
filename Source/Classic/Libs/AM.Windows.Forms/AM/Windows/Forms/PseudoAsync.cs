@@ -76,6 +76,21 @@ namespace AM.Windows.Forms
 
         private static int _smoothness;
 
+        private static void DiscoverExceptions
+            (
+                [NotNull] Task task
+            )
+        {
+#if FW4
+            task.GetAwaiter().GetResult();
+
+#else
+
+            // TODO implement
+
+#endif
+        }
+
         #endregion
 
         #region Public methods
@@ -105,7 +120,7 @@ namespace AM.Windows.Forms
             using (Task task = Task.Factory.StartNew(action))
             {
                 WaitFor(task);
-                task.GetAwaiter().GetResult();
+                DiscoverExceptions(task);
             }
 
             Log.Trace("PseudoAsync::Run: leaving");
@@ -127,7 +142,7 @@ namespace AM.Windows.Forms
             using (Task task = Task.Factory.StartNew(interim))
             {
                 WaitFor(task);
-                task.GetAwaiter().GetResult();
+                DiscoverExceptions(task);
             }
 
             Log.Trace("PseudoAsync::Run: leaving");
@@ -150,7 +165,7 @@ namespace AM.Windows.Forms
             using (Task task = Task.Factory.StartNew(interim))
             {
                 WaitFor(task);
-                task.GetAwaiter().GetResult();
+                DiscoverExceptions(task);
             }
 
             Log.Trace("PseudoAsync::Run: leaving");
@@ -174,7 +189,7 @@ namespace AM.Windows.Forms
             using (Task task = Task.Factory.StartNew(interim))
             {
                 WaitFor(task);
-                task.GetAwaiter().GetResult();
+                DiscoverExceptions(task);
             }
 
             Log.Trace("PseudoAsync::Run: leaving");

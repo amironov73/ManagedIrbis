@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if !SILVERLIGHT
+
 #region Using directives
 
 using System;
@@ -219,16 +221,24 @@ namespace AM.Threading.Tasks
 
             while (!_queue.IsCompleted)
             {
+#if UAP || WIN81
+
+                Task.Delay(TimeSpan.FromSeconds(30)).Wait();
+
+#else
+
                 Thread.SpinWait(100000);
+
+#endif
             }
 
 #endif
 
-            Log.Trace
-            (
-                "TaskProcessor::WaitForCompletion: "
-                + "begin2"
-            );
+                Log.Trace
+                    (
+                        "TaskProcessor::WaitForCompletion: "
+                        + "begin2"
+                    );
 
             Task[] tasks;
 
@@ -251,3 +261,5 @@ namespace AM.Threading.Tasks
         #endregion
     }
 }
+
+#endif
