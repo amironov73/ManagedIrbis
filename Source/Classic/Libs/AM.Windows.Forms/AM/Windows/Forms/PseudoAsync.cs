@@ -81,7 +81,7 @@ namespace AM.Windows.Forms
                 [NotNull] Task task
             )
         {
-#if FW45
+#if FW4
 
             task.GetAwaiter().GetResult();
 

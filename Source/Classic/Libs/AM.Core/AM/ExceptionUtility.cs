@@ -92,6 +92,21 @@ namespace AM
             if (!ReferenceEquals(aggregate, null))
             {
                 aggregate = aggregate.Flatten();
+
+                aggregate.Handle
+                    (
+                        ex =>
+                            {
+                                Log.TraceException
+                                    (
+                                        "ExceptionUtility::Unwrap",
+                                        ex
+                                    );
+
+                                return true;
+                            }
+                    );
+
                 return aggregate.InnerExceptions[0];
             }
 

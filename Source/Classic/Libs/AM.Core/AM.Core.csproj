@@ -80,6 +80,14 @@
           <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
           <Private>True</Private>
         </Reference>
+        <Reference Include="System.Runtime, Version=2.6.8.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Runtime.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Threading.Tasks, Version=2.6.8.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Threading.Tasks.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
       </ItemGroup>
     </When>
     <Otherwise>
@@ -300,7 +308,6 @@
     <Compile Include="AM\TriState.cs" />
     <Compile Include="Compatibility\Diagnostics.cs" />
     <Compile Include="Compatibility\ExcludeFromCodeCoverageAttribute.cs" />
-    <Compile Include="Compatibility\TaskEx.cs" />
     <Compile Include="Compatibility\TypeInfo.cs" />
     <Compile Include="AM\UniversalComparer.cs" />
     <Compile Include="AM\Utility.cs" />
