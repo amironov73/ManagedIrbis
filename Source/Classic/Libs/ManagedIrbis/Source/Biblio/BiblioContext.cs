@@ -42,6 +42,7 @@ namespace ManagedIrbis.Biblio
     [PublicAPI]
     [MoonSharpUserData]
     public class BiblioContext
+        : IVerifiable
     {
         #region Properties
 
@@ -113,6 +114,24 @@ namespace ManagedIrbis.Biblio
                 .FirstOrDefault(record => record.Mfn == mfn);
 
             return result;
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<BiblioContext> verifier
+                = new Verifier<BiblioContext>(this, throwOnError);
+
+            // TODO do something
+
+            return verifier.Result;
         }
 
         #endregion

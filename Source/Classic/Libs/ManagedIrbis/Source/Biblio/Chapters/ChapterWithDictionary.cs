@@ -44,9 +44,23 @@ namespace ManagedIrbis.Biblio
     {
         #region Properties
 
+        /// <summary>
+        /// Dictionary.
+        /// </summary>
+        [NotNull]
+        public BiblioDictionary Dictionary { get; private set; }
+
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public ChapterWithDictionary()
+        {
+            Dictionary = new BiblioDictionary();
+        }
 
         #endregion
 
@@ -55,6 +69,26 @@ namespace ManagedIrbis.Biblio
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region IVerifiable mebers
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public override bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<ChapterWithDictionary> verifier
+                = new Verifier<ChapterWithDictionary>(this, throwOnError);
+
+            verifier
+                .Assert(base.Verify(throwOnError))
+                .VerifySubObject(Dictionary, "Dictionary");
+
+            return verifier.Result;
+        }
 
         #endregion
 

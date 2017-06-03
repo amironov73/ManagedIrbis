@@ -41,6 +41,7 @@ namespace ManagedIrbis.Biblio
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class BiblioTerm
+        : IVerifiable
     {
         #region Properties
 
@@ -55,6 +56,21 @@ namespace ManagedIrbis.Biblio
         /// </summary>
         [CanBeNull]
         public string Data { get; set; }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify(bool throwOnError)
+        {
+            Verifier<BiblioTerm> verifier
+                = new Verifier<BiblioTerm>(this, throwOnError);
+
+            // TODO do something
+
+            return verifier.Result;
+        }
 
         #endregion
     }

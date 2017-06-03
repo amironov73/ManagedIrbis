@@ -43,7 +43,8 @@ namespace ManagedIrbis.Biblio
     [PublicAPI]
     [MoonSharpUserData]
     public class BiblioChapter
-        : IAttributable
+        : IAttributable,
+        IVerifiable
     {
         #region Properties
 
@@ -56,7 +57,7 @@ namespace ManagedIrbis.Biblio
         /// </summary>
         [NotNull]
         [JsonProperty("children")]
-        public NonNullCollection<BiblioChapter> Children { get; private set; }
+        public ChapterCollection Children { get; private set; }
 
         /// <summary>
         /// Title of the chapter.
@@ -80,7 +81,7 @@ namespace ManagedIrbis.Biblio
         public BiblioChapter()
         {
             Attributes = new ReportAttributes();
-            Children = new NonNullCollection<BiblioChapter>();
+            Children = new ChapterCollection(null, this);
         }
 
         #endregion
@@ -108,6 +109,26 @@ namespace ManagedIrbis.Biblio
                     "BiblioChapter::Render: "
                     + "must be overriden"
                 );
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public virtual bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<BiblioChapter> verifier
+                = new Verifier<BiblioChapter>(this, throwOnError);
+
+            verifier
+                .NotNull(Children, "Children")
+                .VerifySubObject(Children, "Children");
+
+            return verifier.Result;
         }
 
         #endregion

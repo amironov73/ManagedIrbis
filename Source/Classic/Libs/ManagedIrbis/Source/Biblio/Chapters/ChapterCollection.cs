@@ -43,7 +43,8 @@ namespace ManagedIrbis.Biblio
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class ChapterCollection
-        : NonNullCollection<BiblioChapter>
+        : NonNullCollection<BiblioChapter>,
+        IVerifiable
     {
         #region Properties
 
@@ -128,6 +129,27 @@ namespace ManagedIrbis.Biblio
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<ChapterCollection> verifier
+                = new Verifier<ChapterCollection>(this, throwOnError);
+
+            foreach (BiblioChapter chapter in this)
+            {
+                verifier.VerifySubObject(chapter, "chapter");
+            }
+
+            return verifier.Result;
+        }
 
         #endregion
 

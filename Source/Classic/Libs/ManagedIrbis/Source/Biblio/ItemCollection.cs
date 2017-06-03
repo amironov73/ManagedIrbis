@@ -41,7 +41,44 @@ namespace ManagedIrbis.Biblio
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class ItemCollection
-        : NonNullCollection<BiblioItem>
+        : NonNullCollection<BiblioItem>,
+        IVerifiable
     {
+        #region Properties
+
+        #endregion
+
+        #region Construction
+
+        #endregion
+
+        #region Public methods
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<ItemCollection> verifier
+                = new Verifier<ItemCollection>(this, throwOnError);
+
+            foreach (BiblioItem item in this)
+            {
+                verifier.VerifySubObject(item, "item");
+            }
+
+            return verifier.Result;
+        }
+
+        #endregion
+
+        #region Object members
+
+        #endregion
     }
 }

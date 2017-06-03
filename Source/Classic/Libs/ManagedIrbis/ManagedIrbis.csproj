@@ -80,7 +80,7 @@
           <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
           <Private>True</Private>
         </Reference>
-         <Reference Include="System.Runtime, Version=2.6.8.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+        <Reference Include="System.Runtime, Version=2.6.8.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
           <HintPath>..\..\..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Runtime.dll</HintPath>
           <Private>True</Private>
         </Reference>
@@ -88,7 +88,7 @@
           <HintPath>..\..\..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Threading.Tasks.dll</HintPath>
           <Private>True</Private>
         </Reference>
-     </ItemGroup>
+      </ItemGroup>
     </When>
     <Otherwise>
       <ItemGroup>
@@ -133,8 +133,6 @@
     <Compile Include="Source\Biblio\BiblioFilter.cs" />
     <Compile Include="Source\Biblio\BiblioItem.cs" />
     <Compile Include="Source\Biblio\BiblioTerm.cs" />
-    <Compile Include="Source\Biblio\Cells\BiblioCell.cs" />
-    <Compile Include="Source\Biblio\Cells\CellCollection.cs" />
     <Compile Include="Source\Biblio\Chapters\BiblioChapter.cs" />
     <Compile Include="Source\Biblio\BiblioDocument.cs" />
     <Compile Include="Source\Biblio\BiblioProcessor.cs" />

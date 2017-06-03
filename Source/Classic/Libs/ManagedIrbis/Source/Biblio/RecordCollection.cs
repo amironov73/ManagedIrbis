@@ -40,7 +40,8 @@ namespace ManagedIrbis.Biblio
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class RecordCollection
-        : NonNullCollection<MarcRecord>
+        : NonNullCollection<MarcRecord>,
+        IVerifiable
     {
         #region Properties
 
@@ -66,6 +67,27 @@ namespace ManagedIrbis.Biblio
             Array.Sort(records, RecordComparer.BySortKey());
             Clear();
             AddRange(records);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<RecordCollection> verifier
+                = new Verifier<RecordCollection>(this, throwOnError);
+
+            foreach (MarcRecord record in this)
+            {
+                verifier.VerifySubObject(record, "record");
+            }
+
+            return verifier.Result;
         }
 
         #endregion
