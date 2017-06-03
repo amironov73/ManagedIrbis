@@ -49,7 +49,7 @@ namespace ManagedIrbis.Biblio
         /// 
         /// </summary>
         [CanBeNull]
-        public string Prefix { get; set; }
+        public BiblioDictionary Dictionary { get; set; }
 
         /// <summary>
         /// 

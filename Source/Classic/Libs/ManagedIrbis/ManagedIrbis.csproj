@@ -142,6 +142,7 @@
     <Compile Include="Source\Biblio\Chapters\ChapterWithText.cs" />
     <Compile Include="Source\Biblio\ItemCollection.cs" />
     <Compile Include="Source\Biblio\RecordCollection.cs" />
+    <Compile Include="Source\Biblio\TermComparer.cs" />
     <Compile Include="Source\BibTex\BibTex.cs" />
     <Compile Include="Source\Caching\IrbisCache.cs" />
     <Compile Include="Source\Caching\MenuCache.cs" />

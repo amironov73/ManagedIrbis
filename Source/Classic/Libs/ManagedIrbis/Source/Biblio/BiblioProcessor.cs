@@ -58,6 +58,14 @@ namespace ManagedIrbis.Biblio
         /// <summary>
         /// Constructor.
         /// </summary>
+        public BiblioProcessor()
+        {
+            Output = new NullOutput();
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public BiblioProcessor
             (
                 [NotNull] AbstractOutput output
@@ -73,9 +81,43 @@ namespace ManagedIrbis.Biblio
         #region Private members
 
         /// <summary>
+        /// 
+        /// </summary>
+        private void BildDictionaries
+            (
+                BiblioContext context
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void BildItems
+            (
+                BiblioContext context
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void FinalRender
+            (
+                BiblioContext context
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
         /// Gather records from the chapter.
         /// </summary>
-        protected void GatherRecords
+        protected virtual void GatherRecords
             (
                 [NotNull] BiblioContext context,
                 [NotNull] ChapterWithRecords chapter
@@ -86,14 +128,14 @@ namespace ManagedIrbis.Biblio
 
             ChapterWithRecords[] children
                 = chapter.Children.OfType<ChapterWithRecords>()
-                .ToArray();
+                    .ToArray();
             foreach (ChapterWithRecords child in children)
             {
                 GatherRecords
-                    (
-                        context,
-                        child
-                    );
+                (
+                    context,
+                    child
+                );
             }
 
             BiblioFilter chapterFilter = chapter.Filter;
@@ -104,11 +146,11 @@ namespace ManagedIrbis.Biblio
                 if (children.Length == 0)
                 {
                     Log.Warn
-                        (
-                            "BiblioProcessor::GatherRecords: "
-                            + "chapter without filter: "
-                            + chapter.Title.ToVisibleString()
-                        );
+                    (
+                        "BiblioProcessor::GatherRecords: "
+                        + "chapter without filter: "
+                        + chapter.Title.ToVisibleString()
+                    );
                 }
 
                 return;
@@ -138,20 +180,20 @@ namespace ManagedIrbis.Biblio
             }
 
             int[] found = provider.Search
-                (
-                    chapterFilter.SelectExpression
-                );
+            (
+                chapterFilter.SelectExpression
+            );
 
             if (found.Length == 0)
             {
                 Log.Warn
-                    (
-                        "BiblioProcessor::GatherRecords: "
-                        + "noting found for chapter: "
-                        + chapter.Title.ToVisibleString()
-                        + " with filter="
-                        + chapterFilter.ToVisibleString()
-                    );
+                (
+                    "BiblioProcessor::GatherRecords: "
+                    + "noting found for chapter: "
+                    + chapter.Title.ToVisibleString()
+                    + " with filter="
+                    + chapterFilter.ToVisibleString()
+                );
             }
 
             foreach (int mfn in found)
@@ -167,11 +209,11 @@ namespace ManagedIrbis.Biblio
                 if (ReferenceEquals(record, null))
                 {
                     Log.Warn
-                        (
-                            "BiblioProcessor::GatherRecords: "
-                            + "can't read record="
-                            + mfn
-                        );
+                    (
+                        "BiblioProcessor::GatherRecords: "
+                        + "can't read record="
+                        + mfn
+                    );
 
                     continue;
                 }
@@ -180,11 +222,11 @@ namespace ManagedIrbis.Biblio
                 if (string.IsNullOrEmpty(record.Description))
                 {
                     Log.Warn
-                        (
-                            "BiblioProcessor::GatherRecords: "
-                            + "empty description for record="
-                            + mfn
-                        );
+                    (
+                        "BiblioProcessor::GatherRecords: "
+                        + "empty description for record="
+                        + mfn
+                    );
                 }
 
                 record.SortKey = provider.FormatRecord(record, sort);
@@ -194,23 +236,6 @@ namespace ManagedIrbis.Biblio
             }
 
             chapter.Records.SortRecords();
-        }
-
-        #endregion
-
-        #region Public methods
-
-        /// <summary>
-        /// Build document.
-        /// </summary>
-        public void BuildDocument
-            (
-                [NotNull] BiblioContext context
-            )
-        {
-            Code.NotNull(context, "context");
-
-            GatherRecords(context);
         }
 
         /// <summary>
@@ -228,12 +253,57 @@ namespace ManagedIrbis.Biblio
             foreach (ChapterWithRecords chapter in chapters)
             {
                 GatherRecords
-                    (
-                        context,
-                        chapter
-                    );
-
+                (
+                    context,
+                    chapter
+                );
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void RenderReport
+            (
+                BiblioContext context
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void GatherTerms
+            (
+                BiblioContext context
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Build document.
+        /// </summary>
+        public string BuildDocument
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            GatherRecords(context);
+            BildItems(context);
+            GatherTerms(context);
+            BildDictionaries(context);
+            RenderReport(context);
+            FinalRender(context);
+
+            return string.Empty;
         }
 
         #endregion

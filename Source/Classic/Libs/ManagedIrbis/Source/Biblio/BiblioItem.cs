@@ -51,6 +51,12 @@ namespace ManagedIrbis.Biblio
         public int Number { get; set; }
 
         /// <summary>
+        /// Record.
+        /// </summary>
+        [CanBeNull]
+        public MarcRecord Record { get; set; }
+
+        /// <summary>
         /// 
         /// </summary>
         [CanBeNull]
