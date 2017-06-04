@@ -62,6 +62,54 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Batch\BatchSearcher.cs">
       <Link>Source\Batch\BatchSearcher.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioContext.cs">
+      <Link>Source\Biblio\BiblioContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioDocument.cs">
+      <Link>Source\Biblio\BiblioDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioFilter.cs">
+      <Link>Source\Biblio\BiblioFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioItem.cs">
+      <Link>Source\Biblio\BiblioItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioProcessor.cs">
+      <Link>Source\Biblio\BiblioProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioTerm.cs">
+      <Link>Source\Biblio\BiblioTerm.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\BiblioChapter.cs">
+      <Link>Source\Biblio\Chapters\BiblioChapter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterCollection.cs">
+      <Link>Source\Biblio\Chapters\ChapterCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithDictionary.cs">
+      <Link>Source\Biblio\Chapters\ChapterWithDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithRecords.cs">
+      <Link>Source\Biblio\Chapters\ChapterWithRecords.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithText.cs">
+      <Link>Source\Biblio\Chapters\ChapterWithText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Dictionaries\BiblioDictionary.cs">
+      <Link>Source\Biblio\Dictionaries\BiblioDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Dictionaries\PftDictionary.cs">
+      <Link>Source\Biblio\Dictionaries\PftDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\ItemCollection.cs">
+      <Link>Source\Biblio\ItemCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\RecordCollection.cs">
+      <Link>Source\Biblio\RecordCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\TermComparer.cs">
+      <Link>Source\Biblio\TermComparer.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Caching\IrbisCache.cs">
       <Link>Source\Caching\IrbisCache.cs</Link>
     </Compile>
@@ -1474,6 +1522,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RecordComparator.cs">
       <Link>Source\RecordComparator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RecordComparer.cs">
+      <Link>Source\RecordComparer.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RecordDifferenceResult.cs">
       <Link>Source\RecordDifferenceResult.cs</Link>

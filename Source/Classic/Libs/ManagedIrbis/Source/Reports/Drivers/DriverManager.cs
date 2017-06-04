@@ -93,7 +93,7 @@ namespace ManagedIrbis.Reports
         {
             Registry = new Dictionary<string, Type>
             {
-#if !NETCORE && !WINMOBILE
+#if CLASSIC || ANDROID
 
                 { Dataset, typeof(DatasetDriver) },
 

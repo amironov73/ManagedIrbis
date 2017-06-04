@@ -76,9 +76,6 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioContext.cs">
       <Link>Source\Biblio\BiblioContext.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioDictionary.cs">
-      <Link>Source\Biblio\BiblioDictionary.cs</Link>
-    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioDocument.cs">
       <Link>Source\Biblio\BiblioDocument.cs</Link>
     </Compile>
@@ -105,6 +102,12 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithText.cs">
       <Link>Source\Biblio\Chapters\ChapterWithText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Dictionaries\BiblioDictionary.cs">
+      <Link>Source\Biblio\Dictionaries\BiblioDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Dictionaries\PftDictionary.cs">
+      <Link>Source\Biblio\Dictionaries\PftDictionary.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\ItemCollection.cs">
       <Link>Source\Biblio\ItemCollection.cs</Link>

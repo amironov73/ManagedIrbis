@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* BiblioDictionary.cs -- 
+/* PftDictionary.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -44,8 +44,8 @@ namespace ManagedIrbis.Biblio
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class BiblioDictionary
-        : IVerifiable
+    public class PftDictionary
+        : BiblioDictionary
     {
         #region Properties
 
@@ -77,14 +77,26 @@ namespace ManagedIrbis.Biblio
         #region Public methods
 
         /// <summary>
-        /// Gather terms from the <see cref="BiblioItem"/>.
+        /// Set expression.
         /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public virtual BiblioTerm[] GatherTerms
+        public virtual void SetExpression
             (
-                [NotNull] BiblioContext context,
-                [NotNull] BiblioItem item
+                [CanBeNull] string expression
+            )
+        {
+            _formatter = null;
+            _expression = expression;
+        }
+
+        #endregion
+
+        #region BiblioDictionary members
+
+        /// <inheritdoc  cref="BiblioDictionary.GatherTerms" />
+        public override BiblioTerm[] GatherTerms
+            (
+                BiblioContext context,
+                BiblioItem item
             )
         {
             Code.NotNull(context, "context");
@@ -135,24 +147,10 @@ namespace ManagedIrbis.Biblio
             return result.ToArray();
         }
 
-        /// <summary>
-        /// Set expression.
-        /// </summary>
-        public virtual void SetExpression
+        /// <inheritdoc cref="BiblioDictionary.SortTerms" />
+        public override IEnumerable<BiblioTerm> SortTerms
             (
-                [CanBeNull] string expression
-            )
-        {
-            _formatter = null;
-            _expression = expression;
-        }
-
-        /// <summary>
-        /// Sort terms.
-        /// </summary>
-        public virtual IEnumerable<BiblioTerm> SortTerms
-            (
-                [NotNull] IEnumerable<BiblioTerm> terms
+                IEnumerable<BiblioTerm> terms
             )
         {
             Code.NotNull(terms, "terms");
@@ -168,7 +166,7 @@ namespace ManagedIrbis.Biblio
         #region IVerifiable members
 
         /// <inheritdoc cref="IVerifiable.Verify" />
-        public bool Verify
+        public override bool Verify
             (
                 bool throwOnError
             )
@@ -177,6 +175,7 @@ namespace ManagedIrbis.Biblio
                 = new Verifier<BiblioDictionary>(this, throwOnError);
 
             verifier
+                .Assert(base.Verify(throwOnError), "base.Verify")
                 .NotNullNorEmpty(Expression, "Expression");
 
             return verifier.Result;
