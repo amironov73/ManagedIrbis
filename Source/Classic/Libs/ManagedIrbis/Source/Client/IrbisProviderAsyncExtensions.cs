@@ -32,6 +32,8 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Menus;
+using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
 
@@ -66,6 +68,26 @@ namespace ManagedIrbis.Client
             Task result = Task.Factory.StartNew
                 (
                     () => provider.Configure(configurationString)
+                )
+                .ConfigureSafe();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Dispose the provider.
+        /// </summary>
+        [NotNull]
+        public static Task DisposeAsync
+            (
+                [NotNull] this IrbisProvider provider
+            )
+        {
+            Code.NotNull(provider, "provider");
+
+            Task result = Task.Factory.StartNew
+                (
+                    () => provider.Dispose()
                 )
                 .ConfigureSafe();
 
@@ -203,6 +225,50 @@ namespace ManagedIrbis.Client
         }
 
         /// <summary>
+        /// Read INI-file.
+        /// </summary>
+        [NotNull]
+        public static Task<IniFile> ReadIniFileAsync
+            (
+                [NotNull] this IrbisProvider provider,
+                [NotNull] FileSpecification fileSpecification
+            )
+        {
+            Code.NotNull(provider, "provider");
+            Code.NotNull(fileSpecification, "fileSpecification");
+
+            Task<IniFile> result = Task.Factory.StartNew
+                (
+                    () => provider.ReadIniFile(fileSpecification)
+                )
+                .ConfigureSafe();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Reade menu file.
+        /// </summary>
+        [NotNull]
+        public static Task<MenuFile> ReadMenuFileAsync
+            (
+                [NotNull] this IrbisProvider provider,
+                [NotNull] FileSpecification fileSpecification
+            )
+        {
+            Code.NotNull(provider, "provider");
+            Code.NotNull(fileSpecification, "fileSpecification");
+
+            Task<MenuFile> result = Task.Factory.StartNew
+                (
+                    () => provider.ReadMenuFile(fileSpecification)
+                )
+                .ConfigureSafe();
+
+            return result;
+        }
+
+        /// <summary>
         /// Read the record.
         /// </summary>
         [NotNull]
@@ -217,6 +283,93 @@ namespace ManagedIrbis.Client
             Task<MarcRecord> result = Task.Factory.StartNew
                 (
                     () => provider.ReadRecord(mfn)
+                )
+                .ConfigureSafe();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Read record version.
+        /// </summary>
+        [NotNull]
+        public static Task<MarcRecord> ReadRecordVersionAsync
+            (
+                [NotNull] this IrbisProvider provider,
+                int mfn,
+                int version
+            )
+        {
+            Code.NotNull(provider, "provider");
+            Code.Positive(mfn, "mfn");
+            Code.Nonnegative(version, "version");
+
+            Task<MarcRecord> result = Task.Factory.StartNew
+                (
+                    () => provider.ReadRecordVersion(mfn, version)
+                )
+                .ConfigureSafe();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Read search scenarios.
+        /// </summary>
+        [NotNull]
+        public static Task<SearchScenario[]> ReadSearchScenariosAsync
+            (
+                [NotNull] this IrbisProvider provider
+            )
+        {
+            Code.NotNull(provider, "provider");
+
+            Task<SearchScenario[]> result = Task.Factory.StartNew
+                (
+                    () => provider.ReadSearchScenarios()
+                )
+                .ConfigureSafe();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Read terms.
+        /// </summary>
+        [NotNull]
+        public static Task<TermInfo[]> ReadTermsAsync
+            (
+                [NotNull] this IrbisProvider provider,
+                [NotNull] TermParameters parameters
+            )
+        {
+            Code.NotNull(provider, "provider");
+            Code.NotNull(parameters, "parameters");
+
+            Task<TermInfo[]> result = Task.Factory.StartNew
+                (
+                    () => provider.ReadTerms(parameters)
+                )
+                .ConfigureSafe();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Search for records.
+        /// </summary>
+        [NotNull]
+        public static Task<int[]> SearchAsync
+            (
+                [NotNull] this IrbisProvider provider,
+                [CanBeNull] string expression
+            )
+        {
+            Code.NotNull(provider, "provider");
+
+            Task<int[]> result = Task.Factory.StartNew
+                (
+                    () => provider.Search(expression)
                 )
                 .ConfigureSafe();
 
