@@ -59,6 +59,12 @@ namespace AM.Istu.OldModel
         }
 
         /// <summary>
+        /// Connection.
+        /// </summary>
+        [JetBrains.Annotations.NotNull]
+        public IrbisConnection Connection { get; private set; }
+
+        /// <summary>
         /// Database connection.
         /// </summary>
         [JetBrains.Annotations.NotNull]
@@ -101,6 +107,7 @@ namespace AM.Istu.OldModel
         public Kladovka()
         {
             DB = new DbManager();
+            Connection = IrbisConnectionUtility.GetClientFromConfig();
         }
 
         /// <summary>
@@ -108,12 +115,15 @@ namespace AM.Istu.OldModel
         /// </summary>
         public Kladovka
             (
-                [JetBrains.Annotations.NotNull] DbManager db
+                [JetBrains.Annotations.NotNull] DbManager db,
+                [JetBrains.Annotations.NotNull] IrbisConnection connection
             )
         {
             Code.NotNull(db, "db");
+            Code.NotNull(connection, "connection");
 
             DB = db;
+            Connection = connection;
         }
 
         /// <summary>
@@ -121,12 +131,15 @@ namespace AM.Istu.OldModel
         /// </summary>
         public Kladovka
             (
-                [JetBrains.Annotations.NotNull] string suffix
+                [JetBrains.Annotations.NotNull] string suffix,
+                [JetBrains.Annotations.NotNull] string irbisConnectionString
             )
         {
             Code.NotNullNorEmpty(suffix, "suffix");
+            Code.NotNullNorEmpty(irbisConnectionString, "irbisConnectionString");
 
-            DB= new DbManager(suffix);
+            DB = new DbManager(suffix);
+            Connection = new IrbisConnection(irbisConnectionString);
         }
 
         #endregion
@@ -198,6 +211,59 @@ namespace AM.Istu.OldModel
         }
 
         /// <summary>
+        /// Find records using specified expression.
+        /// </summary>
+        [JetBrains.Annotations.NotNull]
+        public int[] FindRecords
+            (
+                [JetBrains.Annotations.NotNull] string format,
+                params object[] args
+            )
+        {
+            Code.NotNullNorEmpty(format, "format");
+
+            int[] result = Connection.Search(format, args);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Find podsob record by barcode or RFID.
+        /// </summary>
+        [CanBeNull]
+        public PodsobRecord FindPodsobByBarcode
+            (
+                [JetBrains.Annotations.NotNull] string barcode
+            )
+        {
+            Code.NotNullNorEmpty(barcode, "barcode");
+
+            TranslatorRecord translator = GetTranslatorRecord(barcode);
+            if (ReferenceEquals(translator, null))
+            {
+                return null;
+            }
+            PodsobRecord result = GetPodsobRecord(translator.Inventory);
+            if (ReferenceEquals(result, null))
+            {
+                result = new PodsobRecord();
+            }
+            int[] found = FindRecords
+                (
+                    "\"IN={0}\"",
+                    translator.Inventory.ToInvariantString()
+                );
+            if (found.Length == 0)
+            {
+                return null;
+            }
+            MarcRecord record = ReadMarcRecord(found[0]);
+            result.Record = record;
+
+            return result;
+        }
+
+        /// <summary>
         /// Get podsob record for the inventory number.
         /// </summary>
         [JetBrains.Annotations.CanBeNull]
@@ -233,6 +299,23 @@ namespace AM.Istu.OldModel
                     rec => rec.Barcode == barcode
                            || rec.Rfid == barcode
                 );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Read <see cref="MarcRecord"/> for given MFN.
+        /// </summary>
+        [JetBrains.Annotations.NotNull]
+        public MarcRecord ReadMarcRecord
+            (
+                int mfn
+            )
+        {
+            Code.Positive(mfn, "mfn");
+
+            MarcRecord result = Connection.ReadRecord(mfn);
+            result.Description = Connection.FormatRecord("@brief", mfn);
 
             return result;
         }

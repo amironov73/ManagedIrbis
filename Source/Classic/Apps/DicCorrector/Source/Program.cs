@@ -48,17 +48,17 @@ namespace DicCorrector
     static class Program
     {
         static void _ThreadException
-        (
-            object sender,
-            ThreadExceptionEventArgs eventArgs
-        )
+            (
+                object sender,
+                ThreadExceptionEventArgs eventArgs
+            )
         {
             ExceptionBox.Show(eventArgs.Exception);
             Environment.FailFast
-            (
-                "Shutting down",
-                eventArgs.Exception
-            );
+                (
+                    "Shutting down",
+                     eventArgs.Exception
+                );
         }
 
         /// <summary>

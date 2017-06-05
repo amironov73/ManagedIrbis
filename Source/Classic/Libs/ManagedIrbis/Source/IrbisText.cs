@@ -88,18 +88,28 @@ namespace ManagedIrbis
                 return text;
             }
 
+            // Remove repeating area delimiters.
             string result = Regex.Replace
                 (
                     text,
-                    @"(\. - ){2,}",
+                    @"(\.\s-\s){2,}",
                     ". - "
                 );
 
+            // Cleanup repeating dots
             result = Regex.Replace
                 (
                     result,
                     @"\.{2,}",
                     _CleanupEvaluator
+                );
+
+            // Remove the area delimiters at the paragraph end.
+            result = Regex.Replace
+                (
+                    result,
+                    @"(\.\s-\s)+(<br>|<br\s*/>|\\par|\x0A|\x0D\x0A)",
+                    "$2"
                 );
 
             return result;

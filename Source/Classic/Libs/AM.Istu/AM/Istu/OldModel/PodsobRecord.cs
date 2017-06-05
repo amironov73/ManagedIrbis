@@ -26,7 +26,7 @@ using BLToolkit.Mapping;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -108,6 +108,13 @@ namespace AM.Istu.OldModel
         /// </summary>
         [MapField("sigla")]
         public string Sigla { get; set; }
+
+        /// <summary>
+        /// MARC record.
+        /// </summary>
+        [CanBeNull]
+        [MapIgnore]
+        public MarcRecord Record { get; set; }
 
         #endregion
 

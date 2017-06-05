@@ -465,7 +465,7 @@ namespace ManagedIrbis
             {
                 throw new IrbisException
                     (
-                    "Connection string not specified!"
+                        "Connection string not specified!"
                     );
             }
 
