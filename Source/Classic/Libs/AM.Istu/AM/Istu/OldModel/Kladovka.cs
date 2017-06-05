@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 
 using AM.Configuration;
 using AM.Data;
+using AM.Logging;
 
 using BLToolkit.Data;
 using BLToolkit.Data.Linq;
@@ -79,6 +80,15 @@ namespace AM.Istu.OldModel
         public Table<ReaderRecord> Readers
         {
             get { return DB.GetTable<ReaderRecord>(); }
+        }
+
+        /// <summary>
+        /// Table "translator".
+        /// </summary>
+        [JetBrains.Annotations.NotNull]
+        public Table<TranslatorRecord> Translator
+        {
+            get { return DB.GetTable<TranslatorRecord>(); }
         }
 
         #endregion
@@ -185,6 +195,46 @@ namespace AM.Istu.OldModel
                 );
 
             return this;
+        }
+
+        /// <summary>
+        /// Get podsob record for the inventory number.
+        /// </summary>
+        [JetBrains.Annotations.CanBeNull]
+        public PodsobRecord GetPodsobRecord
+            (
+                int inventory
+            )
+        {
+            PodsobRecord result = Podsob.FirstOrDefault
+                (
+                    rec => rec.Inventory == inventory
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get translator record for the barcode or rfid.
+        /// </summary>
+        [JetBrains.Annotations.CanBeNull]
+        public TranslatorRecord GetTranslatorRecord
+            (
+                [JetBrains.Annotations.CanBeNull] string barcode
+            )
+        {
+            if (string.IsNullOrEmpty(barcode))
+            {
+                return null;
+            }
+
+            TranslatorRecord result = Translator.FirstOrDefault
+                (
+                    rec => rec.Barcode == barcode
+                           || rec.Rfid == barcode
+                );
+
+            return result;
         }
 
         #endregion

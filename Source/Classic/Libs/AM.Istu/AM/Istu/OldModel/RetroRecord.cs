@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 
 using AM.Configuration;
 using AM.Data;
+using AM.Logging;
 
 using BLToolkit.Mapping;
 
@@ -27,6 +28,8 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -40,6 +43,7 @@ namespace AM.Istu.OldModel
     public class RetroRecord
     {
         #region Properties
+
         private bool _isNew;
 
         ///<summary>

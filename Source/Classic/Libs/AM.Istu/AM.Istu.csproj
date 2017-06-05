@@ -141,6 +141,7 @@
     <Compile Include="AM\Istu\OldModel\ReaderRecord.cs" />
     <Compile Include="AM\Istu\OldModel\RetroRecord.cs" />
     <Compile Include="AM\Istu\OldModel\SanctionRecord.cs" />
+    <Compile Include="AM\Istu\OldModel\TranslatorRecord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

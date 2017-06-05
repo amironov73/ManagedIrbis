@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 
 using AM.Configuration;
 using AM.Data;
+using AM.Logging;
 
 using BLToolkit.DataAccess;
 using BLToolkit.Mapping;
@@ -33,7 +34,7 @@ using MoonSharp.Interpreter;
 namespace AM.Istu.OldModel
 {
     /// <summary>
-    /// 
+    /// Информация о подсобном фонде.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -43,41 +44,50 @@ namespace AM.Istu.OldModel
         #region Properties
 
         ///<summary>
-        /// 
+        /// Инвентарный номер книги.
         ///</summary>
-        [MapField("invent")]
+        [MapField("INVENT")]
         public int Inventory { get; set; }
 
         ///<summary>
-        /// 
+        /// Номер читательского билета.
         ///</summary>
-        [MapField("chb")]
+        [MapField("CHB")]
         public string Ticket { get; set; }
 
         ///<summary>
-        /// 
+        /// Дополнительная информация о читателе.
         ///</summary>
-        [MapField("ident")]
+        [MapField("IDENT")]
         public string AdditionalInfo { get; set; }
 
+        /// <summary>
+        /// Момент выдачи.
+        /// </summary>
+        [MapField("WHE")]
+        public DateTime Moment { get; set; }
+
         ///<summary>
-        /// 
+        /// Табельный номер оператора.
         ///</summary>
         [MapField("operator")]
         public int Operator { get; set; }
 
         ///<summary>
-        /// 
+        /// Предполагаемый срок возврата.
         ///</summary>
         [MapField("srok")]
         public DateTime Deadline { get; set; }
 
         ///<summary>
-        /// 
+        /// Количество продлений.
         ///</summary>
         [MapField("prodlen")]
-        public int Prolong { get; set; }
+        public int Prolongation { get; set; }
 
+        /// <summary>
+        /// На руках у читателя.
+        /// </summary>
         [MapField("onhand")]
         public string OnHand { get; set; }
 
@@ -86,6 +96,12 @@ namespace AM.Istu.OldModel
         /// </summary>
         [MapField("alert")]
         public string Alert { get; set; }
+
+        /// <summary>
+        /// Контрольный экземпляр.
+        /// </summary>
+        [MapField("pilot")]
+        public char Pilot { get; set; }
 
         /// <summary>
         /// Место хранения ЦОР, ЦНИ и т. д.
@@ -104,6 +120,16 @@ namespace AM.Istu.OldModel
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return Inventory.ToInvariantString();
+        }
 
         #endregion
     }
