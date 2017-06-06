@@ -75,8 +75,11 @@ namespace CniInvent
 
         public MainForm()
         {
+            _bindingList = new BindingList<StatusRecord>();
+
             InitializeComponent();
 
+            _bindingSource.DataSource = _bindingList;
             Log = new TextBoxOutput(_logBox);
             Kladovka = new Kladovka();
             IdleManager = new IrbisIdleManager
@@ -90,6 +93,7 @@ namespace CniInvent
         #endregion
 
         private StatusRecord _goodRecord;
+        private readonly BindingList<StatusRecord> _bindingList;
 
         private void MainForm_FormClosed
             (
@@ -130,6 +134,7 @@ namespace CniInvent
 
             this.ShowVersionInfoInTitle();
             Log.PrintSystemInformation();
+            _placeBox.Text = CM.AppSettings["place"];
 
             WriteLine("Подключено к серверу");
         }
@@ -216,9 +221,11 @@ namespace CniInvent
 
             MarcRecord record = podsob.Record.ThrowIfNull("podsob.Record");
             RecordField field = record.Fields
+                .GetField("910")
                 .FirstOrDefault
                 (
-                    f => rfid.SameString(f.GetFirstSubFieldValue('h'))
+                    f => rfid.SameString(f.GetFirstSubFieldValue('b'))
+                        || rfid.SameString(f.GetFirstSubFieldValue('h'))
                         || rfid.SameString(f.GetFirstSubFieldValue('t'))
                 );
             if (ReferenceEquals(field, null))
@@ -265,7 +272,8 @@ namespace CniInvent
             }
 
             string fieldPlace = field.GetFirstSubFieldValue('d');
-            if (!place.SameString(fieldPlace))
+            if (!string.IsNullOrEmpty(fieldPlace)
+                && !place.SameString(fieldPlace))
             {
                 WriteLine
                     (
@@ -358,11 +366,57 @@ namespace CniInvent
                 return;
             }
 
-            WriteLine("Помечаем: {0}", status.Inventory);
+            int inventory = _goodRecord.Inventory;
+            StatusRecord found = _bindingList.FirstOrDefault
+                (
+                    item => item.Inventory == inventory
+                );
+            if (!ReferenceEquals(found, null))
+            {
+                WriteLine("Уже отмечено: {0}", inventory);
+
+                return;
+            }
+
+            WriteLine("Помечаем: {0}", inventory);
             RecordField field = status.Field;
+            field.SetSubField('d', status.Place);
             field.SetSubField('s', IrbisDate.TodayText);
             field.SetSubField('!', status.Place);
             Kladovka.Connection.WriteRecord(status.Record);
+
+            _bindingList.Add(_goodRecord);
+
+            _descriptionBox.Clear();
+            SetStatus(new bool?());
+
+            _goodRecord = null;
+        }
+
+        private void MainForm_PreviewKeyDown
+            (
+                object sender,
+                PreviewKeyDownEventArgs e
+            )
+        {
+            if (e.KeyCode == Keys.F2)
+            {
+                _confirmButton_Click(sender, e);
+                e.IsInputKey = false;
+            }
+        }
+
+        private void _rfidBox_PreviewKeyDown
+            (
+                object sender,
+                PreviewKeyDownEventArgs e
+            )
+        {
+            if (e.KeyCode == Keys.F2)
+            {
+                _confirmButton_Click(sender, e);
+                e.IsInputKey = false;
+            }
         }
     }
 }

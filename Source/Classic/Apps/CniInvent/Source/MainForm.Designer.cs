@@ -31,35 +31,35 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this._rfidBox = new System.Windows.Forms.TextBox();
             this._grid = new System.Windows.Forms.DataGridView();
-            this._bindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this._descriptionBox = new System.Windows.Forms.TextBox();
             this._indicatorPanel = new System.Windows.Forms.Panel();
-            this._logBox = new AM.Windows.Forms.LogBox();
-            this._irbisBusyStripe = new IrbisUI.IrbisBusyStripe();
-            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this._placeBox = new System.Windows.Forms.TextBox();
             this._confirmButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this._logBox = new AM.Windows.Forms.LogBox();
+            this._irbisBusyStripe = new IrbisUI.IrbisBusyStripe();
+            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.inventoryDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._bindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this._bindingSource)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -115,6 +115,7 @@
             this._rfidBox.Size = new System.Drawing.Size(738, 20);
             this._rfidBox.TabIndex = 0;
             this._rfidBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this._rfidBox_KeyDown);
+            this._rfidBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this._rfidBox_PreviewKeyDown);
             // 
             // _grid
             // 
@@ -137,11 +138,6 @@
             this._grid.Size = new System.Drawing.Size(738, 141);
             this._grid.TabIndex = 2;
             // 
-            // _bindingSource
-            // 
-            this._bindingSource.AllowNew = false;
-            this._bindingSource.DataSource = typeof(CniInvent.StatusRecord);
-            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 3;
@@ -162,6 +158,7 @@
             // 
             this._descriptionBox.BackColor = System.Drawing.SystemColors.Window;
             this._descriptionBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this._descriptionBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this._descriptionBox.Location = new System.Drawing.Point(3, 3);
             this._descriptionBox.Multiline = true;
             this._descriptionBox.Name = "_descriptionBox";
@@ -176,6 +173,51 @@
             this._indicatorPanel.Name = "_indicatorPanel";
             this._indicatorPanel.Size = new System.Drawing.Size(94, 91);
             this._indicatorPanel.TabIndex = 2;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 3;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Controls.Add(this._placeBox, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this._confirmButton, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(23, 23);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(738, 30);
+            this.tableLayoutPanel3.TabIndex = 4;
+            // 
+            // _placeBox
+            // 
+            this._placeBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._placeBox.Location = new System.Drawing.Point(117, 3);
+            this._placeBox.Name = "_placeBox";
+            this._placeBox.Size = new System.Drawing.Size(306, 20);
+            this._placeBox.TabIndex = 0;
+            // 
+            // _confirmButton
+            // 
+            this._confirmButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._confirmButton.Location = new System.Drawing.Point(429, 3);
+            this._confirmButton.Name = "_confirmButton";
+            this._confirmButton.Size = new System.Drawing.Size(306, 24);
+            this._confirmButton.TabIndex = 1;
+            this._confirmButton.Text = "Подтвердить";
+            this._confirmButton.UseVisualStyleBackColor = true;
+            this._confirmButton.Click += new System.EventHandler(this._confirmButton_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(108, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Проверяемый фонд";
             // 
             // _logBox
             // 
@@ -216,40 +258,6 @@
             this.toolStripContainer1.TabIndex = 1;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Controls.Add(this._placeBox, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this._confirmButton, 1, 0);
-            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(23, 23);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 1;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(738, 30);
-            this.tableLayoutPanel3.TabIndex = 4;
-            // 
-            // _placeBox
-            // 
-            this._placeBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._placeBox.Location = new System.Drawing.Point(3, 3);
-            this._placeBox.Name = "_placeBox";
-            this._placeBox.Size = new System.Drawing.Size(363, 20);
-            this._placeBox.TabIndex = 0;
-            // 
-            // _confirmButton
-            // 
-            this._confirmButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._confirmButton.Location = new System.Drawing.Point(372, 3);
-            this._confirmButton.Name = "_confirmButton";
-            this._confirmButton.Size = new System.Drawing.Size(363, 24);
-            this._confirmButton.TabIndex = 1;
-            this._confirmButton.Text = "Подтвердить";
-            this._confirmButton.UseVisualStyleBackColor = true;
-            this._confirmButton.Click += new System.EventHandler(this._confirmButton_Click);
-            // 
             // inventoryDataGridViewTextBoxColumn
             // 
             this.inventoryDataGridViewTextBoxColumn.DataPropertyName = "Inventory";
@@ -263,11 +271,14 @@
             // 
             this.descriptionDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.descriptionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
             this.descriptionDataGridViewTextBoxColumn.HeaderText = "Библиографическое описание";
             this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
             this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // _bindingSource
+            // 
+            this._bindingSource.AllowNew = false;
+            this._bindingSource.DataSource = typeof(CniInvent.StatusRecord);
             // 
             // MainForm
             // 
@@ -276,11 +287,13 @@
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.toolStripContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "MainForm";
             this.Text = "Инвентаризация фонда";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.MainForm_PreviewKeyDown);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
@@ -289,14 +302,14 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._grid)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this._bindingSource)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -317,6 +330,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TextBox _placeBox;
         private System.Windows.Forms.Button _confirmButton;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridViewTextBoxColumn inventoryDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
     }

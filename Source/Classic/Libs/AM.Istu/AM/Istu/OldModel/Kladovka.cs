@@ -238,12 +238,22 @@ namespace AM.Istu.OldModel
         {
             Code.NotNullNorEmpty(barcode, "barcode");
 
+            int inventory;
+            PodsobRecord result;
             TranslatorRecord translator = GetTranslatorRecord(barcode);
             if (ReferenceEquals(translator, null))
             {
-                return null;
+                if (!NumericUtility.TryParseInt32(barcode, out inventory))
+                {
+                    return null;
+                }
+                result = GetPodsobRecord(inventory);
             }
-            PodsobRecord result = GetPodsobRecord(translator.Inventory);
+            else
+            {
+                inventory = translator.Inventory;
+                result = GetPodsobRecord(inventory);
+            }
             if (ReferenceEquals(result, null))
             {
                 result = new PodsobRecord();
@@ -251,7 +261,7 @@ namespace AM.Istu.OldModel
             int[] found = FindRecords
                 (
                     "\"IN={0}\"",
-                    translator.Inventory.ToInvariantString()
+                    inventory.ToInvariantString()
                 );
             if (found.Length == 0)
             {
@@ -296,7 +306,8 @@ namespace AM.Istu.OldModel
 
             TranslatorRecord result = Translator.FirstOrDefault
                 (
-                    rec => rec.Barcode == barcode
+                    rec => rec.Inventory.ToString() == barcode
+                           || rec.Barcode == barcode
                            || rec.Rfid == barcode
                 );
 
