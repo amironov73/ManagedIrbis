@@ -256,18 +256,17 @@ namespace AM.Istu.OldModel
             int[] found;
             if (ReferenceEquals(result, null))
             {
-                result = new PodsobRecord();
                 found = FindRecords
                     (
                         "\"BAR={0}\" + \"RFID={0}\"",
-                        inventory.ToInvariantString()
+                        barcode
                     );
-                if (ReferenceEquals(found, null))
+                if (found.Length == 0)
                 {
                     found = FindRecords
                         (
                             "\"IN={0}\"",
-                            inventory.ToInvariantString()
+                            barcode
                         );
                 }
             }
@@ -283,8 +282,41 @@ namespace AM.Istu.OldModel
             {
                 return null;
             }
+
             MarcRecord record = ReadMarcRecord(found[0]);
+            
+
+            RecordField field = record.Fields
+                .GetField("910")
+                .FirstOrDefault
+                (
+                    f => barcode.SameString(f.GetFirstSubFieldValue('b'))
+                        || barcode.SameString(f.GetFirstSubFieldValue('h'))
+                        || barcode.SameString(f.GetFirstSubFieldValue('t'))
+                );
+            if (!ReferenceEquals(field, null))
+            {
+                NumericUtility.TryParseInt64
+                    (
+                        field.GetFirstSubFieldValue('b'),
+                        out inventory
+                    );
+            }
+
+            if (ReferenceEquals(result, null))
+            {
+                result = GetPodsobRecord(inventory);
+                if (ReferenceEquals(result, null))
+                {
+                    result = new PodsobRecord
+                    {
+                        //Ticket = "КХ"
+                    };
+                }
+            }
+
             result.Record = record;
+            result.Inventory = inventory;
 
             return result;
         }

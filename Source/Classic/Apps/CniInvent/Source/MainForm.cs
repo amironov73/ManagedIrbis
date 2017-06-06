@@ -163,6 +163,7 @@ namespace CniInvent
                     HandleRfid(text);
                 }
                 _rfidBox.Clear();
+                _rfidBox.Focus();
             }
         }
 
@@ -189,7 +190,7 @@ namespace CniInvent
             {
                 WriteLine
                     (
-                        "Место хранение не совпадает: {0}",
+                        "Место хранения не совпадает: {0}",
                         podsob.Ticket.ToVisibleString()
                     );
 
