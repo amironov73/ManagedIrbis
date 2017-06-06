@@ -366,7 +366,7 @@ namespace CniInvent
                 return;
             }
 
-            int inventory = _goodRecord.Inventory;
+            long inventory = _goodRecord.Inventory;
             StatusRecord found = _bindingList.FirstOrDefault
                 (
                     item => item.Inventory == inventory

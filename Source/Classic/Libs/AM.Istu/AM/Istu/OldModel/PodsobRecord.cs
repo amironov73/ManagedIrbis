@@ -49,7 +49,7 @@ namespace AM.Istu.OldModel
         /// Инвентарный номер книги.
         ///</summary>
         [MapField("INVENT")]
-        public int Inventory { get; set; }
+        public long Inventory { get; set; }
 
         ///<summary>
         /// Номер читательского билета.

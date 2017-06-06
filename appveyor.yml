@@ -35,31 +35,29 @@ build:
   parallel: true
   verbosity: minimal
 
-after_build:
-- cmd: compile.cmd
-- cmd: compilecore.cmd
-- cmd: compiledroid.cmd
-- cmd: compileuap.cmd
-- cmd: compilesl.cmd
-- cmd: compilewin81.cmd
-- cmd: compilepcl.cmd
-- cmd: cd Nuget
-- cmd: packit.cmd
+#after_build:
+#- cmd: compile.cmd
+#- cmd: compilecore.cmd
+#- cmd: compiledroid.cmd
+#- cmd: compileuap.cmd
+#- cmd: compilesl.cmd
+#- cmd: compilewin81.cmd
+#- cmd: compilepcl.cmd
+#- cmd: cd Nuget
+#- cmd: packit.cmd
 
 artifacts:
   - path: Binaries
     name: ManagedIrbis
   - path: Nuget\*.nupkg
     name: Nuget
-  - path: Source\Classic\Libs\AM.Istu\bin\Debug
-    name: AM.Istu
-  - path: Source\Classic\Apps\Garfield\bin\Debug
-    name: Garfield
+  - path: Source\Classic\Apps\CniInvent\bin\Debug
+    name: CniInvent
 
 deploy:
-- provider: FTP
-  host: 77.222.42.228
-  protocol: ftp
-  username: alexeymnet_ftp
-  password:
-    secure: s53ypkChfg2aeqatuQPkWg==  artifact: ManagedIrbis,Nuget- provider: NuGet  api_key:    secure: IZZIZyDbjfCXEftqtCgTr/96da50AnxLND8VzxN/rtE62bGXxsAz7N97G8nYAyQB  skip_symbols: true  artifact: Nuget  on:    branch: nuget
+#- provider: FTP
+#  host: 77.222.42.228
+#  protocol: ftp
+#  username: alexeymnet_ftp
+#  password:
+#    secure: s53ypkChfg2aeqatuQPkWg==#  artifact: ManagedIrbis,Nuget- provider: NuGet  api_key:    secure: IZZIZyDbjfCXEftqtCgTr/96da50AnxLND8VzxN/rtE62bGXxsAz7N97G8nYAyQB  skip_symbols: true  artifact: Nuget  on:    branch: nuget

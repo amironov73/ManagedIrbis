@@ -238,31 +238,47 @@ namespace AM.Istu.OldModel
         {
             Code.NotNullNorEmpty(barcode, "barcode");
 
-            int inventory;
-            PodsobRecord result;
+            long inventory;
+            PodsobRecord result = null;
             TranslatorRecord translator = GetTranslatorRecord(barcode);
             if (ReferenceEquals(translator, null))
             {
-                if (!NumericUtility.TryParseInt32(barcode, out inventory))
+                if (NumericUtility.TryParseInt64(barcode, out inventory))
                 {
-                    return null;
+                    result = GetPodsobRecord(inventory);
                 }
-                result = GetPodsobRecord(inventory);
             }
             else
             {
                 inventory = translator.Inventory;
                 result = GetPodsobRecord(inventory);
             }
+            int[] found;
             if (ReferenceEquals(result, null))
             {
                 result = new PodsobRecord();
+                found = FindRecords
+                    (
+                        "\"BAR={0}\" + \"RFID={0}\"",
+                        inventory.ToInvariantString()
+                    );
+                if (ReferenceEquals(found, null))
+                {
+                    found = FindRecords
+                        (
+                            "\"IN={0}\"",
+                            inventory.ToInvariantString()
+                        );
+                }
             }
-            int[] found = FindRecords
-                (
-                    "\"IN={0}\"",
-                    inventory.ToInvariantString()
-                );
+            else
+            {
+                found = FindRecords
+                    (
+                        "\"IN={0}\"",
+                        inventory.ToInvariantString()
+                    );
+            }
             if (found.Length == 0)
             {
                 return null;
@@ -279,7 +295,7 @@ namespace AM.Istu.OldModel
         [JetBrains.Annotations.CanBeNull]
         public PodsobRecord GetPodsobRecord
             (
-                int inventory
+                long inventory
             )
         {
             PodsobRecord result = Podsob.FirstOrDefault
@@ -291,7 +307,7 @@ namespace AM.Istu.OldModel
         }
 
         /// <summary>
-        /// Get translator record for the barcode or rfid.
+        /// Get translator record for the barcode or RFID.
         /// </summary>
         [JetBrains.Annotations.CanBeNull]
         public TranslatorRecord GetTranslatorRecord

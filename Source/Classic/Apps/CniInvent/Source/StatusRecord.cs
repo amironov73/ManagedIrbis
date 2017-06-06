@@ -48,7 +48,7 @@ namespace CniInvent
     {
         #region Properties
 
-        public int Inventory { get; set; }
+        public long Inventory { get; set; }
 
         public string Description { get; set; }
 
