@@ -29,7 +29,9 @@ using AM.Istu.OldModel;
 using AM.Windows.Forms;
 
 using CodeJam;
+
 using IrbisUI;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis;
@@ -87,6 +89,8 @@ namespace CniInvent
 
         #endregion
 
+        private StatusRecord _goodRecord;
+
         private void MainForm_FormClosed
             (
                 object sender,
@@ -138,25 +142,150 @@ namespace CniInvent
         {
             if (e.KeyCode == Keys.Enter)
             {
-                string text = _rfidBox.Text.Trim();
+                _goodRecord = null;
+                e.SuppressKeyPress = true;
+
+                string text = _placeBox.Text.Trim();
+                if (string.IsNullOrEmpty(text))
+                {
+                    MessageBox.Show("Не указано место хранения!");
+                    return;
+                }
+
+                text = _rfidBox.Text.Trim();
                 if (!string.IsNullOrEmpty(text))
                 {
                     HandleRfid(text);
                 }
                 _rfidBox.Clear();
-                e.SuppressKeyPress = true;
             }
         }
 
-        private void CheckPodsob
+        private bool CheckPodsob
             (
+                [NotNull] string rfid,
                 [NotNull] PodsobRecord podsob
             )
         {
             Code.NotNull(podsob, "podsob");
-            MarcRecord record = podsob.Record.ThrowIfNull("podsob.Record");
 
-            SetStatus(true);
+            bool usePodsob = podsob.Inventory != 0;
+
+            string place = _placeBox.Text.Trim();
+            if (string.IsNullOrEmpty(place))
+            {
+                WriteLine("Не задано место хранения!");
+
+                return false;
+            }
+
+            if (usePodsob && !string.IsNullOrEmpty(podsob.Ticket)
+                && !podsob.Ticket.SameString(place))
+            {
+                WriteLine
+                    (
+                        "Место хранение не совпадает: {0}",
+                        podsob.Ticket.ToVisibleString()
+                    );
+
+                return false;
+            }
+
+            if (usePodsob && !string.IsNullOrEmpty(podsob.OnHand))
+            {
+                WriteLine
+                    (
+                        "Книга числится за {0}",
+                        podsob.OnHand.ToVisibleString()
+                    );
+
+                return false;
+            }
+
+            if (usePodsob && !string.IsNullOrEmpty(podsob.Sigla)
+                && !place.SameString(podsob.Sigla))
+            {
+                WriteLine
+                    (
+                        "Не совпадает сигла: {0}",
+                        podsob.Sigla.ToVisibleString()
+                    );
+
+                return false;
+            }
+
+            MarcRecord record = podsob.Record.ThrowIfNull("podsob.Record");
+            RecordField field = record.Fields
+                .FirstOrDefault
+                (
+                    f => rfid.SameString(f.GetFirstSubFieldValue('h'))
+                        || rfid.SameString(f.GetFirstSubFieldValue('t'))
+                );
+            if (ReferenceEquals(field, null))
+            {
+                WriteLine("Не найден экземпляр: {0}", rfid);
+
+                return false;
+            }
+
+            string status = field.GetFirstSubFieldValue('a');
+            if (!status.SameString("0"))
+            {
+                WriteLine
+                    (
+                        "Неожиданный статус: {0}",
+                        status.ToVisibleString()
+                    );
+
+                return false;
+            }
+
+            string inventory = field.GetFirstSubFieldValue('b');
+            if (string.IsNullOrEmpty(inventory))
+            {
+                WriteLine
+                    (
+                        "Инвентарный номер: {0}",
+                        inventory.ToVisibleString()
+                    );
+
+                return false;
+            }
+            if (usePodsob 
+                && !inventory.SameString(podsob.Inventory.ToInvariantString()))
+            {
+                WriteLine
+                    (
+                        "Инвентарный номер не совпадает: {0} и {1}",
+                        podsob.Inventory,
+                        inventory
+                    );
+
+                return false;
+            }
+
+            string fieldPlace = field.GetFirstSubFieldValue('d');
+            if (!place.SameString(fieldPlace))
+            {
+                WriteLine
+                    (
+                        "Не совпадает место хранения: {0}",
+                        fieldPlace.ToVisibleString()
+                    );
+
+                return false;
+            }
+
+            _goodRecord = new StatusRecord
+            {
+                Inventory = podsob.Inventory,
+                Record = record,
+                Description = record.Description,
+                Field = field,
+                Place = place
+            };
+
+            return true;
         }
 
         private void HandleRfid
@@ -164,6 +293,7 @@ namespace CniInvent
                 [NotNull] string rfid
             )
         {
+            _goodRecord = null;
             SetStatus(new bool?());
             _descriptionBox.Clear();
             PodsobRecord podsob = Kladovka.FindPodsobByBarcode(rfid);
@@ -171,7 +301,13 @@ namespace CniInvent
                 && !ReferenceEquals(podsob.Record, null))
             {
                 _descriptionBox.Text = podsob.Record.Description;
-                CheckPodsob(podsob);
+
+                bool status = CheckPodsob(rfid, podsob);
+                SetStatus(status);
+                if (status)
+                {
+                    
+                }
             }
             else
             {
@@ -208,6 +344,25 @@ namespace CniInvent
                     _indicatorPanel.BackColor = Color.Red;
                 }
             }
+        }
+
+        private void _confirmButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            StatusRecord status = _goodRecord;
+            if (ReferenceEquals(status, null))
+            {
+                return;
+            }
+
+            WriteLine("Помечаем: {0}", status.Inventory);
+            RecordField field = status.Field;
+            field.SetSubField('s', IrbisDate.TodayText);
+            field.SetSubField('!', status.Place);
+            Kladovka.Connection.WriteRecord(status.Record);
         }
     }
 }
