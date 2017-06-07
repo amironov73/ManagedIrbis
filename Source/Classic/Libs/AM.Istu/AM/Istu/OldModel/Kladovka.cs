@@ -20,7 +20,8 @@ using System.Threading.Tasks;
 using AM.Configuration;
 using AM.Data;
 using AM.Logging;
-
+using AM.Text;
+using AM.Text.Output;
 using BLToolkit.Data;
 using BLToolkit.Data.Linq;
 using BLToolkit.DataAccess;
@@ -32,7 +33,8 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
-
+using ManagedIrbis.Batch;
+using ManagedIrbis.Fields;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -69,6 +71,12 @@ namespace AM.Istu.OldModel
         /// </summary>
         [JetBrains.Annotations.NotNull]
         public DbManager DB { get; private set; }
+
+        /// <summary>
+        /// Abstract output.
+        /// </summary>
+        [CanBeNull]
+        public AbstractOutput Output { get; private set; }
 
         /// <summary>
         /// Table "podsob".
@@ -115,6 +123,18 @@ namespace AM.Istu.OldModel
         /// </summary>
         public Kladovka
             (
+                [CanBeNull] AbstractOutput output
+            )
+            : this()
+        {
+            Output = output;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public Kladovka
+            (
                 [JetBrains.Annotations.NotNull] DbManager db,
                 [JetBrains.Annotations.NotNull] IrbisConnection connection
             )
@@ -124,6 +144,20 @@ namespace AM.Istu.OldModel
 
             DB = db;
             Connection = connection;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public Kladovka
+            (
+                [JetBrains.Annotations.NotNull] DbManager db,
+                [JetBrains.Annotations.NotNull] IrbisConnection connection,
+                [CanBeNull] AbstractOutput output
+            )
+            : this(db, connection)
+        {
+            Output = output;
         }
 
         /// <summary>
@@ -284,7 +318,7 @@ namespace AM.Istu.OldModel
             }
 
             MarcRecord record = ReadMarcRecord(found[0]);
-            
+
 
             RecordField field = record.Fields
                 .GetField("910")
@@ -308,15 +342,89 @@ namespace AM.Istu.OldModel
                 result = GetPodsobRecord(inventory);
                 if (ReferenceEquals(result, null))
                 {
-                    result = new PodsobRecord
-                    {
-                        //Ticket = "КХ"
-                    };
+                    result = new PodsobRecord();
                 }
             }
 
             result.Record = record;
             result.Inventory = inventory;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get all marked exemplars.
+        /// </summary>
+        [JetBrains.Annotations.NotNull]
+        public long[] GetAllMarked
+            (
+                [JetBrains.Annotations.NotNull] string place
+            )
+        {
+            Code.NotNullNorEmpty(place, "place");
+
+            Write("Marked: ");
+            List<long> result = new List<long>();
+            string expression = string.Format
+                (
+                    "\"INP={0}\"",
+                    place
+                );
+            var batch = BatchRecordReader.Search
+                (
+                    Connection,
+                    Connection.Database,
+                    expression,
+                    1000
+                );
+            foreach (MarcRecord record in batch)
+            {
+                Write(".");
+                var exemplars = ExemplarInfo
+                    .Parse(record)
+                    .Where
+                        (
+                            ex => !string.IsNullOrEmpty(ex.CheckedDate)
+                                && ex.RealPlace.SameString(place)
+                        );
+                foreach (ExemplarInfo exemplar in exemplars)
+                {
+                    long inventory;
+                    if (NumericUtility.TryParseInt64
+                        (
+                            exemplar.Number,
+                            out inventory
+                        ))
+                    {
+                        result.Add(inventory);
+                    }
+                }
+            }
+            WriteLine("DONE");
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Get all inventories from podsob table.
+        /// </summary>
+        [JetBrains.Annotations.NotNull]
+        public long[] GetAllPodsob
+            (
+                [JetBrains.Annotations.NotNull] string place
+            )
+        {
+            Code.NotNullNorEmpty(place, "place");
+
+            long[] result = Podsob.Where
+                (
+                    rec => rec.Ticket == place
+                )
+                .Select
+                (
+                    rec => rec.Inventory
+                )
+                .ToArray();
 
             return result;
         }
@@ -377,6 +485,42 @@ namespace AM.Istu.OldModel
             result.Description = Connection.FormatRecord("@brief", mfn);
 
             return result;
+        }
+
+        /// <summary>
+        /// Write some text.
+        /// </summary>
+        public void Write
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (!ReferenceEquals(Output, null)
+                && !string.IsNullOrEmpty(text))
+            {
+                Output.Write(text);
+            }
+        }
+
+        /// <summary>
+        /// Write one line of text.
+        /// </summary>
+        public void WriteLine
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (!ReferenceEquals(Output, null))
+            {
+                if (string.IsNullOrEmpty(text))
+                {
+                    Output.WriteLine(string.Empty);
+                }
+                else
+                {
+                    Output.WriteLine(text);
+                }
+            }
         }
 
         #endregion

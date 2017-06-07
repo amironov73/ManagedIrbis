@@ -36,6 +36,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Batch;
+using ManagedIrbis.Infrastructure.Commands;
 using ManagedIrbis.Readers;
 
 using Newtonsoft.Json;
@@ -81,7 +82,7 @@ namespace CniInvent
 
             _bindingSource.DataSource = _bindingList;
             Log = new TextBoxOutput(_logBox);
-            Kladovka = new Kladovka();
+            Kladovka = new Kladovka(Log);
             IdleManager = new IrbisIdleManager
                 (
                     Kladovka.Connection,
@@ -106,6 +107,14 @@ namespace CniInvent
             {
                 Kladovka.Dispose();
             }
+        }
+
+        public void Write
+            (
+                [NotNull] string text
+            )
+        {
+            Log.Write(text);
         }
 
         public void WriteDelimiter()
@@ -259,7 +268,7 @@ namespace CniInvent
 
                 return false;
             }
-            if (usePodsob 
+            if (usePodsob
                 && !inventory.SameString(podsob.Inventory.ToInvariantString()))
             {
                 WriteLine
@@ -315,7 +324,7 @@ namespace CniInvent
                 SetStatus(status);
                 if (status)
                 {
-                    
+
                 }
             }
             else
@@ -419,5 +428,93 @@ namespace CniInvent
                 e.IsInputKey = false;
             }
         }
+
+        private async void _reportButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            string place = _placeBox.Text.Trim();
+            if (string.IsNullOrEmpty(place))
+            {
+                WriteLine("Не задано место хранения");
+
+                return;
+            }
+
+            ReadRecordCommand.ThrowOnVerify = false;
+
+            _reportButton.Enabled = false;
+            _confirmButton.Enabled = false;
+
+            StringBuilder list = new StringBuilder();
+
+            Task task = Task.Factory.StartNew
+                (
+                    () =>
+                    {
+                        long[] all = Kladovka.GetAllPodsob(place);
+                        long[] marked = Kladovka.GetAllMarked(place);
+                        long[] diff = all.Except(marked)
+                            .OrderBy(x => x)
+                            .ToArray();
+
+                        Write("Build list (" + diff.Length + "): ");
+                        int count = 0;
+                        foreach (long number in diff)
+                        {
+                            count++;
+                            if (count % 10 == 1)
+                            {
+                                Write ((count - 1) + " ");
+                            }
+                            string line = string.Format
+                            (
+                                "{0} \tНет описания",
+                                number
+                            );
+                            int[] mfns = Kladovka.FindRecords
+                            (
+                                "\"IN={0}\"",
+                                number
+                            );
+                            if (mfns.Length == 1)
+                            {
+                                MarcRecord record
+                                = Kladovka.ReadMarcRecord(mfns[0]);
+                                line = string.Format
+                                (
+                                    "{0} \t{1}",
+                                    number,
+                                    record.Description
+                                );
+                            }
+
+                            list.AppendLine(line);
+                        }
+                }
+            );
+
+            try
+            {
+                await task;
+            }
+            catch (Exception ex)
+            {
+                ex = ExceptionUtility.Unwrap(ex);
+                ExceptionBox.Show(this, ex);
+            }
+
+            _reportButton.Enabled = true;
+            _confirmButton.Enabled = true;
+
+            WriteLine(string.Empty);
+            WriteDelimiter();
+
+            string text = list.ToString();
+            PlainTextForm.ShowDialog(this, text);
+        }
+
     }
 }

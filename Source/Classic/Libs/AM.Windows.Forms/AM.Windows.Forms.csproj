@@ -238,6 +238,12 @@
     <Compile Include="AM\Windows\Forms\PlainTextEditor.Designer.cs">
       <DependentUpon>PlainTextEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="AM\Windows\Forms\PlainTextForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\PlainTextForm.Designer.cs">
+      <DependentUpon>PlainTextForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AM\Windows\Forms\ProgressCircle.cs" />
     <Compile Include="AM\Windows\Forms\ProgressForm.cs">
       <SubType>Form</SubType>
@@ -352,6 +358,9 @@
     <None Include="Images\downArrow.png" />
     <EmbeddedResource Include="AM\Windows\Forms\AttachmentBox.resx">
       <DependentUpon>AttachmentBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AM\Windows\Forms\PlainTextForm.resx">
+      <DependentUpon>PlainTextForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AM\Windows\Forms\RetryForm.resx">
       <DependentUpon>RetryForm.cs</DependentUpon>

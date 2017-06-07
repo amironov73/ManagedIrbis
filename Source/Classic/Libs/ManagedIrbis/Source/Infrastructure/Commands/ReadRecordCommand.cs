@@ -39,6 +39,12 @@ namespace ManagedIrbis.Infrastructure.Commands
         public static bool ThrowOnEmptyRecord { get; set; }
 
         /// <summary>
+        /// Throw <see cref="VerificationException"/>
+        /// when bad record received/decoded.
+        /// </summary>
+        public static bool ThrowOnVerify { get; set; }
+
+        /// <summary>
         /// Database name.
         /// </summary>
         [CanBeNull]
@@ -81,6 +87,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         static ReadRecordCommand()
         {
             ThrowOnEmptyRecord = true;
+            ThrowOnVerify = true;
         }
 
         /// <summary>
@@ -157,7 +164,7 @@ namespace ManagedIrbis.Infrastructure.Commands
                         result,
                         record
                     );
-                record.Verify(true);
+                record.Verify(ThrowOnVerify);
 
                 if (ThrowOnEmptyRecord)
                 {

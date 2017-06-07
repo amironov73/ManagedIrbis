@@ -36,6 +36,9 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this._rfidBox = new System.Windows.Forms.TextBox();
             this._grid = new System.Windows.Forms.DataGridView();
+            this.inventoryDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._bindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this._descriptionBox = new System.Windows.Forms.TextBox();
             this._indicatorPanel = new System.Windows.Forms.Panel();
@@ -46,20 +49,21 @@
             this._logBox = new AM.Windows.Forms.LogBox();
             this._irbisBusyStripe = new IrbisUI.IrbisBusyStripe();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.inventoryDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._bindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this._toolStrip = new System.Windows.Forms.ToolStrip();
+            this._reportButton = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingSource)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
+            this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._bindingSource)).BeginInit();
+            this._toolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -137,6 +141,28 @@
             this._grid.RowHeadersVisible = false;
             this._grid.Size = new System.Drawing.Size(738, 141);
             this._grid.TabIndex = 2;
+            // 
+            // inventoryDataGridViewTextBoxColumn
+            // 
+            this.inventoryDataGridViewTextBoxColumn.DataPropertyName = "Inventory";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopRight;
+            this.inventoryDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            this.inventoryDataGridViewTextBoxColumn.HeaderText = "Инв. №";
+            this.inventoryDataGridViewTextBoxColumn.Name = "inventoryDataGridViewTextBoxColumn";
+            this.inventoryDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // descriptionDataGridViewTextBoxColumn
+            // 
+            this.descriptionDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
+            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Библиографическое описание";
+            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
+            this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // _bindingSource
+            // 
+            this._bindingSource.AllowNew = false;
+            this._bindingSource.DataSource = typeof(CniInvent.StatusRecord);
             // 
             // tableLayoutPanel2
             // 
@@ -258,27 +284,29 @@
             this.toolStripContainer1.TabIndex = 1;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
-            // inventoryDataGridViewTextBoxColumn
+            // toolStripContainer1.TopToolStripPanel
             // 
-            this.inventoryDataGridViewTextBoxColumn.DataPropertyName = "Inventory";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopRight;
-            this.inventoryDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
-            this.inventoryDataGridViewTextBoxColumn.HeaderText = "Инв. №";
-            this.inventoryDataGridViewTextBoxColumn.Name = "inventoryDataGridViewTextBoxColumn";
-            this.inventoryDataGridViewTextBoxColumn.ReadOnly = true;
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this._toolStrip);
             // 
-            // descriptionDataGridViewTextBoxColumn
+            // _toolStrip
             // 
-            this.descriptionDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Библиографическое описание";
-            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
-            this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
+            this._toolStrip.Dock = System.Windows.Forms.DockStyle.None;
+            this._toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._reportButton});
+            this._toolStrip.Location = new System.Drawing.Point(0, 0);
+            this._toolStrip.Name = "_toolStrip";
+            this._toolStrip.Size = new System.Drawing.Size(784, 25);
+            this._toolStrip.Stretch = true;
+            this._toolStrip.TabIndex = 0;
             // 
-            // _bindingSource
+            // _reportButton
             // 
-            this._bindingSource.AllowNew = false;
-            this._bindingSource.DataSource = typeof(CniInvent.StatusRecord);
+            this._reportButton.Image = ((System.Drawing.Image)(resources.GetObject("_reportButton.Image")));
+            this._reportButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._reportButton.Name = "_reportButton";
+            this._reportButton.Size = new System.Drawing.Size(147, 22);
+            this._reportButton.Text = "Список недостающих";
+            this._reportButton.Click += new System.EventHandler(this._reportButton_Click);
             // 
             // MainForm
             // 
@@ -302,14 +330,18 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._grid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingSource)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
+            this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._bindingSource)).EndInit();
+            this._toolStrip.ResumeLayout(false);
+            this._toolStrip.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -333,6 +365,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridViewTextBoxColumn inventoryDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.ToolStrip _toolStrip;
+        private System.Windows.Forms.ToolStripButton _reportButton;
     }
 }
 

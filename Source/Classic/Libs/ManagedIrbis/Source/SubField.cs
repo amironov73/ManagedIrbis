@@ -427,12 +427,14 @@ namespace ManagedIrbis
                 .Assert
                 (
                     SubFieldCode.Verify(Code),
-                    "SubField " + Path + ": Code"
+                    "SubField " + Path + ": Code: "
+                        + Code.ToVisibleString()
                 )
                 .Assert
                 (
                     SubFieldValue.Verify(Value),
-                    "SubField " + Path + ": Value"
+                    "SubField " + Path + ": Value: "
+                        + Value.ToVisibleString()
                 );
 
             return verifier.Result;

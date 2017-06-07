@@ -35,9 +35,9 @@ build:
   parallel: true
   verbosity: minimal
 
-#after_build:
+after_build:
 #- cmd: compile.cmd
-#- cmd: compilecore.cmd
+- cmd: compilecore.cmd
 #- cmd: compiledroid.cmd
 #- cmd: compileuap.cmd
 #- cmd: compilesl.cmd
@@ -51,8 +51,8 @@ artifacts:
     name: ManagedIrbis
   - path: Nuget\*.nupkg
     name: Nuget
-  - path: Source\Classic\Apps\CniInvent\bin\Debug
-    name: CniInvent
+#  - path: Source\Classic\Apps\CniInvent\bin\Debug
+#    name: CniInvent
 
 deploy:
 #- provider: FTP
