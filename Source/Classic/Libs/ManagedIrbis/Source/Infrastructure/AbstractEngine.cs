@@ -74,6 +74,11 @@ namespace ManagedIrbis.Infrastructure
         [NotNull]
         public ServiceRepository Services { get; private set; }
 
+        /// <summary>
+        /// Throw on <see cref="IVerifiable.Verify"/> calling.
+        /// </summary>
+        public static bool ThrowOnVerify { get; set; }
+
         #endregion
 
         #region Construction
@@ -94,6 +99,11 @@ namespace ManagedIrbis.Infrastructure
             Connection = connection;
             NestedEngine = nestedEngine;
             Services = new ServiceRepository();
+        }
+
+        static AbstractEngine()
+        {
+            ThrowOnVerify = true;
         }
 
         #endregion
@@ -237,7 +247,14 @@ namespace ManagedIrbis.Infrastructure
             IrbisConnection connection = context.Connection
                 .ThrowIfNull("Connection");
 
-            command.Verify(true);
+            if (!command.Verify(ThrowOnVerify))
+            {
+                Log.Error
+                    (
+                        "AbstractEngine::StandardExecution: "
+                        + "command.Verify() failed"
+                    );
+            }
 
             using (new BusyGuard(connection.Busy))
             {
@@ -253,12 +270,26 @@ namespace ManagedIrbis.Infrastructure
                 {
 
                     ClientQuery query = command.CreateQuery();
-                    query.Verify(true);
+                    if (!query.Verify(ThrowOnVerify))
+                    {
+                        Log.Error
+                            (
+                                "AbstractEngine::StandardExecution: "
+                                + "query.Verify() failed"
+                            );
+                    }
 
                     result = command.Execute(query);
-                    result.Verify(true);
-                    command.CheckResponse(result);
+                    if (!result.Verify(ThrowOnVerify))
+                    {
+                        Log.Error
+                            (
+                                "AbstractEngine::StandardExecution: "
+                                + "result.Verify() failed"
+                            );
+                    }
 
+                    command.CheckResponse(result);
                 }
                 catch (Exception exception)
                 {
