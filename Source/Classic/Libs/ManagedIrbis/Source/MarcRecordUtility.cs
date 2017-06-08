@@ -26,6 +26,13 @@ using MoonSharp.Interpreter;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
+#if CLASSIC || NETCORE
+
+using YamlDotNet;
+using YamlDotNet.Serialization;
+
+#endif
+
 #endregion
 
 namespace ManagedIrbis
@@ -56,8 +63,8 @@ namespace ManagedIrbis
         /// </summary>
         public static bool HaveField
             (
-            this MarcRecord record,
-            params string[] tags
+                this MarcRecord record,
+                params string[] tags
             )
         {
             return (record.Fields.GetField(tags).Length != 0);
@@ -68,8 +75,8 @@ namespace ManagedIrbis
         /// </summary>
         public static bool HaveNotField
             (
-            this MarcRecord record,
-            params string[] tags
+                this MarcRecord record,
+                params string[] tags
             )
         {
             return (record.Fields.GetField(tags).Length == 0);
@@ -287,6 +294,27 @@ namespace ManagedIrbis
 
             string result = JObject.FromObject(record)
                 .ToString(Formatting.None);
+
+            return result;
+        }
+
+#endif
+
+#if CLASSIC || NETCORE
+
+        /// <summary>
+        /// Convert the <see cref="MarcRecord"/> to YAML.
+        /// </summary>
+        [NotNull]
+        public static string ToYaml
+            (
+                [NotNull] this MarcRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            Serializer serializer = new Serializer();
+            string result = serializer.Serialize(record);
 
             return result;
         }

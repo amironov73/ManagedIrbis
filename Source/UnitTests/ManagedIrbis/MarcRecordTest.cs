@@ -292,5 +292,25 @@ namespace UnitTests.ManagedIrbis
                 );
             Assert.IsFalse(record.Deleted);
         }
+
+        [TestMethod]
+        public void MarcRecord_ToYaml_1()
+        {
+            MarcRecord record = new MarcRecord();
+            string actual = record.ToYaml();
+            Assert.AreEqual
+                (
+                    "Fields: []\r\n",
+                    actual
+                );
+
+            record = _GetRecord();
+            actual = record.ToYaml();
+            Assert.AreEqual
+                (
+                    "&o1\r\nFields:\r\n- &o0\r\n  Tag: 700\r\n  Indicator1:\r\n    Field: *o0\r\n    Value: ' '\r\n  Indicator2:\r\n    Field: *o0\r\n    Value: ' '\r\n  SubFields:\r\n  - Code: a\r\n    CodeString: a\r\n    Value: Иванов\r\n    Path: 700/1^a\r\n  - Code: b\r\n    CodeString: b\r\n    Value: И. И.\r\n    Path: 700/1^b\r\n  Modified: true\r\n  Record: *o1\r\n  Path: 700/1\r\n- &o2\r\n  Tag: 701\r\n  Indicator1:\r\n    Field: *o2\r\n    Value: ' '\r\n  Indicator2:\r\n    Field: *o2\r\n    Value: ' '\r\n  SubFields:\r\n  - Code: a\r\n    CodeString: a\r\n    Value: Петров\r\n    Path: 701/1^a\r\n  - Code: b\r\n    CodeString: b\r\n    Value: П. П.\r\n    Path: 701/1^b\r\n  Modified: true\r\n  Record: *o1\r\n  Path: 701/1\r\n- &o3\r\n  Tag: 200\r\n  Indicator1:\r\n    Field: *o3\r\n    Value: ' '\r\n  Indicator2:\r\n    Field: *o3\r\n    Value: ' '\r\n  SubFields:\r\n  - Code: a\r\n    CodeString: a\r\n    Value: Заглавие\r\n    Path: 200/1^a\r\n  - Code: e\r\n    CodeString: e\r\n    Value: подзаголовочное\r\n    Path: 200/1^e\r\n  - Code: f\r\n    CodeString: f\r\n    Value: И. И. Иванов, П. П. Петров\r\n    Path: 200/1^f\r\n  Modified: true\r\n  Record: *o1\r\n  Path: 200/1\r\n- &o4\r\n  Tag: 300\r\n  Indicator1:\r\n    Field: *o4\r\n    Value: ' '\r\n  Indicator2:\r\n    Field: *o4\r\n    Value: ' '\r\n  Value: Первое примечание\r\n  SubFields: []\r\n  Record: *o1\r\n  Path: 300/1\r\n- &o5\r\n  Tag: 300\r\n  Indicator1:\r\n    Field: *o5\r\n    Value: ' '\r\n  Indicator2:\r\n    Field: *o5\r\n    Value: ' '\r\n  Value: Второе примечание\r\n  SubFields: []\r\n  Record: *o1\r\n  Path: 300/2\r\n- &o6\r\n  Tag: 300\r\n  Indicator1:\r\n    Field: *o6\r\n    Value: ' '\r\n  Indicator2:\r\n    Field: *o6\r\n    Value: ' '\r\n  Value: Третье примечание\r\n  SubFields: []\r\n  Record: *o1\r\n  Path: 300/3\r\nModified: true\r\n",
+                    actual
+                );
+        }
     }
 }
