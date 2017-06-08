@@ -370,6 +370,14 @@ namespace ManagedIrbis.Fields
         public bool Marked { get; set; }
 
         /// <summary>
+        /// Record for just in case.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        public MarcRecord Record { get; set; }
+
+        /// <summary>
         /// Произвольные пользовательские данные.
         /// </summary>
         [CanBeNull]
@@ -457,6 +465,7 @@ namespace ManagedIrbis.Fields
             {
                 exemplar.Mfn = record.Mfn;
                 exemplar.Description = record.Description;
+                exemplar.Record = record;
             }
 
             return result;

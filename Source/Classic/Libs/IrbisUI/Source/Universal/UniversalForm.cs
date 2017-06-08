@@ -97,6 +97,29 @@ namespace IrbisUI.Universal
         }
 
         /// <summary>
+        /// Active connection.
+        /// </summary>
+        [CanBeNull]
+        public IrbisConnection Connection
+        {
+            get
+            {
+                if (ReferenceEquals(Provider, null))
+                {
+                    return null;
+                }
+
+                ConnectedClient client = Provider as ConnectedClient;
+                if (ReferenceEquals(client, null))
+                {
+                    return null;
+                }
+
+                return client.Connection;
+            }
+        }
+
+        /// <summary>
         /// Manages IRBIS idle state.
         /// </summary>
         [CanBeNull]
@@ -202,7 +225,27 @@ namespace IrbisUI.Universal
                 EventArgs args
             )
         {
-            WriteLine("NO-OP");
+            IrbisConnection connection = Connection;
+            if (!ReferenceEquals(connection, null))
+            {
+                connection.NoOp();
+                WriteLine("NO-OP");
+            }
+        }
+
+        /// <inheritdoc cref="Form.OnFormClosing" />
+        protected override void OnFormClosing
+            (
+                FormClosingEventArgs e
+            )
+        {
+            base.OnFormClosing(e);
+
+            if (!ReferenceEquals(Provider, null))
+            {
+                Provider.Dispose();
+                Provider = null;
+            }
         }
 
         #endregion
@@ -215,15 +258,19 @@ namespace IrbisUI.Universal
         [NotNull]
         public virtual IrbisProvider GetIrbisProvider()
         {
+            if (!ReferenceEquals(Provider, null))
+            {
+                return Provider;
+            }
+
             IrbisProvider result
                 = ProviderManager.GetPreconfiguredProvider();
             SubscribeToBusyState(result);
             Provider = result;
 
-            ConnectedClient client = result as ConnectedClient;
-            if (!ReferenceEquals(client, null))
+            IrbisConnection connection = Connection;
+            if (!ReferenceEquals(connection, null))
             {
-                IrbisConnection connection = client.Connection;
                 IdleManager = new IrbisIdleManager(connection, 60 * 1000);
                 IdleManager.Idle += IdleManager_Idle;
             }
@@ -347,6 +394,7 @@ namespace IrbisUI.Universal
             if (!ReferenceEquals(centralControl, null))
             {
                 controls.Add(centralControl);
+                centralControl.Dock = DockStyle.Fill;
             }
         }
 

@@ -35,7 +35,12 @@
             this._numberBox = new System.Windows.Forms.TextBox();
             this._addButton = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this._tableLayout3 = new System.Windows.Forms.TableLayoutPanel();
+            this._clearButton = new System.Windows.Forms.Button();
+            this._deleteButton = new System.Windows.Forms.Button();
+            this._buildButton = new System.Windows.Forms.Button();
             this._bindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this._firstTimer = new System.Windows.Forms.Timer(this.components);
             this.numberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.yearDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,6 +50,7 @@
             this._tableLayout1.SuspendLayout();
             this._tableLayout2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this._tableLayout3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._bindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -55,12 +61,14 @@
             this._tableLayout1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._tableLayout1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this._tableLayout1.Controls.Add(this._tableLayout2, 1, 1);
-            this._tableLayout1.Controls.Add(this.dataGridView1, 1, 2);
+            this._tableLayout1.Controls.Add(this.dataGridView1, 1, 3);
+            this._tableLayout1.Controls.Add(this._tableLayout3, 1, 2);
             this._tableLayout1.Dock = System.Windows.Forms.DockStyle.Fill;
             this._tableLayout1.Location = new System.Drawing.Point(0, 0);
             this._tableLayout1.Name = "_tableLayout1";
-            this._tableLayout1.RowCount = 4;
+            this._tableLayout1.RowCount = 5;
             this._tableLayout1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this._tableLayout1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tableLayout1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tableLayout1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._tableLayout1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -70,6 +78,7 @@
             // _tableLayout2
             // 
             this._tableLayout2.AutoSize = true;
+            this._tableLayout2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this._tableLayout2.ColumnCount = 3;
             this._tableLayout2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._tableLayout2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -88,11 +97,13 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(140, 13);
+            this.label1.Size = new System.Drawing.Size(140, 29);
             this.label1.TabIndex = 0;
             this.label1.Text = "Инв. номер или штрих-код";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // _numberBox
             // 
@@ -101,6 +112,7 @@
             this._numberBox.Name = "_numberBox";
             this._numberBox.Size = new System.Drawing.Size(521, 20);
             this._numberBox.TabIndex = 1;
+            this._numberBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this._numberBox_PreviewKeyDown);
             // 
             // _addButton
             // 
@@ -116,6 +128,7 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -127,16 +140,76 @@
             this.placeDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this._bindingSource;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(23, 58);
+            this.dataGridView1.Location = new System.Drawing.Point(23, 93);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(754, 519);
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView1.Size = new System.Drawing.Size(754, 484);
             this.dataGridView1.TabIndex = 1;
+            // 
+            // _tableLayout3
+            // 
+            this._tableLayout3.AutoSize = true;
+            this._tableLayout3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this._tableLayout3.ColumnCount = 5;
+            this._tableLayout3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this._tableLayout3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this._tableLayout3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this._tableLayout3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this._tableLayout3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this._tableLayout3.Controls.Add(this._clearButton, 0, 0);
+            this._tableLayout3.Controls.Add(this._deleteButton, 1, 0);
+            this._tableLayout3.Controls.Add(this._buildButton, 2, 0);
+            this._tableLayout3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._tableLayout3.Location = new System.Drawing.Point(23, 58);
+            this._tableLayout3.Name = "_tableLayout3";
+            this._tableLayout3.RowCount = 1;
+            this._tableLayout3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._tableLayout3.Size = new System.Drawing.Size(754, 29);
+            this._tableLayout3.TabIndex = 2;
+            // 
+            // _clearButton
+            // 
+            this._clearButton.AutoSize = true;
+            this._clearButton.Location = new System.Drawing.Point(3, 3);
+            this._clearButton.Name = "_clearButton";
+            this._clearButton.Size = new System.Drawing.Size(103, 23);
+            this._clearButton.TabIndex = 0;
+            this._clearButton.Text = "Очистить список";
+            this._clearButton.UseVisualStyleBackColor = true;
+            this._clearButton.Click += new System.EventHandler(this._clearButton_Click);
+            // 
+            // _deleteButton
+            // 
+            this._deleteButton.AutoSize = true;
+            this._deleteButton.Location = new System.Drawing.Point(112, 3);
+            this._deleteButton.Name = "_deleteButton";
+            this._deleteButton.Size = new System.Drawing.Size(75, 23);
+            this._deleteButton.TabIndex = 1;
+            this._deleteButton.Text = "Удалить";
+            this._deleteButton.UseVisualStyleBackColor = true;
+            this._deleteButton.Click += new System.EventHandler(this._deleteButton_Click);
+            // 
+            // _buildButton
+            // 
+            this._buildButton.AutoSize = true;
+            this._buildButton.Location = new System.Drawing.Point(193, 3);
+            this._buildButton.Name = "_buildButton";
+            this._buildButton.Size = new System.Drawing.Size(110, 23);
+            this._buildButton.TabIndex = 2;
+            this._buildButton.Text = "Построить список";
+            this._buildButton.UseVisualStyleBackColor = true;
             // 
             // _bindingSource
             // 
             this._bindingSource.DataSource = typeof(ManagedIrbis.Fields.ExemplarInfo);
+            // 
+            // _firstTimer
+            // 
+            this._firstTimer.Enabled = true;
+            this._firstTimer.Tick += new System.EventHandler(this._firstTimer_Tick);
             // 
             // numberDataGridViewTextBoxColumn
             // 
@@ -144,6 +217,7 @@
             this.numberDataGridViewTextBoxColumn.HeaderText = "Инв. №";
             this.numberDataGridViewTextBoxColumn.Name = "numberDataGridViewTextBoxColumn";
             this.numberDataGridViewTextBoxColumn.ReadOnly = true;
+            this.numberDataGridViewTextBoxColumn.Width = 70;
             // 
             // descriptionDataGridViewTextBoxColumn
             // 
@@ -159,6 +233,7 @@
             this.yearDataGridViewTextBoxColumn.HeaderText = "Год";
             this.yearDataGridViewTextBoxColumn.Name = "yearDataGridViewTextBoxColumn";
             this.yearDataGridViewTextBoxColumn.ReadOnly = true;
+            this.yearDataGridViewTextBoxColumn.Width = 50;
             // 
             // priceDataGridViewTextBoxColumn
             // 
@@ -166,6 +241,7 @@
             this.priceDataGridViewTextBoxColumn.HeaderText = "Цена";
             this.priceDataGridViewTextBoxColumn.Name = "priceDataGridViewTextBoxColumn";
             this.priceDataGridViewTextBoxColumn.ReadOnly = true;
+            this.priceDataGridViewTextBoxColumn.Width = 50;
             // 
             // shelfIndexDataGridViewTextBoxColumn
             // 
@@ -180,6 +256,7 @@
             this.placeDataGridViewTextBoxColumn.HeaderText = "Фонд";
             this.placeDataGridViewTextBoxColumn.Name = "placeDataGridViewTextBoxColumn";
             this.placeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.placeDataGridViewTextBoxColumn.Width = 50;
             // 
             // ListPanel
             // 
@@ -193,6 +270,8 @@
             this._tableLayout2.ResumeLayout(false);
             this._tableLayout2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this._tableLayout3.ResumeLayout(false);
+            this._tableLayout3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._bindingSource)).EndInit();
             this.ResumeLayout(false);
 
@@ -207,6 +286,11 @@
         private System.Windows.Forms.Button _addButton;
         private System.Windows.Forms.BindingSource _bindingSource;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.TableLayoutPanel _tableLayout3;
+        private System.Windows.Forms.Button _clearButton;
+        private System.Windows.Forms.Button _deleteButton;
+        private System.Windows.Forms.Button _buildButton;
+        private System.Windows.Forms.Timer _firstTimer;
         private System.Windows.Forms.DataGridViewTextBoxColumn numberDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn yearDataGridViewTextBoxColumn;

@@ -508,6 +508,35 @@ namespace ManagedIrbis.Fields
             return result;
         }
 
+        /// <summary>
+        /// Reads exemplar for given number.
+        /// </summary>
+        [CanBeNull]
+        public ExemplarInfo ReadExtend
+            (
+                [NotNull] string number
+            )
+        {
+            MarcRecord[] records = Connection.SearchRead
+                (
+                    "\"{0}{1}\"",
+                    Prefix,
+                    number
+                );
+
+            ExemplarInfo result = records
+                .SelectMany(r => ExemplarInfo.Parse(r))
+                .Tee(exemplar => Extend(exemplar, exemplar.Record))
+                .FirstOrDefault
+                    (
+                        e => e.Barcode.SameString(number)
+                            || e.Number.SameString(number)
+                    );
+
+            return result;
+        }
+
+
 #if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         /// <summary>
