@@ -60,6 +60,7 @@ namespace CniInvent
                         eventArgs.Exception
                     );
         }
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>

@@ -97,6 +97,12 @@ namespace IrbisUI.Universal
         }
 
         /// <summary>
+        /// Manages IRBIS idle state.
+        /// </summary>
+        [CanBeNull]
+        public IrbisIdleManager IdleManager { get; private set; }
+
+        /// <summary>
         /// Provider.
         /// </summary>
         [CanBeNull]
@@ -190,6 +196,15 @@ namespace IrbisUI.Universal
             Initialize.Raise(this, EventArgs.Empty);
         }
 
+        private void IdleManager_Idle
+            (
+                object sender,
+                EventArgs args
+            )
+        {
+            WriteLine("NO-OP");
+        }
+
         #endregion
 
         #region Public methods
@@ -204,6 +219,14 @@ namespace IrbisUI.Universal
                 = ProviderManager.GetPreconfiguredProvider();
             SubscribeToBusyState(result);
             Provider = result;
+
+            ConnectedClient client = result as ConnectedClient;
+            if (!ReferenceEquals(client, null))
+            {
+                IrbisConnection connection = client.Connection;
+                IdleManager = new IrbisIdleManager(connection, 60 * 1000);
+                IdleManager.Idle += IdleManager_Idle;
+            }
 
             return result;
         }
@@ -258,6 +281,12 @@ namespace IrbisUI.Universal
             IrbisProvider provider = Provider;
             if (!ReferenceEquals(provider, null))
             {
+                if (!ReferenceEquals(IdleManager, null))
+                {
+                    IdleManager.Idle -= IdleManager_Idle;
+                    IdleManager.Dispose();
+                    IdleManager = null;
+                }
                 UnsubscribeFromBusyState(provider);
                 provider.Dispose();
             }

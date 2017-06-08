@@ -31,13 +31,13 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UniversalForm));
             this._splitContainer = new System.Windows.Forms.SplitContainer();
+            this._logBox = new AM.Windows.Forms.LogBox();
+            this._busyStripe = new IrbisUI.IrbisBusyStripe();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this._statusStrip = new System.Windows.Forms.StatusStrip();
             this._mainMenu = new System.Windows.Forms.MenuStrip();
             this._toolStrip = new System.Windows.Forms.ToolStrip();
             this._firstTimer = new System.Windows.Forms.Timer(this.components);
-            this._logBox = new AM.Windows.Forms.LogBox();
-            this._busyStripe = new IrbisUI.IrbisBusyStripe();
             ((System.ComponentModel.ISupportInitialize)(this._splitContainer)).BeginInit();
             this._splitContainer.Panel2.SuspendLayout();
             this._splitContainer.SuspendLayout();
@@ -62,6 +62,27 @@
             this._splitContainer.Size = new System.Drawing.Size(784, 490);
             this._splitContainer.SplitterDistance = 348;
             this._splitContainer.TabIndex = 0;
+            // 
+            // _logBox
+            // 
+            this._logBox.BackColor = System.Drawing.SystemColors.Window;
+            this._logBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._logBox.Location = new System.Drawing.Point(0, 18);
+            this._logBox.Multiline = true;
+            this._logBox.Name = "_logBox";
+            this._logBox.ReadOnly = true;
+            this._logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this._logBox.Size = new System.Drawing.Size(784, 120);
+            this._logBox.TabIndex = 1;
+            // 
+            // _busyStripe
+            // 
+            this._busyStripe.Dock = System.Windows.Forms.DockStyle.Top;
+            this._busyStripe.Location = new System.Drawing.Point(0, 0);
+            this._busyStripe.Moving = false;
+            this._busyStripe.Name = "_busyStripe";
+            this._busyStripe.Size = new System.Drawing.Size(784, 18);
+            this._busyStripe.TabIndex = 0;
             // 
             // toolStripContainer1
             // 
@@ -116,27 +137,6 @@
             // 
             this._firstTimer.Tick += new System.EventHandler(this._firstTimer_Tick);
             // 
-            // _logBox
-            // 
-            this._logBox.BackColor = System.Drawing.SystemColors.Window;
-            this._logBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._logBox.Location = new System.Drawing.Point(0, 18);
-            this._logBox.Multiline = true;
-            this._logBox.Name = "_logBox";
-            this._logBox.ReadOnly = true;
-            this._logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this._logBox.Size = new System.Drawing.Size(784, 120);
-            this._logBox.TabIndex = 1;
-            // 
-            // _busyStripe
-            // 
-            this._busyStripe.Dock = System.Windows.Forms.DockStyle.Top;
-            this._busyStripe.Location = new System.Drawing.Point(0, 0);
-            this._busyStripe.Moving = false;
-            this._busyStripe.Name = "_busyStripe";
-            this._busyStripe.Size = new System.Drawing.Size(784, 18);
-            this._busyStripe.TabIndex = 0;
-            // 
             // UniversalForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -145,6 +145,7 @@
             this.Controls.Add(this.toolStripContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this._mainMenu;
+            this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "UniversalForm";
             this.Text = "UniversalForm";
             this._splitContainer.Panel2.ResumeLayout(false);

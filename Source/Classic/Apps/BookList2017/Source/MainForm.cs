@@ -30,6 +30,7 @@ using AM.Windows.Forms;
 using CodeJam;
 
 using IrbisUI;
+using IrbisUI.Universal;
 
 using JetBrains.Annotations;
 
@@ -46,11 +47,55 @@ using CM = System.Configuration.ConfigurationManager;
 
 namespace BookList2017
 {
-    public partial class MainForm : Form
+    public partial class MainForm 
+        : UniversalForm
     {
+        #region Properties
+
+        [NotNull]
+        public ListPanel ListPanel { get; private set; }
+
+        #endregion
+
+        #region Construction
+
         public MainForm()
         {
+            Initialize += _Initialize;
+
             InitializeComponent();
+
+            HideMainMenu();
+            HideToolStrip();
+            HideStatusStrip();
+            ListPanel = new ListPanel(this);
+            SetupCentralControl(ListPanel);
         }
+
+        #endregion
+
+        #region Private members
+
+        private void _Initialize
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            Icon = Properties.Resources.Document;
+
+            if (TestProviderConnection())
+            {
+                WriteLine("Connection OK");
+            }
+            else
+            {
+                return;
+            }
+
+            WriteLine("BookList2107 ready");
+        }
+
+        #endregion
     }
 }

@@ -51,16 +51,21 @@ namespace IrbisUI.Universal
         /// <summary>
         /// Main form.
         /// </summary>
-        [NotNull]
+        [CanBeNull]
         public UniversalForm MainForm { get; private set; }
 
         /// <summary>
         /// Output.
         /// </summary>
-        [NotNull]
+        [CanBeNull]
         public AbstractOutput Output
         {
-            get { return MainForm.Output; }
+            get
+            {
+                return ReferenceEquals(MainForm, null)
+                    ? null
+                    : MainForm.Output;
+            }
         }
 
         #endregion
@@ -70,13 +75,19 @@ namespace IrbisUI.Universal
         /// <summary>
         /// Constructor.
         /// </summary>
+        protected UniversalCentralControl()
+        {
+            // Constructor for WinForms Designer only
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public UniversalCentralControl
             (
-                [NotNull] UniversalForm mainForm
+                [CanBeNull] UniversalForm mainForm
             )
         {
-            Code.NotNull(mainForm, "mainForm");
-
             MainForm = mainForm;
 
             InitializeComponent();
@@ -97,7 +108,10 @@ namespace IrbisUI.Universal
         {
             Code.NotNull(format, "format");
 
-            Output.WriteLine(format, args);
+            if (!ReferenceEquals(Output, null))
+            {
+                Output.WriteLine(format, args);
+            }
         }
 
 
