@@ -33,25 +33,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevExpress.Charts.v16.2.Core">
-      <HintPath>Libs\DevExpress.Charts.v16.2.Core.dll</HintPath>
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Charts.v16.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Data.v16.2">
-      <HintPath>Libs\DevExpress.Data.v16.2.dll</HintPath>
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Data.v16.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Docs.v16.2">
-      <HintPath>Libs\DevExpress.Docs.v16.2.dll</HintPath>
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Docs.v16.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Office.v16.2.Core">
-      <HintPath>Libs\DevExpress.Office.v16.2.Core.dll</HintPath>
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Office.v16.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Printing.v16.2.Core">
-      <HintPath>Libs\DevExpress.Printing.v16.2.Core.dll</HintPath>
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Printing.v16.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Spreadsheet.v16.2.Core">
-      <HintPath>Libs\DevExpress.Spreadsheet.v16.2.Core.dll</HintPath>
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Spreadsheet.v16.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Utils.v16.2">
-      <HintPath>Libs\DevExpress.Utils.v16.2.dll</HintPath>
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Utils.v16.2.dll</HintPath>
     </Reference>
     <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
