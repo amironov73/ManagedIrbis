@@ -218,6 +218,7 @@
     <Compile Include="Sources\Tests\HabitualDataGridViewTest.cs" />
     <Compile Include="Sources\Tests\HatchComboBoxTest.cs" />
     <Compile Include="Sources\Tests\InputBoxTest.cs" />
+    <Compile Include="Sources\Tests\InputLanguageIndicatorTest.cs" />
     <Compile Include="Sources\Tests\IrbisBusyFormTest.cs" />
     <Compile Include="Sources\Tests\IrbisLoginForm2Test.cs" />
     <Compile Include="Sources\Tests\IrbisLoginFormTest.cs" />

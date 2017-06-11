@@ -39,8 +39,7 @@ namespace AM.Windows.Forms
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="InputLanguageIndicator"/> class.
+        /// Constructor.
         /// </summary>
         public InputLanguageIndicator()
         {
@@ -57,9 +56,9 @@ namespace AM.Windows.Forms
                 CultureInfo culture = language.Culture;
                 string menuText = string.Format
                     (
-                    "{0} {1}",
-                    culture.TwoLetterISOLanguageName.ToUpperInvariant(),
-                    language.LayoutName
+                        "{0} {1}",
+                        culture.TwoLetterISOLanguageName.ToUpperInvariant(),
+                        language.LayoutName
                     );
                 ContextMenu.MenuItems.Add(menuText, _MenuClick);
             }
@@ -103,9 +102,7 @@ namespace AM.Windows.Forms
 
         #region Control members
 
-        ///<summary>
-        ///Gets the default size of the control.
-        ///</summary>
+        /// <inheritdoc cref="Control.DefaultSize" />
         protected override Size DefaultSize
         {
             get
@@ -116,26 +113,20 @@ namespace AM.Windows.Forms
             }
         }
 
-        ///<summary>
-        ///Releases the unmanaged resources used by the <see cref="T:System.Windows.Forms.Control"></see> and its child controls and optionally releases the managed resources.
-        ///</summary>
+        /// <inheritdoc cref="Control.Dispose(bool)" />
         protected override void Dispose
             (
                 bool disposing
             )
         {
             base.Dispose(disposing);
-            if (_form != null)
+            if (!ReferenceEquals(_form, null))
             {
                 _form.InputLanguageChanged -= _InputLanguageChanged;
             }
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref="E:System.Windows.Forms.Control.KeyDown"/>
-        /// event.
-        /// </summary>
+        /// <inheritdoc cref="Control.OnKeyDown" />
         protected override void OnKeyDown
             (
                 KeyEventArgs e
@@ -151,10 +142,7 @@ namespace AM.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref="E:System.Windows.Forms.Control.Paint"/> event.
-        /// </summary>
+        /// <inheritdoc cref="Control.OnPaint" />
         protected override void OnPaint
             (
                 PaintEventArgs e
@@ -169,7 +157,8 @@ namespace AM.Windows.Forms
                 format.Alignment = StringAlignment.Center;
                 format.LineAlignment = StringAlignment.Center;
                 g.FillRectangle(backBrush, r);
-                CultureInfo culture = InputLanguage.CurrentInputLanguage.Culture;
+                CultureInfo culture
+                    = InputLanguage.CurrentInputLanguage.Culture;
                 string languageCode
                     = culture.TwoLetterISOLanguageName.ToUpperInvariant();
                 g.DrawString(languageCode, Font, textBrush, r, format);
@@ -177,9 +166,7 @@ namespace AM.Windows.Forms
             base.OnPaint(e);
         }
 
-        ///<summary>
-        ///Raises the <see cref="E:System.Windows.Forms.Control.ParentChanged"></see> event.
-        ///</summary>
+        /// <inheritdoc cref="Control.OnParentChanged" />
         protected override void OnParentChanged
             (
                 EventArgs e
@@ -187,7 +174,7 @@ namespace AM.Windows.Forms
         {
             base.OnParentChanged(e);
             _form = FindForm();
-            if (_form != null)
+            if (!ReferenceEquals(_form, null))
             {
                 _form.InputLanguageChanged += _InputLanguageChanged;
             }

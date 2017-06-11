@@ -262,5 +262,9 @@
   {
     "class": "UITests.BusyControllerTest",
     "title": "BusyControllerTest"
+  },
+  {
+    "class": "UITests.InputLanguageIndicatorTest",
+    "title": "InputLanguageIndicatorTest"
   }
 ]
