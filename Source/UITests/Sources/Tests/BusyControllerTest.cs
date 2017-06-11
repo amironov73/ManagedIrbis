@@ -1,4 +1,4 @@
-﻿/* CheckedGroupBoxTest.cs -- 
+﻿/* BusyControllerTest.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor

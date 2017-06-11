@@ -203,6 +203,8 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AM\Windows\Forms\InputLanguageIndicator.cs" />
+    <Compile Include="AM\Windows\Forms\InputLanguageSaver.cs" />
+    <Compile Include="AM\Windows\Forms\InputLanguageUtility.cs" />
     <Compile Include="AM\Windows\Forms\JogControl.cs" />
     <Compile Include="AM\Windows\Forms\KeyboardUtility.cs" />
     <Compile Include="AM\Windows\Forms\LabeledComboBox.cs" />
