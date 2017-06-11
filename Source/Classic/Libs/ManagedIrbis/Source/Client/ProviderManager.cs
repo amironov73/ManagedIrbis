@@ -39,9 +39,14 @@ namespace ManagedIrbis.Client
         #region Constants
 
         /// <summary>
-        /// Connected client (IrbisConnection).
+        /// Connected client (<see cref="IrbisConnection"/>).
         /// </summary>
         public const string Connected = "Connected";
+
+        /// <summary>
+        /// Default provider (<see cref="IrbisConnection"/>).
+        /// </summary>
+        public const string Default = "Default";
 
         /// <summary>
         /// Local provider.
@@ -76,7 +81,8 @@ namespace ManagedIrbis.Client
             {
                 {Null, typeof(NullProvider)},
                 {Local, typeof(LocalProvider)},
-                {Connected, typeof(ConnectedClient)}
+                {Connected, typeof(ConnectedClient)},
+                {Default, typeof(ConnectedClient)}
             };
         }
 
@@ -106,16 +112,13 @@ namespace ManagedIrbis.Client
             string name = parameters.GetParameter("Provider", null);
             if (string.IsNullOrEmpty(name))
             {
-                Log.Error
+                Log.Warn
                     (
                         "ProviderManager::GetAndConfigureProvider: "
                         + "provider name not specified"
                     );
 
-                throw new IrbisException
-                    (
-                        "Provider name not specified"
-                    );
+                name = Default;
             }
 
             IrbisProvider result = GetProvider(name, true)

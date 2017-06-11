@@ -22,6 +22,7 @@ using AM.Collections;
 using AM.IO;
 using AM.Logging;
 using AM.Runtime;
+using AM.Threading;
 
 using CodeJam;
 
@@ -45,6 +46,19 @@ namespace ManagedIrbis.Client
         : IrbisProvider
     {
         #region Properties
+
+        /// <inheritdoc cref="IrbisProvider.BusyState" />
+        [NotNull]
+        public override BusyState BusyState
+        {
+            get { return _busyState; }
+        }
+
+        /// <inheritdoc cref="IrbisProvider.Connected" />
+        public override bool Connected
+        {
+            get { return true; }
+        }
 
         /// <summary>
         /// Data path.
@@ -72,6 +86,8 @@ namespace ManagedIrbis.Client
             DataPath = "C:/IRBIS64/DataI";
             Database = "IBIS";
             // ReSharper restore VirtualMemberCallInConstructor
+
+            _busyState = new BusyState();
         }
 
         /// <summary>
@@ -90,6 +106,8 @@ namespace ManagedIrbis.Client
         #endregion
 
         #region Private members
+
+        private readonly BusyState _busyState;
 
 #if !WIN81 && !PORTABLE
 
@@ -146,27 +164,30 @@ namespace ManagedIrbis.Client
 #if !WIN81 && !PORTABLE
 
             DirectReader64 reader = null;
-            try
+            using (new BusyGuard(BusyState))
             {
-                reader = _GetReader();
-                if (!ReferenceEquals(reader, null))
+                try
                 {
-                    result = reader.GetMaxMfn();
+                    reader = _GetReader();
+                    if (!ReferenceEquals(reader, null))
+                    {
+                        result = reader.GetMaxMfn();
+                    }
                 }
-            }
-            catch (Exception exception)
-            {
-                Log.TraceException
-                    (
-                        "LocalProvider::GetMaxMfn",
-                        exception
-                    );
-            }
-            finally
-            {
-                if (reader != null)
+                catch (Exception exception)
                 {
-                    reader.Dispose();
+                    Log.TraceException
+                        (
+                            "LocalProvider::GetMaxMfn",
+                            exception
+                        );
+                    }
+                finally
+                {
+                    if (!ReferenceEquals(reader, null))
+                    {
+                        reader.Dispose();
+                    }
                 }
             }
 
@@ -184,21 +205,24 @@ namespace ManagedIrbis.Client
 
 #else
 
-            string fileName = Path.Combine
-                (
-                    DataPath,
-                    "dbnam1.mnu"
-                );
+            using (new BusyGuard(BusyState))
+            {
+                string fileName = Path.Combine
+                    (
+                        DataPath,
+                        "dbnam1.mnu"
+                    );
 
-            string[] lines = File.ReadAllLines
+                string[] lines = File.ReadAllLines
                 (
                     fileName,
                     IrbisEncoding.Ansi
                 );
 
-            DatabaseInfo[] result = DatabaseInfo.ParseMenu(lines);
+                DatabaseInfo[] result = DatabaseInfo.ParseMenu(lines);
 
-            return result;
+                return result;
+            }
 
 #endif
         }
@@ -216,31 +240,32 @@ namespace ManagedIrbis.Client
             return string.Empty;
 
 #else
-
-            string fileName = fileSpecification.FileName;
-            if (string.IsNullOrEmpty(fileName))
+            using (new BusyGuard(BusyState))
             {
-                throw new IrbisException("fileName");
-            }
+                string fileName = fileSpecification.FileName;
+                if (string.IsNullOrEmpty(fileName))
+                {
+                    throw new IrbisException("fileName");
+                }
 
-            string resultPath = null;
-            string database = fileSpecification.Database ?? Database;
+                string resultPath = null;
+                string database = fileSpecification.Database ?? Database;
 
-            switch (fileSpecification.Path)
-            {
-                case IrbisPath.MasterFile:
-                    resultPath = Path.Combine
-                        (
-                            Path.Combine
-                            (
-                                DataPath,
-                                database
-                            ),
-                            fileName
-                        );
-                    if (!File.Exists(resultPath))
-                    {
+                switch (fileSpecification.Path)
+                {
+                    case IrbisPath.MasterFile:
                         resultPath = Path.Combine
+                            (
+                                Path.Combine
+                                (
+                                    DataPath,
+                                    database
+                                ),
+                                fileName
+                            );
+                        if (!File.Exists(resultPath))
+                        {
+                            resultPath = Path.Combine
                             (
                                 Path.Combine
                                 (
@@ -249,22 +274,23 @@ namespace ManagedIrbis.Client
                                 ),
                                 fileName
                             );
-                    }
-                    break;
+                        }
+                        break;
+                }
+
+                if (string.IsNullOrEmpty(resultPath))
+                {
+                    throw new IrbisException("filePath");
+                }
+
+                string result = File.ReadAllText
+                    (
+                        resultPath,
+                        IrbisEncoding.Ansi
+                    );
+
+                return result;
             }
-
-            if (string.IsNullOrEmpty(resultPath))
-            {
-                throw new IrbisException("filePath");
-            }
-
-            string result = File.ReadAllText
-                (
-                    resultPath,
-                    IrbisEncoding.Ansi
-                );
-
-            return result;
 
 #endif
         }
@@ -284,28 +310,31 @@ namespace ManagedIrbis.Client
 
 #if !WIN81 && !PORTABLE
 
-            DirectReader64 reader = null;
-            try
+            using (new BusyGuard(BusyState))
             {
-                reader = _GetReader();
-                if (reader != null)
+                DirectReader64 reader = null;
+                try
                 {
-                    result = reader.ReadRecord(mfn);
+                    reader = _GetReader();
+                    if (reader != null)
+                    {
+                        result = reader.ReadRecord(mfn);
+                    }
                 }
-            }
-            catch (Exception exception)
-            {
-                Log.TraceException
-                (
-                    "LocalProvider::ReadRecord",
-                    exception
-                );
-            }
-            finally
-            {
-                if (reader != null)
+                catch (Exception exception)
                 {
-                    reader.Dispose();
+                    Log.TraceException
+                        (
+                            "LocalProvider::ReadRecord",
+                            exception
+                        );
+                }
+                finally
+                {
+                    if (!ReferenceEquals(reader, null))
+                    {
+                        reader.Dispose();
+                    }
                 }
             }
 
@@ -330,38 +359,43 @@ namespace ManagedIrbis.Client
 
 #if !WIN81 && !PORTABLE
 
-            DirectReader64 reader = null;
-            try
+            using (new BusyGuard(BusyState))
             {
-                reader = _GetReader();
-                if (reader != null)
+                DirectReader64 reader = null;
+                try
                 {
-                    MarcRecord[] versions = reader.ReadAllRecordVersions(mfn);
-                    int index = version;
-                    if (version < 0)
+                    reader = _GetReader();
+                    if (!ReferenceEquals(reader, null))
                     {
-                        index = versions.Length + version;
-                    }
-                    if (index >= 0 && index < versions.Length)
-                    {
-                        result = versions[index];
+                        MarcRecord[] versions 
+                            = reader.ReadAllRecordVersions(mfn);
+                        int index = version;
+                        if (version < 0)
+                        {
+                            index = versions.Length + version;
+                        }
+                        if (index >= 0 && index < versions.Length)
+                        {
+                            result = versions[index];
+                        }
                     }
                 }
-            }
-            catch (Exception exception)
-            {
-                Log.TraceException
-                (
-                    "LocalProvider::ReadRecordVersion",
-                    exception
-                );
-            }
-            finally
-            {
-                if (reader != null)
+                catch (Exception exception)
                 {
-                    reader.Dispose();
+                    Log.TraceException
+                        (
+                            "LocalProvider::ReadRecordVersion",
+                            exception
+                        );
                 }
+                finally
+                {
+                    if (!ReferenceEquals(reader, null))
+                    {
+                        reader.Dispose();
+                    }
+                }
+
             }
 
 #endif
@@ -384,28 +418,31 @@ namespace ManagedIrbis.Client
                 return result;
             }
 
-            DirectReader64 reader = null;
-            try
+            using (new BusyGuard(BusyState))
             {
-                reader = _GetReader();
-                if (reader != null)
+                DirectReader64 reader = null;
+                try
                 {
-                    result = reader.SearchSimple(expression);
+                    reader = _GetReader();
+                    if (!ReferenceEquals(reader, null))
+                    {
+                        result = reader.SearchSimple(expression);
+                    }
                 }
-            }
-            catch (Exception exception)
-            {
-                Log.TraceException
-                (
-                    "LocalProvider::Search",
-                    exception
-                );
-            }
-            finally
-            {
-                if (reader != null)
+                catch (Exception exception)
                 {
-                    reader.Dispose();
+                    Log.TraceException
+                        (
+                            "LocalProvider::Search",
+                            exception
+                        );
+                }
+                finally
+                {
+                    if (!ReferenceEquals(reader, null))
+                    {
+                        reader.Dispose();
+                    }
                 }
             }
 
@@ -422,6 +459,8 @@ namespace ManagedIrbis.Client
         public override void Dispose()
         {
             Log.Trace("LocalProvider::Dispose");
+
+            BusyState.WaitFreeState();
 
             base.Dispose();
         }

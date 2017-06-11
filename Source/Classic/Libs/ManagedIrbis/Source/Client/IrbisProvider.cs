@@ -50,6 +50,15 @@ namespace ManagedIrbis.Client
         #region Properties
 
         /// <summary>
+        /// Get busy state for the provider.
+        /// </summary>
+        [CanBeNull]
+        public virtual BusyState BusyState
+        {
+            get { return null; }
+        }
+
+        /// <summary>
         /// Connected?
         /// </summary>
         public virtual bool Connected { get { return true; } }

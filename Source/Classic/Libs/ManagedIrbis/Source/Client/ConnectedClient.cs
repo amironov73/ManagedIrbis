@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AM;
+using AM.Threading;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -36,13 +37,17 @@ namespace ManagedIrbis.Client
     {
         #region Properties
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IrbisProvider.BusyState" />
+        public override BusyState BusyState
+        { get { return Connection.Busy; } }
+
+        /// <inheritdoc cref="IrbisProvider.Connected" />
         public override bool Connected
         {
             get { return Connection.Connected; }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IrbisProvider.Database" />
         public override string Database
         {
             get { return Connection.Database; }
@@ -156,7 +161,7 @@ namespace ManagedIrbis.Client
             return result;
         }
 
-        /// <inheritdoc cref="IrbisProvider.FormatRecords"/>
+        /// <inheritdoc cref="IrbisProvider.FormatRecords" />
         public override string[] FormatRecords
             (
                 int[] mfns,

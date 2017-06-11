@@ -36,10 +36,10 @@ build:
   verbosity: minimal
 
 after_build:
-#- cmd: compile.cmd
+- cmd: compile.cmd
 - cmd: compilecore.cmd
-#- cmd: compiledroid.cmd
-#- cmd: compileuap.cmd
+- cmd: compiledroid.cmd
+- cmd: compileuap.cmd
 #- cmd: compilesl.cmd
 #- cmd: compilewin81.cmd
 #- cmd: compilepcl.cmd
