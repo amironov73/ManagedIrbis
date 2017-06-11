@@ -249,6 +249,24 @@ namespace AM.Windows.Forms
                     brush.SetBlendTriangularShape(_position, 0.5f);
                     g.FillRectangle(brush, ClientRectangle);
                 }
+
+                if (!string.IsNullOrEmpty(Text))
+                {
+                    using (Brush brush = new SolidBrush(Color.Black))
+                    using (StringFormat format = new StringFormat())
+                    {
+                        format.Alignment = StringAlignment.Center;
+                        format.LineAlignment = StringAlignment.Center;
+                        g.DrawString
+                        (
+                            Text,
+                            Font,
+                            brush,
+                            ClientRectangle,
+                            format
+                        );
+                    }
+                }
             }
             else
             {
@@ -258,23 +276,6 @@ namespace AM.Windows.Forms
                 }
             }
 
-            if (!string.IsNullOrEmpty(Text))
-            {
-                using (Brush brush = new SolidBrush(ForeColor))
-                using (StringFormat format = new StringFormat())
-                {
-                    format.Alignment = StringAlignment.Center;
-                    format.LineAlignment = StringAlignment.Center;
-                    g.DrawString
-                        (
-                            Text,
-                            Font,
-                            brush,
-                            ClientRectangle,
-                            format
-                        );
-                }
-            }
             base.OnPaint(e);
         }
 

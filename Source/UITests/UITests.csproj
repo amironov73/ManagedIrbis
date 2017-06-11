@@ -185,6 +185,7 @@
     <Compile Include="Sources\Tests\BindingListSourceTest.cs" />
     <Compile Include="Sources\Tests\BottomlessRichTextBoxTest.cs" />
     <Compile Include="Sources\Tests\BrowserFormTest.cs" />
+    <Compile Include="Sources\Tests\BusyControllerTest.cs" />
     <Compile Include="Sources\Tests\BusyStripeTest.cs" />
     <Compile Include="Sources\Tests\ButtonedTextBoxTest.cs" />
     <Compile Include="Sources\Tests\CheckBoxGroupTest.cs" />

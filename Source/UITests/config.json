@@ -258,5 +258,9 @@
   {
     "class": "UITests.EventedTextBoxTest",
     "title": "EventedTextBox"
+  },
+  {
+    "class": "UITests.BusyControllerTest",
+    "title": "BusyControllerTest"
   }
 ]

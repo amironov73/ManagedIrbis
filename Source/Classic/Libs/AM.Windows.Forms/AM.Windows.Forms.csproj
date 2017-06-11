@@ -142,6 +142,10 @@
     <Compile Include="AM\Windows\Forms\BrowserForm.Designer.cs">
       <DependentUpon>BrowserForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AM\Windows\Forms\BusyController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AM\Windows\Forms\BusyStateEventArgs.cs" />
     <Compile Include="AM\Windows\Forms\BusyStripe.cs" />
     <Compile Include="AM\Windows\Forms\CheckBoxGroup.cs" />
     <Compile Include="AM\Windows\Forms\CheckedGroupBox.cs" />
