@@ -50,6 +50,21 @@ namespace BookList2017
         #region Properties
 
         /// <summary>
+        /// Busy state controller.
+        /// </summary>
+        [NotNull]
+        public BusyController Controller
+        {
+            get
+            {
+                return MainForm
+                    .ThrowIfNull("MainForm")
+                    .Controller
+                    .ThrowIfNull("MainForm.Controller");
+            }
+        }
+
+        /// <summary>
         /// List of exemplars.
         /// </summary>
         [NotNull]
@@ -118,7 +133,18 @@ namespace BookList2017
 
             _bindingSource.DataSource = ExemplarList;
 
-            WriteLine("BookList2017 ready");
+            Controller.Controls.AddRange
+                (
+                    new Control[]
+                    {
+                        _addButton, _buildButton,
+                        _clearButton, _deleteButton,
+                        _numberBox
+                    }
+                );
+            Controller.DisableControls();
+
+            //WriteLine("BookList2017 ready");
         }
 
         #endregion
@@ -159,6 +185,15 @@ namespace BookList2017
                 EventArgs e
             )
         {
+            UniversalForm mainForm = MainForm;
+            if (ReferenceEquals(mainForm, null)
+                || !mainForm.Active)
+            {
+                WriteLine("Приложение не активно");
+
+                return;
+            }
+
             string number = _numberBox.Text.Trim();
             if (string.IsNullOrEmpty(number))
             {

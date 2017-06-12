@@ -87,9 +87,12 @@ namespace BookList2017
             if (TestProviderConnection())
             {
                 WriteLine("Connection OK");
+                Active = true;
+                Controller.EnableControls();
             }
             else
             {
+                Controller.DisableControls();
                 return;
             }
 

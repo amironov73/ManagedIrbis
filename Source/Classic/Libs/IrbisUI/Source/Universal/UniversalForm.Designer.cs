@@ -78,6 +78,7 @@
             // _busyStripe
             // 
             this._busyStripe.Dock = System.Windows.Forms.DockStyle.Top;
+            this._busyStripe.ForeColor = System.Drawing.Color.Lime;
             this._busyStripe.Location = new System.Drawing.Point(0, 0);
             this._busyStripe.Moving = false;
             this._busyStripe.Name = "_busyStripe";

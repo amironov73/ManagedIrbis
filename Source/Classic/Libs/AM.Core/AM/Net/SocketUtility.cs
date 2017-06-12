@@ -65,7 +65,7 @@ namespace AM.Net
             {
                 result = IPAddress.Parse(address);
                 if (result.AddressFamily
-                    == AddressFamily.InterNetwork)
+                    != AddressFamily.InterNetwork)
                 {
                     Log.Error
                         (

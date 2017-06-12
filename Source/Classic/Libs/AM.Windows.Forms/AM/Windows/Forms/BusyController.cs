@@ -198,14 +198,32 @@ namespace AM.Windows.Forms
         #region Public methods
 
         /// <summary>
+        /// Disable associated controls.
+        /// </summary>
+        public void DisableControls()
+        {
+            UpdateControlState(false);
+        }
+
+        /// <summary>
+        /// Enable associated controls.
+        /// </summary>
+        public void EnableControls()
+        {
+            UpdateControlState(true);
+        }
+
+        /// <summary>
         /// Run the specified action.
         /// </summary>
-        public void Run
+        public bool Run
             (
                 [NotNull] Action action
             )
         {
             Code.NotNull(action, "action");
+
+            bool result = false;
 
             BusyState state = State;
             if (!ReferenceEquals(state, null))
@@ -229,6 +247,8 @@ namespace AM.Windows.Forms
                         "BusyController::Run: "
                         + "normal after"
                     );
+
+                    result = true;
                 }
                 catch (Exception exception)
                 {
@@ -245,17 +265,21 @@ namespace AM.Windows.Forms
                     UpdateControlState(true);
                 }
             }
+
+            return result;
         }
 
         /// <summary>
         /// Run the specified action.
         /// </summary>
-        public async void RunAsync
+        public async Task<bool> RunAsync
             (
                 [NotNull] Action action
             )
         {
             Code.NotNull(action, "action");
+
+            bool result = false;
 
             BusyState state = State;
             if (!ReferenceEquals(state, null))
@@ -264,6 +288,8 @@ namespace AM.Windows.Forms
                 {
                     UpdateControlState(false);
                     await state.RunAsync(action);
+
+                    result = true;
                 }
                 catch (Exception exception)
                 {
@@ -283,6 +309,8 @@ namespace AM.Windows.Forms
                     UpdateControlState(true);
                 }
             }
+
+            return result;
         }
 
         #endregion

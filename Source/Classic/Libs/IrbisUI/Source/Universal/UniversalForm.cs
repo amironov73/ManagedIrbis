@@ -62,6 +62,23 @@ namespace IrbisUI.Universal
         #region Properties
 
         /// <summary>
+        /// Whether the form able to process user input.
+        /// </summary>
+        public bool Active { get; set; }
+
+        /// <summary>
+        /// Busy state controller.
+        /// </summary>
+        [NotNull]
+        public BusyController Controller { get { return _controller; } }
+
+        /// <summary>
+        /// Busy state.
+        /// </summary>
+        [NotNull]
+        public BusyState Busy { get { return _busy; } }
+
+        /// <summary>
         /// Busy state indicator.
         /// </summary>
         [NotNull]
@@ -170,12 +187,24 @@ namespace IrbisUI.Universal
         /// </summary>
         public UniversalForm()
         {
+            _busy = new BusyState();
+            _controller = new BusyController
+            {
+                State = _busy
+            };
+
             InitializeComponent();
+
+            BusyStripe.SubscribeTo(Busy);
         }
 
         #endregion
 
         #region Private members
+
+        private BusyState _busy;
+
+        private BusyController _controller;
 
         static void _ThreadException
             (
@@ -199,7 +228,6 @@ namespace IrbisUI.Universal
 
 #endif
         }
-
 
         private void _firstTimer_Tick
             (
@@ -265,7 +293,7 @@ namespace IrbisUI.Universal
 
             IrbisProvider result
                 = ProviderManager.GetPreconfiguredProvider();
-            SubscribeToBusyState(result);
+            //SubscribeToBusyState(result);
             Provider = result;
 
             IrbisConnection connection = Connection;
@@ -334,7 +362,7 @@ namespace IrbisUI.Universal
                     IdleManager.Dispose();
                     IdleManager = null;
                 }
-                UnsubscribeFromBusyState(provider);
+                //UnsubscribeFromBusyState(provider);
                 provider.Dispose();
             }
             Provider = null;
@@ -421,7 +449,8 @@ namespace IrbisUI.Universal
             BusyState busyState = provider.GetBusyState();
             if (!ReferenceEquals(busyState, null))
             {
-                BusyStripe.SubscribeTo(busyState);
+                Controller.State = busyState;
+                //BusyStripe.SubscribeTo(busyState);
             }
         }
 
@@ -432,14 +461,26 @@ namespace IrbisUI.Universal
         {
             bool result = false;
 
+            EventHandler<ExceptionEventArgs> handler
+                = (sender, args) =>
+                {
+                    Exception ex = args.Exception;
+
+                    WriteLine
+                        (
+                            ex.GetType().Name
+                            + ": "
+                            + ex.Message
+                        );
+                };
+            Controller.ExceptionOccur += handler;
+
             try
             {
-                PseudoAsync.Run
+                result = Controller.Run
                     (
                         () => GetIrbisProvider ()
                     );
-
-                result = true;
             }
             catch (Exception exception)
             {
@@ -447,7 +488,7 @@ namespace IrbisUI.Universal
 
                 Log.TraceException
                 (
-                    "MainForm::_Initialize: ",
+                    "MainForm::TestProviderConnection: ",
                     unwrapped
                 );
 
@@ -458,6 +499,8 @@ namespace IrbisUI.Universal
                     + unwrapped.Message
                 );
             }
+
+            Controller.ExceptionOccur -= handler;
             ReleaseProvider();
 
             return result;
@@ -477,8 +520,10 @@ namespace IrbisUI.Universal
             BusyState busyState = provider.GetBusyState();
             if (!ReferenceEquals(busyState, null))
             {
-                BusyStripe.UnsubscribeFrom(busyState);
+                //BusyStripe.UnsubscribeFrom(busyState);
             }
+
+            //Controller.State = null;
         }
 
         /// <summary>

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* .cs -- 
+/* InputLanguageUtility.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -10,12 +10,7 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using AM.Logging;
@@ -31,7 +26,7 @@ using MoonSharp.Interpreter;
 namespace AM.Windows.Forms
 {
     /// <summary>
-    /// 
+    /// Utility for <see cref="InputLanguage"/> manipulations.
     /// </summary>
     /// <remarks>Borrowed from:
     /// https://blogs.msdn.microsoft.com/snippets/2008/12/31/how-to-change-input-language-programmatically/
