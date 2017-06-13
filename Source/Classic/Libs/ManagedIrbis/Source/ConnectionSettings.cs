@@ -182,6 +182,30 @@ namespace ManagedIrbis
         public string WebCgi { get; set; }
 
         /// <summary>
+        /// Use <see cref="BrokenSocket"/>.
+        /// </summary>
+        [CanBeNull]
+        [XmlAttribute("broken")]
+        [JsonProperty("broken")]
+        public string Broken { get; set; }
+
+        /// <summary>
+        /// Use <see cref="SlowSocket"/>.
+        /// </summary>
+        [CanBeNull]
+        [XmlAttribute("slow")]
+        [JsonProperty("slow")]
+        public string Slow { get; set; }
+
+        /// <summary>
+        /// Use <see cref="SmartClientSocket"/>.
+        /// </summary>
+        [CanBeNull]
+        [XmlAttribute("smart")]
+        [JsonProperty("smart")]
+        public string Smart { get; set; }
+
+        /// <summary>
         /// Arbitrary user data.
         /// </summary>
         [CanBeNull]
@@ -258,7 +282,7 @@ namespace ManagedIrbis
         #region Public methods
 
         /// <summary>
-        /// Apply settings to the <see cref="IrbisConnection"/>.
+        /// Apply settings to the <see cref="IrbisConnection" />.
         /// </summary>
         public void ApplyToConnection
             (
@@ -272,10 +296,10 @@ namespace ManagedIrbis
             connection.Username = _Select(Username, connection.Username);
             connection.Password = _Select(Password, connection.Password);
             connection.Database = _Select(Database, connection.Database);
-            connection.Workstation = (IrbisWorkstation) _Select
+            connection.Workstation = (IrbisWorkstation)_Select
                 (
-                    (int) Workstation,
-                    (int) connection.Workstation
+                    (int)Workstation,
+                    (int)connection.Workstation
                 );
 
             if (!string.IsNullOrEmpty(EngineTypeName))
@@ -302,6 +326,46 @@ namespace ManagedIrbis
                 connection.SetCommandFactory(FactoryTypeName);
             }
 
+            if (!string.IsNullOrEmpty(Smart))
+            {
+                SmartClientSocket smartSocket
+                    = new SmartClientSocket(connection);
+                connection.SetSocket(smartSocket);
+            }
+
+            if (!string.IsNullOrEmpty(Slow))
+            {
+                SlowSocket slowSocket = new SlowSocket
+                    (
+                        connection,
+                        connection.Socket
+                    );
+                int delay;
+                if (NumericUtility.TryParseInt32(Slow, out delay)
+                    && delay > 0)
+                {
+                    slowSocket.Delay = delay;
+                }
+                connection.SetSocket(slowSocket);
+            }
+
+            if (!string.IsNullOrEmpty(Broken))
+            {
+                BrokenSocket brokenSocket = new BrokenSocket
+                    (
+                        connection,
+                        connection.Socket
+                    );
+                double probability;
+                if (NumericUtility.TryParseDouble(Broken, out probability)
+                    && probability > 0.0
+                    && probability < 1.0)
+                {
+                    brokenSocket.Probability = probability;
+                }
+                connection.SetSocket(brokenSocket);
+            }
+
             if (RetryLimit != 0)
             {
                 connection.SetRetry(RetryLimit, null);
@@ -321,7 +385,7 @@ namespace ManagedIrbis
         [NotNull]
         public ConnectionSettings Clone()
         {
-            return (ConnectionSettings) MemberwiseClone();
+            return (ConnectionSettings)MemberwiseClone();
         }
 
         /// <summary>
@@ -372,9 +436,9 @@ namespace ManagedIrbis
                 (
                     parameters,
                     "workstation",
-                    Workstation == 0 
+                    Workstation == 0
                         ? null
-                        : new string( (char)(byte)Workstation, 1)
+                        : new string((char)(byte)Workstation, 1)
                 );
             _Add(parameters, "socket", SocketTypeName);
             _Add(parameters, "engine", EngineTypeName);
@@ -588,7 +652,7 @@ namespace ManagedIrbis
 
                     case "arm":
                     case "workstation":
-                        Workstation 
+                        Workstation
                             = (IrbisWorkstation)(byte)value[0];
                         break;
 
@@ -617,6 +681,18 @@ namespace ManagedIrbis
                     case "cgi":
                     case "http":
                         WebCgi = value;
+                        break;
+
+                    case "broken":
+                        Broken = value;
+                        break;
+
+                    case "slow":
+                        Slow = value;
+                        break;
+
+                    case "smart":
+                        Smart = value;
                         break;
 
                     case "userdata":
@@ -662,7 +738,7 @@ namespace ManagedIrbis
             Username = reader.ReadNullableString();
             Password = reader.ReadNullableString();
             Database = reader.ReadNullableString();
-            Workstation = (IrbisWorkstation) reader.ReadPackedInt32();
+            Workstation = (IrbisWorkstation)reader.ReadPackedInt32();
             NetworkLogging = reader.ReadNullableString();
             SocketTypeName = reader.ReadNullableString();
             FactoryTypeName = reader.ReadNullableString();
@@ -687,7 +763,7 @@ namespace ManagedIrbis
                 .WriteNullable(Username)
                 .WriteNullable(Password)
                 .WriteNullable(Database)
-                .WritePackedInt32((int) Workstation)
+                .WritePackedInt32((int)Workstation)
                 .WriteNullable(NetworkLogging)
                 .WriteNullable(SocketTypeName)
                 .WriteNullable(FactoryTypeName)

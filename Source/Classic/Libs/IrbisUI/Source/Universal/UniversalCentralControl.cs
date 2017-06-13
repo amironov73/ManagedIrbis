@@ -98,6 +98,35 @@ namespace IrbisUI.Universal
         #region Public methods
 
         /// <summary>
+        /// Run the specified action.
+        /// </summary>
+        public bool Run
+            (
+                [NotNull] Action action
+            )
+        {
+            Code.NotNull(action, "action");
+
+            bool result = false;
+
+            UniversalForm mainForm = MainForm;
+            if (!ReferenceEquals(mainForm, null))
+            {
+                result = mainForm.Controller.Run(action);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Set default focus to control.
+        /// </summary>
+        public virtual void SetDefaultFocus()
+        {
+            // Nothing to do here
+        }
+
+        /// <summary>
         /// Write line.
         /// </summary>
         public void WriteLine

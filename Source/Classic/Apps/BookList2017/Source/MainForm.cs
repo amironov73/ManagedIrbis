@@ -82,13 +82,20 @@ namespace BookList2017
                 EventArgs e
             )
         {
-            Icon = Properties.Resources.Document;
+            Icon = Properties.Resources.Compose;
 
             if (TestProviderConnection())
             {
                 WriteLine("Connection OK");
                 Active = true;
                 Controller.EnableControls();
+
+                UniversalCentralControl universal = CentralControl
+                    as UniversalCentralControl;
+                if (!ReferenceEquals(universal, null))
+                {
+                    universal.SetDefaultFocus();
+                }
             }
             else
             {

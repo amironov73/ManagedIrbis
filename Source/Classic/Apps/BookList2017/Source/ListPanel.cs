@@ -201,6 +201,8 @@ namespace BookList2017
             }
 
             _numberBox.Clear();
+            _numberBox.Focus();
+            Application.DoEvents();
 
             if (AlreadyHave(number))
             {
@@ -209,11 +211,17 @@ namespace BookList2017
                 return;
             }
 
-            ExemplarInfo exemplar;
+            ExemplarInfo exemplar = null;
 
             try
             {
-                exemplar = Manager.ReadExtend(number);
+                Run
+                    (
+                        () =>
+                        {
+                            exemplar = Manager.ReadExtend(number);
+                        }
+                    );
             }
             catch (Exception exception)
             {
@@ -256,27 +264,24 @@ namespace BookList2017
                 );
         }
 
-        private async void LoadExemplars()
+        private void LoadExemplars()
         {
             if (!File.Exists("list.sav"))
             {
                 return;
             }
 
-            Task<ExemplarInfo[]> task 
-                = Task<ExemplarInfo[]>.Factory.StartNew
+            ExemplarInfo[] array = null;
+            Run
                 (
                     () =>
                     {
 
-                        ExemplarInfo[] result = SerializationUtility
+                        array = SerializationUtility
                             .RestoreArrayFromFile<ExemplarInfo>("list.sav");
-
-                        return result;
                     }
                 );
 
-            ExemplarInfo[] array = await task;
             if (ReferenceEquals(array, null))
             {
                 return;
@@ -293,12 +298,18 @@ namespace BookList2017
 
         private void SaveExemplars()
         {
-            ExemplarInfo[] array = ExemplarList.ToArray();
+            Run
+                (
+                    () =>
+                    {
+                        ExemplarInfo[] array = ExemplarList.ToArray();
 
-            FileUtility.DeleteIfExists("list.tmp");
-            array.SaveToFile("list.tmp");
-            FileUtility.DeleteIfExists("list.sav");
-            File.Move("list.tmp", "list.sav");
+                        FileUtility.DeleteIfExists("list.tmp");
+                        array.SaveToFile("list.tmp");
+                        FileUtility.DeleteIfExists("list.sav");
+                        File.Move("list.tmp", "list.sav");
+                    }
+                );
         }
 
         private void _clearButton_Click
@@ -356,6 +367,12 @@ namespace BookList2017
 
             _bindingSource.RemoveCurrent();
             SaveExemplars();
+        }
+
+        /// <inheritdoc />
+        public override void SetDefaultFocus()
+        {
+            _numberBox.Focus();
         }
     }
 }

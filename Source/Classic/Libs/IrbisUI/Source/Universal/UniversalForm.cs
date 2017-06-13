@@ -256,8 +256,14 @@ namespace IrbisUI.Universal
             IrbisConnection connection = Connection;
             if (!ReferenceEquals(connection, null))
             {
-                connection.NoOp();
-                WriteLine("NO-OP");
+                Controller.Run
+                    (
+                        () =>
+                        {
+                            connection.NoOp();
+                            WriteLine("NO-OP");
+                        }
+                    );
             }
         }
 
@@ -271,8 +277,14 @@ namespace IrbisUI.Universal
 
             if (!ReferenceEquals(Provider, null))
             {
-                Provider.Dispose();
-                Provider = null;
+                Controller.Run
+                    (
+                        () =>
+                        {
+                            Provider.Dispose();
+                            Provider = null;
+                        }
+                    );
             }
         }
 
