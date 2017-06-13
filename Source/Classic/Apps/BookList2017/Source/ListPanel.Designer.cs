@@ -35,23 +35,26 @@
             this._numberBox = new System.Windows.Forms.TextBox();
             this._addButton = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this._tableLayout3 = new System.Windows.Forms.TableLayoutPanel();
-            this._clearButton = new System.Windows.Forms.Button();
-            this._deleteButton = new System.Windows.Forms.Button();
-            this._buildButton = new System.Windows.Forms.Button();
-            this._bindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this._firstTimer = new System.Windows.Forms.Timer(this.components);
             this.numberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.yearDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.priceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.shelfIndexDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.placeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._bindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this._tableLayout3 = new System.Windows.Forms.TableLayoutPanel();
+            this._clearButton = new System.Windows.Forms.Button();
+            this._deleteButton = new System.Windows.Forms.Button();
+            this._buildButton = new System.Windows.Forms.Button();
+            this._firstTimer = new System.Windows.Forms.Timer(this.components);
+            this.label2 = new System.Windows.Forms.Label();
+            this._firstNumberBox = new System.Windows.Forms.NumericUpDown();
             this._tableLayout1.SuspendLayout();
             this._tableLayout2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            this._tableLayout3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._bindingSource)).BeginInit();
+            this._tableLayout3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._firstNumberBox)).BeginInit();
             this.SuspendLayout();
             // 
             // _tableLayout1
@@ -149,68 +152,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(754, 484);
             this.dataGridView1.TabIndex = 1;
             // 
-            // _tableLayout3
-            // 
-            this._tableLayout3.AutoSize = true;
-            this._tableLayout3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._tableLayout3.ColumnCount = 5;
-            this._tableLayout3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._tableLayout3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._tableLayout3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._tableLayout3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this._tableLayout3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this._tableLayout3.Controls.Add(this._clearButton, 0, 0);
-            this._tableLayout3.Controls.Add(this._deleteButton, 1, 0);
-            this._tableLayout3.Controls.Add(this._buildButton, 2, 0);
-            this._tableLayout3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._tableLayout3.Location = new System.Drawing.Point(23, 58);
-            this._tableLayout3.Name = "_tableLayout3";
-            this._tableLayout3.RowCount = 1;
-            this._tableLayout3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this._tableLayout3.Size = new System.Drawing.Size(754, 29);
-            this._tableLayout3.TabIndex = 2;
-            // 
-            // _clearButton
-            // 
-            this._clearButton.AutoSize = true;
-            this._clearButton.Location = new System.Drawing.Point(3, 3);
-            this._clearButton.Name = "_clearButton";
-            this._clearButton.Size = new System.Drawing.Size(103, 23);
-            this._clearButton.TabIndex = 0;
-            this._clearButton.Text = "Очистить список";
-            this._clearButton.UseVisualStyleBackColor = true;
-            this._clearButton.Click += new System.EventHandler(this._clearButton_Click);
-            // 
-            // _deleteButton
-            // 
-            this._deleteButton.AutoSize = true;
-            this._deleteButton.Location = new System.Drawing.Point(112, 3);
-            this._deleteButton.Name = "_deleteButton";
-            this._deleteButton.Size = new System.Drawing.Size(75, 23);
-            this._deleteButton.TabIndex = 1;
-            this._deleteButton.Text = "Удалить";
-            this._deleteButton.UseVisualStyleBackColor = true;
-            this._deleteButton.Click += new System.EventHandler(this._deleteButton_Click);
-            // 
-            // _buildButton
-            // 
-            this._buildButton.AutoSize = true;
-            this._buildButton.Location = new System.Drawing.Point(193, 3);
-            this._buildButton.Name = "_buildButton";
-            this._buildButton.Size = new System.Drawing.Size(110, 23);
-            this._buildButton.TabIndex = 2;
-            this._buildButton.Text = "Построить список";
-            this._buildButton.UseVisualStyleBackColor = true;
-            // 
-            // _bindingSource
-            // 
-            this._bindingSource.DataSource = typeof(ManagedIrbis.Fields.ExemplarInfo);
-            // 
-            // _firstTimer
-            // 
-            this._firstTimer.Enabled = true;
-            this._firstTimer.Tick += new System.EventHandler(this._firstTimer_Tick);
-            // 
             // numberDataGridViewTextBoxColumn
             // 
             this.numberDataGridViewTextBoxColumn.DataPropertyName = "Number";
@@ -258,6 +199,105 @@
             this.placeDataGridViewTextBoxColumn.ReadOnly = true;
             this.placeDataGridViewTextBoxColumn.Width = 50;
             // 
+            // _bindingSource
+            // 
+            this._bindingSource.DataSource = typeof(ManagedIrbis.Fields.ExemplarInfo);
+            // 
+            // _tableLayout3
+            // 
+            this._tableLayout3.AutoSize = true;
+            this._tableLayout3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this._tableLayout3.ColumnCount = 6;
+            this._tableLayout3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this._tableLayout3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this._tableLayout3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this._tableLayout3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this._tableLayout3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this._tableLayout3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._tableLayout3.Controls.Add(this._clearButton, 0, 0);
+            this._tableLayout3.Controls.Add(this._deleteButton, 1, 0);
+            this._tableLayout3.Controls.Add(this._buildButton, 2, 0);
+            this._tableLayout3.Controls.Add(this._firstNumberBox, 5, 0);
+            this._tableLayout3.Controls.Add(this.label2, 4, 0);
+            this._tableLayout3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._tableLayout3.Location = new System.Drawing.Point(23, 58);
+            this._tableLayout3.Name = "_tableLayout3";
+            this._tableLayout3.RowCount = 1;
+            this._tableLayout3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._tableLayout3.Size = new System.Drawing.Size(754, 29);
+            this._tableLayout3.TabIndex = 2;
+            // 
+            // _clearButton
+            // 
+            this._clearButton.AutoSize = true;
+            this._clearButton.Location = new System.Drawing.Point(3, 3);
+            this._clearButton.Name = "_clearButton";
+            this._clearButton.Size = new System.Drawing.Size(103, 23);
+            this._clearButton.TabIndex = 0;
+            this._clearButton.Text = "Очистить список";
+            this._clearButton.UseVisualStyleBackColor = true;
+            this._clearButton.Click += new System.EventHandler(this._clearButton_Click);
+            // 
+            // _deleteButton
+            // 
+            this._deleteButton.AutoSize = true;
+            this._deleteButton.Location = new System.Drawing.Point(112, 3);
+            this._deleteButton.Name = "_deleteButton";
+            this._deleteButton.Size = new System.Drawing.Size(75, 23);
+            this._deleteButton.TabIndex = 1;
+            this._deleteButton.Text = "Удалить";
+            this._deleteButton.UseVisualStyleBackColor = true;
+            this._deleteButton.Click += new System.EventHandler(this._deleteButton_Click);
+            // 
+            // _buildButton
+            // 
+            this._buildButton.AutoSize = true;
+            this._buildButton.Location = new System.Drawing.Point(193, 3);
+            this._buildButton.Name = "_buildButton";
+            this._buildButton.Size = new System.Drawing.Size(110, 23);
+            this._buildButton.TabIndex = 2;
+            this._buildButton.Text = "Построить список";
+            this._buildButton.UseVisualStyleBackColor = true;
+            this._buildButton.Click += new System.EventHandler(this._buildButton_Click);
+            // 
+            // _firstTimer
+            // 
+            this._firstTimer.Enabled = true;
+            this._firstTimer.Tick += new System.EventHandler(this._firstTimer_Tick);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Location = new System.Drawing.Point(329, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(105, 29);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Начинать с номера";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // _firstNumberBox
+            // 
+            this._firstNumberBox.Location = new System.Drawing.Point(440, 3);
+            this._firstNumberBox.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this._firstNumberBox.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this._firstNumberBox.Name = "_firstNumberBox";
+            this._firstNumberBox.Size = new System.Drawing.Size(120, 20);
+            this._firstNumberBox.TabIndex = 4;
+            this._firstNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // ListPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -270,9 +310,10 @@
             this._tableLayout2.ResumeLayout(false);
             this._tableLayout2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._bindingSource)).EndInit();
             this._tableLayout3.ResumeLayout(false);
             this._tableLayout3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._bindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._firstNumberBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -297,5 +338,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn priceDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn shelfIndexDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn placeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.NumericUpDown _firstNumberBox;
     }
 }

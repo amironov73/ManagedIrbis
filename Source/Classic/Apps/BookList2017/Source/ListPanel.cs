@@ -26,6 +26,7 @@ using AM.IO;
 using AM.Logging;
 using AM.Runtime;
 using AM.Text.Output;
+using AM.UI;
 using AM.Windows.Forms;
 
 using CodeJam;
@@ -373,6 +374,35 @@ namespace BookList2017
         public override void SetDefaultFocus()
         {
             _numberBox.Focus();
+        }
+
+        private void _buildButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            ExemplarInfo[] array = ExemplarList.ToArray();
+
+            try
+            {
+                Controller.DisableControls();
+                int firstNumber = Convert.ToInt32(_firstNumberBox.Value) - 1;
+
+                using (ExcelForm excelForm = new ExcelForm())
+                {
+                    excelForm.ShowBooks
+                        (
+                            array,
+                            firstNumber.ToInvariantString()
+                        );
+                    excelForm.ShowDialog(this);
+                }
+            }
+            finally
+            {
+                Controller.EnableControls();
+            }
         }
     }
 }

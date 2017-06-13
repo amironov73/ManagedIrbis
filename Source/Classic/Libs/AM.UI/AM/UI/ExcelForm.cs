@@ -92,47 +92,66 @@ namespace AM.UI
             int count;
             int.TryParse(startNumber, out count);
 
-            int row = 7;
+            int row = 5;
             Worksheet sheet = _spreadsheet.ActiveWorksheet;
             int col;
+
+            //string fond = string.Empty;
+            //ExemplarInfo firstExemplar = 
+            //Cell fondCell = sheet.Cells[row, 2];
+            //fondCell.Value = 
+
+            Cell dateCell = sheet.Cells[row, 5];
+            dateCell.Value = DateTime.Today.ToShortDateString();
+            dateCell.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Left;
+            dateCell.Alignment.Vertical = SpreadsheetVerticalAlignment.Top;
+            dateCell.Font.Bold = true;
+
+            row = 7;
 
             foreach (ExemplarInfo book in books)
             {
                 col = 0;
 
+                // №
                 Cell countCell = sheet.Cells[row, col++];
                 countCell.Value = ++count;
                 countCell.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Left;
                 countCell.Alignment.Vertical = SpreadsheetVerticalAlignment.Top;
                 SetBorders(countCell);
 
+                // Инвентарный номер
                 Cell numberCell = sheet.Cells[row, col++];
                 numberCell.Value = book.Number;
                 numberCell.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Left;
                 numberCell.Alignment.Vertical = SpreadsheetVerticalAlignment.Top;
                 SetBorders(numberCell);
 
-                Cell descrCell = sheet.Cells[row, col++];
-                descrCell.Value = book.Description;
-                descrCell.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Left;
-                descrCell.Alignment.Vertical = SpreadsheetVerticalAlignment.Top;
-                descrCell.Alignment.WrapText = true;
-                SetBorders(descrCell);
+                // Описание
+                Cell descriptionCell = sheet.Cells[row, col++];
+                descriptionCell.Value = book.Description;
+                descriptionCell.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Left;
+                descriptionCell.Alignment.Vertical = SpreadsheetVerticalAlignment.Top;
+                descriptionCell.Alignment.WrapText = true;
+                SetBorders(descriptionCell);
 
+                // Год
                 Cell yearCell = sheet.Cells[row, col++];
                 yearCell.Value = book.Year;
                 yearCell.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Left;
                 yearCell.Alignment.Vertical = SpreadsheetVerticalAlignment.Top;
                 SetBorders(yearCell);
 
+                // Шифр
                 Cell priceCell = sheet.Cells[row, col++];
-                priceCell.Value = book.Price;
+                priceCell.Value = book.ShelfIndex;
                 priceCell.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Left;
                 priceCell.Alignment.Vertical = SpreadsheetVerticalAlignment.Top;
                 SetBorders(priceCell);
 
+                // Фонд
                 Cell indexCell = sheet.Cells[row, col++];
-                indexCell.Value = book.ShelfIndex;
+                indexCell.Value = book.Place;
                 indexCell.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Left;
                 indexCell.Alignment.Vertical = SpreadsheetVerticalAlignment.Top;
                 SetBorders(indexCell);
