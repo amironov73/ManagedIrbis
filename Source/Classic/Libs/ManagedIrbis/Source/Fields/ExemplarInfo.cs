@@ -348,6 +348,14 @@ namespace ManagedIrbis.Fields
         public string Bbk { get; set; }
 
         /// <summary>
+        /// Номер выпуска (для журналов).
+        /// </summary>
+        [CanBeNull]
+        [XmlAttribute("issue")]
+        [JsonProperty("issue")]
+        public string Issue { get; set; }
+
+        /// <summary>
         /// Номер по порядку (для списков).
         /// </summary>
         [XmlIgnore]
@@ -597,6 +605,7 @@ namespace ManagedIrbis.Fields
             Year = reader.ReadNullableString();
             Description = reader.ReadNullableString();
             Bbk = reader.ReadNullableString();
+            Issue = reader.ReadNullableString();
             OrderingData = reader.ReadNullableString();
             Mfn = reader.ReadInt32();
         }
@@ -639,6 +648,7 @@ namespace ManagedIrbis.Fields
                 .WriteNullable(Year)
                 .WriteNullable(Description)
                 .WriteNullable(Bbk)
+                .WriteNullable(Issue)
                 .WriteNullable(OrderingData);
             writer.Write(Mfn);
         }

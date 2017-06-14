@@ -22,6 +22,7 @@ using System.Windows.Forms;
 
 using AM;
 using AM.Rfid;
+using AM.Windows.Forms;
 
 #endregion
 
@@ -107,11 +108,21 @@ namespace MagnaRfid
             }
 
             bool english = _englishCheckBox.Checked;
+            //InputLanguage previousLanguage 
+            //    = InputLanguage.CurrentInputLanguage;
+            //bool needSwitch = !previousLanguage.Culture
+            //    .TwoLetterISOLanguageName.SameString("EN");
 
             if (english)
             {
-                SendKeys.SendWait("%+");
-                Thread.Sleep(100);
+                //InputLanguageUtility.SwitchToEnglish();
+
+                //if (needSwitch)
+                //{
+                    SendKeys.SendWait("%+");
+                    Thread.Sleep(100);
+                //}
+
                 //Application.DoEvents();
             }
 
@@ -126,8 +137,14 @@ namespace MagnaRfid
 
             if (english)
             {
-                SendKeys.SendWait("%+");
-                Thread.Sleep(100);
+                //InputLanguage.CurrentInputLanguage = previousLanguage;
+
+                //if (needSwitch)
+                //{
+                    SendKeys.SendWait("%+");
+                    Thread.Sleep(100);
+                //}
+
                 //Application.DoEvents();
             }
         }

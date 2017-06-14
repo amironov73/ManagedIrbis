@@ -143,6 +143,7 @@ namespace ManagedIrbis.Fields
                 [NotNull] MarcRecord record
             )
         {
+            string workList = record.FM("920");
             string result = record.FM("210", 'd');
             if (string.IsNullOrEmpty(result))
             {
@@ -152,6 +153,14 @@ namespace ManagedIrbis.Fields
             {
                 result = record.FM("461", 'z');
             }
+            if (string.IsNullOrEmpty(result))
+            {
+                if (workList.SameString("NJ"))
+                {
+                    result = record.FM("934");
+                }
+            }
+
             if (string.IsNullOrEmpty(result))
             {
                 return result;
@@ -331,8 +340,40 @@ namespace ManagedIrbis.Fields
 
             if (!ReferenceEquals(record, null))
             {
+                string workList = record.FM("920");
+
+                if (string.IsNullOrEmpty(exemplar.ShelfIndex))
+                {
+                    exemplar.ShelfIndex = record.FM("906")
+                                          ?? record.FM("621")
+                                          ?? record.FM("686");
+                }
+
+                if (string.IsNullOrEmpty(exemplar.ShelfIndex)
+                    && workList.SameString("NJ"))
+                {
+                    string consolidatedIndex = record.FM("933");
+                    if (!string.IsNullOrEmpty(consolidatedIndex))
+                    {
+                        string expression = string.Format
+                            (
+                                "\"I={0}\"",
+                                consolidatedIndex
+                            );
+                        MarcRecord consolidatedRecord
+                            = Connection.SearchReadOneRecord(expression);
+                        if (!ReferenceEquals(consolidatedRecord, null))
+                        {
+                            exemplar.ShelfIndex = consolidatedRecord.FM("906")
+                                ?? consolidatedRecord.FM("621")
+                                ?? consolidatedRecord.FM("686");
+                        }
+                    }
+                }
+
                 exemplar.Year = _GetYear(record);
                 exemplar.Price = _GetPrice(record, exemplar);
+                exemplar.Issue = record.FM("936");
             }
 
             return exemplar;

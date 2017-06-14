@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -288,6 +289,21 @@ namespace IrbisUI.Universal
             }
         }
 
+        private void _CatchUnexpectedBusyState
+            (
+                object sender,
+                EventArgs eventArgs
+            )
+        {
+            BusyState innerState = (BusyState) sender;
+            if (innerState.Busy
+                && !Controller.State.ThrowIfNull("Controller.State").Busy)
+            {
+                StackTrace trace = new StackTrace();
+                WriteLine("Unexpected BUSY: {0}", trace);
+            }
+        }
+
         #endregion
 
         #region Public methods
@@ -305,7 +321,9 @@ namespace IrbisUI.Universal
 
             IrbisProvider result
                 = ProviderManager.GetPreconfiguredProvider();
-            //SubscribeToBusyState(result);
+            result.BusyState
+                .ThrowIfNull("BusyState")
+                .StateChanged += _CatchUnexpectedBusyState;
             Provider = result;
 
             IrbisConnection connection = Connection;
@@ -374,7 +392,9 @@ namespace IrbisUI.Universal
                     IdleManager.Dispose();
                     IdleManager = null;
                 }
-                //UnsubscribeFromBusyState(provider);
+                provider.BusyState
+                    .ThrowIfNull("BusyState")
+                    .StateChanged -= _CatchUnexpectedBusyState;
                 provider.Dispose();
             }
             Provider = null;

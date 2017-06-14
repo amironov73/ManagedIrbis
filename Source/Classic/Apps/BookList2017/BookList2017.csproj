@@ -100,6 +100,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\ListColumn.cs" />
+    <Compile Include="Source\ListVariant.cs" />
     <Compile Include="Source\ListPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -131,6 +133,9 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="ArsMagna.private.snk" />
+    <Content Include="variants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\DataSources\ManagedIrbis.Fields.ExemplarInfo.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

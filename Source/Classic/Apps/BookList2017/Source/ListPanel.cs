@@ -23,8 +23,11 @@ using System.Windows.Forms;
 using AM;
 using AM.Configuration;
 using AM.IO;
+using AM.Json;
 using AM.Logging;
+using AM.Reflection;
 using AM.Runtime;
+using AM.Text;
 using AM.Text.Output;
 using AM.UI;
 using AM.Windows.Forms;
@@ -40,6 +43,9 @@ using ManagedIrbis;
 using ManagedIrbis.Fields;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 #endregion
 
@@ -145,12 +151,19 @@ namespace BookList2017
                 );
             Controller.DisableControls();
 
+            JArray array = JsonUtility.ReadArrayFromFile("variants.json");
+            _variants = array.ToObject<ListVariant[]>();
+            _variantBox.DataSource = _variants;
+            _variantBox.DisplayMember = "Title";
+
             //WriteLine("BookList2017 ready");
         }
 
         #endregion
 
         private ExemplarManager _manager;
+
+        private ListVariant[] _variants;
 
         [NotNull]
         private IrbisConnection GetConnection()
@@ -178,6 +191,17 @@ namespace BookList2017
             }
 
             return false;
+        }
+
+        private void _ExtendExemplar
+            (
+                [NotNull] ExemplarInfo exemplar
+            )
+        {
+            MarcRecord record = exemplar.Record
+                .ThrowIfNull("exemplar.Record");
+
+            // Nothing to do yet
         }
 
         private void _addButton_Click
@@ -238,9 +262,7 @@ namespace BookList2017
                 return;
             }
 
-            exemplar.ShelfIndex = exemplar.Record
-                .ThrowIfNull("exemplar.Record")
-                .FM("906");
+            _ExtendExemplar(exemplar);
 
             if (!string.IsNullOrEmpty(exemplar.Description))
             {
@@ -382,19 +404,59 @@ namespace BookList2017
                 EventArgs e
             )
         {
-            ExemplarInfo[] array = ExemplarList.ToArray();
+            UniversalComparer<ExemplarInfo> comparer
+                = new UniversalComparer<ExemplarInfo>
+                    (
+                        (left, right) => NumberText.Compare
+                            (
+                                left.Description,
+                                right.Description
+                            )
+                    );
+
+            ExemplarInfo[] array = ExemplarList
+                .OrderBy(book => book, comparer)
+                .ToArray();
+
+            ListVariant currentVariant
+                = (ListVariant)_variantBox.SelectedItem;
 
             try
             {
                 Controller.DisableControls();
-                int firstNumber = Convert.ToInt32(_firstNumberBox.Value) - 1;
+
+                int firstNumber = Convert.ToInt32(_firstNumberBox.Value);
+                foreach (ExemplarInfo item in array)
+                {
+                    item.SequentialNumber = firstNumber;
+                    firstNumber++;
+                }
+
+                List<object[]> books = new List<object[]>(array.Length);
+
+                foreach (ExemplarInfo exemplar in array)
+                {
+                    List<object> list = new List<object>();
+                    foreach (ListColumn column in currentVariant.Columns)
+                    {
+                        object o = ReflectionUtility.GetPropertyValue
+                            (
+                                exemplar,
+                                column.Expression
+                            );
+                        list.Add(o);
+                    }
+
+                    books.Add(list.ToArray());
+                }
 
                 using (ExcelForm excelForm = new ExcelForm())
                 {
                     excelForm.ShowBooks
                         (
-                            array,
-                            firstNumber.ToInvariantString()
+                            currentVariant.FileName.ThrowIfNull(),
+                            books,
+                            currentVariant.FirstLine
                         );
                     excelForm.ShowDialog(this);
                 }
