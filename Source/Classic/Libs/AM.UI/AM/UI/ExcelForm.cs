@@ -59,6 +59,14 @@ namespace AM.UI
         #region Public methods
 
         /// <summary>
+        /// Speedup initialization.
+        /// </summary>
+        public static void DummyMethod()
+        {
+            // Do nothing
+        }
+
+        /// <summary>
         /// Set cell borders.
         /// </summary>
         public void SetBorders
@@ -74,15 +82,54 @@ namespace AM.UI
         }
 
         /// <summary>
+        /// Set height of the cell.
+        /// </summary>
+        public void SetHeight
+            (
+                [NotNull] Cell cell,
+                double height
+            )
+        {
+            cell.Worksheet.Rows[cell.RowIndex].Height = height;
+        }
+
+        /// <summary>
+        /// Set width of the cell.
+        /// </summary>
+        public void SetWidht
+            (
+                [NotNull] Cell cell,
+                double width
+            )
+        {
+            cell.Worksheet.Columns[cell.ColumnIndex].Width = width;
+        }
+
+        /// <summary>
+        /// Wrap text in the cell.
+        /// </summary>
+        public void SetWrap
+            (
+                [NotNull] Cell cell
+            )
+        {
+            cell.Alignment.WrapText = true;
+        }
+
+        /// <summary>
         /// Show books
         /// </summary>
         public void ShowBooks
             (
                 [NotNull] string template,
+                [NotNull] ExcelColumn[] columns,
                 [NotNull] IEnumerable<object[]> books,
                 int startRow
             )
         {
+            Code.NotNullNorEmpty(template, "template");
+            Code.NotNull(columns, "columns");
+
             _spreadsheet.LoadDocument(template);
             _spreadsheet.Options.Save.CurrentFileName = string.Format
                 (
@@ -99,13 +146,31 @@ namespace AM.UI
 
                 foreach (object val in book)
                 {
+                    ExcelColumn column = columns[col];
+
                     Cell cell = sheet.Cells[row, col++];
                     cell.Value = val.NullableToString();
                     cell.Alignment.Horizontal
                         = SpreadsheetHorizontalAlignment.Left;
                     cell.Alignment.Vertical
                         = SpreadsheetVerticalAlignment.Top;
-                    SetBorders(cell);
+
+                    if (column.Border)
+                    {
+                        SetBorders(cell);
+                    }
+                    if (column.Wrap)
+                    {
+                        SetWrap(cell);
+                    }
+                    if (column.Height > 0.0)
+                    {
+                        SetHeight(cell, column.Height);
+                    }
+                    if (column.Width > 0.0)
+                    {
+                        SetWidht(cell, column.Width);
+                    }
                 }
 
                 row++;

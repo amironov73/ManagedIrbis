@@ -100,7 +100,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Source\ListColumn.cs" />
     <Compile Include="Source\ListFormat.cs" />
     <Compile Include="Source\ListSort.cs" />
     <Compile Include="Source\ListVariant.cs" />

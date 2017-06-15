@@ -11,6 +11,8 @@
 
 using System.Xml.Serialization;
 
+using AM.UI;
+
 using JetBrains.Annotations;
 
 using Newtonsoft.Json;
@@ -40,23 +42,7 @@ namespace BookList2017
         [CanBeNull]
         [XmlElement("column")]
         [JsonProperty("columns")]
-        public ListColumn[] Columns { get; set; }
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
-        #region Object members
+        public ExcelColumn[] Columns { get; set; }
 
         #endregion
     }

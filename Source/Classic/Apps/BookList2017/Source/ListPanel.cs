@@ -419,6 +419,7 @@ namespace BookList2017
                     excelForm.ShowBooks
                         (
                             currentVariant.FileName.ThrowIfNull(),
+                            currentVariant.Columns.ThrowIfNull(),
                             books,
                             currentVariant.FirstLine
                         );
@@ -481,7 +482,7 @@ namespace BookList2017
             foreach (ExemplarInfo exemplar in array)
             {
                 List<object> list = new List<object>();
-                foreach (ListColumn column in currentVariant.Columns)
+                foreach (ExcelColumn column in currentVariant.Columns)
                 {
                     object o = ReflectionUtility.GetPropertyValue
                     (
@@ -493,6 +494,9 @@ namespace BookList2017
 
                 books.Add(list.ToArray());
             }
+
+            ExcelForm.DummyMethod();
+
             return books;
         }
     }

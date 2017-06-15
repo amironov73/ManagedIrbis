@@ -16,13 +16,13 @@
 				"fileName": "books.xlsx",
 				"firstLine": 7,
 				"columns": [
-					{"title": "№", "expression": "SequentialNumber"},
-					{"title": "Инв. №", "expression": "Number"},
-					{"title": "Автор, заглавие", "expression": "Description"},
-					{"title": "Год", "expression": "Year"},
-					{"title": "Шифр", "expression": "ShelfIndex"},
-					{"title": "Фонд", "expression": "Place"},
-					{"title": "Отметки", "expression": "UserData"}
+					{"title": "№", "expression": "SequentialNumber", "height": 120, "border": true},
+					{"title": "Инв. №", "expression": "Number", "border": true},
+					{"title": "Автор, заглавие", "expression": "Description", "wrap": true, "border": true},
+					{"title": "Год", "expression": "Year", "border": true},
+					{"title": "Шифр", "expression": "ShelfIndex", "border": true},
+					{"title": "Фонд", "expression": "Place", "border": true},
+					{"title": "Отметки", "expression": "UserData", "border": true}
 				]
 			},
 			{
@@ -30,14 +30,14 @@
 				"fileName": "magazines.xlsx",
 				"firstLine": 7,
 				"columns": [
-					{"title": "№", "expression": "SequentialNumber"},
-					{"title": "Компл.", "expression": "Number"},
-					{"title": "Автор, заглавие", "expression": "Description"},
-					{"title": "Год", "expression": "Year"},
-					{"title": "Вып.", "expression": "Issue"},
-					{"title": "Шифр", "expression": "ShelfIndex"},
-					{"title": "Фонд", "expression": "Place"},
-					{"title": "Отметки", "expression": "UserData"}
+					{"title": "№", "expression": "SequentialNumber", "height": 120, "border": true},
+					{"title": "Компл.", "expression": "Number", "border": true},
+					{"title": "Автор, заглавие", "expression": "Description", "wrap": true, "border": true},
+					{"title": "Год", "expression": "Year", "border": true},
+					{"title": "Вып.", "expression": "Issue", "border": true},
+					{"title": "Шифр", "expression": "ShelfIndex", "border": true},
+					{"title": "Фонд", "expression": "Place", "border": true},
+					{"title": "Отметки", "expression": "UserData", "border": true}
 				]
 			}
 		]
