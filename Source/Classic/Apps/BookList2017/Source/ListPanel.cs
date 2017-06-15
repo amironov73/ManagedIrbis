@@ -93,15 +93,7 @@ namespace BookList2017
                         (
                             Connection,
                             Output
-                        )
-                    {
-                        Format = ConfigurationUtility.GetString
-                            (
-                                "format",
-                                "@brief"
-                            )
-                            .ThrowIfNull("_manager.Format")
-                    };
+                        );
                 }
 
                 return _manager;
@@ -151,19 +143,27 @@ namespace BookList2017
                 );
             Controller.DisableControls();
 
-            JArray array = JsonUtility.ReadArrayFromFile("variants.json");
-            _variants = array.ToObject<ListVariant[]>();
-            _variantBox.DataSource = _variants;
-            _variantBox.DisplayMember = "Title";
+            JObject config = JsonUtility.ReadObjectFromFile("config.json");
 
-            //WriteLine("BookList2017 ready");
+            ListFormat[] formats = config.SelectToken("format")
+                .ToObject<ListFormat[]>();
+            _formatBox.DataSource = formats;
+            _formatBox.DisplayMember = "Description";
+
+            ListSort[] sort = config.SelectToken("sort")
+                .ToObject<ListSort[]>();
+            _sortBox.DataSource = sort;
+            _sortBox.DisplayMember = "Description";
+
+            ListVariant[] variants = config.SelectToken("list")
+                .ToObject<ListVariant[]>();
+            _variantBox.DataSource = variants;
+            _variantBox.DisplayMember = "Title";
         }
 
         #endregion
 
         private ExemplarManager _manager;
-
-        private ListVariant[] _variants;
 
         [NotNull]
         private IrbisConnection GetConnection()
@@ -191,17 +191,6 @@ namespace BookList2017
             }
 
             return false;
-        }
-
-        private void _ExtendExemplar
-            (
-                [NotNull] ExemplarInfo exemplar
-            )
-        {
-            MarcRecord record = exemplar.Record
-                .ThrowIfNull("exemplar.Record");
-
-            // Nothing to do yet
         }
 
         private void _addButton_Click
@@ -237,6 +226,9 @@ namespace BookList2017
             }
 
             ExemplarInfo exemplar = null;
+            Manager.Format = ((ListFormat) _formatBox.SelectedItem)
+                .Format
+                .ThrowIfNull("Manager.Format");
 
             try
             {
@@ -261,8 +253,6 @@ namespace BookList2017
 
                 return;
             }
-
-            _ExtendExemplar(exemplar);
 
             if (!string.IsNullOrEmpty(exemplar.Description))
             {
@@ -404,20 +394,6 @@ namespace BookList2017
                 EventArgs e
             )
         {
-            UniversalComparer<ExemplarInfo> comparer
-                = new UniversalComparer<ExemplarInfo>
-                    (
-                        (left, right) => NumberText.Compare
-                            (
-                                left.Description,
-                                right.Description
-                            )
-                    );
-
-            ExemplarInfo[] array = ExemplarList
-                .OrderBy(book => book, comparer)
-                .ToArray();
-
             ListVariant currentVariant
                 = (ListVariant)_variantBox.SelectedItem;
 
@@ -425,29 +401,17 @@ namespace BookList2017
             {
                 Controller.DisableControls();
 
-                int firstNumber = Convert.ToInt32(_firstNumberBox.Value);
-                foreach (ExemplarInfo item in array)
+                List<object[]> books = null;
+
+                if (!Run
+                    (
+                        () =>
+                        {
+                            books = BuildBookList(currentVariant);
+                        }
+                    ))
                 {
-                    item.SequentialNumber = firstNumber;
-                    firstNumber++;
-                }
-
-                List<object[]> books = new List<object[]>(array.Length);
-
-                foreach (ExemplarInfo exemplar in array)
-                {
-                    List<object> list = new List<object>();
-                    foreach (ListColumn column in currentVariant.Columns)
-                    {
-                        object o = ReflectionUtility.GetPropertyValue
-                            (
-                                exemplar,
-                                column.Expression
-                            );
-                        list.Add(o);
-                    }
-
-                    books.Add(list.ToArray());
+                    return;
                 }
 
                 using (ExcelForm excelForm = new ExcelForm())
@@ -465,6 +429,71 @@ namespace BookList2017
             {
                 Controller.EnableControls();
             }
+        }
+
+        private List<object[]> BuildBookList
+            (
+                ListVariant currentVariant
+            )
+        {
+            IComparer<ExemplarInfo> comparer;
+            ListSort sort = null;
+
+            this.InvokeIfRequired
+                (
+                    () =>
+                    {
+                        sort = (ListSort) _sortBox.SelectedItem;
+                    }
+                );
+
+            switch (sort.Field)
+            {
+                case "Description":
+                    comparer = ExemplarInfoComparer.ByDescription();
+                    break;
+
+                case "Number":
+                    comparer = ExemplarInfoComparer.ByNumber();
+                    break;
+
+                default:
+                    throw new ApplicationException
+                        (
+                            "Unknown field: "
+                            + sort.Field.ToVisibleString()
+                        );
+            }
+
+            ExemplarInfo[] array = ExemplarList
+                .OrderBy(book => book, comparer)
+                .ToArray();
+
+            int firstNumber = Convert.ToInt32(_firstNumberBox.Value);
+            foreach (ExemplarInfo item in array)
+            {
+                item.SequentialNumber = firstNumber;
+                firstNumber++;
+            }
+
+            List<object[]> books = new List<object[]>(array.Length);
+
+            foreach (ExemplarInfo exemplar in array)
+            {
+                List<object> list = new List<object>();
+                foreach (ListColumn column in currentVariant.Columns)
+                {
+                    object o = ReflectionUtility.GetPropertyValue
+                    (
+                        exemplar,
+                        column.Expression
+                    );
+                    list.Add(o);
+                }
+
+                books.Add(list.ToArray());
+            }
+            return books;
         }
     }
 }

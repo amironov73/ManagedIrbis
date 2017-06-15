@@ -35,14 +35,6 @@
             this._numberBox = new System.Windows.Forms.TextBox();
             this._addButton = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this._bindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this._tableLayout3 = new System.Windows.Forms.TableLayoutPanel();
-            this._clearButton = new System.Windows.Forms.Button();
-            this._deleteButton = new System.Windows.Forms.Button();
-            this._buildButton = new System.Windows.Forms.Button();
-            this._firstNumberBox = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this._firstTimer = new System.Windows.Forms.Timer(this.components);
             this.numberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.yearDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,14 +42,28 @@
             this.priceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.shelfIndexDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.placeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._bindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this._tableLayout3 = new System.Windows.Forms.TableLayoutPanel();
+            this._clearButton = new System.Windows.Forms.Button();
+            this._deleteButton = new System.Windows.Forms.Button();
+            this._buildButton = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this._firstNumberBox = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this._variantBox = new System.Windows.Forms.ComboBox();
+            this._firstTimer = new System.Windows.Forms.Timer(this.components);
+            this.tableLayout4 = new System.Windows.Forms.TableLayoutPanel();
+            this.label4 = new System.Windows.Forms.Label();
+            this._formatBox = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this._sortBox = new System.Windows.Forms.ComboBox();
             this._tableLayout1.SuspendLayout();
             this._tableLayout2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._bindingSource)).BeginInit();
             this._tableLayout3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._firstNumberBox)).BeginInit();
+            this.tableLayout4.SuspendLayout();
             this.SuspendLayout();
             // 
             // _tableLayout1
@@ -67,13 +73,15 @@
             this._tableLayout1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._tableLayout1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this._tableLayout1.Controls.Add(this._tableLayout2, 1, 1);
-            this._tableLayout1.Controls.Add(this.dataGridView1, 1, 3);
+            this._tableLayout1.Controls.Add(this.dataGridView1, 1, 4);
             this._tableLayout1.Controls.Add(this._tableLayout3, 1, 2);
+            this._tableLayout1.Controls.Add(this.tableLayout4, 1, 3);
             this._tableLayout1.Dock = System.Windows.Forms.DockStyle.Fill;
             this._tableLayout1.Location = new System.Drawing.Point(0, 0);
             this._tableLayout1.Name = "_tableLayout1";
-            this._tableLayout1.RowCount = 5;
+            this._tableLayout1.RowCount = 6;
             this._tableLayout1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this._tableLayout1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tableLayout1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tableLayout1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tableLayout1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -147,14 +155,69 @@
             this.placeDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this._bindingSource;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(23, 93);
+            this.dataGridView1.Location = new System.Drawing.Point(23, 126);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(754, 484);
+            this.dataGridView1.Size = new System.Drawing.Size(754, 451);
             this.dataGridView1.TabIndex = 1;
+            // 
+            // numberDataGridViewTextBoxColumn
+            // 
+            this.numberDataGridViewTextBoxColumn.DataPropertyName = "Number";
+            this.numberDataGridViewTextBoxColumn.HeaderText = "Инв. №";
+            this.numberDataGridViewTextBoxColumn.Name = "numberDataGridViewTextBoxColumn";
+            this.numberDataGridViewTextBoxColumn.ReadOnly = true;
+            this.numberDataGridViewTextBoxColumn.Width = 70;
+            // 
+            // descriptionDataGridViewTextBoxColumn
+            // 
+            this.descriptionDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
+            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Автор, заглавие";
+            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
+            this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // yearDataGridViewTextBoxColumn
+            // 
+            this.yearDataGridViewTextBoxColumn.DataPropertyName = "Year";
+            this.yearDataGridViewTextBoxColumn.HeaderText = "Год";
+            this.yearDataGridViewTextBoxColumn.Name = "yearDataGridViewTextBoxColumn";
+            this.yearDataGridViewTextBoxColumn.ReadOnly = true;
+            this.yearDataGridViewTextBoxColumn.Width = 50;
+            // 
+            // Issue
+            // 
+            this.Issue.DataPropertyName = "Issue";
+            this.Issue.HeaderText = "Вып.";
+            this.Issue.Name = "Issue";
+            this.Issue.ReadOnly = true;
+            this.Issue.Width = 50;
+            // 
+            // priceDataGridViewTextBoxColumn
+            // 
+            this.priceDataGridViewTextBoxColumn.DataPropertyName = "Price";
+            this.priceDataGridViewTextBoxColumn.HeaderText = "Цена";
+            this.priceDataGridViewTextBoxColumn.Name = "priceDataGridViewTextBoxColumn";
+            this.priceDataGridViewTextBoxColumn.ReadOnly = true;
+            this.priceDataGridViewTextBoxColumn.Width = 50;
+            // 
+            // shelfIndexDataGridViewTextBoxColumn
+            // 
+            this.shelfIndexDataGridViewTextBoxColumn.DataPropertyName = "ShelfIndex";
+            this.shelfIndexDataGridViewTextBoxColumn.HeaderText = "Шифр";
+            this.shelfIndexDataGridViewTextBoxColumn.Name = "shelfIndexDataGridViewTextBoxColumn";
+            this.shelfIndexDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // placeDataGridViewTextBoxColumn
+            // 
+            this.placeDataGridViewTextBoxColumn.DataPropertyName = "Place";
+            this.placeDataGridViewTextBoxColumn.HeaderText = "Фонд";
+            this.placeDataGridViewTextBoxColumn.Name = "placeDataGridViewTextBoxColumn";
+            this.placeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.placeDataGridViewTextBoxColumn.Width = 50;
             // 
             // _bindingSource
             // 
@@ -221,9 +284,20 @@
             this._buildButton.UseVisualStyleBackColor = true;
             this._buildButton.Click += new System.EventHandler(this._buildButton_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Location = new System.Drawing.Point(557, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(105, 29);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Начинать с номера";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // _firstNumberBox
             // 
-            this._firstNumberBox.Location = new System.Drawing.Point(667, 3);
+            this._firstNumberBox.Location = new System.Drawing.Point(668, 3);
             this._firstNumberBox.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -235,84 +309,13 @@
             0,
             0});
             this._firstNumberBox.Name = "_firstNumberBox";
-            this._firstNumberBox.Size = new System.Drawing.Size(84, 20);
+            this._firstNumberBox.Size = new System.Drawing.Size(83, 20);
             this._firstNumberBox.TabIndex = 4;
             this._firstNumberBox.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(556, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(105, 29);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Начинать с номера";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // _firstTimer
-            // 
-            this._firstTimer.Enabled = true;
-            this._firstTimer.Tick += new System.EventHandler(this._firstTimer_Tick);
-            // 
-            // numberDataGridViewTextBoxColumn
-            // 
-            this.numberDataGridViewTextBoxColumn.DataPropertyName = "Number";
-            this.numberDataGridViewTextBoxColumn.HeaderText = "Инв. №";
-            this.numberDataGridViewTextBoxColumn.Name = "numberDataGridViewTextBoxColumn";
-            this.numberDataGridViewTextBoxColumn.ReadOnly = true;
-            this.numberDataGridViewTextBoxColumn.Width = 70;
-            // 
-            // descriptionDataGridViewTextBoxColumn
-            // 
-            this.descriptionDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Автор, заглавие";
-            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
-            this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // yearDataGridViewTextBoxColumn
-            // 
-            this.yearDataGridViewTextBoxColumn.DataPropertyName = "Year";
-            this.yearDataGridViewTextBoxColumn.HeaderText = "Год";
-            this.yearDataGridViewTextBoxColumn.Name = "yearDataGridViewTextBoxColumn";
-            this.yearDataGridViewTextBoxColumn.ReadOnly = true;
-            this.yearDataGridViewTextBoxColumn.Width = 50;
-            // 
-            // Issue
-            // 
-            this.Issue.DataPropertyName = "Issue";
-            this.Issue.HeaderText = "Вып.";
-            this.Issue.Name = "Issue";
-            this.Issue.ReadOnly = true;
-            this.Issue.Width = 50;
-            // 
-            // priceDataGridViewTextBoxColumn
-            // 
-            this.priceDataGridViewTextBoxColumn.DataPropertyName = "Price";
-            this.priceDataGridViewTextBoxColumn.HeaderText = "Цена";
-            this.priceDataGridViewTextBoxColumn.Name = "priceDataGridViewTextBoxColumn";
-            this.priceDataGridViewTextBoxColumn.ReadOnly = true;
-            this.priceDataGridViewTextBoxColumn.Width = 50;
-            // 
-            // shelfIndexDataGridViewTextBoxColumn
-            // 
-            this.shelfIndexDataGridViewTextBoxColumn.DataPropertyName = "ShelfIndex";
-            this.shelfIndexDataGridViewTextBoxColumn.HeaderText = "Шифр";
-            this.shelfIndexDataGridViewTextBoxColumn.Name = "shelfIndexDataGridViewTextBoxColumn";
-            this.shelfIndexDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // placeDataGridViewTextBoxColumn
-            // 
-            this.placeDataGridViewTextBoxColumn.DataPropertyName = "Place";
-            this.placeDataGridViewTextBoxColumn.HeaderText = "Фонд";
-            this.placeDataGridViewTextBoxColumn.Name = "placeDataGridViewTextBoxColumn";
-            this.placeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.placeDataGridViewTextBoxColumn.Width = 50;
             // 
             // label3
             // 
@@ -332,8 +335,78 @@
             this._variantBox.FormattingEnabled = true;
             this._variantBox.Location = new System.Drawing.Point(379, 3);
             this._variantBox.Name = "_variantBox";
-            this._variantBox.Size = new System.Drawing.Size(171, 21);
+            this._variantBox.Size = new System.Drawing.Size(172, 21);
             this._variantBox.TabIndex = 6;
+            // 
+            // _firstTimer
+            // 
+            this._firstTimer.Enabled = true;
+            this._firstTimer.Tick += new System.EventHandler(this._firstTimer_Tick);
+            // 
+            // tableLayout4
+            // 
+            this.tableLayout4.AutoSize = true;
+            this.tableLayout4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayout4.ColumnCount = 6;
+            this.tableLayout4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayout4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.99999F));
+            this.tableLayout4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayout4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayout4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayout4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayout4.Controls.Add(this.label4, 0, 0);
+            this.tableLayout4.Controls.Add(this._formatBox, 1, 0);
+            this.tableLayout4.Controls.Add(this.label5, 3, 0);
+            this.tableLayout4.Controls.Add(this._sortBox, 4, 0);
+            this.tableLayout4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayout4.Location = new System.Drawing.Point(23, 93);
+            this.tableLayout4.Name = "tableLayout4";
+            this.tableLayout4.RowCount = 1;
+            this.tableLayout4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayout4.Size = new System.Drawing.Size(754, 27);
+            this.tableLayout4.TabIndex = 3;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label4.Location = new System.Drawing.Point(3, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(49, 27);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Формат";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // _formatBox
+            // 
+            this._formatBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._formatBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._formatBox.FormattingEnabled = true;
+            this._formatBox.Location = new System.Drawing.Point(58, 3);
+            this._formatBox.Name = "_formatBox";
+            this._formatBox.Size = new System.Drawing.Size(286, 21);
+            this._formatBox.TabIndex = 1;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label5.Location = new System.Drawing.Point(370, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(67, 27);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Сортировка";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // _sortBox
+            // 
+            this._sortBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._sortBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._sortBox.FormattingEnabled = true;
+            this._sortBox.Location = new System.Drawing.Point(443, 3);
+            this._sortBox.Name = "_sortBox";
+            this._sortBox.Size = new System.Drawing.Size(287, 21);
+            this._sortBox.TabIndex = 3;
             // 
             // ListPanel
             // 
@@ -351,6 +424,8 @@
             this._tableLayout3.ResumeLayout(false);
             this._tableLayout3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._firstNumberBox)).EndInit();
+            this.tableLayout4.ResumeLayout(false);
+            this.tableLayout4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -380,5 +455,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn placeDataGridViewTextBoxColumn;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox _variantBox;
+        private System.Windows.Forms.TableLayoutPanel tableLayout4;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox _formatBox;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox _sortBox;
     }
 }

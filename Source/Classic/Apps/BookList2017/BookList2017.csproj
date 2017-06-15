@@ -101,6 +101,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Source\ListColumn.cs" />
+    <Compile Include="Source\ListFormat.cs" />
+    <Compile Include="Source\ListSort.cs" />
     <Compile Include="Source\ListVariant.cs" />
     <Compile Include="Source\ListPanel.cs">
       <SubType>UserControl</SubType>
@@ -133,7 +135,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="ArsMagna.private.snk" />
-    <Content Include="variants.json">
+    <Content Include="config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\DataSources\ManagedIrbis.Fields.ExemplarInfo.datasource" />

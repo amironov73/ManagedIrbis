@@ -1,0 +1,44 @@
+﻿{
+	"format": 
+		[
+			{"description": "очень кратко", "format": "@sbrief"},
+			{"description": "кратко", "format": "@brief"}
+		],
+	"sort": 
+		[
+			{"description": "по алфавиту", "field": "Description"},
+			{"description": "по номерам", "field": "Number"}
+		],
+	"list": 
+		[
+			{
+				"title": "Книги",
+				"fileName": "books.xlsx",
+				"firstLine": 7,
+				"columns": [
+					{"title": "№", "expression": "SequentialNumber"},
+					{"title": "Инв. №", "expression": "Number"},
+					{"title": "Автор, заглавие", "expression": "Description"},
+					{"title": "Год", "expression": "Year"},
+					{"title": "Шифр", "expression": "ShelfIndex"},
+					{"title": "Фонд", "expression": "Place"},
+					{"title": "Отметки", "expression": "UserData"}
+				]
+			},
+			{
+				"title": "Журналы",
+				"fileName": "magazines.xlsx",
+				"firstLine": 7,
+				"columns": [
+					{"title": "№", "expression": "SequentialNumber"},
+					{"title": "Компл.", "expression": "Number"},
+					{"title": "Автор, заглавие", "expression": "Description"},
+					{"title": "Год", "expression": "Year"},
+					{"title": "Вып.", "expression": "Issue"},
+					{"title": "Шифр", "expression": "ShelfIndex"},
+					{"title": "Фонд", "expression": "Place"},
+					{"title": "Отметки", "expression": "UserData"}
+				]
+			}
+		]
+}

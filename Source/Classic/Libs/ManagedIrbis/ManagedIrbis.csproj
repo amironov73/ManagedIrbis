@@ -194,6 +194,7 @@
     <Compile Include="Source\Extensibility\ExtensionManager.cs" />
     <Compile Include="Source\Extensibility\ExtensionInfo.cs" />
     <Compile Include="Source\Extensibility\IrbisExtension.cs" />
+    <Compile Include="Source\Fields\ExemplarInfoComparer.cs" />
     <Compile Include="Source\Fields\ExemplarStatus.cs" />
     <Compile Include="Source\Fields\ExternalResource.cs" />
     <Compile Include="Source\Fields\FieldFilter.cs" />

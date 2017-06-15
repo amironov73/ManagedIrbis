@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ListVariant.cs -- 
+/* ListFormat.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -19,28 +19,19 @@ using Newtonsoft.Json;
 
 namespace BookList2017
 {
-    public sealed class ListVariant
+    public sealed class ListFormat
     {
         #region Properties
 
         [CanBeNull]
-        [XmlElement("title")]
-        [JsonProperty("title")]
-        public string Title { get; set; }
+        [XmlElement("description")]
+        [JsonProperty("description")]
+        public string Description { get; set; }
 
         [CanBeNull]
-        [XmlElement("fileName")]
-        [JsonProperty("fileName")]
-        public string FileName { get; set; }
-
-        [XmlElement("firstLine")]
-        [JsonProperty("firstLine")]
-        public int FirstLine { get; set; }
-
-        [CanBeNull]
-        [XmlElement("column")]
-        [JsonProperty("columns")]
-        public ListColumn[] Columns { get; set; }
+        [XmlElement("format")]
+        [JsonProperty("format")]
+        public string Format { get; set; }
 
         #endregion
 
