@@ -16,6 +16,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using AM.Threading;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -100,7 +102,8 @@ namespace ManagedIrbis.Infrastructure.Sockets
             int delay = Delay;
             if (delay > 0)
             {
-                Thread.Sleep(delay);
+                ThreadUtility.Sleep(delay);
+                //Thread.Sleep(delay);
             }
 
             byte[] result = InnerSocket.ExecuteRequest(request);

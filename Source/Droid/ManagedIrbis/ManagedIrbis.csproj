@@ -274,6 +274,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ExemplarInfo.cs">
       <Link>Source\Fields\ExemplarInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ExemplarInfoComparer.cs">
+      <Link>Source\Fields\ExemplarInfoComparer.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ExemplarManager.cs">
       <Link>Source\Fields\ExemplarManager.cs</Link>
     </Compile>
@@ -577,6 +580,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\AsyncSocketAdapter.cs">
       <Link>Source\Infrastructure\Sockets\AsyncSocketAdapter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\BrokenSocket.cs">
+      <Link>Source\Infrastructure\Sockets\BrokenSocket.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\ClientSocketUtility.cs">
       <Link>Source\Infrastructure\Sockets\ClientSocketUtility.cs</Link>
     </Compile>
@@ -594,6 +600,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SimpleClientSocket.cs">
       <Link>Source\Infrastructure\Sockets\SimpleClientSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SlowSocket.cs">
+      <Link>Source\Infrastructure\Sockets\SlowSocket.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SmartClientSocket.cs">
       <Link>Source\Infrastructure\Sockets\SmartClientSocket.cs</Link>
