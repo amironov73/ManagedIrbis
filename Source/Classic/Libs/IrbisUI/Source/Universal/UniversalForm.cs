@@ -138,6 +138,11 @@ namespace IrbisUI.Universal
         }
 
         /// <summary>
+        /// Exit when exception in thread occurs.
+        /// </summary>
+        public static bool ExitOnThreadException { get; set; }
+
+        /// <summary>
         /// Manages IRBIS idle state.
         /// </summary>
         [CanBeNull]
@@ -156,6 +161,12 @@ namespace IrbisUI.Universal
         public LogBox LogBox { get { return _logBox; } }
 
         /// <summary>
+        /// Main form instance.
+        /// </summary>
+        [CanBeNull]
+        public static UniversalForm MainForm { get; private set; }
+
+        /// <summary>
         /// Main menu.
         /// </summary>
         [NotNull]
@@ -166,6 +177,12 @@ namespace IrbisUI.Universal
         /// </summary>
         [NotNull]
         public AbstractOutput Output { get { return LogBox.Output; } }
+
+
+        /// <summary>
+        /// Show <see cref="ExceptionBox"/> on thread exception.
+        /// </summary>
+        public static bool ShowThreadException { get; set; }
 
         /// <summary>
         /// Status strip.
@@ -213,21 +230,46 @@ namespace IrbisUI.Universal
                 ThreadExceptionEventArgs eventArgs
             )
         {
-            ExceptionBox.Show(eventArgs.Exception);
+            Exception exception = eventArgs.Exception;
+
+            UniversalForm form = sender as UniversalForm;
+            if (ReferenceEquals(form, null))
+            {
+                form = MainForm;
+            }
+            if (!ReferenceEquals(form, null))
+            {
+                form.WriteLine
+                    (
+                        "{0}: {1}", 
+                        exception.GetType().Name,
+                        exception.Message
+                    );
+            }
+
+            if (ShowThreadException)
+            {
+                ExceptionBox.Show(eventArgs.Exception);
+            }
+
+            if (ExitOnThreadException)
+            {
 
 #if FW4
 
-            Environment.FailFast
+                Environment.FailFast
                 (
                     "Exception occurred. Shutting down",
-                    eventArgs.Exception
+                    exception
                 );
 
 #else
 
-            Environment.Exit(1);
+                Environment.Exit(1);
 
 #endif
+
+            }
         }
 
         private void _firstTimer_Tick
@@ -416,6 +458,8 @@ namespace IrbisUI.Universal
 
                 using (form)
                 {
+                    MainForm = form;
+
                     form.Show();
                     form.ShowSystemInformation();
                     form.ProcessArguments(args);
@@ -423,6 +467,8 @@ namespace IrbisUI.Universal
                     form._firstTimer.Enabled = true;
 
                     Application.Run(form);
+
+                    MainForm = null;
                 }
 
                 Application.ThreadException -= _ThreadException;

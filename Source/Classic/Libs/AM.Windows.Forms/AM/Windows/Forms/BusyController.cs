@@ -20,6 +20,7 @@ using System.Windows.Forms;
 
 using AM.Collections;
 using AM.Logging;
+using AM.Text.Output;
 using AM.Threading;
 
 using CodeJam;
@@ -60,6 +61,12 @@ namespace AM.Windows.Forms
         /// Control collection.
         /// </summary>
         public NonNullCollection<Control> Controls { get; private set; }
+
+        /// <summary>
+        /// For error messages.
+        /// </summary>
+        [CanBeNull]
+        public AbstractOutput Output { get; set; }
 
         /// <summary>
         /// State.
@@ -257,6 +264,12 @@ namespace AM.Windows.Forms
                             "BusyController::Run",
                             exception
                         );
+                    WriteLine
+                        (
+                            "{0}: {1}",
+                            exception.GetType().Name,
+                            exception.Message
+                        );
 
                     OnExceptionOccur(exception);
                 }
@@ -301,6 +314,12 @@ namespace AM.Windows.Forms
                             "BusyController::RunAsync",
                             unwrapped
                         );
+                    WriteLine
+                        (
+                            "{0}: {1}",
+                            exception.GetType().Name,
+                            exception.Message
+                        );
 
                     OnExceptionOccur(unwrapped);
                 }
@@ -311,6 +330,24 @@ namespace AM.Windows.Forms
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Write message to <see cref="Output"/> if present.
+        /// </summary>
+        public void WriteLine
+            (
+                [NotNull] string format,
+                params object[] args
+            )
+        {
+            Code.NotNull(format, "format");
+
+            AbstractOutput output = Output;
+            if (!ReferenceEquals(output, null))
+            {
+                output.WriteLine(format, args);
+            }
         }
 
         #endregion
