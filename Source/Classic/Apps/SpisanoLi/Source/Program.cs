@@ -42,7 +42,7 @@ using CM = System.Configuration.ConfigurationManager;
 
 #endregion
 
-namespace CniInvent
+namespace SpisanoLi
 {
     static class Program
     {
@@ -54,10 +54,10 @@ namespace CniInvent
         {
             ExceptionBox.Show(eventArgs.Exception);
             Environment.FailFast
-                    (
-                        "Shutting down",
-                        eventArgs.Exception
-                    );
+            (
+                "Shutting down",
+                eventArgs.Exception
+            );
         }
 
         /// <summary>
