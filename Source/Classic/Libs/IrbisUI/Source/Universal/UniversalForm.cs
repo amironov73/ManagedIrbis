@@ -368,12 +368,12 @@ namespace IrbisUI.Universal
                 .StateChanged += _CatchUnexpectedBusyState;
             Provider = result;
 
-            IrbisConnection connection = Connection;
-            if (!ReferenceEquals(connection, null))
-            {
-                IdleManager = new IrbisIdleManager(connection, 60 * 1000);
-                IdleManager.Idle += IdleManager_Idle;
-            }
+            //IrbisConnection connection = Connection;
+            //if (!ReferenceEquals(connection, null))
+            //{
+            //    IdleManager = new IrbisIdleManager(connection, 60 * 1000);
+            //    IdleManager.Idle += IdleManager_Idle;
+            //}
 
             return result;
         }
@@ -428,12 +428,12 @@ namespace IrbisUI.Universal
             IrbisProvider provider = Provider;
             if (!ReferenceEquals(provider, null))
             {
-                if (!ReferenceEquals(IdleManager, null))
-                {
-                    IdleManager.Idle -= IdleManager_Idle;
-                    IdleManager.Dispose();
-                    IdleManager = null;
-                }
+                //if (!ReferenceEquals(IdleManager, null))
+                //{
+                //    IdleManager.Idle -= IdleManager_Idle;
+                //    IdleManager.Dispose();
+                //    IdleManager = null;
+                //}
                 provider.BusyState
                     .ThrowIfNull("BusyState")
                     .StateChanged -= _CatchUnexpectedBusyState;
