@@ -20,6 +20,9 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis;
+using ManagedIrbis.Scripting;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -80,7 +83,7 @@ namespace AM.UI
         [CanBeNull]
         [XmlElement("script")]
         [JsonProperty("script")]
-        public string Script { get; set; }
+        public string ScriptCode { get; set; }
 
         #endregion
 
@@ -100,18 +103,30 @@ namespace AM.UI
         [CanBeNull]
         public string Execute
             (
+                [NotNull] IrbisConnection connection,
                 [NotNull] IDictionary<string,object> dataDictionary
             )
         {
+            Code.NotNull(connection, "connection");
             Code.NotNull(dataDictionary, "dataDictionary");
 
-            string scriptText = Script;
+            string scriptText = ScriptCode;
             if (string.IsNullOrEmpty(scriptText))
             {
                 return null;
             }
 
-            return string.Empty;
+            using (IrbisScript moonScript = new IrbisScript(connection))
+            {
+                foreach (KeyValuePair<string, object> pair in dataDictionary)
+                {
+                    moonScript.SetGlobal(pair.Key, pair.Value);
+                }
+
+                DynValue result = moonScript.DoString(ScriptCode);
+
+                return result.CastToString();
+            }
         }
 
         #endregion

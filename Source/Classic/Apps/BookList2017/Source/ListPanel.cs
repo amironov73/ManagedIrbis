@@ -41,6 +41,7 @@ using IrbisUI.Universal;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Client;
 using ManagedIrbis.Fields;
 
 using MoonSharp.Interpreter;
@@ -426,13 +427,21 @@ namespace BookList2017
                     return;
                 }
 
+                IDictionary<string, object> dictionary
+                    = new Dictionary<string, object>();
+                dictionary.Add("books", books);
+
                 using (ExcelForm excelForm = new ExcelForm())
                 {
                     excelForm.ShowBooks
                         (
+                            Connection,
                             currentVariant.FileName.ThrowIfNull(),
                             currentVariant.Columns.ThrowIfNull(),
+                            dictionary,
+                            _header,
                             books,
+                            _footer,
                             currentVariant.FirstLine
                         );
                     excelForm.ShowDialog(this);

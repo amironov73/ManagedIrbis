@@ -28,7 +28,7 @@ using DevExpress.XtraSpreadsheet;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Fields;
+using ManagedIrbis;
 
 using MoonSharp.Interpreter;
 
@@ -121,14 +121,23 @@ namespace AM.UI
         /// </summary>
         public void ShowBooks
             (
+                [NotNull] IrbisConnection connection,
                 [NotNull] string template,
-                [NotNull] ExcelColumn[] columns,
-                [NotNull] IEnumerable<object[]> books,
+                [NotNull][ItemNotNull] ExcelColumn[] columns,
+                [NotNull] IDictionary<string, object> dictionary,
+                [NotNull][ItemNotNull] MoonExcelData[] header,
+                [NotNull][ItemNotNull] IEnumerable<object[]> books,
+                [NotNull][ItemNotNull] MoonExcelData[] footer,
                 int startRow
             )
         {
+            Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(template, "template");
             Code.NotNull(columns, "columns");
+            Code.NotNull(dictionary, "dictionary");
+            Code.NotNull(header, "header");
+            Code.NotNull(books, "books");
+            Code.NotNull(footer, "footer");
 
             _spreadsheet.LoadDocument(template);
             _spreadsheet.Options.Save.CurrentFileName = string.Format
@@ -137,18 +146,27 @@ namespace AM.UI
                     DateTime.Today
                 );
 
-            int row = startRow;
             Worksheet sheet = _spreadsheet.ActiveWorksheet;
+            int row = startRow, col = 0;
+            Cell cell;
+            foreach (MoonExcelData moonData in header)
+            {
+                int ourRow = moonData.Row;
+                int ourCol = moonData.Column;
+                cell = sheet.Cells[ourRow, ourCol];
+                string text = moonData.Execute(connection, dictionary);
+                cell.Value = text;
+            }
 
             foreach (object[] book in books)
             {
-                int col = 0;
+                col = 0;
 
                 foreach (object val in book)
                 {
                     ExcelColumn column = columns[col];
 
-                    Cell cell = sheet.Cells[row, col++];
+                    cell = sheet.Cells[row, col++];
                     cell.Value = val.NullableToString();
                     cell.Alignment.Horizontal
                         = SpreadsheetHorizontalAlignment.Left;
@@ -175,6 +193,28 @@ namespace AM.UI
 
                 row++;
             }
+
+            col = 0;
+
+            foreach (MoonExcelData moonData in footer)
+            {
+                int ourRow = moonData.Row;
+                if (moonData.RowRelative)
+                {
+                    ourRow += row;
+                    row = ourRow;
+                }
+                int ourCol = moonData.Column;
+                if (moonData.ColumnRelative)
+                {
+                    ourCol += col;
+                    col = ourCol;
+                }
+                cell = sheet.Cells[ourRow, ourCol];
+                string text = moonData.Execute(connection, dictionary);
+                cell.Value = text;
+            }
+
         }
 
         #endregion

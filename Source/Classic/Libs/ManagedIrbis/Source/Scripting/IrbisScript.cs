@@ -124,12 +124,13 @@ namespace ManagedIrbis.Scripting
             RegisterIrbisTypes();
             Engine = new Script(CoreModules.Preset_Complete);
 
-            SetGlobal("Client", Connection);
-            Engine.Globals["v"] = (Func<string,string>)_V;
+            // TODO fix it!
+            // SetGlobal("Client", Connection);
+            // Engine.Globals["v"] = (Func<string,string>)_V;
 
             foreach (Type type in UserData.GetRegisteredTypes())
             {
-                if ((type.Namespace != null)
+                if (!ReferenceEquals(type.Namespace, null)
                     && type.Namespace.StartsWith("ManagedClient"))
                 {
                     SetGlobal
@@ -277,8 +278,6 @@ namespace ManagedIrbis.Scripting
         /// <summary>
         /// Установка новой текущей записи.
         /// </summary>
-        /// <param name="record"></param>
-        /// <returns></returns>
         [NotNull]
         public IrbisScript SetRecord
             (

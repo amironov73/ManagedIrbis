@@ -57,7 +57,22 @@
 
 	"header": 
 	[
-	
+		{
+			"title": "Дата",
+			"rowRelative": false,
+			"row": 5,
+			"columnRelative": false,
+			"column": 3,
+			"script": "return os.date('%d.%m.%Y')"
+		},
+		{
+			"title": "Фонд",
+			"rowRelative": false,
+			"row": 5,
+			"columnRelative": false,
+			"column": 1,
+			"script": "return books[1][#books[1]]"
+		}
 	],
 
 	"footer":
@@ -65,10 +80,18 @@
 		{
 			"title": "Всего экземпляров",
 			"rowRelative": true,
-			"row": 3,
+			"row": 2,
+			"columnRelative": false,
+			"column": 1,
+			"script": "return 'Всего: ' .. #books .. ' экз.'"
+		},
+		{
+			"title": "Подпись заведующего",
+			"rowRelative": true,
+			"row": 0,
 			"columnRelative": false,
 			"column": 3,
-			"script": ""
+			"script": "return 'Зав. отделом ________________'"
 		}
 	]
 }
