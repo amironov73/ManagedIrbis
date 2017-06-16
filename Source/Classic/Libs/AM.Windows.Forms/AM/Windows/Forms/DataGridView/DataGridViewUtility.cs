@@ -12,7 +12,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-//using System.Web.UI;
 using System.Windows.Forms;
 
 using AM.Data;
@@ -39,34 +38,78 @@ namespace AM.Windows.Forms
         #region Public methods
 
         /// <summary>
+        /// Apply specified columns to the <see cref="DataGridView"/>.
+        /// </summary>
+        public static void ApplyColumns
+            (
+                [NotNull] DataGridView grid,
+                [NotNull][ItemNotNull] IEnumerable<DataColumnInfo> columns
+            )
+        {
+            Code.NotNull(grid, "grid");
+            Code.NotNull(columns, "columns");
+
+            try
+            {
+                grid.SuspendLayout();
+
+                grid.AutoGenerateColumns = false;
+                grid.Columns.Clear();
+
+                foreach (DataColumnInfo info in columns)
+                {
+                    DataGridViewColumn column = info.ToGridColumn();
+                    grid.Columns.Add(column);
+                }
+            }
+            finally
+            {
+                grid.ResumeLayout();
+            }
+        }
+
+        /// <summary>
         /// Converts the column description into
         /// <see cref="DataGridViewColumn"/>
         /// </summary>
-        /// <returns></returns>
+        [NotNull]
         public static DataGridViewColumn ToGridColumn
             (
-                this DataColumnInfo column
+                [NotNull] this DataColumnInfo column
             )
         {
+            Code.NotNull(column, "column");
+
             string columnTypeName = column.Type;
             Type columnType = null;
             if (!string.IsNullOrEmpty(columnTypeName))
             {
                 columnType = Type.GetType(columnTypeName, true);
             }
-            DataGridViewColumn result;
-            result = (columnType == null)
+
+            DataGridViewColumn result = ReferenceEquals(columnType, null)
                 ? new DataGridViewTextBoxColumn()
                 : (DataGridViewColumn)Activator.CreateInstance(columnType);
-            result.Name = column.Name;
+            result.DataPropertyName = column.Name;
             result.HeaderText = column.Title;
             result.DataPropertyName = column.Name;
             result.ReadOnly = column.ReadOnly;
             result.Frozen = column.Frozen;
             result.Visible = !column.Invisible;
-            if (column.Width > 0)
+            if (column.Width != 0)
             {
-                result.FillWeight = column.Width;
+                if (column.Width > 0)
+                {
+                    result.AutoSizeMode
+                        = DataGridViewAutoSizeColumnMode.None;
+                    result.Width = column.Width;
+                }
+                else
+                {
+                    result.AutoSizeMode
+                        = DataGridViewAutoSizeColumnMode.Fill;
+                    result.FillWeight = Math.Abs(column.Width);
+                }
             }
             result.HeaderCell.Style.Alignment
                         = DataGridViewContentAlignment.MiddleCenter;

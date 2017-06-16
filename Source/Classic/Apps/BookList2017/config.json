@@ -1,44 +1,74 @@
 ﻿{
-	"format": 
-		[
-			{"description": "очень кратко", "format": "@sbrief"},
-			{"description": "кратко", "format": "@brief"}
-		],
-	"sort": 
-		[
-			{"description": "по алфавиту", "field": "Description"},
-			{"description": "по номерам", "field": "Number"}
-		],
-	"list": 
-		[
-			{
-				"title": "Книги",
-				"fileName": "books.xlsx",
-				"firstLine": 7,
-				"columns": [
-					{"title": "№", "expression": "SequentialNumber", "height": 120, "border": true},
-					{"title": "Инв. №", "expression": "Number", "border": true},
-					{"title": "Автор, заглавие", "expression": "Description", "wrap": true, "border": true},
-					{"title": "Год", "expression": "Year", "border": true},
-					{"title": "Шифр", "expression": "ShelfIndex", "border": true},
-					{"title": "Фонд", "expression": "Place", "border": true},
-					{"title": "Отметки", "expression": "UserData", "border": true}
-				]
-			},
-			{
-				"title": "Журналы",
-				"fileName": "magazines.xlsx",
-				"firstLine": 7,
-				"columns": [
-					{"title": "№", "expression": "SequentialNumber", "height": 120, "border": true},
-					{"title": "Компл.", "expression": "Number", "border": true},
-					{"title": "Автор, заглавие", "expression": "Description", "wrap": true, "border": true},
-					{"title": "Год", "expression": "Year", "border": true},
-					{"title": "Вып.", "expression": "Issue", "border": true},
-					{"title": "Шифр", "expression": "ShelfIndex", "border": true},
-					{"title": "Фонд", "expression": "Place", "border": true},
-					{"title": "Отметки", "expression": "UserData", "border": true}
-				]
-			}
-		]
+	"grid": 
+	[
+		{"name": "Number", "title": "Инв. №", "width": 70},
+		{"name": "Description", "title": "Автор, заглавие", "width": -100},
+		{"name": "Year", "title": "Год", "width": 50},
+		{"name": "Issue", "title": "Вып.", "width": 50},
+		{"name": "Price", "title": "Цена", "width": 50},
+		{"name": "ShelfIndex", "title": "Шифр", "width": 100},
+		{"name": "Place", "title": "Фонд", "width": 50}
+	],
+
+	"format":
+	[
+		{ "description": "очень кратко", "format": "@sbrief" },
+		{ "description": "кратко", "format": "@brief" }
+	],
+
+	"sort":
+	[
+		{ "description": "по алфавиту", "field": "Description" },
+		{ "description": "по номерам", "field": "Number" }
+	],
+
+	"list":
+	[
+		{
+			"title": "Книги",
+			"fileName": "books.xlsx",
+			"firstLine": 7,
+			"columns": [
+				{ "title": "№", "expression": "SequentialNumber", "height": 120, "border": true },
+				{ "title": "Инв. №", "expression": "Number", "border": true },
+				{ "title": "Автор, заглавие", "expression": "Description", "wrap": true, "border": true },
+				{ "title": "Год", "expression": "Year", "border": true },
+				{ "title": "Шифр", "expression": "ShelfIndex", "border": true },
+				{ "title": "Фонд", "expression": "Place", "border": true },
+				{ "title": "Отметки", "expression": "UserData", "border": true }
+			]
+		},
+		{
+			"title": "Журналы",
+			"fileName": "magazines.xlsx",
+			"firstLine": 7,
+			"columns": [
+				{ "title": "№", "expression": "SequentialNumber", "height": 120, "border": true },
+				{ "title": "Компл.", "expression": "Number", "border": true },
+				{ "title": "Автор, заглавие", "expression": "Description", "wrap": true, "border": true },
+				{ "title": "Год", "expression": "Year", "border": true },
+				{ "title": "Вып.", "expression": "Issue", "border": true },
+				{ "title": "Шифр", "expression": "ShelfIndex", "border": true },
+				{ "title": "Фонд", "expression": "Place", "border": true },
+				{ "title": "Отметки", "expression": "UserData", "border": true }
+			]
+		}
+	],
+
+	"header": 
+	[
+	
+	],
+
+	"footer":
+	[
+		{
+			"title": "Всего экземпляров",
+			"rowRelative": true,
+			"row": 3,
+			"columnRelative": false,
+			"column": 3,
+			"script": ""
+		}
+	]
 }

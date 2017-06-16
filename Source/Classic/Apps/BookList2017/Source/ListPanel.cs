@@ -22,6 +22,7 @@ using System.Windows.Forms;
 
 using AM;
 using AM.Configuration;
+using AM.Data;
 using AM.IO;
 using AM.Json;
 using AM.Logging;
@@ -145,6 +146,10 @@ namespace BookList2017
 
             JObject config = JsonUtility.ReadObjectFromFile("config.json");
 
+            DataColumnInfo[] columns = config.SelectToken("grid")
+                .ToObject<DataColumnInfo[]>();
+            DataGridViewUtility.ApplyColumns(_grid, columns);
+
             ListFormat[] formats = config.SelectToken("format")
                 .ToObject<ListFormat[]>();
             _formatBox.DataSource = formats;
@@ -159,11 +164,18 @@ namespace BookList2017
                 .ToObject<ListVariant[]>();
             _variantBox.DataSource = variants;
             _variantBox.DisplayMember = "Title";
+
+            _header = config.SelectToken("header")
+                .ToObject<MoonExcelData[]>();
+            _footer = config.SelectToken("footer")
+                .ToObject<MoonExcelData[]>();
         }
 
         #endregion
 
         private ExemplarManager _manager;
+
+        private MoonExcelData[] _header, _footer;
 
         [NotNull]
         private IrbisConnection GetConnection()
