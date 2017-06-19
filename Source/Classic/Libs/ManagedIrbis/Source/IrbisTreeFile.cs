@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+
 using AM;
 using AM.Collections;
 using AM.IO;
@@ -25,6 +26,8 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Menus;
 
 using MoonSharp.Interpreter;
 
@@ -40,7 +43,8 @@ namespace ManagedIrbis
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class IrbisTreeFile
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Constants
 
@@ -60,7 +64,8 @@ namespace ManagedIrbis
         [MoonSharpUserData]
         [DebuggerDisplay("{Value}")]
         public sealed class Item
-            : IHandmadeSerializable
+            : IHandmadeSerializable,
+            IVerifiable
         {
             #region Properties
 
@@ -69,6 +74,7 @@ namespace ManagedIrbis
             /// </summary>
             [NotNull]
             [ItemNotNull]
+            [JsonProperty("children")]
             public NonNullCollection<Item> Children
             {
                 get { return _children; }
@@ -86,18 +92,20 @@ namespace ManagedIrbis
             /// <summary>
             /// Prefix.
             /// </summary>
+            [JsonIgnore]
             public string Prefix { get { return _prefix; }}
 
             /// <summary>
             /// Suffix.
             /// </summary>
+            [JsonIgnore]
             public string Suffix { get { return _suffix; } }
 
             /// <summary>
             /// Value.
             /// </summary>
             [CanBeNull]
-
+            [JsonProperty("value")]
             public string Value
             {
                 get { return _value; }
@@ -223,8 +231,57 @@ namespace ManagedIrbis
             }
 
             /// <summary>
-            /// Verify the item.
+            /// Convert to array of menu items.
             /// </summary>
+            [NotNull]
+            public MenuEntry[] ToMenu()
+            {
+                List<MenuEntry> result = new List<MenuEntry>
+                {
+                    new MenuEntry
+                    {
+                        Code = Prefix,
+                        Comment = Suffix
+                    }
+                };
+
+                foreach (Item child in Children)
+                {
+                    result.AddRange(child.ToMenu());
+                }
+
+                return result.ToArray();
+            }
+
+            #endregion
+
+            #region IHandmadeSerializable members
+
+            /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
+            public void RestoreFromStream
+                (
+                    BinaryReader reader
+                )
+            {
+                Value = reader.ReadNullableString();
+                reader.ReadCollection(Children);
+            }
+
+            /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
+            public void SaveToStream
+                (
+                    BinaryWriter writer
+                )
+            {
+                writer.WriteNullable(Value);
+                writer.WriteCollection(Children);
+            }
+
+            #endregion
+
+            #region IVerifiable members
+
+            /// <inheritdoc cref="IVerifiable.Verify" />
             public bool Verify
                 (
                     bool throwException
@@ -258,29 +315,6 @@ namespace ManagedIrbis
                 return result;
             }
 
-            #endregion
-
-            #region IHandmadeSerializable members
-
-            /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
-            public void RestoreFromStream
-                (
-                    BinaryReader reader
-                )
-            {
-                Value = reader.ReadNullableString();
-                reader.ReadCollection(Children);
-            }
-
-            /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
-            public void SaveToStream
-                (
-                    BinaryWriter writer
-                )
-            {
-                writer.WriteNullable(Value);
-                writer.WriteCollection(Children);
-            }
 
             #endregion
 
@@ -579,8 +613,50 @@ DONE:
         }
 
         /// <summary>
-        /// Verify the tree.
+        /// Convert tree to menu.
         /// </summary>
+        [NotNull]
+        public MenuFile ToMenu()
+        {
+            MenuFile result = new MenuFile();
+
+            foreach (Item root in Roots)
+            {
+                result.Entries.AddRange(root.ToMenu());
+            }
+
+            return result;
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            FileName = reader.ReadNullableString();
+            reader.ReadCollection(Roots);
+        }
+
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            writer.WriteNullable(FileName);
+            writer.WriteCollection(Roots);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwException
@@ -607,30 +683,6 @@ DONE:
             }
 
             return result;
-        }
-
-#endregion
-
-        #region IHandmadeSerializable members
-
-        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
-        public void RestoreFromStream
-            (
-                BinaryReader reader
-            )
-        {
-            FileName = reader.ReadNullableString();
-            reader.ReadCollection(Roots);
-        }
-
-        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
-        public void SaveToStream
-            (
-                BinaryWriter writer
-            )
-        {
-            writer.WriteNullable(FileName);
-            writer.WriteCollection(Roots);
         }
 
         #endregion
