@@ -12,7 +12,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
-
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -56,11 +56,19 @@ namespace ManagedIrbis.Menus
         [JsonProperty("comment")]
         public string Comment { get; set; }
 
+        /// <summary>
+        /// Other menu entry.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        public MenuEntry OtherEntry { get; set; }
+
         #endregion
 
         #region IHandmadeSerializable
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -72,7 +80,7 @@ namespace ManagedIrbis.Menus
             // ReSharper restore AssignNullToNotNullAttribute
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -99,14 +107,14 @@ namespace ManagedIrbis.Menus
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format
                 (
                     "Code: {0}, Comment: {1}",
-                    Code,
-                    Comment
+                    Code.ToVisibleString(),
+                    Comment.ToVisibleString()
                 );
         }
 

@@ -36,6 +36,38 @@ namespace ManagedIrbis.Menus
     [MoonSharpUserData]
     public static class MenuUtility
     {
+        #region Private members
+
+        private static IrbisTreeFile.Item _BuildItem
+            (
+                [NotNull] MenuEntry parent,
+                [NotNull] MenuFile menu
+            )
+        {
+            string value = string.Format
+                (
+                    "{0}{1}{2}",
+                    parent.Code,
+                    IrbisTreeFile.Item.Delimiter,
+                    parent.Comment
+                );
+            IrbisTreeFile.Item result = new IrbisTreeFile.Item(value);
+            MenuEntry[] children = menu.Entries
+                .Where(v => ReferenceEquals(v.OtherEntry, parent))
+                .OrderBy(v => v.Code)
+                .ToArray();
+
+            foreach (MenuEntry child in children)
+            {
+                IrbisTreeFile.Item subItem = _BuildItem(child, menu);
+                result.Children.Add(subItem);
+            }
+
+            return result;
+        }
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -218,6 +250,68 @@ namespace ManagedIrbis.Menus
 #endif
 
 #endif
+
+        /// <summary>
+        /// Convert MNU to TRE.
+        /// </summary>
+        [NotNull]
+        public static IrbisTreeFile ToTree
+            (
+                [NotNull] this MenuFile menu
+            )
+        {
+            Code.NotNull(menu, "menu");
+
+            foreach (MenuEntry entry in menu.Entries)
+            {
+                entry.Code = entry.Code.Trim();
+            }
+
+            foreach (MenuEntry first in menu.Entries)
+            {
+                foreach (MenuEntry second in menu.Entries)
+                {
+                    if (ReferenceEquals(first, second))
+                    {
+                        continue;
+                    }
+                    if (first.Code.SameString(second.Code))
+                    {
+                        continue;
+                    }
+
+                    if (first.Code.StartsWith(second.Code))
+                    {
+                        if (ReferenceEquals(first.OtherEntry, null))
+                        {
+                            first.OtherEntry = second;
+                        }
+                        else
+                        {
+                            if (second.Code.Length
+                                > first.OtherEntry.Code.Length)
+                            {
+                                first.OtherEntry = second;
+                            }
+                        }
+                    }
+                }
+            }
+
+            MenuEntry[] roots = menu.Entries
+                .Where(entry => ReferenceEquals(entry.OtherEntry, null))
+                .OrderBy(entry => entry.Code)
+                .ToArray();
+
+            IrbisTreeFile result = new IrbisTreeFile();
+            foreach (MenuEntry root in roots)
+            {
+                IrbisTreeFile.Item item = _BuildItem(root, menu);
+                result.Roots.Add(item);
+            }
+
+            return result;
+        }
 
 #if !SILVERLIGHT
 

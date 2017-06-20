@@ -18,6 +18,7 @@ using System.Xml.Serialization;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -197,14 +198,14 @@ namespace ManagedIrbis.Menus
             Code.NotNull(code, "code");
 
             MenuEntry candidate = FindEntry(code);
-            if (candidate != null)
+            if (!ReferenceEquals(candidate, null))
             {
                 return candidate;
             }
 
             code = code.Trim();
             candidate = FindEntry(code);
-            if (candidate != null)
+            if (!ReferenceEquals(candidate, null))
             {
                 return candidate;
             }
@@ -212,7 +213,7 @@ namespace ManagedIrbis.Menus
             code = TrimCode(code);
             candidate = FindEntry(code);
             // ReSharper disable UseNullPropagation
-            if (candidate != null)
+            if (!ReferenceEquals(candidate, null))
             {
                 return candidate;
             }
@@ -234,14 +235,14 @@ namespace ManagedIrbis.Menus
             Code.NotNull(code, "code");
 
             MenuEntry candidate = FindEntrySensitive(code);
-            if (candidate != null)
+            if (!ReferenceEquals(candidate, null))
             {
                 return candidate;
             }
 
             code = code.Trim();
             candidate = FindEntrySensitive(code);
-            if (candidate != null)
+            if (!ReferenceEquals(candidate, null))
             {
                 return candidate;
             }
@@ -249,7 +250,7 @@ namespace ManagedIrbis.Menus
             code = TrimCode(code);
             candidate = FindEntrySensitive(code);
             // ReSharper disable UseNullPropagation
-            if (candidate != null)
+            if (!ReferenceEquals(candidate, null))
             {
                 return candidate;
             }
@@ -472,12 +473,29 @@ namespace ManagedIrbis.Menus
             List<MenuEntry> copy = new List<MenuEntry>(_entries);
             switch (sortBy)
             {
+                case MenuSort.None:
+                    // Nothing to do
+                    break;
+
                 case MenuSort.ByCode:
                     copy = copy.OrderBy(entry => entry.Code).ToList();
                     break;
+
                 case MenuSort.ByComment:
                     copy = copy.OrderBy(entry => entry.Comment).ToList();
                     break;
+
+                default:
+                    Log.Error
+                        (
+                            "MenuFile::SortEntries: "
+                            + "unexpected sortBy="
+                            + sortBy
+                        );
+                    throw new IrbisException
+                        (
+                            "Unexpected sortBy=" + sortBy
+                        );
             }
 
             return copy.ToArray();
