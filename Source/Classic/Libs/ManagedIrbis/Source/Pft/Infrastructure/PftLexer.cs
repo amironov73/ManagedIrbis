@@ -26,6 +26,8 @@ using MoonSharp.Interpreter;
 
 #endregion
 
+// ReSharper disable ConvertClosureToMethodGroup
+
 namespace ManagedIrbis.Pft.Infrastructure
 {
     /// <summary>
@@ -58,10 +60,21 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
                 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
-                'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-                'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-                'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7',
-                '8', '9', '_'
+                'y', 'z',
+
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+                'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+                'Y', 'Z',
+
+                'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к',
+                'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц',
+                'ч', 'ш', 'щ', 'ь', 'ы', 'ъ', 'э', 'ю', 'я',
+
+                'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К',
+                'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц',
+                'Ч', 'Ш', 'Щ', 'Ь', 'Ы', 'Ъ', 'Э', 'Ю', 'Я',
+
+                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_'
             };
 
         private int Column { get { return _navigator.Column; } }
@@ -905,6 +918,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 break;
 
                             case "and":
+                            case "и":
                                 kind = PftTokenKind.And;
                                 value = "and";
                                 break;
@@ -940,6 +954,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 break;
 
                             case "else":
+                            case "иначе":
                                 kind = PftTokenKind.Else;
                                 value = "else";
                                 break;
@@ -950,6 +965,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 break;
 
                             case "end":
+                            case "конец":
                                 kind = PftTokenKind.End;
                                 value = "end";
                                 break;
@@ -960,11 +976,16 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 break;
 
                             case "false":
+                            case "ложь":
                                 kind = PftTokenKind.False;
                                 value = "false";
                                 break;
 
                             case "fi":
+                            case "все":
+                            case "всё":
+                            case "илсе":
+                            case "фи":
                                 kind = PftTokenKind.Fi;
                                 value = "fi";
                                 break;
@@ -980,6 +1001,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 break;
 
                             case "for":
+                            case "для":
                                 kind = PftTokenKind.For;
                                 value = "for";
                                 break;
@@ -1010,6 +1032,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 break;
 
                             case "if":
+                            case "если":
                                 kind = PftTokenKind.If;
                                 value = "if";
                                 break;
@@ -1035,11 +1058,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 break;
 
                             case "not":
+                            case "не":
                                 kind = PftTokenKind.Not;
                                 value = "not";
                                 break;
 
                             case "or":
+                            case "или":
                                 kind = PftTokenKind.Or;
                                 value = "or";
                                 break;
@@ -1050,6 +1075,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 break;
 
                             case "parallel":
+                            case "параллельно":
                                 kind = PftTokenKind.Parallel;
                                 value = "parallel";
                                 break;
@@ -1095,6 +1121,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 break;
 
                             case "select":
+                            case "выбор":
                                 kind = PftTokenKind.Select;
                                 value = "select";
                                 break;
@@ -1105,11 +1132,14 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 break;
 
                             case "then":
+                            case "то":
+                            case "тогда":
                                 kind = PftTokenKind.Then;
                                 value = "then";
                                 break;
 
                             case "true":
+                            case "истина":
                                 kind = PftTokenKind.True;
                                 value = "true";
                                 break;
@@ -1130,6 +1160,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 break;
 
                             case "while":
+                            case "пока":
                                 kind = PftTokenKind.While;
                                 value = "while";
                                 break;
