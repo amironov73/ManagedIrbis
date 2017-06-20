@@ -240,6 +240,12 @@ namespace ManagedIrbis.Client
             return result;
         }
 
+        /// <inheritdoc cref="IrbisProvider.Reconnect" />
+        public override void Reconnect()
+        {
+            Connection.Reconnect();
+        }
+
         /// <inheritdoc cref="IrbisProvider.Search" />
         public override int[] Search
             (

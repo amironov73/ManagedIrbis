@@ -115,7 +115,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region AbstractCommand members
 
-        /// <inheritdoc cref="AbstractCommand.CreateQuery"/>
+        /// <inheritdoc cref="AbstractCommand.CreateQuery" />
         public override ClientQuery CreateQuery()
         {
             Log.Trace("ConnectCommand::CreateQuery");
@@ -156,7 +156,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <inheritdoc cref="AbstractCommand.Execute"/>
+        /// <inheritdoc cref="AbstractCommand.Execute" />
         public override ServerResponse Execute
             (
                 ClientQuery query
@@ -215,7 +215,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region IVerifiable members
 
-        /// <inheritdoc cref="IVerifiable.Verify"/>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public override bool Verify
             (
                 bool throwOnError

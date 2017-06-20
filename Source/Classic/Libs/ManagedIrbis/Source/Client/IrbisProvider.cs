@@ -337,6 +337,14 @@ namespace ManagedIrbis.Client
         }
 
         /// <summary>
+        /// Reconnect.
+        /// </summary>
+        public virtual void Reconnect()
+        {
+            // Nothing to do here
+        }
+
+        /// <summary>
         /// Search records.
         /// </summary>
         [NotNull]

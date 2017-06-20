@@ -68,9 +68,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region AbstractCommand members
 
-        /// <summary>
-        /// Check the server response.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.CheckResponse" />
         public override void CheckResponse
             (
                 ServerResponse response
@@ -82,9 +80,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             response.RefuseAnReturnCode();
         }
 
-        /// <summary>
-        /// Create client query.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.CreateQuery" />
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
@@ -120,9 +116,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Execute the command.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.Execute" />
         public override ServerResponse Execute
             (
                 ClientQuery query

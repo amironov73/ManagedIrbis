@@ -83,9 +83,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region AbstractCommand members
 
-        /// <summary>
-        /// Create client query.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.CreateQuery" />
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
@@ -104,9 +102,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Execute the command.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.Execute" />
         public override ServerResponse Execute
             (
                 ClientQuery query
@@ -125,9 +121,11 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        #endregion
+
+        #region IVerifiable members.
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public override bool Verify
             (
                 bool throwOnError

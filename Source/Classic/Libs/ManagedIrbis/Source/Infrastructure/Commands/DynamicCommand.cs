@@ -11,6 +11,8 @@
 
 using System;
 
+using AM;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -39,7 +41,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// <summary>
         /// Create query.
         /// </summary>
-        public Func<DynamicCommand,ClientQuery> CreateQueryHandler 
+        public Func<DynamicCommand, ClientQuery> CreateQueryHandler
         { get; set; }
 
         /// <summary>
@@ -144,33 +146,34 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region AbstractCommand members
 
-        /// <summary>
-        /// Good return codes.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.GoodReturnCodes" />
         public override int[] GoodReturnCodes
         {
             get
             {
-                int[] result =
-                    GoodReturnCodesHandler != null
-                        ? GoodReturnCodesHandler(this)
-                        : BaseGoodReturnCodes();
+                Func<DynamicCommand, int[]> handler
+                    = GoodReturnCodesHandler;
+
+                int[] result = !ReferenceEquals(handler, null)
+                      ? handler(this)
+                      : BaseGoodReturnCodes();
 
                 return result;
             }
         }
 
-        /// <summary>
-        /// Check the server response.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.CheckResponse" />
         public override void CheckResponse
             (
                 ServerResponse response
             )
         {
-            if (CheckResponseHandler != null)
+            Action<DynamicCommand, ServerResponse> handler
+                = CheckResponseHandler;
+
+            if (!ReferenceEquals(handler, null))
             {
-                CheckResponseHandler(this, response);
+                handler(this, response);
             }
             else
             {
@@ -178,44 +181,50 @@ namespace ManagedIrbis.Infrastructure.Commands
             }
         }
 
-        /// <summary>
-        /// Create client query.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.CreateQuery" />
         public override ClientQuery CreateQuery()
         {
-            ClientQuery result = CreateQueryHandler != null
-                ? CreateQueryHandler(this)
+            Func<DynamicCommand, ClientQuery> handler
+                = CreateQueryHandler;
+
+            ClientQuery result = !ReferenceEquals(handler, null)
+                ? handler(this)
                 : BaseCreateQuery();
 
             return result;
         }
 
-        /// <summary>
-        /// Execute the command.
-        /// </summary>
+        /// <inheritdoc cref="AbstractCommand.Execute" />
         public override ServerResponse Execute
             (
                 ClientQuery query
             )
         {
-            ServerResponse result = ExecuteHandler != null
-                ? ExecuteHandler(this, query)
+            Func<DynamicCommand, ClientQuery, ServerResponse> handler
+                = ExecuteHandler;
+
+            ServerResponse result = !ReferenceEquals(handler, null)
+                ? handler(this, query)
                 : BaseExecute(query);
 
             return result;
         }
 
-        /// <summary>
-        /// Verify the object state.
-        /// </summary>
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public override bool Verify
             (
                 bool throwOnError
             )
         {
-            bool result = VerifyHandler != null
-                ? VerifyHandler(this, throwOnError)
-                : BaseVerify(throwOnError);
+            Func<DynamicCommand, bool, bool> handler = VerifyHandler;
+
+            bool result = !ReferenceEquals(handler, null)
+              ? handler(this, throwOnError)
+              : BaseVerify(throwOnError);
 
             return result;
         }

@@ -464,6 +464,11 @@ namespace ManagedIrbis
 
             if (!_connected)
             {
+                Log.Trace
+                    (
+                        "IrbisConnection::Connect"
+                    );
+
                 ConnectCommand command
                     = CommandFactory.GetConnectCommand();
                 ClientQuery query = command.CreateQuery();
@@ -1269,6 +1274,35 @@ namespace ManagedIrbis
                 .ThrowIfNullOrEmpty("command.Result");
 
             return result;
+        }
+
+        // =========================================================
+
+        /// <summary>
+        /// Reconnect to the server.
+        /// </summary>
+        public void Reconnect()
+        {
+            Log.Trace
+                (
+                    "IrbisConnection::Reconnect"
+                );
+
+            if (_connected)
+            {
+                DisconnectCommand command
+                    = CommandFactory.GetDisconnectCommand();
+
+                ExecuteCommand(command);
+            }
+
+            if (!ReferenceEquals(_iniFile, null))
+            {
+                _iniFile.Dispose();
+                _iniFile = null;
+            }
+
+            Connect();
         }
 
         // =========================================================

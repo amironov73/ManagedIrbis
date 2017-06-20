@@ -55,7 +55,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region AbstractCommand members
 
-        /// <inheritdoc cref="AbstractCommand.CreateQuery"/>
+        /// <inheritdoc cref="AbstractCommand.CreateQuery" />
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
@@ -81,7 +81,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region IVerifiable members
 
-        /// <inheritdoc cref="IVerifiable.Verify"/>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public override bool Verify
             (
                 bool throwOnError

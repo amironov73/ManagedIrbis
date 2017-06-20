@@ -100,9 +100,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public override bool Verify
             (
                 bool throwOnError
