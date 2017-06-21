@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ParallelRecordReader.cs -- reads records from the server in parallel threads
+/* ParallelRecordFormatter.cs -- formats records from the server in parallel threads
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -35,12 +35,12 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Batch
 {
     /// <summary>
-    /// Reads records from the server in parallel threads.
+    /// Formats records from the server in parallel threads.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class ParallelRecordReader
-        : IEnumerable<MarcRecord>,
+    public sealed class ParallelRecordFormatter
+        : IEnumerable<string>,
             IDisposable
     {
         #region Properties
@@ -53,13 +53,17 @@ namespace ManagedIrbis.Batch
         /// <summary>
         /// Строка подключения.
         /// </summary>
-        [CanBeNull]
         public string ConnectionString { get; private set; }
 
         /// <summary>
         /// Признак окончания.
         /// </summary>
         public bool Stop { get { return _AllDone(); } }
+
+        /// <summary>
+        /// Используемый формат.
+        /// </summary>
+        public string Format { get; private set; }
 
         #endregion
 
@@ -68,55 +72,17 @@ namespace ManagedIrbis.Batch
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ParallelRecordReader()
-            : this(-1)
-        {
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public ParallelRecordReader
-            (
-                int parallelism
-            )
-            : this
-                (
-                    -1,
-                    IrbisConnectionUtility.GetStandardConnectionString()
-                )
-        {
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public ParallelRecordReader
-            (
-                int parallelism,
-                [NotNull] string connectionString
-            )
-            : this
-                (
-                    -1,
-                    connectionString,
-                    _GetMfnList(connectionString)
-                )
-        {
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public ParallelRecordReader
+        public ParallelRecordFormatter
             (
                 int parallelism,
                 [NotNull] string connectionString,
-                [NotNull] int[] mfnList
+                [NotNull] int[] mfnList,
+                [NotNull] string format
             )
         {
             Code.NotNullNorEmpty(connectionString, "connectionString");
             Code.NotNull(mfnList, "mfnList");
+            Code.NotNullNorEmpty(format, "format");
 
             if (parallelism <= 0)
             {
@@ -125,6 +91,7 @@ namespace ManagedIrbis.Batch
 
             Parallelism = parallelism;
             ConnectionString = connectionString;
+            Format = format;
             Parallelism = Math.Min(mfnList.Length / 1000, parallelism);
 
             _Run(mfnList);
@@ -136,19 +103,17 @@ namespace ManagedIrbis.Batch
 
         private Task[] _tasks;
 
-        private ConcurrentQueue<MarcRecord> _queue;
+        private ConcurrentQueue<string> _queue;
 
         private AutoResetEvent _event;
 
         private object _lock;
 
-        private static int[] _GetMfnList
+        private int[] _GetMfnList
             (
                 [NotNull] string connectionString
             )
         {
-            Code.NotNullNorEmpty(connectionString, "connectionString");
-
             using (IrbisConnection connection
                 = new IrbisConnection(connectionString))
             {
@@ -168,7 +133,7 @@ namespace ManagedIrbis.Batch
                 [NotNull] int[] mfnList
             )
         {
-            _queue = new ConcurrentQueue<MarcRecord>();
+            _queue = new ConcurrentQueue<string>();
             _event = new AutoResetEvent(false);
             _lock = new object();
 
@@ -199,42 +164,34 @@ namespace ManagedIrbis.Batch
                 [NotNull] object state
             )
         {
-            Log.Trace
-                (
-                    "ParallelRecordReader::_Worker: begin"
-                );
-
             int[] chunk = (int[])state;
 
             using (IrbisConnection connection
-                = new IrbisConnection(ConnectionString.ThrowIfNull()))
+                = new IrbisConnection(ConnectionString))
             {
-                BatchRecordReader batch = new BatchRecordReader
+                BatchRecordFormatter batch = new BatchRecordFormatter
                     (
                         connection,
                         connection.Database,
+                        Format,
                         1000,
                         chunk
                     );
-                foreach (MarcRecord record in batch)
+                foreach (string line in batch)
                 {
-                    _PutRecord(record);
+                    _PutLine(line);
                 }
+
             }
             _event.Set();
-
-            Log.Trace
-                (
-                    "ParallelRecordReader::_Worker: end"
-                );
         }
 
-        private void _PutRecord
+        private void _PutLine
             (
-                MarcRecord record
+                string line
             )
         {
-            _queue.Enqueue(record);
+            _queue.Enqueue(line);
             _event.Set();
         }
 
@@ -248,12 +205,28 @@ namespace ManagedIrbis.Batch
 
         #region Public methods
 
+        /// <summary>
+        /// Форматирование всех записей.
+        /// </summary>
+        [NotNull]
+        public string[] FormatAll()
+        {
+            List<string> result = new List<string>();
+
+            foreach (string line in this)
+            {
+                result.Add(line);
+            }
+
+            return result.ToArray();
+        }
+
         #endregion
 
         #region IEnumerable<T> members
 
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
-        public IEnumerator<MarcRecord> GetEnumerator()
+        public IEnumerator<string> GetEnumerator()
         {
             while (true)
             {
@@ -262,10 +235,10 @@ namespace ManagedIrbis.Batch
                     yield break;
                 }
 
-                MarcRecord record;
-                while (_queue.TryDequeue(out record))
+                string line;
+                while (_queue.TryDequeue(out line))
                 {
-                    yield return record;
+                    yield return line;
                 }
                 _event.Reset();
 
@@ -276,23 +249,6 @@ namespace ManagedIrbis.Batch
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        }
-
-        /// <summary>
-        /// Read all records.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public MarcRecord[] ReadAll()
-        {
-            List<MarcRecord> result = new List<MarcRecord>();
-
-            foreach (MarcRecord record in this)
-            {
-                result.Add(record);
-            }
-
-            return result.ToArray();
         }
 
         #endregion
