@@ -165,6 +165,16 @@ namespace ManagedIrbis.Batch
             )
         {
             int[] chunk = (int[])state;
+            int first = chunk.GetItem(0, -1);
+
+            Log.Trace
+                (
+                    "ParallelRecordFormatter::_Worker: begin: "
+                    + "first="
+                    + first
+                    + ", length="
+                    + chunk.Length
+                );
 
             using (IrbisConnection connection
                 = new IrbisConnection(ConnectionString))
@@ -184,6 +194,15 @@ namespace ManagedIrbis.Batch
 
             }
             _event.Set();
+
+            Log.Trace
+                (
+                    "ParallelRecordFormatter::_Worker: end: "
+                    + "first="
+                    + first
+                    + ", length="
+                    + chunk.Length
+                );
         }
 
         private void _PutLine

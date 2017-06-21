@@ -199,12 +199,17 @@ namespace ManagedIrbis.Batch
                 [NotNull] object state
             )
         {
+            int[] chunk = (int[])state;
+            int first = chunk.GetItem(0, -1);
+
             Log.Trace
                 (
-                    "ParallelRecordReader::_Worker: begin"
+                    "ParallelRecordReader::_Worker: begin: "
+                    + "first="
+                    + first
+                    + ", length="
+                    + chunk.Length
                 );
-
-            int[] chunk = (int[])state;
 
             using (IrbisConnection connection
                 = new IrbisConnection(ConnectionString.ThrowIfNull()))
@@ -225,15 +230,21 @@ namespace ManagedIrbis.Batch
 
             Log.Trace
                 (
-                    "ParallelRecordReader::_Worker: end"
+                    "ParallelRecordReader::_Worker: end: "
+                    + "first="
+                    + first
+                    + ", length="
+                    + chunk.Length
                 );
         }
 
         private void _PutRecord
             (
-                MarcRecord record
+                [NotNull] MarcRecord record
             )
         {
+            Code.NotNull(record, "record");
+
             _queue.Enqueue(record);
             _event.Set();
         }

@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if FW4
+
 #region Using directives
 
 using System;
@@ -376,3 +378,5 @@ namespace AM.Windows.Forms
         #endregion
     }
 }
+
+#endif
