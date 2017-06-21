@@ -123,6 +123,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <Choose>
+    <When Condition=" '$(TargetFrameworkVersion)'!='v3.5' ">
+      <ItemGroup>
+        <Compile Include="Source\Universal\UniversalCentralControl.cs">
+          <SubType>UserControl</SubType>
+        </Compile>
+        <Compile Include="Source\Universal\UniversalCentralControl.Designer.cs">
+          <DependentUpon>UniversalCentralControl.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Source\Universal\UniversalForm.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Include="Source\Universal\UniversalForm.Designer.cs">
+          <DependentUpon>UniversalForm.cs</DependentUpon>
+        </Compile>
+        <EmbeddedResource Include="Source\Universal\UniversalCentralControl.resx">
+          <DependentUpon>UniversalCentralControl.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Source\Universal\UniversalForm.resx">
+          <DependentUpon>UniversalForm.cs</DependentUpon>
+        </EmbeddedResource>
+      </ItemGroup>
+    </When>    
+  </Choose>
+  <Choose>
     <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
       <ItemGroup>
         <Compile Include="Properties\35\Resources.Designer.cs">
@@ -331,18 +355,6 @@
     </Compile>
     <Compile Include="Source\Reports\BandLabel.cs" />
     <Compile Include="Source\Reports\CellLabel.cs" />
-    <Compile Include="Source\Universal\UniversalCentralControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Source\Universal\UniversalCentralControl.Designer.cs">
-      <DependentUpon>UniversalCentralControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Source\Universal\UniversalForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Source\Universal\UniversalForm.Designer.cs">
-      <DependentUpon>UniversalForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Source\WorksheetLine.cs" />
     <Compile Include="Source\WssForm.cs">
       <SubType>Form</SubType>
@@ -433,12 +445,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Source\RelatedSearchForm.resx">
       <DependentUpon>RelatedSearchForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Source\Universal\UniversalCentralControl.resx">
-      <DependentUpon>UniversalCentralControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Source\Universal\UniversalForm.resx">
-      <DependentUpon>UniversalForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Source\WssForm.resx">
       <DependentUpon>WssForm.cs</DependentUpon>
