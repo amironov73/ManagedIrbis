@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if FW4
+
 #region Using directives
 
 using System;
@@ -621,3 +623,5 @@ namespace IrbisUI.Universal
         #endregion
     }
 }
+
+#endif
