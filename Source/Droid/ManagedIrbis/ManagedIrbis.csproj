@@ -61,6 +61,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Batch\BatchAccessor.cs">
       <Link>Source\Batch\BatchAccessor.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Batch\BatchFactory.cs">
+      <Link>Source\Batch\BatchFactory.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Batch\BatchRecordFormatter.cs">
       <Link>Source\Batch\BatchRecordFormatter.cs</Link>
     </Compile>
@@ -72,6 +75,12 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Batch\BatchSearcher.cs">
       <Link>Source\Batch\BatchSearcher.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Batch\ParallelRecordFormatter.cs">
+      <Link>Source\Batch\ParallelRecordFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Batch\ParallelRecordReader.cs">
+      <Link>Source\Batch\ParallelRecordReader.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioContext.cs">
       <Link>Source\Biblio\BiblioContext.cs</Link>
@@ -1548,6 +1557,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RecordFieldUtility.cs">
       <Link>Source\RecordFieldUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RecordGuard.cs">
+      <Link>Source\RecordGuard.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RecordReference.cs">
       <Link>Source\RecordReference.cs</Link>

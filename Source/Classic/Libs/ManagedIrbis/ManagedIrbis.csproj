@@ -128,6 +128,7 @@
     <Compile Include="Source\Authentication\Credentials.cs" />
     <Compile Include="Source\Authentication\UserContext.cs" />
     <Compile Include="Source\Batch\BatchAccessor.cs" />
+    <Compile Include="Source\Batch\BatchFactory.cs" />
     <Compile Include="Source\Batch\BatchRecordFormatter.cs" />
     <Compile Include="Source\Batch\BatchRecordReader.cs" />
     <Compile Include="Source\Batch\BatchRecordWriter.cs" />

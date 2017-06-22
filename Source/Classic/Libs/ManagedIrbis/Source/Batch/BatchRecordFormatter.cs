@@ -132,9 +132,49 @@ namespace ManagedIrbis.Batch
             TotalRecords = _packages.Sum(p => p.Length);
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public BatchRecordFormatter
+            (
+                [NotNull] string connectionString,
+                [NotNull] string database,
+                [NotNull] string format,
+                int batchSize,
+                [NotNull] IEnumerable<int> range
+            )
+        {
+            Code.NotNullNorEmpty(connectionString, "connectionString");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNullNorEmpty(format, "format");
+            Code.NotNull(range, "range");
+            if (batchSize < 1)
+            {
+                Log.Error
+                (
+                    "BatchRecordFormatter::Constructor: "
+                    + "batchSize="
+                    + batchSize
+                );
+
+                throw new ArgumentOutOfRangeException("batchSize");
+            }
+
+            Connection = new IrbisConnection(connectionString);
+            _ownConnection = true;
+            Database = database;
+            BatchSize = batchSize;
+            Format = format;
+
+            _packages = range.Slice(batchSize).ToArray();
+            TotalRecords = _packages.Sum(p => p.Length);
+        }
+
         #endregion
 
         #region Private members
+
+        private readonly bool _ownConnection;
 
         private readonly int[][] _packages;
 
@@ -337,6 +377,11 @@ namespace ManagedIrbis.Batch
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
         public IEnumerator<string> GetEnumerator()
         {
+            Log.Trace
+                (
+                    "BatchRecordFormatter::GetEnumerator: start"
+                );
+
             foreach (int[] package in _packages)
             {
                 string[] records = Connection.FormatRecords
@@ -356,6 +401,16 @@ namespace ManagedIrbis.Batch
                         yield return record;
                     }
                 }
+            }
+
+            Log.Trace
+                (
+                    "BatchRecordFormatter::GetEnumerator: end"
+                );
+
+            if (_ownConnection)
+            {
+                Connection.Dispose();
             }
         }
 

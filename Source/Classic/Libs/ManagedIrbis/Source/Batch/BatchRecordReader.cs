@@ -162,9 +162,49 @@ namespace ManagedIrbis.Batch
             TotalRecords = _packages.Sum(p => p.Length);
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public BatchRecordReader
+            (
+                [NotNull] string connectionString,
+                [NotNull] string database,
+                int batchSize,
+                bool omitDeletedRecords,
+                [NotNull] IEnumerable<int> range
+            )
+        {
+            Code.NotNullNorEmpty(connectionString, "connectionString");
+            Code.NotNullNorEmpty(database, "database");
+            Code.NotNull(range, "range");
+            if (batchSize < 1)
+            {
+                Log.Error
+                (
+                    "BatchRecordReader::Constructor: "
+                    + "batchSize="
+                    + batchSize
+                );
+
+                throw new ArgumentOutOfRangeException("batchSize");
+            }
+
+            Connection = new IrbisConnection(connectionString);
+            _ownConnection = true;
+            Database = database;
+            BatchSize = batchSize;
+            OmitDeletedRecords = omitDeletedRecords;
+
+            _packages = range.Slice(batchSize).ToArray();
+            TotalRecords = _packages.Sum(p => p.Length);
+        }
+
+
         #endregion
 
         #region Private members
+
+        private readonly bool _ownConnection;
 
         private readonly int[][] _packages;
 
@@ -514,6 +554,11 @@ namespace ManagedIrbis.Batch
         /// <inheritdoc/>
         public IEnumerator<MarcRecord> GetEnumerator()
         {
+            Log.Trace
+                (
+                    "BatchRecordReader::GetEnumerator: start"
+                );
+
             foreach (int[] package in _packages)
             {
                 MarcRecord[] records = null;
@@ -555,7 +600,17 @@ namespace ManagedIrbis.Batch
                 }
             }
 
+            Log.Trace
+                (
+                    "BatchRecordReader::GetEnumerator: end"
+                );
+
             ReadComplete.Raise(this);
+
+            if (_ownConnection)
+            {
+                Connection.Dispose();
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()

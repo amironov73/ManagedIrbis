@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using JetBrains.Annotations;
@@ -31,6 +32,25 @@ namespace AM.Threading
     public static class ThreadUtility
     {
         #region Properties
+
+        /// <summary>
+        /// Thread.CurrentThread.ManagedThreadId
+        /// </summary>
+        public static int ThreadId
+        {
+            get
+            {
+#if PORTABLE || SILVERLIGHT || UAP
+
+                return 1;
+
+#else
+
+                return Thread.CurrentThread.ManagedThreadId;
+
+#endif
+            }
+        }
 
         #endregion
 

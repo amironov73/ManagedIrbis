@@ -77,6 +77,40 @@ namespace AM.Threading.Tasks
             return task;
         }
 
+        /// <summary>
+        /// Dispose the task.
+        /// </summary>
+        public static void DisposeTask
+            (
+                [NotNull] Task task
+            )
+        {
+            Code.NotNull(task, "task");
+
+#if CLASSIC
+
+            task.Dispose();
+
+#endif
+        }
+
+        /// <summary>
+        /// Dispose the task.
+        /// </summary>
+        public static void DisposeTask<T>
+            (
+                [NotNull] Task<T> task
+            )
+        {
+            Code.NotNull(task, "task");
+
+#if CLASSIC
+
+            task.Dispose();
+
+#endif
+        }
+
 #if FW45 || NETCORE
 
         /// <summary>

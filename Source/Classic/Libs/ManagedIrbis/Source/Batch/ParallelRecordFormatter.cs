@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if FW4
+#if FW4 || ANDROID || UAP || NETCORE || PORTABLE
 
 #region Using directives
 
@@ -21,14 +21,14 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.Logging;
+using AM.Threading;
+using AM.Threading.Tasks;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -120,7 +120,7 @@ namespace ManagedIrbis.Batch
                 int maxMfn = connection.GetMaxMfn() - 1;
                 if (maxMfn <= 0)
                 {
-                    throw new ApplicationException("MaxMFN=0");
+                    throw new IrbisException("MaxMFN=0");
                 }
                 int[] result = Enumerable.Range(1, maxMfn).ToArray();
 
@@ -154,7 +154,7 @@ namespace ManagedIrbis.Batch
             }
             foreach (Task task in _tasks)
             {
-                Thread.Sleep(50);
+                ThreadUtility.Sleep(50);
                 task.Start();
             }
         }
@@ -166,6 +166,7 @@ namespace ManagedIrbis.Batch
         {
             int[] chunk = (int[])state;
             int first = chunk.GetItem(0, -1);
+            int threadId = ThreadUtility.ThreadId;
 
             Log.Trace
                 (
@@ -174,6 +175,8 @@ namespace ManagedIrbis.Batch
                     + first
                     + ", length="
                     + chunk.Length
+                    + ", thread="
+                    + threadId
                 );
 
             using (IrbisConnection connection
@@ -202,6 +205,8 @@ namespace ManagedIrbis.Batch
                     + first
                     + ", length="
                     + chunk.Length
+                    + ", thread="
+                    + threadId
                 );
         }
 
@@ -280,7 +285,7 @@ namespace ManagedIrbis.Batch
             _event.Dispose();
             foreach (Task task in _tasks)
             {
-                task.Dispose();
+                TaskUtility.DisposeTask(task);
             }
         }
 
