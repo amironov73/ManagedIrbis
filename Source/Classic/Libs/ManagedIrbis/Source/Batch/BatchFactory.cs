@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if FW4 || ANDROID || UAP || NETCORE || PORTABLE
+
 #region Using directives
 
 using System.Collections.Generic;
@@ -143,3 +145,5 @@ namespace ManagedIrbis.Batch
         #endregion
     }
 }
+
+#endif

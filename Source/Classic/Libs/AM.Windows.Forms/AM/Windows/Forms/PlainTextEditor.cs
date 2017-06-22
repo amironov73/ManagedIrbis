@@ -32,7 +32,7 @@ namespace AM.Windows.Forms
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public partial class PlainTextEditor 
+    public partial class PlainTextEditor
         : UserControl
     {
         #region Properties
@@ -64,46 +64,74 @@ namespace AM.Windows.Forms
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PlainTextEditor ()
+        public PlainTextEditor()
         {
-            InitializeComponent ();
+            InitializeComponent();
         }
 
         #endregion
 
         #region Private members
 
-        private void _newToolStripButton_Click(object sender, EventArgs e)
+        private void _newToolStripButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
         {
             Clear();
         }
 
-        private void _openToolStripButton_Click(object sender, EventArgs e)
+        private void _openToolStripButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
         {
             LoadFromFile();
         }
 
-        private void _saveToolStripButton_Click(object sender, EventArgs e)
+        private void _saveToolStripButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
         {
             SaveToFile();
         }
 
-        private void _printToolStripButton_Click(object sender, EventArgs e)
+        private void _printToolStripButton_Click
+            (
+                object sender, 
+                EventArgs e
+            )
         {
             Print();
         }
 
-        private void _cutToolStripButton_Click(object sender, EventArgs e)
+        private void _cutToolStripButton_Click
+            (
+                object sender, 
+                EventArgs e
+            )
         {
             Cut();
         }
 
-        private void _copyToolStripButton_Click(object sender, EventArgs e)
+        private void _copyToolStripButton_Click
+            (
+                object sender, 
+                EventArgs e
+            )
         {
             Copy();
         }
 
-        private void _pasteToolStripButton_Click(object sender, EventArgs e)
+        private void _pasteToolStripButton_Click
+            (
+                object sender, 
+                EventArgs e
+            )
         {
             Paste();
         }
@@ -111,6 +139,22 @@ namespace AM.Windows.Forms
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Add the button to the toolbox.
+        /// </summary>
+        [NotNull]
+        public PlainTextEditor AddButton
+            (
+                [NotNull] ToolStripButton button
+            )
+        {
+            Code.NotNull(button, "button");
+
+            _toolStrip.Items.Add(button);
+
+            return this;
+        }
 
         /// <summary>
         /// Clear the text area.

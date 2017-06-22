@@ -45,7 +45,7 @@ using CM = System.Configuration.ConfigurationManager;
 
 #endregion
 
-namespace SpisanoLi.Source
+namespace SpisanoLi
 {
     public class WrittenOff
     {

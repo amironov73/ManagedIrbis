@@ -42,7 +42,7 @@ using ManagedIrbis.Infrastructure.Commands;
 using ManagedIrbis.Readers;
 
 using Newtonsoft.Json;
-using SpisanoLi.Source;
+
 using CM = System.Configuration.ConfigurationManager;
 
 #endregion

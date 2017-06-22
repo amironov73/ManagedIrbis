@@ -41,6 +41,15 @@ namespace AM.Windows.Forms
     {
         #region Properties
 
+        /// <summary>
+        /// Text editor.
+        /// </summary>
+        [NotNull]
+        public PlainTextEditor Editor
+        {
+            get { return _textControl; }
+        }
+
         /// <inheritdoc cref="Control.Text" />
         public override string Text
         {
@@ -86,6 +95,19 @@ namespace AM.Windows.Forms
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Add button to the toolbox.
+        /// </summary>
+        public void AddButton
+            (
+                [NotNull] ToolStripButton button
+            )
+        {
+            Code.NotNull(button, "button");
+
+            Editor.AddButton(button);
+        }
 
         /// <summary>
         /// Show the windows with the text.
