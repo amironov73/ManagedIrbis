@@ -356,6 +356,17 @@ namespace ManagedIrbis.Client
             return new int[0];
         }
 
+        /// <summary>
+        /// Write the record.
+        /// </summary>
+        public virtual void WriteRecord
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            // Nothing to do here
+        }
+
         #endregion
 
         #region IDisposable members

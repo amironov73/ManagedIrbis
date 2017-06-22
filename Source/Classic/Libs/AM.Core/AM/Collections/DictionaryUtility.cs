@@ -30,13 +30,56 @@ namespace AM.Collections
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class DictionaryUtility
+    public static class DictionaryUtility
     {
         #region Private members
 
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Get value for the key or the default value.
+        /// </summary>
+        [CanBeNull]
+        public static TValue GetValueOrDefault<TKey, TValue>
+            (
+                [NotNull] this IDictionary<TKey,TValue> dictionary,
+                [NotNull] TKey key,
+                TValue defaultValue
+            )
+        {
+            Code.NotNull(dictionary, "dictionary");
+
+            TValue result;
+            if (!dictionary.TryGetValue(key, out result))
+            {
+                result = defaultValue;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get value for the key or default value.
+        /// </summary>
+        [CanBeNull]
+        public static TValue GetValueOrDefault<TKey, TValue>
+            (
+                [NotNull] this IDictionary<TKey, TValue> dictionary,
+                [NotNull] TKey key
+            )
+        {
+            Code.NotNull(dictionary, "dictionary");
+
+            TValue result;
+            if (!dictionary.TryGetValue(key, out result))
+            {
+                result = default(TValue);
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Merges the specified dictionaries.
