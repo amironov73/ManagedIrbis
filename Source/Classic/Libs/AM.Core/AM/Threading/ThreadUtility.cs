@@ -40,7 +40,7 @@ namespace AM.Threading
         {
             get
             {
-#if PORTABLE || SILVERLIGHT || UAP
+#if PORTABLE || SILVERLIGHT || UAP || WIN81
 
                 return 1;
 
@@ -64,7 +64,7 @@ namespace AM.Threading
 
         #region Public methods
 
-#if CLASSIC
+#if CLASSIC || SILVERLIGHT
 
 #if FW45
 

@@ -620,6 +620,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\Tasks\Throttle.cs">
       <Link>AM\Threading\Tasks\Throttle.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\ThreadUtility.cs">
+      <Link>AM\Threading\ThreadUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\TimeSpanUtility.cs">
       <Link>AM\TimeSpanUtility.cs</Link>
     </Compile>

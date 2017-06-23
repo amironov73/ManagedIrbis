@@ -566,6 +566,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\AbstractClientSocket.cs">
       <Link>Source\Infrastructure\Sockets\AbstractClientSocket.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\BrokenSocket.cs">
+      <Link>Source\Infrastructure\Sockets\BrokenSocket.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\ClientSocketUtility.cs">
       <Link>Source\Infrastructure\Sockets\ClientSocketUtility.cs</Link>
     </Compile>
@@ -583,6 +586,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SimpleClientSocket.cs">
       <Link>Source\Infrastructure\Sockets\SimpleClientSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SlowSocket.cs">
+      <Link>Source\Infrastructure\Sockets\SlowSocket.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SmartClientSocket.cs">
       <Link>Source\Infrastructure\Sockets\SmartClientSocket.cs</Link>
