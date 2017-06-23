@@ -43,6 +43,15 @@ namespace ManagedIrbis.Readers
     public sealed class VisitInfo
         : IHandmadeSerializable
     {
+        #region Constants
+
+        /// <summary>
+        /// Known codes.
+        /// </summary>
+        public const string KnownCodes = "124abcdefghikluv";
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -188,6 +197,18 @@ namespace ManagedIrbis.Readers
         public string TimeOut { get; set; }
 
         /// <summary>
+        /// Счетчик продлений.
+        /// </summary>
+        /// <remarks>
+        /// http://irbis.gpntb.ru/read.php?3,105310,108175#msg-108175
+        /// </remarks>
+        [CanBeNull]
+        [SubField('4')]
+        [XmlAttribute("prolong")]
+        [JsonProperty("prolong")]
+        public string Prolong { get; set; }
+
+        /// <summary>
         /// Не посещение ли?
         /// </summary>
         [XmlIgnore]
@@ -261,6 +282,17 @@ namespace ManagedIrbis.Readers
                         DateExpectedString
                     );
             }
+        }
+
+        /// <summary>
+        /// Счетчик продлений.
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        public int ProlongCount
+        {
+            get { return Prolong.SafeToInt32(); }
+            set { Prolong = value.ToInvariantString(); }
         }
 
         /// <summary>
@@ -468,6 +500,7 @@ namespace ManagedIrbis.Readers
             writer.WriteNullable(Responsible);
             writer.WriteNullable(TimeIn);
             writer.WriteNullable(TimeOut);
+            writer.WriteNullable(Prolong);
             writer.WriteNullable(Year);
             writer.WriteNullable(Price);
         }
@@ -526,6 +559,7 @@ namespace ManagedIrbis.Readers
             Responsible = reader.ReadNullableString();
             TimeIn = reader.ReadNullableString();
             TimeOut = reader.ReadNullableString();
+            Prolong = reader.ReadNullableString();
             Year = reader.ReadNullableString();
             Price = reader.ReadNullableString();
         }
@@ -554,7 +588,7 @@ namespace ManagedIrbis.Readers
 
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
@@ -562,25 +596,27 @@ namespace ManagedIrbis.Readers
             result
                 .AppendFormat("Посещение: \t\t\t{0}", IsVisit)
                 .AppendLine()
-                .AppendFormat("Описание: \t\t\t{0}", Description)
+                .AppendFormat("Описание: \t\t\t{0}", Description.ToVisibleString())
                 .AppendLine()
-                .AppendFormat("Шифр документа: \t\t{0}", Index)
+                .AppendFormat("Шифр документа: \t\t{0}", Index.ToVisibleString())
                 .AppendLine()
-                .AppendFormat("Штрих-код: \t\t\t{0}", Barcode)
+                .AppendFormat("Штрих-код: \t\t\t{0}", Barcode.ToVisibleString())
                 .AppendLine()
-                .AppendFormat("Место хранения: \t\t{0}", Sigla)
+                .AppendFormat("Место хранения: \t\t{0}", Sigla.ToVisibleString())
                 .AppendLine()
                 .AppendFormat("Дата выдачи: \t\t\t{0:d}", DateGiven)
                 .AppendLine()
-                .AppendFormat("Место выдачи: \t\t\t{0}", Department)
+                .AppendFormat("Место выдачи: \t\t\t{0}", Department.ToVisibleString())
                 .AppendLine()
-                .AppendFormat("Ответственное лицо: \t\t{0}", Responsible)
+                .AppendFormat("Ответственное лицо: \t\t{0}", Responsible.ToVisibleString())
                 .AppendLine()
                 .AppendFormat("Дата предполагаемого возврата: \t{0:d}", DateExpected)
                 .AppendLine()
                 .AppendFormat("Возвращена: \t\t\t{0}", IsReturned)
                 .AppendLine()
                 .AppendFormat("Дата возврата: \t\t\t{0:d}", DateReturned)
+                .AppendLine()
+                .AppendFormat("Счетчик продлений: \t\t\t{0}", Prolong.ToVisibleString())
                 .AppendLine()
                 .AppendLine(new string('-', 60));
 

@@ -29,6 +29,7 @@ using AM.Collections;
 using AM.Windows.Forms;
 
 using CodeJam;
+
 using JetBrains.Annotations;
 
 using Newtonsoft.Json;
@@ -91,7 +92,10 @@ namespace PipeEditor
             }
 
             string text = Console.In.ReadToEnd();
-            PlainTextForm result = new PlainTextForm(text);
+            PlainTextForm result = new PlainTextForm(text)
+            {
+                Icon = Properties.Resources.Pipe
+            };
             ToolStripButton button = new ToolStripButton
             (
                 "Send to console and close (F2)",
