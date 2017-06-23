@@ -104,17 +104,14 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioTerm.cs">
       <Link>Source\Biblio\BiblioTerm.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Cells\BiblioCell.cs">
-      <Link>Source\Biblio\Cells\BiblioCell.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Cells\CellCollection.cs">
-      <Link>Source\Biblio\Cells\CellCollection.cs</Link>
-    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\BiblioChapter.cs">
       <Link>Source\Biblio\Chapters\BiblioChapter.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterCollection.cs">
       <Link>Source\Biblio\Chapters\ChapterCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithDictionary.cs">
+      <Link>Source\Biblio\Chapters\ChapterWithDictionary.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithRecords.cs">
       <Link>Source\Biblio\Chapters\ChapterWithRecords.cs</Link>
@@ -122,11 +119,20 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithText.cs">
       <Link>Source\Biblio\Chapters\ChapterWithText.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Dictionaries\BiblioDictionary.cs">
+      <Link>Source\Biblio\Dictionaries\BiblioDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Dictionaries\PftDictionary.cs">
+      <Link>Source\Biblio\Dictionaries\PftDictionary.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\ItemCollection.cs">
       <Link>Source\Biblio\ItemCollection.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\RecordCollection.cs">
       <Link>Source\Biblio\RecordCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\TermComparer.cs">
+      <Link>Source\Biblio\TermComparer.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Caching\IrbisCache.cs">
       <Link>Source\Caching\IrbisCache.cs</Link>
@@ -298,6 +304,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ExemplarInfo.cs">
       <Link>Source\Fields\ExemplarInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ExemplarInfoComparer.cs">
+      <Link>Source\Fields\ExemplarInfoComparer.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ExemplarManager.cs">
       <Link>Source\Fields\ExemplarManager.cs</Link>
@@ -626,6 +635,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\AbstractClientSocket.cs">
       <Link>Source\Infrastructure\Sockets\AbstractClientSocket.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\BrokenSocket.cs">
+      <Link>Source\Infrastructure\Sockets\BrokenSocket.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\ClientSocketUtility.cs">
       <Link>Source\Infrastructure\Sockets\ClientSocketUtility.cs</Link>
     </Compile>
@@ -643,6 +655,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SimpleClientSocket.cs">
       <Link>Source\Infrastructure\Sockets\SimpleClientSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SlowSocket.cs">
+      <Link>Source\Infrastructure\Sockets\SlowSocket.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SmartClientSocket.cs">
       <Link>Source\Infrastructure\Sockets\SmartClientSocket.cs</Link>
@@ -1483,6 +1498,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RecordFieldUtility.cs">
       <Link>Source\RecordFieldUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RecordGuard.cs">
+      <Link>Source\RecordGuard.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RecordReference.cs">
       <Link>Source\RecordReference.cs</Link>

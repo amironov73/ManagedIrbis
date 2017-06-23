@@ -64,7 +64,7 @@ namespace AM.Threading
 
         #region Public methods
 
-#if CLASSIC || SILVERLIGHT
+#if CLASSIC || SILVERLIGHT || WINMOBILE || POCKETPC
 
 #if FW45
 
