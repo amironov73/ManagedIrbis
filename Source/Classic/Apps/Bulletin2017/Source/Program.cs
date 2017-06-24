@@ -69,6 +69,10 @@ namespace Bulletin2017
         {
             try
             {
+                Application.SetUnhandledExceptionMode
+                    (
+                        UnhandledExceptionMode.Automatic
+                    );
                 Application.ThreadException += _ThreadException;
 
                 Application.EnableVisualStyles();
