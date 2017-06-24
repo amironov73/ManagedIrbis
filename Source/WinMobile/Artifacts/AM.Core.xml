@@ -792,6 +792,11 @@
             At least one of <paramref name="arrays"/> is <c>null</c>.
             </exception>
         </member>
+        <member name="M:AM.ArrayUtility.SplitArray``1(``0[],System.Int32)">
+            <summary>
+            Разбиение массива на (почти) равные части.
+            </summary>
+        </member>
         <member name="M:AM.ArrayUtility.ToString``1(``0[])">
             <summary>
             Converts to string array using
@@ -3386,6 +3391,16 @@
             helper methods.
             </summary>
         </member>
+        <member name="M:AM.Collections.DictionaryUtility.GetValueOrDefault``2(System.Collections.Generic.IDictionary{``0,``1},``0,``1)">
+            <summary>
+            Get value for the key or the default value.
+            </summary>
+        </member>
+        <member name="M:AM.Collections.DictionaryUtility.GetValueOrDefault``2(System.Collections.Generic.IDictionary{``0,``1},``0)">
+            <summary>
+            Get value for the key or default value.
+            </summary>
+        </member>
         <member name="M:AM.Collections.DictionaryUtility.MergeWithConflicts``2(System.Collections.Generic.Dictionary{``0,``1}[])">
             <summary>
             Merges the specified dictionaries.
@@ -3478,22 +3493,32 @@
         </member>
         <member name="T:AM.Threading.BusyState">
             <summary>
-            Индикатор занятости.
+            Busy state indicator.
             </summary>
         </member>
         <member name="M:AM.Threading.BusyState.#ctor">
             <summary>
-            Конструктор.
+            Constructor.
             </summary>
         </member>
         <member name="M:AM.Threading.BusyState.#ctor(System.Boolean)">
             <summary>
-            Конструктор.
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Threading.BusyState.Run(System.Action)">
+            <summary>
+            Run some code.
+            </summary>
+        </member>
+        <member name="M:AM.Threading.BusyState.RunAsync(System.Action)">
+            <summary>
+            Run some code in asychronous manner.
             </summary>
         </member>
         <member name="M:AM.Threading.BusyState.SetState(System.Boolean)">
             <summary>
-            Смена состояния.
+            Change the state.
             </summary>
         </member>
         <member name="M:AM.Threading.BusyState.WaitAndGrab">
@@ -3527,36 +3552,27 @@
             </summary>
         </member>
         <member name="M:AM.Threading.BusyState.RestoreFromStream(System.IO.BinaryReader)">
-            <summary>
-            Просим объект восстановить свое состояние из потока.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:AM.Threading.BusyState.SaveToStream(System.IO.BinaryWriter)">
-            <summary>
-            Просим объект сохранить себя в потоке.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:AM.Threading.BusyState.ToString">
-            <summary>
-            Returns a <see cref="T:System.String"/>
-            that represents this instance.
-            </summary>
-            <returns>A <see cref="T:System.String"/>
-            that represents this instance.</returns>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="E:AM.Threading.BusyState.StateChanged">
             <summary>
-            Вызывается, когда меняется состояние.
+            Raised when the state has changed.
             </summary>
         </member>
         <member name="P:AM.Threading.BusyState.Busy">
             <summary>
-            Состояние
+            The state itself.
             </summary>
         </member>
         <member name="P:AM.Threading.BusyState.UseAsync">
             <summary>
-            Использовать асинхронный обработчик события.
+            Whether to use asynchronous event handler.
             </summary>
         </member>
         <member name="P:AM.Threading.BusyState.WaitHandle">
@@ -4030,6 +4046,11 @@
             Replace control characters in the text.
             </summary>
         </member>
+        <member name="M:AM.StringUtility.TrimLines(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Trim lines.
+            </summary>
+        </member>
         <member name="M:AM.StringUtility.SplitString(System.String,System.String)">
             <summary>
             Split the string.
@@ -4286,14 +4307,29 @@
             Try parse integer in standard manner.
             </summary>
         </member>
+        <member name="M:AM.NumericUtility.TryParseUInt16(System.String,System.UInt16@)">
+            <summary>
+            Try to parse unsigned integer in standard manner.
+            </summary>
+        </member>
         <member name="M:AM.NumericUtility.TryParseInt32(System.String,System.Int32@)">
             <summary>
             Try parse integer in standard manner.
             </summary>
         </member>
+        <member name="M:AM.NumericUtility.TryParseUInt32(System.String,System.UInt32@)">
+            <summary>
+            Try to parse unsigned integer in standard manner.
+            </summary>
+        </member>
         <member name="M:AM.NumericUtility.TryParseInt64(System.String,System.Int64@)">
             <summary>
             Try parse integer in standard manner.
+            </summary>
+        </member>
+        <member name="M:AM.NumericUtility.TryParseUInt64(System.String,System.UInt64@)">
+            <summary>
+            Try to parse unsigned integer in standard manner.
             </summary>
         </member>
         <member name="T:AM.IO.NonCloseableStream">
@@ -6241,6 +6277,21 @@
             Encode parameters to sting representation.
             </summary>
         </member>
+        <member name="M:AM.Parameters.ParameterUtility.GetParameter(AM.Parameters.Parameter[],System.String,System.String)">
+            <summary>
+            Get the parameter with specified name.
+            </summary>
+        </member>
+        <member name="M:AM.Parameters.ParameterUtility.GetParameter``1(AM.Parameters.Parameter[],System.String,``0)">
+            <summary>
+            Get the parameter with specified name.
+            </summary>
+        </member>
+        <member name="M:AM.Parameters.ParameterUtility.GetParameter``1(AM.Parameters.Parameter[],System.String)">
+            <summary>
+            Get the parameter with specified name.
+            </summary>
+        </member>
         <member name="M:AM.Parameters.ParameterUtility.ParseString(System.String)">
             <summary>
             Parse specified string.
@@ -7754,9 +7805,6 @@
             <summary>
             Get date or time value from application configuration.
             </summary>
-            <param name="key"></param>
-            <param name="defaultValue"></param>
-            <returns></returns>
         </member>
         <member name="P:AM.Configuration.ConfigurationUtility.ConfigFileName">
             <summary>
@@ -12575,6 +12623,21 @@
         <member name="T:AM.AutoDisposeAttribute">
             <summary>
             Mark instance field as auto-disposable.
+            </summary>
+        </member>
+        <member name="T:AM.Threading.ThreadUtility">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Threading.ThreadUtility.Sleep(System.Int32)">
+            <summary>
+            Sleep for specified milliseconds.
+            </summary>
+        </member>
+        <member name="P:AM.Threading.ThreadUtility.ThreadId">
+            <summary>
+            Thread.CurrentThread.ManagedThreadId
             </summary>
         </member>
     </members>

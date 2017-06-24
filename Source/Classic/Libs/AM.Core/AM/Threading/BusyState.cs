@@ -18,7 +18,12 @@ using System.Threading.Tasks;
 using AM.IO;
 using AM.Logging;
 using AM.Runtime;
+
+#if !WINMOBILE
+
 using AM.Threading.Tasks;
+
+#endif
 
 using CodeJam;
 
@@ -145,6 +150,12 @@ namespace AM.Threading
         {
             Code.NotNull(action, "action");
 
+#if WINMOBILE
+
+            throw new NotImplementedException("RunAsync");
+
+#else
+
             Task result = Task.Factory.StartNew
                 (
                     () => Run(action)
@@ -152,6 +163,8 @@ namespace AM.Threading
                 .ConfigureSafe();
 
             return result;
+
+#endif
         }
 
         /// <summary>

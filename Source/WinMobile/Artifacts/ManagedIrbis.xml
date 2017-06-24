@@ -2044,6 +2044,32 @@
             Send request to server and receive answer.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Infrastructure.Sockets.BrokenSocket">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Infrastructure.Sockets.BrokenSocket.DefaultProbability">
+            <summary>
+            Default value for
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.Sockets.BrokenSocket.#ctor(ManagedIrbis.IrbisConnection,ManagedIrbis.Infrastructure.AbstractClientSocket)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.Sockets.BrokenSocket.AbortRequest">
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.AbortRequest"/>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.Sockets.BrokenSocket.ExecuteRequest(System.Byte[])">
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.ExecuteRequest(System.Byte[])"/>
+        </member>
+        <member name="P:ManagedIrbis.Infrastructure.Sockets.BrokenSocket.Probability">
+            <summary>
+            Probability of error event.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Infrastructure.Commands.SearchRawCommand">
             <summary>
             Search records on IRBIS-server.
@@ -2211,6 +2237,12 @@
             <summary>
             Throw <see cref="T:ManagedIrbis.Infrastructure.IrbisNetworkException"/>
             when empty record received/decoded.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Infrastructure.Commands.ReadRecordCommand.ThrowOnVerify">
+            <summary>
+            Throw <see cref="T:AM.VerificationException"/>
+            when bad record received/decoded.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Infrastructure.Commands.ReadRecordCommand.Database">
@@ -2628,6 +2660,11 @@
             ББК.
             </summary>
         </member>
+        <member name="P:ManagedIrbis.Fields.ExemplarInfo.Issue">
+            <summary>
+            Номер выпуска (для журналов).
+            </summary>
+        </member>
         <member name="P:ManagedIrbis.Fields.ExemplarInfo.SequentialNumber">
             <summary>
             Номер по порядку (для списков).
@@ -2641,6 +2678,11 @@
         <member name="P:ManagedIrbis.Fields.ExemplarInfo.Marked">
             <summary>
             Флаг.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ExemplarInfo.Record">
+            <summary>
+            Record for just in case.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Fields.ExemplarInfo.UserData">
@@ -2823,6 +2865,11 @@
             Constructor.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Client.IrbisProvider.Configure(System.String)">
+            <summary>
+            Configure the provider.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Client.IrbisProvider.ExactSearchLinks(System.String)">
             <summary>
             Exact search.
@@ -2851,6 +2898,12 @@
         <member name="M:ManagedIrbis.Client.IrbisProvider.GetCatalogState(System.String)">
             <summary>
             Get catalog state for specified database.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Client.IrbisProvider.GetBusyState">
+            <summary>
+            Get <see cref="P:ManagedIrbis.Client.IrbisProvider.BusyState"/> for the provider
+            (if any).
             </summary>
         </member>
         <member name="M:ManagedIrbis.Client.IrbisProvider.GetMaxMfn">
@@ -2903,13 +2956,28 @@
             Read terms.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Client.IrbisProvider.Reconnect">
+            <summary>
+            Reconnect.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Client.IrbisProvider.Search(System.String)">
             <summary>
             Search records.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Client.IrbisProvider.WriteRecord(ManagedIrbis.MarcRecord)">
+            <summary>
+            Write the record.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Client.IrbisProvider.Dispose">
             <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="P:ManagedIrbis.Client.IrbisProvider.BusyState">
+            <summary>
+            Get busy state for the provider.
+            </summary>
         </member>
         <member name="P:ManagedIrbis.Client.IrbisProvider.Connected">
             <summary>
@@ -4269,6 +4337,11 @@
             Чтение текстовых файлов с сервера.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.IrbisConnection.Reconnect">
+            <summary>
+            Reconnect to the server.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.IrbisConnection.ReloadDictionary(System.String)">
             <summary>
             Reload dictionary index for specified database.
@@ -4610,24 +4683,16 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.DynamicCommand.CheckResponse(ManagedIrbis.Infrastructure.ServerResponse)">
-            <summary>
-            Check the server response.
-            </summary>
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.CheckResponse(ManagedIrbis.Infrastructure.ServerResponse)"/>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.DynamicCommand.CreateQuery">
-            <summary>
-            Create client query.
-            </summary>
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.CreateQuery"/>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.DynamicCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)">
-            <summary>
-            Execute the command.
-            </summary>
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)"/>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.DynamicCommand.Verify(System.Boolean)">
-            <summary>
-            Verify the object state.
-            </summary>
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="P:ManagedIrbis.Infrastructure.Commands.DynamicCommand.GoodReturnCodesHandler">
             <summary>
@@ -4655,9 +4720,7 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Infrastructure.Commands.DynamicCommand.GoodReturnCodes">
-            <summary>
-            Good return codes.
-            </summary>
+            <inheritdoc cref="P:ManagedIrbis.Infrastructure.Commands.AbstractCommand.GoodReturnCodes"/>
         </member>
         <member name="T:ManagedIrbis.Infrastructure.AbstractEngine">
             <summary>
@@ -4729,6 +4792,11 @@
         <member name="P:ManagedIrbis.Infrastructure.AbstractEngine.Services">
             <summary>
             Additional services.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Infrastructure.AbstractEngine.ThrowOnVerify">
+            <summary>
+            Throw on <see cref="M:AM.IVerifiable.Verify(System.Boolean)"/> calling.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Gbl.GblParameter">
@@ -8235,19 +8303,13 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.DatabaseStatCommand.CheckResponse(ManagedIrbis.Infrastructure.ServerResponse)">
-            <summary>
-            Check the server response.
-            </summary>
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.CheckResponse(ManagedIrbis.Infrastructure.ServerResponse)"/>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.DatabaseStatCommand.CreateQuery">
-            <summary>
-            Create client query.
-            </summary>
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.CreateQuery"/>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.DatabaseStatCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)">
-            <summary>
-            Execute the command.
-            </summary>
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)"/>
         </member>
         <member name="P:ManagedIrbis.Infrastructure.Commands.DatabaseStatCommand.Definition">
             <summary>
@@ -8573,6 +8635,24 @@
             <summary>
             Name of the file.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Biblio.BiblioDictionary">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioDictionary.GatherTerms(ManagedIrbis.Biblio.BiblioContext,ManagedIrbis.Biblio.BiblioItem)">
+            <summary>
+            Gather terms from the <see cref="T:ManagedIrbis.Biblio.BiblioItem"/>.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioDictionary.SortTerms(System.Collections.Generic.IEnumerable{ManagedIrbis.Biblio.BiblioTerm})">
+            <summary>
+            Sort terms.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioDictionary.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="T:ManagedIrbis.Search.SearchManager">
             <summary>
@@ -10681,6 +10761,9 @@
             Parse connection string.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Client.ConnectedClient.Configure(System.String)">
+            <inheritdoc cref="M:ManagedIrbis.Client.IrbisProvider.Configure(System.String)"/>
+        </member>
         <member name="M:ManagedIrbis.Client.ConnectedClient.FormatRecord(ManagedIrbis.MarcRecord,System.String)">
             <inheritdoc cref="M:ManagedIrbis.Client.IrbisProvider.FormatRecord(ManagedIrbis.MarcRecord,System.String)"/>
         </member>
@@ -10693,22 +10776,28 @@
         <member name="M:ManagedIrbis.Client.ConnectedClient.ReadTerms(ManagedIrbis.Search.TermParameters)">
             <inheritdoc cref="M:ManagedIrbis.Client.IrbisProvider.ReadTerms(ManagedIrbis.Search.TermParameters)"/>
         </member>
+        <member name="M:ManagedIrbis.Client.ConnectedClient.Reconnect">
+            <inheritdoc cref="M:ManagedIrbis.Client.IrbisProvider.Reconnect"/>
+        </member>
         <member name="M:ManagedIrbis.Client.ConnectedClient.Search(System.String)">
             <inheritdoc cref="M:ManagedIrbis.Client.IrbisProvider.Search(System.String)"/>
         </member>
         <member name="M:ManagedIrbis.Client.ConnectedClient.Dispose">
             <inheritdoc cref="M:System.IDisposable.Dispose"/>
         </member>
+        <member name="P:ManagedIrbis.Client.ConnectedClient.BusyState">
+            <inheritdoc cref="P:ManagedIrbis.Client.IrbisProvider.BusyState"/>
+        </member>
         <member name="P:ManagedIrbis.Client.ConnectedClient.Connected">
-            <inheritdoc/>
+            <inheritdoc cref="P:ManagedIrbis.Client.IrbisProvider.Connected"/>
+        </member>
+        <member name="P:ManagedIrbis.Client.ConnectedClient.Database">
+            <inheritdoc cref="P:ManagedIrbis.Client.IrbisProvider.Database"/>
         </member>
         <member name="P:ManagedIrbis.Client.ConnectedClient.Connection">
             <summary>
             Connection.
             </summary>
-        </member>
-        <member name="P:ManagedIrbis.Client.ConnectedClient.Database">
-            <inheritdoc/>
         </member>
         <member name="P:ManagedIrbis.Client.Alias.Name">
             <summary>
@@ -10730,9 +10819,29 @@
             
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioProcessor.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Biblio.BiblioProcessor.#ctor(AM.Text.Output.AbstractOutput)">
             <summary>
             Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioProcessor.BildDictionaries(ManagedIrbis.Biblio.BiblioContext)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioProcessor.BildItems(ManagedIrbis.Biblio.BiblioContext)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioProcessor.FinalRender(ManagedIrbis.Biblio.BiblioContext)">
+            <summary>
+            
             </summary>
         </member>
         <member name="M:ManagedIrbis.Biblio.BiblioProcessor.GatherRecords(ManagedIrbis.Biblio.BiblioContext,ManagedIrbis.Biblio.ChapterWithRecords)">
@@ -10740,14 +10849,24 @@
             Gather records from the chapter.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Biblio.BiblioProcessor.BuildDocument(ManagedIrbis.Biblio.BiblioContext)">
-            <summary>
-            Build document.
-            </summary>
-        </member>
         <member name="M:ManagedIrbis.Biblio.BiblioProcessor.GatherRecords(ManagedIrbis.Biblio.BiblioContext)">
             <summary>
             Gather records.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioProcessor.RenderReport(ManagedIrbis.Biblio.BiblioContext)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioProcessor.GatherTerms(ManagedIrbis.Biblio.BiblioContext)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioProcessor.BuildDocument(ManagedIrbis.Biblio.BiblioContext)">
+            <summary>
+            Build document.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Biblio.BiblioProcessor.Output">
@@ -12381,6 +12500,11 @@
             Gets the value (case sensitive).
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Menus.MenuUtility.ToTree(ManagedIrbis.Menus.MenuFile)">
+            <summary>
+            Convert MNU to TRE.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Menus.MenuUtility.ToXml(ManagedIrbis.Menus.MenuFile)">
             <summary>
             Converts the menu to XML.
@@ -13127,6 +13251,11 @@
             Constructor.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Batch.BatchRecordFormatter.#ctor(System.String,System.String,System.String,System.Int32,System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Batch.BatchRecordFormatter.Interval(ManagedIrbis.IrbisConnection,System.String,System.String,System.Int32,System.Int32,System.Int32)">
             <summary>
             Read interval of records
@@ -13681,19 +13810,13 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.CreateDatabaseCommand.CreateQuery">
-            <summary>
-            Create client query.
-            </summary>
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.CreateQuery"/>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.CreateDatabaseCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)">
-            <summary>
-            Execute the command.
-            </summary>
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)"/>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.CreateDatabaseCommand.Verify(System.Boolean)">
-            <summary>
-            Verify object state.
-            </summary>
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="P:ManagedIrbis.Infrastructure.Commands.CreateDatabaseCommand.Database">
             <summary>
@@ -14054,6 +14177,9 @@
             Constructor.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Biblio.ChapterCollection.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
         <member name="P:ManagedIrbis.Biblio.ChapterCollection.Document">
             <summary>
             Document.
@@ -14075,6 +14201,11 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Batch.BatchRecordReader.#ctor(ManagedIrbis.IrbisConnection,System.String,System.Int32,System.Boolean,System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Batch.BatchRecordReader.#ctor(System.String,System.String,System.Int32,System.Boolean,System.Collections.Generic.IEnumerable{System.Int32})">
             <summary>
             Constructor.
             </summary>
@@ -14334,6 +14465,16 @@
             
             </summary>
         </member>
+        <member name="T:ManagedIrbis.RecordComparator">
+            <summary>
+            Compares two record in field-by-field manner.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordComparator.FindDifference(ManagedIrbis.MarcRecord,ManagedIrbis.MarcRecord)">
+            <summary>
+            Find difference between two records.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Quality.RecordReport">
             <summary>
             Отчёт о проверке записи.
@@ -14535,9 +14676,9 @@
             Save to local file.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.IrbisTreeFile.Verify(System.Boolean)">
+        <member name="M:ManagedIrbis.IrbisTreeFile.ToMenu">
             <summary>
-            Verify the tree.
+            Convert tree to menu.
             </summary>
         </member>
         <member name="M:ManagedIrbis.IrbisTreeFile.RestoreFromStream(System.IO.BinaryReader)">
@@ -14545,6 +14686,9 @@
         </member>
         <member name="M:ManagedIrbis.IrbisTreeFile.SaveToStream(System.IO.BinaryWriter)">
             <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
+        </member>
+        <member name="M:ManagedIrbis.IrbisTreeFile.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="P:ManagedIrbis.IrbisTreeFile.FileName">
             <summary>
@@ -14586,9 +14730,9 @@
             Set the value.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.IrbisTreeFile.Item.Verify(System.Boolean)">
+        <member name="M:ManagedIrbis.IrbisTreeFile.Item.ToMenu">
             <summary>
-            Verify the item.
+            Convert to array of menu items.
             </summary>
         </member>
         <member name="M:ManagedIrbis.IrbisTreeFile.Item.RestoreFromStream(System.IO.BinaryReader)">
@@ -14596,6 +14740,9 @@
         </member>
         <member name="M:ManagedIrbis.IrbisTreeFile.Item.SaveToStream(System.IO.BinaryWriter)">
             <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
+        </member>
+        <member name="M:ManagedIrbis.IrbisTreeFile.Item.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="P:ManagedIrbis.IrbisTreeFile.Item.Children">
             <summary>
@@ -15500,6 +15647,31 @@
             Variable registry.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.RecordDifferenceResult">
+            <summary>
+            Difference result for two records.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordDifferenceResult.#ctor">
+            <summary>
+            Constuctor
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.RecordDifferenceResult.Both">
+            <summary>
+            Fields present in both records.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.RecordDifferenceResult.FirstOnly">
+            <summary>
+            Fields present in first record only.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.RecordDifferenceResult.SecondOnly">
+            <summary>
+            Fields present in second record only.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Readers.ReaderRegistration">
             <summary>
             Информация о регистрации/перерегистрации читателя.
@@ -16350,9 +16522,17 @@
             Constructor.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioItem.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
         <member name="P:ManagedIrbis.Biblio.BiblioItem.Number">
             <summary>
             
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioItem.Record">
+            <summary>
+            Record.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Biblio.BiblioItem.Text">
@@ -17929,6 +18109,12 @@
         <member name="M:ManagedIrbis.Client.LocalProvider.Dispose">
             <inheritdoc cref="M:System.IDisposable.Dispose"/>
         </member>
+        <member name="P:ManagedIrbis.Client.LocalProvider.BusyState">
+            <inheritdoc cref="P:ManagedIrbis.Client.IrbisProvider.BusyState"/>
+        </member>
+        <member name="P:ManagedIrbis.Client.LocalProvider.Connected">
+            <inheritdoc cref="P:ManagedIrbis.Client.IrbisProvider.Connected"/>
+        </member>
         <member name="P:ManagedIrbis.Client.LocalProvider.DataPath">
             <summary>
             Data path.
@@ -17996,11 +18182,6 @@
         <member name="P:ManagedIrbis.ClientInfo.CommandNumber">
             <summary>
             Номер последней команды
-            </summary>
-        </member>
-        <member name="T:ManagedIrbis.Biblio.CellCollection">
-            <summary>
-            
             </summary>
         </member>
         <member name="T:ManagedIrbis.Worksheet.WorksheetPage">
@@ -19091,13 +19272,13 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.DisconnectCommand.CreateQuery">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.CreateQuery"/>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.DisconnectCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)"/>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.DisconnectCommand.CheckResponse(ManagedIrbis.Infrastructure.ServerResponse)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.CheckResponse(ManagedIrbis.Infrastructure.ServerResponse)"/>
         </member>
         <member name="T:ManagedIrbis.Infrastructure.Commands.CreateDictionaryCommand">
             <summary>
@@ -19293,6 +19474,11 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Fields.ExemplarManager.Read(System.String)">
+            <summary>
+            Reads exemplar for given number.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.ExemplarManager.ReadExtend(System.String)">
             <summary>
             Reads exemplar for given number.
             </summary>
@@ -19517,12 +19703,18 @@
             Sort the records.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Biblio.RecordCollection.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
         <member name="T:ManagedIrbis.Biblio.BiblioTerm">
             <summary>
             
             </summary>
         </member>
-        <member name="P:ManagedIrbis.Biblio.BiblioTerm.Prefix">
+        <member name="M:ManagedIrbis.Biblio.BiblioTerm.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioTerm.Dictionary">
             <summary>
             
             </summary>
@@ -21062,6 +21254,21 @@
             Web CGI URL.
             </summary>
         </member>
+        <member name="P:ManagedIrbis.ConnectionSettings.Broken">
+            <summary>
+            Use <see cref="T:ManagedIrbis.Infrastructure.Sockets.BrokenSocket"/>.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.ConnectionSettings.Slow">
+            <summary>
+            Use <see cref="T:ManagedIrbis.Infrastructure.Sockets.SlowSocket"/>.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.ConnectionSettings.Smart">
+            <summary>
+            Use <see cref="T:ManagedIrbis.Infrastructure.Sockets.SmartClientSocket"/>.
+            </summary>
+        </member>
         <member name="P:ManagedIrbis.ConnectionSettings.UserData">
             <summary>
             Arbitrary user data.
@@ -21370,6 +21577,75 @@
             Raised on cell rendering.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.RecordGuard">
+            <summary>
+            Ensures that the record(s) will be saved.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordGuard.#ctor(ManagedIrbis.IrbisConnection,ManagedIrbis.MarcRecord)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordGuard.#ctor(ManagedIrbis.IrbisConnection,ManagedIrbis.MarcRecord[])">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordGuard.#ctor(ManagedIrbis.Client.IrbisProvider,ManagedIrbis.MarcRecord)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordGuard.#ctor(ManagedIrbis.Client.IrbisProvider,ManagedIrbis.MarcRecord[])">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordGuard.Finalize">
+            <summary>
+            Destructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordGuard.AddRecord(ManagedIrbis.MarcRecord)">
+            <summary>
+            Add the record to the guard.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordGuard.Commit">
+            <summary>
+            Commit changes if any.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordGuard.RemoveRecord(ManagedIrbis.MarcRecord)">
+            <summary>
+            Remove the record.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordGuard.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="M:ManagedIrbis.RecordGuard.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="M:ManagedIrbis.RecordGuard.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.RecordGuard.Connection">
+            <summary>
+            Connection.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.RecordGuard.Provider">
+            <summary>
+            Provider.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.RecordGuard.Records">
+            <summary>
+            Records to guard.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.RecordFieldCollection">
             <summary>
             Коллекция полей записи.
@@ -21493,6 +21769,11 @@
             Информация о посещении/выдаче.
             </summary>
         </member>
+        <member name="F:ManagedIrbis.Readers.VisitInfo.KnownCodes">
+            <summary>
+            Known codes.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Readers.VisitInfo.GetBookPrice(ManagedIrbis.MarcRecord)">
             <summary>
             Get price for the book.
@@ -21536,7 +21817,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Readers.VisitInfo.ToString">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Readers.VisitInfo.Id">
             <summary>
@@ -21618,6 +21899,14 @@
             подполе 2, время окончания визита в библиотеку
             </summary>
         </member>
+        <member name="P:ManagedIrbis.Readers.VisitInfo.Prolong">
+            <summary>
+            Счетчик продлений.
+            </summary>
+            <remarks>
+            http://irbis.gpntb.ru/read.php?3,105310,108175#msg-108175
+            </remarks>
+        </member>
         <member name="P:ManagedIrbis.Readers.VisitInfo.IsVisit">
             <summary>
             Не посещение ли?
@@ -21641,6 +21930,11 @@
         <member name="P:ManagedIrbis.Readers.VisitInfo.DateExpected">
             <summary>
             Ожидаемая дата возврата
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.VisitInfo.ProlongCount">
+            <summary>
+            Счетчик продлений.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Readers.VisitInfo.Year">
@@ -22239,6 +22533,32 @@
         <member name="M:ManagedIrbis.Magazines.MagazineArticleInfo.SaveToStream(System.IO.BinaryWriter)">
             <inheritdoc />
         </member>
+        <member name="T:ManagedIrbis.Infrastructure.Sockets.SlowSocket">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Infrastructure.Sockets.SlowSocket.DefaultDelay">
+            <summary>
+            Default value for <see cref="P:ManagedIrbis.Infrastructure.Sockets.SlowSocket.Delay"/>.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.Sockets.SlowSocket.#ctor(ManagedIrbis.IrbisConnection,ManagedIrbis.Infrastructure.AbstractClientSocket)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.Sockets.SlowSocket.AbortRequest">
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.AbortRequest"/>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.Sockets.SlowSocket.ExecuteRequest(System.Byte[])">
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.ExecuteRequest(System.Byte[])"/>
+        </member>
+        <member name="P:ManagedIrbis.Infrastructure.Sockets.SlowSocket.Delay">
+            <summary>
+            Delay, milliseconds.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Infrastructure.Commands.RestartServerCommand">
             <summary>
             Reload database dictionary.
@@ -22276,9 +22596,7 @@
             <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)"/>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.DatabaseInfoCommand.Verify(System.Boolean)">
-            <summary>
-            Verify object state.
-            </summary>
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="P:ManagedIrbis.Infrastructure.Commands.DatabaseInfoCommand.Database">
             <summary>
@@ -22496,7 +22814,12 @@
         </member>
         <member name="F:ManagedIrbis.Client.ProviderManager.Connected">
             <summary>
-            Connected client (IrbisConnection).
+            Connected client (<see cref="T:ManagedIrbis.IrbisConnection"/>).
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Client.ProviderManager.Default">
+            <summary>
+            Default provider (<see cref="T:ManagedIrbis.IrbisConnection"/>).
             </summary>
         </member>
         <member name="F:ManagedIrbis.Client.ProviderManager.Local">
@@ -22509,9 +22832,19 @@
             Null provider.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Client.ProviderManager.GetAndConfigureProvider(System.String)">
+            <summary>
+            Get <see cref="T:ManagedIrbis.Client.IrbisProvider"/> and configure it.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Client.ProviderManager.GetProvider(System.String,System.Boolean)">
             <summary>
             Get <see cref="T:ManagedIrbis.Client.IrbisProvider"/> by name.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Client.ProviderManager.GetPreconfiguredProvider">
+            <summary>
+            
             </summary>
         </member>
         <member name="P:ManagedIrbis.Client.ProviderManager.Registry">
@@ -22523,6 +22856,9 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioFilter.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="P:ManagedIrbis.Biblio.BiblioFilter.FormatExpression">
             <summary>
@@ -22687,6 +23023,43 @@
             <summary>
             Arbitrary user data.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.RecordComparer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordComparer.ByMfn">
+            <summary>
+            Compare <see cref="T:ManagedIrbis.MarcRecord"/> by MFN.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordComparer.ByIndex">
+            <summary>
+            Compare <see cref="T:ManagedIrbis.MarcRecord"/> by index.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordComparer.ByDescription">
+            <summary>
+            Compare <see cref="T:ManagedIrbis.MarcRecord"/> by descrption.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordComparer.BySortKey">
+            <summary>
+            Compare <see cref="T:ManagedIrbis.MarcRecord"/> by sort key.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordComparer.ByMfnComparer.Compare(ManagedIrbis.MarcRecord,ManagedIrbis.MarcRecord)">
+            <inheritdoc cref="M:System.Collections.Generic.IComparer`1.Compare(`0,`0)"/>
+        </member>
+        <member name="M:ManagedIrbis.RecordComparer.ByIndexComparer.Compare(ManagedIrbis.MarcRecord,ManagedIrbis.MarcRecord)">
+            <inheritdoc cref="M:System.Collections.Generic.IComparer`1.Compare(`0,`0)"/>
+        </member>
+        <member name="M:ManagedIrbis.RecordComparer.ByDescriptionComparer.Compare(ManagedIrbis.MarcRecord,ManagedIrbis.MarcRecord)">
+            <inheritdoc cref="M:System.Collections.Generic.IComparer`1.Compare(`0,`0)"/>
+        </member>
+        <member name="M:ManagedIrbis.RecordComparer.BySortKeyComparer.Compare(ManagedIrbis.MarcRecord,ManagedIrbis.MarcRecord)">
+            <inheritdoc cref="M:System.Collections.Generic.IComparer`1.Compare(`0,`0)"/>
         </member>
         <member name="T:ManagedIrbis.Readers.ReaderUtility">
             <summary>
@@ -22983,10 +23356,10 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Menus.MenuEntry.RestoreFromStream(System.IO.BinaryReader)">
-            <inheritdoc/>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.Menus.MenuEntry.SaveToStream(System.IO.BinaryWriter)">
-            <inheritdoc/>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.Menus.MenuEntry.ShouldSerializeComment">
             <summary>
@@ -22994,7 +23367,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Menus.MenuEntry.ToString">
-            <inheritdoc/>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Menus.MenuEntry.Code">
             <summary>
@@ -23004,6 +23377,11 @@
         <member name="P:ManagedIrbis.Menus.MenuEntry.Comment">
             <summary>
             Second line -- the comment.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Menus.MenuEntry.OtherEntry">
+            <summary>
+            Other menu entry.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Marc.MarcCatalogingRules">
@@ -23730,6 +24108,21 @@
             Всё, связанное с ISSN.
             </summary>
         </member>
+        <member name="F:ManagedIrbis.Identifiers.Issn.Coefficients">
+            <summary>
+            Coefficients for control digit calculation.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Issn.ComputeCheckDigit(System.Char[])">
+            <summary>
+            Compute check digit.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Issn.CheckControlDigit(System.Char[])">
+            <summary>
+            Check control digit.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Identifiers.Isbn">
             <summary>
             Всё, связанное с ISBN.
@@ -23969,10 +24362,13 @@
             
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Biblio.BiblioChapter.Render">
+        <member name="M:ManagedIrbis.Biblio.BiblioChapter.Render(ManagedIrbis.Biblio.BiblioContext)">
             <summary>
             Render the chapter.
             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioChapter.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="P:ManagedIrbis.Biblio.BiblioChapter.Attributes">
             <inheritdoc cref="P:ManagedIrbis.Reports.IAttributable.Attributes"/>
@@ -25098,6 +25494,29 @@
             Result of the command.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Fields.ExemplarInfoComparer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.ExemplarInfoComparer.ByDescription">
+            <summary>
+            Compare <see cref="T:ManagedIrbis.Fields.ExemplarInfo"/>
+            by <see cref="P:ManagedIrbis.Fields.ExemplarInfo.Description"/> field.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.ExemplarInfoComparer.ByNumber">
+            <summary>
+            Compare <see cref="T:ManagedIrbis.Fields.ExemplarInfo"/>
+            by <see cref="P:ManagedIrbis.Fields.ExemplarInfo.Number"/> field.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.ExemplarInfoComparer.ByDescriptionComparer.Compare(ManagedIrbis.Fields.ExemplarInfo,ManagedIrbis.Fields.ExemplarInfo)">
+            <inheritdoc cref="M:System.Collections.Generic.IComparer`1.Compare(`0,`0)"/>
+        </member>
+        <member name="M:ManagedIrbis.Fields.ExemplarInfoComparer.ByNumberComparer.Compare(ManagedIrbis.Fields.ExemplarInfo,ManagedIrbis.Fields.ExemplarInfo)">
+            <inheritdoc cref="M:System.Collections.Generic.IComparer`1.Compare(`0,`0)"/>
+        </member>
         <member name="T:ManagedIrbis.EmbeddedField">
             <summary>
             Работа со встроенными полями.
@@ -25240,9 +25659,49 @@
             
             </summary>
         </member>
-        <member name="T:ManagedIrbis.Biblio.BiblioCell">
+        <member name="M:ManagedIrbis.Biblio.ItemCollection.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="T:ManagedIrbis.Biblio.PftDictionary">
             <summary>
             
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.PftDictionary.SetExpression(System.String)">
+            <summary>
+            Set expression.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.PftDictionary.GatherTerms(ManagedIrbis.Biblio.BiblioContext,ManagedIrbis.Biblio.BiblioItem)">
+            <inheritdoc cref="M:ManagedIrbis.Biblio.BiblioDictionary.GatherTerms(ManagedIrbis.Biblio.BiblioContext,ManagedIrbis.Biblio.BiblioItem)"/>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.PftDictionary.SortTerms(System.Collections.Generic.IEnumerable{ManagedIrbis.Biblio.BiblioTerm})">
+            <inheritdoc cref="M:ManagedIrbis.Biblio.BiblioDictionary.SortTerms(System.Collections.Generic.IEnumerable{ManagedIrbis.Biblio.BiblioTerm})"/>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.PftDictionary.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.PftDictionary.Expression">
+            <summary>
+            Expression.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Biblio.ChapterWithDictionary">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.ChapterWithDictionary.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.ChapterWithDictionary.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.ChapterWithDictionary.Dictionary">
+            <summary>
+            Dictionary.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Biblio.BiblioContext">
@@ -25260,6 +25719,9 @@
             Find the record with specified MFN.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioContext.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
         <member name="P:ManagedIrbis.Biblio.BiblioContext.Document">
             <summary>
             Document.
@@ -25273,6 +25735,11 @@
         <member name="P:ManagedIrbis.Biblio.BiblioContext.Records">
             <summary>
             All the gathered records.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Biblio.BiblioContext.ReportContext">
+            <summary>
+            Context for report.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Batch.BatchAccessor">
@@ -27383,6 +27850,9 @@
             
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Biblio.ChapterWithText.Render(ManagedIrbis.Biblio.BiblioContext)">
+            <inheritdoc cref="M:ManagedIrbis.Biblio.BiblioChapter.Render(ManagedIrbis.Biblio.BiblioContext)"/>
+        </member>
         <member name="P:ManagedIrbis.Biblio.ChapterWithText.Text">
             <summary>
             Text.
@@ -27398,6 +27868,9 @@
             Constructor.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Biblio.BiblioDocument.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
         <member name="P:ManagedIrbis.Biblio.BiblioDocument.Chapters">
             <summary>
             Chapters.
@@ -27408,77 +27881,26 @@
             Global filter for the document.
             </summary>
         </member>
-        <member name="T:ManagedIrbis.RecordComparator">
-            <summary>
-            Compares two record in field-by-field manner.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.RecordComparator.FindDifference(ManagedIrbis.MarcRecord,ManagedIrbis.MarcRecord)">
-            <summary>
-            Find difference between two records.
-            </summary>
-        </member>
-        <member name="T:ManagedIrbis.RecordComparer">
+        <member name="T:ManagedIrbis.Biblio.TermComparer">
             <summary>
             
             </summary>
         </member>
-        <member name="M:ManagedIrbis.RecordComparer.ByMfn">
+        <member name="T:ManagedIrbis.Biblio.TermComparer.Numeric">
             <summary>
-            Compare <see cref="T:ManagedIrbis.MarcRecord"/> by MFN.
+            Numeric comparer.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.RecordComparer.ByIndex">
-            <summary>
-            Compare <see cref="T:ManagedIrbis.MarcRecord"/> by index.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.RecordComparer.ByDescription">
-            <summary>
-            Compare <see cref="T:ManagedIrbis.MarcRecord"/> by descrption.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.RecordComparer.BySortKey">
-            <summary>
-            Compare <see cref="T:ManagedIrbis.MarcRecord"/> by sort key.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.RecordComparer.ByMfnComparer.Compare(ManagedIrbis.MarcRecord,ManagedIrbis.MarcRecord)">
+        <member name="M:ManagedIrbis.Biblio.TermComparer.Numeric.Compare(ManagedIrbis.Biblio.BiblioTerm,ManagedIrbis.Biblio.BiblioTerm)">
             <inheritdoc cref="M:System.Collections.Generic.IComparer`1.Compare(`0,`0)"/>
         </member>
-        <member name="M:ManagedIrbis.RecordComparer.ByIndexComparer.Compare(ManagedIrbis.MarcRecord,ManagedIrbis.MarcRecord)">
+        <member name="T:ManagedIrbis.Biblio.TermComparer.Trivial">
+            <summary>
+            Trivial comparer.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Biblio.TermComparer.Trivial.Compare(ManagedIrbis.Biblio.BiblioTerm,ManagedIrbis.Biblio.BiblioTerm)">
             <inheritdoc cref="M:System.Collections.Generic.IComparer`1.Compare(`0,`0)"/>
-        </member>
-        <member name="M:ManagedIrbis.RecordComparer.ByDescriptionComparer.Compare(ManagedIrbis.MarcRecord,ManagedIrbis.MarcRecord)">
-            <inheritdoc cref="M:System.Collections.Generic.IComparer`1.Compare(`0,`0)"/>
-        </member>
-        <member name="M:ManagedIrbis.RecordComparer.BySortKeyComparer.Compare(ManagedIrbis.MarcRecord,ManagedIrbis.MarcRecord)">
-            <inheritdoc cref="M:System.Collections.Generic.IComparer`1.Compare(`0,`0)"/>
-        </member>
-        <member name="T:ManagedIrbis.RecordDifferenceResult">
-            <summary>
-            Difference result for two records.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.RecordDifferenceResult.#ctor">
-            <summary>
-            Constuctor
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.RecordDifferenceResult.Both">
-            <summary>
-            Fields present in both records.
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.RecordDifferenceResult.FirstOnly">
-            <summary>
-            Fields present in first record only.
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.RecordDifferenceResult.SecondOnly">
-            <summary>
-            Fields present in second record only.
-            </summary>
         </member>
     </members>
 </doc>
