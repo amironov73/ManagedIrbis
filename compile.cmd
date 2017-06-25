@@ -5,13 +5,13 @@ rem SET MSBUILD=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
 SET OUTPUT=..\..\..\..\Binaries
 SET PARAMS=/consoleloggerparameters:ErrorsOnly /m
 
-FOR %%P IN (AM.Core,ManagedIrbis,AM.Rfid,AM.Drawing,AM.Windows.Forms,AM.Win32,IrbisUI,AM.Suggestions,AM.AOT,AM.Ocr,RestfulIrbis,IrbisInterop,ManagedIrbis.Isis) DO (
+FOR %%P IN (AM.Core,ManagedIrbis,AM.Rfid,AM.Drawing,AM.Windows.Forms,AM.Win32,IrbisUI,AM.Suggestions,AM.AOT,AM.Ocr,AM.Deployment,RestfulIrbis,IrbisInterop,ManagedIrbis.Isis) DO (
   FOR %%B IN (Debug,Release) DO (
     CALL :BUILDLIB %%P %%B 35  v3.5   "CLASSIC;DESKTOP;FW35"
     CALL :BUILDLIB %%P %%B 40  v4.0   "CLASSIC;DESKTOP;FW4;FW40"
     CALL :BUILDLIB %%P %%B 45  v4.5   "CLASSIC;DESKTOP;FW4;FW45"
 rem CALL :BUILDLIB %%P %%B 451 v4.5.1 "CLASSIC;DESKTOP;FW4;FW40;FW45;FW451"
-rem CALL :BUILDLIB %%P %%B 46  v4.6   "CLASSIC;DESKTOP;FW4;FW46"
+    CALL :BUILDLIB %%P %%B 46  v4.6   "CLASSIC;DESKTOP;FW4;FW46"
 rem CALL :BUILDLIB %%P %%B 461 v4.6.1 "CLASSIC;DESKTOP;FW4;FW46;FW461"
 rem CALL :BUILDLIB %%P %%B 461 v4.6.2 "CLASSIC;DESKTOP;FW4;FW46;FW462"
   )

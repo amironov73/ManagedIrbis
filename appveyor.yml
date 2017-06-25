@@ -44,7 +44,7 @@ after_build:
 - cmd: compilewin81.cmd
 - cmd: compilepcl.cmd
 - cmd: cd Nuget
-#- cmd: packit.cmd
+- cmd: packit.cmd
 
 artifacts:
   - path: Binaries
