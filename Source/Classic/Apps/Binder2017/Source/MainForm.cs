@@ -45,7 +45,7 @@ using CM = System.Configuration.ConfigurationManager;
 
 #endregion
 
-namespace BookDetective2017
+namespace Binder2017
 {
     public partial class MainForm
         : UniversalForm
@@ -79,7 +79,7 @@ namespace BookDetective2017
                 EventArgs e
             )
         {
-            Icon = Properties.Resources.Detective;
+            Icon = Properties.Resources.Binder;
 
             if (TestProviderConnection())
             {
@@ -100,7 +100,7 @@ namespace BookDetective2017
                 return;
             }
 
-            WriteLine("BookDetective2107 ready");
+            WriteLine("Binder2107 ready");
         }
 
         #endregion
