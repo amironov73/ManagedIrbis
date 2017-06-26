@@ -386,7 +386,7 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable membrs
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -408,7 +408,7 @@ namespace ManagedIrbis
             DatabaseLocked = reader.ReadBoolean();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -431,7 +431,7 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             if (string.IsNullOrEmpty(Description))

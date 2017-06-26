@@ -253,7 +253,7 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -273,7 +273,7 @@ namespace ManagedIrbis
             TagSpecification = reader.ReadNullableString();
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -298,7 +298,7 @@ namespace ManagedIrbis
 
         #region IVerifiable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError

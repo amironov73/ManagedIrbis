@@ -725,7 +725,7 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -745,11 +745,14 @@ namespace ManagedIrbis
             EngineTypeName = reader.ReadNullableString();
             RetryLimit = reader.ReadPackedInt32();
             WebCgi = reader.ReadNullableString();
+            Broken = reader.ReadNullableString();
+            Slow = reader.ReadNullableString();
+            Smart = reader.ReadNullableString();
             UserData = reader.ReadNullableString();
             Connected = reader.ReadBoolean();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -770,6 +773,9 @@ namespace ManagedIrbis
                 .WriteNullable(EngineTypeName)
                 .WritePackedInt32(RetryLimit)
                 .WriteNullable(WebCgi)
+                .WriteNullable(Broken)
+                .WriteNullable(Slow)
+                .WriteNullable(Smart)
                 .WriteNullable(UserData)
                 .Write(Connected);
         }
@@ -778,7 +784,7 @@ namespace ManagedIrbis
 
         #region IVerifiable members
 
-        /// <inheritdoc cref="IVerifiable.Verify"/>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError
@@ -805,7 +811,7 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return Encode();

@@ -54,21 +54,28 @@ namespace PopularBooks
             }
         }
 
-        static void Main()
+        static void Main(string[] args)
         {
+           string connectionString = ConnectionString;
+           if (args.Length != 0)
+           {
+               connectionString = args[0];
+           }
+
             try
             {
+                IrbisEncoding.RelaxUtf8();
                 using (Connection = new IrbisConnection())
                 {
-                    Connection.ParseConnectionString(ConnectionString);
+                    Connection.ParseConnectionString(connectionString);
                     Connection.Connect();
 
                     IEnumerable<MarcRecord> records = BatchRecordReader.Search
                         (
                             Connection,
                             Connection.Database,
-                            //@"V=KN * G=201$",
-                            @"V=KN",
+                            @"V=KN * G=201$",
+                            //@"V=KN",
                             1000
                         );
 
