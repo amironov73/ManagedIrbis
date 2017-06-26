@@ -43,7 +43,7 @@ using CM = System.Configuration.ConfigurationManager;
 
 #endregion
 
-namespace Binder2017
+namespace InvBook2017
 {
     static class Program
     {
