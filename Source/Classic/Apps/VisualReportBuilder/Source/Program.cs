@@ -43,7 +43,7 @@ using CM = System.Configuration.ConfigurationManager;
 
 #endregion
 
-namespace InvBook2017
+namespace VisualReportBuilder
 {
     static class Program
     {
