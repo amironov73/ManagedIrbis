@@ -163,9 +163,11 @@ namespace ManagedIrbis.Infrastructure
 
         #region Private members
 
-        private Stream _stream;
+        private MemoryStream _stream;
 
         private int _returnCode;
+
+        private long _savedPosition;
 
         internal bool _returnCodeRetrieved;
 
@@ -181,6 +183,7 @@ namespace ManagedIrbis.Infrastructure
         {
             MemoryStream memory = new MemoryStream();
 
+            _savedPosition = _stream.Position;
             while (true)
             {
                 int code = _stream.ReadByte();
@@ -279,6 +282,69 @@ namespace ManagedIrbis.Infrastructure
             }
 
             return result.ToArray();
+        }
+
+        /// <summary>
+        /// Get dump.
+        /// </summary>
+        [NotNull]
+        public byte[] GetDump()
+        {
+            MemoryStream result = new MemoryStream();
+
+            _stream.Position = _savedPosition;
+            while (true)
+            {
+                int code = _stream.ReadByte();
+                if (code < 0
+                    || code == 0x0D
+                    || code == 0x0A)
+                {
+                    break;
+                }
+                result.WriteByte((byte) code);
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Get dump as string.
+        /// </summary>
+        [NotNull]
+        public string GetDumpAsString()
+        {
+            StringBuilder result = new StringBuilder();
+            int count = 0;
+
+            _stream.Position = _savedPosition;
+            while (true)
+            {
+                int code = _stream.ReadByte();
+                if (code < 0
+                   || code == 0x0D
+                   || code == 0x0A)
+                {
+                    break;
+                }
+
+                if (count == 16)
+                {
+                    count = 0;
+                    result.AppendLine();
+                }
+
+                if (count != 0)
+                {
+                    result.Append(" ");
+                }
+
+                result.AppendFormat("{0:X2}", code);
+
+                count++;
+            }
+
+            return result.ToString();
         }
 
         /// <summary>
@@ -529,6 +595,7 @@ namespace ManagedIrbis.Infrastructure
         {
             MemoryStream memory = new MemoryStream();
 
+            _savedPosition = _stream.Position;
             while (true)
             {
                 int code = _stream.ReadByte();
@@ -548,8 +615,33 @@ namespace ManagedIrbis.Infrastructure
                 memory.WriteByte((byte)code);
             }
 
+            string result;
             byte[] buffer = memory.ToArray();
-            string result = IrbisEncoding.Utf8.GetString(buffer, 0, buffer.Length);
+            try
+            {
+                result = IrbisEncoding.Utf8.GetString(buffer, 0, buffer.Length);
+            }
+            catch (Exception inner)
+            {
+                Log.TraceException
+                    (
+                        "ServerResponse::GetUtfString",
+                        inner
+                    );
+
+                IrbisException outer = new IrbisException
+                    (
+                        "ServerResponse::GetUtfString failed",
+                        inner
+                    );
+                BinaryAttachment attachment = new BinaryAttachment
+                    (
+                        "problem line",
+                        GetDump()
+                    );
+                outer.Attach(attachment);
+                throw outer;
+            }
 
             return result;
         }

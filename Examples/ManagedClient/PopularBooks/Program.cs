@@ -64,20 +64,25 @@ namespace PopularBooks
 
             try
             {
-                IrbisEncoding.RelaxUtf8();
+                //IrbisEncoding.RelaxUtf8();
                 using (Connection = new IrbisConnection())
                 {
                     Connection.ParseConnectionString(connectionString);
                     Connection.Connect();
 
-                    IEnumerable<MarcRecord> records = BatchRecordReader.Search
+                    BatchRecordReader batch
+                        = (BatchRecordReader) BatchRecordReader.Search
                         (
                             Connection,
                             Connection.Database,
-                            @"V=KN * G=201$",
-                            //@"V=KN",
+                            //@"V=KN * G=201$",
+                            @"V=KN",
                             1000
                         );
+                    batch.BatchRead += (sender, eventArgs) =>
+                    {
+                        Console.Write(".");
+                    };
 
                     //BatchRecordReader batch = records as BatchRecordReader;
                     //if (!ReferenceEquals(batch, null))
@@ -87,10 +92,12 @@ namespace PopularBooks
                     //        => Console.WriteLine(batch.RecordsRead);
                     //}
 
-                    foreach (MarcRecord record in records)
+                    foreach (MarcRecord record in batch)
                     {
                         ProcessRecord(record);
                     }
+
+                    Console.WriteLine();
 
                     Pair<int, int>[] top = list.OrderByDescending
                         (
