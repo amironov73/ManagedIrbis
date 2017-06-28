@@ -371,6 +371,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isbn.cs">
       <Link>Source\Identifiers\Isbn.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Issn.cs">
+      <Link>Source\Identifiers\Issn.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Upc12.cs">
       <Link>Source\Identifiers\Upc12.cs</Link>
     </Compile>
