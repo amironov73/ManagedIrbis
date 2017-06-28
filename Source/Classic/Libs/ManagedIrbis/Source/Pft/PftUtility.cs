@@ -55,6 +55,15 @@ namespace ManagedIrbis.Pft
         };
 
         /// <summary>
+        /// Digits plus X.
+        /// </summary>
+        public static char[] DigitsX =
+        {
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'X'
+        };
+
+
+        /// <summary>
         /// Letters.
         /// </summary>
         public static char[] Letters =

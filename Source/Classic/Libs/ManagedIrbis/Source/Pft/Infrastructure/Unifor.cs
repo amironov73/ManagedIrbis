@@ -24,7 +24,7 @@ using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Identifiers;
 using ManagedIrbis.ImportExport;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
@@ -86,6 +86,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("6", Unifor6.ExecuteNestedFormat);
             Registry.Add("9", RemoveDoubleQuotes);
             Registry.Add("A", GetFieldRepeat);
+            Registry.Add("C", CheckIsbn);
             Registry.Add("D", UniforD.FormatDocumentDB);
             Registry.Add("E", UniforE.GetFirstWords);
             Registry.Add("F", UniforE.GetLastWords);
@@ -181,6 +182,52 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 
             return result;
+        }
+
+        // ================================================================
+
+        /// <summary>
+        /// Контроль ISSN/ISBN.
+        /// Возвращаемое значение: 0 – при положительном
+        /// результате, 1 – при отрицательном.
+        /// </summary>
+        public static void CheckIsbn
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expresion
+            )
+        {
+            string output = "1";
+
+            if (!string.IsNullOrEmpty(expresion))
+            {
+                List<char> digits = new List<char>(expresion.Length);
+                foreach (char c in expresion)
+                {
+                    if (PftUtility.DigitsX.Contains(c))
+                    {
+                        digits.Add(c);
+                    }
+                }
+                if (digits.Count == 8)
+                {
+                    if (Issn.CheckControlDigit(expresion))
+                    {
+                        output = "0";
+                    }
+                }
+                else if (digits.Count == 10)
+                {
+                    if (Isbn.CheckControlDigit(expresion))
+                    {
+                        output = "0";
+                    }
+                }
+            }
+
+            context.Write(node, output);
+            context.OutputFlag = true;
         }
 
         // ================================================================
@@ -798,9 +845,9 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public static void RemoveAngleBrackets
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             if (!string.IsNullOrEmpty(expression))
@@ -886,9 +933,9 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public static void Transliterate
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             //

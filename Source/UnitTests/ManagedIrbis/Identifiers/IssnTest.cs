@@ -9,7 +9,7 @@ namespace UnitTests.ManagedIrbis.Identifiers
     public class IssnTest
     {
         [TestMethod]
-        public void Ean13_ComputeCheckDigit_1()
+        public void Issn_ComputeCheckDigit_1()
         {
             Assert.AreEqual
                 (

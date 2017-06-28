@@ -22,7 +22,7 @@ using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -154,13 +154,43 @@ namespace ManagedIrbis.Identifiers
         {
             Code.NotNull(digits, "digits");
 
+            if (digits.Length != 8)
+            {
+                return false;
+            }
+
             int sum = 0;
             for (int i = 0; i < 8; i++)
             {
                 int n = ConvertDigit(digits[i]);
                 sum = sum + n * Coefficients[i];
             }
+
             bool result = sum % 11 == 0;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Check control digit.
+        /// </summary>
+        public static bool CheckControlDigit
+            (
+                [NotNull] string issn
+            )
+        {
+            Code.NotNullNorEmpty(issn, "issn");
+
+            List<char> digits = new List<char>(issn.Length);
+            foreach (char c in issn)
+            {
+                if (PftUtility.DigitsX.Contains(c))
+                {
+                    digits.Add(c);
+                }
+            }
+
+            bool result = CheckControlDigit(digits.ToArray());
 
             return result;
         }
