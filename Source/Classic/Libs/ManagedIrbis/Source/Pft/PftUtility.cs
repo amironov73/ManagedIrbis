@@ -972,7 +972,10 @@ namespace ManagedIrbis.Pft
                 "unifor",
                 "val",
                 "while",
-                "with"
+                "with",
+                "если",
+                "иначе",
+                "то"
             };
         }
 
@@ -1100,7 +1103,7 @@ namespace ManagedIrbis.Pft
         //=================================================
 
         /// <summary>
-        /// Parse field.
+        /// Parse the field.
         /// </summary>
         [NotNull]
         public static RecordField ParseField

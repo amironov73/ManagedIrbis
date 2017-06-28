@@ -9,17 +9,20 @@
 
 #region Using directives
 
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-
+using System.Linq;
 using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
 
 using ManagedIrbis.Pft.Infrastructure.Ast;
@@ -231,6 +234,81 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Get unique values of the field.
+        /// </summary>
+        [NotNull]
+        public string[] GetUniqueValues
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            string[] result = GetValues(record)
+                .Distinct()
+                .ToArray();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get unique values of the field.
+        /// </summary>
+        [NotNull]
+        public string[] GetUniqueValuesIgnoreCase
+        (
+            [NotNull] MarcRecord record
+        )
+        {
+            Code.NotNull(record, "record");
+
+            string[] result = GetValues(record)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get values of the field.
+        /// </summary>
+        [NotNull]
+        public string[] GetValues
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            string[] result;
+
+            string tag = Tag;
+            if (string.IsNullOrEmpty(tag))
+            {
+                result = new string[0];
+            }
+            else
+            {
+                if (SubField == NoCode)
+                {
+                    result = record
+                        .Fields
+                        .GetField(tag)
+                        .Select(field => field.ToText())
+                        .NonEmptyLines()
+                        .ToArray();
+                }
+                else
+                {
+                    result = record
+                        .FMA(tag, SubField)
+                        .NonEmptyLines()
+                        .ToArray();
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Parse field specification.
         /// </summary>
         [NotNull]
@@ -241,10 +319,25 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(specification, "specification");
 
-            FieldSpecification fs = new FieldSpecification();
-            fs.Parse(specification);
-            FieldReference result = new FieldReference();
-            result.Apply(fs);
+            FieldReference result;
+
+            try
+            {
+                FieldSpecification fs = new FieldSpecification();
+                fs.Parse(specification);
+                result = new FieldReference();
+                result.Apply(fs);
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException
+                    (
+                        "FieldReference::Parse",
+                        exception
+                    );
+
+                throw;
+            }
 
             return result;
         }
