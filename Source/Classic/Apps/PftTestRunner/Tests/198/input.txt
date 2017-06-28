@@ -1,0 +1,13 @@
+﻿&uf('G0s', 'This is the text'),/
+&uf('G1s', 'This is the text'),/
+&uf('G2s', 'This is the text'),/
+&uf('G3s', 'This is the text'),/
+&uf('G4s', 'This is the text'),/
+&uf('G5s', 'This is the text'),/
+#
+&uf('G0q', 'This is the text'),/
+&uf('G1q', 'This is the text'),/
+&uf('G2q', 'This is the text'),/
+&uf('G3q', 'This is the text'),/
+&uf('G4q', 'This is the text'),/
+&uf('G5q', 'This is the text'),/
