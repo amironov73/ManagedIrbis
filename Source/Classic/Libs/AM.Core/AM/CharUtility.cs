@@ -39,7 +39,7 @@ namespace AM
                 this char c
             )
         {
-            return (c >= '0') && (c <= '9');
+            return c >= '0' && c <= '9';
         }
 
         /// <summary>
@@ -50,8 +50,8 @@ namespace AM
                 this char c
             )
         {
-            return ((c >= 'A') && (c <= 'Z'))
-                || ((c >= 'a') && (c <= 'z'));
+            return c >= 'A' && c <= 'Z'
+                || c >= 'a' && c <= 'z';
         }
 
         /// <summary>
@@ -63,9 +63,9 @@ namespace AM
                 this char c
             )
         {
-            return ((c >= '0') && (c <= '9'))
-                || ((c >= 'A') && (c <= 'Z'))
-                || ((c >= 'a') && (c <= 'z'));
+            return c >= '0' && c <= '9'
+                || c >= 'A' && c <= 'Z'
+                || c >= 'a' && c <= 'z';
         }
 
         /// <summary>
@@ -76,10 +76,29 @@ namespace AM
                 this char c
             )
         {
-            return ((c >= 'А') && (c <= 'я'))
-                || (c == 'Ё') || (c == 'ё');
+            return c >= 'А' && c <= 'я'
+                || c == 'Ё' || c == 'ё';
         }
 
-        #endregion
+        /// <summary>
+        /// Convert the character to upper case.
+        /// </summary>
+        public static char ToUpperInvariant
+            (
+                char c
+            )
+        {
+#if CLASSIC || NETCORE
+
+            return char.ToUpperInvariant(c);
+
+#else
+
+            return char.ToUpper(c);
+
+#endif
+        }
+
+#endregion
     }
 }

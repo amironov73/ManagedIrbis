@@ -10,6 +10,7 @@
 #region Using directives
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -1380,6 +1381,32 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Пропустить, пока не встретятся указанные символы.
+        /// </summary>
+        public bool SkipWhileNot
+            (
+                params char[] goodChars
+            )
+        {
+            while (true)
+            {
+                if (IsEOF)
+                {
+                    return false;
+                }
+                char c = PeekChar();
+                if (Array.IndexOf(goodChars, c) < 0)
+                {
+                    ReadChar();
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
+        /// <summary>
         /// Пропускаем пробельные символы.
         /// </summary>
         public bool SkipWhitespace()
@@ -1421,6 +1448,31 @@ namespace AM.Text
                     return true;
                 }
             }
+        }
+
+        /// <summary>
+        /// Split text by given good characters.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public string[] SplitByGoodCharacters
+            (
+                params char[] goodCharacters
+            )
+        {
+            List<string> result = new List<string>();
+
+            while (!IsEOF)
+            {
+                SkipWhileNot(goodCharacters);
+                string word = ReadWhile(goodCharacters);
+                if (!string.IsNullOrEmpty(word))
+                {
+                    result.Add(word);
+                }
+            }
+
+            return result.ToArray();
         }
 
         /// <summary>
