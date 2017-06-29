@@ -472,7 +472,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             RecordField field = record.Fields.GetField(Tag, context.Index);
 
-            return field != null;
+            return !ReferenceEquals(field, null);
         }
 
         /// <summary>

@@ -136,6 +136,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 bool flag = field.HaveRepeat(context);
 
+                if (flag)
+                {
+                    string value = field.GetValue(context);
+                    flag = !string.IsNullOrEmpty(value);
+                }
+
                 if (flag && Plus)
                 {
                     flag = IsPrefix

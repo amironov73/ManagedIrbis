@@ -1,0 +1,1 @@
+﻿Missing subfield in repeating field (former issue #29)
