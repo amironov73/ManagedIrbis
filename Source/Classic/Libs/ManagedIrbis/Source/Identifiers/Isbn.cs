@@ -190,6 +190,18 @@ namespace ManagedIrbis.Identifiers
             get { return CultureInfo.InvariantCulture; }
         }
 
+        private static int ConvertDigit
+            (
+                char c
+            )
+        {
+            int result = c == 'X' || c == 'x'
+                ? 10
+                : c - '0';
+
+            return result;
+        }
+
         #endregion
 
         #region Public methods
@@ -210,7 +222,8 @@ namespace ManagedIrbis.Identifiers
             int[] digits = new int[10];
             int i, j, sum;
 
-            if (isbn == null || isbn.Length != 13)
+            if (ReferenceEquals(isbn, null)
+                || isbn.Length != 13)
             {
                 return false;
             }
@@ -396,18 +409,20 @@ namespace ManagedIrbis.Identifiers
         /// </summary>
         /// <param name="ean">штрих-код.</param>
         /// <returns>Суррогатный ISBN.</returns>
+        [CanBeNull]
         public static string FromEan13
             (
-                string ean
+                [CanBeNull] string ean
             )
         {
-            if (ean == null || ean.Length != 13)
+            if (ReferenceEquals(ean, null)
+                || ean.Length != 13)
             {
                 return null;
             }
 
-            char[] digits = new char[] { ' ', '-', ' ', ' ', ' ', '-', ' ', ' ', ' ', ' ', ' ', '-', ' ' };
-            char[] possible = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'X' };
+            char[] digits = { ' ', '-', ' ', ' ', ' ', '-', ' ', ' ', ' ', ' ', ' ', '-', ' ' };
+            char[] possible = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'X' };
             // Пропускаем начальные 978
             // страна
             digits[0] = ean[3];
@@ -428,7 +443,9 @@ namespace ManagedIrbis.Identifiers
                 digits[12] = chr;
                 result = new string(digits);
                 if (CheckControlDigit(result))
+                {
                     break;
+                }
             }
             return result;
         }

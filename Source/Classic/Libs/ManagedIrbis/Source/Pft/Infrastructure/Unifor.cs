@@ -219,7 +219,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
                 else if (digits.Count == 10)
                 {
-                    if (Isbn.CheckControlDigit(expresion))
+                    if (Isbn.Validate(expresion, false))
                     {
                         output = "0";
                     }

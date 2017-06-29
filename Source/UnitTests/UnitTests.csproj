@@ -255,6 +255,7 @@
     <Compile Include="ManagedIrbis\Gbl\GblBuilderTest.cs" />
     <Compile Include="ManagedIrbis\Identifiers\Ean13Test.cs" />
     <Compile Include="ManagedIrbis\Identifiers\Ean8Test.cs" />
+    <Compile Include="ManagedIrbis\Identifiers\IsmnTest.cs" />
     <Compile Include="ManagedIrbis\Identifiers\IssnTest.cs" />
     <Compile Include="ManagedIrbis\Identifiers\Upc12Test.cs" />
     <Compile Include="ManagedIrbis\ImportExport\IsoReaderTest.cs" />

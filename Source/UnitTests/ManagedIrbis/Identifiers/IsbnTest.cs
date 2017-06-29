@@ -9,7 +9,7 @@ namespace UnitTests.ManagedIrbis.Identifiers
     public class IsbnTest
     {
         [TestMethod]
-        public void TestIsbnCheckHyphens()
+        public void Isbn_CheckHyphens_1()
         {
             Assert.IsTrue(Isbn.CheckHyphens("5-02-003157-7"));
             Assert.IsTrue(Isbn.CheckHyphens("5-02-003228-X"));
@@ -17,7 +17,7 @@ namespace UnitTests.ManagedIrbis.Identifiers
         }
 
         [TestMethod]
-        public void TestIsbnCheckControlDigit()
+        public void Isbn_CheckControlDigit_1()
         {
             Assert.IsTrue(Isbn.CheckControlDigit("5-02-003206-9"));
             Assert.IsFalse(Isbn.CheckControlDigit("5-02-0032239-5"));
