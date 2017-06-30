@@ -153,10 +153,10 @@ namespace ManagedIrbis.Batch
                 };
 
                 result = ProtocolText.ParseResponseForAllFormat
-                (
-                    line,
-                    result
-                );
+                    (
+                        line,
+                        result
+                    );
 
                 if (!ReferenceEquals(result, null))
                 {
@@ -267,12 +267,12 @@ namespace ManagedIrbis.Batch
                     if (slice.Length == 1)
                     {
                         MarcRecord record = Connection.ReadRecord
-                        (
-                            database,
-                            slice[0],
-                            false,
-                            null
-                        );
+                            (
+                                database,
+                                slice[0],
+                                false,
+                                null
+                            );
 
                         _records.Add(record);
                     }
@@ -288,21 +288,21 @@ namespace ManagedIrbis.Batch
 
                         string[] lines = command.FormatResult
                             .ThrowIfNullOrEmpty
-                            (
-                                "command.FormatResult"
-                            );
+                                (
+                                    "command.FormatResult"
+                                );
 
                         Debug.Assert
-                        (
-                            lines.Length == slice.Length,
-                            "some records not retrieved"
-                        );
+                            (
+                                lines.Length == slice.Length,
+                                "some records not retrieved"
+                            );
 
                         Parallel.ForEach
-                        (
-                            lines,
-                            line => _ParseRecord(line, database)
-                        );
+                            (
+                                lines,
+                                line => _ParseRecord(line, database)
+                            );
                     }
                 }
 

@@ -273,43 +273,53 @@ namespace ManagedIrbis.ImportExport
             Code.NotNull(response, "response");
             Code.NotNull(record, "record");
 
-            ParseMfnStatusVersion
-                (
-                    response.RequireUtfString(),
-                    response.RequireUtfString(),
-                    record
-                );
-
-            string line;
-            while (true)
+            try
             {
-                line = response.GetUtfString();
-                if (string.IsNullOrEmpty(line))
+                record.Fields._dontRenumber = true;
+
+                ParseMfnStatusVersion
+                    (
+                        response.RequireUtfString(),
+                        response.RequireUtfString(),
+                        record
+                    );
+
+                string line;
+                while (true)
                 {
-                    break;
+                    line = response.GetUtfString();
+                    if (string.IsNullOrEmpty(line))
+                    {
+                        break;
+                    }
+                    if (line == "#")
+                    {
+                        break;
+                    }
+                    RecordField field = _ParseLine(line);
+                    if (!string.IsNullOrEmpty(field.Tag))
+                    {
+                        record.Fields.Add(field);
+                    }
                 }
                 if (line == "#")
                 {
-                    break;
+                    int returnCode = response.RequireInt32();
+                    if (returnCode >= 0)
+                    {
+                        line = response.RequireUtfString();
+                        line = IrbisText.IrbisToWindows(line);
+                        record.Description = line;
+                    }
                 }
-                RecordField field = _ParseLine(line);
-                if (!string.IsNullOrEmpty(field.Tag))
-                {
-                    record.Fields.Add(field);
-                }
-            }
-            if (line == "#")
-            {
-                int returnCode = response.RequireInt32();
-                if (returnCode >= 0)
-                {
-                    line = response.RequireUtfString();
-                    line = IrbisText.IrbisToWindows(line);
-                    record.Description = line;
-                }
-            }
 
-            record.Modified = false;
+            }
+            finally
+            {
+                record.Fields._dontRenumber = false;
+                record.Fields._RenumberFields();
+                record.Modified = false;
+            }
 
             return record;
         }
@@ -327,30 +337,38 @@ namespace ManagedIrbis.ImportExport
             Code.NotNull(response, "response");
             Code.NotNull(record, "record");
 
-            record.Fields.Clear();
-
-            string first = response.RequireUtfString();
-            string second = response.RequireUtfString();
-            string[] split = second.Split('\x1E');
-
-            ParseMfnStatusVersion
-                (
-                    first,
-                    split[0],
-                    record
-                );
-
-            for (int i = 1; i < split.Length; i++)
+            try
             {
-                string line = split[i];
-                RecordField field = _ParseLine(line);
-                if (!string.IsNullOrEmpty(field.Tag))
+                record.Fields._dontRenumber = true;
+                record.Fields.Clear();
+
+                string first = response.RequireUtfString();
+                string second = response.RequireUtfString();
+                string[] split = second.Split('\x1E');
+
+                ParseMfnStatusVersion
+                    (
+                        first,
+                        split[0],
+                        record
+                    );
+
+                for (int i = 1; i < split.Length; i++)
                 {
-                    record.Fields.Add(field);
+                    string line = split[i];
+                    RecordField field = _ParseLine(line);
+                    if (!string.IsNullOrEmpty(field.Tag))
+                    {
+                        record.Fields.Add(field);
+                    }
                 }
             }
-
-            record.Modified = false;
+            finally
+            {
+                record.Fields._dontRenumber = false;
+                record.Fields._RenumberFields();
+                record.Modified = false;
+            }
 
             return record;
         }
@@ -368,29 +386,37 @@ namespace ManagedIrbis.ImportExport
             Code.NotNull(response, "response");
             Code.NotNull(record, "record");
 
-            record.Fields.Clear();
-
-            string whole = response.RequireUtfString();
-            string[] split = whole.Split('\x1E');
-
-            ParseMfnStatusVersion
-                (
-                    split[0],
-                    split[1],
-                    record
-                );
-
-            for (int i = 2; i < split.Length; i++)
+            try
             {
-                string line = split[i];
-                RecordField field = _ParseLine(line);
-                if (!string.IsNullOrEmpty(field.Tag))
+                record.Fields._dontRenumber = true;
+                record.Fields.Clear();
+
+                string whole = response.RequireUtfString();
+                string[] split = whole.Split('\x1E');
+
+                ParseMfnStatusVersion
+                    (
+                        split[0],
+                        split[1],
+                        record
+                    );
+
+                for (int i = 2; i < split.Length; i++)
                 {
-                    record.Fields.Add(field);
+                    string line = split[i];
+                    RecordField field = _ParseLine(line);
+                    if (!string.IsNullOrEmpty(field.Tag))
+                    {
+                        record.Fields.Add(field);
+                    }
                 }
             }
-
-            record.Modified = false;
+            finally
+            {
+                record.Fields._dontRenumber = false;
+                record.Fields._RenumberFields();
+                record.Modified = false;
+            }
 
             return record;
         }
@@ -408,32 +434,41 @@ namespace ManagedIrbis.ImportExport
             Code.NotNull(response, "response");
             Code.NotNull(record, "record");
 
-            record.Fields.Clear();
-
-            string line = response.GetUtfString();
-            if (string.IsNullOrEmpty(line))
+            try
             {
-                return null;
-            }
+                record.Fields._dontRenumber = true;
+                record.Fields.Clear();
 
-            string[] split = line.Split('\x1F');
-            ParseMfnStatusVersion
-                (
-                    split[1],
-                    split[2],
-                    record
-                );
-            for (int i = 3; i < split.Length; i++)
-            {
-                line = split[i];
-                RecordField field = _ParseLine(line);
-                if (!string.IsNullOrEmpty(field.Tag))
+                string line = response.GetUtfString();
+                if (string.IsNullOrEmpty(line))
                 {
-                    record.Fields.Add(field);
+                    return null;
+                }
+
+                string[] split = line.Split('\x1F');
+                ParseMfnStatusVersion
+                    (
+                        split[1],
+                        split[2],
+                        record
+                    );
+
+                for (int i = 3; i < split.Length; i++)
+                {
+                    line = split[i];
+                    RecordField field = _ParseLine(line);
+                    if (!string.IsNullOrEmpty(field.Tag))
+                    {
+                        record.Fields.Add(field);
+                    }
                 }
             }
-
-            record.Modified = false;
+            finally
+            {
+                record.Fields._dontRenumber = false;
+                record.Fields._RenumberFields();
+                record.Modified = false;
+            }
 
             return record;
         }
@@ -455,26 +490,35 @@ namespace ManagedIrbis.ImportExport
                 return null;
             }
 
-            record.Fields.Clear();
-
-            string[] split = line.Split('\x1F');
-            ParseMfnStatusVersion
-                (
-                    split[1],
-                    split[2],
-                    record
-                );
-            for (int i = 3; i < split.Length; i++)
+            try
             {
-                line = split[i];
-                RecordField field = _ParseLine(line);
-                if (!string.IsNullOrEmpty(field.Tag))
+                record.Fields._dontRenumber = true;
+                record.Fields.Clear();
+
+                string[] split = line.Split('\x1F');
+                ParseMfnStatusVersion
+                    (
+                        split[1],
+                        split[2],
+                        record
+                    );
+
+                for (int i = 3; i < split.Length; i++)
                 {
-                    record.Fields.Add(field);
+                    line = split[i];
+                    RecordField field = _ParseLine(line);
+                    if (!string.IsNullOrEmpty(field.Tag))
+                    {
+                        record.Fields.Add(field);
+                    }
                 }
             }
-
-            record.Modified = false;
+            finally
+            {
+                record.Fields._dontRenumber = false;
+                record.Fields._RenumberFields();
+                record.Modified = false;
+            }
 
             return record;
         }
@@ -497,26 +541,34 @@ namespace ManagedIrbis.ImportExport
                 return null;
             }
 
-            record.Fields.Clear();
-
-            string[] split = line.Split('\x1E');
-            for (int i = 1; i < split.Length; i++)
+            try
             {
-                line = split[i];
-                RecordField field = _ParseLine(line);
-                if (!string.IsNullOrEmpty(field.Tag))
+                record.Fields._dontRenumber = true;
+                record.Fields.Clear();
+
+                string[] split = line.Split('\x1E');
+                for (int i = 1; i < split.Length; i++)
                 {
-                    record.Fields.Add(field);
+                    line = split[i];
+                    RecordField field = _ParseLine(line);
+                    if (!string.IsNullOrEmpty(field.Tag))
+                    {
+                        record.Fields.Add(field);
+                    }
                 }
             }
-
-            record.Modified = false;
+            finally
+            {
+                record.Fields._dontRenumber = false;
+                record.Fields._RenumberFields();
+                record.Modified = false;
+            }
 
             return record;
         }
 
         /// <summary>
-        /// 
+        /// Convert the record to the protocol text.
         /// </summary>
         [CanBeNull]
         public static string ToProtocolText
