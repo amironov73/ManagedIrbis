@@ -1,0 +1,1 @@
+﻿D and N commands with empty subfield

@@ -1,0 +1,6 @@
+﻿if p(v1^b) then 'Present' else 'Absent' fi /
+if p(v2^b) then 'Present' else 'Absent' fi /
+'D 1: ', |Present|d1^b, /
+'D 2: ', |Present|d2^b, /
+'N 1: ', |Absent|n1^b,  /
+'N 2: ', |Absent|n2^b,  /

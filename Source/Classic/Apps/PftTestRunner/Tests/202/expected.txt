@@ -1,0 +1,6 @@
+﻿Present
+Present
+D 1: Present
+D 2: 
+N 1: 
+N 2: Absent

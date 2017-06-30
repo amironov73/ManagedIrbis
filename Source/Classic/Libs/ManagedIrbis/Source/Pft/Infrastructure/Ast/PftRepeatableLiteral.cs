@@ -139,7 +139,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 if (flag)
                 {
                     string value = field.GetValue(context);
-                    flag = !string.IsNullOrEmpty(value);
+
+                    // flag = !string.IsNullOrEmpty(value);
+                    flag = field.CanOutput(value);
                 }
 
                 if (flag && Plus)
