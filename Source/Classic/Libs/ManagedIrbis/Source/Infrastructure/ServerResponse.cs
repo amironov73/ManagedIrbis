@@ -290,22 +290,23 @@ namespace ManagedIrbis.Infrastructure
         [NotNull]
         public byte[] GetDump()
         {
-            MemoryStream result = new MemoryStream();
-
-            _stream.Position = _savedPosition;
-            while (true)
+            using (MemoryStream result = new MemoryStream())
             {
-                int code = _stream.ReadByte();
-                if (code < 0
-                    || code == 0x0D
-                    || code == 0x0A)
+                _stream.Position = _savedPosition;
+                while (true)
                 {
-                    break;
+                    int code = _stream.ReadByte();
+                    if (code < 0
+                        || code == 0x0D
+                        || code == 0x0A)
+                    {
+                        break;
+                    }
+                    result.WriteByte((byte) code);
                 }
-                result.WriteByte((byte) code);
-            }
 
-            return result.ToArray();
+                return result.ToArray();
+            }
         }
 
         /// <summary>

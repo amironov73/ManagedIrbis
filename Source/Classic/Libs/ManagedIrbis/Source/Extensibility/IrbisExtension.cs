@@ -130,7 +130,7 @@ namespace ManagedIrbis.Extensibility
             )
         {
             List<byte> bytes = new List<byte>(32000);
-            for (int offset = 0; offset < int.MaxValue; offset++)
+            for (int offset = 0; ; offset++)
             {
                 byte b = Marshal.ReadByte(buf, offset);
                 if (b == 0)

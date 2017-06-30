@@ -129,7 +129,6 @@ namespace ManagedIrbis.Batch
                 parallelism = EnvironmentUtility.OptimalParallelism;
             }
 
-            Parallelism = parallelism;
             ConnectionString = connectionString;
             Parallelism = Math.Min(mfnList.Length / 1000, parallelism);
 

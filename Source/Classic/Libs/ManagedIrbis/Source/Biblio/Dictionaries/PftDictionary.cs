@@ -45,7 +45,8 @@ namespace ManagedIrbis.Biblio
     [PublicAPI]
     [MoonSharpUserData]
     public class PftDictionary
-        : BiblioDictionary
+        : BiblioDictionary,
+        IDisposable
     {
         #region Properties
 
@@ -179,6 +180,19 @@ namespace ManagedIrbis.Biblio
                 .NotNullNorEmpty(Expression, "Expression");
 
             return verifier.Result;
+        }
+
+        #endregion
+
+        #region IDisposable members
+
+        /// <inheritdoc cref="IDisposable.Dispose" />
+        public void Dispose()
+        {
+            if (!ReferenceEquals(_formatter, null))
+            {
+                _formatter.Dispose();
+            }
         }
 
         #endregion

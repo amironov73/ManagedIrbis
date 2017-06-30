@@ -370,6 +370,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Gbl\ProtocolLine.cs">
       <Link>Source\Gbl\ProtocolLine.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\CodeDigit.cs">
+      <Link>Source\Identifiers\CodeDigit.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Ean13.cs">
       <Link>Source\Identifiers\Ean13.cs</Link>
     </Compile>
@@ -378,6 +381,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isbn.cs">
       <Link>Source\Identifiers\Isbn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Ismn.cs">
+      <Link>Source\Identifiers\Ismn.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Issn.cs">
       <Link>Source\Identifiers\Issn.cs</Link>

@@ -281,19 +281,14 @@ namespace ManagedIrbis.Identifiers
                 return count == 3;
             }
 
-            if (ismn.Length == 17)
+            // EAN
+
+            if (ismn[3] != hyphen)
             {
-                // EAN
+                return false;
+            }
 
-                if (ismn[3] != hyphen)
-                {
-                    return false;
-                }
-
-                return count == 4;
-            } 
-
-            return false;
+            return count == 4;
         }
 
         /// <summary>

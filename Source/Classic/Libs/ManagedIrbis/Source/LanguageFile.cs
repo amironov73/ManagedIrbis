@@ -265,7 +265,7 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -289,7 +289,7 @@ namespace ManagedIrbis
             }
         }
 
-        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream"/>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -299,7 +299,7 @@ namespace ManagedIrbis
 
             Log.Trace("LanguageFile::SaveToStream");
 
-            foreach (KeyValuePair<string, string> pair in _dictionary)
+            foreach (KeyValuePair<string, string> pair in _dictionary) //-V3087
             {
                 writer.Write(pair.Key);
                 writer.WriteNullable(pair.Value);
