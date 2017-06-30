@@ -35,9 +35,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     {
         #region Properties
 
+        /// <summary>
+        /// Throw an exception when an empty group is detected?
+        /// </summary>
+        public static bool ThrowOnEmpty { get; set; }
+
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Static constructor.
+        /// </summary>
+        static PftParallelGroup()
+        {
+            ThrowOnEmpty = false;
+        }
 
         /// <summary>
         /// Constructor.
@@ -82,10 +95,34 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 Log.Error
                     (
                         "PftParallelGroup::Execute: "
-                        + "nested group detected"
+                        + "nested group detected: "
+                        + this
                     );
 
-                throw new PftSemanticException("Nested group");
+                throw new PftSemanticException
+                    (
+                        "Nested group: "
+                        + this
+                    );
+            }
+
+            if (Children.Count == 0)
+            {
+                Log.Error
+                    (
+                        "PftParalllelGroup::Execute: "
+                        + "empty group: "
+                        + this
+                    );
+
+                if (ThrowOnEmpty)
+                {
+                    throw new PftSemanticException
+                        (
+                            "Empty group: "
+                            + this
+                        );
+                }
             }
 
             try

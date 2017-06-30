@@ -24,6 +24,7 @@ using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Identifiers;
 using ManagedIrbis.ImportExport;
 using ManagedIrbis.Infrastructure;
@@ -56,7 +57,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
-        /// Throw exception on unknown key.
+        /// Throw an exception on empty UNIFOR?
+        /// </summary>
+        public static bool ThrowOnEmpty { get; set; }
+
+        /// <summary>
+        /// Throw an exception on unknown key?
         /// </summary>
         public static bool ThrowOnUnknown { get; set; }
 
@@ -66,6 +72,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         static Unifor()
         {
+            ThrowOnEmpty = false;
             ThrowOnUnknown = false;
 
             Registry = new CaseInsensitiveDictionary<Action<PftContext, PftNode, string>>();
@@ -1202,11 +1209,22 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             if (string.IsNullOrEmpty(expression))
             {
-                Log.Trace
+                Log.Error
                     (
                         "Unifor::Execute: "
-                        + "empty expression"
+                        + "empty expression: "
+                        + this
                     );
+
+                if (ThrowOnEmpty)
+                {
+                    throw new PftSemanticException
+                        (
+                            "Unifor::Execute: "
+                            + "empty expression: "
+                            + this
+                        );
+                }
 
                 return;
             }

@@ -42,9 +42,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             set { base.Text = PftUtility.PrepareText(value); }
         }
 
+        /// <summary>
+        /// Throw an exception when empty literal detected.
+        /// </summary>
+        public static bool ThrowOnEmpty { get; set; }
+
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Static constructor.
+        /// </summary>
+        static PftUnconditionalLiteral()
+        {
+            ThrowOnEmpty = false;
+        }
 
         /// <summary>
         /// Constructor.
@@ -115,6 +128,26 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnBeforeExecution(context);
 
             string text = Text;
+
+            if (string.IsNullOrEmpty(text))
+            {
+                Log.Error
+                    (
+                        "PftUnconditionalLiteral::Execute: "
+                        + "empty literal: "
+                        + this
+                    );
+
+                if (ThrowOnEmpty)
+                {
+                    throw new PftSemanticException
+                        (
+                            "Empty literal detected: "
+                            + this
+                        );
+                }
+            }
+
             if (context.UpperMode
                 && !ReferenceEquals(text, null))
             {
