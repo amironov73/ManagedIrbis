@@ -91,12 +91,13 @@ namespace ManagedIrbis.Direct
             FileName = fileName;
             InMemory = inMemory;
 
+            _lockObject = new object();
             _stream = new FileStream
                 (
                     fileName,
                     FileMode.Open,
                     FileAccess.Read,
-                   FileShare.ReadWrite
+                    FileShare.ReadWrite
                 );
 
             if (InMemory)
@@ -112,6 +113,8 @@ namespace ManagedIrbis.Direct
         #endregion
 
         #region Private members
+
+        private object _lockObject;
 
         private Stream _stream;
 
@@ -145,13 +148,19 @@ namespace ManagedIrbis.Direct
                 throw new ArgumentOutOfRangeException("mfn");
             }
 
-            if (_stream.Seek(offset, SeekOrigin.Begin) != offset)
-            {
-                throw new IOException();
-            }
+            long ofs;
+            int flags;
 
-            long ofs = _stream.ReadInt64Network();
-            int flags = _stream.ReadInt32Network();
+            lock (_lockObject)
+            {
+                if (_stream.Seek(offset, SeekOrigin.Begin) != offset)
+                {
+                    throw new IOException();
+                }
+
+                ofs = _stream.ReadInt64Network();
+                flags = _stream.ReadInt32Network();
+            }
 
             XrfRecord64 result = new XrfRecord64
                 {

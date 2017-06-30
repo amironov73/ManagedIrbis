@@ -100,6 +100,7 @@ namespace ManagedIrbis.Direct
 
             FileName = fileName;
 
+            _lockObject = new object();
             _stream = new FileStream
                 (
                     fileName,
@@ -123,6 +124,8 @@ namespace ManagedIrbis.Direct
         #endregion
 
         #region Private members
+
+        private object _lockObject;
 
         private bool _lockFlag;
 
@@ -228,24 +231,30 @@ namespace ManagedIrbis.Direct
                 long offset
             )
         {
-            if (_stream.Seek(offset, SeekOrigin.Begin) != offset)
+            MemoryStream memory;
+            MstRecordLeader64 leader;
+
+            lock (_lockObject)
             {
-                throw new IOException();
+                //if (_stream.Seek(offset, SeekOrigin.Begin) != offset)
+                //{
+                //    throw new IOException();
+                //}
+                _stream.Seek(offset, SeekOrigin.Begin);
+
+                memory = new MemoryStream(PreloadLength);
+                _AppendStream(_stream, memory, PreloadLength);
+                memory.Position = 0;
+
+                leader = MstRecordLeader64.Read(memory);
+                int amountToRead = (int)(leader.Length - memory.Length);
+                if (amountToRead > 0)
+                {
+                    _AppendStream(_stream, memory, amountToRead);
+                }
             }
 
             Encoding encoding = IrbisEncoding.Utf8;
-
-            MemoryStream memory = new MemoryStream(PreloadLength);
-            _AppendStream(_stream, memory, PreloadLength);
-            memory.Position = 0;
-
-            MstRecordLeader64 leader = MstRecordLeader64.Read(memory);
-            int amountToRead = (int)(leader.Length - memory.Length);
-            if (amountToRead > 0)
-            {
-                _AppendStream(_stream, memory, amountToRead);
-            }
-
             List<MstDictionaryEntry64> dictionary
                 = new List<MstDictionaryEntry64>();
 

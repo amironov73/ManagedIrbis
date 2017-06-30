@@ -66,10 +66,17 @@ namespace ManagedIrbis
 
         private MarcRecord _record;
 
+        internal bool _dontRenumber;
+
         // ReSharper disable InconsistentNaming
 
         internal void _RenumberFields()
         {
+            if (_dontRenumber)
+            {
+                return;
+            }
+
             DictionaryCounterInt32<string> seen
                 = new DictionaryCounterInt32<string>();
 

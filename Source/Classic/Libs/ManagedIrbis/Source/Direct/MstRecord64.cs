@@ -117,11 +117,16 @@ namespace ManagedIrbis.Direct
                     Version = Leader.Version
                 };
 
+            result.Fields._dontRenumber = true;
+
             foreach (MstDictionaryEntry64 entry in Dictionary)
             {
                 RecordField field = DecodeField(entry);
                 result.Fields.Add(field);
             }
+
+            result.Fields._dontRenumber = false;
+            result.Fields._RenumberFields();
 
             return result;
         }
