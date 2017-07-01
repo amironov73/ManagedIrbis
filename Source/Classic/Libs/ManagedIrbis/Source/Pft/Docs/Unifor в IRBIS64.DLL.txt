@@ -1,0 +1,104 @@
+﻿Unifor в IRBIS64.DLL: 
+
+CODE:400772A0 ; =============== S U B R O U T I N E =======================================
+CODE:400772A0
+CODE:400772A0 ; Attributes: bp-based frame
+CODE:400772A0
+CODE:400772A0 ; int __stdcall UNIFOR(int, LPSTR lpsz, int, int)
+CODE:400772A0                 public UNIFOR
+CODE:400772A0 UNIFOR          proc near
+CODE:400772A0
+
+...
+
+CODE:4007731D
+CODE:4007731D loc_4007731D
+CODE:4007731D
+CODE:4007731D mov     eax, [ebp+arg_0]
+CODE:40077320 mov     eax, [eax]
+CODE:40077322 mov     byte ptr [eax], 0
+CODE:40077325 lea     eax, [ebp+var_13C]
+CODE:4007732B call    @System@@LStrClr$qqrpv ; System::__linkproc__ LStrClr(void *)
+CODE:40077330 mov     eax, ds:dword_400AF0E8
+CODE:40077335 call    sub_40025450
+CODE:4007733A mov     dl, 1
+CODE:4007733C mov     eax, off_4000F7A4
+CODE:40077341 call    @TObject@$bctr  ; BDS 2005-2007 and Delphi6-7 Visual Component Library
+CODE:40077346 mov     [ebp+var_114], eax
+CODE:4007734C push    1               ; cchLength
+CODE:4007734E mov     eax, [ebp+lpsz]
+CODE:40077351 push    eax             ; lpsz
+CODE:40077352 call    CharUpperBuffA
+CODE:40077357 mov     eax, [ebp+lpsz]
+CODE:4007735A movzx   eax, byte ptr [eax]
+CODE:4007735D add     eax, 0FFFFFFDFh ; switch 59 cases, starting with ‘!’
+CODE:40077360 cmp     eax, 3Ah
+CODE:40077363 ja      loc_40081FCB    ; jumptable 40077369 default case
+CODE:40077369 jmp     off_40077370[eax*4] ; switch jump
+
+; Таблица переходов
+; loc_40081FCB – default branch in switch table
+
+CODE:40077370 off_40077370
+ 
+                                      " def                # def
+CODE:40077370 dd offset loc_4007B955, offset loc_40081FCB, offset loc_40081FCB
+
+                  $ de                % def                & def
+CODE:40077370 dd offset loc_40081FCB, offset loc_40081FCB, offset loc_40081FCB 
+
+                 ' def                ( def                ) def
+CODE:40077370 dd offset loc_40081FCB, offset loc_40081FCB, offset loc_40081FCB
+
+                  * def               +                    ,
+CODE:40077370 dd offset loc_40081FCB, offset loc_4007BAAB, offset loc_40079CB4
+
+                 - def                .                    / def
+CODE:40077370 dd offset loc_40081FCB, offset loc_4007B933, offset loc_40081FCB
+
+                 0                    1                    2
+CODE:40077370 dd offset loc_4007745C, offset loc_400776F3, offset loc_40077FFB
+
+                 3                    4                    5
+CODE:40077370 dd offset loc_40078112, offset loc_40078C4A, offset loc_40081FCB
+
+                 6                    7                    8
+CODE:40077370 dd offset loc_40078C56, offset loc_40078F42, offset loc_40078F4E
+
+                 9                    : def                ; def
+CODE:40077370 dd offset loc_40078F5A, offset loc_40081FCB, offset loc_40081FCB
+
+                 < def                =                    > def
+CODE:40077370 dd offset loc_40081FCB, offset loc_4007B96D, offset loc_40081FCB
+
+                 ? def                @ def                A
+CODE:40077370 dd offset loc_40081FCB, offset loc_40081FCB, offset loc_40079044
+
+                 B                    C                    D
+CODE:40077370 dd offset loc_40079CA8, offset loc_40079CC0, offset loc_4007B7A3
+
+                 E                    F                    G
+CODE:40077370 dd offset loc_40079EE5, offset loc_40079FA5, offset loc_4007A040
+
+                 H                    I                    J
+CODE:40077370 dd offset loc_4007B12C, offset loc_4007B39F, offset loc_4007B54F
+
+                 K                    L                    M
+CODE:40077370 dd offset loc_4007B16D, offset loc_4007A628, offset loc_4007987B
+
+                 N def                O                    P
+CODE:40077370 dd offset loc_40081FCB, offset loc_4007B1B0, offset loc_40079044
+
+                 Q                    R                    S
+CODE:40077370 dd offset loc_4007B8C1, offset loc_4007B012, offset loc_4007A434
+
+                 T                    U                    V
+CODE:40077370 dd offset loc_4007B1C8, offset loc_4007A872, offset loc_4007ABA8
+
+                 W                    X                    Y
+CODE:40077370 dd offset loc_4007AEDE, offset loc_4007B7AF, offset loc_4007B1BC
+
+                 Z                    [
+CODE:40077370 dd offset loc_4007B006, offset loc_4007B961
+
+

@@ -64,6 +64,16 @@ namespace ManagedIrbis
 
         #region Private members
 
+        [NotNull]
+        private List<MarcRecord> _GetInnerList()
+        {
+            // ReSharper disable SuspiciousTypeConversion.Global
+            List<MarcRecord> result = (List<MarcRecord>)Items;
+            // ReSharper restore SuspiciousTypeConversion.Global
+
+            return result;
+        }
+
         private MarcRecord _record;
 
         internal bool _dontRenumber;
@@ -124,6 +134,22 @@ namespace ManagedIrbis
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Add capacity to eliminate reallocations.
+        /// </summary>
+        public void AddCapacity
+            (
+                int delta
+            )
+        {
+            List<MarcRecord> innerList = _GetInnerList();
+            int newCapacity = innerList.Count + delta;
+            if (newCapacity > innerList.Capacity)
+            {
+                innerList.Capacity = newCapacity;
+            }
+        }
 
         /// <summary>
         /// Add range of <see cref="RecordField"/>s.

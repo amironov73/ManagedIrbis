@@ -840,7 +840,7 @@ namespace AM.Text
             while (true)
             {
                 char c = ReadChar();
-                if ((c == EOF) || (c == stopChar))
+                if (c == EOF || c == stopChar)
                 {
                     break;
                 }
@@ -932,8 +932,8 @@ namespace AM.Text
             while (true)
             {
                 char c = ReadChar();
-                if ((c == EOF) 
-                    || (Array.IndexOf(stopChars, c) >= 0))
+                if (c == EOF 
+                    || Array.IndexOf(stopChars, c) >= 0)
                 {
                     break;
                 }
@@ -970,7 +970,7 @@ namespace AM.Text
             while (true)
             {
                 char c = PeekChar();
-                if ((c == EOF) || (c == stopChar))
+                if (c == EOF || c == stopChar)
                 {
                     break;
                 }
@@ -1008,7 +1008,7 @@ namespace AM.Text
             while (true)
             {
                 char c = PeekChar();
-                if ((c == EOF)
+                if (c == EOF
                     || Array.IndexOf(stopChars, c) >= 0)
                 {
                     break;
@@ -1139,7 +1139,7 @@ namespace AM.Text
             while (true)
             {
                 char c = PeekChar();
-                if ((c == EOF) || (c != goodChar))
+                if (c == EOF || c != goodChar)
                 {
                     break;
                 }
@@ -1176,8 +1176,8 @@ namespace AM.Text
             while (true)
             {
                 char c = PeekChar();
-                if ((c == EOF)
-                    || (Array.IndexOf(goodChars, c) < 0))
+                if (c == EOF
+                    || Array.IndexOf(goodChars, c) < 0)
                 {
                     break;
                 }
@@ -1189,6 +1189,76 @@ namespace AM.Text
                     savePosition,
                     _position - savePosition
                 );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Read word.
+        /// </summary>
+        [CanBeNull]
+        public string ReadWord()
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            int savePosition = _position;
+
+            while (true)
+            {
+                char c = PeekChar();
+                if (c == EOF
+                    || !char.IsLetterOrDigit(c))
+                {
+                    break;
+                }
+                ReadChar();
+            }
+
+            string result = _text.Substring
+                (
+                    savePosition,
+                    _position - savePosition
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Read word.
+        /// </summary>
+        [CanBeNull]
+        public string ReadWord
+            (
+                params char[] additionalWordCharacters
+            )
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            int savePosition = _position;
+
+            while (true)
+            {
+                char c = PeekChar();
+                if (c == EOF
+                    || !char.IsLetterOrDigit(c)
+                        && Array.IndexOf(additionalWordCharacters, c) < 0)
+                {
+                    break;
+                }
+                ReadChar();
+            }
+
+            string result = _text.Substring
+            (
+                savePosition,
+                _position - savePosition
+            );
 
             return result;
         }
@@ -1301,6 +1371,57 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Skip non-word characters.
+        /// </summary>
+        public bool SkipNonWord()
+        {
+            while (true)
+            {
+                if (IsEOF)
+                {
+                    return false;
+                }
+                char c = PeekChar();
+                if (!char.IsLetterOrDigit(c))
+                {
+                    ReadChar();
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Skip non-word characters.
+        /// </summary>
+        public bool SkipNonWord
+            (
+                params char[] additionalWordCharacters
+            )
+        {
+            while (true)
+            {
+                if (IsEOF)
+                {
+                    return false;
+                }
+                char c = PeekChar();
+                if (!char.IsLetterOrDigit(c)
+                    && Array.LastIndexOf(additionalWordCharacters, c) < 0)
+                {
+                    ReadChar();
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
+        /// <summary>
         /// Пропускаем произвольное количество символов
         /// из указанного диапазона.
         /// </summary>
@@ -1317,7 +1438,7 @@ namespace AM.Text
                     return false;
                 }
                 char c = PeekChar();
-                if ((c >= fromChar) && (c <= toChar))
+                if (c >= fromChar && c <= toChar)
                 {
                     ReadChar();
                 }
@@ -1470,6 +1591,61 @@ namespace AM.Text
                 {
                     result.Add(word);
                 }
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Split the remaining text to array of words.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public string[] SplitToWords()
+        {
+            List<string> result = new List<string>();
+
+            while (true)
+            {
+                if (!SkipNonWord())
+                {
+                    break;
+                }
+                string word = ReadWord();
+                if (string.IsNullOrEmpty(word))
+                {
+                    break;
+                }
+                result.Add(word);
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Split the remaining text to array of words.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public string[] SplitToWords
+            (
+                params char[] additionalWordCharacters
+            )
+        {
+            List<string> result = new List<string>();
+
+            while (true)
+            {
+                if (!SkipNonWord(additionalWordCharacters))
+                {
+                    break;
+                }
+                string word = ReadWord(additionalWordCharacters);
+                if (string.IsNullOrEmpty(word))
+                {
+                    break;
+                }
+                result.Add(word);
             }
 
             return result.ToArray();
