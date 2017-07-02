@@ -49,6 +49,8 @@ namespace AM.Logging
         /// </summary>
         public static void ApplyDefaultsForConsoleApplication()
         {
+#if CLASSIC || DESKTOP
+
             TeeLogger root = new TeeLogger();
             Logger = root;
             root.Loggers.AddRange
@@ -59,6 +61,8 @@ namespace AM.Logging
                         new TraceLogger()
                     }
                 );
+
+#endif
         }
 
         /// <summary>
@@ -66,6 +70,8 @@ namespace AM.Logging
         /// </summary>
         public static void ApplyDefaultsForServiceApplication()
         {
+#if CLASSIC || DESKTOP
+
             TeeLogger root = new TeeLogger();
             Logger = root;
             root.Loggers.AddRange
@@ -75,6 +81,8 @@ namespace AM.Logging
                         new TraceLogger()
                     }
                 );
+
+#endif
         }
 
         /// <summary>
@@ -82,6 +90,8 @@ namespace AM.Logging
         /// </summary>
         public static void ApplyDefaultsForWindowedApplication()
         {
+#if CLASSIC || DESKTOP
+
             TeeLogger root = new TeeLogger();
             Logger = root;
             root.Loggers.AddRange
@@ -91,6 +101,8 @@ namespace AM.Logging
                         new TraceLogger()
                     }
                 );
+
+#endif
         }
 
         /// <summary>
