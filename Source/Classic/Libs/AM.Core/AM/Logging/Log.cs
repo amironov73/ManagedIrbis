@@ -45,6 +45,55 @@ namespace AM.Logging
         #region Public methods
 
         /// <summary>
+        /// Apply defaults for console application.
+        /// </summary>
+        public static void ApplyDefaultsForConsoleApplication()
+        {
+            TeeLogger root = new TeeLogger();
+            Logger = root;
+            root.Loggers.AddRange
+                (
+                    new IAmLogger[]
+                    {
+                        new ConsoleLogger(),
+                        new TraceLogger()
+                    }
+                );
+        }
+
+        /// <summary>
+        /// Apply defaults for console application.
+        /// </summary>
+        public static void ApplyDefaultsForServiceApplication()
+        {
+            TeeLogger root = new TeeLogger();
+            Logger = root;
+            root.Loggers.AddRange
+                (
+                    new IAmLogger[]
+                    {
+                        new TraceLogger()
+                    }
+                );
+        }
+
+        /// <summary>
+        /// Apply defaults for console application.
+        /// </summary>
+        public static void ApplyDefaultsForWindowedApplication()
+        {
+            TeeLogger root = new TeeLogger();
+            Logger = root;
+            root.Loggers.AddRange
+                (
+                    new IAmLogger[]
+                    {
+                        new TraceLogger()
+                    }
+                );
+        }
+
+        /// <summary>
         /// Debug message.
         /// </summary>
         public static void Debug

@@ -93,7 +93,7 @@ namespace AM.Logging
 
 #endregion
 
-#region IAMLogger members
+        #region IAMLogger members
 
         /// <inheritdoc cref="IAmLogger.Debug" />
         public void Debug
@@ -149,7 +149,7 @@ namespace AM.Logging
             WriteLine(text);
         }
 
-#endregion
+        #endregion
     }
 }
 
