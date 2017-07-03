@@ -143,6 +143,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+96", UniforPlus9.Substring);
             Registry.Add("+97", UniforPlus9.ToUpper);
             Registry.Add("+98", UniforPlus9.ReplaceCharacter);
+            Registry.Add("+9A", UniforPlus9.GetFileSize);
             Registry.Add("+9F", UniforPlus9.GetCharacter);
             Registry.Add("+9G", UniforPlus9.SplitWords);
             Registry.Add("+9I", UniforPlus9.ReplaceString);

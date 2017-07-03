@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -99,9 +100,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// </summary>
         public static void GetDrive
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             if (!string.IsNullOrEmpty(expression))
@@ -121,9 +122,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// </summary>
         public static void GetExtension
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             if (!string.IsNullOrEmpty(expression))
@@ -142,9 +143,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// </summary>
         public static void GetFileName
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             if (!string.IsNullOrEmpty(expression))
@@ -159,13 +160,49 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public static void GetFileSize
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                long fileSize = 0;
+                try
+                {
+                    FileInfo fileInfo = new FileInfo(expression);
+                    fileSize = fileInfo.Length;
+                }
+                catch (Exception exception)
+                {
+                    Log.TraceException
+                        (
+                            "UniforPlus9::GetFileSize",
+                            exception
+                        );
+                }
+
+                string output = fileSize.ToInvariantString();
+                if (!string.IsNullOrEmpty(output))
+                {
+                    context.Write(node, output);
+                    context.OutputFlag = true;
+                }
+            }
+        }
+
+        /// <summary>
         /// Get field repeat.
         /// </summary>
         public static void GetIndex
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             int index = context.Index;
@@ -183,9 +220,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// </summary>
         public static void GetVersion
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             context.Write(node, "64");
@@ -197,9 +234,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// </summary>
         public static void Length
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             string output = "0";
@@ -219,9 +256,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// </summary>
         public static void ReplaceCharacter
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             if (!string.IsNullOrEmpty(expression))
@@ -247,9 +284,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// </summary>
         public static void ReplaceString
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             if (!string.IsNullOrEmpty(expression))
@@ -297,9 +334,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// </summary>
         public static void SplitWords
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             if (!string.IsNullOrEmpty(expression))
@@ -323,9 +360,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// </summary>
         public static void Substring
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             if (!string.IsNullOrEmpty(expression))
@@ -388,9 +425,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// </summary>
         public static void ToUpper
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             if (!string.IsNullOrEmpty(expression))
