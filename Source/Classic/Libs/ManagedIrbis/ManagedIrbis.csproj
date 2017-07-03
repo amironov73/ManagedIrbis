@@ -477,6 +477,7 @@
     <Compile Include="Source\Pft\Infrastructure\Text\HtmlDriver.cs" />
     <Compile Include="Source\Pft\Infrastructure\Text\PlainTextDriver.cs" />
     <Compile Include="Source\Pft\Infrastructure\Text\TextDriver.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Unifors\Unifor7.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforB.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforEqual.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforL.cs" />

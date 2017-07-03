@@ -12,12 +12,28 @@
 using System.Diagnostics;
 using System.IO;
 
+using JetBrains.Annotations;
+
 using ManagedIrbis.Infrastructure;
 
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
+    //
+    // Выполнить формат – &uf('6…
+    // Вид функции: 6.
+    // Назначение: Выполнить формат.
+    // Формат(передаваемая строка):
+    // 6<имя файла формата>
+    // где<имя файла формата> – имя файла формата,
+    // указывается без расширения.
+    // Файл формата будет найден по заданному имени,
+    // обязательному расширению.pft и местоположению:
+    // в папке базы данных, а если там нет,
+    // то в папке<IRBIS_SERVER_ROOT>\Deposit.
+    //
+
     static class Unifor6
     {
         #region Private members
@@ -28,9 +44,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
         public static void ExecuteNestedFormat
             (
-                PftContext context,
-                PftNode node,
-                string fileName
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string fileName
             )
         {
             //
@@ -53,8 +69,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         fileName
                     );
                 string source = context.Provider.ReadFile
-                (
-                    specification
+                    (
+                        specification
                 );
                 if (string.IsNullOrEmpty(source))
                 {

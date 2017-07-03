@@ -14,6 +14,8 @@ using System.CodeDom.Compiler;
 using AM;
 using AM.Text;
 
+using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Ast;
 using ManagedIrbis.PlatformSpecific;
 
@@ -55,9 +57,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
         public static void FormatDocumentDB
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             if (string.IsNullOrEmpty(expression))
@@ -131,7 +133,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
             if (format == "*")
             {
-                // Not implemented
+                // TODO implement
             }
             else
             {

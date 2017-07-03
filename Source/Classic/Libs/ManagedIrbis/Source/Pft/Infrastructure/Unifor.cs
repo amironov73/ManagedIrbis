@@ -91,6 +91,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("3", Unifor3.PrintDate);
             Registry.Add("4", Unifor4.FormatPreviousVersion);
             Registry.Add("6", Unifor6.ExecuteNestedFormat);
+            Registry.Add("7", Unifor7.FormatDocuments);
             Registry.Add("9", RemoveDoubleQuotes);
             Registry.Add("A", GetFieldRepeat);
             Registry.Add("B", UniforB.Convolution);

@@ -1,0 +1,1 @@
+﻿&uf('7') -- format linked documents from other DB
