@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -40,9 +41,85 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     {
         #region Private members
 
-        #endregion
+        private static bool _CheckUrlExist
+            (
+                [NotNull] string address
+            )
+        {
+#if CLASSIC || DESKTOP
 
-        #region Public methods
+            WebClient client = new WebClient();
+            try
+            {
+                client.DownloadString(address);
+
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException
+                    (
+                        "UniforPlus9::_CheckUrlExist",
+                        exception
+                    );
+            }
+
+            return false;
+
+#else
+
+            return false;
+
+#endif
+        }
+
+        [CanBeNull]
+        private static FileSpecification _GetFileSpecification
+            (
+                [NotNull] string expression
+            )
+        {
+            TextNavigator navigator = new TextNavigator(expression);
+            string pathText = navigator.ReadUntil(',');
+            navigator.ReadChar();
+            string dbName = null;
+            if (pathText == "0"
+                || pathText == "1"
+                || pathText == "11")
+            {
+                if (navigator.PeekChar() == ',')
+                {
+                    navigator.ReadChar();
+                }
+            }
+            else
+            {
+                dbName = navigator.ReadUntil(',');
+                navigator.ReadChar();
+            }
+            string fileName = navigator.GetRemainingText();
+            if (string.IsNullOrEmpty(pathText)
+                || string.IsNullOrEmpty(fileName))
+            {
+                return null;
+            }
+            IrbisPath path = (IrbisPath)Enum.Parse
+                (
+                    typeof(IrbisPath),
+                    pathText
+                );
+            FileSpecification result = new FileSpecification
+                (
+                    path,
+                    dbName,
+                    fileName
+                );
+            return result;
+        }
+
+#endregion
+
+#region Public methods
 
 
         /// <summary>
@@ -151,44 +228,55 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             if (!string.IsNullOrEmpty(expression))
             {
-                TextNavigator navigator = new TextNavigator(expression);
-                string pathText = navigator.ReadUntil(',');
-                navigator.ReadChar();
-                string dbName = null;
-                if (pathText == "0"
-                    || pathText == "1")
+                FileSpecification specification
+                    = _GetFileSpecification(expression);
+                if (!ReferenceEquals(specification, null))
                 {
-                    if (navigator.PeekChar() == ',')
+                    string content = context.Provider
+                        .ReadFile(specification);
+                    if (!string.IsNullOrEmpty(content))
                     {
-                        navigator.ReadChar();
+                        context.Write(node, content);
+                        context.OutputFlag = true;
                     }
                 }
-                else
+            }
+        }
+
+        /// <summary>
+        /// UNIFOR('+9L'): check whether the file exist
+        /// </summary>
+        public static void GetFileExist
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                FileSpecification specification
+                    = _GetFileSpecification(expression);
+                if (!ReferenceEquals(specification, null))
                 {
-                    dbName = navigator.ReadUntil(',');
-                    navigator.ReadChar();
-                }
-                string fileName = navigator.GetRemainingText();
-                if (string.IsNullOrEmpty(pathText)
-                    || string.IsNullOrEmpty(fileName))
-                {
-                    return;
-                }
-                IrbisPath path = (IrbisPath)Enum.Parse
-                    (
-                        typeof(IrbisPath),
-                        pathText
-                    );
-                FileSpecification specification = new FileSpecification
-                    (
-                        path,
-                        dbName,
-                        fileName
-                    );
-                string content = context.Provider.ReadFile(specification);
-                if (!string.IsNullOrEmpty(content))
-                {
-                    context.Write(node, content);
+                    bool result;
+
+                    string fileName = specification.FileName
+                        .ThrowIfNull("specification.FileName");
+                    if (fileName.StartsWith("http:")
+                        || fileName.StartsWith("https:")
+                        || fileName.StartsWith("ftp:"))
+                    {
+                        result = _CheckUrlExist(fileName);
+                    }
+                    else
+                    {
+                        result = context.Provider
+                            .FileExist(specification);
+                    }
+
+                    string output = result ? "1" : "0";
+                    context.Write(node, output);
                     context.OutputFlag = true;
                 }
             }
@@ -503,6 +591,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
         }
 
-        #endregion
+#endregion
     }
 }

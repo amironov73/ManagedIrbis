@@ -138,6 +138,17 @@ namespace ManagedIrbis.Client
         }
 
         /// <summary>
+        /// File exist?
+        /// </summary>
+        public virtual bool FileExist
+            (
+                [NotNull] FileSpecification specification
+            )
+        {
+            return false;
+        }
+
+        /// <summary>
         /// Format given record.
         /// </summary>
         [CanBeNull]

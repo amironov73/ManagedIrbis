@@ -111,6 +111,75 @@ namespace ManagedIrbis.Client
 
 #if !WIN81 && !PORTABLE
 
+        private string _ExpandPath
+            (
+                [NotNull] FileSpecification fileSpecification
+            )
+        {
+            string fileName = fileSpecification.FileName;
+            if (string.IsNullOrEmpty(fileName))
+            {
+                throw new IrbisException("fileName");
+            }
+
+            string result = null;
+            string database = fileSpecification.Database ?? Database;
+
+            switch (fileSpecification.Path)
+            {
+                case IrbisPath.System:
+                    result = Path.Combine
+                        (
+                            RootPath,
+                            fileName
+                        );
+                    break;
+
+                case IrbisPath.Data:
+                    result = Path.Combine
+                        (
+                            DataPath,
+                            fileName
+                        );
+                    break;
+
+                case IrbisPath.MasterFile:
+                    result = Path.Combine
+                        (
+                            Path.Combine
+                            (
+                                DataPath,
+                                database
+                            ),
+                            fileName
+                        );
+                    if (!File.Exists(result))
+                    {
+                        result = Path.Combine
+                            (
+                                Path.Combine
+                                (
+                                    DataPath,
+                                    "Deposit"
+                                ),
+                                fileName
+                            );
+                    }
+                    break;
+
+                case (IrbisPath)11:
+                    result = fileName;
+                    break;
+            }
+
+            if (string.IsNullOrEmpty(result))
+            {
+                throw new IrbisException("filePath");
+            }
+
+            return result;
+        }
+
         private MstFile64 _GetMst()
         {
             string fileName = Path.Combine
@@ -154,7 +223,31 @@ namespace ManagedIrbis.Client
 
         #endregion
 
-        #region AbstractClient members
+        #region IrbisProvider members
+
+        /// <inheritdoc cref="IrbisProvider.FileExist" />
+        public override bool FileExist
+            (
+                FileSpecification fileSpecification
+            )
+        {
+            Code.NotNull(fileSpecification, "fileSpecification");
+
+#if WIN81 || PocketPC || WINMOBILE || PORTABLE
+
+            return false;
+
+#else
+            using (new BusyGuard(BusyState))
+            {
+                string resultPath = _ExpandPath(fileSpecification);
+                bool result = File.Exists(resultPath);
+
+                return result;
+            }
+
+#endif
+        }
 
         /// <inheritdoc cref="IrbisProvider.GetMaxMfn"/>
         public override int GetMaxMfn()
@@ -242,63 +335,7 @@ namespace ManagedIrbis.Client
 #else
             using (new BusyGuard(BusyState))
             {
-                string fileName = fileSpecification.FileName;
-                if (string.IsNullOrEmpty(fileName))
-                {
-                    throw new IrbisException("fileName");
-                }
-
-                string resultPath = null;
-                string database = fileSpecification.Database ?? Database;
-
-                switch (fileSpecification.Path)
-                {
-                    case IrbisPath.System:
-                        resultPath = Path.Combine
-                            (
-                                RootPath,
-                                fileName
-                            );
-                        break;
-
-                    case IrbisPath.Data:
-                        resultPath = Path.Combine
-                            (
-                                DataPath,
-                                fileName
-                            );
-                        break;
-
-                    case IrbisPath.MasterFile:
-                        resultPath = Path.Combine
-                            (
-                                Path.Combine
-                                (
-                                    DataPath,
-                                    database
-                                ),
-                                fileName
-                            );
-                        if (!File.Exists(resultPath))
-                        {
-                            resultPath = Path.Combine
-                            (
-                                Path.Combine
-                                (
-                                    DataPath,
-                                    "Deposit"
-                                ),
-                                fileName
-                            );
-                        }
-                        break;
-                }
-
-                if (string.IsNullOrEmpty(resultPath))
-                {
-                    throw new IrbisException("filePath");
-                }
-
+                string resultPath = _ExpandPath(fileSpecification);
                 string result = File.ReadAllText
                     (
                         resultPath,

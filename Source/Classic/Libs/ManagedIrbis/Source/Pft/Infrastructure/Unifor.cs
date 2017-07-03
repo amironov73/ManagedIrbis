@@ -146,6 +146,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+9A", UniforPlus9.GetFileSize);
             Registry.Add("+9C", UniforPlus9.GetFileContent);
             Registry.Add("+9F", UniforPlus9.GetCharacter);
+            Registry.Add("+9L", UniforPlus9.GetFileExist);
             Registry.Add("+9G", UniforPlus9.SplitWords);
             Registry.Add("+9I", UniforPlus9.ReplaceString);
             Registry.Add("+9S", FindSubstring);
