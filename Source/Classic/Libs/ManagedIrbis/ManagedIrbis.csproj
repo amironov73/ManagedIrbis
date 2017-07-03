@@ -469,6 +469,7 @@
     <Compile Include="Source\Pft\Infrastructure\PftGlobalManager.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftIteration.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftLexer.cs" />
+    <Compile Include="Source\Pft\Infrastructure\PftMask.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftNode.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftContext.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftDebugEventArgs.cs" />
@@ -477,6 +478,7 @@
     <Compile Include="Source\Pft\Infrastructure\Text\PlainTextDriver.cs" />
     <Compile Include="Source\Pft\Infrastructure\Text\TextDriver.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforB.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Unifors\UniforEqual.cs" />
     <Compile Include="Source\Pft\Infrastructure\VMonitor.cs" />
     <Compile Include="Source\Pft\PftFormatter.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.Arith.cs" />

@@ -159,6 +159,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+S", DecodeTitle);
             Registry.Add("+@", UniforPlusAt.FormatJson);
             Registry.Add("!", CleanDoubleText);
+            Registry.Add("=", UniforEqual.CompareWithMask);
         }
 
         #endregion

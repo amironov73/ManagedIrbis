@@ -1214,6 +1214,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftLexer.cs">
       <Link>Source\Pft\Infrastructure\PftLexer.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftMask.cs">
+      <Link>Source\Pft\Infrastructure\PftMask.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftNode.cs">
       <Link>Source\Pft\Infrastructure\PftNode.cs</Link>
     </Compile>
@@ -1312,6 +1315,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforE.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforE.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforEqual.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforEqual.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforJ.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforJ.cs</Link>

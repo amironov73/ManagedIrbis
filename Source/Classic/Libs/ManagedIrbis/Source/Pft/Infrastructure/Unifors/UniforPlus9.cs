@@ -103,9 +103,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 return null;
             }
-            IrbisPath path = (IrbisPath)Enum.Parse
+            IrbisPath path = (IrbisPath) NumericUtility.ParseInt32
                 (
-                    typeof(IrbisPath),
                     pathText
                 );
             FileSpecification result = new FileSpecification
@@ -316,6 +315,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             if (!string.IsNullOrEmpty(expression))
             {
                 long fileSize = 0;
+
+#if !WIN81 && !PORTABLE
+
                 try
                 {
                     FileInfo fileInfo = new FileInfo(expression);
@@ -329,6 +331,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                             exception
                         );
                 }
+
+#endif
 
                 string output = fileSize.ToInvariantString();
                 if (!string.IsNullOrEmpty(output))
@@ -591,6 +595,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
         }
 
-#endregion
+        #endregion
     }
 }
