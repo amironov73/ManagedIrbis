@@ -102,6 +102,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("I", GetIniFileEntry);
             Registry.Add("J", UniforJ.GetTermRecordCountDB);
             Registry.Add("K", GetMenuEntry);
+            Registry.Add("L", UniforL.ContinueTerm);
             Registry.Add("M", UniforM.Sort);
             Registry.Add("O", UniforO.AllExemplars);
             Registry.Add("P", UniqueField);

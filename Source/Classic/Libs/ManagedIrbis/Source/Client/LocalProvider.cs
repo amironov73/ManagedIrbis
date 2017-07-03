@@ -30,7 +30,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Direct;
 using ManagedIrbis.Infrastructure;
-
+using ManagedIrbis.Search;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -456,6 +456,49 @@ namespace ManagedIrbis.Client
             return result;
         }
 
+        /// <inheritdoc cref="IrbisProvider.ReadTerms" />
+        public override TermInfo[] ReadTerms
+            (
+                TermParameters parameters
+            )
+        {
+            TermInfo[] result = new TermInfo[0];
+
+#if !WIN81 && !PORTABLE
+
+            using (new BusyGuard(BusyState))
+            {
+                DirectReader64 reader = null;
+                try
+                {
+                    reader = _GetReader();
+                    if (!ReferenceEquals(reader, null))
+                    {
+                        result = reader.ReadTerms(parameters);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Log.TraceException
+                        (
+                            "LocalProvider::ReadTerms",
+                            exception
+                        );
+                }
+                finally
+                {
+                    if (!ReferenceEquals(reader, null))
+                    {
+                        reader.Dispose();
+                    }
+                }
+            }
+
+#endif
+
+            return result;
+        }
+
         /// <inheritdoc cref="IrbisProvider.Search" />
         public override int[] Search
             (
@@ -464,12 +507,12 @@ namespace ManagedIrbis.Client
         {
             int[] result = new int[0];
 
-#if !WIN81 && !PORTABLE
-
             if (string.IsNullOrEmpty(expression))
             {
                 return result;
             }
+
+#if !WIN81 && !PORTABLE
 
             using (new BusyGuard(BusyState))
             {

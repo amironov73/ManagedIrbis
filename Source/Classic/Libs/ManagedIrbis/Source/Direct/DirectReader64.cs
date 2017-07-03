@@ -22,6 +22,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Search;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -193,6 +195,23 @@ namespace ManagedIrbis.Direct
         //}
 
         /// <summary>
+        /// Read terms.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public TermInfo[] ReadTerms
+            (
+                [NotNull] TermParameters parameters
+            )
+        {
+            Code.NotNull(parameters, "parameters");
+
+            TermInfo[] result = InvertedFile.ReadTerms(parameters);
+
+            return result;
+        }
+
+        /// <summary>
         /// Simple search.
         /// </summary>
         [NotNull]
@@ -261,7 +280,7 @@ namespace ManagedIrbis.Direct
 
         #region IDisposable members
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
 

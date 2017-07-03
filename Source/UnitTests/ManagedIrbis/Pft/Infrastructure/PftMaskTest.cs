@@ -26,7 +26,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             _TestMatch("", "", true);
             _TestMatch("?", "", false);
             _TestMatch("*", "", true);
-            _TestMatch("", "1", false);
+            _TestMatch("", "1", true);
             _TestMatch("Hello", "Hello", true);
             _TestMatch("Hello", "Hell", false);
             _TestMatch("Hello*", "Hello", true);

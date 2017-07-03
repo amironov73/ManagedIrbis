@@ -297,6 +297,21 @@ namespace ManagedIrbis.Direct
         }
 
         /// <summary>
+        /// Read terms.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public TermInfo[] ReadTerms
+            (
+                [NotNull] TermParameters parameters
+            )
+        {
+            Code.NotNull(parameters, "parameters");
+
+            return new TermInfo[0];
+        }
+
+        /// <summary>
         /// Search without truncation.
         /// </summary>
         [NotNull]
@@ -312,7 +327,6 @@ namespace ManagedIrbis.Direct
 
             try
             {
-
                 key = StringUtility.ToUpperInvariant(key);
 
                 NodeRecord firstNode = ReadNode(1);
@@ -587,7 +601,7 @@ namespace ManagedIrbis.Direct
 
         #region IDisposable members
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
             Ifp.Dispose();
