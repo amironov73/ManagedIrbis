@@ -129,17 +129,20 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private char PeekChar()
         {
-            return _navigator.PeekChar();
+            //return _navigator.PeekChar();
+            return _navigator.PeekCharNoCrLf();
         }
 
         private string PeekString(int length)
         {
-            return _navigator.PeekString(length);
+            //return _navigator.PeekString(length);
+            return _navigator.PeekStringNoCrLf(length);
         }
 
         private char ReadChar()
         {
-            return _navigator.ReadChar();
+            //return _navigator.ReadChar();
+            return _navigator.ReadCharNoCrLf();
         }
 
         [CanBeNull]

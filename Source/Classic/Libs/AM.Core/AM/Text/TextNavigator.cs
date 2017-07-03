@@ -305,7 +305,7 @@ namespace AM.Text
                 int distance
             )
         {
-            Code.Positive(distance, "distance");
+            Code.Nonnegative(distance, "distance");
 
             int newPosition = _position + distance;
             if (newPosition >= _length)
@@ -375,6 +375,23 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Подглядывание текущего символа за исключением CR/LF.
+        /// </summary>
+        public char PeekCharNoCrLf()
+        {
+            int distance = 0;
+            char result = LookAhead(distance);
+
+            while (result == '\r'
+                || result == '\n')
+            {
+                result = LookAhead(++distance);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Подглядывание строки вплоть до указанной длины.
         /// </summary>
         /// <returns><c>null</c>, если достигнут конец текста.
@@ -399,6 +416,45 @@ namespace AM.Text
             for (int i = 0; i < length; i++)
             {
                 char c = ReadChar();
+                if (c == EOF)
+                {
+                    break;
+                }
+                result.Append(c);
+            }
+
+            _position = savePosition;
+            _column = saveColumn;
+            _line = saveLine;
+
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Подглядывание строки вплоть до указанной длины.
+        /// </summary>
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// </returns>
+        [CanBeNull]
+        public string PeekStringNoCrLf
+            (
+                int length
+            )
+        {
+            Code.Positive(length, "length");
+
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            int savePosition = _position, saveColumn = _column,
+                saveLine = _line;
+            StringBuilder result = new StringBuilder(length);
+
+            for (int i = 0; i < length; i++)
+            {
+                char c = ReadCharNoCrLf();
                 if (c == EOF)
                 {
                     break;
@@ -547,6 +603,22 @@ namespace AM.Text
             else
             {
                 _column++;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Считывание следующего символа, исключая CR/LF.
+        /// </summary>
+        public char ReadCharNoCrLf()
+        {
+            char result = ReadChar();
+
+            while (result == '\r'
+                || result == '\n')
+            {
+                result = ReadChar();
             }
 
             return result;

@@ -1,0 +1,1 @@
+﻿Single field with subfield reference with CR/LF

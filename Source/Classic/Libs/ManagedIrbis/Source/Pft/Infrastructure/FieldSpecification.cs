@@ -247,7 +247,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     return false;
             } // switch
 
-            c = navigator.ReadChar();
+            c = navigator.ReadCharNoCrLf();
 
             if (c == '[')
             {
@@ -282,7 +282,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 TagSpecification = text;
 
-                navigator.ReadChar();
+                navigator.ReadCharNoCrLf();
             }
             else
             {
@@ -294,37 +294,37 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 while (true)
                 {
-                    c = navigator.PeekChar();
+                    c = navigator.PeekCharNoCrLf();
                     if (!c.IsArabicDigit())
                     {
                         break;
                     }
-                    navigator.ReadChar();
+                    navigator.ReadCharNoCrLf();
                     builder.Append(c);
                 }
                 Tag = builder.ToString();
             }
 
             navigator.SkipWhitespace();
-            c = navigator.PeekChar();
+            c = navigator.PeekCharNoCrLf();
 
             // now c is peeked char
 
             if (c == '@')
             {
                 builder.Length = 0;
-                navigator.ReadChar();
+                navigator.ReadCharNoCrLf();
 
                 navigator.SkipWhitespace();
 
                 while (true)
                 {
-                    c = navigator.PeekChar();
+                    c = navigator.PeekCharNoCrLf();
                     if (!c.IsArabicDigit())
                     {
                         break;
                     }
-                    navigator.ReadChar();
+                    navigator.ReadCharNoCrLf();
                     builder.Append(c);
                 }
 
@@ -336,13 +336,13 @@ namespace ManagedIrbis.Pft.Infrastructure
             } // c == '@'
 
             navigator.SkipWhitespace();
-            c = navigator.PeekChar();
+            c = navigator.PeekCharNoCrLf();
 
             if (c == '[')
             {
                 // parse the field repeat
 
-                navigator.ReadChar();
+                navigator.ReadCharNoCrLf();
                 navigator.SkipWhitespace();
 
                 string text = navigator.ReadUntil
@@ -368,21 +368,21 @@ namespace ManagedIrbis.Pft.Infrastructure
                         text
                     );
 
-                navigator.ReadChar();
+                navigator.ReadCharNoCrLf();
             }
 
             navigator.SkipWhitespace();
-            c = navigator.PeekChar();
+            c = navigator.PeekCharNoCrLf();
 
             if (c == '^')
             {
-                navigator.ReadChar();
+                navigator.ReadCharNoCrLf();
                 if (navigator.IsEOF)
                 {
                     throw new PftSyntaxException(navigator);
                 }
                 
-                c = navigator.ReadChar();
+                c = navigator.ReadCharNoCrLf();
 
                 if (c == '['
                     & ParseSubFieldSpecification)
@@ -401,7 +401,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     {
                         SubFieldSpecification = text;
 
-                        navigator.ReadChar();
+                        navigator.ReadCharNoCrLf();
                     }
                 }
                 else
@@ -422,13 +422,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
 
                 navigator.SkipWhitespace();
-                c = navigator.PeekChar();
+                c = navigator.PeekCharNoCrLf();
 
                 // parse subfield repeat
 
                 if (c == '[')
                 {
-                    navigator.ReadChar();
+                    navigator.ReadCharNoCrLf();
                     navigator.SkipWhitespace();
 
                     string text = navigator.ReadUntil
@@ -454,7 +454,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                             text
                         );
 
-                    navigator.ReadChar();
+                    navigator.ReadCharNoCrLf();
                 }
             } // c == '^'
 
@@ -465,22 +465,22 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 
             navigator.SkipWhitespace();
-            c = navigator.PeekChar();
+            c = navigator.PeekCharNoCrLf();
 
             if (c == '*')
             {
-                navigator.ReadChar();
+                navigator.ReadCharNoCrLf();
                 navigator.SkipWhitespace();
                 builder.Length = 0;
 
                 while (true)
                 {
-                    c = navigator.PeekChar();
+                    c = navigator.PeekCharNoCrLf();
                     if (!c.IsArabicDigit())
                     {
                         break;
                     }
-                    navigator.ReadChar();
+                    navigator.ReadCharNoCrLf();
                     builder.Append(c);
                 }
 
@@ -503,22 +503,22 @@ namespace ManagedIrbis.Pft.Infrastructure
             } // c == '*'
 
             navigator.SkipWhitespace();
-            c = navigator.PeekChar();
+            c = navigator.PeekCharNoCrLf();
 
             if (c == '.')
             {
-                navigator.ReadChar();
+                navigator.ReadCharNoCrLf();
                 navigator.SkipWhitespace();
                 builder.Length = 0;
 
                 while (true)
                 {
-                    c = navigator.PeekChar();
+                    c = navigator.PeekCharNoCrLf();
                     if (!c.IsArabicDigit())
                     {
                         break;
                     }
-                    navigator.ReadChar();
+                    navigator.ReadCharNoCrLf();
                     builder.Append(c);
                 }
 
@@ -552,20 +552,20 @@ namespace ManagedIrbis.Pft.Infrastructure
             } // c == '.'
 
             navigator.SkipWhitespace();
-            c = navigator.PeekChar();
+            c = navigator.PeekCharNoCrLf();
 
             if (c == '(')
             {
-                navigator.ReadChar();
+                navigator.ReadCharNoCrLf();
                 navigator.SkipWhitespace();
                 builder.Length = 0;
 
                 while (true)
                 {
-                    c = navigator.PeekChar();
+                    c = navigator.PeekCharNoCrLf();
                     if (c == ')')
                     {
-                        navigator.ReadChar();
+                        navigator.ReadCharNoCrLf();
                         break;
                     }
                     if (!c.IsArabicDigit())
@@ -579,7 +579,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                         throw new PftSyntaxException(navigator);
                     }
-                    navigator.ReadChar();
+                    navigator.ReadCharNoCrLf();
                     builder.Append(c);
                 }
 

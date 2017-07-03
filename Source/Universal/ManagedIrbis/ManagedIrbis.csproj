@@ -1307,6 +1307,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor6.cs">
       <Link>Source\Pft\Infrastructure\Unifors\Unifor6.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor7.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\Unifor7.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforB.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforB.cs</Link>
     </Compile>

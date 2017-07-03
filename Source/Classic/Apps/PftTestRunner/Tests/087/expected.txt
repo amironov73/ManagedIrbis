@@ -1,5 +1,5 @@
 ﻿C
-Windows
-System32
-esent
-dll
+WINDOWS
+SYSTEM
+ESENT
+DLL

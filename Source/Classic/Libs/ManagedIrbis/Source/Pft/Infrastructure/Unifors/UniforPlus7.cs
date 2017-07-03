@@ -75,10 +75,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 RecordField oneField
             )
         {
-            string text = oneField.ToString();
+            string text = oneField.ToText();
             foreach (RecordField field in fields)
             {
-                if (field.ToString() == text)
+                if (field.ToText() == text)
                 {
                     return true;
                 }

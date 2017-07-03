@@ -493,6 +493,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     .GetAlphabetTable();
 
                 string[] words = table.SplitWords(expression);
+                for (int i = 0; i < words.Length; i++)
+                {
+                    words[i] = StringUtility.ToUpperInvariant(words[i]);
+                }
                 string output = string.Join
                     (
                         Environment.NewLine,

@@ -656,8 +656,6 @@ namespace AM
                 out int value
             )
         {
-            Code.NotNullNorEmpty(text, "text");
-
 #if WINMOBILE || PocketPC
 
             bool result = false;
