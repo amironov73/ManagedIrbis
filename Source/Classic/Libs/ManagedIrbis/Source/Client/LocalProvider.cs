@@ -253,6 +253,22 @@ namespace ManagedIrbis.Client
 
                 switch (fileSpecification.Path)
                 {
+                    case IrbisPath.System:
+                        resultPath = Path.Combine
+                            (
+                                RootPath,
+                                fileName
+                            );
+                        break;
+
+                    case IrbisPath.Data:
+                        resultPath = Path.Combine
+                            (
+                                DataPath,
+                                fileName
+                            );
+                        break;
+
                     case IrbisPath.MasterFile:
                         resultPath = Path.Combine
                             (

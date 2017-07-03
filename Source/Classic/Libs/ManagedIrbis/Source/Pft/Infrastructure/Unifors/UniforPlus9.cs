@@ -27,6 +27,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.ImportExport;
+using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Ast;
 
 using MoonSharp.Interpreter;
@@ -139,6 +140,61 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         }
 
         /// <summary>
+        /// UNIFOR('+9C'): Get file content.
+        /// </summary>
+        public static void GetFileContent
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                TextNavigator navigator = new TextNavigator(expression);
+                string pathText = navigator.ReadUntil(',');
+                navigator.ReadChar();
+                string dbName = null;
+                if (pathText == "0"
+                    || pathText == "1")
+                {
+                    if (navigator.PeekChar() == ',')
+                    {
+                        navigator.ReadChar();
+                    }
+                }
+                else
+                {
+                    dbName = navigator.ReadUntil(',');
+                    navigator.ReadChar();
+                }
+                string fileName = navigator.GetRemainingText();
+                if (string.IsNullOrEmpty(pathText)
+                    || string.IsNullOrEmpty(fileName))
+                {
+                    return;
+                }
+                IrbisPath path = (IrbisPath)Enum.Parse
+                    (
+                        typeof(IrbisPath),
+                        pathText
+                    );
+                FileSpecification specification = new FileSpecification
+                    (
+                        path,
+                        dbName,
+                        fileName
+                    );
+                string content = context.Provider.ReadFile(specification);
+                if (!string.IsNullOrEmpty(content))
+                {
+                    context.Write(node, content);
+                    context.OutputFlag = true;
+                }
+            }
+        }
+
+        /// <summary>
         /// Get file name from full path.
         /// </summary>
         public static void GetFileName
@@ -160,7 +216,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         }
 
         /// <summary>
-        /// 
+        /// UNIFOR('+9A'):  Get file size.
         /// </summary>
         public static void GetFileSize
             (
@@ -375,7 +431,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
 #else
 
-                string[] parts = expression.Split(new[]{'#'}, 2);
+                string[] parts = expression.Split(new[] { '#' }, 2);
 
 #endif
 
