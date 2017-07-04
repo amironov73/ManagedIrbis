@@ -12,6 +12,8 @@
 using System;
 using System.Text.RegularExpressions;
 
+using AM;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -172,6 +174,46 @@ namespace ManagedIrbis
                 );
 
 #endif
+
+            return result;
+        }
+
+        /// <summary>
+        /// Convert text to lower case.
+        /// </summary>
+        [CanBeNull]
+        public static string ToLower
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            string result = StringUtility.ToLowerInvariant(text);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Convert text to upper case.
+        /// </summary>
+        [CanBeNull]
+        public static string ToUpper
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            // TODO use isisucw.txt ?
+
+            string result = StringUtility.ToUpperInvariant(text);
 
             return result;
         }

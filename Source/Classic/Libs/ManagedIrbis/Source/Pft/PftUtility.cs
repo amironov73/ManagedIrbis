@@ -729,7 +729,8 @@ namespace ManagedIrbis.Pft
 
             if (uppercase)
             {
-                result = result.ToUpper();
+                result = IrbisText.ToUpper(result)
+                    .ThrowIfNull("IrbisText.ToUpper");
             }
 
             return result;

@@ -327,7 +327,7 @@ namespace ManagedIrbis.Direct
 
             try
             {
-                key = StringUtility.ToUpperInvariant(key);
+                key = IrbisText.ToUpper(key);
 
                 NodeRecord firstNode = ReadNode(1);
                 NodeRecord rootNode
@@ -443,7 +443,7 @@ namespace ManagedIrbis.Direct
 
             List<TermLink> result = new List<TermLink>();
 
-            key = StringUtility.ToUpperInvariant(key);
+            key = IrbisText.ToUpper(key);
 
             NodeRecord firstNode = ReadNode(1);
             NodeRecord rootNode

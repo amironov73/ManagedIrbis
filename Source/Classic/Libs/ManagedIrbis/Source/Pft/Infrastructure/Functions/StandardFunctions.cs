@@ -846,7 +846,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             string expression = context.GetStringArgument(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
             {
-                context.Write(node, expression.ToUpper());
+                string output = IrbisText.ToUpper(expression);
+                context.Write(node, output);
             }
         }
 

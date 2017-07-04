@@ -133,7 +133,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         if (context.UpperMode
                             && !ReferenceEquals(text, null))
                         {
-                            text = text.ToUpper();
+                            text = IrbisText.ToUpper(text);
                         }
 
                         context.Write
