@@ -161,6 +161,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+R", TrimAtLastDot);
             Registry.Add("+S", DecodeTitle);
             Registry.Add("+@", UniforPlusAt.FormatJson);
+            Registry.Add("++0", UniforPlusPlus0.FormatAll);
             Registry.Add("!", CleanDoubleText);
             Registry.Add("=", UniforEqual.CompareWithMask);
         }
