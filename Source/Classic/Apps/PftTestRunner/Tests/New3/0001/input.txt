@@ -1,8 +1,8 @@
-﻿proc SayHello
+﻿proc SayHello 
 do
     'Hello, ', $arg, '!'
     #
-end
+end 
 
 SayHello('PFT')
 SayHello('again')

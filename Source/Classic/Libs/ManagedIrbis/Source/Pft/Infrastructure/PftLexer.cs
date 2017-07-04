@@ -165,7 +165,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         [CanBeNull]
         private string ReadIdentifier()
         {
-            string result = _navigator.ReadWhile(Identifier);
+            string result = _navigator.ReadWhileNoCrLf(Identifier);
 
             return result;
         }
@@ -299,7 +299,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 char stop
             )
         {
-            string result = _navigator.ReadUntil(stop);
+            string result = _navigator.ReadUntilNoCrLf(stop);
             if (ReferenceEquals(result, null))
             {
                 ThrowSyntax();

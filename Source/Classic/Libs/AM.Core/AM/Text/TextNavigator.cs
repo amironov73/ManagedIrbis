@@ -1059,6 +1059,44 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Считывание вплоть до указанного символа
+        /// (не включая его).
+        /// </summary>
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// </returns>
+        [CanBeNull]
+        public string ReadUntilNoCrLf
+            (
+                char stopChar
+            )
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            int savePosition = _position;
+
+            while (true)
+            {
+                char c = PeekCharNoCrLf();
+                if (c == EOF || c == stopChar)
+                {
+                    break;
+                }
+                ReadCharNoCrLf();
+            }
+
+            string result = _text.Substring
+            (
+                savePosition,
+                _position - savePosition
+            );
+
+            return result;
+        }
+
+        /// <summary>
         /// Считывание вплоть до указанных символов
         /// (не включая их).
         /// </summary>
@@ -1264,6 +1302,40 @@ namespace AM.Text
 
             return result;
         }
+
+        /// <summary>
+        /// Считывание, пока встречается указанные символы.
+        /// </summary>
+        /// <returns><c>null</c>, если достигнут конец текста.
+        /// </returns>
+        [CanBeNull]
+        public string ReadWhileNoCrLf
+            (
+                params char[] goodChars
+            )
+        {
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            StringBuilder result = new StringBuilder();
+
+            while (true)
+            {
+                char c = PeekCharNoCrLf();
+                if (c == EOF
+                    || Array.IndexOf(goodChars, c) < 0)
+                {
+                    break;
+                }
+                result.Append(c);
+                ReadCharNoCrLf();
+            }
+
+            return result.ToString();
+        }
+
 
         /// <summary>
         /// Read word.
