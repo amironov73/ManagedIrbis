@@ -1,0 +1,1 @@
+﻿Improved CR/LF handling for keywords
