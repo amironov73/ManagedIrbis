@@ -181,38 +181,45 @@ namespace ManagedIrbis.Infrastructure
         [CanBeNull]
         public string GetAnsiString()
         {
-            MemoryStream memory = new MemoryStream();
-
-            _savedPosition = _stream.Position;
-            while (true)
+            using (MemoryStream memory = Connection.Executive
+                .GetMemoryStream(GetType()))
             {
-                int code = _stream.ReadByte();
-                if (code < 0)
+                _savedPosition = _stream.Position;
+                while (true)
                 {
-                    return null;
-                }
-                if (code == 0x0D)
-                {
-                    code = _stream.ReadByte();
-                    if (code == 0x0A)
+                    int code = _stream.ReadByte();
+                    if (code < 0)
                     {
-                        break;
+                        return null;
                     }
-                    memory.WriteByte(0x0D);
+                    if (code == 0x0D)
+                    {
+                        code = _stream.ReadByte();
+                        if (code == 0x0A)
+                        {
+                            break;
+                        }
+                        memory.WriteByte(0x0D);
+                    }
+                    memory.WriteByte((byte)code);
                 }
-                memory.WriteByte((byte)code);
+
+                byte[] bytes = memory.ToArray();
+                Connection.Executive.ReportMemoryUsage
+                    (
+                        GetType(),
+                        bytes.Length
+                    );
+
+                string result = IrbisEncoding.Ansi.GetString
+                    (
+                        bytes,
+                        0,
+                        bytes.Length
+                    );
+
+                return result;
             }
-
-            byte[] bytes = memory.ToArray();
-
-            string result = IrbisEncoding.Ansi.GetString
-                (
-                    bytes,
-                    0,
-                    bytes.Length
-                );
-
-            return result;
         }
 
         /// <summary>
@@ -302,7 +309,7 @@ namespace ManagedIrbis.Infrastructure
                     {
                         break;
                     }
-                    result.WriteByte((byte) code);
+                    result.WriteByte((byte)code);
                 }
 
                 return result.ToArray();
@@ -521,14 +528,14 @@ namespace ManagedIrbis.Infrastructure
         /// Get copy of the answer packet.
         /// </summary>
         [NotNull]
-        public byte[] GetAnswerCopy ()
+        public byte[] GetAnswerCopy()
         {
             if (ReferenceEquals(RawAnswer, null))
             {
                 throw new IrbisException("packet is null");
             }
 
-            byte[] result = RawAnswer.GetSpan((int) _stream.Position);
+            byte[] result = RawAnswer.GetSpan((int)_stream.Position);
 
             return result;
         }
@@ -538,7 +545,7 @@ namespace ManagedIrbis.Infrastructure
         /// </summary>
         /// <returns></returns>
         [NotNull]
-        public Stream GetStream ()
+        public Stream GetStream()
         {
             if (ReferenceEquals(RawAnswer, null))
             {
@@ -594,57 +601,69 @@ namespace ManagedIrbis.Infrastructure
         [CanBeNull]
         public string GetUtfString()
         {
-            MemoryStream memory = new MemoryStream();
-
-            _savedPosition = _stream.Position;
-            while (true)
+            using (MemoryStream memory = Connection.Executive
+                .GetMemoryStream(GetType()))
             {
-                int code = _stream.ReadByte();
-                if (code < 0)
+                _savedPosition = _stream.Position;
+                while (true)
                 {
-                    return null;
-                }
-                if (code == 0x0D)
-                {
-                    code = _stream.ReadByte();
-                    if (code == 0x0A)
+                    int code = _stream.ReadByte();
+                    if (code < 0)
                     {
-                        break;
+                        return null;
                     }
-                    memory.WriteByte(0x0D);
+                    if (code == 0x0D)
+                    {
+                        code = _stream.ReadByte();
+                        if (code == 0x0A)
+                        {
+                            break;
+                        }
+                        memory.WriteByte(0x0D);
+                    }
+                    memory.WriteByte((byte)code);
                 }
-                memory.WriteByte((byte)code);
-            }
 
-            string result;
-            byte[] buffer = memory.ToArray();
-            try
-            {
-                result = IrbisEncoding.Utf8.GetString(buffer, 0, buffer.Length);
-            }
-            catch (Exception inner)
-            {
-                Log.TraceException
+                string result;
+                byte[] buffer = memory.ToArray();
+                Connection.Executive.ReportMemoryUsage
                     (
-                        "ServerResponse::GetUtfString",
-                        inner
+                        GetType(),
+                        buffer.Length
                     );
+                try
+                {
+                    result = IrbisEncoding.Utf8.GetString
+                        (
+                            buffer,
+                            0,
+                            buffer.Length
+                        );
+                }
+                catch (Exception inner)
+                {
+                    Log.TraceException
+                        (
+                            "ServerResponse::GetUtfString",
+                            inner
+                        );
 
-                IrbisException outer = new IrbisException
-                    (
-                        "ServerResponse::GetUtfString failed",
-                        inner
-                    );
-                BinaryAttachment attachment = new BinaryAttachment
-                    (
-                        "problem line",
-                        GetDump()
-                    );
-                outer.Attach(attachment);
-                throw outer;
-            }
+                    IrbisException outer = new IrbisException
+                        (
+                            "ServerResponse::GetUtfString failed",
+                            inner
+                        );
+                    BinaryAttachment attachment = new BinaryAttachment
+                        (
+                            "problem line",
+                            GetDump()
+                        );
+                    outer.Attach(attachment);
+                    throw outer;
+                }
 
-            return result;
+                return result;
+            }
         }
 
         /// <summary>
@@ -777,7 +796,7 @@ namespace ManagedIrbis.Infrastructure
         public int RequireInt32()
         {
             string line = GetAnsiString();
-            
+
             int result;
 
             if (!NumericUtility.TryParseInt32(line, out result))

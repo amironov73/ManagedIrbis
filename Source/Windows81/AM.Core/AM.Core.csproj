@@ -313,6 +313,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\CompressionUtility.cs">
       <Link>AM\IO\CompressionUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\CountingMemoryStream.cs">
+      <Link>AM\IO\CountingMemoryStream.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\DirectoryUtility.cs">
       <Link>AM\IO\DirectoryUtility.cs</Link>
     </Compile>

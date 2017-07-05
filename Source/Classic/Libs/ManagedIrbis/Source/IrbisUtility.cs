@@ -86,7 +86,8 @@ namespace ManagedIrbis
                 return new byte[0];
             }
 
-            using (MemoryStream stream = new MemoryStream())
+            int predictedLength = text.Length / 2;
+            using (MemoryStream stream = new MemoryStream(predictedLength))
             {
                 for (int i = 0; i < text.Length; i++)
                 {

@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using System.IO;
 
 using JetBrains.Annotations;
@@ -64,7 +65,7 @@ namespace AM.IO
         public override byte[] ToArray()
         {
             byte[] result = base.ToArray();
-            ReachedSize = result.Length;
+            ReachedSize = Math.Max(result.Length, ReachedSize);
 
             return result;
         }

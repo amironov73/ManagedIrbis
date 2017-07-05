@@ -186,6 +186,15 @@ namespace ManagedIrbis.Infrastructure.Sockets
             int readed2 = stream.Read(body, 0, remaining);
             if (readed2 != remaining)
             {
+                Log.Error
+                    (
+                        "SmartClientSocket::SmartRead: "
+                        + "expected="
+                        + remaining
+                        + ", readed="
+                        + readed2
+                    );
+
                 throw new IrbisNetworkException();
             }
 
