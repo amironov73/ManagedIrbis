@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Core", "AM.Core\AM.Core.csproj", "{2DA9F212-8619-422F-94E0-B58B938C88F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Core", "Libs\AM.Core\AM.Core.csproj", "{2DA9F212-8619-422F-94E0-B58B938C88F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedIrbis", "ManagedIrbis\ManagedIrbis.csproj", "{38499BA5-3DA0-4499-88A6-46F9E85EC36E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedIrbis", "Libs\ManagedIrbis\ManagedIrbis.csproj", "{38499BA5-3DA0-4499-88A6-46F9E85EC36E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestfulIrbis", "RestfulIrbis\RestfulIrbis.csproj", "{700DAFED-9E43-45BF-A445-5A3B8DD9A8C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestfulIrbis", "Libs\RestfulIrbis\RestfulIrbis.csproj", "{700DAFED-9E43-45BF-A445-5A3B8DD9A8C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.AOT", "AM.AOT\AM.AOT.csproj", "{AD558089-E19A-4E75-92B5-6A0CC8B49480}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.AOT", "Libs\AM.AOT\AM.AOT.csproj", "{AD558089-E19A-4E75-92B5-6A0CC8B49480}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

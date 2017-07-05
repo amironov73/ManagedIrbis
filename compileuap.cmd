@@ -9,14 +9,14 @@ SET NUGET=..\..\Nuget\nuget.exe
 
 %NUGET% restore
 
-"%MSBUILD%" AM.Core\AM.Core.csproj           /target:ReBuild /property:Configuration=Debug   /property:OutputPath=%OUTPUT%\DebugUniversal /p:DefineConstants="DEBUG;UAP" %PARAMS%
-"%MSBUILD%" ManagedIrbis\ManagedIrbis.csproj /target:ReBuild /property:Configuration=Debug   /property:OutputPath=%OUTPUT%\DebugUniversal /p:DefineConstants="DEBUG;UAP" %PARAMS%
-"%MSBUILD%" AM.AOT\AM.AOT.csproj             /target:ReBuild /property:Configuration=Debug   /property:OutputPath=%OUTPUT%\DebugUniversal /p:DefineConstants="DEBUG;UAP" %PARAMS%
-"%MSBUILD%" RestfulIrbis\RestfulIrbis.csproj /target:ReBuild /property:Configuration=Debug   /property:OutputPath=%OUTPUT%\DebugUniversal /p:DefineConstants="DEBUG;UAP" %PARAMS%
+"%MSBUILD%" Libs\AM.Core\AM.Core.csproj           /target:ReBuild /property:Configuration=Debug   /property:OutputPath=%OUTPUT%\DebugUniversal /p:DefineConstants="DEBUG;UAP" %PARAMS%
+"%MSBUILD%" Libs\ManagedIrbis\ManagedIrbis.csproj /target:ReBuild /property:Configuration=Debug   /property:OutputPath=%OUTPUT%\DebugUniversal /p:DefineConstants="DEBUG;UAP" %PARAMS%
+"%MSBUILD%" Libs\AM.AOT\AM.AOT.csproj             /target:ReBuild /property:Configuration=Debug   /property:OutputPath=%OUTPUT%\DebugUniversal /p:DefineConstants="DEBUG;UAP" %PARAMS%
+"%MSBUILD%" Libs\RestfulIrbis\RestfulIrbis.csproj /target:ReBuild /property:Configuration=Debug   /property:OutputPath=%OUTPUT%\DebugUniversal /p:DefineConstants="DEBUG;UAP" %PARAMS%
 
-"%MSBUILD%" AM.Core\AM.Core.csproj           /target:ReBuild /property:Configuration=Release /property:OutputPath=%OUTPUT%\ReleaseUniversal /p:DefineConstants="UAP"     %PARAMS%
-"%MSBUILD%" ManagedIrbis\ManagedIrbis.csproj /target:ReBuild /property:Configuration=Release /property:OutputPath=%OUTPUT%\ReleaseUniversal /p:DefineConstants="UAP"     %PARAMS%
-"%MSBUILD%" AM.AOT\AM.AOT.csproj             /target:ReBuild /property:Configuration=Release /property:OutputPath=%OUTPUT%\ReleaseUniversal /p:DefineConstants="UAP"     %PARAMS%
-"%MSBUILD%" RestfulIrbis\RestfulIrbis.csproj /target:ReBuild /property:Configuration=Release /property:OutputPath=%OUTPUT%\ReleaseUniversal /p:DefineConstants="UAP"     %PARAMS%
+"%MSBUILD%" Libs\AM.Core\AM.Core.csproj           /target:ReBuild /property:Configuration=Release /property:OutputPath=%OUTPUT%\ReleaseUniversal /p:DefineConstants="UAP"     %PARAMS%
+"%MSBUILD%" Libs\ManagedIrbis\ManagedIrbis.csproj /target:ReBuild /property:Configuration=Release /property:OutputPath=%OUTPUT%\ReleaseUniversal /p:DefineConstants="UAP"     %PARAMS%
+"%MSBUILD%" Libs\AM.AOT\AM.AOT.csproj             /target:ReBuild /property:Configuration=Release /property:OutputPath=%OUTPUT%\ReleaseUniversal /p:DefineConstants="UAP"     %PARAMS%
+"%MSBUILD%" Libs\RestfulIrbis\RestfulIrbis.csproj /target:ReBuild /property:Configuration=Release /property:OutputPath=%OUTPUT%\ReleaseUniversal /p:DefineConstants="UAP"     %PARAMS%
 
 cd ..\..

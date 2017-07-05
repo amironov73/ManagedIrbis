@@ -107,61 +107,61 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Distributional\ModelName.cs">
+    <Compile Include="..\..\..\Classic\Libs\AM.AOT\AM\AOT\Distributional\ModelName.cs">
       <Link>AM\AOT\Distributional\ModelName.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Distributional\RusVectoresClient.cs">
+    <Compile Include="..\..\..\Classic\Libs\AM.AOT\AM\AOT\Distributional\RusVectoresClient.cs">
       <Link>AM\AOT\Distributional\RusVectoresClient.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Distributional\WordInfo.cs">
+    <Compile Include="..\..\..\Classic\Libs\AM.AOT\AM\AOT\Distributional\WordInfo.cs">
       <Link>AM\AOT\Distributional\WordInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Spelling\AffixEntry.cs">
+    <Compile Include="..\..\..\Classic\Libs\AM.AOT\AM\AOT\Spelling\AffixEntry.cs">
       <Link>AM\AOT\Spelling\AffixEntry.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Spelling\AffixRule.cs">
+    <Compile Include="..\..\..\Classic\Libs\AM.AOT\AM\AOT\Spelling\AffixRule.cs">
       <Link>AM\AOT\Spelling\AffixRule.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Spelling\AffixUtility.cs">
+    <Compile Include="..\..\..\Classic\Libs\AM.AOT\AM\AOT\Spelling\AffixUtility.cs">
       <Link>AM\AOT\Spelling\AffixUtility.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\Among.cs">
+    <Compile Include="..\..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\Among.cs">
       <Link>AM\AOT\Stemming\Among.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\EnglishStemmer.cs">
+    <Compile Include="..\..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\EnglishStemmer.cs">
       <Link>AM\AOT\Stemming\EnglishStemmer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\FrenchStemmer.cs">
+    <Compile Include="..\..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\FrenchStemmer.cs">
       <Link>AM\AOT\Stemming\FrenchStemmer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\GermanStemmer.cs">
+    <Compile Include="..\..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\GermanStemmer.cs">
       <Link>AM\AOT\Stemming\GermanStemmer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\IStemmer.cs">
+    <Compile Include="..\..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\IStemmer.cs">
       <Link>AM\AOT\Stemming\IStemmer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\ItalianStemmer.cs">
+    <Compile Include="..\..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\ItalianStemmer.cs">
       <Link>AM\AOT\Stemming\ItalianStemmer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\MystemAnalysis.cs">
+    <Compile Include="..\..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\MystemAnalysis.cs">
       <Link>AM\AOT\Stemming\MystemAnalysis.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\MystemResult.cs">
+    <Compile Include="..\..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\MystemResult.cs">
       <Link>AM\AOT\Stemming\MystemResult.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\MystemRunner.cs">
+    <Compile Include="..\..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\MystemRunner.cs">
       <Link>AM\AOT\Stemming\MystemRunner.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\PortugalStemmer.cs">
+    <Compile Include="..\..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\PortugalStemmer.cs">
       <Link>AM\AOT\Stemming\PortugalStemmer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\RussianStemmer.cs">
+    <Compile Include="..\..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\RussianStemmer.cs">
       <Link>AM\AOT\Stemming\RussianStemmer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\SpanishStemmer.cs">
+    <Compile Include="..\..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\SpanishStemmer.cs">
       <Link>AM\AOT\Stemming\SpanishStemmer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\StemmerOperations.cs">
+    <Compile Include="..\..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\StemmerOperations.cs">
       <Link>AM\AOT\Stemming\StemmerOperations.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

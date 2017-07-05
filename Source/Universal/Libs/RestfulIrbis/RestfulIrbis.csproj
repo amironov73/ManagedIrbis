@@ -110,28 +110,28 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Classic\Libs\RestfulIrbis\Source\IrbisRestClient.cs">
+    <Compile Include="..\..\..\Classic\Libs\RestfulIrbis\Source\IrbisRestClient.cs">
       <Link>Source\IrbisRestClient.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\RestfulIrbis\Source\OsmiCards\OsmiCard.cs">
+    <Compile Include="..\..\..\Classic\Libs\RestfulIrbis\Source\OsmiCards\OsmiCard.cs">
       <Link>Source\OsmiCards\OsmiCard.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\RestfulIrbis\Source\OsmiCards\OsmiCardsClient.cs">
+    <Compile Include="..\..\..\Classic\Libs\RestfulIrbis\Source\OsmiCards\OsmiCardsClient.cs">
       <Link>Source\OsmiCards\OsmiCardsClient.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\RestfulIrbis\Source\OsmiCards\OsmiImage.cs">
+    <Compile Include="..\..\..\Classic\Libs\RestfulIrbis\Source\OsmiCards\OsmiImage.cs">
       <Link>Source\OsmiCards\OsmiImage.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\RestfulIrbis\Source\OsmiCards\OsmiTemplate.cs">
+    <Compile Include="..\..\..\Classic\Libs\RestfulIrbis\Source\OsmiCards\OsmiTemplate.cs">
       <Link>Source\OsmiCards\OsmiTemplate.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\RestfulIrbis\Source\OsmiCards\OsmiUtility.cs">
+    <Compile Include="..\..\..\Classic\Libs\RestfulIrbis\Source\OsmiCards\OsmiUtility.cs">
       <Link>Source\OsmiCards\OsmiUtility.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\RestfulIrbis\Source\OsmiCards\OsmiValue.cs">
+    <Compile Include="..\..\..\Classic\Libs\RestfulIrbis\Source\OsmiCards\OsmiValue.cs">
       <Link>Source\OsmiCards\OsmiValue.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\RestfulIrbis\Source\RestUtility.cs">
+    <Compile Include="..\..\..\Classic\Libs\RestfulIrbis\Source\RestUtility.cs">
       <Link>Source\RestUtility.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
