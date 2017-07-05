@@ -131,7 +131,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         {
             Log.Trace("AbstractCommand::CreateQuery");
 
-            ClientQuery result = new ClientQuery
+            ClientQuery result = new ClientQuery (Connection)
             {
                 Workstation = Connection.Workstation,
                 ClientID = Connection.ClientID,

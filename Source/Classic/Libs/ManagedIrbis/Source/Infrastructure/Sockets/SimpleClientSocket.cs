@@ -164,7 +164,14 @@ namespace ManagedIrbis.Infrastructure
                     Socket socket = client.Client;
                     socket.Send(request);
 
-                    byte[] result = socket.ReceiveToEnd();
+                    MemoryStream stream = Connection.Executive
+                        .GetMemoryStream(GetType());
+                    byte[] result = socket.ReceiveToEnd(stream);
+                    Connection.Executive.ReportMemoryUsage
+                        (
+                            GetType(),
+                            result.Length
+                        );
                     Connection.RawServerResponse = result;
 
                     return result;

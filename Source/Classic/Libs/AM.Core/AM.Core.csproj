@@ -201,6 +201,7 @@
     <Compile Include="AM\IO\BinaryWriterUtility.cs" />
     <Compile Include="AM\IO\ByteNavigator.cs" />
     <Compile Include="AM\IO\CompressionUtility.cs" />
+    <Compile Include="AM\IO\CountingMemoryStream.cs" />
     <Compile Include="AM\IO\DirectoryUtility.cs" />
     <Compile Include="AM\IO\DumpUtility.cs" />
     <Compile Include="AM\IO\IConsoleOutputReceiver.cs" />

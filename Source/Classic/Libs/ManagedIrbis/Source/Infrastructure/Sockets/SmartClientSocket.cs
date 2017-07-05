@@ -27,6 +27,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 
 #if !SILVERLIGHT && !WIN81 && !PORTABLE
 
@@ -127,6 +128,12 @@ namespace ManagedIrbis.Infrastructure.Sockets
             int readed1 = stream.Read(head, 0, head.Length);
             if (readed1 == 0)
             {
+                Log.Error
+                    (
+                        "SmartClientSocket::_SmartRead: "
+                        + "empty response"
+                    );
+
                 throw new IrbisNetworkException("Empty response");
             }
 
@@ -146,6 +153,12 @@ namespace ManagedIrbis.Infrastructure.Sockets
             string text = navigator.ReadLine();
             if (ReferenceEquals(text, null))
             {
+                Log.Error
+                    (
+                        "SmartClientSocket::_SmartRead: "
+                        + "can't read first line of the response"
+                    );
+
                 return head;
             }
 

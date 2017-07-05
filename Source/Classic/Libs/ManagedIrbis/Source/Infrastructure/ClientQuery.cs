@@ -17,6 +17,8 @@ using System.IO;
 using AM;
 using AM.Text;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -51,6 +53,12 @@ namespace ManagedIrbis.Infrastructure
         /// </summary>
         [CanBeNull]
         public string CommandCode { get; set; }
+
+        /// <summary>
+        /// Connection.
+        /// </summary>
+        [NotNull]
+        public IrbisConnection Connection { get; private set; }
 
         /// <summary>
         /// Код АРМ.
@@ -95,8 +103,14 @@ namespace ManagedIrbis.Infrastructure
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ClientQuery()
+        public ClientQuery
+            (
+                [NotNull] IrbisConnection connection
+            )
         {
+            Code.NotNull(connection, "connection");
+
+            Connection = connection;
             Arguments = new List<object>();
         }
 
@@ -227,10 +241,11 @@ namespace ManagedIrbis.Infrastructure
         [NotNull]
         public byte[] EncodePacket()
         {
-            MemoryStream result = new MemoryStream();
+            MemoryStream stream = Connection.Executive
+                .GetMemoryStream(GetType());
 
             // Query header: 7 lines
-            result
+            stream
                 .EncodeString(CommandCode)      .EncodeDelimiter()
                 .EncodeWorkstation(Workstation) .EncodeDelimiter()
                 .EncodeString(CommandCode)      .EncodeDelimiter()
@@ -252,25 +267,28 @@ namespace ManagedIrbis.Infrastructure
                 int countMinus1 = Arguments.Count - 1;
                 for (int i = 0; i < countMinus1; i++)
                 {
-                    result.EncodeAny(Arguments[i]);
-                    result.EncodeDelimiter();
+                    stream.EncodeAny(Arguments[i]);
+                    stream.EncodeDelimiter();
                 }
                 for (int i = countMinus1; i < Arguments.Count; i++)
                 {
-                    result.EncodeAny(Arguments[i]);
+                    stream.EncodeAny(Arguments[i]);
                     // DO NOT add delimiter to the last line!
                 }
             }
 
-            byte[] preResult = result.ToArray();
-            result = new MemoryStream(); //-V3114
+            byte[] preResult = stream.ToArray();
+            stream = new MemoryStream(); //-V3114
             int length = preResult.Length;
-            result
+            stream
                 .EncodeInt32(length)
                 .EncodeDelimiter()
                 .Write(preResult, 0, preResult.Length);
 
-            return result.ToArray();
+            byte[] result = stream.ToArray();
+
+
+            return result;
         }
 
         #endregion

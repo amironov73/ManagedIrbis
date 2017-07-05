@@ -201,6 +201,7 @@
     <Compile Include="Source\Fields\ExemplarStatus.cs" />
     <Compile Include="Source\Fields\ExternalResource.cs" />
     <Compile Include="Source\Fields\FieldFilter.cs" />
+    <Compile Include="Source\Fields\ImprintInfo.cs" />
     <Compile Include="Source\Fields\TitleInfo.cs" />
     <Compile Include="Source\Fst\FstProcessor.cs" />
     <Compile Include="Source\Fst\LocalFstProcessor.cs" />

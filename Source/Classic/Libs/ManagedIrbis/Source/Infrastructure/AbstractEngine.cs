@@ -10,7 +10,7 @@
 #region Using directives
 
 using System;
-
+using System.IO;
 using AM;
 using AM.IOC;
 using AM.Logging;
@@ -320,6 +320,18 @@ namespace ManagedIrbis.Infrastructure
         #region Public methods
 
         /// <summary>
+        /// Get <see cref="MemoryStream"/>.
+        /// </summary>
+        [NotNull]
+        public virtual MemoryStream GetMemoryStream
+            (
+                [NotNull] Type consumer
+            )
+        {
+            return new MemoryStream();
+        }
+
+        /// <summary>
         /// Execute specified command.
         /// </summary>
         [NotNull]
@@ -345,6 +357,18 @@ namespace ManagedIrbis.Infrastructure
             OnAfterExecute(context);
 
             return result;
+        }
+
+        /// <summary>
+        /// Report memory usage.
+        /// </summary>
+        public virtual void ReportMemoryUsage
+            (
+                [NotNull] Type consumer,
+                int memoryUsage
+            )
+        {
+            // Nothing to do here
         }
 
         #endregion

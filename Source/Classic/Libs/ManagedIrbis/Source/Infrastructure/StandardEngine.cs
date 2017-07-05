@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-
+using AM.IO;
 using AM.Logging;
 
 using CodeJam;
@@ -36,6 +36,11 @@ namespace ManagedIrbis.Infrastructure
     {
         #region Properties
 
+        /// <summary>
+        /// Memory usage.
+        /// </summary>
+        public int MemoryUsage { get; set; }
+
         #endregion
 
         #region Construction
@@ -51,6 +56,31 @@ namespace ManagedIrbis.Infrastructure
             : base(connection, nestedEngine)
         {
             Log.Trace("StandardEngine::Constructor");
+
+            MemoryUsage = 1024;
+        }
+
+        #endregion
+
+        #region AbstractEngine members
+
+        /// <inheritdoc cref="AbstractEngine.GetMemoryStream" />
+        public override MemoryStream GetMemoryStream
+            (
+                Type consumer
+            )
+        {
+            return new CountingMemoryStream(MemoryUsage);
+        }
+
+        /// <inheritdoc cref="AbstractEngine.ReportMemoryUsage" />
+        public override void ReportMemoryUsage
+            (
+                Type consumer,
+                int memoryUsage
+            )
+        {
+            MemoryUsage = Math.Max(memoryUsage, MemoryUsage);
         }
 
         #endregion

@@ -77,7 +77,7 @@ namespace AM.Net
                     throw new Exception("Address must be IPv4");
                 }
             }
-            catch 
+            catch
             {
                 IPHostEntry entry;
 
@@ -525,41 +525,58 @@ namespace AM.Net
         {
             Code.NotNull(socket, "socket");
 
-            using (MemoryStream result = new MemoryStream())
+            using (MemoryStream stream = new MemoryStream())
             {
-                byte[] buffer = new byte[32 * 1024];
-
-                while (true)
-                {
-                    int readed = socket.Receive(buffer);
-
-                    if (readed < 0)
-                    {
-                        Log.Error
-                            (
-                                "SocketUtility::ReceiveToEnd: "
-                                + "error reading socket"
-                            );
-
-                        throw new ArsMagnaException
-                            (
-                                "Socket reading error"
-                            );
-                    }
-
-                    if (readed == 0)
-                    {
-                        break;
-                    }
-
-                    result.Write(buffer, 0, readed);
-                }
-
-                return result.ToArray();
+                return socket.ReceiveToEnd(stream);
             }
         }
 
-#endregion
+        /// <summary>
+        /// Read from the socket as many data as possible.
+        /// </summary>
+        [NotNull]
+        public static byte[] ReceiveToEnd
+            (
+                [NotNull] this Socket socket,
+                [NotNull] MemoryStream stream
+            )
+        {
+            Code.NotNull(socket, "socket");
+            Code.NotNull(stream, "stream");
+
+            byte[] buffer = new byte[32 * 1024];
+
+            while (true)
+            {
+                int readed = socket.Receive(buffer);
+
+                if (readed < 0)
+                {
+                    Log.Error
+                        (
+                            "SocketUtility::ReceiveToEnd: "
+                            + "error reading socket"
+                        );
+
+                    throw new ArsMagnaException
+                        (
+                            "Socket reading error"
+                        );
+                }
+
+                if (readed == 0)
+                {
+                    break;
+                }
+
+                stream.Write(buffer, 0, readed);
+            }
+
+            return stream.ToArray();
+        }
+
+
+        #endregion
     }
 
 }
