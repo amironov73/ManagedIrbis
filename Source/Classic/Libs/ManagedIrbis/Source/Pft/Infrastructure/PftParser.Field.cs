@@ -226,7 +226,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     token = Tokens.Current;
                     if (token.Kind == PftTokenKind.ConditionalLiteral)
                     {
-                        node = new PftConditionalLiteral(token);
+                        node = new PftConditionalLiteral(token, true);
                         result.RightHand.Add(node);
                         Tokens.MoveNext();
                     }

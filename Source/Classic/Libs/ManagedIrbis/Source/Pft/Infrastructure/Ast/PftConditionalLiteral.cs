@@ -41,7 +41,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     {
         #region Properties
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Whether the literal is on right or on left hand?
+        /// </summary>
+        public bool RightHand { get; set; }
+
+        /// <inheritdoc cref="PftNode.Text" />
         public override string Text
         {
             get { return base.Text; }
@@ -64,12 +69,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftConditionalLiteral
             (
-                [NotNull] string text
+                [NotNull] string text,
+                bool rightHand
             )
         {
             Code.NotNull(text, "text");
 
             Text = text;
+            RightHand = rightHand;
         }
 
         /// <summary>
@@ -77,12 +84,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftConditionalLiteral
             (
-                [NotNull] PftToken token
+                [NotNull] PftToken token,
+                bool rightHand
             )
             : base(token)
         {
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.ConditionalLiteral);
+
+            RightHand = rightHand;
 
             try
             {
@@ -104,6 +114,31 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Private members
 
+        private void _Execute
+            (
+                [NotNull] PftContext context,
+                [NotNull] PftField field
+            )
+        {
+            string value = field.GetValue(context);
+
+            if (field.CanOutput(value))
+            {
+                string text = Text;
+                if (context.UpperMode
+                    && !ReferenceEquals(text, null))
+                {
+                    text = IrbisText.ToUpper(text);
+                }
+
+                context.Write
+                    (
+                        this,
+                        text
+                    );
+            }
+        }
+
         #endregion
 
         #region Public methods
@@ -123,24 +158,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftField field = context.CurrentField;
             if (!ReferenceEquals(field, null))
             {
-                if (field.IsFirstRepeat(context))
+                if (RightHand)
                 {
-                    string value = field.GetValue(context);
-
-                    if (field.CanOutput(value))
+                    if (field.IsLastRepeat(context))
                     {
-                        string text = Text;
-                        if (context.UpperMode
-                            && !ReferenceEquals(text, null))
-                        {
-                            text = IrbisText.ToUpper(text);
-                        }
-
-                        context.Write
-                        (
-                            this,
-                            text
-                        );
+                        _Execute(context, field);
+                    }
+                }
+                else
+                {
+                    if (field.IsFirstRepeat(context))
+                    {
+                        _Execute(context, field);
                     }
                 }
             }

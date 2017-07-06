@@ -282,7 +282,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             return MoveNext
                 (
-                    new PftConditionalLiteral(Tokens.Current)
+                    new PftConditionalLiteral(Tokens.Current, false)
                 );
         }
 

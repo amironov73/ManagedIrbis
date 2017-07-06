@@ -397,7 +397,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return Tag;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.GetAffectedFields" />
         public override string[] GetAffectedFields()
         {
             return new[] { Tag };
