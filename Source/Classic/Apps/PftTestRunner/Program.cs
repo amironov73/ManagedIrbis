@@ -63,30 +63,30 @@ namespace PftTestRunner
                 int failed = tester.Results.Count(t => t.Failed);
 
                 ConsoleColor foreColor;
-                foreach (PftTestResult result in tester.Results)
-                {
-                    foreColor = Console.ForegroundColor;
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write(result.Name);
-                    Console.Write('\t');
-                    Console.ForegroundColor = result.Failed
-                        ? ConsoleColor.Red
-                        : ConsoleColor.Green;
-                    Console.Write(result.Failed ? "FAILED" : "OK");
-                    Console.Write('\t');
-                    Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.Write
-                        (
-                            "{0:0},{1:000}",
-                            result.Duration.TotalSeconds,
-                            result.Duration.Milliseconds
-                        );
-                    Console.ForegroundColor = foreColor;
-                    Console.Write('\t');
-                    Console.WriteLine(result.Description);
-                }
+                //foreach (PftTestResult result in tester.Results)
+                //{
+                //    foreColor = Console.ForegroundColor;
+                //    Console.ForegroundColor = ConsoleColor.White;
+                //    Console.Write(result.Name);
+                //    Console.Write('\t');
+                //    Console.ForegroundColor = result.Failed
+                //        ? ConsoleColor.Red
+                //        : ConsoleColor.Green;
+                //    Console.Write(result.Failed ? "FAILED" : "OK");
+                //    Console.Write('\t');
+                //    Console.ForegroundColor = ConsoleColor.Cyan;
+                //    Console.Write
+                //        (
+                //            "{0:0},{1:000}",
+                //            result.Duration.TotalSeconds,
+                //            result.Duration.Milliseconds
+                //        );
+                //    Console.ForegroundColor = foreColor;
+                //    Console.Write('\t');
+                //    Console.WriteLine(result.Description);
+                //}
 
-                Console.WriteLine();
+                //Console.WriteLine();
                 foreColor = Console.ForegroundColor;
                 Console.ForegroundColor = failed == 0
                     ? ConsoleColor.Green

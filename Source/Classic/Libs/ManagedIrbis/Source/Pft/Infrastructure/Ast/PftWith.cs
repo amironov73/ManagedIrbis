@@ -11,7 +11,7 @@
 
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using AM;
 using AM.Collections;
 using AM.Logging;
@@ -19,6 +19,8 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 
 using MoonSharp.Interpreter;
 
@@ -137,13 +139,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <inheritdoc cref="ICloneable.Clone" />
         public override object Clone()
         {
-            PftWith result = (PftWith) base.Clone();
+            PftWith result = (PftWith)base.Clone();
 
             result._virtualChildren = null;
 
             if (!ReferenceEquals(Variable, null))
             {
-                result.Variable = (PftVariableReference) Variable.Clone();
+                result.Variable = (PftVariableReference)Variable.Clone();
             }
 
             result.Fields = new NonNullCollection<FieldSpecification>();
@@ -151,12 +153,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 result.Fields.Add
                     (
-                        (FieldSpecification) field.Clone()
+                        (FieldSpecification)field.Clone()
                     );
             }
             foreach (PftNode node in Body)
             {
-                result.Body.Add((PftNode) node.Clone());
+                result.Body.Add((PftNode)node.Clone());
             }
 
             return result;
@@ -291,6 +293,39 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc cref="PftNode.GetNodeInfo" />
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Node = this,
+                Name = "With"
+            };
+
+            PftNodeInfo fields = new PftNodeInfo
+            {
+                Name = "Fields",
+                Value = StringUtility.Join
+                    (
+                        ", ",
+                        Fields
+                    )
+            };
+            result.Children.Add(fields);
+
+            PftNodeInfo body = new PftNodeInfo
+            {
+                Name = "Body"
+            };
+            result.Children.Add(body);
+            foreach (PftNode node in Body)
+            {
+                body.Children.Add(node.GetNodeInfo());
+            }
+
+            return result;
         }
 
         #endregion

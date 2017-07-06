@@ -21,7 +21,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Infrastructure;
-
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -44,7 +44,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public PftProgram Program { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
         {
             get
@@ -150,7 +150,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region ICloneable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Clone" />
         public override object Clone()
         {
             PftInclude result = (PftInclude) base.Clone();
@@ -167,7 +167,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -197,6 +197,29 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc cref="PftNode.GetNodeInfo" />
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Node = this,
+                Name = "Include",
+                Value = Text
+            };
+
+            if (!ReferenceEquals(Program, null))
+            {
+                PftNodeInfo program = new PftNodeInfo
+                {
+                    Name = "Program"
+                };
+                result.Children.Add(program);
+                program.Children.Add(Program.GetNodeInfo());
+            }
+
+            return result;
         }
 
         #endregion
