@@ -335,12 +335,24 @@ namespace ManagedIrbis.Client
 #else
             using (new BusyGuard(BusyState))
             {
-                string resultPath = _ExpandPath(fileSpecification);
-                string result = File.ReadAllText
+                string result = string.Empty;
+                try
+                {
+                    string resultPath = _ExpandPath(fileSpecification);
+                    result = File.ReadAllText
                     (
                         resultPath,
                         IrbisEncoding.Ansi
                     );
+                }
+                catch (Exception exception)
+                {
+                    Log.TraceException
+                        (
+                            "LocalProvider::ReadFile",
+                            exception
+                        );
+                }
 
                 return result;
             }

@@ -1,4 +1,4 @@
-﻿proc TheProc
+﻿proc TheProc 
 do
 	/* do nothing
 end
