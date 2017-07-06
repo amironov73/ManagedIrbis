@@ -44,7 +44,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <summary>
         /// Whether the literal is on right or on left hand?
         /// </summary>
-        public bool RightHand { get; set; }
+        public bool IsSuffix { get; set; }
 
         /// <inheritdoc cref="PftNode.Text" />
         public override string Text
@@ -70,13 +70,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         public PftConditionalLiteral
             (
                 [NotNull] string text,
-                bool rightHand
+                bool isSuffix
             )
         {
             Code.NotNull(text, "text");
 
             Text = text;
-            RightHand = rightHand;
+            IsSuffix = isSuffix;
         }
 
         /// <summary>
@@ -85,14 +85,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         public PftConditionalLiteral
             (
                 [NotNull] PftToken token,
-                bool rightHand
+                bool isSuffix
             )
             : base(token)
         {
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.ConditionalLiteral);
 
-            RightHand = rightHand;
+            IsSuffix = isSuffix;
 
             try
             {
@@ -131,11 +131,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     text = IrbisText.ToUpper(text);
                 }
 
-                context.Write
-                    (
-                        this,
-                        text
-                    );
+                context.Write(this, text);
+                context.OutputFlag = true;
             }
         }
 
@@ -158,7 +155,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftField field = context.CurrentField;
             if (!ReferenceEquals(field, null))
             {
-                if (RightHand)
+                if (IsSuffix)
                 {
                     if (field.IsLastRepeat(context))
                     {

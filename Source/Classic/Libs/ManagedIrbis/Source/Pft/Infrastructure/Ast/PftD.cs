@@ -140,10 +140,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (!ReferenceEquals(context.CurrentGroup, null))
             {
-                if (IsFirstRepeat(context))
-                {
+                //if (IsFirstRepeat(context))
+                //{
                     _Execute(context);
-                }
+                //}
             }
             else
             {

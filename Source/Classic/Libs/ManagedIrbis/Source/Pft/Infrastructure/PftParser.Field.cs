@@ -82,16 +82,15 @@ namespace ManagedIrbis.Pft.Infrastructure
                     }
 
                     Tokens.MoveNext();
+                    break;
                 }
-                else
+
+                node = Get(FieldMap, LeftHandItems2);
+                if (ReferenceEquals(node, null))
                 {
-                    node = Get(FieldMap, LeftHandItems2);
-                    if (ReferenceEquals(node, null))
-                    {
-                        break;
-                    }
-                    leftHand.Add(node);
+                    break;
                 }
+                leftHand.Add(node);
             } // Tokens.IsEof
 
             // Orphaned left hand?
