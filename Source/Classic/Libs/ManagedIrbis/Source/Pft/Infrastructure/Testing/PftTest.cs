@@ -258,8 +258,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                         ConsoleInput.WriteLine();
                         ConsoleInput.WriteLine("!!! FAILED !!!");
                         ConsoleInput.WriteLine();
-                        //ConsoleInput.WriteLine(expected);
-                        //ConsoleInput.WriteLine();
+                        ConsoleInput.WriteLine("EXPECTED");
+                        ConsoleInput.WriteLine(expected);
+                        ConsoleInput.WriteLine();
+                        ConsoleInput.WriteLine("ACTUAL");
+                        ConsoleInput.WriteLine(output);
+                        ConsoleInput.WriteLine();
                     }
                 }
             }

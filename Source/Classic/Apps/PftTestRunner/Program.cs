@@ -110,6 +110,7 @@ namespace PftTestRunner
                                     .Select(t => t.Name)
                                 )
                         );
+                    Console.WriteLine();
                 }
                 Console.ForegroundColor = foreColor;
             }
