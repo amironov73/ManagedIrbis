@@ -29,7 +29,7 @@
     "CreateDatabaseTest.cs",
     //"CreateDictionaryTest.cs",
     "DatabaseInfoTest.cs",
-    //"DatabaseStatTest.cs",
+    "DatabaseStatTest.cs",
     "DeleteRecordTest.cs",
     "FlcTest.cs",
     "FormatTest.cs",

@@ -87,7 +87,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestGblVirtualRecord1()
+        public void GblVirtualRecord_Test1()
         {
             MarcRecord record = _GetRecord();
             IrbisConnection connection = Connection.ThrowIfNull();
@@ -104,7 +104,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestGblVirtualRecord2()
+        public void GblVirtualRecord_Test2()
         {
             MarcRecord record = _GetRecord();
             IrbisConnection connection = Connection.ThrowIfNull();

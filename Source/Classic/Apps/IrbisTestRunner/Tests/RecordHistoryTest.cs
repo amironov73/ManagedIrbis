@@ -44,7 +44,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestRecordHistory()
+        public void RecordHistory_Test1()
         {
             MarcRecord[] versions = Connection.RecordHistory
                 (

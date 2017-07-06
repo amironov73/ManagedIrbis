@@ -90,7 +90,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestWriteRecords()
+        public void WriteRecords_Test1()
         {
             MarcRecord record1 = _GetRecord(1),
                 record2 = _GetRecord(2),

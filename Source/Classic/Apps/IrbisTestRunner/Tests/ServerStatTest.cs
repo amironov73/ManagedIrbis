@@ -44,7 +44,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestServerStat()
+        public void ServerStat_Test1()
         {
             ServerStat serverStat = Connection.GetServerStat();
 

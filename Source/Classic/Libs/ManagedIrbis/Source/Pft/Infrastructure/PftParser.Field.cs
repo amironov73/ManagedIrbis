@@ -253,12 +253,11 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 PftTokenList tokens = Tokens.Segment(_semicolonStop)
                     .ThrowIfNull("tokens");
-                ChangeContext
+                NestedContext
                     (
-                        (NonNullCollection<PftNode>)assignment.Children,
+                        assignment.Expression,
                         tokens
                     );
-
                 Tokens.MoveNext();
 
                 result = assignment;

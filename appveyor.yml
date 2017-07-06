@@ -36,6 +36,7 @@ build:
   verbosity: minimal
 
 after_build:
+- cmd: runPftTest.cmd
 - cmd: compile.cmd
 - cmd: compilecore.cmd
 - cmd: compiledroid.cmd

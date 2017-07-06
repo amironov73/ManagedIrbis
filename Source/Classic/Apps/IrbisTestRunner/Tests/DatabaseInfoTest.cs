@@ -52,10 +52,12 @@ namespace IrbisTestRunner.Tests
             connection.ReadRecord("IBIS", 3, true, null);
             DatabaseInfo info = connection.GetDatabaseInfo("IBIS");
             Write(info);
+            Write(" ");
 
             connection.UnlockRecords("IBIS", 3);
-            info = connection.GetDatabaseInfo("ISTU");
+            info = connection.GetDatabaseInfo("IBIS");
             Write(info);
+            Write(" ");
         }
 
         #endregion

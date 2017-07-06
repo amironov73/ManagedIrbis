@@ -48,6 +48,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [NotNull]
         public NonNullCollection<FieldSpecification> Fields { get; private set; }
 
+        /// <summary>
+        /// Body.
+        /// </summary>
+        [NotNull]
+        public NonNullCollection<PftNode> Body { get; private set; }
+
         /// <inheritdoc cref="PftNode.ExtendedSyntax" />
         public override bool ExtendedSyntax
         {
@@ -95,6 +101,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         public PftWith()
         {
             Fields = new NonNullCollection<FieldSpecification>();
+            Body = new NonNullCollection<PftNode>();
         }
 
         /// <summary>
@@ -110,6 +117,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             token.MustBe(PftTokenKind.With);
 
             Fields = new NonNullCollection<FieldSpecification>();
+            Body = new NonNullCollection<PftNode>();
         }
 
         #endregion
@@ -145,6 +153,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     (
                         (FieldSpecification) field.Clone()
                     );
+            }
+            foreach (PftNode node in Body)
+            {
+                result.Body.Add((PftNode) node.Clone());
             }
 
             return result;
@@ -222,7 +234,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     {
                         variable.StringValue = line;
 
-                        localContext.Execute(Children);
+                        localContext.Execute(Body);
 
                         string value = variable.StringValue;
                         if (!string.IsNullOrEmpty(value))

@@ -44,7 +44,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestListProcesses()
+        public void ListProcesses_Test1()
         {
             IrbisProcessInfo[] processes = Connection.ListProcesses();
 

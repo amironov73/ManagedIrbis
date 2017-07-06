@@ -155,7 +155,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     ? ConsoleColor.Red
                     : ConsoleColor.Green;
 
-                ConsoleInput.WriteLine();
+                //ConsoleInput.WriteLine();
+                ConsoleInput.Write(" ");
                 ConsoleInput.WriteLine
                     (
                         result.Failed
@@ -165,8 +166,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
 
                 ConsoleInput.ForegroundColor = foreColor;
 
-                ConsoleInput.WriteLine(new string('=', 70));
-                ConsoleInput.WriteLine();
+                //ConsoleInput.WriteLine(new string('=', 70));
+                //ConsoleInput.WriteLine();
             }
             catch (Exception exception)
             {
@@ -181,7 +182,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 ConsoleInput.WriteLine(exception.ToString());
             }
 
-            ConsoleInput.WriteLine();
+            //ConsoleInput.WriteLine();
 
             return result;
         }

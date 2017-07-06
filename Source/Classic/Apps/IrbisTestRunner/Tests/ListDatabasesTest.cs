@@ -44,7 +44,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestListDatabases()
+        public void ListDatabases_Test1()
         {
             DatabaseInfo[] databases
                 = Connection.ListDatabases();

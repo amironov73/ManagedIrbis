@@ -61,7 +61,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestGlobalCorrector_ProcessRecordset()
+        public void GlobalCorrector_ProcessRecordset()
         {
             if (ReferenceEquals(Connection, null))
             {
@@ -104,7 +104,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestGlobalCorrector_ProcessInterval()
+        public void GlobalCorrector_ProcessInterval()
         {
             if (ReferenceEquals(Connection, null))
             {
@@ -147,7 +147,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestGlobalCorrector_ProcessSearchResult()
+        public void GlobalCorrector_ProcessSearchResult()
         {
             if (ReferenceEquals(Connection, null))
             {
@@ -189,7 +189,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestGlobalCorrector_ProcessWholeDatabase()
+        public void GlobalCorrector_ProcessWholeDatabase()
         {
             if (ReferenceEquals(Connection, null))
             {

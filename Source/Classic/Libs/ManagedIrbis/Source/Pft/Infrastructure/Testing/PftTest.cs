@@ -163,6 +163,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                             IrbisEncoding.Utf8
                         );
                     result.Description = description;
+                    ConsoleInput.Write(description);
                 }
 
                 string recordFile = GetFullName(RecordFileName);
@@ -192,8 +193,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     .ThrowIfNull("input");
                 result.Input = input;
 
-                ConsoleInput.WriteLine(input);
-                ConsoleInput.WriteLine();
+                //ConsoleInput.WriteLine(input);
+                //ConsoleInput.WriteLine();
 
                 PftLexer lexer = new PftLexer();
                 PftTokenList tokenList = lexer.Tokenize(input);
@@ -203,8 +204,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     .DosToUnix()
                     .ThrowIfNull("tokens");
 
-                ConsoleInput.WriteLine(result.Tokens);
-                ConsoleInput.WriteLine();
+                //ConsoleInput.WriteLine(result.Tokens);
+                //ConsoleInput.WriteLine();
 
                 PftParser parser = new PftParser(tokenList);
                 PftProgram program = parser.Parse();
@@ -213,8 +214,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     .DosToUnix()
                     .ThrowIfNull("ast");
 
-                ConsoleInput.WriteLine(result.Ast);
-                ConsoleInput.WriteLine();
+                //ConsoleInput.WriteLine(result.Ast);
+                //ConsoleInput.WriteLine();
 
                 string expectedFile = GetFullName(ExpectedFileName);
                 string expected = null;
@@ -246,7 +247,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 }
                 result.Output = output;
 
-                ConsoleInput.WriteLine(output);
+                //ConsoleInput.WriteLine(output);
 
                 if (expected != null)
                 {
@@ -257,8 +258,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                         ConsoleInput.WriteLine();
                         ConsoleInput.WriteLine("!!! FAILED !!!");
                         ConsoleInput.WriteLine();
-                        ConsoleInput.WriteLine(expected);
-                        ConsoleInput.WriteLine();
+                        //ConsoleInput.WriteLine(expected);
+                        //ConsoleInput.WriteLine();
                     }
                 }
             }

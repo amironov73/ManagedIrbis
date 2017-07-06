@@ -50,7 +50,34 @@ namespace ManagedIrbis.Pft.Infrastructure
         // Service routines
         //================================================================
 
-        private void ChangeContext
+        [NotNull]
+        private NonNullCollection<PftNode> NestedContext
+            (
+                [NotNull] PftTokenList newTokens
+            )
+        {
+            NonNullCollection<PftNode> result
+                = new NonNullCollection<PftNode>();
+            PftTokenList saveTokens = Tokens;
+            Tokens = newTokens;
+
+            try
+            {
+                while (!Tokens.IsEof)
+                {
+                    PftNode node = ParseNext();
+                    result.Add(node);
+                }
+            }
+            finally
+            {
+                Tokens = saveTokens;
+            }
+
+            return result;
+        }
+
+        private void NestedContext
             (
                 [NotNull] NonNullCollection<PftNode> result,
                 [NotNull] PftTokenList newTokens
@@ -74,7 +101,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         [CanBeNull]
-        private PftNode ChangeContext
+        private PftNode NestedContext
             (
                 [NotNull] PftTokenList newTokens,
                 [NotNull] Func<PftNode> function
@@ -223,7 +250,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
                 else
                 {
-                    result.Program = (PftNumeric)ChangeContext
+                    result.Program = (PftNumeric)NestedContext
                         (
                             indexTokens,
                             ParseArithmetic

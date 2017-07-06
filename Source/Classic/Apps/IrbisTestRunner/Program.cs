@@ -35,6 +35,8 @@ namespace IrbisTestRunner
                 return;
             }
 
+            IrbisEncoding.RelaxUtf8();
+
             TestRunner engine = null;
             string testToRun = null;
             if (args.Length > 1)

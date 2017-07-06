@@ -43,7 +43,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenList leftTokens = Tokens.Segment(_comparisonStop)
                 .ThrowIfNull("leftTokens");
-            result.LeftOperand = ChangeContext
+            result.LeftOperand = NestedContext
                 (
                     leftTokens,
                     ParseComparisonItem
@@ -157,7 +157,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     )
                     .ThrowIfNull("innerTokens");
                 parenthesis.InnerCondition
-                    = (PftCondition) ChangeContext
+                    = (PftCondition) NestedContext
                     (
                         innerTokens,
                         ParseCondition
@@ -202,7 +202,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 return result;
             }
 
-            result = (PftCondition) ChangeContext
+            result = (PftCondition) NestedContext
                 (
                     conditionTokens,
                     _ParseCondition
@@ -231,7 +231,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     }
                     else
                     {
-                        right = (PftCondition) ChangeContext
+                        right = (PftCondition) NestedContext
                             (
                                 conditionTokens,
                                 _ParseCondition
@@ -269,7 +269,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Tokens.Current.MustBe(PftTokenKind.Then);
 
             PftCondition condition
-                = (PftCondition) ChangeContext
+                = (PftCondition) NestedContext
                 (
                     conditionTokens,
                     ParseCondition
@@ -286,7 +286,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     _elseStop
                 )
                 .ThrowIfNull("thenTokens");
-            ChangeContext
+            NestedContext
                 (
                     result.ThenBranch,
                     thenTokens
@@ -303,7 +303,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         _fiStop
                     )
                     .ThrowIfNull("elseTokens");
-                ChangeContext
+                NestedContext
                     (
                         result.ElseBranch,
                         elseTokens

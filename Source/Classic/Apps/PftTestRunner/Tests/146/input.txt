@@ -1,4 +1,4 @@
-﻿proc showRec
+﻿proc showRec 
 do
 mfn(1), ') ',
 v200^a, " : "v200^e, " / "v200^f/

@@ -75,7 +75,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestWriteRecord()
+        public void WriteRecord_Test1()
         {
             MarcRecord record = _GetRecord();
             record = Connection.WriteRecord(record);

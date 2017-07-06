@@ -123,7 +123,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
 
             PftCondition condition
-                = (PftCondition)ChangeContext
+                = (PftCondition)NestedContext
                 (
                     conditionTokens,
                     ParseCondition
@@ -152,7 +152,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
 
             PftCondition condition
-                = (PftCondition)ChangeContext
+                = (PftCondition)NestedContext
                 (
                     conditionTokens,
                     ParseCondition
@@ -456,7 +456,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     _parenthesisStop
                 )
                 .ThrowIfNull("formatTokens");
-            ChangeContext
+            NestedContext
                 (
                     result.Format,
                     formatTokens
@@ -497,7 +497,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     .ThrowIfNull("initTokens");
                 initTokens.Add(PftTokenKind.Semicolon);
                 Tokens.Current.MustBe(PftTokenKind.Semicolon);
-                ChangeContext(result.Initialization, initTokens);
+                NestedContext(result.Initialization, initTokens);
                 Tokens.RequireNext();
                 PftTokenList conditionTokens = Tokens.Segment
                     (
@@ -505,7 +505,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     )
                     .ThrowIfNull("conditionTokens");
                 Tokens.Current.MustBe(PftTokenKind.Semicolon);
-                result.Condition = (PftCondition)ChangeContext
+                result.Condition = (PftCondition)NestedContext
                     (
                         conditionTokens,
                         ParseCondition
@@ -517,7 +517,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     )
                     .ThrowIfNull("loopTokens");
                 Tokens.Current.MustBe(PftTokenKind.Do);
-                ChangeContext(result.Loop, loopTokens);
+                NestedContext(result.Loop, loopTokens);
                 Tokens.RequireNext();
                 PftTokenList bodyTokens = Tokens.Segment
                     (
@@ -527,7 +527,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     )
                     .ThrowIfNull("bodyTokens");
                 Tokens.Current.MustBe(PftTokenKind.End);
-                ChangeContext(result.Body, bodyTokens);
+                NestedContext(result.Body, bodyTokens);
                 Tokens.MoveNext();
             }
             finally
@@ -570,7 +570,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     )
                     .ThrowIfNull("sequenceTokens");
                 Tokens.Current.MustBe(PftTokenKind.Do);
-                ChangeContext
+                NestedContext
                     (
                         result.Sequence,
                         sequenceTokens
@@ -584,7 +584,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     )
                     .ThrowIfNull("bodyTokens");
                 Tokens.Current.MustBe(PftTokenKind.End);
-                ChangeContext
+                NestedContext
                     (
                         result.Body,
                         bodyTokens
@@ -630,7 +630,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 Tokens.RequireNext();
                 PftTokenList sourceTokens = Tokens.Segment(_whereStop)
                     .ThrowIfNull("sourceTokens");
-                ChangeContext
+                NestedContext
                     (
                         result.Source,
                         sourceTokens
@@ -642,7 +642,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     Tokens.RequireNext();
                     PftTokenList whereTokens = Tokens.Segment(_selectStop)
                         .ThrowIfNull("whereTokens");
-                    result.Where = (PftCondition)ChangeContext
+                    result.Where = (PftCondition)NestedContext
                         (
                             whereTokens,
                             ParseCondition
@@ -659,7 +659,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         _orderStop
                     )
                     .ThrowIfNull("selectTokens");
-                ChangeContext
+                NestedContext
                     (
                         result.Select,
                         selectTokens
@@ -676,7 +676,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                             _loopStop
                         )
                         .ThrowIfNull("orderTokens");
-                    ChangeContext
+                    NestedContext
                         (
                             result.Order,
                             orderTokens
@@ -916,7 +916,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 localTokens.MoveNext();
             }
 
-            ChangeContext
+            NestedContext
                 (
                     (NonNullCollection<PftNode>)result.Children,
                     bodyTokens
@@ -954,7 +954,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 )
                 .ThrowIfNull("tokens");
 
-            ChangeContext
+            NestedContext
                 (
                     (NonNullCollection<PftNode>)result.Children,
                     tokens
@@ -1126,7 +1126,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     )
                     .ThrowIfNull("bodyList");
                 Tokens.Current.MustBe(PftTokenKind.End);
-                ChangeContext
+                NestedContext
                     (
                         procedure.Body,
                         bodyList
@@ -1345,7 +1345,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     )
                     .ThrowIfNull("conditionTokens");
                 Tokens.Current.MustBe(PftTokenKind.Do);
-                result.Condition = (PftCondition)ChangeContext
+                result.Condition = (PftCondition)NestedContext
                     (
                         conditionTokens,
                         ParseCondition
@@ -1359,7 +1359,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     )
                     .ThrowIfNull("bodyTokens");
                 Tokens.Current.MustBe(PftTokenKind.End);
-                ChangeContext
+                NestedContext
                     (
                         result.Body,
                         bodyTokens
@@ -1443,9 +1443,9 @@ namespace ManagedIrbis.Pft.Infrastructure
                 fieldTokens.MoveNext();
             }
 
-            ChangeContext
+            NestedContext
                 (
-                    (NonNullCollection<PftNode>)result.Children,
+                    result.Body,
                     bodyTokens
                 );
 

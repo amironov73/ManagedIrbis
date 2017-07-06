@@ -45,7 +45,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestListFiles1()
+        public void ListFiles_Test1()
         {
             FileSpecification specification = new FileSpecification
                 (
@@ -65,7 +65,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestListFiles2()
+        public void ListFiles_Test2()
         {
             FileSpecification specification1 = new FileSpecification
                 (

@@ -46,7 +46,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestRecordCache()
+        public void RecordCache_Test1()
         {
             RecordCache cache = new RecordCache(Connection);
             MarcRecord record1 = cache.Get(1);

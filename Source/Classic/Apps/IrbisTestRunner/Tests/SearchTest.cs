@@ -54,7 +54,7 @@ namespace IrbisTestRunner.Tests
                 );
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void Search_Many()
         {
             IrbisConnection connection = Connection
@@ -161,7 +161,8 @@ namespace IrbisTestRunner.Tests
 
             bool ok = true;
 
-            for (int i = 0; i < records.Length; i++)
+            int count = Math.Min(10, records.Length);
+            for (int i = 0; i < count; i++)
             {
                 MarcRecord record = connection.ReadRecord
                     (

@@ -47,7 +47,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestTextCache()
+        public void TextCache_Get()
         {
             TextCache cache = new TextCache(Connection);
             FileSpecification specification = new FileSpecification

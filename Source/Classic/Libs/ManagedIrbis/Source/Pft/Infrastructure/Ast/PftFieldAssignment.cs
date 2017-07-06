@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using AM;
+using AM.Collections;
 using AM.Logging;
 
 using JetBrains.Annotations;
@@ -40,6 +41,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public PftField Field { get; set; }
 
+        /// <summary>
+        /// Expression.
+        /// </summary>
+        [NotNull]
+        public NonNullCollection<PftNode> Expression { get; private set; }
+
         /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
         {
@@ -53,6 +60,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     {
                         nodes.Add(Field);
                     }
+                    nodes.AddRange(Expression);
                     _virtualChildren.SetChildren(nodes);
                 }
 
@@ -80,6 +88,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftFieldAssignment()
         {
+            Expression = new NonNullCollection<PftNode>();
         }
 
         /// <summary>
@@ -91,6 +100,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
             : base(token)
         {
+            Expression = new NonNullCollection<PftNode>();
         }
 
         #endregion
@@ -116,6 +126,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             if (!ReferenceEquals(Field, null))
             {
                 result.Field = (PftField) Field.Clone();
+            }
+            foreach (PftNode node in Expression)
+            {
+                result.Expression.Add((PftNode) node.Clone());
             }
 
             return result;
@@ -156,7 +170,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new IrbisException("Field tag is null");
             }
 
-            string value = context.Evaluate(Children);
+            string value = context.Evaluate(Expression);
             if (field.SubField == SubField.NoCode)
             {
                 PftUtility.AssignField
@@ -197,17 +211,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 result.Children.Add(Field.GetNodeInfo());
             }
 
-            if (Children.Count != 0)
+            if (Expression.Count != 0)
             {
-                PftNodeInfo body = new PftNodeInfo
+                PftNodeInfo expression = new PftNodeInfo
                 {
-                    Name = "Body"
+                    Name = "Expression"
                 };
-                result.Children.Add(body);
+                result.Children.Add(expression);
 
-                foreach (PftNode node in Children)
+                foreach (PftNode node in Expression)
                 {
-                    body.Children.Add(node.GetNodeInfo());
+                    expression.Children.Add(node.GetNodeInfo());
                 }
             }
 

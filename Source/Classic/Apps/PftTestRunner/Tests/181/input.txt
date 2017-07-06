@@ -1,6 +1,6 @@
 ﻿$x = 'outer';
 
-local $x, $y
+local $x, $y,
 do
 	$x = 'inner';
 	$y = 'another';

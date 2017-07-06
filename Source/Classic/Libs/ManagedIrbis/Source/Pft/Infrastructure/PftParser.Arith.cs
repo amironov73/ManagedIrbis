@@ -221,7 +221,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
 
             PftCondition condition
-                = (PftCondition)ChangeContext
+                = (PftCondition)NestedContext
                 (
                     conditionTokens,
                     ParseCondition
@@ -260,7 +260,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
 
             PftCondition condition
-                = (PftCondition)ChangeContext
+                = (PftCondition)NestedContext
                 (
                     conditionTokens,
                     ParseCondition

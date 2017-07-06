@@ -44,7 +44,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestListUsers()
+        public void ListUsers_Test1()
         {
             UserInfo[] users = Connection.ListUsers();
 

@@ -44,7 +44,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestUpdateUserList()
+        public void UpdateUserList_Test1()
         {
             IrbisConnection connection = Connection.ThrowIfNull();
 

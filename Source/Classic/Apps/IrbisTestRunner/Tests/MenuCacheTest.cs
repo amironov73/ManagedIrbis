@@ -48,7 +48,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestMenuCache()
+        public void MenuCache_Test1()
         {
             MenuCache cache = new MenuCache(Connection);
             FileSpecification specification = new FileSpecification

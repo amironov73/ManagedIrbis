@@ -45,7 +45,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestReadPostings1()
+        public void ReadPostings_Test1()
         {
             IrbisConnection connection
                 = Connection.ThrowIfNull("Connection");
@@ -85,7 +85,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestReadPostings2()
+        public void ReadPostings_Test2()
         {
             IrbisConnection connection
                 = Connection.ThrowIfNull("Connection");
@@ -126,7 +126,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestReadPostings3()
+        public void ReadPostings_Test3()
         {
             IrbisConnection connection
                 = Connection.ThrowIfNull("Connection");

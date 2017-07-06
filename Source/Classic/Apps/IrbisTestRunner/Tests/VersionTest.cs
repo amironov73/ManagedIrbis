@@ -44,7 +44,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestVersion()
+        public void ServerVersion_Test1()
         {
             IrbisVersion version = Connection.GetServerVersion();
             Write(version);

@@ -46,7 +46,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestReadBinaryFile()
+        public void ReadBinaryFile_Test1()
         {
             string fileName = "logo.gif";
 

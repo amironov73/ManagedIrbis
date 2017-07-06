@@ -45,7 +45,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestPrintTable()
+        public void PrintTable_Test1()
         {
             TableDefinition table = new TableDefinition
             {

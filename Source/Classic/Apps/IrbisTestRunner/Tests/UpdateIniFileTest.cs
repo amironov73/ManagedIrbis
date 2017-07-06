@@ -44,7 +44,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestUpdateIniFile()
+        public void UpdateIniFile_Test1()
         {
             string[] lines =
             {

@@ -45,7 +45,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestGblBuilder()
+        public void GblBuilder_Test1()
         {
             string field3000 = string.Format
                 (

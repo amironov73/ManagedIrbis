@@ -35,7 +35,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestReadFile_Existent()
+        public void ReadFile_Existent()
         {
             IrbisConnection connection
                 = Connection.ThrowIfNull("Connection");
@@ -56,7 +56,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestReadFile_NonExistent()
+        public void ReadFile_NonExistent()
         {
             IrbisConnection connection
                 = Connection.ThrowIfNull("Connection");
@@ -77,7 +77,7 @@ namespace IrbisTestRunner.Tests
         }
 
         [TestMethod]
-        public void TestReadFiles()
+        public void ReadFiles()
         {
             string[] texts = Connection.ReadTextFiles
                 (

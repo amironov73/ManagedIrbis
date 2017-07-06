@@ -44,7 +44,7 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void TestNop()
+        public void Nop_Test1()
         {
             Connection.NoOp();
             Write("NOP send");
