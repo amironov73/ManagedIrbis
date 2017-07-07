@@ -17,7 +17,7 @@ using System.Linq;
 using System.Text;
 
 using AM;
-
+using AM.Collections;
 using JetBrains.Annotations;
 
 using ManagedIrbis.ImportExport;
@@ -282,6 +282,65 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 context.OutputFlag = true;
 
                 first = false;
+            }
+        }
+
+        // ================================================================
+
+        //
+        // +1I
+        // Исключение неоригинальных значений из списка
+        // Формат:
+        // +1ISSSS
+        //
+
+        public static void DistinctList
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                return;
+            }
+
+            string[] original = expression.SplitLines();
+            if (original.Length == 0)
+            {
+                return;
+            }
+
+            List<string> filtered = new List<string>(original.Length);
+            CaseInsensitiveDictionary<object> dictionary
+                = new CaseInsensitiveDictionary<object>();
+
+            foreach (string line in original)
+            {
+                string copy = line;
+                if (ReferenceEquals(copy, null))
+                {
+                    copy = string.Empty;
+                }
+                if (!dictionary.ContainsKey(copy))
+                {
+                    dictionary.Add(copy, null);
+                    filtered.Add(copy);
+                }
+            }
+
+            foreach (string line in filtered)
+            {
+                if (string.IsNullOrEmpty(line))
+                {
+                    context.WriteLine(node);
+                }
+                else
+                {
+                    context.WriteLine(node, line);
+                }
+                context.OutputFlag = true;
             }
         }
 
