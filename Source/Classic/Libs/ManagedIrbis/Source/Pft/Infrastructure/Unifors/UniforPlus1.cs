@@ -40,6 +40,51 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         private static readonly char[] _numberSign = { '#' };
         private static readonly char[] _verticalLine = { '|' };
 
+        private static string _GetGlobal
+            (
+                [NotNull] PftContext context,
+                int index
+            )
+        {
+            RecordField[] fields = context.Globals.Get(index);
+            StringBuilder result = new StringBuilder();
+            bool first = true;
+            foreach (RecordField field in fields)
+            {
+                if (!first)
+                {
+                    result.AppendLine();
+                }
+                first = false;
+                result.Append(field.ToText());
+            }
+
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Удаляем пустые строки в конце списка.
+        /// </summary>
+        private static void _RemoveEmptyTailLines
+            (
+                [NotNull] List<string> list
+            )
+        {
+            while (list.Count != 0)
+            {
+                // Удаляем пустые строки в конце
+                int offset = list.Count - 1;
+                if (string.IsNullOrEmpty(list[offset]))
+                {
+                    list.RemoveAt(offset);
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
         #endregion
 
         #region Public methods
@@ -120,19 +165,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
 
             List<string> lines = new List<string>(parts[1].SplitLines());
-            while (lines.Count != 0)
-            {
-                // Удаляем пустые строки в конце
-                int offset = lines.Count - 1;
-                if (string.IsNullOrEmpty(lines[offset]))
-                {
-                    lines.RemoveAt(offset);
-                }
-                else
-                {
-                    break;
-                }
-            }
+            _RemoveEmptyTailLines(lines);
 
             if (lines.Count == 0)
             {
@@ -232,38 +265,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 if (context.Globals.HaveVariable(index))
                 {
-                    RecordField[] fields = context.Globals.Get(index);
-                    StringBuilder builder = new StringBuilder();
-                    first = true;
-                    foreach (RecordField field in fields)
-                    {
-                        if (!first)
-                        {
-                            builder.AppendLine();
-                        }
-                        first = false;
-                        builder.Append(field.ToText());
-                    }
-                    lines.Add(builder.ToString());
+                    string item = _GetGlobal(context, index);
+                    lines.Add(item);
                 }
                 count--;
                 index++;
             }
 
-            while (lines.Count != 0)
-            {
-                // Удаляем пустые строки в конце
-                int offset = lines.Count - 1;
-                if (string.IsNullOrEmpty(lines[offset]))
-                {
-                    lines.RemoveAt(offset);
-                }
-                else
-                {
-                    break;
-                }
-            }
-
+            _RemoveEmptyTailLines(lines);
             if (lines.Count == 0)
             {
                 return;
@@ -282,6 +291,87 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 context.OutputFlag = true;
 
                 first = false;
+            }
+        }
+
+        // ================================================================
+
+        //
+        // Исключение неоригинальных значений из группы переменных – &uf('+1G…
+        // Вид функции: +1G.
+        // Назначение: Исключение неоригинальных значений из группы переменных.
+        // Формат(передаваемая строка):
+        // +1GNNN,nnn
+        // где:
+        // NNN – номер первой или единственной переменной.
+        // nnn – кол-во переменных(по умолчанию 1).
+        //
+
+        public static void DistinctGlobals
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                return;
+            }
+
+            string[] parts = StringUtility.SplitString
+                (
+                    expression,
+                    _comma,
+                    2
+                );
+            int index;
+            if (!NumericUtility.TryParseInt32(parts[0], out index))
+            {
+                return;
+            }
+            int count = 1;
+            if (parts.Length == 2)
+            {
+                count = parts[1].SafeToInt32(count);
+            }
+
+            List<string> list = new List<string>(count);
+            CaseInsensitiveDictionary<object> dictionary
+                = new CaseInsensitiveDictionary<object>();
+            while (count > 0)
+            {
+                if (context.Globals.HaveVariable(index))
+                {
+                    string item = _GetGlobal(context, index)
+                        ?? string.Empty;
+                    if (!dictionary.ContainsKey(item))
+                    {
+                        list.Add(item);
+                        dictionary.Add(item, null);
+                    }
+                }
+                count--;
+                index++;
+            }
+
+            _RemoveEmptyTailLines(list);
+            if (list.Count == 0)
+            {
+                return;
+            }
+
+            foreach (string line in list)
+            {
+                if (string.IsNullOrEmpty(line))
+                {
+                    context.WriteLine(node);
+                }
+                else
+                {
+                    context.WriteLine(node, line);
+                }
+                context.OutputFlag = true;
             }
         }
 
@@ -425,21 +515,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         }
 
                         flag = context.Globals.HaveVariable(index);
-                        RecordField[] fields = context.Globals.Get(index);
-                        StringBuilder output = new StringBuilder();
-                        bool first = true;
-                        foreach (RecordField field in fields)
-                        {
-                            if (!first)
-                            {
-                                output.AppendLine();
-                            }
-                            first = false;
-                            output.Append(field.ToText());
-                        }
+                        string output = _GetGlobal(context, index);
                         if (output.Length != 0)
                         {
-                            context.Write(node, output.ToString());
+                            context.Write(node, output);
                             context.OutputFlag = true;
                         }
 
