@@ -15,7 +15,10 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+
 using AM;
+
+using JetBrains.Annotations;
 
 #endregion
 
@@ -25,54 +28,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     {
         #region Private members
 
-        #endregion
-
-        #region Public methods
-
-        public static void AppendGlobal
-            (
-                PftContext context,
-                PftNode node,
-                string expression
-            )
-        {
-            if (!string.IsNullOrEmpty(expression))
-            {
-#if PocketPC || WINMOBILE || SILVERLIGHT
-
-                string[] parts = expression.Split(new[] { '#' });
-
-#else
-
-                string[] parts = expression.Split(new[] { '#' }, 2);
-
-#endif
-
-                if (parts.Length == 2)
-                {
-                    int index;
-                    if (NumericUtility.TryParseInt32(parts[0], out index))
-                    {
-                        context.Globals.Append(index, parts[1]);
-                    }
-                }
-            }
-        }
-
-        public static void ClearGlobals
-            (
-                PftContext context,
-                PftNode node,
-                string expression
-            )
-        {
-            context.Globals.Clear();
-        }
+        private static readonly char[] _numberSign = {'#'};
 
         private static bool _Contains
             (
-                IEnumerable<RecordField> fields,
-                RecordField oneField
+                [NotNull] IEnumerable<RecordField> fields,
+                [NotNull] RecordField oneField
             )
         {
             string text = oneField.ToText();
@@ -87,11 +48,58 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             return false;
         }
 
+        #endregion
+
+        #region Public methods
+
+        // ================================================================
+
+        public static void AppendGlobal
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                string[] parts = StringUtility.SplitString
+                    (
+                        expression,
+                        _numberSign,
+                        2
+                    );
+
+                if (parts.Length == 2)
+                {
+                    int index;
+                    if (NumericUtility.TryParseInt32(parts[0], out index))
+                    {
+                        context.Globals.Append(index, parts[1]);
+                    }
+                }
+            }
+        }
+
+        // ================================================================
+
+        public static void ClearGlobals
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            context.Globals.Clear();
+        }
+
+        // ================================================================
+
         public static void DistinctGlobal
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             // &uf('+7')
@@ -118,11 +126,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
         }
 
+        // ================================================================
+
         public static void MultiplyGlobals
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             // &uf('+7')
@@ -155,24 +165,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
         }
 
+        // ================================================================
+
         public static void ReadGlobal
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             if (!string.IsNullOrEmpty(expression))
             {
-#if PocketPC || WINMOBILE || SILVERLIGHT
-
-                string[] parts = expression.Split(new[] { '#' });
-
-#else
-
-                string[] parts = expression.Split(new []{'#'}, 2);
-
-#endif
+                string[] parts = StringUtility.SplitString
+                    (
+                        expression,
+                        _numberSign,
+                        2
+                    );
 
                 string indexText = parts[0];
                 bool haveRepeat = !ReferenceEquals(context.CurrentGroup, null);
@@ -228,11 +237,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
         }
 
+        // ================================================================
+
         public static void SortGlobal
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             // &uf('+7')
@@ -261,11 +272,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
         }
 
+        // ================================================================
+
         public static void SubstractGlobals
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             // &uf('+7')
@@ -298,11 +311,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
         }
 
+        // ================================================================
+
         public static void UnionGlobals
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             // &uf('+7')
@@ -338,24 +353,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
         }
 
+        // ================================================================
+
         public static void WriteGlobal
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             if (!string.IsNullOrEmpty(expression))
             {
-#if PocketPC || WINMOBILE || SILVERLIGHT
 
-                string[] parts = expression.Split(new[] { '#' });
-
-#else
-
-                string[] parts = expression.Split(new[] {'#'}, 2);
-
-#endif
+                string[] parts = StringUtility.SplitString
+                    (
+                        expression,
+                        _numberSign,
+                        2
+                    );
 
                 if (parts.Length == 2)
                 {
@@ -367,6 +382,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 }
             }
         }
+
+        // ================================================================
 
         #endregion
     }

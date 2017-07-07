@@ -1,0 +1,1 @@
+﻿&uf('+1'), &uf('+1W'), &uf('+1R') - working with global variables

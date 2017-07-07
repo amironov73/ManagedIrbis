@@ -18,6 +18,7 @@ using AM.Text;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.ImportExport;
 using ManagedIrbis.Infrastructure;
 
 #endregion
@@ -25,21 +26,25 @@ using ManagedIrbis.Infrastructure;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Выдать содержимое документа полностью в формате RTF – &uf('0…
-    // Вид функции: 0.
-    // Назначение: Выдать содержимое документа полностью(формат ALL).
+    // Выдать содержимое документа полностью
+    // во внутреннем представлении – &uf('+0…
+    // Вид функции: +0.
+    // Назначение: Выдать содержимое документа полностью (формат ALL).
     // Формат(передаваемая строка):
-    // 0
-    // Примеры:
-    // &unifor('0')
+    // +0
     // Результат расформатирования:
-    // \b #910/1:_\b0 ^YДА^PНЮАУ - каф. кримінального права\par
-    // \b #920/1:_\b0 ATHRA\par \b #210/1:_\b0 ^AТацій^BВ. Я.^GВасиль
-    // Якович^8ukr\par \b #710/1:_\b0 ^AТаций^BВ. Я.^GВасилий Яковлевич
-    // ^8rus\par \b #907/1:_\b0 ^A20110301^B111\par \b #907/2:_\b0
-    // ^A20110419^BZhukovskaya\par \b #710/2:_\b0 ^ATatsiy^BV.^8eng
-    // \par \b #907/3:_\b0 ^A20110421^BZhukovskaya\par \b #907/4:
-    // _\b0 ^A20111108^B111\par 
+    // 0
+    // 2#0
+    // 0#1
+    // 910#^YДА^PНЮАУ - каф. кримінального права
+    // 920#ATHRA
+    // 210#^AТацій^BВ. Я.^GВасиль Якович^8ukr
+    // 710#^AТаций^BВ. Я.^GВасилий Яковлевич^8rus
+    // 907#^A20110301^B111
+    // 907#^A20110419^BZhukovskaya
+    // 710#^ATatsiy^BV.^8eng
+    // 907#^A20110421^BZhukovskaya
+    // 907#^A20111108^B111
     //
 
     static class Unifor0
@@ -82,6 +87,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                             RichText.Encode(text)
                         );
                 }
+
                 builder.AppendFormat
                     (
                         "\\par fields: {0} data size: {1} record size: {2}",

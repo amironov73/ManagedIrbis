@@ -120,6 +120,9 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("X", RemoveAngleBrackets);
             Registry.Add("Y", UniforO.FreeExemplars);
             Registry.Add("+0", UniforPlus0.FormatAll);
+            Registry.Add("+1", UniforPlus1.ClearGlobals);
+            Registry.Add("+1R", UniforPlus1.ReadGlobal);
+            Registry.Add("+1W", UniforPlus1.WriteGlobal);
             Registry.Add("+2", UniforPlus2.System);
             Registry.Add("+3D", UniforPlus3.UrlDecode);
             Registry.Add("+3E", UniforPlus3.UrlEncode);
@@ -245,9 +248,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             context.Write(node, output);
             context.OutputFlag = true;
         }
-
-        // ================================================================
-
 
         // ================================================================
 
