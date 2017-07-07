@@ -156,6 +156,136 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
+        // Групповая мультираскодировка списка
+        // Формат:
+        // +1O<MNU>|SSSS
+        // где:
+        // <MNU> - имя справочника(с расширением);
+        // SSSS - список строк(результат расформатирования
+        // Пример:
+        // &unifor(‘+1Omhr.mnu|’,(v910^m/))
+        //
+
+        public static void DecodeGlobals
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                return;
+            }
+
+            string[] parts = StringUtility.SplitString
+                (
+                    expression,
+                    _verticalLine,
+                    2
+                );
+            if (parts.Length != 2)
+            {
+                return;
+            }
+
+            string menuName = parts[0];
+            FileSpecification specification = new FileSpecification
+                (
+                    IrbisPath.MasterFile,
+                    context.Provider.Database,
+                    menuName
+                );
+            MenuFile menu = context.Provider.ReadMenuFile(specification);
+            if (ReferenceEquals(menu, null))
+            {
+                return;
+            }
+            if (menu.Entries.Count == 0)
+            {
+                return;
+            }
+
+            parts = StringUtility.SplitString
+                (
+                    parts[1],
+                    _comma,
+                    2
+                );
+            string indexText = parts[0];
+            int index;
+            if (!NumericUtility.TryParseInt32(indexText, out index))
+            {
+                return;
+            }
+            int count = 1;
+            if (parts.Length == 2)
+            {
+                count = parts[1].SafeToInt32(count);
+            }
+
+            bool first;
+            List<string> lines = new List<string>();
+            while (count > 0)
+            {
+                if (context.Globals.HaveVariable(index))
+                {
+                    RecordField[] fields = context.Globals.Get(index);
+                    StringBuilder builder = new StringBuilder();
+                    first = true;
+                    foreach (RecordField field in fields)
+                    {
+                        if (!first)
+                        {
+                            builder.AppendLine();
+                        }
+                        first = false;
+                        builder.Append(field.ToText());
+                    }
+                    lines.Add(builder.ToString());
+                }
+                count--;
+                index++;
+            }
+
+            while (lines.Count != 0)
+            {
+                // Удаляем пустые строки в конце
+                int offset = lines.Count - 1;
+                if (string.IsNullOrEmpty(lines[offset]))
+                {
+                    lines.RemoveAt(offset);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (lines.Count == 0)
+            {
+                return;
+            }
+
+            first = true;
+            foreach (string line in lines)
+            {
+                if (!first)
+                {
+                    context.WriteLine(node);
+                }
+
+                var value = menu.GetStringSensitive(line);
+                context.Write(node, value);
+                context.OutputFlag = true;
+
+                first = false;
+            }
+        }
+
+        // ================================================================
+
+        //
         // Чтение глобальных переменных – &uf('+1R…
         // Вид функции: +1R.
         // Назначение: Чтение глобальных переменных.
@@ -204,7 +334,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     }
 
                     bool flag = false;
-                    while (count != 0)
+                    while (count > 0)
                     {
                         if (flag)
                         {
