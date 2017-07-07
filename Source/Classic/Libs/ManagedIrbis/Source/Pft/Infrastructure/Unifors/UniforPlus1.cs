@@ -9,9 +9,11 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 using AM;
@@ -286,6 +288,28 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
+        // Перемножение двух списков (групп переменных) – &uf('+1M…
+        // Вид функции: +1M.
+        // Назначение: Перемножение двух списков(групп переменных).
+        // Формат(передаваемая строка):
+        // +1MNNN,nnn#MMM,mmm
+        // где:
+        // NNN,MMM – номер первой или единственной переменной.
+        // nnn,mmm – кол-во переменных(по умолчанию 1).
+        //
+
+        public static void MultiplyGlobals
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+        }
+
+        // ================================================================
+
+        //
         // Чтение глобальных переменных – &uf('+1R…
         // Вид функции: +1R.
         // Назначение: Чтение глобальных переменных.
@@ -364,6 +388,48 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         count--;
                     }
                 }
+            }
+        }
+
+        // ================================================================
+
+        //
+        // +1V
+        // Сортировка списка
+        // Формат:
+        // +1VSSSS
+        //
+
+        public static void SortList
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                return;
+            }
+
+            string[] lines = expression.SplitLines();
+            Array.Sort
+                (
+                    lines,
+                    StringComparer.OrdinalIgnoreCase
+                );
+
+            foreach (string line in lines)
+            {
+                if (string.IsNullOrEmpty(line))
+                {
+                    context.WriteLine(node);
+                }
+                else
+                {
+                    context.WriteLine(node, line);
+                }
+                context.OutputFlag = true;
             }
         }
 

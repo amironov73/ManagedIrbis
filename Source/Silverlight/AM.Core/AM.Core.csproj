@@ -533,6 +533,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Ranges\NumberRangeCollection.cs">
       <Link>AM\Text\Ranges\NumberRangeCollection.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\RichText.cs">
+      <Link>AM\Text\RichText.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\RichTextStripper.cs">
       <Link>AM\Text\RichTextStripper.cs</Link>
     </Compile>
