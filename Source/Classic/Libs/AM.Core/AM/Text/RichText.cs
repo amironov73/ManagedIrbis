@@ -38,6 +38,39 @@ namespace AM.Text
 
         #region Properties
 
+        /// <summary>
+        /// Central European prologue for RTF file.
+        /// </summary>
+        public static string CentralEuropeanPrologue
+            = @"{\rtf1\ansi\ansicpg1250\deff0\deflang1033"
+              + @"{\fonttbl{\f0\fnil\fcharset238 MS Sans Serif;}}"
+              + @"\viewkind4\uc1\pard\f0\fs16 ";
+
+        /// <summary>
+        /// Common prologue for RTF file.
+        /// </summary>
+        public static string CommonPrologue
+            = @"{\rtf1\ansi\deff0"
+              + @"{\fonttbl{\f0\fnil\fcharset0 MS Sans Serif;}}"
+              + @"\viewkind4\uc1\pard\f0\fs16 ";
+
+
+        /// <summary>
+        /// Western European prologue for RTF file.
+        /// </summary>
+        public static string WesternEuropeanPrologue
+            = @"{\rtf1\ansi\ansicpg1252\deff0\deflang1033"
+              + @"{\fonttbl{\f0\fnil\fcharset0 MS Sans Serif;}}"
+              + @"\viewkind4\uc1\pard\f0\fs16 ";
+
+        /// <summary>
+        /// Russian prologue for RTF file.
+        /// </summary>
+        public static string RussianPrologue
+            = @"{\rtf1\ansi\ansicpg1251\deff0\deflang1049"
+              + @"{\fonttbl{\f0\fnil\fcharset204 MS Sans Serif;}}"
+              + @"\viewkind4\uc1\pard\f0\fs16 ";
+
         #endregion
 
         #region Construction

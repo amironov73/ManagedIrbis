@@ -59,8 +59,10 @@ namespace ManagedIrbis.Reports
             Code.NotNull(context, "context");
             Code.NotNull(report, "report");
 
+            // TODO support for russian and european languages
+
             ReportOutput output = context.Output;
-            output.Write(@"{\rtf1\ansi ");
+            output.Write(RichText.CommonPrologue);
         }
 
         /// <inheritdoc cref="ReportDriver.EndDocument" />
