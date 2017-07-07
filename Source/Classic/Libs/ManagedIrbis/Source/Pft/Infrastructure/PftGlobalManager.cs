@@ -269,7 +269,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         void IHandmadeSerializable.RestoreFromStream
             (
                 BinaryReader reader
@@ -280,7 +280,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         void IHandmadeSerializable.SaveToStream
             (
                 BinaryWriter writer

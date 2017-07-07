@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -19,6 +20,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.ImportExport;
 using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Menus;
 
 #endregion
 
@@ -34,6 +36,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
         private static readonly char[] _comma = { ',' };
         private static readonly char[] _numberSign = { '#' };
+        private static readonly char[] _verticalLine = { '|' };
 
         #endregion
 
@@ -47,7 +50,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // Назначение: Очистить (опустошить) все глобальные переменные.
         // Формат (передаваемая строка):
         // +1
-        // Примеры:
+        // Пример:
         // &unifor('+1')
         //
 
@@ -61,6 +64,94 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             context.Globals.Clear();
         }
 
+
+        // ================================================================
+
+        //
+        // Групповая мультираскодировка списка
+        // Формат:
+        // +1O<MNU>|SSSS
+        // где:
+        // <MNU> - имя справочника(с расширением);
+        // SSSS - список строк(результат расформатирования
+        // Пример:
+        // &unifor(‘+1Omhr.mnu|’,(v910^m/))
+
+        public static void DecodeList
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                return;
+            }
+
+            string[] parts = StringUtility.SplitString
+                (
+                    expression,
+                    _verticalLine,
+                    2
+                );
+            if (parts.Length != 2)
+            {
+                return;
+            }
+
+            string menuName = parts[0];
+            FileSpecification specification = new FileSpecification
+                (
+                    IrbisPath.MasterFile,
+                    context.Provider.Database,
+                    menuName
+                );
+            MenuFile menu = context.Provider.ReadMenuFile(specification);
+            if (ReferenceEquals(menu, null))
+            {
+                return;
+            }
+            if (menu.Entries.Count == 0)
+            {
+                return;
+            }
+
+            List<string> lines = new List<string>(parts[1].SplitLines());
+            while (lines.Count != 0)
+            {
+                // Удаляем пустые строки в конце
+                int offset = lines.Count - 1;
+                if (string.IsNullOrEmpty(lines[offset]))
+                {
+                    lines.RemoveAt(offset);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (lines.Count == 0)
+            {
+                return;
+            }
+
+            bool first = true;
+            foreach (string line in lines)
+            {
+                if (!first)
+                {
+                    context.WriteLine(node);
+                }
+
+                var value = menu.GetStringSensitive(line);
+                context.Write(node, value);
+                context.OutputFlag = true;
+
+                first = false;
+            }
+        }
 
         // ================================================================
 
