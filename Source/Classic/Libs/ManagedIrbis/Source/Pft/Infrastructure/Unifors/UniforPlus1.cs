@@ -190,6 +190,68 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
+        // Сложение двух списков (групп переменных) – &uf('+1A…
+        // Вид функции: +1S.
+        // Назначение: Сложение двух списков(групп переменных).
+        // Формат(передаваемая строка):
+        // +1SNNN,nnn#MMM,mmm
+        // где:
+        // NNN,MMM – номер первой или единственной переменной.
+        // nnn,mmm – кол-во переменных(по умолчанию 1).
+        //
+
+        public static void AddGlobals
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            int[] pair = _ParsePair(expression);
+            if (ReferenceEquals(pair, null))
+            {
+                return;
+            }
+
+            string[] first = _GetGlobals(context, pair[0], pair[1]);
+            string[] second = _GetGlobals(context, pair[2], pair[3]);
+            if (first.Length == 0
+                && second.Length == 0)
+            {
+                return;
+            }
+
+            bool flag = true;
+            IEqualityComparer<string> comparer
+                = StringUtility.GetCaseInsensitiveComparer();
+            foreach (string item in second)
+            {
+                if (!flag)
+                {
+                    context.WriteLine(node);
+                }
+                context.Write(node, item);
+                context.OutputFlag = true;
+                flag = false;
+            }
+            foreach (string item in first)
+            {
+                if (!second.Contains(item, comparer))
+                {
+                    if (!flag)
+                    {
+                        context.WriteLine(node);
+                    }
+                    context.Write(node, item);
+                    context.OutputFlag = true;
+                    flag = false;
+                }
+            }
+        }
+
+        // ================================================================
+
+        //
         // Очистить(опустошить) все глобальные переменные – &uf('+1…
         // Вид функции: +1.
         // Назначение: Очистить (опустошить) все глобальные переменные.
@@ -357,7 +419,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 count = parts[1].SafeToInt32(count);
             }
 
-            bool first;
             List<string> lines = new List<string>();
             while (count > 0)
             {
@@ -376,7 +437,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            first = true;
+            var first = true;
             foreach (string line in lines)
             {
                 if (!first)
@@ -569,7 +630,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             bool flag = true;
             IEqualityComparer<string> comparer
                 = StringUtility.GetCaseInsensitiveComparer();
-            foreach (var item in first)
+            foreach (string item in first)
             {
                 if (second.Contains(item, comparer))
                 {
@@ -735,7 +796,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             bool flag = true;
             IEqualityComparer<string> comparer
                 = StringUtility.GetCaseInsensitiveComparer();
-            foreach (var item in first)
+            foreach (string item in first)
             {
                 if (!second.Contains(item, comparer))
                 {
