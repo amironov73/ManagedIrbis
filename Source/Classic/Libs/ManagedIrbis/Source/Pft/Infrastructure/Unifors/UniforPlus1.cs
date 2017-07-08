@@ -62,6 +62,104 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             return result.ToString();
         }
 
+        [NotNull]
+        public static string[] _GetGlobals
+            (
+                [NotNull] PftContext context,
+                int index,
+                int count
+            )
+        {
+            if (count <= 0)
+            {
+                return new string[0];
+            }
+
+            List<string> result = new List<string>(count);
+            while (count > 0)
+            {
+                if (context.Globals.HaveVariable(index))
+                {
+                    string item = _GetGlobal(context, index)
+                        ?? string.Empty;
+                    result.Add(item);
+                }
+                count--;
+                index++;
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Parse NNN,nnn#MMM,mmm
+        /// </summary>
+        private static int[] _ParsePair
+            (
+                [CanBeNull] string expression
+            )
+        {
+            int[] result = null;
+            if (string.IsNullOrEmpty(expression))
+            {
+                goto DONE;
+            }
+
+            string[] parts = StringUtility.SplitString
+                (
+                    expression,
+                    _numberSign,
+                    2
+                );
+            if (parts.Length != 2)
+            {
+                goto DONE;
+            }
+            string[] subs = StringUtility.SplitString
+                (
+                    parts[0],
+                    _comma,
+                    2
+                );
+            int firstIndex;
+            if (!NumericUtility.TryParseInt32(subs[0], out firstIndex))
+            {
+                goto DONE;
+            }
+            int firstCount = 1;
+            if (subs.Length == 2)
+            {
+                firstCount = subs[1].SafeToInt32(firstCount);
+            }
+            subs = StringUtility.SplitString
+                (
+                    parts[1],
+                    _comma,
+                    2
+                );
+            int secondIndex;
+            if (!NumericUtility.TryParseInt32(subs[0], out secondIndex))
+            {
+                goto DONE;
+            }
+            int secondCount = 1;
+            if (subs.Length == 2)
+            {
+                secondCount = subs[1].SafeToInt32(secondCount);
+            }
+
+            result = new[]
+            {
+                firstIndex,
+                firstCount,
+                secondIndex,
+                secondCount
+            };
+
+            DONE:
+            return result;
+        }
+
         /// <summary>
         /// Удаляем пустые строки в конце списка.
         /// </summary>
@@ -454,6 +552,36 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 [CanBeNull] string expression
             )
         {
+            int[] pair = _ParsePair(expression);
+            if (ReferenceEquals(pair, null))
+            {
+                return;
+            }
+
+            string[] first = _GetGlobals(context, pair[0], pair[1]);
+            string[] second = _GetGlobals(context, pair[2], pair[3]);
+            if (first.Length == 0
+                || second.Length == 0)
+            {
+                return;
+            }
+
+            bool flag = true;
+            IEqualityComparer<string> comparer
+                = StringUtility.GetCaseInsensitiveComparer();
+            foreach (var item in first)
+            {
+                if (second.Contains(item, comparer))
+                {
+                    if (!flag)
+                    {
+                        context.WriteLine(node);
+                    }
+                    context.Write(node, item);
+                    context.OutputFlag = true;
+                    flag = false;
+                }
+            }
         }
 
         // ================================================================

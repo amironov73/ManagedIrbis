@@ -242,6 +242,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\RemoteCatalogerIniFile.cs">
       <Link>Source\Client\RemoteCatalogerIniFile.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\SemiConnectedClient.cs">
+      <Link>Source\Client\SemiConnectedClient.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ConnectionElement.cs">
       <Link>Source\ConnectionElement.cs</Link>
     </Compile>
