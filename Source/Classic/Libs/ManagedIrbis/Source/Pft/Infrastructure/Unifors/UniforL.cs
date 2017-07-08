@@ -93,7 +93,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 return;
             }
-            if (!firstTerm.StartsWith(firstTerm))
+            if (!firstTerm.StartsWith(expression))
             {
                 return;
             }
