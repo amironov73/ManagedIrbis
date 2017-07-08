@@ -25,7 +25,7 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Client;
 using ManagedIrbis.Pft.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Ast;
 
@@ -397,6 +397,29 @@ namespace ManagedIrbis.Pft
                     second,
                     StringComparison.CurrentCultureIgnoreCase
                 );
+
+            return result;
+        }
+
+        //=================================================
+
+        /// <summary>
+        /// Compile the program.
+        /// </summary>
+        [NotNull]
+        public static PftProgram CompileProgram
+            (
+                [NotNull] string source
+            )
+        {
+            Code.NotNullNorEmpty(source, "source");
+
+            // TODO some caching
+
+            PftLexer lexer = new PftLexer();
+            PftTokenList tokens = lexer.Tokenize(source);
+            PftParser parser = new PftParser(tokens);
+            PftProgram result = parser.Parse();
 
             return result;
         }

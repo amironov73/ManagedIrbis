@@ -152,21 +152,18 @@ namespace ManagedIrbis.Pft
         /// </summary>
         public virtual void ParseProgram
             (
-                [NotNull] string text
+                [NotNull] string source
             )
         {
-            Code.NotNull(text, "text");
+            Code.NotNull(source, "source");
 
-            PftLexer lexer = new PftLexer();
-            PftTokenList tokens = lexer.Tokenize(text);
-            PftParser parser = new PftParser(tokens);
-            Program = parser.Parse();
+            Program = PftUtility.CompileProgram(source);
         }
 
         /// <summary>
-        /// Set environment.
+        /// Set the provider.
         /// </summary>
-        public void SetEnvironment
+        public void SetProvider
             (
                 [NotNull] IrbisProvider provider
             )

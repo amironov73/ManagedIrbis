@@ -85,7 +85,7 @@ namespace ManagedIrbis.Fields
             Provider = provider;
 
             Formatter = new PftFormatter();
-            Formatter.SetEnvironment(provider);
+            Formatter.SetProvider(provider);
             SetProgram(format);
         }
 

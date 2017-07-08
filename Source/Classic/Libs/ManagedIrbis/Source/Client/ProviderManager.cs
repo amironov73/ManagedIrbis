@@ -58,6 +58,12 @@ namespace ManagedIrbis.Client
         /// </summary>
         public const string Null = "Null";
 
+        /// <summary>
+        /// Connected client with some local functionality:
+        /// <see cref="SemiConnectedClient"/>.
+        /// </summary>
+        public const string SemiConnected = "SemiConnected";
+
         #endregion
 
         #region Properties
@@ -82,6 +88,7 @@ namespace ManagedIrbis.Client
                 {Null, typeof(NullProvider)},
                 {Local, typeof(LocalProvider)},
                 {Connected, typeof(ConnectedClient)},
+                {SemiConnected, typeof(SemiConnectedClient)},
                 {Default, typeof(ConnectedClient)}
             };
         }
@@ -103,7 +110,7 @@ namespace ManagedIrbis.Client
                 [NotNull] string configurationString
             )
         {
-            Code.NotNullNorEmpty(configurationString, "configurationString" );
+            Code.NotNullNorEmpty(configurationString, "configurationString");
 
             Parameter[] parameters = ParameterUtility.ParseString
                 (
@@ -188,7 +195,7 @@ namespace ManagedIrbis.Client
         {
 #if CLASSIC || NETCORE
 
-            string configurationString 
+            string configurationString
                 = AM.Configuration.ConfigurationUtility.GetString
                 (
                     "IrbisProvider"

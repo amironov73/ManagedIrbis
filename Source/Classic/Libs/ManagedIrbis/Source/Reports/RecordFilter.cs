@@ -154,7 +154,7 @@ namespace ManagedIrbis.Reports
                 if (ReferenceEquals(_formatter, null))
                 {
                     _formatter = new PftFormatter();
-                    _formatter.SetEnvironment(Provider);
+                    _formatter.SetProvider(Provider);
                     _formatter.ParseProgram(expression);
                 }
 

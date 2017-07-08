@@ -240,7 +240,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                     Program = program
                 })
                 {
-                    formatter.SetEnvironment(provider);
+                    formatter.SetProvider(provider);
                     output = formatter.Format(record)
                         .DosToUnix()
                         .ThrowIfNull("output");

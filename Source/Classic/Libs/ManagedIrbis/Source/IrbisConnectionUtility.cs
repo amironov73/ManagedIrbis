@@ -271,7 +271,7 @@ namespace ManagedIrbis
             using (IrbisProvider provider = new ConnectedClient(connection))
             using (PftFormatter formatter = new PftFormatter())
             {
-                formatter.SetEnvironment(provider);
+                formatter.SetProvider(provider);
                 string specification
                     = parameters.FilterSpecification.ThrowIfNull();
 

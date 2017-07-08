@@ -76,10 +76,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     return;
                 }
-                PftLexer lexer = new PftLexer();
-                PftTokenList tokens = lexer.Tokenize(source);
-                PftParser parser = new PftParser(tokens);
-                PftProgram program = parser.Parse();
+
+                PftProgram program = PftUtility.CompileProgram(source);
                 program.Execute(context);
             }
         }

@@ -30,7 +30,10 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Direct;
 using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Pft;
+using ManagedIrbis.Pft.Infrastructure;
 using ManagedIrbis.Search;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -247,6 +250,28 @@ namespace ManagedIrbis.Client
             }
 
 #endif
+        }
+
+        /// <inheritdoc cref="IrbisProvider.FormatRecord" />
+        public override string FormatRecord
+            (
+                MarcRecord record,
+                string format
+            )
+        {
+            Code.NotNull(record, "record");
+            Code.NotNull(format, "format");
+
+            PftProgram program = PftUtility.CompileProgram(format);
+            PftContext context = new PftContext(null)
+            {
+                Record = record
+            };
+            context.SetProvider(this);
+            program.Execute(context);
+            string result = context.GetProcessedOutput();
+
+            return result;
         }
 
         /// <inheritdoc cref="IrbisProvider.GetMaxMfn"/>

@@ -364,16 +364,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         }
 
         /// <summary>
-        /// Get IRBIS version (family): 32 or 64
+        /// Get IRBIS generation (family): 32 or 64
         /// </summary>
-        public static void GetVersion
+        public static void GetGeneration
             (
                 [NotNull] PftContext context,
                 [CanBeNull] PftNode node,
                 [CanBeNull] string expression
             )
         {
-            context.Write(node, "64");
+            context.Write
+                (
+                    node,
+                    context.Provider.GetGeneration()
+                );
             context.OutputFlag = true;
         }
 

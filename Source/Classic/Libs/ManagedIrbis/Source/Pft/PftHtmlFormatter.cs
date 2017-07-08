@@ -90,12 +90,12 @@ namespace ManagedIrbis.Pft
         /// <inheritdoc cref="PftFormatter.ParseProgram" />
         public override void ParseProgram
             (
-                string text
+                string source
             )
         {
-            Code.NotNull(text, "text");
+            Code.NotNull(source, "source");
 
-            if (Separator.SeparateText(text))
+            if (Separator.SeparateText(source))
             {
                 Log.Error
                     (

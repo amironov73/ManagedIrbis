@@ -68,7 +68,7 @@ namespace ManagedIrbis.Reports
             Code.NotNull(context, "context");
 
             PftFormatter result = new PftFormatter();
-            result.SetEnvironment(context.Provider);
+            result.SetProvider(context.Provider);
             if (!string.IsNullOrEmpty(expression))
             {
                 result.ParseProgram(expression);

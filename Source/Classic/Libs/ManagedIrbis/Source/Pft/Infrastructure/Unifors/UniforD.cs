@@ -137,10 +137,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
             else
             {
-                PftLexer lexer = new PftLexer();
-                PftTokenList tokens = lexer.Tokenize(format);
-                PftParser parser = new PftParser(tokens);
-                PftProgram program = parser.Parse();
+                PftProgram program = PftUtility.CompileProgram(format);
 
                 using (PftContextGuard guard 
                     = new PftContextGuard(context))

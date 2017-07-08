@@ -103,10 +103,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         PftContext nestedContext = guard.ChildContext;
                         nestedContext.Record = record;
 
-                        PftLexer lexer = new PftLexer();
-                        PftTokenList tokens = lexer.Tokenize(format);
-                        PftParser parser = new PftParser(tokens);
-                        PftProgram program = parser.Parse();
+                        // TODO some caching
+
+                        PftProgram program = PftUtility.CompileProgram(format);
                         program.Execute(nestedContext);
 
                         string output = nestedContext.Text;

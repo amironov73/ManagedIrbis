@@ -213,6 +213,15 @@ namespace ManagedIrbis.Client
         }
 
         /// <summary>
+        /// Get generation of the provider.
+        /// </summary>
+        [NotNull]
+        public virtual string GetGeneration()
+        {
+            return "64";
+        }
+
+        /// <summary>
         /// Get maximal MFN.
         /// </summary>
         public virtual int GetMaxMfn()

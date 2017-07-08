@@ -112,10 +112,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 int[] found = provider.Search(term);
                 if (found.Length != 0)
                 {
-                    PftLexer lexer = new PftLexer();
-                    PftTokenList tokens = lexer.Tokenize(format);
-                    PftParser parser = new PftParser(tokens);
-                    PftProgram program = parser.Parse();
+                    PftProgram program = PftUtility.CompileProgram(format);
 
                     using (PftContextGuard guard
                         = new PftContextGuard(context))

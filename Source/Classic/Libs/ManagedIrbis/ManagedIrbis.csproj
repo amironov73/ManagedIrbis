@@ -171,6 +171,7 @@
     <Compile Include="Source\Client\ProviderManager.cs" />
     <Compile Include="Source\Client\RecordStateComparer.cs" />
     <Compile Include="Source\Client\RemoteCatalogerIniFile.cs" />
+    <Compile Include="Source\Client\SemiConnectedClient.cs" />
     <Compile Include="Source\ConnectionElement.cs" />
     <Compile Include="Source\ConnectionSettings.cs" />
     <Compile Include="Source\CopyRecordManager.cs" />

@@ -166,7 +166,7 @@ namespace EasyGlobal
                 IrbisProvider provider
                     = new ConnectedClient(Connection);
                 PftFormatter formatter = new PftFormatter();
-                formatter.SetEnvironment(provider);
+                formatter.SetProvider(provider);
                 formatter.ParseProgram(programText);
 
                 formatter.Context.Functions.Add("print", _Printer);

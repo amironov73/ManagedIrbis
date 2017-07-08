@@ -162,7 +162,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+9G", UniforPlus9.SplitWords);
             Registry.Add("+9I", UniforPlus9.ReplaceString);
             Registry.Add("+9S", FindSubstring);
-            Registry.Add("+9V", UniforPlus9.GetVersion);
+            Registry.Add("+9V", UniforPlus9.GetGeneration);
             Registry.Add("+D", GetDatabaseName);
             Registry.Add("+E", GetFieldIndex);
             Registry.Add("+F", CleanRtf);

@@ -126,7 +126,7 @@ namespace PftBench
                 _provider.Database = database.Name
                     .ThrowIfNull("database.Name");
             }
-            formatter.SetEnvironment(_provider);
+            formatter.SetProvider(_provider);
 
             string result = formatter.Format(_record);
             _resutlBox.Text = result;

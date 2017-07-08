@@ -22,6 +22,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Client;
+using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
 
 using MoonSharp.Interpreter;
@@ -134,15 +135,12 @@ namespace ManagedIrbis.Fst
             Code.NotNull(record, "record");
             Code.NotNullNorEmpty(format, "format");
 
-            PftLexer lexer = new PftLexer();
-            PftTokenList tokenList = lexer.Tokenize(format);
-            PftParser parser = new PftParser(tokenList);
+            PftProgram program = PftUtility.CompileProgram(format);
             PftContext context = new PftContext(null)
             {
                 Record = record
             };
             context.SetProvider(Provider);
-            PftProgram program = parser.Parse();
             program.Execute(context);
             string transformed = context.Text;
 
