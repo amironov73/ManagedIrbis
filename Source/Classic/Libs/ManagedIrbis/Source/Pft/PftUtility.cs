@@ -412,7 +412,7 @@ namespace ManagedIrbis.Pft
                 [NotNull] string source
             )
         {
-            Code.NotNullNorEmpty(source, "source");
+            Code.NotNull(source, "source");
 
             // TODO some caching
 

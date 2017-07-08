@@ -127,6 +127,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+1M", UniforPlus1.MultiplyGlobals);
             Registry.Add("+1O", UniforPlus1.DecodeList);
             Registry.Add("+1R", UniforPlus1.ReadGlobal);
+            Registry.Add("+1S", UniforPlus1.SubstractGlobals);
             Registry.Add("+1V", UniforPlus1.SortList);
             Registry.Add("+1W", UniforPlus1.WriteGlobal);
             Registry.Add("+2", UniforPlus2.System);

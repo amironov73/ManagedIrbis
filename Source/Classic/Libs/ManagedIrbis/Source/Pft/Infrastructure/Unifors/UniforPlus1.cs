@@ -702,6 +702,57 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
+        // Вычитание списков (групп переменных) – &uf('+1S…
+        // Вид функции: +1S.
+        // Назначение: Вычитание списков(групп переменных).
+        // Формат(передаваемая строка):
+        // +1SNNN,nnn#MMM,mmm
+        // где:
+        // NNN,MMM – номер первой или единственной переменной.
+        // nnn,mmm – кол-во переменных(по умолчанию 1).
+        //
+
+        public static void SubstractGlobals
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            int[] pair = _ParsePair(expression);
+            if (ReferenceEquals(pair, null))
+            {
+                return;
+            }
+
+            string[] first = _GetGlobals(context, pair[0], pair[1]);
+            string[] second = _GetGlobals(context, pair[2], pair[3]);
+            if (first.Length == 0)
+            {
+                return;
+            }
+
+            bool flag = true;
+            IEqualityComparer<string> comparer
+                = StringUtility.GetCaseInsensitiveComparer();
+            foreach (var item in first)
+            {
+                if (!second.Contains(item, comparer))
+                {
+                    if (!flag)
+                    {
+                        context.WriteLine(node);
+                    }
+                    context.Write(node, item);
+                    context.OutputFlag = true;
+                    flag = false;
+                }
+            }
+        }
+
+        // ================================================================
+
+        //
         // Запись в глобальные переменные – &uf('+1W…
         // Вид функции: +1W.
         // Назначение: Запись в глобальные переменные.
