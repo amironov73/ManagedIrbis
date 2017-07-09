@@ -80,7 +80,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     string item = _GetGlobal(context, index)
                         ?? string.Empty;
-                    result.Add(item);
+                    string[] lines = item.SplitLines();
+                    result.AddRange(lines);
                 }
                 count--;
                 index++;
@@ -713,6 +714,53 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 context.Write(node, line);
                 context.OutputFlag = true;
                 flag = true;
+            }
+        }
+
+        // ================================================================
+
+        //
+        // Сортировка группы переменных – &uf('+1T…
+        // Вид функции: +1T.
+        // Назначение: Сортировка группы переменных.
+        // Формат (передаваемая строка):
+        // +1TNNN,nnn
+        // где:
+        // NNN – номер первой или единственной переменной,
+        // nnn – кол-во переменных (по умолчанию 1).
+        //
+        // Примеры:
+        // &unifor('+1T100,4')
+        //
+
+        public static void SortGlobals
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            int[] one = _ParseOne(context, expression);
+            if (ReferenceEquals(one, null))
+            {
+                return;
+            }
+
+            int index = one[0];
+            int count = one[1];
+            List<string> lines = _GetGlobals(context, index, count);
+            _RemoveEmptyTailLines(lines);
+            if (lines.Count == 0)
+            {
+                return;
+            }
+
+            lines.Sort(StringComparer.OrdinalIgnoreCase);
+
+            foreach (string line in lines)
+            {
+                context.WriteLine(node, line);
+                context.OutputFlag = true;
             }
         }
 
