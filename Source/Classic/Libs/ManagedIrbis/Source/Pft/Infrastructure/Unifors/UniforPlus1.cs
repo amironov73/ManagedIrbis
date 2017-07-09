@@ -38,6 +38,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         private static readonly char[] _numberSign = { '#' };
         private static readonly char[] _verticalLine = { '|' };
 
+        // ================================================================
+
         private static string _GetGlobal
             (
                 [NotNull] PftContext context,
@@ -59,6 +61,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
             return result.ToString();
         }
+
+        // ================================================================
 
         [NotNull]
         public static List<string> _GetGlobals
@@ -89,6 +93,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
             return result;
         }
+
+        // ================================================================
 
         /// <summary>
         /// Parse NNN,nnn
@@ -153,6 +159,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             DONE:
             return result;
         }
+
+        // ================================================================
 
         /// <summary>
         /// Parse NNN,nnn#MMM,mmm
@@ -222,6 +230,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             DONE:
             return result;
         }
+
+        // ================================================================
 
         /// <summary>
         /// Удаляем пустые строки в конце списка.
