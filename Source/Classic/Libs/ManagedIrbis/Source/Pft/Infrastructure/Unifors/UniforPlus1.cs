@@ -11,8 +11,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -63,7 +61,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         }
 
         [NotNull]
-        public static string[] _GetGlobals
+        public static List<string> _GetGlobals
             (
                 [NotNull] PftContext context,
                 int index,
@@ -72,7 +70,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             if (count <= 0)
             {
-                return new string[0];
+                return new List<string>();
             }
 
             List<string> result = new List<string>(count);
@@ -88,7 +86,71 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 index++;
             }
 
-            return result.ToArray();
+            return result;
+        }
+
+        /// <summary>
+        /// Parse NNN,nnn
+        /// </summary>
+        private static int[] _ParseOne
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] string expression
+            )
+        {
+            int[] result = null;
+            if (string.IsNullOrEmpty(expression))
+            {
+                goto DONE;
+            }
+
+            string[] parts = StringUtility.SplitString
+                (
+                    expression,
+                    _comma,
+                    2
+                );
+
+            int index;
+            string specification = parts[0];
+            if (specification.StartsWith("*"))
+            {
+                specification = specification.Substring(1);
+                if (specification.StartsWith("+"))
+                {
+                    specification = specification.Substring(1);
+                }
+                if (NumericUtility.TryParseInt32(specification, out index))
+                {
+                    index += context.Index + 1;
+                }
+                else
+                {
+                    index = context.Index + 1;
+                }
+            }
+            else
+            {
+                if (!NumericUtility.TryParseInt32(specification, out index))
+                {
+                    goto DONE;
+                }
+            }
+
+            int count = 1;
+            if (parts.Length == 2)
+            {
+                count = specification.SafeToInt32(count);
+            }
+
+            result = new[]
+            {
+                index,
+                count
+            };
+
+            DONE:
+            return result;
         }
 
         /// <summary>
@@ -213,10 +275,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            string[] first = _GetGlobals(context, pair[0], pair[1]);
-            string[] second = _GetGlobals(context, pair[2], pair[3]);
-            if (first.Length == 0
-                && second.Length == 0)
+            List<string> first = _GetGlobals(context, pair[0], pair[1]);
+            List<string> second = _GetGlobals(context, pair[2], pair[3]);
+            if (first.Count == 0
+                && second.Count == 0)
             {
                 return;
             }
@@ -351,14 +413,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Групповая мультираскодировка списка
+        // Групповая мультираскодировка переменных
         // Формат:
-        // +1O<MNU>|SSSS
+        // +1K<MNU>|NNN,nnn
         // где:
         // <MNU> - имя справочника(с расширением);
-        // SSSS - список строк(результат расформатирования
+        // NNN – номер первой или единственной переменной,
+        // возможна конструкция *+-<число>. * – номер текущего повторения
+        // в повторяющейся группе.
+        // nnn – кол-во переменных (по умолчанию 1).
         // Пример:
-        // &unifor(‘+1Omhr.mnu|’,(v910^m/))
+        // &unifor(‘+1Kmhr.mnu|100,10’)
         //
 
         public static void DecodeGlobals
@@ -401,35 +466,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            parts = StringUtility.SplitString
-                (
-                    parts[1],
-                    _comma,
-                    2
-                );
-            string indexText = parts[0];
-            int index;
-            if (!NumericUtility.TryParseInt32(indexText, out index))
+            int[] one = _ParseOne(context, parts[1]);
+            if (ReferenceEquals(one, null))
             {
                 return;
             }
-            int count = 1;
-            if (parts.Length == 2)
-            {
-                count = parts[1].SafeToInt32(count);
-            }
+            int index = one[0];
+            int count = one[1];
 
-            List<string> lines = new List<string>();
-            while (count > 0)
-            {
-                if (context.Globals.HaveVariable(index))
-                {
-                    string item = _GetGlobal(context, index);
-                    lines.Add(item);
-                }
-                count--;
-                index++;
-            }
+            List<string> lines = _GetGlobals(context, index, count);
 
             _RemoveEmptyTailLines(lines);
             if (lines.Count == 0)
@@ -473,27 +518,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 [CanBeNull] string expression
             )
         {
-            if (string.IsNullOrEmpty(expression))
+            int[] one = _ParseOne(context, expression);
+            if (ReferenceEquals(one, null))
             {
                 return;
             }
-
-            string[] parts = StringUtility.SplitString
-                (
-                    expression,
-                    _comma,
-                    2
-                );
-            int index;
-            if (!NumericUtility.TryParseInt32(parts[0], out index))
-            {
-                return;
-            }
-            int count = 1;
-            if (parts.Length == 2)
-            {
-                count = parts[1].SafeToInt32(count);
-            }
+            int index = one[0];
+            int count = one[1];
 
             List<string> list = new List<string>(count);
             CaseInsensitiveDictionary<object> dictionary
@@ -561,35 +592,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            List<string> filtered = new List<string>(original.Length);
             CaseInsensitiveDictionary<object> dictionary
                 = new CaseInsensitiveDictionary<object>();
 
             foreach (string line in original)
             {
-                string copy = line;
-                if (ReferenceEquals(copy, null))
-                {
-                    copy = string.Empty;
-                }
+                string copy = line ?? string.Empty;
                 if (!dictionary.ContainsKey(copy))
                 {
                     dictionary.Add(copy, null);
-                    filtered.Add(copy);
+                    if (string.IsNullOrEmpty(line))
+                    {
+                        context.WriteLine(node);
+                    }
+                    else
+                    {
+                        context.WriteLine(node, line);
+                    }
+                    context.OutputFlag = true;
                 }
-            }
-
-            foreach (string line in filtered)
-            {
-                if (string.IsNullOrEmpty(line))
-                {
-                    context.WriteLine(node);
-                }
-                else
-                {
-                    context.WriteLine(node, line);
-                }
-                context.OutputFlag = true;
             }
         }
 
@@ -619,10 +640,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            string[] first = _GetGlobals(context, pair[0], pair[1]);
-            string[] second = _GetGlobals(context, pair[2], pair[3]);
-            if (first.Length == 0
-                || second.Length == 0)
+            List<string> first = _GetGlobals(context, pair[0], pair[1]);
+            List<string> second = _GetGlobals(context, pair[2], pair[3]);
+            if (first.Count == 0
+                || second.Count == 0)
             {
                 return;
             }
@@ -671,50 +692,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 [CanBeNull] string expression
             )
         {
-            if (!string.IsNullOrEmpty(expression))
+            int[] one = _ParseOne(context, expression);
+            if (ReferenceEquals(one, null))
             {
-                string[] parts = StringUtility.SplitString
-                    (
-                        expression,
-                        _comma,
-                        2
-                    );
+                return;
+            }
 
-                string indexText = parts[0];
-                int index;
-                string countText = null;
-                if (parts.Length == 2)
+            int index = one[0];
+            int count = one[1];
+            List<string> lines = _GetGlobals(context, index, count);
+            _RemoveEmptyTailLines(lines);
+
+            bool flag = false;
+            foreach (string line in lines)
+            {
+                if (flag)
                 {
-                    countText = parts[1];
+                    context.WriteLine(node);
                 }
-                if (NumericUtility.TryParseInt32(indexText, out index))
-                {
-                    int count = 1;
-                    if (!string.IsNullOrEmpty(countText))
-                    {
-                        NumericUtility.TryParseInt32(countText, out count);
-                    }
-
-                    bool flag = false;
-                    while (count > 0)
-                    {
-                        if (flag)
-                        {
-                            context.WriteLine(node);
-                        }
-
-                        flag = context.Globals.HaveVariable(index);
-                        string output = _GetGlobal(context, index);
-                        if (output.Length != 0)
-                        {
-                            context.Write(node, output);
-                            context.OutputFlag = true;
-                        }
-
-                        index++;
-                        count--;
-                    }
-                }
+                context.Write(node, line);
+                context.OutputFlag = true;
+                flag = true;
             }
         }
 
@@ -786,9 +784,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            string[] first = _GetGlobals(context, pair[0], pair[1]);
-            string[] second = _GetGlobals(context, pair[2], pair[3]);
-            if (first.Length == 0)
+            List<string> first = _GetGlobals(context, pair[0], pair[1]);
+            List<string> second = _GetGlobals(context, pair[2], pair[3]);
+            if (first.Count == 0)
             {
                 return;
             }
@@ -865,8 +863,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         }
 
         // ================================================================
-
-
 
         #endregion
     }
