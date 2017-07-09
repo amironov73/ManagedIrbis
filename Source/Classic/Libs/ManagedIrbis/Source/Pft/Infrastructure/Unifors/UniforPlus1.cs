@@ -140,7 +140,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             int count = 1;
             if (parts.Length == 2)
             {
-                count = specification.SafeToInt32(count);
+                count = parts[1].SafeToInt32(count);
             }
 
             result = new[]
@@ -838,27 +838,72 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 [CanBeNull] string expression
             )
         {
-            if (!string.IsNullOrEmpty(expression))
+            if (string.IsNullOrEmpty(expression))
             {
-                string[] parts = StringUtility.SplitString
+                return;
+            }
+
+            string[] parts = StringUtility.SplitString
                     (
                         expression,
                         _numberSign,
                         2
                     );
 
-                string indexText = parts[0];
-                string valueText = string.Empty;
-                if (parts.Length == 2)
+            string indexText = parts[0];
+            string valueText = string.Empty;
+            if (parts.Length == 2)
+            {
+                valueText = parts[1] ?? string.Empty;
+            }
+
+            parts = StringUtility.SplitString
+                (
+                    indexText,
+                    _comma,
+                    2
+                );
+            indexText = parts[0];
+
+            bool useCount = false;
+            int countVariable = 0;
+            if (parts.Length == 2)
+            {
+                if (!NumericUtility.TryParseInt32
+                    (
+                        parts[1],
+                        out countVariable
+                    ))
                 {
-                    valueText = parts[1];
+                    return;
+                }
+                useCount = true;
+            }
+
+            int index;
+            if (!NumericUtility.TryParseInt32(indexText, out index))
+            {
+                return;
+            }
+
+            if (useCount)
+            {
+                string[] lines = valueText.SplitLines();
+                foreach (string line in lines)
+                {
+                    context.Globals.Add(index, line);
+                    index++;
                 }
 
-                int index;
-                if (NumericUtility.TryParseInt32(indexText, out index))
-                {
-                    context.Globals.Add(index, valueText);
-                }
+                context.Globals.Add
+                    (
+                        countVariable,
+                        lines.Length.ToInvariantString()
+                    );
+            }
+            else
+            {
+                context.Globals.Add(index, valueText);
             }
         }
 
