@@ -171,6 +171,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+D", GetDatabaseName);
             Registry.Add("+E", GetFieldIndex);
             Registry.Add("+F", CleanRtf);
+            Registry.Add("+I", UniforPlusI.BuildLink);
             Registry.Add("+N", GetFieldCount);
             Registry.Add("+R", TrimAtLastDot);
             Registry.Add("+S", DecodeTitle);
