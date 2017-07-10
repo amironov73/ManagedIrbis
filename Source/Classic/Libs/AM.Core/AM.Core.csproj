@@ -206,6 +206,7 @@
     <Compile Include="AM\IO\DumpUtility.cs" />
     <Compile Include="AM\IO\IConsoleOutputReceiver.cs" />
     <Compile Include="AM\IO\IniFile.cs" />
+    <Compile Include="AM\IO\InsistentFile.cs" />
     <Compile Include="AM\IO\MultiStream.cs" />
     <Compile Include="AM\IO\NonCloseableStream.cs" />
     <Compile Include="AM\IO\NonCloseableStreamReader.cs" />
