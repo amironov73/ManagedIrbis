@@ -129,6 +129,8 @@ namespace ManagedIrbis.Client
                 name = Default;
             }
 
+#if CLASSIC || ANDROID
+
             string assemblyParameter
                 = parameters.GetParameter("Assembly", null)
                 ?? parameters.GetParameter("Assemblies", null);
@@ -140,6 +142,8 @@ namespace ManagedIrbis.Client
                     Assembly.Load(assembly);
                 }
             }
+
+#endif
 
             string typeName
                 = parameters.GetParameter("Register", null)

@@ -1,0 +1,1 @@
+﻿(if p(v1^a) then &uf('+5Tmhr.mnu'), ' => ', &uf('+5Fmhr.mnu'), ' => ', v1^a   /, fi)
