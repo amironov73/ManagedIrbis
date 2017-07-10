@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -126,6 +127,31 @@ namespace ManagedIrbis.Client
                     );
 
                 name = Default;
+            }
+
+            string assemblyParameter
+                = parameters.GetParameter("Assembly", null)
+                ?? parameters.GetParameter("Assemblies", null);
+            if (!string.IsNullOrEmpty(assemblyParameter))
+            {
+                string[] assemblies = assemblyParameter.Split('|');
+                foreach (string assembly in assemblies)
+                {
+                    Assembly.Load(assembly);
+                }
+            }
+
+            string typeName
+                = parameters.GetParameter("Register", null)
+                  ?? parameters.GetParameter("Type", null);
+            if (!string.IsNullOrEmpty(typeName))
+            {
+                Type type = Type.GetType(typeName, true);
+                string shortName = type.Name;
+                if (!Registry.ContainsKey(shortName))
+                {
+                    Registry.Add(shortName, type);
+                }
             }
 
             IrbisProvider result = GetProvider(name, true)

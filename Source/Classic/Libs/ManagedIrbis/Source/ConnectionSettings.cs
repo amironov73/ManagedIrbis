@@ -619,6 +619,10 @@ namespace ManagedIrbis
                 switch (name)
                 {
                     case "provider":
+                    case "assembly":
+                    case "assemblies":
+                    case "register":
+                    case "type":
                         // Nothing to do
                         break;
 

@@ -149,9 +149,7 @@ namespace AM.Text
 
             #region IHandmadeSerializable
 
-            /// <summary>
-            /// Restore object state from the specified stream.
-            /// </summary>
+            /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
             public void RestoreFromStream
                 (
                     BinaryReader reader
@@ -165,9 +163,7 @@ namespace AM.Text
                 HaveValue = reader.ReadBoolean();
             }
 
-            /// <summary>
-            /// Save object state to the specified stream.
-            /// </summary>
+            /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
             public void SaveToStream
                 (
                     BinaryWriter writer
@@ -186,6 +182,7 @@ namespace AM.Text
 
             #region Object members
 
+            /// <inheritdoc cref="object.ToString" />
             public override string ToString()
             {
                 StringBuilder result = new StringBuilder();
@@ -213,6 +210,23 @@ namespace AM.Text
 
             #endregion
         }
+
+        ///// <inheritdoc cref="Comparer{T}"/>
+        //public class Comparer
+        //    : Comparer<string>
+        //{
+        //    // ReSharper disable once MemberHidesStaticFromOuterClass
+
+        //    /// <inheritdoc cref="Comparer{T}.Compare" />
+        //    public override int Compare
+        //        (
+        //            string x, 
+        //            string y
+        //        )
+        //    {
+        //        return NumberText.Compare(x, y);
+        //    }
+        //}
 
         #endregion
 

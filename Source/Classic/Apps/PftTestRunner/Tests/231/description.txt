@@ -1,0 +1,1 @@
+﻿&uf('+4') - get field by repeatable group index

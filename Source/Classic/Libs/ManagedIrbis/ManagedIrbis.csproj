@@ -487,6 +487,7 @@
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforL.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforPlus0.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforPlus1.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Unifors\UniforPlus4.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforPlusPlus0.cs" />
     <Compile Include="Source\Pft\Infrastructure\VMonitor.cs" />
     <Compile Include="Source\Pft\PftFormatter.cs" />
@@ -574,6 +575,7 @@
     <Compile Include="Source\RecordComparer.cs" />
     <Compile Include="Source\RecordDifferenceResult.cs" />
     <Compile Include="Source\Client\RecordState.cs" />
+    <Compile Include="Source\FieldComparer.cs" />
     <Compile Include="Source\RecordGuard.cs" />
     <Compile Include="Source\Reports\Bands\BandCollection.cs" />
     <Compile Include="Source\Reports\Bands\CompositeBand.cs" />
