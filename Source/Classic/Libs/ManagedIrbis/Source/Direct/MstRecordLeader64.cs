@@ -85,7 +85,7 @@ namespace ManagedIrbis.Direct
         #region Public methods
 
         /// <summary>
-        /// Read the record.
+        /// Read the record leader.
         /// </summary>
         [NotNull]
         public static MstRecordLeader64 Read
@@ -112,16 +112,30 @@ namespace ManagedIrbis.Direct
             return result;
         }
 
+        /// <summary>
+        /// Write the record leader.
+        /// </summary>
+        public void Write
+            (
+                [NotNull] Stream stream
+            )
+        {
+            Code.NotNull(stream, "stream");
+
+            stream.WriteInt32Network(Mfn);
+            stream.WriteInt32Network(Length);
+            stream.WriteInt64Network(Previous);
+            stream.WriteInt32Network(Base);
+            stream.WriteInt32Network(Nvf);
+            stream.WriteInt32Network(Version);
+            stream.WriteInt32Network(Status);
+        }
+
         #endregion
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString ()
         {
             return string.Format 

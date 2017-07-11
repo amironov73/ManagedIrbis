@@ -101,24 +101,10 @@ namespace ManagedIrbis.Direct
             FileName = fileName;
 
             _lockObject = new object();
-            _stream = new FileStream
-                (
-                    fileName,
-                    FileMode.Open,
-                    FileAccess.Read,
-                    FileShare.ReadWrite
-                );
+            _stream = InsistentFile.OpenForExclusiveWrite(fileName);
 
-            ControlRecord = new MstControlRecord64
-            {
-                Reserv1 = _stream.ReadInt32Network(),
-                NextMfn = _stream.ReadInt32Network(),
-                NextPosition = _stream.ReadInt64Network(),
-                Reserv2 = _stream.ReadInt32Network(),
-                Reserv3 = _stream.ReadInt32Network(),
-                Reserv4 = _stream.ReadInt32Network(),
-                Blocked = _stream.ReadInt32Network()
-            };
+            ControlRecord = MstControlRecord64.Read(_stream);
+            _lockFlag = ControlRecord.Blocked != 0;
         }
 
         #endregion
@@ -133,15 +119,14 @@ namespace ManagedIrbis.Direct
 
         private static void _AppendStream
             (
-                Stream source,
-                Stream target,
+                [NotNull] Stream source,
+                [NotNull] Stream target,
                 int amount
             )
         {
             if (amount <= 0)
             {
                 throw new IOException();
-                //return false;
             }
             long savedPosition = target.Position;
             target.Position = target.Length;
@@ -151,11 +136,9 @@ namespace ManagedIrbis.Direct
             if (readed <= 0)
             {
                 throw new IOException();
-                //return false;
             }
             target.Write(buffer, 0, readed);
             target.Position = savedPosition;
-            //return true;
         }
 
         #endregion
@@ -163,70 +146,10 @@ namespace ManagedIrbis.Direct
         #region Public methods
 
         /// <summary>
-        /// Read the record.
-        /// </summary>
-        [NotNull]
-        public MstRecord64 ReadRecord
-            (
-                long offset
-            )
-        {
-            if (_stream.Seek(offset, SeekOrigin.Begin) != offset)
-            {
-                throw new IOException();
-            }
-
-            //new ObjectDumper()
-            //    .DumpStream(_stream,offset,64)
-            //    .WriteLine();
-
-            //Encoding encoding = new UTF8Encoding(false, true);
-            Encoding encoding = IrbisEncoding.Utf8;
-
-            MstRecordLeader64 leader
-                = MstRecordLeader64.Read(_stream);
-
-            List<MstDictionaryEntry64> dictionary
-                = new List<MstDictionaryEntry64>();
-
-            for (int i = 0; i < leader.Nvf; i++)
-            {
-                MstDictionaryEntry64 entry = new MstDictionaryEntry64
-                {
-                    Tag = _stream.ReadInt32Network(),
-                    Position = _stream.ReadInt32Network(),
-                    Length = _stream.ReadInt32Network()
-                };
-                dictionary.Add(entry);
-            }
-
-            foreach (MstDictionaryEntry64 entry in dictionary)
-            {
-                long endOffset = offset + leader.Base + entry.Position;
-                _stream.Seek(endOffset, SeekOrigin.Begin);
-                entry.Bytes = _stream.ReadBytes(entry.Length);
-                if (entry.Bytes != null)
-                {
-                    byte[] bytes = entry.Bytes;
-
-                    entry.Text = encoding.GetString(bytes, 0, bytes.Length);
-                }
-            }
-
-            MstRecord64 result = new MstRecord64
-            {
-                Leader = leader,
-                Dictionary = dictionary
-            };
-
-            return result;
-        }
-
-        /// <summary>
         /// Read the record (with preload optimization).
         /// </summary>
         [NotNull]
-        public MstRecord64 ReadRecord2
+        public MstRecord64 ReadRecord
             (
                 long offset
             )
@@ -274,7 +197,7 @@ namespace ManagedIrbis.Direct
                 long endOffset = leader.Base + entry.Position;
                 memory.Seek(endOffset, SeekOrigin.Begin);
                 entry.Bytes = memory.ReadBytes(entry.Length);
-                if (entry.Bytes != null)
+                if (!ReferenceEquals(entry.Bytes, null))
                 {
                     byte[] buffer = entry.Bytes;
                     entry.Text = encoding.GetString(buffer, 0, buffer.Length);
@@ -298,22 +221,25 @@ namespace ManagedIrbis.Direct
                 bool flag
             )
         {
-            byte[] buffer = new byte[4];
-
-            _stream.Position = MstControlRecord64.LockFlagPosition;
-
-            StreamUtility.Lock(_stream, 0, MstControlRecord64.RecordSize);
-
-            if (flag)
+            lock (_lockObject)
             {
-                buffer[0] = 1;
+                byte[] buffer = new byte[4];
+
+                _stream.Position = MstControlRecord64.LockFlagPosition;
+
+                //StreamUtility.Lock(_stream, 0, MstControlRecord64.RecordSize);
+
+                if (flag)
+                {
+                    buffer[0] = 1;
+                }
+
+                _stream.Write(buffer, 0, buffer.Length);
+
+                //StreamUtility.Unlock(_stream, 0, MstControlRecord64.RecordSize);
+
+                _lockFlag = flag;
             }
-
-            _stream.Write(buffer, 0, buffer.Length);
-
-            StreamUtility.Unlock(_stream, 0, MstControlRecord64.RecordSize);
-
-            _lockFlag = flag;
         }
 
         /// <summary>
@@ -321,17 +247,101 @@ namespace ManagedIrbis.Direct
         /// </summary>
         public bool ReadDatabaseLockedFlag()
         {
-            byte[] buffer = new byte[4];
+            lock (_lockObject)
+            {
+                byte[] buffer = new byte[4];
 
-            _stream.Position = MstControlRecord64.LockFlagPosition;
-            _stream.Read(buffer, 0, buffer.Length);
+                _stream.Position = MstControlRecord64.LockFlagPosition;
+                _stream.Read(buffer, 0, buffer.Length);
 
-            bool result = Convert.ToBoolean
-                (
-                    BitConverter.ToInt32(buffer, 0)
-                );
+                bool result = Convert.ToBoolean
+                    (
+                        BitConverter.ToInt32(buffer, 0)
+                    );
+                _lockFlag = result;
 
-            return result;
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Read record leader only.
+        /// </summary>
+        [NotNull]
+        public MstRecordLeader64 ReadLeader
+            (
+                long position
+            )
+        {
+            lock (_lockObject)
+            {
+                _stream.Position = position;
+                MstRecordLeader64 result = MstRecordLeader64.Read(_stream);
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Update control record.
+        /// </summary>
+        public void UpdateControlRecord
+            (
+                bool reread
+            )
+        {
+            lock (_lockObject)
+            {
+                _stream.Position = 0;
+                if (reread)
+                {
+                    ControlRecord = MstControlRecord64.Read(_stream);
+                    _stream.Position = 0;
+                }
+                ControlRecord.NextPosition = _stream.Length;
+                ControlRecord.Write(_stream);
+                _lockFlag = ControlRecord.Blocked != 0;
+            }
+        }
+
+        /// <summary>
+        /// Update therecord leader.
+        /// </summary>
+        public void UpdateLeader
+            (
+                [NotNull] MstRecordLeader64 leader,
+                long position
+            )
+        {
+            Code.NotNull(leader, "leader");
+
+            lock (_lockObject)
+            {
+                _stream.Position = position;
+                leader.Write(_stream);
+            }
+        }
+
+        /// <summary>
+        /// Write the record.
+        /// </summary>
+        public long WriteRecord
+            (
+                [NotNull] MstRecord64 record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            lock (_lockObject)
+            {
+                long position = _stream.Length;
+                _stream.Position = position;
+
+                record.Prepare();
+                record.Write(_stream);
+
+                return position;
+            }
         }
 
         #endregion
@@ -341,7 +351,7 @@ namespace ManagedIrbis.Direct
         /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
-            if (_stream != null)
+            if (!ReferenceEquals(_stream, null))
             {
                 if (_lockFlag)
                 {

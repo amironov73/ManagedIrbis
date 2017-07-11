@@ -47,8 +47,7 @@ namespace DirectReaderBenchmark
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
 
-                using (DirectReader64 reader
-                    = new DirectReader64(masterPath, true))
+                using (DirectAccess64 reader = new DirectAccess64(masterPath))
                 {
                     int maxMfn = reader.GetMaxMfn();
                     Console.WriteLine("Max MFN={0}", maxMfn);

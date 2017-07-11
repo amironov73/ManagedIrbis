@@ -200,7 +200,7 @@ namespace ManagedIrbis.Client
             return result;
         }
 
-        private DirectReader64 _GetReader()
+        private DirectAccess64 _GetReader()
         {
             string fileName = Path.Combine
                 (
@@ -212,8 +212,7 @@ namespace ManagedIrbis.Client
                     Database + ".mst"
                 );
 
-            DirectReader64 result
-                = new DirectReader64(fileName, false);
+            DirectAccess64 result = new DirectAccess64(fileName);
 
             return result;
         }
@@ -281,7 +280,7 @@ namespace ManagedIrbis.Client
 
 #if !WIN81 && !PORTABLE
 
-            DirectReader64 reader = null;
+            DirectAccess64 reader = null;
             using (new BusyGuard(BusyState))
             {
                 try
@@ -402,7 +401,7 @@ namespace ManagedIrbis.Client
 
             using (new BusyGuard(BusyState))
             {
-                DirectReader64 reader = null;
+                DirectAccess64 reader = null;
                 try
                 {
                     reader = _GetReader();
@@ -451,7 +450,7 @@ namespace ManagedIrbis.Client
 
             using (new BusyGuard(BusyState))
             {
-                DirectReader64 reader = null;
+                DirectAccess64 reader = null;
                 try
                 {
                     reader = _GetReader();
@@ -505,7 +504,7 @@ namespace ManagedIrbis.Client
 
             using (new BusyGuard(BusyState))
             {
-                DirectReader64 reader = null;
+                DirectAccess64 reader = null;
                 try
                 {
                     reader = _GetReader();
@@ -553,7 +552,7 @@ namespace ManagedIrbis.Client
 
             using (new BusyGuard(BusyState))
             {
-                DirectReader64 reader = null;
+                DirectAccess64 reader = null;
                 try
                 {
                     reader = _GetReader();

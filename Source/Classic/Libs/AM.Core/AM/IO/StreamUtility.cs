@@ -1336,6 +1336,7 @@ namespace AM.IO
         /// <summary>
         /// Network to host byte conversion.
         /// </summary>
+        /// <remarks>IRBIS64-oriented!</remarks>
         public static void NetworkToHost64
             (
                 [NotNull] byte[] array,
@@ -1344,6 +1345,51 @@ namespace AM.IO
         {
             NetworkToHost32(array, offset);
             NetworkToHost32(array, offset + 4);
+        }
+
+        /// <summary>
+        /// Host to network byte conversion.
+        /// </summary>
+        public static void HostToNetwork16
+            (
+                [NotNull] byte[] array,
+                int offset
+            )
+        {
+            byte temp = array[offset];
+            array[offset] = array[offset + 1];
+            array[offset + 1] = temp;
+        }
+
+        /// <summary>
+        /// Host to network byte conversion.
+        /// </summary>
+        public static void HostToNetwork32
+            (
+                [NotNull] byte[] array,
+                int offset
+            )
+        {
+            byte temp1 = array[offset];
+            byte temp2 = array[offset + 1];
+            array[offset] = array[offset + 3];
+            array[offset + 1] = array[offset + 2];
+            array[offset + 3] = temp1;
+            array[offset + 2] = temp2;
+        }
+
+        /// <summary>
+        /// Host to network byte conversion.
+        /// </summary>
+        /// <remarks>IRBIS64-oriented!</remarks>
+        public static void HostToNetwork64
+            (
+                [NotNull] byte[] array,
+                int offset
+            )
+        {
+            HostToNetwork32(array, offset);
+            HostToNetwork32(array, offset + 4);
         }
 
         /// <summary>
@@ -1577,6 +1623,48 @@ namespace AM.IO
         }
 
 #endif
+
+        /// <summary>
+        /// Write 16-bit integer to the stream in network byte order.
+        /// </summary>
+        public static void WriteInt16Network
+            (
+                [NotNull] this Stream stream,
+                short value
+            )
+        {
+            byte[] buffer = BitConverter.GetBytes(value);
+            HostToNetwork32(buffer, 0);
+            stream.Write(buffer, 0, 2);
+        }
+
+        /// <summary>
+        /// Write 32-bit integer to the stream in network byte order.
+        /// </summary>
+        public static void WriteInt32Network
+            (
+                [NotNull] this Stream stream,
+                int value
+            )
+        {
+            byte[] buffer = BitConverter.GetBytes(value);
+            HostToNetwork32(buffer, 0);
+            stream.Write(buffer, 0, 4);
+        }
+
+        /// <summary>
+        /// Write 64-bit integer to the stream in network byte order.
+        /// </summary>
+        public static void WriteInt64Network
+            (
+                [NotNull] this Stream stream,
+                long value
+            )
+        {
+            byte[] buffer = BitConverter.GetBytes(value);
+            HostToNetwork32(buffer, 0);
+            stream.Write(buffer, 0, 8);
+        }
 
         #endregion
     }

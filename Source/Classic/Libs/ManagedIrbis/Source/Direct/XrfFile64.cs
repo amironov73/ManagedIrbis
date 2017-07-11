@@ -66,11 +66,6 @@ namespace ManagedIrbis.Direct
         [NotNull]
         public string FileName { get; private set; }
 
-        /// <summary>
-        /// XRF located in memory?
-        /// </summary>
-        public bool InMemory { get; private set; }
-
         #endregion
 
         #region Construction
@@ -78,36 +73,17 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="inMemory"></param>
         public XrfFile64
             (
-                [NotNull] string fileName,
-                bool inMemory
+                [NotNull] string fileName
             )
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
             FileName = fileName;
-            InMemory = inMemory;
 
             _lockObject = new object();
-            _stream = new FileStream
-                (
-                    fileName,
-                    FileMode.Open,
-                    FileAccess.Read,
-                    FileShare.ReadWrite
-                );
-
-            if (InMemory)
-            {
-                byte[] buffer = new byte[(int)_stream.Length];
-                Stream memory = new MemoryStream(buffer);
-                _stream.Read(buffer, 0, buffer.Length);
-                _stream.Dispose();
-                _stream = memory;
-            }
+            _stream = InsistentFile.OpenForExclusiveWrite(fileName);
         }
 
         #endregion
@@ -182,7 +158,13 @@ namespace ManagedIrbis.Direct
         {
             Code.NotNull(record, "record");
 
-            throw new NotImplementedException("WriteRecord");
+            long offset = _GetOffset(record.Mfn);
+            lock (_lockObject)
+            {
+                _stream.Seek(offset, SeekOrigin.Begin);
+                _stream.WriteInt64Network(record.Offset);
+                _stream.WriteInt32Network((int)record.Status);
+            }
         }
 
         /// <summary>

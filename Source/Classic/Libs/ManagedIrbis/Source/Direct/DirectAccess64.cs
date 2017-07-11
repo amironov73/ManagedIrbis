@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* DirectReader64.cs -- direct reading IRBIS64 databases
+/* DirectAccess64.cs -- direct reading IRBIS64 databases
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -35,7 +35,7 @@ namespace ManagedIrbis.Direct
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class DirectReader64
+    public sealed class DirectAccess64
         : IDisposable
     {
         #region Properties
@@ -71,10 +71,9 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Constructor.
         /// </summary>
-        public DirectReader64
+        public DirectAccess64
             (
-                [NotNull] string masterFile,
-                bool inMemory
+                [NotNull] string masterFile
             )
         {
             Code.NotNullNorEmpty(masterFile, "masterFile");
@@ -94,8 +93,7 @@ namespace ManagedIrbis.Direct
                     (
                         masterFile,
                         ".xrf"
-                    ),
-                    inMemory
+                    )
                 );
             InvertedFile = new InvertedFile64
                 (
@@ -124,6 +122,28 @@ namespace ManagedIrbis.Direct
         }
 
         /// <summary>
+        /// Read raw record.
+        /// </summary>
+        [CanBeNull]
+        public MstRecord64 ReadRawRecord
+            (
+                int mfn
+            )
+        {
+            Code.Positive(mfn, "mfn");
+
+            XrfRecord64 xrfRecord = Xrf.ReadRecord(mfn);
+            if (xrfRecord.Offset == 0)
+            {
+                return null;
+            }
+
+            MstRecord64 result = Mst.ReadRecord(xrfRecord.Offset);
+
+            return result;
+        }
+
+        /// <summary>
         /// Read record with given MFN.
         /// </summary>
         [CanBeNull]
@@ -139,7 +159,7 @@ namespace ManagedIrbis.Direct
             {
                 return null;
             }
-            MstRecord64 mstRecord = Mst.ReadRecord2(xrfRecord.Offset);
+            MstRecord64 mstRecord = Mst.ReadRecord(xrfRecord.Offset);
             MarcRecord result = mstRecord.DecodeRecord();
             result.Database = Database;
 
@@ -169,7 +189,7 @@ namespace ManagedIrbis.Direct
                     {
                         break;
                     }
-                    MstRecord64 mstRecord = Mst.ReadRecord2(offset);
+                    MstRecord64 mstRecord = Mst.ReadRecord(offset);
                     MarcRecord previousVersion = mstRecord.DecodeRecord();
                     if (previousVersion != null)
                     {
@@ -181,18 +201,6 @@ namespace ManagedIrbis.Direct
 
             return result.ToArray();
         }
-
-        //public IrbisRecord ReadRecord2
-        //    (
-        //        int mfn
-        //    )
-        //{
-        //    XrfRecord64 xrfRecord = Xrf.ReadRecord(mfn);
-        //    MstRecord32 mstRecord = Mst.ReadRecord2(xrfRecord.Offset);
-        //    IrbisRecord result = mstRecord.DecodeRecord();
-        //    result.Database = Database;
-        //    return result;
-        //}
 
         /// <summary>
         /// Read terms.
@@ -254,7 +262,7 @@ namespace ManagedIrbis.Direct
                     XrfRecord64 xrfRecord = Xrf.ReadRecord(mfn);
                     if (!xrfRecord.Deleted)
                     {
-                        MstRecord64 mstRecord = Mst.ReadRecord2(xrfRecord.Offset);
+                        MstRecord64 mstRecord = Mst.ReadRecord(xrfRecord.Offset);
                         if (!mstRecord.Deleted)
                         {
                             MarcRecord irbisRecord
@@ -274,6 +282,50 @@ namespace ManagedIrbis.Direct
                 }
             }
             return result.ToArray();
+        }
+
+        /// <summary>
+        /// Write the record.
+        /// </summary>
+        public void WriteRawRecord
+            (
+                [NotNull] MstRecord64 mstRecord
+            )
+        {
+            Code.NotNull(mstRecord, "mstRecord");
+
+            MstRecordLeader64 leader = mstRecord.Leader;
+            int mfn = leader.Mfn;
+            XrfRecord64 xrfRecord;
+            if (mfn == 0)
+            {
+                mfn = Mst.ControlRecord.NextMfn;
+                leader.Mfn = mfn;
+                Mst.ControlRecord.NextMfn = mfn + 1;
+                xrfRecord = new XrfRecord64
+                {
+                    Mfn = mfn,
+                    Offset = Mst.WriteRecord(mstRecord),
+                    Status = (RecordStatus) leader.Status
+                };
+                Mst.UpdateControlRecord(false);
+            }
+            else
+            {
+                xrfRecord = Xrf.ReadRecord(mfn);
+                long previousOffset = xrfRecord.Offset;
+                leader.Previous = previousOffset;
+                MstRecordLeader64 previousLeader
+                    = Mst.ReadLeader(previousOffset);
+                previousLeader.Status = (int)
+                    (
+                        (RecordStatus) previousLeader.Status
+                        & ~RecordStatus.Last
+                    );
+                Mst.UpdateLeader(previousLeader, previousOffset);
+                xrfRecord.Offset = Mst.WriteRecord(mstRecord);
+            }
+            Xrf.WriteRecord(xrfRecord);
         }
 
         #endregion

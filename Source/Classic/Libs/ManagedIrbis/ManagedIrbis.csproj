@@ -176,7 +176,7 @@
     <Compile Include="Source\ConnectionSettings.cs" />
     <Compile Include="Source\CopyRecordManager.cs" />
     <Compile Include="Source\Direct\DirectReader32.cs" />
-    <Compile Include="Source\Direct\DirectReader64.cs" />
+    <Compile Include="Source\Direct\DirectAccess64.cs" />
     <Compile Include="Source\Direct\DirectUtility.cs" />
     <Compile Include="Source\Direct\InvertedFile32.cs" />
     <Compile Include="Source\Direct\InvertedFile64.cs" />

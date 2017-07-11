@@ -12,7 +12,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
+using AM;
+using AM.IO;
+using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -35,6 +39,11 @@ namespace ManagedIrbis.Direct
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// MST file offset of the record.
+        /// </summary>
+        public long Offset { get; set; }
 
         /// <summary>
         /// Leader.
@@ -131,16 +140,111 @@ namespace ManagedIrbis.Direct
             return result;
         }
 
+        /// <summary>
+        /// Encode the field.
+        /// </summary>
+        [NotNull]
+        public static MstDictionaryEntry64 EncodeField
+            (
+                [NotNull] RecordField field
+            )
+        {
+            MstDictionaryEntry64 result = new MstDictionaryEntry64
+            {
+                Tag = int.Parse(field.Tag.ThrowIfNull("field.Tag")),
+                Text = field.ToText()
+            };
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [NotNull]
+        public static MstRecord64 EncodeRecord
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            MstRecord64 result = new MstRecord64
+            {
+                Leader =
+                {
+                    Mfn = record.Mfn,
+                    Status = (int) record.Status,
+                    Previous = record.PreviousOffset,
+                    Version = record.Version
+                }
+            };
+
+            foreach (RecordField field in record.Fields)
+            {
+                MstDictionaryEntry64 entry = EncodeField(field);
+                result.Dictionary.Add(entry);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Prepare the record for serialization.
+        /// </summary>
+        public void Prepare()
+        {
+            Encoding encoding = IrbisEncoding.Utf8;
+            Leader.Nvf = Dictionary.Count;
+            int recordSize = MstRecordLeader64.LeaderSize
+                + Dictionary.Count * MstDictionaryEntry64.EntrySize;
+            Leader.Base = recordSize;
+            int position = 0;
+            foreach (MstDictionaryEntry64 entry in Dictionary)
+            {
+                entry.Position = position;
+                entry.Bytes = encoding.GetBytes(entry.Text);
+                int length = entry.Bytes.Length;
+                entry.Length = length;
+                recordSize += length;
+                position += length;
+            }
+
+            if (recordSize % 2 != 0)
+            {
+                recordSize++;
+            }
+            Leader.Length = recordSize;
+        }
+
+        /// <summary>
+        /// Write the record to specified stream.
+        /// </summary>
+        public void Write
+            (
+                [NotNull] Stream stream
+            )
+        {
+            Code.NotNull(stream, "stream");
+
+            Leader.Write(stream);
+            foreach (MstDictionaryEntry64 entry in Dictionary)
+            {
+                stream.WriteInt32Network(entry.Tag);
+                stream.WriteInt32Network(entry.Position);
+                stream.WriteInt32Network(entry.Length);
+            }
+            foreach (MstDictionaryEntry64 entry in Dictionary)
+            {
+                stream.Write(entry.Bytes, 0, entry.Bytes.Length);
+            }
+        }
+
         #endregion
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString ( )
         {
             return string.Format 

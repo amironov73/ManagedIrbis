@@ -199,8 +199,8 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectReader32.cs">
       <Link>Source\Direct\DirectReader32.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectReader64.cs">
-      <Link>Source\Direct\DirectReader64.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectAccess64.cs">
+      <Link>Source\Direct\DirectAccess64.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectUtility.cs">
       <Link>Source\Direct\DirectUtility.cs</Link>
@@ -1395,6 +1395,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusAt.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusAt.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusI.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlusI.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusPlus0.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusPlus0.cs</Link>
