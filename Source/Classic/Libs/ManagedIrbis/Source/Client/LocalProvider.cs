@@ -100,10 +100,35 @@ namespace ManagedIrbis.Client
             (
                 string rootPath
             )
+            : this(rootPath, true)
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public LocalProvider
+            (
+                string rootPath,
+                bool persistent
+            )
             : this()
         {
+            _persistentAccessor = persistent;
             RootPath = rootPath;
             DataPath = rootPath + "/DataI";
+        }
+
+        /// <summary>
+        /// Finalizer.
+        /// </summary>
+        ~LocalProvider()
+        {
+            if (!ReferenceEquals(_accessor, null))
+            {
+                _accessor.Dispose();
+                _accessor = null;
+            }
         }
 
         #endregion
@@ -112,7 +137,11 @@ namespace ManagedIrbis.Client
 
         private readonly BusyState _busyState;
 
-#if !WIN81 && !PORTABLE
+        private bool _persistentAccessor;
+
+        private DirectAccess64 _accessor;
+
+#if !WIN81 && !PORTABLE && !SILVERLIGHT
 
         private string _ExpandPath
             (
@@ -150,10 +179,10 @@ namespace ManagedIrbis.Client
                     result = Path.Combine
                         (
                             Path.Combine
-                            (
-                                DataPath,
-                                database
-                            ),
+                                (
+                                    DataPath,
+                                    database
+                                ),
                             fileName
                         );
                     if (!File.Exists(result))
@@ -161,10 +190,10 @@ namespace ManagedIrbis.Client
                         result = Path.Combine
                             (
                                 Path.Combine
-                                (
-                                    DataPath,
-                                    "Deposit"
-                                ),
+                                    (
+                                        DataPath,
+                                        "Deposit"
+                                    ),
                                 fileName
                             );
                     }
@@ -183,38 +212,24 @@ namespace ManagedIrbis.Client
             return result;
         }
 
-        private MstFile64 _GetMst()
+        private DirectAccess64 _GetAccessor()
         {
-            string fileName = Path.Combine
-                (
-                    Path.Combine
-                        (
-                            DataPath,
-                            Database
-                        ),
-                    Database + ".mst"
-                );
+            if (ReferenceEquals(_accessor, null))
+            {
+                string fileName = Path.Combine
+                    (
+                        Path.Combine
+                            (
+                                DataPath,
+                                Database
+                            ),
+                        Database + ".mst"
+                    );
 
-            MstFile64 result = new MstFile64(fileName);
+                _accessor = new DirectAccess64(fileName);
+            }
 
-            return result;
-        }
-
-        private DirectAccess64 _GetReader()
-        {
-            string fileName = Path.Combine
-                (
-                    Path.Combine
-                        (
-                            DataPath,
-                            Database
-                        ),
-                    Database + ".mst"
-                );
-
-            DirectAccess64 result = new DirectAccess64(fileName);
-
-            return result;
+            return _accessor;
         }
 
 #endif
@@ -235,11 +250,12 @@ namespace ManagedIrbis.Client
         {
             Code.NotNull(fileSpecification, "fileSpecification");
 
-#if WIN81 || PocketPC || WINMOBILE || PORTABLE
+#if WIN81 || PocketPC || WINMOBILE || PORTABLE || SILVERLIGHT
 
             return false;
 
 #else
+
             using (new BusyGuard(BusyState))
             {
                 string resultPath = _ExpandPath(fileSpecification);
@@ -278,17 +294,17 @@ namespace ManagedIrbis.Client
         {
             int result = 0;
 
-#if !WIN81 && !PORTABLE
+#if !WIN81 && !SILVERLIGHT && !PORTABLE
 
-            DirectAccess64 reader = null;
+            DirectAccess64 accessor = null;
             using (new BusyGuard(BusyState))
             {
                 try
                 {
-                    reader = _GetReader();
-                    if (!ReferenceEquals(reader, null))
+                    accessor = _GetAccessor();
+                    if (!ReferenceEquals(accessor, null))
                     {
-                        result = reader.GetMaxMfn();
+                        result = accessor.GetMaxMfn();
                     }
                 }
                 catch (Exception exception)
@@ -301,9 +317,10 @@ namespace ManagedIrbis.Client
                     }
                 finally
                 {
-                    if (!ReferenceEquals(reader, null))
+                    if (!ReferenceEquals(accessor, null)
+                        && !_persistentAccessor)
                     {
-                        reader.Dispose();
+                        accessor.Dispose();
                     }
                 }
             }
@@ -352,7 +369,7 @@ namespace ManagedIrbis.Client
         {
             Code.NotNull(fileSpecification, "fileSpecification");
 
-#if WIN81 || PocketPC || WINMOBILE || PORTABLE
+#if WIN81 || PocketPC || WINMOBILE || SILVERLIGHT || PORTABLE
 
             return string.Empty;
 
@@ -364,10 +381,10 @@ namespace ManagedIrbis.Client
                 {
                     string resultPath = _ExpandPath(fileSpecification);
                     result = File.ReadAllText
-                    (
-                        resultPath,
-                        IrbisEncoding.Ansi
-                    );
+                        (
+                            resultPath,
+                            IrbisEncoding.Ansi
+                        );
                 }
                 catch (Exception exception)
                 {
@@ -397,17 +414,17 @@ namespace ManagedIrbis.Client
 
             MarcRecord result = null;
 
-#if !WIN81 && !PORTABLE
+#if !WIN81 && !SILVERLIGHT && !PORTABLE
 
             using (new BusyGuard(BusyState))
             {
-                DirectAccess64 reader = null;
+                DirectAccess64 accessor = null;
                 try
                 {
-                    reader = _GetReader();
-                    if (reader != null)
+                    accessor = _GetAccessor();
+                    if (accessor != null)
                     {
-                        result = reader.ReadRecord(mfn);
+                        result = accessor.ReadRecord(mfn);
                     }
                 }
                 catch (Exception exception)
@@ -420,9 +437,10 @@ namespace ManagedIrbis.Client
                 }
                 finally
                 {
-                    if (!ReferenceEquals(reader, null))
+                    if (!ReferenceEquals(accessor, null)
+                        && !_persistentAccessor)
                     {
-                        reader.Dispose();
+                        accessor.Dispose();
                     }
                 }
             }
@@ -446,18 +464,18 @@ namespace ManagedIrbis.Client
 
             MarcRecord result = null;
 
-#if !WIN81 && !PORTABLE
+#if !WIN81 && !SILVERLIGHT && !PORTABLE
 
             using (new BusyGuard(BusyState))
             {
-                DirectAccess64 reader = null;
+                DirectAccess64 accessor = null;
                 try
                 {
-                    reader = _GetReader();
-                    if (!ReferenceEquals(reader, null))
+                    accessor = _GetAccessor();
+                    if (!ReferenceEquals(accessor, null))
                     {
                         MarcRecord[] versions 
-                            = reader.ReadAllRecordVersions(mfn);
+                            = accessor.ReadAllRecordVersions(mfn);
                         int index = version;
                         if (version < 0)
                         {
@@ -479,9 +497,10 @@ namespace ManagedIrbis.Client
                 }
                 finally
                 {
-                    if (!ReferenceEquals(reader, null))
+                    if (!ReferenceEquals(accessor, null)
+                        && !_persistentAccessor)
                     {
-                        reader.Dispose();
+                        accessor.Dispose();
                     }
                 }
 
@@ -500,17 +519,17 @@ namespace ManagedIrbis.Client
         {
             TermInfo[] result = new TermInfo[0];
 
-#if !WIN81 && !PORTABLE
+#if !WIN81 && !SILVERLIGHT && !PORTABLE
 
             using (new BusyGuard(BusyState))
             {
-                DirectAccess64 reader = null;
+                DirectAccess64 accessor = null;
                 try
                 {
-                    reader = _GetReader();
-                    if (!ReferenceEquals(reader, null))
+                    accessor = _GetAccessor();
+                    if (!ReferenceEquals(accessor, null))
                     {
-                        result = reader.ReadTerms(parameters);
+                        result = accessor.ReadTerms(parameters);
                     }
                 }
                 catch (Exception exception)
@@ -523,9 +542,10 @@ namespace ManagedIrbis.Client
                 }
                 finally
                 {
-                    if (!ReferenceEquals(reader, null))
+                    if (!ReferenceEquals(accessor, null)
+                        && !_persistentAccessor)
                     {
-                        reader.Dispose();
+                        accessor.Dispose();
                     }
                 }
             }
@@ -548,17 +568,17 @@ namespace ManagedIrbis.Client
                 return result;
             }
 
-#if !WIN81 && !PORTABLE
+#if !WIN81 && !SILVERLIGHT && !PORTABLE
 
             using (new BusyGuard(BusyState))
             {
-                DirectAccess64 reader = null;
+                DirectAccess64 accessor = null;
                 try
                 {
-                    reader = _GetReader();
-                    if (!ReferenceEquals(reader, null))
+                    accessor = _GetAccessor();
+                    if (!ReferenceEquals(accessor, null))
                     {
-                        result = reader.SearchSimple(expression);
+                        result = accessor.SearchSimple(expression);
                     }
                 }
                 catch (Exception exception)
@@ -571,9 +591,10 @@ namespace ManagedIrbis.Client
                 }
                 finally
                 {
-                    if (!ReferenceEquals(reader, null))
+                    if (!ReferenceEquals(accessor, null)
+                        && !_persistentAccessor)
                     {
-                        reader.Dispose();
+                        accessor.Dispose();
                     }
                 }
             }
@@ -587,14 +608,22 @@ namespace ManagedIrbis.Client
 
         #region IDisposable members
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public override void Dispose()
         {
             Log.Trace("LocalProvider::Dispose");
 
             BusyState.WaitFreeState();
 
+            if (!ReferenceEquals(_accessor, null))
+            {
+                _accessor.Dispose();
+                _accessor = null;
+            }
+
             base.Dispose();
+
+            GC.SuppressFinalize(this);
         }
 
         #endregion
@@ -604,3 +633,4 @@ namespace ManagedIrbis.Client
         #endregion
     }
 }
+

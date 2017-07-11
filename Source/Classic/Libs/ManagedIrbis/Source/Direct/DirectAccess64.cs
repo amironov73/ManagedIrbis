@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if !WIN81 && !PORTABLE
+#if !WIN81 && !SILVERLIGHT && !PORTABLE
 
 #region Using directives
 
@@ -308,7 +308,6 @@ namespace ManagedIrbis.Direct
                     Offset = Mst.WriteRecord(mstRecord),
                     Status = (RecordStatus) leader.Status
                 };
-                Mst.UpdateControlRecord(false);
             }
             else
             {
@@ -326,6 +325,32 @@ namespace ManagedIrbis.Direct
                 xrfRecord.Offset = Mst.WriteRecord(mstRecord);
             }
             Xrf.WriteRecord(xrfRecord);
+
+            Mst.UpdateControlRecord(false);
+        }
+
+        /// <summary>
+        /// Write the record.
+        /// </summary>
+        public void WriteRecord
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            if (record.Version < 0)
+            {
+                record.Version = 0;
+            }
+
+            record.Version++;
+            record.Status |= RecordStatus.Last;
+            MstRecord64 mstRecord64 = MstRecord64.EncodeRecord(record);
+            WriteRawRecord(mstRecord64);
+            record.Database = Database;
+            record.Mfn = mstRecord64.Leader.Mfn;
+            record.PreviousOffset = mstRecord64.Leader.Previous;
         }
 
         #endregion

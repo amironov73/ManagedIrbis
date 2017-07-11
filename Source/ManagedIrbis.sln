@@ -195,6 +195,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiblioGrinder", "Classic\Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadToHead", "Classic\Apps\HeadToHead\HeadToHead.csproj", "{DE03C59B-2846-4466-B0A7-438DAEA460E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectWriterBenchmark", "Benchmarks\DirectWriterBenchmark\DirectWriterBenchmark.csproj", "{8041231B-C7EB-4F02-A58E-6B1F976C7FB8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -947,6 +949,14 @@ Global
 		{DE03C59B-2846-4466-B0A7-438DAEA460E1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DE03C59B-2846-4466-B0A7-438DAEA460E1}.Release|x86.ActiveCfg = Release|Any CPU
 		{DE03C59B-2846-4466-B0A7-438DAEA460E1}.Release|x86.Build.0 = Release|Any CPU
+		{8041231B-C7EB-4F02-A58E-6B1F976C7FB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8041231B-C7EB-4F02-A58E-6B1F976C7FB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8041231B-C7EB-4F02-A58E-6B1F976C7FB8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8041231B-C7EB-4F02-A58E-6B1F976C7FB8}.Debug|x86.Build.0 = Debug|Any CPU
+		{8041231B-C7EB-4F02-A58E-6B1F976C7FB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8041231B-C7EB-4F02-A58E-6B1F976C7FB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8041231B-C7EB-4F02-A58E-6B1F976C7FB8}.Release|x86.ActiveCfg = Release|Any CPU
+		{8041231B-C7EB-4F02-A58E-6B1F976C7FB8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1043,5 +1053,6 @@ Global
 		{EAB967AB-A37A-4C1A-95AF-EDE878296E40} = {7233A430-352D-4BF2-B349-B3767E8E3EDE}
 		{78E110F3-52A2-4DAB-BC5F-5DDB94040098} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{DE03C59B-2846-4466-B0A7-438DAEA460E1} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{8041231B-C7EB-4F02-A58E-6B1F976C7FB8} = {8EA7C732-C1B4-4E1A-B0F7-53D3E18F564A}
 	EndGlobalSection
 EndGlobal

@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if !WIN81 && !PORTABLE
+#if !WIN81 && !SILVERLIGHT && !PORTABLE
 
 #region Using directives
 
@@ -101,7 +101,10 @@ namespace ManagedIrbis.Direct
             FileName = fileName;
 
             _lockObject = new object();
-            _stream = InsistentFile.OpenForExclusiveWrite(fileName);
+            _stream = new BufferedStream
+                (
+                    InsistentFile.OpenForExclusiveWrite(fileName)
+                );
 
             ControlRecord = MstControlRecord64.Read(_stream);
             _lockFlag = ControlRecord.Blocked != 0;
@@ -126,7 +129,7 @@ namespace ManagedIrbis.Direct
 
         private bool _lockFlag;
 
-        private FileStream _stream;
+        private Stream _stream;
 
         private static void _AppendStream
             (
@@ -312,6 +315,7 @@ namespace ManagedIrbis.Direct
                 ControlRecord.NextPosition = _stream.Length;
                 ControlRecord.Write(_stream);
                 _lockFlag = ControlRecord.Blocked != 0;
+                _stream.Flush();
             }
         }
 
@@ -330,6 +334,7 @@ namespace ManagedIrbis.Direct
             {
                 _stream.Position = position;
                 leader.Write(_stream);
+                _stream.Flush();
             }
         }
 
@@ -350,6 +355,7 @@ namespace ManagedIrbis.Direct
 
                 record.Prepare();
                 record.Write(_stream);
+                _stream.Flush();
 
                 return position;
             }

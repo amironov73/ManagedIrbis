@@ -275,7 +275,7 @@ namespace ManagedIrbis.ImportExport
 
             try
             {
-                record.Fields._dontRenumber = true;
+                record.Fields.BeginUpdate();
 
                 ParseMfnStatusVersion
                     (
@@ -316,9 +316,7 @@ namespace ManagedIrbis.ImportExport
             }
             finally
             {
-                record.Fields._dontRenumber = false;
-                record.Fields._RenumberFields();
-                record.Modified = false;
+                record.Fields.EndUpdate();
             }
 
             return record;
@@ -339,7 +337,7 @@ namespace ManagedIrbis.ImportExport
 
             try
             {
-                record.Fields._dontRenumber = true;
+                record.Fields.BeginUpdate();
                 record.Fields.Clear();
 
                 string first = response.RequireUtfString();
@@ -365,9 +363,7 @@ namespace ManagedIrbis.ImportExport
             }
             finally
             {
-                record.Fields._dontRenumber = false;
-                record.Fields._RenumberFields();
-                record.Modified = false;
+                record.Fields.EndUpdate();
             }
 
             return record;
@@ -388,7 +384,7 @@ namespace ManagedIrbis.ImportExport
 
             try
             {
-                record.Fields._dontRenumber = true;
+                record.Fields.BeginUpdate();
                 record.Fields.Clear();
 
                 string whole = response.RequireUtfString();
@@ -413,9 +409,7 @@ namespace ManagedIrbis.ImportExport
             }
             finally
             {
-                record.Fields._dontRenumber = false;
-                record.Fields._RenumberFields();
-                record.Modified = false;
+                record.Fields.EndUpdate();
             }
 
             return record;
@@ -436,7 +430,7 @@ namespace ManagedIrbis.ImportExport
 
             try
             {
-                record.Fields._dontRenumber = true;
+                record.Fields.BeginUpdate();
                 record.Fields.Clear();
 
                 string line = response.GetUtfString();
@@ -465,9 +459,7 @@ namespace ManagedIrbis.ImportExport
             }
             finally
             {
-                record.Fields._dontRenumber = false;
-                record.Fields._RenumberFields();
-                record.Modified = false;
+                record.Fields.EndUpdate();
             }
 
             return record;
@@ -492,7 +484,7 @@ namespace ManagedIrbis.ImportExport
 
             try
             {
-                record.Fields._dontRenumber = true;
+                record.Fields.BeginUpdate();
                 record.Fields.Clear();
 
                 string[] split = line.Split('\x1F');
@@ -515,9 +507,7 @@ namespace ManagedIrbis.ImportExport
             }
             finally
             {
-                record.Fields._dontRenumber = false;
-                record.Fields._RenumberFields();
-                record.Modified = false;
+                record.Fields.EndUpdate();
             }
 
             return record;
@@ -543,7 +533,7 @@ namespace ManagedIrbis.ImportExport
 
             try
             {
-                record.Fields._dontRenumber = true;
+                record.Fields.BeginUpdate();
                 record.Fields.Clear();
 
                 string[] split = line.Split('\x1E');
@@ -559,9 +549,7 @@ namespace ManagedIrbis.ImportExport
             }
             finally
             {
-                record.Fields._dontRenumber = false;
-                record.Fields._RenumberFields();
-                record.Modified = false;
+                record.Fields.EndUpdate();
             }
 
             return record;

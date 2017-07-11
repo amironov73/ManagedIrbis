@@ -72,6 +72,19 @@ namespace ManagedIrbis.Direct
 
         #endregion
 
+        #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public MstRecord64()
+        {
+            Leader = new MstRecordLeader64();
+            Dictionary = new List<MstDictionaryEntry64>();
+        }
+
+        #endregion
+
         #region Private members
 
         private string _DumpDictionary ()
@@ -99,10 +112,10 @@ namespace ManagedIrbis.Direct
                 [NotNull] MstDictionaryEntry64 entry
             )
         {
-            string concatenated = string.Format
+            string concatenated = string.Concat
                 (
-                    "{0}#{1}",
                     entry.Tag,
+                    "#",
                     entry.Text
                 );
 
@@ -126,7 +139,8 @@ namespace ManagedIrbis.Direct
                     Version = Leader.Version
                 };
 
-            result.Fields._dontRenumber = true;
+            result.Fields.BeginUpdate();
+            result.Fields.EnsureCapacity(Dictionary.Count);
 
             foreach (MstDictionaryEntry64 entry in Dictionary)
             {
@@ -134,8 +148,7 @@ namespace ManagedIrbis.Direct
                 result.Fields.Add(field);
             }
 
-            result.Fields._dontRenumber = false;
-            result.Fields._RenumberFields();
+            result.Fields.EndUpdate();
 
             return result;
         }
@@ -180,6 +193,10 @@ namespace ManagedIrbis.Direct
                 }
             };
 
+            if (result.Dictionary.Capacity < record.Fields.Count)
+            {
+                result.Dictionary.Capacity = record.Fields.Count;
+            }
             foreach (RecordField field in record.Fields)
             {
                 MstDictionaryEntry64 entry = EncodeField(field);

@@ -290,27 +290,35 @@ namespace ManagedIrbis.Direct
             Code.NotNullNorEmpty(path, "path");
 
             string cntFile = path + ".cnt";
+            FileUtility.DeleteIfExists(cntFile);
             FileUtility.WriteAllBytes(cntFile, _cntContent32);
 
             string ifpFile = path + ".ifp";
+            FileUtility.DeleteIfExists(ifpFile);
             FileUtility.WriteAllBytes(ifpFile, _ifpContent32);
 
             string l01File = path + ".l01";
+            FileUtility.DeleteIfExists(l01File);
             FileUtility.WriteAllBytes(l01File, _l01Content32);
 
             string l02File = path + ".l02";
+            FileUtility.DeleteIfExists(l02File);
             FileUtility.WriteAllBytes(l02File, _l02Content32);
 
             string mstFile = path + ".mst";
+            FileUtility.DeleteIfExists(mstFile);
             FileUtility.WriteAllBytes(mstFile, _mstContent32);
 
             string n01File = path + ".n01";
+            FileUtility.DeleteIfExists(n01File);
             FileUtility.WriteAllBytes(n01File, _n01Content32);
 
             string n02File = path + ".n02";
+            FileUtility.DeleteIfExists(n02File);
             FileUtility.WriteAllBytes(n02File, _n02Content32);
 
             string xrfFile = path + ".xrf";
+            FileUtility.DeleteIfExists(xrfFile);
             FileUtility.WriteAllBytes(xrfFile, _xrfContent32);
         }
 
@@ -325,18 +333,23 @@ namespace ManagedIrbis.Direct
             Code.NotNullNorEmpty(path, "path");
 
             string ifpFile = path + ".ifp";
+            FileUtility.DeleteIfExists(ifpFile);
             FileUtility.WriteAllBytes(ifpFile, _ifpContent64);
 
             string l01File = path + ".l01";
+            FileUtility.DeleteIfExists(l01File);
             FileUtility.WriteAllBytes(l01File, _l01Content64);
 
             string mstFile = path + ".mst";
+            FileUtility.DeleteIfExists(mstFile);
             FileUtility.WriteAllBytes(mstFile, _mstContent64);
 
             string n01File = path + ".n01";
+            FileUtility.DeleteIfExists(n01File);
             FileUtility.WriteAllBytes(n01File, _n01Content64);
 
             string xrfFile = path + ".xrf";
+            FileUtility.DeleteIfExists(xrfFile);
             FileUtility.WriteAllBytes(xrfFile, _xrfContent64);
         }
 

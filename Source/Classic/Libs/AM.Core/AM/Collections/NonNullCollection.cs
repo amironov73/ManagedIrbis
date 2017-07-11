@@ -126,6 +126,21 @@ namespace AM.Collections
         }
 
         /// <summary>
+        /// Ensure the capacity.
+        /// </summary>
+        public void EnsureCapacity
+            (
+                int capacity
+            )
+        {
+            List<T> innerList = _GetInnerList();
+            if (innerList.Capacity < capacity)
+            {
+                innerList.Capacity = capacity;
+            }
+        }
+
+        /// <summary>
         /// Converts the collection to <see cref="Array"/> of elements
         /// of type <typeparamref name="T"/>.
         /// </summary>

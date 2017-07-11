@@ -65,10 +65,10 @@ namespace ManagedIrbis
         #region Private members
 
         [NotNull]
-        private List<MarcRecord> _GetInnerList()
+        private List<RecordField> _GetInnerList()
         {
             // ReSharper disable SuspiciousTypeConversion.Global
-            List<MarcRecord> result = (List<MarcRecord>)Items;
+            List<RecordField> result = (List<RecordField>)Items;
             // ReSharper restore SuspiciousTypeConversion.Global
 
             return result;
@@ -76,7 +76,7 @@ namespace ManagedIrbis
 
         private MarcRecord _record;
 
-        internal bool _dontRenumber;
+        private bool _dontRenumber;
 
         // ReSharper disable InconsistentNaming
 
@@ -143,7 +143,7 @@ namespace ManagedIrbis
                 int delta
             )
         {
-            List<MarcRecord> innerList = _GetInnerList();
+            List<RecordField> innerList = _GetInnerList();
             int newCapacity = innerList.Count + delta;
             if (newCapacity > innerList.Capacity)
             {
@@ -169,6 +169,14 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Begin record update.
+        /// </summary>
+        public void BeginUpdate()
+        {
+            _dontRenumber = true;
+        }
+
+        /// <summary>
         /// Создание клона коллекции.
         /// </summary>
         [NotNull]
@@ -187,6 +195,35 @@ namespace ManagedIrbis
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// End record update.
+        /// </summary>
+        public void EndUpdate()
+        {
+            _dontRenumber = false;
+            _RenumberFields();
+            MarcRecord record = Record;
+            if (!ReferenceEquals(record, null))
+            {
+                record.Modified = false;
+            }
+        }
+
+        /// <summary>
+        /// Ensure the capacity.
+        /// </summary>
+        public void EnsureCapacity
+            (
+                int capacity
+            )
+        {
+            List<RecordField> innerList = _GetInnerList();
+            if (innerList.Capacity < capacity)
+            {
+                innerList.Capacity = capacity;
+            }
         }
 
         /// <summary>

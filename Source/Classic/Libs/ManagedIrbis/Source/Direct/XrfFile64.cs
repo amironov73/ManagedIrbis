@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if !WIN81 && !PORTABLE
+#if !WIN81 && !SILVERLIGHT && !PORTABLE
 
 #region Using directives
 
@@ -83,7 +83,10 @@ namespace ManagedIrbis.Direct
             FileName = fileName;
 
             _lockObject = new object();
-            _stream = InsistentFile.OpenForExclusiveWrite(fileName);
+            _stream = new BufferedStream
+                (
+                    InsistentFile.OpenForExclusiveWrite(fileName)
+                );
         }
 
         /// <summary>
@@ -94,6 +97,7 @@ namespace ManagedIrbis.Direct
             if (!ReferenceEquals(_stream, null))
             {
                 _stream.Dispose();
+                _stream = null;
             }
         }
 
@@ -175,6 +179,7 @@ namespace ManagedIrbis.Direct
                 _stream.Seek(offset, SeekOrigin.Begin);
                 _stream.WriteInt64Network(record.Offset);
                 _stream.WriteInt32Network((int)record.Status);
+                _stream.Flush();
             }
         }
 

@@ -59,6 +59,50 @@ namespace ManagedIrbis
         #region Public methods
 
         /// <summary>
+        /// Begin update the record.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord BeginUpdate
+            (
+                [NotNull] this MarcRecord record
+            )
+        {
+            record.Fields.BeginUpdate();
+
+            return record;
+        }
+
+        /// <summary>
+        /// Begin update the record.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord BeginUpdate
+            (
+                [NotNull] this MarcRecord record,
+                int delta
+            )
+        {
+            record.Fields.BeginUpdate();
+            record.Fields.AddCapacity(delta);
+
+            return record;
+        }
+
+        /// <summary>
+        /// End of the record update.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord EndUpdate
+            (
+                [NotNull] this MarcRecord record
+            )
+        {
+            record.Fields.EndUpdate();
+
+            return record;
+        }
+
+        /// <summary>
         /// Есть хотя бы одно поле с указанными тегами?
         /// </summary>
         public static bool HaveField

@@ -255,6 +255,20 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Constructor.
+        /// </summary>
+        public RecordField
+            (
+                int tag
+            )
+            : this()
+        {
+            Code.Positive(tag, "tag");
+
+            Tag = tag.ToInvariantString();
+        }
+
+        /// <summary>
         /// Конструктор с присвоением тега поля.
         /// </summary>
         public RecordField
@@ -264,6 +278,22 @@ namespace ManagedIrbis
             : this()
         {
             Tag = tag;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public RecordField
+            (
+                int tag,
+                [CanBeNull] string value
+            )
+            : this()
+        {
+            Code.Positive(tag, "tag");
+
+            Tag = tag.ToInvariantString();
+            Value = value;
         }
 
         /// <summary>
