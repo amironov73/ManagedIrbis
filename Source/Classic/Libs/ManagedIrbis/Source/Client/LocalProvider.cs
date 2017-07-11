@@ -273,7 +273,7 @@ namespace ManagedIrbis.Client
             return result;
         }
 
-        /// <inheritdoc cref="IrbisProvider.GetMaxMfn"/>
+        /// <inheritdoc cref="IrbisProvider.GetMaxMfn" />
         public override int GetMaxMfn()
         {
             int result = 0;

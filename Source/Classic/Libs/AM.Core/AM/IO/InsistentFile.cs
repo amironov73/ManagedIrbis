@@ -179,7 +179,7 @@ namespace AM.IO
                 (
                     path,
                     FileMode.Open,
-                    FileAccess.Write,
+                    FileAccess.ReadWrite,
                     FileShare.None
                 );
         }

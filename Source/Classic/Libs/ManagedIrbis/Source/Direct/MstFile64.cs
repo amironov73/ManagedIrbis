@@ -107,6 +107,17 @@ namespace ManagedIrbis.Direct
             _lockFlag = ControlRecord.Blocked != 0;
         }
 
+        /// <summary>
+        /// Finalizer.
+        /// </summary>
+        ~MstFile64()
+        {
+            if (!ReferenceEquals(_stream, null))
+            {
+                _stream.Dispose();
+            }
+        }
+
         #endregion
 
         #region Private members
@@ -115,7 +126,7 @@ namespace ManagedIrbis.Direct
 
         private bool _lockFlag;
 
-        private readonly FileStream _stream;
+        private FileStream _stream;
 
         private static void _AppendStream
             (
@@ -348,18 +359,15 @@ namespace ManagedIrbis.Direct
 
         #region IDisposable members
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
             if (!ReferenceEquals(_stream, null))
             {
-                if (_lockFlag)
-                {
-                    LockDatabase(false);
-                }
-
                 _stream.Dispose();
+                _stream = null;
             }
+            GC.SuppressFinalize(this);
         }
 
         #endregion

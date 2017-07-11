@@ -86,6 +86,17 @@ namespace ManagedIrbis.Direct
             _stream = InsistentFile.OpenForExclusiveWrite(fileName);
         }
 
+        /// <summary>
+        /// Finalizer.
+        /// </summary>
+        ~XrfFile64()
+        {
+            if (!ReferenceEquals(_stream, null))
+            {
+                _stream.Dispose();
+            }
+        }
+
         #endregion
 
         #region Private members
@@ -187,7 +198,7 @@ namespace ManagedIrbis.Direct
 
         #region IDisposable members
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
             if (!ReferenceEquals(_stream, null))
@@ -195,6 +206,7 @@ namespace ManagedIrbis.Direct
                 _stream.Dispose();
                 _stream = null;
             }
+            GC.SuppressFinalize(this);
         }
 
         #endregion
