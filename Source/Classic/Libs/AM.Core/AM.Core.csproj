@@ -312,6 +312,7 @@
     <Compile Include="AM\Threading\ThreadUtility.cs" />
     <Compile Include="AM\TimeSpanUtility.cs" />
     <Compile Include="AM\TriState.cs" />
+    <Compile Include="Compatibility\BufferedStream.cs" />
     <Compile Include="Compatibility\Diagnostics.cs" />
     <Compile Include="Compatibility\ExcludeFromCodeCoverageAttribute.cs" />
     <Compile Include="Compatibility\TypeInfo.cs" />

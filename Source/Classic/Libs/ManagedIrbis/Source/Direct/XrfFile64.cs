@@ -83,16 +83,10 @@ namespace ManagedIrbis.Direct
             FileName = fileName;
 
             _lockObject = new object();
-            _stream =
-#if !UAP
-                new BufferedStream
+            _stream = new BufferedStream
                 (
-#endif
                     InsistentFile.OpenForExclusiveWrite(fileName)
-#if !UAP
-                )
-#endif
-                    ;
+                );
         }
 
         /// <summary>
@@ -107,9 +101,9 @@ namespace ManagedIrbis.Direct
             }
         }
 
-#endregion
+        #endregion
 
-#region Private members
+        #region Private members
 
         private object _lockObject;
 
@@ -124,9 +118,9 @@ namespace ManagedIrbis.Direct
             return result;
         }
 
-#endregion
+        #endregion
 
-#region Public methods
+        #region Public methods
 
         /// <summary>
         /// Read the record.
@@ -205,9 +199,9 @@ namespace ManagedIrbis.Direct
             }
         }
 
-#endregion
+        #endregion
 
-#region IDisposable members
+        #region IDisposable members
 
         /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
@@ -220,7 +214,7 @@ namespace ManagedIrbis.Direct
             GC.SuppressFinalize(this);
         }
 
-#endregion
+        #endregion
     }
 }
 
