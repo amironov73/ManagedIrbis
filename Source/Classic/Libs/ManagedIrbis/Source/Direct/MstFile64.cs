@@ -101,10 +101,16 @@ namespace ManagedIrbis.Direct
             FileName = fileName;
 
             _lockObject = new object();
-            _stream = new BufferedStream
+            _stream =
+#if !UAP
+                new BufferedStream
                 (
+#endif
                     InsistentFile.OpenForExclusiveWrite(fileName)
-                );
+#if !UAP
+                )
+#endif
+                ;
 
             ControlRecord = MstControlRecord64.Read(_stream);
             _lockFlag = ControlRecord.Blocked != 0;
@@ -121,9 +127,9 @@ namespace ManagedIrbis.Direct
             }
         }
 
-        #endregion
+#endregion
 
-        #region Private members
+#region Private members
 
         private object _lockObject;
 
@@ -155,9 +161,9 @@ namespace ManagedIrbis.Direct
             target.Position = savedPosition;
         }
 
-        #endregion
+#endregion
 
-        #region Public methods
+#region Public methods
 
         /// <summary>
         /// Read the record (with preload optimization).
@@ -361,9 +367,9 @@ namespace ManagedIrbis.Direct
             }
         }
 
-        #endregion
+#endregion
 
-        #region IDisposable members
+#region IDisposable members
 
         /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
@@ -376,11 +382,11 @@ namespace ManagedIrbis.Direct
             GC.SuppressFinalize(this);
         }
 
-        #endregion
+#endregion
 
-        #region Object members
+#region Object members
 
-        #endregion
+#endregion
     }
 }
 

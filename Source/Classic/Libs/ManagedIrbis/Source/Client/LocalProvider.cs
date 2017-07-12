@@ -124,11 +124,15 @@ namespace ManagedIrbis.Client
         /// </summary>
         ~LocalProvider()
         {
+#if !WIN81 && !PORTABLE && !SILVERLIGHT
+
             if (!ReferenceEquals(_accessor, null))
             {
                 _accessor.Dispose();
                 _accessor = null;
             }
+
+#endif
         }
 
         #endregion
@@ -139,9 +143,9 @@ namespace ManagedIrbis.Client
 
         private bool _persistentAccessor;
 
-        private DirectAccess64 _accessor;
-
 #if !WIN81 && !PORTABLE && !SILVERLIGHT
+
+        private DirectAccess64 _accessor;
 
         private string _ExpandPath
             (
@@ -604,7 +608,7 @@ namespace ManagedIrbis.Client
             return result;
         }
 
-        #endregion
+#endregion
 
         #region IDisposable members
 
@@ -615,11 +619,15 @@ namespace ManagedIrbis.Client
 
             BusyState.WaitFreeState();
 
+#if !WIN81 && !PORTABLE && !SILVERLIGHT
+
             if (!ReferenceEquals(_accessor, null))
             {
                 _accessor.Dispose();
                 _accessor = null;
             }
+
+#endif
 
             base.Dispose();
 

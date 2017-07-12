@@ -87,6 +87,8 @@ namespace AM.IO
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
+            Exception lastException = null;
+
             while (true)
             {
                 try
@@ -97,6 +99,8 @@ namespace AM.IO
                 }
                 catch (Exception exception)
                 {
+                    lastException = exception;
+
                     Log.TraceException
                         (
                             "InistentFile::_Evaluate",
@@ -115,7 +119,8 @@ namespace AM.IO
 
                     throw new ArsMagnaException
                         (
-                            "InsistentFile: timeout is exhausted"
+                            "InsistentFile: timeout is exhausted",
+                            lastException
                         );
                 }
 
@@ -128,7 +133,7 @@ namespace AM.IO
         #region Public methods
 
         /// <inheritdoc
-        /// cref="File.Open(string,FileMode,FileAccess,FileShare)"/>.
+        /// cref="File.Open(string,FileMode,FileAccess,FileShare)" />.
         [NotNull]
         public static FileStream Open
             (

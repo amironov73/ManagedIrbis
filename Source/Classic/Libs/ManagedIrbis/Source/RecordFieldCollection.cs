@@ -204,11 +204,6 @@ namespace ManagedIrbis
         {
             _dontRenumber = false;
             _RenumberFields();
-            MarcRecord record = Record;
-            if (!ReferenceEquals(record, null))
-            {
-                record.Modified = false;
-            }
         }
 
         /// <summary>

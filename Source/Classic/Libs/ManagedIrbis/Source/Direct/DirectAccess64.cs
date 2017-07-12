@@ -155,7 +155,8 @@ namespace ManagedIrbis.Direct
             Code.Positive(mfn, "mfn");
 
             XrfRecord64 xrfRecord = Xrf.ReadRecord(mfn);
-            if (xrfRecord.Offset == 0)
+            if (xrfRecord.Offset == 0
+                || (xrfRecord.Status & RecordStatus.PhysicallyDeleted) != 0)
             {
                 return null;
             }
@@ -345,7 +346,7 @@ namespace ManagedIrbis.Direct
             }
 
             record.Version++;
-            record.Status |= RecordStatus.Last;
+            record.Status |= RecordStatus.Last|RecordStatus.NonActualized;
             MstRecord64 mstRecord64 = MstRecord64.EncodeRecord(record);
             WriteRawRecord(mstRecord64);
             record.Database = Database;

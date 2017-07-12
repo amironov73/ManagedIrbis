@@ -84,6 +84,7 @@ namespace ManagedIrbis
         {
             record.Fields.BeginUpdate();
             record.Fields.AddCapacity(delta);
+            record.Modified = false;
 
             return record;
         }
