@@ -144,7 +144,7 @@
           <DependentUpon>UniversalForm.cs</DependentUpon>
         </EmbeddedResource>
       </ItemGroup>
-    </When>    
+    </When>
   </Choose>
   <Choose>
     <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
@@ -190,7 +190,14 @@
     <Compile Include="Source\DictionaryPanel.Designer.cs">
       <DependentUpon>DictionaryPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\Editors\FieldItem.cs" />
     <Compile Include="Source\Editors\MenuEditor.cs" />
+    <Compile Include="Source\Editors\SimplestMarcEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\Editors\SimplestMarcEditor.Designer.cs">
+      <DependentUpon>SimplestMarcEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Source\FieldPainter.cs" />
     <Compile Include="Source\FoundPanel.cs">
       <SubType>UserControl</SubType>
@@ -390,6 +397,7 @@
     <None Include="ArsMagna.private.snk" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Properties\PftMode.xshd" />
+    <None Include="Properties\DataSources\IrbisUI.Editors.FieldItem.datasource" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />
@@ -400,6 +408,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Source\DictionaryPanel.resx">
       <DependentUpon>DictionaryPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Editors\SimplestMarcEditor.resx">
+      <DependentUpon>SimplestMarcEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Source\FoundPanel.resx">
       <DependentUpon>FoundPanel.cs</DependentUpon>

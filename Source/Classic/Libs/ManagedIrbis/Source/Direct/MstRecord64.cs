@@ -112,15 +112,11 @@ namespace ManagedIrbis.Direct
                 [NotNull] MstDictionaryEntry64 entry
             )
         {
-            string concatenated = string.Concat
+            RecordField result = RecordFieldUtility.Parse
                 (
-                    entry.Tag,
-                    "#",
+                    entry.Tag.ToInvariantString(),
                     entry.Text
                 );
-
-            RecordField result
-                = RecordFieldUtility.Parse(concatenated);
 
             return result;
         }

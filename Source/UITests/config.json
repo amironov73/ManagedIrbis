@@ -269,6 +269,10 @@
   },
   {
     "class": "UITests.InputLanguageUtilityTest",
-     "title": "InputLanguageUtilityTest"
+    "title": "InputLanguageUtilityTest"
+  },
+  {
+    "class": "UITests.SimplestMarcEditorTest",
+    "title": "SimplestMarcEditorTest"
   }
 ]
