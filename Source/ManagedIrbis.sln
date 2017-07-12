@@ -199,6 +199,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectWriterBenchmark", "Be
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormatBenchmark", "Benchmarks\FormatBenchmark\FormatBenchmark.csproj", "{62D0B75E-725C-4BDA-A291-8FF0DF8D6178}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MstExplorer", "Classic\Apps\MstExplorer\MstExplorer.csproj", "{59D8176A-F150-485B-8011-DE191DDFCAFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -967,6 +969,14 @@ Global
 		{62D0B75E-725C-4BDA-A291-8FF0DF8D6178}.Release|Any CPU.Build.0 = Release|Any CPU
 		{62D0B75E-725C-4BDA-A291-8FF0DF8D6178}.Release|x86.ActiveCfg = Release|Any CPU
 		{62D0B75E-725C-4BDA-A291-8FF0DF8D6178}.Release|x86.Build.0 = Release|Any CPU
+		{59D8176A-F150-485B-8011-DE191DDFCAFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59D8176A-F150-485B-8011-DE191DDFCAFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59D8176A-F150-485B-8011-DE191DDFCAFE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{59D8176A-F150-485B-8011-DE191DDFCAFE}.Debug|x86.Build.0 = Debug|Any CPU
+		{59D8176A-F150-485B-8011-DE191DDFCAFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59D8176A-F150-485B-8011-DE191DDFCAFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59D8176A-F150-485B-8011-DE191DDFCAFE}.Release|x86.ActiveCfg = Release|Any CPU
+		{59D8176A-F150-485B-8011-DE191DDFCAFE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1065,5 +1075,6 @@ Global
 		{DE03C59B-2846-4466-B0A7-438DAEA460E1} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{8041231B-C7EB-4F02-A58E-6B1F976C7FB8} = {8EA7C732-C1B4-4E1A-B0F7-53D3E18F564A}
 		{62D0B75E-725C-4BDA-A291-8FF0DF8D6178} = {8EA7C732-C1B4-4E1A-B0F7-53D3E18F564A}
+		{59D8176A-F150-485B-8011-DE191DDFCAFE} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 	EndGlobalSection
 EndGlobal
