@@ -263,6 +263,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectAccess64.cs">
       <Link>Source\Direct\DirectAccess64.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectAccessMode.cs">
+      <Link>Source\Direct\DirectAccessMode.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectUtility.cs">
       <Link>Source\Direct\DirectUtility.cs</Link>
     </Compile>

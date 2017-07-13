@@ -24,7 +24,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -137,6 +137,21 @@ namespace ManagedIrbis.Pft.Infrastructure
         #region Private members
 
         /// <summary>
+        /// Deserialize AST.
+        /// </summary>
+        protected internal virtual void DeserializeAst
+            (
+                [NotNull] BinaryReader reader
+            )
+        {
+            Column = reader.ReadPackedInt32();
+            LineNumber = reader.ReadPackedInt32();
+            Text = reader.ReadNullableString();
+
+            PftSerializer.Deserialize(reader, Children);
+        }
+
+        /// <summary>
         /// After execution.
         /// </summary>
         protected void OnAfterExecution
@@ -194,6 +209,22 @@ namespace ManagedIrbis.Pft.Infrastructure
                     context.ActivateDebugger(this);
                 }
             }
+        }
+
+        /// <summary>
+        /// Serialize AST.
+        /// </summary>
+        protected internal virtual void SerializeAst
+            (
+                [NotNull] BinaryWriter writer
+            )
+        {
+            writer
+                .WritePackedInt32(Column)
+                .WritePackedInt32(LineNumber)
+                .WriteNullable(Text);
+
+            PftSerializer.Serialize(writer, Children);
         }
 
         /// <summary>
