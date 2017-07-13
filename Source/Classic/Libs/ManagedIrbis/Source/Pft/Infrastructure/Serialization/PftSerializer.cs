@@ -30,6 +30,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Ast;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -312,6 +313,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if PORTABLE || WIN81
+
+            throw new NotSupportedException();
+
+#else
+
             using (Stream stream = File.OpenRead(fileName))
             using (BinaryReader reader
                 = new BinaryReader(stream, IrbisEncoding.Utf8))
@@ -320,6 +327,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
 
                 return result;
             }
+
+#endif
+
         }
 
         /// <summary>
@@ -360,12 +370,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             Code.NotNull(rootNode, "rootNode");
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if PORTABLE || WIN81
+
+            throw new NotSupportedException();
+#else
+
             using (Stream stream = File.Create(fileName))
             using (BinaryWriter writer
                 = new BinaryWriter(stream, IrbisEncoding.Utf8))
             {
                 Save(rootNode, writer);
             }
+
+#endif
         }
 
         /// <summary>

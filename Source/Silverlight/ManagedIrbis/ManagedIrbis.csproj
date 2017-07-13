@@ -170,6 +170,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectAccessMode.cs">
       <Link>Source\Direct\DirectAccessMode.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectUtility.cs">
+      <Link>Source\Direct\DirectUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\IfpRecord.cs">
       <Link>Source\Direct\IfpRecord.cs</Link>
     </Compile>
@@ -1177,6 +1180,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\ProgramCache.cs">
       <Link>Source\Pft\Infrastructure\ProgramCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Serialization\PftSerializer.cs">
+      <Link>Source\Pft\Infrastructure\Serialization\PftSerializer.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Testing\PftTest.cs">
       <Link>Source\Pft\Infrastructure\Testing\PftTest.cs</Link>

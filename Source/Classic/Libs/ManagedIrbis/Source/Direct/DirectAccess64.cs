@@ -320,11 +320,7 @@ namespace ManagedIrbis.Direct
                 leader.Previous = previousOffset;
                 MstRecordLeader64 previousLeader
                     = Mst.ReadLeader(previousOffset);
-                previousLeader.Status = (int)
-                    (
-                        (RecordStatus)previousLeader.Status
-                        & ~RecordStatus.Last
-                    );
+                previousLeader.Status = (int) RecordStatus.NonActualized;
                 Mst.UpdateLeader(previousLeader, previousOffset);
                 xrfRecord.Offset = Mst.WriteRecord(mstRecord);
             }
