@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +32,12 @@ using ManagedIrbis.Pft.Infrastructure.Ast;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 
 using MoonSharp.Interpreter;
+
+#if !SILVERLIGHT
+
+using System.IO.Compression;
+
+#endif
 
 #endregion
 
@@ -308,6 +313,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
 
             PftNode result;
             MemoryStream memory = new MemoryStream(bytes);
+
+#if SILVERLIGHT
+
+            using (BinaryReader reader
+                = new BinaryReader(memory, IrbisEncoding.Utf8))
+            {
+                result = Read(reader);
+            }
+
+#else
+
             using (DeflateStream compressor
                 = new DeflateStream(memory, CompressionMode.Decompress))
             using (BinaryReader reader
@@ -316,9 +332,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
                 result = Read(reader);
             }
 
+#endif
+
             return result;
         }
-
 
         /// <summary>
         /// Read the AST from the stream.
@@ -367,6 +384,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
 #else
 
             using (Stream stream = File.OpenRead(fileName))
+
+#if SILVERLIGHT
+
+            using (BinaryReader reader
+                = new BinaryReader(stream, IrbisEncoding.Utf8))
+            {
+                PftNode result = Read(reader);
+
+                return result;
+            }
+
+#else
+
             using (DeflateStream compressor
                 = new DeflateStream(stream, CompressionMode.Decompress))
             using (BinaryReader reader
@@ -376,6 +406,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
 
                 return result;
             }
+
+#endif
 
 #endif
 
@@ -418,6 +450,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
 #else
 
             using (Stream stream = File.Create(fileName))
+
+#if SILVERLIGHT
+
+            using (BinaryWriter writer
+                = new BinaryWriter(stream, IrbisEncoding.Utf8))
+            {
+                Save(rootNode, writer);
+            }
+
+#else
+
             using (DeflateStream compressor
                 = new DeflateStream(stream, CompressionMode.Compress))
             using (BinaryWriter writer
@@ -425,6 +468,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             {
                 Save(rootNode, writer);
             }
+
+#endif
 
 #endif
         }
@@ -530,6 +575,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             Code.NotNull(rootNode, "rootNode");
 
             MemoryStream memory = new MemoryStream();
+
+#if SILVERLIGHT
+
+            using (BinaryWriter writer
+                = new BinaryWriter(memory, IrbisEncoding.Utf8))
+            {
+                Save(rootNode, writer);
+            }
+
+#else
+
             using (DeflateStream compressor
                 = new DeflateStream(memory, CompressionMode.Compress))
             using (BinaryWriter writer
@@ -538,9 +594,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
                 Save(rootNode, writer);
             }
 
+#endif
+
             return memory.ToArray();
         }
 
-        #endregion
+#endregion
     }
 }
