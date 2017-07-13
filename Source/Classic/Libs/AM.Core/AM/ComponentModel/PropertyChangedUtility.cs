@@ -80,7 +80,7 @@ namespace AM.ComponentModel
             (
                 this　T propertyChangedBase,
                 Expression<Func<T, TProperty>> expression,
-                object newValue = null
+                object newValue
             )
             where T : NotifyProperty
         {

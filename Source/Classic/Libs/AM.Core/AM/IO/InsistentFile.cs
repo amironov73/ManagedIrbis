@@ -87,10 +87,10 @@ namespace AM.IO
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            Exception lastException = null;
-
             while (true)
             {
+                Exception lastException;
+
                 try
                 {
                     T result = function();
@@ -204,6 +204,24 @@ namespace AM.IO
                     FileMode.Open,
                     FileAccess.Read,
                     FileShare.Read
+                );
+        }
+
+        /// <summary>
+        /// Open specified file for shared reading/writing.
+        /// </summary>
+        [NotNull]
+        public static FileStream OpenForSharedWrite
+            (
+                [NotNull] string path
+            )
+        {
+            return Open
+                (
+                    path,
+                    FileMode.Open,
+                    FileAccess.ReadWrite,
+                    FileShare.ReadWrite
                 );
         }
 

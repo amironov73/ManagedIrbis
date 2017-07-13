@@ -17,6 +17,7 @@ using System.Diagnostics;
 using System.IO;
 
 using AM.IO;
+using AM.Logging;
 
 using CodeJam;
 
@@ -351,6 +352,56 @@ namespace ManagedIrbis.Direct
             string xrfFile = path + ".xrf";
             FileUtility.DeleteIfExists(xrfFile);
             FileUtility.WriteAllBytes(xrfFile, _xrfContent64);
+        }
+
+        /// <summary>
+        /// Open specified file.
+        /// </summary>
+        [NotNull]
+        public static Stream OpenFile
+            (
+                [NotNull] string fileName,
+                DirectAccessMode mode
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            Stream result;
+            switch (mode)
+            {
+                case DirectAccessMode.Exclusive:
+                    result = InsistentFile.OpenForExclusiveWrite(fileName);
+                    break;
+
+                case DirectAccessMode.Shared:
+                    result = InsistentFile.OpenForSharedWrite(fileName);
+                    break;
+
+                case DirectAccessMode.ReadOnly:
+                    result = InsistentFile.OpenForSharedRead(fileName);
+                    break;
+
+                default:
+                    Log.Error
+                        (
+                            "DirectUtility:OpenFile "
+                            + "unexpected mode="
+                            + mode
+                        );
+
+                    throw new IrbisException
+                        (
+                            string.Format
+                            (
+                                "Unexpected mode="
+                                + mode
+                            )
+                        );
+            }
+
+            result = new BufferedStream(result);
+
+            return result;
         }
 
         #endregion

@@ -113,38 +113,37 @@ namespace AM.Threading.Tasks
 
 #if FW45 || NETCORE
 
-        /// <summary>
-        /// Borrowed from Stephen Toub book.
-        /// </summary>
-        public static async Task<T> RetryOnFault<T>
-            (
-                Func<Task<T>> function,
-                int maxTries
-            )
-        {
-            for (int i = 0; i < maxTries; i++)
-            {
-                try
-                {
-                    return await function().ConfigureAwait(false);
-                }
-                catch
-                {
-                    if (i == maxTries - 1)
-                    {
-                        Log.Error
-                            (
-                                "TaskUtility::RetryOnFault"
-                            );
+        ///// <summary>
+        ///// Borrowed from Stephen Toub book.
+        ///// </summary>
+        //public static async Task<T> RetryOnFault<T>
+        //    (
+        //        Func<Task<T>> function,
+        //        int maxTries
+        //    )
+        //{
+        //    for (int i = 0; i < maxTries; i++)
+        //    {
+        //        try
+        //        {
+        //            return await function().ConfigureAwait(false);
+        //        }
+        //        catch
+        //        {
+        //            if (i == maxTries - 1)
+        //            {
+        //                Log.Error
+        //                    (
+        //                        "TaskUtility::RetryOnFault"
+        //                    );
 
-                        throw;
-                    }
-                }
-            }
+        //                throw;
+        //            }
+        //        }
+        //    }
 
-            return default(T);
-        }
-
+        //    return default(T);
+        //}
 
         /// <summary>
         /// Waits for the task to complete, unwrapping any exceptions.

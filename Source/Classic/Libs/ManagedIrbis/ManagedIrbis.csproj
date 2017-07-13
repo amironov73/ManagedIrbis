@@ -21,6 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\ManagedIrbis.xml</DocumentationFile>
+    <LangVersion>3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -175,6 +176,7 @@
     <Compile Include="Source\ConnectionElement.cs" />
     <Compile Include="Source\ConnectionSettings.cs" />
     <Compile Include="Source\CopyRecordManager.cs" />
+    <Compile Include="Source\Direct\DirectAccessMode.cs" />
     <Compile Include="Source\Direct\DirectReader32.cs" />
     <Compile Include="Source\Direct\DirectAccess64.cs" />
     <Compile Include="Source\Direct\DirectUtility.cs" />
@@ -239,8 +241,6 @@
     <Compile Include="Source\Infrastructure\ExecutionEventArgs.cs" />
     <Compile Include="Source\Infrastructure\IOutputService.cs" />
     <Compile Include="Source\Infrastructure\SharpRunner.cs" />
-    <Compile Include="Source\Infrastructure\Sockets\AsyncClientSocket.cs" />
-    <Compile Include="Source\Infrastructure\Sockets\AsyncSocketAdapter.cs" />
     <Compile Include="Source\Infrastructure\Sockets\BrokenSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\ClientSocketUtility.cs" />
     <Compile Include="Source\Infrastructure\Sockets\SlowSocket.cs" />

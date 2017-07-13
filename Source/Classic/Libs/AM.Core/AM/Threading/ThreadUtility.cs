@@ -66,25 +66,22 @@ namespace AM.Threading
 
 #if CLASSIC || SILVERLIGHT || WINMOBILE || POCKETPC
 
-#if FW45
+        ///// <summary>
+        ///// Sleep for specified milliseconds.
+        ///// </summary>
+        //public static async void Sleep
+        //    (
+        //        int milliseconds
+        //    )
+        //{
+        //    // Let other tasks use this thread.
 
-        /// <summary>
-        /// Sleep for specified milliseconds.
-        /// </summary>
-        public static async void Sleep
-            (
-                int milliseconds
-            )
-        {
-            // Let other tasks use this thread.
+        //    if (milliseconds > 0)
+        //    {
+        //        await Task.Delay(milliseconds);
+        //    }
+        //}
 
-            if (milliseconds > 0)
-            {
-                await Task.Delay(milliseconds);
-            }
-        }
-
-#else
 
         /// <summary>
         /// Sleep for specified milliseconds.
@@ -97,7 +94,6 @@ namespace AM.Threading
             System.Threading.Thread.Sleep (milliseconds);
         }
 
-#endif
 
 #else
 

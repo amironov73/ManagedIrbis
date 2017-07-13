@@ -73,6 +73,11 @@ namespace ManagedIrbis.Client
         /// </summary>
         public string RootPath { get; set; }
 
+        /// <summary>
+        /// Access mode.
+        /// </summary>
+        public DirectAccessMode Mode { get; private set; }
+
         #endregion
 
         #region Construction
@@ -88,6 +93,7 @@ namespace ManagedIrbis.Client
             RootPath = "C:/IRBIS64";
             DataPath = "C:/IRBIS64/DataI";
             Database = "IBIS";
+            Mode = DirectAccessMode.Exclusive;
             // ReSharper restore VirtualMemberCallInConstructor
 
             _busyState = new BusyState();
@@ -100,7 +106,7 @@ namespace ManagedIrbis.Client
             (
                 string rootPath
             )
-            : this(rootPath, true)
+            : this(rootPath, DirectAccessMode.Exclusive, true)
         {
         }
 
@@ -110,6 +116,7 @@ namespace ManagedIrbis.Client
         public LocalProvider
             (
                 string rootPath,
+                DirectAccessMode mode,
                 bool persistent
             )
             : this()
@@ -117,6 +124,7 @@ namespace ManagedIrbis.Client
             _persistentAccessor = persistent;
             RootPath = rootPath;
             DataPath = rootPath + "/DataI";
+            Mode = mode;
         }
 
         /// <summary>
@@ -230,7 +238,7 @@ namespace ManagedIrbis.Client
                         Database + ".mst"
                     );
 
-                _accessor = new DirectAccess64(fileName);
+                _accessor = new DirectAccess64(fileName, Mode);
             }
 
             return _accessor;

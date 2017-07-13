@@ -66,6 +66,11 @@ namespace ManagedIrbis.Direct
         [NotNull]
         public string FileName { get; private set; }
 
+        /// <summary>
+        /// Access mode.
+        /// </summary>
+        public DirectAccessMode Mode { get; private set; }
+
         #endregion
 
         #region Construction
@@ -75,18 +80,17 @@ namespace ManagedIrbis.Direct
         /// </summary>
         public XrfFile64
             (
-                [NotNull] string fileName
+                [NotNull] string fileName,
+                DirectAccessMode mode
             )
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
             FileName = fileName;
+            Mode = mode;
 
             _lockObject = new object();
-            _stream = new BufferedStream
-                (
-                    InsistentFile.OpenForExclusiveWrite(fileName)
-                );
+            _stream = DirectUtility.OpenFile(fileName, mode);
         }
 
         /// <summary>
@@ -96,8 +100,11 @@ namespace ManagedIrbis.Direct
         {
             if (!ReferenceEquals(_stream, null))
             {
-                _stream.Dispose();
-                _stream = null;
+                lock (_lockObject)
+                {
+                    _stream.Dispose();
+                    _stream = null;
+                }
             }
         }
 
@@ -154,11 +161,11 @@ namespace ManagedIrbis.Direct
             }
 
             XrfRecord64 result = new XrfRecord64
-                {
-                    Mfn = mfn,
-                    Offset = ofs,
-                    Status = (RecordStatus)flags
-                };
+            {
+                Mfn = mfn,
+                Offset = ofs,
+                Status = (RecordStatus)flags
+            };
 
             return result;
         }

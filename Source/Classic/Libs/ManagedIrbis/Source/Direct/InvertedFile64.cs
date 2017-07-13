@@ -61,6 +61,11 @@ namespace ManagedIrbis.Direct
         public string FileName { get; private set; }
 
         /// <summary>
+        /// Access mode.
+        /// </summary>
+        public DirectAccessMode Mode { get; private set; }
+
+        /// <summary>
         /// IFP file.
         /// </summary>
         [NotNull]
@@ -87,7 +92,8 @@ namespace ManagedIrbis.Direct
         /// </summary>
         public InvertedFile64
             (
-                [NotNull] string fileName
+                [NotNull] string fileName,
+                DirectAccessMode mode
             )
         {
             Code.NotNullNorEmpty(fileName, "fileName");
@@ -95,10 +101,19 @@ namespace ManagedIrbis.Direct
             _encoding = new UTF8Encoding(false, true);
 
             FileName = fileName;
+            Mode = mode;
 
-            Ifp = _OpenStream(fileName);
-            L01 = _OpenStream(Path.ChangeExtension(fileName, ".l01"));
-            N01 = _OpenStream(Path.ChangeExtension(fileName, ".n01"));
+            Ifp = DirectUtility.OpenFile(fileName, mode);
+            L01 = DirectUtility.OpenFile
+                (
+                    Path.ChangeExtension(fileName, ".l01"),
+                    mode
+                );
+            N01 = DirectUtility.OpenFile
+                (
+                    Path.ChangeExtension(fileName, ".n01"),
+                    mode
+                );
         }
 
         #endregion
@@ -106,20 +121,6 @@ namespace ManagedIrbis.Direct
         #region Private members
 
         private readonly Encoding _encoding;
-
-        private static Stream _OpenStream
-            (
-                string fileName
-            )
-        {
-            return new FileStream
-                (
-                    fileName,
-                    FileMode.Open,
-                    FileAccess.Read,
-                    FileShare.ReadWrite
-                );
-        }
 
         private long _NodeOffset
             (
@@ -308,6 +309,8 @@ namespace ManagedIrbis.Direct
         {
             Code.NotNull(parameters, "parameters");
 
+            // TODO Implement
+
             return new TermInfo[0];
         }
 
@@ -412,7 +415,7 @@ namespace ManagedIrbis.Direct
                     return result
                         .Distinct()
                         .ToArray();
-                    //ibatrak до сюда
+                    // ibatrak до сюда
                 }
             }
             catch (Exception exception)

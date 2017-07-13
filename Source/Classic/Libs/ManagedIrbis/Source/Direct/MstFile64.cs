@@ -17,6 +17,7 @@ using System.IO;
 using System.Text;
 
 using AM.IO;
+using AM.Logging;
 
 using CodeJam;
 
@@ -84,6 +85,11 @@ namespace ManagedIrbis.Direct
         [NotNull]
         public string FileName { get; private set; }
 
+        /// <summary>
+        /// Access mode.
+        /// </summary>
+        public DirectAccessMode Mode { get; private set; }
+
         #endregion
 
         #region Construction
@@ -93,18 +99,17 @@ namespace ManagedIrbis.Direct
         /// </summary>
         public MstFile64
             (
-                [NotNull] string fileName
+                [NotNull] string fileName,
+                DirectAccessMode mode
             )
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
             FileName = fileName;
+            Mode = mode;
 
             _lockObject = new object();
-            _stream = new BufferedStream
-                (
-                    InsistentFile.OpenForExclusiveWrite(fileName)
-                );
+            _stream = DirectUtility.OpenFile(fileName, mode);
 
             ControlRecord = MstControlRecord64.Read(_stream);
             _lockFlag = ControlRecord.Blocked != 0;
@@ -121,7 +126,7 @@ namespace ManagedIrbis.Direct
             }
         }
 
-#endregion
+        #endregion
 
         #region Private members
 

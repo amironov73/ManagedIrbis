@@ -75,33 +75,36 @@ namespace ManagedIrbis.Direct
             (
                 [NotNull] string masterFile
             )
+            : this(masterFile, DirectAccessMode.Exclusive)
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public DirectAccess64
+            (
+                [NotNull] string masterFile,
+                DirectAccessMode mode
+            )
         {
             Code.NotNullNorEmpty(masterFile, "masterFile");
 
             Database = Path.GetFileNameWithoutExtension(masterFile);
             Mst = new MstFile64
                 (
-                    Path.ChangeExtension
-                        (
-                            masterFile,
-                            ".mst"
-                        )
+                    Path.ChangeExtension(masterFile, ".mst"),
+                    mode
                 );
             Xrf = new XrfFile64
                 (
-                    Path.ChangeExtension
-                    (
-                        masterFile,
-                        ".xrf"
-                    )
+                    Path.ChangeExtension(masterFile, ".xrf"),
+                    mode
                 );
             InvertedFile = new InvertedFile64
                 (
-                    Path.ChangeExtension
-                    (
-                        masterFile,
-                        ".ifp"
-                    )
+                    Path.ChangeExtension(masterFile, ".ifp"),
+                    mode
                 );
         }
 
@@ -307,7 +310,7 @@ namespace ManagedIrbis.Direct
                 {
                     Mfn = mfn,
                     Offset = Mst.WriteRecord(mstRecord),
-                    Status = (RecordStatus) leader.Status
+                    Status = (RecordStatus)leader.Status
                 };
             }
             else
@@ -319,7 +322,7 @@ namespace ManagedIrbis.Direct
                     = Mst.ReadLeader(previousOffset);
                 previousLeader.Status = (int)
                     (
-                        (RecordStatus) previousLeader.Status
+                        (RecordStatus)previousLeader.Status
                         & ~RecordStatus.Last
                     );
                 Mst.UpdateLeader(previousLeader, previousOffset);
@@ -346,7 +349,7 @@ namespace ManagedIrbis.Direct
             }
 
             record.Version++;
-            record.Status |= RecordStatus.Last|RecordStatus.NonActualized;
+            record.Status |= RecordStatus.Last | RecordStatus.NonActualized;
             MstRecord64 mstRecord64 = MstRecord64.EncodeRecord(record);
             WriteRawRecord(mstRecord64);
             record.Database = Database;

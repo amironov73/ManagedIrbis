@@ -22,111 +22,111 @@ using AM.Logging;
 
 namespace AM.Threading.Tasks
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <remarks>Borrowed from Tom DuPont:
-    /// http://www.tomdupont.net/2016/09/net-asynchronous-parallel-batch.html
-    /// </remarks>
-    public sealed class BatchParallelProcessor<T>
-        : ProcessorBase<T>
-    {
-        #region Construction
+    ///// <summary>
+    ///// 
+    ///// </summary>
+    ///// <remarks>Borrowed from Tom DuPont:
+    ///// http://www.tomdupont.net/2016/09/net-asynchronous-parallel-batch.html
+    ///// </remarks>
+    //public sealed class BatchParallelProcessor<T>
+    //    : ProcessorBase<T>
+    //{
+    //    #region Construction
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public BatchParallelProcessor
-        (
-            int maxParallelization,
-            int batchSize,
-            Func<List<T>, CancellationToken, Task> processHandler,
-            Action<List<T>, Exception> exceptionHandler = null,
-            int disposeTimeoutMs = 30000,
-            int? maxQueueSize = null
-        )
-            : base(maxParallelization, disposeTimeoutMs, maxQueueSize)
-        {
-            if (batchSize < 1)
-            {
-                Log.Error
-                    (
-                        "BatchParallelProcessor::Constructor: "
-                        + "batchSize="
-                        + batchSize
-                    );
+    //    /// <summary>
+    //    /// Constructor.
+    //    /// </summary>
+    //    public BatchParallelProcessor
+    //        (
+    //            int maxParallelization,
+    //            int batchSize,
+    //            Func<List<T>, CancellationToken, Task> processHandler,
+    //            Action<List<T>, Exception> exceptionHandler,
+    //            int disposeTimeoutMs,
+    //            int? maxQueueSize
+    //        )
+    //        : base(maxParallelization, disposeTimeoutMs, maxQueueSize)
+    //    {
+    //        if (batchSize < 1)
+    //        {
+    //            Log.Error
+    //                (
+    //                    "BatchParallelProcessor::Constructor: "
+    //                    + "batchSize="
+    //                    + batchSize
+    //                );
 
-                throw new ArgumentException
-                (
-                    "batchSize is required"
-                );
-            }
+    //            throw new ArgumentException
+    //            (
+    //                "batchSize is required"
+    //            );
+    //        }
 
-            _batchSize = batchSize;
-            _processHandler = processHandler;
-            _exceptionHandler = exceptionHandler;
-        }
+    //        _batchSize = batchSize;
+    //        _processHandler = processHandler;
+    //        _exceptionHandler = exceptionHandler;
+    //    }
 
-        #endregion
+    //    #endregion
 
-        #region Private members
+    //    #region Private members
 
-        private readonly int _batchSize;
-        private readonly Func<List<T>, CancellationToken, Task> _processHandler;
-        private readonly Action<List<T>, Exception> _exceptionHandler;
+    //    private readonly int _batchSize;
+    //    private readonly Func<List<T>, CancellationToken, Task> _processHandler;
+    //    private readonly Action<List<T>, Exception> _exceptionHandler;
 
-        #endregion
+    //    #endregion
 
-        #region ProcessorBase members
+    //    #region ProcessorBase members
 
-        /// <inheritdoc/>
-        protected override async Task ProcessLoopAsync()
-        {
-            while (!CancelSource.IsCancellationRequested)
-            {
-                var count = Math.Min(_batchSize, Queue.Count + 1);
-                var list = new List<T>(count);
+    //    /// <inheritdoc/>
+    //    protected override async Task ProcessLoopAsync()
+    //    {
+    //        while (!CancelSource.IsCancellationRequested)
+    //        {
+    //            var count = Math.Min(_batchSize, Queue.Count + 1);
+    //            var list = new List<T>(count);
 
-                T item;
-                while (list.Count < _batchSize && Queue.TryDequeue(out item))
-                    list.Add(item);
+    //            T item;
+    //            while (list.Count < _batchSize && Queue.TryDequeue(out item))
+    //                list.Add(item);
 
-                if (list.Count == 0)
-                    return;
+    //            if (list.Count == 0)
+    //                return;
 
-                try
-                {
-                    await _processHandler(list, CancelSource.Token)
-                        .ConfigureAwait(false);
-                }
-                catch (TaskCanceledException)
-                {
-                    if (CancelSource.IsCancellationRequested)
-                    {
-                        // Cancellation was requested, ignore and exit.
-                        return;
-                    }
+    //            try
+    //            {
+    //                await _processHandler(list, CancelSource.Token)
+    //                    .ConfigureAwait(false);
+    //            }
+    //            catch (TaskCanceledException)
+    //            {
+    //                if (CancelSource.IsCancellationRequested)
+    //                {
+    //                    // Cancellation was requested, ignore and exit.
+    //                    return;
+    //                }
 
-                    Log.Error
-                        (
-                            "BatchParallelProcessor::ProcessLoopAsync: "
-                            + "TaskCancelledException"
-                        );
+    //                Log.Error
+    //                    (
+    //                        "BatchParallelProcessor::ProcessLoopAsync: "
+    //                        + "TaskCancelledException"
+    //                    );
 
-                    throw;
-                }
-                catch (Exception ex)
-                {
-                    if (!ReferenceEquals(_exceptionHandler, null))
-                    {
-                        _exceptionHandler.Invoke(list, ex);
-                    }
-                }
-            }
-        }
+    //                throw;
+    //            }
+    //            catch (Exception ex)
+    //            {
+    //                if (!ReferenceEquals(_exceptionHandler, null))
+    //                {
+    //                    _exceptionHandler.Invoke(list, ex);
+    //                }
+    //            }
+    //        }
+    //    }
 
-        #endregion
-    }
+    //    #endregion
+    //}
 }
 
 #endif
