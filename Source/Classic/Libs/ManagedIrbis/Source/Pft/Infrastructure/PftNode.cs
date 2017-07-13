@@ -72,8 +72,19 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public virtual IList<PftNode> Children
         {
-            get;
-            protected set;
+            get
+            {
+                if (ReferenceEquals(_children, null))
+                {
+                    _children = new NonNullCollection<PftNode>();
+                }
+
+                return _children;
+            }
+            protected set
+            {
+                _children = (NonNullCollection<PftNode>) value;
+            }
         }
 
         /// <summary>
@@ -113,7 +124,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public PftNode()
         {
-            Children = new NonNullCollection<PftNode>();
         }
 
         /// <summary>
@@ -123,7 +133,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             (
                 [NotNull] PftToken token
             )
-            : this()
         {
             Code.NotNull(token, "token");
 
@@ -136,6 +145,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Private members
 
+        private NonNullCollection<PftNode> _children;
+
         /// <summary>
         /// Deserialize AST.
         /// </summary>
@@ -146,9 +157,15 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Column = reader.ReadPackedInt32();
             LineNumber = reader.ReadPackedInt32();
-            Text = reader.ReadNullableString();
+            if (ShouldSerializeText())
+            {
+                Text = reader.ReadNullableString();
+            }
 
-            PftSerializer.Deserialize(reader, Children);
+            if (ShouldSerializeChildren())
+            {
+                PftSerializer.Deserialize(reader, Children);
+            }
         }
 
         /// <summary>
@@ -221,10 +238,35 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             writer
                 .WritePackedInt32(Column)
-                .WritePackedInt32(LineNumber)
-                .WriteNullable(Text);
+                .WritePackedInt32(LineNumber);
+            if (ShouldSerializeText())
+            {
+                writer.WriteNullable(Text);
+            }
 
-            PftSerializer.Serialize(writer, Children);
+            if (ShouldSerializeChildren())
+            {
+                PftSerializer.Serialize(writer, Children);
+            }
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="Children"/> property?
+        /// </summary>
+        protected internal virtual bool ShouldSerializeChildren()
+        {
+            NonNullCollection<PftNode> children
+                = Children as NonNullCollection<PftNode>;
+
+            return !ReferenceEquals(children, null);
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="Text"/> property?
+        /// </summary>
+        protected internal virtual bool ShouldSerializeText()
+        {
+            return true;
         }
 
         /// <summary>

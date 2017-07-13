@@ -17,7 +17,8 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
-
+using AM.Text;
+using AM.Text.Output;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -87,9 +88,35 @@ namespace ManagedIrbis.Pft.Infrastructure.Diagnostics
 
         #endregion
 
+        #region Public methods
+
+        /// <summary>
+        /// Dump the node info (include children).
+        /// </summary>
+        public static void Dump
+            (
+                [NotNull] AbstractOutput output,
+                [NotNull] PftNodeInfo nodeInfo,
+                int level
+            )
+        {
+            Code.NotNull(output, "output");
+            Code.NotNull(nodeInfo, "nodeInfo");
+
+            output.Write(new string(' ', level));
+            output.Write(nodeInfo.ToString());
+            output.WriteLine(string.Empty);
+            foreach (PftNodeInfo child in nodeInfo.Children)
+            {
+                Dump(output, child, level+1);
+            }
+        }
+
+        #endregion
+
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             if (string.IsNullOrEmpty(Value))

@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.Logging;
+using AM.Text.Output;
 using ManagedIrbis;
 using ManagedIrbis.Client;
 using ManagedIrbis.Infrastructure;
@@ -71,7 +72,9 @@ namespace PftSerializationBenchmark
                         PftProgram program
                             = (PftProgram) PftSerializer.Read(fileName);
                         PftNodeInfo nodeInfo = program.GetNodeInfo();
-                        Console.WriteLine(nodeInfo.ToString());
+
+                        AbstractOutput console = new ConsoleOutput();
+                        PftNodeInfo.Dump(console, nodeInfo, 0);
                     }
                 }
             }

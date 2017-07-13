@@ -9,13 +9,19 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
+using System.IO;
+
 using AM;
 using AM.Collections;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 
 using MoonSharp.Interpreter;
 
@@ -45,7 +51,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [NotNull]
         public NonNullCollection<PftNode> Format { get; private set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
         {
             get
@@ -112,7 +118,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region ICloneable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ICloneable.Clone" />
         public override object Clone()
         {
             PftRef result = (PftRef)base.Clone();
@@ -131,7 +137,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.DeserializeAst" />
+        protected internal override void DeserializeAst
+            (
+                BinaryReader reader
+            )
+        {
+            base.DeserializeAst(reader);
+
+            Mfn = (PftNumeric) PftSerializer.DeserializeNullable(reader);
+            PftSerializer.Deserialize(reader, Format);
+        }
+
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -155,6 +173,51 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc cref="PftNode.GetNodeInfo" />
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Node = this,
+                Name = SimplifyTypeName(GetType().Name)
+            };
+
+            if (!ReferenceEquals(Mfn, null))
+            {
+                PftNodeInfo mfnInfo = new PftNodeInfo
+                {
+                    Node=Mfn,
+                    Name = "Mfn"
+                };
+                result.Children.Add(mfnInfo);
+                mfnInfo.Children.Add(Mfn.GetNodeInfo());
+            }
+
+            PftNodeInfo formatInfo = new PftNodeInfo
+            {
+                Name="Format"
+            };
+            foreach (PftNode node in Format)
+            {
+                formatInfo.Children.Add(node.GetNodeInfo());
+            }
+            result.Children.Add(formatInfo);
+
+            return result;
+        }
+
+        /// <inheritdoc cref="PftNode.SerializeAst" />
+        protected internal override void SerializeAst
+            (
+                BinaryWriter writer
+            )
+        {
+            base.SerializeAst(writer);
+
+            PftSerializer.SerializeNullable(writer, Mfn);
+            PftSerializer.Serialize(writer, Format);
         }
 
         #endregion

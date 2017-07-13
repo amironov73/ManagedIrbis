@@ -50,6 +50,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             public byte Code;
 
             public Type Type;
+
+            public bool Trace;
         }
 
         #endregion
@@ -70,7 +72,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             new TypeMap { Code=5, Type=typeof(PftAssignment) },
             new TypeMap { Code=6, Type=typeof(PftBang) },
             new TypeMap { Code=7, Type=typeof(PftBlank) },
-            new TypeMap { Code=8, Type=typeof(PftBoolean) },
+            new TypeMap { Code=8, Type=typeof(PftBoolean), Trace = true },
             new TypeMap { Code=9, Type=typeof(PftBreak) },
             new TypeMap { Code=10, Type=typeof(PftC) },
             new TypeMap { Code=11, Type=typeof(PftCeil) },
@@ -109,43 +111,43 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             new TypeMap { Code=44, Type=typeof(PftLocal) },
             new TypeMap { Code=45, Type=typeof(PftMfn) },
             new TypeMap { Code=46, Type=typeof(PftMinus) },
-            new TypeMap { Code=37, Type=typeof(PftMode) },
-            new TypeMap { Code=38, Type=typeof(PftN) },
-            new TypeMap { Code=39, Type=typeof(PftNested) },
-            new TypeMap { Code=40, Type=typeof(PftNl) },
-            new TypeMap { Code=41, Type=typeof(PftNode) },
-            new TypeMap { Code=42, Type=typeof(PftNumeric) },
-            new TypeMap { Code=43, Type=typeof(PftNumericExpression) },
-            new TypeMap { Code=44, Type=typeof(PftNumericLiteral) },
-            new TypeMap { Code=45, Type=typeof(PftOrphan) },
-            new TypeMap { Code=46, Type=typeof(PftP) },
-            new TypeMap { Code=47, Type=typeof(PftParallelFor) },
-            new TypeMap { Code=48, Type=typeof(PftParallelForEach) },
-            new TypeMap { Code=49, Type=typeof(PftParallelGroup) },
-            new TypeMap { Code=50, Type=typeof(PftParallelWith) },
-            new TypeMap { Code=51, Type=typeof(PftPercent) },
-            new TypeMap { Code=52, Type=typeof(PftPow) },
-            new TypeMap { Code=53, Type=typeof(PftProcedureDefinition) },
-            new TypeMap { Code=54, Type=typeof(PftProgram) },
-            new TypeMap { Code=55, Type=typeof(PftRef) },
-            new TypeMap { Code=56, Type=typeof(PftRepeatableLiteral) },
-            new TypeMap { Code=57, Type=typeof(PftRound) },
-            new TypeMap { Code=58, Type=typeof(PftRsum) },
-            new TypeMap { Code=59, Type=typeof(PftS) },
-            new TypeMap { Code=60, Type=typeof(PftSemicolon) },
-            new TypeMap { Code=61, Type=typeof(PftSign) },
-            new TypeMap { Code=62, Type=typeof(PftSlash) },
-            new TypeMap { Code=63, Type=typeof(PftTrue) },
-            new TypeMap { Code=64, Type=typeof(PftTrunc) },
-            new TypeMap { Code=65, Type=typeof(PftUnconditionalLiteral) },
-            new TypeMap { Code=66, Type=typeof(PftUnifor) },
-            new TypeMap { Code=67, Type=typeof(PftV) },
-            new TypeMap { Code=68, Type=typeof(PftVal) },
-            new TypeMap { Code=69, Type=typeof(PftVariableReference) },
-            new TypeMap { Code=70, Type=typeof(PftVerbatim) },
-            new TypeMap { Code=71, Type=typeof(PftWhile) },
-            new TypeMap { Code=72, Type=typeof(PftWith) },
-            new TypeMap { Code=73, Type=typeof(PftX) }
+            new TypeMap { Code=47, Type=typeof(PftMode) },
+            new TypeMap { Code=48, Type=typeof(PftN) },
+            new TypeMap { Code=49, Type=typeof(PftNested) },
+            new TypeMap { Code=50, Type=typeof(PftNl) },
+            new TypeMap { Code=51, Type=typeof(PftNode) },
+            new TypeMap { Code=52, Type=typeof(PftNumeric) },
+            new TypeMap { Code=53, Type=typeof(PftNumericExpression) },
+            new TypeMap { Code=54, Type=typeof(PftNumericLiteral) },
+            new TypeMap { Code=55, Type=typeof(PftOrphan) },
+            new TypeMap { Code=56, Type=typeof(PftP) },
+            new TypeMap { Code=57, Type=typeof(PftParallelFor) },
+            new TypeMap { Code=58, Type=typeof(PftParallelForEach) },
+            new TypeMap { Code=59, Type=typeof(PftParallelGroup) },
+            new TypeMap { Code=60, Type=typeof(PftParallelWith) },
+            new TypeMap { Code=61, Type=typeof(PftPercent) },
+            new TypeMap { Code=62, Type=typeof(PftPow) },
+            new TypeMap { Code=63, Type=typeof(PftProcedureDefinition) },
+            new TypeMap { Code=64, Type=typeof(PftProgram) },
+            new TypeMap { Code=65, Type=typeof(PftRef) },
+            new TypeMap { Code=66, Type=typeof(PftRepeatableLiteral) },
+            new TypeMap { Code=67, Type=typeof(PftRound) },
+            new TypeMap { Code=68, Type=typeof(PftRsum) },
+            new TypeMap { Code=69, Type=typeof(PftS) },
+            new TypeMap { Code=70, Type=typeof(PftSemicolon) },
+            new TypeMap { Code=71, Type=typeof(PftSign) },
+            new TypeMap { Code=72, Type=typeof(PftSlash) },
+            new TypeMap { Code=73, Type=typeof(PftTrue) },
+            new TypeMap { Code=74, Type=typeof(PftTrunc) },
+            new TypeMap { Code=75, Type=typeof(PftUnconditionalLiteral) },
+            new TypeMap { Code=76, Type=typeof(PftUnifor) },
+            new TypeMap { Code=77, Type=typeof(PftV) },
+            new TypeMap { Code=78, Type=typeof(PftVal) },
+            new TypeMap { Code=79, Type=typeof(PftVariableReference) },
+            new TypeMap { Code=80, Type=typeof(PftVerbatim) },
+            new TypeMap { Code=81, Type=typeof(PftWhile) },
+            new TypeMap { Code=82, Type=typeof(PftWith) },
+            new TypeMap { Code=83, Type=typeof(PftX) }
         };
 
         #endregion
@@ -182,6 +184,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
                         + "unknown code="
                         + code
                     );
+                Log.Error
+                    (
+                        "PftSerializer::Deserialize: "
+                        + "offset="
+                        + reader.BaseStream.Position.ToString("X")
+                    );
 
                 throw new IrbisException
                     (
@@ -190,8 +198,44 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
                     );
             }
 
-            PftNode result
-                = (PftNode)Activator.CreateInstance(mapping.Type);
+            PftNode result;
+
+            try
+            {
+                result = (PftNode) Activator.CreateInstance(mapping.Type);
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException
+                    (
+                        "PftSerializer::Deserialize",
+                        exception
+                    );
+                Log.Error
+                    (
+                        "PftSerializer::Deserialize: "
+                        + "can't create instance of "
+                        + mapping.Type.AssemblyQualifiedName
+                    );
+                Log.Error
+                    (
+                        "PftSerializer::Deserialize: "
+                        + "problem with code="
+                        + code
+                    );
+                Log.Error
+                    (
+                        "PftSerializer::Deserialize: "
+                        + "offset="
+                        + reader.BaseStream.Position.ToString("X")
+                    );
+
+                throw new IrbisException
+                    (
+                        "AST deserialization error",
+                        exception
+                    );
+            }
 
             result.DeserializeAst(reader);
 
@@ -216,6 +260,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
                 PftNode node = Deserialize(reader);
                 nodes.Add(node);
             }
+        }
+
+        /// <summary>
+        /// Deserialize nullable node.
+        /// </summary>
+        [CanBeNull]
+        public static PftNode DeserializeNullable
+            (
+                [NotNull] BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            bool flag = reader.ReadBoolean();
+            PftNode result = flag
+                ? Deserialize(reader)
+                : null;
+
+            return result;
         }
 
         /// <summary>
@@ -275,13 +338,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             int version =
 #if !NETCORE && !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
 
-                 IrbisConnection.ClientVersion.Build;
+                 IrbisConnection.ClientVersion.Revision;
 
 #else
                 1800;
 #endif
             writer.Write(version);
-            writer.Write(8);
+            writer.Write(12);
             Serialize(writer, rootNode);
         }
 
@@ -321,7 +384,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             TypeMap mapping = null;
             for (int i = 0; i < _map.Length; i++)
             {
-                if (nodeType == _map[i].Type)
+                if (ReferenceEquals(nodeType, _map[i].Type))
                 {
                     mapping = _map[i];
                     break;
@@ -349,6 +412,36 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
                     );
             }
 
+            if (mapping.Type.IsAbstract)
+            {
+                Log.Error
+                    (
+                        "PftSerializer::Serialize: "
+                        + "abstract type="
+                        + mapping.Type.AssemblyQualifiedName
+                    );
+
+                throw new IrbisException
+                    (
+                        "Abstract type in AST: "
+                        + mapping.Type.AssemblyQualifiedName
+                    );
+            }
+
+            if (mapping.Trace)
+            {
+                PftNodeInfo nodeInfo = node.GetNodeInfo();
+
+                Log.Trace
+                    (
+                        "PftSerializer::Serialize: "
+                        + "code="
+                        + mapping.Code
+                        + ", node="
+                        + nodeInfo
+                    );
+            }
+
             writer.Write(mapping.Code);
             node.SerializeAst(writer);
         }
@@ -368,6 +461,28 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             writer.WritePackedInt32(nodes.Count);
             foreach (PftNode node in nodes)
             {
+                Serialize(writer, node);
+            }
+        }
+
+        /// <summary>
+        /// Serialize nullable node.
+        /// </summary>
+        public static void SerializeNullable
+            (
+                [NotNull] BinaryWriter writer,
+                [CanBeNull] PftNode node
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            if (ReferenceEquals(node, null))
+            {
+                writer.Write(false);
+            }
+            else
+            {
+                writer.Write(true);
                 Serialize(writer, node);
             }
         }

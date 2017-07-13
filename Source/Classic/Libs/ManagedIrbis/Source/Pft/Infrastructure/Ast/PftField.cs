@@ -17,6 +17,7 @@ using System.IO;
 using AM;
 using AM.Collections;
 using AM.ConsoleIO;
+using AM.IO;
 using AM.Logging;
 
 using CodeJam;
@@ -24,6 +25,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 
 using MoonSharp.Interpreter;
 
@@ -586,6 +588,29 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.DeserializeAst" />
+        protected internal override void DeserializeAst
+            (
+                BinaryReader reader
+            )
+        {
+            base.DeserializeAst(reader);
+            PftSerializer.Deserialize(reader, LeftHand);
+            PftSerializer.Deserialize(reader, RightHand);
+            Command = reader.ReadChar();
+            Embedded = reader.ReadNullableString();
+            Indent = reader.ReadPackedInt32();
+            Offset = reader.ReadPackedInt32();
+            Length = reader.ReadPackedInt32();
+            SubField = reader.ReadChar();
+            Tag = reader.ReadNullableString();
+            TagSpecification = reader.ReadNullableString();
+            RepeatCount = reader.ReadPackedInt32();
+            FieldRepeat.Deserialize(reader);
+            SubFieldRepeat.Deserialize(reader);
+            SubFieldSpecification = reader.ReadNullableString();
+        }
+
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
@@ -670,6 +695,34 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return result;
+        }
+
+        /// <inheritdoc cref="PftNode.SerializeAst" />
+        protected internal override void SerializeAst
+            (
+                BinaryWriter writer
+            )
+        {
+            base.SerializeAst(writer);
+            PftSerializer.Serialize(writer, LeftHand);
+            PftSerializer.Serialize(writer, RightHand);
+            writer.Write(Command);
+            writer
+                .WriteNullable(Embedded)
+                .WritePackedInt32(Indent)
+                .WritePackedInt32(Offset)
+                .WritePackedInt32(Length)
+                .Write(SubField);
+
+            writer
+                .WriteNullable(Tag)
+                .WriteNullable(TagSpecification)
+                .WritePackedInt32(RepeatCount);
+
+            FieldRepeat.Serialize(writer);
+            SubFieldRepeat.Serialize(writer);
+
+            writer.WriteNullable(SubFieldSpecification);
         }
 
         /// <inheritdoc cref="PftNode.Write" />

@@ -15,12 +15,16 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
+using AM.IO;
 using AM.Logging;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 
 using MoonSharp.Interpreter;
 
@@ -128,6 +132,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.DeserializeAst" />
+        protected internal override void DeserializeAst
+            (
+                BinaryReader reader
+            )
+        {
+            base.DeserializeAst(reader);
+
+            Field = (PftField) PftSerializer.DeserializeNullable(reader);
+        }
+
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
@@ -150,6 +165,40 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Value = Field.HaveRepeat(context);
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc cref="PftNode.GetNodeInfo" />
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Node = this,
+                Name = SimplifyTypeName(GetType().Name)
+            };
+
+            if (!ReferenceEquals(Field, null))
+            {
+                PftNodeInfo fieldInfo = new PftNodeInfo
+                {
+                    Node = Field,
+                    Name = "Field"
+                };
+                fieldInfo.Children.Add(Field.GetNodeInfo());
+                result.Children.Add(fieldInfo);
+            }
+
+            return result;
+        }
+
+        /// <inheritdoc cref="PftNode.SerializeAst" />
+        protected internal override void SerializeAst
+            (
+                BinaryWriter writer
+            )
+        {
+            base.SerializeAst(writer);
+
+            PftSerializer.SerializeNullable(writer, Field);
         }
 
         /// <inheritdoc cref="PftNode.Write" />

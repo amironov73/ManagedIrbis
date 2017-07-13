@@ -10,12 +10,10 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 using AM;
+using AM.IO;
 
 using CodeJam;
 
@@ -57,7 +55,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         public string Expression { get; set; }
 
         /// <summary>
-        /// Compiled <see cref="Expression"/>.
+        /// Compiled <see cref="Expression" />.
         /// </summary>
         [CanBeNull]
         public PftNumeric Program { get; set; }
@@ -142,6 +140,22 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// Deserialize the specification.
+        /// </summary>
+        public void Deserialize
+            (
+                [NotNull] BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            Kind = (IndexKind) reader.ReadPackedInt32();
+            Literal = reader.ReadPackedInt32();
+            Expression = reader.ReadNullableString();
+            Program = null;
+        }
+
+        /// <summary>
         /// Get node info for debugger visualization.
         /// </summary>
         [NotNull]
@@ -167,11 +181,27 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        /// <summary>
+        /// Serialize the specification.
+        /// </summary>
+        public void Serialize
+            (
+                [NotNull] BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer
+                .WritePackedInt32((int) Kind)
+                .WritePackedInt32(Literal)
+                .WriteNullable(Expression);
+        }
+
         #endregion
 
         #region ICloneable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICloneable.Clone" />
         public object Clone()
         {
             IndexSpecification result
@@ -192,7 +222,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format
