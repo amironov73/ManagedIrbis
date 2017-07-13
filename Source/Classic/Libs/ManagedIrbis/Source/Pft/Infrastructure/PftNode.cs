@@ -41,9 +41,7 @@ namespace ManagedIrbis.Pft.Infrastructure
     [PublicAPI]
     [MoonSharpUserData]
     public class PftNode
-        : IHandmadeSerializable,
-        ITreeSerialize,
-        IVerifiable,
+        : IVerifiable,
         ICloneable
     {
         #region Events
@@ -451,79 +449,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             foreach (PftNode child in Children)
             {
                 child.Write(writer);
-            }
-        }
-
-        #endregion
-
-        #region IHandmadeSerializable members
-
-        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
-        public virtual void RestoreFromStream
-            (
-                BinaryReader reader
-            )
-        {
-            Code.NotNull(reader, "reader");
-
-            // Nothing to do here
-        }
-
-        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
-        public virtual void SaveToStream
-            (
-                BinaryWriter writer
-            )
-        {
-            Code.NotNull(writer, "writer");
-
-            // Nothing to do here
-        }
-
-        #endregion
-
-        #region ITreeSerialize members
-
-        /// <inheritdoc cref="ITreeSerialize.DeserializeTree" />
-        public void DeserializeTree
-            (
-                BinaryReader reader
-            )
-        {
-            Code.NotNull(reader, "reader");
-
-            RestoreFromStream(reader);
-
-            Children.Clear();
-            int count = reader.ReadPackedInt32();
-            for (int i = 0; i < count; i++)
-            {
-                string typeName = reader.ReadString();
-                Type type = Type.GetType(typeName, true);
-                PftNode child = (PftNode)Activator.CreateInstance(type);
-                Children.Add(child);
-            }
-        }
-
-        /// <inheritdoc cref="ITreeSerialize.SerializeTree" />
-        public void SerializeTree
-            (
-                BinaryWriter writer
-            )
-        {
-            Code.NotNull(writer, "writer");
-
-            SaveToStream(writer);
-
-            int count = Children.Count;
-            writer.WritePackedInt32(count);
-            foreach (PftNode child in Children)
-            {
-                Type type = child.GetType();
-                string typeName = type.AssemblyQualifiedName
-                    .ThrowIfNull("typeName");
-                writer.Write(typeName);
-                child.SerializeTree(writer);
             }
         }
 

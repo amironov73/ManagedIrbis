@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,8 +52,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             public byte Code;
 
             public Type Type;
-
-            public bool Trace;
         }
 
         #endregion
@@ -73,7 +72,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             new TypeMap { Code=5, Type=typeof(PftAssignment) },
             new TypeMap { Code=6, Type=typeof(PftBang) },
             new TypeMap { Code=7, Type=typeof(PftBlank) },
-            new TypeMap { Code=8, Type=typeof(PftBoolean), Trace = true },
+            //new TypeMap { Code=8, Type=typeof(PftBoolean) },
             new TypeMap { Code=9, Type=typeof(PftBreak) },
             new TypeMap { Code=10, Type=typeof(PftC) },
             new TypeMap { Code=11, Type=typeof(PftCeil) },
@@ -117,7 +116,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             new TypeMap { Code=49, Type=typeof(PftNested) },
             new TypeMap { Code=50, Type=typeof(PftNl) },
             new TypeMap { Code=51, Type=typeof(PftNode) },
-            new TypeMap { Code=52, Type=typeof(PftNumeric) },
+            //new TypeMap { Code=52, Type=typeof(PftNumeric) },
             new TypeMap { Code=53, Type=typeof(PftNumericExpression) },
             new TypeMap { Code=54, Type=typeof(PftNumericLiteral) },
             new TypeMap { Code=55, Type=typeof(PftOrphan) },
@@ -150,6 +149,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             new TypeMap { Code=82, Type=typeof(PftWith) },
             new TypeMap { Code=83, Type=typeof(PftX) }
         };
+
+        private static int _CurrentVersion()
+        {
+            int result =
+#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
+
+                IrbisConnection.ClientVersion.Revision;
+
+#else
+                1800;
+#endif
+
+            return result;
+        }
 
         #endregion
 
@@ -283,6 +296,31 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
         }
 
         /// <summary>
+        /// Restore the program from the byte array.
+        /// </summary>
+        [NotNull]
+        public static PftNode FromMemory
+            (
+                [NotNull] byte[] bytes
+            )
+        {
+            Code.NotNull(bytes, "bytes");
+
+            PftNode result;
+            MemoryStream memory = new MemoryStream(bytes);
+            using (DeflateStream compressor
+                = new DeflateStream(memory, CompressionMode.Decompress))
+            using (BinaryReader reader
+                = new BinaryReader(compressor, IrbisEncoding.Utf8))
+            {
+                result = Read(reader);
+            }
+
+            return result;
+        }
+
+
+        /// <summary>
         /// Read the AST from the stream.
         /// </summary>
         [NotNull]
@@ -295,9 +333,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
 
             byte[] signature = new byte[4];
             reader.Read(signature, 0, 4);
-            /* int version = */ reader.ReadInt32();
-            int offset = reader.ReadInt32();
-            reader.BaseStream.Position = offset;
+            if (ArrayUtility.Compare(signature, _signature) != 0)
+            {
+                throw new IrbisException();
+            }
+            int actualVersion = reader.ReadInt32();
+            int expectedVersion = _CurrentVersion();
+            if (actualVersion != expectedVersion)
+            {
+                throw new IrbisException();
+            }
+            /*int offset = */ reader.ReadInt32();
+            //reader.BaseStream.Position = offset;
             PftNode result = Deserialize(reader);
 
             return result;
@@ -320,8 +367,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
 #else
 
             using (Stream stream = File.OpenRead(fileName))
+            using (DeflateStream compressor
+                = new DeflateStream(stream, CompressionMode.Decompress))
             using (BinaryReader reader
-                = new BinaryReader(stream, IrbisEncoding.Utf8))
+                = new BinaryReader(compressor, IrbisEncoding.Utf8))
             {
                 PftNode result = Read(reader);
 
@@ -345,14 +394,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             Code.NotNull(writer, "writer");
 
             writer.Write(_signature);
-            int version =
-#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
-
-                 IrbisConnection.ClientVersion.Revision;
-
-#else
-                1800;
-#endif
+            int version = _CurrentVersion();
             writer.Write(version);
             writer.Write(12);
             Serialize(writer, rootNode);
@@ -376,8 +418,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
 #else
 
             using (Stream stream = File.Create(fileName))
+            using (DeflateStream compressor
+                = new DeflateStream(stream, CompressionMode.Compress))
             using (BinaryWriter writer
-                = new BinaryWriter(stream, IrbisEncoding.Utf8))
+                = new BinaryWriter(compressor, IrbisEncoding.Utf8))
             {
                 Save(rootNode, writer);
             }
@@ -429,36 +473,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
                     );
             }
 
-            //if (mapping.Type.IsAbstract)
-            //{
-            //    Log.Error
-            //        (
-            //            "PftSerializer::Serialize: "
-            //            + "abstract type="
-            //            + mapping.Type.AssemblyQualifiedName
-            //        );
-
-            //    throw new IrbisException
-            //        (
-            //            "Abstract type in AST: "
-            //            + mapping.Type.AssemblyQualifiedName
-            //        );
-            //}
-
-            if (mapping.Trace)
-            {
-                PftNodeInfo nodeInfo = node.GetNodeInfo();
-
-                Log.Trace
-                    (
-                        "PftSerializer::Serialize: "
-                        + "code="
-                        + mapping.Code
-                        + ", node="
-                        + nodeInfo
-                    );
-            }
-
             writer.Write(mapping.Code);
             node.SerializeAst(writer);
         }
@@ -502,6 +516,29 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
                 writer.Write(true);
                 Serialize(writer, node);
             }
+        }
+
+        /// <summary>
+        /// Save the program to byte array.
+        /// </summary>
+        [NotNull]
+        public static byte[] ToMemory
+            (
+                [NotNull] PftNode rootNode
+            )
+        {
+            Code.NotNull(rootNode, "rootNode");
+
+            MemoryStream memory = new MemoryStream();
+            using (DeflateStream compressor
+                = new DeflateStream(memory, CompressionMode.Compress))
+            using (BinaryWriter writer
+                = new BinaryWriter(compressor, IrbisEncoding.Utf8))
+            {
+                Save(rootNode, writer);
+            }
+
+            return memory.ToArray();
         }
 
         #endregion
