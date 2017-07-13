@@ -412,21 +412,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
                     );
             }
 
-            if (mapping.Type.IsAbstract)
-            {
-                Log.Error
-                    (
-                        "PftSerializer::Serialize: "
-                        + "abstract type="
-                        + mapping.Type.AssemblyQualifiedName
-                    );
+            //if (mapping.Type.IsAbstract)
+            //{
+            //    Log.Error
+            //        (
+            //            "PftSerializer::Serialize: "
+            //            + "abstract type="
+            //            + mapping.Type.AssemblyQualifiedName
+            //        );
 
-                throw new IrbisException
-                    (
-                        "Abstract type in AST: "
-                        + mapping.Type.AssemblyQualifiedName
-                    );
-            }
+            //    throw new IrbisException
+            //        (
+            //            "Abstract type in AST: "
+            //            + mapping.Type.AssemblyQualifiedName
+            //        );
+            //}
 
             if (mapping.Trace)
             {

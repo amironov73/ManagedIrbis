@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 
 using MoonSharp.Interpreter;
 
@@ -109,7 +111,36 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
+        #region ICloneable members
+
+        /// <inheritdoc cref="ICloneable.Clone" />
+        public override object Clone()
+        {
+            PftAny result = (PftAny)base.Clone();
+
+            if (!ReferenceEquals(InnerCondition, null))
+            {
+                result.InnerCondition = (PftCondition)InnerCondition.Clone();
+            }
+
+            return result;
+        }
+
+        #endregion
+
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.DeserializeAst" />
+        protected internal override void DeserializeAst
+            (
+                BinaryReader reader
+            )
+        {
+            base.DeserializeAst(reader);
+
+            InnerCondition
+                = (PftCondition) PftSerializer.DeserializeNullable(reader);
+        }
 
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
@@ -194,21 +225,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
-        #endregion
-
-        #region ICloneable members
-
-        /// <inheritdoc cref="ICloneable.Clone" />
-        public override object Clone()
+        /// <inheritdoc cref="PftNode.SerializeAst" />
+        protected internal override void SerializeAst
+            (
+                BinaryWriter writer
+            )
         {
-            PftAny result = (PftAny)base.Clone();
+            base.SerializeAst(writer);
 
-            if (!ReferenceEquals(InnerCondition, null))
-            {
-                result.InnerCondition = (PftCondition)InnerCondition.Clone();
-            }
-
-            return result;
+            PftSerializer.SerializeNullable(writer, InnerCondition);
         }
 
         #endregion

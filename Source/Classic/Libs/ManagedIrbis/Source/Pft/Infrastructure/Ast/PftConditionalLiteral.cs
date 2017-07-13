@@ -144,6 +144,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.DeserializeAst" />
+        protected internal override void DeserializeAst
+            (
+                BinaryReader reader
+            )
+        {
+            base.DeserializeAst(reader);
+
+            IsSuffix = reader.ReadBoolean();
+        }
+
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
@@ -172,6 +183,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc cref="PftNode.SerializeAst" />
+        protected internal override void SerializeAst
+            (
+                BinaryWriter writer
+            )
+        {
+            base.SerializeAst(writer);
+
+            writer.Write(IsSuffix);
         }
 
         /// <inheritdoc cref="PftNode.Write" />

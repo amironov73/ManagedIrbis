@@ -10,19 +10,18 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
+using AM.IO;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 
 using MoonSharp.Interpreter;
 
@@ -48,6 +47,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <summary>
         /// Variable name.
         /// </summary>
+        [CanBeNull]
         public string Name { get; set; }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         // Ignore IsNumeric setting
         private bool HandleDirectAssignment
             (
-                PftContext context
+                [NotNull] PftContext context
             )
         {
             //
@@ -154,7 +154,34 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
+        #region ICloneable members
+
+        /// <inheritdoc cref="ICloneable.Clone" />
+        public override object Clone()
+        {
+            PftAssignment result = (PftAssignment)base.Clone();
+            result.IsNumeric = IsNumeric;
+            result.Index = (IndexSpecification)Index.Clone();
+
+            return result;
+        }
+
+        #endregion
+
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.DeserializeAst" />
+        protected internal override void DeserializeAst
+            (
+                BinaryReader reader
+            )
+        {
+            base.DeserializeAst(reader);
+
+            IsNumeric = reader.ReadBoolean();
+            Name = reader.ReadNullableString();
+            Index.Deserialize(reader);
+        }
 
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
@@ -234,18 +261,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
-        #endregion
-
-        #region ICloneable members
-
-        /// <inheritdoc cref="ICloneable.Clone" />
-        public override object Clone()
+        /// <inheritdoc cref="PftNode.SerializeAst" />
+        protected internal override void SerializeAst
+            (
+                BinaryWriter writer
+            )
         {
-            PftAssignment result = (PftAssignment)base.Clone();
+            base.SerializeAst(writer);
 
-            result.Index = (IndexSpecification)Index.Clone();
-
-            return result;
+            writer.Write(IsNumeric);
+            writer.WriteNullable(Name);
+            Index.Serialize(writer);
         }
 
         #endregion

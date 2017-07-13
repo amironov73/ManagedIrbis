@@ -11,10 +11,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+
 using AM;
+using AM.IO;
 using AM.Logging;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 
 using MoonSharp.Interpreter;
 
@@ -127,6 +133,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.DeserializeAst" />
+        protected internal override void DeserializeAst
+            (
+                BinaryReader reader
+            )
+        {
+            base.DeserializeAst(reader);
+
+            InnerCondition
+                = (PftCondition) PftSerializer.DeserializeNullable(reader);
+        }
+
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
@@ -150,6 +168,34 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Value = InnerCondition.Value;
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc cref="PftNode.GetNodeInfo" />
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Node = this,
+                Name = SimplifyTypeName(GetType().Name)
+            };
+
+            if (!ReferenceEquals(InnerCondition, null))
+            {
+                result.Children.Add(InnerCondition.GetNodeInfo());
+            }
+
+            return result;
+        }
+
+        /// <inheritdoc cref="PftNode.SerializeAst" />
+        protected internal override void SerializeAst
+            (
+                BinaryWriter writer
+            )
+        {
+            base.SerializeAst(writer);
+
+            PftSerializer.SerializeNullable(writer, InnerCondition);
         }
 
         #endregion
