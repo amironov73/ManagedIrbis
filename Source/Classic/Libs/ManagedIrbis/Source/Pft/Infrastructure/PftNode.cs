@@ -148,7 +148,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <summary>
         /// Deserialize AST.
         /// </summary>
-        protected internal virtual void DeserializeAst
+        protected internal virtual void Deserialize
             (
                 [NotNull] BinaryReader reader
             )
@@ -229,7 +229,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <summary>
         /// Serialize AST.
         /// </summary>
-        protected internal virtual void SerializeAst
+        protected internal virtual void Serialize
             (
                 [NotNull] BinaryWriter writer
             )

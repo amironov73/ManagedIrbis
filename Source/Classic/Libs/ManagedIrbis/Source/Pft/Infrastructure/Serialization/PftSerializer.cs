@@ -256,7 +256,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
                     );
             }
 
-            result.DeserializeAst(reader);
+            result.Deserialize(reader);
 
             return result;
         }
@@ -519,7 +519,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             }
 
             writer.Write(mapping.Code);
-            node.SerializeAst(writer);
+            node.Serialize(writer);
         }
 
         /// <summary>

@@ -170,13 +170,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc cref="PftNode.DeserializeAst" />
-        protected internal override void DeserializeAst
+        /// <inheritdoc cref="PftNode.Deserialize" />
+        protected internal override void Deserialize
             (
                 BinaryReader reader
             )
         {
-            base.DeserializeAst(reader);
+            base.Deserialize(reader);
 
             IsNumeric = reader.ReadBoolean();
             Name = reader.ReadNullableString();
@@ -261,13 +261,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
-        /// <inheritdoc cref="PftNode.SerializeAst" />
-        protected internal override void SerializeAst
+        /// <inheritdoc cref="PftNode.Serialize" />
+        protected internal override void Serialize
             (
                 BinaryWriter writer
             )
         {
-            base.SerializeAst(writer);
+            base.Serialize(writer);
 
             writer.Write(IsNumeric);
             writer.WriteNullable(Name);

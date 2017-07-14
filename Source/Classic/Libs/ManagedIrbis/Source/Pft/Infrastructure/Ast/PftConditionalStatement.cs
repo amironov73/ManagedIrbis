@@ -156,13 +156,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc cref="PftNode.DeserializeAst" />
-        protected internal override void DeserializeAst
+        /// <inheritdoc cref="PftNode.Deserialize" />
+        protected internal override void Deserialize
             (
                 BinaryReader reader
             )
         {
-            base.DeserializeAst(reader);
+            base.Deserialize(reader);
             Condition = (PftCondition) PftSerializer.DeserializeNullable(reader);
             PftSerializer.Deserialize(reader, ThenBranch);
             PftSerializer.Deserialize(reader, ElseBranch);
@@ -253,13 +253,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
-        /// <inheritdoc cref="PftNode.SerializeAst" />
-        protected internal override void SerializeAst
+        /// <inheritdoc cref="PftNode.Serialize" />
+        protected internal override void Serialize
             (
                 BinaryWriter writer
             )
         {
-            base.SerializeAst(writer);
+            base.Serialize(writer);
             PftSerializer.SerializeNullable(writer, Condition);
             PftSerializer.Serialize(writer, ThenBranch);
             PftSerializer.Serialize(writer, ElseBranch);

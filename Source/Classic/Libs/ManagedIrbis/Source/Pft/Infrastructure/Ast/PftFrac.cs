@@ -10,10 +10,7 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using CodeJam;
 
@@ -34,6 +31,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         : PftNumeric
     {
         #region Properties
+
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
 
         #endregion
 
@@ -71,7 +74,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
