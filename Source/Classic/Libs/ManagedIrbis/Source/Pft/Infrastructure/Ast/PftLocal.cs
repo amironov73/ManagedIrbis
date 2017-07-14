@@ -9,7 +9,11 @@
 
 #region Using directives
 
+using System;
+using System.IO;
+
 using AM.Collections;
+using AM.IO;
 
 using CodeJam;
 
@@ -24,8 +28,21 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    /// Задаёт локальный контекст для переменных.
     /// </summary>
+    /// <example>
+    /// <code>
+    /// $x = 'outer';
+    /// local $x, $y,
+    /// do
+    ///   $x = 'inner';
+    ///   $y = 'another';
+    ///   $x # $y #
+    /// end
+    ///
+    /// $x
+    /// </code>
+    /// </example>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftLocal
@@ -38,6 +55,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         [NotNull]
         public NonNullCollection<string> Names { get; private set; }
+
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
 
         #endregion
 
@@ -78,7 +101,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region ICloneable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICloneable.Clone" />
         public override object Clone()
         {
             PftLocal result = (PftLocal) base.Clone();
@@ -93,7 +116,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Deserialize" />
+        protected internal override void Deserialize
+            (
+                BinaryReader reader
+            )
+        {
+            base.Deserialize(reader);
+
+            Names.AddRange(reader.ReadStringArray());
+        }
+
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -130,7 +164,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.GetNodeInfo" />
         public override PftNodeInfo GetNodeInfo()
         {
             PftNodeInfo result = new PftNodeInfo
@@ -150,6 +184,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return result;
+        }
+
+        /// <inheritdoc cref="PftNode.Serialize" />
+        protected internal override void Serialize
+            (
+                BinaryWriter writer
+            )
+        {
+            base.Serialize(writer);
+
+            writer.WriteArray(Names.ToArray());
         }
 
         #endregion

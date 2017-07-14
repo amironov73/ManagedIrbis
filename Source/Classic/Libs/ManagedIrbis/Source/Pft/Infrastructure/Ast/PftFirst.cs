@@ -30,8 +30,13 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    /// Выдаёт номер первого повторения поля,
+    /// для которого выполняется заданное условие.
+    /// Если условие не выполняется, выдаёт 0.
     /// </summary>
+    /// <example>
+    /// f(first(v910^d='ЧЗ'),0,0)
+    /// </example>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftFirst

@@ -11,11 +11,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 using AM;
+using AM.IO;
 using AM.Logging;
 
 using CodeJam;
@@ -126,6 +128,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Public methods
 
+        /// <inheritdoc cref="PftNode.Deserialize" />
+        protected internal override void Deserialize
+            (
+                BinaryReader reader
+            )
+        {
+            base.Deserialize(reader);
+
+            OutputMode = (PftFieldOutputMode) reader.ReadPackedInt32();
+            UpperMode = reader.ReadBoolean();
+        }
+
         /// <summary>
         /// Parse specified text.
         /// </summary>
@@ -211,6 +225,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             context.UpperMode = UpperMode;
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc cref="PftNode.Serialize" />
+        protected internal override void Serialize
+            (
+                BinaryWriter writer
+            )
+        {
+            base.Serialize(writer);
+
+            writer.WritePackedInt32((int) OutputMode);
+            writer.Write(UpperMode);
         }
 
         #endregion

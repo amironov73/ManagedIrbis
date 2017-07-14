@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using System.IO;
 
 using CodeJam;
@@ -22,7 +23,9 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    /// Безусловный перевод строки
+    /// (используется "родной" для среды
+    /// исполнения перевод строки).
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -30,6 +33,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         : PftNode
     {
         #region Properties
+
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
 
         #endregion
 
@@ -67,7 +76,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -75,12 +84,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            context.Write(this, System.Environment.NewLine);
+            context.Write(this, Environment.NewLine);
 
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.Write" />
         public override void Write
             (
                 StreamWriter writer

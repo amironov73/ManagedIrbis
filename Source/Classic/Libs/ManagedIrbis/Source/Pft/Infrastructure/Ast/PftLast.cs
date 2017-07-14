@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 
 using MoonSharp.Interpreter;
 
@@ -31,8 +33,13 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    /// Выдаёт номер последнего повторения поля,
+    /// для которого выполняется заданное условие.
+    /// Если условие не выполняется, выдаёт 0.
     /// </summary>
+    /// <example>
+    /// f(last(v910^d='ЧЗ'),0,0)
+    /// </example>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftLast
@@ -79,6 +86,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
         }
 
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
+
         #endregion
 
         #region Construction
@@ -115,7 +128,36 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
+        #region ICloneable members
+
+        /// <inheritdoc cref="ICloneable.Clone" />
+        public override object Clone()
+        {
+            PftLast result = (PftLast)base.Clone();
+
+            if (!ReferenceEquals(InnerCondition, null))
+            {
+                result.InnerCondition = (PftCondition)InnerCondition.Clone();
+            }
+
+            return result;
+        }
+
+        #endregion
+
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.Deserialize" />
+        protected internal override void Deserialize
+            (
+                BinaryReader reader
+            )
+        {
+            base.Deserialize(reader);
+
+            InnerCondition
+                = (PftCondition) PftSerializer.DeserializeNullable(reader);
+        }
 
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
@@ -197,21 +239,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
-        #endregion
-
-        #region ICloneable members
-
-        /// <inheritdoc cref="ICloneable.Clone" />
-        public override object Clone()
+        /// <inheritdoc cref="PftNode.Serialize" />
+        protected internal override void Serialize
+            (
+                BinaryWriter writer
+            )
         {
-            PftLast result = (PftLast)base.Clone();
+            base.Serialize(writer);
 
-            if (!ReferenceEquals(InnerCondition, null))
-            {
-                result.InnerCondition = (PftCondition)InnerCondition.Clone();
-            }
-
-            return result;
+            PftSerializer.SerializeNullable(writer, InnerCondition);
         }
 
         #endregion

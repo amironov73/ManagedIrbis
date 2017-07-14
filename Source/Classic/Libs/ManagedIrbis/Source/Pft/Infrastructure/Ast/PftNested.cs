@@ -20,14 +20,32 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    /// Временное переключение контекста
+    /// на альтернативный (проще говоря,
+    /// на другую запись).
     /// </summary>
+    /// <example>
+    /// <code>
+    /// v200^a, " : "v200^e, " / "v200^f
+    /// #
+    /// {
+    ///    /* Выводятся значения полей от другой записи
+    ///    v200^a, " : "v200^e, " / "v200^f
+    /// }
+    /// </code>
+    /// </example>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftNested
         : PftNode
     {
         #region Properties
+
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
 
         #endregion
 
@@ -65,7 +83,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
