@@ -14,6 +14,7 @@ using System.Globalization;
 using System.IO;
 
 using AM;
+using AM.IO;
 using AM.Logging;
 
 using CodeJam;
@@ -146,6 +147,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.Deserialize" />
+        protected internal override void Deserialize
+            (
+                BinaryReader reader
+            )
+        {
+            base.Deserialize(reader);
+
+            Width = reader.ReadPackedInt32();
+        }
+
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
@@ -176,6 +188,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc cref="PftNode.Serialize" />
+        protected internal override void Serialize
+            (
+                BinaryWriter writer
+            )
+        {
+            base.Serialize(writer);
+
+            writer.WritePackedInt32(Width);
         }
 
         /// <inheritdoc cref="PftNode.Write" />

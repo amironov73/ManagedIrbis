@@ -9,12 +9,11 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -22,6 +21,8 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -65,7 +66,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             protected set
             {
                 // Nothing to do here
+
+                Log.Error
+                (
+                    "PftInclude::Children: "
+                    + "set value="
+                    + value.NullableToVisibleString()
+                );
             }
+        }
+
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
         }
 
         #endregion
@@ -99,8 +113,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         private void ParseProgram
             (
-                PftContext context,
-                string fileName
+                [NotNull] PftContext context,
+                [NotNull] string fileName
             )
         {
             string ext = Path.GetExtension(fileName);
@@ -131,7 +145,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         private void ParseProgram
             (
-                PftContext context
+                [NotNull] PftContext context
             )
         {
             string fileName = context.Evaluate(Children);
@@ -166,6 +180,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.Deserialize" />
+        protected internal override void Deserialize
+            (
+                BinaryReader reader
+            )
+        {
+            base.Deserialize(reader);
+
+            Program = (PftProgram) PftSerializer.DeserializeNullable(reader);
+        }
 
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
@@ -220,6 +245,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return result;
+        }
+
+        /// <inheritdoc cref="PftNode.Serialize" />
+        protected internal override void Serialize
+            (
+                BinaryWriter writer
+            )
+        {
+            base.Serialize(writer);
+
+            PftSerializer.SerializeNullable(writer, Program);
         }
 
         #endregion

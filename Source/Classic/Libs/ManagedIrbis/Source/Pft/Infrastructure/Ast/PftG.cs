@@ -12,6 +12,7 @@
 using System.IO;
 
 using AM;
+using AM.IO;
 using AM.Logging;
 
 using CodeJam;
@@ -169,8 +170,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             int index = context.Index;
 
-            RecordField field = context.Globals.Get(Number).GetOccurrence(index);
-            if (field == null)
+            RecordField field = context.Globals.Get(Number)
+                .GetOccurrence(index);
+            if (ReferenceEquals(field, null))
             {
                 return null;
             }
@@ -230,6 +232,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.Deserialize" />
+        protected internal override void Deserialize
+            (
+                BinaryReader reader
+            )
+        {
+            base.Deserialize(reader);
+
+            Number = reader.ReadPackedInt32();
+        }
+
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
@@ -280,6 +293,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         public override string[] GetAffectedFields()
         {
             return new string[0];
+        }
+
+        /// <inheritdoc cref="PftNode.Serialize" />
+        protected internal override void Serialize
+            (
+            BinaryWriter writer
+            )
+        {
+            base.Serialize(writer);
+
+            writer.WritePackedInt32(Number);
         }
 
         /// <inheritdoc cref="PftNode.Write" />
