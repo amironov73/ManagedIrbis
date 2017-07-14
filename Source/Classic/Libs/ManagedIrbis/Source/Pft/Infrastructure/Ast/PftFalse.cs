@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using AM.Logging;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -27,19 +28,26 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     {
         #region Properties
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
         public override bool ExtendedSyntax
         {
             get { return true; }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftBoolean.Value" />
         public override bool Value
         {
             get { return false; }
+
+            // ReSharper disable once ValueParameterNotUsed
             set
             {
                 // Nothing to do here
+
+                Log.Warn
+                    (
+                        "PftFalse::Value::set"
+                    );
             }
         }
 
@@ -77,7 +85,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context

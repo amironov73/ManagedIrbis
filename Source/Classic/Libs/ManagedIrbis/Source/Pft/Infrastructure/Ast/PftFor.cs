@@ -9,7 +9,9 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 using AM;
 using AM.Collections;
@@ -20,6 +22,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 
 using MoonSharp.Interpreter;
 
@@ -45,7 +48,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     {
         #region Properties
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
         public override bool ExtendedSyntax
         {
             get { return true; }
@@ -75,7 +78,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [NotNull]
         public NonNullCollection<PftNode> Body { get; private set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
         {
             get
@@ -161,9 +164,48 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
+        #region ICloneable members
+
+        /// <inheritdoc cref="ICloneable.Clone" />
+        public override object Clone()
+        {
+            PftFor result = (PftFor)base.Clone();
+
+            result._virtualChildren = null;
+
+            result.Initialization
+                = Initialization.CloneNodes().ThrowIfNull();
+            result.Loop = Loop.CloneNodes().ThrowIfNull();
+            result.Body = Body.CloneNodes().ThrowIfNull();
+
+            if (!ReferenceEquals(Condition, null))
+            {
+                result.Condition = (PftCondition)Condition.Clone();
+            }
+
+            return result;
+        }
+
+        #endregion
+
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.DeserializeAst" />
+        protected internal override void DeserializeAst
+            (
+                BinaryReader reader
+            )
+        {
+            base.DeserializeAst(reader);
+
+            PftSerializer.Deserialize(reader, Initialization);
+            Condition
+                = (PftCondition) PftSerializer.DeserializeNullable(reader);
+            PftSerializer.Deserialize(reader, Loop);
+            PftSerializer.Deserialize(reader, Body);
+        }
+
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -195,7 +237,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.GetNodeInfo" />
         public override PftNodeInfo GetNodeInfo()
         {
             PftNodeInfo result = new PftNodeInfo
@@ -254,31 +296,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
-        #endregion
-
-        #region ICloneable members
-
-        /// <inheritdoc/>
-        public override object Clone()
+        /// <inheritdoc cref="PftNode.SerializeAst" />
+        protected internal override void SerializeAst
+            (
+                BinaryWriter writer
+            )
         {
-            PftFor result = (PftFor)base.Clone();
+            base.SerializeAst(writer);
 
-            result._virtualChildren = null;
-
-            result.Initialization
-                = Initialization.CloneNodes().ThrowIfNull();
-            result.Loop = Loop.CloneNodes().ThrowIfNull();
-            result.Body = Body.CloneNodes().ThrowIfNull();
-
-            if (!ReferenceEquals(Condition, null))
-            {
-                result.Condition = (PftCondition)Condition.Clone();
-            }
-
-            return result;
+            PftSerializer.Serialize(writer, Initialization);
+            PftSerializer.SerializeNullable(writer, Condition);
+            PftSerializer.Serialize(writer, Loop);
+            PftSerializer.Serialize(writer, Body);
         }
 
         #endregion
-
     }
 }

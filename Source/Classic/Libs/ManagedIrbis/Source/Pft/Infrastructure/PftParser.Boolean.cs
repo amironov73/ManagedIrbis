@@ -68,11 +68,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 result = ParseArithmetic();
                 if (!Tokens.IsEof)
                 {
-                    Log.Error
-                        (
-                            "PftParser::ParseComparisonItem: "
-                            + "garbage detected"
-                        );
+                    // Non-arithmetic comparison detected
 
                     throw new PftSyntaxException();
                 }

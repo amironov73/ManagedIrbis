@@ -32,6 +32,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     {
         #region Properties
 
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
+
         #endregion
 
         #region Construction
@@ -68,7 +74,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context

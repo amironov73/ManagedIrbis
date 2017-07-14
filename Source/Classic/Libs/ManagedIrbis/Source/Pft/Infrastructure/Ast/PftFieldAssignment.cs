@@ -11,6 +11,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+
 using AM;
 using AM.Collections;
 using AM.Logging;
@@ -18,6 +20,7 @@ using AM.Logging;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 
 using MoonSharp.Interpreter;
 
@@ -139,6 +142,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.DeserializeAst" />
+        protected internal override void DeserializeAst
+            (
+                BinaryReader reader
+            )
+        {
+            base.DeserializeAst(reader);
+
+            Field = (PftField) PftSerializer.DeserializeNullable(reader);
+            PftSerializer.Deserialize(reader, Expression);
+        }
+
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
@@ -226,6 +241,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return result;
+        }
+
+        /// <inheritdoc cref="PftNode.SerializeAst" />
+        protected internal override void SerializeAst
+            (
+                BinaryWriter writer
+            )
+        {
+            base.SerializeAst(writer);
+
+            PftSerializer.SerializeNullable(writer, Field);
+            PftSerializer.Serialize(writer, Expression);
         }
 
         #endregion
