@@ -18,6 +18,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Text;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -120,17 +122,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             writer.WriteNullable(Name);
         }
 
-        /// <inheritdoc cref="PftNode.Write" />
-        public override void Write
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
             (
-                StreamWriter writer
+                PftPrettyPrinter printer
             )
         {
-            writer.Write('&');
-            writer.Write(Name);
-            writer.Write('(');
-            base.Write(writer);
-            writer.Write(')');
+            printer.Write('&')
+                .Write(Name)
+                .Write('(');
+            base.PrettyPrint(printer);
+            printer.Write(')');
         }
 
         #endregion

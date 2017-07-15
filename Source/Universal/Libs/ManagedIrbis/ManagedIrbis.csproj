@@ -1298,6 +1298,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Text\HtmlDriver.cs">
       <Link>Source\Pft\Infrastructure\Text\HtmlDriver.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Text\PftPrettyPrinter.cs">
+      <Link>Source\Pft\Infrastructure\Text\PftPrettyPrinter.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Text\PlainTextDriver.cs">
       <Link>Source\Pft\Infrastructure\Text\PlainTextDriver.cs</Link>
     </Compile>

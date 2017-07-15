@@ -25,6 +25,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Serialization;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -440,16 +441,16 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Применяется, например, для красивой 
         /// распечатки программы на языке PFT.
         /// </summary>
-        public virtual void Write
+        public virtual void PrettyPrint
             (
-                [NotNull] StreamWriter writer
+                [NotNull] PftPrettyPrinter printer
             )
         {
-            Code.NotNull(writer, "writer");
+            Code.NotNull(printer, "printer");
 
             foreach (PftNode child in Children)
             {
-                child.Write(writer);
+                child.PrettyPrint(printer);
             }
         }
 

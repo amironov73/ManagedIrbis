@@ -26,6 +26,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -725,17 +726,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             writer.WriteNullable(SubFieldSpecification);
         }
 
-        /// <inheritdoc cref="PftNode.Write" />
-        public override void Write
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
             (
-                StreamWriter writer
+                PftPrettyPrinter printer
             )
         {
-            Code.NotNull(writer, "writer");
-
             foreach (PftNode node in LeftHand)
             {
-                node.Write(writer);
+                node.PrettyPrint(printer);
+            }
+
+            FieldSpecification specification = ToSpecification();
+            printer.Write(specification.ToString());
+
+            foreach (PftNode node in RightHand)
+            {
+                node.PrettyPrint(printer);
             }
         }
 

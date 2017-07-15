@@ -10,11 +10,12 @@
 #region Using directives
 
 using System;
-using System.IO;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -89,15 +90,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc cref="PftNode.Write" />
-        public override void Write
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
             (
-                StreamWriter writer
+                PftPrettyPrinter printer
             )
         {
-            Code.NotNull(writer, "writer");
-
-            writer.Write("nl");
+            printer.Write(" nl ");
         }
 
         #endregion

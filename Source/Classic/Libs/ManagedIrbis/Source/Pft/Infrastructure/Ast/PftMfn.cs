@@ -20,7 +20,7 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Text;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -201,19 +201,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             writer.WritePackedInt32(Width);
         }
 
-        /// <inheritdoc cref="PftNode.Write" />
-        public override void Write
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
             (
-                StreamWriter writer
+                PftPrettyPrinter printer
             )
         {
-            writer.Write("mfn");
+            printer.Write("mfn");
             if (Width > 0
                 && Width != DefaultWidth)
             {
-                writer.Write('(');
-                writer.Write(Width);
-                writer.Write(')');
+                printer.Write('(')
+                    .Write(Width)
+                    .Write(')');
             }
         }
 

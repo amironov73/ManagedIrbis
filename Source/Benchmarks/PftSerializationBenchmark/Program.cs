@@ -26,6 +26,7 @@ using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 #endregion
 
@@ -87,6 +88,10 @@ namespace PftSerializationBenchmark
                             console.WriteLine("{0}", i + 1);
                             console.WriteLine(restoredProgram.ToString());
                         }
+
+                        PftPrettyPrinter printer = new PftPrettyPrinter();
+                        program.PrettyPrint(printer);
+                        console.WriteLine(printer.ToString());
                     }
                 }
             }

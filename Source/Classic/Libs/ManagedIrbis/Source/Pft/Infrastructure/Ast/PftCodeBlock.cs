@@ -9,8 +9,6 @@
 
 #region Using directives
 
-using System.IO;
-
 using AM.Logging;
 
 using CodeJam;
@@ -18,6 +16,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -40,6 +39,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         : PftNode
     {
         #region Properties
+
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
 
         #endregion
 
@@ -98,7 +103,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc cref="PftNode.Write" />
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
         public override void Execute
             (
                 PftContext context
@@ -138,15 +143,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc cref="PftNode.Write" />
-        public override void Write
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
             (
-                StreamWriter writer
+                PftPrettyPrinter printer
             )
         {
-            writer.Write("{{{");
-            writer.Write(Text);
-            writer.Write("}}}");
+            printer.WriteLine();
+            printer.Write("{{{");
+            printer.Write(Text);
+            printer.WriteLine("}}}");
         }
 
 

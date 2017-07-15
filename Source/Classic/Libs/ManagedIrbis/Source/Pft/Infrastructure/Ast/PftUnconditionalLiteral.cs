@@ -10,7 +10,6 @@
 #region Using directives
 
 using System;
-using System.IO;
 
 using AM;
 using AM.Logging;
@@ -18,6 +17,8 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -163,15 +164,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc cref="PftNode.Write" />
-        public override void Write
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
             (
-                StreamWriter writer
+                PftPrettyPrinter printer
             )
         {
-            writer.Write('\'');
-            writer.Write(Text);
-            writer.Write('\'');
+            printer.Write('\'')
+                .Write(Text)
+                .Write('\'');
         }
 
         #endregion

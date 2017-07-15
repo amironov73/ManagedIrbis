@@ -9,14 +9,8 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using AM;
 using AM.Logging;
 
 using CodeJam;
@@ -108,6 +102,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Text
         [NotNull]
         public PftPrettyPrinter Write
             (
+                char chr
+            )
+        {
+            _writer.Write(chr);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Write the text.
+        /// </summary>
+        [NotNull]
+        public PftPrettyPrinter Write
+            (
                 [CanBeNull] string text
             )
         {
@@ -131,6 +139,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Text
             if (!ReferenceEquals(obj, null))
             {
                 _writer.Write(obj);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Write the formatted text.
+        /// </summary>
+        [NotNull]
+        public PftPrettyPrinter Write
+            (
+                [NotNull] string format,
+                params object[] args
+            )
+        {
+            Code.NotNull(format, "format");
+
+            string text = string.Format(format, args);
+            if (!string.IsNullOrEmpty(text))
+            {
+                _writer.Write(text);
             }
 
             return this;
@@ -195,6 +224,26 @@ namespace ManagedIrbis.Pft.Infrastructure.Text
             return this;
         }
 
+        /// <summary>
+        /// Write the formatted text.
+        /// </summary>
+        [NotNull]
+        public PftPrettyPrinter WriteLine
+            (
+                [NotNull] string format,
+                params object[] args
+            )
+        {
+            Code.NotNull(format, "format");
+
+            string text = string.Format(format, args);
+            if (!string.IsNullOrEmpty(text))
+            {
+                _writer.WriteLine(text);
+            }
+
+            return this;
+        }
         #endregion
 
         #region Object members

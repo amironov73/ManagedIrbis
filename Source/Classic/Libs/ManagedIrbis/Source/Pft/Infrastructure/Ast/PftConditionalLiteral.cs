@@ -19,6 +19,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Text;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -196,15 +198,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             writer.Write(IsSuffix);
         }
 
-        /// <inheritdoc cref="PftNode.Write" />
-        public override void Write
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
             (
-                StreamWriter writer
+                PftPrettyPrinter printer
             )
         {
-            writer.Write('"');
-            writer.Write(Text);
-            writer.Write('"');
+            printer.Write('"');
+            printer.Write(Text);
+            printer.Write('"');
         }
 
         #endregion

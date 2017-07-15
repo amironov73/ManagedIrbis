@@ -20,7 +20,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Pft.Infrastructure.Serialization;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -171,15 +171,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc cref="PftNode.Write" />
-        public override void Write
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
             (
-                StreamWriter writer
+                PftPrettyPrinter printer
             )
         {
-            writer.Write
+            // Всегда в нижнем регистре
+            printer.Write
                 (
-                    "c{0}", // Всегда в нижнем регистре
+                    "c{0}",
                     NewPosition.ToInvariantString()
                 );
         }

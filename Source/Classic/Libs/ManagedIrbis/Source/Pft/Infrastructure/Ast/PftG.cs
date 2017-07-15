@@ -19,6 +19,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Text;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -306,22 +308,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             writer.WritePackedInt32(Number);
         }
 
-        /// <inheritdoc cref="PftNode.Write" />
-        public override void Write
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
             (
-                StreamWriter writer
+                PftPrettyPrinter printer
             )
         {
             foreach (PftNode node in LeftHand)
             {
-                node.Write(writer);
+                node.PrettyPrint(printer);
             }
 
-            writer.Write(ToString());
+            printer.Write(ToString());
 
             foreach (PftNode node in RightHand)
             {
-                node.Write(writer);
+                node.PrettyPrint(printer);
             }
         }
 
