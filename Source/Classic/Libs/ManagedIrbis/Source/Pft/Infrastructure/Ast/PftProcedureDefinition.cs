@@ -9,7 +9,9 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 using JetBrains.Annotations;
 
@@ -37,7 +39,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public PftProcedure Procedure { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
         {
             get
@@ -59,6 +61,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 // Nothing to do here
             }
+        }
+
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
         }
 
         #endregion
@@ -97,10 +105,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region ICloneable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICloneable.Clone" />
         public override object Clone()
         {
-            PftProcedureDefinition result = (PftProcedureDefinition) base.Clone();
+            PftProcedureDefinition result
+                = (PftProcedureDefinition) base.Clone();
 
             if (!ReferenceEquals(Procedure, null))
             {
@@ -114,7 +123,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Deserialize" />
+        protected internal override void Deserialize
+            (
+                BinaryReader reader
+            )
+        {
+            base.Deserialize(reader);
+
+            bool flag = reader.ReadBoolean();
+            if (flag)
+            {
+                Procedure = new PftProcedure();
+                Procedure.Deserialize(reader);
+            }
+        }
+
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -127,7 +152,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.GetNodeInfo" />
         public override PftNodeInfo GetNodeInfo()
         {
             PftNodeInfo result = new PftNodeInfo
@@ -153,6 +178,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return result;
+        }
+
+        /// <inheritdoc cref="PftNode.Serialize" />
+        protected internal override void Serialize
+            (
+                BinaryWriter writer
+            )
+        {
+            base.Serialize(writer);
+
+            if (ReferenceEquals(Procedure, null))
+            {
+                writer.Write(false);
+            }
+            else
+            {
+                writer.Write(true);
+                Procedure.Serialize(writer);
+            }
         }
 
         #endregion

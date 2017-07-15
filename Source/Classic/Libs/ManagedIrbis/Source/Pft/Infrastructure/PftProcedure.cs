@@ -11,16 +11,21 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
+using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 
 using MoonSharp.Interpreter;
 
@@ -71,6 +76,20 @@ namespace ManagedIrbis.Pft.Infrastructure
         #region Public methods
 
         /// <summary>
+        /// Deserialize the procedure.
+        /// </summary>
+        public void Deserialize
+            (
+                [NotNull] BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            Name = reader.ReadNullableString();
+            PftSerializer.Deserialize(reader, Body);
+        }
+
+        /// <summary>
         /// Execute the procedure.
         /// </summary>
         public void Execute
@@ -93,11 +112,25 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
+        /// <summary>
+        /// Serialize the procedure.
+        /// </summary>
+        public void Serialize
+            (
+                [NotNull] BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer.WriteNullable(Name);
+            PftSerializer.Serialize(writer, Body);
+        }
+
         #endregion
 
         #region ICloneable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICloneable.Clone" />
         public object Clone()
         {
             PftProcedure result = (PftProcedure) MemberwiseClone();

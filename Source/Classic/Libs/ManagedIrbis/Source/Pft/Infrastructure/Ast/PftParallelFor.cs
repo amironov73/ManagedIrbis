@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,7 +24,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
-
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -170,7 +171,46 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
+        #region ICloneable members
+
+        /// <inheritdoc cref="ICloneable.Clone" />
+        public override object Clone()
+        {
+            PftParallelFor result = (PftParallelFor) base.Clone();
+
+            result._virtualChildren = null;
+
+            result.Initialization 
+                = Initialization.CloneNodes().ThrowIfNull();
+            result.Loop = Loop.CloneNodes().ThrowIfNull();
+            result.Body = Body.CloneNodes().ThrowIfNull();
+
+            if (!ReferenceEquals(Condition, null))
+            {
+                result.Condition = (PftCondition) Condition.Clone();
+            }
+
+            return result;
+        }
+
+        #endregion
+
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.Deserialize" />
+        protected internal override void Deserialize
+            (
+                BinaryReader reader
+            )
+        {
+            base.Deserialize(reader);
+
+            PftSerializer.Deserialize(reader, Initialization);
+            Condition
+                = (PftCondition)PftSerializer.DeserializeNullable(reader);
+            PftSerializer.Deserialize(reader, Loop);
+            PftSerializer.Deserialize(reader, Body);
+        }
 
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
@@ -307,28 +347,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
-        #endregion
-
-        #region ICloneable members
-
-        /// <inheritdoc cref="ICloneable.Clone" />
-        public override object Clone()
+        /// <inheritdoc cref="PftNode.Serialize" />
+        protected internal override void Serialize
+            (
+                BinaryWriter writer
+            )
         {
-            PftParallelFor result = (PftParallelFor) base.Clone();
+            base.Serialize(writer);
 
-            result._virtualChildren = null;
-
-            result.Initialization 
-                = Initialization.CloneNodes().ThrowIfNull();
-            result.Loop = Loop.CloneNodes().ThrowIfNull();
-            result.Body = Body.CloneNodes().ThrowIfNull();
-
-            if (!ReferenceEquals(Condition, null))
-            {
-                result.Condition = (PftCondition) Condition.Clone();
-            }
-
-            return result;
+            PftSerializer.Serialize(writer, Initialization);
+            PftSerializer.SerializeNullable(writer, Condition);
+            PftSerializer.Serialize(writer, Loop);
+            PftSerializer.Serialize(writer, Body);
         }
 
         #endregion

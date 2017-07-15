@@ -43,15 +43,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Public methods
 
-        /// <inheritdoc />
+        #endregion
+
+        #region PftNode members
+
+        /// <inheritdoc cref="PftNode.GetAffectedFields" />
         public override string[] GetAffectedFields()
         {
             return new string[0];
         }
-
-        #endregion
-
-        #region PftNode members
 
         /// <inheritdoc cref="PftNode.Execute"/>
         public override void Execute
