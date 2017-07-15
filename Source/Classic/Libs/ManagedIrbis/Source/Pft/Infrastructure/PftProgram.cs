@@ -9,19 +9,9 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
-using AM;
-using AM.IO;
 using AM.Logging;
-using AM.Runtime;
 
 using CodeJam;
 
@@ -29,14 +19,12 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
-using Newtonsoft.Json;
-
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure
 {
     /// <summary>
-    /// AST root
+    /// AST root node.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -74,6 +62,17 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.Deserialize" />
+        protected internal override void Deserialize
+            (
+                BinaryReader reader
+            )
+        {
+            base.Deserialize(reader);
+
+            Procedures.Deserialize(reader);
+        }
 
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
@@ -120,9 +119,28 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
+        /// <inheritdoc cref="PftNode.Serialize" />
+        protected internal override void Serialize
+            (
+                BinaryWriter writer
+            )
+        {
+            base.Serialize(writer);
+
+            Procedures.Serialize(writer);
+        }
+
         #endregion
 
         #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            // TODO use pretty-printing
+
+            return "Program";
+        }
 
         #endregion
     }

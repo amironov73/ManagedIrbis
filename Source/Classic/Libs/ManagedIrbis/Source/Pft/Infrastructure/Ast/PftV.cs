@@ -9,9 +9,7 @@
 
 #region Using directives
 
-using System;
 using System.IO;
-using System.Text;
 
 using AM;
 using AM.Logging;
@@ -99,7 +97,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         private void _Execute
             (
-                PftContext context
+                [NotNull] PftContext context
             )
         {
             try
@@ -240,7 +238,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return ToSpecification().ToString();

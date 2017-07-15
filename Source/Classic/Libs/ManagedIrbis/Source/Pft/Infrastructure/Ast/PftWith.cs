@@ -11,9 +11,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
+
 using AM;
 using AM.Collections;
+using AM.IO;
 using AM.Logging;
 
 using CodeJam;
@@ -21,6 +23,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 
 using MoonSharp.Interpreter;
 
@@ -167,6 +170,26 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.Deserialize" />
+        protected internal override void Deserialize
+            (
+                BinaryReader reader
+            )
+        {
+            base.Deserialize(reader);
+
+            Variable = (PftVariableReference) PftSerializer
+                .DeserializeNullable(reader);
+            int count = reader.ReadPackedInt32();
+            for (int i = 0; i < count; i++)
+            {
+                FieldSpecification field = new FieldSpecification();
+                field.Deserialize(reader);
+                Fields.Add(field);
+            }
+            PftSerializer.Deserialize(reader, Body);
+        }
 
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
@@ -326,6 +349,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return result;
+        }
+
+        /// <inheritdoc cref="PftNode.Serialize" />
+        protected internal override void Serialize
+            (
+                BinaryWriter writer
+            )
+        {
+            base.Serialize(writer);
+
+            PftSerializer.SerializeNullable(writer, Variable);
+            writer.WritePackedInt32(Fields.Count);
+            foreach (FieldSpecification field in Fields)
+            {
+                field.Serialize(writer);
+            }
+            PftSerializer.Serialize(writer, Body);
         }
 
         #endregion

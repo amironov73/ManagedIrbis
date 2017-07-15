@@ -9,7 +9,11 @@
 
 #region Using directives
 
+using System.IO;
+
+using AM;
 using AM.Collections;
+using AM.IO;
 
 using CodeJam;
 
@@ -58,6 +62,27 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Deserialize the registry.
+        /// </summary>
+        public void Deserialize
+            (
+                [NotNull] BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            int count = reader.ReadPackedInt32();
+            for (int i = 0; i < count; i++)
+            {
+                PftProcedure procedure = new PftProcedure();
+                procedure.Deserialize(reader);
+                string name = procedure.Name
+                    .ThrowIfNull("procedure.Name");
+                Registry.Add(name, procedure);
+            }
+        }
 
         /// <summary>
         /// Execute the procedure.
@@ -114,6 +139,23 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.TryGetValue(name, out result);
 
             return !ReferenceEquals(result, null);
+        }
+
+        /// <summary>
+        /// Serialize the registry.
+        /// </summary>
+        public void Serialize
+            (
+                [NotNull] BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer.WritePackedInt32(Registry.Count);
+            foreach (PftProcedure procedure in Registry.Values)
+            {
+                procedure.Serialize(writer);
+            }
         }
 
         #endregion

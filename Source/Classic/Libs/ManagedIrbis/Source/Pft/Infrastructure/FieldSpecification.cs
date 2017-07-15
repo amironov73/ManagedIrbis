@@ -11,9 +11,11 @@
 
 using System;
 using System.Globalization;
+using System.IO;
 using System.Text;
 
 using AM;
+using AM.IO;
 using AM.Logging;
 using AM.Text;
 
@@ -189,6 +191,32 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Deserialize the specification.
+        /// </summary>
+        public void Deserialize
+            (
+                [NotNull] BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            Command = reader.ReadChar();
+            Embedded = reader.ReadNullableString();
+            FirstLine = reader.ReadPackedInt32();
+            ParagraphIndent = reader.ReadPackedInt32();
+            Offset = reader.ReadPackedInt32();
+            Length = reader.ReadPackedInt32();
+            FieldRepeat.Deserialize(reader);
+            SubField = reader.ReadChar();
+            SubFieldRepeat.Deserialize(reader);
+            Tag = reader.ReadNullableString();
+            TagSpecification = reader.ReadNullableString();
+            SubFieldSpecification = reader.ReadNullableString();
+            RawText = reader.ReadNullableString();
+            ParseSubFieldSpecification = reader.ReadBoolean();
+        }
 
         /// <summary>
         /// Parse the specification from text.
@@ -837,6 +865,32 @@ namespace ManagedIrbis.Pft.Infrastructure
             RawText = navigator.Substring(start, length);
 
             return true;
+        }
+
+        /// <summary>
+        /// Serialize the specification.
+        /// </summary>
+        public void Serialize
+            (
+                [NotNull] BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer.Write(Command);
+            writer.WriteNullable(Embedded);
+            writer.WritePackedInt32(FirstLine);
+            writer.WritePackedInt32(ParagraphIndent);
+            writer.WritePackedInt32(Offset);
+            writer.WritePackedInt32(Length);
+            FieldRepeat.Serialize(writer);
+            writer.Write(SubField);
+            SubFieldRepeat.Serialize(writer);
+            writer.WriteNullable(Tag);
+            writer.WriteNullable(TagSpecification);
+            writer.WriteNullable(SubFieldSpecification);
+            writer.WriteNullable(RawText);
+            writer.Write(ParseSubFieldSpecification);
         }
 
         #endregion
