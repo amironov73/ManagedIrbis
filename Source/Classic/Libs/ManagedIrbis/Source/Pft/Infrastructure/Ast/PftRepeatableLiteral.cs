@@ -122,6 +122,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.Deserialize" />
+        protected internal override void Deserialize
+            (
+                BinaryReader reader
+            )
+        {
+            base.Deserialize(reader);
+
+            IsPrefix = reader.ReadBoolean();
+            Plus = reader.ReadBoolean();
+        }
+
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
@@ -167,6 +179,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
+        /// <inheritdoc cref="PftNode.Serialize" />
+        protected internal override void Serialize
+            (
+                BinaryWriter writer
+            )
+        {
+            base.Serialize(writer);
+
+            writer.Write(IsPrefix);
+            writer.Write(Plus);
+        }
+
         /// <inheritdoc cref="PftNode.Write" />
         public override void Write
             (
@@ -178,6 +202,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             writer.Write('|');
         }
 
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return '|' + Text + '|';
+        }
 
         #endregion
     }

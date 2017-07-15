@@ -27,13 +27,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     {
         #region Properties
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
         public override bool ExtendedSyntax
         {
             get { return true; }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftBoolean.Value" />
         public override bool Value
         {
             get { return true; }
@@ -77,7 +77,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context

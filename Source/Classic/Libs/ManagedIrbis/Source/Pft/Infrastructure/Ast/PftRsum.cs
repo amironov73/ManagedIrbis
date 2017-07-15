@@ -9,14 +9,11 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
+using AM.IO;
 using AM.Logging;
 
 using CodeJam;
@@ -92,6 +89,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.Deserialize" />
+        protected internal override void Deserialize
+            (
+                BinaryReader reader
+            )
+        {
+            base.Deserialize(reader);
+
+            Name = reader.ReadNullableString();
+        }
+
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
@@ -140,6 +148,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc cref="PftNode.Serialize" />
+        protected internal override void Serialize
+            (
+                BinaryWriter writer
+            )
+        {
+            base.Serialize(writer);
+
+            writer.WriteNullable(Name);
         }
 
         #endregion

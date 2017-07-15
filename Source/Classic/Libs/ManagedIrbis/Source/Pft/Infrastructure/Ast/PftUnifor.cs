@@ -9,12 +9,7 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.IO;
@@ -123,6 +118,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             base.Serialize(writer);
 
             writer.WriteNullable(Name);
+        }
+
+        /// <inheritdoc cref="PftNode.Write" />
+        public override void Write
+            (
+                StreamWriter writer
+            )
+        {
+            writer.Write('&');
+            writer.Write(Name);
+            writer.Write('(');
+            base.Write(writer);
+            writer.Write(')');
         }
 
         #endregion
