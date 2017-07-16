@@ -567,6 +567,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             if (!ReferenceEquals(LeftOperand, null))
             {
+                printer.Write(' ');
                 LeftOperand.PrettyPrint(printer);
             }
 
@@ -577,6 +578,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             if (!ReferenceEquals(RightOperand, null))
             {
                 RightOperand.PrettyPrint(printer);
+                printer.Write(' ');
             }
         }
 

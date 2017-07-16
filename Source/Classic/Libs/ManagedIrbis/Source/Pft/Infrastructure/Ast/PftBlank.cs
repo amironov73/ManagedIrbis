@@ -13,6 +13,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Text;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -28,6 +30,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         : PftCondition
     {
         #region Properties
+
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
 
         #endregion
 
@@ -102,6 +110,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Value = IsBlank(text);
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.Write(" blank(");
+            base.PrettyPrint(printer);
+            printer.Write(") ");
         }
 
         #endregion

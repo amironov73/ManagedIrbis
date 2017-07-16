@@ -180,7 +180,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             // Всегда в нижнем регистре
             printer.Write
                 (
-                    "c{0}",
+                    " c{0} ",
                     NewPosition.ToInvariantString()
                 );
         }

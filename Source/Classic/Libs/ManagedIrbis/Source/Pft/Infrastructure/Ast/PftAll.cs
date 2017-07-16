@@ -73,6 +73,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
         }
 
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
+
         #endregion
 
         #region Construction

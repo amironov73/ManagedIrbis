@@ -149,10 +149,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer.WriteLine();
-            printer.Write("{{{");
-            printer.Write(Text);
-            printer.WriteLine("}}}");
+            printer.WriteLine()
+                .Write("{{{")
+                .Write(Text)
+                .WriteLine("}}}");
         }
 
 
