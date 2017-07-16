@@ -11,6 +11,8 @@
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Text;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -131,6 +133,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Value = PftUtility.ExtractNumericValue(text);
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.Write(" val(");
+            base.PrettyPrint(printer);
+            printer.Write(") ");
         }
 
         #endregion

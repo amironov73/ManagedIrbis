@@ -15,6 +15,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Text;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -157,6 +159,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 context.CurrentGroup = null;
             }
+        }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.Write(" (");
+            base.PrettyPrint(printer);
+            printer.Write(") ");
         }
 
         #endregion

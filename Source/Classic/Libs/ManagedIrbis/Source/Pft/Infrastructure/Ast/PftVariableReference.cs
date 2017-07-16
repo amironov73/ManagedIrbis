@@ -23,6 +23,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -55,6 +56,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Subfield code.
         /// </summary>
         public char SubFieldCode { get; set; }
+
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
 
         #endregion
 
@@ -313,6 +320,34 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return result;
+        }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer
+                .Write('$')
+                .Write(Name);
+
+            if (Index.Kind != IndexKind.None)
+            {
+                printer
+                    .Write('[')
+                    .Write(Index.ToString())
+                    .Write(']');
+            }
+
+            if (SubFieldCode != SubField.NoCode)
+            {
+                printer
+                    .Write('^')
+                    .Write(SubFieldCode);
+            }
+
+            printer.Write(' ');
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />
