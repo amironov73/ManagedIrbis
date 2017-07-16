@@ -10,7 +10,10 @@
 #region Using directives
 
 using AM.Logging;
+
 using JetBrains.Annotations;
+
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -96,6 +99,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             // Nothing to do here
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.Write(" false ");
         }
 
         #endregion

@@ -23,6 +23,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -31,8 +32,13 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    /// Форматирование по принципам .NET Framework
     /// </summary>
+    /// <example>
+    /// <code>
+    /// f2(3+0.14,'E4')
+    /// </code>
+    /// </example>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftF2
@@ -246,6 +252,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return result;
+        }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.Write(" f2(");
+            if (!ReferenceEquals(Number, null))
+            {
+                Number.PrettyPrint(printer);
+            }
+            printer.Write(", ");
+            printer.Write(Format);
+            printer.Write(") ");
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />

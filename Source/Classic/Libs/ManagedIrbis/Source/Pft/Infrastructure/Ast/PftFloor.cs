@@ -16,6 +16,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Text;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -25,6 +27,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     /// <summary>
     /// 
     /// </summary>
+    /// <example>
+    /// <code>
+    /// f(floor(1.2),0,0)
+    /// </code>
+    /// </example>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftFloor
@@ -90,6 +97,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.Write(" floor(");
+            base.PrettyPrint(printer);
+            printer.Write(") ");
         }
 
         #endregion

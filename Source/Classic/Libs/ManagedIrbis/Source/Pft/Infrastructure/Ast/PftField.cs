@@ -698,6 +698,26 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            foreach (PftNode node in LeftHand)
+            {
+                node.PrettyPrint(printer);
+            }
+
+            FieldSpecification specification = ToSpecification();
+            printer.Write(specification.ToString());
+
+            foreach (PftNode node in RightHand)
+            {
+                node.PrettyPrint(printer);
+            }
+        }
+
         /// <inheritdoc cref="PftNode.Serialize" />
         protected internal override void Serialize
             (
@@ -724,26 +744,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             SubFieldRepeat.Serialize(writer);
 
             writer.WriteNullable(SubFieldSpecification);
-        }
-
-        /// <inheritdoc cref="PftNode.PrettyPrint" />
-        public override void PrettyPrint
-            (
-                PftPrettyPrinter printer
-            )
-        {
-            foreach (PftNode node in LeftHand)
-            {
-                node.PrettyPrint(printer);
-            }
-
-            FieldSpecification specification = ToSpecification();
-            printer.Write(specification.ToString());
-
-            foreach (PftNode node in RightHand)
-            {
-                node.PrettyPrint(printer);
-            }
         }
 
         #endregion

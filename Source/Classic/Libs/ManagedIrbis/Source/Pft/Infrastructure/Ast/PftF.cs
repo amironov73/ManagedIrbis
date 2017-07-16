@@ -14,13 +14,14 @@ using System.Collections.Generic;
 using System.IO;
 
 using AM;
-using AM.IO;
+
 using AM.Logging;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -345,6 +346,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return result;
+        }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.Write(" f(");
+            if (!ReferenceEquals(Argument1, null))
+            {
+                Argument1.PrettyPrint(printer);
+            }
+            if (!ReferenceEquals(Argument2, null))
+            {
+                printer.Write(", ");
+                Argument2.PrettyPrint(printer);
+            }
+            if (!ReferenceEquals(Argument3, null))
+            {
+                printer.Write(", ");
+                Argument3.PrettyPrint(printer);
+            }
+            printer.Write(") ");
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />

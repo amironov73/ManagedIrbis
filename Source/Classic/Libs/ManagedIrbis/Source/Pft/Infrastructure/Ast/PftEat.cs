@@ -9,15 +9,11 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -26,14 +22,25 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    /// Eat the output.
     /// </summary>
+    /// <example>
+    /// <code>
+    /// 'Hello,', [[['again,']]] 'World'
+    /// </code>
+    /// </example>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftEat
         : PftNode
     {
         #region Properties
+
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
 
         #endregion
 
@@ -83,6 +90,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             context.Evaluate(Children);
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.Write("[[[");
+            base.PrettyPrint(printer);
+            printer.Write("]]]");
         }
 
         #endregion

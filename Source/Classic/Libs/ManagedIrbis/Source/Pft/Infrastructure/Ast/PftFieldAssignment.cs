@@ -21,6 +21,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -80,6 +81,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         + value.NullableToVisibleString()
                     );
             }
+        }
+
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
+        public override bool ExtendedSyntax
+        {
+            get { return true; }
         }
 
         #endregion
@@ -241,6 +248,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return result;
+        }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            if (!ReferenceEquals(Field, null))
+            {
+                Field.PrettyPrint(printer);
+            }
+            printer.Write('=');
+            foreach (PftNode node in Expression)
+            {
+                node.PrettyPrint(printer);
+            }
+            printer.Write(';');
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />
