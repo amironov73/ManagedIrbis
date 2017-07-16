@@ -23,6 +23,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -251,6 +252,62 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return result;
+        }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer
+                .WriteLine()
+                .WriteIndent()
+                .Write("if ");
+            if (!ReferenceEquals(Condition, null))
+            {
+                Condition.PrettyPrint(printer);
+            }
+
+            printer.IncreaseLevel();
+            printer
+                .WriteLine()
+                .WriteIndent()
+                .Write("then ");
+            foreach (PftNode node in ThenBranch)
+            {
+                node.PrettyPrint(printer);
+            }
+            printer.DecreaseLevel();
+
+            if (ElseBranch.Count != 0)
+            {
+                printer.IncreaseLevel();
+                if (ThenBranch.Count != 0)
+                {
+                    printer
+                        .WriteLine()
+                        .WriteIndent();
+                }
+                printer .Write("else ");
+                if (ElseBranch.Count > 1)
+                {
+                    printer
+                        .WriteLine()
+                        .WriteIndent();
+                }
+                foreach (PftNode node in ElseBranch)
+                {
+                    node.PrettyPrint(printer);
+                }
+                printer.DecreaseLevel();
+            }
+
+            printer
+                .WriteLine()
+                .WriteIndent()
+                .Write("fi ")
+                .WriteLine();
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />

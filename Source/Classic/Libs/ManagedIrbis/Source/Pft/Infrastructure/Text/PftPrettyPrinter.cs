@@ -171,9 +171,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Text
         [NotNull]
         public PftPrettyPrinter WriteIndent()
         {
-            if (Level != 0)
+            for (int i = 0; i < Level; i++)
             {
-                _writer.Write(new string(' ', Level));
+                Write(' ');
+                Write(' ');
+                Write(' ');
+                Write(' ');
             }
 
             return this;

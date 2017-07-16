@@ -44,7 +44,7 @@ namespace PftPrettyPrint
             string rootPath = args[0];
             string format = args[1];
 
-            Log.ApplyDefaultsForConsoleApplication();
+            // Log.ApplyDefaultsForConsoleApplication();
 
             try
             {
