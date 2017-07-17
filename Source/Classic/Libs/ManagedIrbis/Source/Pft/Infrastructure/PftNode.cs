@@ -147,6 +147,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private NonNullCollection<PftNode> _children;
 
+        /// <summary>
+        /// Check deserialization result.
+        /// </summary>
         internal virtual void CompareNode<T>
             (
                 [NotNull] T otherNode
@@ -156,9 +159,41 @@ namespace ManagedIrbis.Pft.Infrastructure
             bool result = Column == otherNode.Column
                           && LineNumber == otherNode.LineNumber;
 
+            if (result && ShouldSerializeText())
+            {
+                result = Text == otherNode.Text;
+            }
+
+            if (result && ShouldSerializeChildren())
+            {
+                result = Children.Count == otherNode.Children.Count;
+                if (result)
+                {
+                    for (int i = 0; i < Children.Count; i++)
+                    {
+                        PftNode our = Children[i];
+                        PftNode their = otherNode.Children[i];
+
+                        if (!ReferenceEquals(our.GetType(), their.GetType()))
+                        {
+                            throw new PftSerializationException
+                                (
+                                    "Expecting " + our.GetType()
+                                    + ", got " + their.GetType()
+                                );
+                        }
+
+                        our.CompareNode(their);
+                    }
+                }
+            }
+
             if (!result)
             {
-                throw new IrbisException();
+                throw new PftSerializationException
+                    (
+                        "CompareNode failed with " + GetType()
+                    );
             }
         }
 

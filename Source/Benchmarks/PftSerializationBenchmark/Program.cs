@@ -73,6 +73,13 @@ namespace PftSerializationBenchmark
 
                         PftProgram program
                             = (PftProgram) PftSerializer.Read(fileName);
+
+                        PftSerializationUtility.VerifyDeserializedProgram
+                            (
+                                formatter.Program,
+                                program
+                            );
+
                         PftNodeInfo nodeInfo = program.GetNodeInfo();
 
                         AbstractOutput console = new ConsoleOutput();
