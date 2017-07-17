@@ -53,7 +53,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [NotNull]
         public NonNullCollection<PftNode> ElseBranch { get; private set; }
 
-            /// <summary>
+        /// <summary>
         /// Then branch.
         /// </summary>
         [NotNull]
@@ -89,6 +89,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         + value.NullableToVisibleString()
                     );
             }
+        }
+
+        /// <inheritdoc cref="PftNode.ComplexExpression" />
+        public override bool ComplexExpression
+        {
+            get { return true; }
         }
 
         #endregion
@@ -138,13 +144,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         public override object Clone()
         {
             PftConditionalStatement result
-                = (PftConditionalStatement) base.Clone();
+                = (PftConditionalStatement)base.Clone();
 
             result._virtualChildren = null;
 
             if (!ReferenceEquals(Condition, null))
             {
-                result.Condition = (PftCondition) Condition.Clone();
+                result.Condition = (PftCondition)Condition.Clone();
             }
 
             result.ElseBranch = ElseBranch.CloneNodes().ThrowIfNull();
@@ -164,7 +170,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             base.Deserialize(reader);
-            Condition = (PftCondition) PftSerializer.DeserializeNullable(reader);
+            Condition = (PftCondition)PftSerializer.DeserializeNullable(reader);
             PftSerializer.Deserialize(reader, ThenBranch);
             PftSerializer.Deserialize(reader, ElseBranch);
         }
@@ -260,6 +266,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
+            bool needComment = false;
+
+            printer.EatWhitespace();
+            printer.EatNewLine();
+
             printer
                 .WriteLine()
                 .WriteIndent()
@@ -274,12 +285,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .WriteIndent()
                 .Write("then ");
 
-            printer.IncreaseLevel();
+            bool isComplex = PftUtility.IsComplexExpression(ThenBranch);
+            if (isComplex)
+            {
+                needComment = true;
+                printer.IncreaseLevel();
+                printer.EatWhitespace();
+                printer.EatNewLine();
+                printer.WriteLine();
+                printer.WriteIndent();
+            }
             printer.WriteNodes(ThenBranch);
-            printer.DecreaseLevel();
+            if (isComplex)
+            {
+                printer.DecreaseLevel();
+                printer.WriteLine();
+            }
 
             if (ElseBranch.Count != 0)
             {
+                isComplex = PftUtility.IsComplexExpression(ElseBranch);
+                printer.EatNewLine();
                 if (ThenBranch.Count != 0)
                 {
                     printer
@@ -287,27 +313,39 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         .WriteIndent();
                 }
                 printer.Write("else ");
-                printer.IncreaseLevel();
-                if (ElseBranch.Count > 1)
+                if (isComplex)
                 {
-                    printer
-                        .WriteLine()
-                        .WriteIndent();
+                    needComment = true;
+                    printer.IncreaseLevel();
+                    printer.EatWhitespace();
+                    printer.EatNewLine();
+                    printer.WriteLine();
+                    printer.WriteIndent();
                 }
                 printer.WriteNodes(ElseBranch);
-                printer.DecreaseLevel();
+                if (isComplex)
+                {
+                    printer.DecreaseLevel();
+                    printer.WriteLine();
+                }
             }
 
-            //printer.EatWhitespace();
-            if (printer.Column != 0)
-            {
-                printer.WriteLine();
-            }
+            printer.EatWhitespace();
+            printer.EatNewLine();
+            printer.WriteLine();
 
             printer
                 .WriteIndendIfNeeded()
-                .Write("fi ")
-                .WriteLine();
+                .Write("fi,");
+
+            if (needComment
+                && !ReferenceEquals(Condition, null))
+            {
+                printer.Write(" /* ");
+                Condition.PrettyPrint(printer);
+            }
+
+            printer.WriteLine();
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />

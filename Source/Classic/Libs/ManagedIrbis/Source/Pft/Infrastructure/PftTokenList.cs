@@ -48,7 +48,20 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public PftToken Current
         {
-            get { return _tokens[_position]; }
+            get
+            {
+                PftToken result;
+                try
+                {
+                    result = _tokens[_position];
+                }
+                catch (Exception exception)
+                {
+                    throw new PftSyntaxException(this, exception);
+                }
+
+                return result;
+            }
         }
 
         /// <summary>
@@ -409,6 +422,39 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenList result = new PftTokenList(tokens);
 
             return result;
+        }
+
+        /// <summary>
+        /// Show last tokens.
+        /// </summary>
+        [NotNull]
+        public string ShowLastTokens
+            (
+                int howMany
+            )
+        {
+            Code.Positive(howMany, "howMany");
+
+            StringBuilder result = new StringBuilder();
+            int index = _position - howMany;
+            if (index < 0)
+            {
+                index = 0;
+            }
+            bool first = true;
+            while (index < Length)
+            {
+                if (!first)
+                {
+                    result.Append(' ');
+                }
+                result.Append(_tokens[index]);
+
+                index++;
+                first = false;
+            }
+
+            return result.ToString();
         }
 
         /// <summary>

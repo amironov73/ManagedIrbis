@@ -127,29 +127,63 @@ namespace ManagedIrbis.Pft.Infrastructure.Text
             return this;
         }
 
-        /// <summary>
-        /// Eat the last character.
-        /// </summary>
-        public bool EatLastCharacter()
-        {
-            StringBuilder builder = _writer.GetStringBuilder();
+        ///// <summary>
+        ///// Eat the last character.
+        ///// </summary>
+        //public bool EatLastCharacter()
+        //{
+        //    StringBuilder builder = _writer.GetStringBuilder();
 
-            bool result = false;
-            while (builder.Length > 0 && !result)
-            {
-                char chr = builder[builder.Length - 1];
-                if (chr != '\n' && chr != '\r')
-                {
-                    LastCharacter = builder.Length > 1
-                        ? builder[builder.Length - 2]
-                        : '\0';
-                    result = true;
-                }
-                builder.Length--;
-            }
+        //    bool result = false;
+        //    while (builder.Length > 0 && !result)
+        //    {
+        //        char chr = builder[builder.Length - 1];
+        //        if (chr != '\n' && chr != '\r')
+        //        {
+        //            LastCharacter = builder.Length > 1
+        //                ? builder[builder.Length - 2]
+        //                : '\0';
+        //            result = true;
+        //        }
+        //        builder.Length--;
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
+
+        ///// <summary>
+        ///// Eat the trailing comma.
+        ///// </summary>
+        //public bool EatComma()
+        //{
+        //    StringBuilder builder = _writer.GetStringBuilder();
+
+        //    bool result = false, flag = false;
+        //    while (builder.Length > 0 && !result)
+        //    {
+        //        char chr = builder[builder.Length - 1];
+        //        if (chr == ',')
+        //        {
+        //            LastCharacter = builder.Length > 1
+        //                ? builder[builder.Length - 2]
+        //                : '\0';
+
+        //            builder.Length--;
+        //            flag = true;
+        //        }
+        //        else
+        //        {
+        //            result = true;
+        //        }
+        //    }
+
+        //    if (flag)
+        //    {
+        //        _RecalculateColumn();
+        //    }
+
+        //    return result;
+        //}
 
         /// <summary>
         /// Eat trailing new line.
@@ -217,6 +251,39 @@ namespace ManagedIrbis.Pft.Infrastructure.Text
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Get current line.
+        /// </summary>
+        [NotNull]
+        public string GetCurrentLine()
+        {
+            StringBuilder builder = _writer.GetStringBuilder();
+
+            if (builder.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            int index = builder.Length - 1;
+            while (index >= 0)
+            {
+                char chr = builder[index];
+                if (chr == '\r' || chr == '\n')
+                {
+                    index++;
+                    break;
+                }
+                index--;
+            }
+            if (index < 0)
+            {
+                index = 0;
+            }
+            int length = builder.Length - index;
+
+            return builder.ToString(index, length);
         }
 
         /// <summary>

@@ -59,9 +59,6 @@ namespace PftBench
             this._htmlBox = new System.Windows.Forms.WebBrowser();
             this._warningPage = new System.Windows.Forms.TabPage();
             this._warningBox = new System.Windows.Forms.TextBox();
-            this._menuStrip = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._toolStrip = new System.Windows.Forms.ToolStrip();
             this._newButton = new System.Windows.Forms.ToolStripButton();
             this._openButton = new System.Windows.Forms.ToolStripButton();
@@ -69,11 +66,15 @@ namespace PftBench
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this._parseButton = new System.Windows.Forms.ToolStripButton();
             this._goButton = new System.Windows.Forms.ToolStripButton();
+            this._goHtmlButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this._databaseBox = new System.Windows.Forms.ToolStripComboBox();
+            this._menuStrip = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this._saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this._goHtmlButton = new System.Windows.Forms.ToolStripButton();
+            this._prettyPrintButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -102,8 +103,8 @@ namespace PftBench
             this._rtfPage.SuspendLayout();
             this._htmlPage.SuspendLayout();
             this._warningPage.SuspendLayout();
-            this._menuStrip.SuspendLayout();
             this._toolStrip.SuspendLayout();
+            this._menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -188,7 +189,7 @@ namespace PftBench
             this._pftBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this._pftBox.IsReadOnly = false;
             this._pftBox.Location = new System.Drawing.Point(0, 0);
-            this._pftBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._pftBox.Margin = new System.Windows.Forms.Padding(2);
             this._pftBox.Name = "_pftBox";
             this._pftBox.Size = new System.Drawing.Size(368, 154);
             this._pftBox.TabIndex = 0;
@@ -213,7 +214,7 @@ namespace PftBench
             this._astPage.Controls.Add(this._pftTreeView);
             this._astPage.Location = new System.Drawing.Point(4, 22);
             this._astPage.Name = "_astPage";
-            this._astPage.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this._astPage.Padding = new System.Windows.Forms.Padding(3);
             this._astPage.Size = new System.Drawing.Size(374, 128);
             this._astPage.TabIndex = 0;
             this._astPage.Text = "AST";
@@ -223,7 +224,7 @@ namespace PftBench
             // 
             this._pftTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this._pftTreeView.Location = new System.Drawing.Point(3, 3);
-            this._pftTreeView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this._pftTreeView.Margin = new System.Windows.Forms.Padding(4);
             this._pftTreeView.Name = "_pftTreeView";
             this._pftTreeView.Size = new System.Drawing.Size(368, 122);
             this._pftTreeView.TabIndex = 0;
@@ -235,8 +236,8 @@ namespace PftBench
             this._tokenPage.Controls.Add(this._tokenGrid);
             this._tokenPage.Location = new System.Drawing.Point(4, 22);
             this._tokenPage.Name = "_tokenPage";
-            this._tokenPage.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this._tokenPage.Size = new System.Drawing.Size(374, 132);
+            this._tokenPage.Padding = new System.Windows.Forms.Padding(3);
+            this._tokenPage.Size = new System.Drawing.Size(374, 128);
             this._tokenPage.TabIndex = 1;
             this._tokenPage.Text = "Tokens";
             this._tokenPage.UseVisualStyleBackColor = true;
@@ -245,9 +246,9 @@ namespace PftBench
             // 
             this._tokenGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this._tokenGrid.Location = new System.Drawing.Point(3, 3);
-            this._tokenGrid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this._tokenGrid.Margin = new System.Windows.Forms.Padding(4);
             this._tokenGrid.Name = "_tokenGrid";
-            this._tokenGrid.Size = new System.Drawing.Size(368, 126);
+            this._tokenGrid.Size = new System.Drawing.Size(368, 122);
             this._tokenGrid.TabIndex = 0;
             this._tokenGrid.CellDoubleClick += new System.EventHandler(this._tokenGrid_CellDoubleClick);
             // 
@@ -256,8 +257,8 @@ namespace PftBench
             this._recordPage.Controls.Add(this._recordGrid);
             this._recordPage.Location = new System.Drawing.Point(4, 22);
             this._recordPage.Name = "_recordPage";
-            this._recordPage.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this._recordPage.Size = new System.Drawing.Size(374, 132);
+            this._recordPage.Padding = new System.Windows.Forms.Padding(3);
+            this._recordPage.Size = new System.Drawing.Size(374, 128);
             this._recordPage.TabIndex = 2;
             this._recordPage.Text = "Record";
             this._recordPage.UseVisualStyleBackColor = true;
@@ -266,9 +267,9 @@ namespace PftBench
             // 
             this._recordGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this._recordGrid.Location = new System.Drawing.Point(3, 3);
-            this._recordGrid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this._recordGrid.Margin = new System.Windows.Forms.Padding(4);
             this._recordGrid.Name = "_recordGrid";
-            this._recordGrid.Size = new System.Drawing.Size(368, 126);
+            this._recordGrid.Size = new System.Drawing.Size(368, 122);
             this._recordGrid.TabIndex = 0;
             // 
             // _varsPage
@@ -276,8 +277,8 @@ namespace PftBench
             this._varsPage.Controls.Add(this._varsGrid);
             this._varsPage.Location = new System.Drawing.Point(4, 22);
             this._varsPage.Name = "_varsPage";
-            this._varsPage.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this._varsPage.Size = new System.Drawing.Size(374, 132);
+            this._varsPage.Padding = new System.Windows.Forms.Padding(3);
+            this._varsPage.Size = new System.Drawing.Size(374, 128);
             this._varsPage.TabIndex = 3;
             this._varsPage.Text = "Variables";
             this._varsPage.UseVisualStyleBackColor = true;
@@ -286,9 +287,9 @@ namespace PftBench
             // 
             this._varsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this._varsGrid.Location = new System.Drawing.Point(3, 3);
-            this._varsGrid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this._varsGrid.Margin = new System.Windows.Forms.Padding(4);
             this._varsGrid.Name = "_varsGrid";
-            this._varsGrid.Size = new System.Drawing.Size(368, 126);
+            this._varsGrid.Size = new System.Drawing.Size(368, 122);
             this._varsGrid.TabIndex = 0;
             // 
             // _globalsPage
@@ -296,8 +297,8 @@ namespace PftBench
             this._globalsPage.Controls.Add(this._globalsGrid);
             this._globalsPage.Location = new System.Drawing.Point(4, 22);
             this._globalsPage.Name = "_globalsPage";
-            this._globalsPage.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this._globalsPage.Size = new System.Drawing.Size(374, 132);
+            this._globalsPage.Padding = new System.Windows.Forms.Padding(3);
+            this._globalsPage.Size = new System.Drawing.Size(374, 128);
             this._globalsPage.TabIndex = 4;
             this._globalsPage.Text = "Globals";
             this._globalsPage.UseVisualStyleBackColor = true;
@@ -306,9 +307,9 @@ namespace PftBench
             // 
             this._globalsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this._globalsGrid.Location = new System.Drawing.Point(3, 3);
-            this._globalsGrid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this._globalsGrid.Margin = new System.Windows.Forms.Padding(4);
             this._globalsGrid.Name = "_globalsGrid";
-            this._globalsGrid.Size = new System.Drawing.Size(368, 126);
+            this._globalsGrid.Size = new System.Drawing.Size(368, 122);
             this._globalsGrid.TabIndex = 0;
             // 
             // _splitContainer2
@@ -347,7 +348,7 @@ namespace PftBench
             this._outputTabControl.Controls.Add(this._warningPage);
             this._outputTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this._outputTabControl.Location = new System.Drawing.Point(0, 0);
-            this._outputTabControl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._outputTabControl.Margin = new System.Windows.Forms.Padding(2);
             this._outputTabControl.Name = "_outputTabControl";
             this._outputTabControl.SelectedIndex = 0;
             this._outputTabControl.Size = new System.Drawing.Size(380, 300);
@@ -357,9 +358,9 @@ namespace PftBench
             // 
             this._plainTextPage.Controls.Add(this._resutlBox);
             this._plainTextPage.Location = new System.Drawing.Point(4, 22);
-            this._plainTextPage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._plainTextPage.Margin = new System.Windows.Forms.Padding(2);
             this._plainTextPage.Name = "_plainTextPage";
-            this._plainTextPage.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._plainTextPage.Padding = new System.Windows.Forms.Padding(2);
             this._plainTextPage.Size = new System.Drawing.Size(372, 274);
             this._plainTextPage.TabIndex = 0;
             this._plainTextPage.Text = "Plain text";
@@ -381,10 +382,10 @@ namespace PftBench
             // 
             this._rtfPage.Controls.Add(this._rtfBox);
             this._rtfPage.Location = new System.Drawing.Point(4, 22);
-            this._rtfPage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._rtfPage.Margin = new System.Windows.Forms.Padding(2);
             this._rtfPage.Name = "_rtfPage";
-            this._rtfPage.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this._rtfPage.Size = new System.Drawing.Size(372, 284);
+            this._rtfPage.Padding = new System.Windows.Forms.Padding(2);
+            this._rtfPage.Size = new System.Drawing.Size(372, 274);
             this._rtfPage.TabIndex = 1;
             this._rtfPage.Text = "RTF";
             this._rtfPage.UseVisualStyleBackColor = true;
@@ -394,9 +395,9 @@ namespace PftBench
             this._rtfBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this._rtfBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this._rtfBox.Location = new System.Drawing.Point(2, 2);
-            this._rtfBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._rtfBox.Margin = new System.Windows.Forms.Padding(2);
             this._rtfBox.Name = "_rtfBox";
-            this._rtfBox.Size = new System.Drawing.Size(368, 280);
+            this._rtfBox.Size = new System.Drawing.Size(368, 270);
             this._rtfBox.TabIndex = 0;
             this._rtfBox.Text = "";
             // 
@@ -404,10 +405,10 @@ namespace PftBench
             // 
             this._htmlPage.Controls.Add(this._htmlBox);
             this._htmlPage.Location = new System.Drawing.Point(4, 22);
-            this._htmlPage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._htmlPage.Margin = new System.Windows.Forms.Padding(2);
             this._htmlPage.Name = "_htmlPage";
-            this._htmlPage.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this._htmlPage.Size = new System.Drawing.Size(372, 284);
+            this._htmlPage.Padding = new System.Windows.Forms.Padding(2);
+            this._htmlPage.Size = new System.Drawing.Size(372, 274);
             this._htmlPage.TabIndex = 2;
             this._htmlPage.Text = "HTML";
             this._htmlPage.UseVisualStyleBackColor = true;
@@ -416,20 +417,20 @@ namespace PftBench
             // 
             this._htmlBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this._htmlBox.Location = new System.Drawing.Point(2, 2);
-            this._htmlBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._htmlBox.Margin = new System.Windows.Forms.Padding(2);
             this._htmlBox.MinimumSize = new System.Drawing.Size(15, 16);
             this._htmlBox.Name = "_htmlBox";
-            this._htmlBox.Size = new System.Drawing.Size(368, 280);
+            this._htmlBox.Size = new System.Drawing.Size(368, 270);
             this._htmlBox.TabIndex = 0;
             // 
             // _warningPage
             // 
             this._warningPage.Controls.Add(this._warningBox);
             this._warningPage.Location = new System.Drawing.Point(4, 22);
-            this._warningPage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._warningPage.Margin = new System.Windows.Forms.Padding(2);
             this._warningPage.Name = "_warningPage";
-            this._warningPage.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this._warningPage.Size = new System.Drawing.Size(372, 284);
+            this._warningPage.Padding = new System.Windows.Forms.Padding(2);
+            this._warningPage.Size = new System.Drawing.Size(372, 274);
             this._warningPage.TabIndex = 3;
             this._warningPage.Text = "Warnings";
             this._warningPage.UseVisualStyleBackColor = true;
@@ -439,39 +440,13 @@ namespace PftBench
             this._warningBox.BackColor = System.Drawing.SystemColors.Window;
             this._warningBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this._warningBox.Location = new System.Drawing.Point(2, 2);
-            this._warningBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._warningBox.Margin = new System.Windows.Forms.Padding(2);
             this._warningBox.Multiline = true;
             this._warningBox.Name = "_warningBox";
             this._warningBox.ReadOnly = true;
             this._warningBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this._warningBox.Size = new System.Drawing.Size(368, 280);
+            this._warningBox.Size = new System.Drawing.Size(368, 270);
             this._warningBox.TabIndex = 0;
-            // 
-            // _menuStrip
-            // 
-            this._menuStrip.Dock = System.Windows.Forms.DockStyle.None;
-            this._menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this._menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
-            this._menuStrip.Location = new System.Drawing.Point(0, 27);
-            this._menuStrip.Name = "_menuStrip";
-            this._menuStrip.Size = new System.Drawing.Size(754, 24);
-            this._menuStrip.TabIndex = 0;
-            this._menuStrip.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exitToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "&File";
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
-            this.exitToolStripMenuItem.Text = "&Exit";
             // 
             // _toolStrip
             // 
@@ -485,6 +460,7 @@ namespace PftBench
             this.toolStripSeparator2,
             this._parseButton,
             this._goButton,
+            this._prettyPrintButton,
             this._goHtmlButton,
             this.toolStripSeparator1,
             this._databaseBox});
@@ -544,6 +520,16 @@ namespace PftBench
             this._goButton.Text = "Go! (F5)";
             this._goButton.Click += new System.EventHandler(this._goButton_Click);
             // 
+            // _goHtmlButton
+            // 
+            this._goHtmlButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this._goHtmlButton.Image = ((System.Drawing.Image)(resources.GetObject("_goHtmlButton.Image")));
+            this._goHtmlButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._goHtmlButton.Name = "_goHtmlButton";
+            this._goHtmlButton.Size = new System.Drawing.Size(44, 24);
+            this._goHtmlButton.Text = "HTML";
+            this._goHtmlButton.Click += new System.EventHandler(this._goHtmlButton_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -556,6 +542,32 @@ namespace PftBench
             this._databaseBox.Size = new System.Drawing.Size(121, 27);
             this._databaseBox.SelectedIndexChanged += new System.EventHandler(this._databaseBox_SelectedIndexChanged);
             // 
+            // _menuStrip
+            // 
+            this._menuStrip.Dock = System.Windows.Forms.DockStyle.None;
+            this._menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this._menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this._menuStrip.Location = new System.Drawing.Point(0, 27);
+            this._menuStrip.Name = "_menuStrip";
+            this._menuStrip.Size = new System.Drawing.Size(754, 24);
+            this._menuStrip.TabIndex = 0;
+            this._menuStrip.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "&File";
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Text = "&Exit";
+            // 
             // _openFileDialog
             // 
             this._openFileDialog.Filter = "PFT files|*.pft|All files|*.*";
@@ -564,15 +576,15 @@ namespace PftBench
             // 
             this._saveFileDialog.Filter = "PFT files|*.pft|All files|*.*";
             // 
-            // _goHtmlButton
+            // _prettyPrintButton
             // 
-            this._goHtmlButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this._goHtmlButton.Image = ((System.Drawing.Image)(resources.GetObject("_goHtmlButton.Image")));
-            this._goHtmlButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._goHtmlButton.Name = "_goHtmlButton";
-            this._goHtmlButton.Size = new System.Drawing.Size(44, 24);
-            this._goHtmlButton.Text = "HTML";
-            this._goHtmlButton.Click += new System.EventHandler(this._goHtmlButton_Click);
+            this._prettyPrintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this._prettyPrintButton.Image = ((System.Drawing.Image)(resources.GetObject("_prettyPrintButton.Image")));
+            this._prettyPrintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._prettyPrintButton.Name = "_prettyPrintButton";
+            this._prettyPrintButton.Size = new System.Drawing.Size(93, 24);
+            this._prettyPrintButton.Text = "Pretty print (F6)";
+            this._prettyPrintButton.Click += new System.EventHandler(this._prettyPrintButton_Click);
             // 
             // MainForm
             // 
@@ -623,10 +635,10 @@ namespace PftBench
             this._htmlPage.ResumeLayout(false);
             this._warningPage.ResumeLayout(false);
             this._warningPage.PerformLayout();
-            this._menuStrip.ResumeLayout(false);
-            this._menuStrip.PerformLayout();
             this._toolStrip.ResumeLayout(false);
             this._toolStrip.PerformLayout();
+            this._menuStrip.ResumeLayout(false);
+            this._menuStrip.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -676,5 +688,6 @@ namespace PftBench
         private System.Windows.Forms.OpenFileDialog _openFileDialog;
         private System.Windows.Forms.SaveFileDialog _saveFileDialog;
         private ToolStripButton _goHtmlButton;
+        private ToolStripButton _prettyPrintButton;
     }
 }

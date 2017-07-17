@@ -567,13 +567,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             if (!ReferenceEquals(LeftOperand, null))
             {
+                printer.EatWhitespace();
                 printer.Write(' ');
                 LeftOperand.PrettyPrint(printer);
             }
 
-            printer.Write(' ');
+            printer.EatWhitespace();
             printer.Write(Operation);
-            printer.Write(' ');
 
             if (!ReferenceEquals(RightOperand, null))
             {

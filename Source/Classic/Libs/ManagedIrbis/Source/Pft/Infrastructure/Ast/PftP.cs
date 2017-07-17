@@ -203,6 +203,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
+            printer.EatWhitespace();
             printer.Write(" p(");
             if (!ReferenceEquals(Field, null))
             {

@@ -100,6 +100,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
+            printer.EatWhitespace();
+
             // Обрамляем пробелами
             printer.Write(" % ");
         }

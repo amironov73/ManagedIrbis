@@ -141,6 +141,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
+            printer.EatWhitespace();
             printer.Write(" val(");
             base.PrettyPrint(printer);
             printer.Write(") ");

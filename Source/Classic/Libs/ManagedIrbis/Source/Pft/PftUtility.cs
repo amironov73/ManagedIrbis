@@ -1107,6 +1107,47 @@ namespace ManagedIrbis.Pft
         //=================================================
 
         /// <summary>
+        /// Whether the node is complex expression?
+        /// </summary>
+        public static bool IsComplexExpression
+            (
+                [NotNull] PftNode node
+            )
+        {
+            Code.NotNull(node, "node");
+
+            if (node.ComplexExpression)
+            {
+                return true;
+            }
+
+            NonNullCollection<PftNode> children
+                = node.GetDescendants<PftNode>();
+            bool result = children.Any(item => item.ComplexExpression);
+
+            return result;
+        }
+
+        //=================================================
+
+        /// <summary>
+        /// Whether the node is complex expression?
+        /// </summary>
+        public static bool IsComplexExpression
+            (
+                [NotNull] IEnumerable<PftNode> nodes
+            )
+        {
+            Code.NotNull(nodes, "nodes");
+
+            bool result = nodes.Any(item => item.ComplexExpression);
+
+            return result;
+        }
+
+        //=================================================
+
+        /// <summary>
         /// Whether the node collection represents
         /// numeric or string expression.
         /// </summary>

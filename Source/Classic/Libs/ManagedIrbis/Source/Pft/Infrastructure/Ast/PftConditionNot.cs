@@ -175,6 +175,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
+            printer.EatWhitespace();
             printer.Write(" not ");
             if (!ReferenceEquals(InnerCondition, null))
             {

@@ -38,6 +38,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public static bool ThrowOnEmpty { get; set; }
 
+        /// <inheritdoc cref="PftNode.ComplexExpression"/>
+        public override bool ComplexExpression
+        {
+            get { return true; }
+        }
+
         #endregion
 
         #region Construction
@@ -167,13 +173,42 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer
-                .WriteIndendIfNeeded()
-                .Write(" (");
+            bool isComplex = PftUtility.IsComplexExpression(Children);
+            if (isComplex)
+            {
+                printer.EatWhitespace();
+                printer.EatNewLine();
+                printer.WriteLine();
+                printer
+                    .WriteIndent()
+                    .Write('(');
+                printer.IncreaseLevel();
+                printer.WriteLine();
+                printer.WriteIndent();
+            }
+            else
+            {
+                printer
+                    .WriteIndendIfNeeded()
+                    .Write("( ");
+            }
             base.PrettyPrint(printer);
-            printer
-                .WriteIndendIfNeeded()
-                .Write(") ");
+            if (isComplex)
+            {
+                printer.EatWhitespace();
+                printer.EatNewLine();
+                printer.WriteLine()
+                    .DecreaseLevel()
+                    .WriteIndent()
+                    .Write(')')
+                    .WriteLine();
+            }
+            else
+            {
+                printer
+                    .WriteIndendIfNeeded()
+                    .Write(')');
+            }
         }
 
         #endregion

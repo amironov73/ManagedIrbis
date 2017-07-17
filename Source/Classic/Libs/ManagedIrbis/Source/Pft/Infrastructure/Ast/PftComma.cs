@@ -10,7 +10,7 @@
 #region Using directives
 
 using System.IO;
-
+using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -89,12 +89,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             bool newLine = false;
-            if (printer.Column == 0)
+            string currentLine = printer.GetCurrentLine();
+            if (currentLine.Length == 0
+                || currentLine.ConsistOf(' '))
             {
-                if (printer.EatNewLine())
+                printer.EatWhitespace();
+                printer.EatNewLine();
+                currentLine = printer.GetCurrentLine();
+                newLine = true;
+            }
+            if (currentLine.TrimEnd(' ').EndsWith(","))
+            {
+                if (newLine)
                 {
-                    newLine = true;
+                    printer.EatWhitespace();
+                    printer.WriteLine();
                 }
+                return;
             }
             printer.EatWhitespace();
             printer
@@ -102,6 +113,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .Write(", ");
             if (newLine)
             {
+                printer.EatWhitespace();
                 printer.WriteLine();
             }
         }

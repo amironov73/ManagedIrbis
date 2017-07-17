@@ -278,10 +278,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             if (!ReferenceEquals(LeftOperand, null))
             {
-                printer.Write(' ');
+                //printer.EatWhitespace();
+                //printer.Write(' ');
                 LeftOperand.PrettyPrint(printer);
             }
 
+            printer.EatWhitespace();
             printer
                 .Write(' ')
                 .Write(Operation)
@@ -290,7 +292,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             if (!ReferenceEquals(RightOperand, null))
             {
                 RightOperand.PrettyPrint(printer);
-                printer.Write(' ');
+                //printer.Write(' ');
             }
         }
 

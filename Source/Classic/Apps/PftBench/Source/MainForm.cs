@@ -222,6 +222,10 @@ namespace PftBench
                 case Keys.F5:
                     _goButton_Click(sender, e);
                     break;
+
+                case Keys.F6:
+                    _prettyPrintButton_Click(sender, e);
+                    break;
             }
         }
 
@@ -237,6 +241,10 @@ namespace PftBench
                 case Keys.F5:
                     _goButton_Click(sender, e);
                     e.Handled = true;
+                    break;
+
+                case Keys.F6:
+                    _prettyPrintButton_Click(sender, e);
                     break;
             }
         }
@@ -431,6 +439,27 @@ namespace PftBench
                 ParseHtml();
                 Run();
                 _outputTabControl.SelectTab(_htmlPage);
+            }
+            catch (Exception exception)
+            {
+                _resutlBox.Text = exception.ToString();
+            }
+        }
+
+        private void _prettyPrintButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            try
+            {
+                Clear();
+                Parse();
+
+                string text = _program.ToString();
+                _pftBox.Text = text;
+                _pftBox.Refresh();
             }
             catch (Exception exception)
             {

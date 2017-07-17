@@ -105,6 +105,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         public virtual string Text { get; set; }
 
         /// <summary>
+        /// Whether the expression is complex?
+        /// </summary>
+        public virtual bool ComplexExpression { get { return false; } }
+
+        /// <summary>
         /// Node uses extended syntax?
         /// </summary>
         public virtual bool ExtendedSyntax { get { return false; } }

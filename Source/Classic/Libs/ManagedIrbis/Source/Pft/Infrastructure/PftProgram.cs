@@ -17,6 +17,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Text;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -137,9 +139,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
-            // TODO use pretty-printing
+            PftPrettyPrinter printer = new PftPrettyPrinter();
+            PrettyPrint(printer);
+            string result = printer.ToString();
 
-            return "Program";
+            return result;
         }
 
         #endregion

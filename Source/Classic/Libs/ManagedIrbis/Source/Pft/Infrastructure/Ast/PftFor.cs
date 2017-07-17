@@ -55,6 +55,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             get { return true; }
         }
 
+        /// <inheritdoc cref="PftNode.ComplexExpression" />
+        public override bool ComplexExpression
+        {
+            get { return true; }
+        }
+
         /// <summary>
         /// Initialization.
         /// </summary>
@@ -310,15 +316,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
+            printer.EatWhitespace();
+            printer.EatNewLine();
+
             printer
                 .WriteLine()
                 .WriteIndent()
                 .Write("for ");
 
-            foreach (PftNode node in Initialization)
-            {
-                node.PrettyPrint(printer);
-            }
+            printer.WriteNodes(Initialization);
             printer.Write("; ");
 
             if (!ReferenceEquals(Condition, null))
@@ -327,23 +333,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
             printer.Write("; ");
 
-            foreach (PftNode node in Loop)
-            {
-                node.PrettyPrint(printer);
-            }
+            printer.WriteNodes(Loop);
             printer.WriteLine(';');
             printer
                 .WriteIndent()
                 .WriteLine("do");
 
             printer.IncreaseLevel();
-
-            foreach (PftNode node in Body)
-            {
-                node.PrettyPrint(printer);
-            }
-
+            printer.WriteNodes(Body);
             printer.DecreaseLevel();
+            printer.EatWhitespace();
+            printer.EatNewLine();
+            printer.WriteLine();
+            printer.WriteLine("end");
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />

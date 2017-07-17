@@ -96,7 +96,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer.Write(" nl ");
+            printer.EatWhitespace();
+            printer
+                .WriteIndendIfNeeded()
+                .Write(" nl ");
         }
 
         #endregion
