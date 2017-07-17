@@ -81,12 +81,12 @@ namespace PftSerializationBenchmark
                         byte[] bytes
                             = PftSerializer.ToMemory(formatter.Program);
 
-                        for (int i = 0; i < 1000; i++)
+                        for (int i = 0; i < 10000; i++)
                         {
                             PftProgram restoredProgram
                                 = (PftProgram) PftSerializer.FromMemory(bytes);
-                            console.WriteLine("{0}", i + 1);
-                            console.WriteLine(restoredProgram.ToString());
+                            //console.WriteLine("{0}", i + 1);
+                            //console.WriteLine(restoredProgram.ToString());
                         }
 
                         PftPrettyPrinter printer = new PftPrettyPrinter();

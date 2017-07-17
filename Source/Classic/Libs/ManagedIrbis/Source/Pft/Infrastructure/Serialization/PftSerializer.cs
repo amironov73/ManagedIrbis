@@ -97,7 +97,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
                         + reader.BaseStream.Position.ToString("X")
                     );
 
-                throw new IrbisException
+                throw new PftSerializationException
                     (
                         "Unknown code="
                         + code
@@ -108,7 +108,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
 
             try
             {
+#if PORTABLE || WIN81
+
                 result = (PftNode) Activator.CreateInstance(mapping.Type);
+
+#else
+
+                result = mapping.Create();
+
+#endif
             }
             catch (Exception exception)
             {
@@ -136,7 +144,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
                         + reader.BaseStream.Position.ToString("X")
                     );
 
-                throw new IrbisException
+                throw new PftSerializationException
                     (
                         "AST deserialization error",
                         exception
@@ -478,6 +486,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             return memory.ToArray();
         }
 
-#endregion
+        #endregion
     }
 }

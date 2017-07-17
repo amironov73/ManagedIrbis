@@ -477,6 +477,7 @@
     <Compile Include="Source\Pft\Infrastructure\PftContext.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftDebugEventArgs.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftFieldOutputMode.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Serialization\PftSerializationException.cs" />
     <Compile Include="Source\Pft\Infrastructure\Serialization\PftSerializer.cs" />
     <Compile Include="Source\Pft\Infrastructure\Serialization\TypeMap.cs" />
     <Compile Include="Source\Pft\Infrastructure\Text\HtmlDriver.cs" />

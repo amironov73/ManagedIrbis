@@ -10,6 +10,8 @@
 #region Using directives
 
 using System;
+using System.Linq.Expressions;
+using System.Reflection;
 
 using JetBrains.Annotations;
 
@@ -29,10 +31,43 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
 
         public Type Type;
 
+        public Func<PftNode> Create;
+
+        #endregion
+
+        #region Construction
+
+#if !PORTABLE && !WIN81
+
+        static TypeMap()
+        {
+            for (int i = 0; i < Map.Length; i++)
+            {
+                TypeMap entry = Map[i];
+
+                ConstructorInfo constructor
+                    = entry.Type.GetConstructor(Type.EmptyTypes);
+                if (ReferenceEquals(constructor, null))
+                {
+                    throw new IrbisException();
+                }
+                entry.Create = Expression.Lambda<Func<PftNode>>
+                    (
+                        Expression.New(constructor)
+                    )
+                    .Compile();
+            }
+        }
+
+#endif
+
         #endregion
 
         #region Public members
 
+        /// <summary>
+        /// Важно, чтобы массив был упорядоченным!
+        /// </summary>
         public static readonly TypeMap[] Map =
         {
             new TypeMap { Code=1, Type=typeof(PftA) },
@@ -126,13 +161,33 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
                 byte code
             )
         {
-            for (int i = 0; i < Map.Length; i++)
+            int lo = 0, hi = Map.Length - 1;
+
+            while (lo <= hi)
             {
-                if (code == Map[i].Code)
+                int mid = (lo + hi) / 2;
+                int delta = Map[mid].Code - code;
+                if (delta == 0)
                 {
-                    return Map[i];
+                    return Map[mid];
+                }
+                if (delta < 0)
+                {
+                    lo = mid + 1;
+                }
+                else
+                {
+                    hi = mid - 1;
                 }
             }
+
+            //for (int i = 0; i < Map.Length; i++)
+            //{
+            //    if (code == Map[i].Code)
+            //    {
+            //        return Map[i];
+            //    }
+            //}
 
             return null;
         }

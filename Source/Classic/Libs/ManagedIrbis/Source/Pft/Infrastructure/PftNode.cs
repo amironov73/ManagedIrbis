@@ -147,6 +147,21 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private NonNullCollection<PftNode> _children;
 
+        internal virtual void CompareNode<T>
+            (
+                [NotNull] T otherNode
+            )
+            where T: PftNode
+        {
+            bool result = Column == otherNode.Column
+                          && LineNumber == otherNode.LineNumber;
+
+            if (!result)
+            {
+                throw new IrbisException();
+            }
+        }
+
         /// <summary>
         /// Deserialize AST.
         /// </summary>
