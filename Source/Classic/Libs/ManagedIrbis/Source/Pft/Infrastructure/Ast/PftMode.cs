@@ -23,7 +23,7 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Text;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -227,6 +227,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.Write(ToString());
+        }
+
         /// <inheritdoc cref="PftNode.Serialize" />
         protected internal override void Serialize
             (
@@ -237,6 +246,43 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             writer.WritePackedInt32((int) OutputMode);
             writer.Write(UpperMode);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder("m",3);
+
+            char c;
+            switch (OutputMode)
+            {
+                case PftFieldOutputMode.PreviewMode:
+                    c = 'p';
+                    break;
+
+                case PftFieldOutputMode.HeaderMode:
+                    c = 'h';
+                    break;
+
+                case PftFieldOutputMode.DataMode:
+                    c = 'd';
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            result.Append(c);
+
+            result.Append
+                (
+                    UpperMode ? 'u' : 'l'
+                );
+
+            return result.ToString();
         }
 
         #endregion

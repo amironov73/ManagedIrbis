@@ -88,8 +88,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            // Добавляем пробел для читабельности
-            printer.Write(", ");
+            bool newLine = false;
+            if (printer.Column == 0)
+            {
+                if (printer.EatNewLine())
+                {
+                    newLine = true;
+                }
+            }
+            printer.EatWhitespace();
+            printer
+                .WriteIndendIfNeeded()
+                .Write(", ");
+            if (newLine)
+            {
+                printer.WriteLine();
+            }
         }
 
         #endregion

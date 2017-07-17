@@ -273,11 +273,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .WriteLine()
                 .WriteIndent()
                 .Write("then ");
+
             printer.IncreaseLevel();
-            foreach (PftNode node in ThenBranch)
-            {
-                node.PrettyPrint(printer);
-            }
+            printer.WriteNodes(ThenBranch);
             printer.DecreaseLevel();
 
             if (ElseBranch.Count != 0)
@@ -288,7 +286,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         .WriteLine()
                         .WriteIndent();
                 }
-                printer .Write("else ");
+                printer.Write("else ");
                 printer.IncreaseLevel();
                 if (ElseBranch.Count > 1)
                 {
@@ -296,16 +294,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         .WriteLine()
                         .WriteIndent();
                 }
-                foreach (PftNode node in ElseBranch)
-                {
-                    node.PrettyPrint(printer);
-                }
+                printer.WriteNodes(ElseBranch);
                 printer.DecreaseLevel();
             }
 
+            //printer.EatWhitespace();
+            if (printer.Column != 0)
+            {
+                printer.WriteLine();
+            }
+
             printer
-                .WriteLine()
-                .WriteIndent()
+                .WriteIndendIfNeeded()
                 .Write("fi ")
                 .WriteLine();
         }

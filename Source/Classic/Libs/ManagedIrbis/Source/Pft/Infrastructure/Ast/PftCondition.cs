@@ -9,15 +9,7 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using AM.Logging;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -32,7 +24,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class PftCondition
+    public abstract class PftCondition
         : PftBoolean
     {
         #region Properties
@@ -44,14 +36,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PftCondition()
+        protected PftCondition()
         {
         }
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PftCondition
+        protected PftCondition
             (
                 [NotNull] PftToken token
             )

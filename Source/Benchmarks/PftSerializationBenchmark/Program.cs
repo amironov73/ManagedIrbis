@@ -92,8 +92,8 @@ namespace PftSerializationBenchmark
                         {
                             PftProgram restoredProgram
                                 = (PftProgram) PftSerializer.FromMemory(bytes);
-                            //console.WriteLine("{0}", i + 1);
-                            //console.WriteLine(restoredProgram.ToString());
+                            console.WriteLine("{0}", i + 1);
+                            console.WriteLine(restoredProgram.ToString());
                         }
 
                         PftPrettyPrinter printer = new PftPrettyPrinter();

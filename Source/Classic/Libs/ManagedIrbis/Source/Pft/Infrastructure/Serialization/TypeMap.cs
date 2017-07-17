@@ -85,7 +85,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             new TypeMap { Code=13, Type=typeof(PftComma) },
             new TypeMap { Code=14, Type=typeof(PftComment) },
             new TypeMap { Code=15, Type=typeof(PftComparison) },
-            new TypeMap { Code=16, Type=typeof(PftCondition) },
+            //new TypeMap { Code=16, Type=typeof(PftCondition) },
             new TypeMap { Code=17, Type=typeof(PftConditionalLiteral) },
             new TypeMap { Code=18, Type=typeof(PftConditionalStatement) },
             new TypeMap { Code=19, Type=typeof(PftConditionAndOr) },

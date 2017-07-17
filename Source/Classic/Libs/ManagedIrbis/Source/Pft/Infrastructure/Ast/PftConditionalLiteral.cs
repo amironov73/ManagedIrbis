@@ -204,9 +204,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer.Write('"')
+            printer
+                .WriteIndendIfNeeded()
+                .Write('"')
                 .Write(Text)
-                .Write('"');
+                .Write('"')
+                .WriteLineIfNeeded();
         }
 
         #endregion

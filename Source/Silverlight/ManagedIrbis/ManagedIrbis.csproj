@@ -1181,6 +1181,12 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\ProgramCache.cs">
       <Link>Source\Pft\Infrastructure\ProgramCache.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Serialization\PftSerializationException.cs">
+      <Link>Source\Pft\Infrastructure\Serialization\PftSerializationException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Serialization\PftSerializationUtility.cs">
+      <Link>Source\Pft\Infrastructure\Serialization\PftSerializationUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Serialization\PftSerializer.cs">
       <Link>Source\Pft\Infrastructure\Serialization\PftSerializer.cs</Link>
     </Compile>

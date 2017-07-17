@@ -498,10 +498,29 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Code.NotNull(printer, "printer");
 
-            foreach (PftNode child in Children)
+            if (ShouldSerializeChildren())
             {
-                child.PrettyPrint(printer);
+                printer.WriteNodes(Children);
             }
+        }
+
+        #endregion
+
+        #region ICloneable members
+
+        /// <inheritdoc cref="ICloneable.Clone" />
+        public virtual object Clone()
+        {
+            PftNode result = (PftNode) MemberwiseClone();
+
+            NonNullCollection<PftNode> children 
+                = Children as NonNullCollection<PftNode>;
+            if (!ReferenceEquals(children, null))
+            {
+                result.Children = children.CloneNodes();
+            }
+
+            return result;
         }
 
         #endregion
@@ -531,25 +550,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {
                     throw new VerificationException();
                 }
-            }
-
-            return result;
-        }
-
-        #endregion
-
-        #region ICloneable members
-
-        /// <inheritdoc cref="ICloneable.Clone" />
-        public virtual object Clone()
-        {
-            PftNode result = (PftNode) MemberwiseClone();
-
-            NonNullCollection<PftNode> children 
-                = Children as NonNullCollection<PftNode>;
-            if (!ReferenceEquals(children, null))
-            {
-                result.Children = children.CloneNodes();
             }
 
             return result;
