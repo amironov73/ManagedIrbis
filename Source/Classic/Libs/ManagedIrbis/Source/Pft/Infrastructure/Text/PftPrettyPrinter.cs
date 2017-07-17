@@ -58,7 +58,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Text
         /// <summary>
         /// Last character.
         /// </summary>
-        public char LastCharacter { get; private set;}
+        public char LastCharacter
+        {
+            get
+            {
+                StringBuilder builder = _writer.GetStringBuilder();
+
+                if (builder.Length == 0)
+                {
+                    return '\0';
+                }
+
+                char result = builder[builder.Length - 1];
+
+                return result;
+            }
+        }
 
         /// <summary>
         /// Nesting level.
@@ -198,10 +213,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Text
                 char chr = builder[builder.Length - 1];
                 if (chr == '\n' || chr == '\r')
                 {
-                    LastCharacter = builder.Length > 1
-                        ? builder[builder.Length - 2]
-                        : '\0';
-
                     builder.Length--;
                     flag = true;
                 }
@@ -232,10 +243,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Text
                 char chr = builder[builder.Length - 1];
                 if (char.IsWhiteSpace(chr))
                 {
-                    LastCharacter = builder.Length > 1
-                        ? builder[builder.Length - 2]
-                        : '\0';
-
                     builder.Length--;
                     flag = true;
                 }
@@ -298,6 +305,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Text
         }
 
         /// <summary>
+        /// Add one space if needed.
+        /// </summary>
+        [NotNull]
+        public PftPrettyPrinter SingleSpace()
+        {
+            char chr = LastCharacter;
+            if (chr != ' ' && chr != '\n' && chr != '\r' 
+                && chr != '(' && chr != '\0')
+            {
+                Write(' ');
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Write the text.
         /// </summary>
         [NotNull]
@@ -313,7 +336,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Text
             }
             else
             {
-                LastCharacter = chr;
                 Column++;
             }
 

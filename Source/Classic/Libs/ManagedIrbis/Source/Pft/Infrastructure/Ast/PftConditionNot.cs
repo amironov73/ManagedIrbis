@@ -175,12 +175,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer.EatWhitespace();
-            printer.Write(" not ");
+            printer
+                .SingleSpace()
+                .Write("not");
             if (!ReferenceEquals(InnerCondition, null))
             {
                 InnerCondition.PrettyPrint(printer);
-                printer.Write(' ');
             }
         }
 

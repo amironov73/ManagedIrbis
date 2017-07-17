@@ -567,18 +567,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             if (!ReferenceEquals(LeftOperand, null))
             {
-                printer.EatWhitespace();
-                printer.Write(' ');
                 LeftOperand.PrettyPrint(printer);
             }
 
-            printer.EatWhitespace();
             printer.Write(Operation);
 
             if (!ReferenceEquals(RightOperand, null))
             {
                 RightOperand.PrettyPrint(printer);
-                printer.Write(' ');
             }
         }
 

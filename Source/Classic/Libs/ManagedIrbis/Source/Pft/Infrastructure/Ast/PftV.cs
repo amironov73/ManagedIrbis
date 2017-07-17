@@ -215,24 +215,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc cref="PftNode.PrettyPrint" />
-        public override void PrettyPrint
-            (
-                PftPrettyPrinter printer
-            )
-        {
-            foreach (PftNode node in LeftHand)
-            {
-                node.PrettyPrint(printer);
-            }
-
-            printer.Write(ToString());
-
-            foreach (PftNode node in RightHand)
-            {
-                node.PrettyPrint(printer);
-            }
-        }
+        ///// <inheritdoc cref="PftNode.PrettyPrint" />
+        //public override void PrettyPrint
+        //    (
+        //        PftPrettyPrinter printer
+        //    )
+        //{
+        //    printer.SingleSpace();
+        //    printer.WriteNodes(LeftHand);
+        //    printer.Write(ToString());
+        //    printer.WriteNodes(RightHand);
+        //}
 
         #endregion
 

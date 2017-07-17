@@ -193,14 +193,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer.EatWhitespace();
-            printer.Write(" (");
+            printer.Write('(');
             if (!ReferenceEquals(InnerCondition, null))
             {
                 InnerCondition.PrettyPrint(printer);
             }
             printer.EatWhitespace();
-            printer.Write(") ");
+            printer.Write(')');
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />

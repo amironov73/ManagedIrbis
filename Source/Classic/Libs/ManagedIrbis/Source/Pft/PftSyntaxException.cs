@@ -55,7 +55,7 @@ namespace ManagedIrbis.Pft
             (
                 [NotNull] PftToken token
             )
-            : this ("Unexpected token: " + token)
+            : this("Unexpected token: " + token)
         {
         }
 
@@ -66,7 +66,11 @@ namespace ManagedIrbis.Pft
             (
                 [NotNull] PftTokenList tokenList
             )
-            : this ("Unexpected end of file" )
+            : this
+                (
+                  "Unexpected end of file:"
+                  + tokenList.ShowLastTokens(3)
+                )
         {
         }
 
@@ -80,8 +84,8 @@ namespace ManagedIrbis.Pft
             )
             : this
                 (
-                    "Unexpected end of file: " 
-                        + tokenList.ShowLastTokens(3), 
+                    "Unexpected end of file: "
+                        + tokenList.ShowLastTokens(3),
                     innerException
                 )
         {
@@ -111,7 +115,7 @@ namespace ManagedIrbis.Pft
                 [NotNull] PftToken token,
                 Exception innerException
             )
-            : this 
+            : this
                 (
                     "Unexpected token: " + token,
                     innerException

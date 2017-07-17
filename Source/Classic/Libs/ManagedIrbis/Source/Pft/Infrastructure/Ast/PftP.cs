@@ -203,13 +203,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer.EatWhitespace();
-            printer.Write(" p(");
+            printer
+                .SingleSpace()
+                .Write("p(");
             if (!ReferenceEquals(Field, null))
             {
                 Field.PrettyPrint(printer);
             }
-            printer.Write(") ");
+            printer.Write(')');
         }
 
         #endregion

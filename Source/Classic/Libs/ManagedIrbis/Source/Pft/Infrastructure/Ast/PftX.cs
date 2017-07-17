@@ -175,7 +175,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer.Write
+            printer
+                .SingleSpace()
+                .Write
                 (
                     "x{0}", // Всегда в нижнем регистре
                     Shift.ToInvariantString()

@@ -354,7 +354,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer.Write(" f(");
+            printer
+                .SingleSpace()
+                .Write(" f(");
             if (!ReferenceEquals(Argument1, null))
             {
                 Argument1.PrettyPrint(printer);
@@ -369,7 +371,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 printer.Write(", ");
                 Argument3.PrettyPrint(printer);
             }
-            printer.Write(") ");
+            printer.Write(')');
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />

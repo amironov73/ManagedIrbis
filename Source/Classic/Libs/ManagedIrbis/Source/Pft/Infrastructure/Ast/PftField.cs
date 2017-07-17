@@ -704,18 +704,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            foreach (PftNode node in LeftHand)
-            {
-                node.PrettyPrint(printer);
-            }
+            printer.SingleSpace();
+
+            printer.WriteNodes(LeftHand);
 
             FieldSpecification specification = ToSpecification();
             printer.Write(specification.ToString());
 
-            foreach (PftNode node in RightHand)
-            {
-                node.PrettyPrint(printer);
-            }
+            printer.WriteNodes(RightHand);
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />

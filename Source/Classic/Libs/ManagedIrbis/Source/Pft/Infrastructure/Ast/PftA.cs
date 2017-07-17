@@ -168,14 +168,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer.EatWhitespace();
             // Обрамляем пробелами
-            printer.Write(" a(");
+            printer
+                .SingleSpace()
+                .Write("a(");
             if (!ReferenceEquals(Field, null))
             {
                 Field.PrettyPrint(printer);
             }
-            printer.Write(") ");
+            printer.Write(')');
         }
 
         #endregion

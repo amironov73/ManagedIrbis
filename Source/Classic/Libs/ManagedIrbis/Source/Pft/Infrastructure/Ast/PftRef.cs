@@ -22,6 +22,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -206,6 +207,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             result.Children.Add(formatInfo);
 
             return result;
+        }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer
+                .SingleSpace()
+                .Write("ref(");
+            if (!ReferenceEquals(Mfn, null))
+            {
+                Mfn.PrettyPrint(printer);
+            }
+            printer.Write(", ")
+                .WriteNodes(Format)
+                .Write(')');
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />
