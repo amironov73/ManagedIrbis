@@ -10,16 +10,10 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
-using AM.Collections;
 using AM.IO;
-using AM.Runtime;
 
 using CodeJam;
 
@@ -47,7 +41,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Procedure body.
         /// </summary>
         [NotNull]
-        public NonNullCollection<PftNode> Body { get; set; }
+        public PftNodeCollection Body { get; set; }
 
         /// <summary>
         /// Procedure name.
@@ -64,7 +58,9 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public PftProcedure()
         {
-            Body = new NonNullCollection<PftNode>();
+            // TODO fake parent?
+
+            Body = new PftNodeCollection(null);
         }
 
         #endregion
@@ -135,7 +131,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftProcedure result = (PftProcedure) MemberwiseClone();
 
-            result.Body = Body.CloneNodes().ThrowIfNull();
+            result.Body = Body.CloneNodes(null).ThrowIfNull();
 
             return result;
         }

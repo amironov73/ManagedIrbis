@@ -16,7 +16,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using AM;
-using AM.Collections;
 using AM.Logging;
 
 using CodeJam;
@@ -59,7 +58,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Initialization.
         /// </summary>
         [NotNull]
-        public NonNullCollection<PftNode> Initialization { get; private set; }
+        public PftNodeCollection Initialization { get; private set; }
 
         /// <summary>
         /// Condition.
@@ -71,13 +70,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Loop statements.
         /// </summary>
         [NotNull]
-        public NonNullCollection<PftNode> Loop { get; private set; }
+        public PftNodeCollection Loop { get; private set; }
 
         /// <summary>
         /// Body.
         /// </summary>
         [NotNull]
-        public NonNullCollection<PftNode> Body { get; private set; }
+        public PftNodeCollection Body { get; private set; }
 
         /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
@@ -122,9 +121,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftParallelFor()
         {
-            Initialization = new NonNullCollection<PftNode>();
-            Loop = new NonNullCollection<PftNode>();
-            Body = new NonNullCollection<PftNode>();
+            Initialization = new PftNodeCollection(this);
+            Loop = new PftNodeCollection(this);
+            Body = new PftNodeCollection(this);
         }
 
         /// <summary>
@@ -139,9 +138,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.Parallel);
 
-            Initialization = new NonNullCollection<PftNode>();
-            Loop = new NonNullCollection<PftNode>();
-            Body = new NonNullCollection<PftNode>();
+            Initialization = new PftNodeCollection(this);
+            Loop = new PftNodeCollection(this);
+            Body = new PftNodeCollection(this);
         }
 
         #endregion
@@ -181,9 +180,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             result._virtualChildren = null;
 
             result.Initialization 
-                = Initialization.CloneNodes().ThrowIfNull();
-            result.Loop = Loop.CloneNodes().ThrowIfNull();
-            result.Body = Body.CloneNodes().ThrowIfNull();
+                = Initialization.CloneNodes(result).ThrowIfNull();
+            result.Loop = Loop.CloneNodes(result).ThrowIfNull();
+            result.Body = Body.CloneNodes(result).ThrowIfNull();
 
             if (!ReferenceEquals(Condition, null))
             {

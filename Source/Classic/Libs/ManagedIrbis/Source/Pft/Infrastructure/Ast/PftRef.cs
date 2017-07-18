@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.IO;
 
 using AM;
-using AM.Collections;
 
 using CodeJam;
 
@@ -50,7 +49,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Format.
         /// </summary>
         [NotNull]
-        public NonNullCollection<PftNode> Format { get; private set; }
+        public PftNodeCollection Format { get; private set; }
 
         /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
@@ -87,7 +86,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftRef()
         {
-            Format = new NonNullCollection<PftNode>();
+            Format = new PftNodeCollection(this);
         }
 
         /// <summary>
@@ -102,7 +101,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.Ref);
 
-            Format = new NonNullCollection<PftNode>();
+            Format = new PftNodeCollection(this);
         }
 
         #endregion
@@ -129,7 +128,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 result.Mfn = (PftNumeric)Mfn.Clone();
             }
 
-            result.Format = Format.CloneNodes().ThrowIfNull();
+            result.Format = Format.CloneNodes(result).ThrowIfNull();
 
             return result;
         }

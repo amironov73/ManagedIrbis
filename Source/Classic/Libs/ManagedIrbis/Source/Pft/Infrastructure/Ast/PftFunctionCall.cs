@@ -52,7 +52,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Array of arguments.
         /// </summary>
         [NotNull]
-        public NonNullCollection<PftNode> Arguments { get; private set; }
+        public PftNodeCollection Arguments { get; private set; }
 
         /// <inheritdoc cref="PftNode.ExtendedSyntax" />
         public override bool ExtendedSyntax
@@ -97,7 +97,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftFunctionCall()
         {
-            Arguments = new NonNullCollection<PftNode>();
+            Arguments = new PftNodeCollection(this);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNullNorEmpty(name, "name");
 
             Name = name;
-            Arguments = new NonNullCollection<PftNode>();
+            Arguments = new PftNodeCollection(this);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             token.MustBe(PftTokenKind.Identifier);
 
             Name = token.Text;
-            Arguments = new NonNullCollection<PftNode>();
+            Arguments = new PftNodeCollection(this);
         }
 
         #endregion
@@ -151,7 +151,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             result._virtualChildren = null;
 
-            result.Arguments = Arguments.CloneNodes().ThrowIfNull();
+            result.Arguments = Arguments.CloneNodes(result)
+                .ThrowIfNull();
 
             return result;
         }

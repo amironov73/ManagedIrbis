@@ -328,24 +328,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer
-                .Write('$')
-                .Write(Name);
-
-            if (Index.Kind != IndexKind.None)
-            {
-                printer
-                    .Write('[')
-                    .Write(Index.ToString())
-                    .Write(']');
-            }
-
-            if (SubFieldCode != SubField.NoCode)
-            {
-                printer
-                    .Write('^')
-                    .Write(SubFieldCode);
-            }
+            printer.Write(ToString());
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />
@@ -359,6 +342,34 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             writer.WriteNullable(Name);
             Index.Serialize(writer);
             writer.Write(SubFieldCode);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.Append("$");
+            result.Append(Name);
+            if (Index.Kind != IndexKind.None)
+            {
+                result.Append('[');
+                result.Append(Index);
+                result.Append(']');
+            }
+
+            if (SubFieldCode != SubField.NoCode)
+            {
+                result.Append('^');
+                result.Append(SubFieldCode);
+            }
+
+
+            return result.ToString();
         }
 
         #endregion

@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.IO;
 
 using AM;
-using AM.Collections;
 using AM.Logging;
 
 using CodeJam;
@@ -50,7 +49,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Source.
         /// </summary>
         [NotNull]
-        public NonNullCollection<PftNode> Source { get; private set; }
+        public PftNodeCollection Source { get; private set; }
 
             /// <summary>
         /// Where clause.
@@ -62,16 +61,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Select clause.
         /// </summary>
         [NotNull]
-        public NonNullCollection<PftNode> Select { get; private set; }
+        public PftNodeCollection Select { get; private set; }
 
         /// <summary>
         /// Order clause.
         /// </summary>
         [NotNull]
-        public NonNullCollection<PftNode> Order { get; private set; }
+        public PftNodeCollection Order { get; private set; }
 
         /// <inheritdoc cref="PftNode.ExtendedSyntax" />
         public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
+
+        /// <inheritdoc cref="PftNode.ComplexExpression" />
+        public override bool ComplexExpression
         {
             get { return true; }
         }
@@ -124,9 +129,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftFrom()
         {
-            Source = new NonNullCollection<PftNode>();
-            Select = new NonNullCollection<PftNode>();
-            Order = new NonNullCollection<PftNode>();
+            Source = new PftNodeCollection(this);
+            Select = new PftNodeCollection(this);
+            Order = new PftNodeCollection(this);
         }
 
         /// <summary>
@@ -141,9 +146,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.From);
 
-            Source = new NonNullCollection<PftNode>();
-            Select = new NonNullCollection<PftNode>();
-            Order = new NonNullCollection<PftNode>();
+            Source = new PftNodeCollection(this);
+            Select = new PftNodeCollection(this);
+            Order = new PftNodeCollection(this);
         }
 
         #endregion
@@ -172,15 +177,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 result.Variable = (PftVariableReference) Variable.Clone();
             }
 
-            result.Source = Source.CloneNodes().ThrowIfNull();
+            result.Source = Source.CloneNodes(result).ThrowIfNull();
 
             if (!ReferenceEquals(Where, null))
             {
                 result.Where = (PftCondition) Where.Clone();
             }
 
-            result.Select = Select.CloneNodes().ThrowIfNull();
-            result.Order = Order.CloneNodes().ThrowIfNull();
+            result.Select = Select.CloneNodes(result).ThrowIfNull();
+            result.Order = Order.CloneNodes(result).ThrowIfNull();
 
             return result;
         }

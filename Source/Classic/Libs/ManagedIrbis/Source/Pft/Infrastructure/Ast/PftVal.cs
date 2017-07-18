@@ -142,9 +142,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             printer.EatWhitespace();
-            printer.Write(" val(");
+            printer
+                .SingleSpace()
+                .Write("val(");
             base.PrettyPrint(printer);
-            printer.Write(") ");
+            printer.Write(")");
         }
 
         #endregion

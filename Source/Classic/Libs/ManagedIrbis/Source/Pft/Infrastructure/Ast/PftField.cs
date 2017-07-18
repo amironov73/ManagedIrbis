@@ -15,7 +15,6 @@ using System.Diagnostics;
 using System.IO;
 
 using AM;
-using AM.Collections;
 using AM.ConsoleIO;
 using AM.IO;
 using AM.Logging;
@@ -57,13 +56,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Left hand.
         /// </summary>
         [NotNull]
-        public NonNullCollection<PftNode> LeftHand { get; private set; }
+        public PftNodeCollection LeftHand { get; private set; }
 
         /// <summary>
         /// Right hand.
         /// </summary>
         [NotNull]
-        public NonNullCollection<PftNode> RightHand { get; private set; }
+        public PftNodeCollection RightHand { get; private set; }
 
         /// <summary>
         /// Command.
@@ -167,8 +166,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftField()
         {
-            LeftHand = new NonNullCollection<PftNode>();
-            RightHand = new NonNullCollection<PftNode>();
+            LeftHand = new PftNodeCollection(this);
+            RightHand = new PftNodeCollection(this);
         }
 
         /// <summary>
@@ -182,8 +181,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             Code.NotNull(token, "token");
 
-            LeftHand = new NonNullCollection<PftNode>();
-            RightHand = new NonNullCollection<PftNode>();
+            LeftHand = new PftNodeCollection(this);
+            RightHand = new PftNodeCollection(this);
         }
 
         #endregion
@@ -568,8 +567,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             result._virtualChildren = null;
 
-            result.LeftHand = LeftHand.CloneNodes().ThrowIfNull();
-            result.RightHand = RightHand.CloneNodes().ThrowIfNull();
+            result.LeftHand = LeftHand.CloneNodes(result).ThrowIfNull();
+            result.RightHand = RightHand.CloneNodes(result).ThrowIfNull();
 
             if (!ReferenceEquals(_tagProgram, null))
             {

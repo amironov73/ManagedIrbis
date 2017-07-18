@@ -350,12 +350,13 @@ namespace ManagedIrbis.Pft
         /// Clone nodes.
         /// </summary>
         [CanBeNull]
-        public static NonNullCollection<PftNode> CloneNodes
+        public static PftNodeCollection CloneNodes
             (
-                [CanBeNull] this NonNullCollection<PftNode> nodes
+                [CanBeNull] this PftNodeCollection nodes,
+                [CanBeNull] PftNode parent
             )
         {
-            NonNullCollection<PftNode> result = null;
+            PftNodeCollection result = null;
 
             if (ReferenceEquals(nodes, null))
             {
@@ -367,7 +368,7 @@ namespace ManagedIrbis.Pft
             }
             else
             {
-                result = new NonNullCollection<PftNode>();
+                result = new PftNodeCollection(parent);
 
                 foreach (PftNode child1 in nodes)
                 {

@@ -10,26 +10,14 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-using AM;
 using AM.Collections;
-using AM.IO;
 using AM.Logging;
-using AM.Runtime;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Ast;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
@@ -49,7 +37,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         public object Data { get; private set; }
 
-        public NonNullCollection<PftNode> Nodes { get; set; }
+        public PftNodeCollection Nodes { get; set; }
 
         public PftContext Context { get; set; }
 
@@ -70,7 +58,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         public PftIteration
             (
                 [NotNull] PftContext context,
-                [NotNull] NonNullCollection<PftNode> nodes,
+                [NotNull] PftNodeCollection nodes,
                 int index,
                 [NotNull] Action<PftIteration, object> action,
                 [NotNull] object data,
@@ -78,7 +66,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             )
         {
             Context = context.Push();
-            Nodes = nodes.CloneNodes();
+            Nodes = nodes.CloneNodes(nodes.Parent);
             Index = index;
             if (withGroup)
             {
@@ -134,6 +122,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Object members
 
+        /// <see cref="object.ToString"/>
         public override string ToString()
         {
             return Index.ToString();

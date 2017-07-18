@@ -63,6 +63,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         #region Properties
 
         /// <summary>
+        /// Parent node.
+        /// </summary>
+        [CanBeNull]
+        public PftNode Parent { get; internal set; }
+
+        /// <summary>
         /// Breakpoint.
         /// </summary>
         public bool Breakpoint { get; set; }
@@ -76,14 +82,14 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 if (ReferenceEquals(_children, null))
                 {
-                    _children = new NonNullCollection<PftNode>();
+                    _children = new PftNodeCollection(this);
                 }
 
                 return _children;
             }
             protected set
             {
-                _children = (NonNullCollection<PftNode>) value;
+                _children = (PftNodeCollection) value;
             }
         }
 
@@ -155,7 +161,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Private members
 
-        private NonNullCollection<PftNode> _children;
+        private PftNodeCollection _children;
 
         /// <summary>
         /// Check deserialization result.
@@ -314,8 +320,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         protected internal virtual bool ShouldSerializeChildren()
         {
-            NonNullCollection<PftNode> children
-                = Children as NonNullCollection<PftNode>;
+            PftNodeCollection children = Children as PftNodeCollection;
 
             return !ReferenceEquals(children, null);
         }
@@ -521,12 +526,13 @@ namespace ManagedIrbis.Pft.Infrastructure
         public virtual object Clone()
         {
             PftNode result = (PftNode) MemberwiseClone();
+            result.Parent = null;
 
-            NonNullCollection<PftNode> children 
-                = Children as NonNullCollection<PftNode>;
+            PftNodeCollection children 
+                = Children as PftNodeCollection;
             if (!ReferenceEquals(children, null))
             {
-                result.Children = children.CloneNodes();
+                result.Children = children.CloneNodes(result);
             }
 
             return result;

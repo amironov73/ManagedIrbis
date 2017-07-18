@@ -55,13 +55,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Sequence.
         /// </summary>
         [NotNull]
-        public NonNullCollection<PftNode> Sequence { get; private set; }
+        public PftNodeCollection Sequence { get; private set; }
 
         /// <summary>
         /// Body.
         /// </summary>
         [NotNull]
-        public NonNullCollection<PftNode> Body { get; private set; }
+        public PftNodeCollection Body { get; private set; }
 
         /// <inheritdoc cref="PftNode.ExtendedSyntax" />
         public override bool ExtendedSyntax
@@ -107,8 +107,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftForEach()
         {
-            Sequence = new NonNullCollection<PftNode>();
-            Body = new NonNullCollection<PftNode>();
+            Sequence = new PftNodeCollection(this);
+            Body = new PftNodeCollection(this);
         }
 
         /// <summary>
@@ -123,8 +123,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.ForEach);
 
-            Sequence = new NonNullCollection<PftNode>();
-            Body = new NonNullCollection<PftNode>();
+            Sequence = new PftNodeCollection(this);
+            Body = new PftNodeCollection(this);
         }
 
         #endregion
@@ -170,8 +170,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             result._virtualChildren = null;
 
-            result.Sequence = Sequence.CloneNodes().ThrowIfNull();
-            result.Body = Body.CloneNodes().ThrowIfNull();
+            result.Sequence = Sequence.CloneNodes(result)
+                .ThrowIfNull();
+            result.Body = Body.CloneNodes(result).ThrowIfNull();
 
             if (!ReferenceEquals(Variable, null))
             {

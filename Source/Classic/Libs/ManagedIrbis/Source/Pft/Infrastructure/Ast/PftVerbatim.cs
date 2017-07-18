@@ -115,10 +115,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             printer
-                .WriteIndent()
+                .WriteIndendIfNeeded()
                 .Write("<<<")
                 .Write(Text)
-                .WriteLine(">>>");
+                .Write(">>>");
         }
 
         #endregion

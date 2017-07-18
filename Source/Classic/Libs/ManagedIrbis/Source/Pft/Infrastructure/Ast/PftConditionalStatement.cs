@@ -51,13 +51,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Else branch.
         /// </summary>
         [NotNull]
-        public NonNullCollection<PftNode> ElseBranch { get; private set; }
+        public PftNodeCollection ElseBranch { get; private set; }
 
         /// <summary>
         /// Then branch.
         /// </summary>
         [NotNull]
-        public NonNullCollection<PftNode> ThenBranch { get; private set; }
+        public PftNodeCollection ThenBranch { get; private set; }
 
         /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
@@ -106,8 +106,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftConditionalStatement()
         {
-            ElseBranch = new NonNullCollection<PftNode>();
-            ThenBranch = new NonNullCollection<PftNode>();
+            ElseBranch = new PftNodeCollection(this);
+            ThenBranch = new PftNodeCollection(this);
         }
 
         /// <summary>
@@ -122,8 +122,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.If);
 
-            ElseBranch = new NonNullCollection<PftNode>();
-            ThenBranch = new NonNullCollection<PftNode>();
+            ElseBranch = new PftNodeCollection(this);
+            ThenBranch = new PftNodeCollection(this);
         }
 
         #endregion
@@ -153,8 +153,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 result.Condition = (PftCondition)Condition.Clone();
             }
 
-            result.ElseBranch = ElseBranch.CloneNodes().ThrowIfNull();
-            result.ThenBranch = ThenBranch.CloneNodes().ThrowIfNull();
+            result.ElseBranch = ElseBranch.CloneNodes(result)
+                .ThrowIfNull();
+            result.ThenBranch = ThenBranch.CloneNodes(result)
+                .ThrowIfNull();
 
             return result;
         }

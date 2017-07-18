@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.IO;
 
 using AM;
-using AM.Collections;
 using AM.Logging;
 
 using CodeJam;
@@ -61,7 +60,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Body.
         /// </summary>
         [NotNull]
-        public NonNullCollection<PftNode> Body { get; private set; }
+        public PftNodeCollection Body { get; private set; }
 
         /// <inheritdoc cref="PftNode.ExtendedSyntax" />
         public override bool ExtendedSyntax
@@ -117,7 +116,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftWhile()
         {
-            Body = new NonNullCollection<PftNode>();
+            Body = new PftNodeCollection(this);
         }
 
         /// <summary>
@@ -132,7 +131,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.While);
 
-            Body = new NonNullCollection<PftNode>();
+            Body = new PftNodeCollection(this);
         }
 
         #endregion
@@ -176,7 +175,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 result.Condition = (PftCondition) Condition.Clone();
             }
 
-            result.Body = Body.CloneNodes().ThrowIfNull();
+            result.Body = Body.CloneNodes(result).ThrowIfNull();
 
             return result;
         }

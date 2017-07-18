@@ -150,7 +150,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         PftIteration iteration = new PftIteration
                             (
                                 context,
-                                (NonNullCollection<PftNode>)Children,
+                                (PftNodeCollection)Children,
                                 index,
                                 (iter,data) => iter.Context.Execute(iter.Nodes),
                                 this,

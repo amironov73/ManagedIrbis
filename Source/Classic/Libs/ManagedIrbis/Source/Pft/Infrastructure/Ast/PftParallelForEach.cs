@@ -9,11 +9,11 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 using AM;
-using AM.Collections;
 using AM.Logging;
 
 using CodeJam;
@@ -52,21 +52,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Sequence.
         /// </summary>
         [NotNull]
-        public NonNullCollection<PftNode> Sequence { get; private set; }
+        public PftNodeCollection Sequence { get; private set; }
 
         /// <summary>
         /// Body.
         /// </summary>
         [NotNull]
-        public NonNullCollection<PftNode> Body { get; private set; }
+        public PftNodeCollection Body { get; private set; }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
         public override bool ExtendedSyntax
         {
             get { return true; }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.ComplexExpression" />
+        public override bool ComplexExpression
+        {
+            get { return true; }
+        }
+
+        /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
         {
             get
@@ -97,8 +103,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftParallelForEach()
         {
-            Sequence = new NonNullCollection<PftNode>();
-            Body = new NonNullCollection<PftNode>();
+            Sequence = new PftNodeCollection(this);
+            Body = new PftNodeCollection(this);
         }
 
         /// <summary>
@@ -113,8 +119,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.Parallel);
 
-            Sequence = new NonNullCollection<PftNode>();
-            Body = new NonNullCollection<PftNode>();
+            Sequence = new PftNodeCollection(this);
+            Body = new PftNodeCollection(this);
         }
 
         #endregion
@@ -151,9 +157,31 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
+        #region ICloneable members
+
+        /// <inheritdoc cref="ICloneable.Clone" />
+        public override object Clone()
+        {
+            PftParallelForEach result = (PftParallelForEach)base.Clone();
+
+            result._virtualChildren = null;
+
+            result.Sequence = Sequence.CloneNodes(result).ThrowIfNull();
+            result.Body = Body.CloneNodes(result).ThrowIfNull();
+
+            if (!ReferenceEquals(Variable, null))
+            {
+                result.Variable = (PftVariableReference)Variable.Clone();
+            }
+
+            return result;
+        }
+
+        #endregion
+
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -190,7 +218,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PftNode.GetNodeInfo" />
         public override PftNodeInfo GetNodeInfo()
         {
             PftNodeInfo result = new PftNodeInfo
@@ -222,28 +250,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             foreach (PftNode node in Body)
             {
                 body.Children.Add(node.GetNodeInfo());
-            }
-
-            return result;
-        }
-
-        #endregion
-
-        #region ICloneable members
-
-        /// <inheritdoc />
-        public override object Clone()
-        {
-            PftParallelForEach result = (PftParallelForEach)base.Clone();
-
-            result._virtualChildren = null;
-
-            result.Sequence = Sequence.CloneNodes().ThrowIfNull();
-            result.Body = Body.CloneNodes().ThrowIfNull();
-
-            if (!ReferenceEquals(Variable, null))
-            {
-                result.Variable = (PftVariableReference)Variable.Clone();
             }
 
             return result;

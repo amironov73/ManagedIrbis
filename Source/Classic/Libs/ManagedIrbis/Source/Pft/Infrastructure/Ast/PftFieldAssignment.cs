@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.IO;
 
 using AM;
-using AM.Collections;
 using AM.Logging;
 
 using JetBrains.Annotations;
@@ -49,7 +48,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Expression.
         /// </summary>
         [NotNull]
-        public NonNullCollection<PftNode> Expression { get; private set; }
+        public PftNodeCollection Expression { get; private set; }
 
         /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
@@ -98,7 +97,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftFieldAssignment()
         {
-            Expression = new NonNullCollection<PftNode>();
+            Expression = new PftNodeCollection(this);
         }
 
         /// <summary>
@@ -110,7 +109,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
             : base(token)
         {
-            Expression = new NonNullCollection<PftNode>();
+            Expression = new PftNodeCollection(this);
         }
 
         #endregion
@@ -137,10 +136,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 result.Field = (PftField) Field.Clone();
             }
-            foreach (PftNode node in Expression)
-            {
-                result.Expression.Add((PftNode) node.Clone());
-            }
+            result.Expression = Expression.CloneNodes(result)
+                .ThrowIfNull();
 
             return result;
         }
