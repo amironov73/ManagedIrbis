@@ -26,6 +26,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
+using ManagedIrbis.Pft.Infrastructure.Walking;
 
 using MoonSharp.Interpreter;
 
@@ -350,6 +351,35 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Accept the visitor.
+        /// </summary>
+        /// <returns>
+        /// <c>true</c> means "continue".
+        /// </returns>
+        public virtual bool AcceptVisitor
+            (
+                [NotNull] PftVisitor visitor
+            )
+        {
+            Code.NotNull(visitor, "visitor");
+
+            if (!visitor.VisitNode(this))
+            {
+                return false;
+            }
+
+            foreach (PftNode child in Children)
+            {
+                if (!child.AcceptVisitor(visitor))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// Собственно форматирование.

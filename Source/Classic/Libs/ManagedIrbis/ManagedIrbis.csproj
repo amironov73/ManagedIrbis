@@ -498,6 +498,9 @@
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforPlusI.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforPlusPlus0.cs" />
     <Compile Include="Source\Pft\Infrastructure\VMonitor.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Walking\PftVisitor.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Walking\UniversalVisitor.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Walking\VisitorContext.cs" />
     <Compile Include="Source\Pft\PftFormatter.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.Arith.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.Boolean.cs" />
