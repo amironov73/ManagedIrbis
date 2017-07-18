@@ -11,7 +11,7 @@
 
 using System;
 using System.IO;
-
+using System.Threading;
 using AM;
 using AM.IO;
 using AM.Logging;
@@ -19,7 +19,7 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
@@ -43,6 +43,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Количество добавляемых пробелов.
         /// </summary>
         public int Shift { get; set; }
+
+        /// <inheritdoc cref="PftNode.RequiresConnection" />
+        public override bool RequiresConnection
+        {
+            get { return false; }
+        }
 
         #endregion
 
@@ -123,6 +129,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.CompareNode" />
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftX otherX = (PftX) otherNode;
+            bool result = Shift == otherX.Shift;
+
+            if (!result)
+            {
+                throw new PftSerializationException();
+            }
+        }
 
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize

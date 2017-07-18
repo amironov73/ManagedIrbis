@@ -24,6 +24,7 @@ using JetBrains.Annotations;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -99,6 +100,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         + value.NullableToVisibleString()
                     );
             }
+        }
+
+        /// <inheritdoc cref="PftNode.ComplexExpression" />
+        public override bool ComplexExpression
+        {
+            get { return true; }
         }
 
         #endregion
@@ -177,6 +184,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.CompareNode" />
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftWhile otherWhile = (PftWhile) otherNode;
+            PftSerializationUtility.CompareNodes
+                (
+                    Condition,
+                    otherWhile.Condition
+                );
+            PftSerializationUtility.CompareLists
+                (
+                    Body,
+                    otherWhile.Body
+                );
+        }
 
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
@@ -259,6 +287,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
+            printer.EatWhitespace();
+            printer.EatNewLine();
+
             printer
                 .WriteLine()
                 .WriteIndent()
@@ -273,12 +304,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .WriteLine()
                 .WriteLine("do");
 
-            printer.IncreaseLevel();
-            foreach (PftNode node in Body)
+            printer
+                .IncreaseLevel()
+                .WriteIndent()
+                .WriteNodes(Body);
+            printer.EatWhitespace();
+            printer.EatNewLine();
+            printer
+                .DecreaseLevel()
+                .WriteLine()
+                .WriteIndent()
+                .Write("end");
+            if (!ReferenceEquals(Condition, null))
             {
-                node.PrettyPrint(printer);
+                printer.Write(" /* while ");
+                Condition.PrettyPrint(printer);
             }
-            printer.DecreaseLevel();
+            printer.WriteLine();
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />

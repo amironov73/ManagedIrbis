@@ -105,9 +105,14 @@ namespace ManagedIrbis.Pft.Infrastructure
         public virtual string Text { get; set; }
 
         /// <summary>
-        /// Whether the expression is complex?
+        /// Whether the node is complex expression?
         /// </summary>
         public virtual bool ComplexExpression { get { return false; } }
+
+        /// <summary>
+        /// Whether the node requires server connection to evaluate.
+        /// </summary>
+        public virtual bool RequiresConnection { get { return true; } }
 
         /// <summary>
         /// Node uses extended syntax?
@@ -155,11 +160,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <summary>
         /// Check deserialization result.
         /// </summary>
-        internal virtual void CompareNode<T>
+        internal virtual void CompareNode
             (
-                [NotNull] T otherNode
+                [NotNull] PftNode otherNode
             )
-            where T: PftNode
         {
             bool result = Column == otherNode.Column
                           && LineNumber == otherNode.LineNumber;

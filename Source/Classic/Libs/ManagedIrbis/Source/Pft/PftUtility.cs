@@ -16,7 +16,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
@@ -25,15 +24,15 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
-using ManagedIrbis.Client;
+
 using ManagedIrbis.Pft.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Ast;
 
 using MoonSharp.Interpreter;
 
-using Newtonsoft.Json;
-
 #endregion
+
+// ReSharper disable ConvertClosureToMethodGroup
 
 namespace ManagedIrbis.Pft
 {
@@ -1140,7 +1139,7 @@ namespace ManagedIrbis.Pft
         {
             Code.NotNull(nodes, "nodes");
 
-            bool result = nodes.Any(item => item.ComplexExpression);
+            bool result = nodes.Any(item => IsComplexExpression(item));
 
             return result;
         }
@@ -1243,6 +1242,47 @@ namespace ManagedIrbis.Pft
                     .Replace("\r", string.Empty)
                     .Replace("\n", string.Empty);
             }
+
+            return result;
+        }
+
+        //=================================================
+
+        /// <summary>
+        /// Whether the node requires server connection to evaluate.
+        /// </summary>
+        public static bool RequiresConnection
+            (
+                [NotNull] PftNode node
+            )
+        {
+            Code.NotNull(node, "node");
+
+            if (node.RequiresConnection)
+            {
+                return true;
+            }
+
+            NonNullCollection<PftNode> children
+                = node.GetDescendants<PftNode>();
+            bool result = children.Any(item => item.RequiresConnection);
+
+            return result;
+        }
+
+        //=================================================
+
+        /// <summary>
+        /// Whether the node requires server connection to evaluate.
+        /// </summary>
+        public static bool RequiresConnection
+            (
+                [NotNull] IEnumerable<PftNode> nodes
+            )
+        {
+            Code.NotNull(nodes, "nodes");
+
+            bool result = nodes.Any(item => RequiresConnection(item));
 
             return result;
         }

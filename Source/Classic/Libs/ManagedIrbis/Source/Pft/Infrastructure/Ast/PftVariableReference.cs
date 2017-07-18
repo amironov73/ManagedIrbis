@@ -346,8 +346,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     .Write('^')
                     .Write(SubFieldCode);
             }
-
-            printer.Write(' ');
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />

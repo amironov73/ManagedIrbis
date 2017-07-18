@@ -24,6 +24,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -34,6 +35,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     /// <summary>
     /// 
     /// </summary>
+    /// <example>
+    /// <code>
+    /// with $x in v692, v910
+    /// do
+    ///     $x = '^zNewSubField', $x;
+    /// end
+    /// </code>
+    /// </example>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftWith
@@ -94,6 +103,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         + value.NullableToVisibleString()
                     );
             }
+        }
+
+        /// <inheritdoc cref="PftNode.ComplexExpression" />
+        public override bool ComplexExpression
+        {
+            get { return true; }
         }
 
         #endregion
@@ -170,6 +185,32 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.CompareNode" />
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftWith otherWith = (PftWith) otherNode;
+            PftSerializationUtility.CompareNodes
+                (
+                    Variable,
+                    otherWith.Variable
+                );
+            PftSerializationUtility.CompareLists
+                (
+                    Fields,
+                    otherWith.Fields
+                );
+            PftSerializationUtility.CompareLists
+                (
+                    Body,
+                    otherWith.Body
+                );
+        }
 
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
@@ -349,6 +390,55 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return result;
+        }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.EatWhitespace();
+            printer.EatNewLine();
+            printer.WriteLine();
+            printer
+                .WriteIndent()
+                .Write("with ");
+            if (!ReferenceEquals(Variable, null))
+            {
+                Variable.PrettyPrint(printer);
+            }
+            printer.SingleSpace();
+            printer.Write("in ");
+            bool first = true;
+            foreach (FieldSpecification field in Fields)
+            {
+                if (!first)
+                {
+                    printer.Write(", ");
+                }
+                printer.Write(field.ToString());
+                first = false;
+            }
+            printer.WriteLine()
+                .WriteIndent()
+                .WriteLine("do")
+                .IncreaseLevel()
+                .WriteIndent()
+                .WriteNodes(Body);
+            printer.EatWhitespace();
+            printer.EatNewLine();
+            printer
+                .DecreaseLevel()
+                .WriteLine()
+                .WriteIndent()
+                .Write("end");
+            if (!ReferenceEquals(Variable, null))
+            {
+                printer.Write(" /* with ");
+                Variable.PrettyPrint(printer);
+            }
+            printer.WriteLine();
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />

@@ -23,6 +23,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Serialization;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -191,6 +193,54 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Compare two specifications.
+        /// </summary>
+        public static bool Compare
+            (
+                [NotNull] FieldSpecification left,
+                [NotNull] FieldSpecification right
+            )
+        {
+            bool result = left.Command == right.Command
+                && PftSerializationUtility.CompareStrings
+                    (
+                        left.Embedded, right.Embedded
+                    )
+                && left.FirstLine == right.FirstLine
+                && left.ParagraphIndent == right.ParagraphIndent
+                && left.Offset == right.Offset
+                && left.Length == right.Length
+                && IndexSpecification.Compare
+                    (
+                        left.FieldRepeat,
+                        right.FieldRepeat
+                    )
+                && left.SubField == right.SubField
+                && IndexSpecification.Compare
+                    (
+                        left.SubFieldRepeat,
+                        right.SubFieldRepeat
+                    )
+                && PftSerializationUtility.CompareStrings
+                    (
+                        left.Tag,
+                        right.Tag
+                    )
+                && PftSerializationUtility.CompareStrings
+                    (
+                        left.TagSpecification,
+                        right.TagSpecification
+                    )
+                && PftSerializationUtility.CompareStrings
+                    (
+                        left.SubFieldSpecification,
+                        right.SubFieldSpecification
+                    );
+
+            return result;
+        }
 
         /// <summary>
         /// Deserialize the specification.

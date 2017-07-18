@@ -114,7 +114,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer.WriteIndent()
+            printer
+                .WriteIndent()
                 .Write("<<<")
                 .Write(Text)
                 .WriteLine(">>>");

@@ -21,7 +21,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Ast;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
-
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -89,6 +89,26 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Compare two specifications.
+        /// </summary>
+        public static bool Compare
+            (
+                IndexSpecification left,
+                IndexSpecification right
+            )
+        {
+            bool result = left.Kind == right.Kind
+                && left.Literal == right.Literal
+                && PftSerializationUtility.CompareStrings
+                    (
+                        left.Expression,
+                        right.Expression
+                    );
+
+            return result;
+        }
 
         /// <summary>
         /// Compute value of the index.
