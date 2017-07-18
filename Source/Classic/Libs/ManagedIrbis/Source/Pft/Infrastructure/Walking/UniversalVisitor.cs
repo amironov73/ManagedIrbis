@@ -38,6 +38,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Walking
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Some arbitrary user data (optional).
+        /// </summary>
+        public object UserData { get; set; }
+
+        #endregion
+
         #region PftVisitor members
 
         /// <inheritdoc cref="PftVisitor.VisitNode" />

@@ -64,6 +64,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         #region Properties
 
         /// <summary>
+        /// Node identifier (for example, compiler uses it).
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Parent node.
         /// </summary>
         [CanBeNull]

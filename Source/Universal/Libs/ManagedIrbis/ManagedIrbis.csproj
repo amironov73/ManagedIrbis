@@ -1229,6 +1229,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftNode.cs">
       <Link>Source\Pft\Infrastructure\PftNode.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftNodeCollection.cs">
+      <Link>Source\Pft\Infrastructure\PftNodeCollection.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftOutput.cs">
       <Link>Source\Pft\Infrastructure\PftOutput.cs</Link>
     </Compile>
@@ -1408,6 +1411,15 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\VMonitor.cs">
       <Link>Source\Pft\Infrastructure\VMonitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Walking\PftVisitor.cs">
+      <Link>Source\Pft\Infrastructure\Walking\PftVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Walking\UniversalVisitor.cs">
+      <Link>Source\Pft\Infrastructure\Walking\UniversalVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Walking\VisitorContext.cs">
+      <Link>Source\Pft\Infrastructure\Walking\VisitorContext.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\PftException.cs">
       <Link>Source\Pft\PftException.cs</Link>
