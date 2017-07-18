@@ -732,7 +732,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 if (superNode.Children.Count == 1)
                 {
-                    superNode = superNode.Children[0];
+                    PftNode tempNode = superNode.Children[0];
+                    superNode.Children.RemoveAt(0);
+                    superNode = tempNode;
                 }
 
                 call.Arguments.Add(superNode);
@@ -1155,7 +1157,9 @@ namespace ManagedIrbis.Pft.Infrastructure
             Tokens.RequireNext();
             PftNode pseudo = new PftNode();
             ParseCall3(pseudo);
-            result.Format.AddRange(pseudo.Children);
+            PftNode[] tempArray = pseudo.Children.ToArray();
+            pseudo.Children.Clear();
+            result.Format.AddRange(tempArray);
 
             return result;
         }
