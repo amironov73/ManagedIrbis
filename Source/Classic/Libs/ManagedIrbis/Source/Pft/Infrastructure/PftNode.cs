@@ -24,6 +24,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
 using ManagedIrbis.Pft.Infrastructure.Walking;
@@ -384,6 +385,19 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Compiles the node.
+        /// </summary>
+        public virtual void Compile
+            (
+                [NotNull] PftCompiler compiler
+            )
+        {
+            Code.NotNull(compiler, "compiler");
+
+            compiler.CompileNodes(Children);
         }
 
         /// <summary>

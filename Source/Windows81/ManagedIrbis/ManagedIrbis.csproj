@@ -1058,6 +1058,12 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftX.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftX.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\PftCompiler.cs">
+      <Link>Source\Pft\Infrastructure\Compiler\PftCompiler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\PftPacket.cs">
+      <Link>Source\Pft\Infrastructure\Compiler\PftPacket.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Diagnostics\PftDebugger.cs">
       <Link>Source\Pft\Infrastructure\Diagnostics\PftDebugger.cs</Link>
     </Compile>
