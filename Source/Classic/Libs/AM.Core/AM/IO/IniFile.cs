@@ -357,6 +357,22 @@ namespace AM.IO
             }
 
             /// <summary>
+            /// Apply to other section.
+            /// </summary>
+            public void ApplyTo
+                (
+                    [NotNull] Section section
+                )
+            {
+                Code.NotNull(section, "section");
+
+                foreach (Line line in this)
+                {
+                    section[line.Key] = line.Value;
+                }
+            }
+
+            /// <summary>
             /// Clear the section.
             /// </summary>
             public void Clear()
@@ -769,6 +785,27 @@ namespace AM.IO
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Apply to the INI-file.
+        /// </summary>
+        public void ApplyTo
+            (
+                [NotNull] IniFile iniFile
+            )
+        {
+            Code.NotNull(iniFile, "iniFile");
+
+            foreach (Section thisSection in this)
+            {
+                string name = thisSection.Name;
+                if (!string.IsNullOrEmpty(name))
+                {
+                    Section otherSection = iniFile.GetOrCreateSection(name);
+                    thisSection.ApplyTo(otherSection);
+                }
+            }
+        }
 
         /// <summary>
         /// Clear the INI-file.
