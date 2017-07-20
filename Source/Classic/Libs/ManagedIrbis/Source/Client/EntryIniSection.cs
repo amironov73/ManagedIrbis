@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* DisplayIniSection.cs -- 
+/* EntryIniSection.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -11,6 +11,7 @@
 
 using System.Xml.Serialization;
 
+using AM;
 using AM.IO;
 
 using CodeJam;
@@ -33,14 +34,14 @@ namespace ManagedIrbis.Client
     /// </remarks>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class DisplayIniSection
+    public sealed class EntryIniSection
     {
         #region Constants
 
         /// <summary>
         /// Section name.
         /// </summary>
-        public const string SectionName = "DISPLAY";
+        public const string SectionName = "CONTEXT";
 
         #endregion
 
@@ -57,25 +58,35 @@ namespace ManagedIrbis.Client
         // ========================================================
 
         /// <summary>
-        /// Размер порции для показа кратких описаний.
+        /// Имя формата для ФЛК документа в целом.
         /// </summary>
-        [XmlElement("maxBriefPortion")]
-        [JsonProperty("maxBriefPortion")]
-        public int MaxBriefPortion
+        [CanBeNull]
+        [XmlElement("dbnflc")]
+        [JsonProperty("dbnflc")]
+        public string DbnFlc
         {
-            get { return Section.GetValue("MAXBRIEFPORTION", 6); }
-            set { Section.SetValue("MAXBRIEFPORTION", value); }
+            get { return Section["DBNFLC"]; }
+            set { Section["DBNFLC"] = value; }
         }
 
         /// <summary>
-        /// Максимальное количество отмеченных документов.
+        /// Признак автоматической актуализации записей
+        /// при корректировке.
         /// </summary>
-        [XmlElement("maxMarked")]
-        [JsonProperty("maxMarked")]
-        public int MaxMarked
+        public bool RecordUpdate
         {
-            get { return Section.GetValue("MAXMARKED", 100); }
-            set { Section.SetValue("MAXMARKED", value); }
+            get
+            {
+                return ConversionUtility.ToBoolean
+                    (
+                        Section.GetValue("RECUPDIF", "1")
+                            .ThrowIfNull()
+                    );
+            }
+            set
+            {
+                Section.SetValue("RECUPDIF", value ? "1" : "0");
+            }
         }
 
         #endregion
@@ -85,7 +96,7 @@ namespace ManagedIrbis.Client
         /// <summary>
         /// Constructor.
         /// </summary>
-        public DisplayIniSection()
+        public EntryIniSection()
         {
             IniFile iniFile = new IniFile();
             Section = iniFile.CreateSection(SectionName);
@@ -94,7 +105,7 @@ namespace ManagedIrbis.Client
         /// <summary>
         /// Constructor.
         /// </summary>
-        public DisplayIniSection
+        public EntryIniSection
         (
             [NotNull] IniFile iniFile
         )
@@ -107,7 +118,7 @@ namespace ManagedIrbis.Client
         /// <summary>
         /// Constructor.
         /// </summary>
-        public DisplayIniSection
+        public EntryIniSection
         (
             [NotNull] IniFile.Section section
         )
@@ -124,17 +135,6 @@ namespace ManagedIrbis.Client
         #endregion
 
         #region Public methods
-
-        /// <summary>
-        /// Clear the section.
-        /// </summary>
-        [NotNull]
-        public DisplayIniSection Clear()
-        {
-            Section.Clear();
-
-            return this;
-        }
 
         #endregion
 

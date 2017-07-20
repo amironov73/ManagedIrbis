@@ -163,6 +163,7 @@
     <Compile Include="Source\Client\ClientRunner.cs" />
     <Compile Include="Source\Client\ContextIniSection.cs" />
     <Compile Include="Source\Client\DisplayIniSection.cs" />
+    <Compile Include="Source\Client\EntryIniSection.cs" />
     <Compile Include="Source\Client\IrbisProvider.cs" />
     <Compile Include="Source\Client\Alias.cs" />
     <Compile Include="Source\Client\AliasManager.cs" />
