@@ -32,6 +32,15 @@ namespace ManagedIrbis.Client
     [MoonSharpUserData]
     public sealed class ContextIniSection
     {
+        #region Constants
+
+        /// <summary>
+        /// Section name.
+        /// </summary>
+        public const string SectionName = "CONTEXT";
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -149,7 +158,7 @@ namespace ManagedIrbis.Client
         public ContextIniSection()
         {
             IniFile iniFile = new IniFile();
-            Section = iniFile.CreateSection("CONTEXT");
+            Section = iniFile.CreateSection(SectionName);
         }
 
         /// <summary>
@@ -162,7 +171,7 @@ namespace ManagedIrbis.Client
         {
             Code.NotNull(iniFile, "iniFile");
 
-            Section = iniFile.GetOrCreateSection("CONTEXT");
+            Section = iniFile.GetOrCreateSection(SectionName);
         }
 
         /// <summary>
@@ -185,6 +194,17 @@ namespace ManagedIrbis.Client
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Clear the section.
+        /// </summary>
+        [NotNull]
+        public ContextIniSection Clear()
+        {
+            Section.Clear();
+
+            return this;
+        }
 
         #endregion
 

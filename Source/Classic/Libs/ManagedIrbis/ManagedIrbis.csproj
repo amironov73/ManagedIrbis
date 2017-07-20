@@ -162,6 +162,7 @@
     <Compile Include="Source\Client\ClientLM.cs" />
     <Compile Include="Source\Client\ClientRunner.cs" />
     <Compile Include="Source\Client\ContextIniSection.cs" />
+    <Compile Include="Source\Client\DisplayIniSection.cs" />
     <Compile Include="Source\Client\IrbisProvider.cs" />
     <Compile Include="Source\Client\Alias.cs" />
     <Compile Include="Source\Client\AliasManager.cs" />
@@ -449,6 +450,8 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftWhile.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftWith.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftX.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Compiler\NodeDictionary.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Compiler\NodeInfo.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\PftCompiler.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\PftPacket.cs" />
     <Compile Include="Source\Pft\Infrastructure\Diagnostics\PftDebugger.cs" />

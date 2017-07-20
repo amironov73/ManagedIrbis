@@ -57,6 +57,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         #region Public methods
 
         /// <summary>
+        /// Call method for the node.
+        /// </summary>
+        public void CallNodeMethod
+            (
+                [NotNull] PftNode node
+            )
+        {
+            Code.NotNull(node, "node");
+        }
+
+        /// <summary>
         /// Compile nodes.
         /// </summary>
         public void CompileNodes
@@ -70,6 +81,28 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             {
                 node.Compile(this);
             }
+        }
+
+        /// <summary>
+        /// End method for the node.
+        /// </summary>
+        public void EndMethod
+            (
+                [NotNull] PftNode node
+            )
+        {
+            Code.NotNull(node, "node");
+        }
+
+        /// <summary>
+        /// Start method for the node.
+        /// </summary>
+        public void StartMethod
+            (
+                [NotNull] PftNode node
+            )
+        {
+            
         }
 
         #endregion
