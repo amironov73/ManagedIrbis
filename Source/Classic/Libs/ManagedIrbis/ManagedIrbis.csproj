@@ -162,6 +162,7 @@
     <Compile Include="Source\Client\ClientLM.cs" />
     <Compile Include="Source\Client\ClientRunner.cs" />
     <Compile Include="Source\Client\ContextIniSection.cs" />
+    <Compile Include="Source\Client\DesktopIniSection.cs" />
     <Compile Include="Source\Client\DisplayIniSection.cs" />
     <Compile Include="Source\Client\EntryIniSection.cs" />
     <Compile Include="Source\Client\IrbisProvider.cs" />
