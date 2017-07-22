@@ -11,10 +11,7 @@
 
 using System.Xml.Serialization;
 
-using AM;
 using AM.IO;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -35,6 +32,7 @@ namespace ManagedIrbis.Client
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class DesktopIniSection
+        : AbstractIniSection
     {
         #region Constants
 
@@ -46,16 +44,6 @@ namespace ManagedIrbis.Client
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// INI file section.
-        /// </summary>
-        [NotNull]
-        [XmlIgnore]
-        [JsonIgnore]
-        public IniFile.Section Section { get; private set; }
-
-        // ========================================================
 
         /// <summary>
         /// Use auto service?
@@ -219,88 +207,39 @@ namespace ManagedIrbis.Client
         /// Constructor.
         /// </summary>
         public DesktopIniSection()
+            : base (new IniFile(), SectionName)
         {
-            IniFile iniFile = new IniFile();
-            Section = iniFile.CreateSection(SectionName);
         }
 
         /// <summary>
         /// Constructor.
         /// </summary>
         public DesktopIniSection
-        (
-            [NotNull] IniFile iniFile
-        )
+            (
+                [NotNull] IniFile iniFile
+            )
+            : base(iniFile, SectionName)
         {
-            Code.NotNull(iniFile, "iniFile");
-
-            Section = iniFile.GetOrCreateSection(SectionName);
         }
 
         /// <summary>
         /// Constructor.
         /// </summary>
         public DesktopIniSection
-        (
-            [NotNull] IniFile.Section section
-        )
+            (
+                [NotNull] IniFile.Section section
+            )
+            : base(section)
         {
-            Code.NotNull(section, "section");
-
-            Section = section;
         }
 
         #endregion
 
         #region Private members
 
-        /// <summary>
-        /// Get boolean value
-        /// </summary>
-        private bool GetBoolean
-            (
-                [NotNull] string name,
-                string defaultValue
-            )
-        {
-            return ConversionUtility.ToBoolean
-                (
-                    Section.GetValue
-                        (
-                            name,
-                            defaultValue
-                        )
-                    .ThrowIfNull()
-                );
-        }
-
-        private void SetBoolean
-            (
-                [NotNull] string name,
-                bool value
-            )
-        {
-            Section.SetValue
-                (
-                    name,
-                    value ? "1" : "0"
-                );
-        }
-
         #endregion
 
         #region Public methods
-
-        /// <summary>
-        /// Clear the section.
-        /// </summary>
-        [NotNull]
-        public DesktopIniSection Clear()
-        {
-            Section.Clear();
-
-            return this;
-        }
 
         #endregion
 

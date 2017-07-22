@@ -157,6 +157,7 @@
     <Compile Include="Source\Caching\MenuCache.cs" />
     <Compile Include="Source\Caching\RecordCache.cs" />
     <Compile Include="Source\Caching\TextCache.cs" />
+    <Compile Include="Source\Client\AbstractIniSection.cs" />
     <Compile Include="Source\Client\CatalogDelta.cs" />
     <Compile Include="Source\Client\CatalogState.cs" />
     <Compile Include="Source\Client\ClientLM.cs" />

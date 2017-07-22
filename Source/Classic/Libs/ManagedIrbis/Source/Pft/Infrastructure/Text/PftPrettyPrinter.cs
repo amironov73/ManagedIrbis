@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+
 using AM.Logging;
 
 using CodeJam;
@@ -31,6 +32,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Text
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftPrettyPrinter
+        : IDisposable
     {
         #region Properties
 
@@ -529,6 +531,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Text
             }
 
             return this;
+        }
+
+        #endregion
+
+        #region IDisposable members
+
+        /// <inheritdoc cref="IDisposable.Dispose" />
+        public void Dispose()
+        {
+            if (!ReferenceEquals(_writer, null))
+            {
+                _writer.Dispose();
+            }
         }
 
         #endregion

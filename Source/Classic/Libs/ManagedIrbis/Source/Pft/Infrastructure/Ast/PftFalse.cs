@@ -43,7 +43,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             get { return false; }
 
             // ReSharper disable once ValueParameterNotUsed
-            set
+            set //-V3077
             {
                 // Nothing to do here
 
