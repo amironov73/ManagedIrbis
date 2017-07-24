@@ -101,9 +101,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer.Write(" ceil(");
+            printer
+                .SingleSpace()
+                .Write("ceil(");
             base.PrettyPrint(printer);
-            printer.Write(") ");
+            printer.Write(')');
         }
 
         #endregion

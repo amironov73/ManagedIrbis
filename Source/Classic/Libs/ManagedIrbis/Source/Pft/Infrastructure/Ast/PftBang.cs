@@ -88,7 +88,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer.Write(" ! ");
+            printer
+                .WriteIndendIfNeeded()
+                .SingleSpace()
+                .Write('!')
+                .SingleSpace();
         }
 
         #endregion

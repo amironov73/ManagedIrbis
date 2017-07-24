@@ -178,11 +178,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             // Всегда в нижнем регистре
-            printer.Write
+            printer
+                .SingleSpace()
+                .Write
                 (
-                    " c{0} ",
+                    "c{0}",
                     NewPosition.ToInvariantString()
-                );
+                )
+                .SingleSpace();
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />

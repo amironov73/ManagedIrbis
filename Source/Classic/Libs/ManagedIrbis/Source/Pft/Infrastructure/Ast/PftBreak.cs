@@ -123,7 +123,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer.Write(" break ");
+            printer
+                .SingleSpace()
+                .Write("break")
+                .SingleSpace();
         }
 
         #endregion

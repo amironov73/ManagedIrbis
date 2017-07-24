@@ -134,6 +134,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.CompareNode" />
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftSerializationUtility.CompareNodes
+                (
+                    InnerCondition,
+                    ((PftAll)otherNode).InnerCondition
+                );
+        }
+
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
             (
@@ -235,12 +250,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer.Write(" all(");
+            printer
+                .SingleSpace()
+                .Write("all(");
             if (!ReferenceEquals(InnerCondition, null))
             {
                 InnerCondition.PrettyPrint(printer);
             }
-            printer.Write(") ");
+            printer.Write(')');
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />

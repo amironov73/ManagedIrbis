@@ -118,9 +118,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer.Write(" blank(");
+            printer
+                .SingleSpace()
+                .Write("blank(");
             base.PrettyPrint(printer);
-            printer.Write(") ");
+            printer.Write(')');
         }
 
         #endregion
