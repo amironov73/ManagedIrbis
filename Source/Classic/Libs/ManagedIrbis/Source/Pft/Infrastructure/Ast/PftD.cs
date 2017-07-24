@@ -9,12 +9,6 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using AM.Logging;
 
 using CodeJam;
@@ -140,10 +134,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (!ReferenceEquals(context.CurrentGroup, null))
             {
-                //if (IsFirstRepeat(context))
-                //{
-                    _Execute(context);
-                //}
+                _Execute(context);
             }
             else
             {

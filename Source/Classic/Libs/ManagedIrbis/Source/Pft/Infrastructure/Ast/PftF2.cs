@@ -259,14 +259,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer.Write(" f2(");
+            printer
+                .SingleSpace()
+                .Write("f2(");
             if (!ReferenceEquals(Number, null))
             {
                 Number.PrettyPrint(printer);
             }
-            printer.Write(", ");
-            printer.Write(Format);
-            printer.Write(") ");
+            printer.EatWhitespace();
+            printer
+                .Write(", ")
+                .Write(Format)
+                .Write(')');
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />

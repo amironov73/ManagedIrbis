@@ -98,7 +98,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     // f(mfn,3,0)                      4
     //
 
-
     /// <summary>
     /// 
     /// </summary>
@@ -231,6 +230,32 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.CompareNode"/>
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftF otherF = (PftF) otherNode;
+            PftSerializationUtility.CompareNodes
+                (
+                    Argument1,
+                    otherF.Argument1
+                );
+            PftSerializationUtility.CompareNodes
+                (
+                    Argument2,
+                    otherF.Argument2
+                );
+            PftSerializationUtility.CompareNodes
+                (
+                    Argument3,
+                    otherF.Argument3
+                );
+        }
+
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
             (
@@ -356,21 +381,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             printer
                 .SingleSpace()
-                .Write(" f(");
+                .Write("f(");
             if (!ReferenceEquals(Argument1, null))
             {
                 Argument1.PrettyPrint(printer);
             }
             if (!ReferenceEquals(Argument2, null))
             {
+                printer.EatWhitespace();
                 printer.Write(", ");
                 Argument2.PrettyPrint(printer);
             }
             if (!ReferenceEquals(Argument3, null))
             {
+                printer.EatWhitespace();
                 printer.Write(", ");
                 Argument3.PrettyPrint(printer);
             }
+            printer.EatWhitespace();
             printer.Write(')');
         }
 

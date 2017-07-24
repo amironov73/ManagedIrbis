@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.IO;
 
 using AM;
-using AM.Collections;
 using AM.Logging;
 
 using CodeJam;
@@ -165,6 +164,33 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.CompareNode" />
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftConditionalStatement otherStatement
+                = (PftConditionalStatement) otherNode;
+            PftSerializationUtility.CompareNodes
+                (
+                    Condition,
+                    otherStatement.Condition
+                );
+            PftSerializationUtility.CompareLists
+                (
+                    ThenBranch,
+                    otherStatement.ThenBranch
+                );
+            PftSerializationUtility.CompareLists
+                (
+                    ElseBranch,
+                    otherStatement.ElseBranch
+                );
+        }
+
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
             (
@@ -268,7 +294,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            bool needComment = false;
+            //bool needComment = false;
 
             printer.EatWhitespace();
             printer.EatNewLine();
@@ -290,7 +316,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             bool isComplex = PftUtility.IsComplexExpression(ThenBranch);
             if (isComplex)
             {
-                needComment = true;
+                //needComment = true;
                 printer.IncreaseLevel();
                 printer.EatWhitespace();
                 printer.EatNewLine();
@@ -317,7 +343,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 printer.Write("else ");
                 if (isComplex)
                 {
-                    needComment = true;
+                    //needComment = true;
                     printer.IncreaseLevel();
                     printer.EatWhitespace();
                     printer.EatNewLine();
@@ -340,12 +366,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .WriteIndendIfNeeded()
                 .Write("fi,");
 
-            if (needComment
-                && !ReferenceEquals(Condition, null))
-            {
-                printer.Write(" /* ");
-                Condition.PrettyPrint(printer);
-            }
+            //if (needComment
+            //    && !ReferenceEquals(Condition, null))
+            //{
+            //    printer.Write(" /* ");
+            //    Condition.PrettyPrint(printer);
+            //}
 
             printer.WriteLine();
         }

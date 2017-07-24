@@ -418,6 +418,31 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.CompareNode" />
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftComparison otherComparison = (PftComparison) otherNode;
+            PftSerializationUtility.CompareNodes
+                (
+                    LeftOperand,
+                    otherComparison.LeftOperand
+                );
+            if (Operation != otherComparison.Operation)
+            {
+                throw new IrbisException();
+            }
+            PftSerializationUtility.CompareNodes
+                (
+                    RightOperand,
+                    otherComparison.RightOperand
+                );
+        }
+
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
             (

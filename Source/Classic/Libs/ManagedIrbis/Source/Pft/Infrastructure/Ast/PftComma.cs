@@ -9,7 +9,6 @@
 
 #region Using directives
 
-using System.IO;
 using AM;
 using CodeJam;
 

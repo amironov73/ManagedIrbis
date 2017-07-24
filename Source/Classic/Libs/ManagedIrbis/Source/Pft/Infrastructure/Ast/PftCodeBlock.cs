@@ -149,7 +149,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer.WriteLine()
+            printer.EatWhitespace();
+            printer.EatNewLine();
+            printer
+                .WriteLine()
+                .WriteIndendIfNeeded()
                 .Write("{{{")
                 .Write(Text)
                 .WriteLine("}}}");

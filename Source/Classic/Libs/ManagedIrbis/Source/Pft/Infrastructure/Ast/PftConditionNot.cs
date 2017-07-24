@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.IO;
 
 using AM;
-using AM.IO;
 using AM.Logging;
 
 using JetBrains.Annotations;
@@ -132,6 +131,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.CompareNode" />
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftSerializationUtility.CompareNodes
+                (
+                    InnerCondition,
+                    ((PftConditionNot)otherNode).InnerCondition
+                );
+        }
+
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
             (
@@ -177,7 +191,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             printer
                 .SingleSpace()
-                .Write("not");
+                .Write("not")
+                .SingleSpace();
             if (!ReferenceEquals(InnerCondition, null))
             {
                 InnerCondition.PrettyPrint(printer);
