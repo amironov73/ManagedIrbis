@@ -455,6 +455,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftX.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\NodeDictionary.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\NodeInfo.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Compiler\NumberingVisitor.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\PftCompiler.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\PftPacket.cs" />
     <Compile Include="Source\Pft\Infrastructure\Diagnostics\PftDebugger.cs" />

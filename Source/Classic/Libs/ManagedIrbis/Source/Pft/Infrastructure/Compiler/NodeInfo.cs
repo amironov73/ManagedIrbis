@@ -45,12 +45,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// Node.
         /// </summary>
         [NotNull]
-        public PftNode Node { get; set; }
+        public PftNode Node { get; private set; }
 
         /// <summary>
         /// Node identifier.
         /// </summary>
-        public int Id { get; set; }
+        public int Id { get; private set; }
 
         /// <summary>
         /// Ready?
@@ -66,12 +66,50 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// </summary>
         public NodeInfo
             (
+                int id,
                 [NotNull] PftNode node
             )
         {
             Code.NotNull(node, "node");
 
+            Id = id;
             Node = node;
+        }
+
+        #endregion
+
+        #region Object members
+
+        private bool Equals
+            (
+                NodeInfo other
+            )
+        {
+            return Id == other.Id;
+        }
+
+        /// <inheritdoc cref="object.Equals(object)" />
+        public override bool Equals
+            (
+                object obj
+            )
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            return obj is NodeInfo && Equals((NodeInfo) obj);
+        }
+
+        /// <inheritdoc cref="object.GetHashCode" />
+        public override int GetHashCode()
+        {
+            return Id;
         }
 
         #endregion

@@ -91,7 +91,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
             protected set
             {
-                _children = (PftNodeCollection) value;
+                _children = (PftNodeCollection)value;
             }
         }
 
@@ -569,10 +569,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <inheritdoc cref="ICloneable.Clone" />
         public virtual object Clone()
         {
-            PftNode result = (PftNode) MemberwiseClone();
+            PftNode result = (PftNode)MemberwiseClone();
             result.Parent = null;
 
-            PftNodeCollection children 
+            PftNodeCollection children
                 = Children as PftNodeCollection;
             if (!ReferenceEquals(children, null))
             {
@@ -617,6 +617,33 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Object members
+
+        /// <inheritdoc cref="object.Equals(object)" />
+        public override bool Equals
+            (
+                object other
+            )
+        {
+            return ReferenceEquals(this, other);
+        }
+
+        /// <inheritdoc cref="object.GetHashCode" />
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = Column;
+                hashCode = (hashCode * 397) ^ LineNumber;
+                hashCode = (hashCode * 397) ^
+                    (
+                        Text != null
+                        ? Text.GetHashCode()
+                        : 0
+                    );
+
+                return hashCode;
+            }
+        }
 
         /// <inheritdoc cref="object.ToString" />
         public override string ToString()

@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6CC3B1CD-49B7-4CF8-8286-602809EABDE4}</ProjectGuid>
+    <ProjectGuid>{FD53AAB3-765A-418B-9903-D866FD956ACC}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>PftSerializationBenchmark</RootNamespace>
-    <AssemblyName>PftSerializationBenchmark</AssemblyName>
+    <RootNamespace>CompilerBenchmark</RootNamespace>
+    <AssemblyName>CompilerBenchmark</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

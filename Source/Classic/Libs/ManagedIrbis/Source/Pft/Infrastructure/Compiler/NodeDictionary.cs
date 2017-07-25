@@ -39,10 +39,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         #region Properties
 
         /// <summary>
-        /// Dictionary.
+        /// Forward dictionary.
         /// </summary>
         [NotNull]
-        public Dictionary<int, PftNode> Dictionary { get; private set; }
+        public Dictionary<int, NodeInfo> Forward { get; private set; }
+
+        /// <summary>
+        /// Backward dictionary.
+        /// </summary>
+        [NotNull]
+        public Dictionary<PftNode, NodeInfo> Backward { get; private set; }
 
         #endregion
 
@@ -53,7 +59,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// </summary>
         public NodeDictionary()
         {
-            Dictionary = new Dictionary<int, PftNode>();
+            Forward = new Dictionary<int, NodeInfo>();
+            Backward = new Dictionary<PftNode, NodeInfo>();
         }
 
         #endregion
@@ -63,6 +70,40 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         #endregion
 
         #region Public methods
+
+        public void Add
+            (
+                [NotNull] NodeInfo info
+            )
+        {
+            Code.NotNull(info, "info");
+
+            Forward.Add(info.Id, info);
+            Backward.Add(info.Node, info);
+        }
+
+        [CanBeNull]
+        public NodeInfo Get
+            (
+                int id
+            )
+        {
+            NodeInfo result;
+            Forward.TryGetValue(id, out result);
+
+            return result;
+        }
+
+        public NodeInfo Get
+            (
+                [NotNull] PftNode node
+            )
+        {
+            NodeInfo result;
+            Backward.TryGetValue(node, out result);
+
+            return result;
+        }
 
         #endregion
 

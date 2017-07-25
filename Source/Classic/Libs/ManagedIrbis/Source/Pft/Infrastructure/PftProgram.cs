@@ -16,7 +16,7 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
@@ -64,6 +64,19 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            base.Compile(compiler);
+
+            compiler.StartMethod(this);
+            compiler.CallNodes(Children);
+            compiler.EndMethod(this);
+        }
 
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
