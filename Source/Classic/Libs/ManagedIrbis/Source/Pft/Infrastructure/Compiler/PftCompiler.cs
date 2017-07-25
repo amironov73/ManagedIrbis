@@ -42,6 +42,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
     [MoonSharpUserData]
     public sealed class PftCompiler
     {
+        #region MyRegion
+
+        /// <summary>
+        /// Prefix for node methods.
+        /// </summary>
+        public const string NodeMethodPrefix = "NodeMethod";
+
+        #endregion
+
         #region Properties
 
         [NotNull]
@@ -78,7 +87,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             bool result = rootNode.AcceptVisitor(visitor);
             if (!result)
             {
-                throw new IrbisException();
+                throw new PftCompilerException();
             }
         }
 
@@ -97,10 +106,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             Code.NotNull(node, "node");
 
             NodeInfo info = Dictionary.Get(node);
-            if (ReferenceEquals(info, null))
-            {
-                throw new IrbisException();
-            }
+            Output.WriteLine
+                (
+                    "{0}{1} (); // {2}",
+                    NodeMethodPrefix,
+                    info.Id,
+                    PftNode.SimplifyTypeName(node.GetType().Name)
+                );
         }
 
         /// <summary>
@@ -164,7 +176,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         {
             if (!ReferenceEquals(_currentNode, null))
             {
-                throw new IrbisException();
+                throw new PftCompilerException();
             }
 
             Output.WriteLine("}");
@@ -182,7 +194,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
 
             if (!ReferenceEquals(_currentNode, node))
             {
-                throw new IrbisException();
+                throw new PftCompilerException();
             }
 
             Output.WriteLine("}");
@@ -200,6 +212,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             string result = Output.ToString();
 
             return result;
+        }
+
+        /// <summary>
+        /// Mark the node as ready.
+        /// </summary>
+        public void MarkReady
+            (
+                [NotNull] PftNode node
+            )
+        {
+            Code.NotNull(node, "node");
+
+            NodeInfo info = Dictionary.Get(node);
+            if (info.Ready)
+            {
+                throw new IrbisException();
+            }
+            info.Ready = true;
         }
 
         /// <summary>
@@ -246,12 +276,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             _currentNode = node;
 
             NodeInfo info = Dictionary.Get(node);
-            if (ReferenceEquals(info, null))
-            {
-                throw new IrbisException();
-            }
 
-            Output.WriteLine("public void NodeMethod{0}", info.Id);
+            Output.WriteLine
+                (
+                    "// {0}: {1}",
+                    PftNode.SimplifyTypeName(node.GetType().Name),
+                    CompilerUtility.ShortenText(node.ToString())
+                );
+            Output.WriteLine
+                (
+                    "public void {0}{1}",
+                    NodeMethodPrefix,
+                    info.Id
+                );
             Output.WriteLine("{");
         }
 

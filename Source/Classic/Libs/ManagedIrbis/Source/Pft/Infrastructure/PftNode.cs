@@ -339,7 +339,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Simplify type name.
         /// </summary>
         [NotNull]
-        protected static string SimplifyTypeName
+        protected internal static string SimplifyTypeName
             (
                 [NotNull] string typeName
             )
@@ -392,7 +392,20 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Code.NotNull(compiler, "compiler");
 
-            compiler.CompileNodes(Children);
+            bool flag = ShouldSerializeChildren();
+            if (flag)
+            {
+                compiler.CompileNodes(Children);
+            }
+
+            compiler.StartMethod(this);
+            if (flag)
+            {
+                compiler.CallNodes(Children);
+            }
+            compiler.EndMethod(this);
+
+            compiler.MarkReady(this);
         }
 
         /// <summary>

@@ -9,26 +9,11 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Logging;
-using AM.Runtime;
-using AM.Text;
 
 using CodeJam;
 
 using JetBrains.Annotations;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
@@ -91,9 +76,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             NodeInfo result;
             Forward.TryGetValue(id, out result);
 
+            if (ReferenceEquals(result, null))
+            {
+                throw new PftCompilerException();
+            }
+
             return result;
         }
 
+        [NotNull]
         public NodeInfo Get
             (
                 [NotNull] PftNode node
@@ -101,6 +92,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         {
             NodeInfo result;
             Backward.TryGetValue(node, out result);
+
+            if (ReferenceEquals(result, null))
+            {
+                throw new PftCompilerException();
+            }
 
             return result;
         }

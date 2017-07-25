@@ -10,6 +10,7 @@
 #region Using directives
 
 using System;
+using System.Diagnostics;
 
 using AM.Logging;
 
@@ -75,6 +76,11 @@ namespace ManagedIrbis.Pft
         /// </summary>
         public bool HaveWarning { get { return Context.Output.HaveWarning; } }
 
+        /// <summary>
+        /// Elapsed.
+        /// </summary>
+        public TimeSpan Elapsed { get; set; }
+
         #endregion
 
         #region Construction
@@ -139,12 +145,20 @@ namespace ManagedIrbis.Pft
                 throw new PftException("Program was not set");
             }
 
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             Context.ClearAll();
             Context.Record = record;
             Context.Procedures = Program.Procedures;
             Program.Execute(Context);
 
-            return Context.GetProcessedOutput();
+            string result = Context.GetProcessedOutput();
+
+            stopwatch.Stop();
+            Elapsed = stopwatch.Elapsed;
+
+            return result;
         }
 
         /// <summary>

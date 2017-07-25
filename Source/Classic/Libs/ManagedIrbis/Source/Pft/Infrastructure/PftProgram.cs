@@ -65,19 +65,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region PftNode members
 
-        /// <inheritdoc cref="PftNode.Compile" />
-        public override void Compile
-            (
-                PftCompiler compiler
-            )
-        {
-            base.Compile(compiler);
-
-            compiler.StartMethod(this);
-            compiler.CallNodes(Children);
-            compiler.EndMethod(this);
-        }
-
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
             (

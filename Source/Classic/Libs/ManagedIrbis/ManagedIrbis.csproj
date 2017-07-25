@@ -453,10 +453,12 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftWhile.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftWith.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftX.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Compiler\CompilerUtility.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\NodeDictionary.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\NodeInfo.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\NumberingVisitor.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\PftCompiler.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Compiler\PftCompilerException.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\PftPacket.cs" />
     <Compile Include="Source\Pft\Infrastructure\Diagnostics\PftDebugger.cs" />
     <Compile Include="Source\Pft\Infrastructure\Diagnostics\PftNodeInfo.cs" />

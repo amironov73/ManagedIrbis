@@ -10,6 +10,7 @@
 #region Using directives
 
 using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -115,6 +116,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 printer.EatWhitespace();
                 printer.WriteLine();
             }
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString"/>
+        public override string ToString()
+        {
+            return ",";
         }
 
         #endregion
