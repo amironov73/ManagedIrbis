@@ -146,6 +146,28 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.CompareNode"/>
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftFieldAssignment otherAssignment
+                = (PftFieldAssignment) otherNode;
+            PftSerializationUtility.CompareNodes
+                (
+                    Field,
+                    otherAssignment.Field
+                );
+            PftSerializationUtility.CompareLists
+                (
+                    Expression,
+                    otherAssignment.Expression
+                );
+        }
+
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
             (
@@ -253,6 +275,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
+            printer.WriteIndentIfNeeded();
             if (!ReferenceEquals(Field, null))
             {
                 Field.PrettyPrint(printer);

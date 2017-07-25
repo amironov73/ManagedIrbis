@@ -421,7 +421,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Text
         /// Write indent if needed.
         /// </summary>
         [NotNull]
-        public PftPrettyPrinter WriteIndendIfNeeded()
+        public PftPrettyPrinter WriteIndentIfNeeded()
         {
             int delta = IndentWidth * Level - Column;
             while (delta > 0)
@@ -525,7 +525,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Text
 
             foreach (PftNode node in nodes)
             {
-                WriteIndendIfNeeded();
+                WriteIndentIfNeeded();
                 node.PrettyPrint(this);
                 WriteLineIfNeeded();
             }

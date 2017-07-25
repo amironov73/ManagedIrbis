@@ -107,7 +107,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer.Write(" false ");
+            printer.EatWhitespace();
+            printer
+                .SingleSpace()
+                .Write("false")
+                .SingleSpace();
         }
 
         #endregion

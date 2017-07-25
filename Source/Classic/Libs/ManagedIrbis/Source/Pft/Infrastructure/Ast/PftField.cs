@@ -588,6 +588,50 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.CompareNode"/>
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftField otherField = (PftField) otherNode;
+            if (Command != otherField.Command
+                || Embedded != otherField.Embedded
+                || Indent != otherField.Indent
+                || Offset != otherField.Offset
+                || SubField != otherField.SubField
+                || Tag != otherField.Tag
+                || TagSpecification != otherField.TagSpecification
+                || RepeatCount != otherField.RepeatCount
+                || IndexSpecification.Compare
+                    (
+                        FieldRepeat,
+                        otherField.FieldRepeat
+                    )
+                || IndexSpecification.Compare
+                    (
+                        SubFieldRepeat,
+                        otherField.SubFieldRepeat
+                    )
+                )
+            {
+                throw new IrbisException();
+            }
+
+            PftSerializationUtility.CompareLists
+                (
+                    LeftHand,
+                    otherField.LeftHand
+                );
+            PftSerializationUtility.CompareLists
+                (
+                    RightHand,
+                    otherField.RightHand
+                );
+        }
+
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
             (
@@ -703,6 +747,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
+            printer.EatWhitespace();
             printer.SingleSpace();
 
             printer.WriteNodes(LeftHand);

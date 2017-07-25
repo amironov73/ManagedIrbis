@@ -115,7 +115,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             printer
-                .WriteIndendIfNeeded()
+                .WriteIndentIfNeeded()
                 .Write("<<<")
                 .Write(Text)
                 .Write(">>>");

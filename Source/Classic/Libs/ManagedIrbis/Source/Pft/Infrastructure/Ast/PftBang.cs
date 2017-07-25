@@ -89,7 +89,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             printer
-                .WriteIndendIfNeeded()
+                .WriteIndentIfNeeded()
                 .SingleSpace()
                 .Write('!')
                 .SingleSpace();

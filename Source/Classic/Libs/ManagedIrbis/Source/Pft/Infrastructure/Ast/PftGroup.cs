@@ -189,7 +189,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             else
             {
                 printer
-                    .WriteIndendIfNeeded()
+                    .WriteIndentIfNeeded()
                     .Write("( ");
             }
             base.PrettyPrint(printer);
@@ -206,7 +206,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             else
             {
                 printer
-                    .WriteIndendIfNeeded()
+                    .WriteIndentIfNeeded()
                     .Write(')');
             }
         }

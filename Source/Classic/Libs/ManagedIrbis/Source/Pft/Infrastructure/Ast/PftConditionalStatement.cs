@@ -363,7 +363,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             printer.WriteLine();
 
             printer
-                .WriteIndendIfNeeded()
+                .WriteIndentIfNeeded()
                 .Write("fi,");
 
             //if (needComment

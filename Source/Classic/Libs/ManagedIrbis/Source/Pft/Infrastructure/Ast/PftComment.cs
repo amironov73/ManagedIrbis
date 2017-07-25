@@ -83,7 +83,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             // Добавляем пробел для читабельности
             printer
-                .WriteIndendIfNeeded()
+                .WriteIndentIfNeeded()
                 .Write("/* ");
             printer.WriteLine(Text);
         }

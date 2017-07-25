@@ -22,6 +22,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -32,6 +33,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     /// <summary>
     /// 
     /// </summary>
+    /// <example>
+    /// <code>
+    /// from $x in (v692^b/)
+    /// where $x:'2008'
+    /// select 'Item: ', $x,
+    /// order $x,
+    /// end
+    /// </code>
+    /// </example>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftFrom
@@ -363,6 +373,88 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             return result;
         }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+        (
+            PftPrettyPrinter printer
+        )
+        {
+            printer.EatWhitespace();
+            printer.EatNewLine();
+
+            printer
+                .WriteLine()
+                .WriteIndent()
+                .Write("from ");
+
+            if (!ReferenceEquals(Variable, null))
+            {
+                Variable.PrettyPrint(printer);
+            }
+
+            printer.Write(" in ");
+
+            bool first = true;
+            foreach (PftNode node in Source)
+            {
+                if (!first)
+                {
+                    printer.Write(", ");
+                }
+                node.PrettyPrint(printer);
+                first = false;
+            }
+            printer.WriteLine();
+
+            if (!ReferenceEquals(Where, null))
+            {
+                printer
+                    .WriteIndent()
+                    .Write("where ");
+                Where.PrettyPrint(printer);
+                printer.WriteLine();
+            }
+
+            printer
+                .WriteIndentIfNeeded()
+                .Write("select ");
+            first = true;
+            foreach (PftNode node in Select)
+            {
+                if (!first)
+                {
+                    printer.Write(", ");
+                }
+                node.PrettyPrint(printer);
+                first = false;
+            }
+            printer.WriteLine();
+
+            if (Order.Count != 0)
+            {
+                printer
+                    .WriteIndent()
+                    .Write("order ");
+                first = true;
+                foreach (PftNode node in Order)
+                {
+                    if (!first)
+                    {
+                        printer.Write(", ");
+                    }
+                    node.PrettyPrint(printer);
+                    first = false;
+                }
+                printer.WriteLine();
+            }
+
+            printer.WriteLine();
+            printer
+                .WriteIndent()
+                .WriteLine("end");
+        }
+
 
         /// <inheritdoc cref="PftNode.Serialize" />
         protected internal override void Serialize

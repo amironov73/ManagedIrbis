@@ -105,9 +105,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
-            printer.Write(" floor(");
+            printer.EatWhitespace();
+            printer
+                .SingleSpace()
+                .Write("floor(");
             base.PrettyPrint(printer);
-            printer.Write(") ");
+            printer.Write(')');
         }
 
         #endregion

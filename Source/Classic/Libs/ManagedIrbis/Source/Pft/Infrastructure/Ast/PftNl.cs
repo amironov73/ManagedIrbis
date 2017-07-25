@@ -98,7 +98,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             printer.EatWhitespace();
             printer
-                .WriteIndendIfNeeded()
+                .WriteIndentIfNeeded()
                 .Write(" nl ");
         }
 

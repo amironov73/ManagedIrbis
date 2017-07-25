@@ -15,7 +15,6 @@ using System.IO;
 using System.Linq;
 
 using AM;
-using AM.Collections;
 using AM.Logging;
 
 using CodeJam;
@@ -24,6 +23,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -65,6 +65,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         /// <inheritdoc cref="PftNode.ExtendedSyntax" />
         public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
+
+        /// <inheritdoc cref="PftNode.ComplexExpression"/>
+        public override bool ComplexExpression
         {
             get { return true; }
         }
@@ -186,6 +192,32 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.CompareNode"/>
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftForEach otherForEach = (PftForEach) otherNode;
+            PftSerializationUtility.CompareNodes
+                (
+                    Variable,
+                    otherForEach.Variable
+                );
+            PftSerializationUtility.CompareLists
+                (
+                    Sequence,
+                    otherForEach.Sequence
+                );
+            PftSerializationUtility.CompareLists
+                (
+                    Body,
+                    otherForEach.Body
+                );
+        }
+
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
             (
@@ -274,6 +306,53 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.EatWhitespace();
+            printer.EatNewLine();
+
+            printer
+                .WriteLine()
+                .WriteIndent()
+                .Write("foreach ");
+
+            if (!ReferenceEquals(Variable, null))
+            {
+                Variable.PrettyPrint(printer);
+            }
+            printer.Write(" in ");
+
+            bool first = true;
+            foreach (PftNode node in Sequence)
+            {
+                if (!first)
+                {
+                    printer.Write(", ");
+                }
+                node.PrettyPrint(printer);
+                first = false;
+            }
+
+            printer
+                .WriteIndent()
+                .WriteLine("do");
+
+            printer.IncreaseLevel();
+            printer.WriteNodes(Body);
+            printer.DecreaseLevel();
+            printer.EatWhitespace();
+            printer.EatNewLine();
+            printer.WriteLine();
+            printer
+                .WriteIndent()
+                .WriteLine("end");
+        }
+
+
         /// <inheritdoc cref="PftNode.Serialize" />
         protected internal override void Serialize
             (
@@ -288,6 +367,5 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         #endregion
-
     }
 }

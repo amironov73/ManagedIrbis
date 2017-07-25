@@ -153,7 +153,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             printer.EatNewLine();
             printer
                 .WriteLine()
-                .WriteIndendIfNeeded()
+                .WriteIndentIfNeeded()
                 .Write("{{{")
                 .Write(Text)
                 .WriteLine("}}}");
