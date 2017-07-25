@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 using AM;
 using AM.Logging;
@@ -20,6 +21,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
@@ -173,7 +175,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             base.CompareNode(otherNode);
 
             PftConditionalStatement otherStatement
-                = (PftConditionalStatement) otherNode;
+                = (PftConditionalStatement)otherNode;
             PftSerializationUtility.CompareNodes
                 (
                     Condition,
@@ -189,6 +191,47 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     ElseBranch,
                     otherStatement.ElseBranch
                 );
+        }
+
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            if (ReferenceEquals(Condition, null))
+            {
+                throw new PftCompilerException();
+            }
+
+            Condition.Compile(compiler);
+            foreach (PftNode node in ThenBranch)
+            {
+                node.Compile(compiler);
+            }
+            foreach (PftNode node in ElseBranch)
+            {
+                node.Compile(compiler);
+            }
+
+            compiler.StartMethod(this);
+
+            compiler.Output.Write("\tif(");
+            compiler.CallNodeMethod(Condition);
+            compiler.Output.WriteLine(")");
+            compiler.Output.WriteLine("\t{");
+            compiler.CallNodes(ThenBranch);
+            compiler.Output.WriteLine("\t}");
+            if (ElseBranch.Count != 0)
+            {
+                compiler.Output.WriteLine("\telse");
+                compiler.Output.WriteLine("\t{");
+                compiler.CallNodes(ElseBranch);
+                compiler.Output.WriteLine("\t}");
+            }
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
         }
 
         /// <inheritdoc cref="PftNode.Deserialize" />
@@ -386,6 +429,39 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftSerializer.SerializeNullable(writer, Condition);
             PftSerializer.Serialize(writer, ThenBranch);
             PftSerializer.Serialize(writer, ElseBranch);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="Object.ToString"/>
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append("if ");
+            if (!ReferenceEquals(Condition, null))
+            {
+                result.Append(Condition);
+            }
+            result.Append(" then");
+            foreach (PftNode node in ThenBranch)
+            {
+                result.Append(' ');
+                result.Append(node);
+            }
+            if (ElseBranch.Count != 0)
+            {
+                result.Append(" else");
+                foreach (PftNode node in ElseBranch)
+                {
+                    result.Append(' ');
+                    result.Append(node);
+                }
+            }
+            result.Append(" fi");
+
+            return result.ToString();
         }
 
         #endregion

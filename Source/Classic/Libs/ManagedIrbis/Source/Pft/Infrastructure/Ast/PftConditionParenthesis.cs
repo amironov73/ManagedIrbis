@@ -12,12 +12,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 using AM;
 using AM.Logging;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
@@ -148,6 +150,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 );
         }
 
+        /// <inheritdoc cref="PftNode.Compile"/>
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            if (ReferenceEquals(InnerCondition, null))
+            {
+                throw new PftCompilerException();
+            }
+
+            InnerCondition.Compile(compiler);
+
+            compiler.StartMethod(this);
+
+            compiler.Output.Write("\tbool result = ");
+            compiler.CallNodeMethod(InnerCondition);
+            compiler.Output.WriteLine(";");
+            compiler.Output.WriteLine("\treturn result;");
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
+
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
             (
@@ -226,6 +252,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             base.Serialize(writer);
 
             PftSerializer.SerializeNullable(writer, InnerCondition);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString"/>
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append('(');
+            if (!ReferenceEquals(InnerCondition, null))
+            {
+                result.Append(InnerCondition);
+            }
+            result.Append(')');
+
+            return result.ToString();
         }
 
         #endregion

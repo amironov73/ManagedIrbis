@@ -23,7 +23,10 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Text;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -212,6 +215,29 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            compiler.StartMethod(this);
+
+            compiler.Output.WriteLine
+                (
+                    "\tContext.FieldOutputMode = PftMode.{0};",
+                    OutputMode
+                );
+            compiler.Output.WriteLine
+                (
+                    "\tContext.UpperMode = {0};",
+                    UpperMode
+                );
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
 
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute

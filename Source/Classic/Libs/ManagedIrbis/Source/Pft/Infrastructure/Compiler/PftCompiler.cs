@@ -28,7 +28,7 @@ using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Ast;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -106,13 +106,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             Code.NotNull(node, "node");
 
             NodeInfo info = Dictionary.Get(node);
-            Output.WriteLine
+            bool special = node is PftBoolean || node is PftNumeric;
+            if (!special)
+            {
+                Output.Write("\t");
+            }
+            Output.Write
                 (
-                    "{0}{1} (); // {2}",
+                    "{0}{1} ()",
                     NodeMethodPrefix,
-                    info.Id,
-                    PftNode.SimplifyTypeName(node.GetType().Name)
+                    info.Id
                 );
+            if (!special)
+            {
+                Output.WriteLine
+                    (
+                        " // {0}",
+                        PftNode.SimplifyTypeName(node.GetType().Name)
+                    );
+            }
         }
 
         /// <summary>
@@ -179,7 +191,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 throw new PftCompilerException();
             }
 
-            Output.WriteLine("}");
+            Output.WriteLine("} // end of class");
         }
 
         /// <summary>
@@ -197,7 +209,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 throw new PftCompilerException();
             }
 
-            Output.WriteLine("}");
+            Output.WriteLine("} // end of method");
             Output.WriteLine();
 
             _currentNode = null;
@@ -283,9 +295,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                     PftNode.SimplifyTypeName(node.GetType().Name),
                     CompilerUtility.ShortenText(node.ToString())
                 );
+            string returnType = "void";
+            if (node is PftBoolean)
+            {
+                returnType = "bool";
+            }
+            else if (node is PftNumeric)
+            {
+                returnType = "double";
+            }
             Output.WriteLine
                 (
-                    "public void {0}{1}",
+                    "public {0} {1}{2}",
+                    returnType,
                     NodeMethodPrefix,
                     info.Id
                 );

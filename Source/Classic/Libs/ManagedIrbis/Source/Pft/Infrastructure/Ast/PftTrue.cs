@@ -9,7 +9,12 @@
 
 #region Using directives
 
+using AM.Logging;
+
 using JetBrains.Annotations;
+
+using ManagedIrbis.Pft.Infrastructure.Compiler;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -37,9 +42,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         public override bool Value
         {
             get { return true; }
-            set
+
+            // ReSharper disable once ValueParameterNotUsed
+            set //-V3077
             {
                 // Nothing to do here
+
+                Log.Warn
+                (
+                    "PftFalse::Value::set"
+                );
             }
         }
 
@@ -77,6 +89,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            compiler.StartMethod(this);
+            compiler.Output.WriteLine("\treturn true;");
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
+
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
@@ -88,6 +112,29 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             // Nothing to do here
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint"/>
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.EatWhitespace();
+            printer
+                .SingleSpace()
+                .Write("true")
+                .SingleSpace();
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString"/>
+        public override string ToString()
+        {
+            return "true";
         }
 
         #endregion

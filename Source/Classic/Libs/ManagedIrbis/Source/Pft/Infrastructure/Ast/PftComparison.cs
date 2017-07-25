@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 
 using AM;
@@ -21,7 +22,7 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
@@ -443,6 +444,43 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 );
         }
 
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            if (ReferenceEquals(LeftOperand, null)
+                || ReferenceEquals(RightOperand, null)
+                || string.IsNullOrEmpty(Operation))
+            {
+                throw new PftCompilerException();
+            }
+
+            LeftOperand.Compile(compiler);
+            RightOperand.Compile(compiler);
+
+            compiler.StartMethod(this);
+            compiler.Output.Write("\tvar leftOperand = ");
+            compiler.CallNodeMethod(LeftOperand);
+            compiler.Output.WriteLine(";");
+            compiler.Output.Write("\tvar rightOperand = ");
+            compiler.CallNodeMethod(RightOperand);
+            compiler.Output.WriteLine(";");
+
+            // TODO implement properly
+            compiler.Output.WriteLine
+                (
+                    "\tvar result = leftOperand {0} rightOperand;",
+                    Operation
+                );
+
+            compiler.Output.WriteLine("\treturn result;");
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
+
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
             (
@@ -614,6 +652,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftSerializer.SerializeNullable(writer, LeftOperand);
             writer.WriteNullable(Operation);
             PftSerializer.SerializeNullable(writer, RightOperand);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+
+            if (!ReferenceEquals(LeftOperand, null))
+            {
+                result.Append(LeftOperand);
+            }
+
+            result.Append(Operation);
+
+            if (!ReferenceEquals(RightOperand, null))
+            {
+                result.Append(RightOperand);
+            }
+
+            return result.ToString();
         }
 
         #endregion

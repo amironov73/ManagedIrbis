@@ -13,6 +13,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
@@ -76,6 +77,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            compiler.StartMethod(this);
+            compiler.Output.WriteLine
+                (
+                    "\tcontext.Output.RemoveEmptyLines();"
+                  + "\tif (!Context.Output.PrecededByEmptyLine())"
+                  + "\t{"
+                  + "\t\tContext.WriteLine(null);"
+                  + "\t}"
+                  + "\tContext.EatNextNewLine = true;"
+                );
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
+
+
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
@@ -89,7 +111,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 context.WriteLine(this);
             }
-            context._eatNextNewLine = true;
+            context.EatNextNewLine = true;
 
             OnAfterExecution(context);
         }
@@ -101,9 +123,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             printer.EatWhitespace();
+            printer
+                .SingleSpace()
+                .Write('%')
+                .SingleSpace()
+                .WriteLineIfNeeded();
+        }
 
-            // Обрамляем пробелами
-            printer.Write(" % ");
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString"/>
+        public override string ToString()
+        {
+            return "%";
         }
 
         #endregion

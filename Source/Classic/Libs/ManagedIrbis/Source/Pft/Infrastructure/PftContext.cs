@@ -168,6 +168,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public PftCleanup PostProcessing { get; set; }
 
+        /// <summary>
+        /// Eat new newline.
+        /// </summary>
+        public bool EatNextNewLine;
+
         #endregion
 
         #region Construction
@@ -238,8 +243,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         // ReSharper disable InconsistentNaming
         private readonly PftContext _parent;
-
-        internal bool _eatNextNewLine;
 
         internal VMonitor _vMonitor;
         // ReSharper restore InconsistentNaming
@@ -636,7 +639,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 Output.Write(format, arg);
             }
-            _eatNextNewLine = false;
+            EatNextNewLine = false;
 
             return this;
         }
@@ -655,7 +658,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 Output.Write(value);
             }
-            _eatNextNewLine = false;
+            EatNextNewLine = false;
 
             return this;
         }

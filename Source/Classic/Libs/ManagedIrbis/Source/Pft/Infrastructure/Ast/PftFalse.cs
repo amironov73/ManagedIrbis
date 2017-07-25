@@ -13,6 +13,7 @@ using AM.Logging;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
@@ -88,6 +89,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            compiler.StartMethod(this);
+            compiler.Output.WriteLine("\treturn false;");
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
+
+
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
@@ -112,6 +126,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .SingleSpace()
                 .Write("false")
                 .SingleSpace();
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString"/>
+        public override string ToString()
+        {
+            return "false";
         }
 
         #endregion
