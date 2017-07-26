@@ -741,6 +741,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
+        /// <inheritdoc cref="PftNode.Optimize" />
+        public override PftNode Optimize()
+        {
+            LeftHand.Optimize();
+            RightHand.Optimize();
+
+            return this;
+        }
+
         /// <inheritdoc cref="PftNode.PrettyPrint" />
         public override void PrettyPrint
             (

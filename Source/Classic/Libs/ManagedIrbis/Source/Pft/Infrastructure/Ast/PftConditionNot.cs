@@ -209,6 +209,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
+        /// <inheritdoc cref="PftNode.Optimize" />
+        public override PftNode Optimize()
+        {
+            if (!ReferenceEquals(InnerCondition, null))
+            {
+                InnerCondition = (PftCondition) InnerCondition.Optimize();
+            }
+
+            return this;
+        }
+
         /// <inheritdoc cref="PftNode.PrettyPrint" />
         public override void PrettyPrint
             (

@@ -343,6 +343,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
+        /// <inheritdoc cref="PftNode.Optimize" />
+        public override PftNode Optimize()
+        {
+            if (!ReferenceEquals(LeftOperand, null))
+            {
+                LeftOperand = (PftCondition) LeftOperand.Optimize();
+            }
+            if (!ReferenceEquals(RightOperand, null))
+            {
+                RightOperand = (PftCondition) RightOperand.Optimize();
+            }
+
+            return this;
+        }
+
         /// <inheritdoc cref="PftNode.PrettyPrint" />
         public override void PrettyPrint
             (

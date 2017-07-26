@@ -14,7 +14,9 @@ using System.Globalization;
 using AM;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Text;
+
 using MoonSharp.Interpreter;
 
 #endregion

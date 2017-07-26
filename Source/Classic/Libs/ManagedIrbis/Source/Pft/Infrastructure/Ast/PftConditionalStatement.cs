@@ -265,6 +265,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new PftSyntaxException();
             }
 
+            if (ThenBranch.Count == 0
+                && ElseBranch.Count == 0)
+            {
+                Log.Warn
+                    (
+                        "PftConditionalStatement::Execute: "
+                        + "Empty Then and Else branches"
+                    );
+            }
+
             Condition.Execute(context);
 
             if (Condition.Value)
@@ -329,6 +339,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return result;
+        }
+
+        /// <inheritdoc cref="PftNode.Optimize"/>
+        public override PftNode Optimize()
+        {
+            if (!ReferenceEquals(Condition, null))
+            {
+                Condition = (PftCondition) Condition.Optimize();
+            }
+            ThenBranch.Optimize();
+            ElseBranch.Optimize();
+
+            if (ThenBranch.Count == 0
+                && ElseBranch.Count == 0)
+            {
+                return null;
+            }
+
+            return this;
         }
 
         /// <inheritdoc cref="PftNode.PrettyPrint" />

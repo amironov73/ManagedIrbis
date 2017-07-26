@@ -23,7 +23,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
-
+using ManagedIrbis.Pft.Infrastructure.Text;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -338,6 +338,38 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return result;
+        }
+
+        /// <inheritdoc cref="PftNode.Optimize" />
+        public override PftNode Optimize()
+        {
+            if (!ReferenceEquals(LeftOperand, null))
+            {
+                LeftOperand = (PftNumeric) LeftOperand.Optimize();
+            }
+            if (!ReferenceEquals(RightOperand, null))
+            {
+                RightOperand = (PftNumeric) RightOperand.Optimize();
+            }
+
+            return this;
+        }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+            PftPrettyPrinter printer
+            )
+        {
+            if (!ReferenceEquals(LeftOperand, null))
+            {
+                LeftOperand.PrettyPrint(printer);
+            }
+            printer.Write(" {0 ", Operation);
+            if (!ReferenceEquals(RightOperand, null))
+            {
+                RightOperand.PrettyPrint(printer);
+            }
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />

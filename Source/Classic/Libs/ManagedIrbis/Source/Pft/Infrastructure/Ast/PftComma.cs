@@ -83,6 +83,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override PftNode Optimize()
+        {
+            // Take the node away from the AST
+
+            return null;
+        }
+
+        /// <inheritdoc cref="PftNode.Optimize" />
         public override void PrettyPrint
             (
                 PftPrettyPrinter printer

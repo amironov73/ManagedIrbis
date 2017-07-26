@@ -201,6 +201,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
+        /// <inheritdoc cref="PftNode.Optimize" />
+        public override PftNode Optimize()
+        {
+            if (string.IsNullOrEmpty(Text))
+            {
+                // Take the node away from the AST
+
+                return null;
+            }
+
+            return this;
+        }
+
         /// <inheritdoc cref="PftNode.Serialize" />
         protected internal override void Serialize
             (

@@ -69,6 +69,33 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Public methods
 
+        /// <summary>
+        /// Optimize the collection.
+        /// </summary>
+        public void Optimize()
+        {
+            PftNode[] array = ToArray();
+
+            foreach (PftNode node in array)
+            {
+                PftNode optimized = node.Optimize();
+
+                if (!ReferenceEquals(node, optimized))
+                {
+                    if (ReferenceEquals(optimized, null))
+                    {
+                        Remove(node);
+                    }
+                    else
+                    {
+                        int index = IndexOf(node);
+                        optimized.Parent = null;
+                        SetItem(index, optimized);
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region Collection<T> members
@@ -119,6 +146,15 @@ namespace ManagedIrbis.Pft.Infrastructure
                 if (!ReferenceEquals(item.Parent, Parent))
                 {
                     throw new IrbisException();
+                }
+            }
+
+            if (index < Count)
+            {
+                PftNode previousItem = this[index];
+                if (!ReferenceEquals(previousItem, item))
+                {
+                    previousItem.Parent = null;
                 }
             }
 

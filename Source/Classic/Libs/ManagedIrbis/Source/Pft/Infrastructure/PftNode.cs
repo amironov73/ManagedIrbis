@@ -531,9 +531,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         [CanBeNull]
         public virtual PftNode Optimize()
         {
-            if (Children.Count == 1)
+            PftNodeCollection children = Children as PftNodeCollection;
+            if (!ReferenceEquals(children, null))
             {
-                return Children[0].Optimize();
+                children.Optimize();
             }
 
             return this;
