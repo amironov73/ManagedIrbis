@@ -145,8 +145,12 @@ namespace ManagedIrbis.Pft
                 throw new PftException("Program was not set");
             }
 
+#if !SILVERLIGHT
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
+
+#endif
 
             Context.ClearAll();
             Context.Record = record;
@@ -155,8 +159,12 @@ namespace ManagedIrbis.Pft
 
             string result = Context.GetProcessedOutput();
 
+#if !SILVERLIGHT
+
             stopwatch.Stop();
             Elapsed = stopwatch.Elapsed;
+
+#endif
 
             return result;
         }
