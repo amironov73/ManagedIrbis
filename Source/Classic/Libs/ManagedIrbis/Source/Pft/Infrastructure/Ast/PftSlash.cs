@@ -80,13 +80,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             compiler.StartMethod(this);
-            compiler.Output.WriteLine
-                (
-                    "\tif (!Context.Output.HaveEmptyLine())"
-                    + "\t{"
-                    + "\t\tContext.WriteLine(null);"
-                    + "\t}"
-                );
+            compiler
+                .WriteIndent()
+                .WriteLine("if (!Context.Output.HaveEmptyLine())")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                    .WriteIndent()
+                    .WriteLine("Context.WriteLine(null);")
+                .DecreaseIndent()
+                .WriteLine("}");
             compiler.EndMethod(this);
             compiler.MarkReady(this);
         }

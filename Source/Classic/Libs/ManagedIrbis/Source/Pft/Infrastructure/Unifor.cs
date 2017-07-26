@@ -643,7 +643,9 @@ namespace ManagedIrbis.Pft.Infrastructure
                     return;
                 }
                 char separator = navigator.ReadChar();
-                if (separator != '\\' && separator != '!')
+                if (separator != '\\'
+                    && separator != '!'
+                    && separator != '|')
                 {
                     return;
                 }
@@ -669,6 +671,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     switch (separator)
                     {
                         case '\\':
+                        case '|': // nondocumented but used in scripts
                             output = menu.GetStringSensitive(key);
                             break;
 

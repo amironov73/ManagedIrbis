@@ -20,10 +20,11 @@ using AM.IO;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -220,6 +221,75 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.CompareNode" />
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftNumericExpression otherExpression
+                = (PftNumericExpression) otherNode;
+            PftSerializationUtility.CompareNodes
+                (
+                    LeftOperand,
+                    otherExpression.LeftOperand
+                );
+            PftSerializationUtility.CompareNodes
+                (
+                    RightOperand,
+                    otherExpression.RightOperand
+                );
+            if (Operation != otherExpression.Operation)
+            {
+                throw new IrbisException();
+            }
+        }
+
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            if (ReferenceEquals(LeftOperand, null)
+                || ReferenceEquals(RightOperand, null)
+                || string.IsNullOrEmpty(Operation))
+            {
+                throw new PftCompilerException();
+            }
+
+            LeftOperand.Compile(compiler);
+            RightOperand.Compile(compiler);
+
+            compiler.StartMethod(this);
+
+            compiler
+                .WriteIndent()
+                .Write("var left = ")
+                .CallNodeMethod(LeftOperand)
+                .WriteLine();
+            compiler
+                .WriteIndent()
+                .Write("var right = ")
+                .CallNodeMethod(RightOperand)
+                .WriteLine();
+            compiler
+                .WriteIndent()
+                .WriteLine
+                    (
+                        "var result = left {0} right;",
+                        Operation
+                    );
+            compiler
+                .WriteIndent()
+                .WriteLine("return result;");
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
 
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize

@@ -81,6 +81,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
+        /// <inheritdoc cref="PftNode.Optimize" />
+        public override PftNode Optimize()
+        {
+            PftNodeCollection children = (PftNodeCollection)Children;
+            children.Optimize();
+
+            if (children.Count == 0)
+            {
+                // Take the node away from the AST
+
+                return null;
+            }
+
+            return this;
+        }
+
         /// <inheritdoc cref="PftNode.PrettyPrint" />
         public override void PrettyPrint
             (
@@ -88,10 +104,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             printer.EatWhitespace();
-            printer.Write(" s(");
+            printer
+                .SingleSpace()
+                .Write("s(");
             base.PrettyPrint(printer);
             printer.EatWhitespace();
-            printer.Write(") ");
+            printer.Write(')');
         }
 
         #endregion

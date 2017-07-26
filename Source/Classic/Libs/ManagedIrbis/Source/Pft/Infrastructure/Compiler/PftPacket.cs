@@ -65,6 +65,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
 
         #region Public methods
 
+        /// <summary>
+        /// Do group.
+        /// </summary>
+        public void DoGroup
+            (
+                [NotNull] Action action
+            )
+        {
+            
+        }
+
         #endregion
 
         #region Object members

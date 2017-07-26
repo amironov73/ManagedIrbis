@@ -127,9 +127,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             compiler.StartMethod(this);
-            compiler.Output.WriteLine
+            compiler
+                .WriteIndent()
+                .WriteLine
                 (
-                    "\tContext.Write(null,\"{0}\");",
+                    "Context.Write(null,\"{0}\");",
                     Text
                 );
             compiler.EndMethod(this);
@@ -146,24 +148,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             string text = Text;
 
-            if (string.IsNullOrEmpty(text))
-            {
-                Log.Error
-                    (
-                        "PftUnconditionalLiteral::Execute: "
-                        + "empty literal: "
-                        + this
-                    );
-
-                if (ThrowOnEmpty)
-                {
-                    throw new PftSemanticException
-                        (
-                            "Empty literal detected: "
-                            + this
-                        );
-                }
-            }
+            // Never throw on empty literal
 
             if (context.UpperMode
                 && !ReferenceEquals(text, null))
@@ -183,12 +168,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <inheritdoc cref="PftNode.Optimize" />
         public override PftNode Optimize()
         {
-            if (string.IsNullOrEmpty(Text))
-            {
-                // Take the node away from the AST
-
-                return null;
-            }
+            // Never optimize!
 
             return this;
         }

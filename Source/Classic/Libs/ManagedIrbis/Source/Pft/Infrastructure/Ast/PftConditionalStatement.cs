@@ -205,29 +205,36 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             Condition.Compile(compiler);
-            foreach (PftNode node in ThenBranch)
-            {
-                node.Compile(compiler);
-            }
-            foreach (PftNode node in ElseBranch)
-            {
-                node.Compile(compiler);
-            }
+            compiler.CompileNodes(ThenBranch);
+            compiler.CompileNodes(ElseBranch);
 
             compiler.StartMethod(this);
 
-            compiler.Output.Write("\tif(");
-            compiler.CallNodeMethod(Condition);
-            compiler.Output.WriteLine(")");
-            compiler.Output.WriteLine("\t{");
-            compiler.CallNodes(ThenBranch);
-            compiler.Output.WriteLine("\t}");
+            compiler
+                .WriteIndent()
+                .Write("var flag = ")
+                .CallNodeMethod(Condition)
+                .WriteIndent()
+                .WriteLine("if (flag)")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                .CallNodes(ThenBranch)
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("}");
             if (ElseBranch.Count != 0)
             {
-                compiler.Output.WriteLine("\telse");
-                compiler.Output.WriteLine("\t{");
-                compiler.CallNodes(ElseBranch);
-                compiler.Output.WriteLine("\t}");
+                compiler
+                    .WriteIndent()
+                    .WriteLine("else")
+                    .WriteIndent()
+                    .WriteLine("{")
+                    .IncreaseIndent()
+                    .CallNodes(ElseBranch)
+                    .DecreaseIndent()
+                    .WriteIndent()
+                    .WriteLine("}");
             }
 
             compiler.EndMethod(this);

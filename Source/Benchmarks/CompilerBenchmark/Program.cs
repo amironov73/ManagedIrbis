@@ -66,10 +66,17 @@ namespace CompilerBenchmark
                         PftFormatter formatter = new PftFormatter(context);
                         formatter.ParseProgram(source);
 
+                        PftProgram program 
+                            = (PftProgram) formatter.Program.Clone();
+                        program.Optimize();
+
+                        Console.WriteLine(program.DumpToText());
+                        Console.WriteLine();
+
                         PftCompiler compiler = new PftCompiler();
                         compiler.CompileProgram
                             (
-                                formatter.Program
+                                program
                             );
                         string sourceCode = compiler.GetSourceCode();
                         Console.WriteLine(sourceCode);

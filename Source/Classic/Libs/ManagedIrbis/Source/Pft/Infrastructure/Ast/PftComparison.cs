@@ -22,6 +22,7 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
@@ -461,21 +462,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             RightOperand.Compile(compiler);
 
             compiler.StartMethod(this);
-            compiler.Output.Write("\tvar leftOperand = ");
-            compiler.CallNodeMethod(LeftOperand);
-            compiler.Output.WriteLine(";");
-            compiler.Output.Write("\tvar rightOperand = ");
-            compiler.CallNodeMethod(RightOperand);
-            compiler.Output.WriteLine(";");
+
+            compiler
+                .WriteIndent()
+                .Write("var left = ")
+                .CallNodeMethod(LeftOperand);
+            compiler
+                .WriteIndent()
+                .Write("var right = ")
+                .CallNodeMethod(RightOperand);
 
             // TODO implement properly
-            compiler.Output.WriteLine
-                (
-                    "\tvar result = leftOperand {0} rightOperand;",
-                    Operation
-                );
-
-            compiler.Output.WriteLine("\treturn result;");
+            compiler
+                .WriteIndent()
+                .WriteLine
+                    (
+                        "var result = left {0} right;",
+                        Operation
+                    );
+            compiler
+                .WriteIndent()
+                .WriteLine("return result;");
 
             compiler.EndMethod(this);
             compiler.MarkReady(this);
@@ -620,6 +627,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return result;
+        }
+
+        /// <inheritdoc cref="PftNode.Optimize" />
+        public override PftNode Optimize()
+        {
+            if (ReferenceEquals(LeftOperand, null)
+                || ReferenceEquals(RightOperand, null)
+                || string.IsNullOrEmpty(Operation))
+            {
+                throw new PftCompilerException();
+            }
+
+            LeftOperand = LeftOperand.Optimize();
+            RightOperand = RightOperand.Optimize();
+
+            return this;
         }
 
         /// <inheritdoc cref="PftNode.PrettyPrint" />

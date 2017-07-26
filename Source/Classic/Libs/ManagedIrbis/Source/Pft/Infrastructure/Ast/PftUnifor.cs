@@ -18,6 +18,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
@@ -71,6 +72,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            compiler.CompileNodes(Children);
+
+            compiler.StartMethod(this);
+
+            compiler.CallNodes(Children);
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
+
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
             (
@@ -109,6 +126,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     Name.ThrowIfNull("Name"),
                     expression
                 );
+        }
+
+        /// <inheritdoc cref="PftNode.Optimize" />
+        public override PftNode Optimize()
+        {
+            PftNodeCollection children = (PftNodeCollection)Children;
+            children.Optimize();
+
+            if (children.Count == 0)
+            {
+                // Take the node away from the AST
+
+                return null;
+            }
+
+            return this;
         }
 
         /// <inheritdoc cref="PftNode.Serialize" />

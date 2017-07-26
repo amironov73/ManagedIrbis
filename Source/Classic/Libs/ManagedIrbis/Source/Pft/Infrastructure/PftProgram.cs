@@ -12,11 +12,13 @@
 using System.IO;
 
 using AM.Logging;
+using AM.Text.Output;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 using ManagedIrbis.Pft.Infrastructure.Compiler;
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
@@ -60,6 +62,19 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Dump the program.
+        /// </summary>
+        [NotNull]
+        public string DumpToText()
+        {
+            AbstractOutput output = new TextOutput();
+            PftNodeInfo nodeInfo = GetNodeInfo();
+            PftNodeInfo.Dump(output, nodeInfo, 0);
+
+            return output.ToString();
+        }
 
         #endregion
 

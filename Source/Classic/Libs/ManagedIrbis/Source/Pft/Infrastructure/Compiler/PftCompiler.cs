@@ -59,6 +59,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         [NotNull]
         internal TextWriter Output { get; private set; }
 
+        /// <summary>
+        /// Indentation level.
+        /// </summary>
+        public int Indent { get; private set; }
+
         #endregion
 
         #region Construction
@@ -68,6 +73,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// </summary>
         public PftCompiler()
         {
+            Indent = 0;
             Dictionary = new NodeDictionary();
             Output = new StringWriter();
         }
@@ -98,7 +104,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// <summary>
         /// Call method for the node.
         /// </summary>
-        public void CallNodeMethod
+        [NotNull]
+        public PftCompiler CallNodeMethod
             (
                 [NotNull] PftNode node
             )
@@ -106,31 +113,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             Code.NotNull(node, "node");
 
             NodeInfo info = Dictionary.Get(node);
-            bool special = node is PftBoolean || node is PftNumeric;
-            if (!special)
-            {
-                Output.Write("\t");
-            }
-            Output.Write
+            WriteLine
                 (
-                    "{0}{1} ()",
+                    "{0}{1} ();",
                     NodeMethodPrefix,
                     info.Id
                 );
-            if (!special)
-            {
-                Output.WriteLine
-                    (
-                        " // {0}",
-                        PftNode.SimplifyTypeName(node.GetType().Name)
-                    );
-            }
+
+            return this;
         }
 
         /// <summary>
         /// Call nodes.
         /// </summary>
-        public void CallNodes
+        [NotNull]
+        public PftCompiler CallNodes
             (
                 [NotNull] IList<PftNode> nodes
             )
@@ -139,8 +136,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
 
             foreach (PftNode node in nodes)
             {
+                WriteIndent();
                 CallNodeMethod(node);
             }
+
+            return this;
         }
 
         /// <summary>
@@ -182,6 +182,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         }
 
         /// <summary>
+        /// Decrease indent.
+        /// </summary>
+        [NotNull]
+        public PftCompiler DecreaseIndent()
+        {
+            Indent--;
+
+            return this;
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         public void EndClass()
@@ -191,7 +202,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 throw new PftCompilerException();
             }
 
-            Output.WriteLine("} // end of class");
+            DecreaseIndent();
+            WriteLine("} // end of class");
         }
 
         /// <summary>
@@ -209,8 +221,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 throw new PftCompilerException();
             }
 
-            Output.WriteLine("} // end of method");
-            Output.WriteLine();
+            DecreaseIndent();
+            WriteIndent();
+            WriteLine("} // end of method");
+            WriteLine();
 
             _currentNode = null;
         }
@@ -224,6 +238,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             string result = Output.ToString();
 
             return result;
+        }
+
+        /// <summary>
+        /// Increase indent.
+        /// </summary>
+        [NotNull]
+        public PftCompiler IncreaseIndent()
+        {
+            Indent++;
+
+            return this;
         }
 
         /// <summary>
@@ -252,20 +277,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         {
             string result = StringUtility.Random(10);
 
-            Output.WriteLine("using System;");
-            Output.WriteLine("using System.CodeDom.Compiler;");
-            Output.WriteLine("using System.Collections.Generic;");
-            Output.WriteLine("using System.Diagnostics;");
-            Output.WriteLine("using System.IO;");
-            Output.WriteLine("using System.Linq;");
-            Output.WriteLine("using System.Text;");
-            Output.WriteLine("using System.Threading.Tasks;");
-            Output.WriteLine("using AM;");
-            Output.WriteLine("using AM.Logging;");
-            Output.WriteLine();
-            Output.WriteLine("public class {0}", result);
-            Output.WriteLine("{");
-            Output.WriteLine();
+            WriteLine("using System;");
+            WriteLine("using System.CodeDom.Compiler;");
+            WriteLine("using System.Collections.Generic;");
+            WriteLine("using System.Diagnostics;");
+            WriteLine("using System.IO;");
+            WriteLine("using System.Linq;");
+            WriteLine("using System.Text;");
+            WriteLine("using System.Threading.Tasks;");
+            WriteLine();
+            WriteLine("using AM;");
+            WriteLine("using AM.Logging;");
+            WriteLine();
+            WriteLine("public class {0}", result);
+            WriteLine("{");
+            IncreaseIndent();
 
             return result;
         }
@@ -289,7 +315,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
 
             NodeInfo info = Dictionary.Get(node);
 
-            Output.WriteLine
+            WriteIndent();
+            WriteLine
                 (
                     "// {0}: {1}",
                     PftNode.SimplifyTypeName(node.GetType().Name),
@@ -304,15 +331,191 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             {
                 returnType = "double";
             }
-            Output.WriteLine
+            WriteIndent();
+            WriteLine
                 (
                     "public {0} {1}{2}",
                     returnType,
                     NodeMethodPrefix,
                     info.Id
                 );
-            Output.WriteLine("{");
+            WriteIndent();
+            WriteLine("{");
+            IncreaseIndent();
         }
+
+        #region Write
+
+        /// <inheritdoc cref="TextWriter.Write(char)" />
+        [NotNull]
+        public PftCompiler Write
+            (
+                char value
+            )
+        {
+            Output.Write(value);
+
+            return this;
+        }
+
+        /// <inheritdoc cref="TextWriter.Write(int)" />
+        [NotNull]
+        public PftCompiler Write
+            (
+                int value
+            )
+        {
+            Output.Write(value);
+
+            return this;
+        }
+
+        /// <inheritdoc cref="TextWriter.Write(double)" />
+        [NotNull]
+        public PftCompiler Write
+            (
+                double value
+            )
+        {
+            Output.Write(value);
+
+            return this;
+        }
+
+        /// <inheritdoc cref="TextWriter.Write(string)" />
+        [NotNull]
+        public PftCompiler Write
+            (
+                [NotNull] string value
+            )
+        {
+            Output.Write(value);
+
+            return this;
+        }
+
+        /// <inheritdoc cref="TextWriter.Write(object)" />
+        [NotNull]
+        public PftCompiler Write
+            (
+                [NotNull] object value
+            )
+        {
+            Output.Write(value);
+
+            return this;
+        }
+
+        /// <inheritdoc cref="TextWriter.Write(string,object[])" />
+        [NotNull]
+        public PftCompiler Write
+            (
+                [NotNull] string format,
+                params object[] arg
+            )
+        {
+            Output.Write(format, arg);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Write indentation.
+        /// </summary>
+        [NotNull]
+        public PftCompiler WriteIndent()
+        {
+            for (int i = 0; i < Indent; i++)
+            {
+                Output.Write("    ");
+            }
+
+            return this;
+        }
+
+        /// <inheritdoc cref="TextWriter.WriteLine()" />
+        [NotNull]
+        public PftCompiler WriteLine()
+        {
+            Output.WriteLine();
+
+            return this;
+        }
+
+        /// <inheritdoc cref="TextWriter.WriteLine(char)" />
+        [NotNull]
+        public PftCompiler WriteLine
+            (
+                char value
+            )
+        {
+            Output.WriteLine(value);
+
+            return this;
+        }
+
+        /// <inheritdoc cref="TextWriter.WriteLine(int)" />
+        [NotNull]
+        public PftCompiler WriteLine
+            (
+                int value
+            )
+        {
+            Output.WriteLine(value);
+
+            return this;
+        }
+
+        /// <inheritdoc cref="TextWriter.WriteLine(double)" />
+        [NotNull]
+        public PftCompiler WriteLine
+            (
+                double value
+            )
+        {
+            Output.WriteLine(value);
+
+            return this;
+        }
+
+        /// <inheritdoc cref="TextWriter.WriteLine(string)" />
+        [NotNull]
+        public PftCompiler WriteLine
+            (
+                [NotNull] string value
+            )
+        {
+            Output.WriteLine(value);
+
+            return this;
+        }
+
+        /// <inheritdoc cref="TextWriter.WriteLine(object)" />
+        [NotNull]
+        public PftCompiler WriteLine
+            (
+                [NotNull] object value
+            )
+        {
+            Output.WriteLine(value);
+
+            return this;
+        }
+
+        /// <inheritdoc cref="TextWriter.WriteLine(string,object[])" />
+        [NotNull]
+        public PftCompiler WriteLine
+            (
+                [NotNull] string format,
+                params object[] arg
+            )
+        {
+            Output.WriteLine(format, arg);
+
+            return this;
+        }
+
+        #endregion
 
         #endregion
 
