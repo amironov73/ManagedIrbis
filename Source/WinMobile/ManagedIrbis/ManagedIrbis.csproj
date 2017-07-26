@@ -194,6 +194,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\RemoteCatalogerIniFile.cs">
       <Link>Source\Client\RemoteCatalogerIniFile.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\SemiConnectedClient.cs">
+      <Link>Source\Client\SemiConnectedClient.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ConnectionElement.cs">
       <Link>Source\ConnectionElement.cs</Link>
     </Compile>
@@ -206,11 +209,14 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\DatabaseInfo.cs">
       <Link>Source\DatabaseInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectAccess64.cs">
+      <Link>Source\Direct\DirectAccess64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectAccessMode.cs">
+      <Link>Source\Direct\DirectAccessMode.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectReader32.cs">
       <Link>Source\Direct\DirectReader32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectReader64.cs">
-      <Link>Source\Direct\DirectReader64.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectUtility.cs">
       <Link>Source\Direct\DirectUtility.cs</Link>
@@ -289,6 +295,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Extensibility\IrbisExtension.cs">
       <Link>Source\Extensibility\IrbisExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FieldComparer.cs">
+      <Link>Source\FieldComparer.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FieldIndicator.cs">
       <Link>Source\FieldIndicator.cs</Link>
@@ -394,6 +403,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Gbl\ProtocolLine.cs">
       <Link>Source\Gbl\ProtocolLine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\CodeDigit.cs">
+      <Link>Source\Identifiers\CodeDigit.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\CrossRefApi.cs">
       <Link>Source\Identifiers\CrossRefApi.cs</Link>
@@ -1082,6 +1094,27 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftX.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftX.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\CompilerUtility.cs">
+      <Link>Source\Pft\Infrastructure\Compiler\CompilerUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\NodeDictionary.cs">
+      <Link>Source\Pft\Infrastructure\Compiler\NodeDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\NodeInfo.cs">
+      <Link>Source\Pft\Infrastructure\Compiler\NodeInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\NumberingVisitor.cs">
+      <Link>Source\Pft\Infrastructure\Compiler\NumberingVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\PftCompiler.cs">
+      <Link>Source\Pft\Infrastructure\Compiler\PftCompiler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\PftCompilerException.cs">
+      <Link>Source\Pft\Infrastructure\Compiler\PftCompilerException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\PftPacket.cs">
+      <Link>Source\Pft\Infrastructure\Compiler\PftPacket.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Diagnostics\PftDebugger.cs">
       <Link>Source\Pft\Infrastructure\Diagnostics\PftDebugger.cs</Link>
     </Compile>
@@ -1169,8 +1202,14 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftLexer.cs">
       <Link>Source\Pft\Infrastructure\PftLexer.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftMask.cs">
+      <Link>Source\Pft\Infrastructure\PftMask.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftNode.cs">
       <Link>Source\Pft\Infrastructure\PftNode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftNodeCollection.cs">
+      <Link>Source\Pft\Infrastructure\PftNodeCollection.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftOutput.cs">
       <Link>Source\Pft\Infrastructure\PftOutput.cs</Link>
@@ -1223,6 +1262,18 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\ProgramCache.cs">
       <Link>Source\Pft\Infrastructure\ProgramCache.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Serialization\PftSerializationException.cs">
+      <Link>Source\Pft\Infrastructure\Serialization\PftSerializationException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Serialization\PftSerializationUtility.cs">
+      <Link>Source\Pft\Infrastructure\Serialization\PftSerializationUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Serialization\PftSerializer.cs">
+      <Link>Source\Pft\Infrastructure\Serialization\PftSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Serialization\TypeMap.cs">
+      <Link>Source\Pft\Infrastructure\Serialization\TypeMap.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Testing\PftTest.cs">
       <Link>Source\Pft\Infrastructure\Testing\PftTest.cs</Link>
     </Compile>
@@ -1234,6 +1285,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Text\HtmlDriver.cs">
       <Link>Source\Pft\Infrastructure\Text\HtmlDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Text\PftPrettyPrinter.cs">
+      <Link>Source\Pft\Infrastructure\Text\PftPrettyPrinter.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Text\PlainTextDriver.cs">
       <Link>Source\Pft\Infrastructure\Text\PlainTextDriver.cs</Link>
@@ -1247,6 +1301,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifor.cs">
       <Link>Source\Pft\Infrastructure\Unifor.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor0.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\Unifor0.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor1.cs">
       <Link>Source\Pft\Infrastructure\Unifors\Unifor1.cs</Link>
     </Compile>
@@ -1259,14 +1316,26 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor6.cs">
       <Link>Source\Pft\Infrastructure\Unifors\Unifor6.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor7.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\Unifor7.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforB.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforB.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforD.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforD.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforE.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforE.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforEqual.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforEqual.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforJ.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforJ.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforL.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforL.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforM.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforM.cs</Link>
@@ -1274,11 +1343,23 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforO.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforO.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus0.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus0.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus1.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus1.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus2.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlus2.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus3.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlus3.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus4.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus4.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus5.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus5.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus7.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlus7.cs</Link>
@@ -1292,6 +1373,12 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusAt.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusAt.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusI.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlusI.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusPlus0.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlusPlus0.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforS.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforS.cs</Link>
     </Compile>
@@ -1303,6 +1390,15 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\VMonitor.cs">
       <Link>Source\Pft\Infrastructure\VMonitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Walking\PftVisitor.cs">
+      <Link>Source\Pft\Infrastructure\Walking\PftVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Walking\UniversalVisitor.cs">
+      <Link>Source\Pft\Infrastructure\Walking\UniversalVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Walking\VisitorContext.cs">
+      <Link>Source\Pft\Infrastructure\Walking\VisitorContext.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\PftException.cs">
       <Link>Source\Pft\PftException.cs</Link>

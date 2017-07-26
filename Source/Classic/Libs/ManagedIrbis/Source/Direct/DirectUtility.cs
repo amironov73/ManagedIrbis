@@ -399,7 +399,11 @@ namespace ManagedIrbis.Direct
                         );
             }
 
+#if !WINMOBILE
+
             result = new BufferedStream(result);
+
+#endif
 
             return result;
         }

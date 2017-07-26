@@ -10,12 +10,15 @@
 #region Using directives
 
 using System;
-using System.Linq.Expressions;
 using System.Reflection;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Ast;
+
+#if !WINMOBILE
+using System.Linq.Expressions;
+#endif
 
 #endregion
 
@@ -37,7 +40,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
 
         #region Construction
 
-#if !PORTABLE && !WIN81
+#if !PORTABLE && !WIN81 && !WINMOBILE
 
         static TypeMap()
         {

@@ -2039,6 +2039,26 @@
             Rich text support.
             </summary>
         </member>
+        <member name="F:AM.Text.RichText.CentralEuropeanPrologue">
+            <summary>
+            Central European prologue for RTF file.
+            </summary>
+        </member>
+        <member name="F:AM.Text.RichText.CommonPrologue">
+            <summary>
+            Common prologue for RTF file.
+            </summary>
+        </member>
+        <member name="F:AM.Text.RichText.WesternEuropeanPrologue">
+            <summary>
+            Western European prologue for RTF file.
+            </summary>
+        </member>
+        <member name="F:AM.Text.RichText.RussianPrologue">
+            <summary>
+            Russian prologue for RTF file.
+            </summary>
+        </member>
         <member name="M:AM.Text.RichText.Encode(System.String)">
             <summary>
             Encode text.
@@ -6967,6 +6987,21 @@
             
             </summary>
         </member>
+        <member name="M:AM.Logging.Log.ApplyDefaultsForConsoleApplication">
+            <summary>
+            Apply defaults for console application.
+            </summary>
+        </member>
+        <member name="M:AM.Logging.Log.ApplyDefaultsForServiceApplication">
+            <summary>
+            Apply defaults for console application.
+            </summary>
+        </member>
+        <member name="M:AM.Logging.Log.ApplyDefaultsForWindowedApplication">
+            <summary>
+            Apply defaults for console application.
+            </summary>
+        </member>
         <member name="M:AM.Logging.Log.Debug(System.String)">
             <summary>
             Debug message.
@@ -7405,7 +7440,19 @@
             Подглядывание текущего символа.
             </summary>
         </member>
+        <member name="M:AM.Text.TextNavigator.PeekCharNoCrLf">
+            <summary>
+            Подглядывание текущего символа за исключением CR/LF.
+            </summary>
+        </member>
         <member name="M:AM.Text.TextNavigator.PeekString(System.Int32)">
+            <summary>
+            Подглядывание строки вплоть до указанной длины.
+            </summary>
+            <returns><c>null</c>, если достигнут конец текста.
+            </returns>
+        </member>
+        <member name="M:AM.Text.TextNavigator.PeekStringNoCrLf(System.Int32)">
             <summary>
             Подглядывание строки вплоть до указанной длины.
             </summary>
@@ -7445,6 +7492,11 @@
         <member name="M:AM.Text.TextNavigator.ReadChar">
             <summary>
             Считывание символа.
+            </summary>
+        </member>
+        <member name="M:AM.Text.TextNavigator.ReadCharNoCrLf">
+            <summary>
+            Считывание следующего символа, исключая CR/LF.
             </summary>
         </member>
         <member name="M:AM.Text.TextNavigator.ReadEscapedUntil(System.Char,System.Char)">
@@ -7525,6 +7577,14 @@
             <returns><c>null</c>, если достигнут конец текста.
             </returns>
         </member>
+        <member name="M:AM.Text.TextNavigator.ReadUntilNoCrLf(System.Char)">
+            <summary>
+            Считывание вплоть до указанного символа
+            (не включая его).
+            </summary>
+            <returns><c>null</c>, если достигнут конец текста.
+            </returns>
+        </member>
         <member name="M:AM.Text.TextNavigator.ReadUntil(System.Char[])">
             <summary>
             Считывание вплоть до указанных символов
@@ -7563,6 +7623,16 @@
             <returns><c>null</c>, если достигнут конец текста.
             </returns>
         </member>
+        <member name="M:AM.Text.TextNavigator.ReadWord">
+            <summary>
+            Read word.
+            </summary>
+        </member>
+        <member name="M:AM.Text.TextNavigator.ReadWord(System.Char[])">
+            <summary>
+            Read word.
+            </summary>
+        </member>
         <member name="M:AM.Text.TextNavigator.RestorePosition(AM.Text.TextPosition)">
             <summary>
             Restore previously saved position.
@@ -7598,6 +7668,16 @@
             Пропускаем пунктуацию.
             </summary>
         </member>
+        <member name="M:AM.Text.TextNavigator.SkipNonWord">
+            <summary>
+            Skip non-word characters.
+            </summary>
+        </member>
+        <member name="M:AM.Text.TextNavigator.SkipNonWord(System.Char[])">
+            <summary>
+            Skip non-word characters.
+            </summary>
+        </member>
         <member name="M:AM.Text.TextNavigator.SkipRange(System.Char,System.Char)">
             <summary>
             Пропускаем произвольное количество символов
@@ -7614,6 +7694,11 @@
             Пропустить указанные символы.
             </summary>
         </member>
+        <member name="M:AM.Text.TextNavigator.SkipWhileNot(System.Char[])">
+            <summary>
+            Пропустить, пока не встретятся указанные символы.
+            </summary>
+        </member>
         <member name="M:AM.Text.TextNavigator.SkipWhitespace">
             <summary>
             Пропускаем пробельные символы.
@@ -7622,6 +7707,21 @@
         <member name="M:AM.Text.TextNavigator.SkipWhitespaceAndPunctuation">
             <summary>
             Пропускаем пробельные символы и пунктуацию.
+            </summary>
+        </member>
+        <member name="M:AM.Text.TextNavigator.SplitByGoodCharacters(System.Char[])">
+            <summary>
+            Split text by given good characters.
+            </summary>
+        </member>
+        <member name="M:AM.Text.TextNavigator.SplitToWords">
+            <summary>
+            Split the remaining text to array of words.
+            </summary>
+        </member>
+        <member name="M:AM.Text.TextNavigator.SplitToWords(System.Char[])">
+            <summary>
+            Split the remaining text to array of words.
             </summary>
         </member>
         <member name="M:AM.Text.TextNavigator.Substring(System.Int32,System.Int32)">
@@ -7837,6 +7937,11 @@
             Is letter from А to Я or а to я?
             </summary>
         </member>
+        <member name="M:AM.CharUtility.ToUpperInvariant(System.Char)">
+            <summary>
+            Convert the character to upper case.
+            </summary>
+        </member>
         <member name="T:CodeJam.Code">
             <summary>
             Assertions class.
@@ -7992,6 +8097,21 @@
         <member name="M:CodeJam.Code.AssertState(System.Boolean,System.String,System.Object[])">
             <summary>
             State assertion
+            </summary>
+        </member>
+        <member name="T:AM.Threading.ThreadUtility">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Threading.ThreadUtility.Sleep(System.Int32)">
+            <summary>
+            Sleep for specified milliseconds.
+            </summary>
+        </member>
+        <member name="P:AM.Threading.ThreadUtility.ThreadId">
+            <summary>
+            Thread.CurrentThread.ManagedThreadId
             </summary>
         </member>
         <member name="T:AM.Text.Tokenizer.Token">
@@ -8899,6 +9019,23 @@
             <summary>
             Network to host byte conversion.
             </summary>
+            <remarks>IRBIS64-oriented!</remarks>
+        </member>
+        <member name="M:AM.IO.StreamUtility.HostToNetwork16(System.Byte[],System.Int32)">
+            <summary>
+            Host to network byte conversion.
+            </summary>
+        </member>
+        <member name="M:AM.IO.StreamUtility.HostToNetwork32(System.Byte[],System.Int32)">
+            <summary>
+            Host to network byte conversion.
+            </summary>
+        </member>
+        <member name="M:AM.IO.StreamUtility.HostToNetwork64(System.Byte[],System.Int32)">
+            <summary>
+            Host to network byte conversion.
+            </summary>
+            <remarks>IRBIS64-oriented!</remarks>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadInt16Network(System.IO.Stream)">
             <summary>
@@ -8950,6 +9087,21 @@
             Unlock the file.
             </summary>
             <remarks>For WinMobile compatibility.</remarks>
+        </member>
+        <member name="M:AM.IO.StreamUtility.WriteInt16Network(System.IO.Stream,System.Int16)">
+            <summary>
+            Write 16-bit integer to the stream in network byte order.
+            </summary>
+        </member>
+        <member name="M:AM.IO.StreamUtility.WriteInt32Network(System.IO.Stream,System.Int32)">
+            <summary>
+            Write 32-bit integer to the stream in network byte order.
+            </summary>
+        </member>
+        <member name="M:AM.IO.StreamUtility.WriteInt64Network(System.IO.Stream,System.Int64)">
+            <summary>
+            Write 64-bit integer to the stream in network byte order.
+            </summary>
         </member>
         <member name="T:AM.IO.MultiStream">
             <summary>
@@ -10044,6 +10196,11 @@
             Constructor.
             </summary>
         </member>
+        <member name="M:AM.IO.IniFile.ApplyTo(AM.IO.IniFile)">
+            <summary>
+            Apply to the INI-file.
+            </summary>
+        </member>
         <member name="M:AM.IO.IniFile.Clear">
             <summary>
             Clear the INI-file.
@@ -10239,6 +10396,11 @@
         <member name="M:AM.IO.IniFile.Section.Add(AM.IO.IniFile.Line)">
             <summary>
             Add new line to the section.
+            </summary>
+        </member>
+        <member name="M:AM.IO.IniFile.Section.ApplyTo(AM.IO.IniFile.Section)">
+            <summary>
+            Apply to other section.
             </summary>
         </member>
         <member name="M:AM.IO.IniFile.Section.Clear">
@@ -11044,11 +11206,30 @@
             <see cref="T:System.Collections.ObjectModel.Collection`1"/> with items that can't be <c>null</c>.
             </summary>
         </member>
-        <member name="M:AM.Collections.NonNullCollection`1.InsertItem(System.Int32,`0)">
-            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.InsertItem(System.Int32,`0)"/>
+        <member name="M:AM.Collections.NonNullCollection`1.AddCapacity(System.Int32)">
+            <summary>
+            Add capacity to eliminate reallocations.
+            </summary>
         </member>
-        <member name="M:AM.Collections.NonNullCollection`1.SetItem(System.Int32,`0)">
-            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.SetItem(System.Int32,`0)"/>
+        <member name="M:AM.Collections.NonNullCollection`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Add several elements to the collection.
+            </summary>
+        </member>
+        <member name="M:AM.Collections.NonNullCollection`1.AddRange(`0[])">
+            <summary>
+            Add several elements to the collection.
+            </summary>
+        </member>
+        <member name="M:AM.Collections.NonNullCollection`1.AddRange(System.Collections.Generic.IList{`0})">
+            <summary>
+            Add several elements to the collection.
+            </summary>
+        </member>
+        <member name="M:AM.Collections.NonNullCollection`1.EnsureCapacity(System.Int32)">
+            <summary>
+            Ensure the capacity.
+            </summary>
         </member>
         <member name="M:AM.Collections.NonNullCollection`1.ToArray">
             <summary>
@@ -11058,10 +11239,11 @@
             <returns>Array of items of type <typeparamref name="T"/>.
             </returns>
         </member>
-        <member name="M:AM.Collections.NonNullCollection`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
-            <summary>
-            Add several elements to the collection.
-            </summary>
+        <member name="M:AM.Collections.NonNullCollection`1.InsertItem(System.Int32,`0)">
+            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.InsertItem(System.Int32,`0)"/>
+        </member>
+        <member name="M:AM.Collections.NonNullCollection`1.SetItem(System.Int32,`0)">
+            <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.SetItem(System.Int32,`0)"/>
         </member>
         <member name="T:AM.Collections.DoublyLinkedList`1">
             <summary>
@@ -11551,14 +11733,13 @@
             </summary>
         </member>
         <member name="M:AM.Text.NumberText.Chunk.RestoreFromStream(System.IO.BinaryReader)">
-            <summary>
-            Restore object state from the specified stream.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:AM.Text.NumberText.Chunk.SaveToStream(System.IO.BinaryWriter)">
-            <summary>
-            Save object state to the specified stream.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
+        </member>
+        <member name="M:AM.Text.NumberText.Chunk.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:AM.Text.NumberText.Chunk.Prefix">
             <summary>
@@ -11674,6 +11855,11 @@
             </summary>
         </member>
         <member name="M:AM.Net.SocketUtility.ReceiveToEnd(System.Net.Sockets.Socket)">
+            <summary>
+            Read from the socket as many data as possible.
+            </summary>
+        </member>
+        <member name="M:AM.Net.SocketUtility.ReceiveToEnd(System.Net.Sockets.Socket,System.IO.MemoryStream)">
             <summary>
             Read from the socket as many data as possible.
             </summary>
@@ -12625,19 +12811,81 @@
             Mark instance field as auto-disposable.
             </summary>
         </member>
-        <member name="T:AM.Threading.ThreadUtility">
+        <member name="T:AM.IO.InsistentFile">
             <summary>
             
             </summary>
         </member>
-        <member name="M:AM.Threading.ThreadUtility.Sleep(System.Int32)">
+        <member name="F:AM.IO.InsistentFile.DefaultTimeout">
             <summary>
-            Sleep for specified milliseconds.
+            Default value for <see cref="P:AM.IO.InsistentFile.Timeout"/> property.
             </summary>
         </member>
-        <member name="P:AM.Threading.ThreadUtility.ThreadId">
+        <member name="F:AM.IO.InsistentFile.DefaultSleep">
             <summary>
-            Thread.CurrentThread.ManagedThreadId
+            Default value for <see cref="P:AM.IO.InsistentFile.SleepInterval"/> property.
+            </summary>
+        </member>
+        <member name="M:AM.IO.InsistentFile.#cctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.IO.InsistentFile.Open(System.String,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare)">
+            <inheritdoc cref="M:System.IO.File.Open(System.String,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare)"/>.
+        </member>
+        <member name="M:AM.IO.InsistentFile.OpenForExclusiveRead(System.String)">
+            <summary>
+            Open specified file for exclusive reading.
+            </summary>
+        </member>
+        <member name="M:AM.IO.InsistentFile.OpenForExclusiveWrite(System.String)">
+            <summary>
+            Open specified file for exclusive writing.
+            </summary>
+        </member>
+        <member name="M:AM.IO.InsistentFile.OpenForSharedRead(System.String)">
+            <summary>
+            Open specified file for shared reading.
+            </summary>
+        </member>
+        <member name="M:AM.IO.InsistentFile.OpenForSharedWrite(System.String)">
+            <summary>
+            Open specified file for shared reading/writing.
+            </summary>
+        </member>
+        <member name="P:AM.IO.InsistentFile.SleepInterval">
+            <summary>
+            Interval to sleep between subsequential attempts,
+            milliseconds.
+            </summary>
+        </member>
+        <member name="P:AM.IO.InsistentFile.Timeout">
+            <summary>
+            Timeout for operations, milliseconds.
+            </summary>
+        </member>
+        <member name="T:AM.IO.CountingMemoryStream">
+            <summary>
+            <see cref="T:System.IO.MemoryStream"/> that counts its reached size.
+            </summary>
+        </member>
+        <member name="M:AM.IO.CountingMemoryStream.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.IO.CountingMemoryStream.#ctor(System.Int32)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.IO.CountingMemoryStream.ToArray">
+            <inheritdoc cref="M:System.IO.MemoryStream.ToArray"/>
+        </member>
+        <member name="P:AM.IO.CountingMemoryStream.ReachedSize">
+            <summary>
+            Reached size, bytes.
             </summary>
         </member>
     </members>
