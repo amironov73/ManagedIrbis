@@ -125,6 +125,28 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         }
 
         /// <summary>
+        /// Evaluate as string.
+        /// </summary>
+        [CanBeNull]
+        public string Evaluate
+            (
+                [NotNull] Action action
+            )
+        {
+            Code.NotNull(action, "action");
+
+            using (PftContextGuard guard = new PftContextGuard(Context))
+            {
+                Context = guard.ChildContext;
+                action();
+                string result = Context.ToString();
+                Context = guard.ParentContext;
+
+                return result;
+            }
+        }
+
+        /// <summary>
         /// Have the field?
         /// </summary>
         public bool HaveField
