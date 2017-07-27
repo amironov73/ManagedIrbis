@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -97,7 +98,7 @@ namespace CompilerBenchmark
                             (
                                 output,
                                 className
-                            );
+                            );                        
                         if (!ReferenceEquals(assemblyPath, null))
                         {
                             Console.WriteLine
@@ -105,6 +106,16 @@ namespace CompilerBenchmark
                                     "Compiled to {0}",
                                     assemblyPath
                                 );
+
+                            Assembly assembly = Assembly.LoadFile(assemblyPath);
+                            PftPacket packet = CompilerUtility.GetPacket
+                                (
+                                    assembly,
+                                    context
+                                );
+                            MarcRecord record = new MarcRecord();
+                            string formatted = packet.Execute(record);
+                            Console.WriteLine(formatted);
                         }
                     }
                 }

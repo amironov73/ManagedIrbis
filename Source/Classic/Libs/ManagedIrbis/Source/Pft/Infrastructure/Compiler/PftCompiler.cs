@@ -268,6 +268,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                     OutputPath,
                     fileName + ".dll"
                 );
+            outputAssemblyPath = Path.GetFullPath(outputAssemblyPath);
 
             List<string> references = new List<string>
             {
@@ -351,6 +352,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             {
                 throw new PftCompilerException();
             }
+
+            WriteIndent();
+            WriteLine("public override string Execute(MarcRecord record)");
+            WriteIndent();
+            WriteLine("{");
+            IncreaseIndent();
+
+            WriteIndent();
+            WriteLine("base.Execute(record);");
+            WriteIndent();
+            WriteLine("NodeMethod1();");
+            WriteIndent();
+            WriteLine("string result = Context.GetProcessedOutput();");
+            WriteIndent();
+            WriteLine("return result;");
+
+            DecreaseIndent();
+            WriteIndent();
+            WriteLine("}");
 
             DecreaseIndent();
             WriteLine("} // end of class");

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -83,6 +84,38 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             // TODO implement properly
 
             return text;
+        }
+
+        /// <summary>
+        /// Find entry point of the assembly.
+        /// </summary>
+        [NotNull]
+        public static PftPacket GetPacket
+            (
+                [NotNull] Assembly assembly,
+                [NotNull] PftContext context
+            )
+        {
+            Code.NotNull(assembly, "assembly");
+            Code.NotNull(context, "context");
+
+            Type[] types = assembly.GetTypes();
+            if (types.Length != 1)
+            {
+                throw new PftCompilerException();
+            }
+            Type type = types[0];
+            if (!type.IsSubclassOf(typeof(PftPacket)))
+            {
+                throw new PftCompilerException();
+            }
+            PftPacket result = (PftPacket) Activator.CreateInstance
+                (
+                    type,
+                    context
+                );
+
+            return result;
         }
 
         /// <summary>

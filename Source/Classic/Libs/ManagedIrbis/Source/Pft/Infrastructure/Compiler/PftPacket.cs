@@ -30,7 +30,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class PftPacket
+    public abstract class PftPacket
     {
         #region Properties
 
@@ -53,7 +53,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PftPacket
+        protected PftPacket
             (
                 [NotNull] PftContext context
             )
@@ -74,7 +74,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// <summary>
         /// Do the conditional literal.
         /// </summary>
-        public void DoConditionalLiteral
+        protected void DoConditionalLiteral
             (
                 [CanBeNull] string text,
                 bool isSuffix
@@ -86,7 +86,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// <summary>
         /// Do field.
         /// </summary>
-        public void DoField
+        protected void DoField
             (
                 [NotNull] FieldSpecification field,
                 [CanBeNull] Action leftHand,
@@ -103,7 +103,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// <summary>
         /// Do group.
         /// </summary>
-        public void DoGroup
+        protected void DoGroup
             (
                 [NotNull] Action action
             )
@@ -114,7 +114,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// <summary>
         /// Do the repeatable literal.
         /// </summary>
-        public void DoRepeatableLiteral
+        protected void DoRepeatableLiteral
             (
                 [CanBeNull] string text,
                 bool isPrefix,
@@ -128,7 +128,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// Evaluate as string.
         /// </summary>
         [CanBeNull]
-        public string Evaluate
+        protected string Evaluate
             (
                 [NotNull] Action action
             )
@@ -147,9 +147,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         }
 
         /// <summary>
+        /// Execute the packet agains the record.
+        /// </summary>
+        [NotNull]
+        public virtual string Execute
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            Context.ClearAll();
+            Context.Record = record;
+
+            return String.Empty;
+        }
+
+        /// <summary>
         /// Have the field?
         /// </summary>
-        public bool HaveField
+        protected bool HaveField
             (
                 [NotNull] FieldSpecification field
             )
