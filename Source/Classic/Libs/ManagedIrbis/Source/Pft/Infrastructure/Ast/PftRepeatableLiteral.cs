@@ -141,10 +141,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     .WriteIndent()
                     .WriteLine
                         (
-                            "DoConditionalLiteral(\"{0}\", {1}, {2})",
-                            Text,
-                            IsPrefix,
-                            Plus
+                            "DoRepeatableLiteral(\"{0}\", {1}, {2});",
+                            CompilerUtility.Escape(Text),
+                            CompilerUtility.BooleanToText(IsPrefix),
+                            CompilerUtility.BooleanToText(Plus)
                         );
             }
 

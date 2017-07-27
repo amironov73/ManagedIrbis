@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,16 +71,41 @@ namespace CompilerBenchmark
                             = (PftProgram) formatter.Program.Clone();
                         program.Optimize();
 
-                        Console.WriteLine(program.DumpToText());
-                        Console.WriteLine();
+                        //Console.WriteLine(program.DumpToText());
+                        //Console.WriteLine();
 
-                        PftCompiler compiler = new PftCompiler();
-                        compiler.CompileProgram
+                        if (!Directory.Exists("Out"))
+                        {
+                            Directory.CreateDirectory("Out");
+                        }
+
+                        PftCompiler compiler = new PftCompiler
+                        {
+                            KeepSource = true,
+                            OutputPath = "Out"
+                        };
+                        string className = compiler.CompileProgram
                             (
                                 program
                             );
-                        string sourceCode = compiler.GetSourceCode();
-                        Console.WriteLine(sourceCode);
+
+                        //string sourceCode = compiler.GetSourceCode();
+                        //Console.WriteLine(sourceCode);
+
+                        AbstractOutput output = AbstractOutput.Console;
+                        string assemblyPath = compiler.CompileToDll
+                            (
+                                output,
+                                className
+                            );
+                        if (!ReferenceEquals(assemblyPath, null))
+                        {
+                            Console.WriteLine
+                                (
+                                    "Compiled to {0}",
+                                    assemblyPath
+                                );
+                        }
                     }
                 }
 

@@ -24,11 +24,16 @@ using AM.IO;
 using AM.Logging;
 using AM.Runtime;
 using AM.Text;
+using AM.Text.Output;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Ast;
+
+using Microsoft.CSharp;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -42,7 +47,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
     [MoonSharpUserData]
     public sealed class PftCompiler
     {
-        #region MyRegion
+        #region Constants
 
         /// <summary>
         /// Prefix for node methods.
@@ -67,6 +72,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// </summary>
         public int Indent { get; private set; }
 
+        /// <summary>
+        /// Path to store compiled assemblies.
+        /// </summary>
+        public NonNullValue<string> OutputPath { get; set; }
+
+        /// <summary>
+        /// Keep source.
+        /// </summary>
+        public bool KeepSource { get; set; }
+
         #endregion
 
         #region Construction
@@ -80,6 +95,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             Fields = new FieldDictionary();
             Nodes = new NodeDictionary();
             Output = new StringWriter();
+            OutputPath = Path.GetTempPath();
         }
 
         #endregion
@@ -172,7 +188,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 WriteIndent();
                 WriteLine
                     (
-                        "var {0} = new FieldSpecification()",
+                        "FieldSpecification {0} = new FieldSpecification()",
                         result.Reference
                     );
                 WriteIndent();
@@ -232,6 +248,87 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             EndClass();
 
             return result;
+        }
+
+        /// <summary>
+        /// Compile to DLL.
+        /// </summary>
+        [CanBeNull]
+        public string CompileToDll
+            (
+                [NotNull] AbstractOutput output,
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNull(output, "output");
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            string outputAssemblyPath = Path.Combine
+                (
+                    OutputPath,
+                    fileName + ".dll"
+                );
+
+            List<string> references = new List<string>
+            {
+                "AM.Core.dll",
+                "JetBrains.Annotations.dll",
+                "ManagedIrbis.dll",
+                "Microsoft.CSharp.dll",
+                "MoonSharp.Interpreter.dll",
+                "Newtonsoft.Json.dll",
+                "System.dll",
+                "System.Core.dll",
+                "System.Data.dll",
+                "System.Data.DataSetExtensions.dll",
+                "System.Xml.dll",
+                "System.Xml.Linq.dll"
+            };
+
+            string sourceCode = GetSourceCode();
+            if (KeepSource)
+            {
+                string fullName = Path.ChangeExtension
+                    (
+                        outputAssemblyPath,
+                        ".cs"
+                    );
+                File.WriteAllText(fullName, sourceCode);
+            }
+
+            string[] sources =
+            {
+                sourceCode
+            };
+
+            CSharpCodeProvider provider = new CSharpCodeProvider();
+            CompilerParameters parameters = new CompilerParameters
+                (
+                    references.ToArray()
+                )
+            {
+                GenerateExecutable = false,
+                GenerateInMemory = false,
+                // CompilerOptions = "/d:DEBUG",
+                WarningLevel = 4,
+                IncludeDebugInformation = true,
+                OutputAssembly = outputAssemblyPath
+            };
+            CompilerResults results = provider.CompileAssemblyFromSource
+                (
+                    parameters,
+                    sources
+                );
+            foreach (CompilerError error in results.Errors)
+            {
+                output.WriteLine(error.ToString());
+            }
+            if (results.Errors.Count != 0)
+            {
+                return null;
+            }
+
+            return outputAssemblyPath;
         }
 
         /// <summary>
@@ -365,9 +462,31 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             WriteLine("using AM;");
             WriteLine("using AM.Logging;");
             WriteLine();
+            WriteLine("using ManagedIrbis;");
+            WriteLine("using ManagedIrbis.Pft;");
+            WriteLine("using ManagedIrbis.Pft.Infrastructure;");
+            WriteLine("using ManagedIrbis.Pft.Infrastructure.Ast;");
+            WriteLine("using ManagedIrbis.Pft.Infrastructure.Compiler;");
+            WriteLine();
             WriteLine("public class {0}", result);
+            IncreaseIndent();
+            WriteIndent();
+            WriteLine(": PftPacket");
+            DecreaseIndent();
+            WriteIndent();
             WriteLine("{");
             IncreaseIndent();
+            WriteIndent();
+            WriteLine("public {0} (PftContext context)", result);
+            IncreaseIndent();
+            WriteIndent();
+            WriteLine(": base(context)");
+            DecreaseIndent();
+            WriteIndent();
+            WriteLine("{");
+            WriteIndent();
+            WriteLine("}");
+            WriteLine();
 
             return result;
         }

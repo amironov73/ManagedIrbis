@@ -11,6 +11,7 @@
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
@@ -120,6 +121,38 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            compiler.CompileNodes(Children);
+
+            compiler.StartMethod(this);
+
+            compiler
+                .WriteIndent()
+                .WriteLine("Action action = () => ")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                .CallNodes(Children)
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("};")
+                .WriteIndent()
+                .WriteLine("string text = Evaluate(action);")
+                .WriteIndent()
+                .WriteLine("double result = double.Parse(text);")
+                .WriteIndent()
+                .WriteLine("return result;");
+
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
 
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute

@@ -200,8 +200,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             compiler.StartMethod(this);
 
             compiler.Output.Write("\tbool result = ");
-            compiler.CallNodeMethod(LeftOperand);
-            compiler.Output.Write(' ');
+            compiler.RefNodeMethod(LeftOperand);
+            compiler.Output.Write("() ");
             if (Operation.SameString("and"))
             {
                 compiler.Output.Write("&&");
@@ -215,8 +215,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new PftCompilerException();
             }
             compiler.Output.Write(' ');
-            compiler.CallNodeMethod(RightOperand);
-            compiler.Output.WriteLine(";");
+            compiler.RefNodeMethod(RightOperand);
+            compiler.Output.WriteLine("();");
             compiler.Output.WriteLine("\treturn result;");
 
             compiler.EndMethod(this);

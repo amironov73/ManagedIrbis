@@ -112,7 +112,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             compiler
                 .WriteIndent()
-                .WriteLine("DoGroup(action)");
+                .WriteLine("DoGroup(action);");
 
             compiler.EndMethod(this);
             compiler.MarkReady(this);

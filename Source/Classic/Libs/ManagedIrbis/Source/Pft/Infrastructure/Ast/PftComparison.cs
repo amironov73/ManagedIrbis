@@ -127,7 +127,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <summary>
         /// Do the operation.
         /// </summary>
-        public bool DoNumericOperation
+        public static bool DoNumericOperation
             (
                 [NotNull] PftContext context,
                 double leftValue,
@@ -189,7 +189,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                             + operation
                         );
 
-                    throw new PftSyntaxException(this);
+                    throw new PftSyntaxException();
             }
 
             Log.Trace
@@ -210,7 +210,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <summary>
         /// Do the operation.
         /// </summary>
-        public bool DoStringOperation
+        public static bool DoStringOperation
             (
                 [NotNull] PftContext context,
                 [NotNull] string leftValue,
@@ -354,7 +354,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                             + operation
                         );
 
-                    throw new PftSyntaxException(this);
+                    throw new PftSyntaxException();
             }
 
             Log.Trace
@@ -463,23 +463,56 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             compiler.StartMethod(this);
 
-            compiler
-                .WriteIndent()
-                .Write("var left = ")
-                .CallNodeMethod(LeftOperand);
-            compiler
-                .WriteIndent()
-                .Write("var right = ")
-                .CallNodeMethod(RightOperand);
+            PftContext context = new PftContext(null);
+            if (PftUtility.IsNumeric(context, LeftOperand))
+            {
+                compiler
+                    .WriteIndent()
+                    .Write("double left = ")
+                    .CallNodeMethod(LeftOperand);
+                compiler
+                    .WriteIndent()
+                    .Write("double right = ")
+                    .CallNodeMethod(RightOperand);
+                compiler
+                    .WriteIndent()
+                    .WriteLine("string operation = \"{0}\";", Operation);
 
-            // TODO implement properly
-            compiler
-                .WriteIndent()
-                .WriteLine
-                    (
-                        "var result = left {0} right;",
-                        Operation
-                    );
+                // TODO implement properly
+                compiler
+                    .WriteIndent()
+                    .WriteLine
+                        (
+                            "bool result = PftComparison" +
+                            ".DoNumericOperation(Context, left, operation, right);"
+                        );
+            }
+            else
+            {
+                compiler
+                    .WriteIndent()
+                    .Write("string left = Evaluate(")
+                    .RefNodeMethod(LeftOperand)
+                    .WriteLine(");");
+                compiler
+                    .WriteIndent()
+                    .Write("string right = Evaluate(")
+                    .RefNodeMethod(RightOperand)
+                    .WriteLine(");");
+                compiler
+                    .WriteIndent()
+                    .WriteLine("string operation = \"{0}\";", Operation);
+
+                // TODO implement properly
+                compiler
+                    .WriteIndent()
+                    .WriteLine
+                        (
+                            "bool result = PftComparison" +
+                            ".DoStringOperation(Context, left, operation, right);"
+                        );
+            }
+
             compiler
                 .WriteIndent()
                 .WriteLine("return result;");

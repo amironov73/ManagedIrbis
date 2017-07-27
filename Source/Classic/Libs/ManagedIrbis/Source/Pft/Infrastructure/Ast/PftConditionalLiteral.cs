@@ -177,9 +177,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     .WriteIndent()
                     .WriteLine
                     (
-                        "DoConditionalLiteral(\"{0}\", {1})",
-                        Text,
-                        IsSuffix
+                        "DoConditionalLiteral(\"{0}\", {1});",
+                        CompilerUtility.Escape(Text),
+                        CompilerUtility.BooleanToText(IsSuffix)
                     );
             }
 

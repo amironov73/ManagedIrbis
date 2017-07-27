@@ -181,8 +181,12 @@ namespace ManagedIrbis.Direct
 
             GC.SuppressFinalize(this);
 
+#if !FW35
+
             StartedEvent.Dispose();
             StopEvent.Dispose();
+
+#endif
         }
 
         #endregion

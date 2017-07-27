@@ -58,6 +58,34 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         #region Public methods
 
         /// <summary>
+        /// Convert boolean to string according C# rules.
+        /// </summary>
+        [NotNull]
+        public static string BooleanToText
+            (
+                bool value
+            )
+        {
+            return value ? "true" : "false";
+        }
+
+        /// <summary>
+        /// Escape the text according C# rules.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        [CanBeNull]
+        public static string Escape
+            (
+                [CanBeNull] string text
+            )
+        {
+            // TODO implement properly
+
+            return text;
+        }
+
+        /// <summary>
         /// Shorten the text.
         /// </summary>
         [NotNull]
