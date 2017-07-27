@@ -199,25 +199,29 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             compiler.StartMethod(this);
 
-            compiler.Output.Write("\tbool result = ");
-            compiler.RefNodeMethod(LeftOperand);
-            compiler.Output.Write("() ");
+            compiler
+                .WriteIndent()
+                .Write("bool result = ")
+                .RefNodeMethod(LeftOperand)
+                .Write("() ");
             if (Operation.SameString("and"))
             {
-                compiler.Output.Write("&&");
+                compiler.Write("&&");
             }
             else if (Operation.SameString("or"))
             {
-                compiler.Output.Write("||");
+                compiler.Write("||");
             }
             else
             {
                 throw new PftCompilerException();
             }
-            compiler.Output.Write(' ');
-            compiler.RefNodeMethod(RightOperand);
-            compiler.Output.WriteLine("();");
-            compiler.Output.WriteLine("\treturn result;");
+            compiler
+                .Write(' ')
+                .RefNodeMethod(RightOperand)
+                .WriteLine("();")
+                .WriteIndent()
+                .WriteLine("return result;");
 
             compiler.EndMethod(this);
             compiler.MarkReady(this);

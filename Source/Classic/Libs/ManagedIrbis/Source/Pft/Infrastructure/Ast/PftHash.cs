@@ -102,14 +102,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             compiler.StartMethod(this);
-            compiler.Output.WriteLine
-                (
-                    "\tif (!Context.EatNextNewLine)"
-                  + "\t{"
-                  + "\t\tContext.WriteLine(null);"
-                  + "\t}"
-                  + "\tcontext.EatNextNewLine = false;"
-                );
+
+            compiler
+                .WriteIndent()
+                .WriteLine("if (!Context.EatNextNewLine)")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                .WriteIndent()
+                .WriteLine("Context.WriteLine(null);")
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("}")
+                .WriteIndent()
+                .WriteLine("Context.EatNextNewLine = false;");
+
             compiler.EndMethod(this);
             compiler.MarkReady(this);
         }

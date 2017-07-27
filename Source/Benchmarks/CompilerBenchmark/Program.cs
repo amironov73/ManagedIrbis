@@ -82,6 +82,7 @@ namespace CompilerBenchmark
 
                         PftCompiler compiler = new PftCompiler
                         {
+                            Debug = true,
                             KeepSource = true,
                             OutputPath = "Out"
                         };

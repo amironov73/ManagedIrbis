@@ -224,16 +224,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             compiler.StartMethod(this);
 
-            compiler.Output.WriteLine
-                (
-                    "\tContext.FieldOutputMode = PftFieldOutputMode.{0};",
-                    OutputMode
-                );
-            compiler.Output.WriteLine
-                (
-                    "\tContext.UpperMode = {0};",
-                    CompilerUtility.BooleanToText(UpperMode)
-                );
+            compiler
+                .WriteIndent()
+                .WriteLine
+                    (
+                        "Context.FieldOutputMode = PftFieldOutputMode.{0};",
+                        OutputMode
+                    )
+                .WriteIndent()
+                .WriteLine
+                    (
+                        "Context.UpperMode = {0};",
+                        CompilerUtility.BooleanToText(UpperMode)
+                    );
 
             compiler.EndMethod(this);
             compiler.MarkReady(this);

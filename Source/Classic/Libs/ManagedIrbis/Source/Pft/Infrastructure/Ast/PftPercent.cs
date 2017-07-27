@@ -84,15 +84,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             compiler.StartMethod(this);
-            compiler.Output.WriteLine
-                (
-                    "\tcontext.Output.RemoveEmptyLines();"
-                  + "\tif (!Context.Output.PrecededByEmptyLine())"
-                  + "\t{"
-                  + "\t\tContext.WriteLine(null);"
-                  + "\t}"
-                  + "\tContext.EatNextNewLine = true;"
-                );
+
+            compiler
+                .WriteIndent()
+                .WriteLine("Context.Output.RemoveEmptyLines();")
+                .WriteIndent()
+                .WriteLine("if (!Context.Output.PrecededByEmptyLine())")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                .WriteIndent()
+                .WriteLine("Context.WriteLine(null);")
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("}")
+                .WriteIndent()
+                .WriteLine("Context.EatNextNewLine = true;");
+
             compiler.EndMethod(this);
             compiler.MarkReady(this);
         }

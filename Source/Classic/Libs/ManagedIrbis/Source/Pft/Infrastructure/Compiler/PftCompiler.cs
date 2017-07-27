@@ -82,6 +82,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// </summary>
         public bool KeepSource { get; set; }
 
+        /// <summary>
+        /// Compile debug version?
+        /// </summary>
+        public bool Debug { get; set; }
+
         #endregion
 
         #region Construction
@@ -287,19 +292,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             };
 
             string sourceCode = GetSourceCode();
-            if (KeepSource)
-            {
-                string fullName = Path.ChangeExtension
-                    (
-                        outputAssemblyPath,
-                        ".cs"
-                    );
-                File.WriteAllText(fullName, sourceCode);
-            }
+            string sourceFileName = Path.ChangeExtension
+                (
+                    outputAssemblyPath,
+                    ".cs"
+                );
+            File.WriteAllText(sourceFileName, sourceCode);
 
             string[] sources =
             {
-                sourceCode
+                sourceFileName
             };
 
             CSharpCodeProvider provider = new CSharpCodeProvider();
@@ -310,12 +312,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             {
                 GenerateExecutable = false,
                 GenerateInMemory = false,
-                // CompilerOptions = "/d:DEBUG",
                 WarningLevel = 4,
-                IncludeDebugInformation = true,
                 OutputAssembly = outputAssemblyPath
             };
-            CompilerResults results = provider.CompileAssemblyFromSource
+            if (Debug)
+            {
+                parameters.CompilerOptions = "/d:DEBUG";
+                parameters.IncludeDebugInformation = true;
+            }
+            CompilerResults results = provider.CompileAssemblyFromFile
                 (
                     parameters,
                     sources
@@ -324,6 +329,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             {
                 output.WriteLine(error.ToString());
             }
+
+            if (!KeepSource)
+            {
+                File.Delete(sourceFileName);
+            }
+
             if (results.Errors.Count != 0)
             {
                 return null;

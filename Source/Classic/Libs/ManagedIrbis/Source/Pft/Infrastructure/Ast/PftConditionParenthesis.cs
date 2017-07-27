@@ -165,10 +165,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             compiler.StartMethod(this);
 
-            compiler.Output.Write("\tbool result = ");
-            compiler.CallNodeMethod(InnerCondition);
-            compiler.Output.WriteLine(";");
-            compiler.Output.WriteLine("\treturn result;");
+            compiler
+                .WriteIndent()
+                .Write("bool result = ")
+                .CallNodeMethod(InnerCondition)
+                .WriteLine(";")
+                .WriteIndent()
+                .WriteLine("return result;");
 
             compiler.EndMethod(this);
             compiler.MarkReady(this);

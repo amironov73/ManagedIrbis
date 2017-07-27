@@ -96,7 +96,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             compiler.StartMethod(this);
-            compiler.Output.WriteLine("\treturn false;");
+
+            compiler
+                .WriteIndent()
+                .WriteLine("return false;");
+
             compiler.EndMethod(this);
             compiler.MarkReady(this);
         }
