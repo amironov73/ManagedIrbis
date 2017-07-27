@@ -1157,6 +1157,12 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\CompilerUtility.cs">
       <Link>Source\Pft\Infrastructure\Compiler\CompilerUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\FieldDictionary.cs">
+      <Link>Source\Pft\Infrastructure\Compiler\FieldDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\FieldInfo.cs">
+      <Link>Source\Pft\Infrastructure\Compiler\FieldInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\NodeDictionary.cs">
       <Link>Source\Pft\Infrastructure\Compiler\NodeDictionary.cs</Link>
     </Compile>

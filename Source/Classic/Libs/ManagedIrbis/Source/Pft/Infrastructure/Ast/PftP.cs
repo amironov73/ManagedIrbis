@@ -18,6 +18,7 @@ using AM.Logging;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
@@ -127,6 +128,35 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            if (ReferenceEquals(Field, null))
+            {
+                throw new PftCompilerException();
+            }
+
+            FieldInfo info = compiler.CompileField(Field);
+
+            compiler.StartMethod(this);
+
+            compiler
+                .WriteIndent()
+                .WriteLine
+                (
+                    "var flag = HaveField({0});",
+                    info.Reference
+                )
+                .WriteIndent()
+                .WriteLine("return flag;");
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
 
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize

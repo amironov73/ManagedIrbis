@@ -54,7 +54,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         #region Properties
 
         [NotNull]
-        internal NodeDictionary Dictionary { get; private set; }
+        internal FieldDictionary Fields { get; private set; }
+
+        [NotNull]
+        internal NodeDictionary Nodes { get; private set; }
 
         [NotNull]
         internal TextWriter Output { get; private set; }
@@ -74,7 +77,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         public PftCompiler()
         {
             Indent = 0;
-            Dictionary = new NodeDictionary();
+            Fields = new FieldDictionary();
+            Nodes = new NodeDictionary();
             Output = new StringWriter();
         }
 
@@ -89,7 +93,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 [NotNull] PftNode rootNode
             )
         {
-            NumberingVisitor visitor = new NumberingVisitor(Dictionary);
+            NumberingVisitor visitor = new NumberingVisitor(Nodes);
             bool result = rootNode.AcceptVisitor(visitor);
             if (!result)
             {
@@ -112,7 +116,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         {
             Code.NotNull(node, "node");
 
-            NodeInfo info = Dictionary.Get(node);
+            NodeInfo info = Nodes.Get(node);
             WriteLine
                 (
                     "{0}{1} ();",
@@ -141,6 +145,55 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             }
 
             return this;
+        }
+
+        /// <summary>
+        /// Compile the field.
+        /// </summary>
+        [NotNull]
+        internal FieldInfo CompileField
+            (
+                [NotNull] PftField field
+            )
+        {
+            Code.NotNull(field, "field");
+
+            FieldInfo result = Fields.Get(field);
+            if (ReferenceEquals(result, null))
+            {
+                result = Fields.Create(field);
+                FieldSpecification spec = result.Specification;
+                WriteIndent();
+                WriteLine
+                    (
+                        "// {0}",
+                        result.Text
+                    );
+                WriteIndent();
+                WriteLine
+                    (
+                        "var {0} = new FieldSpecification()",
+                        result.Reference
+                    );
+                WriteIndent();
+                WriteLine("{");
+                IncreaseIndent();
+                WriteIndent();
+                WriteLine("Command = '{0}',", spec.Command);
+                WriteIndent();
+                WriteLine("Tag = \"{0}\",", spec.Tag);
+                if (spec.SubField != SubField.NoCode)
+                {
+                    WriteIndent();
+                    WriteLine("SubField = '{0}', ", spec.SubField);
+                }
+                DecreaseIndent();
+                WriteIndent();
+                WriteLine("};");
+                WriteLine();
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -261,13 +314,36 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         {
             Code.NotNull(node, "node");
 
-            NodeInfo info = Dictionary.Get(node);
+            NodeInfo info = Nodes.Get(node);
             if (info.Ready)
             {
                 throw new IrbisException();
             }
             info.Ready = true;
         }
+
+        /// <summary>
+        /// Referenct method for the node.
+        /// </summary>
+        [NotNull]
+        public PftCompiler RefNodeMethod
+            (
+                [NotNull] PftNode node
+            )
+        {
+            Code.NotNull(node, "node");
+
+            NodeInfo info = Nodes.Get(node);
+            Write
+                (
+                    "{0}{1}",
+                    NodeMethodPrefix,
+                    info.Id
+                );
+
+            return this;
+        }
+
 
         /// <summary>
         /// 
@@ -313,7 +389,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
 
             _currentNode = node;
 
-            NodeInfo info = Dictionary.Get(node);
+            NodeInfo info = Nodes.Get(node);
 
             WriteIndent();
             WriteLine
@@ -334,7 +410,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             WriteIndent();
             WriteLine
                 (
-                    "public {0} {1}{2}",
+                    "public {0} {1}{2}()",
                     returnType,
                     NodeMethodPrefix,
                     info.Id

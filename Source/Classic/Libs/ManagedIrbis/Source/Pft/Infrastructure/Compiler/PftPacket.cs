@@ -40,6 +40,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         [NotNull]
         public PftContext Context { get; private set; }
 
+        /// <summary>
+        /// Current field (if any).
+        /// </summary>
+        [CanBeNull]
+        public FieldSpecification CurrentField { get; set; }
+
         #endregion
 
         #region Construction
@@ -66,6 +72,35 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         #region Public methods
 
         /// <summary>
+        /// Do the conditional literal.
+        /// </summary>
+        public void DoConditionalLiteral
+            (
+                [CanBeNull] string text,
+                bool isSuffix
+            )
+        {
+            // TODO implement
+        }
+
+        /// <summary>
+        /// Do field.
+        /// </summary>
+        public void DoField
+            (
+                [NotNull] FieldSpecification field,
+                [CanBeNull] Action leftHand,
+                [CanBeNull] Action rightHand
+            )
+        {
+            CurrentField = field;
+
+            // TODO implement
+
+            CurrentField = null;
+        }
+
+        /// <summary>
         /// Do group.
         /// </summary>
         public void DoGroup
@@ -73,7 +108,33 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 [NotNull] Action action
             )
         {
-            
+            // TODO implement
+        }
+
+        /// <summary>
+        /// Do the repeatable literal.
+        /// </summary>
+        public void DoRepeatableLiteral
+            (
+                [CanBeNull] string text,
+                bool isPrefix,
+                bool plus
+            )
+        {
+            // TODO implement
+        }
+
+        /// <summary>
+        /// Have the field?
+        /// </summary>
+        public bool HaveField
+            (
+                [NotNull] FieldSpecification field
+            )
+        {
+            // TODO implement
+
+            return true;
         }
 
         #endregion
