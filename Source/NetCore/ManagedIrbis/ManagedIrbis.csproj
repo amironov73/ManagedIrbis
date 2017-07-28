@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AM.Core\AM.Core.csproj" />
     <PackageReference Include="CoreCompat.System.Configuration" Version="4.2.3-r4" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
     <PackageReference Include="System.ComponentModel.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
     <PackageReference Include="System.Linq.Parallel" Version="4.3.0" />

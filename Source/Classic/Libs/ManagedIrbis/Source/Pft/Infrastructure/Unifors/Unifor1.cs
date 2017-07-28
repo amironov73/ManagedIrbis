@@ -175,7 +175,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
             if (offset != 0 || length != 0)
             {
-                text = PftField.SafeSubString(text, offset, length);
+                text = PftUtility.SafeSubString(text, offset, length);
             }
             if (string.IsNullOrEmpty(text))
             {

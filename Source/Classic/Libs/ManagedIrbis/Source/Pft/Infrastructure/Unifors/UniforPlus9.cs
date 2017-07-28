@@ -563,7 +563,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         offset = text.Length - offset - length;
                     }
 
-                    text = PftField.SafeSubString(text, offset, length);
+                    text = PftUtility.SafeSubString(text, offset, length);
                 }
                 else
                 {

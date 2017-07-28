@@ -19,6 +19,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -46,6 +48,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         [CanBeNull]
         public FieldSpecification CurrentField { get; set; }
 
+        /// <summary>
+        /// In group?
+        /// </summary>
+        public bool InGroup { get; set; }
+
+        /// <summary>
+        /// Breakpoints.
+        /// </summary>
+        [NotNull]
+        public Dictionary<int,object> Breakpoints { get; private set; }
+
         #endregion
 
         #region Construction
@@ -61,15 +74,43 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             Code.NotNull(context, "context");
 
             Context = context;
+            Breakpoints = new Dictionary<int, object>();
         }
 
         #endregion
 
         #region Private members
 
-        #endregion
+        /// <summary>
+        /// Call the debugger.
+        /// </summary>
+        protected void CallDebugger()
+        {
+            PftDebugger debugger = Context.Debugger;
+            if (!ReferenceEquals(debugger, null))
+            {
+                PftDebugEventArgs eventArgs = new PftDebugEventArgs
+                    (
+                        Context,
+                        null
+                    );
+                debugger.Activate(eventArgs);
+            }
+        }
 
-        #region Public methods
+        /// <summary>
+        /// Debugger hook.
+        /// </summary>
+        protected void DebuggerHook
+            (
+                int nodeId
+            )
+        {
+            if (Breakpoints.ContainsKey(nodeId))
+            {
+                CallDebugger();
+            }
+        }
 
         /// <summary>
         /// Do the conditional literal.
@@ -147,21 +188,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         }
 
         /// <summary>
-        /// Execute the packet agains the record.
-        /// </summary>
-        [NotNull]
-        public virtual string Execute
-            (
-                [NotNull] MarcRecord record
-            )
-        {
-            Context.ClearAll();
-            Context.Record = record;
-
-            return String.Empty;
-        }
-
-        /// <summary>
         /// Have the field?
         /// </summary>
         protected bool HaveField
@@ -176,7 +202,32 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
 
         #endregion
 
+        #region Public methods
+
+        /// <summary>
+        /// Execute the packet agains the record.
+        /// </summary>
+        [NotNull]
+        public virtual string Execute
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            Context.ClearAll();
+            Context.Record = record;
+
+            return String.Empty;
+        }
+
+        #endregion
+
         #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return Context.ToString();
+        }
 
         #endregion
     }

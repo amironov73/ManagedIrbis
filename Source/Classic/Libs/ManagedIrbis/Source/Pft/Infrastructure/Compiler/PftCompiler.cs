@@ -10,7 +10,6 @@
 #region Using directives
 
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -35,6 +34,12 @@ using ManagedIrbis.Pft.Infrastructure.Ast;
 using Microsoft.CSharp;
 
 using MoonSharp.Interpreter;
+
+#if CLASSIC
+
+using System.CodeDom.Compiler;
+
+#endif
 
 #endregion
 
@@ -70,7 +75,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// <summary>
         /// Indentation level.
         /// </summary>
-        public int Indent { get; private set; }
+        internal int Indent { get; private set; }
 
         /// <summary>
         /// Path to store compiled assemblies.
@@ -86,6 +91,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// Compile debug version?
         /// </summary>
         public bool Debug { get; set; }
+        
+        /// <summary>
+        /// References.
+        /// </summary>
+        [NotNull]
+        public NonNullCollection<string> References { get; private set; }
+
+        /// <summary>
+        /// Usings.
+        /// </summary>
+        [NotNull]
+        public NonNullCollection<string> Usings { get; private set; }
 
         #endregion
 
@@ -101,6 +118,45 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             Nodes = new NodeDictionary();
             Output = new StringWriter();
             OutputPath = Path.GetTempPath();
+
+            References = new NonNullCollection<string>
+            {
+                "AM.Core.dll",
+                "JetBrains.Annotations.dll",
+                "ManagedIrbis.dll",
+                "Microsoft.CSharp.dll",
+                "MoonSharp.Interpreter.dll",
+                "Newtonsoft.Json.dll",
+                "System.dll",
+                "System.Core.dll",
+                "System.Data.dll",
+                "System.Data.DataSetExtensions.dll",
+                "System.Xml.dll",
+                "System.Xml.Linq.dll"
+            };
+
+            Usings = new NonNullCollection<string>
+            {
+                "System",
+                "System.Collections.Generic",
+                "System.Diagnostics",
+                "System.IO",
+                "System.Linq",
+                "System.Text",
+                "System.Threading",
+                "System.Threading.Tasks",
+                "AM",
+                "AM.IO",
+                "AM.Logging",
+                "ManagedIrbis",
+                "ManagedIrbis.Client",
+                "ManagedIrbis.Direct",
+                "ManagedIrbis.Menus",
+                "ManagedIrbis.Pft",
+                "ManagedIrbis.Pft.Infrastructure",
+                "ManagedIrbis.Pft.Infrastructure.Ast",
+                "ManagedIrbis.Pft.Infrastructure.Compiler"
+            };
         }
 
         #endregion
@@ -250,7 +306,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
 
             program.Compile(this);
 
-            EndClass();
+            EndClass(result);
 
             return result;
         }
@@ -268,28 +324,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             Code.NotNull(output, "output");
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if !CLASSIC
+
+            return null;
+
+#else
+
             string outputAssemblyPath = Path.Combine
                 (
                     OutputPath,
                     fileName + ".dll"
                 );
             outputAssemblyPath = Path.GetFullPath(outputAssemblyPath);
-
-            List<string> references = new List<string>
-            {
-                "AM.Core.dll",
-                "JetBrains.Annotations.dll",
-                "ManagedIrbis.dll",
-                "Microsoft.CSharp.dll",
-                "MoonSharp.Interpreter.dll",
-                "Newtonsoft.Json.dll",
-                "System.dll",
-                "System.Core.dll",
-                "System.Data.dll",
-                "System.Data.DataSetExtensions.dll",
-                "System.Xml.dll",
-                "System.Xml.Linq.dll"
-            };
 
             string sourceCode = GetSourceCode();
             string sourceFileName = Path.ChangeExtension
@@ -307,7 +353,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             CSharpCodeProvider provider = new CSharpCodeProvider();
             CompilerParameters parameters = new CompilerParameters
                 (
-                    references.ToArray()
+                    References.ToArray()
                 )
             {
                 GenerateExecutable = false,
@@ -341,6 +387,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             }
 
             return outputAssemblyPath;
+
+#endif
         }
 
         /// <summary>
@@ -357,7 +405,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// <summary>
         /// 
         /// </summary>
-        public void EndClass()
+        public void EndClass
+            (
+                [NotNull] string className
+            )
         {
             if (!ReferenceEquals(_currentNode, null))
             {
@@ -382,6 +433,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             DecreaseIndent();
             WriteIndent();
             WriteLine("}");
+            WriteLine();
+
+            WriteIndent();
+            WriteLine("public static PftPacket CreateInstance(PftContext context)");
+            WriteIndent();
+            WriteLine("{");
+            IncreaseIndent();
+            WriteIndent();
+            WriteLine("PftPacket result = new {0} (context);", className);
+            WriteIndent();
+            WriteLine("return result;");
+            DecreaseIndent();
+            WriteIndent();
+            WriteLine("}");
+            WriteLine();
 
             DecreaseIndent();
             WriteLine("} // end of class");
@@ -479,27 +545,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         [NotNull]
         public string StartClass()
         {
-            string result = StringUtility.Random(10);
+            string result = "CompiledPft_" + StringUtility.Random(10);
 
-            WriteLine("using System;");
-            WriteLine("using System.CodeDom.Compiler;");
-            WriteLine("using System.Collections.Generic;");
-            WriteLine("using System.Diagnostics;");
-            WriteLine("using System.IO;");
-            WriteLine("using System.Linq;");
-            WriteLine("using System.Text;");
-            WriteLine("using System.Threading.Tasks;");
+            foreach (string nameSpace in Usings)
+            {
+                WriteLine("using {0};", nameSpace);
+            }
             WriteLine();
-            WriteLine("using AM;");
-            WriteLine("using AM.Logging;");
-            WriteLine();
-            WriteLine("using ManagedIrbis;");
-            WriteLine("using ManagedIrbis.Pft;");
-            WriteLine("using ManagedIrbis.Pft.Infrastructure;");
-            WriteLine("using ManagedIrbis.Pft.Infrastructure.Ast;");
-            WriteLine("using ManagedIrbis.Pft.Infrastructure.Compiler;");
-            WriteLine();
-            WriteLine("public class {0}", result);
+
+            WriteLine("public sealed class {0}", result);
             IncreaseIndent();
             WriteIndent();
             WriteLine(": PftPacket");
@@ -568,9 +622,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             WriteIndent();
             WriteLine("{");
             IncreaseIndent();
+
+            if (Debug)
+            {
+                WriteIndent();
+                WriteLine
+                    (
+                        "DebuggerHook({0});",
+                        info.Id
+                    );
+            }
         }
 
-        #region Write
+#region Write
 
         /// <inheritdoc cref="TextWriter.Write(char)" />
         [NotNull]

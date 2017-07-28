@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -19,6 +20,7 @@ using System.Text.RegularExpressions;
 
 using AM;
 using AM.Collections;
+using AM.ConsoleIO;
 using AM.Logging;
 
 using CodeJam;
@@ -1284,6 +1286,92 @@ namespace ManagedIrbis.Pft
             Code.NotNull(nodes, "nodes");
 
             bool result = nodes.Any(item => RequiresConnection(item));
+
+            return result;
+        }
+
+        //=================================================
+
+        /// <summary>
+        /// Extract substring in safe manner.
+        /// </summary>
+        [CanBeNull]
+        internal static string SafeSubString
+            (
+                [CanBeNull] string text,
+                int offset,
+                int length
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            if (offset < 0)
+            {
+                offset = 0;
+            }
+            if (length <= 0)
+            {
+                return string.Empty;
+            }
+            if (offset >= text.Length)
+            {
+                return string.Empty;
+            }
+
+            try
+            {
+                checked
+                {
+                    if (offset + length > text.Length)
+                    {
+                        length = text.Length - offset;
+                        if (length <= 0)
+                        {
+                            return string.Empty;
+                        }
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException
+                    (
+                        "PftUtility::SafeSubString",
+                        exception
+                    );
+
+                Debug.WriteLine(exception);
+
+                throw;
+            }
+
+            string result;
+
+            try
+            {
+                result = text.Substring
+                    (
+                        offset,
+                        length
+                    );
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException
+                    (
+                        "PftUtility::SafeSubString",
+                        exception
+                    );
+
+                Debug.WriteLine(exception);
+
+                ConsoleInput.WriteLine(exception.ToString());
+
+                throw;
+            }
 
             return result;
         }

@@ -108,12 +108,11 @@ namespace CompilerBenchmark
                                     assemblyPath
                                 );
 
-                            Assembly assembly = Assembly.LoadFile(assemblyPath);
-                            PftPacket packet = CompilerUtility.GetPacket
-                                (
-                                    assembly,
-                                    context
-                                );
+                            Assembly assembly
+                                = Assembly.LoadFile(assemblyPath);
+                            Func<PftContext, PftPacket> creator
+                                = CompilerUtility.GetEntryPoint(assembly);
+                            PftPacket packet = creator(context);
                             MarcRecord record = new MarcRecord();
                             string formatted = packet.Execute(record);
                             Console.WriteLine(formatted);

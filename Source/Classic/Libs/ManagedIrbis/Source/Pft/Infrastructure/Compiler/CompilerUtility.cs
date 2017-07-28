@@ -22,6 +22,7 @@ using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Logging;
+using AM.Reflection;
 using AM.Runtime;
 using AM.Text;
 
@@ -90,14 +91,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// Find entry point of the assembly.
         /// </summary>
         [NotNull]
-        public static PftPacket GetPacket
+        public static Func<PftContext, PftPacket> GetEntryPoint
             (
-                [NotNull] Assembly assembly,
-                [NotNull] PftContext context
+                [NotNull] Assembly assembly
             )
         {
             Code.NotNull(assembly, "assembly");
-            Code.NotNull(context, "context");
 
             Type[] types = assembly.GetTypes();
             if (types.Length != 1)
@@ -105,15 +104,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 throw new PftCompilerException();
             }
             Type type = types[0];
-            if (!type.IsSubclassOf(typeof(PftPacket)))
+            if (!type.Bridge().IsSubclassOf(typeof(PftPacket)))
             {
                 throw new PftCompilerException();
             }
-            PftPacket result = (PftPacket) Activator.CreateInstance
+            MethodInfo method = type.Bridge().GetMethod
                 (
-                    type,
-                    context
+                    "CreateInstance",
+                    BindingFlags.Public | BindingFlags.Static,
+                    null,
+                    new Type[] { typeof(PftContext) },
+                    null
                 );
+            Func<PftContext,PftPacket> result
+                = (Func<PftContext,PftPacket>) method.CreateDelegate
+                    (
+                        typeof(Func<PftContext, PftPacket>)
+                    );
 
             return result;
         }
