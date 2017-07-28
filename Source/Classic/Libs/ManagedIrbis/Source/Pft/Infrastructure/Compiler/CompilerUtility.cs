@@ -98,6 +98,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         {
             Code.NotNull(assembly, "assembly");
 
+#if WIN81 || PORTABLE
+
+            Func<PftContext, PftPacket> result = null;
+
+#else
+
             Type[] types = assembly.GetTypes();
             if (types.Length != 1)
             {
@@ -116,6 +122,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                     "CreateInstance",
                     new Type[] { typeof(PftContext) },
                     null
+                );
+
+            Func<PftContext, PftPacket> result
+                = (Func<PftContext, PftPacket>)method.CreateDelegate
+                    (
+                        typeof(Func<PftContext, PftPacket>)
+                    );
+
+#elif UAP
+
+            MethodInfo method = type.GetMethod
+                (
+                    "CreateInstance",
+                    new [] { typeof(PftContext) }
                 );
 
             Func<PftContext, PftPacket> result
@@ -149,6 +169,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             {
                 throw new PftCompilerException();
             }
+
+#endif
 
             return result;
         }

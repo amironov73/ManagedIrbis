@@ -1082,6 +1082,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\PftCompilerException.cs">
       <Link>Source\Pft\Infrastructure\Compiler\PftCompilerException.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\PftPacket.cs">
+      <Link>Source\Pft\Infrastructure\Compiler\PftPacket.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Diagnostics\PftDebugger.cs">
       <Link>Source\Pft\Infrastructure\Diagnostics\PftDebugger.cs</Link>
     </Compile>

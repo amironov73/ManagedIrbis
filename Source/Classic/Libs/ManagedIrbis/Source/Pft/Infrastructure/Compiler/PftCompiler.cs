@@ -117,7 +117,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             Fields = new FieldDictionary();
             Nodes = new NodeDictionary();
             Output = new StringWriter();
+
+#if WIN81 || PORTABLE
+
+            OutputPath = ".";
+
+#else
+
             OutputPath = Path.GetTempPath();
+
+#endif
 
             References = new NonNullCollection<string>
             {
@@ -634,7 +643,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             }
         }
 
-#region Write
+        #region Write
 
         /// <inheritdoc cref="TextWriter.Write(char)" />
         [NotNull]
