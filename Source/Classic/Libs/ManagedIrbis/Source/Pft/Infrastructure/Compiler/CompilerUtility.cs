@@ -108,6 +108,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             {
                 throw new PftCompilerException();
             }
+
+#if NETCORE
+
+            MethodInfo method = type.Bridge().GetMethod
+                (
+                    "CreateInstance",
+                    new Type[] { typeof(PftContext) },
+                    null
+                );
+
+            Func<PftContext, PftPacket> result
+                = (Func<PftContext, PftPacket>)method.CreateDelegate
+                    (
+                        typeof(Func<PftContext, PftPacket>)
+                    );
+
+#else
+
             MethodInfo method = type.Bridge().GetMethod
                 (
                     "CreateInstance",
@@ -116,11 +134,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                     new Type[] { typeof(PftContext) },
                     null
                 );
-            Func<PftContext,PftPacket> result
-                = (Func<PftContext,PftPacket>) method.CreateDelegate
+
+            Func<PftContext, PftPacket> result
+                = (Func<PftContext, PftPacket>) Delegate.CreateDelegate
                     (
-                        typeof(Func<PftContext, PftPacket>)
+                        type, 
+                        method, 
+                        true
                     );
+
+#endif
+
+            if (ReferenceEquals(result, null))
+            {
+                throw new PftCompilerException();
+            }
 
             return result;
         }
@@ -147,10 +175,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             return result;
         }
 
-        #endregion
-
-        #region Object members
-
-        #endregion
+#endregion
     }
 }
