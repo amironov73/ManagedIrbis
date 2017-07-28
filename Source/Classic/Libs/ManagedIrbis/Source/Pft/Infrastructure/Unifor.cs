@@ -1125,7 +1125,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             )
         {
             Code.NotNull(context, "context");
-            Code.NotNull(node, "node");
 
             if (string.IsNullOrEmpty(expression))
             {

@@ -23,6 +23,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
@@ -546,6 +547,83 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     RightHand,
                     otherField.RightHand
                 );
+        }
+
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            FieldInfo info = compiler.CompileField(this);
+
+            compiler.CompileNodes(LeftHand);
+            compiler.CompileNodes(RightHand);
+
+            compiler.StartMethod(this);
+
+            compiler
+                .WriteIndent()
+                .Write("Action leftHand = ");
+            if (LeftHand.Count == 0)
+            {
+                compiler.WriteLine("null;");
+            }
+            else if (LeftHand.Count == 1)
+            {
+                compiler
+                    .RefNodeMethod(LeftHand[0])
+                    .WriteLine(';');
+            }
+            else
+            {
+                compiler
+                    .WriteLine("() =>")
+                    .WriteIndent()
+                    .WriteLine("{")
+                    .IncreaseIndent()
+                    .CallNodes(LeftHand)
+                    .DecreaseIndent()
+                    .WriteIndent()
+                    .WriteLine("};");
+            }
+
+            compiler
+                .WriteIndent()
+                .Write("Action rightHand = ");
+            if (RightHand.Count == 0)
+            {
+                compiler.WriteLine("null;");
+            }
+            else if (RightHand.Count == 1)
+            {
+                compiler
+                    .RefNodeMethod(RightHand[0])
+                    .WriteLine(';');
+            }
+            else
+            {
+                compiler
+                    .WriteLine("() =>")
+                    .WriteIndent()
+                    .WriteLine("{")
+                    .IncreaseIndent()
+                    .CallNodes(RightHand)
+                    .DecreaseIndent()
+                    .WriteIndent()
+                    .WriteLine("};");
+            }
+
+            compiler
+                .WriteIndent()
+                .WriteLine
+                (
+                    "DoField({0}, leftHand, rightHand);",
+                    info.Reference
+                );
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
         }
 
         /// <inheritdoc cref="PftNode.Deserialize" />

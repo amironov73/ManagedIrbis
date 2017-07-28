@@ -82,7 +82,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             compiler.StartMethod(this);
 
-            compiler.CallNodes(Children);
+            compiler
+                .WriteIndent()
+                .WriteLine("Action action = () => ")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                .CallNodes(Children)
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("};")
+                .WriteIndent()
+                .WriteLine("string text = Evaluate(action);")
+                .WriteIndent()
+                .WriteLine
+                    (
+                        "FormatExit.Execute(Context, null, \"{0}\", text);",
+                        CompilerUtility.Escape(Name)
+                    );
 
             compiler.EndMethod(this);
             compiler.MarkReady(this);

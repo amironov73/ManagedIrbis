@@ -171,14 +171,31 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (!string.IsNullOrEmpty(Text))
             {
-                // TODO escape quotes
+                PftField parent = Parent as PftField;
+                if (ReferenceEquals(parent, null))
+                {
+                    throw new PftCompilerException();
+                }
+
+                string tag = parent.Tag;
+                if (string.IsNullOrEmpty(tag))
+                {
+                    throw new PftCompilerException();
+                }
+                string code = string.Format
+                    (
+                        "\\x{0:X4}", 
+                        (int)parent.SubField
+                    );
 
                 compiler
                     .WriteIndent()
                     .WriteLine
                     (
-                        "DoConditionalLiteral(\"{0}\", {1});",
+                        "DoConditionalLiteral(\"{0}\", \"{1}\", '{2}', {3});",
                         CompilerUtility.Escape(Text),
+                        tag,
+                        code,
                         CompilerUtility.BooleanToText(IsSuffix)
                     );
             }

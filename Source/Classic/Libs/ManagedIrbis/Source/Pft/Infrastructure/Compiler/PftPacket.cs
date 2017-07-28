@@ -118,10 +118,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         protected void DoConditionalLiteral
             (
                 [CanBeNull] string text,
+                string tag,
+                char code,
                 bool isSuffix
             )
         {
-            // TODO implement
+            bool flag = false;
+
+            //if (isSuffix)
+            //{
+            //    if (IsLastRepeat(context))
+            //    {
+            //        _Execute(context, field);
+            //    }
+            //}
+            //else
+            //{
+            //    if (IsFirstRepeat(context))
+            //    {
+            //        _Execute(context, field);
+            //    }
+            //}
+
+
+            Context.Write(null, text);
         }
 
         /// <summary>
@@ -134,9 +154,32 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 [CanBeNull] Action rightHand
             )
         {
+            MarcRecord record = Context.Record;
+            if (ReferenceEquals(record, null))
+            {
+                return;
+            }
+
             CurrentField = field;
 
-            // TODO implement
+            char command = field.Command;
+            string tag = field.Tag;
+            char code = field.SubField;
+            int index = Context.Index;
+            string text = GetValue(record, tag, code, index);
+
+            if (command == 'v')
+            {
+                if (!ReferenceEquals(leftHand, null))
+                {
+                    leftHand();
+                }
+                Context.Write(null, text);
+                if (!ReferenceEquals(rightHand, null))
+                {
+                    rightHand();
+                }
+            }
 
             CurrentField = null;
         }
@@ -163,6 +206,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             )
         {
             // TODO implement
+            Context.Write(null, text);
         }
 
         /// <summary>
@@ -185,6 +229,32 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
 
                 return result;
             }
+        }
+
+        [CanBeNull]
+        private string GetValue
+            (
+                [NotNull] MarcRecord record,
+                string tag,
+                char code,
+                int index
+            )
+        {
+            RecordField field = record.Fields.GetField(tag, index);
+            if (ReferenceEquals(field, null))
+            {
+                return null;
+            }
+
+            string result = PftUtility.GetFieldValue
+            (
+                Context,
+                field,
+                code,
+                default(IndexSpecification)
+            );
+
+            return result;
         }
 
         /// <summary>

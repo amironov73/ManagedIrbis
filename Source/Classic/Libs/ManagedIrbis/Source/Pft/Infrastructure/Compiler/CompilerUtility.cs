@@ -136,10 +136,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 );
 
             Func<PftContext, PftPacket> result
-                = (Func<PftContext, PftPacket>) Delegate.CreateDelegate
+                = (Func<PftContext, PftPacket>)Delegate.CreateDelegate
                     (
-                        type, 
-                        method, 
+                        typeof(Func<PftContext, PftPacket>),
+                        method,
                         true
                     );
 
@@ -175,6 +175,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             return result;
         }
 
-#endregion
+        #endregion
     }
 }

@@ -16,8 +16,6 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Pft.Infrastructure.Compiler;
-
 using MoonSharp.Interpreter;
 
 #endregion
@@ -177,83 +175,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc cref="PftNode.Compile" />
-        public override void Compile
-            (
-                PftCompiler compiler
-            )
-        {
-            FieldInfo info = compiler.CompileField(this);
-
-            compiler.CompileNodes(LeftHand);
-            compiler.CompileNodes(RightHand);
-
-            compiler.StartMethod(this);
-
-            compiler
-                .WriteIndent()
-                .Write("Action leftHand = ");
-            if (LeftHand.Count == 0)
-            {
-                compiler.WriteLine("null;");
-            }
-            else if (LeftHand.Count == 1)
-            {
-                compiler
-                    .RefNodeMethod(LeftHand[0])
-                    .WriteLine(';');
-            }
-            else
-            {
-                compiler
-                    .WriteLine("() =>")
-                    .WriteIndent()
-                    .WriteLine("{")
-                    .IncreaseIndent()
-                    .CallNodes(LeftHand)
-                    .DecreaseIndent()
-                    .WriteIndent()
-                    .WriteLine("};");
-            }
-
-            compiler
-                .WriteIndent()
-                .Write("Action rightHand = ");
-            if (RightHand.Count == 0)
-            {
-                compiler.WriteLine("null;");
-            }
-            else if (RightHand.Count == 1)
-            {
-                compiler
-                    .RefNodeMethod(RightHand[0])
-                    .WriteLine(';');
-            }
-            else
-            {
-                compiler
-                    .WriteLine("() =>")
-                    .WriteIndent()
-                    .WriteLine("{")
-                    .IncreaseIndent()
-                    .CallNodes(RightHand)
-                    .DecreaseIndent()
-                    .WriteIndent()
-                    .WriteLine("};");
-            }
-
-            compiler
-                .WriteIndent()
-                .WriteLine
-                    (
-                        "DoField({0}, leftHand, rightHand);",
-                        info.Reference
-                    );
-
-            compiler.EndMethod(this);
-            compiler.MarkReady(this);
-        }
-
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
@@ -290,28 +211,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             OnAfterExecution(context);
-        }
-
-        ///// <inheritdoc cref="PftNode.PrettyPrint" />
-        //public override void PrettyPrint
-        //    (
-        //        PftPrettyPrinter printer
-        //    )
-        //{
-        //    printer.SingleSpace();
-        //    printer.WriteNodes(LeftHand);
-        //    printer.Write(ToString());
-        //    printer.WriteNodes(RightHand);
-        //}
-
-        #endregion
-
-        #region Object members
-
-        /// <inheritdoc cref="object.ToString" />
-        public override string ToString()
-        {
-            return ToSpecification().ToString();
         }
 
         #endregion
