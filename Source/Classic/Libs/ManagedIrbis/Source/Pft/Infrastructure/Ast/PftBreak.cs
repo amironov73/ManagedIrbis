@@ -20,7 +20,7 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
@@ -75,6 +75,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            compiler.StartMethod(this);
+
+            compiler
+                .WriteIndent()
+                .WriteLine("throw new PftBreakException(null);");
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
+
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
@@ -89,7 +105,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 if (PftConfig.BreakImmediate)
                 {
-                    Log.Error
+                    Log.Trace
                         (
                             "PftBreak::Execute: "
                             + "break inside the group"
@@ -105,7 +121,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 // Это не группа, а оператор for
                 // или что-нибудь в этом роде
 
-                Log.Error
+                Log.Trace
                     (
                         "PftBreak::Execute: "
                         + "break outside the group"

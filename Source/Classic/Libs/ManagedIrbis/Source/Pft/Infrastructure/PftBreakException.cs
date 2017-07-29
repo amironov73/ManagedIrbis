@@ -30,7 +30,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <summary>
         /// Node generated the exception.
         /// </summary>
-        [NotNull]
+        [CanBeNull]
         public PftNode Node { get; private set; }
 
         #endregion
@@ -42,11 +42,9 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public PftBreakException
             (
-                [NotNull] PftNode node
+                [CanBeNull] PftNode node
             )
         {
-            Code.NotNull(node, "node");
-
             Node = node;
         }
 

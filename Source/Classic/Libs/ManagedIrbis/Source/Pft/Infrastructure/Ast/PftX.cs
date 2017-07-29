@@ -11,7 +11,7 @@
 
 using System;
 using System.IO;
-using System.Threading;
+
 using AM;
 using AM.IO;
 using AM.Logging;
@@ -19,6 +19,8 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
@@ -145,6 +147,49 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 throw new PftSerializationException();
             }
+        }
+
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            compiler.StartMethod(this);
+
+            compiler
+                .WriteIndent()
+                .WriteLine("if (CurrentField != null)")
+                .WriteIndent()
+                .WriteLine("{")
+                .WriteIndent()
+                .IncreaseIndent()
+                .WriteIndent()
+                .WriteLine("if (FirstRepeat(CurrentField))")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                .WriteIndent()
+                .WriteLine("Context.Write(new string(' ', {0}));", Shift)
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("}")
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("}")
+                .WriteIndent()
+                .WriteLine("else")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                .WriteIndent()
+                .WriteLine("Context.Write(new string(' ', {0}));", Shift)
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("}");
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
         }
 
         /// <inheritdoc cref="PftNode.Deserialize" />

@@ -258,6 +258,35 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         }
 
         /// <summary>
+        /// Goto new position.
+        /// </summary>
+        public void Goto
+            (
+                int newPosition
+            )
+        {
+            int current = Context.Output.GetCaretPosition();
+            int delta = newPosition - current;
+            if (delta > 0)
+            {
+                Context.Write
+                    (
+                        null,
+                        new string(' ', delta)
+                    );
+            }
+            else
+            {
+                Context.WriteLine(null);
+                Context.Write
+                    (
+                        null,
+                        new string(' ', newPosition - 1)
+                    );
+            }
+        }
+
+        /// <summary>
         /// Have the field?
         /// </summary>
         protected bool HaveField
@@ -268,6 +297,32 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             // TODO implement
 
             return true;
+        }
+
+        /// <summary>
+        /// First repeat?
+        /// </summary>
+        protected bool IsFirstRepeat
+            (
+                [NotNull] FieldSpecification field
+            )
+        {
+            // TODO implement
+
+            return false;
+        }
+
+        /// <summary>
+        /// Last repeat?
+        /// </summary>
+        protected bool IsLastRepeat
+            (
+                [NotNull] FieldSpecification field
+            )
+        {
+            // TODO implement
+
+            return false;
         }
 
         #endregion

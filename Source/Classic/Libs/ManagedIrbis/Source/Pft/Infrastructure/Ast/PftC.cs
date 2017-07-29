@@ -20,6 +20,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
@@ -136,6 +138,66 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.CompareNode" />
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftC otherC = (PftC)otherNode;
+            bool result = NewPosition == otherC.NewPosition;
+
+            if (!result)
+            {
+                throw new PftSerializationException();
+            }
+        }
+
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            compiler.StartMethod(this);
+
+            compiler
+                .WriteIndent()
+                .WriteLine("if (CurrentField != null)")
+                .WriteIndent()
+                .WriteLine("{")
+                .WriteIndent()
+                .IncreaseIndent()
+                .WriteIndent()
+                .WriteLine("if (FirstRepeat(CurrentField))")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                .WriteIndent()
+                .WriteLine("Goto({0});", NewPosition)
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("}")
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("}")
+                .WriteIndent()
+                .WriteLine("else")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                .WriteIndent()
+                .WriteLine("Goto({0});", NewPosition)
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("}");
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
 
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize

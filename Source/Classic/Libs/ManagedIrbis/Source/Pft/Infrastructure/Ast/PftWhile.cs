@@ -20,6 +20,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
@@ -203,6 +204,43 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     Body,
                     otherWhile.Body
                 );
+        }
+
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            if (ReferenceEquals(Condition, null))
+            {
+                throw new PftCompilerException();
+            }
+
+            Condition.Compile(compiler);
+            compiler.CompileNodes(Body);
+
+            compiler.StartMethod(this);
+
+            // TODO handle break
+
+            compiler
+                .Write("while (")
+                .RefNodeMethod(Condition)
+                .WriteLine("())")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent();
+
+            compiler.CallNodes(Body);
+
+            compiler
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("}");
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
         }
 
         /// <inheritdoc cref="PftNode.Deserialize" />
