@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using System.Text;
+
 using AM.Logging;
 
 using CodeJam;
@@ -255,6 +257,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     .WriteIndentIfNeeded()
                     .Write(')');
             }
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append('(');
+            bool first = true;
+            foreach (PftNode child in Children)
+            {
+                if (!first)
+                {
+                    result.Append(' ');
+                }
+                result.Append(child);
+                first = false;
+            }
+            result.Append(')');
+
+            return result.ToString();
         }
 
         #endregion

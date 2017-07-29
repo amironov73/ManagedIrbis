@@ -11,7 +11,7 @@
 
 using System.IO;
 using System.Linq;
-
+using System.Text;
 using AM;
 using AM.IO;
 using AM.Logging;
@@ -19,6 +19,9 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
+using ManagedIrbis.Pft.Infrastructure.Compiler;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -89,6 +92,89 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.CompareNode" />
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftRsum otherRsum = (PftRsum)otherNode;
+            bool result = Name == otherRsum.Name;
+            if (!result)
+            {
+                throw new PftSerializationException();
+            }
+        }
+
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            compiler.CompileNodes(Children);
+
+            compiler.StartMethod(this);
+
+            string functionName;
+            switch (Name)
+            {
+                case "rsum":
+                    functionName = "Sum";
+                    break;
+
+                case "rmin":
+                    functionName = "Min";
+                    break;
+
+                case "rmax":
+                    functionName = "Max";
+                    break;
+
+                case "ravr":
+                    functionName = "Average";
+                    break;
+
+                default:
+                    throw new PftCompilerException();
+            }
+
+            compiler
+                .WriteIndent()
+                .WriteLine("double result = 0.0;")
+                .WriteIndent()
+                .WriteLine("Action action =")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                .CallNodes(Children)
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("}")
+                .WriteIndent()
+                .WriteLine("string text = Evaluate(action);")
+                .WriteIndent()
+                .WriteLine("double[] values = PftUtility.ExtractNumericValues(text);")
+                .WriteIndent()
+                .WriteLine("if (values.Length != 0)")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                .WriteIndent()
+                .WriteLine("result = values.{0}();", functionName)
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("}")
+                .WriteIndent()
+                .WriteLine("return result;");
+
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
+
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
             (
@@ -150,6 +236,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.EatWhitespace();
+            printer
+                .SingleSpace()
+                .Write(Name)
+                .Write('(')
+                .WriteNodes(Children)
+                .Write(')');
+        }
+
         /// <inheritdoc cref="PftNode.Serialize" />
         protected internal override void Serialize
             (
@@ -159,6 +260,31 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             base.Serialize(writer);
 
             writer.WriteNullable(Name);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append(Name);
+            result.Append('(');
+            bool first = true;
+            foreach (PftNode node in Children)
+            {
+                if (!first)
+                {
+                    result.Append(' ');
+                }
+                result.Append(node);
+                first = false;
+            }
+            result.Append(')');
+
+            return result.ToString();
         }
 
         #endregion

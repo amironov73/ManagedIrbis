@@ -20,6 +20,7 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
@@ -85,7 +86,44 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             compiler
                 .WriteIndent()
-                .WriteLine("throw new PftBreakException(null);");
+                .WriteLine("if (InGroup)")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                .WriteIndent()
+
+                .WriteLine("if (PftConfig.BreakImmediate)")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                .WriteIndent()
+                .WriteLine("throw new PftBreakException(null);")
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("}")
+                .WriteIndent()
+                .WriteLine("else")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                .WriteIndent()
+                .WriteLine("Context.BreakFlag = true;")
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("}")
+
+                .WriteIndent()
+                .WriteLine("}")
+                .WriteIndent()
+                .WriteLine("else")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                .WriteIndent()
+                .WriteLine("throw new PftBreakException(null);")
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("}");
 
             compiler.EndMethod(this);
             compiler.MarkReady(this);

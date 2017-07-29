@@ -212,7 +212,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             compiler
                 .WriteIndent()
-                .Write("var flag = ")
+                .Write("bool flag = ")
                 .CallNodeMethod(Condition)
                 .WriteIndent()
                 .WriteLine("if (flag)")

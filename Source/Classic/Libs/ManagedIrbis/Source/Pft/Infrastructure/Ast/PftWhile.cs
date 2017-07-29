@@ -12,7 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Text;
 using AM;
 using AM.Logging;
 
@@ -370,6 +370,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             PftSerializer.SerializeNullable(writer, Condition);
             PftSerializer.Serialize(writer, Body);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="Object.ToString"/>
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append("while ");
+            if (!ReferenceEquals(Condition, null))
+            {
+                result.Append(Condition);
+            }
+            result.Append(" do");
+            foreach (PftNode node in Body)
+            {
+                result.Append(' ');
+                result.Append(node);
+            }
+            result.Append(" end");
+
+            return result.ToString();
         }
 
         #endregion

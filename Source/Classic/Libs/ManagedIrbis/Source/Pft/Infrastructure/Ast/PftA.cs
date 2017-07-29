@@ -128,7 +128,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .WriteIndent()
                 .WriteLine
                     (
-                        "var flag = HaveField({0});",
+                        "bool flag = HaveField({0});",
                         info.Reference
                     )
                 .WriteIndent()
@@ -222,6 +222,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 Field.PrettyPrint(printer);
             }
             printer.Write(')');
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return "a(" + Field + ")";
         }
 
         #endregion

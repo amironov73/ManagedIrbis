@@ -19,6 +19,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Compiler;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
@@ -71,6 +72,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.CompareNode" />
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftUnifor otherUnifor = (PftUnifor) otherNode;
+            bool result = Name == otherUnifor.Name;
+            if (!result)
+            {
+                throw new PftSerializationException();
+            }
+        }
 
         /// <inheritdoc cref="PftNode.Compile" />
         public override void Compile

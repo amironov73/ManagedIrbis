@@ -129,6 +129,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.CompareNode" />
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftSerializationUtility.CompareNodes
+            (
+                Field,
+                ((PftA)otherNode).Field
+            );
+        }
+
         /// <inheritdoc cref="PftNode.Compile" />
         public override void Compile
             (
@@ -148,7 +163,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .WriteIndent()
                 .WriteLine
                 (
-                    "var flag = HaveField({0});",
+                    "bool flag = HaveField({0});",
                     info.Reference
                 )
                 .WriteIndent()
@@ -241,6 +256,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 Field.PrettyPrint(printer);
             }
             printer.Write(')');
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return "p(" + Field + ")";
         }
 
         #endregion

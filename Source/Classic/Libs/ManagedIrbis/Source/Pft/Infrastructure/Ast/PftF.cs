@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 using AM;
 
@@ -413,6 +414,34 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftSerializer.SerializeNullable(writer, Argument1);
             PftSerializer.SerializeNullable(writer, Argument2);
             PftSerializer.SerializeNullable(writer, Argument3);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append("f(");
+            if (!ReferenceEquals(Argument1, null))
+            {
+                result.Append(Argument1);
+            }
+            if (!ReferenceEquals(Argument2, null))
+            {
+                result.Append(',');
+                result.Append(Argument2);
+            }
+            if (!ReferenceEquals(Argument3, null))
+            {
+                result.Append(',');
+                result.Append(Argument3);
+            }
+            result.Append(')');
+
+            return result.ToString();
         }
 
         #endregion

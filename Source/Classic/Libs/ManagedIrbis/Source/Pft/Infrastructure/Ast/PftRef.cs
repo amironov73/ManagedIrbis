@@ -12,13 +12,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 using AM;
 
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
@@ -137,6 +138,83 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.CompareNode" />
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftRef otherRef = (PftRef) otherNode;
+            PftSerializationUtility.CompareNodes
+                (
+                    Mfn,
+                    otherRef.Mfn
+                );
+            PftSerializationUtility.CompareLists
+                (
+                    Format,
+                    otherRef.Format
+                );
+        }
+
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            if (ReferenceEquals(Mfn, null))
+            {
+                throw new PftCompilerException();
+            }
+            if (Format.Count == 0)
+            {
+                throw new PftCompilerException();
+            }
+
+            Mfn.Compile(compiler);
+            compiler.CompileNodes(Format);
+
+            compiler.StartMethod(this);
+
+            compiler
+                .WriteIndent()
+                .Write("int mfn = (int)")
+                .CallNodeMethod(Mfn);
+
+            compiler
+                .WriteIndent()
+                .WriteLine("MarcRecord record = Context.Provider.ReadRecord(mfn);")
+                .WriteIndent()
+                .WriteLine("if (!ReferenceEquals(record, null))")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                .WriteIndent();
+
+            compiler
+                .WriteLine("using (new PftContextSaver(Context, true))")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                .WriteIndent()
+                .WriteLine("Context.Record = record;")
+                .CallNodes(Format)
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("}");
+
+            compiler
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("}");
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
+
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
             (
@@ -253,6 +331,35 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             PftSerializer.SerializeNullable(writer, Mfn);
             PftSerializer.Serialize(writer, Format);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append("ref(");
+            if (!ReferenceEquals(Mfn, null))
+            {
+                result.Append(Mfn);
+            }
+            result.Append(',');
+            bool first = true;
+            foreach (PftNode node in Format)
+            {
+                if (!first)
+                {
+                    result.Append(' ');
+                }
+                result.Append(node);
+                first = false;
+            }
+            result.Append(')');
+
+            return result.ToString();
         }
 
         #endregion

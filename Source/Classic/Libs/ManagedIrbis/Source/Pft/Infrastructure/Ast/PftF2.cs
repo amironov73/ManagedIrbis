@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Text;
 
 using AM;
 
@@ -283,6 +284,35 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             PftSerializer.Serialize(writer, Format);
             PftSerializer.SerializeNullable(writer, Number);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append("f2(");
+            if (!ReferenceEquals(Number, null))
+            {
+                result.Append(Number);
+            }
+            result.Append(',');
+            bool first = true;
+            foreach (PftNode node in Format)
+            {
+                if (!first)
+                {
+                    result.Append(' ');
+                }
+                result.Append(node);
+                first = false;
+            }
+            result.Append(')');
+
+            return result.ToString();
         }
 
         #endregion
