@@ -99,22 +99,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             compiler.CompileNodes(Children);
 
+            string actionName = compiler.CompileAction(Children);
+
             compiler.StartMethod(this);
 
-            compiler
-                .WriteIndent()
-                .WriteLine("Action action = () => ")
-                .WriteIndent()
-                .WriteLine("{")
-                .IncreaseIndent()
-                .CallNodes(Children)
-                .DecreaseIndent()
-                .WriteIndent()
-                .WriteLine("};");
-
-            compiler
-                .WriteIndent()
-                .WriteLine("DoGroup(action);");
+            if (!string.IsNullOrEmpty(actionName))
+            {
+                compiler
+                    .WriteIndent()
+                    .WriteLine("DoGroup({0});", actionName);
+            }
 
             compiler.EndMethod(this);
             compiler.MarkReady(this);

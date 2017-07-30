@@ -90,24 +90,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             compiler.CompileNodes(Children);
 
+            string actionName = compiler.CompileAction(Children);
+
             compiler.StartMethod(this);
 
-            compiler
-                .WriteIndent()
-                .WriteLine("Action action = () =>")
-                .WriteIndent()
-                .WriteLine("{")
-                .CallNodes(Children)
-                .WriteIndent()
-                .WriteLine("}");
+            if (string.IsNullOrEmpty(actionName))
+            {
+                compiler
+                    .WriteIndent()
+                    .WriteLine("bool result = true;");
+            }
+            else
+            {
+                compiler
+                    .WriteIndent()
+                    .WriteLine("string text = Evaluate({0});", actionName);
 
-            compiler
-                .WriteIndent()
-                .WriteLine("string text = Evaluate(action);");
+                compiler
+                    .WriteIndent()
+                    .WriteLine("bool result = string.IsNullOrEmpty(text);");
 
-            compiler
-                .WriteIndent()
-                .WriteLine("bool result = string.IsNullOrEmpty(text);");
+            }
 
             compiler
                 .WriteIndent()

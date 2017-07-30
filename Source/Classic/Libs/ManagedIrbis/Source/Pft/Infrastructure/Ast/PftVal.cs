@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using System.Text;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Compiler;
@@ -130,22 +132,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             compiler.CompileNodes(Children);
 
+            string actionName = compiler.CompileAction(Children);
+
             compiler.StartMethod(this);
+            if (string.IsNullOrEmpty(actionName))
+            {
+                compiler
+                    .WriteIndent()
+                    .WriteLine("double result = 0.0;");
+            }
+            else
+            {
+                compiler
+                    .WriteIndent()
+                    .WriteLine("string text = Evaluate({0});", actionName);
+
+                compiler
+                    .WriteIndent()
+                    .WriteLine("double result = double.Parse(text);");
+            }
 
             compiler
-                .WriteIndent()
-                .WriteLine("Action action = () => ")
-                .WriteIndent()
-                .WriteLine("{")
-                .IncreaseIndent()
-                .CallNodes(Children)
-                .DecreaseIndent()
-                .WriteIndent()
-                .WriteLine("};")
-                .WriteIndent()
-                .WriteLine("string text = Evaluate(action);")
-                .WriteIndent()
-                .WriteLine("double result = double.Parse(text);")
                 .WriteIndent()
                 .WriteLine("return result;");
 
@@ -180,6 +187,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .Write("val(");
             base.PrettyPrint(printer);
             printer.Write(")");
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append("val(");
+            bool first = true;
+            foreach (PftNode child in Children)
+            {
+                if (!first)
+                {
+                    result.Append(' ');
+                }
+                result.Append(child);
+                first = false;
+            }
+            result.Append(')');
+
+            return result.ToString();
         }
 
         #endregion

@@ -174,6 +174,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
 
         private PftNode _currentNode;
 
+        private int _actionCount;
+
         private void _RenumberNodes
             (
                 [NotNull] PftNode rootNode
@@ -231,6 +233,43 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             }
 
             return this;
+        }
+
+        /// <summary>
+        /// Compile action method.
+        /// </summary>
+        [CanBeNull]
+        public string CompileAction
+            (
+                [NotNull] IList<PftNode> nodes
+            )
+        {
+            Code.NotNull(nodes, "nodes");
+
+            if (nodes.Count == 0)
+            {
+                return null;
+            }
+            if (nodes.Count == 1)
+            {
+                NodeInfo info = Nodes.Get(nodes[0]);
+
+                return NodeMethodPrefix + info.Id;
+            }
+
+            string methodName = "ActionMethod" + ++_actionCount;
+
+            WriteIndent();
+            WriteLine("void {0} ()", methodName);
+            WriteIndent();
+            WriteLine("{");
+            IncreaseIndent();
+            CallNodes(nodes);
+            DecreaseIndent();
+            WriteIndent();
+            WriteLine("}");
+
+            return methodName;
         }
 
         /// <summary>
