@@ -41,6 +41,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     {
         #region Properties
 
+        /// <inheritdoc cref="PftNode.ConstantExpression" />
+        public override bool ConstantExpression
+        {
+            get { return true; }
+        }
+
         /// <summary>
         /// Количество добавляемых пробелов.
         /// </summary>

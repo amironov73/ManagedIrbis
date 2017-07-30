@@ -17,6 +17,7 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
@@ -35,6 +36,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         : PftNode
     {
         #region Properties
+
+        /// <inheritdoc cref="PftNode.ConstantExpression" />
+        public override bool ConstantExpression
+        {
+            get { return true; }
+        }
 
         /// <inheritdoc cref="PftNode.Text" />
         public override string Text

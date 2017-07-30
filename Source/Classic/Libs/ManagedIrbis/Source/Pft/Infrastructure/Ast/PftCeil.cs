@@ -10,15 +10,16 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Text;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -77,6 +78,39 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            PftNumeric child = Children.FirstOrDefault() as PftNumeric;
+            if (ReferenceEquals(child, null))
+            {
+                throw new PftCompilerException();
+            }
+
+            child.Compile(compiler);
+
+            compiler.StartMethod(this);
+
+            compiler
+                .WriteIndent()
+                .WriteLine("double value = ")
+                .CallNodeMethod(child);
+
+            compiler
+                .WriteIndent()
+                .WriteLine("double result = Math.Ceiling(value);");
+
+            compiler
+                .WriteIndent()
+                .WriteLine("return result;");
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
+
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
@@ -106,6 +140,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .Write("ceil(");
             base.PrettyPrint(printer);
             printer.Write(')');
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append("ceil(");
+            bool first = true;
+            foreach (PftNode child in Children)
+            {
+                if (!first)
+                {
+                    result.Append(' ');
+                }
+                result.Append(child);
+                first = false;
+            }
+            result.Append(')');
+
+            return result.ToString();
         }
 
         #endregion

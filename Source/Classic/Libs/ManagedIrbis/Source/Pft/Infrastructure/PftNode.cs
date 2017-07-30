@@ -118,9 +118,9 @@ namespace ManagedIrbis.Pft.Infrastructure
         public virtual bool ComplexExpression { get { return false; } }
 
         /// <summary>
-        /// Whether the node requires server connection to evaluate.
+        /// Whether the node is constant expression?
         /// </summary>
-        public virtual bool RequiresConnection { get { return true; } }
+        public virtual bool ConstantExpression { get { return false; } }
 
         /// <summary>
         /// Node uses extended syntax?
@@ -132,6 +132,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         [CanBeNull]
         public virtual string Help { get { return null; } }
+
+        /// <summary>
+        /// Whether the node requires server connection to evaluate.
+        /// </summary>
+        public virtual bool RequiresConnection { get { return true; } }
 
         #endregion
 

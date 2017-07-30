@@ -9,8 +9,11 @@
 
 #region Using directives
 
+using System;
+
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
@@ -64,6 +67,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            compiler.StartMethod(this);
+
+            // Nothing to do actually
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
+
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
@@ -71,6 +88,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             OnBeforeExecution(context);
+
+            // Nothing to do actually
 
             OnAfterExecution(context);
         }
@@ -94,6 +113,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .WriteIndentIfNeeded()
                 .Write("/* ");
             printer.WriteLine(Text);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return
+                "/* "
+                + Text
+                + Environment.NewLine;
         }
 
         #endregion

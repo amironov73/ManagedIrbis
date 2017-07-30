@@ -16,6 +16,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
@@ -33,6 +34,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         : PftNode
     {
         #region Properties
+
+        /// <inheritdoc cref="PftNode.ConstantExpression" />
+        public override bool ConstantExpression
+        {
+            get { return true; }
+        }
 
         /// <inheritdoc cref="PftNode.ExtendedSyntax" />
         public override bool ExtendedSyntax
@@ -95,6 +102,26 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            compiler.StartMethod(this);
+
+            compiler
+                .WriteIndent()
+                .WriteLine
+                    (
+                        "Context.Write(\"{0}\")",
+                        CompilerUtility.Escape(Text)
+                    );
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
+
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
@@ -119,6 +146,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .Write("<<<")
                 .Write(Text)
                 .Write(">>>");
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return "<<<" + Text + ">>>";
         }
 
         #endregion
