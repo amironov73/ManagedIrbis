@@ -124,6 +124,21 @@ namespace ManagedIrbis.Direct
         /// </summary>
         public const int MinPostingsInBlock = 256;
 
+        /// <summary>
+        /// ibatrak размер лидера записи
+        /// </summary>
+        public const int LeaderSize = 20;
+
+        /// <summary>
+        /// ibatrak размер блока
+        /// </summary>
+        public const int BlockSize = 1000000;
+
+        /// <summary>
+        /// ibatrak размер записи ссылки
+        /// </summary>
+        public const int TermLinkSize = 16;
+
         #endregion
 
         #region Nested classes

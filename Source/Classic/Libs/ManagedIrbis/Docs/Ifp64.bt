@@ -1,3 +1,16 @@
+// ”правл€юща€ запись
+typedef struct IfpControl
+{
+    BigEndian();
+    DWORD NextLow;  // младша€ часть смещени€ свободного места
+    DWORD NextHigh; // старша€ часть смещени€ свободного места
+    DWORD NodeCount; // количество страниц в файле N01
+    DWORD LeafCount; // количество страниц в файле L01
+    DWORD Reserv01;  // зарезервировано
+
+} CONTROL;
+
+// Ћидер записи
 typedef struct IfpHeader
 {
     BigEndian ();
@@ -8,7 +21,7 @@ typedef struct IfpHeader
     DWORD   Capacity;
 } HEADER;
 
-
+// —сылка
 typedef struct IfpLink
 {
     BigEndian ();
@@ -25,7 +38,6 @@ typedef struct IfpRecord
     LINK    Link[Header.LinkCount];
 } RECORD;
 
-while (!FEof())
-{
-    RECORD  record;
-}
+CONTROL ControlRecord;
+
+RECORD Records[50];

@@ -13,7 +13,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -50,6 +49,16 @@ namespace ManagedIrbis.Direct
         /// </summary>
         public const int NodeLength = 2048;
 
+        /// <summary>
+        /// ibatrak максимальный размер термина
+        /// </summary>
+        public const int MaxTermSize = 255;
+
+        /// <summary>
+        /// ibatrak размер блока
+        /// </summary>
+        public const int BlockSize = 2050048;
+
         #endregion
 
         #region Properties
@@ -70,6 +79,12 @@ namespace ManagedIrbis.Direct
         /// </summary>
         [NotNull]
         public Stream Ifp { get; private set; }
+
+        /// <summary>
+        /// Control record of the IFP file.
+        /// </summary>
+        [NotNull]
+        public IfpControlRecord64 IfpControl { get; private set; }
 
         /// <summary>
         /// L01 node file.
@@ -104,6 +119,7 @@ namespace ManagedIrbis.Direct
             Mode = mode;
 
             Ifp = DirectUtility.OpenFile(fileName, mode);
+            IfpControl = IfpControlRecord64.Read(Ifp);
             L01 = DirectUtility.OpenFile
                 (
                     Path.ChangeExtension(fileName, ".l01"),

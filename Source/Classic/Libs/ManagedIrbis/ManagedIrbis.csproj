@@ -186,6 +186,7 @@
     <Compile Include="Source\Direct\DirectReader32.cs" />
     <Compile Include="Source\Direct\DirectAccess64.cs" />
     <Compile Include="Source\Direct\DirectUtility.cs" />
+    <Compile Include="Source\Direct\IfpControlRecord64.cs" />
     <Compile Include="Source\Direct\InvertedFile32.cs" />
     <Compile Include="Source\Direct\InvertedFile64.cs" />
     <Compile Include="Source\Direct\IrbisSystemEvent.cs" />
