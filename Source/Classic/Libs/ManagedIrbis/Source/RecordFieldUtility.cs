@@ -67,7 +67,7 @@ namespace ManagedIrbis
 
             return fields
                 .NonNullItems()
-                .Where(field => field.Tag.SameString(tag))
+                .Where(field => field.Tag == tag)
                 .ToArray();
         }
 
@@ -92,11 +92,9 @@ namespace ManagedIrbis
                 {
                     if (ReferenceEquals(result, null))
                     {
-                        result = new List<RecordField>
-                        {
-                            fields[i]
-                        };
+                        result = new List<RecordField>();
                     }
+                    result.Add(fields[i]);
                 }
             }
 

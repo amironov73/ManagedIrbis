@@ -304,7 +304,7 @@ namespace ManagedIrbis
         {
             ThrowIfReadOnly();
 
-            if ((index >= 0) && (index < Count))
+            if (index >= 0 && index < Count)
             {
                 RecordField field = this[index];
                 if (field != null)
@@ -408,6 +408,20 @@ namespace ManagedIrbis
 
                 throw new ReadOnlyException();
             }
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="Object.ToString" />
+        public override string ToString()
+        {
+            return StringUtility.Join
+                (
+                    Environment.NewLine,
+                    this
+                );
         }
 
         #endregion
